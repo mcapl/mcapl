@@ -1,0 +1,124 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of Agent JPF (AJPF)
+// 
+// AJPF is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// AJPF is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with AJPF; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+package ajpf.psl.ast;
+
+import gov.nasa.jpf.jvm.ElementInfo;
+import gov.nasa.jpf.jvm.JVM;
+import ajpf.MCAPLAgent;
+import ajpf.MCAPLcontroller;
+
+/**
+ * The formula I(a, phi) - a has intention phi.
+ * 
+ * @author louiseadennis
+ * 
+ */
+public class NativeAgIntention extends Native_Proposition {
+	
+	/**
+	 * The agent which is required to have the goal.
+	 */
+	private String agent;
+	/**
+	 * The formula that is the agent's goal.
+	 */
+	private Abstract_Formula goal;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param a  The agent which has the goal.
+	 * @param f  The goal.
+	 */
+	public NativeAgIntention(String a, Abstract_Formula f) {
+		goal = f;
+		agent = a;
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see mcapl.psl.Proposition#equals(mcapl.psl.MCAPLProperty)
+	 */
+	public boolean equals(Object p) {
+		if (p instanceof NativeAgIntention) {
+			return (((NativeAgIntention) p).getGoal().equals(goal) && ((NativeAgIntention) p).getAgent().equals(agent));
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Getter method for the Goal.
+	 * 
+	 * @return the goal.
+	 */
+	public Abstract_Formula getGoal() {
+		return goal;
+	}
+	
+	/**
+	 * Getter method for the Agent.
+	 * 
+	 * @return the agent who should have the goal.
+	 */
+	public String getAgent() {
+		return agent;
+	}
+
+	
+	/**
+	 * We don't need to clone the agent - its the same one we want to query.
+	 */
+	public NativeAgIntention clone() {
+		return(new NativeAgIntention(agent, goal));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		String s = "I(" + agent + "," + goal.toString() + ")";
+		return s;
+	}
+	
+	public String getEquivalentJPFClass() {
+		return "ajpf.psl.ast.Abstract_AgIntention";
+	}
+
+	public int createInJPF(JVM vm) {
+		int objref = super.createInJPF(vm);
+		ElementInfo ei = vm.getElementInfo(objref);
+		ei.setReferenceField("goal", goal.createInJPF(vm));
+		ei.setReferenceField("agent", vm.getHeap().newString(agent, vm.getLastThreadInfo()));
+		return objref;
+	}
+    
+	public int quickCompareVal() {
+		return 3;
+	}
+
+}

@@ -1,0 +1,542 @@
+%
+%  Macro package for use in the MCAPL project
+%
+%  Created by Berndt Farwer on 2007-01-19.
+%  Copyright (c) 2007 Durham University. All rights reserved.
+%
+
+% \usepackage{epsfig}% epsfig no longer required
+% \usepackage{times} %% moved to paper where we need it
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{xspace}
+
+% Surround parts of graphics with box
+\usepackage{boxedminipage}
+
+% Package for including code in the document
+\usepackage{listings}
+
+% Package for drawing diagrams
+\usepackage[all]{xy}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+% Package to enable hyperrefs
+%\ifpdf
+%\usepackage[pdftex]{hyperref}
+%\else
+%\usepackage{hyperref}
+%\fi
+
+%% Nicely format and linebreak URLs in the bibliography (and elsewhere).
+\usepackage{url}
+%% Define a new 'myurl' style for the package that will use a smaller font.
+\makeatletter
+\def\url@myurlstyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\rmfamily\slshape}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{myurl}
+
+%% Allow relative font size specifications (e.g. \smaller, \larger).
+\usepackage{relsize}
+
+% Package for drawing directly in LaTeX
+\usepackage{etex}% needed to fix pictex on LaTeX
+\usepackage{pictex}
+
+% If you want to generate a toc for each chapter (use with book)
+%\usepackage{minitoc}
+
+% Colour support only used for ednote:
+\usepackage{color}
+
+%\ifpdf
+%\usepackage[pdf]{graphicx}
+%\usepackage{pdfsync}
+%\else
+%\usepackage[dvips]{graphicx}
+%\fi
+\usepackage{graphicx}
+% ------------------------------------
+% editing macros
+% ------------------------------------
+\newcommand{\tobewritten}[1]{\medskip [#1] \medskip}
+\newboolean{noednotes}
+\setboolean{noednotes}{false}
+\newcommand{\ednote}[1]{\ifthenelse{\boolean{noednotes}}{}{
+    \marginpar{\colorbox{yellow}{\parbox{\linewidth}{\begin{center}\vspace{-3mm}\footnotesize\textsf{#1}\vspace{-3mm}\end{center}}}}
+%  \begin{minipage}{1.5cm}
+%EDNOTE:     #1
+%  \end{minipage}
+}}
+%\renewcommand{\ednote}[1]{}
+
+
+% ------------------------------------
+% environments
+% ------------------------------------
+% numbered plan environment:
+\newcounter{plan}
+\newenvironment{plan}[1][] {\refstepcounter{plan}
+\smaller 
+\begin{tabular}
+        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries PLAN \theplan:}{\small\ \hfill#1}} \\
+        \hline } {
+        \cr \hline 
+\end{tabular}
+} 
+% unnumbered plan environment:
+\newenvironment{plan*}[1][] {
+\smaller
+\begin{tabular}
+        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries PLAN:}{\small\ \hfill#1}} \\
+        \hline } {
+        \cr \hline 
+\end{tabular}
+} 
+% numbered constraint environment:
+\newcounter{constraint}
+\newenvironment{constraint}[1][] {\refstepcounter{constraint} 
+\smaller
+\begin{tabular}
+        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries CONSTRAINT \theconstraint:}{\small\ \hfill#1}} \\
+        \hline } {
+        \cr \hline 
+\end{tabular}
+} 
+% unnumbered constraint environment:
+\newenvironment{constraint*}[1][] {
+\smaller
+\begin{tabular}
+        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries CONSTRAINT:}{\small\ \hfill#1}} \\
+        \hline } {
+        \cr \hline 
+\end{tabular}
+} 
+% table of stacks:
+\newenvironment{stacks}{
+\smaller
+\begin{tabular}{l|l|l|l} 
+\hline
+trigger & deed & guard & unifier \\ 
+\hline \hline} {
+\cr \hline 
+\end{tabular}
+}
+% simplified table of stacks w/o goals:
+\newenvironment{stackssansguards}{
+\smaller
+\begin{tabular}{l|l|l} 
+\hline
+trigger & deed & unifier \\ 
+\hline \hline} {
+\cr \hline 
+\end{tabular}
+}
+
+\makeatletter
+\def\l@ourparagraph{\@dottedtocline{4}{\tocsubsubsectotal}{\tocparanum}}
+\newcommand\ourparagraph{\@startsection{paragraph}{4}{\z@}%
+                       {-2\p@ \@plus -1\p@ \@minus -1\p@}%
+                       {-0.5em \@plus -0.22em \@minus -0.1em}%
+                       {\normalfont\normalsize\bfseries}}
+\makeatother
+
+
+% ------------------------------------
+% general formatting
+% ------------------------------------
+% !!! depreciated, do not use (use \AILstage[1] instead):
+\DeclareRobustCommand\bfsf{\normalfont\bfseries\sf\boldmath}
+%
+% formatting code snippets (inline)
+\newcommand{\inlinecode}[1]{\mbox{\texttt{\smaller #1}}}
+% formatting code snippets (display with little vertical whitespace)
+\newenvironment{centeredcode}{\newline\phantom{x}\hfill\ttfamily\smaller}{\hfill\phantom{x}\\[0.3em]}
+
+% ------------------------------------
+% mathematical symbols, etc.
+% ------------------------------------
+\newcommand{\defeq}{\ensuremath{\mathrel{:=}}}
+
+
+
+% ------------------------------------
+% general agent programming macros
+% ------------------------------------
+\newcommand{\body}[1]{\ensuremath{\mathrm{body}(#1)}}
+\newcommand{\head}[1]{\ensuremath{\mathrm{head}(#1)}}
+\newcommand{\interpretprolog}{\ensuremath{\mathcal{S}_{B}}}
+\newcommand{\SA}{\ensuremath{A}}
+\newcommand{\SL}{\ensuremath{L}}
+\newcommand{\CCC}{\ensuremath{\chi}}
+\newcommand{\pland}{\ensuremath{\mathrel{\&}}}
+\newcommand{\software}{\ensuremath{\mathcal{S}}}
+\newcommand{\function}{\ensuremath{f}}
+\newcommand{\arguments}{\ensuremath{\tuple{d_{1}, \dots, d_{n}}}}
+\newcommand{\functionwitharguments}{\ensuremath{\function\arguments}}
+\newcommand{\tuple}[1]{\ensuremath{\langle #1\rangle}}
+\newcommand{\procco}{\ensuremath{\mathrel{\vert}}}
+\newcommand{\trans}{\ensuremath{\tau}}
+\newcommand{\belief}{\ensuremath{b}}
+\newcommand{\corbel}[1]{\ensuremath{\correspondingformula{B}{#1}}}
+\newcommand{\corgoal}[1]{\ensuremath{\correspondingformula{G}{#1}}}
+\newcommand{\correspondingformula}[2]{\ensuremath{\varphi^{#1}_{#2}}}
+\newcommand{\arity}[1]{\ensuremath{\#(#1)}}
+\newcommand{\type}[1]{\ensuremath{\tau(#1)}}
+\newcommand{\byaction}[1]{\ensuremath{\mathrel{\xrightarrow{#1}}}}
+\newcommand{\execute}[1]{\ensuremath{f(#1)}}
+\newcommand{\executeeff}[1]{\ensuremath{f_{\mathtt{Eff}}(#1)}}
+\newcommand{\sideeffects}[1]{\ensuremath{f_{\mathtt{SE}}(#1)}}
+\newcommand{\action}{\ensuremath{\alpha}}
+\newcommand{\actionfac}{\ensuremath{\alpha_{\mathtt{fac}}}}
+\newcommand{\meta}[1]{\texttt{#1}}
+\newcommand{\emptyword}{\ensuremath{\epsilon}}
+
+
+
+% ------------------------------------
+% AIL macros
+% ------------------------------------
+\newcommand{\AILtrue}{\ensuremath{\top}}
+% (external) intention selection function:
+\newcommand{\AILselectintention}{\ensuremath{\mathcal{S}_{\mathrm{int}}}}
+% (external) plan selection function:
+\newcommand{\AILselectplan}{\ensuremath{\mathcal{S}_{\mathrm{plan}}}}
+% set of plans:
+\newcommand{\AILplanset}{\ensuremath{\mathit{P}}}
+% filter function:
+\newcommand{\AILfilter}{\ensuremath{\mathrm{\mathbf{filter}}}}
+% relevance function:
+\newcommand{\AILrelevant}{\ensuremath{\mathrm{\mathbf{relevant}}}}
+% do
+\newcommand{\AILdo}{\ensuremath{\mathrm{\mathbf{do}}}}
+% perception
+\newcommand{\AILperception}{\ensuremath{\mathrm{\mathbf{perception}}}}
+% consistent
+\newcommand{\AILconsistent}{\ensuremath{\mathrm{\mathbf{consistent}}}}
+% unify
+\newcommand{\AILsunify}{\mbox{{\bf unify}}}
+\newcommand{\AILunify}{\mbox{unify}}
+\newcommand{\AILsapart}{\mbox{standardise\_apart}}
+% an agent:
+\newcommand{\AILagent}{\ensuremath{\mathit{ag}}}
+\newcommand{\AILcomponent}[1]{\ensuremath{\mathit{AG_{#1}}}}
+% stage in the deliberation cycle               
+%\newcommand{\AILstage}[1]{{\ensuremath{\textsf{\textbf{#1}}}}}
+%\newcommand{\AILstage}[1]{{\mbox{(\textsf{\textbf{#1}})}}}
+\newcommand{\AILstage}[1]{{\mbox{\textsf{\textbf{#1}}}}}
+\newcommand{\AILrc}{\ensuremath{\mathit{RC}}}
+% no plan yet (etc):
+\newcommand{\AILnpy}{\ensuremath{\epsilon}}
+\newcommand{\AILbacktrack}{{\tt backtrack}}
+\newcommand{\AILlock}{{\tt lock}}
+\newcommand{\AILunlock}{{\tt unlock}}
+\newcommand{\AILstart}{{\tt start}}
+\newcommand{\AILself}{{\tt self}}
+% boxes for messages:
+\newcommand{\AILmessage}{\ensuremath{\mathit{m}}}
+\newcommand{\AILinbox}{\ensuremath{\mathit{In}}}
+\newcommand{\AILoutbox}{\ensuremath{\mathit{Out}}}
+% belief:
+\newcommand{\AILbelief}{\ensuremath{\mathit{b}}}
+\newcommand{\AILbeliefbase}{\ensuremath{\mathit{B}}}
+\newcommand{\AILbtrans}{\ensuremath{\mathit{\rightarrow_{bc}}}}
+% goal:
+\newcommand{\AILgoal}{\ensuremath{\mathit{g}}}
+\newcommand{\AILgoaltype}{\ensuremath{\mathit{\tau_{\AILgoal}}}}
+\newcommand{\AILintends}[2]{\ensuremath{\mathit{!^i_{#1}#2}}}
+\newcommand{\AILdesires}[2]{\ensuremath{\mathit{!^d_{#1}#2}}}
+\newcommand{\AILaddgoal}[2]{\ensuremath{\mathit{+!_{#1}#2}}}
+\newcommand{\AILdelgoal}[2]{\ensuremath{\mathit{-!_{#1}#2}}}
+\newcommand{\AILprobgoal}[2]{\ensuremath{\mathit{\mathtt{x}!_{#1}#2}}}
+\newcommand{\AILproblemgoal}[2]{\ensuremath{\mathit{\times!_{#1}#2}}}
+% guard:
+\newcommand{\AILguard}{\ensuremath{\mathit{gu}}}
+% deed:
+\newcommand{\AILdeed}{\ensuremath{\mathit{d}}}
+% event:
+\newcommand{\AILevent}{\ensuremath{\mathit{e}}}
+\newcommand{\AILadd}[1]{\ensuremath{\mathit{+#1}}}
+\newcommand{\AILdel}[1]{\ensuremath{\mathit{-#1}}}
+% goal stack:
+\newcommand{\AILgs}{\ensuremath{\mathit{gs}}}
+% deed stack:
+\newcommand{\AILds}{\ensuremath{\mathit{ds}}}
+% plan:
+\newcommand{\AILplan}{\ensuremath{\mathit{p}}}
+\newcommand{\AILplanlibrary}{\ensuremath{\mathit{P}}}
+\newcommand{\AILappplans}{\ensuremath{\mathit{Pl}}}
+\newcommand{\AILplansyntax}[4]{\ensuremath{\mathit{#1:#2:#3:#4}}}
+% intention:
+\newcommand{\AILintention}{\ensuremath{\mathit{i}}}
+\newcommand{\AILwait}{{\tt wait}}
+\newcommand{\INTdeeds}{{\tt deeds}}
+\newcommand{\INTevents}{{\tt events}}
+\newcommand{\INTtrigger}{{\tt tr}}
+\newcommand{\INTdeedunifier}{\AILunifier}
+\newcommand{\INTeventunifier}{\ensuremath{{\AILunifier}_e}}
+\newcommand{\INTguard}{{\tt gu}}
+\newcommand{\INTjoin}{\ensuremath{{\tt @_p}}}
+\newcommand{\INTdrop}{\ensuremath{{\tt \AILdrop_p}}}
+\newcommand{\INTdropevent}{\ensuremath{{\tt \AILdrop_e}}}
+\newcommand{\INTnew}{\ensuremath{{\tt new}}}
+\newcommand{\INTlocked}{\ensuremath{{\tt locked}}}
+\newcommand{\INTlock}{\ensuremath{\AILlock}}
+\newcommand{\INTunlock}{\ensuremath{\AILunlock}}
+\newcommand{\INThddeed}{\ensuremath{\mathit{\AILhd_d}}}
+\newcommand{\INThdevent}{\ensuremath{\AILhd_e}}
+\newcommand{\INThdguard}{\ensuremath{\AILhd_g}}
+\newcommand{\INThdunifier}[1]{\ensuremath{\AILunifier^{\AILhd(#1)}}}
+\newcommand{\INTtl}{\ensuremath{\AILtl_i}}
+\newcommand{\INTcons}{\ensuremath{\AILcons_p}}
+\newcommand{\INTmergeunifier}{\ensuremath{{\tt U}_{\AILunifier}}}
+\newcommand{\INTnewhdunifier}[2]{\ensuremath{\mathit{#1[\AILunifier^{\AILhd(\AILintention)}/#2]}}}
+\newcommand{\INTnoplan}{{\tt noplan}}
+\newcommand{\INTempty}{\ensuremath{{\AILisempty_{\AILintention}}}}
+% intention set:
+\newcommand{\AILintset}{\ensuremath{\mathit{I}}}
+\newcommand{\AILallintset}{\ensuremath{\mathit{Is}}}
+% add to belief base:
+\newcommand{\AILaddbb}[1]{+\ensuremath{\mathit{#1}^{\mathit{bb}}}}
+\newcommand{\AILaddpl}[1]{+\ensuremath{\mathit{#1}^{\mathit{pl}}}}
+% further AIL names:
+\newcommand{\AILilf}{\ensuremath{\mathit{ilf}}}
+\newcommand{\AILndp}{\ensuremath{\mathit{ndp}}}
+\newcommand{\AILappPlans}{\ensuremath{\mathbf{appPlans}}}
+\newcommand{\AILoldPercepts}{\ensuremath{\mathbf{oldPercepts}}}
+\newcommand{\AILmatchPlans}{\ensuremath{\mathit{match\_plans}}}
+\newcommand{\AILcontinue}{\ensuremath{\mathit{continue}}}
+\newcommand{\AILcheckConstraints}{\ensuremath{\mathit{check\_constraints}}}
+\newcommand{\AILsjoin}{\ensuremath{\inlinecode{sjoin}}}
+\newcommand{\AILsadopt}{\ensuremath{\inlinecode{sadopt}}}
+\newcommand{\AILstate}{{\tt state}}
+% send and receive
+\newcommand{\AILmsg}[5]{\ensuremath{\mathit{<#1,#2, #3, #4, #5>}}}
+\newcommand{\AILsend}{\ensuremath{\inlinecode{send}}}
+\newcommand{\AILsent}{\ensuremath{\inlinecode{sent}}}
+\newcommand{\AILreceived}{\ensuremath{\inlinecode{received}}}
+\newcommand{\AILmid}{\ensuremath{\mathit{\mathit{m}_{\mathrm{id}}}}}
+\newcommand{\AILThid}{\ensuremath{\mathit{\mathit{Th}_{\mathrm{id}}}}}
+\newcommand{\AILMid}{\ensuremath{\mathit{\mathit{M}_{\mathrm{id}}}}}
+\newcommand{\AILthid}{\ensuremath{\mathit{\mathit{th}_{\mathrm{id}}}}}
+\newcommand{\AILcreatemessageid}{\ensuremath{\mathit{{\cal M}_{\mathrm{id}}}}}
+\newcommand{\AILnewpercepts}{\ensuremath{\mathit{newpercepts}}}
+\newcommand{\AILoldpercepts}{\ensuremath{\mathit{oldpercepts}}}
+\newcommand{\AILgetmessages}{\ensuremath{\mathit{getmessages}}}
+\newcommand{\AILpercepts}{\ensuremath{\mathbf{Percepts}}}
+% sources
+\newcommand{\AILsource}{\ensuremath{\mathit{s}}}
+\newcommand{\AILsourceof}{{\tt src}}
+\newcommand{\AILwsrc}[3]{\ensuremath{\mathit{#1\{#2\}}}}
+% operation
+\newcommand{\AILconcat}{\ensuremath{\mathrel{\inlinecode{@}}}}
+\newcommand{\AILconcattype}[1]{\ensuremath{\mathrel{\inlinecode{@}_{#1}}}}
+% groups
+\newcommand{\AILcontent}[1]{\ensuremath{\mathit{content(#1)}}}
+\newcommand{\AILcontext}[1]{\ensuremath{\mathit{context(#1)}}}
+\newcommand{\AILcn}{\ensuremath{\mathit{Cn}}}
+\newcommand{\AILagcn}{\ensuremath{\mathit{CN}}}
+\newcommand{\AILagcx}{\ensuremath{\mathit{CX}}}
+\newcommand{\AILcx}{\ensuremath{\mathit{Cx}}}
+\newcommand{\AILgroup}{\ensuremath{\mathit{gp}}}
+% sorts/types
+\newcommand{\tAILsrc}{\ensuremath{\mathit{source}}}
+\newcommand{\ts}[1]{\ensuremath{\mathit{#1_s}}}
+\newcommand{\tAILgp}{\ensuremath{\mathit{group}}}
+\newcommand{\tAILcn}{\ensuremath{\mathit{content}}}
+\newcommand{\tAILcx}{\ensuremath{\mathit{context}}}
+\newcommand{\tAILeb}{\ensuremath{\mathit{ext belief}}}
+\newcommand{\tAILgoaltype}{\ensuremath{\mathit{\tau_g}}}
+\newcommand{\tAILgoalexp}{\ensuremath{\mathit{goal exp}}}
+\newcommand{\tAILaction}{\ensuremath{\mathit{action}}}
+\newcommand{\tAILgbelief}{\ensuremath{\mathit{gbelie\!f}}}
+\newcommand{\tAILdbelief}{\ensuremath{\mathit{dbelie\!f}}}
+\newcommand{\tAILguard}{\ensuremath{\mathit{guard}}}
+\newcommand{\tAILbeliefrule}{\ensuremath{\mathit{belie\!f \; rule}}}
+\newcommand{\tAILdeed}{\ensuremath{\mathit{deed}}}
+\newcommand{\tAILevent}{\ensuremath{\mathit{event}}}
+\newcommand{\tAILplan}{\ensuremath{\mathit{plan}}}
+\newcommand{\tAILconstraint}{\ensuremath{\mathit{constraint}}}
+\newcommand{\tAILmsg}{\ensuremath{\mathit{message}}}
+% belief rules
+\newcommand{\AILbr}{\ensuremath{\mathit{br}}}
+\newcommand{\AILbeliefrule}[2]{\ensuremath{\mathit{#1 {\text{\tt :-}} \: #2}}}
+\newcommand{\AILbeliefrules}{\ensuremath{\mathit{BR}}}
+% constraint:
+\newcommand{\AILconstraintsyntax}[2]{\ensuremath{\mathit{#1++#2}}}
+\newcommand{\AILconstraint}{\ensuremath{\mathit{c}}}
+\newcommand{\AILconstraintlibrary}{\ensuremath{\mathit{C}}}
+% action
+\newcommand{\AILaction}{\ensuremath{\mathit{a}}}
+\newcommand{\AILactionstack}{\ensuremath{\mathit{A}}}
+% annotations
+\newcommand{\AILann}{\ensuremath{\mathit{Ann}}}
+% unifier
+\newcommand{\AILunifier}{\ensuremath{\theta}}
+%stacks
+\newcommand{\AILemptystack}{\ensuremath{[]}}
+\newcommand{\AILcons}{\ensuremath{{\tt ;}}}
+\newcommand{\AILhd}{\ensuremath{{\tt hd}}}
+\newcommand{\AILlast}{\ensuremath{{\tt last}}}
+\newcommand{\AILtl}{\ensuremath{{\tt tl}}}
+\newcommand{\AILdrop}{\ensuremath{{\tt drop}}}
+\newcommand{\AILprefix}{\ensuremath{{\tt prefix}}}
+\newcommand{\AILlength}{\ensuremath{{\tt \#}}}
+\newcommand{\AILisempty}{\ensuremath{{\tt empty}}}
+% environment
+\newcommand{\AILenv}{\ensuremath{\mathit{\xi}}}
+
+% ------------------------------------
+% AgentSpeak macros
+% ------------------------------------
+\newcommand{\ASagentprogramext}{\ensuremath{\ASagentprogramname = \ASbeliefs \ \ASplans}}
+\newcommand{\ASagentprogram}{\ensuremath{\ASbeliefs \ASplans}}
+\newcommand{\ASagentprogramname}{\ensuremath{\mathit{ag}}}
+\newcommand{\ASgbeliefs}{\ensuremath{\mathit{t}}}
+\newcommand{\AShbeliefs}{\ensuremath{\mathit{h}}}
+\newcommand{\ASbeliefs}{\ensuremath{\mathit{b}}}
+\newcommand{\ASplans}{\ensuremath{\mathit{p}}}
+
+% ------------------------------------
+% names of programming languages, etc.
+% ------------------------------------
+% \newcommand{\ail}{\textsc{AIL}}
+% \newcommand{\jpf}{\textsc{JPF}}
+% \newcommand{\mji}{\textsc{MJI}}
+% \newcommand{\maude}{\textsc{Maude}}
+% \newcommand{\ADF}{\textsl{ADF}}
+% \newcommand{\impact}{\textsc{IMPACT}}
+% \newcommand{\Claim}{\textsc{CLAIM}}
+% \newcommand{\sympa}{\textsc{SyMPA}}
+% \newcommand{\java}{\textsc{Java}}
+% \newcommand{\perl}{\textsc{Perl}}
+% \newcommand{\xml}{\textsc{XML}}
+% \newcommand{\jade}{\textsc{JADE}}
+% \newcommand{\jadex}{\textsc{Jadex}}
+% \newcommand{\golog}{\textsc{Golog}}
+% \newcommand{\prolog}{\textsc{Prolog}}
+% \newcommand{\tripleapl}{\textsc{3APL}}
+% \newcommand{\mable}{\textsc{mable}}
+\newcommand{\metatem}{\textsc{MetateM}}
+% \newcommand{\agentspeak}{\textsc{AgentSpeak}}
+% \newcommand{\agentspeakL}{\textsc{AgentSpeak(L)}}
+% \newcommand{\jason}{\textbf{\emph{Jason}}}
+
+\newcommand{\ail}{AIL\xspace}
+\newcommand{\aillight}{AIL\!$^{-}$\xspace}
+\newcommand{\jpf}{JPF\xspace}
+\newcommand{\jpfnsp}{JPF}
+\newcommand{\ajpf}{AJPF\xspace}
+\newcommand{\mcapl}{MCAPL\xspace}
+\newcommand{\mji}{MJI\xspace}
+\newcommand{\maude}{Maude\xspace}
+\newcommand{\ADF}{ADF\xspace}
+\newcommand{\impact}{IMPACT\xspace}
+\newcommand{\Claim}{CLAIM\xspace}
+\newcommand{\sympa}{SyMPA\xspace}
+%\newcommand{\java}{JAVA\xspace}
+% \newcommand{\perl}{Perl\xspace}
+\newcommand{\xml}{XML\xspace}
+\newcommand{\jade}{JADE\xspace}
+\newcommand{\jadex}{Jadex\xspace}
+\newcommand{\golog}{Golog\xspace}
+\newcommand{\congolog}{ConGolog\xspace}
+\newcommand{\prolog}{Prolog\xspace}
+\newcommand{\tripleapl}{3APL\xspace}
+\newcommand{\doubleapl}{2APL\xspace}
+\newcommand{\mable}{MABLE\xspace}
+%\newcommand{\metatem}{MetateM\xspace}
+\newcommand{\agentspeak}{AgentSpeak\xspace}
+\newcommand{\agentspeakL}{AgentSpeak(L)\xspace}
+\newcommand{\jason}{\emph{Jason}\xspace}
+\newcommand{\gwendolen}{Gwendolen}
+\newcommand{\saapl}{SAAPL}
+\newcommand{\goal}{GOAL}
+
+
+% ------------------------------------
+% Claim macros
+% ------------------------------------
+\newcommand{\claimprogram}[3]{\ensuremath{#1 = #2_{1}\parallel\cdots\parallel #2_{#3}, #3\geq 0}}
+\newcommand{\claimagentname}[1]{\ensuremath{\alpha_{#1}}} 
+\newcommand{\claimknowledgebase}[1]{\ensuremath{K_{#1}}} 
+\newcommand{\claimparentname}[1]{\ensuremath{\pi_{#1}}} 
+\newcommand{\claimgoalsunprocessed}[1]{\ensuremath{G_{#1}}} 
+\newcommand{\claimgoalsproc}[1]{\ensuremath{G'_{#1}}} 
+\newcommand{\claimcapabilities}[1]{\ensuremath{C_{#1}}} 
+\newcommand{\claimmessagequeue}[1]{\ensuremath{M_{#1}}} 
+\newcommand{\claimsubagents}[1]{\ensuremath{S_{#1}}} 
+\newcommand{\claimprocesses}[1]{\ensuremath{P_{#1}}} 
+\newcommand{\claimeffects}[1]{\ensuremath{E_{#1}}} 
+\newcommand{\claimagent}[1]{\ensuremath{#1=\tuple{\claimagentname,\claimparentname{},\claimknowledgebase{},\claimgoalsunprocessed{},\claimgoalsproc{},\claimmessagequeue{},\claimcapabilities{},\claimprocesses{},\claimsubagents{},\claimeffects{}}}} 
+\newcommand{\claimsend}[1]{\ensuremath{\mathrm{send}(#1)}} 
+\newcommand{\claimtell}[1]{\ensuremath{\mathrm{tell}(#1)}} 
+
+
+% ------------------------------------
+% transformation macros
+% ------------------------------------
+\newcommand{\trAS}[1]{\trans_{\mathrm{AS}}(#1)}
+\newcommand{\trJadex}[1]{\trans_{\mathrm{Jadex}}(\mathtt{#1})}
+
+
+% ------------------------------------
+% Jadex macros
+% ------------------------------------
+\newcommand{\jadexstatevar}{\ensuremath{\sigma}}
+\newcommand{\jadexstate}{\ensuremath{\tuple{\jadexbeliefs,\jadexgoals,\jadexplans,\jadexactions}}}
+\newcommand{\jadexstateset}{\ensuremath{\Sigma}}
+\newcommand{\jadexbeliefs}{\ensuremath{B}}
+\newcommand{\jadexgoals}{\ensuremath{\Gamma}}
+\newcommand{\jadexgoal}{\ensuremath{\gamma}}
+\newcommand{\jadexplantrigger}{\ensuremath{t}}
+\newcommand{\jadexplancontext}{\ensuremath{c}}
+\newcommand{\jadexplanbody}{\ensuremath{b}}
+\newcommand{\jadexplan}{\ensuremath{p}}
+\newcommand{\jadexplans}{\ensuremath{\Pi}}
+\newcommand{\jadexactions}{\ensuremath{A}}
+\newcommand{\jadexparam}{\ensuremath{P}}
+\newcommand{\paramlist}[1]{\ensuremath{\jadexparam_1,\dots,\jadexparam_{#1}}}
+\newcommand{\jadexemptyword}{\ensuremath{\epsilon}}
+
+
+\newcommand{\luntil}{\ensuremath{\mathop{\mathrm{\mathbf{U}}}}}
+\newcommand{\lrelease}{\ensuremath{\mathop{\mathrm{\mathbf{R}}}}}
+\newcommand{\achieve}{{\em achieve}}
+\newcommand{\perform}{{\em perform}}
+\newcommand{\test}{{\em test}}
+\newcommand{\maintain}{{\em maintain}}
+\newcommand{\AILwake}{{\bf{wake}}}
+\newcommand{\AILnullaction}{\ensuremath{null}}
+\newcommand{\AILactiontype}{\ensuremath{a\tau}}
+\newcommand{\AILwaitfor}[1]{\ensuremath{*\ldots{#1}}}
+\newcommand{\AILsuspend}{\tt suspend}
+\newcommand{\AILunsuspend}{\bf unsuspend}
+\newcommand{\AILsleep}{{\bf sleep}}
+\newcommand{\AILallsuspended}{{\bf allsuspended}}
+\newcommand{\AILsuspended}{\bf is\_suspended}
+\newcommand{\ltl}{LTL}
+\newcommand{\lbeliefop}{\ensuremath{{\cal B}}}
+\newcommand{\lgoalop}{\ensuremath{{\cal G}}}
+\newcommand{\lactionop}{\ensuremath{{\cal A}}}
+\newcommand{\lintentionop}{\ensuremath{{\cal I}}}
+\newcommand{\lperceptop}{\ensuremath{{\cal P}}}
+\newcommand{\eventually}{\ensuremath{\diamond}}
+\newcommand{\always}{\ensuremath{\Box}}
+\newcommand{\MAS}{M\!AS}
+
+\newtheorem{definition}{Definition}
+\newcommand{\goalcap}[1]{{\mbox{\textsf{\textbf{#1}}}}}
+\newcommand{\goaldrop}{{\mbox{\textsf{\textbf{drop}}}}}
+\newcommand{\goaladopt}{{\mbox{\textsf{\textbf{adopt}}}}}
+\newcommand{\goalplan}[2]{\ensuremath{\mathit{#1 \rhd \AILdo({#2})}}}
+\newcommand{\sentmessage}[2]{\ensuremath{\mathit{\uparrow^{#1}#2}}}
+\newcommand{\recmessage}[2]{\ensuremath{\mathit{\downarrow^{#1}#2}}}
+\newcommand{\aildrop}{\AILdrop}
+\newcommand{\saapltrans}[1]{\underrightarrow{{#1}}}

@@ -1,0 +1,6 @@
+# Compiled Files # 
+*.class
+bin/*
+
+# Test Outputs #
+bin/TEST*

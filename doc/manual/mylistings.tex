@@ -1,0 +1,54 @@
+%-- definition of OOPL --%
+
+\lstdefinelanguage{OOPL}{  sensitive=false,  keywords={Roles, Facts, Effects, Sanctions, Brute, Effect, Sanction, Rules, CountsAs, return, does},  otherkeywords={Norm-level}}
+
+\newcounter{lst}[section]
+
+\renewcommand{\thelst}{\arabic{section}.\arabic{lst}}
+
+\lstnewenvironment{listing}[3]{
+  \noindent        
+  \refstepcounter{lst}         
+  \label{code:#1}  
+\begin{tabular}{p{76mm}} \hline  {\small \textbf{Code  fragment \arabic{section}.\arabic{lst}} #2} \\  \end{tabular} 
+\lstset{language=#3,          
+  basicstyle=\footnotesize,    
+  xleftmargin=10pt,    
+  mathescape=true,    
+  frame=tb,    
+  numbers=right,    
+  numberstyle=\tiny,     
+  stepnumber=1,     
+  numbersep=-5pt}}{}
+
+\lstdefinelanguage{Gwendolen}{%
+    morekeywords={Plans,Initial,Beliefs,Goals,name,fof-parse},
+ literate= {<-}{{$\leftarrow$}{$\:$}}2
+           {.B}{{${\cal B}$}}2
+           {.G}{{${\cal G}$}}2
+           {assert_shared}{{$+_{\Sigma}$}}2
+           {remove_shared}{{$-_{\Sigma}$}}2
+           {True}{{$\top$}}2
+           {(perform)}{}0
+}
+
+\newcommand{\SetGWENDOLEN}{%
+  \lstset{%
+    language=Gwendolen,
+    basicstyle=\small,
+    commentstyle=\normalfont\upshape,
+    morekeywords={Plans,Initial,Beliefs,Goals,name},
+    xleftmargin=0.2cm,
+    aboveskip=0.3cm,
+    belowskip=0cm,
+    showstringspaces=false,
+    flexiblecolumns=true,
+    mathescape=true,
+ }
+}
+
+\newcommand{\SetINLINEtt}{%
+  \lstset{%
+    basicstyle=\ttfamily,
+ }
+}

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/examples"/>
+	<classpathentry kind="src" path="src/tests"/>
+	<classpathentry kind="src" path="src/classes"/>
+	<classpathentry kind="src" path="src/peers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpf-core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

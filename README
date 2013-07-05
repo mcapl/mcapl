@@ -1,0 +1,21 @@
+This software distribution consists of:
+
+- The Agent JPF (AJPF) extention of the Java Pathfinder model checker for model checking BDI style agent programs.
+
+- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming langauges.
+
+- The Gwendolen BDI agent programming language.
+
+src/classes and src/main contains the core classes for each of these libraries 
+   - when Java Pathfinder is being used the classes in src/classes run in the JPF virtual machine while those in src/main run in the native virtual machine
+   
+src/examples contains a number of example programs 
+
+src/peers contains alternative implementations for some methods and classes for use during model checking to increase efficiency by doing some
+   processing natively.  This code is not used in normal operation.
+   
+src/tests contains regression tests.
+
+Documentation including installation instructions can be found in the doc folder
+
+
