@@ -1,0 +1,57 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target_args =src/examples/eass/verification/leo/satellite_requesting_middle_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,26
+
+log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = 50000000
+
+
+// [INFO] Number of States in Product Automata: 6034
+// ----------------------------------- search finished
+// 
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       01:11:03
+// states:             new=561, visited=551, backtracked=1112, end=296
+// search:             maxDepth=29, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=556
+// heap:               new=185895429, released=185938952, max live=871075, gc-cycles=1112
+// instructions:       4912546220
+// max memory:         361MB
+// loaded code:        classes=337, methods=4498
+// 
+// ====================================================== search finished: 9/19/12 12:24 PM

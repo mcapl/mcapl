@@ -27,8 +27,8 @@ package ajpf.psl.parser;
 import org.junit.Test;
 import org.junit.Assert;
 
-// import eass.EASSMASBuilder;
-// import eass.verification.leo.LEOVerificationEnvironment;
+import eass.EASSMASBuilder;
+import eass.verification.leo.LEOVerificationEnvironment;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -123,7 +123,7 @@ public class PSLParserTests {
 	/*
 	 * Test it is handling actions correctly
 	 */
-	/* @Test public void lastActionTest() throws Exception {
+	@Test public void lastActionTest() throws Exception {
 		
 		String propertystring = "D(ag1, query(get_close_to(middle, plan_middle)))";
 		
@@ -140,7 +140,7 @@ public class PSLParserTests {
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
 		a.toMCAPL(mas, mccontrol);
 		
-	} */
+	} 
 	
 	@Test public void complexExpressionTest() throws Exception {
 		String propertystring = "(  [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )\n     &     [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )    ) \n ->     <> B(ag1, something_false)";

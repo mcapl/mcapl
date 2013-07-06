@@ -1,0 +1,157 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+EASS
+
+:name: ag1
+			
+:Initial Beliefs:
+				
+leader(aglead)
+my_name(ag1)
+maintaining(none)
+			
+:Belief Rules: 
+				
+B repairable(X, with(change_line(X))) :- B thruster_line(X, 1); 
+			
+:Initial Goals:
+
+:Plans: 
++.received(:perform, LG): {~B handling(LG)} <- +handling(LG), +!LG [perform], -handling(LG);
++.received(:achieve, LG): {~B handling(LG), ~B LG} <- +handling(LG), +!LG [achieve], -handling(LG); 
++.received(:tell, LG): {~B LG} <- +LG; 
+
+// Initial goal can either be provided on start-up, or communicated to the agent
++!assuming_formation(F) [perform] : {~ B assuming_formation(F)} <- 
+  +!initialise(F) [perform], 
+  +!my_position_is(X) [achieve], 
+  +!maintaining(X) [achieve]; 
++!assuming_formation(F) [perform] : {B assuming_formation(F)};
+			
+// May get told to abandon the current formation
++  new_instructions(F) : {True} <- 
+   +! F [perform]; 
++! drop_formation(F) [perform] : {B assuming_formation(F)} <- 
+   -! assuming_formation(F) [perform], 
+   +! clear_position [perform], 
+   - assuming_formation(F); 
++! drop_formation(F) [perform] : {~ B assuming_formation(F)}; 
++! clear_position [perform] : {B my_position_is(X)} <- 
+   + .lock, 
+   -my_position_is(X), 
+   -position(X), 
+   -.lock; 
++! clear_position [perform] : {~ B my_position_is(X)};
+			
++!initialise(F) [perform] : {B maintaining(Pos)} <- 
+  +.lock, 
+  -maintaining(Pos), 
+  +assuming_formation(F), 
+  -.lock; 
++!initialise(F) [perform] : {~B maintaining(Pos)} <- 
+   +assuming_formation(F); 
+			
++position(X) : {~ B my_position_is(Y)} <- 
+  +my_position_is(X); 
++my_position_is(none) : {~ B maintaining(none)} <- 
+  +maintaining(none); 
+
++!my_position_is(X) [achieve] : {~ B my_position_is(X), B leader(Leader), B my_name(Name)} <- 
+  .send(Leader, :perform, send_position(Name)), 
+  * my_position_is(X); 
+				
+
++! in_position(Pos) [achieve] : {~ B in_position(Pos), ~ B have_plan(Pos, Plan)} <- 
+	.query(get_close_to(Pos, P)), 
+    +have_plan(Pos, P), 
+	perf(execute(P)), 
+	*close_to(Pos), 
+    +in_position(Pos); 
++! in_position(Pos) [achieve] : {~ B in_position(Pos), B have_plan(Pos, P)} <- 
+	perf(execute(P)), 
+	*close_to(Pos), 
+   +in_position(Pos); 
+			
++! maintaining(Pos) [achieve] : {B in_position(Pos), B assuming_formation(F), ~B aborted(Reason), ~B broken(X)} <-  
+	perf(maintain_path), 
+    +maintaining(Pos), 
+    +!cleanup [perform]; 
++! maintaining(Pos) [achieve] : {~ B in_position(Pos), B assuming_formation(F), ~B aborted(Reason), ~B broken(X)} <-  
+    +! in_position(Pos) [achieve], 
+    perf(maintain_path), 
+    +maintaining(Pos), 
+    +!cleanup [perform]; 
++! maintaining(Pos) [achieve] : {B broken(X), ~B aborted(Reason)} <- 
+    *fixed(X), 
+    -fixed(X); 
++! maintaining(Pos) [achieve] : {~B assuming_formation(F)} <- 
+    -! maintaining(Pos) [achieve]; 
++! maintaining(Pos) [achieve] : {B aborted(Reason)} <- 
+    * new_instructions(Ins); 
+			
++maintaining(Pos) : {B leader(Leader), B my_name(Name)} <- 
+    .send(Leader, :tell, maintaining(Name)), 
+    +sent(Leader, maintaining(Name));  
+				
++!cleanup [perform] : {~ B have_plan(Pos, P), B in_position(Pos), B perform_cleanup} <- 
+    +.lock,
+    -assuming_formation, 
+    -in_position(Pos), 
+    -.lock; 
++!cleanup [perform] : {~ B have_plan(Pos, P), ~B in_position(Pos1), B perform_cleanup} <- 
+    +.lock,
+    -assuming_formation, 
+    -.lock; 
++!cleanup [perform] : {B have_plan(Pos, P), B perform_cleanup} <- 
+    +.lock,
+    -assuming_formation, 
+    -have_plan(Pos, P), 
+    -in_position(Pos), 
+    -.lock; 
++! cleanup [perform] : {~ B perform_cleanup}; 
+			
++broken(X): {B aborted(thruster_failure)} <- -fixed(X); 
++broken(X): {B repairable(X, with(Y)), ~B aborted(thruster_failure), ~B fixed(X)} <- 
+	perf(Y); 
++broken(X): {~B repairable(X, Y), ~B aborted(thruster_failure)} <- 
+    -fixed(X), 
+    +! abort(thruster_failure) [perform]; 
++broken(X): {B repairable(X, Y), B fixed(X), ~B aborted(thruster_failure)} <- 
+    -fixed(X), 
+    +! abort(thruster_failure) [perform]; 
+-broken(X): {True} <- +fixed(X); 
+			
++!abort(R) [perform]: {B leader(Leader), B my_name(Name), G maintaining(Pos) [achieve]} <- 
+    +aborted(R), 
+    -! maintaining(Pos) [achieve], 
+    .send(Leader, :tell, aborted(R, Name)), 
+    +sent(Leader, aborted(R, Name)), 
+    perf(null);   
++!abort(R) [perform]: {B leader(Leader), B my_name(Name), ~G maintaining(Pos) [achieve]} <- 
+    +aborted(R), 
+    .send(Leader, :tell, aborted(R, Name)), 
+    +sent(Leader, aborted(R, Name)); 
+			

@@ -1,0 +1,47 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+// This file sets up the configuration for a leader agent where there are no
+// thruster failures among the follower agents and were only one formation (line) is being used.
+
+env=eass.verification.leo.LEOVerificationEnvironment
+
+mas.file = /Eclipse/ajpf/src/examples/eass/verification/leo/satellite_leader_agent_line_nocleanup.eass
+mas.builder = eass.EASSMASBuilder
+
+log.warning = ajpf.MCAPLAgent
+log.info = eass.mas.DefaultEnvironment
+log.format = brief
+
+# Satellite specific configuration
+testing_movement=true
+testing_thrusters=false
+allthrusters=false
+requesting_positions=false
+requesting_formation=false
+allpositions=false
+all_can_break=false
+changing_formation=false
+initial_formation=line

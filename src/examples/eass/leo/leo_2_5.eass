@@ -1,0 +1,423 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+/*
+
+Agent file for an example involving two satellites in low earth orbit.  They are told to reach a formation, collisions
+are monitored and aborted.  Once in position one satellites sends a message to a "gremlin" which then breaks a thruster
+fuel line which has to be repaired.
+
+Make sure that the class files for ail.util.AILSocketClient and ail.util.AILSocketServer are on the MATLAB java classpath.
+
+Instructions for Running Example:  Get hold of LEO_2.5 matlab files (this should be in src/examples/leo/matlab)
+Open MultipleAgentsChoice_NoVR.mdl
+
+In a _fresh_ matlab instance 
+Open SimulinkTaskModuleAIL.mdl
+
+Run ail.mas.AIL PATH TO/ajpf/src/examples/eass/leo/leo_2_5.ail as the argument
+
+Start MultipleAgentsChoice_NoVR
+Start SimulinkTaskModule.
+
+*/
+
+EASS
+
+:abstraction: ag1
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+
+:Plans:
+
++ping : {B collision(R)} <-
+	remove_shared(collision(R)),
+	.calculate(any_future_collision(10, 5), Result),
+	assert_shared(collision(Result));
++ping : {~ B collision(R)} <- 
+	.calculate(any_future_collision(10, 5), Result),
+	assert_shared(collision(Result));
+
+:name: ag1
+
+:Initial Beliefs:
+
+middle(short, 0, 1, 0)
+middle(long, 0, 10, 0)
+end(short, 0, 2, 0)
+end(long, 0, 20, 0)
+line(short)
+agents(ag2, ag3)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++! send_pos(AgName) [perform] : {~ B pos_request(A)} <-
+	+pos_request(AgName);
++! send_pos(AgName) [perform] : {B pos_request(A)} <-
+	+pos_request(AgName),
+	+! select_positions(A, AgName) [perform];
++aborted(AgName) : {~ B pos_request(A)} <-
+	+pos_request(AgName);
++aborted(AgName) : {B pos_request(A)} <-
+	+pos_request(AgName),
+	+! select_positions(A, AgName) [perform];
+
++! select_positions(A, AgName) [perform] : {True} <-
+	+going_to_middle(AgName),
+	+going_to_end(A);
+
++going_to_middle(AgName) : {B line(L), B middle(L, X, Y, Z)} <-
+	-pos_request(AgName),
+	.send(AgName, :achieve, close_to(X, Y, Z));
+-going_to_middle(AgName) : {True} <-
+	.send(AgName, :perform, abort);
++going_to_end(AgName) : {B line(L), B end(L, X, Y, Z)} <-
+	-pos_request(AgName),
+	.send(AgName, :achieve, close_to(X, Y, Z));
+-going_to_end(AgName) : {True} <-
+	.send(AgName, :perform, abort);
+	
++collision(1) : {B line(short), B going_to_middle(A1), B going_to_end(A2)} <-
+	+line(long),
+	-line(short),
+	-going_to_middle(A1),
+	-going_to_end(A2);
+
+
+:abstraction: ag2
+
+:Initial Beliefs:
+
+thruster_bank_line(z, 1, 1)
+
+:Initial Goals:
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++a2stateinfo(X, Y, Z, Xd, Yd, Zd) : {B heading_for(X1, Y1, Z1)} <- 
+	comp_distance(X, Y, Z, X1, Y1, Z1, 5, V),
+	+bound(V, X1, Y1, Z1);
++a2stateinfo(X, Y, Z, Xd, Yd, Zd) : {~ B canplan} <- assert_shared(canplan);
++bound(yes, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), ~ B close_to(X1, Y1, Z1)} <-
+	assert_shared(close_to(X1, Y1, Z1)),
+	remove_shared(canplan);
++bound(no, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), ~ B close_to(X1, Y1, Z1), ~ B canplan} <- 
+	assert_shared(canplan);
++bound(no, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), B close_to(X1, Y1, Z1), ~ B canplan} <- 
+	remove_shared(close_to(X1, Y1, Z1)),
+	assert_shared(canplan);
+
++! get_close_to(X1, Y1, Z1, P) [perform] : {B heading_for(X, Y, Z)} <-
+	-heading_for(X, Y, Z),
+	.calculate(plan_named_approach_to_location_multi(X1, Y1, Z1, 0, 0, 0, 3), P),
+	assert_shared(get_close_to(X1, Y1, Z1, P)),
+	+ heading_for(X1, Y1, Z1);
++! get_close_to(X1, Y1, Z1, P) [perform] : {~B heading_for(X, Y, Z)} <-
+	.calculate(plan_named_approach_to_location_multi(X1, Y1, Z1, 0, 0, 0, 3), P),
+	assert_shared(get_close_to(X1, Y1, Z1, P)),
+	+ heading_for(X1, Y1, Z1);
+	
++! close_to(X1, Y1, Z1) [achieve] : {True} <-
+	*close_to(X1, Y1, Z1);
+
++!execute(P)  [perform]  : {True} <- 
+	append_string_pred("Follow_", P, Plan),
+    run(pred(a2set_control), args(Plan));
++!null [perform] : {B heading_for(X, Y, Z)} <-
+		-heading_for(X, Y, Z), 
+		run(pred(a2set_control), args("NullOutput")); 
++!null [perform] : {True} <- 
+		run(pred(a2set_control), args("NullOutput")); 
++!maintain_path [perform] : {True} <-
+	run(pred(a2set_control), args("NullOutput")),
+ 	run(pred(a2set_control), args("Maintain"));
+
++!change_thruster(X, N, NewN) [perform] : {B thruster(X, N)} <-
+	-thruster(X, N),
+	+thruster(X, NewN);
+
++thruster(X, L1, L2, P, C, V): {B thruster_bank_line(X, N, L), ~ B broken(X), P < 1} <- 
+	assert_shared(broken(X));
++thruster(X, L1, L2, P, C, V): {B broken(X), B thruster_bank_line(X, N, L), 1 < P} <-
+	remove_shared(broken(X));
+
++! wait [perform] : {True} <-
+	wait(1000000),
+	*waited,
+	-waited;
+
++!change_line(T) [perform] : {B thruster_bank_line(T, B, 1), B thruster(X, L1, L2, P, C, V)} <-
+        run(pred("A2set_", T, "_valves"), args(off, off, on, on)),
+        remove_shared(thruster_bank_line(T, B, 1)),
+        assert_shared(thruster_bank_line(T, B, 2)),
+        -thruster(X, L1, L2, P, C, V),
+        +! wait [perform],
+         remove_shared(broken(T));
+
+-thruster(x,L1, L2, P, C, V) : {True} <-
+	-a2xthruster(L1, L2, P, C, V);
+-thruster(y,L1, L2, P, C, V) : {True} <-
+	-a2ythruster(L1, L2, P, C, V);
+-thruster(z,L1, L2, P, C, V) : {True} <-
+	-a2zthruster(L1, L2, P, C, V);
+
++a2xthruster(L11, L21, P1, C1, V1): { ~ B thruster(x, L1, L2, P, C, V)} <- 
+	+thruster(x, L11, L21, P1, C1, V1);
++a2xthruster(L11, L21, P1, C1, V1): {B thruster(x, L1, L2, P, C, V)} <- 
+	-thruster(x, L1, L2, P, C, V),
+	+thruster(x, L11, L21, P1, C1, V1);
++a2ythruster(L11, L21, P1, C1, V1): {~ B thruster(y, L1, L2, P, C, V)} <- 
+	+thruster(y, L11, L21, P1, C1, V1);
++a2ythruster(L11, L21, P1, C1, V1): {B thruster(y, L1, L2, P, C, V)} <- 
+	-thruster(y, L1, L2, P, C, V),
+	+thruster(y, L11, L21, P1, C1, V1);
++a2zthruster(L11, L21, P1, C1, V1): { ~ B thruster(z, L1, L2, P, C, V)} <- 
+	+thruster(z, L11, L21, P1, C1, V1);
++a2zthruster(L11, L21, P1, C1, V1): {B thruster(z, L1, L2, P, C, V)} <- 
+	-thruster(z, L1, L2, P, C, V),
+	+thruster(z, L11, L21, P1, C1, V1);
+
+:name: ag2
+
+:Initial Beliefs:
+
+leader(ag1)
+my_name(ag2)
+thruster_bank_line(z, 1, 1)
+
+:Initial Goals:
+
+
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++canplan : {True} <- +! get_pos [perform];
+
+
++! maintain_position [perform] : {True} <- 
+	perf(maintain_path),
+	print(maintaining_position);
+
++broken(X): {B thruster_bank_line(X, N, 1)} <- 
+	perf(change_line(X)),
+	print(changing_line);
+
++! close_to(X, Y, Z) [achieve] : {~ B close_to(X, Y, Z), ~B planning} <-
+	+planning, 
+	.query(get_close_to(X, Y, Z, P)),
+	perf(execute(P)),
+	*close_to(X, Y, Z),
+	+! maintain_position [perform],
+	-planning,
+	.send(gremlin, :tell, atend);
+	
++! get_pos [perform] : {~ G close_1t2to(X, Y, Z) [achieve], B leader(Ag), B my_name(A)} <-
+	.send(Ag, :perform, send_pos(A));
+	
++! abort [perform] : {G close_to(X, Y, Z) [achieve], B leader(Ag), B my_name(A)} <- perf(null),
+	perf(maintain_path),
+	print(aborting),
+	-!close_to(X, Y, Z) [achieve],
+	-planning,
+	.send(Ag, :tell, aborted(A));
++! abort [perform] : {B leader(Ag), B my_name(A)} <- 
+	.send(Ag, :tell, aborted(A)),
+	perf(null);
+
+:abstraction: ag3
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++a3stateinfo(X, Y, Z, Xd, Yd, Zd) : {B heading_for(X1, Y1, Z1)} <- 
+	comp_distance(X, Y, Z, X1, Y1, Z1, 5, V),
+	+bound(V, X1, Y1, Z1);
++bound(yes, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), ~ B close_to(X1, Y1, Z1)} <-
+	assert_shared(close_to(X1, Y1, Z1));
++a3stateinfo(X, Y, Z, Xd, Yd, Zd) : {~ B canplan} <- assert_shared(canplan);
++bound(no, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), ~ B close_to(X1, Y1, Z1), ~ B canplan} <- 
+	assert_shared(canplan);
++bound(no, X1, Y1, Z1) : {B heading_for(X1, Y1, Z1), B close_to(X1, Y1, Z1), ~ B canplan} <- 
+	remove_shared(close_to(X1, Y1, Z1)),
+	assert_shared(canplan);
+
++! get_close_to(X1, Y1, Z1, P) [perform] : {B heading_for(X, Y, Z)} <-
+	-heading_for(X, Y, Z),
+	.calculate(plan_named_approach_to_location_multi(X1, Y1, Z1, 0, 0, 0, 3), P),
+	assert_shared(get_close_to(X1, Y1, Z1, P)),
+	+ heading_for(X1, Y1, Z1);
++! get_close_to(X1, Y1, Z1, P) [perform] : {~B heading_for(X, Y, Z)} <-
+	.calculate(plan_named_approach_to_location_multi(X1, Y1, Z1, 0, 0, 0, 3), P),
+	assert_shared(get_close_to(X1, Y1, Z1, P)),
+	+ heading_for(X1, Y1, Z1);
+	
++!execute(P)  [perform]  : {True} <- 
+ 	append_string_pred("Follow_", P, Plan),
+    run(pred(a3set_control), args(Plan));
++!null [perform] : {True} <- 
+		run(pred(a3set_control), args("NullOutput")); 
++!maintain_path [perform] : {B heading_for(X, Y, Z)} <-
+	run(pred(a3set_control), args("NullOutput")),
+    run(pred(a3set_control), args("Maintain"));
++!maintain_path [perform] : {True} <-
+	run(pred(a3set_control), args("Maintain"));
+	
+-broken(X) : 
+   {B thruster_bank_line(X, N, L), B thruster(X, L1, L2, P, C, V), P < 1} <-
+        assert_shared(broken(X));
+ 
++thruster(X, L1, L2, P, C, V): {B thruster_bank_line(X, N, L), ~ B broken(X), P < 1} <- 
+	assert_shared(broken(X));
++thruster(X, L1, L2, P, C, V): {B broken(X), B thruster_bank_line(X, N, L), 1 < P} <-
+	remove_shared(broken(X));
+
++! wait [perform] : {True} <-
+	wait(1000000),
+	*waited,
+	-waited;
+
++!change_line(T) [perform] : {B thruster_bank_line(T, B, 1), B thruster(X, L1, L2, P, C, V, P)} <-
+        run(pred("a3set_", T, "_valves"), args(off, off, on, on)),
+        remove_shared(thruster_bank_line(T, B, 1)),
+        assert_shared(thruster_bank_line(T, B, 2)),
+        -thruster(X, L1, L2, P, C, V), 
+        +! wait [perform],
+         remove_shared(broken(T));
+
+-thruster(x,L1, L2, P, C, V) : {True} <-
+	-a3xthruster(L1, L2, P, C, V);
+-thruster(y,L1, L2, P, C, V) : {True} <-
+	-a3ythruster(L1, L2, P, C, V);
+-thruster(z,L1, L2, P, C, V) : {True} <-
+	-a3zthruster(L1, L2, P, C, V);
+
++a3xthruster(L11, L21, P1, C1, V1): {True, ~ B thruster(x, L1, L2, P, C, V)} <- 
+	+thruster(x, L11, L21, P1, C1, V1);
++a3xthruster(L11, L21, P1, C1, V1): {B thruster(x, L1, L2, P, C, V)} <- 
+	-thruster(x, L1, L2, P, C, V),
+	+thruster(x, L11, L21, P1, C1, V1);
++a3ythruster(L11, L21, P1, C1, V1): {True, ~ B thruster(y, L1, L2, P, C, V)} <- 
+	+thruster(y, L11, L21, P1, C1, V1);
++a3ythruster(L11, L21, P1, C1, V1): {B thruster(y, L1, L2, P, C, V)} <- 
+	-thruster(y, L1, L2, P, C, V),
+	+thruster(y, L11, L21, P1, C1, V1);
++a3zthruster(L11, L21, P1, C1, V1): {True, ~ B thruster(z, L1, L2, P, C, V)} <- 
+	+thruster(z, L11, L21, P1, C1, V1);
++a3zthruster(L11, L21, P1, C1, V1): {B thruster(z, L1, L2, P, C, V)} <- 
+	-thruster(z, L1, L2, P, C, V),
+	+thruster(z, L11, L21, P1, C1, V1);
+	
+			
+:name: ag3
+
+:Initial Beliefs:
+
+leader(ag1)
+my_name(ag3)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++canplan : {True} <- +! get_pos [perform];
+
++! close_to(X, Y, Z) [achieve] : {~ B close_to(X, Y, Z), ~B planning} <-
+	+planning, 
+	.query(get_close_to(X, Y, Z, P)),
+	perf(execute(P)),
+	-planning,
+	*close_to(X, Y, Z),
+	+! maintain_position [perform];
+	
++! get_pos [perform] : {~ G close_to(X, Y, Z) [achieve], B leader(Ag), B my_name(A)} <-
+	.send(Ag, :perform, send_pos(A));
+
+	
++! abort [perform] : {G close_to(X, Y, Z) [achieve], B leader(Ag), B my_name(A)} <- perf(null),
+	perf(maintain_path),
+	print(aborting),
+	-!close_to(X, Y, Z) [achieve],
+	-planning,
+	.send(Ag, :tell, aborted(A));
++! abort [perform] : {B leader(Ag), B my_name(A)} <- 
+	.send(Ag, :tell, aborted(A)),
+	perf(null);
+
++! maintain_position [perform] : {True} <- 
+	perf(maintain_path),
+	print(maintaining_position);
+
++broken(X): {B thruster_bank_line(X, N, 1)} <- 
+	perf(change_line(X)),
+	print(changing_line);
+	
+:name: gremlin
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++atend : {True} <-
+	run_as_is(2, pred("A2Break"), args("yes"));

@@ -1,0 +1,128 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+env = eass.leo.LEOEnvironment
+
+mas.file = src/examples/eass/leo/leo_2_5.eass
+mas.builder = eass.EASSMASBuilder
+
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,
+log.format = brief
+
+# Eass Specific stuff
+
+connectedtomatlab = true
+
+/** SAMPLE OUTPUT
+
+Oct 8, 2012 3:41:15 PM ajpf.util.AJPFLogger info
+INFO: loading property file: /Users/lad/Eclipse/ajpf/src/examples/eass/leo/leo_2_5.ail
+eass.mas[INFO|main|3:41:15]: Waiting Connections 
+eass.mas[INFO|main|3:41:18]: Connected to Physical Engine 
+eass.mas[INFO|main|3:41:18]: Waiting Connection to Continuous Engine 
+eass.mas[INFO|main|3:41:22]: Connected to Continuous Engine 
+ail.mas.DefaultEnvironment[INFO|main|3:41:25]: ag3 done send(2:send_pos(ag3), ag1) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+ail.mas.DefaultEnvironment[INFO|main|3:41:29]: ag2 done send(2:send_pos(ag2), ag1) 
+ail.mas.DefaultEnvironment[INFO|main|3:41:35]: ag1 done send(3:close_to(0.0,1.0,0.0), ag3) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:37]: ag3 done query(get_close_to(0.0,1.0,0.0,P)) 
+ail.mas.DefaultEnvironment[INFO|main|3:41:39]: ag1 done send(3:close_to(0.0,2.0,0.0), ag2) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:39]: abstraction_ag3 done calculate(plan_named_approach_to_location_multi(0.0,1.0,0.0,0.0,0.0,0.0,3.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:41]: ag2 done query(get_close_to(0.0,2.0,0.0,P)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:43]: abstraction_ag2 done calculate(plan_named_approach_to_location_multi(0.0,2.0,0.0,0.0,0.0,0.0,3.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:55]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:41:59]: ag2 done perf(execute(PlanAIL5)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:42:01]: abstraction_ag2 done run(pred(a2set_control),args("Follow_PlanAIL5")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:42:03]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:42:03]: ag3 done perf(execute(PlanAIL4)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:42:03]: abstraction_ag3 done run(pred(a3set_control),args("Follow_PlanAIL4")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:43:03]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:43:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:43:45]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:44:05]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:44:23]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:44:43]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:45:03]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:45:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:45:45]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:11]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:13]: ag1 done send(2:abort, ag3) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:15]: ag3 done perf(null) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:15]: abstraction_ag3 done run(pred(a3set_control),args("NullOutput")) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:15]: ag1 done send(2:abort, ag2) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:19]: ag3 done perf(maintain_path) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:19]: abstraction_ag3 done run(pred(a3set_control),args("NullOutput")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:19]: abstraction_ag3 done run(pred(a3set_control),args("Maintain")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:19]: ag2 done perf(null) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:19]: ag2 done perf(maintain_path) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:23]: abstraction_ag2 done run(pred(a2set_control),args("NullOutput")) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:27]: ag3 done print(aborting) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:27]: ag3 done send(1:aborted(ag3), ag1) 
+aborting
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:29]: ag3 done query(get_close_to(0.0,1.0,0.0,P)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:33]: abstraction_ag2 done run(pred(a2set_control),args("Maintain")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:33]: abstraction_ag2 done run(pred(a2set_control),args("NullOutput")) 
+aborting
+ail.mas.DefaultEnvironment[INFO|main|3:46:35]: ag2 done print(aborting) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:35]: ag2 done send(1:aborted(ag2), ag1) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:35]: ag1 done send(3:close_to(0.0,10.0,0.0), ag2) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:35]: abstraction_ag3 done calculate(plan_named_approach_to_location_multi(0.0,1.0,0.0,0.0,0.0,0.0,3.0),NewVarForCalculate) 
+ail.mas.DefaultEnvironment[INFO|main|3:46:37]: ag1 done send(3:close_to(0.0,20.0,0.0), ag3) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:43]: ag2 done query(get_close_to(0.0,2.0,0.0,P)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:45]: abstraction_ag2 done calculate(plan_named_approach_to_location_multi(0.0,2.0,0.0,0.0,0.0,0.0,3.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:49]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:51]: ag2 done perf(execute(PlanAIL7)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:53]: abstraction_ag2 done run(pred(a2set_control),args("Follow_PlanAIL7")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:46:59]: ag3 done perf(execute(PlanAIL6)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:01]: abstraction_ag3 done run(pred(a3set_control),args("Follow_PlanAIL6")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:07]: ag3 done perf(maintain_path) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:09]: abstraction_ag3 done run(pred(a3set_control),args("NullOutput")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:09]: abstraction_ag3 done run(pred(a3set_control),args("Maintain")) 
+maintaining_position
+ail.mas.DefaultEnvironment[INFO|main|3:47:09]: ag3 done print(maintaining_position) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:13]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:29]: ag2 done perf(maintain_path) 
+maintaining_positionail.mas.DefaultEnvironment[INFO|main|3:47:29]: ag2 done print(maintaining_position) 
+
+ail.mas.DefaultEnvironment[INFO|main|3:47:31]: ag2 done send(1:atend, gremlin) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:35]: gremlin done run_as_is(2.0,pred("A2Break"),args("yes")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:35]: abstraction_ag2 done run(pred(a2set_control),args("NullOutput")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:35]: abstraction_ag2 done run(pred(a2set_control),args("Maintain")) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:47]: ag2 done perf(change_line(z)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:47]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+changing_line
+ail.mas.DefaultEnvironment[INFO|main|3:47:47]: ag2 done print(changing_line) 
+ail.mas.DefaultEnvironment[INFO|main|3:47:47]: ag2 done send(2:send_pos(ag2), ag1) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:47]: abstraction_ag2 done run(pred("A2set_",z,"_valves"),args(off,off,on,on)) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:47:57]: abstraction_ag2 done wait(1000000.0) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:48:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:48:47]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:49:13]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:49:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+eass.mas.DefaultEASSEnvironment[INFO|main|3:50:25]: abstraction_ag1 done calculate(any_future_collision(10.0,5.0),NewVarForCalculate) 
+
+
+*/

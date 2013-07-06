@@ -34,8 +34,8 @@ import ajpf.psl.MCAPLTermImpl;
 import ail.syntax.Action;
 import ail.syntax.VarTerm;
 
-// import eass.EASSMASBuilder;
-// import eass.verification.leo.LEOVerificationEnvironment;
+import eass.EASSMASBuilder;
+import eass.verification.leo.LEOVerificationEnvironment;
 
 /**
  * Regression tests for methods involving the multi-agent system.
@@ -48,7 +48,7 @@ public class MASTests {
 	 * Test that lastActionWas will work when the action taken includes a variable, but is being tested against a ground term.
 	 */
 	@Test public void lastActionWasTest() {
-   /* 	String filename = "/src/examples/eass/verification/leo/satellite_middle_line.eass";
+    	String filename = "/src/examples/eass/verification/leo/satellite_middle_line.eass";
     	String abs_filename = MCAPLcontroller.getAbsFilename(filename);
 
 		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
@@ -63,7 +63,7 @@ public class MASTests {
 		env.lastAction = envaction;
 		env.lastAgent = "ag1";
 		
-		Assert.assertTrue(mas.lastActionWas("ag1", agentaction)); */
+		Assert.assertTrue(mas.lastActionWas("ag1", agentaction)); 
 		
 	} 
 

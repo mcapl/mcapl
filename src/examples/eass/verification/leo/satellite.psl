@@ -1,0 +1,314 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+0: [] (~ B (ag1, bad))
+
+# Property 15 in Verification Paper
+15:   (
+       [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      )  ->
+          <> B(ag1, maintaining(middle))
+
+# Property 15 in Verification Paper (Sanity check)
+15sanity: (
+            [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )
+          &
+            [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )
+          )  ->
+          <> B(ag1, something_false)
+
+# Property 16 in Verification Paper
+16: ( 
+       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) ) 
+    )
+         ->
+          ( <> B(ag1, maintaining(middle)) ||  [] ~B(ag1, have_plan(middle, plan_middle)) )
+           
+# Property 18 in Verification Paper
+18:   (
+       [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      )  ->
+	     <> ( B(ag1, maintaining(middle)) || B(ag1, broken(x)) || B(ag1, broken(y)) || B(ag1, broken(z))  )
+
+# Property 21 in Verification Paper
+21: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( B(ag1, broken(x)) -> B(ag1, repairable(x, _)) )
+    ) -> 
+              <> B(ag1, maintaining(middle))
+
+# Property 21 in Verification Paper (expanded for all thrusters)
+21expanded: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x)) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( B(ag1, broken(x)) -> B(ag1, repairable(x, _)) )
+      &
+      [] ( D(ag1, perf(change_line(y)) -> <> ~B(ag1, broken(y)) ) 
+      &
+      [] ( B(ag1, broken(y)) -> B(ag1, repairable(y, _)) )
+      &
+      [] ( D(ag1, perf(change_line(z)) -> <> ~B(ag1, broken(z)) ) 
+      &
+      [] ( B(ag1, broken(z)) -> B(ag1, repairable(z, _)) )
+    ) -> 
+              <> B(ag1, maintaining(middle))
+
+
+# Property 23 in Verification Paper
+23: ( 
+			[] ( B(aglead, informed(ag1, line)) -> <> B(aglead, maintaining(ag1)) )
+			& [] ( B(aglead, informed(ag2, line)) -> <> B(aglead, maintaining(ag2)) )
+			& [] ( B(aglead, informed(ag3, line)) -> <> B(aglead, maintaining(ag3)) )
+			& [] ( B(aglead, informed(ag4, line)) -> <> B(aglead, maintaining(ag4)) )
+	) ->
+		<> B(aglead, in_formation(line))
+		
+# Property 24 in Verification Paper	
+24: []( B(aglead, position(ag1, left)) -> 
+			( ~ B(aglead, position(ag1, middle)) & ~ B(aglead, position(ag1, right)) ) )
+
+# Property 25 in Verification Paper	
+25: [] ( B(aglead, position(ag1, left)) -> 
+     ( ~B(aglead, position(ag2, left)) & ~B(aglead, position(ag3, left)) & ~B(aglead, position(ag4, left)) ) 
+     )
+    
+
+# Property 26 in Verification Paper
+26:   (
+       [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      )  ->
+	[]( 
+	     ( B( ag1, handling(assuming_formation(line))) & B(ag1, my_position_is(middle)) ) -> 
+	 <> B(ag1, sent(aglead, maintaining(ag1)))
+	 )
+	 
+# Property 27 in Verification Paper
+27: []( D (ag1, send(maintaining(ag1), aglead)) ->
+				( B(ag1, my_position_is(middle)) & B(ag1, maintaining(middle)) ) )
+
+# Property 30 in Verification Paper
+30: []( B(aglead, all_positions_assigned(square)) -> 
+		    <> ( B(aglead, maintaining(ag1)) & B(aglead, maintaining(ag2)) & 
+		             B(aglead, maintaining(ag3)) & B (aglead, maintaining(ag4)) )
+		  ) -> 
+		<> B(aglead, in_formation(square))
+
+# Property 31 in Verification Paper
+31: []( B (aglead,all_positions_assigned(line)) -> 
+				<> ( B(aglead, maintaining(ag1)) & B(aglead, maintaining(ag2)) & B(aglead, maintaining(ag3)) )
+	   ) -> 
+		[] ( B(aglead, in_formation(square)) -> <> B(aglead, in_formation(line)) )
+
+
+# Property for Spin Paper
+Spin0:   [] ~(B (aglead, bad))
+
+Spin1:   [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) -> [] ~(B (aglead, bad))
+
+Spin2:   ( 
+         [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+         [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  )
+         ) -> [] ~(B (aglead, bad))
+         
+Spin3:    ( 
+         [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+         [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+         [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  )
+         ) -> [] ~(B (aglead, bad))
+         
+Spin4:    ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) 
+         ) -> [] ~(B (aglead, bad))
+
+Spin5:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) )
+         ) -> [] ~(B (aglead, bad))
+
+Spin6:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
+           [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) )
+         ) -> [] ~(B (aglead, bad))
+        
+
+Spin7:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
+           [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) ) &
+          [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag3)) ) 
+         ) -> [] ~(B (aglead, bad))
+         
+Spin8: ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
+           [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) ) &
+          [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag3)) ) &
+         [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag4)) ) 
+        ) -> [] ~(B (aglead, bad))
+
+
+SpinSpin: (B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) &
+  B (aglead, formation(square))) || [] ~ B (aglead, bad)
+  
+SpinSpin0: B (aglead, bad)
+
+SpinSpin1: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  & B (aglead, bad)
+
+SpinSpin2: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) & B (aglead, bad)
+  
+SpinSpin3: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
+  
+SpinSpin4: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
+
+SpinSpin5: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) &
+  B (aglead, formation(square)) & B (aglead, bad)
+
+# Misc other properties - NB. duplicate keys watch out!
+118: ||( 
+   ||( 
+   ||( 
+   ||( 
+   <>(& (B (aglead, informed(ag1)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), 
+   <>(& (B (aglead, informed(ag2)), [] (~ B (aglead, maintaining(ag2)))))), 
+   <>(& (B (aglead, informed(ag3)), [] (~ B (aglead, maintaining(ag3)))))), 
+   <>(& (B (aglead, informed(ag4)), [] (~ B (aglead, maintaining(ag4)))))), 
+			# Then eventually it believes it has a line
+   <> (B (aglead, in_formation(line)))) 
+
+117: ||( 
+   ||( 
+   ||(
+   [] (&(||(~ B (aglead, maintaining(ag1)), B (aglead, broken(ag1))), ||(~B (aglead, maintaining(ag4)), ~ B(aglead, broken(ag1))))), 
+			[] (~ B (aglead, maintaining(ag2)))), 
+			[] (~ B (aglead, maintaining(ag3)))), 
+			<> (B (aglead, in_formation(line))))
+
+118: ||(
+					<>(& ( D(ag1, query(get_close_to(middle, P))), [] (~B (ag1, in_position(middle)))) ),
+					[]( ||( 
+			 ~ B( ag1, handling(assuming_formation(line))), 
+			 <>( B (ag1, sent(aglead, maintaining(ag1)))))))
+
+119: ||(
+					<>(& ( D(ag1, query(get_close_to(middle, P))), [] (&(~B (ag1, in_position(middle)), ~B(ag1, aborted(thruster_failure))))) ),
+					[]( ||( 
+					 ~ B( ag1, handling(assuming_formation(line))), 
+					 <>( ||(B (ag1, sent(aglead, maintaining(ag1))), B (ag1, sent(aglead, aborted(thruster_failure, ag1) )))))))
+
+110: [](||( 
+				~ D (ag1, send(aborted(thruster_failure, ag1), aglead)), 
+				& ( B(ag1, broken(x)), ~ B(ag1, repairable(x, Y)))))
+
+112: ||( 
+    ||(
+ 			||(
+ 			||(
+ 			<>(& (B (aglead, informed(ag1)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), \n
+			<>(& (B (aglead, informed(ag2)), [] (~ B (aglead, maintaining(ag2)))))), \n
+			<>(& (B (aglead, informed(ag3)), [] (~ B (aglead, maintaining(ag3)))))), 
+			<>(& (B (aglead, informed(ag4)), [] (~ B (aglead, maintaining(ag4)))))), 
+			<> (&(B (aglead, in_formation(square)), <> (B (aglead, in_formation(line))))))
+
+113 : ||( 
+     ||(
+ 			<>(& ( B (aglead, formation(line)),
+ 			[] (||(~ B (aglead, maintaining(ag1)), ||( ~ B (aglead, maintaining(ag2)), 
+ 			 ~ B (aglead, maintaining(ag3))))))), 
+ 			<>(& (B (aglead, formation(square)),
+ 			[] (||(||(~ B (aglead, maintaining(ag1)), ~B (aglead, maintaining(ag4))), 
+ 			||(~ B (aglead, maintaining(ag2)), ~ B (aglead, maintaining(ag3)))))))), 
+			<> (&(B (aglead, in_formation(square)), <> (B (aglead, in_formation(line))))))
+
+
+114: ||(||(||(
+     <>(&( D(ag1, query(get_close_to(middle, P))), [] (~ B (ag1, have_plan(middle, plan_middle))))), 
+				     <>(&(D(ag1, perf(execute(plan_middle))), [] (~B (ag1, in_position(middle)))) )), 
+				 ||( <>(& ( D(ag1, perf(change_line(x))), []( B (ag1, broken(x))))), 
+				 <>(& ( B(ag1, broken(x)), ~ B(ag1, repairable(x, Y)))))), 
+				 <> (B (ag1, maintaining(middle))))
+
+115: ||( ||(
+			||(
+			[] (||(||(~ B (aglead, maintaining(ag1)), B (aglead, broken(ag1))), ||(~B (aglead, maintaining(ag4)), ~B(aglead, broken(ag1))))), 
+			[] (~ B (aglead, maintaining(ag2)))), 
+			[] (~ B (aglead, maintaining(ag3)))), 
+			<> (B (aglead, in_formation(line))))
+
+
+116: ||(
+		      ||(<>(&( D(ag1, query(get_close_to(middle, P))), [] (~ B (ag1, have_plan(middle, plan_middle))))), 
+			     <>(&(D(ag1, perf(execute(plan_middle))), [] (~B (ag1, in_position(middle)))) )), 
+			[]( ||( 
+	 ||(~ B( ag1, handling(assuming_formation(line))), ~B(ag1, my_position_is(middle))), 
+	 <>( B (ag1, sent(aglead, maintaining(ag1)))))))
+
+	    
+118: [](||(~ B(aglead, position(ag1, left)), 
+			& (~ B(aglead, position(ag1, middle)), ~ B(aglead, position(ag1, right)))))
+
+
+119: [](||(~ B(aglead, position(ag1, left)), 
+    & (~ B(aglead, position(ag2, left)), &(~ B(aglead, position(ag3, left)), ~ B(aglead, position(ag4, left)))))) 
+
+120: <> (&( & (B (aglead, informed(ag1, line)), B (aglead, informed(ag2, line))), B (aglead, informed(ag3, line))))
+

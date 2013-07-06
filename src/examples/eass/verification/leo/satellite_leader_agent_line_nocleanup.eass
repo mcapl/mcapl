@@ -1,0 +1,127 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+EASS
+
+:name: aglead
+				
+:Initial Beliefs:
+				
+agent(ag1)
+agent(ag2)
+agent(ag3)
+agent(ag4)
+
+pos(line, left)
+pos(line, right)
+pos(line, middle)
+pos(square, topleft)
+pos(square, topright)
+pos(square, bottomleft)
+pos(square, bottomright)
+			
+			
+desired_formation(line)
+
+:Belief Rules:
+			
+B all_positions_assigned(Formation) :- ~ (B pos(Formation, Pos), ~ (B position(Ag, Pos)));
+B inform_start :- ~ (B position(Ag, Pos), ~ (B informed(Ag, F)));
+B in_formation(F) :- ~ (B pos(F, P), ~(B agent_at(P)));
+B agent_at(Pos) :-   B position(Ag, Pos), B maintaining(Ag);
+B some_formation :- B desired_formation(F1), B in_formation(F1);
+B aformation :- B in_formation(line);
+B aformation :- B in_formation(square);
+
+			
+// Only one way to conclude a satellite is broken, but could be extended
+B broken(Ag) :- B aborted(thruster_failure, Ag); 
+			
+// Beliefs used for clean up phases
+B formation_clear(F) :- ~ (B pos(F, P), B position(Ag, P));
+B agent_pos_clear :- ~ (B maintaining(AG));
+B informed_clear(F) :- ~(B informed(Ag, F));
+
+				
+:Initial Goals:
+some_formation [achieve]
+				
+:Plans:
++.received(:tell, LG): {~B LG} <- +LG;
++.received(:perform, LG): {~B handling(LG)} <- +handling(LG), +!LG [perform], -handling(LG);
+			
++! some_formation [achieve] : {~ B formation(F), B desired_formation(Form)} <-
+  +! in_formation(Form) [achieve];
++! some_formation [achieve] : {B formation(F), B desired_formation(F)} <- 
+  +! in_formation(F) [achieve];
++! some_formation [achieve] : {B formation(F1), ~ B desired_formation(F1), B desired_formation(Form1)} <- 
+  +!cleanup_initialisation(F1) [perform], 
+  +!cleanup_formation(F1) [perform], 
+  +! in_formation(Form1) [achieve];
+			
++! in_formation(F) [achieve] : {True} <-
+  +formation(F),
+  +! all_positions_assigned(F) [achieve],
+  +! inform_start [achieve],
+  *in_formation(F);
+			
++! all_positions_assigned(Formation) [achieve] : {B agent(Ag), ~B position(Ag, X), B pos(Formation, Y), ~B position(Ag2, Y), ~B broken(Ag)} <- 
+  .send(Ag, :tell, position(Y)), 
+  +position(Ag, Y);
+			
++! inform_start [achieve] : {B position(Ag, X), B formation(F), ~B informed(Ag, F)} <-
+  .send(Ag, :achieve, assuming_formation(F)),
+  +informed(Ag, F);
+			
+// Information or Requests from other agents
++ aborted(Reason, Ag) : {B position(Ag, X), G some_formation [achieve], ~B maintaining(Ag)}  <-
+  +.lock,
+  -position(Ag, X),
+  -informed(Ag, F),
+  -.lock,
+  .send(Ag, :perform, new_instruction(drop_formation(F))),
+  -! some_formation [achieve];
+			
++! send_position(Ag) [perform] : {B position(Ag, X)} <-
+   .send(Ag, :tell, position(X));
++! send_position(Ag) [perform] : {~ B position(Ag, X)} <-
+   .send(Ag, :tell, position(none));
+			
+			
+// Plans for cleaning up after a formation is achieved.  
++! formation_clear(F) [achieve] : {B pos(F, P), B position(Ag, P)} <-
+  -position(Ag, P);
++! agent_pos_clear [achieve] : {B maintaining(Ag)} <-
+  -maintaining(Ag);
++! informed_clear(F) [achieve] : {B informed(Ag, F)} <-
+  .send(Ag, :perform, drop_formation(F)),
+  -informed(Ag, F);
+			
++! cleanup_initialisation(F) [perform] : {True} <-
+   +! informed_clear(F) [achieve];
++! cleanup_formation(F) [perform] : {True} <-
+   -formation(F),
++! formation_clear(F) [achieve], 
+   +! agent_pos_clear [achieve];
