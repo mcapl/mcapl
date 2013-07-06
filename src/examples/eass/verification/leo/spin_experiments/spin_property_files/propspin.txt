@@ -1,0 +1,1 @@
+!(([](bagleadinformedag2 -> <>bagleadmaintainingag2) && [](bagleadinformedag3 -> <>bagleadmaintainingag3) && [](bagleadinformedag4 -> <>bagleadmaintainingag4)) -> (<>bagleadin_formationsquare && []!(bagleadbad)))
