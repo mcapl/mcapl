@@ -1,0 +1,111 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+
+EASS
+
+:abstraction: car
+
+:Initial Beliefs:
+
+rightmost_lane(2)
+chosen_exit(10)
+preferred_distance_to_exit(5)
+speed_limit(70)
+
+:Plans:
++.received(:perform, G): {True} <- +!G [perform];
+
++lane(I) : {~(I == 0), B rightmost_lane(K), ~(I == K)} <- remove_shared(in_rightmost_lane), remove_shared(in_leftmost_lane);
++lane(0) : {true} <- remove_shared(in_rightmost_lane), assert_shared(in_leftmost_lane);
++lane(I) : {B rightmost_lane(I)} <- remove_shared(in_leftmost_lane), assert_shared(in_rightmost_lane);
+
++at_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(at_exit);
+-at_exit_ramp(I): {B chosen_exit(I)} <- remove_shared(at_exit);
+
++on_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(leaving_at_chosen_exit);
++distance_to_exit(X): {B preferred_distance_to_exit(N), X < N} <- assert_shared(chosen_exit_approaching);
+
++safe_in_lane: {true} <- assert_shared(safe);
++safe_in_right_lane : {true} <- assert_shared(safe_right);
++safe_in_left_lane : {true} <- assert_shared(safe_left);
+-safe_in_lane: {true} <- remove_shared(safe);
+-safe_in_right_lane : {true} <- remove_shared(safe_right);
+-safe_in_left_lane : {true} <- remove_shared(safe_left);
+
++car(I) : {B lane(I)} <- assert_shared(car_ahead_in_lane);
+-car(I) : {B lane(I)} <- remove_shared(car_ahead_in_lane);
++car(I) : {B lane(J), J = I + 1} <- assert_shared(car_ahead_in_left_lane);
+-car(I) : {B lane(J), J = I + 1} <- remove_shared(car_ahead_in_left_lane);
+
++speed(S) : {B speed_limit(Y), Y < S} <- assert_shared(above_speed_limit);
++speed(S) : {B speed_limit(Y), S < Y} <- remove_shared(above_speed_limit);
+
++acceleration_pedal(A) : {true} <- assert_shared(driver_accelerates);
++brake_pedal(B) : {true} <- assert_shared(driver_brakes);
+-acceleration_pedal(A) : {true} <- remove_shared(driver_accelerates);
+-brake_pedal(B) : {true} <- remove_shared(driver_brakes);
+
++! exit_motorway [perform]: {B at_exit_ramp(I), B_in_leftmost_lane} <- 
+	run(move_onto_ramp),
+	*on_exit_ramp(I),
+	remove_shared(at_exit),
+	remove_shared(in_leftmost_lane);
++! change_right [perform]: {B lane(I)} <-
+	run(move_lane(I + 1));
++! change_left [perform]: {B lane(I)} <-
+    run(move_lane(I - 1));
++! brake [perform]: {B brake_pedal(B)} <- run(brake(B));
++! accelerate [perform]: {B acceleration_pedal(A)} <- run(accelerate(A));
++! brake [perform]: {~B brake_pedal(B)} <- run(brake);
++! accelerate [perform]: {~B acceleration_pedal(A)} <- run(accelerate);
++! maintain_speed [perform] : {B speed(S)} <- maintain(S);
+
+:name: car
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++! leaving_at_chosen_exit [achieve]: {B at_exit, B in_leftmost_lane} <- perf(exit_motorway);
++! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, B in_leftmost_lane} <- *at_exit; 
++! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, ~B in_leftmost_lane} <- !+in_leftmost_lane;
++! leaving_at_chosen_exit [achieve]: {~B chosen_exit_approaching} <- *chosen_exit_approaching;
+
++! in_leftmost_lane [achieve]: {B safe_left} <- change_left;
+
++car_ahead_in_lane : {~B in_rightmost_lane, B safe_right} <- change_right;
++car_ahead_in_lane : {~B in_rightmost_lane, ~B safe_right} <- *safe_right, change_right;
+-car_ahead_in_left_lane : {~B in_leftmost_lane, B safe_left} <- change_left;
+-car_ahead_in_left_lane : {~B in_leftmost_lane, ~B safe_left} <- *safe_left, change_left;
+
++above_speed_limit: {true} <- maintain_speed;
+-safe: {true} <- brake;
++safe: {~B above_speed_limit} <- accelerate;
+
++driver_accelerates: {-B safe} <- brake;
++driver_accelerates: {B safe} <- accelerate;
++driver_brakes: {true} <- brake;
