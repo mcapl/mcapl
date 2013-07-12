@@ -1,0 +1,78 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, Matt Webster and Michael Fisher
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: uav
+
+:Initial Beliefs:
+
+waitingAtRamp
+vicinityOfAerodrome
+
+:Initial Goals:
+
+fly [perform]
+
+:Plans:
++.received(:tell, B): {True} <- +B;   
+
++!fly [perform]: {B waitingAtRamp} <- .send(atc, :tell, requestingTaxiClearance);
++taxiClearanceDenied: {B waitingAtRamp} <- .send(atc, :tell, requestingTaxiClearance);
++taxiClearanceGiven: {B waitingAtRamp} <- -waitingAtRamp, +taxyingToRunwayHoldPosition;
++taxyingToRunwayHoldPosition: {True} <- -taxyingToRunwayHoldPosition, +holdingOnRunway;
++holdingOnRunway: {True} <- .send(atc, :tell, requestingLineUpClearance);
++lineUpClearanceGiven: {True} <- -holdingOnRunway, +linedUpOnRunway;
++linedUpOnRunway: {True} <- .send(atc, :tell, requestingTakeOffClearance);
++takeOffClearanceGiven: {True} <- -linedUpOnRunway, +takingOff;
++takingOff: {True} <- take_off, +airborne;
++airborne: {True} <- +normalFlight, +direction(straight);
++collision: {B normalFlight, B direction(Dir)} <- -normalFlight, 
+	+oldstate(normalFlight), 
+	+olddir(Dir), 
+	+EmergencyAvoid, 
+	-direction(Dir), +direction(right), evade;
++collision: {B changingHeading, B direction(Dir)} <- -changingHeading,
+	+oldstate(changingHeading),
+	+olddir(Dir),
+	+EmergencyAvoid,
+	-direction(Dir), +direction(right), evade;
++changeHeading: {B normalFlight, ~B toldOtherwise, B vicinityOfAerodrome} <- -normalFlight, +changingHeading, direction(left);
++landing: {True} <- land;
++headingOK: {B changingHeading, B direction(Dir)} <- -changingHeading, +normalFlight, -direction(Dir), +direction(straight);
++objectPassed: {B emergencyAvoid, B oldstate(State), B olddir(Dir), B direction(D2)} <- -emergencyAvoid, -oldstate(State), +State, -olddir(Dir), -direction(D2), +direction(Dir);
+
+:name: atc
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
++.received(:tell, B): {True} <- +B;   
+
++requestingTaxiClearance: {True}  <- .send(uav, :tell, taxiClearanceGiven);
++requestingTaxiClearance: {True}  <- .send(uav, :tell, taxiClearanceDenied);
++requestingLineUpClearance:  {True} <- .send(uav, :tell, lineUpClearanceGiven);
++requestingTakeOffClearance:  {True} <- .send(uav, :tell, takeOffClearanceGiven);

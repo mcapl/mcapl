@@ -126,11 +126,11 @@ public class Product {
 			model_only = true;
 		}
 		props = ps;
-//		if (automata_type == AutomataType.PROBABILISTIC_AUTOMATA) {
-//			m = new ProbabilisticModel(props);
-//		} else {
+		if (automata_type == AutomataType.PROBABILISTIC_AUTOMATA) {
+			m = new ProbabilisticModel(props);
+		} else {
 			m = new MCAPLmodel(props);
-//		}
+		}
 	}
 
 	/**
