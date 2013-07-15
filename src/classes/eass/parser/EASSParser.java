@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g 2012-11-29 11:37:30
+// $ANTLR 3.4 /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2013-07-15 16:16:41
 
 package eass.parser;
 
@@ -92,7 +92,7 @@ public class EASSParser extends Parser {
     }
 
     public String[] getTokenNames() { return EASSParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g"; }
+    public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
 
 
     	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
@@ -101,7 +101,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "mas"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:59:1: mas returns [Abstract_MAS mas] :glist= eassagents ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:1: mas returns [Abstract_MAS mas] :glist= eassagents ;
     public final Abstract_MAS mas() throws RecognitionException {
         Abstract_MAS mas = null;
 
@@ -110,8 +110,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:59:32: (glist= eassagents )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:59:34: glist= eassagents
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:32: (glist= eassagents )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:34: glist= eassagents
             {
             mas = new Abstract_MAS();
 
@@ -141,7 +141,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "eassagents"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:62:1: eassagents returns [ArrayList<Abstract_EASSAgent> gags] : EASS (g= eassagent )+ ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:1: eassagents returns [ArrayList<Abstract_EASSAgent> gags] : EASS (g= eassagent )+ ;
     public final ArrayList<Abstract_EASSAgent> eassagents() throws RecognitionException {
         ArrayList<Abstract_EASSAgent> gags = null;
 
@@ -150,14 +150,14 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:62:55: ( EASS (g= eassagent )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:62:57: EASS (g= eassagent )+
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:55: ( EASS (g= eassagent )+ )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:57: EASS (g= eassagent )+
             {
             match(input,EASS,FOLLOW_EASS_in_eassagents102); 
 
             gags=new ArrayList<Abstract_EASSAgent>();
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:63:2: (g= eassagent )+
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:63:2: (g= eassagent )+
             int cnt1=0;
             loop1:
             do {
@@ -171,7 +171,7 @@ public class EASSParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:63:3: g= eassagent
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:63:3: g= eassagent
             	    {
             	    pushFollow(FOLLOW_eassagent_in_eassagents111);
             	    g=eassagent();
@@ -212,7 +212,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "eassagent"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:65:1: eassagent returns [Abstract_EASSAgent g] : ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )* ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:65:1: eassagent returns [Abstract_EASSAgent g] : ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )* ;
     public final Abstract_EASSAgent eassagent() throws RecognitionException {
         Abstract_EASSAgent g = null;
 
@@ -229,10 +229,10 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:65:42: ( ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )*
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:65:42: ( ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )* )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? GOALS (gl= goal )* PLANS (p= plan )*
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -251,7 +251,7 @@ public class EASSParser extends Parser {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:66:3: NAME w= word
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:3: NAME w= word
                     {
                     match(input,NAME,FOLLOW_NAME_in_eassagent130); 
 
@@ -267,7 +267,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:68:2: ABSTRACTION w= word
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:68:2: ABSTRACTION w= word
                     {
                     match(input,ABSTRACTION,FOLLOW_ABSTRACTION_in_eassagent141); 
 
@@ -287,7 +287,7 @@ public class EASSParser extends Parser {
 
             match(input,BELIEFS,FOLLOW_BELIEFS_in_eassagent157); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:70:10: (l= literal )*
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:70:10: (l= literal )*
             loop3:
             do {
                 int alt3=2;
@@ -300,7 +300,7 @@ public class EASSParser extends Parser {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:70:11: l= literal
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:70:11: l= literal
             	    {
             	    pushFollow(FOLLOW_literal_in_eassagent162);
             	    l=literal();
@@ -319,7 +319,7 @@ public class EASSParser extends Parser {
             } while (true);
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:71:2: ( BELIEFRULES (r= brule )* )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:2: ( BELIEFRULES (r= brule )* )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -328,11 +328,11 @@ public class EASSParser extends Parser {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:71:3: BELIEFRULES (r= brule )*
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:3: BELIEFRULES (r= brule )*
                     {
                     match(input,BELIEFRULES,FOLLOW_BELIEFRULES_in_eassagent170); 
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:71:15: (r= brule )*
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:15: (r= brule )*
                     loop4:
                     do {
                         int alt4=2;
@@ -345,7 +345,7 @@ public class EASSParser extends Parser {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:71:16: r= brule
+                    	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:16: r= brule
                     	    {
                     	    pushFollow(FOLLOW_brule_in_eassagent175);
                     	    r=brule();
@@ -372,7 +372,7 @@ public class EASSParser extends Parser {
 
             match(input,GOALS,FOLLOW_GOALS_in_eassagent184); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:72:8: (gl= goal )*
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:8: (gl= goal )*
             loop6:
             do {
                 int alt6=2;
@@ -385,7 +385,7 @@ public class EASSParser extends Parser {
 
                 switch (alt6) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:72:9: gl= goal
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:9: gl= goal
             	    {
             	    pushFollow(FOLLOW_goal_in_eassagent189);
             	    gl=goal();
@@ -406,7 +406,7 @@ public class EASSParser extends Parser {
 
             match(input,PLANS,FOLLOW_PLANS_in_eassagent196); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:73:8: (p= plan )*
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:73:8: (p= plan )*
             loop7:
             do {
                 int alt7=2;
@@ -419,7 +419,7 @@ public class EASSParser extends Parser {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:73:9: p= plan
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:73:9: p= plan
             	    {
             	    pushFollow(FOLLOW_plan_in_eassagent201);
             	    p=plan();
@@ -456,7 +456,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "goal"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:76:1: goal returns [Abstract_Goal g] : l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:76:1: goal returns [Abstract_Goal g] : l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE ;
     public final Abstract_Goal goal() throws RecognitionException {
         Abstract_Goal g = null;
 
@@ -465,8 +465,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:76:32: (l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:76:34: l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:76:32: (l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:76:34: l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE
             {
             pushFollow(FOLLOW_literal_in_goal221);
             l=literal();
@@ -476,7 +476,7 @@ public class EASSParser extends Parser {
 
             match(input,SQOPEN,FOLLOW_SQOPEN_in_goal223); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:76:51: ( ACHIEVEGOAL | PERFORMGOAL )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:76:51: ( ACHIEVEGOAL | PERFORMGOAL )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -495,7 +495,7 @@ public class EASSParser extends Parser {
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:76:52: ACHIEVEGOAL
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:76:52: ACHIEVEGOAL
                     {
                     match(input,ACHIEVEGOAL,FOLLOW_ACHIEVEGOAL_in_goal226); 
 
@@ -504,7 +504,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:77:2: PERFORMGOAL
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:2: PERFORMGOAL
                     {
                     match(input,PERFORMGOAL,FOLLOW_PERFORMGOAL_in_goal234); 
 
@@ -536,7 +536,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "plan"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:80:1: plan returns [Abstract_GPlan p] : e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:80:1: plan returns [Abstract_GPlan p] : e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI ;
     public final Abstract_GPlan plan() throws RecognitionException {
         Abstract_GPlan p = null;
 
@@ -549,8 +549,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:81:2: (e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:81:4: e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:2: (e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:4: e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )? SEMI
             {
             pushFollow(FOLLOW_event_in_plan255);
             e=event();
@@ -566,7 +566,7 @@ public class EASSParser extends Parser {
 
             boolean gneg=true;
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:82:40: ( NOT )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:82:40: ( NOT )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -575,7 +575,7 @@ public class EASSParser extends Parser {
             }
             switch (alt9) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:82:41: NOT
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:82:41: NOT
                     {
                     match(input,NOT,FOLLOW_NOT_in_plan270); 
 
@@ -595,7 +595,7 @@ public class EASSParser extends Parser {
 
             g.add(gb, gneg);
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:3: ( COMMA ( NOT )? gb= guard_atom )*
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:3: ( COMMA ( NOT )? gb= guard_atom )*
             loop11:
             do {
                 int alt11=2;
@@ -608,13 +608,13 @@ public class EASSParser extends Parser {
 
                 switch (alt11) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:4: COMMA ( NOT )? gb= guard_atom
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:4: COMMA ( NOT )? gb= guard_atom
             	    {
             	    match(input,COMMA,FOLLOW_COMMA_in_plan286); 
 
             	    gneg=true;
 
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:23: ( NOT )?
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:23: ( NOT )?
             	    int alt10=2;
             	    int LA10_0 = input.LA(1);
 
@@ -623,7 +623,7 @@ public class EASSParser extends Parser {
             	    }
             	    switch (alt10) {
             	        case 1 :
-            	            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:24: NOT
+            	            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:24: NOT
             	            {
             	            match(input,NOT,FOLLOW_NOT_in_plan291); 
 
@@ -654,7 +654,7 @@ public class EASSParser extends Parser {
 
             match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_plan305); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:93: ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:93: ( RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )* )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -663,7 +663,7 @@ public class EASSParser extends Parser {
             }
             switch (alt13) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:83:94: RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )*
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:83:94: RULEARROW d= deed[deeds] ( ',' d= deed[deeds] )*
                     {
                     match(input,RULEARROW,FOLLOW_RULEARROW_in_plan308); 
 
@@ -675,7 +675,7 @@ public class EASSParser extends Parser {
 
                     deeds.add(d);
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:84:35: ( ',' d= deed[deeds] )*
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:84:35: ( ',' d= deed[deeds] )*
                     loop12:
                     do {
                         int alt12=2;
@@ -688,7 +688,7 @@ public class EASSParser extends Parser {
 
                         switch (alt12) {
                     	case 1 :
-                    	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:84:36: ',' d= deed[deeds]
+                    	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:84:36: ',' d= deed[deeds]
                     	    {
                     	    match(input,COMMA,FOLLOW_COMMA_in_plan319); 
 
@@ -737,7 +737,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "event"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:1: event returns [Abstract_Event e] : ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:1: event returns [Abstract_Event e] : ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) ;
     public final Abstract_Event event() throws RecognitionException {
         Abstract_Event e = null;
 
@@ -752,10 +752,10 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:34: ( ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:36: ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:34: ( ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:36: ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:36: ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:36: ( PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -774,11 +774,11 @@ public class EASSParser extends Parser {
             }
             switch (alt17) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:37: PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:37: PLUS ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) )
                     {
                     match(input,PLUS,FOLLOW_PLUS_in_event350); 
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:42: ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:42: ( RECEIVED OPEN p= performative ',' t= pred ')' | (l= literal | SHRIEK g= goal ) )
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
@@ -797,7 +797,7 @@ public class EASSParser extends Parser {
                     }
                     switch (alt15) {
                         case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:87:43: RECEIVED OPEN p= performative ',' t= pred ')'
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:43: RECEIVED OPEN p= performative ',' t= pred ')'
                             {
                             match(input,RECEIVED,FOLLOW_RECEIVED_in_event353); 
 
@@ -826,9 +826,9 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:91:5: (l= literal | SHRIEK g= goal )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:91:5: (l= literal | SHRIEK g= goal )
                             {
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:91:5: (l= literal | SHRIEK g= goal )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:91:5: (l= literal | SHRIEK g= goal )
                             int alt14=2;
                             int LA14_0 = input.LA(1);
 
@@ -847,7 +847,7 @@ public class EASSParser extends Parser {
                             }
                             switch (alt14) {
                                 case 1 :
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:91:6: l= literal
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:91:6: l= literal
                                     {
                                     pushFollow(FOLLOW_literal_in_event385);
                                     l=literal();
@@ -860,7 +860,7 @@ public class EASSParser extends Parser {
                                     }
                                     break;
                                 case 2 :
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:92:5: SHRIEK g= goal
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:92:5: SHRIEK g= goal
                                     {
                                     match(input,SHRIEK,FOLLOW_SHRIEK_in_event395); 
 
@@ -887,11 +887,11 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:93:7: MINUS (l= literal | SHRIEK g= goal )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:7: MINUS (l= literal | SHRIEK g= goal )
                     {
                     match(input,MINUS,FOLLOW_MINUS_in_event413); 
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:93:13: (l= literal | SHRIEK g= goal )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:13: (l= literal | SHRIEK g= goal )
                     int alt16=2;
                     int LA16_0 = input.LA(1);
 
@@ -910,7 +910,7 @@ public class EASSParser extends Parser {
                     }
                     switch (alt16) {
                         case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:93:14: l= literal
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:14: l= literal
                             {
                             pushFollow(FOLLOW_literal_in_event418);
                             l=literal();
@@ -923,7 +923,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:94:5: SHRIEK g= goal
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:94:5: SHRIEK g= goal
                             {
                             match(input,SHRIEK,FOLLOW_SHRIEK_in_event428); 
 
@@ -965,7 +965,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "guard_atom"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:96:1: guard_atom returns [Abstract_GuardAtom g] : ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:96:1: guard_atom returns [Abstract_GuardAtom g] : ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) ;
     public final Abstract_GuardAtom guard_atom() throws RecognitionException {
         Abstract_GuardAtom g = null;
 
@@ -986,10 +986,10 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:96:43: ( ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:96:45: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:96:43: ( ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:96:45: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:96:45: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:96:45: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
             int alt19=5;
             switch ( input.LA(1) ) {
             case BELIEVE:
@@ -1030,7 +1030,7 @@ public class EASSParser extends Parser {
 
             switch (alt19) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:96:46: BELIEVE l= literal
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:96:46: BELIEVE l= literal
                     {
                     match(input,BELIEVE,FOLLOW_BELIEVE_in_guard_atom453); 
 
@@ -1045,7 +1045,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:97:5: GOAL gl= goal
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:97:5: GOAL gl= goal
                     {
                     match(input,GOAL,FOLLOW_GOAL_in_guard_atom467); 
 
@@ -1060,7 +1060,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:98:5: SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:98:5: SENT OPEN an1= literal COMMA (an2= literal COMMA )? p= performative COMMA t= pred CLOSE
                     {
                     match(input,SENT,FOLLOW_SENT_in_guard_atom481); 
 
@@ -1076,7 +1076,7 @@ public class EASSParser extends Parser {
 
                     Abstract_Literal agn = agentname;
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:98:69: (an2= literal COMMA )?
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:98:69: (an2= literal COMMA )?
                     int alt18=2;
                     int LA18_0 = input.LA(1);
 
@@ -1085,7 +1085,7 @@ public class EASSParser extends Parser {
                     }
                     switch (alt18) {
                         case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:98:70: an2= literal COMMA
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:98:70: an2= literal COMMA
                             {
                             pushFollow(FOLLOW_literal_in_guard_atom496);
                             an2=literal();
@@ -1125,7 +1125,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:102:5: eq= equation
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:5: eq= equation
                     {
                     pushFollow(FOLLOW_equation_in_guard_atom540);
                     eq=equation();
@@ -1138,7 +1138,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:103:5: TRUE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:103:5: TRUE
                     {
                     match(input,TRUE,FOLLOW_TRUE_in_guard_atom550); 
 
@@ -1168,7 +1168,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "deed"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:1: deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:1: deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor ) ;
     public final Abstract_Deed deed(ArrayList<Abstract_Deed> ds) throws RecognitionException {
         Abstract_Deed d = null;
 
@@ -1189,10 +1189,10 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:61: ( ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:61: ( ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor )
             int alt24=2;
             int LA24_0 = input.LA(1);
 
@@ -1211,9 +1211,9 @@ public class EASSParser extends Parser {
             }
             switch (alt24) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
                     {
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
                     int alt23=6;
                     switch ( input.LA(1) ) {
                     case PLUS:
@@ -1279,9 +1279,9 @@ public class EASSParser extends Parser {
 
                     switch (alt23) {
                         case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) )
                             {
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | LOCK ) )
                             int alt22=2;
                             int LA22_0 = input.LA(1);
 
@@ -1300,11 +1300,11 @@ public class EASSParser extends Parser {
                             }
                             switch (alt22) {
                                 case 1 :
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:66: PLUS (l= literal | SHRIEK g= goal | LOCK )
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:66: PLUS (l= literal | SHRIEK g= goal | LOCK )
                                     {
                                     match(input,PLUS,FOLLOW_PLUS_in_deed574); 
 
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:71: (l= literal | SHRIEK g= goal | LOCK )
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:71: (l= literal | SHRIEK g= goal | LOCK )
                                     int alt20=3;
                                     switch ( input.LA(1) ) {
                                     case CONST:
@@ -1335,7 +1335,7 @@ public class EASSParser extends Parser {
 
                                     switch (alt20) {
                                         case 1 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:105:72: l= literal
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:105:72: l= literal
                                             {
                                             pushFollow(FOLLOW_literal_in_deed579);
                                             l=literal();
@@ -1348,7 +1348,7 @@ public class EASSParser extends Parser {
                                             }
                                             break;
                                         case 2 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:106:5: SHRIEK g= goal
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:106:5: SHRIEK g= goal
                                             {
                                             match(input,SHRIEK,FOLLOW_SHRIEK_in_deed589); 
 
@@ -1363,7 +1363,7 @@ public class EASSParser extends Parser {
                                             }
                                             break;
                                         case 3 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:107:5: LOCK
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:107:5: LOCK
                                             {
                                             match(input,LOCK,FOLLOW_LOCK_in_deed603); 
 
@@ -1378,11 +1378,11 @@ public class EASSParser extends Parser {
                                     }
                                     break;
                                 case 2 :
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:108:7: MINUS (l= literal | SHRIEK g= goal | LOCK )
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:108:7: MINUS (l= literal | SHRIEK g= goal | LOCK )
                                     {
                                     match(input,MINUS,FOLLOW_MINUS_in_deed616); 
 
-                                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:108:13: (l= literal | SHRIEK g= goal | LOCK )
+                                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:108:13: (l= literal | SHRIEK g= goal | LOCK )
                                     int alt21=3;
                                     switch ( input.LA(1) ) {
                                     case CONST:
@@ -1413,7 +1413,7 @@ public class EASSParser extends Parser {
 
                                     switch (alt21) {
                                         case 1 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:108:14: l= literal
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:108:14: l= literal
                                             {
                                             pushFollow(FOLLOW_literal_in_deed621);
                                             l=literal();
@@ -1426,7 +1426,7 @@ public class EASSParser extends Parser {
                                             }
                                             break;
                                         case 2 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:109:5: SHRIEK g= goal
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:109:5: SHRIEK g= goal
                                             {
                                             match(input,SHRIEK,FOLLOW_SHRIEK_in_deed631); 
 
@@ -1441,7 +1441,7 @@ public class EASSParser extends Parser {
                                             }
                                             break;
                                         case 3 :
-                                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:110:5: LOCK
+                                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:110:5: LOCK
                                             {
                                             match(input,LOCK,FOLLOW_LOCK_in_deed645); 
 
@@ -1462,12 +1462,12 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:112:5: UPDATE (l= literal )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:112:5: UPDATE (l= literal )
                             {
                             match(input,UPDATE,FOLLOW_UPDATE_in_deed662); 
 
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:112:12: (l= literal )
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:112:13: l= literal
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:112:12: (l= literal )
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:112:13: l= literal
                             {
                             pushFollow(FOLLOW_literal_in_deed667);
                             l=literal();
@@ -1483,7 +1483,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 3 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:113:5: CALCULATE c= calculation[ds]
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:113:5: CALCULATE c= calculation[ds]
                             {
                             match(input,CALCULATE,FOLLOW_CALCULATE_in_deed678); 
 
@@ -1498,7 +1498,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 4 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:114:5: QUERYCOM q= query[ds]
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:114:5: QUERYCOM q= query[ds]
                             {
                             match(input,QUERYCOM,FOLLOW_QUERYCOM_in_deed693); 
 
@@ -1513,7 +1513,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 5 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:115:5: WAIT w= wait[ds]
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:115:5: WAIT w= wait[ds]
                             {
                             match(input,WAIT,FOLLOW_WAIT_in_deed708); 
 
@@ -1528,7 +1528,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 6 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:116:5: a= action
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:5: a= action
                             {
                             pushFollow(FOLLOW_action_in_deed725);
                             a=action();
@@ -1547,7 +1547,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:117:5: wf= waitfor
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:117:5: wf= waitfor
                     {
                     pushFollow(FOLLOW_waitfor_in_deed738);
                     wf=waitfor();
@@ -1581,7 +1581,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "calculation"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:121:1: calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal COMMA v= var CLOSE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:121:1: calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal COMMA v= var CLOSE ;
     public final Abstract_Deed calculation(ArrayList<Abstract_Deed> ds) throws RecognitionException {
         Abstract_Deed d = null;
 
@@ -1592,8 +1592,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:121:68: ( OPEN l1= literal COMMA v= var CLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:121:70: OPEN l1= literal COMMA v= var CLOSE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:121:68: ( OPEN l1= literal COMMA v= var CLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:121:70: OPEN l1= literal COMMA v= var CLOSE
             {
             match(input,OPEN,FOLLOW_OPEN_in_calculation768); 
 
@@ -1635,7 +1635,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "query"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:126:1: query[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal CLOSE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:126:1: query[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal CLOSE ;
     public final Abstract_Deed query(ArrayList<Abstract_Deed> ds) throws RecognitionException {
         Abstract_Deed d = null;
 
@@ -1644,8 +1644,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:126:62: ( OPEN l1= literal CLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:126:64: OPEN l1= literal CLOSE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:126:62: ( OPEN l1= literal CLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:126:64: OPEN l1= literal CLOSE
             {
             match(input,OPEN,FOLLOW_OPEN_in_query800); 
 
@@ -1679,7 +1679,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "wait"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:131:1: wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= term COMMA l2= literal CLOSE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:131:1: wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= term COMMA l2= literal CLOSE ;
     public final Abstract_Deed wait(ArrayList<Abstract_Deed> ds) throws RecognitionException {
         Abstract_Deed d = null;
 
@@ -1690,8 +1690,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:131:61: ( OPEN l1= term COMMA l2= literal CLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:131:63: OPEN l1= term COMMA l2= literal CLOSE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:131:61: ( OPEN l1= term COMMA l2= literal CLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:131:63: OPEN l1= term COMMA l2= literal CLOSE
             {
             match(input,OPEN,FOLLOW_OPEN_in_wait827); 
 
@@ -1733,7 +1733,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "brule"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:1: brule returns [Abstract_Rule r] : head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:1: brule returns [Abstract_Rule r] : head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
     public final Abstract_Rule brule() throws RecognitionException {
         Abstract_Rule r = null;
 
@@ -1744,8 +1744,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:33: (head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:35: head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:33: (head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:35: head= guard_atom ( BRULEARROW f= logicalfmla SEMI | SEMI )
             {
             pushFollow(FOLLOW_guard_atom_in_brule863);
             head=guard_atom();
@@ -1753,7 +1753,7 @@ public class EASSParser extends Parser {
             state._fsp--;
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:51: ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:51: ( BRULEARROW f= logicalfmla SEMI | SEMI )
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -1772,7 +1772,7 @@ public class EASSParser extends Parser {
             }
             switch (alt25) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:52: BRULEARROW f= logicalfmla SEMI
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:52: BRULEARROW f= logicalfmla SEMI
                     {
                     match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule866); 
 
@@ -1789,7 +1789,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:136:125: SEMI
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:136:125: SEMI
                     {
                     match(input,SEMI,FOLLOW_SEMI_in_brule878); 
 
@@ -1819,7 +1819,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "logicalfmla"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:138:1: logicalfmla returns [Abstract_LogicalFormula f] : (n= notfmla |a= andfmla );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:138:1: logicalfmla returns [Abstract_LogicalFormula f] : (n= notfmla |a= andfmla );
     public final Abstract_LogicalFormula logicalfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
@@ -1830,7 +1830,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:138:49: (n= notfmla |a= andfmla )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:138:49: (n= notfmla |a= andfmla )
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -1849,7 +1849,7 @@ public class EASSParser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:138:51: n= notfmla
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:138:51: n= notfmla
                     {
                     pushFollow(FOLLOW_notfmla_in_logicalfmla895);
                     n=notfmla();
@@ -1862,7 +1862,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:138:75: a= andfmla
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:138:75: a= andfmla
                     {
                     pushFollow(FOLLOW_andfmla_in_logicalfmla902);
                     a=andfmla();
@@ -1892,7 +1892,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "notfmla"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:139:1: notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf= logicalfmla CLOSE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:139:1: notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf= logicalfmla CLOSE ;
     public final Abstract_LogicalFormula notfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
@@ -1901,8 +1901,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:139:45: ( NOT OPEN lf= logicalfmla CLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:139:47: NOT OPEN lf= logicalfmla CLOSE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:139:45: ( NOT OPEN lf= logicalfmla CLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:139:47: NOT OPEN lf= logicalfmla CLOSE
             {
             match(input,NOT,FOLLOW_NOT_in_notfmla915); 
 
@@ -1936,7 +1936,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "andfmla"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:140:1: andfmla returns [Abstract_LogicalFormula f] : gb= guard_atom ( COMMA and= logicalfmla )? ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:140:1: andfmla returns [Abstract_LogicalFormula f] : gb= guard_atom ( COMMA and= logicalfmla )? ;
     public final Abstract_LogicalFormula andfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
@@ -1947,8 +1947,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:140:45: (gb= guard_atom ( COMMA and= logicalfmla )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:140:47: gb= guard_atom ( COMMA and= logicalfmla )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:140:45: (gb= guard_atom ( COMMA and= logicalfmla )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:140:47: gb= guard_atom ( COMMA and= logicalfmla )?
             {
             pushFollow(FOLLOW_guard_atom_in_andfmla942);
             gb=guard_atom();
@@ -1958,7 +1958,7 @@ public class EASSParser extends Parser {
 
             f = gb;
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:140:77: ( COMMA and= logicalfmla )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:140:77: ( COMMA and= logicalfmla )?
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -1967,7 +1967,7 @@ public class EASSParser extends Parser {
             }
             switch (alt27) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:140:78: COMMA and= logicalfmla
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:140:78: COMMA and= logicalfmla
                     {
                     match(input,COMMA,FOLLOW_COMMA_in_andfmla947); 
 
@@ -2003,7 +2003,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "waitfor"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:142:1: waitfor returns [Abstract_Literal wf] : MULT l= literal ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:1: waitfor returns [Abstract_Literal wf] : MULT l= literal ;
     public final Abstract_Literal waitfor() throws RecognitionException {
         Abstract_Literal wf = null;
 
@@ -2012,8 +2012,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:142:39: ( MULT l= literal )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:142:42: MULT l= literal
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:39: ( MULT l= literal )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:42: MULT l= literal
             {
             match(input,MULT,FOLLOW_MULT_in_waitfor969); 
 
@@ -2043,7 +2043,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "action"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:144:1: action returns [Abstract_Action a] : ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:144:1: action returns [Abstract_Action a] : ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred );
     public final Abstract_Action action() throws RecognitionException {
         Abstract_Action a = null;
 
@@ -2062,7 +2062,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:144:36: ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:144:36: ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred )
             int alt28=3;
             switch ( input.LA(1) ) {
             case MINUS:
@@ -2111,10 +2111,10 @@ public class EASSParser extends Parser {
 
             switch (alt28) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:145:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:145:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
                     {
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:145:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:145:3: a1= atom PLUS a2= atom EQ_ASSGN v= var
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:145:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:145:3: a1= atom PLUS a2= atom EQ_ASSGN v= var
                     {
                     pushFollow(FOLLOW_atom_in_action992);
                     a1=atom();
@@ -2146,10 +2146,10 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:146:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:146:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
                     {
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:146:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:146:3: SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:146:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:146:3: SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE
                     {
                     match(input,SEND,FOLLOW_SEND_in_action1013); 
 
@@ -2187,7 +2187,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:147:2: t= pred
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:147:2: t= pred
                     {
                     pushFollow(FOLLOW_pred_in_action1044);
                     t=pred();
@@ -2217,16 +2217,16 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "performative"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:1: performative returns [int b] : ( TELL | PERFORM | ACHIEVE ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:1: performative returns [int b] : ( TELL | PERFORM | ACHIEVE ) ;
     public final int performative() throws RecognitionException {
         int b = 0;
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:30: ( ( TELL | PERFORM | ACHIEVE ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:32: ( TELL | PERFORM | ACHIEVE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:30: ( ( TELL | PERFORM | ACHIEVE ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:32: ( TELL | PERFORM | ACHIEVE )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:32: ( TELL | PERFORM | ACHIEVE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:32: ( TELL | PERFORM | ACHIEVE )
             int alt29=3;
             switch ( input.LA(1) ) {
             case TELL:
@@ -2254,7 +2254,7 @@ public class EASSParser extends Parser {
 
             switch (alt29) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:33: TELL
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:33: TELL
                     {
                     match(input,TELL,FOLLOW_TELL_in_performative1059); 
 
@@ -2263,7 +2263,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:48: PERFORM
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:48: PERFORM
                     {
                     match(input,PERFORM,FOLLOW_PERFORM_in_performative1065); 
 
@@ -2272,7 +2272,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:149:66: ACHIEVE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:149:66: ACHIEVE
                     {
                     match(input,ACHIEVE,FOLLOW_ACHIEVE_in_performative1071); 
 
@@ -2302,7 +2302,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "environment"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:185:1: environment returns [String env] : w= classpath ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:1: environment returns [String env] : w= classpath ;
     public final String environment() throws RecognitionException {
         String env = null;
 
@@ -2311,8 +2311,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:185:34: (w= classpath )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:185:36: w= classpath
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:34: (w= classpath )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:36: w= classpath
             {
             pushFollow(FOLLOW_classpath_in_environment1320);
             w=classpath();
@@ -2340,7 +2340,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "classpath"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:186:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
     public final String classpath() throws RecognitionException {
         String s = null;
 
@@ -2351,8 +2351,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:186:30: (w= word ( POINT w1= word )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:186:32: w= word ( POINT w1= word )+
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:30: (w= word ( POINT w1= word )+ )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:32: w= word ( POINT w1= word )+
             {
             pushFollow(FOLLOW_word_in_classpath1335);
             w=word();
@@ -2362,7 +2362,7 @@ public class EASSParser extends Parser {
 
             s = w;
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:186:52: ( POINT w1= word )+
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:52: ( POINT w1= word )+
             int cnt30=0;
             loop30:
             do {
@@ -2376,7 +2376,7 @@ public class EASSParser extends Parser {
 
                 switch (alt30) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:186:53: POINT w1= word
+            	    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:53: POINT w1= word
             	    {
             	    match(input,POINT,FOLLOW_POINT_in_classpath1340); 
 
@@ -2419,7 +2419,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "word"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:1: word returns [String s] : ( CONST | VAR ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:1: word returns [String s] : ( CONST | VAR ) ;
     public final String word() throws RecognitionException {
         String s = null;
 
@@ -2428,10 +2428,10 @@ public class EASSParser extends Parser {
         Token VAR2=null;
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:25: ( ( CONST | VAR ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:27: ( CONST | VAR )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:25: ( ( CONST | VAR ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:27: ( CONST | VAR )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:27: ( CONST | VAR )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:27: ( CONST | VAR )
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -2450,7 +2450,7 @@ public class EASSParser extends Parser {
             }
             switch (alt31) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:28: CONST
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:28: CONST
                     {
                     CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word1445); 
 
@@ -2459,7 +2459,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:187:59: VAR
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:59: VAR
                     {
                     VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word1451); 
 
@@ -2489,7 +2489,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "agentnameterm"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:189:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
     public final Abstract_StringTerm agentnameterm() throws RecognitionException {
         Abstract_StringTerm s = null;
 
@@ -2499,7 +2499,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:189:47: ( CONST |v= var )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:47: ( CONST |v= var )
             int alt32=2;
             int LA32_0 = input.LA(1);
 
@@ -2518,7 +2518,7 @@ public class EASSParser extends Parser {
             }
             switch (alt32) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:189:49: CONST
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:49: CONST
                     {
                     CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1551); 
 
@@ -2527,7 +2527,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:189:111: v= var
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:111: v= var
                     {
                     pushFollow(FOLLOW_var_in_agentnameterm1559);
                     v=var();
@@ -2557,7 +2557,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "literal"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:192:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
     public final Abstract_Literal literal() throws RecognitionException {
         Abstract_Literal l = null;
 
@@ -2568,7 +2568,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:192:37: ( ( TRUE | NOT nt= pred ) |t= pred )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:37: ( ( TRUE | NOT nt= pred ) |t= pred )
             int alt34=2;
             int LA34_0 = input.LA(1);
 
@@ -2587,9 +2587,9 @@ public class EASSParser extends Parser {
             }
             switch (alt34) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:192:40: ( TRUE | NOT nt= pred )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:40: ( TRUE | NOT nt= pred )
                     {
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:192:40: ( TRUE | NOT nt= pred )
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:40: ( TRUE | NOT nt= pred )
                     int alt33=2;
                     int LA33_0 = input.LA(1);
 
@@ -2608,7 +2608,7 @@ public class EASSParser extends Parser {
                     }
                     switch (alt33) {
                         case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:192:41: TRUE
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:41: TRUE
                             {
                             match(input,TRUE,FOLLOW_TRUE_in_literal1575); 
 
@@ -2617,7 +2617,7 @@ public class EASSParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:193:5: NOT nt= pred
+                            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:5: NOT nt= pred
                             {
                             match(input,NOT,FOLLOW_NOT_in_literal1586); 
 
@@ -2641,7 +2641,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:197:5: t= pred
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:5: t= pred
                     {
                     pushFollow(FOLLOW_pred_in_literal1604);
                     t=pred();
@@ -2673,7 +2673,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "pred"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:201:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
     public final Abstract_Predicate pred() throws RecognitionException {
         Abstract_Predicate t = null;
 
@@ -2684,7 +2684,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:201:37: (v= var |f= function )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:37: (v= var |f= function )
             int alt35=2;
             int LA35_0 = input.LA(1);
 
@@ -2703,7 +2703,7 @@ public class EASSParser extends Parser {
             }
             switch (alt35) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:201:39: v= var
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:39: v= var
                     {
                     pushFollow(FOLLOW_var_in_pred1620);
                     v=var();
@@ -2716,7 +2716,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:201:59: f= function
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:59: f= function
                     {
                     pushFollow(FOLLOW_function_in_pred1627);
                     f=function();
@@ -2746,7 +2746,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "function"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:202:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
     public final Abstract_Predicate function() throws RecognitionException {
         Abstract_Predicate f = null;
 
@@ -2754,14 +2754,14 @@ public class EASSParser extends Parser {
         Token CONST4=null;
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:202:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:202:42: CONST ( OPEN terms[$f] CLOSE )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:40: ( CONST ( OPEN terms[$f] CLOSE )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:42: CONST ( OPEN terms[$f] CLOSE )?
             {
             CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1639); 
 
             f = new Abstract_Predicate(CONST4.getText());
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:202:97: ( OPEN terms[$f] CLOSE )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:97: ( OPEN terms[$f] CLOSE )?
             int alt36=2;
             int LA36_0 = input.LA(1);
 
@@ -2770,7 +2770,7 @@ public class EASSParser extends Parser {
             }
             switch (alt36) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:202:98: OPEN terms[$f] CLOSE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:98: OPEN terms[$f] CLOSE
                     {
                     match(input,OPEN,FOLLOW_OPEN_in_function1644); 
 
@@ -2806,14 +2806,14 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "terms"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:204:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
     public final void terms(Abstract_Predicate f) throws RecognitionException {
         Abstract_Term t =null;
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:204:29: (t= term ( COMMA terms[$f] )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:204:31: t= term ( COMMA terms[$f] )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:29: (t= term ( COMMA terms[$f] )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:31: t= term ( COMMA terms[$f] )?
             {
             pushFollow(FOLLOW_term_in_terms1662);
             t=term();
@@ -2823,7 +2823,7 @@ public class EASSParser extends Parser {
 
             f.addTerm(t);
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:204:58: ( COMMA terms[$f] )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:58: ( COMMA terms[$f] )?
             int alt37=2;
             int LA37_0 = input.LA(1);
 
@@ -2832,7 +2832,7 @@ public class EASSParser extends Parser {
             }
             switch (alt37) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:204:59: COMMA terms[$f]
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:59: COMMA terms[$f]
                     {
                     match(input,COMMA,FOLLOW_COMMA_in_terms1667); 
 
@@ -2866,7 +2866,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "term"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:205:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
     public final Abstract_Term term() throws RecognitionException {
         Abstract_Term t = null;
 
@@ -2879,7 +2879,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:205:31: (a= atom |s= stringterm |f= function )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:31: (a= atom |s= stringterm |f= function )
             int alt38=3;
             switch ( input.LA(1) ) {
             case MINUS:
@@ -2910,7 +2910,7 @@ public class EASSParser extends Parser {
 
             switch (alt38) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:205:34: a= atom
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:34: a= atom
                     {
                     pushFollow(FOLLOW_atom_in_term1688);
                     a=atom();
@@ -2923,7 +2923,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:205:58: s= stringterm
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:58: s= stringterm
                     {
                     pushFollow(FOLLOW_stringterm_in_term1698);
                     s=stringterm();
@@ -2936,7 +2936,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:205:88: f= function
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:88: f= function
                     {
                     pushFollow(FOLLOW_function_in_term1706);
                     f=function();
@@ -2966,7 +2966,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "atom"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:207:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
     public final Abstract_NumberTerm atom() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -2979,7 +2979,7 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:207:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
             int alt39=3;
             switch ( input.LA(1) ) {
             case MINUS:
@@ -3008,7 +3008,7 @@ public class EASSParser extends Parser {
 
             switch (alt39) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:207:40: n= numberstring
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:40: n= numberstring
                     {
                     pushFollow(FOLLOW_numberstring_in_atom1724);
                     n=numberstring();
@@ -3021,7 +3021,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:208:6: v= var
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:208:6: v= var
                     {
                     pushFollow(FOLLOW_var_in_atom1737);
                     v=var();
@@ -3034,7 +3034,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:208:27: OPEN a= arithexpr CLOSE
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:208:27: OPEN a= arithexpr CLOSE
                     {
                     match(input,OPEN,FOLLOW_OPEN_in_atom1743); 
 
@@ -3068,7 +3068,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "stringterm"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:209:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
     public final Abstract_StringTerm stringterm() throws RecognitionException {
         Abstract_StringTerm s = null;
 
@@ -3076,8 +3076,8 @@ public class EASSParser extends Parser {
         Token STRING5=null;
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:209:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:209:46: DOUBLEQUOTE STRING DOUBLEQUOTE
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:46: DOUBLEQUOTE STRING DOUBLEQUOTE
             {
             match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1762); 
 
@@ -3105,7 +3105,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "var"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:211:1: var returns [Abstract_VarTerm v] : VAR ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:1: var returns [Abstract_VarTerm v] : VAR ;
     public final Abstract_VarTerm var() throws RecognitionException {
         Abstract_VarTerm v = null;
 
@@ -3113,8 +3113,8 @@ public class EASSParser extends Parser {
         Token VAR6=null;
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:211:34: ( VAR )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:211:36: VAR
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:34: ( VAR )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:36: VAR
             {
             VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1781); 
 
@@ -3145,7 +3145,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "numberstring"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
     public final String numberstring() throws RecognitionException {
         String s = null;
 
@@ -3154,12 +3154,12 @@ public class EASSParser extends Parser {
         Token n2=null;
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
             {
             s = "";
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:46: ( MINUS )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:46: ( MINUS )?
             int alt40=2;
             int LA40_0 = input.LA(1);
 
@@ -3168,7 +3168,7 @@ public class EASSParser extends Parser {
             }
             switch (alt40) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:47: MINUS
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:47: MINUS
                     {
                     match(input,MINUS,FOLLOW_MINUS_in_numberstring1798); 
 
@@ -3180,14 +3180,14 @@ public class EASSParser extends Parser {
             }
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:220:69: n1= NUMBER ( POINT n2= NUMBER )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:68: (n1= NUMBER ( POINT n2= NUMBER )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:220:69: n1= NUMBER ( POINT n2= NUMBER )?
             {
             n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1807); 
 
             s += n1.getText();
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:221:6: ( POINT n2= NUMBER )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:221:6: ( POINT n2= NUMBER )?
             int alt41=2;
             int LA41_0 = input.LA(1);
 
@@ -3196,7 +3196,7 @@ public class EASSParser extends Parser {
             }
             switch (alt41) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:221:7: POINT n2= NUMBER
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:221:7: POINT n2= NUMBER
                     {
                     match(input,POINT,FOLLOW_POINT_in_numberstring1817); 
 
@@ -3233,7 +3233,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "equation"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:222:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
     public final Abstract_Equation equation() throws RecognitionException {
         Abstract_Equation eq = null;
 
@@ -3246,8 +3246,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:222:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:222:42: a1= arithexpr oper= eqoper a2= arithexpr
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:40: (a1= arithexpr oper= eqoper a2= arithexpr )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:42: a1= arithexpr oper= eqoper a2= arithexpr
             {
             pushFollow(FOLLOW_arithexpr_in_equation1840);
             a1=arithexpr();
@@ -3287,13 +3287,13 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "eqoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:223:1: eqoper returns [int oper] : ( LESS | EQ );
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:1: eqoper returns [int oper] : ( LESS | EQ );
     public final int eqoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:223:27: ( LESS | EQ )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:27: ( LESS | EQ )
             int alt42=2;
             int LA42_0 = input.LA(1);
 
@@ -3312,7 +3312,7 @@ public class EASSParser extends Parser {
             }
             switch (alt42) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:223:29: LESS
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:29: LESS
                     {
                     match(input,LESS,FOLLOW_LESS_in_eqoper1862); 
 
@@ -3321,7 +3321,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:223:68: EQ
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:68: EQ
                     {
                     match(input,EQ,FOLLOW_EQ_in_eqoper1868); 
 
@@ -3347,7 +3347,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "arithexpr"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:225:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:225:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
     public final Abstract_NumberTerm arithexpr() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -3360,8 +3360,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:225:43: (m= multexpr (oper= addoper m1= multexpr )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:225:45: m= multexpr (oper= addoper m1= multexpr )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:225:43: (m= multexpr (oper= addoper m1= multexpr )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:225:45: m= multexpr (oper= addoper m1= multexpr )?
             {
             pushFollow(FOLLOW_multexpr_in_arithexpr1884);
             m=multexpr();
@@ -3371,7 +3371,7 @@ public class EASSParser extends Parser {
 
             t = m;
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:225:69: (oper= addoper m1= multexpr )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:225:69: (oper= addoper m1= multexpr )?
             int alt43=2;
             int LA43_0 = input.LA(1);
 
@@ -3380,7 +3380,7 @@ public class EASSParser extends Parser {
             }
             switch (alt43) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:225:71: oper= addoper m1= multexpr
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:225:71: oper= addoper m1= multexpr
                     {
                     pushFollow(FOLLOW_addoper_in_arithexpr1892);
                     oper=addoper();
@@ -3420,7 +3420,7 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "multexpr"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:226:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
     public final Abstract_NumberTerm multexpr() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -3433,8 +3433,8 @@ public class EASSParser extends Parser {
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:226:42: (a= atom (oper= multoper a1= atom )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:226:44: a= atom (oper= multoper a1= atom )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:42: (a= atom (oper= multoper a1= atom )? )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:44: a= atom (oper= multoper a1= atom )?
             {
             pushFollow(FOLLOW_atom_in_multexpr1913);
             a=atom();
@@ -3444,7 +3444,7 @@ public class EASSParser extends Parser {
 
             t = a;
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:226:64: (oper= multoper a1= atom )?
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:64: (oper= multoper a1= atom )?
             int alt44=2;
             int LA44_0 = input.LA(1);
 
@@ -3453,7 +3453,7 @@ public class EASSParser extends Parser {
             }
             switch (alt44) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:226:65: oper= multoper a1= atom
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:65: oper= multoper a1= atom
                     {
                     pushFollow(FOLLOW_multoper_in_multexpr1920);
                     oper=multoper();
@@ -3493,16 +3493,16 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "addoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
     public final int addoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:28: ( ( PLUS | MINUS ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:30: ( PLUS | MINUS )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:28: ( ( PLUS | MINUS ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:30: ( PLUS | MINUS )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:30: ( PLUS | MINUS )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:30: ( PLUS | MINUS )
             int alt45=2;
             int LA45_0 = input.LA(1);
 
@@ -3521,7 +3521,7 @@ public class EASSParser extends Parser {
             }
             switch (alt45) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:31: PLUS
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:31: PLUS
                     {
                     match(input,PLUS,FOLLOW_PLUS_in_addoper1941); 
 
@@ -3530,7 +3530,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:228:70: MINUS
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:228:70: MINUS
                     {
                     match(input,MINUS,FOLLOW_MINUS_in_addoper1946); 
 
@@ -3560,16 +3560,16 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "multoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
+    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
     public final int multoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:29: ( ( MULT | DIV | MOD ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:31: ( MULT | DIV | MOD )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:29: ( ( MULT | DIV | MOD ) )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:31: ( MULT | DIV | MOD )
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:31: ( MULT | DIV | MOD )
+            // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:31: ( MULT | DIV | MOD )
             int alt46=3;
             switch ( input.LA(1) ) {
             case MULT:
@@ -3597,7 +3597,7 @@ public class EASSParser extends Parser {
 
             switch (alt46) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:32: MULT
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:32: MULT
                     {
                     match(input,MULT,FOLLOW_MULT_in_multoper1961); 
 
@@ -3606,7 +3606,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:73: DIV
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:73: DIV
                     {
                     match(input,DIV,FOLLOW_DIV_in_multoper1967); 
 
@@ -3615,7 +3615,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:229:111: MOD
+                    // /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:111: MOD
                     {
                     match(input,MOD,FOLLOW_MOD_in_multoper1973); 
 

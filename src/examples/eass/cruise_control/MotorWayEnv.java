@@ -30,11 +30,13 @@ import ail.syntax.Unifier;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
+import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import eass.mas.DefaultEASSEnvironment;
 
 import ajpf.util.AJPFLogger;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ArrayList;
@@ -43,12 +45,26 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();
 	double lane_change_time = 5;
+	int car_number = 0;
+	
+	// Miles per hour
+	int speed_limit = 70;
+	int number_lanes = 3;
 	
 	ArrayList<Car> cars = new ArrayList<Car>();
 	ArrayList<Exit> exits = new ArrayList<Exit>();
 	HashMap<Integer, Integer> cars_exits = new HashMap<Integer, Integer>();
 	HashMap<String, Car> agents_cars = new HashMap<String, Car>();
+	HashMap<Integer, ArrayList<Car>> lanes_cars = new HashMap<Integer, ArrayList<Car>>();
 
+	
+	public MotorWayEnv(int slimit, int num_lanes) {
+		this();
+		
+		speed_limit = slimit;
+		number_lanes = num_lanes;
+	}
+	
 	public MotorWayEnv() {
 		super();
 		RoundRobinScheduler s = new RoundRobinScheduler();
@@ -59,11 +75,32 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	}
 	
 	public void set_up_cars() {
+		Literal slimit = new Literal("speed_limit");
+		slimit.addTerm(new NumberTermImpl(speed_limit));
+		
+		Literal rightmost_lane = new Literal("rightmost_lane");
+		rightmost_lane.addTerm(new NumberTermImpl(number_lanes - 1));
+		
 		for (Car c: cars) {
 			calculate_next_exit(c);
 			agents_cars.put("abstraction_car" + c.getNumber(), c);
+			
+			addPercept("abstraction_car" + c.getNumber(), slimit);
+			addPercept("abstraction_car" + c.getNumber(), rightmost_lane);
 		}
 		
+	}
+	
+	public void set_up_lanes() {
+		for (int i = 0; i < number_lanes; i++) {
+			lanes_cars.put(i, new ArrayList<Car>());
+		}
+		for (Car c: cars) {
+			lanes_cars.get(c.getLane()).add(c);
+		}
+		for (int i = 0; i < number_lanes; i++) {
+			Collections.sort(lanes_cars.get(i));
+		}
 	}
 	
 	int runcounter = 0;
@@ -113,6 +150,30 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		
 	}
 	
+	public void calculate_next_in_lane(int lane, Car c) {
+		double pos = c.getPosition();
+		boolean car_in_lane = false;
+		for (Car lcar: lanes_cars.get(lane)) {
+			if (lcar.getPosition() > pos) {
+				Literal car_lane = new Literal("car");
+				car_lane.addTerm(new NumberTermImpl(lane));
+				car_lane.addTerm(new NumberTermImpl(lcar.getPosition() - pos));
+				c.addUniqueCarPercept("car", car_lane);
+				car_in_lane = true;
+				
+				break;
+			}
+		}
+		
+		if (!car_in_lane) {
+			Literal car_lane = new Literal("car");
+			car_lane.addTerm(new NumberTermImpl(lane));
+			car_lane.addTerm(new VarTerm("C"));
+			c.removeUnifiesCarPercept(car_lane);
+			
+		}
+	}
+	
 	public void calculate_next_exit(Car c) {
 		double pos = c.getPosition();
 		for (Exit e: exits) {
@@ -155,7 +216,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		} else if (act.getFunctor().equals("move_lane")) {
 			car.change_lane(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("brake")) {
-			car.change_acceleration(0 - ((NumberTerm) act.getTerm(0)).solve());
+			car.change_acceleration(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("accelerate")) {
 			car.change_acceleration(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("braking")) {
@@ -167,7 +228,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		return u;
 	}
 	
-	public class Car {
+	public class Car implements Comparable<Car>{
 		// feet
 		double position;
 		
@@ -176,8 +237,12 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		
 		// feet per second per second
 		double acceleration;
-		double min_acceleration;
+		double max_braking; // NB treated as negative acceleration
+		double min_braking; // also treated as negative acceleration.
 		double max_acceleration;
+		
+		double driver_prob;
+		double driver_bprob;
 		
 		int lane;
 		int old_lane = -2;
@@ -187,25 +252,45 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		
 		int ticks_until_lane_change = 0;
 		
-		public Car(double p, double v, double a, int l, int number, double min_acc, double max_acc) {
+		public Car(double p, double v, double a, int l, 
+				   double max_brake, double min_brake, double max_acc, int exit,
+				   double driver_acts, double driver_brakes) {
 			position = p;
 			velocity = v;
 			acceleration = a;
 			lane = l;
-			whichcar = number;
-			name = "car" + number;
-			min_acceleration = min_acc;
+			whichcar = car_number;
+			name = "car" + car_number;
+			car_number++;
+			max_braking = max_brake;
+			min_braking = min_brake;
 			max_acceleration = max_acc;
+			driver_prob = driver_acts;
+			driver_bprob = driver_brakes;
 			
 			
 			Literal lane = new Literal("lane");
 			lane.addTerm(new NumberTermImpl(l));
 			addPercept("abstraction_" + name, lane);
 			
+			Literal cexit = new Literal("chosen_exit");
+			cexit.addTerm(new NumberTermImpl(exit));
+			addPercept("abstraction_" + name, cexit);
+			
 		}
 		
 		public boolean isOnMotorway() {
 			return on_motorway;
+		}
+		
+		public int compareTo(Car c) {
+			if (c.getPosition() < getPosition()) {
+				return 1;
+			} else if (c.getPosition() > getPosition()) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 		
 		public void leaveMotorway() {
@@ -232,11 +317,18 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		 * one unit of time.
 		 */
 		public void update() {
-			position = position + velocity + 0.5*acceleration;
+			double pos_modifier = velocity + 0.5*acceleration;
+			if (pos_modifier < 0) {
+				pos_modifier = 0;
+			}
+			position = position + pos_modifier;
 			velocity = velocity + acceleration;
+			if (velocity < 0) {
+				velocity = 0;
+			}
 			
 			Literal speed = new Literal("speed");
-			speed.addTerm(new NumberTermImpl(velocity/5280));
+			speed.addTerm(new NumberTermImpl(velocity/88 * 60));
 			addUniquePercept("abstraction_" + name, speed);
 			
 			if (ticks_until_lane_change > 1) {
@@ -260,8 +352,54 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 				removePercept("abstraction_" + name, lane_change);
 				ticks_until_lane_change--;
 			}
+			
+			double driver = r.nextDouble();
+			if (driver < driver_prob ) {
+				double dbrakes = r.nextDouble();
+				
+				if (dbrakes < driver_bprob) {
+					double brake = r.nextDouble() * max_braking;
+					if (brake > min_braking) {
+						brake = min_braking;
+					}
+					
+					Literal driver_brakes = new Literal("brake_pedal");
+					driver_brakes.addTerm(new NumberTermImpl(brake));
+					addCarPercept(driver_brakes);
+					
+				} else {
+					double acc = r.nextDouble() * max_acceleration;
+					
+					Literal driver_acc = new Literal("acceleration_pedal");
+					driver_acc.addTerm(new NumberTermImpl(acc));
+					addCarPercept(driver_acc);
+				}
+			} else {
+				Literal driver_brakes = new Literal("brake_pedal");
+				driver_brakes.addTerm(new VarTerm("V"));
+				removeUnifiesCarPercept(driver_brakes);
+				Literal driver_acc = new Literal("acceleration_pedal");
+				driver_acc.addTerm(new VarTerm("V"));
+				removeUnifiesCarPercept(driver_acc);
+			}
 		}
 		
+		public void addCarPercept(Literal l) {
+			addPercept("abstraction_" + name, l);
+		}
+		
+		public void addUniqueCarPercept(String s, Literal l) {
+			addUniquePercept("abstraction_" + name, s, l);
+		}
+
+		public void removeCarPercept(Literal l) {
+			removePercept("abstraction_" + name, l);
+		}
+
+		public void removeUnifiesCarPercept(Literal l) {
+			removeUnifiesPercept("abstraction_" + name, l);
+		}
+
 		public double getPosition() {
 			return position;
 		}
@@ -288,10 +426,12 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		}
 		
 		public void change_acceleration(double a) {
-			if (a < min_acceleration) {
-				acceleration = min_acceleration;
+			if (a < max_braking) {
+				acceleration = max_braking;
 			} else if (a > max_acceleration) {
 				acceleration = max_acceleration;
+			} else if (a < 0 && a > min_braking) {
+				acceleration = min_braking;
 			} else {
 				acceleration = a;
 			}

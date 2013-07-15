@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
-// Lisitsa and Sandor M. Veres
+// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -23,25 +22,45 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.ThreeLaneMotorWay
+package eass;
 
-mas.agent.1.file = src/examples/eass/cruise_control/car.eass
-mas.agent.1.builder = eass.EASSAgentBuilder
-mas.agent.1.name = car0
-mas.agent.2.file = src/examples/eass/cruise_control/abstraction_car.eass
-mas.agent.2.builder = eass.EASSAgentBuilder
-mas.agent.2.name = abstraction_car0
-mas.agent.3.file = src/examples/eass/cruise_control/car.eass
-mas.agent.3.builder = eass.EASSAgentBuilder
-mas.agent.3.name = car1
-mas.agent.4.file = src/examples/eass/cruise_control/abstraction_car.eass
-mas.agent.4.builder = eass.EASSAgentBuilder
-mas.agent.4.name = abstraction_car1
+import eass.parser.EASSLexer;
+import eass.parser.EASSParser;
+import eass.syntax.ast.Abstract_EASSAgent;
+import eass.semantics.EASSAgent;
+import mcaplantlr.runtime.ANTLRFileStream;
+import mcaplantlr.runtime.CommonTokenStream;
+import ail.mas.AgentBuilder;
+import ail.semantics.AILAgent;
+import ail.mas.MAS;
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayEnv
-log.format = brief
+public class EASSAgentBuilder implements AgentBuilder {
+	EASSAgent agent;
+	
+	Abstract_EASSAgent abs_agent;
+	
+	public EASSAgentBuilder() {}
 
-# Eass Specific stuff
+	@Override
+	public AILAgent getAgent(String filename) {
+		parsefile(filename);
+		
+		agent = abs_agent.toMCAPL();
 
-connectedtomatlab = false
+		return agent;
+	}
+
+	
+	public void parsefile(String masstring) {
+		try {
+			EASSLexer lexer = new EASSLexer(new ANTLRFileStream(masstring));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			EASSParser parser = new EASSParser(tokens);
+    		abs_agent = parser.eassagent();
+     	} catch (Exception e) {
+     		e.printStackTrace();
+    	}
+		
+	}
+
+}

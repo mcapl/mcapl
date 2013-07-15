@@ -395,7 +395,36 @@ public class DefaultEnvironment implements AILEnv {
   		return false;
 	}
 	
+
   	/**
+  	 * Remove a percept that unifies with the one given.
+  	 * @param per
+  	 * @return
+  	 */
+	public boolean removeUnifiesPercept(String agName, Predicate per) {
+		boolean b = false;
+		Predicate rper = null;
+		if (per != null && agName != null) {
+			VerifySet<Predicate> agl = agPercepts.get(agName);
+			if (agl != null) {
+				uptodateAgs.remove(agName);
+				for (Predicate p: agl) {
+					if (p.unifies(per, new Unifier())) {
+						rper = p;
+					}
+				}
+				
+				if (rper != null) {
+					notifyListeners(agName);
+					b = agl.remove(rper);
+				}
+			return b;
+			}
+		} 
+		return false;
+	}
+
+	/**
   	 * Remove a percept that unifies with the one given.
   	 * @param per
   	 * @return

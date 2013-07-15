@@ -63,6 +63,22 @@ public class EASSAgent extends AILAgent {
 		
 	}
 	
+	public EASSAgent(String name) throws AILexception {
+		// first we create an AIL Agent.
+		super(name);
+		setTrackPlanUsage(false);
+		
+
+    // Then we construct Gwendolen's reasoning cycle, starting with
+		// an empty reasoning cycle.  See the GwendolenRC class for how
+		// to create a language specific reasoning cycle.  NB. this will
+		// change when we get the rules to return state change objects.
+		setReasoningCycle(new EASSRC());
+
+
+		
+	}
+
 	public void setAbstraction(String agname) {
 		isAbstraction = true;
 		abstraction_for = agname;
@@ -76,5 +92,11 @@ public class EASSAgent extends AILAgent {
 		return abstraction_for;
 	}
  
+	public void setAgName(String name) {
+		super.setAgName(name);
+		if (isAbstractionEngine()) {
+			abstraction_for = name.substring(12);
+		}
+	}
 
 }
