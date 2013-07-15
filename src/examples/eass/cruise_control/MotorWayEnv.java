@@ -37,13 +37,14 @@ import ajpf.util.AJPFLogger;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();
 	
-	Car[] cars = new Car[10];
-	Exit[] exits = new Exit[10];
+	ArrayList<Car> cars = new ArrayList<Car>();
+	ArrayList<Exit> exits = new ArrayList<Exit>();
 	HashMap<Integer, Integer> cars_exits = new HashMap<Integer, Integer>();
 	HashMap<String, Car> agents_cars = new HashMap<String, Car>();
 
@@ -58,9 +59,6 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	
 	public void set_up_cars() {
 		for (Car c: cars) {
-			if (c == null) {
-				break;
-			}
 			calculate_next_exit(c);
 			agents_cars.put("abstraction_car" + c.getNumber(), c);
 		}
@@ -78,7 +76,9 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		calculatesafety();
 		calculateexits();
 		
-		AJPFLogger.info(logname, "Car 1:" + cars[0].getLane() + " " + cars[0].getPosition());
+		for (Car c: cars) {
+			AJPFLogger.info(logname, c.toString());
+		}
 	}
 	
 	public void calculatesafety() {
@@ -173,6 +173,12 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 			
 			
 			
+		}
+		
+		public String toString() {
+			String s = "Car " + whichcar;
+			s += ": in lane " + lane + " " + " at " + position + " travelling at " + velocity + " with acceleration " + acceleration;
+			return s;
 		}
 		
 		/**

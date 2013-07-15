@@ -38,8 +38,8 @@ public class ThreeLaneMotorWay extends MotorWayEnv {
 
 	public ThreeLaneMotorWay() {
 		super();
-		cars[0] = car1;
-		exits[0] = exit1;
+		cars.add(car1);
+		exits.add(exit1);
 		set_up_cars();
 	}
 		
