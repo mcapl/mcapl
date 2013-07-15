@@ -106,7 +106,7 @@ public class DirectPerceptionwEvents implements OSRule {
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + l);
 					}
-					lit.setNegated(false);
+				//	lit.setNegated(false);
 					removed_percepts.add(lit);
 				} else {
 					percepts.remove(l);

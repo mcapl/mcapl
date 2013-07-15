@@ -42,6 +42,7 @@ import java.util.ArrayList;
 public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();
+	double lane_change_time = 5;
 	
 	ArrayList<Car> cars = new ArrayList<Car>();
 	ArrayList<Exit> exits = new ArrayList<Exit>();
@@ -65,19 +66,35 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		
 	}
 	
+	int runcounter = 0;
 	public void eachrun() {
+		if (runcounter == 0) {
+		boolean some_car_on_motorway = false;
 		for (Car c: cars) {
-			if (c == null) {
-				break;
+			if (c.isOnMotorway()) {
+				c.update();
+				some_car_on_motorway = true;
 			}
-			c.update();
+		}
+		
+		if (! some_car_on_motorway) {
+			setDone(true);
+			return;
 		}
 
 		calculatesafety();
 		calculateexits();
 		
 		for (Car c: cars) {
-			AJPFLogger.info(logname, c.toString());
+			if (c.isOnMotorway()) {
+				AJPFLogger.info(logname, c.toString());
+			}
+		}
+		}
+		
+		runcounter++;
+		if (runcounter > 5) {
+			runcounter = 0;
 		}
 	}
 	
@@ -89,10 +106,9 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	
 	public void calculateexits() {
 		for (Car c: cars) {
-			if (c == null) {
-				break;
+			if (c.isOnMotorway()) {
+				calculate_next_exit(c);
 			}
-			calculate_next_exit(c);
 		}
 		
 	}
@@ -117,7 +133,9 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 				cars_exits.put(c.getNumber(), e.getNumber());
 				Literal next_exit = new Literal("distance_to_next_exit");
 				next_exit.addTerm(new NumberTermImpl(e.getNumber()));
-				next_exit.addTerm(new NumberTermImpl(e.getStart() - c.getPosition()));
+				double distance_in_feet = e.getStart() - c.getPosition();
+				double distance_in_yards = distance_in_feet/3;
+				next_exit.addTerm(new NumberTermImpl(distance_in_yards));
 				addUniquePercept("abstraction_car" + c.getNumber(), "distance_to_next_exit", next_exit);
 				break;
 			}
@@ -128,34 +146,46 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		Unifier u = new Unifier();
 		u = super.executeAction(agName, act);
 		AJPFLogger.info(logname, "Agent " + agName + " doing " + act);
+		Car car = agents_cars.get(agName);
 		if (act.getFunctor().equals("move_onto_ramp")) {
+			car.leaveMotorway();
 			Literal exit_ramp = new Literal("on_exit_ramp");
-			exit_ramp.addTerm(new NumberTermImpl(cars_exits.get(agents_cars.get(agName).getNumber())));
+			exit_ramp.addTerm(new NumberTermImpl(cars_exits.get(car.getNumber())));
 			addPercept(agName, exit_ramp);
 		} else if (act.getFunctor().equals("move_lane")) {
-			agents_cars.get(agName).change_lane(((NumberTerm) act.getTerm(0)).solve());
+			car.change_lane(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("brake")) {
-			agents_cars.get(agName).change_acceleration(0 - ((NumberTerm) act.getTerm(0)).solve());
+			car.change_acceleration(0 - ((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("accelerate")) {
-			agents_cars.get(agName).change_acceleration(((NumberTerm) act.getTerm(0)).solve());
+			car.change_acceleration(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("braking")) {
-			agents_cars.get(agName).change_acceleration(0 - r.nextInt(10));
+			car.change_acceleration(0 - r.nextInt(10));
 		} else if (act.getFunctor().equals("accelerating")) {
-			agents_cars.get(agName).change_acceleration(r.nextInt(10));
-		}
+			car.change_acceleration(r.nextInt(10));
+		} 
 		notifyListeners();
 		return u;
 	}
 	
 	public class Car {
+		// feet
 		double position;
+		
+		// feet per second
 		double velocity;
+		
+		// feet per second per second
 		double acceleration;
 		double min_acceleration;
 		double max_acceleration;
+		
 		int lane;
+		int old_lane = -2;
 		int whichcar;
 		String name;
+		boolean on_motorway = true;
+		
+		int ticks_until_lane_change = 0;
 		
 		public Car(double p, double v, double a, int l, int number, double min_acc, double max_acc) {
 			position = p;
@@ -167,17 +197,33 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 			min_acceleration = min_acc;
 			max_acceleration = max_acc;
 			
+			
 			Literal lane = new Literal("lane");
 			lane.addTerm(new NumberTermImpl(l));
 			addPercept("abstraction_" + name, lane);
 			
-			
-			
+		}
+		
+		public boolean isOnMotorway() {
+			return on_motorway;
+		}
+		
+		public void leaveMotorway() {
+			lane = -1;
+			old_lane = 0;
+			ticks_until_lane_change = ((Double) lane_change_time).intValue();
 		}
 		
 		public String toString() {
 			String s = "Car " + whichcar;
-			s += ": in lane " + lane + " " + " at " + position + " travelling at " + velocity + " with acceleration " + acceleration;
+			s += ": in lane " + lane;
+			if (old_lane != -2 ) {
+				s += "/" + old_lane;
+			}
+			s += "\n";
+			s += "    at " + position/5280 + "miles \n";
+			s += "    travelling at " + (velocity/88 * 60) + "mph\n";
+			s += "    with acceleration " + acceleration + "ft/s^2";
 			return s;
 		}
 		
@@ -190,8 +236,30 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 			velocity = velocity + acceleration;
 			
 			Literal speed = new Literal("speed");
-			speed.addTerm(new NumberTermImpl(velocity));
-			addPercept("abstraction_" + name, speed);
+			speed.addTerm(new NumberTermImpl(velocity/5280));
+			addUniquePercept("abstraction_" + name, speed);
+			
+			if (ticks_until_lane_change > 1) {
+				ticks_until_lane_change--;				
+			} else if (ticks_until_lane_change == 1) {
+				if (old_lane == 0 & lane == -1) {
+					on_motorway = false;
+					Literal new_lane_lit = new Literal("lane");
+					new_lane_lit.addTerm(new NumberTermImpl(0));
+					removePercept("abstraction_" + name, new_lane_lit);
+					old_lane = -2;
+					
+				} else {
+					Literal old_l = new Literal("lane");
+					old_l.addTerm(new NumberTermImpl(old_lane));
+					removePercept("abstraction_" + name, old_l);
+					old_lane = -2;
+					
+				}
+				Literal lane_change = new Literal("changing_lane");
+				removePercept("abstraction_" + name, lane_change);
+				ticks_until_lane_change--;
+			}
 		}
 		
 		public double getPosition() {
@@ -207,13 +275,16 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 		}
 		
 		public void change_lane(double new_lane) {
-			Literal old_lane = new Literal("lane");
-			old_lane.addTerm(new NumberTermImpl(lane));
-			removePercept("abstraction_" + name, old_lane);
-			
 			Literal new_lane_lit = new Literal("lane");
 			new_lane_lit.addTerm(new NumberTermImpl(new_lane));
 			addPercept("abstraction_" + name, new_lane_lit);
+			
+			Literal lane_change = new Literal("changing_lane");
+			addPercept("abstraction_" + name, lane_change);
+			
+			old_lane = lane;
+			lane = ((Double) new_lane).intValue();
+			ticks_until_lane_change = ((Double) lane_change_time).intValue();
 		}
 		
 		public void change_acceleration(double a) {
@@ -228,6 +299,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	}
 	
 	public class Exit {
+		// All in feet
 		double position_start;
 		double position_end;
 		int number;

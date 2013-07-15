@@ -31,7 +31,9 @@ EASS
 
 rightmost_lane(2)
 chosen_exit(1)
-preferred_distance_to_exit(5)
+// yards
+preferred_distance_to_exit(300)
+// miles per hour
 speed_limit(70)
 
 :Initial Goals:
@@ -41,15 +43,20 @@ speed_limit(70)
 +.received(:tell, B): {True} <- +B;
 +.received(:perform, G): {True} <- +!G [perform];
 
-+lane(I) : {~I == 0, B rightmost_lane(K), ~I == K} <- remove_shared(in_rightmost_lane), remove_shared(in_leftmost_lane);
-+lane(0) : {True} <- remove_shared(in_rightmost_lane), assert_shared(in_leftmost_lane);
-+lane(I) : {B rightmost_lane(I)} <- remove_shared(in_leftmost_lane), assert_shared(in_rightmost_lane);
++lane(0) : {~B changing_lane} <- assert_shared(in_leftmost_lane);
++lane(I) : {~B changing_lane, B rightmost_lane(I)} <- assert_shared(in_rightmost_lane);
+-lane(0) : {B in_leftmost_lane} <- remove_shared(in_leftmost_lane);
+-lane(K) : {B rightmost_lane(K), B in_rightmost_lane} <- remove_shared(in_rightmost_lane);
+
+-changing_lane : {B lane(0)} <- assert_shared(in_leftmost_lane), assert_shared(changed_lane);
+-changing_lane : {B lane(K), B rightmost_lane(K)} <- assert_shred(in_rightmost_lane), assert_shared(changed_lane);
+-changing_lane : {True} <- assert_shared(changed_lane);
 
 +at_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(at_exit);
 -at_exit_ramp(I): {B chosen_exit(I)} <- remove_shared(at_exit);
 
 +on_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(leaving_at_chosen_exit);
-+distance_to_next_exit(E, X): {B chosen_exit(E), B preferred_distance_to_exit(N), X < N} <- assert_shared(chosen_exit_approaching);
++distance_to_next_exit(E, X): {B chosen_exit(E), B preferred_distance_to_exit(N), X < N, ~B chosen_exit_approaching} <- assert_shared(chosen_exit_approaching);
 
 +safe_in_lane: {~B safe} <- assert_shared(safe);
 +safe_in_right_lane : {~B safe_right} <- assert_shared(safe_right);
@@ -102,7 +109,7 @@ leaving_at_chosen_exit [achieve]
 +! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, ~B in_leftmost_lane} <- +!in_leftmost_lane [achieve];
 +! leaving_at_chosen_exit [achieve]: {~B chosen_exit_approaching} <- *chosen_exit_approaching;
 
-+! in_leftmost_lane [achieve]: {B safe_left} <- perf(change_left);
++! in_leftmost_lane [achieve]: {B safe_left} <- perf(change_left), *changed_lane, remove_shared(changed_lane);
 +! in_leftmost_lane [achieve]: {~B safe_left} <- *safe_left;
 
 +car_ahead_in_lane : {~B in_rightmost_lane, B safe_right} <- perf(change_right);

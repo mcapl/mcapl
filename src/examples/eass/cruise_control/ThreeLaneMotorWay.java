@@ -32,9 +32,9 @@ import ail.util.AILexception;
 public class ThreeLaneMotorWay extends MotorWayEnv {
 	String logname = "eass.cruise_control.ThreeLaneMotorWay";
 	
-	public Car car1 = new Car(0, 0, 1, 0, 0, -10, 10);
+	public Car car1 = new Car(0, 0, 1, 1, 0, -32, 14);
 	
-	public Exit exit1 = new Exit(10, 150, 1);
+	public Exit exit1 = new Exit(1000, 2000, 1);
 
 	public ThreeLaneMotorWay() {
 		super();
