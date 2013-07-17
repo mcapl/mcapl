@@ -613,7 +613,10 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @param g
 	 */
 	public void removeGoal(Goal g) {
-		gbmap.get(g.getGoalBase().getString()).remove(g);
+		GoalBase gb = gbmap.get(g.getGoalBase().getString());
+		if (gb != null) {
+			gb.remove(g);
+		}
 	}
 
      //--Plans

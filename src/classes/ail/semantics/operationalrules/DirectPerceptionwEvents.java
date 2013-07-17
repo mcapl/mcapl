@@ -115,7 +115,7 @@ public class DirectPerceptionwEvents implements OSRule {
 			// Add all the remaining perceptions (i.e., the new ones) as intentions.
 			boolean additions = false;
 			for (Predicate l: percepts) {
-				Literal k = (Literal) l.clone();
+				Literal k = new Literal(true, new PredicatewAnnotation(l.clone()));
 				additions = true;
 				a.addBel(k, AILAgent.refertopercept());
 				// Don't let new intention get dropped totally if things change.
