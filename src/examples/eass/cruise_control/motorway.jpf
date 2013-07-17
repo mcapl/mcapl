@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,32 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.cruise_control;
+@using = mcapl
 
-import ail.syntax.Action;
-import ail.syntax.Unifier;
-import ail.util.AILexception;
+target = ail.util.AJPF_w_AIL
+target_args =src/examples/eass/cruise_control/motorway_verification.ail,src/examples/eass/cruise_control/motorway.psl,1
 
+log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.MotorWayVerificationEnv,ajpf.MCAPLListener
 
-public class ThreeLaneMotorWay extends MotorWayEnv {
-	String logname = "eass.cruise_control.ThreeLaneMotorWay";
-	
-	// Car aide memoire
-	//public Car(double p, double v, double a, int lame, int id_number, 
-	//		   int exit,
-	//		   double driver_acts, double driver_brakes) {
-	public Car car1 = new Car(0, 0, 1, 1, 1, 0.1, 0.1);
-	public Car car2 = new Car(0, 0, 1, 0, 1, 0.1, 0.1);
-	
-	public Exit exit1 = new Exit(1000, 2000, 1);
+listener+=,.listener.ExecTracker
+et.print_insn=false
 
-	public ThreeLaneMotorWay() {
-		super(20, 3, -32, -1, 14);
-		cars.add(car1);
-		cars.add(car2);
-		exits.add(exit1);
-		set_up_cars();
-		set_up_lanes();
-	}
-		
-}
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+

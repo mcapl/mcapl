@@ -29,6 +29,7 @@
 
 // yards
 preferred_distance_to_exit(300)
+overtaking_at(200)
 
 :Initial Goals:
 
@@ -56,13 +57,15 @@ preferred_distance_to_exit(300)
 +safe_in_right_lane : {~B safe_right} <- assert_shared(safe_right);
 +safe_in_left_lane : {~B safe_left} <- assert_shared(safe_left);
 -safe_in_lane: {B safe} <- remove_shared(safe);
--safe_in_right_lane : {~B safe_right} <- remove_shared(safe_right);
--safe_in_left_lane : {~B safe_left} <- remove_shared(safe_left);
+-safe_in_right_lane : {B safe_right} <- remove_shared(safe_right);
+-safe_in_left_lane : {B safe_left} <- remove_shared(safe_left);
 
-+car(I) : {B lane(I)} <- assert_shared(car_ahead_in_lane);
--car(I) : {B lane(I)} <- remove_shared(car_ahead_in_lane);
-+car(I) : {B lane(J), J == I + 1} <- assert_shared(car_ahead_in_left_lane);
--car(I) : {B lane(J), J == I + 1} <- remove_shared(car_ahead_in_left_lane);
++car(D) : {B overtaking_at(K), ~B car_ahead_in_lane, D < K} <- assert_shared(car_ahead_in_lane);
++car(D) : {B overtaking_at(K), B car_ahead_in_lane, K < D} <- remove_shared(car_ahead_in_lane);
+-car(D): {B car_ahead_in_lane} <- remove_shared(car_ahead_in_lane);
++left_car(D) : {B overtaking_at(K), ~B car_ahead_in_left_lane, D < K} <- assert_shared(car_ahead_in_left_lane);
++left_car(D) : {B overtaking_at(K), B car_ahead_in_left_lane, K < D} <- remove_shared(car_ahead_in_left_lane);
+-left_car(D) : {B car_ahead_in_left_lane} <- remove_shared(car_ahead_in_left_lane);
 
 +speed(S) : {B speed_limit(Y), ~B above_speed_limit, Y < S} <- assert_shared(above_speed_limit);
 +speed(S) : {B speed_limit(Y), B above_speed_limit, S < Y} <- remove_shared(above_speed_limit);

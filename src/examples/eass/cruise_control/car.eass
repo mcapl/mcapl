@@ -41,10 +41,13 @@ leaving_at_chosen_exit [achieve]
 +! in_leftmost_lane [achieve]: {B safe_left} <- perf(change_left), *changed_lane, remove_shared(changed_lane);
 +! in_leftmost_lane [achieve]: {~B safe_left} <- *safe_left;
 
-+car_ahead_in_lane : {~B in_rightmost_lane, B safe_right} <- perf(change_right);
-+car_ahead_in_lane : {~B in_rightmost_lane, ~B safe_right} <- *safe_right, perf(change_right);
--car_ahead_in_left_lane : {~B in_leftmost_lane, B safe_left} <- perf(change_left);
--car_ahead_in_left_lane : {~B in_leftmost_lane, ~B safe_left} <- *safe_left, perf(change_left);
++car_ahead_in_lane : {~B in_rightmost_lane, ~B chosen_exit_approaching} <- -! in_leftmost_lane[achieve], +! overtake [perform];
+
++! overtake [perform] : {B safe_right, B car_ahead_in_lane} <- perf(change_right), *changed_lane, remove_shared(changed_lane);
++! overtake [perform] : {~B safe_right, B car_ahead_in_lane} <- *safe_right, +! overtake [perform];
++! overtake [perform] : {~B car_ahead_in_lane};
+-car_ahead_in_left_lane : {~B in_leftmost_lane, ~G in_leftmost_lane [achieve]} <- +! in_leftmost_lane [achieve];
+
 
 +above_speed_limit: {True} <- perf(maintain_speed);
 -safe: {True} <- perf(brake);
