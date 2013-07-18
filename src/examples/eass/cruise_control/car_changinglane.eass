@@ -31,21 +31,10 @@ moving_left
 
 :Initial Goals:
 
-leaving_at_chosen_exit [achieve]
 in_leftmost_lane [achieve]
 
+
 :Plans:
-
-// Leaving at exit
-+! leaving_at_chosen_exit [achieve]: {B at_exit, B in_leftmost_lane} <- perf(exit_motorway), *leaving_at_chosen_exit;
-+! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, ~B at_exit, in_leftmost_lane} <- *at_exit; 
-// +! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, ~B in_leftmost_lane, ~G in_leftmost_lane[achieve]} <- 
-// 	-! overtaking [achieve], 
-// 	+!in_leftmost_lane [achieve];
-// +! leaving_at_chosen_exit [achieve]: {B chosen_exit_approaching, ~B in_leftmost_lane, G in_leftmost_lane[achieve]} <-  
-// *in_leftmost_lane;
-// +! leaving_at_chosen_exit [achieve]: {~B chosen_exit_approaching} <- *chosen_exit_approaching;
-
 
 // Switching Context
 +! switch_overtake [perform] : {True} <- +.lock,-moving_left,+overtaking,-.lock;

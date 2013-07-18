@@ -32,6 +32,7 @@ import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 import eass.mas.DefaultEASSEnvironment;
@@ -71,6 +72,9 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 	boolean driver_accelerates_b = false;
 	boolean driver_brakes_b = false;
 	
+	boolean singlelane = false;
+	boolean overtaking = false;
+	
 	/**
 	 * Randomly determine the percepts received by the agent.
 	 */
@@ -78,34 +82,44 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 		lastAction = new Action("nothing");
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 
-		in_leftmost_lane_b = random.nextBoolean();
-		AJPFLogger.info(logname, "Random in_leftmost_lane " + in_leftmost_lane_b);
-	//	in_rightmost_lane_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random in_rightmost_lane " + in_rightmost_lane_b);
-		changed_lane_b = random.nextBoolean();
-		AJPFLogger.info(logname, "Random changed_lane " + changed_lane_b);
-	//	at_exit_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random at_exit " + at_exit_b);
-	//	leaving_at_chosen_exit_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random leaving_at_chosen_exit " + leaving_at_chosen_exit_b);
-	//	chosen_exit_approaching_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random chosen_exit_approaching " + chosen_exit_approaching_b);
-	//	safe_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random safe " + safe_b);
-	//	safe_right_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random safe_right " + safe_right_b);
-		safe_left_b = random.nextBoolean();
-		AJPFLogger.info(logname, "Random safe_left " + safe_left_b);
-		car_ahead_in_lane_b = random.nextBoolean();
-		AJPFLogger.info(logname, "Random car_ahead_in_lane " + car_ahead_in_lane_b);
-		car_ahead_in_left_lane_b = random.nextBoolean();
-		AJPFLogger.info(logname, "Random car_ahead_in_left_lane " + car_ahead_in_left_lane_b);
-	//	above_speed_limit_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random above_speed_limit " + above_speed_limit_b);
-	//	driver_accelerates_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b);
-	//	driver_brakes_b = random.nextBoolean();
-	//	AJPFLogger.info(logname, "Random driver_brakes " + driver_brakes_b);
+		if (change) {
+			if (! overtaking && ! singlelane ) {
+				at_exit_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random at_exit " + at_exit_b);
+				leaving_at_chosen_exit_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random leaving_at_chosen_exit " + leaving_at_chosen_exit_b);
+				chosen_exit_approaching_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random chosen_exit_approaching " + chosen_exit_approaching_b); 
+			}
+		
+			if (overtaking) {
+				in_leftmost_lane_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random in_leftmost_lane " + in_leftmost_lane_b);
+				in_rightmost_lane_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random in_righttmost_lane " + in_rightmost_lane_b);
+				changed_lane_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random changed_lane " + changed_lane_b);
+				safe_right_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random safe_right " + safe_right_b);
+				safe_left_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random safe_left " + safe_left_b);
+				car_ahead_in_lane_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random car_ahead_in_lane " + car_ahead_in_lane_b);
+				car_ahead_in_left_lane_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random car_ahead_in_left_lane " + car_ahead_in_left_lane_b); 
+			}
+		
+			if (singlelane) {
+			//	safe_b = random.nextBoolean(); 
+			//	AJPFLogger.info(logname, "Random safe " + safe_b);
+			//	above_speed_limit_b = random.nextBoolean();
+			//	AJPFLogger.info(logname, "Random above_speed_limit " + above_speed_limit_b); 
+			//	driver_accelerates_b = random.nextBoolean();
+			//	AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b); 
+				driver_brakes_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random driver_brakes " + driver_brakes_b);
+			}
+		}
 		
 		if (in_leftmost_lane_b) {
 			percepts.add(in_leftmost_lane);
@@ -145,7 +159,7 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 		
 		if (car_ahead_in_lane_b) {
 			percepts.add(car_ahead_in_lane);
-		}
+		} 
 		
 		if (car_ahead_in_left_lane_b) {
 			percepts.add(car_ahead_in_left_lane);
@@ -162,6 +176,7 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 		if (driver_brakes_b) {
 			percepts.add(driver_brakes);
 		}
+		
 
 		change = false;
 		return percepts;
@@ -187,7 +202,11 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
     	lastAgent = agName;
     	lastAction = act;
 	   	
-    	change = true;
+    	if (! act.getFunctor().equals("remove_shared")) {
+    		change = true;
+    	}
+    	
+    	System.err.println(agentmap.get(agName));
  	   		   	 
     	return theta;
     }
@@ -236,6 +255,18 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 	public boolean done() {
 		setDone(true);
 		return super.done();
+	}
+	
+	public void configure(AILConfig configuration) {
+		super.configure(configuration);
+		
+		if (configuration.containsKey("singlelane")) {
+			singlelane = Boolean.valueOf((String) configuration.get("singlelane"));
+		}
+		
+		if (configuration.containsKey("overtaking")) {
+			overtaking = Boolean.valueOf((String) configuration.get("overtaking"));
+		}
 	}
 
 }

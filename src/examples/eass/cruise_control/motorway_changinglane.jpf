@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,12 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (D(car0,perf(accelerate)) -> B(car0, safe))
+@using = mcapl
 
-sanity: [] (D(car0,perf(accelerate)) -> ~B(car0, safe))
+target = ail.util.AJPF_w_AIL
+target_args =src/examples/eass/cruise_control/motorway_verification_changinglane.ail,src/examples/eass/cruise_control/motorway.psl,2
 
-2: [] (D(car0,perf(accelerate)) -> B(car0, safe)) & 
-   [] (D(car0,perf(change_right)) -> B(car0, safe_right)) & 
-   [] (D(car0,perf(change_left)) -> B(car0, safe_leftt)) 
-   
-3: [] (~D(car0,perf(change_right)))
+log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.MotorWayVerificationEnv,ajpf.MCAPLListener,ajpf.product.Product
+#log.fine = ail.semantics.AILAgent
+listener+=,.listener.ExecTracker
+et.print_insn=false
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+

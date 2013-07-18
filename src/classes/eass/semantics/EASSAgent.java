@@ -26,9 +26,14 @@
 package eass.semantics;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
+import ail.syntax.Intention;
 
 
 /**
@@ -98,5 +103,51 @@ public class EASSAgent extends AILAgent {
 			abstraction_for = name.substring(12);
 		}
 	}
+	
+    /**
+     * Select an intention from a linked list of intentions.
+     * Privilege those which don't have actions at the top.
+     * 
+     * @param intentions
+     * @return the selected intention.
+     */
+    public Intention selectIntention(List<Intention> intentions) {
+        // make sure the selected Intention is removed from 'intentions'
+        // and make sure no intention will "starve"!!!
+    	Iterator<Intention> ii = intentions.iterator();
+    	ArrayList<Intention> iiprime = new ArrayList<Intention>();
+       	ArrayList<Intention> iiprimeaction = new ArrayList<Intention>();
+
+    	while (ii.hasNext()) {
+    		Intention ip = ii.next();
+    		// Need a more principled way to handle this with select intention
+    		if (!(ip == null) && (ip.empty() || ip.suspended() || ip.hdD().isAction())) {
+     			ii.remove();
+     			if (! ip.empty()) {
+     				if (ip.hdD().isAction()) {
+     					iiprimeaction.add(ip);
+     				} else {
+     					iiprime.add(ip);
+     				}
+     			}
+    		}
+    	}
+        
+    	Intention i;
+    	if (intentions.isEmpty()) {
+    		if (iiprimeaction.isEmpty()) {
+    			i = null;
+    		} else {
+    			i = iiprimeaction.remove(0);
+    		}
+    	} else {
+    		i = intentions.remove(0);
+    	}
+    	intentions.addAll(iiprimeaction);
+    	intentions.addAll(iiprime);
+
+    	return i;
+    }
+
 
 }

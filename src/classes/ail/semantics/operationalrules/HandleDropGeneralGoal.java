@@ -98,6 +98,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 		// Drop back to the earliest occurence of +!g.
 		if (flag) {
 			i.dropGoal(e2, thetae);
+			i.tlI();
 		} else {
 			// Otherwise explore other intention stacks
 			List<Intention> is = a.getIntentions();

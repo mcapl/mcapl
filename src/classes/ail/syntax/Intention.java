@@ -236,7 +236,7 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
-     * Unsuspend the intentio nif it's condition met by the changes in perception
+     * Unsuspend the intention if it's condition met by the changes in perception
      * @param newbeliefs
      * @param oldbeliefs
      */

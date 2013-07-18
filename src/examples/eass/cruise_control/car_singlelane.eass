@@ -22,12 +22,20 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (D(car0,perf(accelerate)) -> B(car0, safe))
 
-sanity: [] (D(car0,perf(accelerate)) -> ~B(car0, safe))
+:name: car
 
-2: [] (D(car0,perf(accelerate)) -> B(car0, safe)) & 
-   [] (D(car0,perf(change_right)) -> B(car0, safe_right)) & 
-   [] (D(car0,perf(change_left)) -> B(car0, safe_leftt)) 
-   
-3: [] (~D(car0,perf(change_right)))
+:Initial Beliefs:
+
+
+:Initial Goals:
+
+
+:Plans:
+
++above_speed_limit: {~B driver_accelerates, ~B driver_brakes, B safe, B above_speed_limit} <- perf(maintain_speed);
+-safe: {~B driver_brakes, ~B safe} <- perf(brake);
++safe: {~B above_speed_limit, ~B driver_accelerates, ~B driver_brakes, B safe} <- perf(accelerate);
+
++driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates} <- perf(accelerate);
++driver_brakes: {B driver_brakes} <- perf(brake);
