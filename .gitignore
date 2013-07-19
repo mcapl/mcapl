@@ -1,6 +1,10 @@
 # Compiled Files # 
 *.class
+*.tokens
 bin/*
 
 # Test Outputs #
 bin/TEST*
+
+# Version Control Files #
+*.orig
