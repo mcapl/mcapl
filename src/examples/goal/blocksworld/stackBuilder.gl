@@ -1,0 +1,51 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of GOAL (AIL version) - GOAL-AIL
+// 
+// GOAL-AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// GOAL-AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with GOAL-AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+// Code adapted from an example in Programming Rational Agents in GOAL by Koen Hindriks
+GOAL
+
+:name: stackBuilder
+
+:beliefs
+on(b, table)
+on(c, table)
+on(a, c)
+// the table is always clear.
+clear(table)
+
+:Belief Rules:
+// only blocks can be on top of another object.
+block(X) :- on(X, _)
+// a block is clear if nothing is on top of it.
+clear(X) :- block(X), not( on(_, X) )
+
+:goals
+on(a, b)
+on(b, table)
+
+:Conditional Actions: 
+if G on(X, Y) then move(X, Y)
+
+:Action Specifications: 
+move(X, Y) {B clear(X), B clear(Y), B on(X, Z) } { not(on(X, Z)), on(X, Y)}
