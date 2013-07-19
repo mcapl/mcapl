@@ -23,5 +23,5 @@
 //----------------------------------------------------------------------------
 
 env = gwendolen.auctions.AuctionEnv
-mas.file = src/examples/gwendolen/auctions/coalitiondyn/coalitiondyn3bid2coaltion.gwen
+mas.file = src/examples/gwendolen/auctions/coalitiondyn/coalitiondyn3bid2coalition.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
