@@ -1,4 +1,26 @@
-examples.gwendolen.auctions.AuctionEnv
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis,  Michael Fisher, and Matt Webster
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 
 GWENDOLEN
 
@@ -10,7 +32,7 @@ my_name(ag1)
 
 :Belief Rules:
 
-.B allbids :- .B bid_processed(ag2), .B bid_processed(ag3), .B bid_processed(ag4), .B bid_processed(ag5);
+.B allbids :- (.B bid_processed(ag2), (.B bid_processed(ag3), (.B bid_processed(ag4), .B bid_processed(ag5))));
 
 :Initial Goals:
 
@@ -18,11 +40,11 @@ my_name(ag1)
 
 +.received(:tell, bid(D, From)) : {.B bid(E, From)} <- -bid(From, E), +bid(From, D);
 +.received(:tell, bid(D, From)) : {True, ~ .B bid(E, From)} <- +bid(From, D);
-+bid(Z, A) : {.B current_winner(Ag1, Amw), Amw < A, .B allbids} <- +.lock, -current_winner(Ag1, Amw), +ann_winner, +current_winner(Z, A), win(Z, A), -.lock; 
++bid(Z, A) : {.B current_winner(Ag1, Amw), [Amw < A], .B allbids} <- +.lock, -current_winner(Ag1, Amw), +ann_winner, +current_winner(Z, A), win(Z, A), -.lock; 
 +bid_processed(Ag) : {.B current_winner(Agw, Amw), .B allbids, ~.B ann_winner} <- +.lock, +ann_winner, win(Agw, Amw), -.lock;
 +bid(Ag, Am) : {True, ~ .B current_winner(Ag2, Amw)} <- +current_winner(Ag, Am), +bid_processed(Ag);
-+bid(Ag, Am) : {.B current_winner(Agw, Amw), ~ (Am < Amw), ~ .B allbids} <- +.lock, +current_winner(Ag, Am), +bid_processed(Ag), -current_winner(Agw, Amw), -.lock;
-+bid(Ag, Am) : {.B current_winner(Agw, Amw), Am < Amw, ~.B allbids} <- +bid_processed(Ag);
++bid(Ag, Am) : {.B current_winner(Agw, Amw), ~ [Am < Amw], ~ .B allbids} <- +.lock, +current_winner(Ag, Am), +bid_processed(Ag), -current_winner(Agw, Amw), -.lock;
++bid(Ag, Am) : {.B current_winner(Agw, Amw), [Am < Amw], ~.B allbids} <- +bid_processed(Ag);
 
 :name: ag2
 

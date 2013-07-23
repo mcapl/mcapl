@@ -22,8 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-0: <>(B(ag3, win))
-1: <>(B(ag2, win))
-2: <>(B(ag2, win(ag2, 300)))
-3: <>(B(ag2, win(ag3, 350)))
-4: <>(B(ag3, win(ag3, 310)))
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target_args = ${mcapl}/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction5Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,2
+
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+

@@ -22,8 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-0: <>(B(ag3, win))
-1: <>(B(ag2, win))
-2: <>(B(ag2, win(ag2, 300)))
-3: <>(B(ag2, win(ag3, 350)))
-4: <>(B(ag3, win(ag3, 310)))
+env = gwendolen.auctions.AuctionEnv
+mas.file = /src/examples/gwendolen/auctions/trustdyn/trustdyn5bid.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
