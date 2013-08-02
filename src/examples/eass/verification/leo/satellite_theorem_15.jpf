@@ -35,7 +35,7 @@ et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 # vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
 

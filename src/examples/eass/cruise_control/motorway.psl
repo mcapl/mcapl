@@ -28,6 +28,6 @@ sanity: [] (D(car0,perf(accelerate)) -> ~B(car0, safe))
 
 2: [] (D(car0,perf(accelerate)) -> B(car0, safe)) & 
    [] (D(car0,perf(change_right)) -> B(car0, safe_right)) & 
-   [] (D(car0,perf(change_left)) -> B(car0, safe_leftt)) 
+   [] (D(car0,perf(change_left)) -> B(car0, safe_left)) 
    
 3: [] (~D(car0,perf(change_right)))
