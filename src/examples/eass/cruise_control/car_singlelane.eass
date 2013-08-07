@@ -27,15 +27,28 @@
 
 :Initial Beliefs:
 
+:Belief Rules:
+
+B can_accelerate :- B safe, [~ B driver_accelerates, ~ B driver_brakes];
 
 :Initial Goals:
+
+at_speed_limit [achieve]
 
 
 :Plans:
 
-+above_speed_limit: {~B driver_accelerates, ~B driver_brakes, B safe, B above_speed_limit} <- perf(maintain_speed);
++! at_speed_limit [achieve] : {B can_accelerate} <-
+       perf(accelerate),
+       wait;
++! at_speed_limit [achieve] : {~B can_accelerate} <-
+       *can_accelerate;
+
++at_speed_limit: {B can_accelerate, B at_speed_limit} <- 
+        perf(maintain_speed);
+-at_speed_limit: {~G at_speed_limit [achieve], ~B at_speed_limit} <-
+        +! at_speed_limit[achieve];
 -safe: {~B driver_brakes, ~B safe} <- perf(brake);
-+safe: {~B above_speed_limit, ~B driver_accelerates, ~B driver_brakes, B safe} <- perf(accelerate);
 
 +driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates} <- perf(accelerate);
 +driver_brakes: {B driver_brakes} <- perf(brake);

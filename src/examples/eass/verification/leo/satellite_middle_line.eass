@@ -57,8 +57,6 @@ assuming_formation(line) [perform]
 +!assuming_formation(F) [perform] : {B assuming_formation(F)};
 			
 // May get told to abandon the current formation
-+  new_instructions(F) : {True} <- 
-   +! F [perform]; 
 +! drop_formation(F) [perform] : {B assuming_formation(F)} <- 
    -! assuming_formation(F) [perform], 
    +! clear_position [perform], 

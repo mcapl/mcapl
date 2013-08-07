@@ -67,8 +67,8 @@ overtaking_at(200)
 +left_car(D) : {B overtaking_at(K), B car_ahead_in_left_lane, K < D} <- remove_shared(car_ahead_in_left_lane);
 -left_car(D) : {B car_ahead_in_left_lane} <- remove_shared(car_ahead_in_left_lane);
 
-+speed(S) : {B speed_limit(Y), ~B above_speed_limit, Y < S} <- assert_shared(above_speed_limit);
-+speed(S) : {B speed_limit(Y), B above_speed_limit, S < Y} <- remove_shared(above_speed_limit);
++speed(S) : {B speed_limit(Y), ~B above_speed_limit, Y < S} <- assert_shared(at_speed_limit);
++speed(S) : {B speed_limit(Y), B above_speed_limit, S < Y} <- remove_shared(at_speed_limit);
 
 +acceleration_pedal(A) : {True} <- assert_shared(driver_accelerates);
 +brake_pedal(B) : {True} <- assert_shared(driver_brakes);

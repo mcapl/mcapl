@@ -53,7 +53,7 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 	Literal safe_left = new Literal("safe_left");
 	Literal car_ahead_in_lane = new Literal("car_ahead_in_lane");
 	Literal car_ahead_in_left_lane = new Literal("car_ahead_in_left_lane");
-	Literal above_speed_limit = new Literal("above_speed_limit");
+	Literal above_speed_limit = new Literal("at_speed_limit");
 	Literal driver_accelerates = new Literal("driver_accelerates");
 	Literal driver_brakes = new Literal("driver_brakes");
 	
@@ -110,12 +110,12 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 			}
 		
 			if (singlelane) {
-			//	safe_b = random.nextBoolean(); 
-			//	AJPFLogger.info(logname, "Random safe " + safe_b);
-			//	above_speed_limit_b = random.nextBoolean();
-			//	AJPFLogger.info(logname, "Random above_speed_limit " + above_speed_limit_b); 
-			//	driver_accelerates_b = random.nextBoolean();
-			//	AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b); 
+				safe_b = random.nextBoolean(); 
+				AJPFLogger.info(logname, "Random safe " + safe_b);
+				above_speed_limit_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random at_speed_limit " + above_speed_limit_b); 
+				driver_accelerates_b = random.nextBoolean();
+				AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b); 
 				driver_brakes_b = random.nextBoolean();
 				AJPFLogger.info(logname, "Random driver_brakes " + driver_brakes_b);
 			}
