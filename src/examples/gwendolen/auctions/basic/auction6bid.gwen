@@ -34,7 +34,7 @@ GWENDOLEN
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+bid(Z, A) : {B bid(X1, ag2), B bid(X2, ag3), B bid (X3, ag4), B bid(X4, ag5), B bid(X5, ag6), B bid(200, Ag)} <- .send(Ag, :tell, win);
++bid(Z, A) : {B bid(X1, ag2), B bid(X2, ag3), B bid (X3, ag4), B bid(X4, ag5), B bid(X5, ag6), B bid(X6, ag7), B bid(200, Ag), ~ .sent(Ag, ag1, :tell, win)} <- .send(Ag, :tell, win);
 
 :name: ag2
 
@@ -64,7 +64,7 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(100, Name))} <- .send(ag1, :tell, bid(200, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));
 
 :name: ag4
 
