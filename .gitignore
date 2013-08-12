@@ -6,5 +6,9 @@ bin/*
 # Test Outputs #
 bin/TEST*
 
+# Debugging Files #
+tmp/*
+
 # Version Control Files #
 *.orig
+*~

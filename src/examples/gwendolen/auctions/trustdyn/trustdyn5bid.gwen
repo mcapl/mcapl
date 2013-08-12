@@ -61,7 +61,7 @@ bid [perform]
 +.received(:tell, B): {True} <- +B;   
 +!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
 +win(A, Am) : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), ~ B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag);
-+failed_bid : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), B formed_coalition(AgB), B trust(agB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag), -trust(AgB);
++failed_bid : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag), -trust(AgB);
 +agree(A, X) : {True} <- .send(ag1, :tell, bid((X + 150), ag2));
 
 :name: ag3

@@ -29,6 +29,8 @@ import ajpf.psl.ast.Abstract_Formula;
 import ail.syntax.Predicate;
 import ail.syntax.Term;
 
+import java.util.HashMap;
+
 import gov.nasa.jpf.jvm.ClassInfo;
 import gov.nasa.jpf.jvm.ElementInfo;
 import gov.nasa.jpf.jvm.Heap;
@@ -64,6 +66,7 @@ import gov.nasa.jpf.jvm.Types;
  * Represents a Predicate in First-Order Logic.
  */
 public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
+	static HashMap<String,Integer> strings = new HashMap<String,Integer>();
 	
 	/**
 	 * The functor.
@@ -189,7 +192,13 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ail.syntax.ast.Abstract_Predicate");
-		env.setReferenceField(ref, "functor", env.newString(functor));
+		if (strings.containsKey(functor)) {
+			env.setReferenceField(ref, "functor", strings.get(functor));
+		} else {
+			int stringref = env.newString(functor);
+			strings.put(functor, stringref);
+			env.setReferenceField(ref, "functor", stringref);
+		}
 		env.setReferenceField(ref, "terms", newJPFTermArray(env));
 		return ref;
 

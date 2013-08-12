@@ -46,6 +46,8 @@ B allbids :- (B bid_processed(ag2), (B bid_processed(ag3), B bid_processed(ag4))
 +bid(Ag, Am) : {B current_winner(Agw, Amw), ~ [Am < Amw], ~ B allbids} <- +.lock, +current_winner(Ag, Am), +bid_processed(Ag), -current_winner(Agw, Amw), -.lock;
 +bid(Ag, Am) : {B current_winner(Agw, Amw), [Am < Amw], ~ B allbids} <- +bid_processed(Ag);
 
++!bp(Ag) [perform] : {True} <- +bid_processed(Ag);
+
 :name: ag2
 
 :Initial Beliefs:
