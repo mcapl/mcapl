@@ -30,7 +30,7 @@ import ail.syntax.Plan;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF

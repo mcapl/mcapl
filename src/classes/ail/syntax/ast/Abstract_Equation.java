@@ -27,7 +27,7 @@ package ail.syntax.ast;
 import ail.syntax.Equation;
 import ail.syntax.NumberTerm;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF

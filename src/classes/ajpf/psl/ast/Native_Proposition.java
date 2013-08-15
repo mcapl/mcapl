@@ -27,11 +27,12 @@ package ajpf.psl.ast;
 import java.util.logging.Logger;
 
 import gov.nasa.jpf.JPF;
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.ThreadInfo;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.ThreadInfo;
 
 import ajpf.psl.Proposition;
 
@@ -45,7 +46,7 @@ public abstract class Native_Proposition extends Proposition {
 	 protected static Logger log = JPF.getLogger("ajpf.psl.ast.Native_Proposition");
 	int objref;
 	
-	JVM vm;
+	VM vm;
 
 	
 	/**
@@ -60,12 +61,12 @@ public abstract class Native_Proposition extends Proposition {
 		return (b);
 	}
 
-	public int createInJPF(JVM jvm) {
+	public int createInJPF(VM jvm) {
 		vm = jvm;
 		Heap heap = vm.getHeap();
-		ThreadInfo ti = vm.getLastThreadInfo();
-		ClassInfo ci = ClassInfo.getResolvedClassInfo(getEquivalentJPFClass());
-		objref = heap.newObject(ci, ti);
+		ThreadInfo ti = vm.getCurrentThread();
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo(getEquivalentJPFClass());
+		objref = heap.newObject(ci, ti).getObjectRef();
 		return objref;
 	}
 	

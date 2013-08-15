@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/easss_tutorial/PickUpAgent.ail,${mcapl}/src/examples/gwendolen/easss_tutorial/PickUpAgent.psl,0
+target.args = ${mcapl}/src/examples/gwendolen/easss_tutorial/PickUpAgent.ail,${mcapl}/src/examples/gwendolen/easss_tutorial/PickUpAgent.psl,0
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
 

@@ -161,7 +161,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
     * (non-Javadoc)
     * @see gov.nasa.jpf.PropertyListenerAdapter#check(gov.nasa.jpf.search.Search, gov.nasa.jpf.jvm.JVM)
     */
-	 public boolean check (Search search, JVM vm) {
+	 public boolean check (Search search, VM vm) {
 			 log.finer("checking " + search.getStateId());
 			 log.finer(" is ignored " + search.isIgnoredState());
 			 log.finer(" transition occured " + vm.transitionOccurred());

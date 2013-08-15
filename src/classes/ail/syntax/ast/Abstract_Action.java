@@ -25,7 +25,7 @@
 package ail.syntax.ast;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import ail.syntax.Predicate;
 import ail.syntax.Action;

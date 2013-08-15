@@ -26,9 +26,9 @@ package ail.syntax.ast;
 
 import ail.syntax.StringTermImpl;
 
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.Verify;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -124,7 +124,7 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 	 * (non-Javadoc)
 	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#createInJPF(gov.nasa.jpf.jvm.JVM)
 	 */
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Verify.log("ail.syntax.ast", Verify.WARNING, "Abstract_StringTermImpl should not be being created from Listener");
 		return 0;
 	}

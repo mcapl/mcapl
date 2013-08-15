@@ -24,8 +24,8 @@
 
 package ajpf.psl.ast;
 
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
 import ajpf.MCAPLcontroller;
 import ajpf.MCAPLmas;
 import ajpf.psl.MCAPLFormula;
@@ -37,7 +37,7 @@ import ajpf.psl.MCAPLProperty;
  */
 public interface Abstract_MCAPLTerm extends Cloneable {
 
-	public int createInJPF(JVM vm);
+	public int createInJPF(VM vm);
 	
 	public MCAPLTerm toMCAPL();
 	

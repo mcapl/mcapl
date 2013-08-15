@@ -24,7 +24,7 @@
 
 package ail.syntax.ast;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Predicate;

@@ -31,7 +31,7 @@ import ail.syntax.StringTerm;
 import ail.syntax.VarTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF

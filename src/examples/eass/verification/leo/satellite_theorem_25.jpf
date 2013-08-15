@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/leader_oneformation_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,25
+target.args =src/examples/eass/verification/leo/leader_oneformation_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,25
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -35,7 +35,7 @@ et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 
 // [INFO] Number of States in Product Automata: 3096

@@ -314,11 +314,11 @@ public class DefaultEnvironment implements AILEnv {
      */
     public Set<Message> getMessages(String agName) {
     	if (agMessages.get(agName).isEmpty()) {
-			return new HashSet<Message>();
+			return new VerifySet<Message>();
 		}
 
     	Set<Message> agl = agMessages.get(agName);
-     	HashSet<Message> p = new HashSet<Message>();
+     	VerifySet<Message> p = new VerifySet<Message>();
 		
     	if (agl != null) {
     		p.addAll(agl);

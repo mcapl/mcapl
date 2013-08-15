@@ -31,7 +31,8 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.HashMap;
 
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.Verify;
+import gov.nasa.jpf.annotation.MJI;
 
 public class AJPFLogger {
 	  //--- those need to be kept in sync with the model side
@@ -152,6 +153,7 @@ public class AJPFLogger {
 }
 
 	public static void fine(String logname, String msg) {
+		System.err.println("not intercepted");
 			Logger logger = Logger.getLogger(logname);
 			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
 				setLevel(logname, levels.get(logname));
