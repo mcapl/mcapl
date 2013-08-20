@@ -34,7 +34,7 @@ import gov.nasa.jpf.util.TypeRef;
 /**
  * regression test for programming-by-contract annotations
  */
-public class RescueTests extends TestJPF {
+public class RescueDTests extends TestJPF {
 
  static final String[] RESCUE_ARGS = { "-show", 
 	 "+listener+=,.listener.ExecTracker",
@@ -55,21 +55,21 @@ public class RescueTests extends TestJPF {
 
   //--- test methods
 
- 
- @Test //----------------------------------------------------------------------
- public void testProblemNoCheckingAutomataWhenDone () {
-   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
-   	String filename =  "/src/examples/gwendolen/rescue/searchersmall.ail";
-   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
-   	String[] args = new String[3];
-   	args[0] = filename;
-   	args[1] = prop_filename;
-   	args[2] = "2";
-   	AJPF_w_AIL.run(args);
-    } else {
-   	 
-    }
- }
- 
+
+  
+  @Test //----------------------------------------------------------------------
+  public void testGoalProperty () {
+    if (verifyNoPropertyViolation(RESCUE_ARGS)){
+    	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
+    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "Goal";
+    	AJPF_w_AIL.run(args);
+     } else {
+    	 
+     }
+  }
 
 }

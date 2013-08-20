@@ -34,7 +34,7 @@ import gov.nasa.jpf.util.TypeRef;
 /**
  * regression test for programming-by-contract annotations
  */
-public class RescueTests extends TestJPF {
+public class RescueBTests extends TestJPF {
 
  static final String[] RESCUE_ARGS = { "-show", 
 	 "+listener+=,.listener.ExecTracker",
@@ -55,21 +55,37 @@ public class RescueTests extends TestJPF {
 
   //--- test methods
 
- 
+  
  @Test //----------------------------------------------------------------------
- public void testProblemNoCheckingAutomataWhenDone () {
-   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
-   	String filename =  "/src/examples/gwendolen/rescue/searchersmall.ail";
+ public void testIntentionProperty () {
+   if (verifyNoPropertyViolation(RESCUE_ARGS)){
+   	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
    	String[] args = new String[3];
    	args[0] = filename;
    	args[1] = prop_filename;
-   	args[2] = "2";
+   	args[2] = "11";
    	AJPF_w_AIL.run(args);
     } else {
    	 
     }
  }
- 
+
+
+ @Test //----------------------------------------------------------------------
+ public void testProblemsWithEndStates () {
+   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
+   	String filename =  "/src/examples/gwendolen/rescue/searcherliftersmall.ail";
+   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
+   	String[] args = new String[3];
+   	args[0] = filename;
+   	args[1] = prop_filename;
+   	args[2] = "10b";
+   	AJPF_w_AIL.run(args);
+    } else {
+   	 
+    }
+ }
+
 
 }
