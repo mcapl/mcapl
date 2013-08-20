@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ajpf.util.VerifyMap;
+import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
 import ail.syntax.annotation.SourceAnnotation;
 
@@ -322,7 +323,7 @@ public class BeliefBase implements Iterable<Literal> {
      */
     final class BelEntry {
         
-        final private ArrayList<Literal> list = new ArrayList<Literal>(); // maintains the order of the bels
+        final private VerifyList<Literal> list = new VerifyList<Literal>(); // maintains the order of the bels
         
         /**
          * Add a literal to the belEntry.
@@ -330,12 +331,12 @@ public class BeliefBase implements Iterable<Literal> {
          * @param l
          */
         public void add(Literal l) {
-            list.add(l);
-            try {
-            	Collections.sort(list);
-            } catch (Exception e) {
-            	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
-            }
+            list.put(l);
+      //      try {
+      //      	Collections.sort(list);
+      //      } catch (Exception e) {
+      //      	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
+      //      }
         }
         
         /**

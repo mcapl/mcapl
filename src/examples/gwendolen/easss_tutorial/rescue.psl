@@ -1,0 +1,101 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// 
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+# Property 1 in paper
+1: [] (B(searcher, leave) -> (B(searcher, found) || B(searcher, area_empty) ) )
+
+# Property 2 in paper
+2: ( <>B(r, human)  ||
+   ( <>B(r, at(0, 0)) & <>B(r,  at(0, 1)) & <>B(r,  at(0, 2)) & 
+     <>B(r,  at(1, 0)) & <>B(r,  at(1, 1)) & <>B(r,  at(1, 2)) &
+     <>B(r,  at(2, 0)) & <>B(r,  at(2, 1)) & <>B(r,  at(2, 2)) )
+   )
+ 
+2small: ( <>B(r, human) ||
+ ( <>B(r, at(0, 0)) & <>B(r,  at(0, 1))  
+ & <>B(r,  at(1, 0)) & <>B(r,  at(1, 1)) ) )
+ 
+sanity: <>B (r, human)
+sanity2: (<>B(r, human) || <>B(r, at(3, 3)))
+sanity3: ( <>B (r, human) || (<>B(r, at(3, 3)) & <>B(r, at(0,0)) ) )
+sanity4: ( <>B(r, at(0, 0)) & <>B(r, at(2,2)) )
+
+# Property 10 in paper
+10: ( 
+   [] ( B(r, sent(agentlifter, human(_, _))) -> <>B(agentlifter, rec(msg)) ) ->
+   <>(B (r, found) -> <>B(agentlifter, free(human)) )
+   )
+ 
+# Some sanity checking for property 10
+10a: [] (B(r, found) -> <> B(agentlifter, free(human)) )
+
+10b: <>(B(r, sent(agentlifter, human(_, _))) & [] ~B (agentlifter, rec(msg)) )
+
+10c: (
+ [] ( B(r, sent(agentlifter, human(_, _))) -> <> B(agentlifter, rec(msg)) ) ->
+ []( B(r, found) -> <> B(agentlifter, free(h)) )
+ )
+ 
+# Property 11 in paper
+11: [](B(agentlifter, human(_, _)) -> <> (I (agentlifter, free(human)) || B (agentlifter, free(human)) ) )
+
+Goal: []( B(agentlifter, human(_, _)) -> <>( G (agentlifter, free(human)) || B(agentlifter, free(human)) ) )
+
+100: <>B(r, leave)
+
+110: []  (~ B(r, leave) || B(r, found) ||
+  (
+  B(r, empty(0, 0)) & B(r,  empty(0, 1)) & B(r,  empty(0, 2)) & B(r,  empty(0, 3)) & B(r,  empty(0, 4)) 
+ & B(r,  empty(1, 0)) & B(r,  empty(1, 1)) & B(r,  empty(1, 2)) & B(r,  empty(1, 3)) & B(r,  empty(1, 4))
+ & B(r,  empty(2, 0)) & B(r,  empty(2, 1)) & B(r,  empty(2, 2)) & B(r,  empty(2, 3)) & B(r,  empty(2, 4))
+ & B(r,  empty(3, 0)) & B(r,  empty(3, 1)) & B(r,  empty(3, 2)) & B(r,  empty(3, 3)) & (B(r,  empty(3, 4)),
+ & B(r,  empty(4, 0)) & B(r,  empty(4, 1)) & B(r,  empty(4, 2)) & B(r,  empty(4, 3)),B(r,  empty(4, 4)) 
+ )
+ )
+
+12: ( <>B(r, found) ||
+  (<>B(r, at(0, 0)) & <>B(r,  at(0, 1)) & <>B(r,  at(0, 2)) 
+ & <>B(r,  at(1, 0)) & <>B(r,  at(1, 1)) & <>B(r,  at(1, 2))
+ & <>B(r,  at(2, 0)) & <>B(r,  at(2, 1)) & <>B(r,  at(2, 2))
+ ) )
+			
+13: [] ( B(r, found) -> <>B(r, sent(agentlifter, human(_, _))) )
+
+14: [] ( B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
+
+16: ( [] ( B(r, sent(agentlifter, human(X, Y))) -> <>B(agentlifter, rec(msg)) ) ) ->
+ (B (r, found) -> <>I(agentlifter, free(human)) )
+
+17: [] (
+      (
+       []( B(r, sent(lifter, human(X, Y))) -> <> B (lifter, rec(msg)) ) &
+       []( I(lifter, free(human)) -> <>B (lifter, have(human)) )
+      ) ->
+  ( B (r, found) -> <>B (lifter, free(human)) )
+  )
+
+18: (
+      []( I(agentlifter, free(human)) -> <>B(agentlifter, clear)) ) ->
+  [](B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
+  )

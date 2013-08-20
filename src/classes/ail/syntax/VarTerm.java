@@ -74,7 +74,7 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      */
     public VarTerm(String s) {
         super(s);
-        if (s != null && Character.isLowerCase(s.charAt(0))) {
+         if (s != null && Character.isLowerCase(s.charAt(0))) {
         	Exception e = new Exception("stack");
         	e.printStackTrace();
         }
