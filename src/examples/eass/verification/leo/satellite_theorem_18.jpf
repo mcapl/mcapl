@@ -58,7 +58,7 @@ vm.max_transition_length = MAX
 // 
 // ====================================================== search finished: 4/2/13 6:25 PM
 
-// 22nd August 2013 -- NB.  Overgeneration of states still
+// 22nd August 2013 -- NB.  Overgeneration of states still - now ticket 22
 // [INFO] Number of States in Product Automata: 312353
 // ----------------------------------- search finished
 // 
