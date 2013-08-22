@@ -117,7 +117,7 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
 				driver_accelerates_b = random.nextBoolean();
 				AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b); 
 				driver_brakes_b = random.nextBoolean();
-				AJPFLogger.info(logname, "Random driver_brakes " + driver_brakes_b);
+				AJPFLogger.info(logname, "Random driver_brakes " + driver_brakes_b); 
 			}
 		}
 		

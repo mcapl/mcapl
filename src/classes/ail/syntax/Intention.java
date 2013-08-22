@@ -248,6 +248,9 @@ public class Intention implements Comparable<Intention>{
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
+    			if (! l.negated()) {
+    				l.setNegated(false);
+    			}
     			unsuspendFor(l);
     		}
     	}
@@ -669,8 +672,16 @@ public class Intention implements Comparable<Intention>{
 	/**
 	 * Drop the top deed (with associated event etc.) from the intention.
 	 */
-	public   void tlI() {
-		dropP(1);
+	public   void tlI(AILAgent ag) {
+		if (hdE().referstoGoal()) {
+			Goal g = hdE().getGoal();
+			dropP(1);
+			if (!hdE().referstoGoal() || hdE().getGoal() != g) {
+				ag.removeGoal(g);
+			}
+		} else {
+			dropP(1);
+		}
 	}
 	
 	/**
@@ -706,7 +717,7 @@ public class Intention implements Comparable<Intention>{
 			thetaHD.compose(theta);
 		
 			thetaHD.pruneRedundantNames(getVarNames());
-			tlI();
+			dropP(1);
 			iCons(e, d, g, thetaHD);
 		}
 	}
@@ -736,7 +747,7 @@ public class Intention implements Comparable<Intention>{
 			Deed d = hdD();
 			Guard g = hdG();
 	
-			tlI();
+			dropP(1);
 			iCons(e, d, g, theta);
 		}
 	}

@@ -78,7 +78,7 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 		}
 		
 		
-		i.tlI();
+		i.tlI(a);
 		i.compose(thetahd);
 	}
 }

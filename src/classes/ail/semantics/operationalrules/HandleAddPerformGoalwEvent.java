@@ -68,7 +68,7 @@ public class HandleAddPerformGoalwEvent extends HandleAddGoal {
 		Unifier newu = new Unifier();
 		newu.compose(u);
 		newu.compose(thetahd);
-		i.tlI();
+		i.tlI(a);
 		i.iCons(e, new Deed(Deed.DNull), new Guard(new GBelief(GBelief.GTrue)), thetahd);
 		i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);	
 	}

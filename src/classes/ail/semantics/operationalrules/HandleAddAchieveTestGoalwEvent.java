@@ -70,10 +70,11 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
 			
-			i.tlI();
+			i.tlI(a);
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
 			i.compose(thetahd);
+			a.removeGoal(topdeed.getGoal());
 		} else {
 			a.addGoal(topdeed.getGoal());
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);

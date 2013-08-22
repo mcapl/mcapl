@@ -35,14 +35,17 @@ B can_accelerate :- B safe, [~ B driver_accelerates, ~ B driver_brakes];
 
 at_speed_limit [achieve]
 
-
 :Plans:
 
 +! at_speed_limit [achieve] : {B can_accelerate} <-
        perf(accelerate),
        wait;
-+! at_speed_limit [achieve] : {~B can_accelerate} <-
-       *can_accelerate;
++! at_speed_limit [achieve] : {~B safe} <-
+       *safe;
++! at_speed_limit [achieve] : {B driver_accelerates} <-
+       *~driver_accelerates;
++! at_speed_limit [achieve] : {B driver_brakes} <-
+       *~driver_brakes;
 
 +at_speed_limit: {B can_accelerate, B at_speed_limit} <- 
         perf(maintain_speed);

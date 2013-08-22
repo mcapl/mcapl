@@ -29,7 +29,8 @@ mas.agent.1.builder = eass.EASSAgentBuilder
 mas.agent.1.name = car0
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv,
+log.fine = ail.semantics.AILAgent
 log.format = brief
 
 # Eass Specific stuff

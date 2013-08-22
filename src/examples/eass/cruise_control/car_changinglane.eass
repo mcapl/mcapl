@@ -60,7 +60,7 @@ in_leftmost_lane [achieve]
 -overtaking: {G overtaken[achieve]} <- -!overtaken[achieve];
 
 +! overtaken [achieve]: {B safe_right, B car_ahead_in_lane, B overtaking, ~B in_rightmost_lane} <-
-	+.lock, remove_shared(changed_lane), perf(change_right), -.lock, *changed_lane, +overtaken;
+	+.lock, remove_shared(changed_lane), perf(change_right), -.lock, *changed_lane, +overtaken, +!switch_move_left[perform];
 +! overtaken [achieve]: {~ B safe_right, B car_ahead_in_lane, B overtaking, ~B in_rightmost_lane} <- *safe_right;
 +! overtaken [achieve]: {~ B car_ahead_in_lane, B overtaking} <- +! switch_move_left[perform];
 +! overtaken [achieve]: {~B overtaking} <- -! overtaken[achieve];
@@ -68,9 +68,3 @@ in_leftmost_lane [achieve]
 
 
 // Managing speed in a single lane
-+above_speed_limit: {~B driver_accelerates, ~B driver_brakes, B safe, B above_speed_limit} <- perf(maintain_speed);
--safe: {~B driver_brakes, ~B safe} <- perf(brake);
-+safe: {~B above_speed_limit, ~B driver_accelerates, ~B driver_brakes, B safe} <- perf(accelerate);
-
-+driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates} <- perf(accelerate);
-+driver_brakes: {B driver_brakes} <- perf(brake);

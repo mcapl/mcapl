@@ -144,7 +144,14 @@ public class Abstract_Action extends Abstract_Predicate {
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_Action");
-		env.setReferenceField(objref, "functor", env.newString(getFunctor()));
+		String functor = getFunctor();
+		if (strings.containsKey(functor)) {
+			env.setReferenceField(objref, "functor", strings.get(functor));
+		} else {
+			int stringref = env.newString(functor);
+			strings.put(functor, stringref);
+			env.setReferenceField(objref, "functor", stringref);
+		}
 		env.setReferenceField(objref, "terms", newJPFTermArray(env));
 		env.setIntField(objref, "actiontype", actiontype);
 		return objref;
