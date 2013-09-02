@@ -110,7 +110,7 @@ B repairable(X, with(change_line(X))) :- B thruster_line(X, 1);
 +! maintaining(Pos) [achieve] : {~B assuming_formation(F)} <- 
     -! maintaining(Pos) [achieve]; 
 +! maintaining(Pos) [achieve] : {B aborted(Reason)} <- 
-    * new_instructions(Ins); 
+    -! maintaining(Pos) [achieve]; 
 			
 +maintaining(Pos) : {B leader(Leader), B my_name(Name)} <- 
     .send(Leader, :tell, maintaining(Name)), 

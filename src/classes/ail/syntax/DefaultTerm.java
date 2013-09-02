@@ -215,12 +215,24 @@ public abstract class DefaultTerm implements Term {
      */
     public boolean match(Unifiable t1g, Unifier u) {
     	Term t1 = (Term) t1g;
-
+    	
     	boolean ok = u.matchTerms(this, t1);
 
     	return ok;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable t1g, Unifier u) {
+    	Term t1 = (Term) t1g;
+    	
+    	boolean ok = u.matchTermsNG(this, t1);
+
+    	return ok;
+    }
+
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)

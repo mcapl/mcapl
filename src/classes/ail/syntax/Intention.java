@@ -459,6 +459,25 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
+     * The event stack of the intention.
+     * 
+     * @return The event stack of the intention.
+     */
+    public ArrayList<Event> eventsUnified() {
+    	ArrayList<Event> es = new ArrayList<Event>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		IntentionRow ir = i.next();
+    		Event eclone = ir.getEvent().clone();
+    		eclone.apply(ir.unifiers().get(ir.unifiers().size() - 1));
+    		es.add(eclone);
+    	}
+    	
+    	return es;
+    }
+
+    /**
      * A clone of event stack of the intention with unifiers applied.
      * 
      * @return The event stack of the intention.
@@ -675,9 +694,11 @@ public class Intention implements Comparable<Intention>{
 	public   void tlI(AILAgent ag) {
 		if (hdE().referstoGoal()) {
 			Goal g = hdE().getGoal();
+			Goal gcloned = g.clone();
+			gcloned.apply(hdU());
 			dropP(1);
 			if (!hdE().referstoGoal() || hdE().getGoal() != g) {
-				ag.removeGoal(g);
+				ag.removeGoal(gcloned);
 			}
 		} else {
 			dropP(1);

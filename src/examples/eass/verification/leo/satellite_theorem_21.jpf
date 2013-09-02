@@ -26,10 +26,9 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21
+target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21bexpanded
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
-
 listener+=,.listener.ExecTracker
 et.print_insn=false
 

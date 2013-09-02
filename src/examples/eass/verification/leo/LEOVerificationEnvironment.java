@@ -591,12 +591,12 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 broken z: " + ag1_broken_z);
 					}
 					ag1_tl_1x = random.nextBoolean();
-					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(x, 1, 1): " + ag1_tl_1x);
+					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(x, 1): " + ag1_tl_1x);
 					if (allthrusters) {
 						ag1_tl_1y = random.nextBoolean();
-						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(y, 1, 1): " + ag1_tl_1y);
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(y, 1): " + ag1_tl_1y);
 						ag1_tl_1z = random.nextBoolean();
-						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(z, 1, 1): " + ag1_tl_1z);
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(z, 1): " + ag1_tl_1z);
 					}
 				}
 			}
@@ -691,7 +691,9 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
     	lastAgent = agName;
     	lastAction = act;
 	   	
-    	change_for(agName);
+    	if (!act.getFunctor().equals("remove_shared")) {
+    		change_for(agName);
+    	}
  	   		   	 
     	return theta;
     }

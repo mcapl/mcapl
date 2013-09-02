@@ -112,8 +112,8 @@ assuming_formation(line) [perform]
     -fixed(X); 
 +! maintaining(Pos) [achieve] : {~B assuming_formation(F)} <- 
     -! maintaining(Pos) [achieve]; 
-+! maintaining(Pos) [achieve] : {B aborted(Reason)} <- 
-    * new_instructions(Ins); 
++! maintaining(Pos) [achieve] : {B aborted(Reason), B assuming_formation(F)} <- 
+    -! assuming_formation(F) [perform]; 
 			
 +maintaining(Pos) : {B leader(Leader), B my_name(Name)} <- 
     .send(Leader, :tell, maintaining(Name)), 

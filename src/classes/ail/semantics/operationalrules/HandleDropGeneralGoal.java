@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Goal;
 import ail.syntax.Unifier;
 import ail.syntax.Event;
 import ail.syntax.Intention;
@@ -89,8 +90,8 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 		// If any of the events in the intention stack unify with +!g
 		// find the earliest such event (what matchcount is doing)
 		// i is current intention
-		for (Event e3: i.events()) {
-			if (thetae.unifies(e2, e3)) {
+		for (Event e3: i.eventsUnified()) {
+			if (thetae.matchesNG(e3, e2)) {
 				flag = true;
 			}
 		}
@@ -105,9 +106,9 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 			List<Intention> is = a.getIntentions();
 			for (Intention ip: is) {
 				flag = false;
-				for (Event e3: ip.events()) {
+				for (Event e3: ip.eventsUnified()) {
 					if (!flag) {
-						if (thetae.unifies(e2, e3)) {
+						if (thetae.matchesNG(e3, e3)) {
 							flag = true;
 							}
 						}

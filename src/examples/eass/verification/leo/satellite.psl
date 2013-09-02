@@ -65,8 +65,57 @@
       [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
       &
       [] ( B(ag1, broken(x)) -> B(ag1, repairable(x, _)) )
-    ) -> 
+      ) -> 
               <> B(ag1, maintaining(middle))
+
+# Property 21 in Verification Paper
+21b: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( B(ag1, broken(x)) -> [] ~B(ag1, aborted(thruster_failure)) )
+      ) -> 
+              <> B(ag1, maintaining(middle))
+
+21bexpanded: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( D(ag1, perf(change_line(y))) -> <> ~B(ag1, broken(y)) )       
+      &
+      [] ( D(ag1, perf(change_line(z))) -> <> ~B(ag1, broken(z)) ) 
+      &
+      [] ( 
+              (
+                  B(ag1, broken(x)) || B (ag1, broken(y)) || B (ag1, broken(z)) 
+              )
+               -> [] ~B(ag1, aborted(thruster_failure)) )
+      ) -> 
+              <> B(ag1, maintaining(middle))
+
+# Property 21 in Verification Paper
+21revised: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+    ) -> 
+              <> ( B(ag1, maintaining(middle)) || <> B(ag1, aborted(thruster_failure)) )
+              
+21revised2: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( B(ag1, broken(x)) -> [] ~B(ag1, aborted(thruster_failure))  )
+      ) -> 
+              <> B(ag1, maintaining(middle))
+
 
 # Property 21 in Verification Paper (expanded for all thrusters)
 21expanded: (      
