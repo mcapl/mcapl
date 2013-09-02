@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 

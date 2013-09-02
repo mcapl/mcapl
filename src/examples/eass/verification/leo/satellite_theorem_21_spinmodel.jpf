@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21b
+target_args =src/examples/eass/verification/leo/satellite_allthrusters.ail,src/examples/eass/verification/leo/satellite.psl,21Spin
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 listener+=,.listener.ExecTracker
@@ -36,21 +36,10 @@ et.print_insn=false
 # break the current transition if there are other runnable threads
 vm.max_transition_length = MAX
 
+ajpf.model_only = true
+ajpf.model.location = theorem_spin21.pml
+ajpf.model.path = /Users/lad/Research/eass/ExperimentalData/leo/
+ajpf.target_modelchecker = spin
+ajpf.spin.property_file = propspin_eass21.txt
+ajpf.spin.path = /Users/lad/Systems/Spin/Src6.2.3/
 
-// [INFO] Number of States in Product Automata: 232479
-// ----------------------------------- search finished
-// 
-// ====================================================== results
-// no errors detected
-// 
-// ====================================================== statistics
-// elapsed time:       69:59:04
-// states:             new=29577, visited=29573, backtracked=59150, end=14432
-// search:             maxDepth=41, constraints hit=0
-// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=29575
-// heap:               new=10799211202, released=10801694259, max live=1088642, gc-cycles=59150
-// instructions:       286521107348
-// max memory:         842MB
-// loaded code:        classes=331, methods=4445
-// 
-// ====================================================== search finished: 9/22/12 8:28 PM
