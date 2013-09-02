@@ -1,0 +1,121 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis,  Michael Fisher, and Matt Webster
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: ag1
+
+:Initial Beliefs:
+
+my_name(ag1)
+
+:Belief Rules:
+
+.B allbids :- (.B bid_processed(ag2), (.B bid_processed(ag3), (.B bid_processed(ag4), .B bid_processed(ag5))));
+
+:Initial Goals:
+
+:Plans:
+
++.received(:tell, bid(D, From)) : {.B bid(E, From)} <- -bid(From, E), +bid(From, D);
++.received(:tell, bid(D, From)) : {True, ~ .B bid(E, From)} <- +bid(From, D);
++bid(Z, A) : {.B current_winner(Ag1, Amw), [Amw < A], .B allbids} <- +.lock, -current_winner(Ag1, Amw), +ann_winner, +current_winner(Z, A), win(Z, A), -.lock; 
++bid_processed(Ag) : {.B current_winner(Agw, Amw), .B allbids, ~.B ann_winner} <- +.lock, +ann_winner, win(Agw, Amw), -.lock;
++bid(Ag, Am) : {True, ~ .B current_winner(Ag2, Amw)} <- +current_winner(Ag, Am), +bid_processed(Ag);
++bid(Ag, Am) : {.B current_winner(Agw, Amw), ~ [Am < Amw], ~ .B allbids} <- +.lock, +current_winner(Ag, Am), +bid_processed(Ag), -current_winner(Agw, Amw), -.lock;
++bid(Ag, Am) : {.B current_winner(Agw, Amw), [Am < Amw], ~.B allbids} <- +bid_processed(Ag);
+
+:name: ag2
+
+:Initial Beliefs:
+
+my_name(ag2)
+collaborator(ag4)
+cash(150)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), .B cash(C), ~ .sent(ag1, Name, :tell, bid(C, Name))} <- .send(ag1, :tell, bid(C, Name));
++agree(A, X): {.B cash(C), .B my_name(Name)} <- .send(ag1, :tell, bid((C + X), Name));
++win(Ag, X): {.B my_name(Name), ~ .B win(Name, Any), .B collaborator(Coll)} <- +!coalition(Coll) [achieve];
++!coalition(Coll) [achieve] : {.B my_name(Ag), ~ .sent(Coll, Ag, :tell, coalition(Ag))} <- .send(Coll, :tell, coalition(Ag)), +coalition(Coll);
+
+:name: ag3
+
+:Initial Beliefs:
+
+my_name(ag3)
+cash(200)
+collaborator(ag5)
+
+:Initial Goals:
+
+bid [perform]
+ 
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), .B cash(C), ~ .sent(ag1, Name, :tell, bid(C, Name))} <- .send(ag1, :tell, bid(C, Name));
++agree(A, X): {.B cash(C), .B my_name(Name)} <- .send(ag1, :tell, bid((C + X), Name));
++win(Ag, X): {.B my_name(Name), ~ .B win(Name, Any), .B collaborator(Coll)} <- +!coalition(Coll) [achieve];
++!coalition(Coll) [achieve] : {.B my_name(Ag), ~ .sent(Coll, Ag, :tell, coalition(Ag))} <- .send(Coll, :tell, coalition(Ag)), +coalition(Coll);
+
+:name: ag4
+
+:Initial Beliefs:
+
+my_name(ag4)
+cash(150)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), .B cash(C), ~ .sent(ag1, Name, :tell, bid(C, Name))} <- .send(ag1, :tell, bid(C, Name));
++coalition(A) : { .B my_name(Name), .B cash(C), ~ .sent(A, Name, :tell, agree(Name, C))} <- .send(A, :tell, agree(Name, C));
+
+:name: ag5
+
+:Initial Beliefs:
+
+my_name(ag5)
+cash(110)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), .B cash(C), ~ .sent(ag1, Name, :tell, bid(C, Name))} <- .send(ag1, :tell, bid(C, Name));
++coalition(A) : { .B my_name(Name), .B cash(C), ~ .sent(A, Name, :tell, agree(Name, C))} <- .send(A, :tell, agree(Name, C));

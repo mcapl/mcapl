@@ -54,7 +54,6 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	/**
 	 * The name of the agent.
 	 */
-	@FilterField
 	private String name;
 	
 	//private boolean notified;

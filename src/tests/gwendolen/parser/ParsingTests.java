@@ -29,9 +29,18 @@ import junit.framework.Assert;
 import org.junit.Test;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
+import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Goal;
+import ail.syntax.GBelief;
 import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Literal;
+import ail.syntax.Message;
 import ail.syntax.Unifier;
+import ail.syntax.ast.Abstract_GuardAtom;
+import ail.syntax.GuardAtom;
+import gwendolen.syntax.ast.Abstract_GPlan;
+
 
 public class ParsingTests {
 
@@ -57,6 +66,28 @@ public class ParsingTests {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+	
+	@Test public void MessagesInGuardsTest() {
+		GwendolenLexer msg_lexer = new GwendolenLexer(new ANTLRStringStream("+e:{.sent(Ag, ag1, :tell, win)} <- d;"));
+		CommonTokenStream msg_tokens = new CommonTokenStream(msg_lexer);
+		GwendolenParser msg_parser = new GwendolenParser(msg_tokens);
+		
+		try {
+			Abstract_GPlan abs_plan = msg_parser.plan();
+			Guard guard = abs_plan.toMCAPL().getContext().get(0);
+		
+		
+			GuardAtom ga = (GuardAtom) guard.getGuardExpression().getRHS();
+			AILAgent ag = new AILAgent();
+			Message msg = new Message(1, "ag1", "r", new Literal("win"));
+			ag.newSentMessage(msg);
+
+			Assert.assertTrue(ag.believesyn(new Guard(ga), new Unifier()));
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
 	}
  
 }
