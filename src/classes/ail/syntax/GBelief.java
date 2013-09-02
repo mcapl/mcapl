@@ -251,7 +251,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 			il = getRelevantSent(ag);
         }  else if (getCategory() == AILReceived) {
         	il = getRelevantReceived(ag);
-        } if (referstoGroup()) {
+        } else if (referstoGroup()) {
           	if (getCategory() == AILContent) {
           		il = getRelevantContent(ag);
           	} else if (getCategory() == AILContext) {

@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g 2012-11-29 11:53:22
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2013-08-10 12:05:57
 
 package gwendolen.parser;
 
@@ -90,15 +90,15 @@ public class GwendolenLexer extends Lexer {
     public GwendolenLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g"; }
+    public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g"; }
 
     // $ANTLR start "GWENDOLEN"
     public final void mGWENDOLEN() throws RecognitionException {
         try {
             int _type = GWENDOLEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:148:11: ({...}? => 'GWENDOLEN' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:148:12: {...}? => 'GWENDOLEN'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:11: ({...}? => 'GWENDOLEN' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:12: {...}? => 'GWENDOLEN'
             {
             if ( !((curly_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "GWENDOLEN", "curly_nesting == 0");
@@ -126,8 +126,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = GOALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:150:7: ( ':Initial Goals:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:150:9: ':Initial Goals:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:7: ( ':Initial Goals:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:9: ':Initial Goals:'
             {
             match(":Initial Goals:"); 
 
@@ -151,8 +151,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = BELIEFS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:151:9: ( ':Initial Beliefs:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:151:11: ':Initial Beliefs:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:9: ( ':Initial Beliefs:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:11: ':Initial Beliefs:'
             {
             match(":Initial Beliefs:"); 
 
@@ -174,8 +174,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = BELIEFRULES;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:153:2: ( ':Belief Rules:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:153:4: ':Belief Rules:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:153:2: ( ':Belief Rules:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:153:4: ':Belief Rules:'
             {
             match(":Belief Rules:"); 
 
@@ -199,8 +199,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = PLANS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:154:7: ( ':Plans:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:154:9: ':Plans:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:154:7: ( ':Plans:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:154:9: ':Plans:'
             {
             match(":Plans:"); 
 
@@ -222,8 +222,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:155:6: ( ':name:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:155:8: ':name:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:6: ( ':name:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:8: ':name:'
             {
             match(":name:"); 
 
@@ -245,8 +245,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SEND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:157:6: ( '.send' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:157:8: '.send'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:157:6: ( '.send' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:157:8: '.send'
             {
             match(".send"); 
 
@@ -268,8 +268,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = RECEIVED;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:158:9: ({...}? => '.received' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:158:11: {...}? => '.received'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:158:9: ({...}? => '.received' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:158:11: {...}? => '.received'
             {
             if ( !((gwendolen)) ) {
                 throw new FailedPredicateException(input, "RECEIVED", "gwendolen");
@@ -295,14 +295,14 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = BELIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:159:9: ({...}? => ( 'B' | '.B' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:159:11: {...}? => ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:9: ({...}? => ( 'B' | '.B' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:11: {...}? => ( 'B' | '.B' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:159:75: ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:75: ( 'B' | '.B' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -321,14 +321,14 @@ public class GwendolenLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:159:76: 'B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:76: 'B'
                     {
                     match('B'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:159:82: '.B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:82: '.B'
                     {
                     match(".B"); 
 
@@ -356,14 +356,14 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = GOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:160:6: ({...}? => ( 'G' | '.G' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:160:8: {...}? => ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:160:6: ({...}? => ( 'G' | '.G' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:160:8: {...}? => ( 'G' | '.G' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:160:71: ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:160:71: ( 'G' | '.G' )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -382,14 +382,14 @@ public class GwendolenLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:160:72: 'G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:160:72: 'G'
                     {
                     match('G'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:160:78: '.G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:160:78: '.G'
                     {
                     match(".G"); 
 
@@ -417,15 +417,15 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = IN_CONTENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:161:12: ({...}? => ( 'N' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:161:14: {...}? => ( 'N' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:161:12: ({...}? => ( 'N' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:161:14: {...}? => ( 'N' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "IN_CONTENT", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:161:78: ( 'N' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:161:79: 'N'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:161:78: ( 'N' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:161:79: 'N'
             {
             match('N'); 
 
@@ -448,15 +448,15 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = IN_CONTEXT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:162:12: ({...}? => ( 'X' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:162:14: {...}? => ( 'X' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:162:12: ({...}? => ( 'X' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:162:14: {...}? => ( 'X' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "IN_CONTEXT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:162:77: ( 'X' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:162:78: 'X'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:162:77: ( 'X' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:162:78: 'X'
             {
             match('X'); 
 
@@ -479,8 +479,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:163:6: ({...}? => '.sent' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:163:8: {...}? => '.sent'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:163:6: ({...}? => '.sent' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:163:8: {...}? => '.sent'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
@@ -506,8 +506,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = LOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:164:6: ( '.lock' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:164:8: '.lock'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:164:6: ( '.lock' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:164:8: '.lock'
             {
             match(".lock"); 
 
@@ -529,8 +529,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ADD_PLAN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:165:10: ( '.plan' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:165:12: '.plan'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:165:10: ( '.plan' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:165:12: '.plan'
             {
             match(".plan"); 
 
@@ -552,8 +552,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ADD_CONSTRAINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:166:16: ( '.constraint' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:166:18: '.constraint'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:166:16: ( '.constraint' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:166:18: '.constraint'
             {
             match(".constraint"); 
 
@@ -575,8 +575,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ADD_CONTENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:168:2: ( '.n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:168:4: '.n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:168:2: ( '.n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:168:4: '.n'
             {
             match(".n"); 
 
@@ -598,8 +598,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ADD_CONTEXT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:169:13: ( '.x' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:169:15: '.x'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:169:13: ( '.x' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:169:15: '.x'
             {
             match(".x"); 
 
@@ -621,8 +621,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = TELL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:171:6: ( ':tell' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:171:8: ':tell'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:171:6: ( ':tell' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:171:8: ':tell'
             {
             match(":tell"); 
 
@@ -644,8 +644,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = PERFORM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:172:9: ( ':perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:172:11: ':perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:172:9: ( ':perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:172:11: ':perform'
             {
             match(":perform"); 
 
@@ -667,8 +667,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ACHIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:173:9: ( ':achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:173:11: ':achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:173:9: ( ':achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:173:11: ':achieve'
             {
             match(":achieve"); 
 
@@ -690,8 +690,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = TELLHOW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:174:9: ( ':how' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:174:11: ':how'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:9: ( ':how' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:174:11: ':how'
             {
             match(":how"); 
 
@@ -713,8 +713,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = CONSTRAINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:176:2: ( ':constrain' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:176:4: ':constrain'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:2: ( ':constrain' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:176:4: ':constrain'
             {
             match(":constrain"); 
 
@@ -736,8 +736,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = ACHIEVEGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:178:13: ({...}? => 'achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:178:15: {...}? => 'achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:178:13: ({...}? => 'achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:178:15: {...}? => 'achieve'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
@@ -763,8 +763,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = PERFORMGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:179:13: ({...}? => 'perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:179:15: {...}? => 'perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:179:13: ({...}? => 'perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:179:15: {...}? => 'perform'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
@@ -790,8 +790,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = BRULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:181:2: ( ':-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:181:4: ':-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:181:2: ( ':-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:181:4: ':-'
             {
             match(":-"); 
 
@@ -813,8 +813,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = RULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:182:11: ( '<-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:182:13: '<-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:182:11: ( '<-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:182:13: '<-'
             {
             match("<-"); 
 
@@ -836,8 +836,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:184:6: ({...}? => 'True' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:184:8: {...}? => 'True'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:184:6: ({...}? => 'True' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:184:8: {...}? => 'True'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -863,14 +863,14 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:236:5: ( '/*' ( . )* '*/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:236:7: '/*' ( . )* '*/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:5: ( '/*' ( . )* '*/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:7: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:236:12: ( . )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:12: ( . )*
             loop3:
             do {
                 int alt3=2;
@@ -895,7 +895,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:236:12: .
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:12: .
             	    {
             	    matchAny(); 
 
@@ -930,14 +930,14 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:239:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:239:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:239:12: (~ ( '\\n' | '\\r' ) )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:12: (~ ( '\\n' | '\\r' ) )*
             loop4:
             do {
                 int alt4=2;
@@ -950,7 +950,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
             	        input.consume();
@@ -971,7 +971,7 @@ public class GwendolenLexer extends Lexer {
             } while (true);
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:239:26: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:26: ( '\\r' )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -980,7 +980,7 @@ public class GwendolenLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:239:26: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:26: '\\r'
                     {
                     match('\r'); 
 
@@ -1010,10 +1010,10 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:241:8: ( ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:241:9: ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:8: ( ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:9: ( '\\r' )? '\\n'
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:241:9: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:9: ( '\\r' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1022,7 +1022,7 @@ public class GwendolenLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:241:9: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:9: '\\r'
                     {
                     match('\r'); 
 
@@ -1052,10 +1052,10 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:242:5: ( ( ' ' | '\\t' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:242:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:5: ( ( ' ' | '\\t' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:9: ( ' ' | '\\t' )+
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:242:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:9: ( ' ' | '\\t' )+
             int cnt7=0;
             loop7:
             do {
@@ -1069,7 +1069,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1112,8 +1112,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:245:6: ( '(' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:245:9: '('
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:6: ( '(' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:9: '('
             {
             match('('); 
 
@@ -1135,8 +1135,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:246:7: ( ')' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:246:9: ')'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:247:7: ( ')' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:247:9: ')'
             {
             match(')'); 
 
@@ -1158,8 +1158,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SQOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:247:8: ( '[' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:247:10: '['
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:8: ( '[' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:10: '['
             {
             match('['); 
 
@@ -1181,8 +1181,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SQCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:248:9: ( ']' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:248:11: ']'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:249:9: ( ']' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:249:11: ']'
             {
             match(']'); 
 
@@ -1204,8 +1204,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = CURLYOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:249:11: ( '{' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:249:13: '{'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:250:11: ( '{' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:250:13: '{'
             {
             match('{'); 
 
@@ -1227,8 +1227,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = CURLYCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:250:12: ( '}' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:250:14: '}'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:251:12: ( '}' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:251:14: '}'
             {
             match('}'); 
 
@@ -1250,8 +1250,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = DOUBLEQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:252:2: ( '\"' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:252:4: '\"'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:2: ( '\"' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:4: '\"'
             {
             match('\"'); 
 
@@ -1273,8 +1273,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:253:5: ( '~' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:253:7: '~'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:5: ( '~' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:7: '~'
             {
             match('~'); 
 
@@ -1294,14 +1294,14 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:255:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:255:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             {
             if ( !((stringterm)) ) {
                 throw new FailedPredicateException(input, "STRING", "stringterm");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:255:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             int cnt8=0;
             loop8:
             do {
@@ -1315,7 +1315,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1356,8 +1356,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = CONST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:256:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:256:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "CONST", "!stringterm");
@@ -1365,7 +1365,7 @@ public class GwendolenLexer extends Lexer {
 
             matchRange('a','z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:256:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop9:
             do {
                 int alt9=2;
@@ -1378,7 +1378,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1415,8 +1415,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:257:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:257:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:258:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:258:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "VAR", "!stringterm");
@@ -1424,7 +1424,7 @@ public class GwendolenLexer extends Lexer {
 
             matchRange('A','Z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:257:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:258:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop10:
             do {
                 int alt10=2;
@@ -1437,7 +1437,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1474,8 +1474,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:258:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:258:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:259:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:259:10: {...}? => '0' .. '9' ( '0' .. '9' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "NUMBER", "!stringterm");
@@ -1483,7 +1483,7 @@ public class GwendolenLexer extends Lexer {
 
             matchRange('0','9'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:258:35: ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:259:35: ( '0' .. '9' )*
             loop11:
             do {
                 int alt11=2;
@@ -1496,7 +1496,7 @@ public class GwendolenLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -1533,8 +1533,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = LESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:261:6: ( '<' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:261:8: '<'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:262:6: ( '<' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:262:8: '<'
             {
             match('<'); 
 
@@ -1554,8 +1554,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = EQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:262:4: ( '==' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:262:7: '=='
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:263:4: ( '==' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:263:7: '=='
             {
             match("=="); 
 
@@ -1577,8 +1577,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = POINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:263:7: ( '.' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:263:9: '.'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:7: ( '.' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:264:9: '.'
             {
             match('.'); 
 
@@ -1598,8 +1598,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = MULT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:264:6: ( '*' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:264:8: '*'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:265:6: ( '*' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:265:8: '*'
             {
             match('*'); 
 
@@ -1619,8 +1619,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:265:6: ( '+' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:265:8: '+'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:6: ( '+' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:266:8: '+'
             {
             match('+'); 
 
@@ -1640,8 +1640,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:266:7: ( '-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:266:9: '-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:267:7: ( '-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:267:9: '-'
             {
             match('-'); 
 
@@ -1661,8 +1661,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:267:5: ( '/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:267:7: '/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:268:5: ( '/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:268:7: '/'
             {
             match('/'); 
 
@@ -1682,8 +1682,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = MOD;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:268:5: ( '%' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:268:7: '%'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:269:5: ( '%' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:269:7: '%'
             {
             match('%'); 
 
@@ -1703,8 +1703,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SHRIEK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:270:8: ( '!' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:270:10: '!'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:271:8: ( '!' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:271:10: '!'
             {
             match('!'); 
 
@@ -1724,8 +1724,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:271:7: ( ',' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:271:9: ','
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:272:7: ( ',' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:272:9: ','
             {
             match(','); 
 
@@ -1745,8 +1745,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = SEMI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:272:6: ( ';' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:272:8: ';'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:273:6: ( ';' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:273:8: ';'
             {
             match(';'); 
 
@@ -1766,8 +1766,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:273:7: ( ':' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:273:9: ':'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:274:7: ( ':' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:274:9: ':'
             {
             match(':'); 
 
@@ -1787,8 +1787,8 @@ public class GwendolenLexer extends Lexer {
         try {
             int _type = QUERY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:274:7: ( '?' )
-            // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:274:9: '?'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:275:7: ( '?' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:275:9: '?'
             {
             match('?'); 
 
@@ -1804,12 +1804,12 @@ public class GwendolenLexer extends Lexer {
     // $ANTLR end "QUERY"
 
     public void mTokens() throws RecognitionException {
-        // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:8: ( GWENDOLEN | GOALS | BELIEFS | BELIEFRULES | PLANS | NAME | SEND | RECEIVED | BELIEVE | GOAL | IN_CONTENT | IN_CONTEXT | SENT | LOCK | ADD_PLAN | ADD_CONSTRAINT | ADD_CONTENT | ADD_CONTEXT | TELL | PERFORM | ACHIEVE | TELLHOW | CONSTRAINT | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
+        // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:8: ( GWENDOLEN | GOALS | BELIEFS | BELIEFRULES | PLANS | NAME | SEND | RECEIVED | BELIEVE | GOAL | IN_CONTENT | IN_CONTEXT | SENT | LOCK | ADD_PLAN | ADD_CONSTRAINT | ADD_CONTENT | ADD_CONTEXT | TELL | PERFORM | ACHIEVE | TELLHOW | CONSTRAINT | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
         int alt12=57;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:10: GWENDOLEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:10: GWENDOLEN
                 {
                 mGWENDOLEN(); 
 
@@ -1817,7 +1817,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:20: GOALS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:20: GOALS
                 {
                 mGOALS(); 
 
@@ -1825,7 +1825,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:26: BELIEFS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:26: BELIEFS
                 {
                 mBELIEFS(); 
 
@@ -1833,7 +1833,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:34: BELIEFRULES
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:34: BELIEFRULES
                 {
                 mBELIEFRULES(); 
 
@@ -1841,7 +1841,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:46: PLANS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:46: PLANS
                 {
                 mPLANS(); 
 
@@ -1849,7 +1849,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:52: NAME
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:52: NAME
                 {
                 mNAME(); 
 
@@ -1857,7 +1857,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:57: SEND
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:57: SEND
                 {
                 mSEND(); 
 
@@ -1865,7 +1865,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:62: RECEIVED
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:62: RECEIVED
                 {
                 mRECEIVED(); 
 
@@ -1873,7 +1873,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:71: BELIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:71: BELIEVE
                 {
                 mBELIEVE(); 
 
@@ -1881,7 +1881,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:79: GOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:79: GOAL
                 {
                 mGOAL(); 
 
@@ -1889,7 +1889,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:84: IN_CONTENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:84: IN_CONTENT
                 {
                 mIN_CONTENT(); 
 
@@ -1897,7 +1897,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:95: IN_CONTEXT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:95: IN_CONTEXT
                 {
                 mIN_CONTEXT(); 
 
@@ -1905,7 +1905,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:106: SENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:106: SENT
                 {
                 mSENT(); 
 
@@ -1913,7 +1913,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:111: LOCK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:111: LOCK
                 {
                 mLOCK(); 
 
@@ -1921,7 +1921,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:116: ADD_PLAN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:116: ADD_PLAN
                 {
                 mADD_PLAN(); 
 
@@ -1929,7 +1929,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:125: ADD_CONSTRAINT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:125: ADD_CONSTRAINT
                 {
                 mADD_CONSTRAINT(); 
 
@@ -1937,7 +1937,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 17 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:140: ADD_CONTENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:140: ADD_CONTENT
                 {
                 mADD_CONTENT(); 
 
@@ -1945,7 +1945,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 18 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:152: ADD_CONTEXT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:152: ADD_CONTEXT
                 {
                 mADD_CONTEXT(); 
 
@@ -1953,7 +1953,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:164: TELL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:164: TELL
                 {
                 mTELL(); 
 
@@ -1961,7 +1961,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 20 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:169: PERFORM
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:169: PERFORM
                 {
                 mPERFORM(); 
 
@@ -1969,7 +1969,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 21 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:177: ACHIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:177: ACHIEVE
                 {
                 mACHIEVE(); 
 
@@ -1977,7 +1977,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 22 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:185: TELLHOW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:185: TELLHOW
                 {
                 mTELLHOW(); 
 
@@ -1985,7 +1985,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 23 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:193: CONSTRAINT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:193: CONSTRAINT
                 {
                 mCONSTRAINT(); 
 
@@ -1993,7 +1993,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 24 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:204: ACHIEVEGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:204: ACHIEVEGOAL
                 {
                 mACHIEVEGOAL(); 
 
@@ -2001,7 +2001,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 25 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:216: PERFORMGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:216: PERFORMGOAL
                 {
                 mPERFORMGOAL(); 
 
@@ -2009,7 +2009,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 26 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:228: BRULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:228: BRULEARROW
                 {
                 mBRULEARROW(); 
 
@@ -2017,7 +2017,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 27 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:239: RULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:239: RULEARROW
                 {
                 mRULEARROW(); 
 
@@ -2025,7 +2025,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 28 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:249: TRUE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:249: TRUE
                 {
                 mTRUE(); 
 
@@ -2033,7 +2033,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 29 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:254: COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:254: COMMENT
                 {
                 mCOMMENT(); 
 
@@ -2041,7 +2041,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 30 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:262: LINE_COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:262: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
@@ -2049,7 +2049,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 31 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:275: NEWLINE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:275: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -2057,7 +2057,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 32 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:283: WS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:283: WS
                 {
                 mWS(); 
 
@@ -2065,7 +2065,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 33 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:286: OPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:286: OPEN
                 {
                 mOPEN(); 
 
@@ -2073,7 +2073,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 34 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:291: CLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:291: CLOSE
                 {
                 mCLOSE(); 
 
@@ -2081,7 +2081,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 35 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:297: SQOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:297: SQOPEN
                 {
                 mSQOPEN(); 
 
@@ -2089,7 +2089,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 36 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:304: SQCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:304: SQCLOSE
                 {
                 mSQCLOSE(); 
 
@@ -2097,7 +2097,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 37 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:312: CURLYOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:312: CURLYOPEN
                 {
                 mCURLYOPEN(); 
 
@@ -2105,7 +2105,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 38 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:322: CURLYCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:322: CURLYCLOSE
                 {
                 mCURLYCLOSE(); 
 
@@ -2113,7 +2113,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 39 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:333: DOUBLEQUOTE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:333: DOUBLEQUOTE
                 {
                 mDOUBLEQUOTE(); 
 
@@ -2121,7 +2121,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 40 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:345: NOT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:345: NOT
                 {
                 mNOT(); 
 
@@ -2129,7 +2129,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 41 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:349: STRING
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:349: STRING
                 {
                 mSTRING(); 
 
@@ -2137,7 +2137,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 42 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:356: CONST
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:356: CONST
                 {
                 mCONST(); 
 
@@ -2145,7 +2145,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 43 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:362: VAR
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:362: VAR
                 {
                 mVAR(); 
 
@@ -2153,7 +2153,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:366: NUMBER
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:366: NUMBER
                 {
                 mNUMBER(); 
 
@@ -2161,7 +2161,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 45 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:373: LESS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:373: LESS
                 {
                 mLESS(); 
 
@@ -2169,7 +2169,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 46 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:378: EQ
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:378: EQ
                 {
                 mEQ(); 
 
@@ -2177,7 +2177,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 47 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:381: POINT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:381: POINT
                 {
                 mPOINT(); 
 
@@ -2185,7 +2185,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 48 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:387: MULT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:387: MULT
                 {
                 mMULT(); 
 
@@ -2193,7 +2193,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 49 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:392: PLUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:392: PLUS
                 {
                 mPLUS(); 
 
@@ -2201,7 +2201,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 50 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:397: MINUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:397: MINUS
                 {
                 mMINUS(); 
 
@@ -2209,7 +2209,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 51 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:403: DIV
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:403: DIV
                 {
                 mDIV(); 
 
@@ -2217,7 +2217,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 52 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:407: MOD
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:407: MOD
                 {
                 mMOD(); 
 
@@ -2225,7 +2225,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 53 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:411: SHRIEK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:411: SHRIEK
                 {
                 mSHRIEK(); 
 
@@ -2233,7 +2233,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 54 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:418: COMMA
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:418: COMMA
                 {
                 mCOMMA(); 
 
@@ -2241,7 +2241,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 55 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:424: SEMI
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:424: SEMI
                 {
                 mSEMI(); 
 
@@ -2249,7 +2249,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 56 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:429: COLON
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:429: COLON
                 {
                 mCOLON(); 
 
@@ -2257,7 +2257,7 @@ public class GwendolenLexer extends Lexer {
                 }
                 break;
             case 57 :
-                // /Users/lad/Eclipse/ajpf/src/classes/gwendolen/parser/Gwendolen.g:1:435: QUERY
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:1:435: QUERY
                 {
                 mQUERY(); 
 

@@ -1,16 +1,16 @@
 \chapter{Installation Instructions}
 \label{chap:installation}
-\section{Installation}
+\section{Installation}\index{installation}
 
 \begin{itemize}
 \item Download ajpf\_v0.1 source forge \texttt{http://sourceforge.net/projects/mcapl/files/mcapl/}.
 \item Create a file \texttt{.jpf/site.properties} with the path to ajpf\_v0.1 assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/ajpf\_v0.1}).
 \item Within the ajpf\_v0.1 directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, ant build to just build the files and ant test to build and run regression tests (takes about a minute on a 2.8GHz MacBook with 8 GB memory))
 \item Make sure you have the bin sub-directory of ajpf\_v0.1 on your java class path.
-\item We recommend you set the \texttt{AJPF\_HOME} environment variable to give the path to your ajpf directory.
+\item We recommend you set the \texttt{AJPF\_HOME}\index{AJPF\_HOME} environment variable to give the path to your ajpf directory.
 \end{itemize}
 
-\section{Eclipse Installation}
+\section{Eclipse Installation}\index{installation!Eclipse}
 
 We also supply an eclipse \texttt{.project} file so you should be able to import ajpf\_v0.1 simply into eclipse.
 \begin{itemize}
@@ -21,5 +21,5 @@ We also supply an eclipse \texttt{.project} file so you should be able to import
 
 \section{Testing the Installation}
 
-There are a number of JUnit tests in the subdirectory \texttt{/src/tests} and examples in \texttt{/src/examples}.
+There are a number of JUnit tests in the subdirectory \texttt{/src/tests} and examples in \texttt{/src/examples}.\index{tests}
 

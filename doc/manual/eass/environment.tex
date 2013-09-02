@@ -1,0 +1,50 @@
+\chapter{Environments for Autonomous Systems}
+
+\section{Socket Communication Protocol}
+
+The Default Environment\index{Environment!EASS Default} for \eass\ programs support socket communication\index{socket} with external systems -- we assume simulators\index{simulator} of various descriptions.  It expects to receive and send information in a particular format as follows:
+
+\subsection{Incoming Data}
+
+It reads in data in chunks separated by the operating system line feed (for the operating system on which the environment is running).  We we refer to each of these chunks of data as a ``line''.
+
+We assume that the socket will at regular intervals supply sets of data from several sensors.  Each of these sets of data should begin with the line:
+
+\begin{center}
+\texttt{STARTDATA}
+\end{center} 
+
+For each sensor (or other data) the following should be sent, each on a separate line:
+
+\begin{enumerate}
+\item The name of the sensor (or other description of the data) -- a string.
+\item An integer, $N$, (as a string) indicating the number of values associated with the sensor in this reading.
+\item $N$ numeric values (as strings) representing the actual sensor readings.  Each of these should be on a separate line.
+\end{enumerate}
+
+Once all sensor data is sent then the string
+
+\begin{center}
+\texttt{ENDDATA}
+\end{center} 
+
+should be sent.
+
+\subsection{Outgoing Data}
+
+The environment will send commands/requests on the socket in chunks separated by the operating system line feed (for the operating system on which the environment is running).  Again we will refer to each of these chunks as a ``line''.
+
+The environment sends requests according to the following protocol -- each of the following appears on a separate line.
+
+\begin{enumerate}
+\item  The string representing the ``type'' of command or request -- with the \matlab\ link up this could be \texttt{CALLMFILE} for a calculation stored in a \matlab\ ``mfile'' or \texttt{RUNTASK} for commands to be sent to a \simulink\ model.
+\item  A String representing the name of the task.
+\item  A String representing the number of input values, $N$, supplied for the task.
+\item  $N$ strings representing those input values, each on a separate line.
+\item  The value \texttt{``0''} or \texttt{``1''} indicating whether the environment expects a reply back (\texttt{``0''} for no response).
+\end{enumerate}
+
+If the environment is expecting the reply then it will assume the next line written to the socket contains the return value in its entirety.  The assumption is that this will be a string representing a number of some sort.
+
+
+
