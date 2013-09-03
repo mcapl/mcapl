@@ -434,12 +434,13 @@ public class MCAPLmodel {
 		 		s += ":";
 		 		s += "(state'=" + to + ")";
 		 		return s;
-		 	case Promela:
 		 	case Default:
 				s += from;
 				s += "-->";
 				s += to;
 				s += "\n";
+				return s;
+		 	case Promela:
 		 }
 		 return s;
 	}

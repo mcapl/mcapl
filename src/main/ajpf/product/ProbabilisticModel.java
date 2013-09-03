@@ -124,12 +124,12 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 		s += ":";
 		 		s += "(state'=" + to + ")";
 		 		return s;
-		 	case Promela:
 		 	case Default:
 		 		s += edge_prob(to, from);
 		 		s += " ::: ";
 		 		s += super.printEdge(from, to, f);
 		 		return s;
+		 	case Promela:
 		 }
 		 return s;
 	 }

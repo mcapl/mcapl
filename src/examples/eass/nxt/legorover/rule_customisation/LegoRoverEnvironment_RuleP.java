@@ -31,13 +31,11 @@ import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
 import ail.syntax.NumberTerm;
-import ail.semantics.AILAgent;
 
 import eass.mas.nxt.BasicRobot;
 import eass.mas.nxt.EASSNXTEnvironment;
 import eass.mas.nxt.EASSTouchSensor;
 import eass.mas.nxt.EASSUltrasonicSensor; 
-import eass.mas.nxt.EASSSoundSensor;
 import eass.mas.nxt.EASSLightSensor;
 import eass.mas.nxt.EASSSensor;
 import eass.mas.nxt.LegoRobot;
@@ -129,10 +127,7 @@ public class LegoRoverEnvironment_RuleP extends EASSNXTEnvironment {
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
-		   LegoRobot robot = getRobot(rname);
-		/*   System.err.println(act);
-		   System.err.println(agentmap.get("noor")); */
-		   
+		   LegoRobot robot = getRobot(rname);		   
 		   			     
 		   	if (act.getFunctor().equals("forward")) {
 		   		if (robot.hasPilot()) {
@@ -424,7 +419,8 @@ public class LegoRoverEnvironment_RuleP extends EASSNXTEnvironment {
 		}
 	}
 	/**
-	 * A class for Noor type robots (Robots with one ultrasonic sensor) and two motors.
+	 * A class for Noor type robots.  In this instantiation a Noor robot has three
+	 * sensors - touch, bump and ultrasonic.
 	 * @author louiseadennis
 	 *
 	 */
@@ -521,6 +517,7 @@ public class LegoRoverEnvironment_RuleP extends EASSNXTEnvironment {
 
 	/**
 	 * A class for Claudia type robots (Robots with one bump sensor) and two motors.
+	 * Not used/tested with this example.
 	 * @author louiseadennis
 	 *
 	 */
