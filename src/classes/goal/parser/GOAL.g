@@ -47,20 +47,79 @@ package goal.parser;
 
 // GOAL Grammar from Programming Rational Agents in GOAL by Koen Hindriks.
 program	:    MAIN COLON id CURLYOPEN
-                                        (KNOWLEDGE CURLYOPEN kr-spec CURLYCLOSE)
-                                        (BELIEFS CURLYOPEN kr-spec CURLYCLOSE)
-                                        (GOALS CURLYOPEN poslitconj* CURLYCLOSE)
+                                        (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
+                                        (BELIEFS CURLYOPEN krspec CURLYCLOSE)?
+                                        (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
                                          MAIN MODULE CURLYOPEN module CURLYCLOSE
                                          EVENT MODULE CURLYOPEN module CURLYCLOSE
-                                         (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)
+                                         (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?
                                          CURLYCLOSE;
+                                   
+module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
+                             (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
+                             PROGRAM (optionorder)? CURLYOPEN
+                                 macro*
+                                 actionrule+
+                             CURLYCLOSE
+                             (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?;
+                             
+krspec: ( atom STOP | atom PROLOGARROW litconj STOP);
+                                         
+poslitconj	: atom (COMMA atom)* STOP;
+
+litconj	: literal (COMMA literal)* STOP;
+
+literal	: atom | NOT OPEN atom CLOSE;
+
+atom	: id (parameters)?;
+
+parameters	: OPEN term (COMMA term)* CLOSE;	
+
+optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE;
+
+macro	: HASH DEFINE id (parameters) mentalstatecond STOP;
+
+actionrule   	: IF mentalstatecond THEN actioncombo STOP;		
+
+actionspec: action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;	
                                          
 id	: ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9' | '$')*;	
                                                  
 // GOAL keywords
 MAIN: 'main';	
  KNOWLEDGE:	 'knowledge';   
+ BELIEFS:	'beliefs';
+ GOALS	:	'goals';
+ EVENT	: 'event';
+ ACTIONSPEC
+ 	: 'action-spec';
+ MODULE	:	'module';
+ PROGRAM: 'program';
+ PROLOGARROW
+ 	:	':-';
+ NOT	:	'not';
+ ORDER	:'order';
+ EQUALS	:	'=';
+ LINEAR	:	'linear';
+ LINEARALL
+ 	:	'linearall';
+ RANDOM	:	'random';
+ RANDOMALL
+ 	:	'randomall';
+ DEFINE	:	'define';
+ 
+ // term syntax
+ term	: (atom | stringterm | numberterm | listerm | var);
                                               
 // Lexer Misc Syntax
 COLON	: ':';
 CURLYOPEN: '{';
+CURLYCLOSE
+	:'}';
+STOP	: '.';
+COMMA	: ',';
+OPEN	: '(';
+CLOSE	: ')';
+SQOPEN	: '[';
+SQCLOSE	: ']';
+HASH: '#';
