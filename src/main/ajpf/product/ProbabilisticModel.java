@@ -124,6 +124,7 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 		s += ":";
 		 		s += "(state'=" + to + ")";
 		 		return s;
+		 	case Promela:
 		 	case Default:
 		 		s += edge_prob(to, from);
 		 		s += " ::: ";
