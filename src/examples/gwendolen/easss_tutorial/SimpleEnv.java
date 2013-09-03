@@ -24,29 +24,16 @@
 
 package gwendolen.easss_tutorial;
 
-import ail.mas.ActionScheduler;
 import ail.mas.DefaultEnvironment;
 import ail.util.AILexception;
-import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import ail.syntax.NumberTermImpl;
-import ail.syntax.PredicatewAnnotation;
-import ail.semantics.AILAgent;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
-
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
 
 /**
- * Environment for a Trash Robot Scenario;
+ * Environment for a simple example involving picking up blocks.
  * 
  * @author louiseadennis
  *
@@ -55,18 +42,16 @@ public class SimpleEnv extends DefaultEnvironment {
 	Random r = new Random();
 	
 	/**
-	 * Two performatives, perform and tell.
+	 * Constructor.
 	 */
 	public SimpleEnv() {
 		super();
 	}
 	
 		
-	
-	/**
-	 * When a pickup action is executed the environment stores new perceptions
-	 * for the agent - that its picked something up and its hands are now longer
-	 * empty.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
 	   	Unifier theta = new Unifier();

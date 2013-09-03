@@ -27,34 +27,27 @@ package gwendolen.easss_tutorial;
 import ail.mas.DefaultEnvironment;
 import ail.util.AILConfig;
 import ail.util.AILexception;
-import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.SendAction;
 import ail.syntax.Literal;
-import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
-import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
 
 /**
- * Environment for a Trash Robot Scenario;
+ * Environment for a Trash Robot Scenario.  Tailored for verification so that
+ * the percepts are decided at random.
  * 
  * @author louiseadennis
  *
  */
 public class RobotEnv extends DefaultEnvironment {
-//	int casenumber = 1;
 	boolean changer = true;
 	boolean changel = true;
 	boolean changemessage = true;
@@ -74,14 +67,18 @@ public class RobotEnv extends DefaultEnvironment {
 	String logname = "gwendolen.rescue.RobotEnv";
 	
 	/**
-	 * Two performatives, perform and tell.
+	 * Constructor.
 	 */
 	public RobotEnv() {
 		super();
 		human=new Literal("human");
 		clear = new Literal("clear");
 	}
-			
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
+	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		Set<Predicate> percepts = new HashSet<Predicate>();
 		if (agName.equals("searcher")) {
@@ -113,35 +110,10 @@ public class RobotEnv extends DefaultEnvironment {
 		return percepts;
 	}
 	
-/*	public Set<Message> getMessages(String agName) {
-		Set<Message> messages = new HashSet<Message>();
-		if (agName.equals("agentlifter")) {
-			if (changemessage) {
-				if ( withlifter || withlifter2) {
-					havemessagel = random.nextBoolean();
-				}
 	
-		
-				if (havemessagel) {
-					Literal humanloc = new Literal("human");
-					humanloc.addTerm(new NumberTermImpl(2));
-					humanloc.addTerm(new NumberTermImpl(2));
-					if (agName.equals("agentlifter")) { 
-						Message msg = new Message(1, "r", "agentlifter", humanloc);
-						messages.add(msg);
-						AJPFLogger.fine(logname, "Adding " + msg);
-					}
-				}
-				changemessage=false;
-			}
-		}
-		return messages;
-	} */
-	
-	/**
-	 * When a pickup action is executed the environment stores new perceptions
-	 * for the agent - that its picked something up and its hands are now longer
-	 * empty.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
 	   	Unifier theta = new Unifier();
@@ -156,6 +128,10 @@ public class RobotEnv extends DefaultEnvironment {
     	return theta;
     }
    
+   /**
+    * Indicates that percepts for a particular robot may have changed.
+    * @param name
+    */
    public void change_for(String name) {
 	   if (name.equals("searcher")) {
 		   changer = true;
@@ -165,6 +141,9 @@ public class RobotEnv extends DefaultEnvironment {
 	   }
    }
    
+   /*
+    * 
+    */
    public boolean nothingPending(String agName) {
 	   if (agName.equals("searcher")) {
 		   return (!changer); 
@@ -173,6 +152,10 @@ public class RobotEnv extends DefaultEnvironment {
 	   }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see ail.mas.DefaultEnvironment#configure(ail.util.AILConfig)
+    */
 	public void configure(AILConfig configuration) {
 		super.configure(configuration);
 		
