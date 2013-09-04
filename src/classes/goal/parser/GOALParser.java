@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g 2013-05-16 12:42:39
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2013-09-03 16:22:53
 
 package goal.parser;
 
@@ -15,66 +15,60 @@ import java.util.ArrayList;
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class GOALParser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ADOPT", "AGNAME", "AND", "ANON_VAR", "BELIEFS", "BELIEVE", "BRULEARROW", "BRULES", "CAPABILITIES", "CLOSE", "CLOSEKEY", "COLON", "COMMA", "COMMENT", "CONDACTIONS", "CONST", "CONTENT", "CONTEXT", "CURLYCLOSE", "CURLYOPEN", "DEL", "DIV", "DOUBLEQUOTE", "DROP", "EQ", "GOAL", "GOALS", "HAVEGOAL", "IF", "INS", "IN_CONTENT", "IN_CONTEXT", "LESS", "LINE_COMMENT", "MINUS", "MOD", "MULT", "NAME", "NEWLINE", "NOT", "NUMBER", "NUMMARKER", "OPEN", "PLUS", "POINT", "QUERY", "SEMI", "SEND", "SHRIEK", "SQCLOSE", "SQOPEN", "STRING", "THEN", "TRUE", "VAR", "WS"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ACTIONSPEC", "ADOPT", "BAR", "BEL", "BELIEFS", "CLOSE", "COLON", "COMMA", "CURLYCLOSE", "CURLYOPEN", "DEFINE", "DELETE", "DOUBLEQUOTE", "DROP", "EQUALS", "EVENT", "GOAL", "GOALS", "HASH", "IF", "INSERT", "KNOWLEDGE", "LINEAR", "LINEARALL", "MAIN", "MODULE", "NOT", "OPEN", "ORDER", "PLUS", "POST", "PRE", "PROGRAM", "PROLOGARROW", "RANDOM", "RANDOMALL", "SEND", "SQCLOSE", "SQOPEN", "STOP", "THEN", "TRUE", "'$'", "'0'", "'9'", "'A'", "'Z'", "'_'", "'a'", "'z'"
     };
 
     public static final int EOF=-1;
-    public static final int ADOPT=4;
-    public static final int AGNAME=5;
-    public static final int AND=6;
-    public static final int ANON_VAR=7;
+    public static final int T__46=46;
+    public static final int T__47=47;
+    public static final int T__48=48;
+    public static final int T__49=49;
+    public static final int T__50=50;
+    public static final int T__51=51;
+    public static final int T__52=52;
+    public static final int T__53=53;
+    public static final int ACTIONSPEC=4;
+    public static final int ADOPT=5;
+    public static final int BAR=6;
+    public static final int BEL=7;
     public static final int BELIEFS=8;
-    public static final int BELIEVE=9;
-    public static final int BRULEARROW=10;
-    public static final int BRULES=11;
-    public static final int CAPABILITIES=12;
-    public static final int CLOSE=13;
-    public static final int CLOSEKEY=14;
-    public static final int COLON=15;
-    public static final int COMMA=16;
-    public static final int COMMENT=17;
-    public static final int CONDACTIONS=18;
-    public static final int CONST=19;
-    public static final int CONTENT=20;
-    public static final int CONTEXT=21;
-    public static final int CURLYCLOSE=22;
-    public static final int CURLYOPEN=23;
-    public static final int DEL=24;
-    public static final int DIV=25;
-    public static final int DOUBLEQUOTE=26;
-    public static final int DROP=27;
-    public static final int EQ=28;
-    public static final int GOAL=29;
-    public static final int GOALS=30;
-    public static final int HAVEGOAL=31;
-    public static final int IF=32;
-    public static final int INS=33;
-    public static final int IN_CONTENT=34;
-    public static final int IN_CONTEXT=35;
-    public static final int LESS=36;
-    public static final int LINE_COMMENT=37;
-    public static final int MINUS=38;
-    public static final int MOD=39;
-    public static final int MULT=40;
-    public static final int NAME=41;
-    public static final int NEWLINE=42;
-    public static final int NOT=43;
-    public static final int NUMBER=44;
-    public static final int NUMMARKER=45;
-    public static final int OPEN=46;
-    public static final int PLUS=47;
-    public static final int POINT=48;
-    public static final int QUERY=49;
-    public static final int SEMI=50;
-    public static final int SEND=51;
-    public static final int SHRIEK=52;
-    public static final int SQCLOSE=53;
-    public static final int SQOPEN=54;
-    public static final int STRING=55;
-    public static final int THEN=56;
-    public static final int TRUE=57;
-    public static final int VAR=58;
-    public static final int WS=59;
+    public static final int CLOSE=9;
+    public static final int COLON=10;
+    public static final int COMMA=11;
+    public static final int CURLYCLOSE=12;
+    public static final int CURLYOPEN=13;
+    public static final int DEFINE=14;
+    public static final int DELETE=15;
+    public static final int DOUBLEQUOTE=16;
+    public static final int DROP=17;
+    public static final int EQUALS=18;
+    public static final int EVENT=19;
+    public static final int GOAL=20;
+    public static final int GOALS=21;
+    public static final int HASH=22;
+    public static final int IF=23;
+    public static final int INSERT=24;
+    public static final int KNOWLEDGE=25;
+    public static final int LINEAR=26;
+    public static final int LINEARALL=27;
+    public static final int MAIN=28;
+    public static final int MODULE=29;
+    public static final int NOT=30;
+    public static final int OPEN=31;
+    public static final int ORDER=32;
+    public static final int PLUS=33;
+    public static final int POST=34;
+    public static final int PRE=35;
+    public static final int PROGRAM=36;
+    public static final int PROLOGARROW=37;
+    public static final int RANDOM=38;
+    public static final int RANDOMALL=39;
+    public static final int SEND=40;
+    public static final int SQCLOSE=41;
+    public static final int SQOPEN=42;
+    public static final int STOP=43;
+    public static final int THEN=44;
+    public static final int TRUE=45;
 
     // delegates
     public Parser[] getDelegates() {
@@ -92,7 +86,7 @@ public class GOALParser extends Parser {
     }
 
     public String[] getTokenNames() { return GOALParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g"; }
+    public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g"; }
 
 
     	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
@@ -100,28 +94,223 @@ public class GOALParser extends Parser {
 
 
 
-    // $ANTLR start "mas"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:58:1: mas returns [Abstract_MAS mas] :glist= goalagents ;
-    public final Abstract_MAS mas() throws RecognitionException {
-        Abstract_MAS mas = null;
-
-
-        ArrayList<Abstract_GOALAgent> glist =null;
-
-
+    // $ANTLR start "program"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:49:1: program : MAIN COLON id CURLYOPEN ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( BELIEFS CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? MAIN MODULE CURLYOPEN module CURLYCLOSE EVENT MODULE CURLYOPEN module CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )? CURLYCLOSE ;
+    public final void program() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:58:32: (glist= goalagents )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:58:34: glist= goalagents
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:49:9: ( MAIN COLON id CURLYOPEN ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( BELIEFS CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? MAIN MODULE CURLYOPEN module CURLYCLOSE EVENT MODULE CURLYOPEN module CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )? CURLYCLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:49:14: MAIN COLON id CURLYOPEN ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( BELIEFS CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? MAIN MODULE CURLYOPEN module CURLYCLOSE EVENT MODULE CURLYOPEN module CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )? CURLYCLOSE
             {
-            mas = new Abstract_MAS();
+            match(input,MAIN,FOLLOW_MAIN_in_program69); 
 
-            pushFollow(FOLLOW_goalagents_in_mas76);
-            glist=goalagents();
+            match(input,COLON,FOLLOW_COLON_in_program71); 
+
+            pushFollow(FOLLOW_id_in_program73);
+            id();
 
             state._fsp--;
 
 
-            mas.setAgs(glist);
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program75); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:50:41: ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )?
+            int alt1=2;
+            int LA1_0 = input.LA(1);
+
+            if ( (LA1_0==KNOWLEDGE) ) {
+                alt1=1;
+            }
+            switch (alt1) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:50:42: KNOWLEDGE CURLYOPEN krspec CURLYCLOSE
+                    {
+                    match(input,KNOWLEDGE,FOLLOW_KNOWLEDGE_in_program118); 
+
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program120); 
+
+                    pushFollow(FOLLOW_krspec_in_program122);
+                    krspec();
+
+                    state._fsp--;
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program124); 
+
+                    }
+                    break;
+
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:51:41: ( BELIEFS CURLYOPEN krspec CURLYCLOSE )?
+            int alt2=2;
+            int LA2_0 = input.LA(1);
+
+            if ( (LA2_0==BELIEFS) ) {
+                alt2=1;
+            }
+            switch (alt2) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:51:42: BELIEFS CURLYOPEN krspec CURLYCLOSE
+                    {
+                    match(input,BELIEFS,FOLLOW_BELIEFS_in_program169); 
+
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program171); 
+
+                    pushFollow(FOLLOW_krspec_in_program173);
+                    krspec();
+
+                    state._fsp--;
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program175); 
+
+                    }
+                    break;
+
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:52:41: ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )?
+            int alt4=2;
+            int LA4_0 = input.LA(1);
+
+            if ( (LA4_0==GOALS) ) {
+                alt4=1;
+            }
+            switch (alt4) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:52:42: GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE
+                    {
+                    match(input,GOALS,FOLLOW_GOALS_in_program220); 
+
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program222); 
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:52:58: ( poslitconj )*
+                    loop3:
+                    do {
+                        int alt3=2;
+                        int LA3_0 = input.LA(1);
+
+                        if ( (LA3_0==46||LA3_0==51) ) {
+                            alt3=1;
+                        }
+
+
+                        switch (alt3) {
+                    	case 1 :
+                    	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:52:58: poslitconj
+                    	    {
+                    	    pushFollow(FOLLOW_poslitconj_in_program224);
+                    	    poslitconj();
+
+                    	    state._fsp--;
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop3;
+                        }
+                    } while (true);
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program227); 
+
+                    }
+                    break;
+
+            }
+
+
+            match(input,MAIN,FOLLOW_MAIN_in_program272); 
+
+            match(input,MODULE,FOLLOW_MODULE_in_program274); 
+
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program276); 
+
+            pushFollow(FOLLOW_module_in_program278);
+            module();
+
+            state._fsp--;
+
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program280); 
+
+            match(input,EVENT,FOLLOW_EVENT_in_program323); 
+
+            match(input,MODULE,FOLLOW_MODULE_in_program325); 
+
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program327); 
+
+            pushFollow(FOLLOW_module_in_program329);
+            module();
+
+            state._fsp--;
+
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program331); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:42: ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )?
+            int alt6=2;
+            int LA6_0 = input.LA(1);
+
+            if ( (LA6_0==ACTIONSPEC) ) {
+                alt6=1;
+            }
+            switch (alt6) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:43: ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE
+                    {
+                    match(input,ACTIONSPEC,FOLLOW_ACTIONSPEC_in_program375); 
+
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program377); 
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:64: ( actionspec )+
+                    int cnt5=0;
+                    loop5:
+                    do {
+                        int alt5=2;
+                        int LA5_0 = input.LA(1);
+
+                        if ( (LA5_0==ADOPT||LA5_0==DELETE||LA5_0==DROP||LA5_0==INSERT||LA5_0==SEND||LA5_0==46||LA5_0==51) ) {
+                            alt5=1;
+                        }
+
+
+                        switch (alt5) {
+                    	case 1 :
+                    	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:64: actionspec
+                    	    {
+                    	    pushFollow(FOLLOW_actionspec_in_program379);
+                    	    actionspec();
+
+                    	    state._fsp--;
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    if ( cnt5 >= 1 ) break loop5;
+                                EarlyExitException eee =
+                                    new EarlyExitException(5, input);
+                                throw eee;
+                        }
+                        cnt5++;
+                    } while (true);
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program382); 
+
+                    }
+                    break;
+
+            }
+
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program427); 
 
             }
 
@@ -134,1094 +323,231 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return mas;
+        return ;
     }
-    // $ANTLR end "mas"
+    // $ANTLR end "program"
 
 
 
-    // $ANTLR start "goalagents"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:61:1: goalagents returns [ArrayList<Abstract_GOALAgent> gags] : GOAL (g= goalagent )+ ;
-    public final ArrayList<Abstract_GOALAgent> goalagents() throws RecognitionException {
-        ArrayList<Abstract_GOALAgent> gags = null;
-
-
-        Abstract_GOALAgent g =null;
-
-
+    // $ANTLR start "module"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:1: module : ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? PROGRAM ( optionorder )? CURLYOPEN ( macro )* ( actionrule )+ CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )? ;
+    public final void module() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:61:55: ( GOAL (g= goalagent )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:61:57: GOAL (g= goalagent )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:8: ( ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? PROGRAM ( optionorder )? CURLYOPEN ( macro )* ( actionrule )+ CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:10: ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )? ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )? PROGRAM ( optionorder )? CURLYOPEN ( macro )* ( actionrule )+ CURLYCLOSE ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )?
             {
-            match(input,GOAL,FOLLOW_GOAL_in_goalagents88); 
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:10: ( KNOWLEDGE CURLYOPEN krspec CURLYCLOSE )?
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            gags=new ArrayList<Abstract_GOALAgent>();
+            if ( (LA7_0==KNOWLEDGE) ) {
+                alt7=1;
+            }
+            switch (alt7) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:11: KNOWLEDGE CURLYOPEN krspec CURLYCLOSE
+                    {
+                    match(input,KNOWLEDGE,FOLLOW_KNOWLEDGE_in_module471); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:62:2: (g= goalagent )+
-            int cnt1=0;
-            loop1:
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module473); 
+
+                    pushFollow(FOLLOW_krspec_in_module475);
+                    krspec();
+
+                    state._fsp--;
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module477); 
+
+                    }
+                    break;
+
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:59:30: ( GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE )?
+            int alt9=2;
+            int LA9_0 = input.LA(1);
+
+            if ( (LA9_0==GOALS) ) {
+                alt9=1;
+            }
+            switch (alt9) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:59:31: GOALS CURLYOPEN ( poslitconj )* CURLYCLOSE
+                    {
+                    match(input,GOALS,FOLLOW_GOALS_in_module511); 
+
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module513); 
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:59:47: ( poslitconj )*
+                    loop8:
+                    do {
+                        int alt8=2;
+                        int LA8_0 = input.LA(1);
+
+                        if ( (LA8_0==46||LA8_0==51) ) {
+                            alt8=1;
+                        }
+
+
+                        switch (alt8) {
+                    	case 1 :
+                    	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:59:47: poslitconj
+                    	    {
+                    	    pushFollow(FOLLOW_poslitconj_in_module515);
+                    	    poslitconj();
+
+                    	    state._fsp--;
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop8;
+                        }
+                    } while (true);
+
+
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module518); 
+
+                    }
+                    break;
+
+            }
+
+
+            match(input,PROGRAM,FOLLOW_PROGRAM_in_module551); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:60:38: ( optionorder )?
+            int alt10=2;
+            int LA10_0 = input.LA(1);
+
+            if ( (LA10_0==SQOPEN) ) {
+                alt10=1;
+            }
+            switch (alt10) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:60:39: optionorder
+                    {
+                    pushFollow(FOLLOW_optionorder_in_module554);
+                    optionorder();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
+
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module558); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:61:34: ( macro )*
+            loop11:
             do {
-                int alt1=2;
-                int LA1_0 = input.LA(1);
+                int alt11=2;
+                int LA11_0 = input.LA(1);
 
-                if ( (LA1_0==NAME) ) {
-                    alt1=1;
+                if ( (LA11_0==HASH) ) {
+                    alt11=1;
                 }
 
 
-                switch (alt1) {
+                switch (alt11) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:62:3: g= goalagent
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:61:34: macro
             	    {
-            	    pushFollow(FOLLOW_goalagent_in_goalagents97);
-            	    g=goalagent();
+            	    pushFollow(FOLLOW_macro_in_module593);
+            	    macro();
 
             	    state._fsp--;
 
-
-            	    gags.add(g);
 
             	    }
             	    break;
 
             	default :
-            	    if ( cnt1 >= 1 ) break loop1;
+            	    break loop11;
+                }
+            } while (true);
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:62:34: ( actionrule )+
+            int cnt12=0;
+            loop12:
+            do {
+                int alt12=2;
+                int LA12_0 = input.LA(1);
+
+                if ( (LA12_0==IF) ) {
+                    alt12=1;
+                }
+
+
+                switch (alt12) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:62:34: actionrule
+            	    {
+            	    pushFollow(FOLLOW_actionrule_in_module629);
+            	    actionrule();
+
+            	    state._fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt12 >= 1 ) break loop12;
                         EarlyExitException eee =
-                            new EarlyExitException(1, input);
+                            new EarlyExitException(12, input);
                         throw eee;
                 }
-                cnt1++;
+                cnt12++;
             } while (true);
 
 
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module661); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:30: ( ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE )?
+            int alt14=2;
+            int LA14_0 = input.LA(1);
+
+            if ( (LA14_0==ACTIONSPEC) ) {
+                alt14=1;
             }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return gags;
-    }
-    // $ANTLR end "goalagents"
-
-
-
-    // $ANTLR start "brule"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:64:1: brule returns [Abstract_Rule r] : head= literal BRULEARROW gb= fmla ;
-    public final Abstract_Rule brule() throws RecognitionException {
-        Abstract_Rule r = null;
-
-
-        Abstract_Literal head =null;
-
-        Abstract_LogicalFormula gb =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:64:32: (head= literal BRULEARROW gb= fmla )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:64:34: head= literal BRULEARROW gb= fmla
-            {
-            pushFollow(FOLLOW_literal_in_brule285);
-            head=literal();
-
-            state._fsp--;
-
-
-            match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule287); 
-
-            pushFollow(FOLLOW_fmla_in_brule291);
-            gb=fmla();
-
-            state._fsp--;
-
-
-            r = new Abstract_Rule(new Abstract_GBelief(Abstract_GBelief.AILBel, head), gb);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return r;
-    }
-    // $ANTLR end "brule"
-
-
-
-    // $ANTLR start "fmla"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:66:1: fmla returns [Abstract_LogicalFormula f] : gb= literal ( COMMA and= fmla | ( SEMI and= fmla ) )* ;
-    public final Abstract_LogicalFormula fmla() throws RecognitionException {
-        Abstract_LogicalFormula f = null;
-
-
-        Abstract_Literal gb =null;
-
-        Abstract_LogicalFormula and =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:66:42: (gb= literal ( COMMA and= fmla | ( SEMI and= fmla ) )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:66:44: gb= literal ( COMMA and= fmla | ( SEMI and= fmla ) )*
-            {
-            pushFollow(FOLLOW_literal_in_fmla311);
-            gb=literal();
-
-            state._fsp--;
-
-
-            f = new Abstract_GBelief(Abstract_GBelief.AILBel, gb);
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:67:2: ( COMMA and= fmla | ( SEMI and= fmla ) )*
-            loop2:
-            do {
-                int alt2=3;
-                int LA2_0 = input.LA(1);
-
-                if ( (LA2_0==COMMA) ) {
-                    alt2=1;
-                }
-                else if ( (LA2_0==SEMI) ) {
-                    alt2=2;
-                }
-
-
-                switch (alt2) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:67:3: COMMA and= fmla
-            	    {
-            	    match(input,COMMA,FOLLOW_COMMA_in_fmla318); 
-
-            	    pushFollow(FOLLOW_fmla_in_fmla322);
-            	    and=fmla();
-
-            	    state._fsp--;
-
-
-            	    f = new Abstract_LogExpr(new Abstract_GBelief(Abstract_GBelief.AILBel, gb), Abstract_LogExpr.and, and);
-
-            	    }
-            	    break;
-            	case 2 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:69:2: ( SEMI and= fmla )
-            	    {
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:69:2: ( SEMI and= fmla )
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:69:3: SEMI and= fmla
-            	    {
-            	    match(input,SEMI,FOLLOW_SEMI_in_fmla332); 
-
-            	    pushFollow(FOLLOW_fmla_in_fmla336);
-            	    and=fmla();
-
-            	    state._fsp--;
-
-
-            	    f = new Abstract_LogExpr(new Abstract_GBelief(Abstract_GBelief.AILBel, gb), Abstract_LogExpr.or, and);
-
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop2;
-                }
-            } while (true);
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return f;
-    }
-    // $ANTLR end "fmla"
-
-
-
-    // $ANTLR start "goalagent"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:72:1: goalagent returns [Abstract_GOALAgent g] : NAME w= word BELIEFS (l= literal )* BRULES (r= brule )* GOALS (l1= literal )* CONDACTIONS (ca= condaction )* CAPABILITIES (cap= capability )* ;
-    public final Abstract_GOALAgent goalagent() throws RecognitionException {
-        Abstract_GOALAgent g = null;
-
-
-        String w =null;
-
-        Abstract_Literal l =null;
-
-        Abstract_Rule r =null;
-
-        Abstract_Literal l1 =null;
-
-        Abstract_ActionRule ca =null;
-
-        Abstract_ActionSpec cap =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:72:42: ( NAME w= word BELIEFS (l= literal )* BRULES (r= brule )* GOALS (l1= literal )* CONDACTIONS (ca= condaction )* CAPABILITIES (cap= capability )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:72:44: NAME w= word BELIEFS (l= literal )* BRULES (r= brule )* GOALS (l1= literal )* CONDACTIONS (ca= condaction )* CAPABILITIES (cap= capability )*
-            {
-            match(input,NAME,FOLLOW_NAME_in_goalagent354); 
-
-            pushFollow(FOLLOW_word_in_goalagent358);
-            w=word();
-
-            state._fsp--;
-
-
-            name = w;
-
-            try {g = new Abstract_GOALAgent(w);} catch (Exception e) {System.err.println(e);}
-
-            match(input,BELIEFS,FOLLOW_BELIEFS_in_goalagent367); 
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:74:10: (l= literal )*
-            loop3:
-            do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
-
-                if ( (LA3_0==ANON_VAR||LA3_0==CONST||LA3_0==NOT||(LA3_0 >= TRUE && LA3_0 <= VAR)) ) {
-                    alt3=1;
-                }
-
-
-                switch (alt3) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:74:11: l= literal
-            	    {
-            	    pushFollow(FOLLOW_literal_in_goalagent372);
-            	    l=literal();
-
-            	    state._fsp--;
-
-
-            	    g.addInitialBel(l);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop3;
-                }
-            } while (true);
-
-
-            match(input,BRULES,FOLLOW_BRULES_in_goalagent379); 
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:75:9: (r= brule )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
-
-                if ( (LA4_0==ANON_VAR||LA4_0==CONST||LA4_0==NOT||(LA4_0 >= TRUE && LA4_0 <= VAR)) ) {
-                    alt4=1;
-                }
-
-
-                switch (alt4) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:75:10: r= brule
-            	    {
-            	    pushFollow(FOLLOW_brule_in_goalagent384);
-            	    r=brule();
-
-            	    state._fsp--;
-
-
-            	    g.addRule(r);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop4;
-                }
-            } while (true);
-
-
-            match(input,GOALS,FOLLOW_GOALS_in_goalagent391); 
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:76:8: (l1= literal )*
-            loop5:
-            do {
-                int alt5=2;
-                int LA5_0 = input.LA(1);
-
-                if ( (LA5_0==ANON_VAR||LA5_0==CONST||LA5_0==NOT||(LA5_0 >= TRUE && LA5_0 <= VAR)) ) {
-                    alt5=1;
-                }
-
-
-                switch (alt5) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:76:9: l1= literal
-            	    {
-            	    Abstract_StringTerm zero = new Abstract_StringTermImpl("");
-
-            	    pushFollow(FOLLOW_literal_in_goalagent398);
-            	    l1=literal();
-
-            	    state._fsp--;
-
-
-            	    g.addGoal(l1, new Abstract_StringTermImpl(""));
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop5;
-                }
-            } while (true);
-
-
-            match(input,CONDACTIONS,FOLLOW_CONDACTIONS_in_goalagent405); 
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:77:14: (ca= condaction )*
-            loop6:
-            do {
-                int alt6=2;
-                int LA6_0 = input.LA(1);
-
-                if ( (LA6_0==IF) ) {
-                    alt6=1;
-                }
-
-
-                switch (alt6) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:77:15: ca= condaction
-            	    {
-            	    pushFollow(FOLLOW_condaction_in_goalagent410);
-            	    ca=condaction();
-
-            	    state._fsp--;
-
-
-            	    try {g.addPlan(ca);} catch (Exception e) {System.err.println(e);}
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop6;
-                }
-            } while (true);
-
-
-            match(input,CAPABILITIES,FOLLOW_CAPABILITIES_in_goalagent417); 
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:78:15: (cap= capability )*
-            loop7:
-            do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
-
-                if ( (LA7_0==ANON_VAR||LA7_0==CONST||LA7_0==NOT||(LA7_0 >= TRUE && LA7_0 <= VAR)) ) {
-                    alt7=1;
-                }
-
-
-                switch (alt7) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:78:16: cap= capability
-            	    {
-            	    pushFollow(FOLLOW_capability_in_goalagent422);
-            	    cap=capability();
-
-            	    state._fsp--;
-
-
-            	    try {g.addPlan(cap);} catch (Exception e) {System.err.println(e);}
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop7;
-                }
-            } while (true);
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return g;
-    }
-    // $ANTLR end "goalagent"
-
-
-
-    // $ANTLR start "goal"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:80:1: goal[Abstract_StringTerm i] returns [Abstract_Goal g] : l= literal ( AND l2= literal )* ;
-    public final Abstract_Goal goal(Abstract_StringTerm i) throws RecognitionException {
-        Abstract_Goal g = null;
-
-
-        Abstract_Literal l =null;
-
-        Abstract_Literal l2 =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:80:55: (l= literal ( AND l2= literal )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:80:58: l= literal ( AND l2= literal )*
-            {
-            pushFollow(FOLLOW_literal_in_goal443);
-            l=literal();
-
-            state._fsp--;
-
-
-            Abstract_Literal l1 = l;
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:81:2: ( AND l2= literal )*
-            loop8:
-            do {
-                int alt8=2;
-                int LA8_0 = input.LA(1);
-
-                if ( (LA8_0==AND) ) {
-                    alt8=1;
-                }
-
-
-                switch (alt8) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:81:3: AND l2= literal
-            	    {
-            	    match(input,AND,FOLLOW_AND_in_goal450); 
-
-            	    pushFollow(FOLLOW_literal_in_goal454);
-            	    l2=literal();
-
-            	    state._fsp--;
-
-
-            	    Abstract_Literal l3 = new Abstract_Literal("and"); l3.addTerm(l1); l3.addTerm(l2); l1 = l3;
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop8;
-                }
-            } while (true);
-
-
-            g = new Abstract_Goal(l1, Abstract_Goal.achieveGoal); g.setGoalBase(i);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return g;
-    }
-    // $ANTLR end "goal"
-
-
-
-    // $ANTLR start "capability"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:84:1: capability returns [Abstract_ActionSpec c] : g= capname CURLYOPEN ms= precondition CURLYCLOSE CURLYOPEN postcondition[deeds] CURLYCLOSE ;
-    public final Abstract_ActionSpec capability() throws RecognitionException {
-        Abstract_ActionSpec c = null;
-
-
-        Abstract_Goal g =null;
-
-        Abstract_MentalState ms =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:85:2: (g= capname CURLYOPEN ms= precondition CURLYCLOSE CURLYOPEN postcondition[deeds] CURLYCLOSE )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:85:4: g= capname CURLYOPEN ms= precondition CURLYCLOSE CURLYOPEN postcondition[deeds] CURLYCLOSE
-            {
-            pushFollow(FOLLOW_capname_in_capability477);
-            g=capname();
-
-            state._fsp--;
-
-
-            ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>();
-
-            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability484); 
-
-            pushFollow(FOLLOW_precondition_in_capability490);
-            ms=precondition();
-
-            state._fsp--;
-
-
-            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability492); 
-
-            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability496); 
-
-            pushFollow(FOLLOW_postcondition_in_capability498);
-            postcondition(deeds);
-
-            state._fsp--;
-
-
-            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability501); 
-
-            c = new Abstract_ActionSpec(g, ms, deeds); variables.clear();
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return c;
-    }
-    // $ANTLR end "capability"
-
-
-
-    // $ANTLR start "condaction"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:89:1: condaction returns [Abstract_ActionRule cact] : IF ms= precondition THEN ca= capostcondition[deeds] ;
-    public final Abstract_ActionRule condaction() throws RecognitionException {
-        Abstract_ActionRule cact = null;
-
-
-        Abstract_MentalState ms =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:90:2: ( IF ms= precondition THEN ca= capostcondition[deeds] )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:90:4: IF ms= precondition THEN ca= capostcondition[deeds]
-            {
-            match(input,IF,FOLLOW_IF_in_condaction517); 
-
-            pushFollow(FOLLOW_precondition_in_condaction521);
-            ms=precondition();
-
-            state._fsp--;
-
-
-            match(input,THEN,FOLLOW_THEN_in_condaction523); 
-
-            ArrayList<Abstract_Deed> deeds = new ArrayList<Abstract_Deed>();
-
-            pushFollow(FOLLOW_capostcondition_in_condaction529);
-            capostcondition(deeds);
-
-            state._fsp--;
-
-
-            cact = new Abstract_ActionRule(ms, deeds); cact.reverseBody(); variables.clear();
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return cact;
-    }
-    // $ANTLR end "condaction"
-
-
-
-    // $ANTLR start "capostcondition"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:92:1: capostcondition[ArrayList<Abstract_Deed> deeds] : ( INS OPEN (s2= dbnumb COMMA )? l= literal CLOSE | DEL OPEN (s2= dbnumb COMMA )? l= literal CLOSE | ADOPT OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | DROP OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | CONTENT OPEN l= literal CLOSE | CONTEXT OPEN l= literal CLOSE | SEND OPEN st= conv_id ':' SQOPEN (i= dbnumb )+ SQCLOSE COMMA ( MULT | MOD | QUERY | SHRIEK | POINT ) t= literal ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )* CLOSE | CLOSEKEY OPEN s= conv_id CLOSE |gl= capname ) ( COMMA capostcondition[deeds] )* ;
-    public final void capostcondition(ArrayList<Abstract_Deed> deeds) throws RecognitionException {
-        Abstract_StringTerm s2 =null;
-
-        Abstract_Literal l =null;
-
-        Abstract_Goal g =null;
-
-        Abstract_StringTerm st =null;
-
-        Abstract_StringTerm i =null;
-
-        Abstract_Literal t =null;
-
-        Abstract_Literal t1 =null;
-
-        Abstract_StringTerm s =null;
-
-        Abstract_Goal gl =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:93:2: ( ( INS OPEN (s2= dbnumb COMMA )? l= literal CLOSE | DEL OPEN (s2= dbnumb COMMA )? l= literal CLOSE | ADOPT OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | DROP OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | CONTENT OPEN l= literal CLOSE | CONTEXT OPEN l= literal CLOSE | SEND OPEN st= conv_id ':' SQOPEN (i= dbnumb )+ SQCLOSE COMMA ( MULT | MOD | QUERY | SHRIEK | POINT ) t= literal ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )* CLOSE | CLOSEKEY OPEN s= conv_id CLOSE |gl= capname ) ( COMMA capostcondition[deeds] )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:93:4: ( INS OPEN (s2= dbnumb COMMA )? l= literal CLOSE | DEL OPEN (s2= dbnumb COMMA )? l= literal CLOSE | ADOPT OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | DROP OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | CONTENT OPEN l= literal CLOSE | CONTEXT OPEN l= literal CLOSE | SEND OPEN st= conv_id ':' SQOPEN (i= dbnumb )+ SQCLOSE COMMA ( MULT | MOD | QUERY | SHRIEK | POINT ) t= literal ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )* CLOSE | CLOSEKEY OPEN s= conv_id CLOSE |gl= capname ) ( COMMA capostcondition[deeds] )*
-            {
-            Abstract_StringTerm s1 = new Abstract_StringTermImpl("");
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:94:2: ( INS OPEN (s2= dbnumb COMMA )? l= literal CLOSE | DEL OPEN (s2= dbnumb COMMA )? l= literal CLOSE | ADOPT OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | DROP OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE | CONTENT OPEN l= literal CLOSE | CONTEXT OPEN l= literal CLOSE | SEND OPEN st= conv_id ':' SQOPEN (i= dbnumb )+ SQCLOSE COMMA ( MULT | MOD | QUERY | SHRIEK | POINT ) t= literal ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )* CLOSE | CLOSEKEY OPEN s= conv_id CLOSE |gl= capname )
-            int alt17=9;
-            switch ( input.LA(1) ) {
-            case INS:
-                {
-                alt17=1;
-                }
-                break;
-            case DEL:
-                {
-                alt17=2;
-                }
-                break;
-            case ADOPT:
-                {
-                alt17=3;
-                }
-                break;
-            case DROP:
-                {
-                alt17=4;
-                }
-                break;
-            case CONTENT:
-                {
-                alt17=5;
-                }
-                break;
-            case CONTEXT:
-                {
-                alt17=6;
-                }
-                break;
-            case SEND:
-                {
-                alt17=7;
-                }
-                break;
-            case CLOSEKEY:
-                {
-                alt17=8;
-                }
-                break;
-            case ANON_VAR:
-            case CONST:
-            case NOT:
-            case TRUE:
-            case VAR:
-                {
-                alt17=9;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 17, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt17) {
+            switch (alt14) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:94:3: INS OPEN (s2= dbnumb COMMA )? l= literal CLOSE
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:31: ACTIONSPEC CURLYOPEN ( actionspec )+ CURLYCLOSE
                     {
-                    match(input,INS,FOLLOW_INS_in_capostcondition548); 
+                    match(input,ACTIONSPEC,FOLLOW_ACTIONSPEC_in_module693); 
 
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition550); 
+                    match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module695); 
 
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:94:12: (s2= dbnumb COMMA )?
-                    int alt9=2;
-                    switch ( input.LA(1) ) {
-                        case CONST:
-                            {
-                            int LA9_1 = input.LA(2);
-
-                            if ( (LA9_1==COMMA) ) {
-                                alt9=1;
-                            }
-                            }
-                            break;
-                        case VAR:
-                            {
-                            int LA9_2 = input.LA(2);
-
-                            if ( (LA9_2==COMMA) ) {
-                                alt9=1;
-                            }
-                            }
-                            break;
-                        case ANON_VAR:
-                            {
-                            int LA9_3 = input.LA(2);
-
-                            if ( (LA9_3==COMMA) ) {
-                                alt9=1;
-                            }
-                            }
-                            break;
-                    }
-
-                    switch (alt9) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:94:13: s2= dbnumb COMMA
-                            {
-                            pushFollow(FOLLOW_dbnumb_in_capostcondition555);
-                            s2=dbnumb();
-
-                            state._fsp--;
-
-
-                            match(input,COMMA,FOLLOW_COMMA_in_capostcondition557); 
-
-                            s1 = s2;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_literal_in_capostcondition565);
-                    l=literal();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition567); 
-
-                    Abstract_Deed d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, l); d.setDBnum(s1); deeds.add(d);
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:95:4: DEL OPEN (s2= dbnumb COMMA )? l= literal CLOSE
-                    {
-                    match(input,DEL,FOLLOW_DEL_in_capostcondition576); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition579); 
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:95:14: (s2= dbnumb COMMA )?
-                    int alt10=2;
-                    switch ( input.LA(1) ) {
-                        case CONST:
-                            {
-                            int LA10_1 = input.LA(2);
-
-                            if ( (LA10_1==COMMA) ) {
-                                alt10=1;
-                            }
-                            }
-                            break;
-                        case VAR:
-                            {
-                            int LA10_2 = input.LA(2);
-
-                            if ( (LA10_2==COMMA) ) {
-                                alt10=1;
-                            }
-                            }
-                            break;
-                        case ANON_VAR:
-                            {
-                            int LA10_3 = input.LA(2);
-
-                            if ( (LA10_3==COMMA) ) {
-                                alt10=1;
-                            }
-                            }
-                            break;
-                    }
-
-                    switch (alt10) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:95:15: s2= dbnumb COMMA
-                            {
-                            pushFollow(FOLLOW_dbnumb_in_capostcondition584);
-                            s2=dbnumb();
-
-                            state._fsp--;
-
-
-                            match(input,COMMA,FOLLOW_COMMA_in_capostcondition586); 
-
-                            s1 = s2;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_literal_in_capostcondition594);
-                    l=literal();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition596); 
-
-                    Abstract_Deed d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, l); d.setDBnum(s1); deeds.add(d);
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:96:4: ADOPT OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE
-                    {
-                    match(input,ADOPT,FOLLOW_ADOPT_in_capostcondition605); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition608); 
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:96:16: (s2= dbnumb COMMA )?
-                    int alt11=2;
-                    switch ( input.LA(1) ) {
-                        case CONST:
-                            {
-                            int LA11_1 = input.LA(2);
-
-                            if ( (LA11_1==COMMA) ) {
-                                alt11=1;
-                            }
-                            }
-                            break;
-                        case VAR:
-                            {
-                            int LA11_2 = input.LA(2);
-
-                            if ( (LA11_2==COMMA) ) {
-                                alt11=1;
-                            }
-                            }
-                            break;
-                        case ANON_VAR:
-                            {
-                            int LA11_3 = input.LA(2);
-
-                            if ( (LA11_3==COMMA) ) {
-                                alt11=1;
-                            }
-                            }
-                            break;
-                    }
-
-                    switch (alt11) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:96:17: s2= dbnumb COMMA
-                            {
-                            pushFollow(FOLLOW_dbnumb_in_capostcondition613);
-                            s2=dbnumb();
-
-                            state._fsp--;
-
-
-                            match(input,COMMA,FOLLOW_COMMA_in_capostcondition615); 
-
-                            s1 = s2;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_goal_in_capostcondition623);
-                    g=goal(s1);
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition626); 
-
-                    deeds.add(new Abstract_Deed(Abstract_Deed.AILAddition, g));
-
-                    }
-                    break;
-                case 4 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:97:4: DROP OPEN (s2= dbnumb COMMA )? g= goal[s1] CLOSE
-                    {
-                    match(input,DROP,FOLLOW_DROP_in_capostcondition635); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition638); 
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:97:15: (s2= dbnumb COMMA )?
-                    int alt12=2;
-                    switch ( input.LA(1) ) {
-                        case CONST:
-                            {
-                            int LA12_1 = input.LA(2);
-
-                            if ( (LA12_1==COMMA) ) {
-                                alt12=1;
-                            }
-                            }
-                            break;
-                        case VAR:
-                            {
-                            int LA12_2 = input.LA(2);
-
-                            if ( (LA12_2==COMMA) ) {
-                                alt12=1;
-                            }
-                            }
-                            break;
-                        case ANON_VAR:
-                            {
-                            int LA12_3 = input.LA(2);
-
-                            if ( (LA12_3==COMMA) ) {
-                                alt12=1;
-                            }
-                            }
-                            break;
-                    }
-
-                    switch (alt12) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:97:16: s2= dbnumb COMMA
-                            {
-                            pushFollow(FOLLOW_dbnumb_in_capostcondition643);
-                            s2=dbnumb();
-
-                            state._fsp--;
-
-
-                            match(input,COMMA,FOLLOW_COMMA_in_capostcondition645); 
-
-                            s1 = s2;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_goal_in_capostcondition653);
-                    g=goal(s1);
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition656); 
-
-                    deeds.add(new Abstract_Deed(Abstract_Deed.AILDeletion, g));
-
-                    }
-                    break;
-                case 5 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:98:4: CONTENT OPEN l= literal CLOSE
-                    {
-                    match(input,CONTENT,FOLLOW_CONTENT_in_capostcondition665); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition667); 
-
-                    pushFollow(FOLLOW_literal_in_capostcondition671);
-                    l=literal();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition673); 
-
-                    deeds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContent, l));
-
-                    }
-                    break;
-                case 6 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:99:4: CONTEXT OPEN l= literal CLOSE
-                    {
-                    match(input,CONTEXT,FOLLOW_CONTEXT_in_capostcondition682); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition684); 
-
-                    pushFollow(FOLLOW_literal_in_capostcondition688);
-                    l=literal();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition690); 
-
-                    deeds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContext, l));
-
-                    }
-                    break;
-                case 7 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:100:4: SEND OPEN st= conv_id ':' SQOPEN (i= dbnumb )+ SQCLOSE COMMA ( MULT | MOD | QUERY | SHRIEK | POINT ) t= literal ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )* CLOSE
-                    {
-                    match(input,SEND,FOLLOW_SEND_in_capostcondition699); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition701); 
-
-                    pushFollow(FOLLOW_conv_id_in_capostcondition705);
-                    st=conv_id();
-
-                    state._fsp--;
-
-
-                    match(input,COLON,FOLLOW_COLON_in_capostcondition707); 
-
-                    ArrayList<Abstract_Term> rs = new ArrayList<Abstract_Term>(); int ilf = 0;
-
-                    match(input,SQOPEN,FOLLOW_SQOPEN_in_capostcondition716); 
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:101:12: (i= dbnumb )+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:52: ( actionspec )+
                     int cnt13=0;
                     loop13:
                     do {
                         int alt13=2;
                         int LA13_0 = input.LA(1);
 
-                        if ( (LA13_0==ANON_VAR||LA13_0==CONST||LA13_0==VAR) ) {
+                        if ( (LA13_0==ADOPT||LA13_0==DELETE||LA13_0==DROP||LA13_0==INSERT||LA13_0==SEND||LA13_0==46||LA13_0==51) ) {
                             alt13=1;
                         }
 
 
                         switch (alt13) {
                     	case 1 :
-                    	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:101:13: i= dbnumb
+                    	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:52: actionspec
                     	    {
-                    	    pushFollow(FOLLOW_dbnumb_in_capostcondition721);
-                    	    i=dbnumb();
+                    	    pushFollow(FOLLOW_actionspec_in_module697);
+                    	    actionspec();
 
                     	    state._fsp--;
 
-
-                    	    rs.add(i);
 
                     	    }
                     	    break;
@@ -1236,229 +562,7 @@ public class GOALParser extends Parser {
                     } while (true);
 
 
-                    match(input,SQCLOSE,FOLLOW_SQCLOSE_in_capostcondition727); 
-
-                    match(input,COMMA,FOLLOW_COMMA_in_capostcondition729); 
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:5: ( MULT | MOD | QUERY | SHRIEK | POINT )
-                    int alt14=5;
-                    switch ( input.LA(1) ) {
-                    case MULT:
-                        {
-                        alt14=1;
-                        }
-                        break;
-                    case MOD:
-                        {
-                        alt14=2;
-                        }
-                        break;
-                    case QUERY:
-                        {
-                        alt14=3;
-                        }
-                        break;
-                    case SHRIEK:
-                        {
-                        alt14=4;
-                        }
-                        break;
-                    case POINT:
-                        {
-                        alt14=5;
-                        }
-                        break;
-                    default:
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 14, 0, input);
-
-                        throw nvae;
-
-                    }
-
-                    switch (alt14) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:6: MULT
-                            {
-                            match(input,MULT,FOLLOW_MULT_in_capostcondition736); 
-
-                            ilf = 4;
-
-                            }
-                            break;
-                        case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:24: MOD
-                            {
-                            match(input,MOD,FOLLOW_MOD_in_capostcondition742); 
-
-                            ilf = 5;
-
-                            }
-                            break;
-                        case 3 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:41: QUERY
-                            {
-                            match(input,QUERY,FOLLOW_QUERY_in_capostcondition748); 
-
-                            ilf = 3;
-
-                            }
-                            break;
-                        case 4 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:60: SHRIEK
-                            {
-                            match(input,SHRIEK,FOLLOW_SHRIEK_in_capostcondition754); 
-
-                            ilf = 2;
-
-                            }
-                            break;
-                        case 5 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:102:80: POINT
-                            {
-                            match(input,POINT,FOLLOW_POINT_in_capostcondition760); 
-
-                            ilf = 1;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_literal_in_capostcondition767);
-                    t=literal();
-
-                    state._fsp--;
-
-
-                    deeds.add(new Abstract_Deed(new Abstract_BroadcastSendAction(rs, ilf, t, st)));
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:5: ( COMMA ( QUERY | SHRIEK | POINT ) t1= literal )*
-                    loop16:
-                    do {
-                        int alt16=2;
-                        int LA16_0 = input.LA(1);
-
-                        if ( (LA16_0==COMMA) ) {
-                            alt16=1;
-                        }
-
-
-                        switch (alt16) {
-                    	case 1 :
-                    	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:6: COMMA ( QUERY | SHRIEK | POINT ) t1= literal
-                    	    {
-                    	    match(input,COMMA,FOLLOW_COMMA_in_capostcondition782); 
-
-                    	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:12: ( QUERY | SHRIEK | POINT )
-                    	    int alt15=3;
-                    	    switch ( input.LA(1) ) {
-                    	    case QUERY:
-                    	        {
-                    	        alt15=1;
-                    	        }
-                    	        break;
-                    	    case SHRIEK:
-                    	        {
-                    	        alt15=2;
-                    	        }
-                    	        break;
-                    	    case POINT:
-                    	        {
-                    	        alt15=3;
-                    	        }
-                    	        break;
-                    	    default:
-                    	        NoViableAltException nvae =
-                    	            new NoViableAltException("", 15, 0, input);
-
-                    	        throw nvae;
-
-                    	    }
-
-                    	    switch (alt15) {
-                    	        case 1 :
-                    	            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:13: QUERY
-                    	            {
-                    	            match(input,QUERY,FOLLOW_QUERY_in_capostcondition785); 
-
-                    	            ilf = 3;
-
-                    	            }
-                    	            break;
-                    	        case 2 :
-                    	            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:32: SHRIEK
-                    	            {
-                    	            match(input,SHRIEK,FOLLOW_SHRIEK_in_capostcondition791); 
-
-                    	            ilf = 2;
-
-                    	            }
-                    	            break;
-                    	        case 3 :
-                    	            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:104:52: POINT
-                    	            {
-                    	            match(input,POINT,FOLLOW_POINT_in_capostcondition797); 
-
-                    	            ilf = 1;
-
-                    	            }
-                    	            break;
-
-                    	    }
-
-
-                    	    pushFollow(FOLLOW_literal_in_capostcondition804);
-                    	    t1=literal();
-
-                    	    state._fsp--;
-
-
-                    	    deeds.add(new Abstract_Deed(new Abstract_BroadcastSendAction(rs, ilf, t1, st)));
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop16;
-                        }
-                    } while (true);
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition818); 
-
-                    }
-                    break;
-                case 8 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:107:4: CLOSEKEY OPEN s= conv_id CLOSE
-                    {
-                    match(input,CLOSEKEY,FOLLOW_CLOSEKEY_in_capostcondition825); 
-
-                    match(input,OPEN,FOLLOW_OPEN_in_capostcondition827); 
-
-                    pushFollow(FOLLOW_conv_id_in_capostcondition831);
-                    s=conv_id();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_capostcondition833); 
-
-                    Abstract_Predicate cl=new Abstract_Predicate("close"); cl.addTerm(s); deeds.add(new Abstract_Deed(new Abstract_Action(cl, 0)));
-
-                    }
-                    break;
-                case 9 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:108:4: gl= capname
-                    {
-                    pushFollow(FOLLOW_capname_in_capostcondition844);
-                    gl=capname();
-
-                    state._fsp--;
-
-
-                    deeds.add(new Abstract_Deed(Abstract_Deed.AILAddition, gl));
+                    match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module700); 
 
                     }
                     break;
@@ -1466,34 +570,150 @@ public class GOALParser extends Parser {
             }
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:109:4: ( COMMA capostcondition[deeds] )*
-            loop18:
-            do {
-                int alt18=2;
-                int LA18_0 = input.LA(1);
+            }
 
-                if ( (LA18_0==COMMA) ) {
-                    alt18=1;
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "module"
+
+
+
+    // $ANTLR start "krspec"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:1: krspec : atom ( STOP | PROLOGARROW litconj STOP ) ( atom ( STOP | PROLOGARROW litconj STOP ) )* ;
+    public final void krspec() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:7: ( atom ( STOP | PROLOGARROW litconj STOP ) ( atom ( STOP | PROLOGARROW litconj STOP ) )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:10: atom ( STOP | PROLOGARROW litconj STOP ) ( atom ( STOP | PROLOGARROW litconj STOP ) )*
+            {
+            pushFollow(FOLLOW_atom_in_krspec739);
+            atom();
+
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:15: ( STOP | PROLOGARROW litconj STOP )
+            int alt15=2;
+            int LA15_0 = input.LA(1);
+
+            if ( (LA15_0==STOP) ) {
+                alt15=1;
+            }
+            else if ( (LA15_0==PROLOGARROW) ) {
+                alt15=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 15, 0, input);
+
+                throw nvae;
+
+            }
+            switch (alt15) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:16: STOP
+                    {
+                    match(input,STOP,FOLLOW_STOP_in_krspec742); 
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:23: PROLOGARROW litconj STOP
+                    {
+                    match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_krspec746); 
+
+                    pushFollow(FOLLOW_litconj_in_krspec748);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,STOP,FOLLOW_STOP_in_krspec750); 
+
+                    }
+                    break;
+
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:49: ( atom ( STOP | PROLOGARROW litconj STOP ) )*
+            loop17:
+            do {
+                int alt17=2;
+                int LA17_0 = input.LA(1);
+
+                if ( (LA17_0==46||LA17_0==51) ) {
+                    alt17=1;
                 }
 
 
-                switch (alt18) {
+                switch (alt17) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:109:5: COMMA capostcondition[deeds]
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:50: atom ( STOP | PROLOGARROW litconj STOP )
             	    {
-            	    match(input,COMMA,FOLLOW_COMMA_in_capostcondition852); 
-
-            	    pushFollow(FOLLOW_capostcondition_in_capostcondition854);
-            	    capostcondition(deeds);
+            	    pushFollow(FOLLOW_atom_in_krspec754);
+            	    atom();
 
             	    state._fsp--;
+
+
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:55: ( STOP | PROLOGARROW litconj STOP )
+            	    int alt16=2;
+            	    int LA16_0 = input.LA(1);
+
+            	    if ( (LA16_0==STOP) ) {
+            	        alt16=1;
+            	    }
+            	    else if ( (LA16_0==PROLOGARROW) ) {
+            	        alt16=2;
+            	    }
+            	    else {
+            	        NoViableAltException nvae =
+            	            new NoViableAltException("", 16, 0, input);
+
+            	        throw nvae;
+
+            	    }
+            	    switch (alt16) {
+            	        case 1 :
+            	            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:56: STOP
+            	            {
+            	            match(input,STOP,FOLLOW_STOP_in_krspec757); 
+
+            	            }
+            	            break;
+            	        case 2 :
+            	            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:63: PROLOGARROW litconj STOP
+            	            {
+            	            match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_krspec761); 
+
+            	            pushFollow(FOLLOW_litconj_in_krspec763);
+            	            litconj();
+
+            	            state._fsp--;
+
+
+            	            match(input,STOP,FOLLOW_STOP_in_krspec765); 
+
+            	            }
+            	            break;
+
+            	    }
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop18;
+            	    break loop17;
                 }
             } while (true);
 
@@ -1511,63 +731,59 @@ public class GOALParser extends Parser {
         }
         return ;
     }
-    // $ANTLR end "capostcondition"
+    // $ANTLR end "krspec"
 
 
 
-    // $ANTLR start "conv_id"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:111:1: conv_id returns [Abstract_StringTerm s] : (v= var | CONST );
-    public final Abstract_StringTerm conv_id() throws RecognitionException {
-        Abstract_StringTerm s = null;
-
-
-        Token CONST1=null;
-        Abstract_VarTerm v =null;
-
-
+    // $ANTLR start "poslitconj"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:1: poslitconj : atom ( COMMA atom )* STOP ;
+    public final void poslitconj() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:111:40: (v= var | CONST )
-            int alt19=2;
-            int LA19_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:12: ( atom ( COMMA atom )* STOP )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:14: atom ( COMMA atom )* STOP
+            {
+            pushFollow(FOLLOW_atom_in_poslitconj817);
+            atom();
 
-            if ( (LA19_0==ANON_VAR||LA19_0==VAR) ) {
-                alt19=1;
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:19: ( COMMA atom )*
+            loop18:
+            do {
+                int alt18=2;
+                int LA18_0 = input.LA(1);
+
+                if ( (LA18_0==COMMA) ) {
+                    alt18=1;
+                }
+
+
+                switch (alt18) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:20: COMMA atom
+            	    {
+            	    match(input,COMMA,FOLLOW_COMMA_in_poslitconj820); 
+
+            	    pushFollow(FOLLOW_atom_in_poslitconj822);
+            	    atom();
+
+            	    state._fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop18;
+                }
+            } while (true);
+
+
+            match(input,STOP,FOLLOW_STOP_in_poslitconj826); 
+
             }
-            else if ( (LA19_0==CONST) ) {
-                alt19=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 19, 0, input);
 
-                throw nvae;
-
-            }
-            switch (alt19) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:111:42: v= var
-                    {
-                    pushFollow(FOLLOW_var_in_conv_id871);
-                    v=var();
-
-                    state._fsp--;
-
-
-                    s = v;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:111:63: CONST
-                    {
-                    CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_conv_id877); 
-
-                    s = new Abstract_StringTermImpl(CONST1.getText());
-
-                    }
-                    break;
-
-            }
         }
         catch (RecognitionException re) {
             reportError(re);
@@ -1577,34 +793,88 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return s;
+        return ;
     }
-    // $ANTLR end "conv_id"
+    // $ANTLR end "poslitconj"
 
 
 
-    // $ANTLR start "dbnumb"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:113:1: dbnumb returns [Abstract_StringTerm i] : ( CONST |v= var ) ;
-    public final Abstract_StringTerm dbnumb() throws RecognitionException {
-        Abstract_StringTerm i = null;
-
-
-        Token CONST2=null;
-        Abstract_VarTerm v =null;
-
-
+    // $ANTLR start "litconj"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:1: litconj : literal ( COMMA literal )* STOP ;
+    public final void litconj() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:113:40: ( ( CONST |v= var ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:114:3: ( CONST |v= var )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:9: ( literal ( COMMA literal )* STOP )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:11: literal ( COMMA literal )* STOP
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:114:3: ( CONST |v= var )
+            pushFollow(FOLLOW_literal_in_litconj834);
+            literal();
+
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:19: ( COMMA literal )*
+            loop19:
+            do {
+                int alt19=2;
+                int LA19_0 = input.LA(1);
+
+                if ( (LA19_0==COMMA) ) {
+                    alt19=1;
+                }
+
+
+                switch (alt19) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:20: COMMA literal
+            	    {
+            	    match(input,COMMA,FOLLOW_COMMA_in_litconj837); 
+
+            	    pushFollow(FOLLOW_literal_in_litconj839);
+            	    literal();
+
+            	    state._fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop19;
+                }
+            } while (true);
+
+
+            match(input,STOP,FOLLOW_STOP_in_litconj843); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "litconj"
+
+
+
+    // $ANTLR start "literal"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:1: literal : ( atom | NOT OPEN atom CLOSE );
+    public final void literal() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:9: ( atom | NOT OPEN atom CLOSE )
             int alt20=2;
             int LA20_0 = input.LA(1);
 
-            if ( (LA20_0==CONST) ) {
+            if ( (LA20_0==46||LA20_0==51) ) {
                 alt20=1;
             }
-            else if ( (LA20_0==ANON_VAR||LA20_0==VAR) ) {
+            else if ( (LA20_0==NOT) ) {
                 alt20=2;
             }
             else {
@@ -1616,33 +886,35 @@ public class GOALParser extends Parser {
             }
             switch (alt20) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:114:4: CONST
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:11: atom
                     {
-                    CONST2=(Token)match(input,CONST,FOLLOW_CONST_in_dbnumb895); 
-
-                    i = new Abstract_StringTermImpl(CONST2.getText());
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:115:5: v= var
-                    {
-                    pushFollow(FOLLOW_var_in_dbnumb908);
-                    v=var();
+                    pushFollow(FOLLOW_atom_in_literal851);
+                    atom();
 
                     state._fsp--;
 
 
-                    i = v;
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:18: NOT OPEN atom CLOSE
+                    {
+                    match(input,NOT,FOLLOW_NOT_in_literal855); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_literal857); 
+
+                    pushFollow(FOLLOW_atom_in_literal859);
+                    atom();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_literal861); 
 
                     }
                     break;
 
             }
-
-
-            }
-
         }
         catch (RecognitionException re) {
             reportError(re);
@@ -1652,32 +924,47 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return i;
+        return ;
     }
-    // $ANTLR end "dbnumb"
+    // $ANTLR end "literal"
 
 
 
-    // $ANTLR start "capname"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:117:1: capname returns [Abstract_Goal g] : l= literal ;
-    public final Abstract_Goal capname() throws RecognitionException {
-        Abstract_Goal g = null;
-
-
-        Abstract_Literal l =null;
-
-
+    // $ANTLR start "atom"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:1: atom : id ( parameters )? ;
+    public final void atom() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:117:35: (l= literal )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:117:37: l= literal
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:6: ( id ( parameters )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:8: id ( parameters )?
             {
-            pushFollow(FOLLOW_literal_in_capname925);
-            l=literal();
+            pushFollow(FOLLOW_id_in_atom869);
+            id();
 
             state._fsp--;
 
 
-            g = new Abstract_Goal(l, Abstract_Goal.performGoal);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:11: ( parameters )?
+            int alt21=2;
+            int LA21_0 = input.LA(1);
+
+            if ( (LA21_0==OPEN) ) {
+                alt21=1;
+            }
+            switch (alt21) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:12: parameters
+                    {
+                    pushFollow(FOLLOW_parameters_in_atom872);
+                    parameters();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
+
 
             }
 
@@ -1690,263 +977,257 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return g;
+        return ;
     }
-    // $ANTLR end "capname"
+    // $ANTLR end "atom"
 
 
 
-    // $ANTLR start "precondition"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:121:1: precondition returns [Abstract_MentalState ms] : ( ( NOT )? ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb ) ) ( COMMA ms1= precondition )* ;
-    public final Abstract_MentalState precondition() throws RecognitionException {
-        Abstract_MentalState ms = null;
-
-
-        Abstract_StringTerm i1 =null;
-
-        Abstract_Literal l =null;
-
-        Abstract_Goal g =null;
-
-        Abstract_MentalState ms1 =null;
-
-
+    // $ANTLR start "parameters"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:1: parameters : OPEN term ( COMMA term )* CLOSE ;
+    public final void parameters() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:2: ( ( ( NOT )? ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb ) ) ( COMMA ms1= precondition )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:4: ( ( NOT )? ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb ) ) ( COMMA ms1= precondition )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:12: ( OPEN term ( COMMA term )* CLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:14: OPEN term ( COMMA term )* CLOSE
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:4: ( ( NOT )? ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:6: ( NOT )? ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb )
-            {
-            boolean negflag=false;
+            match(input,OPEN,FOLLOW_OPEN_in_parameters882); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:31: ( NOT )?
-            int alt21=2;
-            int LA21_0 = input.LA(1);
+            pushFollow(FOLLOW_term_in_parameters884);
+            term();
 
-            if ( (LA21_0==NOT) ) {
-                alt21=1;
-            }
-            switch (alt21) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:122:32: NOT
-                    {
-                    match(input,NOT,FOLLOW_NOT_in_precondition947); 
-
-                    negflag = true;
-
-                    }
-                    break;
-
-            }
+            state._fsp--;
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:123:2: ( TRUE | BELIEVE ( NUMMARKER i1= dbnumb )? l= literal | HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i] | IN_CONTENT NUMMARKER i1= dbnumb | IN_CONTEXT NUMMARKER i1= dbnumb )
-            int alt24=5;
-            switch ( input.LA(1) ) {
-            case TRUE:
-                {
-                alt24=1;
-                }
-                break;
-            case BELIEVE:
-                {
-                alt24=2;
-                }
-                break;
-            case HAVEGOAL:
-                {
-                alt24=3;
-                }
-                break;
-            case IN_CONTENT:
-                {
-                alt24=4;
-                }
-                break;
-            case IN_CONTEXT:
-                {
-                alt24=5;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 24, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt24) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:123:3: TRUE
-                    {
-                    match(input,TRUE,FOLLOW_TRUE_in_precondition955); 
-
-                    ms = new Abstract_MentalState(new Abstract_GBelief(Abstract_GBelief.GTrue));
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:124:2: BELIEVE ( NUMMARKER i1= dbnumb )? l= literal
-                    {
-                    match(input,BELIEVE,FOLLOW_BELIEVE_in_precondition962); 
-
-                    Abstract_StringTerm i = new Abstract_StringTermImpl("");
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:124:69: ( NUMMARKER i1= dbnumb )?
-                    int alt22=2;
-                    int LA22_0 = input.LA(1);
-
-                    if ( (LA22_0==NUMMARKER) ) {
-                        alt22=1;
-                    }
-                    switch (alt22) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:124:71: NUMMARKER i1= dbnumb
-                            {
-                            match(input,NUMMARKER,FOLLOW_NUMMARKER_in_precondition968); 
-
-                            pushFollow(FOLLOW_dbnumb_in_precondition972);
-                            i1=dbnumb();
-
-                            state._fsp--;
-
-
-                            i = i1;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_literal_in_precondition980);
-                    l=literal();
-
-                    state._fsp--;
-
-
-                    ms = new Abstract_MentalState(i, new Abstract_GBelief(Abstract_GBelief.AILBel, l)); 
-                    	                                  if (negflag) {ms = new Abstract_MentalState(ms);}
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:126:2: HAVEGOAL ( NUMMARKER i1= dbnumb )? g= goal[i]
-                    {
-                    match(input,HAVEGOAL,FOLLOW_HAVEGOAL_in_precondition988); 
-
-                    Abstract_StringTerm i = new Abstract_StringTermImpl("");
-
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:126:70: ( NUMMARKER i1= dbnumb )?
-                    int alt23=2;
-                    int LA23_0 = input.LA(1);
-
-                    if ( (LA23_0==NUMMARKER) ) {
-                        alt23=1;
-                    }
-                    switch (alt23) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:126:71: NUMMARKER i1= dbnumb
-                            {
-                            match(input,NUMMARKER,FOLLOW_NUMMARKER_in_precondition993); 
-
-                            pushFollow(FOLLOW_dbnumb_in_precondition997);
-                            i1=dbnumb();
-
-                            state._fsp--;
-
-
-                            i = i1;
-
-                            }
-                            break;
-
-                    }
-
-
-                    pushFollow(FOLLOW_goal_in_precondition1005);
-                    g=goal(i);
-
-                    state._fsp--;
-
-
-                    ms = new Abstract_MentalState(g); if (negflag) {ms = new Abstract_MentalState(ms);}
-
-                    }
-                    break;
-                case 4 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:128:2: IN_CONTENT NUMMARKER i1= dbnumb
-                    {
-                    match(input,IN_CONTENT,FOLLOW_IN_CONTENT_in_precondition1017); 
-
-                    match(input,NUMMARKER,FOLLOW_NUMMARKER_in_precondition1020); 
-
-                    pushFollow(FOLLOW_dbnumb_in_precondition1024);
-                    i1=dbnumb();
-
-                    state._fsp--;
-
-
-                    ms = new Abstract_MentalState(new Abstract_GBelief(Abstract_GBelief.AILContent, i1)); if (negflag) {ms = new Abstract_MentalState(ms);}
-
-                    }
-                    break;
-                case 5 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:129:2: IN_CONTEXT NUMMARKER i1= dbnumb
-                    {
-                    match(input,IN_CONTEXT,FOLLOW_IN_CONTEXT_in_precondition1031); 
-
-                    match(input,NUMMARKER,FOLLOW_NUMMARKER_in_precondition1034); 
-
-                    pushFollow(FOLLOW_dbnumb_in_precondition1038);
-                    i1=dbnumb();
-
-                    state._fsp--;
-
-
-                    ms = new Abstract_MentalState(new Abstract_GBelief(Abstract_GBelief.AILContext, i1)); if (negflag) {ms = new Abstract_MentalState(ms);}
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:131:2: ( COMMA ms1= precondition )*
-            loop25:
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:24: ( COMMA term )*
+            loop22:
             do {
-                int alt25=2;
-                int LA25_0 = input.LA(1);
+                int alt22=2;
+                int LA22_0 = input.LA(1);
 
-                if ( (LA25_0==COMMA) ) {
-                    alt25=1;
+                if ( (LA22_0==COMMA) ) {
+                    alt22=1;
                 }
 
 
-                switch (alt25) {
+                switch (alt22) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:131:3: COMMA ms1= precondition
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:25: COMMA term
             	    {
-            	    match(input,COMMA,FOLLOW_COMMA_in_precondition1051); 
+            	    match(input,COMMA,FOLLOW_COMMA_in_parameters887); 
 
-            	    pushFollow(FOLLOW_precondition_in_precondition1055);
-            	    ms1=precondition();
+            	    pushFollow(FOLLOW_term_in_parameters889);
+            	    term();
 
             	    state._fsp--;
 
-
-            	    Abstract_MentalState mstmp = ms; ms = new Abstract_MentalState(mstmp, ms1);
 
             	    }
             	    break;
 
             	default :
-            	    break loop25;
+            	    break loop22;
+                }
+            } while (true);
+
+
+            match(input,CLOSE,FOLLOW_CLOSE_in_parameters893); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "parameters"
+
+
+
+    // $ANTLR start "optionorder"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:78:1: optionorder : SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE ;
+    public final void optionorder() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:78:13: ( SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:78:15: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE
+            {
+            match(input,SQOPEN,FOLLOW_SQOPEN_in_optionorder902); 
+
+            match(input,ORDER,FOLLOW_ORDER_in_optionorder904); 
+
+            match(input,EQUALS,FOLLOW_EQUALS_in_optionorder906); 
+
+            if ( (input.LA(1) >= LINEAR && input.LA(1) <= LINEARALL)||(input.LA(1) >= RANDOM && input.LA(1) <= RANDOMALL) ) {
+                input.consume();
+                state.errorRecovery=false;
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                throw mse;
+            }
+
+
+            match(input,SQCLOSE,FOLLOW_SQCLOSE_in_optionorder926); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "optionorder"
+
+
+
+    // $ANTLR start "macro"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:1: macro : HASH DEFINE id ( parameters ) mentalstatecond STOP ;
+    public final void macro() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:7: ( HASH DEFINE id ( parameters ) mentalstatecond STOP )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:9: HASH DEFINE id ( parameters ) mentalstatecond STOP
+            {
+            match(input,HASH,FOLLOW_HASH_in_macro934); 
+
+            match(input,DEFINE,FOLLOW_DEFINE_in_macro936); 
+
+            pushFollow(FOLLOW_id_in_macro938);
+            id();
+
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:24: ( parameters )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:25: parameters
+            {
+            pushFollow(FOLLOW_parameters_in_macro941);
+            parameters();
+
+            state._fsp--;
+
+
+            }
+
+
+            pushFollow(FOLLOW_mentalstatecond_in_macro944);
+            mentalstatecond();
+
+            state._fsp--;
+
+
+            match(input,STOP,FOLLOW_STOP_in_macro946); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "macro"
+
+
+
+    // $ANTLR start "actionrule"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:1: actionrule : IF mentalstatecond THEN actioncombo STOP ;
+    public final void actionrule() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:15: ( IF mentalstatecond THEN actioncombo STOP )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:17: IF mentalstatecond THEN actioncombo STOP
+            {
+            match(input,IF,FOLLOW_IF_in_actionrule957); 
+
+            pushFollow(FOLLOW_mentalstatecond_in_actionrule959);
+            mentalstatecond();
+
+            state._fsp--;
+
+
+            match(input,THEN,FOLLOW_THEN_in_actionrule961); 
+
+            pushFollow(FOLLOW_actioncombo_in_actionrule963);
+            actioncombo();
+
+            state._fsp--;
+
+
+            match(input,STOP,FOLLOW_STOP_in_actionrule965); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "actionrule"
+
+
+
+    // $ANTLR start "mentalstatecond"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:84:1: mentalstatecond : mentalliteral ( COMMA mentalliteral )* ;
+    public final void mentalstatecond() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:85:2: ( mentalliteral ( COMMA mentalliteral )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:85:4: mentalliteral ( COMMA mentalliteral )*
+            {
+            pushFollow(FOLLOW_mentalliteral_in_mentalstatecond975);
+            mentalliteral();
+
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:85:18: ( COMMA mentalliteral )*
+            loop23:
+            do {
+                int alt23=2;
+                int LA23_0 = input.LA(1);
+
+                if ( (LA23_0==COMMA) ) {
+                    alt23=1;
+                }
+
+
+                switch (alt23) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:85:19: COMMA mentalliteral
+            	    {
+            	    match(input,COMMA,FOLLOW_COMMA_in_mentalstatecond978); 
+
+            	    pushFollow(FOLLOW_mentalliteral_in_mentalstatecond980);
+            	    mentalliteral();
+
+            	    state._fsp--;
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop23;
                 }
             } while (true);
 
@@ -1962,50 +1243,259 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return ms;
+        return ;
     }
-    // $ANTLR end "precondition"
+    // $ANTLR end "mentalstatecond"
 
 
 
-    // $ANTLR start "postcondition"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:133:1: postcondition[ArrayList<Abstract_Deed> deeds] : l= literal ( COMMA postcondition[deeds] )* ;
-    public final void postcondition(ArrayList<Abstract_Deed> deeds) throws RecognitionException {
-        Abstract_Literal l =null;
-
-
+    // $ANTLR start "mentalliteral"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:87:1: mentalliteral : ( TRUE | mentalatom | NOT OPEN mentalatom CLOSE );
+    public final void mentalliteral() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:134:2: (l= literal ( COMMA postcondition[deeds] )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:134:4: l= literal ( COMMA postcondition[deeds] )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:88:2: ( TRUE | mentalatom | NOT OPEN mentalatom CLOSE )
+            int alt24=3;
+            switch ( input.LA(1) ) {
+            case TRUE:
+                {
+                alt24=1;
+                }
+                break;
+            case BEL:
+            case GOAL:
+                {
+                alt24=2;
+                }
+                break;
+            case NOT:
+                {
+                alt24=3;
+                }
+                break;
+            default:
+                NoViableAltException nvae =
+                    new NoViableAltException("", 24, 0, input);
+
+                throw nvae;
+
+            }
+
+            switch (alt24) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:88:4: TRUE
+                    {
+                    match(input,TRUE,FOLLOW_TRUE_in_mentalliteral993); 
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:88:11: mentalatom
+                    {
+                    pushFollow(FOLLOW_mentalatom_in_mentalliteral997);
+                    mentalatom();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:88:24: NOT OPEN mentalatom CLOSE
+                    {
+                    match(input,NOT,FOLLOW_NOT_in_mentalliteral1001); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_mentalliteral1003); 
+
+                    pushFollow(FOLLOW_mentalatom_in_mentalliteral1005);
+                    mentalatom();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_mentalliteral1007); 
+
+                    }
+                    break;
+
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "mentalliteral"
+
+
+
+    // $ANTLR start "mentalatom"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:1: mentalatom : ( BEL OPEN litconj CLOSE | GOAL OPEN litconj CLOSE );
+    public final void mentalatom() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:91:2: ( BEL OPEN litconj CLOSE | GOAL OPEN litconj CLOSE )
+            int alt25=2;
+            int LA25_0 = input.LA(1);
+
+            if ( (LA25_0==BEL) ) {
+                alt25=1;
+            }
+            else if ( (LA25_0==GOAL) ) {
+                alt25=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 25, 0, input);
+
+                throw nvae;
+
+            }
+            switch (alt25) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:91:4: BEL OPEN litconj CLOSE
+                    {
+                    match(input,BEL,FOLLOW_BEL_in_mentalatom1017); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_mentalatom1019); 
+
+                    pushFollow(FOLLOW_litconj_in_mentalatom1021);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_mentalatom1023); 
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:91:29: GOAL OPEN litconj CLOSE
+                    {
+                    match(input,GOAL,FOLLOW_GOAL_in_mentalatom1027); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_mentalatom1029); 
+
+                    pushFollow(FOLLOW_litconj_in_mentalatom1031);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_mentalatom1033); 
+
+                    }
+                    break;
+
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "mentalatom"
+
+
+
+    // $ANTLR start "actionspec"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:94:1: actionspec : action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE ;
+    public final void actionspec() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:94:11: ( action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:94:13: action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE
             {
-            pushFollow(FOLLOW_literal_in_postcondition1071);
-            l=literal();
+            pushFollow(FOLLOW_action_in_actionspec1042);
+            action();
 
             state._fsp--;
 
 
-            boolean flag = !l.negated(); int intflag; if (flag) {intflag = 0;} else {intflag = 1;}; l.setNegated(true); 
-            	                   deeds.add(0, new Abstract_Deed(intflag, Abstract_Deed.AILBel, l));
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionspec1044); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:135:89: ( COMMA postcondition[deeds] )*
+            match(input,PRE,FOLLOW_PRE_in_actionspec1046); 
+
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionspec1048); 
+
+            pushFollow(FOLLOW_litconj_in_actionspec1050);
+            litconj();
+
+            state._fsp--;
+
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionspec1052); 
+
+            match(input,POST,FOLLOW_POST_in_actionspec1054); 
+
+            match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionspec1056); 
+
+            pushFollow(FOLLOW_litconj_in_actionspec1058);
+            litconj();
+
+            state._fsp--;
+
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionspec1060); 
+
+            match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionspec1062); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "actionspec"
+
+
+
+    // $ANTLR start "actioncombo"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:96:1: actioncombo : action ( PLUS action )* ;
+    public final void actioncombo() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:97:2: ( action ( PLUS action )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:97:4: action ( PLUS action )*
+            {
+            pushFollow(FOLLOW_action_in_actioncombo1071);
+            action();
+
+            state._fsp--;
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:97:11: ( PLUS action )*
             loop26:
             do {
                 int alt26=2;
                 int LA26_0 = input.LA(1);
 
-                if ( (LA26_0==COMMA) ) {
+                if ( (LA26_0==PLUS) ) {
                     alt26=1;
                 }
 
 
                 switch (alt26) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:135:90: COMMA postcondition[deeds]
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:97:12: PLUS action
             	    {
-            	    match(input,COMMA,FOLLOW_COMMA_in_postcondition1076); 
+            	    match(input,PLUS,FOLLOW_PLUS_in_actioncombo1074); 
 
-            	    pushFollow(FOLLOW_postcondition_in_postcondition1078);
-            	    postcondition(deeds);
+            	    pushFollow(FOLLOW_action_in_actioncombo1076);
+            	    action();
 
             	    state._fsp--;
 
@@ -2032,33 +1522,80 @@ public class GOALParser extends Parser {
         }
         return ;
     }
-    // $ANTLR end "postcondition"
+    // $ANTLR end "actioncombo"
 
 
 
-    // $ANTLR start "environment"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:171:1: environment returns [String env] : w= classpath ;
-    public final String environment() throws RecognitionException {
-        String env = null;
-
-
-        String w =null;
-
-
+    // $ANTLR start "action"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:1: action : ( userdefaction | builtinaction | communication );
+    public final void action() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:171:34: (w= classpath )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:171:36: w= classpath
-            {
-            pushFollow(FOLLOW_classpath_in_environment1339);
-            w=classpath();
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:8: ( userdefaction | builtinaction | communication )
+            int alt27=3;
+            switch ( input.LA(1) ) {
+            case 46:
+            case 51:
+                {
+                alt27=1;
+                }
+                break;
+            case ADOPT:
+            case DELETE:
+            case DROP:
+            case INSERT:
+                {
+                alt27=2;
+                }
+                break;
+            case SEND:
+                {
+                alt27=3;
+                }
+                break;
+            default:
+                NoViableAltException nvae =
+                    new NoViableAltException("", 27, 0, input);
 
-            state._fsp--;
-
-
-            env = w;
+                throw nvae;
 
             }
 
+            switch (alt27) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:10: userdefaction
+                    {
+                    pushFollow(FOLLOW_userdefaction_in_action1087);
+                    userdefaction();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:26: builtinaction
+                    {
+                    pushFollow(FOLLOW_builtinaction_in_action1091);
+                    builtinaction();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:42: communication
+                    {
+                    pushFollow(FOLLOW_communication_in_action1095);
+                    communication();
+
+                    state._fsp--;
+
+
+                    }
+                    break;
+
+            }
         }
         catch (RecognitionException re) {
             reportError(re);
@@ -2068,71 +1605,57 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return env;
+        return ;
     }
-    // $ANTLR end "environment"
+    // $ANTLR end "action"
 
 
 
-    // $ANTLR start "classpath"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:172:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
-    public final String classpath() throws RecognitionException {
-        String s = null;
-
-
-        String w =null;
-
-        String w1 =null;
-
-
+    // $ANTLR start "userdefaction"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:101:1: userdefaction : id ( parameters )+ ;
+    public final void userdefaction() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:172:30: (w= word ( POINT w1= word )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:172:32: w= word ( POINT w1= word )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:2: ( id ( parameters )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:4: id ( parameters )+
             {
-            pushFollow(FOLLOW_word_in_classpath1354);
-            w=word();
+            pushFollow(FOLLOW_id_in_userdefaction1104);
+            id();
 
             state._fsp--;
 
 
-            s = w;
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:172:52: ( POINT w1= word )+
-            int cnt27=0;
-            loop27:
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:7: ( parameters )+
+            int cnt28=0;
+            loop28:
             do {
-                int alt27=2;
-                int LA27_0 = input.LA(1);
+                int alt28=2;
+                int LA28_0 = input.LA(1);
 
-                if ( (LA27_0==POINT) ) {
-                    alt27=1;
+                if ( (LA28_0==OPEN) ) {
+                    alt28=1;
                 }
 
 
-                switch (alt27) {
+                switch (alt28) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:172:53: POINT w1= word
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:8: parameters
             	    {
-            	    match(input,POINT,FOLLOW_POINT_in_classpath1359); 
-
-            	    pushFollow(FOLLOW_word_in_classpath1363);
-            	    w1=word();
+            	    pushFollow(FOLLOW_parameters_in_userdefaction1107);
+            	    parameters();
 
             	    state._fsp--;
 
-
-            	    s+="."; s+=w1;
 
             	    }
             	    break;
 
             	default :
-            	    if ( cnt27 >= 1 ) break loop27;
+            	    if ( cnt28 >= 1 ) break loop28;
                         EarlyExitException eee =
-                            new EarlyExitException(27, input);
+                            new EarlyExitException(28, input);
                         throw eee;
                 }
-                cnt27++;
+                cnt28++;
             } while (true);
 
 
@@ -2147,130 +1670,113 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return s;
+        return ;
     }
-    // $ANTLR end "classpath"
+    // $ANTLR end "userdefaction"
 
 
 
-    // $ANTLR start "word"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:1: word returns [String s] : ( CONST | VAR ) ;
-    public final String word() throws RecognitionException {
-        String s = null;
-
-
-        Token CONST3=null;
-        Token VAR4=null;
-
+    // $ANTLR start "builtinaction"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:104:1: builtinaction : ( INSERT OPEN litconj CLOSE | DELETE OPEN litconj CLOSE | ADOPT OPEN litconj CLOSE | DROP OPEN litconj CLOSE );
+    public final void builtinaction() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:25: ( ( CONST | VAR ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:27: ( CONST | VAR )
-            {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:27: ( CONST | VAR )
-            int alt28=2;
-            int LA28_0 = input.LA(1);
-
-            if ( (LA28_0==CONST) ) {
-                alt28=1;
-            }
-            else if ( (LA28_0==VAR) ) {
-                alt28=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 28, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt28) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:28: CONST
-                    {
-                    CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_word1464); 
-
-                    s =CONST3.getText();
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:173:59: VAR
-                    {
-                    VAR4=(Token)match(input,VAR,FOLLOW_VAR_in_word1470); 
-
-                    s =VAR4.getText();
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return s;
-    }
-    // $ANTLR end "word"
-
-
-
-    // $ANTLR start "agentnameterm"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:175:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
-    public final Abstract_StringTerm agentnameterm() throws RecognitionException {
-        Abstract_StringTerm s = null;
-
-
-        Token CONST5=null;
-        Abstract_VarTerm v =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:175:47: ( CONST |v= var )
-            int alt29=2;
-            int LA29_0 = input.LA(1);
-
-            if ( (LA29_0==CONST) ) {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:2: ( INSERT OPEN litconj CLOSE | DELETE OPEN litconj CLOSE | ADOPT OPEN litconj CLOSE | DROP OPEN litconj CLOSE )
+            int alt29=4;
+            switch ( input.LA(1) ) {
+            case INSERT:
+                {
                 alt29=1;
-            }
-            else if ( (LA29_0==ANON_VAR||LA29_0==VAR) ) {
+                }
+                break;
+            case DELETE:
+                {
                 alt29=2;
-            }
-            else {
+                }
+                break;
+            case ADOPT:
+                {
+                alt29=3;
+                }
+                break;
+            case DROP:
+                {
+                alt29=4;
+                }
+                break;
+            default:
                 NoViableAltException nvae =
                     new NoViableAltException("", 29, 0, input);
 
                 throw nvae;
 
             }
+
             switch (alt29) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:175:49: CONST
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:4: INSERT OPEN litconj CLOSE
                     {
-                    CONST5=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1570); 
+                    match(input,INSERT,FOLLOW_INSERT_in_builtinaction1119); 
 
-                    s = new Abstract_StringTermImpl(CONST5.getText());
+                    match(input,OPEN,FOLLOW_OPEN_in_builtinaction1121); 
 
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:175:111: v= var
-                    {
-                    pushFollow(FOLLOW_var_in_agentnameterm1578);
-                    v=var();
+                    pushFollow(FOLLOW_litconj_in_builtinaction1123);
+                    litconj();
 
                     state._fsp--;
 
 
-                    s = v;
+                    match(input,CLOSE,FOLLOW_CLOSE_in_builtinaction1125); 
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:106:3: DELETE OPEN litconj CLOSE
+                    {
+                    match(input,DELETE,FOLLOW_DELETE_in_builtinaction1131); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_builtinaction1133); 
+
+                    pushFollow(FOLLOW_litconj_in_builtinaction1135);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_builtinaction1137); 
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:4: ADOPT OPEN litconj CLOSE
+                    {
+                    match(input,ADOPT,FOLLOW_ADOPT_in_builtinaction1144); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_builtinaction1146); 
+
+                    pushFollow(FOLLOW_litconj_in_builtinaction1148);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_builtinaction1150); 
+
+                    }
+                    break;
+                case 4 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:108:4: DROP OPEN litconj CLOSE
+                    {
+                    match(input,DROP,FOLLOW_DROP_in_builtinaction1157); 
+
+                    match(input,OPEN,FOLLOW_OPEN_in_builtinaction1159); 
+
+                    pushFollow(FOLLOW_litconj_in_builtinaction1161);
+                    litconj();
+
+                    state._fsp--;
+
+
+                    match(input,CLOSE,FOLLOW_CLOSE_in_builtinaction1163); 
 
                     }
                     break;
@@ -2285,294 +1791,218 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return s;
+        return ;
     }
-    // $ANTLR end "agentnameterm"
+    // $ANTLR end "builtinaction"
 
 
 
-    // $ANTLR start "literal"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:178:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
-    public final Abstract_Literal literal() throws RecognitionException {
-        Abstract_Literal l = null;
-
-
-        Abstract_Predicate nt =null;
-
-        Abstract_Predicate t =null;
-
-
+    // $ANTLR start "communication"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:1: communication : SEND OPEN id COMMA poslitconj CLOSE ;
+    public final void communication() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:178:37: ( ( TRUE | NOT nt= pred ) |t= pred )
-            int alt31=2;
-            int LA31_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:111:2: ( SEND OPEN id COMMA poslitconj CLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:111:4: SEND OPEN id COMMA poslitconj CLOSE
+            {
+            match(input,SEND,FOLLOW_SEND_in_communication1175); 
 
-            if ( (LA31_0==NOT||LA31_0==TRUE) ) {
-                alt31=1;
+            match(input,OPEN,FOLLOW_OPEN_in_communication1177); 
+
+            pushFollow(FOLLOW_id_in_communication1179);
+            id();
+
+            state._fsp--;
+
+
+            match(input,COMMA,FOLLOW_COMMA_in_communication1181); 
+
+            pushFollow(FOLLOW_poslitconj_in_communication1183);
+            poslitconj();
+
+            state._fsp--;
+
+
+            match(input,CLOSE,FOLLOW_CLOSE_in_communication1185); 
+
             }
-            else if ( (LA31_0==ANON_VAR||LA31_0==CONST||LA31_0==VAR) ) {
-                alt31=2;
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "communication"
+
+
+
+    // $ANTLR start "id"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:1: id : ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' | '$' )* ;
+    public final void id() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:4: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' | '$' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:6: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' | '$' )*
+            {
+            if ( input.LA(1)==46||input.LA(1)==51 ) {
+                input.consume();
+                state.errorRecovery=false;
             }
             else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                throw mse;
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' | '$' )*
+            loop30:
+            do {
+                int alt30=2;
+                int LA30_0 = input.LA(1);
+
+                if ( (LA30_0==46||LA30_0==51) ) {
+                    alt30=1;
+                }
+
+
+                switch (alt30) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    {
+            	    if ( input.LA(1)==46||input.LA(1)==51 ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop30;
+                }
+            } while (true);
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "id"
+
+
+
+    // $ANTLR start "term"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:2: term : ( atom | stringterm | numberterm | listterm | var ) ;
+    public final void term() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:7: ( ( atom | stringterm | numberterm | listterm | var ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:9: ( atom | stringterm | numberterm | listterm | var )
+            {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:9: ( atom | stringterm | numberterm | listterm | var )
+            int alt31=5;
+            switch ( input.LA(1) ) {
+            case 46:
+            case 51:
+                {
+                alt31=1;
+                }
+                break;
+            case DOUBLEQUOTE:
+                {
+                alt31=2;
+                }
+                break;
+
+                {
+                alt31=3;
+                }
+                break;
+            case SQOPEN:
+                {
+                alt31=4;
+                }
+                break;
+
+                {
+                alt31=5;
+                }
+                break;
+            default:
                 NoViableAltException nvae =
                     new NoViableAltException("", 31, 0, input);
 
                 throw nvae;
 
             }
+
             switch (alt31) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:178:40: ( TRUE | NOT nt= pred )
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:10: atom
                     {
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:178:40: ( TRUE | NOT nt= pred )
-                    int alt30=2;
-                    int LA30_0 = input.LA(1);
+                    pushFollow(FOLLOW_atom_in_term1591);
+                    atom();
 
-                    if ( (LA30_0==TRUE) ) {
-                        alt30=1;
-                    }
-                    else if ( (LA30_0==NOT) ) {
-                        alt30=2;
-                    }
-                    else {
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 30, 0, input);
-
-                        throw nvae;
-
-                    }
-                    switch (alt30) {
-                        case 1 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:178:41: TRUE
-                            {
-                            match(input,TRUE,FOLLOW_TRUE_in_literal1594); 
-
-                            l = new Abstract_Literal(Abstract_Literal.LTrue);
-
-                            }
-                            break;
-                        case 2 :
-                            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:179:5: NOT nt= pred
-                            {
-                            match(input,NOT,FOLLOW_NOT_in_literal1605); 
-
-                            pushFollow(FOLLOW_pred_in_literal1609);
-                            nt=pred();
-
-                            state._fsp--;
-
-
-
-                            				if (nt instanceof Abstract_VarTerm) 
-                            					{l = (Abstract_VarTerm) nt; l.setNegated(false);}
-                            					else { l = new Abstract_Literal(Abstract_Literal.LNeg, new Abstract_Pred(nt));}
-
-                            }
-                            break;
-
-                    }
+                    state._fsp--;
 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:183:5: t= pred
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:17: stringterm
                     {
-                    pushFollow(FOLLOW_pred_in_literal1623);
-                    t=pred();
+                    pushFollow(FOLLOW_stringterm_in_term1595);
+                    stringterm();
 
                     state._fsp--;
 
 
-                    if (t instanceof Abstract_VarTerm) 
-                    				            {l = (Abstract_VarTerm) t;} 
-                    				            else {l = new Abstract_Literal(Abstract_Literal.LPos, new Abstract_Pred(t));}
-
                     }
                     break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return l;
-    }
-    // $ANTLR end "literal"
-
-
-
-    // $ANTLR start "pred"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:187:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
-    public final Abstract_Predicate pred() throws RecognitionException {
-        Abstract_Predicate t = null;
-
-
-        Abstract_VarTerm v =null;
-
-        Abstract_Predicate f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:187:37: (v= var |f= function )
-            int alt32=2;
-            int LA32_0 = input.LA(1);
-
-            if ( (LA32_0==ANON_VAR||LA32_0==VAR) ) {
-                alt32=1;
-            }
-            else if ( (LA32_0==CONST) ) {
-                alt32=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 32, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt32) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:187:39: v= var
+                case 3 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:30: numberterm
                     {
-                    pushFollow(FOLLOW_var_in_pred1639);
-                    v=var();
+                    pushFollow(FOLLOW_numberterm_in_term1599);
+                    numberterm();
 
                     state._fsp--;
 
 
-                    t = v;
-
                     }
                     break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:187:59: f= function
+                case 4 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:43: listterm
                     {
-                    pushFollow(FOLLOW_function_in_pred1646);
-                    f=function();
+                    pushFollow(FOLLOW_listterm_in_term1603);
+                    listterm();
 
                     state._fsp--;
 
 
-                    t = f;
-
                     }
                     break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return t;
-    }
-    // $ANTLR end "pred"
-
-
-
-    // $ANTLR start "function"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:188:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
-    public final Abstract_Predicate function() throws RecognitionException {
-        Abstract_Predicate f = null;
-
-
-        Token CONST6=null;
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:188:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:188:42: CONST ( OPEN terms[$f] CLOSE )?
-            {
-            CONST6=(Token)match(input,CONST,FOLLOW_CONST_in_function1658); 
-
-            f = new Abstract_Predicate(CONST6.getText());
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:188:97: ( OPEN terms[$f] CLOSE )?
-            int alt33=2;
-            int LA33_0 = input.LA(1);
-
-            if ( (LA33_0==OPEN) ) {
-                alt33=1;
-            }
-            switch (alt33) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:188:98: OPEN terms[$f] CLOSE
+                case 5 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:54: var
                     {
-                    match(input,OPEN,FOLLOW_OPEN_in_function1663); 
-
-                    pushFollow(FOLLOW_terms_in_function1665);
-                    terms(f);
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_function1668); 
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return f;
-    }
-    // $ANTLR end "function"
-
-
-
-    // $ANTLR start "terms"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:190:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
-    public final void terms(Abstract_Predicate f) throws RecognitionException {
-        Abstract_Term t =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:190:29: (t= term ( COMMA terms[$f] )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:190:31: t= term ( COMMA terms[$f] )?
-            {
-            pushFollow(FOLLOW_term_in_terms1681);
-            t=term();
-
-            state._fsp--;
-
-
-            f.addTerm(t);
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:190:58: ( COMMA terms[$f] )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
-
-            if ( (LA34_0==COMMA) ) {
-                alt34=1;
-            }
-            switch (alt34) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:190:59: COMMA terms[$f]
-                    {
-                    match(input,COMMA,FOLLOW_COMMA_in_terms1686); 
-
-                    pushFollow(FOLLOW_terms_in_terms1688);
-                    terms(f);
+                    pushFollow(FOLLOW_var_in_term1607);
+                    var();
 
                     state._fsp--;
 
@@ -2596,247 +2026,26 @@ public class GOALParser extends Parser {
         }
         return ;
     }
-    // $ANTLR end "terms"
-
-
-
-    // $ANTLR start "term"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function | AGNAME );
-    public final Abstract_Term term() throws RecognitionException {
-        Abstract_Term t = null;
-
-
-        Abstract_NumberTerm a =null;
-
-        Abstract_StringTerm s =null;
-
-        Abstract_Predicate f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:31: (a= atom |s= stringterm |f= function | AGNAME )
-            int alt35=4;
-            switch ( input.LA(1) ) {
-            case ANON_VAR:
-            case MINUS:
-            case NUMBER:
-            case OPEN:
-            case VAR:
-                {
-                alt35=1;
-                }
-                break;
-            case DOUBLEQUOTE:
-                {
-                alt35=2;
-                }
-                break;
-            case CONST:
-                {
-                alt35=3;
-                }
-                break;
-            case AGNAME:
-                {
-                alt35=4;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 35, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt35) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:34: a= atom
-                    {
-                    pushFollow(FOLLOW_atom_in_term1707);
-                    a=atom();
-
-                    state._fsp--;
-
-
-                    t = a;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:58: s= stringterm
-                    {
-                    pushFollow(FOLLOW_stringterm_in_term1717);
-                    s=stringterm();
-
-                    state._fsp--;
-
-
-                    t = s;
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:88: f= function
-                    {
-                    pushFollow(FOLLOW_function_in_term1725);
-                    f=function();
-
-                    state._fsp--;
-
-
-                    t = f;
-
-                    }
-                    break;
-                case 4 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:191:114: AGNAME
-                    {
-                    match(input,AGNAME,FOLLOW_AGNAME_in_term1731); 
-
-                    t = new Abstract_Predicate(name);
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return t;
-    }
     // $ANTLR end "term"
 
 
 
-    // $ANTLR start "atom"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:193:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
-    public final Abstract_NumberTerm atom() throws RecognitionException {
-        Abstract_NumberTerm t = null;
-
-
-        String n =null;
-
-        Abstract_VarTerm v =null;
-
-        Abstract_NumberTerm a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:193:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
-            int alt36=3;
-            switch ( input.LA(1) ) {
-            case MINUS:
-            case NUMBER:
-                {
-                alt36=1;
-                }
-                break;
-            case ANON_VAR:
-            case VAR:
-                {
-                alt36=2;
-                }
-                break;
-            case OPEN:
-                {
-                alt36=3;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 36, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt36) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:193:40: n= numberstring
-                    {
-                    pushFollow(FOLLOW_numberstring_in_atom1749);
-                    n=numberstring();
-
-                    state._fsp--;
-
-
-                    t = new Abstract_NumberTermImpl(n);
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:194:6: v= var
-                    {
-                    pushFollow(FOLLOW_var_in_atom1762);
-                    v=var();
-
-                    state._fsp--;
-
-
-                    t = v;
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:194:27: OPEN a= arithexpr CLOSE
-                    {
-                    match(input,OPEN,FOLLOW_OPEN_in_atom1768); 
-
-                    pushFollow(FOLLOW_arithexpr_in_atom1772);
-                    a=arithexpr();
-
-                    state._fsp--;
-
-
-                    match(input,CLOSE,FOLLOW_CLOSE_in_atom1774); 
-
-                    t = a;
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return t;
-    }
-    // $ANTLR end "atom"
-
-
-
     // $ANTLR start "stringterm"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:195:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
-    public final Abstract_StringTerm stringterm() throws RecognitionException {
-        Abstract_StringTerm s = null;
-
-
-        Token STRING7=null;
-
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:2: stringterm : DOUBLEQUOTE word DOUBLEQUOTE ;
+    public final void stringterm() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:195:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:195:46: DOUBLEQUOTE STRING DOUBLEQUOTE
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:3: ( DOUBLEQUOTE word DOUBLEQUOTE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:5: DOUBLEQUOTE word DOUBLEQUOTE
             {
-            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1787); 
+            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1618); 
 
-            STRING7=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1790); 
+            pushFollow(FOLLOW_word_in_stringterm1620);
+            word();
 
-            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1792); 
+            state._fsp--;
 
-            s = new Abstract_StringTermImpl(STRING7.getText());
+
+            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1622); 
 
             }
 
@@ -2849,69 +2058,61 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return s;
+        return ;
     }
     // $ANTLR end "stringterm"
 
 
 
-    // $ANTLR start "var"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:197:1: var returns [Abstract_VarTerm v] : ( VAR | ANON_VAR ) ;
-    public final Abstract_VarTerm var() throws RecognitionException {
-        Abstract_VarTerm v = null;
-
-
-        Token VAR8=null;
-
+    // $ANTLR start "numberterm"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:2: numberterm : ( '0' .. '9' ) ( '0' .. '9' )* ;
+    public final void numberterm() throws RecognitionException {
         try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:197:34: ( ( VAR | ANON_VAR ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:197:36: ( VAR | ANON_VAR )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:3: ( ( '0' .. '9' ) ( '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:5: ( '0' .. '9' ) ( '0' .. '9' )*
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:197:36: ( VAR | ANON_VAR )
-            int alt37=2;
-            int LA37_0 = input.LA(1);
-
-            if ( (LA37_0==VAR) ) {
-                alt37=1;
-            }
-            else if ( (LA37_0==ANON_VAR) ) {
-                alt37=2;
+            if (  ) {
+                input.consume();
+                state.errorRecovery=false;
             }
             else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 37, 0, input);
-
-                throw nvae;
-
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                throw mse;
             }
-            switch (alt37) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:197:37: VAR
-                    {
-                    VAR8=(Token)match(input,VAR,FOLLOW_VAR_in_var1807); 
 
 
-                    	if (variables.containsKey(VAR8.getText())) {
-                    		v = variables.get(VAR8.getText());
-                    		} else {
-                    		v = new Abstract_VarTerm(VAR8.getText());
-                    		variables.put(VAR8.getText(), v);
-                    		}
-                    	
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:16: ( '0' .. '9' )*
+            loop32:
+            do {
+                int alt32=2;
+                int LA32_0 = input.LA(1);
 
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:204:6: ANON_VAR
-                    {
-                    match(input,ANON_VAR,FOLLOW_ANON_VAR_in_var1813); 
+                if ( () ) {
+                    alt32=1;
+                }
 
-                    v = new Abstract_UnnamedVar();
 
-                    }
-                    break;
+                switch (alt32) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    {
+            	    if (  ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
 
-            }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop32;
+                }
+            } while (true);
 
 
             }
@@ -2925,691 +2126,430 @@ public class GOALParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return v;
+        return ;
+    }
+    // $ANTLR end "numberterm"
+
+
+
+    // $ANTLR start "word"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:2: word : ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* ;
+    public final void word() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:7: ( ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:9: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            {
+            if (  ) {
+                input.consume();
+                state.errorRecovery=false;
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                throw mse;
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:42: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            loop33:
+            do {
+                int alt33=2;
+                int LA33_0 = input.LA(1);
+
+                if ( () ) {
+                    alt33=1;
+                }
+
+
+                switch (alt33) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    {
+            	    if (  ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop33;
+                }
+            } while (true);
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "word"
+
+
+
+    // $ANTLR start "listterm"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:2: listterm : SQOPEN ( term ( COMMA term )* ( BAR var )? )? SQCLOSE ;
+    public final void listterm() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:3: ( SQOPEN ( term ( COMMA term )* ( BAR var )? )? SQCLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:5: SQOPEN ( term ( COMMA term )* ( BAR var )? )? SQCLOSE
+            {
+            match(input,SQOPEN,FOLLOW_SQOPEN_in_listterm1694); 
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:12: ( term ( COMMA term )* ( BAR var )? )?
+            int alt36=2;
+            int LA36_0 = input.LA(1);
+
+            if ( (LA36_0==DOUBLEQUOTE||LA36_0==SQOPEN||LA36_0==46||LA36_0==51) ) {
+                alt36=1;
+            }
+            switch (alt36) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:13: term ( COMMA term )* ( BAR var )?
+                    {
+                    pushFollow(FOLLOW_term_in_listterm1697);
+                    term();
+
+                    state._fsp--;
+
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:18: ( COMMA term )*
+                    loop34:
+                    do {
+                        int alt34=2;
+                        int LA34_0 = input.LA(1);
+
+                        if ( (LA34_0==COMMA) ) {
+                            alt34=1;
+                        }
+
+
+                        switch (alt34) {
+                    	case 1 :
+                    	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:19: COMMA term
+                    	    {
+                    	    match(input,COMMA,FOLLOW_COMMA_in_listterm1700); 
+
+                    	    pushFollow(FOLLOW_term_in_listterm1702);
+                    	    term();
+
+                    	    state._fsp--;
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop34;
+                        }
+                    } while (true);
+
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:32: ( BAR var )?
+                    int alt35=2;
+                    int LA35_0 = input.LA(1);
+
+                    if ( (LA35_0==BAR) ) {
+                        alt35=1;
+                    }
+                    switch (alt35) {
+                        case 1 :
+                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:33: BAR var
+                            {
+                            match(input,BAR,FOLLOW_BAR_in_listterm1707); 
+
+                            pushFollow(FOLLOW_var_in_listterm1709);
+                            var();
+
+                            state._fsp--;
+
+
+                            }
+                            break;
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            match(input,SQCLOSE,FOLLOW_SQCLOSE_in_listterm1716); 
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
+    }
+    // $ANTLR end "listterm"
+
+
+
+    // $ANTLR start "var"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:2: var : ( 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* ;
+    public final void var() throws RecognitionException {
+        try {
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:6: ( ( 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:8: ( 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            {
+            if (  ) {
+                input.consume();
+                state.errorRecovery=false;
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                throw mse;
+            }
+
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:19: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' )*
+            loop37:
+            do {
+                int alt37=2;
+                int LA37_0 = input.LA(1);
+
+                if ( () ) {
+                    alt37=1;
+                }
+
+
+                switch (alt37) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    {
+            	    if (  ) {
+            	        input.consume();
+            	        state.errorRecovery=false;
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        throw mse;
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop37;
+                }
+            } while (true);
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return ;
     }
     // $ANTLR end "var"
-
-
-
-    // $ANTLR start "numberstring"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
-    public final String numberstring() throws RecognitionException {
-        String s = null;
-
-
-        Token n1=null;
-        Token n2=null;
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
-            {
-            s = "";
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:46: ( MINUS )?
-            int alt38=2;
-            int LA38_0 = input.LA(1);
-
-            if ( (LA38_0==MINUS) ) {
-                alt38=1;
-            }
-            switch (alt38) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:47: MINUS
-                    {
-                    match(input,MINUS,FOLLOW_MINUS_in_numberstring1831); 
-
-                    s += "-";
-
-                    }
-                    break;
-
-            }
-
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:206:69: n1= NUMBER ( POINT n2= NUMBER )?
-            {
-            n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1840); 
-
-            s += n1.getText();
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:207:6: ( POINT n2= NUMBER )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
-
-            if ( (LA39_0==POINT) ) {
-                alt39=1;
-            }
-            switch (alt39) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:207:7: POINT n2= NUMBER
-                    {
-                    match(input,POINT,FOLLOW_POINT_in_numberstring1850); 
-
-                    s += ".";
-
-                    n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1856); 
-
-                    s += n2.getText();
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return s;
-    }
-    // $ANTLR end "numberstring"
-
-
-
-    // $ANTLR start "equation"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:208:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
-    public final Abstract_Equation equation() throws RecognitionException {
-        Abstract_Equation eq = null;
-
-
-        Abstract_NumberTerm a1 =null;
-
-        int oper =0;
-
-        Abstract_NumberTerm a2 =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:208:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:208:42: a1= arithexpr oper= eqoper a2= arithexpr
-            {
-            pushFollow(FOLLOW_arithexpr_in_equation1873);
-            a1=arithexpr();
-
-            state._fsp--;
-
-
-            pushFollow(FOLLOW_eqoper_in_equation1877);
-            oper=eqoper();
-
-            state._fsp--;
-
-
-            pushFollow(FOLLOW_arithexpr_in_equation1881);
-            a2=arithexpr();
-
-            state._fsp--;
-
-
-            eq = new Abstract_Equation(a1, oper, a2);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return eq;
-    }
-    // $ANTLR end "equation"
-
-
-
-    // $ANTLR start "eqoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:209:1: eqoper returns [int oper] : ( LESS | EQ );
-    public final int eqoper() throws RecognitionException {
-        int oper = 0;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:209:27: ( LESS | EQ )
-            int alt40=2;
-            int LA40_0 = input.LA(1);
-
-            if ( (LA40_0==LESS) ) {
-                alt40=1;
-            }
-            else if ( (LA40_0==EQ) ) {
-                alt40=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 40, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt40) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:209:29: LESS
-                    {
-                    match(input,LESS,FOLLOW_LESS_in_eqoper1895); 
-
-                    oper =Abstract_Equation.less;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:209:68: EQ
-                    {
-                    match(input,EQ,FOLLOW_EQ_in_eqoper1901); 
-
-                    oper =Abstract_Equation.equal;
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return oper;
-    }
-    // $ANTLR end "eqoper"
-
-
-
-    // $ANTLR start "arithexpr"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:211:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
-    public final Abstract_NumberTerm arithexpr() throws RecognitionException {
-        Abstract_NumberTerm t = null;
-
-
-        Abstract_NumberTerm m =null;
-
-        int oper =0;
-
-        Abstract_NumberTerm m1 =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:211:43: (m= multexpr (oper= addoper m1= multexpr )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:211:45: m= multexpr (oper= addoper m1= multexpr )?
-            {
-            pushFollow(FOLLOW_multexpr_in_arithexpr1917);
-            m=multexpr();
-
-            state._fsp--;
-
-
-            t = m;
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:211:69: (oper= addoper m1= multexpr )?
-            int alt41=2;
-            int LA41_0 = input.LA(1);
-
-            if ( (LA41_0==MINUS||LA41_0==PLUS) ) {
-                alt41=1;
-            }
-            switch (alt41) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:211:71: oper= addoper m1= multexpr
-                    {
-                    pushFollow(FOLLOW_addoper_in_arithexpr1925);
-                    oper=addoper();
-
-                    state._fsp--;
-
-
-                    pushFollow(FOLLOW_multexpr_in_arithexpr1929);
-                    m1=multexpr();
-
-                    state._fsp--;
-
-
-                    t = new Abstract_ArithExpr(m, oper, m1);
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return t;
-    }
-    // $ANTLR end "arithexpr"
-
-
-
-    // $ANTLR start "multexpr"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:212:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
-    public final Abstract_NumberTerm multexpr() throws RecognitionException {
-        Abstract_NumberTerm t = null;
-
-
-        Abstract_NumberTerm a =null;
-
-        int oper =0;
-
-        Abstract_NumberTerm a1 =null;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:212:42: (a= atom (oper= multoper a1= atom )? )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:212:44: a= atom (oper= multoper a1= atom )?
-            {
-            pushFollow(FOLLOW_atom_in_multexpr1946);
-            a=atom();
-
-            state._fsp--;
-
-
-            t = a;
-
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:212:64: (oper= multoper a1= atom )?
-            int alt42=2;
-            int LA42_0 = input.LA(1);
-
-            if ( (LA42_0==DIV||(LA42_0 >= MOD && LA42_0 <= MULT)) ) {
-                alt42=1;
-            }
-            switch (alt42) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:212:65: oper= multoper a1= atom
-                    {
-                    pushFollow(FOLLOW_multoper_in_multexpr1953);
-                    oper=multoper();
-
-                    state._fsp--;
-
-
-                    pushFollow(FOLLOW_atom_in_multexpr1957);
-                    a1=atom();
-
-                    state._fsp--;
-
-
-                    t = new Abstract_ArithExpr(a, oper, a1);
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return t;
-    }
-    // $ANTLR end "multexpr"
-
-
-
-    // $ANTLR start "addoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
-    public final int addoper() throws RecognitionException {
-        int oper = 0;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:28: ( ( PLUS | MINUS ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:30: ( PLUS | MINUS )
-            {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:30: ( PLUS | MINUS )
-            int alt43=2;
-            int LA43_0 = input.LA(1);
-
-            if ( (LA43_0==PLUS) ) {
-                alt43=1;
-            }
-            else if ( (LA43_0==MINUS) ) {
-                alt43=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 43, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt43) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:31: PLUS
-                    {
-                    match(input,PLUS,FOLLOW_PLUS_in_addoper1974); 
-
-                    oper =Abstract_ArithExpr.plus;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:214:70: MINUS
-                    {
-                    match(input,MINUS,FOLLOW_MINUS_in_addoper1979); 
-
-                    oper =Abstract_ArithExpr.minus;
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return oper;
-    }
-    // $ANTLR end "addoper"
-
-
-
-    // $ANTLR start "multoper"
-    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
-    public final int multoper() throws RecognitionException {
-        int oper = 0;
-
-
-        try {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:29: ( ( MULT | DIV | MOD ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:31: ( MULT | DIV | MOD )
-            {
-            // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:31: ( MULT | DIV | MOD )
-            int alt44=3;
-            switch ( input.LA(1) ) {
-            case MULT:
-                {
-                alt44=1;
-                }
-                break;
-            case DIV:
-                {
-                alt44=2;
-                }
-                break;
-            case MOD:
-                {
-                alt44=3;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 44, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt44) {
-                case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:32: MULT
-                    {
-                    match(input,MULT,FOLLOW_MULT_in_multoper1994); 
-
-                    oper =Abstract_ArithExpr.times;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:73: DIV
-                    {
-                    match(input,DIV,FOLLOW_DIV_in_multoper2000); 
-
-                    oper =Abstract_ArithExpr.div;
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/goal/parser/GOAL.g:215:111: MOD
-                    {
-                    match(input,MOD,FOLLOW_MOD_in_multoper2006); 
-
-                    oper =Abstract_ArithExpr.mod;
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return oper;
-    }
-    // $ANTLR end "multoper"
 
     // Delegated rules
 
 
  
 
-    public static final BitSet FOLLOW_goalagents_in_mas76 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GOAL_in_goalagents88 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_goalagent_in_goalagents97 = new BitSet(new long[]{0x0000020000000002L});
-    public static final BitSet FOLLOW_literal_in_brule285 = new BitSet(new long[]{0x0000000000000400L});
-    public static final BitSet FOLLOW_BRULEARROW_in_brule287 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_fmla_in_brule291 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_fmla311 = new BitSet(new long[]{0x0004000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_fmla318 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_fmla_in_fmla322 = new BitSet(new long[]{0x0004000000010002L});
-    public static final BitSet FOLLOW_SEMI_in_fmla332 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_fmla_in_fmla336 = new BitSet(new long[]{0x0004000000010002L});
-    public static final BitSet FOLLOW_NAME_in_goalagent354 = new BitSet(new long[]{0x0400000000080000L});
-    public static final BitSet FOLLOW_word_in_goalagent358 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_BELIEFS_in_goalagent367 = new BitSet(new long[]{0x0600080000080880L});
-    public static final BitSet FOLLOW_literal_in_goalagent372 = new BitSet(new long[]{0x0600080000080880L});
-    public static final BitSet FOLLOW_BRULES_in_goalagent379 = new BitSet(new long[]{0x0600080040080080L});
-    public static final BitSet FOLLOW_brule_in_goalagent384 = new BitSet(new long[]{0x0600080040080080L});
-    public static final BitSet FOLLOW_GOALS_in_goalagent391 = new BitSet(new long[]{0x06000800000C0080L});
-    public static final BitSet FOLLOW_literal_in_goalagent398 = new BitSet(new long[]{0x06000800000C0080L});
-    public static final BitSet FOLLOW_CONDACTIONS_in_goalagent405 = new BitSet(new long[]{0x0000000100001000L});
-    public static final BitSet FOLLOW_condaction_in_goalagent410 = new BitSet(new long[]{0x0000000100001000L});
-    public static final BitSet FOLLOW_CAPABILITIES_in_goalagent417 = new BitSet(new long[]{0x0600080000080082L});
-    public static final BitSet FOLLOW_capability_in_goalagent422 = new BitSet(new long[]{0x0600080000080082L});
-    public static final BitSet FOLLOW_literal_in_goal443 = new BitSet(new long[]{0x0000000000000042L});
-    public static final BitSet FOLLOW_AND_in_goal450 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_goal454 = new BitSet(new long[]{0x0000000000000042L});
-    public static final BitSet FOLLOW_capname_in_capability477 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_CURLYOPEN_in_capability484 = new BitSet(new long[]{0x0200080C80000200L});
-    public static final BitSet FOLLOW_precondition_in_capability490 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_CURLYCLOSE_in_capability492 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_CURLYOPEN_in_capability496 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_postcondition_in_capability498 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_CURLYCLOSE_in_capability501 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IF_in_condaction517 = new BitSet(new long[]{0x0200080C80000200L});
-    public static final BitSet FOLLOW_precondition_in_condaction521 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_THEN_in_condaction523 = new BitSet(new long[]{0x0608080209384090L});
-    public static final BitSet FOLLOW_capostcondition_in_condaction529 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INS_in_capostcondition548 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition550 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_capostcondition555 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition557 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition565 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition567 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_DEL_in_capostcondition576 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition579 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_capostcondition584 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition586 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition594 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition596 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_ADOPT_in_capostcondition605 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition608 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_capostcondition613 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition615 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_goal_in_capostcondition623 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition626 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_DROP_in_capostcondition635 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition638 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_capostcondition643 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition645 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_goal_in_capostcondition653 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition656 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_CONTENT_in_capostcondition665 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition667 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition671 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition673 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_CONTEXT_in_capostcondition682 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition684 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition688 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition690 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_SEND_in_capostcondition699 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition701 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_conv_id_in_capostcondition705 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_COLON_in_capostcondition707 = new BitSet(new long[]{0x0040000000000000L});
-    public static final BitSet FOLLOW_SQOPEN_in_capostcondition716 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_capostcondition721 = new BitSet(new long[]{0x0420000000080080L});
-    public static final BitSet FOLLOW_SQCLOSE_in_capostcondition727 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition729 = new BitSet(new long[]{0x0013018000000000L});
-    public static final BitSet FOLLOW_MULT_in_capostcondition736 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_MOD_in_capostcondition742 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_QUERY_in_capostcondition748 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_SHRIEK_in_capostcondition754 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_POINT_in_capostcondition760 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition767 = new BitSet(new long[]{0x0000000000012000L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition782 = new BitSet(new long[]{0x0013000000000000L});
-    public static final BitSet FOLLOW_QUERY_in_capostcondition785 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_SHRIEK_in_capostcondition791 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_POINT_in_capostcondition797 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_capostcondition804 = new BitSet(new long[]{0x0000000000012000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition818 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_CLOSEKEY_in_capostcondition825 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_OPEN_in_capostcondition827 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_conv_id_in_capostcondition831 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_capostcondition833 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_capname_in_capostcondition844 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_capostcondition852 = new BitSet(new long[]{0x0608080209384090L});
-    public static final BitSet FOLLOW_capostcondition_in_capostcondition854 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_var_in_conv_id871 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_conv_id877 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_dbnumb895 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_dbnumb908 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_capname925 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_precondition947 = new BitSet(new long[]{0x0200000C80000200L});
-    public static final BitSet FOLLOW_TRUE_in_precondition955 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_BELIEVE_in_precondition962 = new BitSet(new long[]{0x0600280000080080L});
-    public static final BitSet FOLLOW_NUMMARKER_in_precondition968 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_precondition972 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_literal_in_precondition980 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_HAVEGOAL_in_precondition988 = new BitSet(new long[]{0x0600280000080080L});
-    public static final BitSet FOLLOW_NUMMARKER_in_precondition993 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_precondition997 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_goal_in_precondition1005 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_IN_CONTENT_in_precondition1017 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_NUMMARKER_in_precondition1020 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_precondition1024 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_IN_CONTEXT_in_precondition1031 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_NUMMARKER_in_precondition1034 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_dbnumb_in_precondition1038 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_precondition1051 = new BitSet(new long[]{0x0200080C80000200L});
-    public static final BitSet FOLLOW_precondition_in_precondition1055 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_literal_in_postcondition1071 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_postcondition1076 = new BitSet(new long[]{0x0600080000080080L});
-    public static final BitSet FOLLOW_postcondition_in_postcondition1078 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_classpath_in_environment1339 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_word_in_classpath1354 = new BitSet(new long[]{0x0001000000000000L});
-    public static final BitSet FOLLOW_POINT_in_classpath1359 = new BitSet(new long[]{0x0400000000080000L});
-    public static final BitSet FOLLOW_word_in_classpath1363 = new BitSet(new long[]{0x0001000000000002L});
-    public static final BitSet FOLLOW_CONST_in_word1464 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VAR_in_word1470 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_agentnameterm1570 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_agentnameterm1578 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TRUE_in_literal1594 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_literal1605 = new BitSet(new long[]{0x0400000000080080L});
-    public static final BitSet FOLLOW_pred_in_literal1609 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pred_in_literal1623 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_pred1639 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_function_in_pred1646 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_function1658 = new BitSet(new long[]{0x0000400000000002L});
-    public static final BitSet FOLLOW_OPEN_in_function1663 = new BitSet(new long[]{0x04005040040800A0L});
-    public static final BitSet FOLLOW_terms_in_function1665 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_function1668 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_term_in_terms1681 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_terms1686 = new BitSet(new long[]{0x04005040040800A0L});
-    public static final BitSet FOLLOW_terms_in_terms1688 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_term1707 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_stringterm_in_term1717 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_function_in_term1725 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_AGNAME_in_term1731 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_numberstring_in_atom1749 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_atom1762 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPEN_in_atom1768 = new BitSet(new long[]{0x0400504000000080L});
-    public static final BitSet FOLLOW_arithexpr_in_atom1772 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_CLOSE_in_atom1774 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1787 = new BitSet(new long[]{0x0080000000000000L});
-    public static final BitSet FOLLOW_STRING_in_stringterm1790 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1792 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VAR_in_var1807 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ANON_VAR_in_var1813 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_numberstring1831 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_NUMBER_in_numberstring1840 = new BitSet(new long[]{0x0001000000000002L});
-    public static final BitSet FOLLOW_POINT_in_numberstring1850 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_NUMBER_in_numberstring1856 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arithexpr_in_equation1873 = new BitSet(new long[]{0x0000001010000000L});
-    public static final BitSet FOLLOW_eqoper_in_equation1877 = new BitSet(new long[]{0x0400504000000080L});
-    public static final BitSet FOLLOW_arithexpr_in_equation1881 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LESS_in_eqoper1895 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_EQ_in_eqoper1901 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_multexpr_in_arithexpr1917 = new BitSet(new long[]{0x0000804000000002L});
-    public static final BitSet FOLLOW_addoper_in_arithexpr1925 = new BitSet(new long[]{0x0400504000000080L});
-    public static final BitSet FOLLOW_multexpr_in_arithexpr1929 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_multexpr1946 = new BitSet(new long[]{0x0000018002000002L});
-    public static final BitSet FOLLOW_multoper_in_multexpr1953 = new BitSet(new long[]{0x0400504000000080L});
-    public static final BitSet FOLLOW_atom_in_multexpr1957 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_addoper1974 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_addoper1979 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MULT_in_multoper1994 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DIV_in_multoper2000 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MOD_in_multoper2006 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MAIN_in_program69 = new BitSet(new long[]{0x0000000000000400L});
+    public static final BitSet FOLLOW_COLON_in_program71 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_id_in_program73 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program75 = new BitSet(new long[]{0x0000000012200100L});
+    public static final BitSet FOLLOW_KNOWLEDGE_in_program118 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program120 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_krspec_in_program122 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program124 = new BitSet(new long[]{0x0000000010200100L});
+    public static final BitSet FOLLOW_BELIEFS_in_program169 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program171 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_krspec_in_program173 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program175 = new BitSet(new long[]{0x0000000010200000L});
+    public static final BitSet FOLLOW_GOALS_in_program220 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program222 = new BitSet(new long[]{0x0008400000001000L});
+    public static final BitSet FOLLOW_poslitconj_in_program224 = new BitSet(new long[]{0x0008400000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program227 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_MAIN_in_program272 = new BitSet(new long[]{0x0000000020000000L});
+    public static final BitSet FOLLOW_MODULE_in_program274 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program276 = new BitSet(new long[]{0x0000001002200000L});
+    public static final BitSet FOLLOW_module_in_program278 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program280 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_EVENT_in_program323 = new BitSet(new long[]{0x0000000020000000L});
+    public static final BitSet FOLLOW_MODULE_in_program325 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program327 = new BitSet(new long[]{0x0000001002200000L});
+    public static final BitSet FOLLOW_module_in_program329 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program331 = new BitSet(new long[]{0x0000000000001010L});
+    public static final BitSet FOLLOW_ACTIONSPEC_in_program375 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_program377 = new BitSet(new long[]{0x0008410001028020L});
+    public static final BitSet FOLLOW_actionspec_in_program379 = new BitSet(new long[]{0x0008410001029020L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program382 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_program427 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_KNOWLEDGE_in_module471 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_module473 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_krspec_in_module475 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_module477 = new BitSet(new long[]{0x0000001000200000L});
+    public static final BitSet FOLLOW_GOALS_in_module511 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_module513 = new BitSet(new long[]{0x0008400000001000L});
+    public static final BitSet FOLLOW_poslitconj_in_module515 = new BitSet(new long[]{0x0008400000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_module518 = new BitSet(new long[]{0x0000001000000000L});
+    public static final BitSet FOLLOW_PROGRAM_in_module551 = new BitSet(new long[]{0x0000040000002000L});
+    public static final BitSet FOLLOW_optionorder_in_module554 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_module558 = new BitSet(new long[]{0x0000000000C00000L});
+    public static final BitSet FOLLOW_macro_in_module593 = new BitSet(new long[]{0x0000000000C00000L});
+    public static final BitSet FOLLOW_actionrule_in_module629 = new BitSet(new long[]{0x0000000000801000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_module661 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_ACTIONSPEC_in_module693 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_module695 = new BitSet(new long[]{0x0008410001028020L});
+    public static final BitSet FOLLOW_actionspec_in_module697 = new BitSet(new long[]{0x0008410001029020L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_module700 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_atom_in_krspec739 = new BitSet(new long[]{0x0000082000000000L});
+    public static final BitSet FOLLOW_STOP_in_krspec742 = new BitSet(new long[]{0x0008400000000002L});
+    public static final BitSet FOLLOW_PROLOGARROW_in_krspec746 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_krspec748 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STOP_in_krspec750 = new BitSet(new long[]{0x0008400000000002L});
+    public static final BitSet FOLLOW_atom_in_krspec754 = new BitSet(new long[]{0x0000082000000000L});
+    public static final BitSet FOLLOW_STOP_in_krspec757 = new BitSet(new long[]{0x0008400000000002L});
+    public static final BitSet FOLLOW_PROLOGARROW_in_krspec761 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_krspec763 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STOP_in_krspec765 = new BitSet(new long[]{0x0008400000000002L});
+    public static final BitSet FOLLOW_atom_in_poslitconj817 = new BitSet(new long[]{0x0000080000000800L});
+    public static final BitSet FOLLOW_COMMA_in_poslitconj820 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_atom_in_poslitconj822 = new BitSet(new long[]{0x0000080000000800L});
+    public static final BitSet FOLLOW_STOP_in_poslitconj826 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_literal_in_litconj834 = new BitSet(new long[]{0x0000080000000800L});
+    public static final BitSet FOLLOW_COMMA_in_litconj837 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_literal_in_litconj839 = new BitSet(new long[]{0x0000080000000800L});
+    public static final BitSet FOLLOW_STOP_in_litconj843 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_atom_in_literal851 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_literal855 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_literal857 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_atom_in_literal859 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_literal861 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_id_in_atom869 = new BitSet(new long[]{0x0000000080000002L});
+    public static final BitSet FOLLOW_parameters_in_atom872 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPEN_in_parameters882 = new BitSet(new long[]{0x0008440000010000L});
+    public static final BitSet FOLLOW_term_in_parameters884 = new BitSet(new long[]{0x0000000000000A00L});
+    public static final BitSet FOLLOW_COMMA_in_parameters887 = new BitSet(new long[]{0x0008440000010000L});
+    public static final BitSet FOLLOW_term_in_parameters889 = new BitSet(new long[]{0x0000000000000A00L});
+    public static final BitSet FOLLOW_CLOSE_in_parameters893 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SQOPEN_in_optionorder902 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_ORDER_in_optionorder904 = new BitSet(new long[]{0x0000000000040000L});
+    public static final BitSet FOLLOW_EQUALS_in_optionorder906 = new BitSet(new long[]{0x000000C00C000000L});
+    public static final BitSet FOLLOW_set_in_optionorder908 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_SQCLOSE_in_optionorder926 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_HASH_in_macro934 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_DEFINE_in_macro936 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_id_in_macro938 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_parameters_in_macro941 = new BitSet(new long[]{0x0000200040100080L});
+    public static final BitSet FOLLOW_mentalstatecond_in_macro944 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STOP_in_macro946 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IF_in_actionrule957 = new BitSet(new long[]{0x0000200040100080L});
+    public static final BitSet FOLLOW_mentalstatecond_in_actionrule959 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_THEN_in_actionrule961 = new BitSet(new long[]{0x0008410001028020L});
+    public static final BitSet FOLLOW_actioncombo_in_actionrule963 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_STOP_in_actionrule965 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_mentalliteral_in_mentalstatecond975 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_COMMA_in_mentalstatecond978 = new BitSet(new long[]{0x0000200040100080L});
+    public static final BitSet FOLLOW_mentalliteral_in_mentalstatecond980 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_TRUE_in_mentalliteral993 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_mentalatom_in_mentalliteral997 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_mentalliteral1001 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_mentalliteral1003 = new BitSet(new long[]{0x0000000000100080L});
+    public static final BitSet FOLLOW_mentalatom_in_mentalliteral1005 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_mentalliteral1007 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_BEL_in_mentalatom1017 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_mentalatom1019 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_mentalatom1021 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_mentalatom1023 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_GOAL_in_mentalatom1027 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_mentalatom1029 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_mentalatom1031 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_mentalatom1033 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_action_in_actionspec1042 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_actionspec1044 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_PRE_in_actionspec1046 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_actionspec1048 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_actionspec1050 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_actionspec1052 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_POST_in_actionspec1054 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_CURLYOPEN_in_actionspec1056 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_actionspec1058 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_actionspec1060 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_CURLYCLOSE_in_actionspec1062 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_action_in_actioncombo1071 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_PLUS_in_actioncombo1074 = new BitSet(new long[]{0x0008410001028020L});
+    public static final BitSet FOLLOW_action_in_actioncombo1076 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_userdefaction_in_action1087 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_builtinaction_in_action1091 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_communication_in_action1095 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_id_in_userdefaction1104 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_parameters_in_userdefaction1107 = new BitSet(new long[]{0x0000000080000002L});
+    public static final BitSet FOLLOW_INSERT_in_builtinaction1119 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_builtinaction1121 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_builtinaction1123 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_builtinaction1125 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DELETE_in_builtinaction1131 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_builtinaction1133 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_builtinaction1135 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_builtinaction1137 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ADOPT_in_builtinaction1144 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_builtinaction1146 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_builtinaction1148 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_builtinaction1150 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DROP_in_builtinaction1157 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_builtinaction1159 = new BitSet(new long[]{0x0008400040000000L});
+    public static final BitSet FOLLOW_litconj_in_builtinaction1161 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_builtinaction1163 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SEND_in_communication1175 = new BitSet(new long[]{0x0000000080000000L});
+    public static final BitSet FOLLOW_OPEN_in_communication1177 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_id_in_communication1179 = new BitSet(new long[]{0x0000000000000800L});
+    public static final BitSet FOLLOW_COMMA_in_communication1181 = new BitSet(new long[]{0x0008400000000000L});
+    public static final BitSet FOLLOW_poslitconj_in_communication1183 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_CLOSE_in_communication1185 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_id1234 = new BitSet(new long[]{0x0008400000000002L});
+    public static final BitSet FOLLOW_atom_in_term1591 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_stringterm_in_term1595 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_numberterm_in_term1599 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_listterm_in_term1603 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_var_in_term1607 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1618 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_word_in_stringterm1620 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1622 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_numberterm1632 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_word1651 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SQOPEN_in_listterm1694 = new BitSet(new long[]{0x0008460000010000L});
+    public static final BitSet FOLLOW_term_in_listterm1697 = new BitSet(new long[]{0x0000020000000840L});
+    public static final BitSet FOLLOW_COMMA_in_listterm1700 = new BitSet(new long[]{0x0008440000010000L});
+    public static final BitSet FOLLOW_term_in_listterm1702 = new BitSet(new long[]{0x0000020000000840L});
+    public static final BitSet FOLLOW_BAR_in_listterm1707 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_var_in_listterm1709 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_SQCLOSE_in_listterm1716 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_var1724 = new BitSet(new long[]{0x0000000000000002L});
 
 }

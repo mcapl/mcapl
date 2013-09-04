@@ -63,7 +63,7 @@ module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
                              CURLYCLOSE
                              (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?;
                              
-krspec: ( atom STOP | atom PROLOGARROW litconj STOP);
+krspec:  atom (STOP | PROLOGARROW litconj STOP) (atom (STOP | PROLOGARROW litconj STOP))*;
                                          
 poslitconj	: atom (COMMA atom)* STOP;
 
@@ -79,9 +79,36 @@ optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQ
 
 macro	: HASH DEFINE id (parameters) mentalstatecond STOP;
 
-actionrule   	: IF mentalstatecond THEN actioncombo STOP;		
+actionrule   	: IF mentalstatecond THEN actioncombo STOP;	
 
-actionspec: action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;	
+mentalstatecond
+	: mentalliteral (COMMA mentalliteral)*;	
+	
+mentalliteral
+	: TRUE | mentalatom | NOT OPEN mentalatom CLOSE;
+	
+mentalatom
+	: BEL OPEN litconj CLOSE | GOAL OPEN litconj CLOSE;
+	
+
+actionspec: action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;
+
+actioncombo
+	: action (PLUS action)*;
+	
+action	: userdefaction | builtinaction | communication;
+
+userdefaction
+	: id (parameters)+;
+	
+builtinaction
+	: INSERT OPEN litconj CLOSE |
+	 DELETE OPEN litconj CLOSE |
+	  ADOPT OPEN litconj CLOSE |
+	  DROP OPEN litconj CLOSE;
+	  
+communication
+	: SEND OPEN id COMMA poslitconj CLOSE;
                                          
 id	: ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9' | '$')*;	
                                                  
@@ -107,10 +134,32 @@ MAIN: 'main';
  RANDOMALL
  	:	'randomall';
  DEFINE	:	'define';
+ IF	:	'if';
+ THEN	:	'then';
+ TRUE	:	'true';
+ BEL	:	'bel';
+ GOAL	:	'goal';
+ PRE	:	'pre';
+ POST	:	'post';
+ PLUS	:	'+';
+ INSERT	:	'insert';
+ DELETE	:	'delete';
+ ADOPT	:	'adopt';
+ DROP	:	'drop';
+ SEND	:	'send';
  
  // term syntax
- term	: (atom | stringterm | numberterm | listerm | var);
-                                              
+ term	: (atom | stringterm | numberterm | listterm | var);
+ stringterm
+ 	: DOUBLEQUOTE word DOUBLEQUOTE;
+ numberterm
+ 	: ('0'..'9') ('0'..'9')*;
+ word	: ('a'..'z' | 'A'..'Z' | '0'..'9') ('a'..'z'|'A'..'Z'|'0'..'9')*;
+ 
+ listterm
+ 	: SQOPEN (term (COMMA term)* (BAR var)? )? SQCLOSE;
+ var	: ('A'..'Z') ('a'..'z' | 'A'..'Z'| '0'..'9')*;
+ 	                                              
 // Lexer Misc Syntax
 COLON	: ':';
 CURLYOPEN: '{';
@@ -123,3 +172,6 @@ CLOSE	: ')';
 SQOPEN	: '[';
 SQCLOSE	: ']';
 HASH: '#';
+DOUBLEQUOTE
+	: '"';
+BAR	: '|';
