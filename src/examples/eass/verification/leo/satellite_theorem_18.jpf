@@ -77,22 +77,18 @@ vm.max_transition_length = MAX
 // 
 // ====================================================== search finished: 8/22/13 6:51 AM
 
-// 6th Sept 2013 -- Code has changed but my intuition is that the overgeneration of states is fixed.
-// [INFO] Number of States in Product Automata: 83329
-// ----------------------------------- search finished
-// 
+// 9th Sept 2013 -- Code has changed but my intuition is that the overgeneration of states is fixed.
 // ====================================================== results
 // no errors detected
 // 
 // ====================================================== statistics
-// elapsed time:       03:40:11
-// states:             new=33249, visited=33215, backtracked=66464, end=32
-// search:             maxDepth=37, constraints hit=0
-// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=33248
-// heap:               new=732003070, released=730367545, max live=108372, gc-cycles=66464
-// instructions:       73240013104
-// max memory:         266MB
+// elapsed time:       01:18:42
+// states:             new=16609, visited=16575, backtracked=33184, end=32
+// search:             maxDepth=33, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=16608
+// heap:               new=259345967, released=258866326, max live=92627, gc-cycles=33184
+// instructions:       25873882142
+// max memory:         165MB
 // loaded code:        classes=359, methods=4869
 // 
-// ====================================================== search finished: 9/6/13 1:31 PM
-
+// ====================================================== search finished: 9/9/13 3:34 PM

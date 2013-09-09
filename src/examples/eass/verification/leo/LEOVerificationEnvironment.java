@@ -347,7 +347,7 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 					}
 				}
 				
-				if (testing_thrusters & !changing_formations) {
+			/*	if (testing_thrusters & !changing_formations) {
 					if (formation_line) {
 						dropline = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(line): " + dropline);
@@ -356,7 +356,7 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 						dropsquare = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(square): " + dropsquare);
 					}
-				}
+				} */
 				
 				if (changing_formations) {
 					dropline = random.nextBoolean();

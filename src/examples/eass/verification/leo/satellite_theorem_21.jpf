@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21b
+target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 listener+=,.listener.ExecTracker
@@ -37,20 +37,21 @@ et.print_insn=false
 vm.max_transition_length = MAX
 
 
-// 6th Sept 2013
+// 9th Sept 2013
+// [INFO] Number of States in Product Automata: 21778
 // ----------------------------------- search finished
 // 
 // ====================================================== results
 // no errors detected
 // 
 // ====================================================== statistics
-// elapsed time:       00:59:12
-// states:             new=7180, visited=6973, backtracked=14153, end=201
-// search:             maxDepth=36, constraints hit=0
-// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=7177
-// heap:               new=202130207, released=202648315, max live=73033, gc-cycles=14153
-// instructions:       19630744136
-// max memory:         176MB
+// // elapsed time:       00:07:19
+// states:             new=2890, visited=2683, backtracked=5573, end=201
+// search:             maxDepth=29, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=2887
+// heap:               new=26794057, released=26892937, max live=55556, gc-cycles=5573
+// instructions:       2330280940
+// max memory:         102MB
 // loaded code:        classes=359, methods=4869
 // 
-// ====================================================== search finished: 9/6/13 7:22 PM
+// ====================================================== search finished: 9/9/13 3:46 PM
