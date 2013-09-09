@@ -60,9 +60,11 @@ assuming_formation(line) [perform]
 +! drop_formation(F) [perform] : {B assuming_formation(F)} <- 
    -! assuming_formation(F) [perform], 
    +! clear_position [perform], 
-   +! cleanup [perform];
+   +! cleanup [perform],
+   perf(null);
 +! drop_formation(F) [perform] : {~ B assuming_formation(F)} <-
-   -! assuming_formation(F) [perform]; 
+   -! assuming_formation(F) [perform],
+   perf(null); 
 +! clear_position [perform] : {B my_position_is(X)} <- 
    + .lock, 
    -my_position_is(X), 
@@ -166,5 +168,6 @@ assuming_formation(line) [perform]
 +!abort(R) [perform]: {B leader(Leader), B my_name(Name), ~G maintaining(Pos) [achieve]} <- 
     +aborted(R), 
     .send(Leader, :tell, aborted(R, Name)), 
-    +sent(Leader, aborted(R, Name)); 
+    +sent(Leader, aborted(R, Name)),
+    perf(null); 
 			
