@@ -1,0 +1,70 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis and Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+env = eass.ros.pubsub.PubSubEnvironment
+
+mas.file = /src/examples/eass/ros/pubsub/publisher.eass
+mas.builder = eass.EASSMASBuilder
+
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+log.fine = eass.ros.pubsub.PubSubEnvironment
+log.info = ail.semantics.AILAgent
+log.format = brief
+
+/* To Run
+
+Make sure you have AJPF_HOME set everywhere (to the mcapl directory)
+Need rosjava and the rosjava pubsub tutorials installed
+
+create a package in a ROS groovy catkin workspace which depends on rosjava_core
+
+(e.g.  catkin_create_pkg eass_publisher rosjava_core )
+ remove CMakeLists.txt
+ 
+ (cd eass_publisher
+  rm CMakeLists.txt)
+  
+  Copy build.gradle across.
+  
+  (cp $AJPF_HOME/src/examples/eass/ros/pubsub/build.gradle . )
+  
+  make a location for java files
+  
+  ( mkdir -p src/main/java/eass/ros/pubsub )
+  
+  Copy files
+  
+  (cp $AJPF_HOME/src/examples/eass/ros/pubsub/*.java src/main/java/eass/ros/pubsub/. )
+
+   gradle build (or equivalent - on rasl sh ~/bin/gradle.sh installApp )
+   
+   3 Terminals run 
+   Terminal 1:   roscore 
+      
+   Terminal 2: From rosjava_tutorial_pubsub
+  ./build/install/rosjava_wiki_tutorial_pubsub/bin/rosjava_wiki_tutorial_pubsub org.ros.rosjava_tutorial_pubsub.Listener
+  
+   Terminal 3: From eass_publisher
+   ./build/intall/eass_publisher/bin/eass_publisher eass.ros.pubsub.ExamplePublisher
+*/

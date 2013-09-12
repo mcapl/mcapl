@@ -65,10 +65,21 @@ public class MCAPLcontroller  {
 	@FilterField
 	private boolean mainconcluded = false;
 	
+	/**
+	 * The controller uses a scheduler to nominate agents and environments to do tasks.
+	 */
 	private MCAPLScheduler scheduler;
 	
-	//private String propertystring;
+	/**
+	 * Where a scheduler  nominates several entities to do a job, these will be selected
+	 * randomly.
+	 */
 	Random random_numbers = new Random();
+	
+	/**
+	 * The logname.
+	 */
+	String logname = "ajpf.MCAPLcontroller";
 		
 
 	/**
@@ -79,11 +90,6 @@ public class MCAPLcontroller  {
 	 */
 	public MCAPLcontroller(MCAPLmas mas, String pstring, int outputlevel) {
 		this(mas, outputlevel);
-		//propertystring = pstring;
-		//Property_AST prop_ast = new Property_AST();
-		//prop_ast.parse(propertystring);
-		//MCAPLProperty prop = prop_ast.toMCAPL(mas, this);
-		//System.err.println(prop);
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
@@ -105,12 +111,9 @@ public class MCAPLcontroller  {
 			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
-			//System.err.println(magent.getAgName());
 		}
-		//m.addPerceptListener(this);
 		specification = s;
 		mas.setController(this);
-	//	setOutputLevel(mc);
 	}
 	
 	/**
@@ -127,11 +130,8 @@ public class MCAPLcontroller  {
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
-			//System.err.println(magent.getAgName());
 		}
 		mas.setController(this);
-		//m.addPerceptListener(this);
-		//setOutputLevel(mc);
 	}
 
 	/**
@@ -152,15 +152,6 @@ public class MCAPLcontroller  {
 	public MCAPLSpec getSpecification() {
 		return (specification);
 	}
-	
-	/**
-	 * Setter method for the outputlevel flag.
-	 * 
-	 * @param b the value of the flag.
-	 */
-//	public void setOutputLevel(int b) {
-//		mas.setOutputLevel(b);
-//	}
 	
 	/**
 	 * Getter method for the multi-agent system.
@@ -212,6 +203,7 @@ public class MCAPLcontroller  {
 		} //else {
 		//	pickJob(1);
 		//}
+		if (AJPFLogger.ltFine(logname))
 		AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
 		a.do_job();
 		specification.checkProperties();
@@ -285,19 +277,9 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean triggerendstate() {
-//		Thread.yield();
 		return true;
 	}
 		
-	/**
-	 * Check an agent is all done.
-	 * @param a
-	 * @return
-	 */
-	//public boolean nothingpendingfor(MCAPLLanguageAgent a) {
-	//	return (getMAS().alldonefor(a.getMCAPLAgName()));
-	//}
-
 	public MCAPLScheduler getScheduler() {
 		return scheduler;
 	}

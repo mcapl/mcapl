@@ -370,22 +370,7 @@ public class LegoRoverEnvironment_RuleP extends EASSNXTEnvironment {
 		   	
 		   	return u;
 	}
-	
-	/**
-	 * Actions are called by an agent called abstract_rname, but the actual robot's name is just rname.  This method does
-	 * the necessary string manipulations.
-	 * @param name
-	 * @return
-	 */
-	public String rationalName(String name) {
-		int index = 12;
-		if (name.length() > index) {
-			return name.substring(index);
-		} else {
-			return name;
-		}
-	}
-	
+		
 	/**
 	 * Setting the print stream if the robot has an Ultrasonic sensor.  This means output from the sensor can be piped to the
 	 * interface.
