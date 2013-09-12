@@ -1605,7 +1605,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * cycle.  
 	 */
 	public void reason() {
-		if (RC.not_interrupted()) {
+			if (RC.not_interrupted()) {
 		RC.setStopandCheck(false);
 	
 		while(! RC.stopandcheck()) {
@@ -1636,7 +1636,6 @@ public class AILAgent implements MCAPLLanguageAgent {
 				}
 			
 			}
-			
 			if (!stagerulefound) {
 				RC.cycle(this);
 			}
@@ -1708,6 +1707,8 @@ public class AILAgent implements MCAPLLanguageAgent {
  	 *
  	 */
  	public void printagentstate() {
+ 		AJPFLogger.info(logname, getAgName() + " at stage " + RC.getStage().getStageName());
+ 		
   		if (AJPFLogger.ltFine(logname)) {
  			AJPFLogger.fine(logname, toString());
  		}

@@ -33,6 +33,7 @@ import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.*;
 import ail.syntax.Action;
 import ail.syntax.Goal;
+import ajpf.util.AJPFLogger;
 
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
@@ -64,6 +65,8 @@ public class EASSRC implements ReasoningCycle {
 	@FilterField
 	private boolean stopandcheck = false;
 	private boolean interrupted = false;
+	
+	String logname = "eass.semantics.EASSRC";
 			
 	/**
 	 * Start at Stage A.
@@ -160,6 +163,9 @@ public class EASSRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#cycle(ail.semantics.AILAgent)
 	 */
 	public void cycle(AILAgent ag) {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "entering cycle");
+		}
 		if (currentstage  == StageA) {
 			if (ag.getIntention() != null && ag.getIntention().empty() && (ag.getIntentions().isEmpty() || ag.allintentionssuspended())) {
 				setStopandCheck(true);
@@ -169,6 +175,9 @@ public class EASSRC implements ReasoningCycle {
 				currentstage = StageE;
 			} else {
 				currentstage = StageB;
+			}
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "setting stage to " + currentstage.getStageName());
 			}
 		} else if (currentstage == StageB) {
 			currentstage = StageC;

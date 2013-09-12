@@ -90,6 +90,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	protected List<String> abstractionenginelist = new ArrayList<String>();
 	protected Map<String, String> abstractionengines = new HashMap<String, String>();
 	private String name = "Default EASS Environment";
+	private String logname = "eass.mas.DefaultEASSEnvironment";
 	
 	protected int control = 0;
 	int misccounter = 0;
@@ -168,9 +169,15 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	   if (act.getFunctor().equals("assert_shared")) {
 		   addSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared")) {
 		   removeSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared_unifies")) {
 		   removeUnifiesShared(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 	   } else if (act.getFunctor().equals("perf")) {
@@ -178,6 +185,9 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		   Message m = new Message(2, agName, "abstraction", run);
 		   String abs = abstractionengines.get(agName);
 		   addMessage(abs, m);
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done PERF " + act);
+		   }
 	   } else if (act.getFunctor().equals("query")) {
 		   Predicate query = (Predicate) act.getTerm(0);
 		   Message m = new Message(2, agName, "abstraction", query);
@@ -197,7 +207,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
     	}
 	   
 	   if (!printed) {
-		   AJPFLogger.info("eass.mas.DefaultEASSEnvironment", agName + " done " + printAction(act));
+		   AJPFLogger.info(logname, agName + " done " + printAction(act));
 	   }
 
 	     

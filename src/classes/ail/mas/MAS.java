@@ -40,6 +40,7 @@ import ajpf.MCAPLmas;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.PerceptListener;
 import ajpf.psl.MCAPLFormula;
+import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLScheduler;
 import ajpf.psl.MCAPLPredicate;
@@ -68,6 +69,11 @@ public class MAS implements MCAPLmas {
      * The overall controller this MAS is running in.
      */
     MCAPLcontroller controller;
+    
+    /**
+     * Logname.
+     */
+    String logname = "ail.mas.MAS";
     	   
  
     /**
@@ -113,6 +119,9 @@ public class MAS implements MCAPLmas {
      * @param ag 
      */
     public void addAg(AILAgent ag) {
+    	if (AJPFLogger.ltFine(logname)) {
+    		AJPFLogger.fine(logname, "adding " + ag + " to multiagent system");
+    	}
     	ag.setMAS(this);
     	fAgents.put(ag.getAgName(), ag);
      }

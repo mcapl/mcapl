@@ -27,9 +27,8 @@ env = eass.ros.pubsub.PubSubEnvironment
 mas.file = /src/examples/eass/ros/pubsub/publisher.eass
 mas.builder = eass.EASSMASBuilder
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.fine = eass.ros.pubsub.PubSubEnvironment
-log.info = ail.semantics.AILAgent
+log.info = ajpf.MCAPLAgent,ajpf.MCAPLcontroller,eass.ros.EASSPublisherNode
+log.fine = eass.ros.pubsub.PubSubEnvironment,ail.mas.DefaultEnvironment,eass.semantics.EASSRC,ail.semantics.AILAgent
 log.format = brief
 
 /* To Run

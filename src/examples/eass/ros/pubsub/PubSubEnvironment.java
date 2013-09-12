@@ -46,18 +46,19 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 	}
 	
 	public void eachrun() {
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "entered each run");
-		}
 	}
 	
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "entered executeAction PubSub " + act);
+			}
 		   
 		   if (act.getFunctor().equals("say")) {
 			   String actstring = act.getTerm(0).toString();
 			   ((EASSPublisherNode) getROSNode()).publish(actstring);
+			   AJPFLogger.info(logname, agName + " done " + act);
 		   } else {
 			   super.executeAction(agName, act);
 		   }

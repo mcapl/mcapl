@@ -63,6 +63,9 @@ public class AIL {
 	}
 	
 	public static MAS AILSetup(AILConfig config) {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, " entering AILSetup");
+		}
 		
 		// First we need to build the multi-agent system
 		MAS mas = buildMAS(config);

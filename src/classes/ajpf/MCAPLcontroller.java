@@ -104,12 +104,18 @@ public class MCAPLcontroller  {
 	 *            The specification against which the system is to be checked.
 	 */
 	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s, int mc) {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "Creating controller");
+		}
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
 			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
 			agents.put(magent.getAgName(), magent);
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "adding " + magent.getAgName() + " as a percept listener");
+			}
 			m.addPerceptListener(magent);
 		}
 		specification = s;
@@ -122,6 +128,9 @@ public class MCAPLcontroller  {
 	 * @param mc
 	 */
 	public MCAPLcontroller(MCAPLmas m, int mc) {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "Creating controller");
+		}
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
@@ -130,6 +139,9 @@ public class MCAPLcontroller  {
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "adding " + magent.getAgName() + " as a percept listener");
+			}
 		}
 		mas.setController(this);
 	}
@@ -170,49 +182,60 @@ public class MCAPLcontroller  {
 	public void begin() {
 		// We assume it makes no difference the exact order the agents and the 
 		// environment (if relevant) start in so make this atomic.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "entered begin");
+		}
 		specification.createAutomaton();
 		specification.checkProperties();
-		//mas.MCAPLstart();
-		//for (MCAPLAgent a: agents.values()) {
-		//	System.out.println("starting agent" + a.getName());
-		//	a.start();
-		//}
-		// a = scheduling();
 		boolean checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "before checkend");
+			}
 			checkend = checkEnd();
 		}
 		triggerendstate();
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
+		if (AJPFLogger.ltInfo(logname)) {
+			AJPFLogger.info(logname, "Leaving Controller");
+		}
+		
+		
 		
 	}
 	
+	/**
+	 * Control of scheduling.
+	 * @return
+	 */
 	public MCAPLJobber scheduling() {
 		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
-		//AJPFLogger.info("ajpf.MCAPLcontroller", "About to pick job");
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
-		//	AJPFLogger.info("ajpf.MCAPLcontroller", "Picked jobber " + a.getName());
-		} //else {
-		//	pickJob(1);
-		//}
-		if (AJPFLogger.ltFine(logname))
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
+		}
+		
+		if (AJPFLogger.ltInfo(logname)) {
+			AJPFLogger.info(logname, "Picked jobber " + a.getName() + " from " + activeJobs);
+		}
 		a.do_job();
 		specification.checkProperties();
 		return a;
 	}
 	
+	/**
+	 * Picking a job is separated out in order that we can intercept it from the
+	 * Native Virtual Machine when model checking.
+	 * @param limit
+	 * @return
+	 */
 	private int pickJob(int limit) {
-		// System.err.println(limit);
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
+		}
 		int choice = random_numbers.nextInt(limit);
 		return choice;
 	}
@@ -227,12 +250,18 @@ public class MCAPLcontroller  {
 		return mainconcluded;
 	}
 		
-	
-	//private VerifySet<String> sleeping = new VerifySet<String>();
+	/**
+	 * Inform the scheduler that this agent has gone to sleep.
+	 * @param agname
+	 */
 	public void addAsleep(String agname) {
 		scheduler.notActive(agname);
-//		System.out.println(sleeping);
 	}
+
+	/**
+	 * Inform the scheduler that this agent has woken.
+	 * @param agname
+	 */
 	public void addAwake(String agname) {
 		scheduler.isActive(agname);
 	}
@@ -248,25 +277,26 @@ public class MCAPLcontroller  {
 		AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
 		for (MCAPLAgent ag : agents.values()) {
 			if (scheduler.getActiveJobberNames().contains(ag.getAgName())) {
-				//	!sleeping.contains(ag.getAgName()) ) {
-				// System.err.println(ag.getAgName());
-				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
+				if (AJPFLogger.ltFine(logname)) {
+					AJPFLogger.fine(logname, "checkEnd: returning false");
+				}
 				return false;
 			}
 		}
 
 		// If the MAS also reckons it's done.
 		if (getMAS().alldone()) {
-			//boolean tmp = triggerendstate();
 			getMAS().stopAgs();
-		//	for (MCAPLAgent ag : agents.values()) {
-		//		ag.perceptChanged();
-		//	}
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
+			if (AJPFLogger.ltFine(logname)) {
+				AJPFLogger.fine(logname, "checkEnd: returning true");
+			}
 			return true;
 		}
-		// System.err.println("not done");
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
+		
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "checkEnd: returning false by default");
+		}
+		
 		return false;
 		
 
@@ -280,10 +310,18 @@ public class MCAPLcontroller  {
 		return true;
 	}
 		
+	/**
+	 * Getter for the scheduler
+	 * @return
+	 */
 	public MCAPLScheduler getScheduler() {
 		return scheduler;
 	}
 
+	/**
+	 * Make a guess at the path to the application.
+	 * @return
+	 */
 	public static String getPath() {
 		if (System.getenv("AJPF_HOME") != null) {
 			return System.getenv("AJPF_HOME");
@@ -293,6 +331,12 @@ public class MCAPLcontroller  {
 
 	}
 	
+	/**
+	 * Try to work out a files full pathname.
+	 * @param filename
+	 * @return
+	 * @throws AJPFException
+	 */
 	public static String getFilename(String filename) throws AJPFException {
 		String ajpf_filename = null;
 		String abs_filename = System.getenv("HOME") + filename;

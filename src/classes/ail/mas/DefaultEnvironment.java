@@ -113,6 +113,11 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	protected MCAPLScheduler scheduler;
 	
+	/*
+	 * Logname
+	 */
+	public String logname = "ail.mas.DefaultEnvironment";
+	
 	/**
 	 * Create a new Default Environment and set the scheduler as an Action Scheduler.
 	 */
@@ -313,7 +318,7 @@ public class DefaultEnvironment implements AILEnv {
      * @see ail.others.AILEnv#getMessages(java.lang.String)
      */
     public Set<Message> getMessages(String agName) {
-    	if (agMessages.get(agName).isEmpty()) {
+     	if (agMessages.get(agName).isEmpty()) {
 			return new HashSet<Message>();
 		}
 
@@ -325,7 +330,10 @@ public class DefaultEnvironment implements AILEnv {
     		clearMessages(agName);
     	}
 		
-    	return p;
+		if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " gets messages " + p);
+		}
+   	return p;
     }
     
     /**
@@ -346,12 +354,18 @@ public class DefaultEnvironment implements AILEnv {
      * @param s the name of the agent whose perceptions have changed.
      */
     public void notifyListeners(String s) {
+    	if (AJPFLogger.ltFine(logname)) {
+    		AJPFLogger.fine(logname, "notifying " + s);
+    	}
      	if (perceptListeners != null) {
     		for (PerceptListener l: perceptListeners) {
     			// NB.  We also inform the scheduler as well as any listener associated with the agent.
      			if (l.getListenerName().equals(s) || l.getListenerName().equals("scheduler")) {
     				l.perceptChanged(s);
-    			}
+    		    	if (AJPFLogger.ltFine(logname)) {
+    		    		AJPFLogger.fine(logname, "notification succeeded " + s);
+    		    	}
+  			}
     		}
     	}
      	
@@ -376,7 +390,9 @@ public class DefaultEnvironment implements AILEnv {
   	 * @see ail.mas.AILEnv#agentIsUpToDate(java.lang.String)
   	 */
   	public boolean agentIsUpToDate(String agName) {
-  		return uptodateAgs.contains(agName);
+  		boolean answer = uptodateAgs.contains(agName);
+  		System.err.println("answer is " + answer);
+  		return answer;
   	}
 
 
@@ -431,10 +447,14 @@ public class DefaultEnvironment implements AILEnv {
 	
 	/** Adds a perception for a specific agent */
 	public void addMessage(String agName, Message msg) {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "adding message for " + agName);
+		}
 		if (msg != null && agName != null) {
 			VerifySet<Message> msgl = agMessages.get(agName);
 			if (msgl == null) {
 				msgl = new VerifySet<Message>();
+				uptodateAgs.remove(agName);
 				msgl.add(msg);
 				agMessages.put( agName, msgl);
 			} else {
@@ -446,6 +466,7 @@ public class DefaultEnvironment implements AILEnv {
 					}
 				}
 				if (!havem) {
+					uptodateAgs.remove(agName);
 					msgl.add(msg);
 				}
 			}

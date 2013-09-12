@@ -23,6 +23,8 @@ public class EASSPublisherNode extends EASSNode {
 	}
 	
 	public void publish(String s) {
+		AJPFLogger.info(logname, "about to publish " + s);
+ 
 		if (publisher == null) {
 			AJPFLogger.warning(logname, "publisher is null");
 		} else {
@@ -30,6 +32,8 @@ public class EASSPublisherNode extends EASSNode {
             str.setData(s);
             publisher.publish(str);
 		}
+		
+		AJPFLogger.info(logname, "published " + s);
 		
 	}
 	

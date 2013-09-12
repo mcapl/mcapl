@@ -28,5 +28,6 @@ mas.file = /src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoal.eass
 mas.builder = eass.EASSMASBuilder
 
 log.info = ail.semantics.AILAgent
+log.fine = ail.mas.MAS
 
 connectedtomatlab = false
