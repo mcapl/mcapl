@@ -1,0 +1,63 @@
+\chapter{Configuration Files}
+\label{chap:configuration}
+
+The files \texttt{PickUpAgent.ail} and \texttt{PickUpAgent.jpf} referred to in chapter~\ref{chap:running} are \emph{configuration files} which describe the configuration of a multi-agent system to be run in the AIL or model-checked in AJPF.\index{configuration}
+
+\section{AIL Configuration Files}
+
+AIL configuration files consist of key-value pairs selected from the following:\index{configuration!AIL}
+
+\begin{description}
+\item[env] The environment used with the multi-agent system.  This should be the name of the relevant Java Class.  \index{environment}
+\item[log.finest, log.finer, log.fine, log.info, log.warning, log.severe] The logging level to be used with various loggers in the system.  These correspond to JAVA logging levels.\index{logging!AIL}
+\item[log.format] Format for the logger - currently the only option is \texttt{brief}
+\item[mas.agent.N.builder, mas.agent.N.file, mas.agent.N.name] This specifies a file, builder and name for each individual agent in the MAS.  Primarily this is useful for heterogeneous applications where agents may be written in different languages and so need to be compiled separately.  N is the number of the agent and starts counting up from 1.\index{Agent Builders}
+\item[mas.file, mas.builder] These must be used together.  \texttt{mas.file} should name a file containing the code for all the agents in the system, \texttt{mas.builder} should be the name of the class which is used to parse \texttt{mas.file} and build the multi-agent system.\index{MAS Builders}
+\end{description}
+
+The details of the relevant options, classes and files that should be used for individual languages can be found in the language documentation.
+
+\subsection{Example}
+Let us look at the contents of \texttt{PickUpAgent.ail}
+
+\begin{lstlisting}
+env = gwendolen.simple.SimpleEnv
+mas.file = src/examples/gwendolen/simple/PickUpAgent.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+log.warning = ail.mas.DefaultEnvironment
+\end{lstlisting}
+
+The first line states the class that is to be used to provide the environment for the multi-agent system, in this case it is \texttt{gwendolen.simple.SimpleEnv} (which can be found in \texttt{src/examples/gwendolen/simple}).\index{Environment!SimpleEnv}
+
+The next two files are a pair, the first gives the file containing the agents in the system \texttt{PickUpAgent.gwen} and the second gives the class that should be used to build the agents described in this file.  In the case of \gwendolen\ agents this is \texttt{gwendolen.GwendolenMASBuilder} (which can be found in \texttt{src/classes.gwendolen}).\index{MAS Builders!GwendolenMASBuilder}
+
+The last line is being used her to configure AJPF's logging mechanism (which AIL also uses).  In this case it is states that the log level for the class \texttt{ail.mas.DefaultEnvironment} should be WARNING (not INFO which is the default).
+
+\section{Property Specification Files}
+
+For any given multi-agent system there may be a number of properties to be checked.  These properties should be written in the \emph{Property Specification Language}.  They can be stored in a file indexed by keywords as a list in the format\index{Property Specification Language}\index{configuration!properties}
+
+\texttt{keyword: property}
+
+For instance
+\begin{lstlisting}
+0: E(B(ag1, pickup))
+1: A(~B(ag1, pickup))
+2: A(~B(ag1, bad))
+\end{lstlisting}
+
+\section{AJPF Configuration Files}
+AJPF configuration files are JPF configuration files which are documented on the JPF wiki\footnote{\texttt{http://babelfish.arc.nasa.gov/trac/jpf/}}\index{configuration!JPF}
+
+If you intend to use AJPF to verify a multi-agent system implemented using the Agent Infrastructure Layer then you can set
+
+\texttt{target = ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL}
+
+and \texttt{target\_args} should consist of the path to the AIL Configuration file for the system, the path to the Property Specification File for the system and the keyword for the property to be tested.  For example: 
+
+\begin{lstlisting}
+target_args = 
+    ${mcapl}/src/examples/gwendolen/simple/PickUpAgent.ail, 
+    ${mcapl}/src/examples/gwendolen/simple/PickUpAgent.psl,0
+\end{lstlisting}
