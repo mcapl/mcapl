@@ -148,6 +148,7 @@ public class DefaultEnvironment implements AILEnv {
 	 * @param l
 	 */
 	public void addPerceptListener(PerceptListener l) {
+		System.err.println("adding percept listener " + l);
 		if (perceptListeners == null) {
 			perceptListeners = new ArrayList<PerceptListener>();
 		}
@@ -391,7 +392,6 @@ public class DefaultEnvironment implements AILEnv {
   	 */
   	public boolean agentIsUpToDate(String agName) {
   		boolean answer = uptodateAgs.contains(agName);
-  		System.err.println("answer is " + answer);
   		return answer;
   	}
 
@@ -547,6 +547,7 @@ public class DefaultEnvironment implements AILEnv {
 			}
 			percepts.toString();
 		
+			s.append("\nAgent Percepts:\n");
 			for (String sAg : agPercepts.keySet()) {
 				s.append("\n").append(sAg).append(":");
 				for (Predicate l : agPercepts.get(sAg)) {
@@ -554,6 +555,7 @@ public class DefaultEnvironment implements AILEnv {
 				}
 			}
 		
+			s.append("\nAgent Messages:\n");
 			for (String sAg : agMessages.keySet()) {
 				s.append("\n").append(sAg).append(":");
 				for (Message l : agMessages.get(sAg)) {

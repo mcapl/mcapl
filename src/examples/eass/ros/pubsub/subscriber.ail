@@ -24,11 +24,12 @@
 
 env = eass.ros.pubsub.PubSubEnvironment
 
-mas.file = /src/examples/eass/ros/pubsub/publisher.eass
+mas.file = /src/examples/eass/ros/pubsub/subscriber.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ail.semantics.AILAgent,ajpf.MCAPLcontroller,ajpf.MCAPLAgent
-log.info = eass.ros.EASSPublisherNode,ail.mas.DefaultEnvironment
+log.info = eass.ros.EASSSubscriberNode,ail.mas.DefaultEnvironment
+log.finer = eass.mas.DefaultEASSEnvironment
 log.format = brief
 
 /* To Run
@@ -65,5 +66,5 @@ create a package in a ROS groovy catkin workspace which depends on rosjava_core
   ./build/install/rosjava_wiki_tutorial_pubsub/bin/rosjava_wiki_tutorial_pubsub org.ros.rosjava_tutorial_pubsub.Listener
   
    Terminal 3: From eass_publisher
-   ./build/intall/eass_publisher/bin/eass_publisher eass.ros.pubsub.ExamplePublisher
+   ./build/intall/eass_publisher/bin/eass_publisher eass.ros.pubsub.ExampleListener
 */

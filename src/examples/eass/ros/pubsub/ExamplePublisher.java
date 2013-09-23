@@ -1,10 +1,23 @@
 package eass.ros.pubsub;
 
-import eass.mas.ros.EASSPublisherNode;
+import org.ros.namespace.GraphName;
+import org.ros.node.ConnectedNode;
 
-public class ExamplePublisher extends EASSPublisherNode {
+import eass.mas.ros.EASSNode;
+
+public class ExamplePublisher extends EASSNode {
 
 	public ExamplePublisher() {
-		super("chatter", "/src/examples/eass/ros/pubsub/publisher.ail");
+		super("/src/examples/eass/ros/pubsub/publisher.ail");
 	}
+	
+	public GraphName getDefaultNodeName() {
+	    return GraphName.of("eass_ros/publisher");
+	}
+
+	public void onStart(final ConnectedNode connectedNode) {
+		super.onStart(connectedNode);
+		newActionTopic("chatter");
+	}
+
 }

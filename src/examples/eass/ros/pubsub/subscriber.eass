@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,49 +22,33 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.mas.ros;
+EASS
 
+:abstraction: subscriber
 
-import java.util.Set;
+:Initial Beliefs:
 
-import eass.mas.EASSEnv;
-import eass.mas.DefaultEASSEnvironment;
+:Initial Goals:
 
-import org.ros.namespace.GraphName;
-import org.ros.node.AbstractNodeMain;
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 
-import ail.semantics.AILAgent;
-import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.Message;
-import ail.syntax.Predicate;
-import ail.syntax.Unifier;
-import ail.util.AILConfig;
-import ail.util.AILexception;
-import ajpf.MCAPLJobber;
-import ajpf.MCAPLScheduler;
-import ajpf.PerceptListener;
++ heard(S) : {True} <-
+  assert_shared(iheard(S));
 
-public class EASSROSEnvironment extends DefaultEASSEnvironment {
-	AbstractNodeMain node;
-		
-	public void setROSNode(AbstractNodeMain rnode) {
-		node = rnode;
-	}
-	
-	public AbstractNodeMain getROSNode() {
-		return node;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.others.AILEnv#done()
-	 */
-	public boolean done() {
-		// By default these environments can always recieve input from sensors
-		return false;
-	}
++! echo(X) [perform] : {True} <-
+   print(X);
+ 
+:name: subscriber
 
-	
+:Initial Beliefs:
 
-}
+:Initial Goals:
+
+:Plans:
+
++iheard(S) : {True} <-
+  perf(echo(S));

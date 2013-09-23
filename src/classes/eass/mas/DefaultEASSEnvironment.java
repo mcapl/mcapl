@@ -134,7 +134,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 *
 	 */
 	public void eachrun() {
-		
+		AJPFLogger.finer(logname, this.toString());
 	}
 	
 	public void printvalues(Literal pred) {
@@ -220,7 +220,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @see ail.others.DefaultEnvironment#addPercept(ail.syntax.Literal)
 	 */
 	public void addPercept(Literal per) {
-		AJPFLogger.finer("eass.mas", "adding + " + per.toString());
+		AJPFLogger.finer(logname, "adding + " + per.toString());
 			// System.err.println("adding got flag");
 			if (per != null) {
 				if (! percepts.contains(per)) {
@@ -230,6 +230,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				}
 			}
 		notifyPerceptListeners();
+		AJPFLogger.finer(logname, this.toString());
 	}
 		
 	/*

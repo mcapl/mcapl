@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.ros.pubsub;
+package eass.ros.turtlesim;
 
 import ail.mas.NActionScheduler;
 import ail.syntax.Action;
@@ -31,13 +31,15 @@ import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 import eass.mas.ros.EASSROSEnvironment;
 import eass.mas.ros.EASSNode;
+import eass.mas.ros.EASSROSSubscriber;
+import org.ros.node.ConnectedNode;
 
 import org.ros.node.topic.Publisher;
 
-public class PubSubEnvironment extends EASSROSEnvironment {
-	String logname = "eass.ros.pubsub.PubSubEnvironment";
+public class TurtleEnvironment extends EASSROSEnvironment {
+	String logname = "eass.ros.pubsub.TurtleEnvironment";
 	
-	public PubSubEnvironment() {
+	public TurtleEnvironment() {
 		super();
 		NActionScheduler s = new NActionScheduler(20);
 		s.addJobber(this);
@@ -47,23 +49,30 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 	
 	public void eachrun() {
 	}
-	
+		
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "entered executeAction PubSub " + act);
-			}
-		   
-		   if (act.getFunctor().equals("say")) {
-			   String actstring = act.getTerm(0).toString();
-			   ((EASSNode) getROSNode()).publish("chatter", actstring);
-			   AJPFLogger.info(logname, agName + " done " + act);
-		   } else {
-			   super.executeAction(agName, act);
-		   }
+
+		   super.executeAction(agName, act);
 		   
 		   return u;
+	}
+	
+	public class Turtle {
+		Publisher<std_msgs.String> pose;
+		EASSROSSubscriber command_velocity;
+		String name;
+		
+		public Turtle(String turtlename, EASSNode node)  {
+			name = turtlename;
+			
+			String posestring = turtlename + "/pose";
+	        pose = node.newPublisher(posestring, std_msgs.String._TYPE);
+			
+			String command_velocity_string = turtlename + "/command_velocity";
+			command_velocity = new EASSROSSubscriber(command_velocity_string, node);
+		}
 	}
 
 
