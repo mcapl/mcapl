@@ -128,6 +128,9 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 				if (flag) {
 					ip.dropGoal(e2, thetae);
 					ip.tlI(a);
+					if (ip.suspended()) {
+						ip.unsuspend();
+					}
 					subgoals = temp_subgoals;
 				}
 			}

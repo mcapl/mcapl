@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher.
 // 
 // This file is part of Gwendolen
 //
@@ -22,18 +21,12 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-0: <>(B(ag1, pickup))
-1: [](~B(ag1, pickup))
-2: [](~B(ag1, bad))
-3: []( B(ag1, block) -> <>B(ag1, hold(block)) )
-4:  ( 
-       []( D(ag1, pickup1) -> <> B(ag1, fact1) ) &
-       []( D(ag1, pickup2) -> <> B(ag1, block2) )
-    ) ->
-          <>B (ag1, pickup)
-5: ( []( D(ag1, pickup1) -> <>B(ag1, fact1) ) -> <>B(ag1, pickup) )
+@using = mcapl
 
-6: ( []( D(ag1, pickup1) -> <>B(ag1, fact1) ) -> <> (ag1, rubbish) )
-7: E(B(ag1, random))
-8: E(B(ag2, hold(block)))
-9: <>([](B(ag1, putdown_block)))
+target = ail.util.AJPF_w_AIL
+target_args = /src/examples/gwendolen/simple/PickUpAgent/PersistentBeliefAgent.ail,/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl,9
+
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
+
+listener+=,.listener.ExecTracker
+et.print_insn=false

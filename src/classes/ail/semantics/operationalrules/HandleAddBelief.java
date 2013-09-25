@@ -66,7 +66,7 @@ public class HandleAddBelief extends HandleBelief {
 		i.compose(thetahd);
 		b.apply(thetahd);
 		
-		if (i.getSource().equals(AILAgent.refertopercept())) {
+		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty()) {
 			a.addBel(b, i.getSource(), topdeed.getDBnum());
 		} else {
 			a.addBel(b, AILAgent.refertoself(), topdeed.getDBnum());

@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher.
 // 
 // This file is part of Gwendolen
 //
@@ -22,18 +21,19 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-0: <>(B(ag1, pickup))
-1: [](~B(ag1, pickup))
-2: [](~B(ag1, bad))
-3: []( B(ag1, block) -> <>B(ag1, hold(block)) )
-4:  ( 
-       []( D(ag1, pickup1) -> <> B(ag1, fact1) ) &
-       []( D(ag1, pickup2) -> <> B(ag1, block2) )
-    ) ->
-          <>B (ag1, pickup)
-5: ( []( D(ag1, pickup1) -> <>B(ag1, fact1) ) -> <>B(ag1, pickup) )
+GWENDOLEN
 
-6: ( []( D(ag1, pickup1) -> <>B(ag1, fact1) ) -> <> (ag1, rubbish) )
-7: E(B(ag1, random))
-8: E(B(ag2, hold(block)))
-9: <>([](B(ag1, putdown_block)))
+:name: ag1
+
+:Initial Beliefs:
+
+
+:Initial Goals:
+
+putdown [perform]
+
+:Plans:
+
++!putdown [perform] : {True} <- putdown(block);
+
++block: {True} <- +putdown_block, pickup(block), dosomethingelse;
