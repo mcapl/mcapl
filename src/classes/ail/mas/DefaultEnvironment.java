@@ -376,7 +376,7 @@ public class DefaultEnvironment implements AILEnv {
   	 * @see ail.mas.AILEnv#agentIsUpToDate(java.lang.String)
   	 */
   	public boolean agentIsUpToDate(String agName) {
-  		return uptodateAgs.contains(agName);
+  		return (uptodateAgs.contains(agName) && agMessages.get(agName).isEmpty());
   	}
 
 

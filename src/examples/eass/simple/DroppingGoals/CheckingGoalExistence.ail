@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 // Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
-//
+// 
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
 // The EASS Library is free software; you can redistribute it and/or
@@ -22,17 +22,11 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.MotorWayVerificationEnv
+env = eass.simple.SimpleEnv
 
-mas.agent.1.file = src/examples/eass/cruise_control/car_singlelane.eass
-mas.agent.1.builder = eass.EASSAgentBuilder
-mas.agent.1.name = car0
+mas.file = /src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.eass
+mas.builder = eass.EASSMASBuilder
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv,
-log.format = brief
-
-# Eass Specific stuff
+log.info = ail.semantics.AILAgent
 
 connectedtomatlab = false
-singlelane=true

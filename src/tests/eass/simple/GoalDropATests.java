@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.rescue;
+package eass.simple;
 
 import org.junit.Test;
 
@@ -34,9 +34,9 @@ import gov.nasa.jpf.util.TypeRef;
 /**
  * regression test for programming-by-contract annotations
  */
-public class RescueBTests extends TestJPF {
+public class GoalDropATests extends TestJPF {
 
-	 static final String[] RESCUE_ARGS = { "-show", 
+	static final String[] JPF_ARGS = { "-show", 
 		 "+listener+=,.listener.ExecTracker",
 	     "+et.print_insn=false",
 	     "+vm.max_transition_length=MAX"
@@ -57,38 +57,19 @@ public class RescueBTests extends TestJPF {
 
 	  
 	 @Test //----------------------------------------------------------------------
-	 public void testIntentionProperty () {
-	   if (verifyNoPropertyViolation(RESCUE_ARGS)){
-	   	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
-	   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
+	 public void testMultipleIdenticalGoal () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)){
+	   	String filename =  "/src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail";
+	   	String prop_filename =  "/src/examples/eass/simple/DroppingGoals/simple.psl";
 	   	String[] args = new String[3];
 	   	args[0] = filename;
 	   	args[1] = prop_filename;
-	   	args[2] = "11";
+	   	args[2] = "1";
 	   	AJPF_w_AIL.run(args);
 	    } else {
 	   	 
 	    }
 	 }
-
-
-	 @Test //----------------------------------------------------------------------
-	 public void testProblemsWithEndStates () {
-	   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
-	   	String filename =  "/src/examples/gwendolen/rescue/searcherliftersmall.ail";
-	   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "10b";
-	   	AJPF_w_AIL.run(args);
-	    } else {
-	   	 
-	    }
-	 }
-
-
-
 
 
 }

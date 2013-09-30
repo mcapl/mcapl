@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,17 +23,5 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.MotorWayVerificationEnv
+1: [] (~ B (ag1, bad))
 
-mas.agent.1.file = src/examples/eass/cruise_control/car_singlelane.eass
-mas.agent.1.builder = eass.EASSAgentBuilder
-mas.agent.1.name = car0
-
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv,
-log.format = brief
-
-# Eass Specific stuff
-
-connectedtomatlab = false
-singlelane=true

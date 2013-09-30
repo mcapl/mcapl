@@ -1693,7 +1693,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void tellawake() {
 		if (wanttosleep) {
-			unsuspendintentions();
+			// unsuspendintentions();
 		}
 		wanttosleep = false;
 		// unsuspendintentions();

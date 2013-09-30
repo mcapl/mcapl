@@ -32,6 +32,7 @@ import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.GBelief;
 import ail.syntax.Guard;
+import ail.syntax.Goal;
 
 
 /**
@@ -76,6 +77,17 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			i.compose(thetahd);
 			a.removeGoal(topdeed.getGoal());
 		} else {
+			Iterator<Goal> goal_it = a.getGoals();
+			while (goal_it.hasNext()) {
+				Goal gt = goal_it.next();
+				if (gt.unifies(g, thetab)) {
+					i.tlI(a);
+					thetahd.compose(thetab);
+					i.compose(thetahd);
+					return;
+				}
+			}
+
 			a.addGoal(topdeed.getGoal());
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
 		}	

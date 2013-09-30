@@ -85,7 +85,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 	public void apply(AILAgent a) {
 		super.apply(a);
 		Unifier thetae  = new Unifier();
-		Event e2 = new Event(Event.AILAddition, g);
+		Event goal_addition_event = new Event(Event.AILAddition, g);
 		boolean flag = false;
 		ArrayList<Goal> subgoals = new ArrayList<Goal>();
 	
@@ -97,7 +97,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 			if (e3.referstoGoal()) {
 				temp_subgoals.add((Goal) e3.getContent());
 			}
-			if (thetae.matchesNG(e3, e2)) {
+			if (thetae.matchesNG(e3, goal_addition_event)) {
 				flag = true;
 				subgoals = temp_subgoals;
 			}
@@ -105,7 +105,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 	
 		// Drop back to the earliest occurence of +!g.
 		if (flag) {
-			i.dropGoal(e2, thetae);
+			i.dropGoal(goal_addition_event, thetae);
 			i.tlI(a);
 		} else {
 			// Otherwise explore other intention stacks
@@ -118,7 +118,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 						temp_subgoals.add((Goal) e3.getContent());
 					}
 					if (!flag) {
-						if (thetae.matchesNG(e3, e3)) {
+						if (thetae.matchesNG(e3, goal_addition_event)) {
 							flag = true;
 							}
 						}
@@ -126,7 +126,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 				
 				
 				if (flag) {
-					ip.dropGoal(e2, thetae);
+					ip.dropGoal(goal_addition_event, thetae);
 					ip.tlI(a);
 					if (ip.suspended()) {
 						ip.unsuspend();
