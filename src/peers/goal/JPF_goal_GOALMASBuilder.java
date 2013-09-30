@@ -41,7 +41,7 @@ public class JPF_goal_GOALMASBuilder {
     	CommonTokenStream tokens = new CommonTokenStream(lexer);
     	GOALParser parser = new GOALParser(tokens);
  		try {
- 	   		Abstract_MAS amas = parser.mas();
+ 	   		Abstract_MAS amas = parser.program();
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class JPF_goal_GOALMASBuilder {
  	    	CommonTokenStream tokens = new CommonTokenStream(lexer);
  	    	GOALParser parser = new GOALParser(tokens);
  	    	//System.err.println("parsing");
- 	   		Abstract_MAS amas = parser.mas();
+ 	   		Abstract_MAS amas = parser.program();
  	   		//System.err.println("done parsing");
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);

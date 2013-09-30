@@ -53,6 +53,10 @@ import goal.syntax.ActionRule;
 public class Abstract_GOALAgent extends Abstract_Agent { 
 	
 	Abstract_Goal[] goals = new Abstract_Goal[0];
+	
+	Abstract_Literal[] knowledge = new Abstract_Literal[0];
+
+	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 
 	/*
 	 * The Plan Library.
@@ -72,7 +76,36 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		
 	}
 	
-    public void addPlan(Abstract_Plan p)  {
+    /**
+    * Adds a belief to the belief base annotating it with a source.
+    * 
+    */
+   public void addFact(Abstract_Literal bel) {
+   	int newsize = knowledge.length + 1;
+   	Abstract_Literal[] newbeliefs = new Abstract_Literal[newsize];
+   	for (int i = 0; i < knowledge.length; i++) {
+   		newbeliefs[i] = knowledge[i];
+   	}
+   	newbeliefs[knowledge.length] = bel; 
+   	knowledge = newbeliefs;
+    	
+    }
+   
+   /**
+    * Add a rule to the rule base.
+    * @param r
+    */
+   public void addKRule(Abstract_Rule r) {
+      	int newsize = knowledge_rules.length + 1;
+   	Abstract_Rule[] newrules = new Abstract_Rule[newsize];
+   	for (int i = 0; i < knowledge_rules.length; i++) {
+   		newrules[i] = knowledge_rules[i];
+   	}
+   	newrules[knowledge_rules.length] = r;
+   	knowledge_rules = newrules;
+  }
+
+   public void addPlan(Abstract_Plan p)  {
      /*	if (p instanceof Abstract_ActionRule) {
           	int newsize = condactions.length + 1;
         	Abstract_Plan[] newplans = new Abstract_Plan[newsize];

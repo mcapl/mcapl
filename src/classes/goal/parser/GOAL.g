@@ -46,14 +46,18 @@ package goal.parser;
 }
 
 // GOAL Grammar from Programming Rational Agents in GOAL by Koen Hindriks.
-program	:    MAIN COLON id CURLYOPEN
-                                        (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
-                                        (BELIEFS CURLYOPEN krspec CURLYCLOSE)?
+program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}   
+	                 MAIN COLON i=id CURLYOPEN 
+		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
+  	                (KNOWLEDGE CURLYOPEN krspec[$gl] CURLYCLOSE)?
+                                        (BELIEFS CURLYOPEN brspec[$gl] CURLYCLOSE)?
                                         (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
                                          MAIN MODULE CURLYOPEN module CURLYCLOSE
-                                         EVENT MODULE CURLYOPEN module CURLYCLOSE
+                                         (EVENT MODULE CURLYOPEN module CURLYCLOSE)?
                                          (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?
-                                         CURLYCLOSE;
+                                              
+                                         CURLYCLOSE
+                                              {mas.setAgs(agents);};
                                    
 module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
                              (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
@@ -63,23 +67,25 @@ module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
                              CURLYCLOSE
                              (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?;
                              
-krspec:  atom (STOP | PROLOGARROW litconj STOP) (atom (STOP | PROLOGARROW litconj STOP))*;
-                                         
+krspec[Abstract_GOALAgent gl]:  (hd=atom (STOP {gl.addFact($hd.l);} | PROLOGARROW body=litconj STOP {gl.addKRule($hd.l, $body.f)}))+;
+    
+brspec[Abstract_GOALAgent gl]:  (hd=atom (STOP {gl.addBel($hd.l);} | PROLOGARROW body=litconj STOP {gl.addRule($hd.l,$body.f)}))+;
+                                     
 poslitconj	: atom (COMMA atom)* STOP;
 
-litconj	: literal (COMMA literal)* STOP;
+litconj returns [Abstract_LogicalFormula f]: $l=literal (COMMA $l1=literal {$l = new Abstract_LogExpr($l.l, Abstract_LogExpr.and, $l1.l);})* ;
 
-literal	: atom | NOT OPEN atom CLOSE;
+literal returns[Abstract_Literal l] : atom | NOT OPEN atom CLOSE;
 
-atom	: id (parameters)?;
+atom	: (id ( parameters)? | equation);
 
 parameters	: OPEN term (COMMA term)* CLOSE;	
 
 optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE;
 
-macro	: HASH DEFINE id (parameters) mentalstatecond STOP;
+macro	: HASH DEFINE id parameters mentalstatecond STOP;
 
-actionrule   	: IF mentalstatecond THEN actioncombo STOP;	
+actionrule   	: IF (mentalstatecond | id parameters) THEN actioncombo STOP;	
 
 mentalstatecond
 	: mentalliteral (COMMA mentalliteral)*;	
@@ -110,7 +116,7 @@ builtinaction
 communication
 	: SEND OPEN id COMMA poslitconj CLOSE;
                                          
-id	: ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9' | '$')*;	
+id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	
                                                  
 // GOAL keywords
 MAIN: 'main';	
@@ -119,7 +125,7 @@ MAIN: 'main';
  GOALS	:	'goals';
  EVENT	: 'event';
  ACTIONSPEC
- 	: 'action-spec';
+ 	: 'actionspec';
  MODULE	:	'module';
  PROGRAM: 'program';
  PROLOGARROW
@@ -138,7 +144,7 @@ MAIN: 'main';
  THEN	:	'then';
  TRUE	:	'true';
  BEL	:	'bel';
- GOAL	:	'goal';
+ GOAL	:	'a-goal';
  PRE	:	'pre';
  POST	:	'post';
  PLUS	:	'+';
@@ -149,16 +155,31 @@ MAIN: 'main';
  SEND	:	'send';
  
  // term syntax
- term	: (atom | stringterm | numberterm | listterm | var);
+ equation
+ 	: arithexpr eqoper arithexpr;
+ term	: (stringterm | function_term | arithexpr | listterm);
+ function_term 
+ 	:	CONST (OPEN term (COMMA term)* CLOSE)?;
+ atom_term 
+ 	: (numberstring | var);
  stringterm
  	: DOUBLEQUOTE word DOUBLEQUOTE;
- numberterm
- 	: ('0'..'9') ('0'..'9')*;
- word	: ('a'..'z' | 'A'..'Z' | '0'..'9') ('a'..'z'|'A'..'Z'|'0'..'9')*;
+ var	:	VAR;
+ numberstring 
+ 	:	 (MINUS)? (NUMBER (STOP NUMBER)?);
+ 	
+ arithexpr
+ 	: multexpr (addoper multexpr)?;
+multexpr:	atom_term (multoper atom_term)?;
+  word	: (CONST | VAR | NUMBER)*;
  
  listterm
- 	: SQOPEN (term (COMMA term)* (BAR var)? )? SQCLOSE;
- var	: ('A'..'Z') ('a'..'z' | 'A'..'Z'| '0'..'9')*;
+ 	: SQOPEN (term (COMMA term)* (BAR VAR)? )? SQCLOSE;
+ 	
+ addoper:	(PLUS | MINUS);
+ multoper
+ 	:	(MULT | DIV );
+ eqoper	: (LESS | EQUALS);
  	                                              
 // Lexer Misc Syntax
 COLON	: ':';
@@ -175,3 +196,21 @@ HASH: '#';
 DOUBLEQUOTE
 	: '"';
 BAR	: '|';
+
+CONST 	: 	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+VAR	:	('A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+NUMBER	:	'0'..'9' ('0'..'9')*;
+
+MINUS	:	'-';
+MULT	:	'*';
+DIV	:	'/';
+LESS	:	'<';
+
+COMMENT
+    : '/*' .* '*/' {$channel=HIDDEN;}
+    ;
+LINE_COMMENT
+    : ('//'|'%') ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    ;
+NEWLINE:'\r'? '\n' {skip();} ;
+WS  :   (' '|'\t')+ {skip();} ;
