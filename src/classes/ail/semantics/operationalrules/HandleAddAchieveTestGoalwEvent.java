@@ -24,9 +24,12 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Deed;
 import ail.syntax.Event;
@@ -75,9 +78,36 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
 			i.compose(thetahd);
-			a.removeGoal(topdeed.getGoal());
+			
+			// Testing to see if another intention is also trying to achieve this goal.  If so we don't want to
+			// remove it.
+			List<Intention> is = a.getIntentions();
+			boolean flag = false;
+			for (Intention ip: is) {
+				for (Event e3: ip.eventsUnified()) {
+					if (!flag & e3.referstoGoal()) {
+						if (thetahd.matchesNG(e3.getGoal(), topdeed.getGoal())) {
+							flag = true;
+							break;
+						}
+					}
+				}
+				
+				if (flag) {
+					break;
+				}
+				
+			}
+
+			if (!flag ) {
+				a.removeGoal(topdeed.getGoal());
+			}
 		} else {
 			Iterator<Goal> goal_it = a.getGoals();
+			
+			// Don't add this goal if another intention is already working on it.  Have a suspicion this could 
+			// cause trouble as implemented since the intention will continue as if the goal has been achieved.
+			// possibly it should wait for goal achievement?
 			while (goal_it.hasNext()) {
 				Goal gt = goal_it.next();
 				if (gt.unifies(g, thetab)) {

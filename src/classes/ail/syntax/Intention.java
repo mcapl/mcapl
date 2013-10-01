@@ -706,6 +706,26 @@ public class Intention implements Comparable<Intention>{
 	}
 	
 	/**
+	 * Replace top of intention with a new event, deed, guard and unifier onto the top of the intention.
+	 * 
+	 * @param e The event.
+	 * @param d The deed.
+	 * @param g The guard.
+	 * @param theta The unifier.
+	 */
+	public   void iReplace(Event e, Deed d, Guard g, Unifier theta) {
+		dropP(1);
+		ArrayList<Deed> ds = new ArrayList<Deed>();
+		ArrayList<Guard> gs = new ArrayList<Guard>();
+		
+		gs.add(g);
+		ds.add(d);
+		
+		IntentionRow ir = new IntentionRow (e, gs, ds, theta);
+		push(ir);
+	}
+
+	/**
 	 * Push a new event, deed, guard and unifier onto the top of the intention.
 	 * 
 	 * @param e The event.
