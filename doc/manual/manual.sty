@@ -78,77 +78,6 @@
 
 
 % ------------------------------------
-% environments
-% ------------------------------------
-% numbered plan environment:
-\newcounter{plan}
-\newenvironment{plan}[1][] {\refstepcounter{plan}
-\smaller 
-\begin{tabular}
-        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries PLAN \theplan:}{\small\ \hfill#1}} \\
-        \hline } {
-        \cr \hline 
-\end{tabular}
-} 
-% unnumbered plan environment:
-\newenvironment{plan*}[1][] {
-\smaller
-\begin{tabular}
-        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries PLAN:}{\small\ \hfill#1}} \\
-        \hline } {
-        \cr \hline 
-\end{tabular}
-} 
-% numbered constraint environment:
-\newcounter{constraint}
-\newenvironment{constraint}[1][] {\refstepcounter{constraint} 
-\smaller
-\begin{tabular}
-        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries CONSTRAINT \theconstraint:}{\small\ \hfill#1}} \\
-        \hline } {
-        \cr \hline 
-\end{tabular}
-} 
-% unnumbered constraint environment:
-\newenvironment{constraint*}[1][] {
-\smaller
-\begin{tabular}
-        {|l|l|} \hline \multicolumn{2}{|l|}{{\bfseries CONSTRAINT:}{\small\ \hfill#1}} \\
-        \hline } {
-        \cr \hline 
-\end{tabular}
-} 
-% table of stacks:
-\newenvironment{stacks}{
-\smaller
-\begin{tabular}{l|l|l|l} 
-\hline
-trigger & deed & guard & unifier \\ 
-\hline \hline} {
-\cr \hline 
-\end{tabular}
-}
-% simplified table of stacks w/o goals:
-\newenvironment{stackssansguards}{
-\smaller
-\begin{tabular}{l|l|l} 
-\hline
-trigger & deed & unifier \\ 
-\hline \hline} {
-\cr \hline 
-\end{tabular}
-}
-
-\makeatletter
-\def\l@ourparagraph{\@dottedtocline{4}{\tocsubsubsectotal}{\tocparanum}}
-\newcommand\ourparagraph{\@startsection{paragraph}{4}{\z@}%
-                       {-2\p@ \@plus -1\p@ \@minus -1\p@}%
-                       {-0.5em \@plus -0.22em \@minus -0.1em}%
-                       {\normalfont\normalsize\bfseries}}
-\makeatother
-
-
-% ------------------------------------
 % general formatting
 % ------------------------------------
 % !!! depreciated, do not use (use \AILstage[1] instead):
@@ -158,6 +87,8 @@ trigger & deed & unifier \\
 \newcommand{\inlinecode}[1]{\mbox{\texttt{\smaller #1}}}
 % formatting code snippets (display with little vertical whitespace)
 \newenvironment{centeredcode}{\newline\phantom{x}\hfill\ttfamily\smaller}{\hfill\phantom{x}\\[0.3em]}
+
+\newtheorem{definition}{Definition}
 
 % ------------------------------------
 % mathematical symbols, etc.
@@ -197,8 +128,6 @@ trigger & deed & unifier \\
 \newcommand{\actionfac}{\ensuremath{\alpha_{\mathtt{fac}}}}
 \newcommand{\meta}[1]{\texttt{#1}}
 \newcommand{\emptyword}{\ensuremath{\epsilon}}
-
-
 
 % ------------------------------------
 % AIL macros
@@ -455,59 +384,20 @@ trigger & deed & unifier \\
 \newcommand{\agentspeak}{AgentSpeak\xspace}
 \newcommand{\agentspeakL}{AgentSpeak(L)\xspace}
 \newcommand{\jason}{\emph{Jason}\xspace}
-\newcommand{\gwendolen}{Gwendolen}
+\newcommand{\gwendolen}{{\sc Gwendolen}}
+\newcommand{\eass}{{\sc EASS}}
 \newcommand{\saapl}{SAAPL}
 \newcommand{\goal}{GOAL}
+\newcommand{\matlab}{MatLab}
+\newcommand{\simulink}{Simulink}
+\newcommand{\oopl}{{\sc OOPL}}
 
 
-% ------------------------------------
-% Claim macros
-% ------------------------------------
-\newcommand{\claimprogram}[3]{\ensuremath{#1 = #2_{1}\parallel\cdots\parallel #2_{#3}, #3\geq 0}}
-\newcommand{\claimagentname}[1]{\ensuremath{\alpha_{#1}}} 
-\newcommand{\claimknowledgebase}[1]{\ensuremath{K_{#1}}} 
-\newcommand{\claimparentname}[1]{\ensuremath{\pi_{#1}}} 
-\newcommand{\claimgoalsunprocessed}[1]{\ensuremath{G_{#1}}} 
-\newcommand{\claimgoalsproc}[1]{\ensuremath{G'_{#1}}} 
-\newcommand{\claimcapabilities}[1]{\ensuremath{C_{#1}}} 
-\newcommand{\claimmessagequeue}[1]{\ensuremath{M_{#1}}} 
-\newcommand{\claimsubagents}[1]{\ensuremath{S_{#1}}} 
-\newcommand{\claimprocesses}[1]{\ensuremath{P_{#1}}} 
-\newcommand{\claimeffects}[1]{\ensuremath{E_{#1}}} 
-\newcommand{\claimagent}[1]{\ensuremath{#1=\tuple{\claimagentname,\claimparentname{},\claimknowledgebase{},\claimgoalsunprocessed{},\claimgoalsproc{},\claimmessagequeue{},\claimcapabilities{},\claimprocesses{},\claimsubagents{},\claimeffects{}}}} 
-\newcommand{\claimsend}[1]{\ensuremath{\mathrm{send}(#1)}} 
-\newcommand{\claimtell}[1]{\ensuremath{\mathrm{tell}(#1)}} 
-
-
-% ------------------------------------
-% transformation macros
-% ------------------------------------
-\newcommand{\trAS}[1]{\trans_{\mathrm{AS}}(#1)}
-\newcommand{\trJadex}[1]{\trans_{\mathrm{Jadex}}(\mathtt{#1})}
-
-
-% ------------------------------------
-% Jadex macros
-% ------------------------------------
-\newcommand{\jadexstatevar}{\ensuremath{\sigma}}
-\newcommand{\jadexstate}{\ensuremath{\tuple{\jadexbeliefs,\jadexgoals,\jadexplans,\jadexactions}}}
-\newcommand{\jadexstateset}{\ensuremath{\Sigma}}
-\newcommand{\jadexbeliefs}{\ensuremath{B}}
-\newcommand{\jadexgoals}{\ensuremath{\Gamma}}
-\newcommand{\jadexgoal}{\ensuremath{\gamma}}
-\newcommand{\jadexplantrigger}{\ensuremath{t}}
-\newcommand{\jadexplancontext}{\ensuremath{c}}
-\newcommand{\jadexplanbody}{\ensuremath{b}}
-\newcommand{\jadexplan}{\ensuremath{p}}
-\newcommand{\jadexplans}{\ensuremath{\Pi}}
-\newcommand{\jadexactions}{\ensuremath{A}}
-\newcommand{\jadexparam}{\ensuremath{P}}
-\newcommand{\paramlist}[1]{\ensuremath{\jadexparam_1,\dots,\jadexparam_{#1}}}
-\newcommand{\jadexemptyword}{\ensuremath{\epsilon}}
-
-
+%% Logic
 \newcommand{\luntil}{\ensuremath{\mathop{\mathrm{\mathbf{U}}}}}
 \newcommand{\lrelease}{\ensuremath{\mathop{\mathrm{\mathbf{R}}}}}
+
+%% AIL Constructs
 \newcommand{\achieve}{{\em achieve}}
 \newcommand{\perform}{{\em perform}}
 \newcommand{\test}{{\em test}}
@@ -531,7 +421,6 @@ trigger & deed & unifier \\
 \newcommand{\always}{\ensuremath{\Box}}
 \newcommand{\MAS}{M\!AS}
 
-\newtheorem{definition}{Definition}
 \newcommand{\goalcap}[1]{{\mbox{\textsf{\textbf{#1}}}}}
 \newcommand{\goaldrop}{{\mbox{\textsf{\textbf{drop}}}}}
 \newcommand{\goaladopt}{{\mbox{\textsf{\textbf{adopt}}}}}
@@ -540,3 +429,4 @@ trigger & deed & unifier \\
 \newcommand{\recmessage}[2]{\ensuremath{\mathit{\downarrow^{#1}#2}}}
 \newcommand{\aildrop}{\AILdrop}
 \newcommand{\saapltrans}[1]{\underrightarrow{{#1}}}
+
