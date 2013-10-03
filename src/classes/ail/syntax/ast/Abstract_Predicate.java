@@ -31,13 +31,14 @@ import ail.syntax.Term;
 
 import java.util.HashMap;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.Types;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.Types;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF

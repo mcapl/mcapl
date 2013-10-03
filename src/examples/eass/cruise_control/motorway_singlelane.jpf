@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/cruise_control/motorway_verification_singlelane.ail,src/examples/eass/cruise_control/motorway.psl,1
+target.args =src/examples/eass/cruise_control/motorway_verification_singlelane.ail,src/examples/eass/cruise_control/motorway.psl,1
 
 log.info = ajpf.product.Product,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.MotorWayVerificationEnv,ajpf.MCAPLListener,
 listener+=,.listener.ExecTracker
