@@ -30,9 +30,6 @@ import org.junit.Assert;
 import eass.EASSMASBuilder;
 import eass.verification.leo.LEOVerificationEnvironment;
 
-import java.util.Set;
-import java.util.HashSet;
-
 import mcaplantlr.runtime.*;
 
 import ajpf.MCAPLcontroller;
@@ -40,7 +37,6 @@ import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ail.mas.MAS;
 import ail.mas.DefaultEnvironment;
 import ail.semantics.AILAgent;
-import ail.syntax.ast.Abstract_NumberTermImpl;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.ListTermImpl;
@@ -50,7 +46,6 @@ import ajpf.psl.ast.Abstract_LastAction;
 import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
-import ajpf.psl.MCAPLTermImpl;
 
 
 public class PSLParserTests {
@@ -66,6 +61,7 @@ public class PSLParserTests {
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
 		try {
+			@SuppressWarnings("unused")
 			Abstract_MCAPLTerm fmla = pslparser.formula();
 		} catch (Exception e) {
 			throw e;
@@ -84,6 +80,7 @@ public class PSLParserTests {
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
 		try {
+			@SuppressWarnings("unused")
 			Abstract_AgBelief b = pslparser.beliefproperty();
 		} catch (Exception e) {
 			throw e;
@@ -144,7 +141,6 @@ public class PSLParserTests {
 	
 	@Test public void complexExpressionTest() throws Exception {
 		String propertystring = "(  [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )\n     &     [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )    ) \n ->     <> B(ag1, something_false)";
-	//	String propertystring = "[] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) ) )";
 		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);

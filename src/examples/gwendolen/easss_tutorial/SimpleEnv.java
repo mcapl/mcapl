@@ -24,29 +24,17 @@
 
 package gwendolen.easss_tutorial;
 
-import ail.mas.ActionScheduler;
 import ail.mas.DefaultEnvironment;
 import ail.util.AILexception;
-import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import ail.syntax.NumberTermImpl;
-import ail.syntax.PredicatewAnnotation;
-import ail.semantics.AILAgent;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.vm.Verify;
 
 /**
- * Environment for a Trash Robot Scenario;
+ * Environment for a simpel Blocks World Scenario.
  * 
  * @author louiseadennis
  *
@@ -54,9 +42,6 @@ import gov.nasa.jpf.vm.Verify;
 public class SimpleEnv extends DefaultEnvironment {
 	Random r = new Random();
 	
-	/**
-	 * Two performatives, perform and tell.
-	 */
 	public SimpleEnv() {
 		super();
 	}

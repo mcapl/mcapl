@@ -29,10 +29,9 @@ import org.junit.Test;
 import ail.util.AJPF_w_AIL;
 
 import gov.nasa.jpf.util.test.TestJPF;
-import gov.nasa.jpf.util.TypeRef;
 
 /**
- * regression test for programming-by-contract annotations
+ * Tests relating to goal dropping behaviour
  */
 public class GoalDropATests extends TestJPF {
 
@@ -42,16 +41,6 @@ public class GoalDropATests extends TestJPF {
 	     "+vm.max_transition_length=MAX"
 
 	};
-//		static final String[] PICKUP_ARGS = {"src/examples/gwendolen/simple/PickUpAgent.jpf",
-//											"+target=gwendolen.simple.SimpleTests"};
-
-
-
-	  //--- driver to execute single test methods
-	 /* public static void main(String[] args) {
-		  runTestsOfThisClass(args);
-	  } */
-	  
 
 	  //--- test methods
 

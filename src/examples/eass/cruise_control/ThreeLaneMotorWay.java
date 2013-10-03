@@ -24,11 +24,6 @@
 
 package eass.cruise_control;
 
-import ail.syntax.Action;
-import ail.syntax.Unifier;
-import ail.util.AILexception;
-
-
 public class ThreeLaneMotorWay extends MotorWayEnv {
 	String logname = "eass.cruise_control.ThreeLaneMotorWay";
 	

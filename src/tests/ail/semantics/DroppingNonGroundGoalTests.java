@@ -29,11 +29,7 @@ import org.junit.Assert;
 
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
-import ail.syntax.Equation;
-import ail.syntax.LogExpr;
 import ail.syntax.GBelief;
-import ail.syntax.Predicate;
-import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.Guard;
 import ail.syntax.Intention;

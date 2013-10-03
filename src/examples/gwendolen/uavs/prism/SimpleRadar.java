@@ -28,6 +28,11 @@ import ail.mas.vehicle.UnreliableSensor;
 import ail.syntax.Predicate;
 import java.util.ArrayList;
 
+/**
+ * A Simple Radar Sensor which is correct 90% of the time.
+ * @author lad
+ *
+ */
 public class SimpleRadar extends UnreliableSensor {
 	public SimpleRadar() {
 		super("Radar");
