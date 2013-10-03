@@ -24,15 +24,9 @@
 
 package ajpf.psl.ast;
 
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import ajpf.psl.MCAPLNumberTermImpl;
 
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.ElementInfo;
@@ -40,8 +34,6 @@ import gov.nasa.jpf.vm.Heap;
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.ThreadInfo;
-import gov.nasa.jpf.vm.Types;
-import gov.nasa.jpf.vm.Verify;
 
 /** Immutable class that implements a term that represents a number */
 public final class Abstract_MCAPLNumberTermImpl implements Abstract_MCAPLNumberTerm {
