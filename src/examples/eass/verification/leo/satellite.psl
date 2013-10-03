@@ -54,7 +54,15 @@
       &
        [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
       )  ->
-	     <> ( B(ag1, maintaining(middle)) || B(ag1, broken(x)) || B(ag1, broken(y)) || B(ag1, broken(z))  )
+	     <> ( B(ag1, maintaining(middle)) || B(ag1, broken(x)) || B(ag1, broken(y)) || B(ag1, broken(z)) )
+
+# Property 18 in Verification Paper
+18b:   (
+       [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      )  ->
+	     <> ( B(ag1, maintaining(middle)) || B(ag1, broken(x)) || B(ag1, broken(y)) || B(ag1, broken(z)) || B(ag1, handling(drop_formation(line))) )
 
 # Property 21 in Verification Paper
 21: (      
@@ -64,9 +72,66 @@
       &
       [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
       &
-      [] ( B(ag1, broken(x)) -> B(ag1, repairable(x, _)) )
-    ) -> 
+      [] ( B(ag1, broken(x)) -> [] ~B(ag1, aborted(thruster_failure)) )
+      ) -> 
               <> B(ag1, maintaining(middle))
+
+# Property 21 in Verification Paper
+21b: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( B(ag1, broken(x)) -> [] ~B(ag1, aborted(thruster_failure)) )
+      ) -> 
+              <> (B(ag1, maintaining(middle)) || B(ag1, handling(drop_formation(line))) )
+
+21bexpanded: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( D(ag1, perf(change_line(x))) -> <> ~B(ag1, broken(x)) ) 
+      &
+      [] ( D(ag1, perf(change_line(y))) -> <> ~B(ag1, broken(y)) )       
+      &
+      [] ( D(ag1, perf(change_line(z))) -> <> ~B(ag1, broken(z)) ) 
+      &
+      [] ( 
+              (
+                  B(ag1, broken(x)) || B (ag1, broken(y)) || B (ag1, broken(z)) 
+              )
+               -> [] ~B(ag1, aborted(thruster_failure)) )
+      ) -> 
+              <> B(ag1, maintaining(middle))
+              
+21Spin: (D(ag1, query(get_close_to(middle, _))) & B(ag1, have_plan(middle, plan_middle)) 
+      & D(ag1, perf(execute(plan_middle))) & B(ag1, in_position(middle))
+      & D(ag1, perf(change_line(x))) & B(ag1, broken(x)) 
+      & D(ag1, perf(change_line(y))) & B(ag1, broken(y))      
+      & D(ag1, perf(change_line(z))) & B(ag1, broken(z))  
+      & B(ag1, aborted(thruster_failure))
+      ) -> <> (B(ag1, maintaining(middle)) || B(ag1, handling(drop_formation(line))) )
+
+# Property 21 in Verification Paper
+21revised: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+    ) -> 
+              <> ( B(ag1, maintaining(middle)) || <> B(ag1, aborted(thruster_failure)) )
+              
+21revised2: (      
+      [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle))  )
+      &
+      [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
+      &
+      [] ( B(ag1, broken(x)) -> [] ~B(ag1, aborted(thruster_failure))  )
+      ) -> 
+              <> B(ag1, maintaining(middle))
+
 
 # Property 21 in Verification Paper (expanded for all thrusters)
 21expanded: (      
@@ -74,15 +139,15 @@
       &
       [] ( D(ag1, perf(execute(plan_middle))) -> <> B(ag1, in_position(middle)) )
       &
-      [] ( D(ag1, perf(change_line(x)) -> <> ~B(ag1, broken(x)) ) 
+      [] ( D(ag1, perf(change_line(x)))-> <> ~B(ag1, broken(x)) ) 
       &
       [] ( B(ag1, broken(x)) -> B(ag1, repairable(x, _)) )
       &
-      [] ( D(ag1, perf(change_line(y)) -> <> ~B(ag1, broken(y)) ) 
+      [] ( D(ag1, perf(change_line(y))) -> <> ~B(ag1, broken(y)) ) 
       &
       [] ( B(ag1, broken(y)) -> B(ag1, repairable(y, _)) )
       &
-      [] ( D(ag1, perf(change_line(z)) -> <> ~B(ag1, broken(z)) ) 
+      [] ( D(ag1, perf(change_line(z))) -> <> ~B(ag1, broken(z)) ) 
       &
       [] ( B(ag1, broken(z)) -> B(ag1, repairable(z, _)) )
     ) -> 
@@ -129,12 +194,28 @@
 		             B(aglead, maintaining(ag3)) & B (aglead, maintaining(ag4)) )
 		  ) -> 
 		<> B(aglead, in_formation(square))
+		
+30expanded: ( 
+			[] ( B(aglead, informed(ag1, square)) -> <> B(aglead, maintaining(ag1)) )
+			& [] ( B(aglead, informed(ag2, square)) -> <> B(aglead, maintaining(ag2)) )
+			& [] ( B(aglead, informed(ag3, square)) -> <> B(aglead, maintaining(ag3)) )
+			& [] ( B(aglead, informed(ag4, square)) -> <> B(aglead, maintaining(ag4)) )
+	) -> 		<> B(aglead, in_formation(square))
+	
+
 
 # Property 31 in Verification Paper
 31: []( B (aglead,all_positions_assigned(line)) -> 
 				<> ( B(aglead, maintaining(ag1)) & B(aglead, maintaining(ag2)) & B(aglead, maintaining(ag3)) )
 	   ) -> 
 		[] ( B(aglead, in_formation(square)) -> <> B(aglead, in_formation(line)) )
+		
+31expanded: ( 
+			[] ( B(aglead, informed(ag1, line)) -> <> B(aglead, maintaining(ag1)) )
+			& [] ( B(aglead, informed(ag2, line)) -> <> B(aglead, maintaining(ag2)) )
+			& [] ( B(aglead, informed(ag3, line)) -> <> B(aglead, maintaining(ag3)) )
+			& [] ( B(aglead, informed(ag4, line)) -> <> B(aglead, maintaining(ag4)) )
+	) -> [] ( B(aglead, in_formation(square)) -> <> B(aglead, in_formation(line)) )
 
 
 # Property for Spin Paper

@@ -145,7 +145,14 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
 		}
 		
 		int ref = env.newObject("ail.syntax.ast.Abstract_VarTerm");
-		env.setReferenceField(ref, "functor", env.newString(getFunctor()));
+		String functor = getFunctor();
+		if (Abstract_Predicate.strings.containsKey(functor)) {
+			env.setReferenceField(ref, "functor", Abstract_Predicate.strings.get(functor));
+		} else {
+			int stringref = env.newString(functor);
+			Abstract_Predicate.strings.put(functor, stringref);
+			env.setReferenceField(ref, "functor", stringref);
+		}
 		env.setReferenceField(ref, "terms", newJPFTermArray(env));
 		env.setBooleanField(ref, "type", getType());
 		return ref;

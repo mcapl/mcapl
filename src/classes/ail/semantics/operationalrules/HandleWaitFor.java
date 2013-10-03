@@ -112,7 +112,7 @@ public class HandleWaitFor extends Perceive {
 		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
 				
 		if (beliefs.hasNext()) {
-			i.tlI();
+			i.tlI(a);
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
 			a.setIntention(i);

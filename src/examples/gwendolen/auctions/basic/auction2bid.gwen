@@ -64,4 +64,4 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(100, Name))} <- .send(ag1, :tell, bid(200, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));

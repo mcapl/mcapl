@@ -57,7 +57,7 @@ public class HandleNull extends HandleTopDeed {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		i.tlI();
+		i.tlI(a);
 		thetahd.compose(thetab);
 		i.compose(thetahd);
 

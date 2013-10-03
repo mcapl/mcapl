@@ -101,7 +101,13 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_StringTermImpl");
-		env.setReferenceField(objref, "fValue", env.newString(getString()));
+		if (Abstract_Predicate.strings.containsKey(getString())) {
+			env.setReferenceField(objref, "fValue", Abstract_Predicate.strings.get(getString()));
+		} else {
+			int stringref = env.newString(getString());
+			Abstract_Predicate.strings.put(getString(), stringref);
+			env.setReferenceField(objref, "fValue", stringref);
+		}
 		return objref;
 	}
 	

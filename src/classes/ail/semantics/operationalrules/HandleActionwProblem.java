@@ -86,7 +86,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
-				i.tlI();
+				i.tlI(a);
 				thetahd.compose(thetaa);
 			
 				i.compose(thetahd);
@@ -99,7 +99,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 				thetahd.compose(thetab);
 				i.iCons(ep, new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
 			} else {
-				i.tlI();
+				i.tlI(a);
 				i.compose(thetahd);
 			}
 		}

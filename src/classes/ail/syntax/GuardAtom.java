@@ -72,5 +72,14 @@ public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
      * @return
      */
     public List<LogicalFormula> conjuncts();
+    
+    /**
+     * If an agent has several structures of a particular type.
+	 * E.g. several belief bases, the one to be consulted for this
+	 * GuardAtom is the one numbered DBnum.
+	 * 
+     * @return
+     */
+    public StringTerm getDBnum();
 
 }

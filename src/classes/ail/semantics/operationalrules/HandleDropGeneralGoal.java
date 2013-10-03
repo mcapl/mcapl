@@ -26,8 +26,10 @@ package ail.semantics.operationalrules;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Goal;
 import ail.syntax.Unifier;
 import ail.syntax.Event;
 import ail.syntax.Intention;
@@ -83,29 +85,40 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 	public void apply(AILAgent a) {
 		super.apply(a);
 		Unifier thetae  = new Unifier();
-		Event e2 = new Event(Event.AILAddition, g);
+		Event goal_addition_event = new Event(Event.AILAddition, g);
 		boolean flag = false;
+		ArrayList<Goal> subgoals = new ArrayList<Goal>();
 	
 		// If any of the events in the intention stack unify with +!g
 		// find the earliest such event (what matchcount is doing)
 		// i is current intention
-		for (Event e3: i.events()) {
-			if (thetae.unifies(e2, e3)) {
+		ArrayList<Goal> temp_subgoals = new ArrayList<Goal>();
+		for (Event e3: i.eventsUnified()) {
+			if (e3.referstoGoal()) {
+				temp_subgoals.add((Goal) e3.getContent());
+			}
+			if (thetae.matchesNG(e3, goal_addition_event)) {
 				flag = true;
+				subgoals = temp_subgoals;
 			}
 		}
 	
 		// Drop back to the earliest occurence of +!g.
 		if (flag) {
-			i.dropGoal(e2, thetae);
+			i.dropGoal(goal_addition_event, thetae);
+			i.tlI(a);
 		} else {
 			// Otherwise explore other intention stacks
 			List<Intention> is = a.getIntentions();
 			for (Intention ip: is) {
 				flag = false;
-				for (Event e3: ip.events()) {
+				temp_subgoals = new ArrayList<Goal>();
+				for (Event e3: ip.eventsUnified()) {
+					if (e3.referstoGoal()) {
+						temp_subgoals.add((Goal) e3.getContent());
+					}
 					if (!flag) {
-						if (thetae.unifies(e2, e3)) {
+						if (thetae.matchesNG(e3, goal_addition_event)) {
 							flag = true;
 							}
 						}
@@ -113,12 +126,22 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 				
 				
 				if (flag) {
-					ip.dropGoal(e2, thetae);
-					ip.tlI();
+					ip.dropGoal(goal_addition_event, thetae);
+					ip.tlI(a);
+					if (ip.suspended()) {
+						ip.unsuspend();
+					}
+					subgoals = temp_subgoals;
 				}
 			}
 			
-			i.tlI();
+			i.tlI(a);
 		}
+		
+		a.removeGoal(g);
+		for (Goal sg: subgoals) {
+			a.removeGoal(sg);
+		}
+
 	}
 }

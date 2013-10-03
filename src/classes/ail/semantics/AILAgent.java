@@ -276,6 +276,7 @@ public class AILAgent implements MCAPLLanguageAgent {
        	setBeliefBase(new BeliefBase());
     	setRuleBase(new RuleBase());
     	setPlanLibrary(new PlanLibrary());
+    	setGoalBase(new GoalBase());
      }
     
 
@@ -590,6 +591,15 @@ public class AILAgent implements MCAPLLanguageAgent {
 		return gs.iterator();
 	}
 	
+	public GoalBase getGoalBase() {
+		return gbmap.get(getDefaultGBName());
+		
+	}
+	
+	public void setGoalBase(GoalBase gb) {
+		gbmap.put(getDefaultGBName(), gb);
+	}
+
 	/**
 	 * Get a list of the goals (goals appearing in intentions) of a particular type.
 	 * @return a list of the agent's goals.
@@ -1683,7 +1693,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void tellawake() {
 		if (wanttosleep) {
-			unsuspendintentions();
+			// unsuspendintentions();
 		}
 		wanttosleep = false;
 		// unsuspendintentions();
@@ -1735,6 +1745,8 @@ public class AILAgent implements MCAPLLanguageAgent {
  		s1.append(RC.getStage().getStageName()); 
  		s1.append(" :\n");
  		s1.append(getBB().toString());
+ 		s1.append("\n");
+		s1.append(getGoalBase().toString());
  		s1.append("\n");
  		s1.append(getOutbox().toString());
  		s1.append("\n");

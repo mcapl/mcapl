@@ -47,9 +47,9 @@ desired_formation(line)
 
 :Belief Rules:
 			
-B all_positions_assigned(Formation) :- ~ (B pos(Formation, Pos), ~ (B position(Ag, Pos)));
-B inform_start :- ~ (B position(Ag, Pos), ~ (B informed(Ag, F)));
-B in_formation(F) :- ~ (B pos(F, P), ~(B agent_at(P)));
+B all_positions_assigned(Formation) :- ~ [B pos(Formation, Pos), ~ B position(Ag, Pos)];
+B inform_start :- ~ [B position(Ag, Pos), ~B informed(Ag, F)];
+B in_formation(F) :- ~ [B pos(F, P), ~B agent_at(P)];
 B agent_at(Pos) :-   B position(Ag, Pos), B maintaining(Ag);
 B some_formation :- B desired_formation(F1), B in_formation(F1);
 B aformation :- B in_formation(line);
@@ -60,9 +60,9 @@ B aformation :- B in_formation(square);
 B broken(Ag) :- B aborted(thruster_failure, Ag); 
 			
 // Beliefs used for clean up phases
-B formation_clear(F) :- ~ (B pos(F, P), B position(Ag, P));
-B agent_pos_clear :- ~ (B maintaining(AG));
-B informed_clear(F) :- ~(B informed(Ag, F));
+B formation_clear(F) :- ~ [B pos(F, P), B position(Ag, P)];
+B agent_pos_clear :- ~ B maintaining(AG);
+B informed_clear(F) :- ~B informed(Ag, F);
 
 				
 :Initial Goals:
@@ -102,7 +102,7 @@ some_formation [achieve]
   -position(Ag, X),
   -informed(Ag, F),
   -.lock,
-  .send(Ag, :perform, new_instruction(drop_formation(F))),
+  .send(Ag, :perform, drop_formation(F)),
   -! some_formation [achieve];
 			
 +! send_position(Ag) [perform] : {B position(Ag, X)} <-

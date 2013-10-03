@@ -1,0 +1,129 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis,  Michael Fisher, and Matt Webster
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: ag1
+
+:Initial Beliefs:
+
+
+:Initial Goals:
+
+:Plans:
+
++.received(:tell, bid(D, From)) : {.B bid(From, E)} <- -bid(From, E), +multiple_bidder(From), +bid(From, D);
++.received(:tell, bid(D, From)) : {True, ~ .B bid(From, E)} <- +bid(From, D);
++bid(Z, A) : {.B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), ~ .B winning_amount(Am), [X2 < X1], [X3 < X1], [X4 < X1], [X5 < X1]} <- +winning_amount(X1), win(ag2, X1);
++bid(Z, A) : {.B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), ~ .B winning_amount(Am), [X1 < X2], [X3 < X2], [X4 < X2], [X5 < X2]} <- +winning_amount(X2), win(ag3, X2);
++bid(Z, A) : {.B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), ~ .B winning_amount(Am), [X2 < X3], [X1 < X3], [X4 < X3], [X5 < X3]} <- +winning_amount(X3), win(ag4, X3);
++bid(Z, A) : {.B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), ~ .B winning_amount(Am), [X2 < X4], [X1 < X4], [X3 < X4], [X5 < X4]} <- +winning_amount(X4), win(ag5, X4);
++bid(Z, A) : {.B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), ~ .B winning_amount(Am), [X2 < X5], [X1 < X5], [X3 < X5], [X4 < X5]} <- +winning_amount(X5), win(ag6, X5);
++bid(Z, A) : {.B winning_amount(Am), [Am < A]} <- -winning_amount(Am), +winning_amount(A), win(Z, A);
++bid(Z, A) : {.B multiple_bidder(Z), .B winning_amount(Am), [A < Am]} <- .send(Z, :tell, failed_bid);
+
+:name: ag2
+
+:Initial Beliefs:
+
+my_name(ag2)
+trust(ag4)
+trust(ag5)
+trust(ag6)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++win(A, Am) : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), ~ B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag);
++failed_bid : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag), -trust(AgB);
++agree(A, X) : {True} <- .send(ag1, :tell, bid((X + 150), ag2));
+
+:name: ag3
+
+:Initial Beliefs:
+
+my_name(ag3)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));
+
+:name: ag4
+
+:Initial Beliefs:
+
+my_name(ag4)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(25, Name))} <- .send(ag1, :tell, bid(25, Name));
++coalition(A) : { .B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 25))} <- .send(A, :tell, agree(Name, 25));
+
+
+:name: ag5
+
+:Initial Beliefs:
+
+my_name(ag5)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(30, Name))} <- .send(ag1, :tell, bid(30, Name));
++coalition(A) : { .B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 30))} <- .send(A, :tell, agree(Name, 30));
+
+:name: ag6
+
+:Initial Beliefs:
+
+my_name(ag6)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {.B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++coalition(A) : { .B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 150))} <- .send(A, :tell, agree(Name, 150));

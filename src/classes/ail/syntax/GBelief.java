@@ -42,7 +42,7 @@ import gov.nasa.jpf.annotation.FilterField;
  *
  */
 public class GBelief extends DefaultAILStructure implements GuardAtom {
-	String logname = "ail.syntax.GBelief";
+	static String logname = "ail.syntax.GBelief";
 	
 	/**
 	 * A Special type of Belief: True - for when there is no condition to be checked.
@@ -251,7 +251,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 			il = getRelevantSent(ag);
         }  else if (getCategory() == AILReceived) {
         	il = getRelevantReceived(ag);
-        } if (referstoGroup()) {
+        } else if (referstoGroup()) {
           	if (getCategory() == AILContent) {
           		il = getRelevantContent(ag);
           	} else if (getCategory() == AILContext) {
@@ -394,149 +394,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	 */
 	// Based on code by Rafael H. Bordini, Jomi F. Hubner et. al for Jason
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
-		// A list(iterator) of literals that might unify.
-		// The agent may believe several things that can unify
-		// with the query.
-		final Iterator<Unifiable> il;
-		final Iterator<Rule> rl;
-       
-		// First we create a list of possible unifiable objects (Literals/Goals/Messaages as appropriate)
-		if (isTrue()) {
-            return LogExpr.createUnifIterator(un);            
-        }  else {
-        	il = getRelevant(ag, un);
-        	rl = getRules(ag, un);
-        }
-   
-
-         if (il == null & rl == null) {
-        	 LinkedList<Unifier> empty = new LinkedList<Unifier>();
-        	 return empty.iterator();
-        }
-      
-
-        // We create an iterator of unifiers given that we
-        // have an iterator of unifiable objects.
-        return new Iterator<Unifier>() {
-        	// We filter all fields because logical consequence calculation
-        	// should be "atomic" from the POV of the reasoning system.
-        	/**
-        	 * This holds the current unification solution.
-        	 */
-         	@FilterField
-        	Unifier current = null;
-         	/**
-         	 * A helper field when processing prolog like rules.
-         	 */
-        	@FilterField
-        	Iterator<Unifier> ruleIt = null; // current rule solutions iterator
-        	/**
-        	 * If we're doing prolog style reasoning the curren rule we
-        	 * are using.
-        	 */
-        	@FilterField
-        	Rule rule = null; // current rule
-                
-        	/*
-        	 * (non-Javadoc)
-        	 * @see java.util.Iterator#hasNext()
-        	 */
-        	public boolean hasNext() {
-        		if (current == null)
-        			get();
-        		return current != null;
-        	}
-
-        	/*
-        	 * (non-Javadoc)
-        	 * @see java.util.Iterator#next()
-        	 */
-        	public Unifier next() {
-        		if (current == null)
-        			get();
-        		Unifier a = current;
-        		current = null; //get();
-        		return a;
-        	}
-
-        	/**
-        	 * Work horse method that calculate the next unifier.
-        	 *
-        	 */
-        	private void get() {
-        		current = null;
-        		
-        		// try rule iterator, if it has been created I've worked through all of il
-        		// and am now chaining through rules.
-        		while (ruleIt != null && ruleIt.hasNext()) {
-        			// unifies the rule head with the result of rule evaluation
-        			Unifier ruleUn = ruleIt.next(); // evaluation result
-        			current = ruleUn;
-        			return;
-         		}
-                          		
- 
-        		// il is all possible Beliefs/messages/whatever that potentially unify with this GBelief
-        		if (il != null) {
-        			while (il.hasNext()) {
-        				Unifier unC = (Unifier) un.clone();
-        				Unifiable u = il.next();
-        				GBelief h2 = GBelief.this.clone();
-        				if (h2.unifies(u, unC)) {
-        					if (DBnum.isVar()) {
-        						if (u instanceof Literal) {
-        							Literal l = (Literal) u;
-        							AILAnnotation a = l.getAnnot();
-        							Predicate bb = new Predicate("beliefbase");
-        							bb.addTerm(DBnum);
-        							if (a.compatibleAnnotations(new BeliefBaseAnnotation(bb), unC)) {
-        								current = unC;
-        							}
-        						} else {
-        							current = unC;
-        						}
-        					} else {
-        						current = unC;
-        					}
-        					return;
-        				}
-        			}
-        		}
-        		
-           		if (rl != null) {
-        			while (rl.hasNext()) {
-        				Unifier unC = (Unifier) un.clone();
-        				rule = rl.next();
-        				Rule ruleC = rule.clone();
-           				GBelief h = GBelief.this.clone();
-           				ruleC.standardise_apart(h, unC);
-        				// Unifier ruleUn = new Unifier();
-           				// This this will just unify the head!!
-        				if (h.unifies(ruleC, unC)) {
-        					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
-        					// This GBelief should be ground? so only one possibility (?)
-            					ruleIt = ruleC.getBody().logicalConsequence(ag, unC);
-            					// ruleIt is an iterator over all possible unifiers for the rule body.
-            					get();
-            					if (current != null) {
-            						if (AJPFLogger.ltFine(logname)) {
-            							AJPFLogger.fine(logname, "Rule instantiated with " + current);
-            						}
-            						return;
-            					}
-            				}
-        			}
-        		}
- 
-        	}
-	
-        	/*
-        	 * (non-Javadoc)
-        	 * @see java.util.Iterator#remove()
-        	 */
-        	public void remove() {
-        	}
-        };
+		return GBelief.logicalConsequence(ag, un, this);
 	}
 	
 	/*
@@ -734,12 +592,27 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
         				Unifiable u = il.next();
         				GuardAtom h2 = (GuardAtom) ga.clone();
         				if (h2.unifies(u, unC)) {
-        					current = unC;
-         					return;
+        					StringTerm DBnum = ga.getDBnum();
+        					if (DBnum.isVar()) {
+        						if (u instanceof Literal) {
+        							Literal l = (Literal) u;
+        							AILAnnotation a = l.getAnnot();
+        							Predicate bb = new Predicate("beliefbase");
+        							bb.addTerm(DBnum);
+        							if (a.compatibleAnnotations(new BeliefBaseAnnotation(bb), unC)) {
+        								current = unC;
+        							}
+        						} else {
+        							current = unC;
+        						}
+        					} else {
+        						current = unC;
+        					}
+          					return;
         				}
         			}
         		}
-        		
+        		       		
            		if (rl != null) {
         			while (rl.hasNext()) {
         				Unifier unC = (Unifier) un.clone();
@@ -755,6 +628,9 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
             					// ruleIt is an iterator over all possible unifiers for the rule body.
             					get();
             					if (current != null) {
+               						if (AJPFLogger.ltFine(logname)) {
+            							AJPFLogger.fine(logname, "Rule instantiated with " + current);
+            						}
             						return;
             					}
             				}

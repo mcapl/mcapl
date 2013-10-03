@@ -81,13 +81,13 @@ public class HandleAction extends HandleTopDeed {
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
-				i.tlI();
+				i.tlI(a);
 				thetahd.compose(thetaa);
 		
 				i.compose(thetahd);
 			}
 		} catch (AILexception ex) {
-			i.tlI();
+			i.tlI(a);
 			i.compose(thetahd);
 		}
 	}

@@ -81,6 +81,14 @@ public interface Unifiable  {
 	public boolean match(Unifiable t, Unifier u);
 	
 	/**
+	 * To be used when this unifiable is not to be changed but may not be ground.
+	 * @param t
+	 * @param u
+	 * @return
+	 */
+	public boolean matchNG(Unifiable t, Unifier u);
+
+	/**
 	 * Is this unifiable ground?
 	 * @return
 	 */

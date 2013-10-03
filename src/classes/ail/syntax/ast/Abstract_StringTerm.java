@@ -24,6 +24,8 @@
 
 package ail.syntax.ast;
 
+import java.util.HashMap;
+
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
  * -------------------------------------------------------
@@ -53,6 +55,8 @@ package ail.syntax.ast;
  *
  */
 public interface Abstract_StringTerm extends Abstract_Term {
+	static HashMap<String,Integer> strings = new HashMap<String,Integer>();
+
 	/**
 	 * Get the string associated wtih the term.
 	 * @return

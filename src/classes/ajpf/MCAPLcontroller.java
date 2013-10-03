@@ -175,6 +175,7 @@ public class MCAPLcontroller  {
 	 * Starts the controller and the underlying system and agents.
 	 *
 	 */
+	MCAPLJobber a;
 	public void begin() {
 		// We assume it makes no difference the exact order the agents and the 
 		// environment (if relevant) start in so make this atomic.
@@ -186,10 +187,10 @@ public class MCAPLcontroller  {
 		//	System.out.println("starting agent" + a.getName());
 		//	a.start();
 		//}
-		MCAPLJobber a = scheduling(null);
+		// a = scheduling();
 		boolean checkend = checkEnd();
 		while (! checkend) {
-			a = scheduling(a);
+			a = scheduling();
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
 			checkend = checkEnd();
 		}
@@ -198,7 +199,7 @@ public class MCAPLcontroller  {
 		
 	}
 	
-	public MCAPLJobber scheduling(MCAPLJobber a) {
+	public MCAPLJobber scheduling() {
 		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
 		//AJPFLogger.info("ajpf.MCAPLcontroller", "About to pick job");
 		if (!activeJobs.isEmpty()) {

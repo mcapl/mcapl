@@ -209,7 +209,8 @@ term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | s = stringterm {$t = $s
 
 atom	returns [Abstract_NumberTerm t]	:	n = numberstring {$t = new Abstract_NumberTermImpl($n.s);}| 
 					v=var {$t = $v.v;} | OPEN a=arithexpr CLOSE {$t = $a.t;};
-stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE  STRING DOUBLEQUOTE {$s = new Abstract_StringTermImpl($STRING.getText());};
+stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE  STRING DOUBLEQUOTE {		 
+                   $s = new Abstract_StringTermImpl($STRING.getText());};
 
 var 	returns [Abstract_VarTerm v]:	VAR {
 	if (variables.containsKey($VAR.getText())) {

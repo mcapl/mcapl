@@ -177,6 +177,13 @@ public class Rule implements LogicalFormula {
     	return head.match(u, un);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable u, Unifier un) {
+    	return head.matchNG(u, un);
+    }
     
     /*
      * (non-Javadoc)
