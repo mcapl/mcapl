@@ -206,7 +206,7 @@ public class MotorWayVerificationEnv extends DefaultEASSEnvironment {
     		change = true;
     	}
     	
-    	System.err.println(agentmap.get(agName));
+    	// System.err.println(agentmap.get(agName));
  	   		   	 
     	return theta;
     }

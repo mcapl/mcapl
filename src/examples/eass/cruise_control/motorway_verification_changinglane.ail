@@ -36,4 +36,4 @@ log.format = brief
 
 connectedtomatlab = false
 overtaking=true
-singlelane=true
+singlelane=false
