@@ -122,7 +122,14 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	@Override
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		// TODO Auto-generated method stub
-		return agentpercepts.get(agName);
+		Set<Predicate> preds = agentpercepts.get(agName);
+		for (String e_name: eis_environment.getAssociatedEntities(agName)) {
+			for (Percept p: eis_environment.getAllPercepts(agName, e_name)) {
+				
+			}
+			
+		}
+		for (Percept p: eis_environment.getAllPercepts(agName, eis_environment.getAssociatedEntities(agName)));
 	}
 
 	@Override
