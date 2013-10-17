@@ -257,8 +257,8 @@ public class MAS implements MCAPLmas {
      /**
       * Perform any application specific finalisation.
       */
-     public void finalize() {
-    	 fEnv.finalize();
+     public void final_cleanup() {
+    	 fEnv.final_cleanup();
      }
      
      /*

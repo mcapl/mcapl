@@ -58,7 +58,7 @@ public class AIL {
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
 		// Start the system.
 		mccontrol.begin(); 
-		mas.finalize();
+		mas.final_cleanup();
 
 	}
 	
