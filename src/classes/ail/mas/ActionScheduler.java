@@ -62,8 +62,10 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
-			for (String s: activeAgents) {
-				ags.add(agnames.get(s));
+			synchronized(activeAgents) {
+				for (String s: activeAgents) {
+					ags.add(agnames.get(s));
+				}
 			}
 		}
 		somethinghaschanged = false;
@@ -76,8 +78,10 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
-		for (String s: activeAgents) {
-			ags.add(s);
+		synchronized(activeAgents) {
+			for (String s: activeAgents) {
+				ags.add(s);
+			}
 		}
 		return ags;
 	}
@@ -88,7 +92,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#notActive(java.lang.String)
 	 */
 	public void notActive(String agName) {
-		activeAgents.remove(agName);
+		synchronized(activeAgents) {
+			activeAgents.remove(agName);
+		}
 		if (!inactiveAgents.contains(agName)) {
 			inactiveAgents.put(agName);
 		}
@@ -100,8 +106,10 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#isActive(ajpf.MCAPLAgent)
 	 */
 	public void isActive(String a) {
-		if (!activeAgents.contains(a)) {
-			activeAgents.put(a);
+		synchronized(activeAgents) {
+			if (!activeAgents.contains(a)) {
+				activeAgents.put(a);
+			}
 		}
 		inactiveAgents.remove(a);
 		somethinghaschanged = true;
@@ -113,7 +121,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public void addJobber(MCAPLJobber a) {
 		agnames.put(a.getName(), a);
-		activeAgents.put(a.getName());
+		synchronized(activeAgents) {
+			activeAgents.put(a.getName());
+		}
 	}
 
 	/*

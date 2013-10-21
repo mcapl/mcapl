@@ -5,21 +5,17 @@ import org.ros.node.topic.Subscriber;
 
 import ail.syntax.Predicate;
 
-public class EASSROSSubscriber {
+public class EASSROSSubscriber<T> {
 	EASSNode node;
+	Subscriber<T> subscriber;
 	
-	public EASSROSSubscriber(String topic_name, EASSNode n) {
+	public EASSROSSubscriber(String topic_name, EASSNode n, String msg_type) {
 		node = n;
-		Subscriber<std_msgs.String> subscriber =
-			        node.newSubscriber(topic_name, std_msgs.String._TYPE);
-	    subscriber.addMessageListener(new MessageListener<std_msgs.String>() {
-	    	public void onNewMessage(std_msgs.String message) {
-	    		Predicate per = new Predicate(message.getData());
-				Predicate heard = new Predicate("heard");
-				heard.addTerm(per);
-				node.addPerceptToEnv(heard);
-	    	}
-	    });
-
+		subscriber =
+			        node.newSubscriber(topic_name, msg_type);
+	}
+	
+	public void addMessageListener(MessageListener<T> listener) {
+		subscriber.addMessageListener(listener);
 	}
 }

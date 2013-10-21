@@ -36,8 +36,15 @@ EASS
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+ heard(S) : {True} <-
-  print(S);
++ heard(S) : {~B talking1} <-
+  print(S),
+  assert_shared(talking1);
++ heard(S) : {B talking1} <-
+  print(S),
+  assert_shared(changed_position);
+  
+ +! moving[perform] : {True} <-
+    move, assert_shared(talking);
   
 :name: turtle
 
@@ -46,3 +53,7 @@ EASS
 :Initial Goals:
 
 :Plans:
+
++talking1 : {True} <- +!changed_position [achieve];
+
++! changed_position [achieve] : {True} <- perf(moving);

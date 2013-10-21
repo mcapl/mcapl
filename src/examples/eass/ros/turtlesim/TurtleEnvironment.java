@@ -27,6 +27,8 @@ package eass.ros.turtlesim;
 import ail.mas.NActionScheduler;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
+import ail.syntax.Predicate;
+import ail.syntax.NumberTermImpl;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 import eass.mas.ros.EASSROSEnvironment;
@@ -35,6 +37,9 @@ import eass.mas.ros.EASSROSSubscriber;
 import org.ros.node.ConnectedNode;
 
 import org.ros.node.topic.Publisher;
+import org.ros.node.topic.Subscriber;
+import org.ros.message.MessageListener;
+import turtlesim.Velocity;
 
 public class TurtleEnvironment extends EASSROSEnvironment {
 	String logname = "eass.ros.pubsub.TurtleEnvironment";
@@ -54,26 +59,15 @@ public class TurtleEnvironment extends EASSROSEnvironment {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
 
-		   super.executeAction(agName, act);
+		   if (act.getFunctor().equals("move")) {
+			   ((EASSTurtle) getROSNode()).getTurtle().send(1.4f, 1.5f);
+			   AJPFLogger.info(logname, agName + " done " + act);
+		   } else {
+			   super.executeAction(agName, act);
+		   }
 		   
 		   return u;
 	}
 	
-	public class Turtle {
-		Publisher<std_msgs.String> pose;
-		EASSROSSubscriber command_velocity;
-		String name;
-		
-		public Turtle(String turtlename, EASSNode node)  {
-			name = turtlename;
-			
-			String posestring = turtlename + "/pose";
-	        pose = node.newPublisher(posestring, std_msgs.String._TYPE);
-			
-			String command_velocity_string = turtlename + "/command_velocity";
-			command_velocity = new EASSROSSubscriber(command_velocity_string, node);
-		}
-	}
-
 
 }

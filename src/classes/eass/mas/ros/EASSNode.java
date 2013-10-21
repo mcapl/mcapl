@@ -34,10 +34,14 @@ public class EASSNode extends AbstractNodeMain {
 		return null;
 	}
 	
-	public Subscriber<std_msgs.String> newSubscriber(String topic_name, String messageType ) {
+	public <T> Subscriber<T> newSubscriber(String topic_name, String messageType ) {
 		return cNode.newSubscriber(topic_name, messageType);
 	}
 	
+	public <T> Publisher<T> newPublisher(String topic_name, String messageType ) {
+		return cNode.newPublisher(topic_name, messageType);
+	}
+
 	public Publisher<std_msgs.String> newActionTopic(String topic_name) {
 		Publisher<std_msgs.String> publisher = cNode.newPublisher(topic_name, std_msgs.String._TYPE);
 		actionTopics.put(topic_name, publisher);
@@ -65,6 +69,7 @@ public class EASSNode extends AbstractNodeMain {
 		MAS mas = AIL.AILSetup(config);
 		env = (EASSROSEnvironment) mas.getEnv();
 		env.setROSNode(this);
+		initialise();
 		
 		// Lastly we construct a controller.
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
@@ -72,6 +77,8 @@ public class EASSNode extends AbstractNodeMain {
 		mccontrol.begin(); 
 		mas.finalize();
 	}
+	
+	public void initialise() {};
 	
 	public void addPerceptToEnv(Predicate per) {
 		env.addPercept(new Literal(true, new PredicatewAnnotation(per)));

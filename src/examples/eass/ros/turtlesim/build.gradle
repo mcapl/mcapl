@@ -1,0 +1,41 @@
+// The Application plugin and mainClassName attribute are only required if
+// your package is used as a binary.
+
+apply plugin: 'application'
+
+mainClassName = 'org.ros.RosRun'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+ext.ajpf_home = "$System.env.AJPF_HOME"
+
+// custom maven repository for some rosjava dependencies
+repositories {
+  mavenLocal()
+  maven {
+    url 'http://robotbrains.hideho.org/nexus/content/groups/ros-public'
+  }
+  flatDir {
+    dirs '$ajpf_home/bin'
+  }
+  
+}
+
+// we need this for maven installation
+version = '0.0.0-SNAPSHOT'
+group = 'ros.my_stack'
+
+dependencies {
+  compile 'ros.rosjava_core:rosjava:0.0.0-SNAPSHOT'
+  compile 'ros.rosjava_core:rosjava_messages:0.0.0-SNAPSHOT'
+  compile 'ros.rosjava_core:rosjava_bootstrap:0.0.0-SNAPSHOT'
+  compile files("$ajpf_home/bin")
+
+  runtime files("$ajpf_home")
+  runtime fileTree(dir: "$ajpf_home/lib/3rdparty", include:'*.jar')
+}
