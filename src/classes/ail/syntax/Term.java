@@ -29,6 +29,8 @@ package ail.syntax;
 
 import ajpf.psl.MCAPLTerm;
 
+import eis.iilang.Parameter;
+
 /**
  * Common interface for all kind of Terms
  */
@@ -106,5 +108,11 @@ public interface Term extends  Unifiable, Cloneable, MCAPLTerm {
      * @return
      */
     public Term strip_varterm();
+    
+    /**
+     * For compatibility with EIS interfaces, terms need to be convertible to EIS parameters.
+     * @return
+     */
+    public Parameter toEISParameter();
         	      
 }

@@ -63,6 +63,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	String logname = "ail.mas.eas.EISEnvironmentWrapper";
 	Map<String, Set<Predicate>> agentpercepts = new HashMap<String, Set<Predicate>>();
 	PrologParser parser = new PrologParser(null);
+	MCAPLScheduler scheduler;
 	
 	public EISEnvironmentWrapper(String jarFileName) {
 		try {
@@ -123,13 +124,21 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		// TODO Auto-generated method stub
 		Set<Predicate> preds = agentpercepts.get(agName);
-		for (String e_name: eis_environment.getAssociatedEntities(agName)) {
-			for (Percept p: eis_environment.getAllPercepts(agName, e_name)) {
+		try {
+			for (String e_name: eis_environment.getAssociatedEntities(agName)) {
+				for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName, e_name)).values()) {
+					for (Percept p: ps) {
+						preds.add(new EISPercept(p).toPredicate());
+					}
+				}
 				
 			}
-			
+		} catch (Exception e) {
+			AJPFLogger.warning(logname, e.getMessage());
 		}
-		for (Percept p: eis_environment.getAllPercepts(agName, eis_environment.getAssociatedEntities(agName)));
+		
+		agentpercepts.clear();
+		return preds;
 	}
 
 	@Override
@@ -181,16 +190,20 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getScheduler()
+	 */
 	public MCAPLScheduler getScheduler() {
-		// TODO Auto-generated method stub
-		return null;
+		return scheduler;
 	}
-
-	@Override
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setScheduler(ajpf.MCAPLScheduler)
+	 */
 	public void setScheduler(MCAPLScheduler s) {
-		// TODO Auto-generated method stub
-
+		scheduler = s;
 	}
 
 	@Override
@@ -219,6 +232,10 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	public boolean agentIsUpToDate(String agName) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public EnvironmentInterfaceStandard getEIS() {
+		return eis_environment;
 	}
 
 }

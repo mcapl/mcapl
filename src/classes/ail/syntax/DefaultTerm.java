@@ -36,6 +36,11 @@ import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLTermImpl;
 import ajpf.util.AJPFLogger;
 
+import eis.iilang.Parameter;
+import eis.iilang.Function;
+import eis.iilang.Identifier;
+
+import java.util.LinkedList;
 import java.util.List;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -325,6 +330,22 @@ public abstract class DefaultTerm implements Term {
 	   } else {
 		   AJPFLogger.severe(logname, "unknown class name: " + classname);
 		   throw new AILexception(" Unknown Class Name ");
+	   }
+   }
+   
+   /*
+    * (non-Javadoc)
+    * @see ail.syntax.Term#toEISParameter()
+    */
+   public Parameter toEISParameter() {
+	   if (getTermsSize() == 0) {
+		   return new Identifier(getFunctor().toString());
+	   } else {
+		   LinkedList<Parameter> params = new LinkedList<Parameter>();
+		   for (Term t: getTerms()) {
+			   params.add(t.toEISParameter());
+		   }
+		   return new Function(getFunctor().toString(), params);
 	   }
    }
 

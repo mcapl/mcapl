@@ -23,36 +23,74 @@
 //----------------------------------------------------------------------------
 package ail.mas.eis;
 
-import com.igormaznitsa.prologparser.terms.PrologStructure;
+import com.igormaznitsa.prologparser.terms.*;
+import com.igormaznitsa.prologparser.PrologParser;
 
 import eis.iilang.Percept;
 
 import ail.syntax.Predicate;
+import ail.syntax.VarTerm;
+import ail.syntax.Term;
+import ail.syntax.ListTerm;
+import ail.syntax.ListTermImpl;
 import ajpf.util.AJPFLogger;
 
 public class EISPercept {
 	Percept percept;
+	PrologParser parser = null;
+	String logname = "ail.mas.eis.EISPercept";
 	
 	public EISPercept(Percept p) {
 		percept = p;
 	}
 	
 	public Predicate toPredicate() {
-		String percept_prolog_string = arg1.toString();
+		String percept_prolog_string = percept.toProlog();
 		try {
 			
 			// Need to do proper prolog parsing.
-			PrologStructure plg = (PrologStructure) parser.nextSentence(percept_prolog_string);
+			AbstractPrologTerm plg = parser.nextSentence(percept_prolog_string);
 	
-			Predicate p = new Predicate(plg.getFunctor().toString());
-			for (int i = 1; i <= plg.getArity(); i++) {
-				p.addTerm(new Predicate(plg.getElement(i).toString()));
-			}
-			(agentpercepts.get(arg0)).add(p);
+			Predicate p = (Predicate) prologToAIL(plg);
+			return p;
 		} catch (Exception e) {
 			AJPFLogger.severe(logname, e.getMessage());
 		}
+		
+		return null;
 
+	}
+	
+	private Term prologToAIL(AbstractPrologTerm plg) {
+		PrologTermType type = plg.getType();
+		switch ( type ) {
+				// NB. Not handling numbers
+			case ATOM:
+				PrologAtom atom = (PrologAtom) plg;
+				return new Predicate(atom.getText());
+			case VAR:
+				PrologVariable var = (PrologVariable) plg;
+				return new VarTerm(var.getText());
+				// NB. not handling arith expressions
+			case STRUCT:
+				PrologStructure struct = (PrologStructure) plg;
+				Predicate p = new Predicate(struct.getFunctor().getText());
+				for (int i = 1; i <= struct.getArity(); i++) {
+					p.addTerm(prologToAIL(struct.getElement(i)));
+				}
+				return p;
+			case OPERATOR:
+			case OPERATORS:
+			case LIST:
+				PrologList list = (PrologList) plg;
+				ListTerm aillist = new ListTermImpl();
+				aillist.setHead(prologToAIL(list.getHead()));
+				aillist.setTail((ListTerm) prologToAIL(list.getTail()));
+				return aillist;
+			default:
+				return new Predicate("none");
+		}
+		
 	}
 	
 	
