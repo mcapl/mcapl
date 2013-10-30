@@ -153,7 +153,6 @@ public class AJPFLogger {
 }
 
 	public static void fine(String logname, String msg) {
-		System.err.println("not intercepted");
 			Logger logger = Logger.getLogger(logname);
 			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
 				setLevel(logname, levels.get(logname));

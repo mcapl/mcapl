@@ -32,7 +32,6 @@ import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
-import ail.mas.MAS;
 
 public class EASSAgentBuilder implements AgentBuilder {
 	EASSAgent agent;
