@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail,${mcapl}/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl,1
+target.args = ${mcapl}/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail,${mcapl}/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl,1
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,
 

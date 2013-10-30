@@ -27,6 +27,8 @@ package ail.semantics.operationalrules;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Event;
+import ail.syntax.Guard;
+import ail.syntax.GBelief;
 
 /**
  * Add a belief to the agent and register a event noting the belief has been added.
@@ -50,9 +52,16 @@ public class HandleAddBeliefwEvent extends HandleAddBelief {
 	 * @see ail.semantics.operationalrules.HandleAddBelief#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
+		boolean alreadybelieved = false;
+		if (a.believesyn(new Guard(new GBelief(GBelief.AILBel, b)), thetab)) {
+			alreadybelieved = true;
+		}
+		
 		super.apply(a);
 
 		// Add a new intention noting the belief change
-		a.getIntentions().add(new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself()));
+		if (!alreadybelieved) {
+			a.getIntentions().add(new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself()));
+		}
 	}
 }

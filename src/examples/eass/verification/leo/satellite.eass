@@ -52,13 +52,14 @@ B repairable(X, with(change_line(X))) :- B thruster_line(X, 1);
 +!assuming_formation(F) [perform] : {B assuming_formation(F)};
 			
 // May get told to abandon the current formation
-+  new_instructions(F) : {True} <- 
-   +! F [perform]; 
 +! drop_formation(F) [perform] : {B assuming_formation(F)} <- 
    -! assuming_formation(F) [perform], 
    +! clear_position [perform], 
-   - assuming_formation(F); 
-+! drop_formation(F) [perform] : {~ B assuming_formation(F)}; 
+   +! cleanup [perform],
+   perf(null);
++! drop_formation(F) [perform] : {~ B assuming_formation(F)} <-
+   -! assuming_formation(F) [perform],
+   perf(null); 
 +! clear_position [perform] : {B my_position_is(X)} <- 
    + .lock, 
    -my_position_is(X), 
@@ -110,24 +111,33 @@ B repairable(X, with(change_line(X))) :- B thruster_line(X, 1);
 +! maintaining(Pos) [achieve] : {~B assuming_formation(F)} <- 
     -! maintaining(Pos) [achieve]; 
 +! maintaining(Pos) [achieve] : {B aborted(Reason)} <- 
-    * new_instructions(Ins); 
+    -! maintaining(Pos) [achieve]; 
 			
 +maintaining(Pos) : {B leader(Leader), B my_name(Name)} <- 
     .send(Leader, :tell, maintaining(Name)), 
     +sent(Leader, maintaining(Name));  
 				
-+!cleanup [perform] : {~ B have_plan(Pos, P), B in_position(Pos), B perform_cleanup} <- 
++!cleanup [perform] : {~ B have_plan(Pos, P), B in_position(Pos), B perform_cleanup, B assuming_formation(F)} <- 
     +.lock,
-    -assuming_formation, 
+    -assuming_formation(F), 
     -in_position(Pos), 
     -.lock; 
-+!cleanup [perform] : {~ B have_plan(Pos, P), ~B in_position(Pos1), B perform_cleanup} <- 
++!cleanup [perform] : {~ B have_plan(Pos, P), B in_position(Pos), B perform_cleanup, ~ B assuming_formation(F)} <- 
     +.lock,
-    -assuming_formation, 
+    -in_position(Pos), 
     -.lock; 
-+!cleanup [perform] : {B have_plan(Pos, P), B perform_cleanup} <- 
++!cleanup [perform] : {~ B have_plan(Pos, P), ~B in_position(Pos1), B perform_cleanup, B assuming_formation(F)} <- 
     +.lock,
-    -assuming_formation, 
+    -assuming_formation(F), 
+    -.lock; 
++!cleanup [perform] : {B have_plan(Pos, P), B perform_cleanup, B assuming_formation(F)} <- 
+    +.lock,
+    -assuming_formation(F), 
+    -have_plan(Pos, P), 
+    -in_position(Pos), 
+    -.lock; 
++!cleanup [perform] : {B have_plan(Pos, P), B perform_cleanup, ~ B assuming_formation(F)} <- 
+    +.lock,
     -have_plan(Pos, P), 
     -in_position(Pos), 
     -.lock; 

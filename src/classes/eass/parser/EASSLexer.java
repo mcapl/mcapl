@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g 2012-11-29 11:37:30
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2013-08-06 18:20:24
 
 package eass.parser;
 
@@ -87,15 +87,15 @@ public class EASSLexer extends Lexer {
     public EASSLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g"; }
+    public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
 
     // $ANTLR start "UPDATE"
     public final void mUPDATE() throws RecognitionException {
         try {
             int _type = UPDATE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:151:9: ( '' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:151:11: ''
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:9: ( '' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:11: ''
             {
             match('\u00B1'); 
 
@@ -115,8 +115,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = TELL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:152:6: ( ':tell' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:152:8: ':tell'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:153:6: ( ':tell' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:153:8: ':tell'
             {
             match(":tell"); 
 
@@ -138,8 +138,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PERFORM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:153:9: ( ':perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:153:11: ':perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:9: ( ':perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:11: ':perform'
             {
             match(":perform"); 
 
@@ -161,8 +161,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ACHIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:154:9: ( ':achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:154:11: ':achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:9: ( ':achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:11: ':achieve'
             {
             match(":achieve"); 
 
@@ -184,8 +184,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SEND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:155:6: ( '.send' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:155:8: '.send'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:6: ( '.send' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:8: '.send'
             {
             match(".send"); 
 
@@ -207,8 +207,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = RECEIVED;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:156:9: ( '.received' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:156:11: '.received'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:9: ( '.received' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:11: '.received'
             {
             match(".received"); 
 
@@ -230,8 +230,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CALCULATE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:158:2: ( '.calculate' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:158:4: '.calculate'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:159:2: ( '.calculate' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:159:4: '.calculate'
             {
             match(".calculate"); 
 
@@ -253,8 +253,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = QUERYCOM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:159:10: ( '.query' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:159:12: '.query'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:10: ( '.query' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:12: '.query'
             {
             match(".query"); 
 
@@ -276,8 +276,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = WAIT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:160:6: ( '.wait' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:160:8: '.wait'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:6: ( '.wait' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:8: '.wait'
             {
             match(".wait"); 
 
@@ -299,14 +299,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:9: ({...}? => ( 'B' | '.B' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:11: {...}? => ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:9: ({...}? => ( 'B' | '.B' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:11: {...}? => ( 'B' | '.B' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:75: ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:75: ( 'B' | '.B' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -325,14 +325,14 @@ public class EASSLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:76: 'B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:76: 'B'
                     {
                     match('B'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:82: '.B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:82: '.B'
                     {
                     match(".B"); 
 
@@ -360,14 +360,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = GOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:6: ({...}? => ( 'G' | '.G' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:8: {...}? => ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:6: ({...}? => ( 'G' | '.G' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:8: {...}? => ( 'G' | '.G' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:71: ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:71: ( 'G' | '.G' )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -386,14 +386,14 @@ public class EASSLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:72: 'G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:72: 'G'
                     {
                     match('G'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:78: '.G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:78: '.G'
                     {
                     match(".G"); 
 
@@ -421,8 +421,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:163:6: ({...}? => '.sent' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:163:8: {...}? => '.sent'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:6: ({...}? => '.sent' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:8: {...}? => '.sent'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
@@ -448,8 +448,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:164:6: ( '.lock' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:164:8: '.lock'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:6: ( '.lock' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:8: '.lock'
             {
             match(".lock"); 
 
@@ -471,8 +471,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = GOALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:165:7: ( ':Initial Goals:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:165:9: ':Initial Goals:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:7: ( ':Initial Goals:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:9: ':Initial Goals:'
             {
             match(":Initial Goals:"); 
 
@@ -496,8 +496,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEFS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:166:9: ( ':Initial Beliefs:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:166:11: ':Initial Beliefs:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:9: ( ':Initial Beliefs:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:11: ':Initial Beliefs:'
             {
             match(":Initial Beliefs:"); 
 
@@ -519,8 +519,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEFRULES;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:168:2: ( ':Belief Rules:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:168:4: ':Belief Rules:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:2: ( ':Belief Rules:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:4: ':Belief Rules:'
             {
             match(":Belief Rules:"); 
 
@@ -544,8 +544,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PLANS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:169:7: ( ':Plans:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:169:9: ':Plans:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:7: ( ':Plans:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:9: ':Plans:'
             {
             match(":Plans:"); 
 
@@ -567,8 +567,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:170:6: ({...}? => 'EASS' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:170:8: {...}? => 'EASS'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:6: ({...}? => 'EASS' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:8: {...}? => 'EASS'
             {
             if ( !((curly_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "EASS", "curly_nesting == 0");
@@ -594,8 +594,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:171:6: ( ':name:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:171:8: ':name:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:6: ( ':name:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:8: ':name:'
             {
             match(":name:"); 
 
@@ -617,8 +617,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ABSTRACTION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:173:2: ( ':abstraction:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:173:4: ':abstraction:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:2: ( ':abstraction:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:4: ':abstraction:'
             {
             match(":abstraction:"); 
 
@@ -640,8 +640,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:174:6: ({...}? => 'True' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:174:8: {...}? => 'True'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:6: ({...}? => 'True' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:8: {...}? => 'True'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -667,8 +667,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ACHIEVEGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:175:13: ({...}? => 'achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:175:15: {...}? => 'achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:13: ({...}? => 'achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:15: {...}? => 'achieve'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
@@ -694,8 +694,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PERFORMGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:176:13: ({...}? => 'perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:176:15: {...}? => 'perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:177:13: ({...}? => 'perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:177:15: {...}? => 'perform'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
@@ -721,8 +721,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BRULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:179:2: ( ':-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:179:4: ':-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:180:2: ( ':-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:180:4: ':-'
             {
             match(":-"); 
 
@@ -744,8 +744,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = RULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:180:11: ( '<-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:180:13: '<-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:11: ( '<-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:13: '<-'
             {
             match("<-"); 
 
@@ -767,8 +767,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EQ_ASSGN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:181:10: ( '=' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:181:12: '='
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:10: ( '=' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:12: '='
             {
             match('='); 
 
@@ -788,14 +788,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:5: ( '/*' ( . )* '*/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:7: '/*' ( . )* '*/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:235:5: ( '/*' ( . )* '*/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:235:7: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:12: ( . )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:235:12: ( . )*
             loop3:
             do {
                 int alt3=2;
@@ -820,7 +820,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:12: .
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:235:12: .
             	    {
             	    matchAny(); 
 
@@ -855,14 +855,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:12: (~ ( '\\n' | '\\r' ) )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:12: (~ ( '\\n' | '\\r' ) )*
             loop4:
             do {
                 int alt4=2;
@@ -875,7 +875,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
             	        input.consume();
@@ -896,7 +896,7 @@ public class EASSLexer extends Lexer {
             } while (true);
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:26: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:26: ( '\\r' )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -905,7 +905,7 @@ public class EASSLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:26: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:26: '\\r'
                     {
                     match('\r'); 
 
@@ -935,10 +935,10 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:8: ( ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:8: ( ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:9: ( '\\r' )? '\\n'
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:9: ( '\\r' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -947,7 +947,7 @@ public class EASSLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:9: '\\r'
                     {
                     match('\r'); 
 
@@ -977,10 +977,10 @@ public class EASSLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:5: ( ( ' ' | '\\t' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:5: ( ( ' ' | '\\t' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:9: ( ' ' | '\\t' )+
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:9: ( ' ' | '\\t' )+
             int cnt7=0;
             loop7:
             do {
@@ -994,7 +994,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1037,8 +1037,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:243:6: ( '(' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:243:9: '('
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:244:6: ( '(' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:244:9: '('
             {
             match('('); 
 
@@ -1060,8 +1060,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:244:7: ( ')' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:244:9: ')'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:7: ( ')' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:9: ')'
             {
             match(')'); 
 
@@ -1083,8 +1083,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SQOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:245:8: ( '[' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:245:10: '['
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:8: ( '[' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:10: '['
             {
             match('['); 
 
@@ -1106,8 +1106,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SQCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:246:9: ( ']' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:246:11: ']'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:9: ( ']' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:11: ']'
             {
             match(']'); 
 
@@ -1129,8 +1129,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CURLYOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:247:11: ( '{' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:247:13: '{'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:11: ( '{' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:13: '{'
             {
             match('{'); 
 
@@ -1152,8 +1152,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CURLYCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:248:12: ( '}' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:248:14: '}'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:12: ( '}' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:14: '}'
             {
             match('}'); 
 
@@ -1175,8 +1175,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = DOUBLEQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:250:2: ( '\"' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:250:4: '\"'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:251:2: ( '\"' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:251:4: '\"'
             {
             match('\"'); 
 
@@ -1198,8 +1198,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:252:5: ( '~' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:252:7: '~'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:5: ( '~' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:7: '~'
             {
             match('~'); 
 
@@ -1219,14 +1219,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             {
             if ( !((stringterm)) ) {
                 throw new FailedPredicateException(input, "STRING", "stringterm");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             int cnt8=0;
             loop8:
             do {
@@ -1240,7 +1240,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1281,8 +1281,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CONST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "CONST", "!stringterm");
@@ -1290,7 +1290,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('a','z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop9:
             do {
                 int alt9=2;
@@ -1303,7 +1303,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1340,8 +1340,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "VAR", "!stringterm");
@@ -1349,7 +1349,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('A','Z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop10:
             do {
                 int alt10=2;
@@ -1362,7 +1362,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1399,8 +1399,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:10: {...}? => '0' .. '9' ( '0' .. '9' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "NUMBER", "!stringterm");
@@ -1408,7 +1408,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('0','9'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:35: ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:35: ( '0' .. '9' )*
             loop11:
             do {
                 int alt11=2;
@@ -1421,7 +1421,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -1458,8 +1458,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:260:6: ( '<' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:260:8: '<'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:261:6: ( '<' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:261:8: '<'
             {
             match('<'); 
 
@@ -1479,8 +1479,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:261:4: ( '==' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:261:7: '=='
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:4: ( '==' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:7: '=='
             {
             match("=="); 
 
@@ -1502,8 +1502,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = POINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:262:7: ( '.' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:262:9: '.'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:7: ( '.' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:9: '.'
             {
             match('.'); 
 
@@ -1523,8 +1523,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MULT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:263:6: ( '*' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:263:8: '*'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:264:6: ( '*' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:264:8: '*'
             {
             match('*'); 
 
@@ -1544,8 +1544,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:264:6: ( '+' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:264:8: '+'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:6: ( '+' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:8: '+'
             {
             match('+'); 
 
@@ -1565,8 +1565,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:265:7: ( '-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:265:9: '-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:7: ( '-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:9: '-'
             {
             match('-'); 
 
@@ -1586,8 +1586,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:266:5: ( '/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:266:7: '/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:5: ( '/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:7: '/'
             {
             match('/'); 
 
@@ -1607,8 +1607,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MOD;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:267:5: ( '%' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:267:7: '%'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:5: ( '%' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:7: '%'
             {
             match('%'); 
 
@@ -1628,8 +1628,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SHRIEK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:269:8: ( '!' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:269:10: '!'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:8: ( '!' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:10: '!'
             {
             match('!'); 
 
@@ -1649,8 +1649,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:270:7: ( ',' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:270:9: ','
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:7: ( ',' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:9: ','
             {
             match(','); 
 
@@ -1670,8 +1670,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SEMI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:271:6: ( ';' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:271:8: ';'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:6: ( ';' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:8: ';'
             {
             match(';'); 
 
@@ -1691,8 +1691,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:272:7: ( ':' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:272:9: ':'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:7: ( ':' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:9: ':'
             {
             match(':'); 
 
@@ -1712,8 +1712,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = QUERY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:273:7: ( '?' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:273:9: '?'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:274:7: ( '?' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:274:9: '?'
             {
             match('?'); 
 
@@ -1729,12 +1729,12 @@ public class EASSLexer extends Lexer {
     // $ANTLR end "QUERY"
 
     public void mTokens() throws RecognitionException {
-        // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
+        // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
         int alt12=55;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:10: UPDATE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: UPDATE
                 {
                 mUPDATE(); 
 
@@ -1742,7 +1742,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:17: TELL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:17: TELL
                 {
                 mTELL(); 
 
@@ -1750,7 +1750,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:22: PERFORM
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:22: PERFORM
                 {
                 mPERFORM(); 
 
@@ -1758,7 +1758,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
                 {
                 mACHIEVE(); 
 
@@ -1766,7 +1766,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:38: SEND
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:38: SEND
                 {
                 mSEND(); 
 
@@ -1774,7 +1774,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:43: RECEIVED
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:43: RECEIVED
                 {
                 mRECEIVED(); 
 
@@ -1782,7 +1782,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:52: CALCULATE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:52: CALCULATE
                 {
                 mCALCULATE(); 
 
@@ -1790,7 +1790,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
                 {
                 mQUERYCOM(); 
 
@@ -1798,7 +1798,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:71: WAIT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:71: WAIT
                 {
                 mWAIT(); 
 
@@ -1806,7 +1806,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:76: BELIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:76: BELIEVE
                 {
                 mBELIEVE(); 
 
@@ -1814,7 +1814,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:84: GOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:84: GOAL
                 {
                 mGOAL(); 
 
@@ -1822,7 +1822,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:89: SENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:89: SENT
                 {
                 mSENT(); 
 
@@ -1830,7 +1830,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:94: LOCK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:94: LOCK
                 {
                 mLOCK(); 
 
@@ -1838,7 +1838,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:99: GOALS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:99: GOALS
                 {
                 mGOALS(); 
 
@@ -1846,7 +1846,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:105: BELIEFS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:105: BELIEFS
                 {
                 mBELIEFS(); 
 
@@ -1854,7 +1854,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:113: BELIEFRULES
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:113: BELIEFRULES
                 {
                 mBELIEFRULES(); 
 
@@ -1862,7 +1862,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 17 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:125: PLANS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:125: PLANS
                 {
                 mPLANS(); 
 
@@ -1870,7 +1870,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 18 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:131: EASS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:131: EASS
                 {
                 mEASS(); 
 
@@ -1878,7 +1878,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:136: NAME
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:136: NAME
                 {
                 mNAME(); 
 
@@ -1886,7 +1886,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 20 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:141: ABSTRACTION
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:141: ABSTRACTION
                 {
                 mABSTRACTION(); 
 
@@ -1894,7 +1894,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 21 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:153: TRUE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:153: TRUE
                 {
                 mTRUE(); 
 
@@ -1902,7 +1902,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 22 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:158: ACHIEVEGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:158: ACHIEVEGOAL
                 {
                 mACHIEVEGOAL(); 
 
@@ -1910,7 +1910,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 23 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:170: PERFORMGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:170: PERFORMGOAL
                 {
                 mPERFORMGOAL(); 
 
@@ -1918,7 +1918,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 24 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:182: BRULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:182: BRULEARROW
                 {
                 mBRULEARROW(); 
 
@@ -1926,7 +1926,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 25 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:193: RULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:193: RULEARROW
                 {
                 mRULEARROW(); 
 
@@ -1934,7 +1934,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 26 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:203: EQ_ASSGN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:203: EQ_ASSGN
                 {
                 mEQ_ASSGN(); 
 
@@ -1942,7 +1942,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 27 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:212: COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:212: COMMENT
                 {
                 mCOMMENT(); 
 
@@ -1950,7 +1950,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 28 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:220: LINE_COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:220: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
@@ -1958,7 +1958,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 29 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:233: NEWLINE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:233: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -1966,7 +1966,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 30 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:241: WS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:241: WS
                 {
                 mWS(); 
 
@@ -1974,7 +1974,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 31 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:244: OPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:244: OPEN
                 {
                 mOPEN(); 
 
@@ -1982,7 +1982,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 32 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:249: CLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:249: CLOSE
                 {
                 mCLOSE(); 
 
@@ -1990,7 +1990,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 33 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:255: SQOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:255: SQOPEN
                 {
                 mSQOPEN(); 
 
@@ -1998,7 +1998,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 34 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:262: SQCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:262: SQCLOSE
                 {
                 mSQCLOSE(); 
 
@@ -2006,7 +2006,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 35 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:270: CURLYOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:270: CURLYOPEN
                 {
                 mCURLYOPEN(); 
 
@@ -2014,7 +2014,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 36 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:280: CURLYCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:280: CURLYCLOSE
                 {
                 mCURLYCLOSE(); 
 
@@ -2022,7 +2022,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 37 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:291: DOUBLEQUOTE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:291: DOUBLEQUOTE
                 {
                 mDOUBLEQUOTE(); 
 
@@ -2030,7 +2030,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 38 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:303: NOT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:303: NOT
                 {
                 mNOT(); 
 
@@ -2038,7 +2038,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 39 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:307: STRING
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:307: STRING
                 {
                 mSTRING(); 
 
@@ -2046,7 +2046,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 40 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:314: CONST
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:314: CONST
                 {
                 mCONST(); 
 
@@ -2054,7 +2054,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 41 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:320: VAR
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:320: VAR
                 {
                 mVAR(); 
 
@@ -2062,7 +2062,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 42 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:324: NUMBER
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:324: NUMBER
                 {
                 mNUMBER(); 
 
@@ -2070,7 +2070,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 43 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:331: LESS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:331: LESS
                 {
                 mLESS(); 
 
@@ -2078,7 +2078,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:336: EQ
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:336: EQ
                 {
                 mEQ(); 
 
@@ -2086,7 +2086,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 45 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:339: POINT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:339: POINT
                 {
                 mPOINT(); 
 
@@ -2094,7 +2094,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 46 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:345: MULT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:345: MULT
                 {
                 mMULT(); 
 
@@ -2102,7 +2102,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 47 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:350: PLUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:350: PLUS
                 {
                 mPLUS(); 
 
@@ -2110,7 +2110,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 48 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:355: MINUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:355: MINUS
                 {
                 mMINUS(); 
 
@@ -2118,7 +2118,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 49 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:361: DIV
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:361: DIV
                 {
                 mDIV(); 
 
@@ -2126,7 +2126,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 50 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:365: MOD
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:365: MOD
                 {
                 mMOD(); 
 
@@ -2134,7 +2134,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 51 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:369: SHRIEK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:369: SHRIEK
                 {
                 mSHRIEK(); 
 
@@ -2142,7 +2142,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 52 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:376: COMMA
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:376: COMMA
                 {
                 mCOMMA(); 
 
@@ -2150,7 +2150,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 53 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:382: SEMI
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:382: SEMI
                 {
                 mSEMI(); 
 
@@ -2158,7 +2158,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 54 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:387: COLON
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:387: COLON
                 {
                 mCOLON(); 
 
@@ -2166,7 +2166,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 55 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:393: QUERY
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:393: QUERY
                 {
                 mQUERY(); 
 

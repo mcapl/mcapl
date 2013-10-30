@@ -252,11 +252,11 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 	static {drop_line.addTerm(line);
 		drop_square.addTerm(square);
 	}
-	static Literal new_instruction_dline = new Literal("new_instruction");
-	static Literal new_instruction_dsquare = new Literal("new_instruction");
-	static {new_instruction_dline.addTerm(drop_line);
-		new_instruction_dsquare.addTerm(drop_square);
-	}
+//	static Literal new_instruction_dline = new Literal("new_instruction");
+//	static Literal new_instruction_dsquare = new Literal("new_instruction");
+//	static {new_instruction_dline.addTerm(drop_line);
+//		new_instruction_dsquare.addTerm(drop_square);
+//	}
 	
 	static Literal send_pos_ag1 = new Literal("send_position");
 	static Literal send_pos_ag2 = new Literal("send_position");
@@ -310,8 +310,8 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 				boolean send_bottomleft = false;
 				boolean send_bottomright = false;
 				boolean send_none = false;
-				boolean newins_line = false;
-				boolean newins_square = false;
+				//boolean newins_line = false;
+				//boolean newins_square = false;
 				boolean dropline = false;
 				boolean dropsquare = false;
 
@@ -347,20 +347,22 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 					}
 				}
 				
-				if (testing_thrusters) {
+			/*	if (testing_thrusters & !changing_formations) {
 					if (formation_line) {
-						newins_line = random.nextBoolean();
-						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 new_instruction(drop_formation(line)): " + newins_line);
+						dropline = random.nextBoolean();
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(line): " + dropline);
 					}
 					if (formation_square) {
-						newins_square = random.nextBoolean();
+						dropsquare = random.nextBoolean();
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(square): " + dropsquare);
 					}
-				}
+				} */
 				
 				if (changing_formations) {
 					dropline = random.nextBoolean();
-					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(line): " + drop_line);
+					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(line): " + dropline);
 					dropsquare = random.nextBoolean();
+					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(square): " + dropsquare);
 				}
 										
 				if (send_start_line) {
@@ -403,14 +405,14 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 					Message msg = new Message(1, "aglead", "ag1", none_pos);
 					messages.add(msg);
 				}
-				if (newins_line) {
+/*				if (newins_line) {
 					Message msg = new Message(1, "aglead", "ag1", new_instruction_dline);
 					messages.add(msg);
 				}
 				if (newins_square) {
 					Message msg = new Message(1, "aglead", "ag1", new_instruction_dsquare);
 					messages.add(msg);
-				}
+				} */
 				if (dropline) {
 					Message msg = new Message(2, "aglead", "ag1", drop_line);
 					messages.add(msg);
@@ -589,12 +591,12 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 broken z: " + ag1_broken_z);
 					}
 					ag1_tl_1x = random.nextBoolean();
-					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(x, 1, 1): " + ag1_tl_1x);
+					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(x, 1): " + ag1_tl_1x);
 					if (allthrusters) {
 						ag1_tl_1y = random.nextBoolean();
-						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(y, 1, 1): " + ag1_tl_1y);
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(y, 1): " + ag1_tl_1y);
 						ag1_tl_1z = random.nextBoolean();
-						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_bank_line(z, 1, 1): " + ag1_tl_1z);
+						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(z, 1): " + ag1_tl_1z);
 					}
 				}
 			}
@@ -689,7 +691,9 @@ public class LEOVerificationEnvironment extends DefaultEASSEnvironment {
     	lastAgent = agName;
     	lastAction = act;
 	   	
-    	change_for(agName);
+    	if (!act.getFunctor().equals("remove_shared")) {
+    		change_for(agName);
+    	}
  	   		   	 
     	return theta;
     }

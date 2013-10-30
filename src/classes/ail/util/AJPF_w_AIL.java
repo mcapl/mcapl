@@ -47,6 +47,10 @@ public class AJPF_w_AIL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		  if (AJPFLogger.ltFine(logname)) {
+			  AJPFLogger.fine(logname, "Entering Main in AJPF_w_AIL");
+		  }
+
 		run(args);
 	}
 	

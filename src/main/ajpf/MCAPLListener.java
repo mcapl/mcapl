@@ -26,13 +26,13 @@ package ajpf;
 
 import gov.nasa.jpf.PropertyListenerAdapter;
 import gov.nasa.jpf.search.Search;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.MethodInfo;
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.Types;
-import gov.nasa.jpf.jvm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.MethodInfo;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.Types;
+import gov.nasa.jpf.vm.Heap;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
@@ -94,8 +94,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	 * (non-Javadoc)
 	 * @see gov.nasa.jpf.PropertyListenerAdapter#classLoaded(gov.nasa.jpf.jvm.JVM)
 	 */
-	public void classLoaded (JVM vm){
-		ClassInfo ci = vm.getLastClassInfo();
+	public void classLoaded (VM vm, ClassInfo ci){
 		// We particularly want to intercept the createAutomaton method so we save the method
 		// info for quick look up later.
 		if (ci.getName().equals("ajpf.MCAPLSpec")){
@@ -109,10 +108,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	 * (non-Javadoc)
 	 * @see gov.nasa.jpf.PropertyListenerAdapter#methodEntered(gov.nasa.jpf.jvm.JVM)
 	 */
-   public void methodEntered(JVM vm) {
-		JVM jvm = vm;
-		// Get instruction and execution thread.
-		MethodInfo mi = vm.getLastMethodInfo();
+   public void methodEntered(VM vm, ThreadInfo ti, MethodInfo mi) {
 		
 		// We intercept the create automaton method in the JVM - we're going to do all the automaton 
 		// creating stuff natively.
@@ -127,7 +123,6 @@ public class MCAPLListener extends PropertyListenerAdapter {
        		
       		
       		// Get a reference for the specification (the class that callde createAutomaton) held in the JVM
-    		ThreadInfo ti = jvm.getLastThreadInfo();
            	int objref = ti.getThis();
        		specRef = objref;
        		ElementInfo ei = vm.getElementInfo(specRef);
@@ -144,10 +139,10 @@ public class MCAPLListener extends PropertyListenerAdapter {
        		int index = 0;
     		Heap heap = vm.getHeap();
     	    String elementClsName = Types.getTypeSignature("ajpf.psl.MCAPLProperty", false);
-    	    int arrayRef = heap.newArray(elementClsName, props.size(), ti);
+    	    ElementInfo array_ei = heap.newArray(elementClsName, props.size(), ti);
+    	    int arrayRef = array_ei.getObjectRef();
     		ei.setReferenceField("propArray", arrayRef);
-    		ElementInfo array_ei = vm.getElementInfo(arrayRef);
-    		for (Proposition p: props) {
+     		for (Proposition p: props) {
     			if (p instanceof Native_Proposition) {
     				Native_Proposition p1 = (Native_Proposition) p;
     				int propRef = p1.createInJPF(vm);
@@ -166,7 +161,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
     * (non-Javadoc)
     * @see gov.nasa.jpf.PropertyListenerAdapter#check(gov.nasa.jpf.search.Search, gov.nasa.jpf.jvm.JVM)
     */
-	 public boolean check (Search search, JVM vm) {
+	 public boolean check (Search search, VM vm) {
 			 log.finer("checking " + search.getStateId());
 			 log.finer(" is ignored " + search.isIgnoredState());
 			 log.finer(" transition occured " + vm.transitionOccurred());

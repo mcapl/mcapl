@@ -30,8 +30,10 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import ail.syntax.ast.Abstract_MAS;
 
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ClinitRequired;
+import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ClinitRequired;
+import gov.nasa.jpf.vm.NativePeer;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
@@ -40,8 +42,9 @@ import gwendolen.parser.GwendolenParser;
  * @author louiseadennis
  *
  */
-public class JPF_gwendolen_GwendolenMASBuilder {
+public class JPF_gwendolen_GwendolenMASBuilder extends NativePeer {
 	
+	  @MJI
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
 	   	GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(masstring));

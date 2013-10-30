@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_allthrusters.ail,src/examples/eass/verification/leo/satellite.psl,18
+target.args =src/examples/eass/verification/leo/satellite_allthrusters.ail,src/examples/eass/verification/leo/satellite.psl,18
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -57,3 +57,38 @@ vm.max_transition_length = MAX
 // loaded code:        classes=338, methods=4508
 // 
 // ====================================================== search finished: 4/2/13 6:25 PM
+
+// 22nd August 2013 -- NB.  Overgeneration of states still - now ticket 22
+// [INFO] Number of States in Product Automata: 312353
+// ----------------------------------- search finished
+// 
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       13:51:35
+// states:             new=131442, visited=131326, backtracked=262768, end=112
+// search:             maxDepth=46, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=131440
+// heap:               new=2783767723, released=2769464559, max live=113775, gc-cycles=262768
+// instructions:       279239134903
+// max memory:         837MB
+// loaded code:        classes=360, methods=4886
+// 
+// ====================================================== search finished: 8/22/13 6:51 AM
+
+// 9th Sept 2013 -- Code has changed but my intuition is that the overgeneration of states is fixed.
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       01:18:42
+// states:             new=16609, visited=16575, backtracked=33184, end=32
+// search:             maxDepth=33, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=16608
+// heap:               new=259345967, released=258866326, max live=92627, gc-cycles=33184
+// instructions:       25873882142
+// max memory:         165MB
+// loaded code:        classes=359, methods=4869
+// 
+// ====================================================== search finished: 9/9/13 3:34 PM

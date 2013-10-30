@@ -26,14 +26,14 @@
   <property file="${user.home}/.jpf/site.properties"/>
 
   <!-- if there is none, default to a 'jpf-core' peer dir -->
-  <property name="jpf-core" value = "../jpf-core"/>
+  <!-- <property name="jpf-core" value = "../jpf-core"/> -->
 
   <!-- get the jpf-core path properties -->
-  <property file="${jpf-core}/jpf.properties"/>
+  <!-- <property file="${jpf-core}/jpf.properties"/> -->
 
 
   <!-- compiler settings -->
-  <property name="src_level"     value="6"/>
+  <property name="src_level"     value="7"/>
   <property name="debug"         value="on"/>
   <property name="deprecation"   value="on"/>
 
@@ -56,12 +56,12 @@
     <fileset dir=".">
   	    <include name="lib/3rdparty/pccomm.jar"/>
   	    <include name="lib/3rdparty/bluecove.jar"/>
-  	    <include name="lib/3rdparty/jpf.jar"/>
+  		<include name="lib/3rdparty/jpf.jar"/> 
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
    </fileset>
 
     <!-- add in what we need from the core -->
-    <pathelement path="${jpf-core.native_classpath}"/>
+    <!-- <pathelement path="${jpf-core.native_classpath}"/> -->
 
   </path>
 

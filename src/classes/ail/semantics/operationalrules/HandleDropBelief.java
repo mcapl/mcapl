@@ -82,7 +82,7 @@ public class HandleDropBelief extends HandleBelief {
 			}
 		}
 		
-		i.tlI();
+		i.tlI(a);
 		i.compose(thetahd);
 	}
 }

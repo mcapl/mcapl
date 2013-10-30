@@ -26,8 +26,8 @@ package ajpf.psl.ast;
 
 import ajpf.MCAPLmas;
 
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.ElementInfo;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.ElementInfo;
 
 import ajpf.psl.ast.Abstract_Formula;
 
@@ -114,11 +114,11 @@ public class NativeLastAction extends Native_Proposition {
 		return "ajpf.psl.ast.Abstract_LastAction";
 	}
 	
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		int objref = super.createInJPF(vm);
 		ElementInfo ei = vm.getElementInfo(objref);
 		ei.setReferenceField("action", action.createInJPF(vm));
-		ei.setReferenceField("agent", vm.getHeap().newString(agent, vm.getLastThreadInfo()));
+		ei.setReferenceField("agent", vm.getHeap().newString(agent, vm.getCurrentThread()).getObjectRef());
 		return objref;
 	}
 

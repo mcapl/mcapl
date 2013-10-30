@@ -387,6 +387,25 @@ public class LogExpr implements LogicalFormula {
     	}
     }
 
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable t, Unifier u) {
+    	if (t instanceof LogExpr) {
+    		LogExpr le = (LogExpr) t;
+    		if (le.getOp().equals(getOp())) {
+    			boolean result = getRHS().matchNG(le.getRHS(), u);
+    			if (!isUnary() && result) {
+    				result = getLHS().matchNG(le.getLHS(), u);
+    				return result;
+    			}
+    		}
+    		return false;
+    	} else {
+    		return false;
+    	}
+    }
         
     /*
      * (non-Javadoc)

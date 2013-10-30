@@ -135,9 +135,11 @@ wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = term COM
 				
 brule returns [Abstract_Rule r] : head=guard_atom (BRULEARROW f=logicalfmla {$r = new Abstract_Rule($head.g, $f.f);} SEMI | SEMI {$r = new Abstract_Rule($head.g);});
 
-logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}| a=andfmla {$f = $a.f;};
-notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf = logicalfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);} CLOSE;
-andfmla returns [Abstract_LogicalFormula f] : gb = guard_atom {$f = $gb.g;} (COMMA and=logicalfmla {$f = new Abstract_LogExpr($gb.g, Abstract_LogExpr.and, $and.f);})?;
+logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
+               (COMMA (n2=notfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $n2.f);} | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla returns [Abstract_LogicalFormula f] : gb = guard_atom {$f = $gb.g;} | 
+                                                                              NOT (gb2 = guard_atom {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $gb2.g);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+subfmla returns [Abstract_LogicalFormula f] : SQOPEN lf = logicalfmla {$f = $lf.f;} SQCLOSE;
 	
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 

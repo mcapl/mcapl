@@ -208,6 +208,45 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      	
       }
 
+     /**
+      * Matches two unifiable things.  Although the first isn't necessarily ground
+      * unification can be applied just to the second.
+      * @param t1g
+      * @param t2g
+      * @return
+      */
+      public boolean matchesNG(Unifiable t1g, Unifiable t2g) {
+           
+      	if (t1g instanceof Event && t2g instanceof Event) {
+      		Event e1 = (Event) t1g;
+      		Event e2 = (Event) t2g;
+      		
+      		return e1.matchNG(e2, this);
+      		
+          } else if (t1g instanceof Deed && t2g instanceof Deed) {
+          	Deed d1 = (Deed) t1g;
+          	Deed d2 = (Deed) t2g;
+          	
+          	return d1.matchNG(d2, this);
+          	
+          }	else if (t1g instanceof Goal && t2g instanceof Goal) {
+  			Goal g1 = (Goal) t1g;
+  			Goal g2 = (Goal) t2g;
+  			
+  			return g1.matchNG(g2, this);
+  		} else if (t1g instanceof PredicatewAnnotation && t2g instanceof PredicatewAnnotation) {
+      		PredicatewAnnotation np1 = (PredicatewAnnotation)t1g;
+      		PredicatewAnnotation np2 = (PredicatewAnnotation)t2g;
+      		
+      		return np1.matchNG(np2, this);
+   
+      	} else {
+      		Term tt1 = (Term) t1g;
+      		Term tt2 = (Term) t2g;
+      		return (matchTermsNG(tt1, tt2));
+      	}
+      	
+       }
 
     
     // ----- Unify for Terms
@@ -655,6 +694,159 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
    // 	}
    // 	return u;
   //  }
+    
+    /**
+     * Unify two logical terms.  We assume t1g is not to be unified but may contain variables.
+     * @param t1g
+     * @param t2g
+     * @return
+     */
+    public boolean matchTermsNG(Term t1g, Term t2g) {
+
+          // if args are expressions, apply them and use their values
+        if (t2g.isArithExpr()) {
+            t2g = (Term) t2g.clone();
+            t2g.apply(this);
+        }
+
+        // both are vars
+        if (t1g.isVar() && t2g.isVar()) {
+            VarTerm t1gv = (VarTerm) t1g;
+            VarTerm t2gv = (VarTerm) t2g;
+            
+            // get their values
+            Term t1vl = function.get(t1gv);
+            Term t2vl = function.get(t2gv);
+
+            // if the variable value is a var cluster, it means it has no value
+            if (t1vl instanceof VarsCluster)
+                t1vl = null;
+            if (t2vl instanceof VarsCluster)
+                t2vl = null;
+
+            // both have value, their values should unify
+            if (t1vl != null && t2vl != null) {
+                return matchesNG(t1vl, t2vl);
+            }
+            // only t1 has value, t1's value should unify with var t2
+            if (t1vl != null) {
+                return false;
+            }
+            // only t2 has value, t2's value should unify with var t1
+            if (t2vl != null) {
+                return matchesNG(t1gv, t2vl);
+            }
+
+            // both are var (not unnamedvar) with no value, like X=Y
+            // we must ensure that these vars will form a cluster
+            if (! t1gv.isUnnamedVar() && ! t2gv.isUnnamedVar()) {
+            	VarTerm t1c = (VarTerm) t1gv.clone();
+                VarTerm t2c = (VarTerm) t2gv.clone();
+                VarsCluster cluster = new VarsCluster(t1c, t2c, this);
+                if (cluster.hasValue()) {
+                    // all vars of the cluster should have the same value
+                    for (VarTerm vtc : cluster) {
+                        function.put(vtc, cluster);
+                    }
+                }
+            }
+            return true;
+        }
+
+        // t1 is var that doesn't occur in t2
+        if (t1g.isVar()) {
+            VarTerm t1gv = (VarTerm) t1g;
+            // if t1g is not free, must unify values
+            Term t1vl = function.get(t1gv);
+            if (t1vl != null && !(t1vl instanceof VarsCluster)) {
+                return t1vl.equals(t2g);
+            } else if (!t2g.hasVar(t1g)) {
+                return false;
+            }
+            return false;
+        }
+
+
+        // t2 is var that doesn't occur in t1
+        if (t2g.isVar()) {
+            VarTerm t2gv = (VarTerm) t2g;
+            // if t1g is not free, must unify values
+            Term t2vl = function.get(t2gv);
+            if (t2vl != null && !(t2vl instanceof VarsCluster)) {
+                return matchesNG(t1g, t2vl);
+            } else {
+                return setVarValue(t2gv, t1g);
+            } 
+        }
+
+        // both terms are not vars
+        
+        // if any of the terms is not a structure (is a number or a
+        // string), they must be equal
+        if (!t1g.isPredicate() || !t2g.isPredicate()) {
+         	return t1g.equals(t2g);
+        	
+        }
+
+        // both terms are structures
+
+        // if both are literal, they must have the same negated
+        if (t1g.isLiteral() && t2g.isLiteral() && ((Literal)t1g).negated() != ((Literal)t2g).negated()) {
+        	return false;
+        }
+        	
+        // if one term is literal and the other not, the literal should not be negated
+        if (t1g.isLiteral() && !t2g.isLiteral() && ((Literal)t1g).negated()) {
+        	return false;
+        }
+        if (t2g.isLiteral() && !t1g.isLiteral() && ((Literal)t2g).negated()) {
+        	return false;
+        }
+        
+        // if the first term is a predicate and the second not, the first should not have annots 
+        if (t1g.hasAnnotation() && !t2g.hasAnnotation() && ((PredicatewAnnotation)t1g).hasAnnot()) {
+        	return false;
+        }
+        
+        // if both are predicates, the first's annots must be subset of the second's annots
+        if (t1g.hasAnnotation() && t2g.hasAnnotation()) {
+        	PredicatewAnnotation pwa1 = (PredicatewAnnotation) t1g;
+           	PredicatewAnnotation pwa2 = (PredicatewAnnotation) t2g;
+           	if (pwa1.hasAnnot() && pwa2.hasAnnot()) {
+           		if ( ! ((PredicatewAnnotation)t1g).getAnnot().compatibleAnnotations(((PredicatewAnnotation)t2g).getAnnot(), this)) {
+           			return false;
+           		}
+        	}
+        }
+        
+         
+        Predicate t1s = (Predicate)t1g;
+        Predicate t2s = (Predicate)t2g;
+        
+        // different arities
+        if ((t1s.getTerms() == null && t2s.getTerms() != null) || (t1s.getTerms() != null && t2s.getTerms() == null)) {
+            return false;
+        }
+        if (t1s.getTermsSize() != t2s.getTermsSize()) {
+            return false;
+        }
+        
+        // different functor
+        if (t1s.getFunctor() != null && !t1s.getFunctor().equals(t2s.getFunctor())) {
+            return false;
+        }
+    
+        // unify inner terms
+        // do not use iterator! (see ListTermImpl class)
+        final int ts = t1s.getTermsSize();
+        for (int i = 0; i < ts; i++) {
+            if (!matchesNG(t1s.getTerm(i), t2s.getTerm(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     
     /**
      * This unifier contians the following variable name.

@@ -34,7 +34,9 @@ import ajpf.MCAPLcontroller;
 import mcaplantlr.runtime.CommonTokenStream;
 import mcaplantlr.runtime.ANTLRStringStream;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.NativePeer;
 
 /**
  * Interface for formulas in the MCAPL Property Specification Language.
@@ -42,9 +44,10 @@ import gov.nasa.jpf.jvm.MJIEnv;
  * @author louiseadennis
  *
  */
-public class JPF_ajpf_psl_ast_Property_AST {
+public class JPF_ajpf_psl_ast_Property_AST extends NativePeer {
 //	static Abstract_Property property;
 		
+	  @MJI
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int propertyRef) {
 		String propertystring = env.getStringObject(propertyRef);
 		A_PSLLexer psllexer = new A_PSLLexer(new ANTLRStringStream(propertystring));

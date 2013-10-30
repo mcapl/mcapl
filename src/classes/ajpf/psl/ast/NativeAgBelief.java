@@ -28,11 +28,12 @@ import ajpf.MCAPLAgent;
 import ajpf.MCAPLcontroller;
 import ajpf.psl.ast.Abstract_Formula;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.Heap;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.Heap;
 
 
 /**
@@ -118,11 +119,11 @@ public class NativeAgBelief extends Native_Proposition {
 	}
 	
 	
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		int objref = super.createInJPF(vm);
 		ElementInfo ei = vm.getElementInfo(objref);
 		ei.setReferenceField("fmla", fmla.createInJPF(vm));
-		ei.setReferenceField("agent", vm.getHeap().newString(agent, vm.getLastThreadInfo()));
+		ei.setReferenceField("agent", vm.getHeap().newString(agent, vm.getCurrentThread()).getObjectRef());
 		return objref;
 	}
 	

@@ -439,6 +439,8 @@ public class MCAPLmodel {
 				s += "-->";
 				s += to;
 				s += "\n";
+				return s;
+		 	case Promela:
 		 }
 		 return s;
 	}

@@ -1,0 +1,92 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+
+:abstraction: car
+
+:Initial Beliefs:
+
+// yards
+preferred_distance_to_exit(300)
+overtaking_at(200)
+
+:Initial Goals:
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;
++.received(:perform, G): {True} <- +!G [perform];
+
++lane(0) : {~B changing_lane} <- assert_shared(in_leftmost_lane);
++lane(I) : {~B changing_lane, B rightmost_lane(I)} <- assert_shared(in_rightmost_lane);
+-lane(0) : {B in_leftmost_lane} <- remove_shared(in_leftmost_lane);
+-lane(K) : {B rightmost_lane(K), B in_rightmost_lane} <- remove_shared(in_rightmost_lane);
+
+-changing_lane : {B lane(0)} <- assert_shared(in_leftmost_lane), assert_shared(changed_lane);
+-changing_lane : {B lane(K), B rightmost_lane(K)} <- assert_shred(in_rightmost_lane), assert_shared(changed_lane);
+-changing_lane : {True} <- assert_shared(changed_lane);
+
++at_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(at_exit);
+-at_exit_ramp(I): {B chosen_exit(I)} <- remove_shared(at_exit);
+
++on_exit_ramp(I): {B chosen_exit(I)} <- assert_shared(leaving_at_chosen_exit);
++distance_to_next_exit(E, X): {B chosen_exit(E), B preferred_distance_to_exit(N), X < N, ~B chosen_exit_approaching} <- assert_shared(chosen_exit_approaching);
+
++safe_in_lane: {~B safe} <- assert_shared(safe);
++safe_in_right_lane : {~B safe_right} <- assert_shared(safe_right);
++safe_in_left_lane : {~B safe_left} <- assert_shared(safe_left);
+-safe_in_lane: {B safe} <- remove_shared(safe);
+-safe_in_right_lane : {B safe_right} <- remove_shared(safe_right);
+-safe_in_left_lane : {B safe_left} <- remove_shared(safe_left);
+
++car(D) : {B overtaking_at(K), ~B car_ahead_in_lane, D < K} <- assert_shared(car_ahead_in_lane);
++car(D) : {B overtaking_at(K), B car_ahead_in_lane, K < D} <- remove_shared(car_ahead_in_lane);
+-car(D): {B car_ahead_in_lane} <- remove_shared(car_ahead_in_lane);
++left_car(D) : {B overtaking_at(K), ~B car_ahead_in_left_lane, D < K} <- assert_shared(car_ahead_in_left_lane);
++left_car(D) : {B overtaking_at(K), B car_ahead_in_left_lane, K < D} <- remove_shared(car_ahead_in_left_lane);
+-left_car(D) : {B car_ahead_in_left_lane} <- remove_shared(car_ahead_in_left_lane);
+
++speed(S) : {B speed_limit(Y), ~B above_speed_limit, Y < S} <- assert_shared(at_speed_limit);
++speed(S) : {B speed_limit(Y), B above_speed_limit, S < Y} <- remove_shared(at_speed_limit);
+
++acceleration_pedal(A) : {True} <- assert_shared(driver_accelerates);
++brake_pedal(B) : {True} <- assert_shared(driver_brakes);
+-acceleration_pedal(A) : {True} <- remove_shared(driver_accelerates);
+-brake_pedal(B) : {True} <- remove_shared(driver_brakes);
+
++! exit_motorway [perform]: {B at_exit_ramp(I), B in_leftmost_lane} <- 	move_onto_ramp,
+	*on_exit_ramp(I),
+	remove_shared(at_exit),
+	remove_shared(in_leftmost_lane);
++! change_right [perform]: {B lane(I)} <-
+    sum(I, 1, J),
+	move_lane(J);
++! change_left [perform]: {B lane(I)} <-
+    minus(I, 1, J),
+    move_lane(J);
++! brake [perform]: {B brake_pedal(B)} <- brake(B);
++! accelerate [perform]: {B acceleration_pedal(A)} <- accelerate(A);
++! brake [perform]: {~B brake_pedal(B)} <- braking;
++! accelerate [perform]: {~B acceleration_pedal(A)} <- accelerating;
++! maintain_speed [perform] : {True} <- accelerate(0);
