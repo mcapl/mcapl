@@ -61,12 +61,12 @@ public class HandleAddBelief extends HandleBelief {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		i.tlI();
+		i.tlI(a);
 		thetahd.compose(thetab);
 		i.compose(thetahd);
 		b.apply(thetahd);
 		
-		if (i.getSource().equals(AILAgent.refertopercept())) {
+		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty()) {
 			a.addBel(b, i.getSource(), topdeed.getDBnum());
 		} else {
 			a.addBel(b, AILAgent.refertoself(), topdeed.getDBnum());

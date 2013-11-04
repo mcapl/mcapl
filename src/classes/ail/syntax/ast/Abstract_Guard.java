@@ -27,8 +27,9 @@ package ail.syntax.ast;
 import ail.syntax.Guard;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -220,7 +221,7 @@ public class Abstract_Guard {
 	 * @return
 	 */
 	public int newJPFObject(MJIEnv env) {
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ail.syntax.ast.Abstract_Guard");
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_Guard");
 		if (env.requiresClinitExecution(ci)) {
 			env.repeatInvocation();
 			return 0;

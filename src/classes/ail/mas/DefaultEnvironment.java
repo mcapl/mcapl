@@ -319,12 +319,12 @@ public class DefaultEnvironment implements AILEnv {
      * @see ail.others.AILEnv#getMessages(java.lang.String)
      */
     public Set<Message> getMessages(String agName) {
-     	if (agMessages.get(agName).isEmpty()) {
-			return new HashSet<Message>();
+    	if (agMessages.get(agName).isEmpty()) {
+			return new VerifySet<Message>();
 		}
 
     	Set<Message> agl = agMessages.get(agName);
-     	HashSet<Message> p = new HashSet<Message>();
+     	VerifySet<Message> p = new VerifySet<Message>();
 		
     	if (agl != null) {
     		p.addAll(agl);
@@ -391,8 +391,7 @@ public class DefaultEnvironment implements AILEnv {
   	 * @see ail.mas.AILEnv#agentIsUpToDate(java.lang.String)
   	 */
   	public boolean agentIsUpToDate(String agName) {
-  		boolean answer = uptodateAgs.contains(agName);
-  		return answer;
+  		return (uptodateAgs.contains(agName) && agMessages.get(agName).isEmpty());
   	}
 
 
@@ -411,7 +410,36 @@ public class DefaultEnvironment implements AILEnv {
   		return false;
 	}
 	
+
   	/**
+  	 * Remove a percept that unifies with the one given.
+  	 * @param per
+  	 * @return
+  	 */
+	public boolean removeUnifiesPercept(String agName, Predicate per) {
+		boolean b = false;
+		Predicate rper = null;
+		if (per != null && agName != null) {
+			VerifySet<Predicate> agl = agPercepts.get(agName);
+			if (agl != null) {
+				uptodateAgs.remove(agName);
+				for (Predicate p: agl) {
+					if (p.unifies(per, new Unifier())) {
+						rper = p;
+					}
+				}
+				
+				if (rper != null) {
+					notifyListeners(agName);
+					b = agl.remove(rper);
+				}
+			return b;
+			}
+		} 
+		return false;
+	}
+
+	/**
   	 * Remove a percept that unifies with the one given.
   	 * @param per
   	 * @return

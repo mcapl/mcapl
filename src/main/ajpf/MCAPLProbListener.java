@@ -25,11 +25,11 @@
 package ajpf;
 
 import gov.nasa.jpf.search.Search;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.MethodInfo;
-import gov.nasa.jpf.jvm.ClassInfo;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.MethodInfo;
+import gov.nasa.jpf.vm.ClassInfo;
 
 import ajpf.product.ProbabilisticModel;
 import ajpf.product.Product;
@@ -57,23 +57,21 @@ public class MCAPLProbListener extends MCAPLListener {
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLListener#classLoaded(gov.nasa.jpf.jvm.JVM)
 	 */
-	public void classLoaded (JVM vm){
-		ClassInfo ci = vm.getLastClassInfo();
+	public void classLoaded (VM vm, ClassInfo ci){
 		if (ci.getName().equals("ajpf.util.Choice")) {
 			michoose = ci.getMethod("choose()I", false);
 			assert michoose != null;
 		} 
-		super.classLoaded(vm);
+		super.classLoaded(vm, ci);
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see gov.nasa.jpf.PropertyListenerAdapter#objectCreated(gov.nasa.jpf.jvm.JVM)
 	 */
-	public void objectCreated (JVM vm)  {
+	public void objectCreated (VM vm, ThreadInfo ti, ElementInfo ei)  {
 		
 		// Stuff only used in the Unit tests involving this listener.
-		ElementInfo ei = vm.getLastElementInfo();
        	int objref = ei.getObjectRef();
         ClassInfo ci = vm.getClassInfo(objref);
         // We're watching for a test object to be created.
@@ -86,15 +84,12 @@ public class MCAPLProbListener extends MCAPLListener {
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLListener#methodEntered(gov.nasa.jpf.jvm.JVM)
 	 */
-	public void methodEntered(JVM vm) {
-		super.methodEntered(vm);
+	public void methodEntered(VM vm, ThreadInfo ti, MethodInfo mi) {
+		super.methodEntered(vm, ti, mi);
 
 		
-		// Stuff only used in the Unit tests involving this listener.
-		MethodInfo mi = vm.getLastMethodInfo();
 		// If the Test class is trying to get the probability for testing.
 		if (mi.getBaseName().equals("gwendolen.uavs.simple.SimpleUAVTests.getProbability")) {
-			ThreadInfo ti = vm.getLastThreadInfo();
 			int objref = ti.getThis();
 			testRef = objref;
 			ElementInfo ei = vm.getElementInfo(testRef);
@@ -107,15 +102,10 @@ public class MCAPLProbListener extends MCAPLListener {
 	 * (non-Javadoc)
 	 * @see gov.nasa.jpf.PropertyListenerAdapter#methodExited(gov.nasa.jpf.jvm.JVM)
 	 */
-	public void methodExited(JVM vm) {
-		JVM jvm = vm;
-		// Get instruction and execution thread.
-		MethodInfo mi = vm.getLastMethodInfo();
-		
+	public void methodExited(VM vm, ThreadInfo ti, MethodInfo mi) {
 		// We intercept the choose method and annotate the edges in our program model with the probabilities of the choices.
        	if (mi == michoose) {
-    		ThreadInfo ti = jvm.getLastThreadInfo();
-           	int objref = ti.getThis();
+            	int objref = ti.getThis();
       		log.fine("Dealing with choices");
        		ElementInfo ei = vm.getElementInfo(objref);
        		double prob = ei.getDoubleField("thischoice");
@@ -130,7 +120,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	  * @param search
 	  * @return
 	  */
-	 public boolean check (Search search, JVM vm) {
+	 public boolean check (Search search, VM vm) {
 		 log.fine("calling check");
 
 		 boolean violation = super.check(search, vm);

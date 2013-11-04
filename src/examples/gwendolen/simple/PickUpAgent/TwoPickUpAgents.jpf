@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/simple/PickUpAgent/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl,8
+target.args = ${mcapl}/src/examples/gwendolen/simple/PickUpAgent/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl,8
 
 log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,ajpf.product.ModelState,ajpf.psl.buchi.BuchiState,ajpf.product.Product
 log.fine = ajpf.MCAPLcontroller

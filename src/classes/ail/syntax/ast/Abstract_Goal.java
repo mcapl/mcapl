@@ -31,7 +31,7 @@ import ail.syntax.StringTerm;
 import ail.syntax.VarTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -201,7 +201,12 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_Goal");
-		env.setReferenceField(objref, "functor", env.newString(getFunctor()));
+		String functor = getFunctor();
+		if (strings.containsKey(functor)) {
+			env.setReferenceField(objref, "functor", strings.get(functor));
+		} else {
+			env.setReferenceField(objref, "functor", env.newString(getFunctor()));
+		}
 		env.setReferenceField(objref, "terms", newJPFTermArray(env));
 		env.setIntField(objref, "goaltype", getGoalType());
 		env.setReferenceField(objref, "goalbase", goalbase.newJPFObject(env));

@@ -24,8 +24,9 @@
 
 package ail.syntax.ast;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.LogExpr;
 import ail.syntax.LogicalFormula;
@@ -173,7 +174,7 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 	 * @see ail.syntax.ast.Abstract_LogicalFormula#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
 	 */
 	public int newJPFObject(MJIEnv env) {
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ail.syntax.ast.Abstract_LogExpr");
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_LogExpr");
 		if (env.requiresClinitExecution(ci)) {
 			env.repeatInvocation();
 			return 0;

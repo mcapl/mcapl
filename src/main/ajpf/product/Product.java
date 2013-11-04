@@ -249,8 +249,10 @@ public class Product {
 		
 		log.fine("Current Path Ended");
 		List<Integer> current_model_path = m.getCurrentPath();
+		if (m.currentPathSize() > 0) {
 		newProductStates(current_model_path.get(m.currentPathSize() - 1));
 		m.getState(current_model_path.get(m.currentPathSize() - 1)).markdone();
+		}
 		accepting_path = DFS();
 		
 		return (!accepting_path.isEmpty());

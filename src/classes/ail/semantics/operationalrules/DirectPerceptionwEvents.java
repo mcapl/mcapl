@@ -126,7 +126,7 @@ public class DirectPerceptionwEvents implements OSRule {
 				}
 			}
 			
-			if (additions) {
+			if (additions || !removed_percepts.isEmpty()) {
 				for (Intention i: a.getIntentions()) {
 					i.unsuspendFor(percepts, removed_percepts);
 				}

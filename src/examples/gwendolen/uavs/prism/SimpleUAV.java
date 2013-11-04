@@ -24,13 +24,15 @@
 
 package gwendolen.uavs.prism;
 
-import java.util.Set;
-
 import ail.mas.vehicle.Vehicle;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Predicate;
 
+/**
+ * A Simple UAV which has a single (unreliable) Radar Sensor and a navigation manager.
+ * @author lad
+ *
+ */
 public class SimpleUAV extends Vehicle {
 	
 	public SimpleUAV(AILAgent a) {

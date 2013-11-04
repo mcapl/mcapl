@@ -152,6 +152,16 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		addPercept(pred);		
 	}
 	
+
+	public void addUniquePercept(String agName, String s, Literal  pred) {
+		if (values.containsKey(s.toLowerCase())) {
+			removePercept(agName, values.get(s.toLowerCase()));
+			// System.err.println("removed old value");
+		}
+
+		values.put(s.toLowerCase(), pred);
+		addPercept(agName, pred);		
+	}
 	
 	public void setDone(boolean b) {
 		done = b;

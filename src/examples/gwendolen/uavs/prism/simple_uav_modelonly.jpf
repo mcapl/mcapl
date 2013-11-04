@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/uavs/prism/simple_uav.ail,${mcapl}/src/examples/gwendolen/uavs/prism/simple_uav.psl,0
+target.args = ${mcapl}/src/examples/gwendolen/uavs/prism/simple_uav.ail,${mcapl}/src/examples/gwendolen/uavs/prism/simple_uav.psl,0
 
 log.info = ail.mas.DefaultEnvironment,gwendolen.uavs.simple.SimpleUAVfromPRISMEnv,ajpf.product.Product,ajpf.MCAPLListener
 

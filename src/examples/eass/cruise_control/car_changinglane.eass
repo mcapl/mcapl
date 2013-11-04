@@ -1,0 +1,69 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+
+:name: car
+
+:Initial Beliefs:
+
+moving_left
+
+:Initial Goals:
+
+in_leftmost_lane [achieve]
+
+:Plans:
+
+// Switching Context
++! switch_overtake [perform] : {True} <- +.lock,-moving_left,+overtaking,-.lock;
++! switch_move_left [perform] : {True} <- +.lock,-overtaking,+moving_left,-.lock;
+
+// Moving left
+
+-car_ahead_in_left_lane: {~B clear_left, ~B car_ahead_in_left_lane} <- +clear_left;
++car_ahead_in_left_lane: {B clear_left, B car_ahead_in_left_lane} <- -clear_left;
++moving_left: {B moving_left} <- +! in_leftmost_lane[achieve];
+-moving_left: {G in_leftmost_lane[achieve]} <- -!in_leftmost_lane[achieve];
+
++!in_leftmost_lane [achieve]: {B safe_left, ~B car_ahead_in_left_lane, B moving_left} <- 
+	+.lock, remove_shared(changed_lane), perf(change_left), -.lock, *changed_lane;
++! in_leftmost_lane [achieve]: {~B safe_left, B moving_left} <- *safe_left;
++! in_leftmost_lane [achieve]: {B car_ahead_in_left_lane, B moving_left} <- *clear_left;
++! in_leftmost_lane [achieve]: {~ B moving_left} <- -!in_leftmost_lane[achieve];
+
+
+// Overtaking
++car_ahead_in_lane: {B moving_left, B car_ahead_in_lane, ~B in_rightmost_lane} <- -overtaken, +! switch_overtake[perform];
++overtaking: {B overtaking} <- +! overtaken [achieve];
+-overtaking: {G overtaken[achieve]} <- -!overtaken[achieve];
+
++! overtaken [achieve]: {B safe_right, B car_ahead_in_lane, B overtaking, ~B in_rightmost_lane} <-
+	+.lock, remove_shared(changed_lane), perf(change_right), -.lock, *changed_lane, +overtaken, +!switch_move_left[perform];
++! overtaken [achieve]: {~ B safe_right, B car_ahead_in_lane, B overtaking, ~B in_rightmost_lane} <- *safe_right;
++! overtaken [achieve]: {~ B car_ahead_in_lane, B overtaking} <- +! switch_move_left[perform];
++! overtaken [achieve]: {~B overtaking} <- -! overtaken[achieve];
++! overtaken [achieve]: {B in_rightmost_lane, B overtaking} <- +! switch_move_left[perform];
+
+
+// Managing speed in a single lane

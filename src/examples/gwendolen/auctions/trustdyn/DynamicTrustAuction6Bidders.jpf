@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction6Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,2
+target.args = ${mcapl}/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction6Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,2
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
 

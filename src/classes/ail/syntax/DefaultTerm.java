@@ -39,7 +39,7 @@ import ajpf.util.AJPFLogger;
 import java.util.List;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Base class for all terms.  Based heavily on that for Jason terms by
@@ -215,12 +215,24 @@ public abstract class DefaultTerm implements Term {
      */
     public boolean match(Unifiable t1g, Unifier u) {
     	Term t1 = (Term) t1g;
-
+    	
     	boolean ok = u.matchTerms(this, t1);
 
     	return ok;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable t1g, Unifier u) {
+    	Term t1 = (Term) t1g;
+    	
+    	boolean ok = u.matchTermsNG(this, t1);
+
+    	return ok;
+    }
+
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)

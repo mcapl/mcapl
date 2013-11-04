@@ -31,10 +31,12 @@ import java.util.logging.Logger;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.JPFException;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.util.JPFLogger;
+import gov.nasa.jpf.vm.NativePeer;
+import gov.nasa.jpf.annotation.MJI;
 
-public class JPF_ajpf_util_AJPFLogger {
+public class JPF_ajpf_util_AJPFLogger extends NativePeer {
 	  //--- those need to be kept in sync with the model side
 	  public static final int SEVERE = 1;
 	  public static final int WARNING = 2;
@@ -68,7 +70,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    }    
 		  }
 	  
-	  
+	  @MJI
 		public static void setConsoleHandlerFormatBrief____V() {
 			for (Handler h: Logger.getLogger("").getHandlers()){
 				if (h instanceof ConsoleHandler) {
@@ -98,6 +100,7 @@ public class JPF_ajpf_util_AJPFLogger {
 			
 		}
 		
+		@MJI
 		public static int getIntLevel__Ljava_lang_String_2__I(MJIEnv env, int clsObjRef, int loggerIdRef) {
 				String logname = env.getStringObject(loggerIdRef);
 				JPFLogger logger = JPF.getLogger(logname);
@@ -112,6 +115,7 @@ public class JPF_ajpf_util_AJPFLogger {
 				return l.intValue();
 		}
 		
+		@MJI
 	public static void setIntLevel__Ljava_lang_String_2I__V(MJIEnv env, int clsObjRef, int loggerIdRef, int logLevelRef) {
 				String logname = env.getStringObject(loggerIdRef);
 				JPFLogger logger = JPF.getLogger(logname);
@@ -124,7 +128,7 @@ public class JPF_ajpf_util_AJPFLogger {
 				}
 		}
 
-		  
+		  @MJI
 	  public static void info__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 		    String loggerId = env.getStringObject(loggerIdRef);
 		    String msg = env.getStringObject(msgRef);
@@ -133,6 +137,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    log( logger, INFO, msg);
 		  }
 
+	  @MJI
 	  public static void fine__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 		    String loggerId = env.getStringObject(loggerIdRef);
 		    String msg = env.getStringObject(msgRef);
@@ -141,6 +146,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    log( logger, FINE, msg);
 		  }
 	  
+	  @MJI
 	  public static void finer__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 		    String loggerId = env.getStringObject(loggerIdRef);
 		    String msg = env.getStringObject(msgRef);
@@ -149,6 +155,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    log( logger, FINER, msg);
 		  }
 	  
+	  @MJI
 	  public static void finest__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 		    String loggerId = env.getStringObject(loggerIdRef);
 		    String msg = env.getStringObject(msgRef);
@@ -157,6 +164,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    log( logger, FINEST, msg);
 		  }
 
+	  @MJI
 	  public static void warning__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 		    String loggerId = env.getStringObject(loggerIdRef);
 		    String msg = env.getStringObject(msgRef);
@@ -165,6 +173,7 @@ public class JPF_ajpf_util_AJPFLogger {
 		    log( logger, WARNING, msg);
 }
 
+	  @MJI
 	  public static void severe__Ljava_lang_String_2Ljava_lang_String_2__V (MJIEnv env, int clsObjRef, int loggerIdRef, int msgRef){
 			    String loggerId = env.getStringObject(loggerIdRef);
 			    String msg = env.getStringObject(msgRef);

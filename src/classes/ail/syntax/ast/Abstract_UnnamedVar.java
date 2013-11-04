@@ -24,8 +24,9 @@
 
 package ail.syntax.ast;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.Literal;
 import ail.syntax.UnnamedVar;
 
@@ -83,7 +84,7 @@ public class Abstract_UnnamedVar extends Abstract_VarTerm {
 	 * @see ail.syntax.ast.Abstract_Literal#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
 	 */
 	public int newJPFObject(MJIEnv env) {
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ail.syntax.ast.Abstract_UnnamedVar");
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_UnnamedVar");
 		if (env.requiresClinitExecution(ci)) {
 			env.repeatInvocation();
 			return 0;

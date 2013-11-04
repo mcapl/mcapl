@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import ail.mas.MAS;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF

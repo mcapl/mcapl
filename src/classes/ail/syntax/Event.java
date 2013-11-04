@@ -227,6 +227,14 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		}
 		return new ArrayList<String>();
 	}
+	
+	public boolean isGround() {
+		if (hasLiteral() || hasTerm()) {
+			return getContent().isGround();
+		} 
+		
+		return true;
+	}
 	    
 	/*
 	 * (non-Javadoc)
@@ -237,6 +245,44 @@ public class Event extends DefaultAILStructure implements Unifiable {
 			getContent().renameVar(oldname, newname);
 		}
 	}
+	
+	   public boolean match(Unifiable t1g, Unifier u) {
+	    	boolean ok = false;
+	    	if (t1g instanceof Event) {
+	    		Event e = (Event) t1g;
+	    		if (e.getCategory() == getCategory()) {
+	    			if (e.hasLiteral() || e.hasTerm()) {
+	    				if (hasLiteral() || hasTerm()) {
+	    					ok = u.matchTerms(getContent(), e.getContent());
+	    				}
+	    			} else if (!hasLiteral() && !hasTerm()) {
+	    				ok = true;
+	    			}
+	    			
+	    		}
+	    	}
+
+	    	return ok;
+	    }
+
+	   public boolean matchNG(Unifiable t1g, Unifier u) {
+	    	boolean ok = false;
+	    	if (t1g instanceof Event) {
+	    		Event e = (Event) t1g;
+	    		if (e.getCategory() == getCategory()) {
+	    			if (e.hasLiteral() || e.hasTerm()) {
+	    				if (hasLiteral() || hasTerm()) {
+	    					ok = u.matchTermsNG(getContent(), e.getContent());
+	    				}
+	    			} else if (!hasLiteral() && !hasTerm()) {
+	    				ok = true;
+	    			}
+	    			
+	    		}
+	    	}
+
+	    	return ok;
+	    }
 
 
 }

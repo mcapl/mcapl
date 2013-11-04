@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_requesting_middle_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,26
+target.args =src/examples/eass/verification/leo/satellite_requesting_middle_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,26
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -55,3 +55,24 @@ vm.max_transition_length = 50000000
 // loaded code:        classes=337, methods=4498
 // 
 // ====================================================== search finished: 9/19/12 12:24 PM
+
+// 7th Sept 2013
+
+// [INFO] Number of States in Product Automata: 4858
+// ----------------------------------- search finished
+// 
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       00:03:34
+// states:             new=472, visited=430, backtracked=902, end=30
+// search:             maxDepth=26, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=466
+// heap:               new=9148464, released=9183163, max live=61171, gc-cycles=902
+// instructions:       1257640181
+// max memory:         81MB
+// loaded code:        classes=360, methods=4878
+// 
+// ====================================================== search finished: 9/7/13 10:33 AM
+

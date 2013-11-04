@@ -33,7 +33,7 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
 import ail.mas.DefaultEnvironment;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import gwendolen.semantics.GwendolenAgent;
 
 

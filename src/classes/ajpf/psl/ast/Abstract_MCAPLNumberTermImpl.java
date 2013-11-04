@@ -24,23 +24,16 @@
 
 package ajpf.psl.ast;
 
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import ajpf.psl.MCAPLNumberTermImpl;
 
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.Types;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
 
 /** Immutable class that implements a term that represents a number */
 public final class Abstract_MCAPLNumberTermImpl implements Abstract_MCAPLNumberTerm {
@@ -87,12 +80,12 @@ public final class Abstract_MCAPLNumberTermImpl implements Abstract_MCAPLNumberT
 
 	}
 
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Heap heap = vm.getHeap();
-		ThreadInfo ti = vm.getLastThreadInfo();
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ajpf.psl.ast.Abstract_MCAPLNumberTermImpl");
-		int objref = heap.newObject(ci, ti);
-		ElementInfo ei = vm.getElementInfo(objref);
+		ThreadInfo ti = vm.getCurrentThread();
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ajpf.psl.ast.Abstract_MCAPLNumberTermImpl");
+		ElementInfo ei = heap.newObject(ci, ti);
+		int objref = ei.getObjectRef();
 		ei.setDoubleField("fValue", fValue);
 
 		return objref;

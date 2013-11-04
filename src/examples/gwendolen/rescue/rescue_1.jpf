@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args = ${mcapl}/src/examples/gwendolen/rescue/searcher.ail,${mcapl}/src/examples/gwendolen/rescue/rescue.psl,1
+target.args = ${mcapl}/src/examples/gwendolen/rescue/searcher.ail,${mcapl}/src/examples/gwendolen/rescue/rescue.psl,1
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,gwendolen.rescue.RobotEnv
 
@@ -34,7 +34,7 @@ et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 
 #vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet

@@ -27,25 +27,18 @@ package gwendolen.easss_tutorial;
 import ail.mas.DefaultEnvironment;
 import ail.util.AILConfig;
 import ail.util.AILexception;
-import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.SendAction;
 import ail.syntax.Literal;
-import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
-import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
 
 /**
  * Environment for a Trash Robot Scenario;
@@ -54,7 +47,6 @@ import gov.nasa.jpf.jvm.Verify;
  *
  */
 public class RobotEnv extends DefaultEnvironment {
-//	int casenumber = 1;
 	boolean changer = true;
 	boolean changel = true;
 	boolean changemessage = true;
@@ -73,9 +65,6 @@ public class RobotEnv extends DefaultEnvironment {
 	
 	String logname = "gwendolen.rescue.RobotEnv";
 	
-	/**
-	 * Two performatives, perform and tell.
-	 */
 	public RobotEnv() {
 		super();
 		human=new Literal("human");
@@ -112,32 +101,7 @@ public class RobotEnv extends DefaultEnvironment {
 		AJPFLogger.fine(logname, percepts.toString());
 		return percepts;
 	}
-	
-/*	public Set<Message> getMessages(String agName) {
-		Set<Message> messages = new HashSet<Message>();
-		if (agName.equals("agentlifter")) {
-			if (changemessage) {
-				if ( withlifter || withlifter2) {
-					havemessagel = random.nextBoolean();
-				}
-	
 		
-				if (havemessagel) {
-					Literal humanloc = new Literal("human");
-					humanloc.addTerm(new NumberTermImpl(2));
-					humanloc.addTerm(new NumberTermImpl(2));
-					if (agName.equals("agentlifter")) { 
-						Message msg = new Message(1, "r", "agentlifter", humanloc);
-						messages.add(msg);
-						AJPFLogger.fine(logname, "Adding " + msg);
-					}
-				}
-				changemessage=false;
-			}
-		}
-		return messages;
-	} */
-	
 	/**
 	 * When a pickup action is executed the environment stores new perceptions
 	 * for the agent - that its picked something up and its hands are now longer

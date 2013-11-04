@@ -61,10 +61,10 @@ public class HandleLockUnLock extends HandleTopDeed {
 		i.compose(thetab);
 		if (topdeed.isAddition()) {
 			i.lock();
-			i.tlI();
+			i.tlI(a);
 		} else {
 			i.unlock();
-			i.tlI();
+			i.tlI(a);
 		}
 	}
 }
