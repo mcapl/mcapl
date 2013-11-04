@@ -192,5 +192,4 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 	}
 
 
-
 }

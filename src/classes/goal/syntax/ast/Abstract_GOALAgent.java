@@ -37,8 +37,10 @@ import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
+import ail.syntax.ast.Abstract_GBelief;
+import ail.syntax.ast.Abstract_Predicate;
 import ail.mas.DefaultEnvironment;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import goal.semantics.GOALAgent;
 import goal.syntax.ActionRule;
 
@@ -54,7 +56,7 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 	
 	Abstract_Goal[] goals = new Abstract_Goal[0];
 	
-	Abstract_Literal[] knowledge = new Abstract_Literal[0];
+	Abstract_GBelief[] knowledge = new Abstract_GBelief[0];
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 
@@ -80,9 +82,9 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     * Adds a belief to the belief base annotating it with a source.
     * 
     */
-   public void addFact(Abstract_Literal bel) {
+   public void addFact(Abstract_GBelief bel) {
    	int newsize = knowledge.length + 1;
-   	Abstract_Literal[] newbeliefs = new Abstract_Literal[newsize];
+   	Abstract_GBelief[] newbeliefs = new Abstract_GBelief[newsize];
    	for (int i = 0; i < knowledge.length; i++) {
    		newbeliefs[i] = knowledge[i];
    	}
@@ -120,6 +122,15 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     		// fPL.init(this);
     //	 }  
     }
+   
+   public void addBel(Abstract_GBelief gb) {
+	   Abstract_Term content = gb.getContent();
+	   if (content instanceof Abstract_Predicate) {
+		   addBel(new Abstract_Literal((Abstract_Predicate) content));
+	   } else {
+		   addBel((Abstract_Literal) content);
+	   }
+   }
 
     
     public GOALAgent toMCAPL(MAS mas) {

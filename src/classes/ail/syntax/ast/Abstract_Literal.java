@@ -121,6 +121,10 @@ public class Abstract_Literal extends Abstract_Pred {
 		this (Literal.LPos, p);
 	}
 	
+	public Abstract_Literal(Abstract_Predicate p) {
+		this (Literal.LPos, new Abstract_Pred(p));
+	}
+
 	/**
 	 * Set positive or negative.
 	 * @param b

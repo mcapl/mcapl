@@ -70,5 +70,5 @@ public interface Abstract_LogicalFormula {
 	 * @return
 	 */
 	public int newJPFObject(MJIEnv env);
-
+	
 }

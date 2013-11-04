@@ -122,6 +122,14 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
     	super(b);
     	content = t;
     }
+    
+    /**
+     * Constructor without a category.  Use with caution, category must be added.
+     * @param t
+     */
+    public Abstract_GBelief(Abstract_Term t) {
+    	content = t;
+    }
      
     /**
      * Construct one GBelief from another.

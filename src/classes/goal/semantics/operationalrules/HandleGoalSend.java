@@ -32,7 +32,7 @@ import ail.syntax.BroadcastSendAction;
 import goal.syntax.GoalMessage;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.Verify;
 
 /**
  * Handle a send action.  Calls immediately executeAction in the environment but also

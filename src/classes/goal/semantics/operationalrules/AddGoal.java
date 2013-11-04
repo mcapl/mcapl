@@ -80,7 +80,7 @@ public class AddGoal extends HandleAddGoal {
     	Iterator<Unifier> ui2 = a.believes(gu, new Unifier());
     	
 		
-		i.tlI();
+		i.tlI(a);
 		thetahd.compose(thetab);
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();

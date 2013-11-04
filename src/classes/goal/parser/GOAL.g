@@ -49,17 +49,17 @@ package goal.parser;
 program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}   
 	                 MAIN COLON i=id CURLYOPEN 
 		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
-  	                (KNOWLEDGE CURLYOPEN krspec[$gl] CURLYCLOSE)?
-                                        (BELIEFS CURLYOPEN brspec[$gl] CURLYCLOSE)?
+  	                (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
+                                        (BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE)?
                                         (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
-                                         MAIN MODULE CURLYOPEN module CURLYCLOSE
-                                         (EVENT MODULE CURLYOPEN module CURLYCLOSE)?
+                                         MAIN MODULE CURLYOPEN module[gl] CURLYCLOSE
+                                         (EVENT MODULE CURLYOPEN module[gl] CURLYCLOSE)?
                                          (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?
                                               
                                          CURLYCLOSE
                                               {mas.setAgs(agents);};
                                    
-module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
+module[Abstract_GOALAgent gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                              (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
                              PROGRAM (optionorder)? CURLYOPEN
                                  macro*
@@ -67,19 +67,24 @@ module	: (KNOWLEDGE CURLYOPEN krspec CURLYCLOSE)?
                              CURLYCLOSE
                              (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?;
                              
-krspec[Abstract_GOALAgent gl]:  (hd=atom (STOP {gl.addFact($hd.l);} | PROLOGARROW body=litconj STOP {gl.addKRule($hd.l, $body.f)}))+;
+krspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructure.AILBel);} 
+	(STOP {$gl.addFact(hd);} | 
+	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule(hd, body));}))+;
     
-brspec[Abstract_GOALAgent gl]:  (hd=atom (STOP {gl.addBel($hd.l);} | PROLOGARROW body=litconj STOP {gl.addRule($hd.l,$body.f)}))+;
+brspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructure.AILBel);}  
+	(STOP {$gl.addBel(hd);} | 
+	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
 poslitconj	: atom (COMMA atom)* STOP;
 
-litconj returns [Abstract_LogicalFormula f]: $l=literal (COMMA $l1=literal {$l = new Abstract_LogExpr($l.l, Abstract_LogExpr.and, $l1.l);})* ;
+litconj returns [Abstract_LogicalFormula f]: l=literal (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
-literal returns[Abstract_Literal l] : atom | NOT OPEN atom CLOSE;
+literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
 
-atom	: (id ( parameters)? | equation);
+atom returns [Abstract_GBelief t] : (s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = new Abstract_GBelief(p);})? | e=equation {$t=e;});
 
-parameters	: OPEN term (COMMA term)* CLOSE;	
+parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);} 
+	(COMMA t1=term {tl.add(t1);})* CLOSE { $ts = (Abstract_Term[]) tl.toArray(new Abstract_Term[0]);};	
 
 optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE;
 
@@ -155,31 +160,44 @@ MAIN: 'main';
  SEND	:	'send';
  
  // term syntax
- equation
- 	: arithexpr eqoper arithexpr;
- term	: (stringterm | function_term | arithexpr | listterm);
- function_term 
- 	:	CONST (OPEN term (COMMA term)* CLOSE)?;
- atom_term 
- 	: (numberstring | var);
- stringterm
- 	: DOUBLEQUOTE word DOUBLEQUOTE;
- var	:	VAR;
- numberstring 
- 	:	 (MINUS)? (NUMBER (STOP NUMBER)?);
- 	
- arithexpr
- 	: multexpr (addoper multexpr)?;
-multexpr:	atom_term (multoper atom_term)?;
-  word	: (CONST | VAR | NUMBER)*;
+ equation returns [Abstract_Equation e]
+ 	: a1=arithexpr i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);};
+ term returns [Abstract_Term t]	: (st=stringterm {$t = st;} | ft=function_term {$t=ft;} | at=arithexpr {$t=at;}| lt=listterm {$t=lt;});
+ function_term  returns [Abstract_Term t]
+ 	:	c=CONST {t=new Abstract_Predicate(c.getText());} (OPEN t1=term {((Abstract_Predicate) t).addTerm($t1.t);} (COMMA t2=term {((Abstract_Predicate) t).addTerm($t2.t);})* CLOSE)?;
+ atom_term  returns [Abstract_NumberTerm t]: (n = numberstring {$t = new Abstract_NumberTermImpl($n.s);} | v=var {$t = $v.v;});
+ stringterm returns [Abstract_StringTerm s]
+ 	: DOUBLEQUOTE w=word DOUBLEQUOTE {s=new Abstract_StringTermImpl($w.s);};
+ var returns [Abstract_VarTerm v]	:	VAR {
+	if (variables.containsKey($VAR.getText())) {
+		$v = variables.get($VAR.getText());
+		} else {
+		$v = new Abstract_VarTerm($VAR.getText());
+		variables.put($VAR.getText(), $v);
+		}
+	};
+
+ numberstring returns [String s]
+ 	:	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}
+ 	                                  (STOP {$s += ".";} n2=NUMBER {$s += $n2.getText();})?);
+ 	                             	
+arithexpr returns [Abstract_NumberTerm ae]
+ 	:  a1=multexpr {$ae = a1;} (i=addoper a2=multexpr {$ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+multexpr returns [Abstract_NumberTerm ae]:	a1=atom_term{$ae = a1;} (i=multoper a2=atom_term {ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+
+word returns [String s] : (CONST {$s=$CONST.getText();} | VAR {$s=$VAR.getText();});                                                                                     
+
  
- listterm
- 	: SQOPEN (term (COMMA term)* (BAR VAR)? )? SQCLOSE;
+ listterm returns [Abstract_ListTermImpl l]
+ 	: {$l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = $l;} 
+ 	SQOPEN (h=term {$l.addHead($h.t); $l.addTail(new Abstract_ListTermImpl());} 
+ 	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl();  l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning=l2;})* 
+ 	(BAR v=VAR {lrunning.addTail(new Abstract_VarTerm($v.getText()));})? )? SQCLOSE;
  	
- addoper:	(PLUS | MINUS);
- multoper
- 	:	(MULT | DIV );
- eqoper	: (LESS | EQUALS);
+ addoper returns [int i]:	(PLUS {$i = 1;} | MINUS {$i = 2;} );
+ multoper returns [int i]
+ 	:	(MULT {$i = 3;} | DIV {$i = 4;} );
+ eqoper returns [int i]	: (LESS {$i = 1;} | EQUALS {$i = 2;});
  	                                              
 // Lexer Misc Syntax
 COLON	: ':';

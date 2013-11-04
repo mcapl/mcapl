@@ -27,7 +27,7 @@ package goal.syntax.ast;
 
 import goal.syntax.ActionSpec;
 import goal.syntax.MentalState;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 import java.util.ArrayList;
 

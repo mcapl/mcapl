@@ -228,4 +228,5 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	public boolean isTrivial() {
 		return false;
 	}
+	
 }

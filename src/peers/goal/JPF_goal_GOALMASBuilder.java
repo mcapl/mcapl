@@ -26,8 +26,8 @@ package goal;
 
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
-import gov.nasa.jpf.jvm.ClinitRequired;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.ClinitRequired;
+import gov.nasa.jpf.vm.MJIEnv;
 import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;

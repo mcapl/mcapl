@@ -43,7 +43,7 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
 
 import goal.syntax.GoalMessage;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.Verify;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 

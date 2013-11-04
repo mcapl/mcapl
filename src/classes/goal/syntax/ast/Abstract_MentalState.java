@@ -25,7 +25,7 @@
 package goal.syntax.ast;
 
 import goal.syntax.MentalState;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.Guard;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Goal;

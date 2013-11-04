@@ -118,4 +118,5 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
     	env.setReferenceField(objref, "head", head.newJPFObject(env));
 		return objref;
     }
-}
+    
+ }

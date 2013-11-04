@@ -57,7 +57,7 @@
   	    <include name="lib/3rdparty/pccomm.jar"/>
   	    <include name="lib/3rdparty/bluecove.jar"/>
   		<include name="lib/3rdparty/jpf.jar"/> 
- 	    <include name="lib/3rdparty/junit-4.10.jar"/>
+	    <include name="lib/3rdparty/junit-4.10.jar"/>
    </fileset>
 
     <!-- add in what we need from the core -->

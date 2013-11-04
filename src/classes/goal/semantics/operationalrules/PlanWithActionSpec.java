@@ -46,7 +46,7 @@ import ajpf.util.AJPFLogger;
 
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.Verify;
 
 /**
  * This rules selects a capability to use to achieve the agent's goals.
