@@ -36,13 +36,19 @@ log.format = brief
 Make sure you have AJPF_HOME set everywhere (to the mcapl directory)
 Need rosjava installed
 
-create a package in a ROS groovy catkin workspace which depends on rosjava_core
+If necessary create a rosjava workspace and package
 
-(e.g.  catkin_create_pkg eass_turtle rosjava_core )
- remove CMakeLists.txt
+(cd catkin_ws
+ mkdir -p rosjava/src
+ cd rosjava/src
+ catkin_create_rosjava_pkg rais
+ cd rais
+
+  Create a turtle project
  
- (cd eass_turtle
-  rm CMakeLists.txt)
+ (catkin_create_rosjava_project eass_turtle
+ 
+ 
   
   Copy build.gradle across.
   
@@ -56,7 +62,7 @@ create a package in a ROS groovy catkin workspace which depends on rosjava_core
   
   (cp $AJPF_HOME/src/examples/eass/ros/turtlesim/*.java src/main/java/eass/ros/turtlesim/. )
 
-   gradle build (or equivalent - on rasl sh ~/bin/gradle.sh installApp )
+   ../gradlew build
    
    3 Terminals run 
    Terminal 1:   roscore 
