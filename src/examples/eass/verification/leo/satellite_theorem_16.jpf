@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,16
+target.args =src/examples/eass/verification/leo/satellite_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,16
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -39,20 +39,22 @@ vm.max_transition_length = MAX
 
 // ---- RESULTS
 // MacBook Pro, 2.8 GHz, 8GB Memory, Mac OS X Lion 10.7.5
-// [INFO] Number of States in Product Automata: 49
+// Friday 6th Sep 2013
+// [INFO] Number of States in Product Automata: 37
 // ----------------------------------- search finished
 // 
 // ====================================================== results
 // no errors detected
 // 
 // ====================================================== statistics
-// elapsed time:       00:00:08
-// states:             new=45, visited=39, backtracked=84, end=4
-// search:             maxDepth=11, constraints hit=0
-// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=44
-// heap:               new=402087, released=395876, max live=32294, gc-cycles=84
-// instructions:       36643293
+// elapsed time:       00:00:10
+// states:             new=33, visited=27, backtracked=60, end=4
+// search:             maxDepth=9, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=32
+// heap:               new=343188, released=336262, max live=34728, gc-cycles=60
+// instructions:       45500333
 // max memory:         81MB
-// loaded code:        classes=332, methods=4454
+// loaded code:        classes=354, methods=4825
 // 
-// ====================================================== search finished: 3/26/13 4:41 PM
+// ====================================================== search finished: 9/6/13 9:27 AM
+

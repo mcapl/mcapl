@@ -33,16 +33,10 @@ import org.junit.Assert;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
-import java.util.Set;
-import java.util.HashSet;
-
-import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.mas.MAS;
-import ajpf.MCAPLAgent;
-import ajpf.psl.ast.Abstract_AgBelief;
 import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.parser.A_PSLLexer;
 import ajpf.psl.parser.A_PSLParser;

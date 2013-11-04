@@ -68,7 +68,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 		// The various buttons and boxes used by the interface.
 	    protected JButton fbutton, rbutton, lbutton, sbutton, delaybutton, r90button, l90button, bbutton;
 	    protected JCheckBox r1button, r2button, r3button;
-	    protected JComboBox delaybox;
+	    protected JComboBox<String> delaybox;
 	    protected JFormattedTextField speedbox, rspeedbox, distancebox, soundbox, lightbox;
 	    protected TextAreaOutputStream uvalues, svalues, lvalues;
 	    protected NumberFormat numberFormat;
@@ -114,7 +114,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	    	// Delay
 	    	JLabel dtext = new JLabel("Delay:");
 	    	settings.add(dtext);
-	    	delaybox = new JComboBox(delays);
+	    	delaybox = new JComboBox<String>(delays);
 	    	delaybox.setActionCommand("delay");
 	    	delaybox.addActionListener(this);
 	    	settings.add(delaybox);
@@ -240,7 +240,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridx = 1;
 	        c.gridy = 0;
 	        rules.add(r1, c);
-	    	JComboBox r1eventbox = new JComboBox(events);
+	    	JComboBox<String> r1eventbox = new JComboBox<String>(events);
 	    	r1eventbox.setActionCommand("r1event");
 	    	r1eventbox.addActionListener(this);
 	        c.gridx = 2;
@@ -250,13 +250,13 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridy = 0;
 	        JLabel r1_then = new JLabel("Then");
 	        rules.add(r1_then, c);
-	        JComboBox r1action1box = new JComboBox(actions);
+	        JComboBox<String> r1action1box = new JComboBox<String>(actions);
 	    	r1action1box.setActionCommand("r1action1");
 	    	r1action1box.addActionListener(this);
 	        c.gridx = 4;
 	        c.gridy = 0;
 	        rules.add(r1action1box, c);	        
-	        JComboBox r1action2box = new JComboBox(actions);
+	        JComboBox<String> r1action2box = new JComboBox<String>(actions);
 	    	r1action2box.setActionCommand("r1action2");
 	    	r1action2box.addActionListener(this);
 	        c.gridx = 5;
@@ -276,7 +276,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridx = 1;
 	        c.gridy = 1;
 	        rules.add(r2, c);
-	    	JComboBox r2eventbox = new JComboBox(events);
+	    	JComboBox<String> r2eventbox = new JComboBox<String>(events);
 	    	r2eventbox.setActionCommand("r2event");
 	    	r2eventbox.addActionListener(this);
 	        c.gridx = 2;
@@ -286,13 +286,13 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridy = 1;
 	        JLabel r2_then = new JLabel("Then");
 	        rules.add(r2_then, c);
-	        JComboBox r2action1box = new JComboBox(actions);
+	        JComboBox<String> r2action1box = new JComboBox<String>(actions);
 	    	r2action1box.setActionCommand("r2action1");
 	    	r2action1box.addActionListener(this);
 	        c.gridx = 4;
 	        c.gridy = 1;
 	        rules.add(r2action1box, c);	        
-	        JComboBox r2action2box = new JComboBox(actions);
+	        JComboBox<String> r2action2box = new JComboBox<String>(actions);
 	    	r2action2box.setActionCommand("r2action2");
 	    	r2action2box.addActionListener(this);
 	        c.gridx = 5;
@@ -312,7 +312,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridx = 1;
 	        c.gridy = 2;
 	        rules.add(r3, c);
-	    	JComboBox r3eventbox = new JComboBox(events);
+	    	JComboBox<String> r3eventbox = new JComboBox<String>(events);
 	    	r3eventbox.setActionCommand("r3event");
 	    	r3eventbox.addActionListener(this);
 	        c.gridx = 2;
@@ -322,13 +322,13 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        c.gridy = 2;
 	        JLabel r3_then = new JLabel("Then");
 	        rules.add(r3_then, c);
-	        JComboBox r3action1box = new JComboBox(actions);
+	        JComboBox<String> r3action1box = new JComboBox<String>(actions);
 	    	r3action1box.setActionCommand("r3action1");
 	    	r3action1box.addActionListener(this);
 	        c.gridx = 4;
 	        c.gridy = 2;
 	        rules.add(r3action1box, c);	        
-	        JComboBox r3action2box = new JComboBox(actions);
+	        JComboBox<String> r3action2box = new JComboBox<String>(actions);
 	    	r3action2box.setActionCommand("r3action2");
 	    	r3action2box.addActionListener(this);
 	        c.gridx = 5;
@@ -552,35 +552,45 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	    	}
 	    	
 	    	if (e.getActionCommand().equals("delay")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		delay = Integer.parseInt((String)cb.getSelectedItem());
 	    		return;
 	    	} else if (e.getActionCommand().equals("r1event")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r1action1")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r1action2")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r2event")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r2action1")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r2action2")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r3event")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r3action1")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} else if (e.getActionCommand().equals("r3action2")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	}
 

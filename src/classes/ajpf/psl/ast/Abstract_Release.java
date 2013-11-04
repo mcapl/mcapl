@@ -24,7 +24,7 @@
 
 package ajpf.psl.ast;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import ajpf.MCAPLcontroller;
 import ajpf.MCAPLmas;
 import ajpf.psl.Release;

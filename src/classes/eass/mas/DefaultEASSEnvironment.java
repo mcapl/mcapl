@@ -152,6 +152,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		addPercept(pred);		
 	}
 	
+
 	
 	public void setDone(boolean b) {
 		done = b;

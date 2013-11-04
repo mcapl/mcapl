@@ -68,7 +68,7 @@ public class HandleUpdateBelief extends HandleBelief {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		i.tlI();
+		i.tlI(a);
 		Iterator<Literal> bl = a.getBB(topdeed.getDBnum()).iterator();
 		PredicateIndicator pi = b.getPredicateIndicator();
 		

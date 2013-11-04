@@ -33,18 +33,13 @@ import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
-import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
+import ajpf.util.VerifySet;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.jvm.Verify;
 
 /**
  * Environment for a Trash Robot Scenario;
@@ -72,9 +67,6 @@ public class RobotEnv extends DefaultEnvironment {
 	
 	String logname = "gwendolen.rescue.RobotEnv";
 	
-	/**
-	 * Two performatives, perform and tell.
-	 */
 	public RobotEnv() {
 		super();
 		human=new Literal("human");
@@ -82,7 +74,7 @@ public class RobotEnv extends DefaultEnvironment {
 	}
 			
 	public Set<Predicate> getPercepts(String agName, boolean update) {
-		Set<Predicate> percepts = new HashSet<Predicate>();
+		Set<Predicate> percepts = new VerifySet<Predicate>();
 		if (agName.equals("r")) {
 			if (changer) {
 				if (withsearcher) {
@@ -114,7 +106,7 @@ public class RobotEnv extends DefaultEnvironment {
 	}
 	
 	public Set<Message> getMessages(String agName) {
-		Set<Message> messages = new HashSet<Message>();
+		Set<Message> messages = new VerifySet<Message>();
 		if (agName.equals("agentlifter")) {
 			if (changemessage) {
 				if ( withlifter || withlifter2) {

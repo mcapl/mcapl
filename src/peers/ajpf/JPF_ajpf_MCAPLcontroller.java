@@ -37,12 +37,14 @@ import mcaplantlr.runtime.CommonTokenStream;
 import mcaplantlr.runtime.ANTLRStringStream;
 
 import gov.nasa.jpf.JPF;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.choice.IntChoiceFromSet;
-import gov.nasa.jpf.jvm.ChoiceGenerator;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.SystemState;
+import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.choice.IntChoiceFromSet;
+import gov.nasa.jpf.vm.ChoiceGenerator;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.SystemState;
+import gov.nasa.jpf.vm.NativePeer;
 
 /**
  * Interface for formulas in the MCAPL Property Specification Language.
@@ -50,13 +52,14 @@ import gov.nasa.jpf.jvm.SystemState;
  * @author louiseadennis
  *
  */
-public class JPF_ajpf_MCAPLcontroller {
+public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 //	static Abstract_Property property;
 	 protected static Logger log = JPF.getLogger("ajpf.MCAPLcontroller");
 		
+	  @MJI
 	public static int pickJob__I__I(MJIEnv env, int objref, int limit) {
 		int myChoice = 0;
-		JVM vm = env.getVM();
+		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
 		if (!ti.isFirstStepInsn()) {
 			log.fine("creating a choice generator");
@@ -84,10 +87,11 @@ public class JPF_ajpf_MCAPLcontroller {
 	 * Not, I think a good way to do this but forces a transition before the system closes everything down and so forces checking of
 	 * final state properly.
 	 */
+	  @MJI
 	public static boolean triggerendstate____Z(MJIEnv env, int objref) {
 		log.fine("attempting to yield");
 		int myChoice = 0;
-		JVM vm = env.getVM();
+		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
 		if (!ti.isFirstStepInsn()) {
 			log.fine("creating a choice generator");

@@ -64,7 +64,7 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 		// The various buttons and boxes used by the interface.
 	    protected JButton fbutton, rbutton, lbutton, sbutton, delaybutton, r90button, l90button, bbutton;
 	    protected JCheckBox r1button, r2button, r3button;
-	    protected JComboBox delaybox;
+	    protected JComboBox<String> delaybox;
 	    protected JFormattedTextField speedbox, rspeedbox, distancebox;
 	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
@@ -108,7 +108,7 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	// Delay
 	    	JLabel dtext = new JLabel("Delay:");
 	    	settings.add(dtext);
-	    	delaybox = new JComboBox(delays);
+	    	delaybox = new JComboBox<String>(delays);
 	    	delaybox.setActionCommand("delay");
 	    	delaybox.addActionListener(this);
 	    	settings.add(delaybox);
@@ -373,7 +373,8 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	Action act = new Action(e.getActionCommand());
 	    	
 	    	if (e.getActionCommand().equals("delay")) {
-	    		JComboBox cb = (JComboBox)e.getSource();
+	    		@SuppressWarnings("unchecked")
+	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		delay = Integer.parseInt((String)cb.getSelectedItem());
 	    		return;
 	    	}

@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/leader_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,31
+target.args =src/examples/eass/verification/leo/leader_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,31expanded
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -35,24 +35,27 @@ et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 
-// [INFO] Number of States in Product Automata: 9256
+// 7th Sept 2013
+// 
+// [INFO] Number of States in Product Automata: 67563
 // ----------------------------------- search finished
 // 
 // ====================================================== results
 // no errors detected
 // 
 // ====================================================== statistics
-// elapsed time:       06:50:34
-// states:             new=3314, visited=3302, backtracked=6616, end=355
+// elapsed time:       01:05:21
+// states:             new=3333, visited=3300, backtracked=6633, end=31
 // search:             maxDepth=90, constraints hit=0
-// choice generators:  thread=11 (signal=0, lock=1, shared ref=0), data=3303
-// heap:               new=1117251178, released=1117225303, max live=1171913, gc-cycles=6616
-// instructions:       45201213254
-// max memory:         412MB
-// loaded code:        classes=327, methods=4407
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=3332
+// heap:               new=198302912, released=198269316, max live=331304, gc-cycles=6633
+// instructions:       20383342836
+// max memory:         229MB
+// loaded code:        classes=355, methods=4832
 // 
-// ====================================================== search finished: 9/19/12 7:17 PM
+// ====================================================== search finished: 9/7/13 12:41 PM
+
 

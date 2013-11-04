@@ -40,13 +40,14 @@ import ajpf.psl.MCAPLTerm;
 
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.Types;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.Types;
 
 /**
  * Represents a structure: a functor with <i>n</i> arguments, e.g.: val(10,x(3)). <i>n</i> can be
@@ -133,16 +134,16 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
 		return aRef;
 	}
 
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Heap heap = vm.getHeap();
-		ThreadInfo ti = vm.getLastThreadInfo();
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ajpf.psl.ast.Abstract_MCAPLPredicate");
-		int objref = heap.newObject(ci, ti);
-		ElementInfo ei = vm.getElementInfo(objref);
-		ei.setReferenceField("functor", heap.newString(functor, vm.getLastThreadInfo()));
+		ThreadInfo ti = vm.getCurrentThread();
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ajpf.psl.ast.Abstract_MCAPLPredicate");
+		ElementInfo ei = heap.newObject(ci, ti);
+		int objref = ei.getObjectRef();
+		ei.setReferenceField("functor", heap.newString(functor, ti).getObjectRef());
   	    String elementClsName = Types.getTypeSignature("ajpf.psl.Abstract_MCAPLTerm", false);
-	    int aRef = heap.newArray(elementClsName, terms.length, ti);
-		ElementInfo array_ei = vm.getElementInfo(aRef);
+		ElementInfo array_ei = heap.newArray(elementClsName, terms.length, ti);
+		int aRef = array_ei.getObjectRef();
 		for (int index = 0; index < terms.length; index++) {
 			array_ei.setReferenceElement(index, terms[index].createInJPF(vm));
 		}

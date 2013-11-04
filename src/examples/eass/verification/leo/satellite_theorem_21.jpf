@@ -26,32 +26,32 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21
+target.args =src/examples/eass/verification/leo/satellite_1thruster.ail,src/examples/eass/verification/leo/satellite.psl,21
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
-
 listener+=,.listener.ExecTracker
 et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 
-// [INFO] Number of States in Product Automata: 232479
+// 9th Sept 2013
+// [INFO] Number of States in Product Automata: 21778
 // ----------------------------------- search finished
 // 
 // ====================================================== results
 // no errors detected
 // 
 // ====================================================== statistics
-// elapsed time:       69:59:04
-// states:             new=29577, visited=29573, backtracked=59150, end=14432
-// search:             maxDepth=41, constraints hit=0
-// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=29575
-// heap:               new=10799211202, released=10801694259, max live=1088642, gc-cycles=59150
-// instructions:       286521107348
-// max memory:         842MB
-// loaded code:        classes=331, methods=4445
+// // elapsed time:       00:07:19
+// states:             new=2890, visited=2683, backtracked=5573, end=201
+// search:             maxDepth=29, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=2887
+// heap:               new=26794057, released=26892937, max live=55556, gc-cycles=5573
+// instructions:       2330280940
+// max memory:         102MB
+// loaded code:        classes=359, methods=4869
 // 
-// ====================================================== search finished: 9/22/12 8:28 PM
+// ====================================================== search finished: 9/9/13 3:46 PM

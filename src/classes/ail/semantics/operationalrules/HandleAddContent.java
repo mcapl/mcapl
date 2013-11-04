@@ -58,7 +58,7 @@ public class HandleAddContent extends HandleContent {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		i.tlI();
+		i.tlI(a);
 		thetahd.compose(thetab);
 		i.compose(thetahd);
 		Predicate content_term = (Predicate) topdeed.getContent();

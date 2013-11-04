@@ -28,12 +28,13 @@ import ail.syntax.NumberTermImpl;
 
 import ajpf.util.AJPFLogger;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -131,13 +132,13 @@ public final class Abstract_NumberTermImpl implements Abstract_NumberTerm {
 
 	}
 
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Heap heap = vm.getHeap();
-		ThreadInfo ti = vm.getLastThreadInfo();
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ail.syntax.ast.Abstract_NumberTermImpl");
-		int objref = heap.newObject(ci, ti);
-		ElementInfo ei = vm.getElementInfo(objref);
+		ThreadInfo ti = vm.getCurrentThread();
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_NumberTermImpl");
+		ElementInfo ei = heap.newObject(ci, ti);
 		ei.setDoubleField("fValue", fValue);
+		int objref = ei.getObjectRef();
 
 		return objref;
 	}

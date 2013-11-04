@@ -31,13 +31,11 @@ import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Goal;
-import ail.syntax.GBelief;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
-import ail.syntax.ast.Abstract_GuardAtom;
 import ail.syntax.GuardAtom;
 import gwendolen.syntax.ast.Abstract_GPlan;
 

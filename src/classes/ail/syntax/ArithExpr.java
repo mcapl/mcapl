@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Represents and solve arithmetic expressions like "10 < 30".

@@ -168,6 +168,10 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		return goalbase;
 	}
 	
+	public StringTerm getDBnum() {
+		return getGoalBase();
+	}
+
 	/**
 	 * Setter method for the Goalbase.
 	 * @param i

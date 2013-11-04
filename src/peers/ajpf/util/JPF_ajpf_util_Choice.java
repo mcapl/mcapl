@@ -25,10 +25,12 @@
 package ajpf.util;
 
 import gov.nasa.jpf.JPF;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.choice.IntChoiceFromSet;
+import gov.nasa.jpf.annotation.MJI;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.choice.IntChoiceFromSet;
+import gov.nasa.jpf.vm.NativePeer;
 
 import java.util.logging.Logger;
 
@@ -38,12 +40,13 @@ import java.util.logging.Logger;
  * @author louiseadennis
  *
  */
-public class JPF_ajpf_util_Choice<O extends Object> { 
+public class JPF_ajpf_util_Choice<O extends Object> extends NativePeer { 
 	protected static Logger log = JPF.getLogger("ajpf.util");
 
+	  @MJI
 	public static int pickChoice__I__I(MJIEnv env, int objref, int limit) {
 		int myChoice = 0;
-		JVM vm = env.getVM();
+		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
 		if (!ti.isFirstStepInsn()) {
 			log.fine("creating a choice generator");

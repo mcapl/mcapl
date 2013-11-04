@@ -29,7 +29,7 @@
 
 env=eass.verification.leo.LEOVerificationEnvironment
 
-mas.file = /Eclipse/ajpf/src/examples/eass/verification/leo/satellite.eass
+mas.file = /src/examples/eass/verification/leo/satellite.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ajpf.MCAPLAgent

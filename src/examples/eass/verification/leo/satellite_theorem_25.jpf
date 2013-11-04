@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/leader_oneformation_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,25
+target.args =src/examples/eass/verification/leo/leader_oneformation_nofailures.ail,src/examples/eass/verification/leo/satellite.psl,25
 
 log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
 
@@ -35,7 +35,7 @@ et.print_insn=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
-vm.max_transition_length = 50000000
+vm.max_transition_length = MAX
 
 
 // [INFO] Number of States in Product Automata: 3096
@@ -55,3 +55,24 @@ vm.max_transition_length = 50000000
 // loaded code:        classes=327, methods=4407
 // 
 // ====================================================== search finished: 9/18/12 11:34 PM
+
+// 7th Sept 2013
+
+// [INFO] Number of States in Product Automata: 1562
+// ----------------------------------- search finished
+// 
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       00:10:56
+// states:             new=1563, visited=1545, backtracked=3108, end=16
+// search:             maxDepth=42, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1562
+// heap:               new=34299171, released=34278988, max live=43114, gc-cycles=3108
+// instructions:       3765653500
+// max memory:         81MB
+// loaded code:        classes=355, methods=4832
+// 
+// ====================================================== search finished: 9/7/13 10:19 AM
+

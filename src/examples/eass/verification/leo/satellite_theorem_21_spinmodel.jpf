@@ -1,0 +1,45 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/verification/leo/satellite_allthrusters.ail,src/examples/eass/verification/leo/satellite.psl,21Spin
+
+log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
+listener+=,.listener.ExecTracker
+et.print_insn=false
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+
+ajpf.model_only = true
+ajpf.model.location = theorem_spin21.pml
+ajpf.model.path = /Users/lad/Research/eass/ExperimentalData/leo/
+ajpf.target_modelchecker = spin
+ajpf.spin.property_file = propspin_eass21.txt
+ajpf.spin.path = /Users/lad/Systems/Spin/Src6.2.3/
+

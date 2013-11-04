@@ -30,7 +30,7 @@ import ajpf.MCAPLmas;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.Until;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Class for until properties, phi U psi.

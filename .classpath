@@ -9,10 +9,11 @@
 	<classpathentry kind="lib" path="lib/3rdparty/pccomm.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/bluecove.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/classes.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="/home/rasl/eclipse_workspace/mcapl/lib/3rdparty/rosjava-0.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/home/rasl/eclipse_workspace/mcapl/lib/3rdparty/rosjava_bootstrap-0.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/home/rasl/eclipse_workspace/mcapl/lib/3rdparty/rosjava_messages-0.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

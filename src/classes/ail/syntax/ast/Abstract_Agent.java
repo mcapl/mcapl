@@ -28,7 +28,7 @@ import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
