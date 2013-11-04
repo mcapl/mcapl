@@ -58,6 +58,9 @@
   	    <include name="lib/3rdparty/bluecove.jar"/>
   		<include name="lib/3rdparty/jpf.jar"/> 
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
+    	<include name="lib/3rdparty/rosjava_bootstrap-0.0.0-SNAPSHOT.jar"/>
+    	<include name="lib/3rdparty/rosjava_messages-0.0.0-SNAPSHOT.jar"/>
+    	<include name="lib/3rdparty/rosjava-0.0.0-SNAPSHOT.jar"/>
    </fileset>
 
     <!-- add in what we need from the core -->
