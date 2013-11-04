@@ -23,11 +23,42 @@
 //----------------------------------------------------------------------------
 package eass.ros.pubsub;
 
-import eass.mas.ros.EASSSubscriberNode;
+import eass.mas.ros.EASSNode;
 
-public class ExampleSubscriber extends EASSSubscriberNode {
+import org.ros.namespace.GraphName;
+import org.ros.node.ConnectedNode;
+import org.ros.node.topic.Subscriber;
+import org.ros.message.MessageListener;
+
+import ail.syntax.Predicate;
+
+public class ExampleSubscriber extends EASSNode {
+	Subscriber<std_msgs.String> subscriber;
 
 	public ExampleSubscriber() {
-		super("chatter", "/src/examples/eass/ros/pubsub/subscriber.ail");
+		super("/src/examples/eass/ros/pubsub/subscriber.ail");
 	}
+
+	public GraphName getDefaultNodeName() {
+	    return GraphName.of("eass_ros/subscriber");
+	}
+
+	public void onStart(final ConnectedNode connectedNode) {
+		super.onStart(connectedNode);
+	}
+	
+	public void initialise() {
+		
+		subscriber = newSubscriber("chatter", std_msgs.String._TYPE);
+		subscriber.addMessageListener(new MessageListener<std_msgs.String>() {
+			public void onNewMessage(std_msgs.String message) {
+				Predicate heard = new Predicate("heard");
+				heard.addTerm(new Predicate(message.getData()));
+				
+				addPerceptToEnv(heard);
+			}
+		}
+		);
+	}
+
 }

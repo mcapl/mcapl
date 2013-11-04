@@ -28,7 +28,10 @@ import org.ros.namespace.GraphName;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
-import turtlesim.Velocity;
+import geometry_msgs.Twist;
+import geometry_msgs.Point;
+import geometry_msgs.Quaternion;
+import geometry_msgs.Vector3;
 
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
@@ -60,8 +63,8 @@ public class EASSTurtle extends EASSNode {
 	
 
 	public class Turtle {
-		Subscriber<turtlesim.Pose> pose;
-		Publisher<turtlesim.Velocity> command_velocity;
+		Subscriber<geometry_msgs.Pose> pose;
+		Publisher<geometry_msgs.Twist> command_velocity;
 		String name;
 		
 		public Turtle(String turtlename, EASSNode node)  {
@@ -70,17 +73,16 @@ public class EASSTurtle extends EASSNode {
 			String posestring = turtlename + "/pose";
 			String command_velocity_string = turtlename + "/command_velocity";
 
-			command_velocity = node.newPublisher(command_velocity_string, turtlesim.Velocity._TYPE);
+			command_velocity = node.newPublisher(command_velocity_string, geometry_msgs.Twist._TYPE);
 			
-			pose = node.newSubscriber(posestring, turtlesim.Pose._TYPE);
-			pose.addMessageListener(new MessageListener<turtlesim.Pose>() { 
-				public void onNewMessage(turtlesim.Pose message) {
+			pose = node.newSubscriber(posestring, geometry_msgs.Pose._TYPE);
+			pose.addMessageListener(new MessageListener<geometry_msgs.Pose>() { 
+				public void onNewMessage(geometry_msgs.Pose message) {
 					Predicate heard = new Predicate("heard");
 					Predicate position = new Predicate("pose");
-					position.addTerm(new NumberTermImpl(message.getX()));
-					position.addTerm(new NumberTermImpl(message.getY()));
-					position.addTerm(new NumberTermImpl(message.getLinearVelocity()));
-					position.addTerm(new NumberTermImpl(message.getTheta()));
+					Point p = message.getPosition();
+					position.addTerm(new NumberTermImpl(p.getX()));
+					position.addTerm(new NumberTermImpl(p.getY()));
 					heard.addTerm(position);
 					addPerceptToEnv(heard);
 				};
@@ -88,9 +90,9 @@ public class EASSTurtle extends EASSNode {
 		}
 		
 		public void send(float angular, float linear) {
-			Velocity v = command_velocity.newMessage();
-			v.setAngular(angular);
-			v.setLinear(linear);
+			Twist v = command_velocity.newMessage();
+			v.getAngular().setZ(angular);
+			v.getLinear().setX(linear);
 			command_velocity.publish(v);
 		}
 	}

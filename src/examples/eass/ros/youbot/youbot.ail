@@ -22,61 +22,53 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.ros.pubsub.PubSubEnvironment
+env = eass.ros.youbot.YoubotEnvironment
 
-mas.file = /src/examples/eass/ros/pubsub/subscriber.eass
+mas.file = /src/examples/eass/ros/youbot/youbot.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ail.semantics.AILAgent,ajpf.MCAPLcontroller,ajpf.MCAPLAgent
-log.info = eass.ros.EASSSubscriberNode,ail.mas.DefaultEnvironment
-log.finer = eass.mas.DefaultEASSEnvironment
+log.info = ail.mas.DefaultEnvironment,eass.mas.DefaultEASSEnvironment
 log.format = brief
 
 /* To Run
 
-Requirements
-============
-Ros Hydro
 Make sure you have AJPF_HOME set everywhere (to the mcapl directory)
-Need rosjava  installed
+Need rosjava installed
 
-1. If necessary, create a package in a ROS hydro catkin workspace 
+If necessary create a rosjava workspace and package
 
-Example
--------
+(cd catkin_ws
+ mkdir -p rosjava/src
+ cd rosjava/src
+ catkin_create_rosjava_pkg rais
+ cd rais
 
-mkdir -p rosjava/src
-cd rosjava/src
-catking_create_rosjava_pkg eass
-cd eass
-
-
-2. Within the package create a project.
-
-Example
--------
-
-catkin_create_rosjava_project eass_pubsub
-
-3.  Copy build.gradle across.
+  Create a turtle project
+ 
+ (catkin_create_rosjava_project eass_turtle
+ 
+ 
   
-cp $AJPF_HOME/src/examples/eass/ros/pubsub/build.gradle . 
+  Copy build.gradle across.
   
-4.  Create a location for java files and copy them there.
+  (cp $AJPF_HOME/src/examples/eass/ros/turtlesim/build.gradle . )
   
-mkdir -p src/main/java/eass/ros/pubsub )
-cp $AJPF_HOME/src/examples/eass/ros/pubsub/*.java src/main/java/eass/ros/pubsub/. 
+  make a location for java files
+  
+  ( mkdir -p src/main/java/eass/ros/turtlesim )
+  
+  Copy files
+  
+  (cp $AJPF_HOME/src/examples/eass/ros/turtlesim/*.java src/main/java/eass/ros/turtlesim/. )
 
-5.  Build application
-
-../gradlew installApp
-
- 6. Run the application, you will need three terminals
+   ../gradlew build
+   
+   3 Terminals run 
    Terminal 1:   roscore 
       
-   Terminal 2: Run the Publisher
-   ./build/install/eass_pubsub/bin/eass_pubsub eass.ros.pubsub.ExamplePublisher
-   
-   Terminal 3: Run the Subscriber
-   ./build/install/eass_publisher/bin/eass_pubsub eass.ros.pubsub.ExampleSubscriber  
+   Terminal 2: rosrun turtlesim turtlesim_node
+     
+   Terminal 3: From eass_turtle
+   ./build/install/eass_turtle/bin/eass_turtle eass.ros.turtlesim.EASSTurtle
 */

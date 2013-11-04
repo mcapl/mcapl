@@ -22,22 +22,20 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.ros.pubsub;
+package eass.ros.youbot;
 
 import ail.mas.NActionScheduler;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
+import ail.syntax.NumberTerm;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 import eass.mas.ros.EASSROSEnvironment;
-import eass.mas.ros.EASSNode;
 
-import org.ros.node.topic.Publisher;
-
-public class PubSubEnvironment extends EASSROSEnvironment {
-	String logname = "eass.ros.pubsub.PubSubEnvironment";
+public class YoubotEnvironment extends EASSROSEnvironment {
+	String logname = "eass.ros.pubsub.YoubotEnvironment";
 	
-	public PubSubEnvironment() {
+	public YoubotEnvironment() {
 		super();
 		NActionScheduler s = new NActionScheduler(20);
 		s.addJobber(this);
@@ -47,16 +45,13 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 	
 	public void eachrun() {
 	}
-	
+		
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "entered executeAction PubSub " + act);
-			}
-		   
-		   if (act.getFunctor().equals("say")) {
-			   String actstring = act.getTerm(0).toString();
-			   ((ExamplePublisher) getROSNode()).publish(actstring);
+		   String rname = rationalName(agName);
+
+		   if (act.getFunctor().equals("movejoint")) {
+			   ((EASSYoubot) getROSNode()).getKUKA().movejoint((int) Math.round(((NumberTerm) act.getTerm(0)).solve()), 1.5f);
 			   AJPFLogger.info(logname, agName + " done " + act);
 		   } else {
 			   super.executeAction(agName, act);
@@ -64,6 +59,6 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 		   
 		   return u;
 	}
-
+	
 
 }

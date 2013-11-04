@@ -20,10 +20,7 @@ public class EASSNode extends AbstractNodeMain {
 	String agent_file_path;
 	EASSROSEnvironment env;
 	ConnectedNode cNode;
-	
-	HashMap<String,Subscriber<std_msgs.String>> perceptionTopics = new HashMap<String,Subscriber<std_msgs.String>>();
-	HashMap<String,Publisher<std_msgs.String>> actionTopics = new HashMap<String,Publisher<std_msgs.String>>();
-	
+		
 	public EASSNode(String file_path) {
 		agent_file_path = file_path;
 	}
@@ -41,22 +38,7 @@ public class EASSNode extends AbstractNodeMain {
 	public <T> Publisher<T> newPublisher(String topic_name, String messageType ) {
 		return cNode.newPublisher(topic_name, messageType);
 	}
-
-	public Publisher<std_msgs.String> newActionTopic(String topic_name) {
-		Publisher<std_msgs.String> publisher = cNode.newPublisher(topic_name, std_msgs.String._TYPE);
-		actionTopics.put(topic_name, publisher);
-		return publisher;
-	}
-
-	public void publish(String topic_name, String action) {
-		Publisher<std_msgs.String> publisher = actionTopics.get(topic_name);
-		if (publisher != null) {
-        std_msgs.String str = publisher.newMessage();
-        str.setData(action);
-        publisher.publish(str);
-		}
-	}
-	
+ 	
 	public void setConnectedNode(final ConnectedNode connectedNode) {
 		cNode = connectedNode;
 	}

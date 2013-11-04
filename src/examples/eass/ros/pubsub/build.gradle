@@ -31,9 +31,8 @@ version = '0.0.0-SNAPSHOT'
 group = 'ros.my_stack'
 
 dependencies {
-  compile 'ros.rosjava_core:rosjava:0.0.0-SNAPSHOT'
-  compile 'ros.rosjava_core:rosjava_messages:0.0.0-SNAPSHOT'
-  compile 'ros.rosjava_core:rosjava_bootstrap:0.0.0-SNAPSHOT'
+  compile 'org.ros.rosjava_core:rosjava:0.1.3'
+  compile 'org.ros.rosjava_messages:std_msgs:0.1.22'
   compile files("$ajpf_home/bin")
 
   runtime files("$ajpf_home")

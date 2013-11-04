@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,43 +22,38 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.ros.turtlesim;
+EASS
 
-import ail.mas.NActionScheduler;
-import ail.syntax.Action;
-import ail.syntax.Unifier;
-import ail.util.AILexception;
-import ajpf.util.AJPFLogger;
-import eass.mas.ros.EASSROSEnvironment;
+:abstraction: youbot
 
+:Initial Beliefs:
 
-public class TurtleEnvironment extends EASSROSEnvironment {
-	String logname = "eass.ros.pubsub.TurtleEnvironment";
-	
-	public TurtleEnvironment() {
-		super();
-		NActionScheduler s = new NActionScheduler(20);
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
-	}
-	
-	public void eachrun() {
-	}
-		
-	public Unifier executeAction(String agName, Action act) throws AILexception {
-		   Unifier u = new Unifier();
-		   String rname = rationalName(agName);
+:Initial Goals:
 
-		   if (act.getFunctor().equals("move")) {
-			   ((EASSTurtle) getROSNode()).getTurtle().send(1.4f, 1.5f);
-			   AJPFLogger.info(logname, agName + " done " + act);
-		   } else {
-			   super.executeAction(agName, act);
-		   }
-		   
-		   return u;
-	}
-	
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 
-}
++ heard(S) : {~B talking1} <-
+  print(S),
+  assert_shared(talking1);
++ heard(S) : {B talking1} <-
+  print(S),
+  assert_shared(changed_position);
+  
+ +! moving[perform] : {True} <-
+    movejoint(1), assert_shared(talking);
+  
+:name: youtbot
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++talking1 : {True} <- +!changed_position [achieve];
+
++! changed_position [achieve] : {True} <- perf(moving);

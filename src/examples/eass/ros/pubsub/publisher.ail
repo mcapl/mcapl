@@ -33,37 +33,49 @@ log.format = brief
 
 /* To Run
 
+Requirements
+============
+Ros Hydro
 Make sure you have AJPF_HOME set everywhere (to the mcapl directory)
-Need rosjava and the rosjava pubsub tutorials installed
+Need rosjava  installed
 
-create a package in a ROS groovy catkin workspace which depends on rosjava_core
+1. If necessary, create a package in a ROS hydro catkin workspace 
 
-(e.g.  catkin_create_pkg eass_publisher rosjava_core )
- remove CMakeLists.txt
- 
- (cd eass_publisher
-  rm CMakeLists.txt)
-  
-  Copy build.gradle across.
-  
-  (cp $AJPF_HOME/src/examples/eass/ros/pubsub/build.gradle . )
-  
-  make a location for java files
-  
-  ( mkdir -p src/main/java/eass/ros/pubsub )
-  
-  Copy files
-  
-  (cp $AJPF_HOME/src/examples/eass/ros/pubsub/*.java src/main/java/eass/ros/pubsub/. )
+Example
+-------
 
-   gradle build (or equivalent - on rasl sh ~/bin/gradle.sh installApp )
-   
-   3 Terminals run 
+mkdir -p rosjava/src
+cd rosjava/src
+catking_create_rosjava_pkg eass
+cd eass
+
+
+2. Within the package create a project.
+
+Example
+-------
+
+catkin_create_rosjava_project eass_pubsub
+
+3.  Copy build.gradle across.
+  
+cp $AJPF_HOME/src/examples/eass/ros/pubsub/build.gradle . 
+  
+4.  Create a location for java files and copy them there.
+  
+mkdir -p src/main/java/eass/ros/pubsub )
+cp $AJPF_HOME/src/examples/eass/ros/pubsub/*.java src/main/java/eass/ros/pubsub/. 
+
+5.  Build application
+
+../gradlew installApp
+
+ 6. Run the application, you will need three terminals
    Terminal 1:   roscore 
       
-   Terminal 2: From rosjava_tutorial_pubsub
-  ./build/install/rosjava_wiki_tutorial_pubsub/bin/rosjava_wiki_tutorial_pubsub org.ros.rosjava_tutorial_pubsub.Listener
-  
-   Terminal 3: From eass_publisher
-   ./build/intall/eass_publisher/bin/eass_publisher eass.ros.pubsub.ExamplePublisher
+   Terminal 2: Run the Publisher
+   ./build/install/eass_pubsub/bin/eass_pubsub eass.ros.pubsub.ExamplePublisher
+   
+   Terminal 3: Run the Subscriber
+   ./build/install/eass_publisher/bin/eass_pubsub eass.ros.pubsub.ExampleSubscriber  
 */

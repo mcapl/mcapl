@@ -115,7 +115,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
        	if (mi == miCreateAutomaton) {
       		log.fine("creating automaton");
       		Config config = vm.getConfig();
-       		if (config.containsKey("ajpf.model_only")) {
+       		if (config.hasValue("ajpf.model_only")) {
        			if (config.getProperty("ajpf.model_only").equals("true")) {
        				model_only = true;
        			}
@@ -297,7 +297,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 		 product_automata.setConfig(config);
 
 		 // Are we generating a model in some particular format 
-		 if (config.containsKey("ajpf.model.location")) {
+		 if (config.hasValue("ajpf.model.location")) {
 
 			 if (config.getProperty("ajpf.model.location").equals("stdout")) {
 				 System.out.println(product_automata.getModel().toString());
