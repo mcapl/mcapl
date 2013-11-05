@@ -94,8 +94,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = UPDATE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:9: ( '±' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:11: '±'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:9: ( '' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:11: ''
             {
             match('\u00B1'); 
 
