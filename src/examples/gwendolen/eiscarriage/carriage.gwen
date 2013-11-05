@@ -32,5 +32,14 @@ GWENDOLEN
 
 :Plans:
 
-+carriagePos(N) : { True } <- push;
++carriagePos(0) : {True} <- push;
 
+:name: ag2
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++carriagePos(1) : {True} <- push;

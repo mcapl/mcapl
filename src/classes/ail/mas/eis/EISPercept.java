@@ -34,10 +34,11 @@ import ail.syntax.Term;
 import ail.syntax.ListTerm;
 import ail.syntax.ListTermImpl;
 import ajpf.util.AJPFLogger;
+import ail.syntax.NumberTermImpl;
 
 public class EISPercept {
 	Percept percept;
-	PrologParser parser = null;
+	PrologParser parser = new PrologParser(null);
 	String logname = "ail.mas.eis.EISPercept";
 	
 	public EISPercept(Percept p) {
@@ -45,7 +46,7 @@ public class EISPercept {
 	}
 	
 	public Predicate toPredicate() {
-		String percept_prolog_string = percept.toProlog();
+		String percept_prolog_string = percept.toProlog() + ".";
 		try {
 			
 			// Need to do proper prolog parsing.
@@ -66,8 +67,10 @@ public class EISPercept {
 		switch ( type ) {
 				// NB. Not handling numbers
 			case ATOM:
-				PrologAtom atom = (PrologAtom) plg;
-				return new Predicate(atom.getText());
+				if (plg instanceof AbstractPrologNumericTerm) {
+					return new NumberTermImpl(plg.getText());
+				}
+				return new Predicate(plg.getText());
 			case VAR:
 				PrologVariable var = (PrologVariable) plg;
 				return new VarTerm(var.getText());
@@ -75,7 +78,7 @@ public class EISPercept {
 			case STRUCT:
 				PrologStructure struct = (PrologStructure) plg;
 				Predicate p = new Predicate(struct.getFunctor().getText());
-				for (int i = 1; i <= struct.getArity(); i++) {
+				for (int i = 0; i < struct.getArity(); i++) {
 					p.addTerm(prologToAIL(struct.getElement(i)));
 				}
 				return p;

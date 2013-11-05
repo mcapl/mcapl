@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/eis-0.3.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/java-prolog-parser.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/java-prolog-parser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

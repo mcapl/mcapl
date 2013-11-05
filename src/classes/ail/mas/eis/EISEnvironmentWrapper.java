@@ -28,7 +28,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Vector;
@@ -52,6 +54,7 @@ import eis.iilang.Percept;
 import eis.EILoader;
 import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.*;
+import gov.nasa.jpf.annotation.FilterField;
 
 import com.igormaznitsa.prologparser.PrologParser;
 import com.igormaznitsa.prologparser.terms.PrologStructure;
@@ -64,11 +67,22 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	Map<String, Set<Predicate>> agentpercepts = new HashMap<String, Set<Predicate>>();
 	PrologParser parser = new PrologParser(null);
 	MCAPLScheduler scheduler;
+	/**
+	 * The list of percept listeners.
+	 */
+	@FilterField
+	private static List<PerceptListener> perceptListeners = new ArrayList<PerceptListener>();
 	
 	public EISEnvironmentWrapper(String jarFileName) {
 		try {
 			eis_environment = EILoader.fromJarFile(new File(jarFileName));
-		} catch (IOException e) {
+			if (eis_environment.isPauseSupported()) {
+				eis_environment.pause();
+				if (eis_environment.isStartSupported()) {
+					eis_environment.start();
+				}
+			}
+		} catch (Exception e) {
 			AJPFLogger.severe(logname, e.getMessage());
 		}
 		
@@ -78,6 +92,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	@Override
 	public void handlePercept(String arg0, Percept arg1) {
 			agentpercepts.get(arg0).add(new EISPercept(arg1).toPredicate());
+			notifyListeners(arg0);
 	}
 	
 
@@ -117,13 +132,18 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		} catch (ActException e) {
 			AJPFLogger.severe(logname, e.getMessage());
 		} 
-		return null;
+		
+		notifyListeners();
+		return new Unifier();
 	}
 
 	@Override
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		// TODO Auto-generated method stub
-		Set<Predicate> preds = agentpercepts.get(agName);
+		Set<Predicate> preds = new HashSet<Predicate>();
+		for (Predicate p: agentpercepts.get(agName)) {
+			preds.add(p);
+		}
 		try {
 			for (String e_name: eis_environment.getAssociatedEntities(agName)) {
 				for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName, e_name)).values()) {
@@ -137,14 +157,14 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 			AJPFLogger.warning(logname, e.getMessage());
 		}
 		
-		agentpercepts.clear();
+		agentpercepts.get(agName).clear();
 		return preds;
 	}
 
 	@Override
 	public Set<Message> getMessages(String AgName) {
 		// TODO Auto-generated method stub
-		return null;
+		return new HashSet<Message>();
 	}
 
 	@Override
@@ -173,7 +193,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 
 	@Override
 	public void addPerceptListener(PerceptListener p) {
-		// TODO Auto-generated method stub
+		perceptListeners.add(p);
 
 	}
 
@@ -213,7 +233,13 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	}
 	
 	public void final_cleanup() {
-		
+		try {
+			if (eis_environment.isKillSupported()) {
+				eis_environment.kill();
+			}
+		} catch (ManagementException e) {
+			AJPFLogger.warning(logname, e.getMessage());
+		}
 	}
 
 	@Override
@@ -237,5 +263,35 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	public EnvironmentInterfaceStandard getEIS() {
 		return eis_environment;
 	}
+	
+    /**
+     * Notify the listeners that the perceptions have changed.
+     *
+     */
+    public void notifyListeners() {
+    	if (perceptListeners != null) {
+    		for (PerceptListener l: perceptListeners) {
+    			l.perceptChanged("perception changed");
+     		}
+    	}
+    }
+
+    /**
+     * Notify the listeners that a particular agent's perceptions have changed.
+     * 
+     * @param s the name of the agent whose perceptions have changed.
+     */
+    public void notifyListeners(String s) {
+     	if (perceptListeners != null) {
+    		for (PerceptListener l: perceptListeners) {
+    			// NB.  We also inform the scheduler as well as any listener associated with the agent.
+     			if (l.getListenerName().equals(s) || l.getListenerName().equals("scheduler")) {
+    				l.perceptChanged(s);
+    			}
+    		}
+    	}
+     	
+    }
+
 
 }

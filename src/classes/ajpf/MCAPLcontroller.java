@@ -209,9 +209,10 @@ public class MCAPLcontroller  {
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
 		//	AJPFLogger.info("ajpf.MCAPLcontroller", "Picked jobber " + a.getName());
-		} //else {
+		} else {
+		//	AJPFLogger.warning("ajpf.MCAPLcontroller", "No Active Agents");
 		//	pickJob(1);
-		//}
+		}
 		AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
 		a.do_job();
 		specification.checkProperties();

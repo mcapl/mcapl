@@ -33,8 +33,10 @@ public class EISAction {
 	public EISAction(ail.syntax.Action a) {
 		String functor = a.getFunctor();
 		action = new Action(functor);
-		for (Term t: a.getTerms()) {
-			action.addParameter(t.toEISParameter());
+		if (a.getTerms() != null) {
+			for (Term t: a.getTerms()) {
+				action.addParameter(t.toEISParameter());
+			}
 		}
 	}
 	

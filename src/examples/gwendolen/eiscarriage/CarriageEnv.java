@@ -26,5 +26,16 @@ public class CarriageEnv extends EISEnvironmentWrapper{
 				AJPFLogger.severe("gwendolen.eiscarriage.CarriageEnv", e.getMessage());
 			}
 		}
+		if (a.getAgName().equals("ag2")) {
+			try {
+				getEIS().associateEntity("ag2", "robot2");
+			} catch (Exception e) {
+				AJPFLogger.severe("gwendolen.eiscarriage.CarriageEnv", e.getMessage());
+			}
+		}
+	}
+	
+	public boolean done() {
+		return true;
 	}
 }
