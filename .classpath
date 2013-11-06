@@ -9,8 +9,8 @@
 	<classpathentry kind="lib" path="lib/3rdparty/pccomm.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/bluecove.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/classes.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
 	<classpathentry kind="lib" path="/opt/ros/hydro/share/maven/org/ros/rosjava_core/rosjava/0.1.3/rosjava-0.1.3.jar"/>
 	<classpathentry kind="lib" path="/opt/ros/hydro/share/maven/org/ros/rosjava_messages/std_msgs/0.1.22/std_msgs-0.1.22.jar"/>

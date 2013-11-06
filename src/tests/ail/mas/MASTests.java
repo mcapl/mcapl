@@ -49,21 +49,26 @@ public class MASTests {
 	 */
 	@Test public void lastActionWasTest() {
     	String filename = "/src/examples/eass/verification/leo/satellite_middle_line.eass";
-    	String abs_filename = MCAPLcontroller.getAbsFilename(filename);
+    	try {
+    		String abs_filename = MCAPLcontroller.getFilename(filename);
 
-		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
-		LEOVerificationEnvironment env = new LEOVerificationEnvironment();
-		mas.setEnv(env);
+    		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
+    		LEOVerificationEnvironment env = new LEOVerificationEnvironment();
+    		mas.setEnv(env);
 		
-		Action envaction = new Action("does");
-		envaction.addTerm(new VarTerm("P"));
+    		Action envaction = new Action("does");
+    		envaction.addTerm(new VarTerm("P"));
 		
-		MCAPLPredicate agentaction = new MCAPLPredicate("does");
-		agentaction.addTerm(new MCAPLTermImpl("something"));
-		env.lastAction = envaction;
-		env.lastAgent = "ag1";
+    		MCAPLPredicate agentaction = new MCAPLPredicate("does");
+    		agentaction.addTerm(new MCAPLTermImpl("something"));
+    		env.lastAction = envaction;
+    		env.lastAgent = "ag1";
 		
-		Assert.assertTrue(mas.lastActionWas("ag1", agentaction)); 
+    		Assert.assertTrue(mas.lastActionWas("ag1", agentaction)); 
+    	} catch (Exception e) {
+    		System.err.println(e.getMessage());
+    		Assert.fail(e.getMessage());
+    	}
 		
 	} 
 
