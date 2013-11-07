@@ -30,9 +30,12 @@ GWENDOLEN
 
 :Initial Goals:
 
+carriagePos(1) [achieve]
+
 :Plans:
 
-+carriagePos(0) : {True} <- push;
++!carriagePos(1) [achieve] : {True} <- push;
+-carriagePos(1): {True} <- +! carriagePos(1) [achieve];
 
 :name: ag2
 
@@ -40,6 +43,9 @@ GWENDOLEN
 
 :Initial Goals:
 
+carriagePos(0) [achieve]
+
 :Plans:
 
-+carriagePos(1) : {True} <- push;
++!carriagePos(0) [achieve] : {True} <- push;
+-carriagePos(0): {True} <- +! carriagePos(0) [achieve];

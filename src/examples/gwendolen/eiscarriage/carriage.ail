@@ -25,3 +25,5 @@
 env = gwendolen.eiscarriage.CarriageEnv
 mas.file = src/examples/gwendolen/eiscarriage/carriage.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+log.fine = ail.semantics.AILAgent
