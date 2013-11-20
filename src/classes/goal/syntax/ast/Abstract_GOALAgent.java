@@ -214,9 +214,9 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     }
 
     
-    public void addGoal(Abstract_Term g, Abstract_StringTerm i) {
-    	Abstract_Goal gl = new Abstract_Goal((Abstract_Literal) g, Abstract_Goal.achieveGoal);
-    	gl.setGoalBase(i);
+    public void addGoal(Abstract_Term g) {
+    	Abstract_Goal gl = new Abstract_Goal((Abstract_Predicate) g, Abstract_Goal.achieveGoal);
+    	// gl.setGoalBase(i);
        	int newsize = goals.length + 1;
     	Abstract_Goal[] newgoals = new Abstract_Goal[newsize];
     	for (int j = 0; j < goals.length; j++) {

@@ -105,6 +105,12 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		goaltype = i;
 	}
 	
+	public Abstract_Goal(Abstract_Predicate p, int i) {
+		setFunctor(p.getFunctor());
+		setTerms(p.getTerms());
+		goaltype = i;
+	}
+	
 	/**
 	 * Constructor.
 	 * @param g

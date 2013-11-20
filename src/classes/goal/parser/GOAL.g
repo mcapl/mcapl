@@ -51,21 +51,21 @@ program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abst
 		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
   	                (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                                         (BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE)?
-                                        (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
+                                        (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
                                          MAIN MODULE CURLYOPEN module[gl] CURLYCLOSE
                                          (EVENT MODULE CURLYOPEN module[gl] CURLYCLOSE)?
-                                         (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?
+                                         (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?
                                               
                                          CURLYCLOSE
                                               {mas.setAgs(agents);};
                                    
 module[Abstract_GOALAgent gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
-                             (GOALS CURLYOPEN poslitconj* CURLYCLOSE)?
+                             (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
                              PROGRAM (optionorder)? CURLYOPEN
                                  macro*
-                                 actionrule+
+                                 actionrule[gl]+
                              CURLYCLOSE
-                             (ACTIONSPEC CURLYOPEN actionspec+ CURLYCLOSE)?;
+                             (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
                              
 krspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructure.AILBel);} 
 	(STOP {$gl.addFact(hd);} | 
@@ -75,7 +75,7 @@ brspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructu
 	(STOP {$gl.addBel(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
-poslitconj	: atom (COMMA atom)* STOP;
+poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(new Abstract_Literal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g.getContent());})* STOP;
 
 litconj returns [Abstract_LogicalFormula f]: l=literal (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
@@ -90,7 +90,7 @@ optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQ
 
 macro	: HASH DEFINE id parameters mentalstatecond STOP;
 
-actionrule   	: IF (mentalstatecond | id parameters) THEN actioncombo STOP;	
+actionrule[Abstract_GOALAgent gl]   	: IF (mentalstatecond | id parameters) THEN actioncombo[gl] STOP;	
 
 mentalstatecond
 	: mentalliteral (COMMA mentalliteral)*;	
@@ -102,12 +102,12 @@ mentalatom
 	: BEL OPEN litconj CLOSE | GOAL OPEN litconj CLOSE;
 	
 
-actionspec: action CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;
+actionspec[Abstract_GOALAgent gl]: action[gl] CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;
 
-actioncombo
-	: action (PLUS action)*;
+actioncombo[Abstract_GOALAgent gl]
+	: action[gl] (PLUS action[gl])*;
 	
-action	: userdefaction | builtinaction | communication;
+action[Abstract_GOALAgent gl]	: userdefaction | builtinaction | communication[gl];
 
 userdefaction
 	: id (parameters)+;
@@ -118,8 +118,8 @@ builtinaction
 	  ADOPT OPEN litconj CLOSE |
 	  DROP OPEN litconj CLOSE;
 	  
-communication
-	: SEND OPEN id COMMA poslitconj CLOSE;
+communication[Abstract_GOALAgent gl]
+	: SEND OPEN id COMMA poslitconj[gl] CLOSE;
                                          
 id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	
                                                  
