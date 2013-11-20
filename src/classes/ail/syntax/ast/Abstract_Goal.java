@@ -235,4 +235,6 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		return false;
 	}
 	
+	
+	public void setCategory(byte b) {};
 }

@@ -30,6 +30,7 @@ package goal.parser;
 
 import ail.syntax.ast.*;
 import goal.syntax.ast.*;
+import ail.syntax.PredicateIndicator;
 import java.util.HashMap;
 }
 
@@ -39,6 +40,8 @@ package goal.parser;
 
 @members {
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
+	private static HashMap<PredicateIndicator,Abstract_LogicalFormula> macros = new HashMap<PredicateIndicator, Abstract_LogicalFormula>();
+	private static HashMap<PredicateIndicator,Abstract_Term> macro_subs = new HashMap<PredicateIndicator, Abstract_Term>();
 	private String name = "";
 }
 
@@ -75,9 +78,9 @@ brspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructu
 	(STOP {$gl.addBel(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
-poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(new Abstract_Literal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g.getContent());})* STOP;
+poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g.getContent());})* STOP;
 
-litconj returns [Abstract_LogicalFormula f]: l=literal (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
+litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
 literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
 
@@ -88,18 +91,19 @@ parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term>
 
 optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE;
 
-macro	: HASH DEFINE id parameters mentalstatecond STOP;
+macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(f, pl.length); macros.put(pi, msc); 
+                                  Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl); macro_subs.put(pi, p);} STOP;
 
 actionrule[Abstract_GOALAgent gl]   	: IF (mentalstatecond | id parameters) THEN actioncombo[gl] STOP;	
 
-mentalstatecond
-	: mentalliteral (COMMA mentalliteral)*;	
+mentalstatecond returns [Abstract_LogicalFormula lf]
+	: ml=mentalliteral {$lf = ml;} (COMMA ml2=mentalliteral {ml = new Abstract_LogExpr(ml, Abstract_LogExpr.and, ml2); $lf = ml;})*;	
 	
-mentalliteral
-	: TRUE | mentalatom | NOT OPEN mentalatom CLOSE;
+mentalliteral returns [Abstract_LogicalFormula lf]
+	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_LogExpr(Abstract_LogExpr.not, nma);} CLOSE;
 	
-mentalatom
-	: BEL OPEN litconj CLOSE | GOAL OPEN litconj CLOSE;
+mentalatom returns [Abstract_LogicalFormula lf]
+	: BEL OPEN b=litconj  {b.setCategory(Abstract_BaseAILStructure.AILBel); $lf = b;} CLOSE | GOAL OPEN g=litconj {g.setCategory(Abstract_BaseAILStructure.AILGoal); $lf = g;}CLOSE;
 	
 
 actionspec[Abstract_GOALAgent gl]: action[gl] CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;

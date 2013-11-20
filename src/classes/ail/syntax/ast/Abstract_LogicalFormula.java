@@ -71,4 +71,6 @@ public interface Abstract_LogicalFormula {
 	 */
 	public int newJPFObject(MJIEnv env);
 	
+	public void setCategory(byte b);
+	
 }

@@ -119,4 +119,10 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
 		return objref;
     }
     
+	public void setCategory(byte b) {
+		head.setCategory(b);
+		body.setCategory(b);
+	}
+
+    
  }

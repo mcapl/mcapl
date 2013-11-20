@@ -237,4 +237,5 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
 		return (getCategory() == GTrue);
 	}
 	
+	
 }

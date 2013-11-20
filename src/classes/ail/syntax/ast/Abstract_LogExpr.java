@@ -190,6 +190,11 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 		return ref;
 
 	}
+	
+	public void setCategory(byte b) {
+		lhs.setCategory(b);
+		rhs.setCategory(b);
+	}
 
 
 }
