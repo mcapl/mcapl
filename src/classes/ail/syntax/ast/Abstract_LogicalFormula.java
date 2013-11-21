@@ -27,6 +27,7 @@ package ail.syntax.ast;
 import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.LogicalFormula;
+import ail.syntax.Unifier;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -71,6 +72,24 @@ public interface Abstract_LogicalFormula {
 	 */
 	public int newJPFObject(MJIEnv env);
 	
+	/**
+	 * Ideally categories would only be set on Guard Atoms but sometimes during parsing it is necessary to set
+	 * a category for a more complex expression.
+	 * @param b
+	 */
 	public void setCategory(byte b);
+	
+	/**
+	 * This is to support macros when parsing GOAL programs.  Apply a unifer to the mental state condition.
+	 * @param u
+	 */
+	public Abstract_LogicalFormula apply(Abstract_Unifier u);
+	
+	/**
+	 * This is to support macros when parsing GOAL programs.  Apply a unifer to the mental state condition.
+	 * @param u
+	 */
+	public void unifies(Abstract_LogicalFormula t, Abstract_Unifier u);
+
 	
 }

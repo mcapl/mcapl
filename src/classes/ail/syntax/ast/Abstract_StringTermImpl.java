@@ -134,5 +134,17 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 		Verify.log("ail.syntax.ast", Verify.WARNING, "Abstract_StringTermImpl should not be being created from Listener");
 		return 0;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u) {};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#applyu(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u) {return this;};
 
 }

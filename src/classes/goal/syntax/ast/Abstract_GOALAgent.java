@@ -63,7 +63,7 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 	/*
 	 * The Plan Library.
 	 */
-	//public Abstract_Plan[] condactions = new Abstract_Plan[0];
+	public Abstract_Plan[] condactions = new Abstract_Plan[0];
 
 	 /**
 	 * Construct a Gwendolen agent from an architecture and a name.
@@ -108,7 +108,7 @@ public class Abstract_GOALAgent extends Abstract_Agent {
   }
 
    public void addPlan(Abstract_Plan p)  {
-     /*	if (p instanceof Abstract_ActionRule) {
+     	if (p instanceof Abstract_ActionRule) {
           	int newsize = condactions.length + 1;
         	Abstract_Plan[] newplans = new Abstract_Plan[newsize];
         	for (int i = 0; i < condactions.length; i++) {
@@ -117,10 +117,10 @@ public class Abstract_GOALAgent extends Abstract_Agent {
            	newplans[condactions.length] = p;
         	condactions = newplans;
     		// CondActions.init(this);
-    	 } else { */
+    	 } else { 
     		super.addPlan(p);
     		// fPL.init(this);
-    //	 }  
+    	 }  
     }
    
    public void addBel(Abstract_GBelief gb) {
@@ -149,13 +149,13 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		    			e.printStackTrace();
 		    		}
 		    	}
-		   /* 	for (Abstract_Plan ca: condactions) {
+		    	for (Abstract_Plan ca: condactions) {
 		    		try {
 		    			ag.addPlan(ca.toMCAPL());
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
 		    		}
-		    	} */
+		    	} 
 		    	if (initialgoal != null) {
 		    		ag.addInitialGoal(initialgoal.toMCAPL());
 		    	}
@@ -187,7 +187,7 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
- //      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", condactions.length);
+      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", condactions.length);
        	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
@@ -198,16 +198,16 @@ public class Abstract_GOALAgent extends Abstract_Agent {
       	for (int i = 0; i < plans.length; i++) {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
-//      	for (int i = 0; i < condactions.length; i++) {
- //      		env.setReferenceArrayElement(caRef, i, condactions[i].newJPFObject(env));
-//       	}
+      	for (int i = 0; i < condactions.length; i++) {
+       		env.setReferenceArrayElement(caRef, i, condactions[i].newJPFObject(env));
+       	}
       	for (int i = 0; i < goals.length; i++) {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
-  //    	env.setReferenceField(objref, "condactions", pRef);
+      	env.setReferenceField(objref, "condactions", pRef);
       	env.setReferenceField(objref, "goals", gRef);
       	return objref;
    	

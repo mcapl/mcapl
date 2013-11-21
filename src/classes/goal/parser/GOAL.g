@@ -94,7 +94,10 @@ optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQ
 macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(f, pl.length); macros.put(pi, msc); 
                                   Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl); macro_subs.put(pi, p);} STOP;
 
-actionrule[Abstract_GOALAgent gl]   	: IF (mentalstatecond | id parameters) THEN actioncombo[gl] STOP;	
+actionrule[Abstract_GOALAgent gl]   	: {Abstract_ActionRule rule = new Abstract_ActionRule();} 
+	IF (lf=mentalstatecond {rule.setMentalStateCond(lf);}|
+		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); Abstract_LogicalFormula macro=macros.get(pi); Abstract_Term sub=macro_subs.get(pi); Abstract_Unifier u=rule.getUnifier(f, pl, sub); Abstract_LogicalFormula k = macro.apply(u); rule.setMentalStateCond(k);} ) 
+	THEN dl=actioncombo[gl] {rule.setBody(dl);} STOP {gl.addPlan(rule);};	
 
 mentalstatecond returns [Abstract_LogicalFormula lf]
 	: ml=mentalliteral {$lf = ml;} (COMMA ml2=mentalliteral {ml = new Abstract_LogExpr(ml, Abstract_LogExpr.and, ml2); $lf = ml;})*;	
@@ -108,10 +111,10 @@ mentalatom returns [Abstract_LogicalFormula lf]
 
 actionspec[Abstract_GOALAgent gl]: action[gl] CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;
 
-actioncombo[Abstract_GOALAgent gl]
-	: action[gl] (PLUS action[gl])*;
+actioncombo[Abstract_GOALAgent gl] returns [ArrayList<Abstract_Deed> dl]
+	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;
 	
-action[Abstract_GOALAgent gl]	: userdefaction | builtinaction | communication[gl];
+action[Abstract_GOALAgent gl] returns [Abstract_Deed d]	: (userdefaction | builtinaction | communication[gl]) {d = new Abstract_Deed(Abstract_Deed.DNull);};
 
 userdefaction
 	: id (parameters)+;
@@ -122,7 +125,7 @@ builtinaction
 	  ADOPT OPEN litconj CLOSE |
 	  DROP OPEN litconj CLOSE;
 	  
-communication[Abstract_GOALAgent gl]
+communication[Abstract_GOALAgent gl] returns [Abstract_Deed d]
 	: SEND OPEN id COMMA poslitconj[gl] CLOSE;
                                          
 id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	

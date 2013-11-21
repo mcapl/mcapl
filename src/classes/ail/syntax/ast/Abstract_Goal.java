@@ -28,6 +28,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.Goal;
 import ail.syntax.Literal;
 import ail.syntax.StringTerm;
+import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -235,6 +236,26 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		return false;
 	}
 	
-	
+	/**
+	 * Required by the interface, but this should not do anything here since the Category must be GOAL.
+	 */
 	public void setCategory(byte b) {};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Predicate#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_LogicalFormula apply(Abstract_Unifier u) {
+		Abstract_Predicate p = (Abstract_Predicate) super.applyu(u);
+		return new Abstract_Goal(p, goaltype);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_LogicalFormula#unifies(ail.syntax.ast.Abstract_LogicalFormula, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_LogicalFormula lf, Abstract_Unifier u) {
+		Abstract_Goal g = (Abstract_Goal) lf;
+		super.unifies(g, u);
+	}
 }

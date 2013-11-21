@@ -30,6 +30,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.LogExpr;
 import ail.syntax.LogicalFormula;
+import ail.syntax.Unifier;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -191,9 +192,27 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_LogicalFormula#setCategory(byte)
+	 */
 	public void setCategory(byte b) {
 		lhs.setCategory(b);
 		rhs.setCategory(b);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_LogicalFormula#apply(ail.syntax.Unifier)
+	 */
+	public Abstract_LogicalFormula apply(Abstract_Unifier u) {
+		return new Abstract_LogExpr(getLHS().apply(u), getOp(), getRHS().apply(u));
+	}
+	
+	public void unifies(Abstract_LogicalFormula lf, Abstract_Unifier u) {
+		Abstract_LogExpr le = (Abstract_LogExpr) lf;
+		lhs.unifies(le.getLHS(), u);
+		rhs.unifies(le.getRHS(), u);
 	}
 
 

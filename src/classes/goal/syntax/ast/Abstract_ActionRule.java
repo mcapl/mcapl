@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.Plan;
+import ail.syntax.ast.Abstract_Unifier;
+import ail.syntax.Predicate;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Event;
@@ -44,8 +46,51 @@ import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_VarTerm;
 import ail.syntax.ast.Abstract_Plan;
+import ail.syntax.ast.Abstract_LogicalFormula;
+import ail.syntax.ast.Abstract_GuardAtom;
+import ail.syntax.ast.Abstract_LogExpr;
 
 public class Abstract_ActionRule extends Abstract_Plan {
+	public Abstract_ActionRule() {
+		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, new Abstract_Goal(new Abstract_VarTerm("Any"), Abstract_Goal.achieveGoal)));
+		ArrayList<Abstract_Deed> prf = new ArrayList<Abstract_Deed>();
+		setPrefix(prf);
+		
+	}
+	
+	public void setMentalStateCond(Abstract_LogicalFormula lf) {
+		Abstract_Guard guard = null;
+		if (lf instanceof Abstract_GuardAtom) {
+			guard = new Abstract_Guard((Abstract_GuardAtom) lf);
+		} else if (lf instanceof Abstract_LogExpr) {
+			guard = new Abstract_Guard((Abstract_LogExpr) lf, false);
+		}
+		if (guard != null) {
+			setContextSingle(guard, 1);
+		}
+	}
+	
+	/**
+     * Setter method for the plan body.
+     * 
+     * @param bd The plan's body.
+     */
+    public void setBody(ArrayList<Abstract_Deed> bd) {
+       	super.setBody(bd);
+
+    	Abstract_Guard current_context = context[0];
+    	
+    	context = new Abstract_Guard[bd.size()];
+
+  		if (bd.size() > 1) {
+  			for (int j = 0; j < (bd.size() - 1); j++) {
+  				context[j] = new Abstract_Guard(new Abstract_GBelief(Abstract_GBelief.GTrue));
+  			}
+  		}
+  		
+  		context[bd.size() - 1] = current_context;
+    }
+	
 	public Abstract_ActionRule(Abstract_MentalState ms, ArrayList<Abstract_Deed> ds) {
 		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, new Abstract_Goal(new Abstract_VarTerm("Any"), Abstract_Goal.achieveGoal)));
 		setContextSingle(ms, ds.size());
@@ -103,6 +148,17 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	env.setReferenceField(objref, "context", contextref);
     	env.setReferenceField(objref, "event", event.newJPFObject(env));
     	return objref;
+    }
+    
+    public static Abstract_Unifier getUnifier(String functor, Abstract_Term[] parameters, Abstract_Term target) {
+    	Abstract_Predicate pred = new Abstract_Predicate(functor);
+    	pred.setTerms(parameters);
+    	
+    	Abstract_Predicate t = (Abstract_Predicate) target;
+    	
+     	Abstract_Unifier u = new Abstract_Unifier();
+    	pred.unifies(target, u);
+    	return u;
     }
 
 

@@ -150,6 +150,18 @@ public final class Abstract_NumberTermImpl implements Abstract_NumberTerm {
 	public Abstract_Term getTerm(int i) {
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u) {};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u) {return this;};
     
   
 }

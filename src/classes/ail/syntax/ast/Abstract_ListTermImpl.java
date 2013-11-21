@@ -178,5 +178,28 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 		}
 		return objref;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u) {
+		Abstract_ListTermImpl l = (Abstract_ListTermImpl) t;
+		next.unifies(l.getNext(), u);
+		term.unifies(l.term, u);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u) {
+		Abstract_ListTermImpl l = new Abstract_ListTermImpl();
+		
+		l.addHead(term.applyu(u));
+		l.addTail((Abstract_ListTerm) next.applyu(u));
+		
+		return l;
+	}
 
 }
