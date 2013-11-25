@@ -196,10 +196,34 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	public Abstract_Term applyu(Abstract_Unifier u) {
 		Abstract_ListTermImpl l = new Abstract_ListTermImpl();
 		
-		l.addHead(term.applyu(u));
-		l.addTail((Abstract_ListTerm) next.applyu(u));
+		if (! isEmpty()) {
+			l.addHead(term.applyu(u));
+			l.addTail((Abstract_ListTerm) next.applyu(u));
+		}
 		
 		return l;
+	}
+	
+	public Abstract_ListTerm getTail() {
+		return next;
+	}
+	
+	public Abstract_Term getHead() {
+		return term;
+	}
+	
+	public String toString() {
+		if (isEmpty()) {
+			return "[]";
+		} else if (getTail().isEmpty()) {
+			return "[" + term.toString() + "]";
+		} else if (getTail() instanceof Abstract_VarTerm) {
+			return "[" + term.toString() + "|" + getTail().toString() + "]";
+		} else {
+			String tailstring = getTail().toString();
+			String tailstringchomp = tailstring.substring(1, tailstring.length() - 1);
+			return "[" + term.toString() + "," + tailstringchomp + "]";
+		}
 	}
 
 }

@@ -114,10 +114,10 @@ actionspec[Abstract_GOALAgent gl]: action[gl] CURLYOPEN PRE CURLYOPEN litconj CU
 actioncombo[Abstract_GOALAgent gl] returns [ArrayList<Abstract_Deed> dl]
 	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;
 	
-action[Abstract_GOALAgent gl] returns [Abstract_Deed d]	: (userdefaction | builtinaction | communication[gl]) {d = new Abstract_Deed(Abstract_Deed.DNull);};
+action[Abstract_GOALAgent gl] returns [Abstract_Deed d]	: (deed=userdefaction {$d=deed;}| builtinaction {$d = new Abstract_Deed(Abstract_Deed.DNull);} | communication[gl] {$d = new Abstract_Deed(Abstract_Deed.DNull);}) ;
 
-userdefaction
-	: id (parameters)+;
+userdefaction returns [Abstract_Deed d]
+	: f=id {Abstract_Predicate p = new Abstract_Predicate(f);} (pl=parameters {p.setTerms(pl);})+ {d=new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, new Abstract_Goal(p, Abstract_Goal.performGoal));} ;
 	
 builtinaction
 	: INSERT OPEN litconj CLOSE |

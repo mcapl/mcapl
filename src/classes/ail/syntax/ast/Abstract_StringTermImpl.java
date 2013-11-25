@@ -146,5 +146,13 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 	 * @see ail.syntax.ast.Abstract_Term#applyu(ail.syntax.ast.Abstract_Unifier)
 	 */
 	public Abstract_Term applyu(Abstract_Unifier u) {return this;};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "\"" + fValue + "\"";
+	}
 
 }

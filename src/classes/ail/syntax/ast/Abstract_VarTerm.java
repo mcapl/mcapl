@@ -65,7 +65,7 @@ import ail.syntax.VarsCluster;
  * @author jomi
  */
 public class Abstract_VarTerm extends Abstract_Literal 
-	implements Abstract_NumberTerm, Abstract_ListTerm, Abstract_StringTerm implements Comparable<Abstract_VarTerm> {
+	implements Abstract_NumberTerm, Abstract_ListTerm, Abstract_StringTerm, Comparable<Abstract_VarTerm> {
 
 	/**
 	 * Constructor.
@@ -184,6 +184,22 @@ public class Abstract_VarTerm extends Abstract_Literal
     	if (!t.equals(this)) {
     		u.put(this, t);
     	}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Abstract_VarTerm v) {
+    	return getFunctor().compareTo(v.getFunctor());
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_ListTerm#isEmpty()
+     */
+    public boolean isEmpty() {
+    	return false;
     }
 
 
