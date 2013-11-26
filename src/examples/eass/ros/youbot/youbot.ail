@@ -27,48 +27,62 @@ env = eass.ros.youbot.YoubotEnvironment
 mas.file = /src/examples/eass/ros/youbot/youbot.eass
 mas.builder = eass.EASSMASBuilder
 
-log.warning = ail.semantics.AILAgent,ajpf.MCAPLcontroller,ajpf.MCAPLAgent
-log.info = ail.mas.DefaultEnvironment,eass.mas.DefaultEASSEnvironment
+log.warning = ail.semantics.AILAgent,ajpf.MCAPLcontroller
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,eass.mas.DefaultEASSEnvironment
 log.format = brief
 
 /* To Run
 
+Requirements
+============
+Ros Hydro
 Make sure you have AJPF_HOME set everywhere (to the mcapl directory)
-Need rosjava installed
+Need rosjava  installed
 
-If necessary create a rosjava workspace and package
+1. If necessary, create a package in a ROS hydro catkin workspace 
 
-(cd catkin_ws
- mkdir -p rosjava/src
- cd rosjava/src
- catkin_create_rosjava_pkg rais
- cd rais
+Example
+-------
 
-  Create a turtle project
- 
- (catkin_create_rosjava_project eass_turtle
- 
- 
-  
-  Copy build.gradle across.
-  
-  (cp $AJPF_HOME/src/examples/eass/ros/turtlesim/build.gradle . )
-  
-  make a location for java files
-  
-  ( mkdir -p src/main/java/eass/ros/turtlesim )
-  
-  Copy files
-  
-  (cp $AJPF_HOME/src/examples/eass/ros/turtlesim/*.java src/main/java/eass/ros/turtlesim/. )
+mkdir -p rosjava/src
+cd rosjava/src
+catkin_create_rosjava_pkg eass
+cd eass
 
-   ../gradlew build
-   
-   3 Terminals run 
+
+2. Within the package create a project.
+
+Example
+-------
+
+catkin_create_rosjava_project eass_youbot
+
+3.  Copy build.gradle across.
+  
+cp $AJPF_HOME/src/examples/eass/ros/youbot/build.gradle . 
+  
+4.  Create a location for java files and copy them there.
+  
+mkdir -p src/main/java/eass/ros/youbot )
+cp $AJPF_HOME/src/examples/eass/ros/youbot/*.java src/main/java/eass/ros/youbot/. 
+
+5.  Build application
+
+../gradlew installApp
+
+ 6. Run the application, you will need three terminals
    Terminal 1:   roscore 
       
-   Terminal 2: rosrun turtlesim turtlesim_node
-     
-   Terminal 3: From eass_turtle
-   ./build/install/eass_turtle/bin/eass_turtle eass.ros.turtlesim.EASSTurtle
+   Terminal 2: Run Youbot Visualisation
+   roslaunch youbot_gazebo youbot.launch
+   
+   Terminal 3: Run Youbot Control
+   roslaunch youbot_control youbot_control.launch
+
+   Terminal 4: Run the Agent
+   ./build/install/eass_youbot/bin/eass_youbot eass.ros.youbot.EASSYoubot
+   
+   You may also need teleoperation controls
+   roslaunch youbot_teleop youbot_teleop.launch
+   
 */

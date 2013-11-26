@@ -136,7 +136,11 @@ public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	}
 	
 	public boolean remove(Object o) {
-		return sortedlist.remove(o);
+		if (sortedlist.contains(o)) {
+			return sortedlist.remove(o);
+		} else {
+			return false;
+		}
 	}
 
 	public boolean removeAll(Collection<?> c) {

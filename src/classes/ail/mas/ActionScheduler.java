@@ -111,7 +111,12 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 				activeAgents.put(a);
 			}
 		}
-		inactiveAgents.remove(a);
+		
+		synchronized(inactiveAgents) {
+			if (inactiveAgents.contains(a)) {
+				inactiveAgents.remove(a);
+			}
+		}
 		somethinghaschanged = true;
 	}
 	

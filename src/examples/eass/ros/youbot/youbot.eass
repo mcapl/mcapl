@@ -44,9 +44,9 @@ EASS
   assert_shared(changed_position);
   
  +! moving[perform] : {True} <-
-    movejoint(1), assert_shared(talking);
+    movejoint(3);
   
-:name: youtbot
+:name: youbot
 
 :Initial Beliefs:
 
@@ -54,6 +54,6 @@ EASS
 
 :Plans:
 
-+talking1 : {True} <- +!changed_position [achieve];
++talking1 : {True} <- print(talking), +!changed_position [achieve];
 
-+! changed_position [achieve] : {True} <- perf(moving);
++! changed_position [achieve] : {True} <- perf(moving), *changed_position, print("yay");

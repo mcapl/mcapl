@@ -121,7 +121,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		eachrun();
 		
 		// Really????
-		notifyPerceptListeners();
+		// notifyPerceptListeners();
 
 	}
 	
@@ -237,9 +237,9 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					percepts.add(per);
 					//Collections.sort(percepts);
 					uptodateAgs.clear();
+					notifyPerceptListeners();
 				}
 			}
-		notifyPerceptListeners();
 		AJPFLogger.finer(logname, this.toString());
 	}
 		
@@ -443,7 +443,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 *
 	 */
 	public void notifyPerceptListeners() {
-		// System.err.println("notifying percept listeners");
 		for (String s: agentmap.keySet()) {
 			if (abstractionenginelist.contains(s)) {
 				super.notifyListeners(s);

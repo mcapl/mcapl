@@ -198,6 +198,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 			controller.addAwake(getAgName());
 			//sleeping = false;
 			AJPFLogger.info("ajpf.MCAPLAgent", "Waking agent " + getAgName());
+			
 		}
 	//	}
 	} 

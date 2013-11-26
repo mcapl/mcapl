@@ -33,7 +33,7 @@ import ajpf.util.AJPFLogger;
 import eass.mas.ros.EASSROSEnvironment;
 
 public class YoubotEnvironment extends EASSROSEnvironment {
-	String logname = "eass.ros.pubsub.YoubotEnvironment";
+	String logname = "eass.ros.youbot.YoubotEnvironment";
 	
 	public YoubotEnvironment() {
 		super();
@@ -49,9 +49,11 @@ public class YoubotEnvironment extends EASSROSEnvironment {
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
-
+		   
+		   float angle = 0.5f;
+		   
 		   if (act.getFunctor().equals("movejoint")) {
-			   ((EASSYoubot) getROSNode()).getKUKA().movejoint((int) Math.round(((NumberTerm) act.getTerm(0)).solve()), 1.5f);
+			   ((EASSYoubot) getROSNode()).getKUKA().movejoint((int) Math.round(((NumberTerm) act.getTerm(0)).solve()), angle);
 			   AJPFLogger.info(logname, agName + " done " + act);
 		   } else {
 			   super.executeAction(agName, act);
@@ -60,5 +62,12 @@ public class YoubotEnvironment extends EASSROSEnvironment {
 		   return u;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.others.AILEnv#done()
+	 */
+	public boolean done() {
+		return false;
+	}
 
 }

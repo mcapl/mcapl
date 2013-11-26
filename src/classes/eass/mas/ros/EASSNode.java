@@ -45,6 +45,7 @@ public class EASSNode extends AbstractNodeMain {
 	
 	public void onStart(final ConnectedNode connectedNode) {
 		cNode = connectedNode;
+
 		AILConfig config = new AILConfig(agent_file_path);
 		AIL.configureLogging(config);
 	
@@ -58,6 +59,7 @@ public class EASSNode extends AbstractNodeMain {
 		// Start the system.
 		mccontrol.begin(); 
 		mas.finalize();
+		
 	}
 	
 	public void initialise() {};
@@ -65,5 +67,7 @@ public class EASSNode extends AbstractNodeMain {
 	public void addPerceptToEnv(Predicate per) {
 		env.addPercept(new Literal(true, new PredicatewAnnotation(per)));
 	}
+	
+
 
 }

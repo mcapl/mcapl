@@ -33,6 +33,7 @@ group = 'ros.my_stack'
 dependencies {
   compile 'org.ros.rosjava_core:rosjava:0.1.5'
   compile 'org.ros.rosjava_messages:std_msgs:0.5.8'
+   compile 'org.ros.rosjava_messages:control_msgs:1.2.0'
   compile files("$ajpf_home/bin")
 
   runtime files("$ajpf_home")

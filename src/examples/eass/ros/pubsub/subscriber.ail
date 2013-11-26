@@ -28,8 +28,6 @@ mas.file = /src/examples/eass/ros/pubsub/subscriber.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ail.semantics.AILAgent,ajpf.MCAPLcontroller,ajpf.MCAPLAgent
-log.info = eass.ros.EASSSubscriberNode,ail.mas.DefaultEnvironment
-log.finer = eass.mas.DefaultEASSEnvironment
 log.format = brief
 
 /* To Run

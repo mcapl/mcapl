@@ -33,6 +33,7 @@ import eass.mas.ros.EASSROSEnvironment;
 import eass.mas.ros.EASSNode;
 
 import org.ros.node.topic.Publisher;
+import eass.ros.pubsub.ExamplePublisher;
 
 public class PubSubEnvironment extends EASSROSEnvironment {
 	String logname = "eass.ros.pubsub.PubSubEnvironment";
@@ -48,6 +49,7 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 	public void eachrun() {
 	}
 	
+	int counter = 0;
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 			if (AJPFLogger.ltFine(logname)) {
@@ -55,8 +57,14 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 			}
 		   
 		   if (act.getFunctor().equals("say")) {
-			   String actstring = act.getTerm(0).toString();
-			   ((ExamplePublisher) getROSNode()).publish(actstring);
+			   String actstring = act.getTerm(0).toString() + counter;
+			   counter++;
+			   ((eass.ros.pubsub.ExamplePublisher) getROSNode()).publish(actstring);
+			   try {
+				   Thread.sleep(5000);
+			   } catch (Exception e) {
+				   e.printStackTrace();
+			   }
 			   AJPFLogger.info(logname, agName + " done " + act);
 		   } else {
 			   super.executeAction(agName, act);

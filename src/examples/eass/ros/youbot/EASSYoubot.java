@@ -51,6 +51,11 @@ public class EASSYoubot extends EASSNode {
 	
 	public void initialise() {
 		kuka = new KUKA("youbot", this);
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public KUKA getKUKA() {
@@ -95,8 +100,8 @@ public class EASSYoubot extends EASSNode {
 			
 			public Joint(int i, EASSNode node) {
 				joint_num = i;
-				statestring = name + "/arm_joint_" + joint_num + "position_controller/state";
-				commandstring = name + "/arm_joint_" + joint_num + "position_controller/command";
+				statestring = name + "/arm_joint_" + joint_num + "_position_controller/state";
+				commandstring = name + "/arm_joint_" + joint_num + "_position_controller/command";
 
 				command = node.newPublisher(commandstring, std_msgs.Float64._TYPE);
 				
@@ -105,7 +110,7 @@ public class EASSYoubot extends EASSNode {
 					public void onNewMessage(control_msgs.JointControllerState message) {
 						Predicate heard = new Predicate("heard");
 						Predicate position = new Predicate("state");
-						position.addTerm(new NumberTermImpl(message.getP()));
+						position.addTerm(new NumberTermImpl(message.getProcessValue()));
 						heard.addTerm(position);
 						addPerceptToEnv(heard);
 					};
@@ -115,7 +120,14 @@ public class EASSYoubot extends EASSNode {
 			public void move(float angle) {
 				std_msgs.Float64 c = command.newMessage();
 				c.setData(angle);
+				System.err.println("about to publish " + angle);
 				command.publish(c);
+				System.err.println("published");
+				try {
+					Thread.sleep(5000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
