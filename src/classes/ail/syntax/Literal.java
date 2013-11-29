@@ -70,7 +70,13 @@ public class Literal extends PredicatewAnnotation {
 		type = pos;
 	}
 	
+	/** if pos == true, the literal is positive, otherwise it is negative */
+	public Literal(boolean pos, Predicate p) {
+		super(p);
+		type = pos;
+	}
 
+	
 	/**
 	 * This looks like a strange constructor but is used by sub-classes.
 	 * 

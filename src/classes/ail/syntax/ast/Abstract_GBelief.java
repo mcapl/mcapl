@@ -28,6 +28,8 @@ import ail.semantics.AILAgent;
 import ail.syntax.GBelief;
 import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
+import ail.syntax.Goal;
+import ail.syntax.Literal;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -204,9 +206,15 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
 	 */
 	public GBelief toMCAPL() {
 		if (hasContent()) {
-			GBelief g =  new GBelief(getCategory(), (Predicate) getContent().toMCAPL());
-			g.setDBnum((StringTerm) DBnum.toMCAPL());
-			return g;			
+			if (getCategory() == AILGoal) {
+				GBelief g =  new GBelief(getCategory(), new Goal(new Literal(true, (Predicate) getContent().toMCAPL()), Goal.achieveGoal));
+				g.setDBnum((StringTerm) DBnum.toMCAPL());
+				return g;
+			} else {
+				GBelief g =  new GBelief(getCategory(), (Predicate) getContent().toMCAPL());
+				g.setDBnum((StringTerm) DBnum.toMCAPL());
+				return g;
+			}
 		} else {
 			GBelief g = new GBelief(getCategory());
 			g.setDBnum((StringTerm) DBnum.toMCAPL());
