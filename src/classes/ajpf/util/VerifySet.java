@@ -32,7 +32,7 @@ import java.util.ListIterator;
 import java.util.Collection;
 import java.util.Comparator;
 
-public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> {
+public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K>, Cloneable {
 	ArrayList<K> sortedlist = new ArrayList<K>();
 	
 	public int size() {
@@ -42,22 +42,36 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 	public boolean isEmpty() {
 		return sortedlist.isEmpty();
 	}
+	
+	public VerifySet<K> clone() {
+		VerifySet<K> clone = new VerifySet<K>();
+		synchronized(sortedlist) {
+			for (K k:sortedlist) {
+				clone.add(k);
+			}
+		}
+		return clone;
+	}
 		
 	public boolean add(K e) {
-		if (contains(e)) {
-			return false;
-		} else {
-			insert(e);
-			return true;
+		synchronized(sortedlist) {
+			if (contains(e)) {
+				return false;
+			} else {
+				insert(e);
+				return true;
+			}
 		}
 	}
 	
 		
 	public boolean addAll(Collection<? extends K> c) {
 		boolean b = false;
-		for (K elem: c) {
-			if (add(elem)) {
-				b = true;
+		synchronized (sortedlist) {
+			for (K elem: c) {
+				if (add(elem)) {
+					b = true;
+				}
 			}
 		}
 		return b;
@@ -85,43 +99,51 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 	}
 	
 	private K insert(K t) {
-		for (int i = 0; i < sortedlist.size(); i++) {
-			K t1 = sortedlist.get(i);
-			int comparison = t.compareTo(t1);
-			if (comparison < 0) {
-				sortedlist.add(i, t);
-				return null;
-			} else if (comparison == 0) {
-				sortedlist.add(i, t);
-				return t1;
+		synchronized(sortedlist) {
+			for (int i = 0; i < sortedlist.size(); i++) {
+				K t1 = sortedlist.get(i);
+				int comparison = t.compareTo(t1);
+				if (comparison < 0) {
+					sortedlist.add(i, t);
+					return null;
+				} else if (comparison == 0) {
+					sortedlist.add(i, t);
+					return t1;
+				}
 			}
-		}
 		
-		sortedlist.add(t);
+			sortedlist.add(t);
+		}
 		return null;
 	}
 	
 	public boolean equals(Object o) {
 		if (o instanceof Set<?>) {
 			Set<?> set = (Set<?>) o;
-			if (set.size() == size()) {
-				for (K e: sortedlist) {
-					if (!set.contains(e)) {
-						return false;
+			synchronized (sortedlist) {
+				if (set.size() == size()) {
+					for (K e: sortedlist) {
+						if (!set.contains(e)) {
+							return false;
+						}
 					}
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;
 	}
 
 	public boolean remove(Object o) {
-		return sortedlist.remove(o);
+		synchronized (sortedlist) {
+			return sortedlist.remove(o);
+		}
 	}
 
 	public boolean removeAll(Collection<?> c) {
-		return sortedlist.removeAll(c);
+		synchronized (sortedlist) {
+			return sortedlist.removeAll(c);
+		}
 	}
 	
 	public boolean retainAll(Collection<?> c) {
@@ -138,7 +160,9 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 	}
 	
 	public String toString() {
-		return sortedlist.toString();
+		synchronized(sortedlist) {
+			return sortedlist.toString();
+		}
 	}
 	
 	public Comparator<? super K> comparator() {
@@ -155,9 +179,11 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 	
 	public SortedSet<K> headSet(K e) {
 		VerifySet<K> hs = new VerifySet<K>();
-		for (K elem: sortedlist) {
-			if (elem.compareTo(e) < 0) {
-				hs.add(elem);
+		synchronized(sortedlist) {
+			for (K elem: sortedlist) {
+				if (elem.compareTo(e) < 0) {
+					hs.add(elem);
+				}
 			}
 		}
 		return hs;
@@ -165,9 +191,11 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 	
 	public SortedSet<K> tailSet(K e) {
 		VerifySet<K> hs = new VerifySet<K>();
-		for (K elem: sortedlist) {
-			if (elem.compareTo(e) >= 0) {
-				hs.add(elem);
+		synchronized(sortedlist) {
+			for (K elem: sortedlist) {
+				if (elem.compareTo(e) >= 0) {
+					hs.add(elem);
+				}
 			}
 		}
 		return hs;
@@ -175,9 +203,11 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 
 	public SortedSet<K> subSet(K e1, K e2) {
 		VerifySet<K> hs = new VerifySet<K>();
-		for (K elem: sortedlist) {
-			if (elem.compareTo(e1) >= 0 && elem.compareTo(e2) <= 0) {
-				hs.add(elem);
+		synchronized (sortedlist) {
+			for (K elem: sortedlist) {
+				if (elem.compareTo(e1) >= 0 && elem.compareTo(e2) <= 0) {
+					hs.add(elem);
+				}
 			}
 		}
 		return hs;

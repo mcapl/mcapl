@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="/opt/ros/hydro/share/maven/org/ros/rosjava_messages/control_msgs/1.2.0/control_msgs-1.2.0.jar"/>
 	<classpathentry kind="lib" path="/opt/ros/hydro/share/maven/org/ros/rosjava_bootstrap/message_generation/0.1.11/message_generation-0.1.11.jar"/>
 	<classpathentry kind="lib" path="/opt/ros/hydro/share/maven/org/ros/rosjava_messages/geometry_msgs/1.10.2/geometry_msgs-1.10.2.jar"/>
+	<classpathentry kind="lib" path="/home/rasl3/rais_workspaces/eclipse_workspace/mcapl/bin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

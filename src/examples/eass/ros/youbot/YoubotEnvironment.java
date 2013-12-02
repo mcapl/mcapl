@@ -26,6 +26,7 @@ package eass.ros.youbot;
 
 import ail.mas.NActionScheduler;
 import ail.syntax.Action;
+import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
 import ail.util.AILexception;
@@ -51,12 +52,26 @@ public class YoubotEnvironment extends EASSROSEnvironment {
 		   String rname = rationalName(agName);
 		   
 		   float angle = 0.5f;
+		   boolean printed = false;
 		   
 		   if (act.getFunctor().equals("movejoint")) {
 			   ((EASSYoubot) getROSNode()).getKUKA().movejoint((int) Math.round(((NumberTerm) act.getTerm(0)).solve()), angle);
 			   AJPFLogger.info(logname, agName + " done " + act);
+		   } else if (act.getFunctor().equals("close_enough")) {
+			   Predicate state = (Predicate) act.getTerm(0);
+			   NumberTerm value = (NumberTerm) state.getTerm(0);
+			   if (value.solve() > -0.5) {
+				   act.getTerm(1).unifies(new Predicate("yes"), u);
+			   } else {
+				   act.getTerm(1).unifies(new Predicate("no"), u);
+			   }
 		   } else {
 			   super.executeAction(agName, act);
+			   printed = true;
+		   }
+		   
+		   if (!printed) {
+			   AJPFLogger.info(logname, agName + " done " + printAction(act));
 		   }
 		   
 		   return u;

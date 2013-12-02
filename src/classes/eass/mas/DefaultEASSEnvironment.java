@@ -240,7 +240,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					notifyPerceptListeners();
 				}
 			}
-		AJPFLogger.finer(logname, this.toString());
+		// AJPFLogger.finer(logname, this.toString());
 	}
 		
 	/*

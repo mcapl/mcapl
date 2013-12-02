@@ -59,7 +59,7 @@ public class PubSubEnvironment extends EASSROSEnvironment {
 		   if (act.getFunctor().equals("say")) {
 			   String actstring = act.getTerm(0).toString() + counter;
 			   counter++;
-			   ((eass.ros.pubsub.ExamplePublisher) getROSNode()).publish(actstring);
+			   ((ExamplePublisher) getROSNode()).publish(actstring);
 			   try {
 				   Thread.sleep(5000);
 			   } catch (Exception e) {

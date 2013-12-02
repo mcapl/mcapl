@@ -34,6 +34,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.semantics.AILAgent;
 import ail.util.AILexception;
+import gwendolen.uavs.prism.SimpleUAV;
 
 /**
  * A Probabilistic Environment for a UAV intended for generating model to use verify in PRISM.

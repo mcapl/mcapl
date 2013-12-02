@@ -36,11 +36,14 @@ EASS
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+ heard(S) : {~B talking1} <-
++ heard(3, S) : {~B talking1} <-
   print(S),
   assert_shared(talking1);
-+ heard(S) : {B talking1} <-
++ heard(3, S) : {B talking1} <-
   print(S),
+  close_enough(S, Ans),
+  +close_enough(Ans);
+  +close_enough(yes) : {True} <-
   assert_shared(changed_position);
   
  +! moving[perform] : {True} <-

@@ -283,7 +283,7 @@ public class DefaultEnvironment implements AILEnv {
      * (non-Javadoc)
      * @see ail.others.AILEnv#getPercepts(java.lang.String)
      */
-    public Set<Predicate> getPercepts(String agName, boolean update) {
+    public synchronized Set<Predicate> getPercepts(String agName, boolean update) {
 		// check whether this agent needs to access the perception lists
     	// or whether it is uptodate
     	if (uptodateAgs.contains(agName)) {
@@ -300,9 +300,13 @@ public class DefaultEnvironment implements AILEnv {
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
     		
-    	if (! percepts.isEmpty()) { // has global perception?
-    		for (Predicate per: percepts) {
-    			p.add((Predicate) per.clone());
+    	synchronized(percepts) {
+    		VerifySet<Predicate> clone = percepts.clone();
+     		if (! clone.isEmpty()) { // has global perception?
+    			for (Predicate per: clone) {
+    				Predicate pc = (Predicate) per.clone();
+    				p.add(pc);
+    			}
     		}
     	}
     				
@@ -466,9 +470,11 @@ public class DefaultEnvironment implements AILEnv {
 		
 	/** Clears the list of global perceptions */
 	public synchronized void clearPercepts() {
-		if (!percepts.isEmpty()) {
-			uptodateAgs.clear();
-			percepts.clear();
+		synchronized (percepts) {
+			if (!percepts.isEmpty()) {
+				uptodateAgs.clear();
+				percepts.clear();
+			}
 		}
 	}
 	
@@ -570,10 +576,12 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	public String toString() {
 			StringBuilder s = new StringBuilder("General Percepts:");
-			for (Predicate l : percepts) {
-				s.append(l.toString()).append(", ");
+			synchronized(percepts) {
+				for (Predicate l : percepts) {
+					s.append(l.toString()).append(", ");
+				}
 			}
-			percepts.toString();
+			// percepts.toString();
 		
 			s.append("\nAgent Percepts:\n");
 			for (String sAg : agPercepts.keySet()) {

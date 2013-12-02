@@ -107,12 +107,20 @@ public class EASSYoubot extends EASSNode {
 				
 				state = node.newSubscriber(statestring, control_msgs.JointControllerState._TYPE);
 				state.addMessageListener(new MessageListener<control_msgs.JointControllerState>() { 
+					int counter=0;
+					
 					public void onNewMessage(control_msgs.JointControllerState message) {
-						Predicate heard = new Predicate("heard");
-						Predicate position = new Predicate("state");
-						position.addTerm(new NumberTermImpl(message.getProcessValue()));
-						heard.addTerm(position);
-						addPerceptToEnv(heard);
+						if (counter>100) {
+							Predicate heard = new Predicate("heard");
+							heard.addTerm(new NumberTermImpl(joint_num));
+							Predicate position = new Predicate("state");
+							position.addTerm(new NumberTermImpl(Math.round(message.getProcessValue())));
+							heard.addTerm(position);
+							addPerceptToEnv(heard);
+							counter=0;
+						}
+						
+						counter++;
 					};
 				});
 			}
