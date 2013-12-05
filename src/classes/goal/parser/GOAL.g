@@ -109,7 +109,15 @@ mentalatom returns [Abstract_LogicalFormula lf]
 	: BEL OPEN b=litconj  {b.setCategory(Abstract_BaseAILStructure.AILBel); $lf = b;} CLOSE | GOAL OPEN g=litconj {g.setCategory(Abstract_BaseAILStructure.AILGoal); $lf = g;}CLOSE;
 	
 
-actionspec[Abstract_GOALAgent gl]: action[gl] CURLYOPEN PRE CURLYOPEN litconj CURLYCLOSE POST CURLYOPEN litconj CURLYCLOSE CURLYCLOSE;
+actionspec[Abstract_GOALAgent gl]: deed=action[gl] {Abstract_Goal goal = (Abstract_Goal) deed.getContent();} 
+	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_Guard guard = null;
+		if (lf1 instanceof Abstract_GuardAtom) {
+			guard = new Abstract_Guard((Abstract_GuardAtom) lf);
+		} else if (lf1 instanceof Abstract_LogExpr) {
+			guard = new Abstract_Guard((Abstract_LogExpr) lf, false);
+		};
+	}
+	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addPlan(new Abstract_ActionSpec(goal, guard, lf2));};
 
 actioncombo[Abstract_GOALAgent gl] returns [ArrayList<Abstract_Deed> dl]
 	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;
@@ -198,7 +206,7 @@ word returns [String s] : (CONST {$s=$CONST.getText();} | VAR {$s=$VAR.getText()
  listterm returns [Abstract_ListTermImpl l]
  	: {$l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = $l;} 
  	SQOPEN (h=term {$l.addHead($h.t); $l.addTail(new Abstract_ListTermImpl());} 
- 	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl();  l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning=l2;})* 
+ 	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl();  l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning.addTail(l2); lrunning=l2;})* 
  	(BAR v=VAR {lrunning.addTail(new Abstract_VarTerm($v.getText()));})? )? SQCLOSE;
  	
  addoper returns [int i]:	(PLUS {$i = 1;} | MINUS {$i = 2;} );

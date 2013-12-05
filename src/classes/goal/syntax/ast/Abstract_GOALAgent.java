@@ -53,9 +53,7 @@ import goal.syntax.ActionRule;
  *
  */
 public class Abstract_GOALAgent extends Abstract_Agent { 
-	
-	Abstract_Goal[] goals = new Abstract_Goal[0];
-	
+		
 	Abstract_GBelief[] knowledge = new Abstract_GBelief[0];
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
@@ -139,6 +137,9 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		    	for (Abstract_Literal l: beliefs) {
 		    		ag.addInitialBel(l.toMCAPL());
 		    	}
+		       	for (Abstract_Goal g: goals) {
+		    		ag.addInitialGoal(g.toMCAPL());
+		    	}
 		    	for (Abstract_Rule r: rules) {
 		    		ag.addRule(r.toMCAPL());
 		    	}
@@ -156,9 +157,6 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		    			e.printStackTrace();
 		    		}
 		    	} 
-		    	if (initialgoal != null) {
-		    		ag.addInitialGoal(initialgoal.toMCAPL());
-		    	}
 		    	
 		    	for (Abstract_Goal g: goals) {
 		    		ag.addGoal(g.toMCAPL());
@@ -181,15 +179,12 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALAgent");
     	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
-    	if (initialgoal != null) {
-    		env.setReferenceField(objref, "initialgoal", initialgoal.newJPFObject(env));
-    	}
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
       	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", condactions.length);
-       	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
-       	for (int i = 0; i < beliefs.length; i++) {
+        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
       	for (int i = 0; i < rules.length; i++) {

@@ -108,6 +108,14 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
     }
 
     /**
+     * Construct a GBelief from a goal.
+     * @param b the category.
+      */
+    public GBelief(Goal g) {
+    	super(g);
+    }
+
+    /**
      * Construct a GBelief from a category and a group/agent name.
      * @param b the category.
      * @param s the group/agent name.

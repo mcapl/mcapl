@@ -40,6 +40,7 @@ import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_VarTerm;
+import ail.syntax.ast.Abstract_LogExpr;
 
 /**
  * Class for GOAL Capabilities/Action Specifications.  Capabilities are, in fact 
@@ -66,6 +67,23 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 		setBody(ds);
 	}
 	
+	/**
+	 * Create a capability from a Goal (the capability), a mental states
+	 * (the precondition) and a list of deeds (the effects).
+	 * 
+	 * @param g
+	 * @param gs
+	 * @param ds
+	 */
+	public Abstract_ActionSpec(Abstract_Goal g, Abstract_Guard ms, ArrayList<Abstract_Deed> ds) {
+		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, g));
+		setContextSingle(ms, ds.size());
+		ArrayList<Abstract_Deed> prf = new ArrayList<Abstract_Deed>();
+		prf.add(new Abstract_Deed(Abstract_Deed.Dnpy));
+		setPrefix(prf);
+		setBody(ds);
+	}
+
 	/**
 	 * Create a capability from a goal and a deed list (effects).  Assumes that the
 	 * precondition is simply T.

@@ -207,7 +207,7 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
 	public GBelief toMCAPL() {
 		if (hasContent()) {
 			if (getCategory() == AILGoal) {
-				GBelief g =  new GBelief(getCategory(), new Goal(new Literal(true, (Predicate) getContent().toMCAPL()), Goal.achieveGoal));
+				GBelief g =  new GBelief(new Goal(new Literal(true, (Predicate) getContent().toMCAPL()), Goal.achieveGoal));
 				g.setDBnum((StringTerm) DBnum.toMCAPL());
 				return g;
 			} else {
