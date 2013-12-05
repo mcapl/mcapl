@@ -112,9 +112,9 @@ mentalatom returns [Abstract_LogicalFormula lf]
 actionspec[Abstract_GOALAgent gl]: deed=action[gl] {Abstract_Goal goal = (Abstract_Goal) deed.getContent();} 
 	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_Guard guard = null;
 		if (lf1 instanceof Abstract_GuardAtom) {
-			guard = new Abstract_Guard((Abstract_GuardAtom) lf);
+			guard = new Abstract_Guard((Abstract_GuardAtom) lf1);
 		} else if (lf1 instanceof Abstract_LogExpr) {
-			guard = new Abstract_Guard((Abstract_LogExpr) lf, false);
+			guard = new Abstract_Guard((Abstract_LogExpr) lf1, false);
 		};
 	}
 	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addPlan(new Abstract_ActionSpec(goal, guard, lf2));};

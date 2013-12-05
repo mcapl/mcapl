@@ -41,6 +41,7 @@ import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_VarTerm;
 import ail.syntax.ast.Abstract_LogExpr;
+import ail.syntax.ast.Abstract_LogicalFormula;
 
 /**
  * Class for GOAL Capabilities/Action Specifications.  Capabilities are, in fact 
@@ -82,6 +83,10 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 		prf.add(new Abstract_Deed(Abstract_Deed.Dnpy));
 		setPrefix(prf);
 		setBody(ds);
+	}
+	
+	public Abstract_ActionSpec(Abstract_Goal g, Abstract_Guard ms, Abstract_LogicalFormula lf) {
+		
 	}
 
 	/**

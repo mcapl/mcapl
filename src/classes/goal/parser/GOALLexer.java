@@ -1,9 +1,9 @@
-// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2013-11-29 16:53:02
+// $ANTLR 3.4 /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2013-12-05 12:39:42
 
 package goal.parser;
 
 
-import mcaplantlr.runtime.*;
+import org.antlr.runtime.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
@@ -80,15 +80,15 @@ public class GOALLexer extends Lexer {
     public GOALLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g"; }
+    public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g"; }
 
     // $ANTLR start "MAIN"
     public final void mMAIN() throws RecognitionException {
         try {
             int _type = MAIN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:134:5: ( 'main' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:134:7: 'main'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:142:5: ( 'main' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:142:7: 'main'
             {
             match("main"); 
 
@@ -110,8 +110,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = KNOWLEDGE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:10: ( 'knowledge' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:13: 'knowledge'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:143:10: ( 'knowledge' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:143:13: 'knowledge'
             {
             match("knowledge"); 
 
@@ -133,8 +133,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = BELIEFS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:136:8: ( 'beliefs' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:136:10: 'beliefs'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:144:8: ( 'beliefs' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:144:10: 'beliefs'
             {
             match("beliefs"); 
 
@@ -156,8 +156,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = GOALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:137:7: ( 'goals' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:137:9: 'goals'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:145:7: ( 'goals' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:145:9: 'goals'
             {
             match("goals"); 
 
@@ -179,8 +179,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = EVENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:138:7: ( 'event' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:138:9: 'event'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:146:7: ( 'event' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:146:9: 'event'
             {
             match("event"); 
 
@@ -202,8 +202,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = ACTIONSPEC;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:140:3: ( 'actionspec' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:140:5: 'actionspec'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:3: ( 'actionspec' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:5: 'actionspec'
             {
             match("actionspec"); 
 
@@ -225,8 +225,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = MODULE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:141:8: ( 'module' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:141:10: 'module'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:8: ( 'module' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:10: 'module'
             {
             match("module"); 
 
@@ -248,8 +248,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = PROGRAM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:142:8: ( 'program' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:142:10: 'program'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:8: ( 'program' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:10: 'program'
             {
             match("program"); 
 
@@ -271,8 +271,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = PROLOGARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:144:3: ( ':-' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:144:5: ':-'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:3: ( ':-' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:5: ':-'
             {
             match(":-"); 
 
@@ -294,8 +294,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:145:5: ( 'not' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:145:7: 'not'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:5: ( 'not' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:7: 'not'
             {
             match("not"); 
 
@@ -317,8 +317,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = ORDER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:146:7: ( 'order' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:146:8: 'order'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:7: ( 'order' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:8: 'order'
             {
             match("order"); 
 
@@ -340,8 +340,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = EQUALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:147:8: ( '=' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:147:10: '='
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:8: ( '=' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:10: '='
             {
             match('='); 
 
@@ -361,8 +361,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = LINEAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:8: ( 'linear' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:10: 'linear'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:8: ( 'linear' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:10: 'linear'
             {
             match("linear"); 
 
@@ -384,8 +384,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = LINEARALL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:3: ( 'linearall' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:5: 'linearall'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:3: ( 'linearall' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:5: 'linearall'
             {
             match("linearall"); 
 
@@ -407,8 +407,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = RANDOM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:8: ( 'random' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:10: 'random'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:8: ( 'random' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:10: 'random'
             {
             match("random"); 
 
@@ -430,8 +430,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = RANDOMALL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:3: ( 'randomall' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:5: 'randomall'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:3: ( 'randomall' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:5: 'randomall'
             {
             match("randomall"); 
 
@@ -453,8 +453,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = DEFINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:8: ( 'define' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:10: 'define'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:162:8: ( 'define' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:162:10: 'define'
             {
             match("define"); 
 
@@ -476,8 +476,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = IF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:4: ( 'if' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:6: 'if'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:4: ( 'if' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:6: 'if'
             {
             match("if"); 
 
@@ -499,8 +499,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = THEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:6: ( 'then' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:156:8: 'then'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:6: ( 'then' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:8: 'then'
             {
             match("then"); 
 
@@ -522,8 +522,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:6: ( 'true' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:8: 'true'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:6: ( 'true' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:8: 'true'
             {
             match("true"); 
 
@@ -545,8 +545,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = BEL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:5: ( 'bel' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:7: 'bel'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:166:5: ( 'bel' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:166:7: 'bel'
             {
             match("bel"); 
 
@@ -568,8 +568,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = GOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:6: ( 'a-goal' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:8: 'a-goal'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:6: ( 'a-goal' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:8: 'a-goal'
             {
             match("a-goal"); 
 
@@ -591,8 +591,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = PRE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:5: ( 'pre' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:7: 'pre'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:168:5: ( 'pre' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:168:7: 'pre'
             {
             match("pre"); 
 
@@ -614,8 +614,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = POST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:6: ( 'post' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:8: 'post'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:169:6: ( 'post' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:169:8: 'post'
             {
             match("post"); 
 
@@ -637,8 +637,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:162:6: ( '+' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:162:8: '+'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:170:6: ( '+' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:170:8: '+'
             {
             match('+'); 
 
@@ -658,8 +658,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = INSERT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:8: ( 'insert' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:10: 'insert'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:171:8: ( 'insert' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:171:10: 'insert'
             {
             match("insert"); 
 
@@ -681,8 +681,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = DELETE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:8: ( 'delete' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:10: 'delete'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:172:8: ( 'delete' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:172:10: 'delete'
             {
             match("delete"); 
 
@@ -704,8 +704,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = ADOPT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:7: ( 'adopt' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:9: 'adopt'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:173:7: ( 'adopt' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:173:9: 'adopt'
             {
             match("adopt"); 
 
@@ -727,8 +727,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = DROP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:166:6: ( 'drop' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:166:8: 'drop'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:174:6: ( 'drop' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:174:8: 'drop'
             {
             match("drop"); 
 
@@ -750,8 +750,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = SEND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:6: ( 'send' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:8: 'send'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:175:6: ( 'send' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:175:8: 'send'
             {
             match("send"); 
 
@@ -773,8 +773,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:210:7: ( ':' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:210:9: ':'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:7: ( ':' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:9: ':'
             {
             match(':'); 
 
@@ -794,8 +794,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = CURLYOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:211:10: ( '{' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:211:12: '{'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:10: ( '{' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:12: '{'
             {
             match('{'); 
 
@@ -815,8 +815,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = CURLYCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:213:2: ( '}' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:213:3: '}'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:221:2: ( '}' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:221:3: '}'
             {
             match('}'); 
 
@@ -836,8 +836,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = STOP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:214:6: ( '.' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:214:8: '.'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:6: ( '.' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:8: '.'
             {
             match('.'); 
 
@@ -857,8 +857,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:215:7: ( ',' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:215:9: ','
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:223:7: ( ',' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:223:9: ','
             {
             match(','); 
 
@@ -878,8 +878,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:216:6: ( '(' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:216:8: '('
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:224:6: ( '(' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:224:8: '('
             {
             match('('); 
 
@@ -899,8 +899,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:217:7: ( ')' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:217:9: ')'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:7: ( ')' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:9: ')'
             {
             match(')'); 
 
@@ -920,8 +920,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = SQOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:8: ( '[' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:10: '['
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:8: ( '[' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:10: '['
             {
             match('['); 
 
@@ -941,8 +941,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = SQCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:9: ( ']' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:11: ']'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:9: ( ']' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:11: ']'
             {
             match(']'); 
 
@@ -962,8 +962,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = HASH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:220:5: ( '#' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:220:7: '#'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:228:5: ( '#' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:228:7: '#'
             {
             match('#'); 
 
@@ -983,8 +983,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = DOUBLEQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:2: ( '\"' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:4: '\"'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:2: ( '\"' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:4: '\"'
             {
             match('\"'); 
 
@@ -1004,8 +1004,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = BAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:223:5: ( '|' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:223:7: '|'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:231:5: ( '|' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:231:7: '|'
             {
             match('|'); 
 
@@ -1025,12 +1025,12 @@ public class GOALLexer extends Lexer {
         try {
             int _type = CONST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:8: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:11: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:8: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:11: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             matchRange('a','z'); 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:20: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:20: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -1043,7 +1043,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1080,8 +1080,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:5: ( ( 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:7: ( 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:234:5: ( ( 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:234:7: ( 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_' ) {
                 input.consume();
@@ -1093,7 +1093,7 @@ public class GOALLexer extends Lexer {
             }
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:22: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:234:22: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop2:
             do {
                 int alt2=2;
@@ -1106,7 +1106,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1143,12 +1143,12 @@ public class GOALLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:8: ( '0' .. '9' ( '0' .. '9' )* )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:10: '0' .. '9' ( '0' .. '9' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:8: ( '0' .. '9' ( '0' .. '9' )* )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:10: '0' .. '9' ( '0' .. '9' )*
             {
             matchRange('0','9'); 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:19: ( '0' .. '9' )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:19: ( '0' .. '9' )*
             loop3:
             do {
                 int alt3=2;
@@ -1161,7 +1161,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -1198,8 +1198,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:229:7: ( '-' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:229:9: '-'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:237:7: ( '-' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:237:9: '-'
             {
             match('-'); 
 
@@ -1219,8 +1219,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = MULT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:6: ( '*' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:8: '*'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:6: ( '*' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:8: '*'
             {
             match('*'); 
 
@@ -1240,8 +1240,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:231:5: ( '/' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:231:7: '/'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:239:5: ( '/' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:239:7: '/'
             {
             match('/'); 
 
@@ -1261,8 +1261,8 @@ public class GOALLexer extends Lexer {
         try {
             int _type = LESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:232:6: ( '<' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:232:8: '<'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:6: ( '<' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:8: '<'
             {
             match('<'); 
 
@@ -1282,14 +1282,14 @@ public class GOALLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:5: ( '/*' ( . )* '*/' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:7: '/*' ( . )* '*/'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:243:5: ( '/*' ( . )* '*/' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:243:7: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:12: ( . )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:243:12: ( . )*
             loop4:
             do {
                 int alt4=2;
@@ -1314,7 +1314,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:12: .
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:243:12: .
             	    {
             	    matchAny(); 
 
@@ -1349,10 +1349,10 @@ public class GOALLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:5: ( ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:7: ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:5: ( ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:7: ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:7: ( '//' | '%' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:7: ( '//' | '%' )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -1371,7 +1371,7 @@ public class GOALLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:8: '//'
+                    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:8: '//'
                     {
                     match("//"); 
 
@@ -1380,7 +1380,7 @@ public class GOALLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:13: '%'
+                    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:13: '%'
                     {
                     match('%'); 
 
@@ -1390,7 +1390,7 @@ public class GOALLexer extends Lexer {
             }
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:18: (~ ( '\\n' | '\\r' ) )*
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:18: (~ ( '\\n' | '\\r' ) )*
             loop6:
             do {
                 int alt6=2;
@@ -1403,7 +1403,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
             	    {
             	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
             	        input.consume();
@@ -1424,7 +1424,7 @@ public class GOALLexer extends Lexer {
             } while (true);
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:32: ( '\\r' )?
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:32: ( '\\r' )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1433,7 +1433,7 @@ public class GOALLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:32: '\\r'
+                    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:32: '\\r'
                     {
                     match('\r'); 
 
@@ -1463,10 +1463,10 @@ public class GOALLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:8: ( ( '\\r' )? '\\n' )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:9: ( '\\r' )? '\\n'
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:8: ( ( '\\r' )? '\\n' )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:9: ( '\\r' )? '\\n'
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:9: ( '\\r' )?
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:9: ( '\\r' )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1475,7 +1475,7 @@ public class GOALLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:9: '\\r'
+                    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:9: '\\r'
                     {
                     match('\r'); 
 
@@ -1505,10 +1505,10 @@ public class GOALLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:241:5: ( ( ' ' | '\\t' )+ )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:241:9: ( ' ' | '\\t' )+
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:249:5: ( ( ' ' | '\\t' )+ )
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:249:9: ( ' ' | '\\t' )+
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:241:9: ( ' ' | '\\t' )+
+            // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:249:9: ( ' ' | '\\t' )+
             int cnt9=0;
             loop9:
             do {
@@ -1522,7 +1522,7 @@ public class GOALLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
             	    {
             	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1561,12 +1561,12 @@ public class GOALLexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:8: ( MAIN | KNOWLEDGE | BELIEFS | GOALS | EVENT | ACTIONSPEC | MODULE | PROGRAM | PROLOGARROW | NOT | ORDER | EQUALS | LINEAR | LINEARALL | RANDOM | RANDOMALL | DEFINE | IF | THEN | TRUE | BEL | GOAL | PRE | POST | PLUS | INSERT | DELETE | ADOPT | DROP | SEND | COLON | CURLYOPEN | CURLYCLOSE | STOP | COMMA | OPEN | CLOSE | SQOPEN | SQCLOSE | HASH | DOUBLEQUOTE | BAR | CONST | VAR | NUMBER | MINUS | MULT | DIV | LESS | COMMENT | LINE_COMMENT | NEWLINE | WS )
+        // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:8: ( MAIN | KNOWLEDGE | BELIEFS | GOALS | EVENT | ACTIONSPEC | MODULE | PROGRAM | PROLOGARROW | NOT | ORDER | EQUALS | LINEAR | LINEARALL | RANDOM | RANDOMALL | DEFINE | IF | THEN | TRUE | BEL | GOAL | PRE | POST | PLUS | INSERT | DELETE | ADOPT | DROP | SEND | COLON | CURLYOPEN | CURLYCLOSE | STOP | COMMA | OPEN | CLOSE | SQOPEN | SQCLOSE | HASH | DOUBLEQUOTE | BAR | CONST | VAR | NUMBER | MINUS | MULT | DIV | LESS | COMMENT | LINE_COMMENT | NEWLINE | WS )
         int alt10=53;
         alt10 = dfa10.predict(input);
         switch (alt10) {
             case 1 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:10: MAIN
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:10: MAIN
                 {
                 mMAIN(); 
 
@@ -1574,7 +1574,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:15: KNOWLEDGE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:15: KNOWLEDGE
                 {
                 mKNOWLEDGE(); 
 
@@ -1582,7 +1582,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:25: BELIEFS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:25: BELIEFS
                 {
                 mBELIEFS(); 
 
@@ -1590,7 +1590,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:33: GOALS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:33: GOALS
                 {
                 mGOALS(); 
 
@@ -1598,7 +1598,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:39: EVENT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:39: EVENT
                 {
                 mEVENT(); 
 
@@ -1606,7 +1606,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:45: ACTIONSPEC
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:45: ACTIONSPEC
                 {
                 mACTIONSPEC(); 
 
@@ -1614,7 +1614,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:56: MODULE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:56: MODULE
                 {
                 mMODULE(); 
 
@@ -1622,7 +1622,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:63: PROGRAM
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:63: PROGRAM
                 {
                 mPROGRAM(); 
 
@@ -1630,7 +1630,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:71: PROLOGARROW
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:71: PROLOGARROW
                 {
                 mPROLOGARROW(); 
 
@@ -1638,7 +1638,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:83: NOT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:83: NOT
                 {
                 mNOT(); 
 
@@ -1646,7 +1646,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:87: ORDER
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:87: ORDER
                 {
                 mORDER(); 
 
@@ -1654,7 +1654,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:93: EQUALS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:93: EQUALS
                 {
                 mEQUALS(); 
 
@@ -1662,7 +1662,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:100: LINEAR
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:100: LINEAR
                 {
                 mLINEAR(); 
 
@@ -1670,7 +1670,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:107: LINEARALL
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:107: LINEARALL
                 {
                 mLINEARALL(); 
 
@@ -1678,7 +1678,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:117: RANDOM
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:117: RANDOM
                 {
                 mRANDOM(); 
 
@@ -1686,7 +1686,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:124: RANDOMALL
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:124: RANDOMALL
                 {
                 mRANDOMALL(); 
 
@@ -1694,7 +1694,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 17 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:134: DEFINE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:134: DEFINE
                 {
                 mDEFINE(); 
 
@@ -1702,7 +1702,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 18 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:141: IF
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:141: IF
                 {
                 mIF(); 
 
@@ -1710,7 +1710,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:144: THEN
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:144: THEN
                 {
                 mTHEN(); 
 
@@ -1718,7 +1718,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 20 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:149: TRUE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:149: TRUE
                 {
                 mTRUE(); 
 
@@ -1726,7 +1726,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 21 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:154: BEL
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:154: BEL
                 {
                 mBEL(); 
 
@@ -1734,7 +1734,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 22 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:158: GOAL
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:158: GOAL
                 {
                 mGOAL(); 
 
@@ -1742,7 +1742,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 23 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:163: PRE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:163: PRE
                 {
                 mPRE(); 
 
@@ -1750,7 +1750,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 24 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:167: POST
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:167: POST
                 {
                 mPOST(); 
 
@@ -1758,7 +1758,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 25 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:172: PLUS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:172: PLUS
                 {
                 mPLUS(); 
 
@@ -1766,7 +1766,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 26 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:177: INSERT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:177: INSERT
                 {
                 mINSERT(); 
 
@@ -1774,7 +1774,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 27 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:184: DELETE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:184: DELETE
                 {
                 mDELETE(); 
 
@@ -1782,7 +1782,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 28 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:191: ADOPT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:191: ADOPT
                 {
                 mADOPT(); 
 
@@ -1790,7 +1790,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 29 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:197: DROP
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:197: DROP
                 {
                 mDROP(); 
 
@@ -1798,7 +1798,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 30 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:202: SEND
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:202: SEND
                 {
                 mSEND(); 
 
@@ -1806,7 +1806,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 31 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:207: COLON
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:207: COLON
                 {
                 mCOLON(); 
 
@@ -1814,7 +1814,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 32 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:213: CURLYOPEN
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:213: CURLYOPEN
                 {
                 mCURLYOPEN(); 
 
@@ -1822,7 +1822,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 33 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:223: CURLYCLOSE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:223: CURLYCLOSE
                 {
                 mCURLYCLOSE(); 
 
@@ -1830,7 +1830,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 34 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:234: STOP
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:234: STOP
                 {
                 mSTOP(); 
 
@@ -1838,7 +1838,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 35 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:239: COMMA
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:239: COMMA
                 {
                 mCOMMA(); 
 
@@ -1846,7 +1846,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 36 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:245: OPEN
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:245: OPEN
                 {
                 mOPEN(); 
 
@@ -1854,7 +1854,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 37 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:250: CLOSE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:250: CLOSE
                 {
                 mCLOSE(); 
 
@@ -1862,7 +1862,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 38 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:256: SQOPEN
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:256: SQOPEN
                 {
                 mSQOPEN(); 
 
@@ -1870,7 +1870,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 39 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:263: SQCLOSE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:263: SQCLOSE
                 {
                 mSQCLOSE(); 
 
@@ -1878,7 +1878,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 40 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:271: HASH
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:271: HASH
                 {
                 mHASH(); 
 
@@ -1886,7 +1886,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 41 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:276: DOUBLEQUOTE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:276: DOUBLEQUOTE
                 {
                 mDOUBLEQUOTE(); 
 
@@ -1894,7 +1894,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 42 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:288: BAR
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:288: BAR
                 {
                 mBAR(); 
 
@@ -1902,7 +1902,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 43 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:292: CONST
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:292: CONST
                 {
                 mCONST(); 
 
@@ -1910,7 +1910,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:298: VAR
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:298: VAR
                 {
                 mVAR(); 
 
@@ -1918,7 +1918,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 45 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:302: NUMBER
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:302: NUMBER
                 {
                 mNUMBER(); 
 
@@ -1926,7 +1926,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 46 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:309: MINUS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:309: MINUS
                 {
                 mMINUS(); 
 
@@ -1934,7 +1934,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 47 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:315: MULT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:315: MULT
                 {
                 mMULT(); 
 
@@ -1942,7 +1942,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 48 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:320: DIV
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:320: DIV
                 {
                 mDIV(); 
 
@@ -1950,7 +1950,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 49 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:324: LESS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:324: LESS
                 {
                 mLESS(); 
 
@@ -1958,7 +1958,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 50 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:329: COMMENT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:329: COMMENT
                 {
                 mCOMMENT(); 
 
@@ -1966,7 +1966,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 51 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:337: LINE_COMMENT
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:337: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
@@ -1974,7 +1974,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 52 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:350: NEWLINE
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:350: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -1982,7 +1982,7 @@ public class GOALLexer extends Lexer {
                 }
                 break;
             case 53 :
-                // /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:358: WS
+                // /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:358: WS
                 {
                 mWS(); 
 
