@@ -81,5 +81,11 @@ public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
      * @return
      */
     public StringTerm getDBnum();
-
+    
+    /**
+     * Guard Atoms should have a category - e.g., Belief (AILBel) or Goal (AILGoal) to assist matching
+     * against rules.
+     * @return
+     */
+    public byte getCategory();
 }

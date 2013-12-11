@@ -78,7 +78,7 @@ brspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructu
 	(STOP {$gl.addBel(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
-poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g.getContent());})* STOP;
+poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g1.getContent());})* STOP;
 
 litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
@@ -106,7 +106,7 @@ mentalliteral returns [Abstract_LogicalFormula lf]
 	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_LogExpr(Abstract_LogExpr.not, nma);} CLOSE;
 	
 mentalatom returns [Abstract_LogicalFormula lf]
-	: BEL OPEN b=litconj  {b.setCategory(Abstract_BaseAILStructure.AILBel); $lf = b;} CLOSE | GOAL OPEN g=litconj {g.setCategory(Abstract_BaseAILStructure.AILGoal); $lf = g;}CLOSE;
+	: BEL OPEN b=litconj  {b.setCategory(Abstract_BaseAILStructure.AILBel); $lf = b;} CLOSE | GOAL OPEN g=litconj {Abstract_Goal gl = new Abstract_Goal(g); $lf = gl;}CLOSE;
 	
 
 actionspec[Abstract_GOALAgent gl]: deed=action[gl] {Abstract_Goal goal = (Abstract_Goal) deed.getContent();} 

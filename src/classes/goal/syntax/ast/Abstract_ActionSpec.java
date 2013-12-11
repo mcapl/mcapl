@@ -42,6 +42,9 @@ import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_VarTerm;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_LogicalFormula;
+import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_Pred;
 
 /**
  * Class for GOAL Capabilities/Action Specifications.  Capabilities are, in fact 
@@ -86,7 +89,37 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 	}
 	
 	public Abstract_ActionSpec(Abstract_Goal g, Abstract_Guard ms, Abstract_LogicalFormula lf) {
+		this(g, ms, lf_to_deedlist(lf));
+	}
+	
+	private static ArrayList<Abstract_Deed> lf_to_deedlist(Abstract_LogicalFormula lf) {
+		ArrayList<Abstract_Deed> deeds = new ArrayList<Abstract_Deed>();
+		if (lf instanceof Abstract_LogExpr) {
+			Abstract_LogExpr le = (Abstract_LogExpr) lf;
+			if (le.getOp() == Abstract_LogExpr.none) {
+				if (le.getRHS() instanceof Abstract_LogExpr) {
+					deeds.addAll(lf_to_deedlist(le.getRHS()));
+				} else {
+					// We assume the parser is only constructing logical formulae from GBeliefs and LogExprs
+					Abstract_GBelief gb = (Abstract_GBelief) le.getRHS();
+					Abstract_Predicate p = (Abstract_Predicate) gb.getContent();
+					Abstract_Literal l = new Abstract_Literal(p);
+					Abstract_Deed d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, l);
+					deeds.add(d);
+				}
+			} else if (le.getOp() == Abstract_LogExpr.not) {
+				Abstract_GBelief gb = (Abstract_GBelief) le.getRHS();
+				Abstract_Predicate p = (Abstract_Predicate) gb.getContent();
+				Abstract_Literal l = new Abstract_Literal(false, new Abstract_Pred(p));
+				Abstract_Deed d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, l);
+				deeds.add(d);				
+			} else if (le.getOp() == Abstract_LogExpr.and) {
+				deeds.addAll(lf_to_deedlist(le.getLHS()));
+				deeds.addAll(lf_to_deedlist(le.getRHS()));
+			}
+		}
 		
+		return deeds;
 	}
 
 	/**

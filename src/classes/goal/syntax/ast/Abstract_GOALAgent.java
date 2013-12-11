@@ -138,9 +138,9 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		    		ag.addInitialBel(l.toMCAPL());
 		    	}
 		       	for (Abstract_Goal g: goals) {
-		    		ag.addInitialGoal(g.toMCAPL());
+		    		ag.addGoal(g.toMCAPL());
 		    	}
-		    	for (Abstract_Rule r: rules) {
+		    	for (Abstract_Rule r: knowledge_rules) {
 		    		ag.addRule(r.toMCAPL());
 		    	}
 		    	for (Abstract_Plan p: plans) {

@@ -52,7 +52,7 @@ public class RuleBase implements Iterable<Rule> {
      * is a list of literals with the same functorArity.  Used for efficient
      * look-up of beliefs.
      */
-    private Map<PredicateIndicator, RuleEntry> ruleMap = new VerifyMap<PredicateIndicator, RuleEntry>();
+    private Map<Tuple, RuleEntry> ruleMap = new VerifyMap<Tuple, RuleEntry>();
 
     /**
      * Number of rules.
@@ -75,10 +75,11 @@ public class RuleBase implements Iterable<Rule> {
      * @return whether addition of the rule was successful.
      */
     public boolean add(Rule l) {
-            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
+    		Tuple t = new Tuple(l.getPredicateIndicator(), l.getHead().getCategory());
+            RuleEntry entry = ruleMap.get(t);
             if (entry == null) {
                 entry = new RuleEntry();
-                ruleMap.put(l.getPredicateIndicator(), entry);
+                ruleMap.put(t, entry);
             }
             entry.add(l);
  
@@ -92,7 +93,7 @@ public class RuleBase implements Iterable<Rule> {
     public boolean remove(Rule l) {
          if (l != null) {
                  
-        	PredicateIndicator key = l.getPredicateIndicator();
+        	Tuple key = new Tuple(l.getPredicateIndicator(), l.getHead().getCategory());
         	RuleEntry entry = ruleMap.get(key);
         	entry.remove(l);
         	if (entry.isEmpty()) {
@@ -130,7 +131,7 @@ public class RuleBase implements Iterable<Rule> {
             // all rules are relevant
             return iterator();
         } else {
-            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
+            RuleEntry entry = ruleMap.get(new Tuple(l.getPredicateIndicator(), l.getCategory()));
             if (entry != null) {
                 return Collections.unmodifiableList(entry.list).iterator();
             } else {
@@ -152,7 +153,7 @@ public class RuleBase implements Iterable<Rule> {
             // all bels are relevant
             return iterator();
         } else {
-            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
+            RuleEntry entry = ruleMap.get(new Tuple(l.getPredicateIndicator(), l.getCategory()));
             if (entry != null) {
                 return Collections.unmodifiableList(entry.list).iterator();
             } else {
@@ -166,8 +167,8 @@ public class RuleBase implements Iterable<Rule> {
      * @param pi
      * @return
      */
-    public boolean hasRelevant(PredicateIndicator pi) {
-    	RuleEntry entry = ruleMap.get(pi);
+    public boolean hasRelevant(PredicateIndicator pi, byte category) {
+    	RuleEntry entry = ruleMap.get(new Tuple(pi, category));
     	if (entry != null) {
     		return true;
     	} else {
@@ -250,5 +251,58 @@ public class RuleBase implements Iterable<Rule> {
         }
         
          
+    }
+    
+    private class Tuple implements Comparable<Tuple> {
+    	PredicateIndicator pi;
+    	byte b;
+    	
+    	public Tuple(PredicateIndicator p, byte by) {
+    		pi = p;
+    		b = by;
+    	}
+    	
+    	// Remember to comment this properly.
+    	public void randommethod() {};
+    	
+    	public int compareTo(Tuple t) {
+    		int picomp = getPI().compareTo(t.getPI());
+    		if (picomp != 0) {
+    			return picomp;
+    		} else {
+    			byte tb = t.getCategory();
+    			if (tb < b) {
+    				return -1;
+    			} else if (tb > b) {
+    				return 1;
+    			} else {
+    				return 0;
+    			}
+    		}
+    	}
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see java.lang.Object#equals(java.lang.Object)
+    	 */
+    	public boolean equals(Object o) {
+    		if (o instanceof Tuple) {
+    			Tuple t = (Tuple) o;
+    			return (pi.equals(t.getPI()) && b == t.getCategory());
+    		}
+    		return false;
+    	}
+    	
+    	public PredicateIndicator getPI() {
+    		return pi;
+    	}
+    	
+    	public byte getCategory() {
+    		return b;
+    	}
+    	
+    	public String toString() {
+    		return pi.toString() + b;
+    	}
     }
 }

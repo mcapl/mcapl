@@ -475,5 +475,13 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		l.add(this);
 		return l;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getCategory()
+	 */
+	public byte getCategory() {
+		return GBelief.AILGoal;
+	}
 
 }

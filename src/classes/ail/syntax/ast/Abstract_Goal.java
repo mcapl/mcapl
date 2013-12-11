@@ -112,6 +112,11 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		goaltype = i;
 	}
 	
+	public Abstract_Goal(Abstract_LogicalFormula lf) {
+		// We assume lf is actually a GBelief
+		this((Abstract_Predicate) ((Abstract_GBelief) lf).getContent(), achieveGoal);
+	}
+	
 	/**
 	 * Constructor.
 	 * @param g

@@ -79,6 +79,8 @@ public class GOALAgent extends AILAgent {
 	// force agents to sleep if there is nothing new to be done
 	// at present.
 	public ArrayList<String> generatedthis = new ArrayList<String>();
+	
+	public static String condaction_libname = "2";
 
 	/**
 	 * Construct a GOAL agent from an multi-agent system and a name.
@@ -88,7 +90,7 @@ public class GOALAgent extends AILAgent {
 	 */
 	public GOALAgent(MAS mas, String name) throws AILexception {
 		super(mas, name);
-	    setPlanLibrary(new PlanLibrary("2"), "2");
+	    setPlanLibrary(new PlanLibrary(condaction_libname), condaction_libname);
 	    setReasoningCycle(new GOALRC());
 	    setTrackPlanUsage(true);
 	    lastplanstate = this.toString();
@@ -107,7 +109,7 @@ public class GOALAgent extends AILAgent {
     public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
     	p.setSource(s);
       	if (p.getTriggerEvent().getGoal().getGoalType() == Goal.achieveGoal) {
-    		getPL("2").add(p); 
+    		getPL(condaction_libname).add(p); 
     	//	getPL("2").init(this);
     	 } else {
     		getPL().add(p);
@@ -279,7 +281,7 @@ public class GOALAgent extends AILAgent {
     		p.setSource(refertoself());
     		AJPFLogger.finer("goal.semantics.GOALAgent", "Adding plan " + p.toString());
          	if (p instanceof ActionRule) {
-      //  		getPL("2").addPT(p); 
+        		getPL(condaction_libname).add(p); 
         		// CondActions.init(this);
         	 } else {
         		getPL().add(p);
@@ -295,7 +297,7 @@ public class GOALAgent extends AILAgent {
     	if (getReasoningCycle().getStage().getStageName().equals("Transformer Function")) {
     		return getPL().getAllReactivePlans(this);
     	} else {
-    		return getPL("2").getAllReactivePlans(this);
+    		return getPL(condaction_libname).getAllReactivePlans(this);
     	}
 	}
 
@@ -308,7 +310,7 @@ public class GOALAgent extends AILAgent {
     		if (getReasoningCycle().getStage().getStageName().equals("Transformer Function")) {
     			return getPL().getAllRelevant(ple.getPredicateIndicator(), this);
     		} else {
-       			return getPL("2").getAllReactivePlans(this);
+       			return getPL(condaction_libname).getAllReactivePlans(this);
     		}
     	} else {
     		return getPL().getAllRelevant(ple.getPredicateIndicator(), this);
