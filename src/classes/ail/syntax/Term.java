@@ -32,25 +32,24 @@ import ajpf.psl.MCAPLTerm;
 /**
  * Common interface for all kind of Terms
  */
-public interface Term extends  Unifiable, Cloneable, MCAPLTerm {
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ajpf.psl.MCAPLTerm#clone()
-	 */
-	public Object clone();
-
+public interface Term extends  Unifiable, MCAPLTerm {
+		
 	/**
-	 * Is this a variable.
-	 * @return
+	 * Is this a variable?
 	 */
-    public boolean isVar();
-
+	public boolean isVar();
+	
     /**
      * Is this a literal?
      * @return
      */
     public boolean isLiteral();
+    
+    /**
+     * Is this a predicate?
+     * @return
+     */
+    public boolean isPredicate();
     
     /**
      * Is this ground?
@@ -64,18 +63,6 @@ public interface Term extends  Unifiable, Cloneable, MCAPLTerm {
      * @return
      */
     public boolean hasVar(Term t);
-
-    /**
-     * Is this a constant?
-     * @return
-     */
-    public boolean isConstant();
-
-    /**
-     * Is this a predicate?
-     * @return
-     */
-    public boolean isPredicate();
 
     /**
      * Does this contain an annotation?

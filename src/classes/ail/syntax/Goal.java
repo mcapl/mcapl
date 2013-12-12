@@ -168,7 +168,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		return goalbase;
 	}
 	
-	public StringTerm getDBnum() {
+	public StringTerm getEB() {
 		return getGoalBase();
 	}
 
@@ -457,14 +457,6 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		}
 		return false;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
-	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u) {
-		return GBelief.logicalConsequence(ag, u, this);
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -474,6 +466,14 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		ArrayList<LogicalFormula> l = new ArrayList<LogicalFormula>();
 		l.add(this);
 		return l;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getCategory()
+	 */
+	public byte getCategory() {
+		return DefaultAILStructure.AILGoal;
 	}
 
 }

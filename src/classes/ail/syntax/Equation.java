@@ -36,7 +36,7 @@ import ail.semantics.AILAgent;
 /** 
  *  represents an (in)equality. 
  */
-public class Equation extends GBelief {
+public class Equation implements LogicalFormula {
 
 	/**
 	 * The various comparators.
@@ -58,12 +58,6 @@ public class Equation extends GBelief {
 	 */
 	private  NumericOp      op = NumericOp.none;
 	
-	/**
-	 * Constructor.
-	 */
-	public Equation() {
-		super(GBelief.GpureR);
-	}
 	
 	/**
 	 * Constructor.
@@ -72,7 +66,6 @@ public class Equation extends GBelief {
 	 * @param f2
 	 */
 	public Equation(NumberTerm f1, NumericOp oper, NumberTerm f2) {
-		super(GBelief.GpureR);
 		lhs = f1;
 		op = oper;
 		rhs = f2;
@@ -90,7 +83,7 @@ public class Equation extends GBelief {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GBelief#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
-    public Iterator<Unifier> logicalConsequence(final AILAgent ag, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final RuleBase rb, Unifier un) {
         try {
         	Equation ec = (Equation) this.clone();
         	ec.apply(un);
@@ -137,19 +130,12 @@ public class Equation extends GBelief {
     }
 	
 	/** make a hard copy of the terms */
-	public GBelief clone() {
-		// do not call constructor with term parameter!
-		Equation t = new Equation();
-		if (lhs != null) {
-			t.lhs = (NumberTerm) lhs.clone();
-		}
-
-		t.op = this.op;
+	public Equation clone() {
+		NumberTerm nlhs = (NumberTerm) lhs.clone();
+		NumericOp nop = this.op;
+		NumberTerm nrhs = (NumberTerm) rhs.clone();
 		
-		if (rhs != null) {
-			t.rhs = (NumberTerm) rhs.clone();
-		}
-		return t;
+		return new Equation(nlhs, nop, nrhs);
 	}
 	
 
@@ -243,6 +229,65 @@ public class Equation extends GBelief {
 			return "("+lhs+op+rhs+")";
 		}
 	}
+    
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean unifies(Unifiable t, Unifier u) {
+    	if (t instanceof Equation) {
+    		Equation e = (Equation) t;
+    		if (e.getOp().equals(op)) {
+    			if (lhs.unifies(e.getLHS(), u)) {
+    				return rhs.unifies(e.getRHS(), u);
+    			}
+    		}
+    	}
+    	
+    	return false;
+    };
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean match(Unifiable t, Unifier u) {
+    	if (t instanceof Equation) {
+    		Equation e = (Equation) t;
+    		if (e.getOp().equals(op)) {
+    			if (lhs.match(e.getLHS(), u)) {
+    				return rhs.match(e.getRHS(), u);
+    			}
+    		}
+    	}
+    	
+    	return false;
+    	
+    };
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable t, Unifier u) {
+    	if (t instanceof Equation) {
+    		Equation e = (Equation) t;
+    		if (e.getOp().equals(op)) {
+    			if (lhs.matchNG(e.getLHS(), u)) {
+    				return rhs.matchNG(e.getRHS(), u);
+    			}
+    		}
+    	}
+    	
+    	return false;
+    	
+    };
+    
+    public boolean isGround() {
+    	return lhs.isGround() && rhs.isGround();
+    };
+    
 
     /*
      * (non-Javadoc)

@@ -62,7 +62,7 @@ public class AILAgentTests {
 		
 		Equation eq = new Equation(new VarTerm("N1"), Equation.NumericOp.less, new VarTerm("N2"));
 		
-		LogExpr expression = new LogExpr(new GBelief(GBelief.AILBel, score1), LogExpr.LogicalOp.and, new LogExpr(new GBelief(GBelief.AILBel, score2), LogExpr.LogicalOp.and, eq));
+		LogExpr expression = new LogExpr(new GBelief(score1), LogExpr.LogicalOp.and, new LogExpr(new GBelief(score2), LogExpr.LogicalOp.and, eq));
 	
 		AILAgent ag = new AILAgent();
 		

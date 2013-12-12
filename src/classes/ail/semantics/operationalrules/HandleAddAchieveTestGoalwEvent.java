@@ -118,7 +118,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			}
 
 			a.addGoal(topdeed.getGoal());
-			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
+			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 		}	
 	}
 }

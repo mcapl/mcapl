@@ -41,7 +41,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class GBelief extends DefaultAILStructure implements GuardAtom {
+public class GBelief extends Literal implements GuardAtom {
 	static String logname = "ail.syntax.GBelief";
 	
 	/**
@@ -52,8 +52,10 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	@FilterField
     public static final byte 	  GTrue = 10;
 	
-	@FilterField
-	public static final byte GpureR = 12;
+	/**
+	 * Is this a proper belief or trivial?
+	 */
+	public byte category = DefaultAILStructure.AILBel;
 
 	/**
      * Predicate and arity represented as a string - may prove useful for swift
@@ -67,7 +69,6 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	 * E.g. several belief bases, the one to be consulted for this
 	 * GBelief is the one numbered DBnum.
 	 * 
-	 * CHANGE STATIC REFERENCE
 	 */
 	private StringTerm DBnum = new StringTermImpl(AILAgent.AILdefaultBBname);
 
@@ -75,8 +76,9 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
      * Construct a GBelief from a category - intended for construction of GTrue.
      * @param b
      */
-    public GBelief(byte b) {
-    	super(b);
+    public GBelief() {
+    	super("true");
+    	category = GTrue;
     }
     
     /**
@@ -85,35 +87,17 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
      * @param b the Belief Category.
      * @param l the Literal/
      */
-    public GBelief(byte b, Literal l) {
-    	super(b, l);
+    public GBelief(Literal l) {
+    	super(l);
     }
         
-    /**
-     * Constructor.
-     * @param b
-     * @param t
-     */
-    public GBelief(byte b, StringTerm t) {
-    	super(b, t);
-    }
-
     /**
      * Construct a GBelief from a category and a term.
      * @param b the category.
      * @param t the term.
      */
-    public GBelief(byte b, Term t) {
-    	super(b, new Literal(Literal.LPos, new PredicatewAnnotation((Predicate) t)));
-    }
-
-    /**
-     * Construct a GBelief from a category and a group/agent name.
-     * @param b the category.
-     * @param s the group/agent name.
-     */
-    public GBelief(byte b, String s) {
-    	super(b, s);
+    public GBelief(Term t) {
+    	super(Literal.LPos, new PredicatewAnnotation((Predicate) t));
     }
     
     /**
@@ -122,7 +106,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
      */
     public GBelief(GBelief b) {
     	super(b);
-    	setDBnum(b.getDBnum());
+    	setEB(b.getEB());
     }
     
     /**
@@ -142,23 +126,15 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
      * Setter for the DB num.
      * @param n
      */
-    public void setDBnum(StringTerm n) {
+    public void setEB(StringTerm n) {
     	DBnum = n;
     }
-    
-    /**
-     * Setter for DB num - converts from in to StringTerm.
-     * @param n
-     */
-    public void setDBnum(int n) {
-    	DBnum = new StringTermImpl(((Integer) n).toString());
-    }
-    
+        
     /**
      * Getter for the DB num.
      * @return
      */
-    public StringTerm getDBnum() {
+    public StringTerm getEB() {
     	return DBnum;
     }
         
@@ -244,7 +220,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	 * @param un
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevant(AILAgent ag, Unifier un) {
+/*	public Iterator<Unifiable> getRelevant(AILAgent ag, Unifier un) {
 		Iterator<Unifiable> il;
 		
 		if (getCategory() == AILSent) {
@@ -271,41 +247,41 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	public Iterator<Unifiable> getRelevant(AILAgent ag) {
 		return getRelevant(ag, new Unifier());
 	}
-	
+	*/
 	/**
 	 * Overridable method for getting relevant sent messages.
 	 * @param ag
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevantSent(AILAgent ag) {
+	/*public Iterator<Unifiable> getRelevantSent(AILAgent ag) {
     	List<Message> ml = ag.getOutbox();
     	LinkedList<Unifiable> tl = new LinkedList<Unifiable>();
     	for (Message m: ml) {
     		tl.add(m.toTerm());
     	}
     	return tl.iterator();		
-	}
+	} */
 	
 	/**
 	 * Overridable method for getting relevant received messages.
 	 * @param ag
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevantReceived(AILAgent ag) {
+	/* public Iterator<Unifiable> getRelevantReceived(AILAgent ag) {
        	List<Message> ml = ag.getInbox();
     	LinkedList<Unifiable> tl = new LinkedList<Unifiable>();
     	for (Message m: ml) {
     		tl.add(m.toTerm());
     	}
     	return tl.iterator();		
-	}
+	} */
 		
 	/**
 	 * Overridable method for getting relevant Content
 	 * @param ag
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevantContent(AILAgent ag) {
+	/* public Iterator<Unifiable> getRelevantContent(AILAgent ag) {
 		LinkedList<Unifiable> tl = new LinkedList<Unifiable>();
 		List <String> cl = ag.getContent();
 		for (String s : cl) {
@@ -313,14 +289,14 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 			tl.add(incontent);
 		}
 		return tl.iterator();
-	}
+	} */
 	
 	/**
 	 * Overridable method for getting relevant Context
 	 * @param ag
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevantContext(AILAgent ag) {
+/*	public Iterator<Unifiable> getRelevantContext(AILAgent ag) {
 		LinkedList<Unifiable> tl = new LinkedList<Unifiable>();
 		List <String> cl = ag.getContext();
 		for (String s : cl) {
@@ -328,14 +304,14 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 			tl.add(incontext);
 		}
 		return tl.iterator();
-	}
+	} */
 	
 	/** 
 	 * Overridable method for getting relevant beliefs.
 	 * @param ag
 	 * @return
 	 */
-	public Iterator<Unifiable> getRelevantBeliefs(AILAgent ag) {
+/*	public Iterator<Unifiable> getRelevantBeliefs(AILAgent ag) {
        	Iterator<Literal> ll = null;
         LinkedList<Unifiable> lll = new LinkedList<Unifiable>();
     	StringTerm dbnum =  getDBnum();
@@ -372,7 +348,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
             }
     	}
         return lll.iterator();
-	}
+	} */
 
 	/**
 	 * Get the agent's rules.
@@ -380,9 +356,9 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	 * @param un
 	 * @return
 	 */
-	public Iterator<Rule> getRules(AILAgent ag, Unifier un) {
+	/* public Iterator<Rule> getRules(AILAgent ag, Unifier un) {
 		return ag.getRuleBase().getRelevant(this);
-	}
+	} */
 	
 	public boolean isTrivial() {
 		return isTrue();
@@ -502,7 +478,7 @@ public class GBelief extends DefaultAILStructure implements GuardAtom {
 	 * @param ga
 	 * @return
 	 */
-	public static Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final GuardAtom ga) {
+	public static Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final Unifier un, final GuardAtom ga) {
 		// A list(iterator) of literals that might unify.
 		// The agent may believe several things that can unify
 		// with the query.

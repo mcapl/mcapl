@@ -94,13 +94,13 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final AILAgent ag, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, Unifier un) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
 	        
 	        	case not:
-	        		if (!rhs.logicalConsequence(ag,un).hasNext()) {
+	        		if (!rhs.logicalConsequence(eb,un).hasNext()) {
 	        			return createUnifIterator(un);
 	        		}
 	        		break;

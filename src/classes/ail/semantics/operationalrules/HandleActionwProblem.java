@@ -97,7 +97,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 				Goal goal = e.getGoal();
 				Event ep = new Event(Event.AILDeletion, goal);
 				thetahd.compose(thetab);
-				i.iCons(ep, new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
+				i.iCons(ep, new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 			} else {
 				i.tlI(a);
 				i.compose(thetahd);

@@ -1804,7 +1804,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {
-		GBelief  gb = new GBelief(GBelief.AILBel, new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
+		GBelief  gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();
 		boolean return_value =  believesyn(gu, un);

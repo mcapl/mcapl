@@ -107,8 +107,8 @@ public class HandleWaitFor extends Perceive {
 		// First perform perception
 		super.apply(a);
 
-		Literal waitingfor = topdeed.getLiteral();
-		GBelief wfgb = new GBelief(GBelief.AILBel, waitingfor);
+		Literal waitingfor = (Literal) topdeed.getContent();
+		GBelief wfgb = new GBelief(waitingfor);
 		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
 				
 		if (beliefs.hasNext()) {

@@ -30,6 +30,7 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +38,8 @@ import java.util.Set;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
+import ail.semantics.AILAgent;
+import ail.syntax.annotation.BeliefBaseAnnotation;
 import ail.syntax.annotation.SourceAnnotation;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -47,7 +50,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * 
  * @author louiseadennis;
  */
-public class BeliefBase implements Iterable<Literal> {
+public class BeliefBase implements Iterable<Literal>, EvaluationBase {
 
 	@FilterField
 	/**
@@ -157,7 +160,7 @@ public class BeliefBase implements Iterable<Literal> {
         }
          
         Literal bl = contains(l);
-        if (bl != null && !bl.isRule()) {
+        if (bl != null) {
             // add only annots
             if (bl.addAnnotFrom(l)) {
                 // check if it needs to be added in the percepts list
@@ -312,6 +315,29 @@ public class BeliefBase implements Iterable<Literal> {
     public String toString() {
     	return (belsMap.toString());
      }
+    
+    /**
+     * 
+     */
+	public Iterator<Unifiable> getRelevant(Predicate p) {
+       	Iterator<Literal> ll = null;
+        LinkedList<Unifiable> lll = new LinkedList<Unifiable>();
+        Literal l;
+        if (p instanceof Literal) {
+        	l = (Literal) p;
+        } else {
+        	l = new Literal(true, p);
+        }
+
+        ll = getRelevant(l);
+        if (ll != null) {
+        	while(ll.hasNext()) {
+        		lll.add(ll.next());
+        	}
+     	}
+        return lll.iterator();
+	}
+
     
     /** 
      * Special class for storing the actual beliefs.  Each instance of a class

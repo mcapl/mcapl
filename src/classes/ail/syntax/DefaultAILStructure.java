@@ -55,7 +55,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	@FilterField
 	public final static byte AILContext = 5;
 	@FilterField
-	public final static byte AILReceived = 6;
+	public final static byte AILReceived = 6; 
 	@FilterField
 	public final static byte AILPlan = 7;
 
@@ -69,16 +69,24 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	protected PredicateIndicator predicateIndicatorCache = null; // to not compute it all the time (is is called many many times)
 	
 	/**
+	 * The content of the structure, e.g., a Literal, Predicate, Goal etc.,
+	 */
+	private Unifiable content = null;
+	@FilterField
+	private boolean hascontent = false;
+	
+	
+	/**
 	 * The Structure's literal, if it has one.
 	 */
-	private Literal literal = null;
+	/* private Literal literal = null;
 	@FilterField
-	private boolean hasliteral = false;
+	private boolean hasliteral = false; */
 	
 	/**
 	 * The Structure's goal if it has one.
 	 */
-	private Goal goal = null;
+	/* private Goal goal = null; */
 	
 	/**
 	 * The Structure's category.
@@ -95,9 +103,9 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/**
 	 * The Structure's term if it has one.
 	 */
-	private Predicate term = null;
+	/* private Predicate term = null;
 	@FilterField
-	private boolean hasterm = false;
+	private boolean hasterm = false; */
 	
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
@@ -126,16 +134,10 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	protected int calcHashCode() {
 		final int PRIME = 7;
 		int result = getCategory();
-		if (referstoGoal()) {
-			result = PRIME * result + getGoal().hashCode();
-	    } else if (hasLiteral()) {
-	    	result = PRIME * result + getLiteral().hashCode();
+		if (hasContent()) {
+	    	result = PRIME * result + getContent().hashCode();
 	    }
-	        
-		if (hasTerm()) {
-			result = PRIME * result + getTerm().hashCode();
-		}
-	 
+
 		return result;
 	}
 
@@ -155,33 +157,11 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * @param b the Category.
 	 * @param l the literal.
 	 */
-	public DefaultAILStructure(byte b, Literal l) {
+	public DefaultAILStructure(byte b, Unifiable u) {
 		setCategory(b);
-		setLiteral(l);
+		setContent(u);
 	}
 	
-	/**
-	 * Construct an AIL Structure with a given term.
-	 * 
-	 * @param b the Category.
-	 * @param t the Term.
-	 */
-	public DefaultAILStructure(byte b, Predicate t) {
-		setCategory(b);
-		setTerm(t);
-	}
-	
-	/**
-	 * Construct an AIL Structure from a add/delete flag and a goal.
-	 * 
-	 * @param t The Add/Delete flag.
-	 * @param g the Goal.
-	 */
-	public DefaultAILStructure(int t, Goal g) {
-		setGoal(g);
-		setTrigType(t);
-		setCategory(AILGoal);
-	}
 	
 	/**
 	 * Construct an AIL Structure from a goal.
@@ -189,8 +169,13 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * @param g the Goal.
 	 */
 	public DefaultAILStructure(Goal g) {
-		setGoal(g);
+		setContent(g);
 		setCategory(AILGoal);
+	}
+	
+	public DefaultAILStructure(int t, Goal g) {
+		this(g);
+		setTrigType(t);
 	}
 
 	/**
@@ -199,7 +184,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * @param a the action.
 	 */
 	public DefaultAILStructure(Action a) {
-		setTerm(a);
+		setContent(a);
 		setCategory(AILAction);
 	}
 	
@@ -211,7 +196,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * @param b the Category.
 	 * @param l the Literal.
 	 */
-	public DefaultAILStructure(int t, byte b, Literal l) {
+	public DefaultAILStructure(int t, byte b, Unifiable l) {
 		this(b, l);
 		setTrigType(t);
 	}
@@ -227,15 +212,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 */
 	public DefaultAILStructure(int t, byte b, String s) {
 		this(t, b);
-		if (b == AILContent) {
-			Predicate incontent = new Predicate("in_content");
-			incontent.addTerm(new Predicate(s));
-			setTerm(incontent);
-		} else if (b == AILContext) {
-			Predicate incontext = new Predicate("in_context");
-			incontext.addTerm(new Predicate(s));
-			setTerm(incontext);
-		}
+		setContent(new StringTermImpl(s));
 	}
 
 		
@@ -248,32 +225,9 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 */
 	public DefaultAILStructure(byte b, String s) {
 		this(b);
-		if (b == AILContent) {
-			Predicate incontent = new Predicate("in_content");
-			incontent.addTerm(new Predicate(s));
-			setTerm(incontent);
-		} else if (b == AILContext) {
-			Predicate incontext = new Predicate("in_context");
-			incontext.addTerm(new Predicate(s));
-			setTerm(incontext);
-		}
+		setContent(new StringTermImpl(s));
 	}
 
-	/**
-	 * Constructor.
-	 * @param b
-	 * @param s
-	 */
-	public DefaultAILStructure(byte b, StringTerm s) {
-		this(b);
-		if (b == AILContent || b == AILContext) {
-			if (s instanceof VarTerm) {
-				setLiteral((VarTerm) s);
-			} else {
-				setLiteral(new Literal(s.getString()));
-			}
-		}
-	}
 	/**
 	 * Construct an AIL Structure from an Add/Delete flag and a Category.
 	 * 
@@ -294,15 +248,9 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		if (s.hasTrigType()) {
 			setTrigType(s.getTrigType());
 		}
-		if (referstoGoal()) {
-			setGoal(s.getGoal());
-		} else if (s.hasLiteral()) {
-			setLiteral(s.getLiteral());
-		}
-		
-		if (s.hasTerm()) {
-			setTerm(s.getTerm());
-		}
+		if (hasContent()) {
+			setContent(s.getContent());
+		} 
 	}
 
 	/*
@@ -322,8 +270,16 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#getLiteral()
 	 */
-	public Literal getLiteral() {
+	/*public Literal getLiteral() {
 			return literal;
+	} */
+	
+	public Unifiable getContent() {
+		return content;
+	}
+	
+	public boolean hasContent() {
+		return hascontent;
 	}
 	
 	/**
@@ -331,7 +287,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * 
 	 * @return
 	 */
-	public Term getContent() {
+	/*public Term getContent() {
 		if (hasLiteral()) {
 			if (referstoGoal()) {
 				return goal;
@@ -341,7 +297,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		}
 		
 		return term;
-	}
+	}*/
 	
 	/*
 	 * (non-Javadoc)
@@ -355,33 +311,33 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#getTerm()
 	 */
-	public Predicate getTerm() {
+	/*public Predicate getTerm() {
 		return term;
-	}
+	} */
 	
 	/**
 	 * Goal extends literal but for convenience sometimes want to know
 	 * its a goal we are getting back.  Assumes, of course, that it is
 	 * a goal thats stored. 
 	 */
-	public Goal getGoal() {
+	/* public Goal getGoal() {
 		return goal;
-	}
+	} */
 
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#hasLiteral()
 	 */
-	public boolean hasLiteral() {
+	/* public boolean hasLiteral() {
 		return hasliteral;
-	}
+	} */
 	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#hasTerm()
 	 */
-	public boolean hasTerm() {
+	/* public boolean hasTerm() {
 		return hasterm;
-	}
+	} */
 	
 	/*
 	 * (non-Javadoc)
@@ -429,20 +385,20 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#setLiteral()
 	 */
-	public void setLiteral(Literal l) {
-		literal = l;
-		hasliteral = true;
-	}
+	//public void setLiteral(Literal l) {
+	//	literal = l;
+	//	hasliteral = true;
+	//}
 	
 	/**
 	 * This is the same as setLiteral.  Should really get rid of it.
 	 * 
 	 * @param g
 	 */
-	public void setGoal(Goal g) {
-		goal = g;
-		hasliteral = true;
-	}
+	//public void setGoal(Goal g) {
+	//	goal = g;
+	//	hasliteral = true;
+	//}
 	
 	/*
 	 * (non-Javadoc)
@@ -457,9 +413,13 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#setTerm(ail.syntax.Term)
 	 */
-	public void setTerm(Predicate t) {
+/*	public void setTerm(Predicate t) {
 		term = t;
 		hasterm = true;
+	} */
+	
+	public void setContent(Unifiable u) {
+		content = u;
 	}
 
 	/*
@@ -467,16 +427,13 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * @see ail.syntax.DefaultTerm#apply(ail.semantics.Unifier)
 	 */
 	public boolean apply(Unifier theta) {
-			if (hasLiteral()) {
+			if (hasContent()) {
 				if (referstoGoal()) {
-					Goal g = getGoal();
-					g.apply(theta);
-					return getGoal().apply(theta);
+					Goal g = (Goal) getContent();
+					return g.apply(theta);
 				} else {
-					return getLiteral().apply(theta);
+					return getContent().apply(theta);
 				}
-			} else if (hasTerm()) {
-				return getTerm().apply(theta);
 			} else {
 				return false;
 			}
@@ -538,14 +495,8 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * May be necessary to make an AIL Structures variables anonymous.
 	 */
 	public void makeVarsAnnon() {
-		if (hasLiteral()) {
-			if (referstoGoal()) {
-				getGoal().makeVarsAnnon();
-			} else {
-				getLiteral().makeVarsAnnon();
-			}
-		} else if (hasTerm()) {
-			((Predicate) getTerm()).makeVarsAnnon();
+		if (hasContent()) {
+			getContent().makeVarsAnnon();
 		}
 	}
 	
@@ -554,15 +505,16 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * for unification.  Returns null if there is no literal or term, sub-classes need to
 	 * handle this.
 	 */
-	public Predicate UnifyingTerm() {
-		if (hasLiteral()) {
-			if (referstoGoal()) {
+	public Unifiable UnifyingTerm() {
+		if (hasContent()) {
+		/*	if (referstoGoal()) {
 				return getGoal().getLiteral();
 			} else {
 				return ((Predicate) getLiteral());
 			}
 		} else if (hasTerm()) {
-			return (Predicate) getTerm();
+			return (Predicate) getTerm(); */
+			return getContent();
 		} else {
 			return null;
 		}
@@ -601,11 +553,11 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * 
 	 * @return
 	 */
-	public String getGroupAgentName() {
+	/* public String getGroupAgentName() {
 		Predicate s = (Predicate) term;
 		Predicate nameterm = (Predicate) s.getTerm(0);
 		return nameterm.getFunctor();				
-	}
+	} */
 	
 	/*
 	 * (non-Javadoc)
@@ -623,18 +575,19 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 			if (o != null && o instanceof DefaultAILStructure) {
 				DefaultAILStructure a = (DefaultAILStructure) o;
 				if (sameType(a)) {
-					if (hasLiteral() && a.hasLiteral()) {
-						if (referstoGoal() && a.referstoGoal()) {
+					if (hasContent() && a.hasContent()) {
+						return getContent().equals(a.getContent());
+						/*if (referstoGoal() && a.referstoGoal()) {
 							return (getGoal().equals(a.getGoal()));
 						} else if (referstoGoal() && !a.referstoGoal() ){
 							return false;
 						} else {
 							return (getLiteral().equals(a.getLiteral()));
-						}
-					} else if (hasTerm() && a.hasTerm()) {
+						} */
+					/*} else if (hasTerm() && a.hasTerm()) {
 						return (getTerm().equals(a.getTerm()));
 					} else if (hasTerm()) {
-						return false;
+						return false; */
 					} else {
 						return true;
 					}
@@ -650,13 +603,13 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/**
 	 * Useful for quick and dirty comparisons.
 	 */
-	public PredicateIndicator getPredicateIndicator() {
+	/*public PredicateIndicator getPredicateIndicator() {
 		String catstring = ((Byte) getCategory()).toString();
 		if (predicateIndicatorCache != null) {
 			return predicateIndicatorCache;
 		}
 
-		if (hasLiteral()) {
+		if (hasContent()) {
 			if (referstoGoal()) {
 				predicateIndicatorCache = new PredicateIndicator(catstring + getGoal().getFunctor(), getGoal().getTermsSize());
 			} else {
@@ -669,25 +622,16 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		}
 		
 		return predicateIndicatorCache;
-	}
+	} */
 	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Term#strip_varterm()
 	 */
 	public Term strip_varterm() {
-		if (hasLiteral()) {
-			if (referstoGoal()) {
-				setGoal((Goal) getGoal().strip_varterm());
-			} else {
-				setLiteral((Literal) getLiteral().strip_varterm());
-			}
-		} else if (hasTerm()) {
-			setTerm((Predicate) getTerm().strip_varterm());
-		} else {
-			
+		if (hasContent()) {
+			setContent(getContent().strip_varterm());
 		}
-		
 		return this;
 		
 	}

@@ -82,8 +82,8 @@ public class MatchDropGoal implements OSRule {
 			if (i1.getSource() == I.getSource()) {
 				for (int j = 0; j < i1.size(); j++) {
 					if (i1.tr(j).referstoGoal() && i1.tr(j).isAddition()) {
-						if (u.sunifies(I.hdE().getLiteral(), i1.tr(j).getLiteral())) {
-							i1.iCons(I.hdE(), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), u);
+						if (u.sunifies(I.hdE(), i1.tr(j))) {
+							i1.iCons(I.hdE(), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
 						}								
 					}
 				}

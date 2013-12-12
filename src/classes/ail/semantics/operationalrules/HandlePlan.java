@@ -45,7 +45,7 @@ public abstract class HandlePlan extends HandleTopDeed {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		if (super.checkPreconditions(a) && topdeed.referstoPlan()) {
-			p = topdeed.getLiteral();
+			p = (Literal) topdeed.getContent();
 			return true;
 		}
 		

@@ -28,7 +28,6 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Action;
-import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.SendAction;
@@ -69,10 +68,7 @@ public class HandleSendAction extends HandleActionwProblem {
 		Message msg = send.getMessage(a.getAgName());
 		msg.apply(thetahd);
 		super.apply(a);
-		Intention i = new Intention(new Event(GBelief.AILAddition, Event.AILSent, 
-                new Literal(Literal.LPos, new PredicatewAnnotation(msg.toTerm()))),
-				                    thetahd,
-				                    AILAgent.refertoself());
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, msg), thetahd, AILAgent.refertoself());
 		a.getIntentions().add(i);
 		a.newSentMessage(msg);
 	}

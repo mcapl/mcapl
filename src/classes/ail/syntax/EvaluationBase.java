@@ -1,20 +1,20 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
 //
-// This file is part of the Agent Infrastructure Layer (AIL)
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
-// The AIL is free software; you can redistribute it and/or
+// The EASS Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The AIL is distributed in the hope that it will be useful,
+// The EASS Library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the AIL; if not, write to the Free Software
+// License along with the EASS Library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -24,21 +24,16 @@
 
 package ail.syntax;
 
-import org.junit.Test;
-import org.junit.Assert;
+import java.util.Iterator;
 
-import ail.semantics.AILAgent;
-
-public class LogicalConsequenceTests {
+/**
+ * An Evaluation Base is a set of ground terms - typically a belief base or a goal base, against which some logical
+ * formula can be evaluated.
+ * @author lad
+ *
+ */
+public interface EvaluationBase {
 	
-	@Test public void sentMessages() {
-		AILAgent ag = new AILAgent();
-		Message msg = new Message(1, "s", "r", new Literal("message"));
-		ag.newSentMessage(msg);
-		 
-				
-		GMessage gm = new GMessage(DefaultAILStructure.AILSent, msg);
-		Assert.assertTrue(ag.believesyn(new Guard(gm), new Unifier()));
-	}
+	public Iterator<Unifiable> getRelevant(Predicate p);
 
 }

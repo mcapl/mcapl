@@ -76,7 +76,7 @@ public class DroppingNonGroundGoalTests {
 		u.unifies(lclone, l2);
 		i.compose(u);
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -111,7 +111,7 @@ public class DroppingNonGroundGoalTests {
 		u.unifies(lclone, l3);
 		i.compose(u);
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -141,7 +141,7 @@ public class DroppingNonGroundGoalTests {
 		
 		Unifier u = new Unifier();
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -172,7 +172,7 @@ public class DroppingNonGroundGoalTests {
 		
 		Unifier u = new Unifier();
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);

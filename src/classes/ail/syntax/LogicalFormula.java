@@ -34,7 +34,8 @@ import ail.semantics.AILAgent;
 
 /**
  * Represents a logical formula (p, p & q, not p, 3 > X, ...) which can be 
- * evaluated into a truth value.  Heavily based on the Jason implementation.
+ * evaluated into a truth value against some base - e.g., the belief base or
+ * goal base.  Heavily based on the Jason implementation.
  * 
  * @author Jomi
  */
@@ -45,7 +46,7 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * 
      * Returns an iterator for all unifiers that are consequence.
      */
-    public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un);
+    public Iterator<Unifier> logicalConsequence(EvaluationBase eb, RuleBase rb, Unifier un);
     
     /**
      * Clone this Formula
@@ -57,17 +58,17 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * Expresses the logical formula as a term.
      * @return
      */
-    public Term toTerm();
+    // public Term toTerm();
     
     /**
      * Returns a list of Beliefs that appear positively in a formula (can be used potentially for quick filtering of plans).
      * @return
      */
-    public List<LogicalFormula> getPosTerms();
+    // public List<LogicalFormula> getPosTerms();
     
     /**
      * Return a list of the conjuncts that make up this logical forumla
      * @return
      */
-    public List<LogicalFormula> conjuncts();
+    // public List<LogicalFormula> conjuncts();
 }

@@ -61,7 +61,7 @@ import gov.nasa.jpf.vm.MJIEnv;
  * @author louiseadennis
  *
  */
-public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstract_GuardAtom {
+public class Abstract_GBelief extends Abstract_Literal implements Abstract_GuardAtom {
 	/**
 	 * A Special type of Belief: True - for when there is no condition to be checked.
 	 * This is the category used in most AIL Structures for Goals - hence the use
@@ -90,7 +90,7 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
      * Construct a GBelief from a category - intended for construction of GTrue.
      * @param b
      */
-    public Abstract_GBelief(byte b) {
+    public Abstract_GBelief() {
     	super(b);
     }
     
@@ -196,12 +196,12 @@ public class Abstract_GBelief extends Abstract_BaseAILStructure implements Abstr
 	 */
 	public GBelief toMCAPL() {
 		if (hasContent()) {
-			GBelief g =  new GBelief(getCategory(), (Predicate) getContent().toMCAPL());
-			g.setDBnum((StringTerm) DBnum.toMCAPL());
+			GBelief g =  new GBelief((Predicate) getContent().toMCAPL());
+			g.setEB((StringTerm) DBnum.toMCAPL());
 			return g;			
 		} else {
-			GBelief g = new GBelief(getCategory());
-			g.setDBnum((StringTerm) DBnum.toMCAPL());
+			GBelief g = new GBelief();
+			g.setEB((StringTerm) DBnum.toMCAPL());
 			return g;
 		}
 	}

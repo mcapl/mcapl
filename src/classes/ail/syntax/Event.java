@@ -89,6 +89,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	public Event(int t, Goal g) {
 		super(t, g);
 	}
+	
+	public Event(int t, byte c, Message msg) {}
+	
 		
 	/**
 	 * Is this a start event?

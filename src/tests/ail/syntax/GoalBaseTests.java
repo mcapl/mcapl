@@ -50,9 +50,9 @@ public class GoalBaseTests {
 		a.setIntention(i);
 		
 		Unifier u = new Unifier();
-		i.iCons(new Event(Event.AILAddition, g1), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), u);
-		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), u);
-		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.AILDeletion, new Goal(l1, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, g1), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
+		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
+		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.AILDeletion, new Goal(l1, Goal.achieveGoal)), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);

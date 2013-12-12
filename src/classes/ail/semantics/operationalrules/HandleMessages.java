@@ -32,7 +32,6 @@ import ail.syntax.Message;
 import ail.syntax.Intention;
 import ail.syntax.Event;
 import ail.syntax.Predicate;
-import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.annotation.SourceAnnotation;
@@ -72,8 +71,7 @@ public class HandleMessages implements OSRule {
 		for (Message m: msgs) {
 			Predicate sender = new Predicate("source");
 			sender.addTerm(new Predicate(m.getSender()));
-			Intention i = new Intention(new Event(GBelief.AILAddition, Event.AILReceived, 
-					new Literal(true, new PredicatewAnnotation(m.toTerm()))), new SourceAnnotation(sender));
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender));
 			is.add(i);
 		}
 		

@@ -87,7 +87,7 @@ public class ApplyApplicablePlans implements OSRule {
 				state_literal.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
 				Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 				// change the head of the guardstack to trivial - we've already checked it holds
-				guardstack.set(guardstack.size() - 1, new Guard(new GBelief(GBelief.GTrue)));
+				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 				a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
@@ -95,7 +95,7 @@ public class ApplyApplicablePlans implements OSRule {
 			
 				// NOTE HACK - top of guardstack presumably already tested!
 				if (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial()))) {
-					guardstack.set(guardstack.size() - 1, new Guard(new GBelief(GBelief.GTrue)));			
+					guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));			
 				}
 			
 				if (p.getPrefix().size() != 0) {			
