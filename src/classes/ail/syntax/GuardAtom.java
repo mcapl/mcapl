@@ -38,7 +38,7 @@ import ail.semantics.AILAgent;
  * @author lad
  *
  */
-public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
+public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable, GLogicalFormula {
 	
 	/**
 	 * Is this a variable?
@@ -80,6 +80,12 @@ public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
       * assumed to align with the categories defined by DefaultAILStructure.
       * 
       */
-     public byte getCategory();
+     public byte getEBType();
+     
+     public boolean hasLogicalContent();
+     
+     public Predicate getLogicalContent();
+     
+     public GuardAtom clone();
     
 }

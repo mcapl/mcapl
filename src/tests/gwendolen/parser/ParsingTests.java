@@ -76,7 +76,7 @@ public class ParsingTests {
 			Guard guard = abs_plan.toMCAPL().getContext().get(0);
 		
 		
-			GuardAtom ga = (GuardAtom) guard.getGuardExpression().getRHS();
+			GuardAtom ga = (GuardAtom) guard.getRHS();
 			AILAgent ag = new AILAgent();
 			Message msg = new Message(1, "ag1", "r", new Literal("win"));
 			ag.newSentMessage(msg);

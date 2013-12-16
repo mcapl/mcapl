@@ -37,7 +37,7 @@ public class LogicalConsequenceTests {
 		ag.newSentMessage(msg);
 		 
 				
-		GMessage gm = new GMessage(DefaultAILStructure.AILSent, msg);
+		GMessage gm = new GMessage(DefaultAILStructure.AILSent, 1, "s", "r", new Literal("message"));
 		Assert.assertTrue(ag.believesyn(new Guard(gm), new Unifier()));
 	}
 

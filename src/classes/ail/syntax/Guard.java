@@ -32,6 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.LogExpr.LogicalOp;
+import ajpf.util.AJPFLogger;
 
 /**
  * AIL Guards.  This is really just a wrapper on top of LogicalExpression providing a few extra methods that are
@@ -40,24 +42,34 @@ import ail.semantics.AILAgent;
  * @author lad
  *
  */
-public class Guard {
+public class Guard implements GLogicalFormula {
 
 	/**
-	 * The logical expression that represents the guard.
+	 * The possible operators of the logical expression
+	 * @author lad
+	 *
 	 */
-	private LogExpr guardexpression;
+	public enum GLogicalOp { 
+		none   { public String toString() { return ""; } }, 
+		not    { public String toString() { return "not "; } }, 
+		and    { public String toString() { return " & "; } },
+	}
 	
-	/** 
-	 * This guard is trivially true.
+	/**
+	 * The LHS and RHS of the expression.
 	 */
-	private boolean istrivial = true;
+	private  GLogicalFormula lhs, rhs;
+	/**
+	 * The operator.
+	 */
+	private  GLogicalOp      op = GLogicalOp.none;
+
 	
 	/**
 	 * Constructs an empty guard.
 	 *
 	 */
-	public Guard() {
-	}
+	public Guard() {}
 	
 	/**
 	 * Construct a guard from a single GBelief.  This is presumed to be a 
@@ -85,9 +97,32 @@ public class Guard {
 	 * @param l
 	 * @param b
 	 */
-	public Guard(LogExpr l, boolean b) {
+	/* public Guard(LogExpr l, boolean b) {
 		istrivial = b;
 		guardexpression = l;
+	} */
+	
+	public Guard(GLogicalFormula l, GLogicalOp o, GLogicalFormula r) {
+		lhs = l;
+		op = o;
+		rhs = r;
+	}
+	
+	public Guard(GLogicalOp o, GLogicalFormula r) {
+		op = o;
+		rhs = r;
+	}
+	
+	public GLogicalOp getOp() {
+		return op;
+	}
+	
+	public GLogicalFormula getLHS() {
+		return lhs;
+	}
+	
+	public GLogicalFormula getRHS() {
+		return rhs;
 	}
 	
 	/*
@@ -97,7 +132,35 @@ public class Guard {
 	public boolean equals(Object o) {
 		if (o instanceof Guard) {
 			Guard gu = (Guard) o;
-			return (guardexpression.equals(gu.getGuardExpression()));
+			if (op == gu.getOp()) {
+				if (lhs != null) {
+					if (gu.getLHS() != null) {
+						if (lhs == gu.getLHS()) {
+							if (rhs != null) {
+								if (gu.getRHS() != null) {
+									return rhs == gu.getRHS();
+								}
+							} else {
+								return gu.getRHS() == null;
+							}
+						} else {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else {
+					if (gu.getLHS() == null) {
+						if (rhs != null) {
+							if (gu.getRHS() != null) {
+								return rhs == gu.getRHS();
+							}
+						} else {
+							return gu.getRHS() == null;
+						}
+					}
+				}
+			}
 		}
 		
 		return false;
@@ -107,33 +170,33 @@ public class Guard {
 	 * 
 	 */
 	public int hashcode() {
-		return guardexpression.hashCode();
+		return lhs.hashCode() + rhs.hashCode();
 	}
 	
 	/**
 	 * Getter for the logical expression.
 	 * @return
 	 */
-	public LogExpr getGuardExpression() {
+	/* public LogExpr getGuardExpression() {
 		return guardexpression;
-	}
+	} */
 	
 	/**
 	 * Setter for the logical expression.
 	 * @param l
 	 */
-	public void setGuardExpression(LogExpr l) {
+	/* public void setGuardExpression(LogExpr l) {
 		guardexpression = l;
-	}
+	} */
 	
 	/**
 	 * Convert the Guard to an explicit conjuction term.
 	 * 
 	 * @return the term constructed from the guard.
 	 */
-	public Term toTerm() {
+	/* public Term toTerm() {
 		return guardexpression.toTerm();
-	}
+	} */
 
 	/**
 	 * Add a new GBelief (conjunct) to the guard.  By default this is to be believed.
@@ -158,25 +221,36 @@ public class Guard {
 		if (isTrivial()) {
 			if (b) {
 				if (!gb.isTrivial()) {
-					istrivial = false;
+					op = GLogicalOp.none;
+					rhs = gb;
 				}
-			}
-		}
-
-		if (guardexpression == null) {
-			if (b) {
-				guardexpression = new LogExpr(LogExpr.LogicalOp.none, gb);
 			} else {
-				guardexpression = new LogExpr(LogExpr.LogicalOp.not, gb);
+				if (!gb.isTrivial()) {
+					op = GLogicalOp.not;
+					rhs = gb;
+				} else {
+					/// This shouldn't happen but should there be a case anyway?
+				}
 			}
 		} else {
 			if (b) {
-				if (! isTrivial()) {
-					guardexpression = new LogExpr(guardexpression, LogExpr.LogicalOp.and, gb);
+				if (op == GLogicalOp.none) {
+					lhs = gb;
+					op = GLogicalOp.and;
+				} else {
+					rhs = this;
+					lhs = gb;
+					op = GLogicalOp.and;
 				}
 			} else {
-				if (! isTrivial()) {
-					guardexpression = new LogExpr(guardexpression, LogExpr.LogicalOp.and, new LogExpr(LogExpr.LogicalOp.not, gb));
+				Guard ng = new Guard(GLogicalOp.not, gb);
+				if (op == GLogicalOp.none) {
+					lhs = ng;
+					op = GLogicalOp.and;
+				} else {
+					rhs = this;
+					lhs = ng;
+					op = GLogicalOp.and;
 				}
 			}
 		}
@@ -189,7 +263,22 @@ public class Guard {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return guardexpression.toString();
+		if (op == GLogicalOp.none) {
+			if (rhs != null) {
+				return rhs.toString();
+			} else {
+				return "True";
+			}
+		} else if (op == GLogicalOp.not) {
+			if (rhs != null) {
+				return "~" + rhs.toString();
+			} else {
+				return "False";
+			}
+			
+		} else {
+			return lhs.toString() + " & " + rhs.toString();
+		}
 	}
 
 	/*
@@ -197,9 +286,13 @@ public class Guard {
 	 * @see java.lang.Object#clone()
 	 */
 	public Guard clone() {
-		Guard g = new Guard((LogExpr) guardexpression.clone(), isTrivial());
-	
-		return g;
+		if (rhs == null) {
+			return new Guard();
+		} else if (lhs == null) {
+			return new Guard(op, rhs.clone());
+		} else {
+			return new Guard(lhs.clone(), op, rhs.clone());
+		}
 	}
 	    
 	/**
@@ -208,7 +301,7 @@ public class Guard {
 	 * @return whether the guard contains the true belief.
 	 */
 	public boolean isTrivial() {
-		return istrivial;
+		return (rhs == null);
 	}
 	    
 	/**
@@ -219,15 +312,316 @@ public class Guard {
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
-		return guardexpression.logicalConsequence(ag, un);
+	       try {
+		        final Iterator<Unifier> ileft;
+		        switch (op) {
+		        
+		        	case not:
+		        		if (!rhs.logicalConsequence(ag,un).hasNext()) {
+		        			return createUnifIterator(un);
+		        		}
+		        		break;
+		        	case none:
+		        		if (rhs == null) {
+		        			
+		        		} else {
+		        			return rhs.logicalConsequence(ag, un);
+		        		}
+		        
+		        	case and:
+		        		ileft = lhs.logicalConsequence(ag,un);
+		        		return new Iterator<Unifier>() {
+		        			Unifier current = null;
+		        			Iterator<Unifier> iright = null;
+		        			public boolean hasNext() {
+		        				if (current == null) get();
+		        				return current != null;
+		        			}
+		        			public Unifier next() {
+		        				if (current == null) get();
+		        				Unifier a = current;
+		        				current = null; 
+		        				return a;
+		        			}
+		        			private void get() {
+		        				current = null;
+		        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
+		        					Unifier ul = ileft.next();
+		        					iright = rhs.logicalConsequence(ag, ul);
+		        				}
+		        				if (iright != null && iright.hasNext()) {
+		        					current = iright.next();	 
+		        				}
+		        			}
+		        			public void remove() {}
+		        		};
+		        }
+		        
+	       } catch (Exception e) {
+	        		String slhs = "is null";
+	        		if (lhs != null) {
+	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un);
+	        			if (i != null) {
+	        				slhs = "";
+	        				while (i.hasNext()) {
+	        					slhs += i.next().toString()+", ";
+	        				}
+	        			} else {
+	        				slhs = "iterator is null";
+	        			}
+	        		} 
+	        		String srhs = "is null";
+	        		if (lhs != null) {
+	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un);
+	        			if (i != null) {
+	        				srhs = "";
+	        				while (i.hasNext()) {
+	        					srhs += i.next().toString()+", ";
+	        				}
+	        			} else {
+	        				srhs = "iterator is null";
+	        			}
+	        		} 
+	        		
+	        		AJPFLogger.severe("ail.syntax.LogExpr", "Error evaluating expression "+this+". \nlhs elements="+slhs+". \nrhs elements="+srhs);
+	        	}
+	    	ArrayList<Unifier> empty = new ArrayList<Unifier>();
+	        return empty.iterator();  // empty iterator for unifier
 	}
 	   
-	/**
+    /** create an iterator for a list of unifiers */
+    static public Iterator<Unifier> createUnifIterator(Unifier... unifs) {
+        List<Unifier> r = new ArrayList<Unifier>(unifs.length);
+        for (int i=0; i<unifs.length; i++) {
+            r.add(unifs[i]);
+        }
+        return r.iterator();
+    }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean unifies(Unifiable t, Unifier u) {
+		if (t instanceof Guard) {
+			Guard g = (Guard) t;
+			if (getOp() == g.getOp()) {
+				if (rhs != null) {
+					if (g.getRHS() != null) {
+						if (rhs.unifies(g.getRHS(), u)) {
+							if (lhs != null) {
+								if (g.getLHS() != null) {
+									return lhs.unifies(g.getLHS(), u);
+								}
+							} else if (g.getLHS() == null) {
+								return true;
+							}
+						}
+					}
+				} else if (g.getRHS() == null) {
+					if (lhs != null) {
+						if (g.getLHS() != null) {
+							return lhs.unifies(g.getLHS(), u);
+						}
+					} else if (g.getLHS() == null) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public void standardise_apart(Unifiable t, Unifier u) {
+    	List<String> tvarnames = t.getVarNames();
+    	List<String> myvarnames = getVarNames();
+    	ArrayList<String> replacednames = new ArrayList<String>();
+    	ArrayList<String> newnames = new ArrayList<String>();
+    	for (String s:myvarnames) {
+    		if (tvarnames.contains(s)) {
+    			if (!replacednames.contains(s)) {
+    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
+    				renameVar(s, s1);
+    				u.renameVar(s, s1);
+    			}
+    		}
+    	}		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
+	public List<String> getVarNames() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		if (getLHS() != null) {
+			varnames.addAll(getLHS().getVarNames());
+		} 
+		if (getRHS() != null) {
+			varnames.addAll(getRHS().getVarNames());
+		}
+		return varnames;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
+	public void renameVar(String oldname, String newname) {
+		if (lhs != null) {
+			getLHS().renameVar(oldname, newname);
+		}
+		if (rhs != null) {
+			getRHS().renameVar(oldname, newname);
+		}
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean match(Unifiable t, Unifier u) {
+		if (t instanceof Guard) {
+			Guard g = (Guard) t;
+			if (getOp() == g.getOp()) {
+				if (rhs != null) {
+					if (g.getRHS() != null) {
+						if (rhs.match(g.getRHS(), u)) {
+							if (lhs != null) {
+								if (g.getLHS() != null) {
+									return lhs.match(g.getLHS(), u);
+								}
+							} else if (g.getLHS() == null) {
+								return true;
+							}
+						}
+					}
+				} else if (g.getRHS() == null) {
+					if (lhs != null) {
+						if (g.getLHS() != null) {
+							return lhs.match(g.getLHS(), u);
+						}
+					} else if (g.getLHS() == null) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean matchNG(Unifiable t, Unifier u) {
+		if (t instanceof Guard) {
+			Guard g = (Guard) t;
+			if (getOp() == g.getOp()) {
+				if (rhs != null) {
+					if (g.getRHS() != null) {
+						if (rhs.matchNG(g.getRHS(), u)) {
+							if (lhs != null) {
+								if (g.getLHS() != null) {
+									return lhs.matchNG(g.getLHS(), u);
+								}
+							} else if (g.getLHS() == null) {
+								return true;
+							}
+						}
+					}
+				} else if (g.getRHS() == null) {
+					if (lhs != null) {
+						if (g.getLHS() != null) {
+							return lhs.matchNG(g.getLHS(), u);
+						}
+					} else if (g.getLHS() == null) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
+	public boolean isGround() {
+		if (lhs != null && getLHS().isGround()) {
+			if (rhs != null) {
+				return getRHS().isGround();
+			}
+			return true;
+		} else {
+			if (rhs != null) {
+				return getRHS().isGround();
+			}
+		}
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
+	public boolean apply(Unifier theta) {
+		boolean la = true;
+		if (lhs != null) {
+			la = getLHS().apply(theta);
+		}
+		
+		if (la & rhs != null) {
+			return getRHS().apply(theta);
+		}
+		
+		return la;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		if (lhs != null) {
+			getLHS().makeVarsAnnon();
+		}
+		
+		if (rhs != null) {
+			getRHS().makeVarsAnnon();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
+	public Unifiable strip_varterm() {
+		if (getLHS() != null) {
+			if (getRHS() != null) {
+				return new Guard((GLogicalFormula) getLHS().strip_varterm(), getOp(), (GLogicalFormula) getRHS().strip_varterm());
+				
+			}
+		} else {
+			if (getRHS() != null) {
+				return new Guard(getOp(), (GLogicalFormula) getRHS().strip_varterm());				
+			}
+		}
+		return new Guard();
+	}
+
+    /**
 	 * List of the predicate indicators for positive guards that are of
 	 * belief type.  Can be used for quick filtering of plans.
 	 * @return
 	 */
-	public ArrayList<PredicateIndicator>  posbelInd() {
+	/* public ArrayList<PredicateIndicator>  posbelInd() {
 		ArrayList <PredicateIndicator> pis = new ArrayList<PredicateIndicator>();
 		for (LogicalFormula lf: guardexpression.getPosTerms()) {
 			if (lf instanceof GBelief) {
@@ -239,14 +633,14 @@ public class Guard {
 		}
 		return pis;
 		
-	}
+	} */
 	
 	/**
 	 * Return the variable names in the guard.
 	 * @return
 	 */
-	public List<String> getVarNames() {
+	/* public List<String> getVarNames() {
 		return guardexpression.getVarNames();
-	}
+	} */
 	
 }

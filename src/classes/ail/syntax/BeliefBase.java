@@ -319,22 +319,27 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase {
     /**
      * 
      */
-	public Iterator<Unifiable> getRelevant(Predicate p) {
+	public Iterator<Unifiable> getRelevant(GuardAtom ga) {
        	Iterator<Literal> ll = null;
         LinkedList<Unifiable> lll = new LinkedList<Unifiable>();
-        Literal l;
-        if (p instanceof Literal) {
-        	l = (Literal) p;
-        } else {
-        	l = new Literal(true, p);
-        }
+        
+        if (ga.hasLogicalContent()) {
+        	Predicate p = ga.getLogicalContent();
+        	Literal l;
+            if (p instanceof Literal) {
+            	l = (Literal) p;
+            } else {
+            	l = new Literal(true, p);
+            }
 
-        ll = getRelevant(l);
-        if (ll != null) {
-        	while(ll.hasNext()) {
-        		lll.add(ll.next());
-        	}
-     	}
+            ll = getRelevant(l);
+            if (ll != null) {
+            	while(ll.hasNext()) {
+            		lll.add(ll.next());
+            	}
+         	}
+        }
+        
         return lll.iterator();
 	}
 

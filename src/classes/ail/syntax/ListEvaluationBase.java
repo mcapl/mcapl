@@ -35,17 +35,20 @@ import ail.syntax.Unifiable;
  * @author lad
  *
  */
-public class ListEvaluationBase<Unifiable> implements EvaluationBase {
+public class ListEvaluationBase implements EvaluationBase {
 	List<Unifiable> list;
 	
 	public ListEvaluationBase(List<Unifiable> l) {
 		list = l;
 	}
 
-	@Override
-	public Iterator<Unifiable> getRelevant(Predicate p) {
-		// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
+	 */
+	public Iterator<Unifiable> getRelevant(GuardAtom ga) {
 		return list.iterator();
 	}
+
 
 }

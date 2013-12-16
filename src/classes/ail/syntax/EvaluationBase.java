@@ -34,6 +34,6 @@ import java.util.Iterator;
  */
 public interface EvaluationBase {
 	
-	public Iterator<Unifiable> getRelevant(Predicate p);
+	public Iterator<Unifiable> getRelevant(GuardAtom ga);
 
 }

@@ -314,6 +314,8 @@ public abstract class DefaultTerm implements Term {
    public void standardise_apart(Unifiable t, Unifier u) {
     	
     }
+   
+   
          
    /// For working with terms in MJI.  This is a worker class for returning the right sort of Term
    // WORK IN PROGRESS

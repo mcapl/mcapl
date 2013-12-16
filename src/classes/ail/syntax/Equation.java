@@ -36,7 +36,7 @@ import ail.semantics.AILAgent;
 /** 
  *  represents an (in)equality. 
  */
-public class Equation implements LogicalFormula {
+public class Equation implements LogicalFormula, GLogicalFormula {
 
 	/**
 	 * The various comparators.
@@ -79,11 +79,20 @@ public class Equation implements LogicalFormula {
 		return (lhs.apply(un) & rhs.apply(un));
 	}
     
+	
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u) {
+		return logicalConsequence(u);
+	}
+	
+	public Iterator<Unifier> logicalConsequence(EvaluationBase e, RuleBase r, Unifier u) {
+		return logicalConsequence(u);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.GBelief#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
-    public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final RuleBase rb, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(Unifier un) {
         try {
         	Equation ec = (Equation) this.clone();
         	ec.apply(un);
@@ -310,7 +319,20 @@ public class Equation implements LogicalFormula {
  
     } 
     
-    /*
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	   public void makeVarsAnnon() {
+		   lhs.makeVarsAnnon();
+		   rhs.makeVarsAnnon();
+	    }	 
+	   
+	   public Equation strip_varterm() {
+		   return new Equation((NumberTerm) lhs.strip_varterm(), op, (NumberTerm) rhs.strip_varterm());
+	   }
+
+	   /*
      * (non-Javadoc)
      * @see ail.syntax.GBelief#getVarNames()
      */
@@ -321,6 +343,9 @@ public class Equation implements LogicalFormula {
     	}
     	return varnames;
     }
+    
+    // Don't forget to revise comments
+    private void random() {};
     
     /*
      * (non-Javadoc)

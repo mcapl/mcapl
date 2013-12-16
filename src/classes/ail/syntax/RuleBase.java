@@ -160,7 +160,7 @@ public class RuleBase implements Iterable<Rule> {
             }
         }
     }
-
+ 
     /**
      * There is a rule relevant to this predicate indicator.
      * @param pi

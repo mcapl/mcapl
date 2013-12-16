@@ -77,7 +77,7 @@ public class AILAgentTests {
 		ag.addBel(b2, AILAgent.refertoself());
 		ag.addBel(b1, AILAgent.refertoself());
 		
-		Guard g = new Guard(expression, false);
+		Guard g = new Guard(new GBelief(score1), Guard.GLogicalOp.and, new Guard(new GBelief(score2), Guard.GLogicalOp.and, eq));
 		
 		Assert.assertTrue(ag.believesyn(g, new Unifier()));
 

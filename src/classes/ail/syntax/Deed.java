@@ -302,7 +302,7 @@ public class Deed extends DefaultAILStructure {
 	/**
 	 * Produce a term representing the deed that can be used in unification.
 	 */
-	public Predicate UnifyingTerm() {
+	/*public Predicate UnifyingTerm() {
 		if (hasContent()) {
 			return (super.UnifyingTerm());
 		} else {
@@ -320,7 +320,7 @@ public class Deed extends DefaultAILStructure {
 			
 			return null;
 		}
-	}
+	} */
 	
 	   /*
 	    * (non-Javadoc)

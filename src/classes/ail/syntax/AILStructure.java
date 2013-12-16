@@ -217,5 +217,5 @@ public interface AILStructure extends Term {
 	 * Return a predicate indicator (type, functor, size) to aid quick lookup of AIL structures.
 	 * @return
 	 */
-	public PredicateIndicator getPredicateIndicator();
+	// public PredicateIndicator getPredicateIndicator();
 }

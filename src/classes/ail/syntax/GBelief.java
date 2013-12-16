@@ -114,13 +114,13 @@ public class GBelief extends Literal implements GuardAtom {
      * 
      * @return The GBelief as a term.
      */
-    public Term toTerm() {
+   /*  public Term toTerm() {
     	if (hasLiteral()) {
     		return getLiteral();
     	} else {
     		return (new Predicate(Predicate.PTrue));
     	}
-    }
+    } */
     
     /**
      * Setter for the DB num.
@@ -144,7 +144,7 @@ public class GBelief extends Literal implements GuardAtom {
      * @return whether this is a trivially true belief.
      */
 	public boolean isTrue() {
-		return (getCategory() == GTrue);
+		return (getEBType() == GTrue);
 	}
 	
 	
@@ -152,18 +152,10 @@ public class GBelief extends Literal implements GuardAtom {
 	public PredicateIndicator getPredicateIndicator() {
         if (piCache == null) {
 
-        	if (hasLiteral()) {
-            	piCache = new PredicateIndicator(getLiteral().getFunctor(), getLiteral().getTermsSize());
+        	if (! isTrue()) {
+            	piCache = new PredicateIndicator(getFunctor(), getTermsSize());
         
-            } else if (hasTerm()) {
-            	Term t = getTerm();
-            	if (t instanceof Predicate) {
-            		Predicate s = (Predicate) t;
-            		piCache = new PredicateIndicator(s.getFunctor(), s.getTermsSize());
-            	} else {
-            		piCache = new PredicateIndicator(t.toString(), 0);
-            	}
-            } else {
+            } else  {
             	String s = "True";
             	piCache = new PredicateIndicator(s, 0);
             }
@@ -175,13 +167,13 @@ public class GBelief extends Literal implements GuardAtom {
 	 * Clone this GBelief - useful when propagating guards through intention structures.
 	 */
 	public GBelief clone() {
-		if (hasLiteral()) {
-			GBelief gb1 = new GBelief(getCategory(), (Literal) getLiteral().clone());
-			gb1.setDBnum((StringTerm) getDBnum().clone());
+		if (! isTrue()) {
+			GBelief gb1 = new GBelief(super.clone());
+			gb1.setEB((StringTerm) getEB().clone());
 			return gb1;
 		} else {
-			GBelief gb1 = new GBelief(getCategory());
-			gb1.setDBnum((StringTerm) getDBnum().clone());
+			GBelief gb1 = new GBelief();
+			gb1.setEB((StringTerm) getEB().clone());
 			return gb1;
 		}
 	}
@@ -193,8 +185,8 @@ public class GBelief extends Literal implements GuardAtom {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 
-		if (hasLiteral()) {
-			s.append(getContent().toString()).append("(").append(getDBnum().toString()).append(")");
+		if (!isTrue()) {
+			s.append(super.toString()).append("(").append(getEB().toString()).append(")");
 		}  else {
 			s.append("True");
 		}
@@ -205,8 +197,8 @@ public class GBelief extends Literal implements GuardAtom {
 	 * Flag a GBelief as a varialble if the literal is a variable.
 	 */
 	public boolean isVar() {
-		if (hasLiteral()) {
-			return getLiteral().isVar();
+		if (!isTrue()) {
+			return super.isVar();
 		} else {
 			return false;
 		}
@@ -370,8 +362,28 @@ public class GBelief extends Literal implements GuardAtom {
 	 */
 	// Based on code by Rafael H. Bordini, Jomi F. Hubner et. al for Jason
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
-		return GBelief.logicalConsequence(ag, un, this);
-	}
+     	StringTerm ebname =  getEB();
+     	EvaluationBase eb = new TrivialEvaluationBase();
+    	if (ebname instanceof VarTerm) {
+    		VarTerm ebv = (VarTerm) ebname;
+    		if (ebv.hasValue()) {
+    			eb = ag.getBB(getEB());
+    		} else {
+    			for (String ebnames: ag.getBBList()) {
+    				EvaluationBase new_eb = ag.getBB(ebnames);
+    				if (eb instanceof TrivialEvaluationBase) {
+    					eb = new_eb;
+    				} else {
+    					eb = new MergeEvaluationBase(new_eb, eb);
+    				}
+    			}
+    		}
+    	} else {
+    		eb = ag.getBB(getEB());
+    	}
+    	
+    	return super.logicalConsequence(eb, ag.getRuleBase(), un);
+ 	}
 	
 	/*
 	 * (non-Javadoc)
@@ -380,38 +392,16 @@ public class GBelief extends Literal implements GuardAtom {
 	public boolean unifies(Unifiable u, Unifier un) {
 		if (u instanceof GBelief) {
 			GBelief gu = (GBelief) u;
-			if (gu.getCategory() == getCategory()) {
-				if (referstoGoal()) {
-					return getGoal().unifies(gu.getGoal(), un);
-				} else if (hasLiteral()) {
-					return getLiteral().unifies(gu.getLiteral(), un);
-				} else if (hasTerm()) {
-					return ((Predicate) getTerm()).unifies(((Predicate) gu.getTerm()), un);
+			if (gu.getEBType() == getEBType()) {
+				if (! isTrue()) {
+					return super.unifies((Literal) gu, un);
 				} else {
 					return true;
 				}
 			} else {
 				return false;
 			}
-		} else if (u instanceof Goal) {
-			if (referstoGoal()) {
-				return getGoal().unifies(u, un);
-			} else {
-				return false;
-			}
-		} else if (u instanceof Literal) {
-			if (getCategory() == AILBel || getCategory() == AILContent || getCategory() == AILContext) {
-				return getLiteral().unifies(u, un);
-			}
-		} else if (u instanceof Rule) {
-			return this.unifies(((Rule) u).getHead(), un);
-		}
-		
-		if (getCategory() == AILSent || getCategory() == AILReceived) {
-				Predicate message = (Predicate) u;
-				return message.unifies(getLiteral(), un);
-		}
-		  
+		} 
 		
 		return false;
 	}
@@ -421,7 +411,7 @@ public class GBelief extends Literal implements GuardAtom {
 	 * @see ail.syntax.DefaultAILStructure#calcHashCode()
 	 */
 	protected int calcHashCode() {
-		return (41 * getDBnum().hashCode() + super.calcHashCode());
+		return (41 * getEB().hashCode() + super.calcHashCode());
 	}
 	   
 	/*
@@ -430,7 +420,7 @@ public class GBelief extends Literal implements GuardAtom {
 	 */
 	public boolean equals(Object o) {
 		if (o instanceof GBelief) {
-			return (((GBelief) o).getDBnum().equals(getDBnum()) && super.equals(o));
+			return (((GBelief) o).getEB().equals(getEB()) && super.equals(o));
 		}
 		   
 		return false;
@@ -441,12 +431,9 @@ public class GBelief extends Literal implements GuardAtom {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	public List<String> getVarNames() {
-		if (hasLiteral() || hasTerm()) {
-			List<String> varnames = getContent().getVarNames();
-			varnames.addAll(getDBnum().getVarNames());
-			return varnames;
-		}
-		return new LinkedList<String>();
+		List<String> varnames = super.getVarNames();
+		varnames.addAll(getEB().getVarNames());
+		return varnames;
 	}
 	
 	/*
@@ -454,10 +441,8 @@ public class GBelief extends Literal implements GuardAtom {
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
 	public void renameVar(String oldname, String newname) {
-		if (hasLiteral() || hasTerm()) {
-			getContent().renameVar(oldname, newname);
-		}
-		getDBnum().renameVar(oldname, newname);
+		super.renameVar(oldname, newname);
+		getEB().renameVar(oldname, newname);
 	}
 	
 	/*
@@ -478,7 +463,7 @@ public class GBelief extends Literal implements GuardAtom {
 	 * @param ga
 	 * @return
 	 */
-	public static Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final Unifier un, final GuardAtom ga) {
+	/* public static Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final Unifier un, final GuardAtom ga) {
 		// A list(iterator) of literals that might unify.
 		// The agent may believe several things that can unify
 		// with the query.
@@ -497,58 +482,58 @@ public class GBelief extends Literal implements GuardAtom {
          if (il == null & rl == null) { // & !(referstoGoal())) {
         	 LinkedList<Unifier> empty = new LinkedList<Unifier>();
         	 return empty.iterator();
-         }
+         } */
       
 
         // We create an iterator of unifiers given that we
         // have an iterator of unifiable objects.
-        return new Iterator<Unifier>() {
+      /*  return new Iterator<Unifier>() { */
         	// We filter all fields because logical consequence calculation
         	// should be "atomic" from the POV of the reasoning system.
         	/**
         	 * This holds the current unification solution.
         	 */
-         	@FilterField
-        	Unifier current = null;
+      //   	@FilterField
+     //   	Unifier current = null;
          	/**
          	 * A helper field when processing prolog like rules.
          	 */
-        	@FilterField
-        	Iterator<Unifier> ruleIt = null; // current rule solutions iterator
+     //   	@FilterField
+    //    	Iterator<Unifier> ruleIt = null; // current rule solutions iterator
         	/**
         	 * If we're doing prolog style reasoning the curren rule we
         	 * are using.
         	 */
-        	@FilterField
-        	Rule rule = null; // current rule
+     //   	@FilterField
+     //   	Rule rule = null; // current rule
                 
         	/*
         	 * (non-Javadoc)
         	 * @see java.util.Iterator#hasNext()
         	 */
-        	public boolean hasNext() {
+    /*    	public boolean hasNext() {
         		if (current == null)
         			get();
         		return current != null;
-        	}
+        	} */
 
         	/*
         	 * (non-Javadoc)
         	 * @see java.util.Iterator#next()
         	 */
-        	public Unifier next() {
+     /*   	public Unifier next() {
         		if (current == null)
         			get();
         		Unifier a = current;
         		current = null; //get();
         		return a;
-        	}
+        	} */
 
         	/**
         	 * Work horse method that calculate the next unifier.
         	 *
         	 */
-        	private void get() {
+     /*   	private void get() {
         		current = null;
         		
         		// try rule iterator, if it has been created I've worked through all of il
@@ -568,7 +553,7 @@ public class GBelief extends Literal implements GuardAtom {
         				Unifiable u = il.next();
         				GuardAtom h2 = (GuardAtom) ga.clone();
         				if (h2.unifies(u, unC)) {
-        					StringTerm DBnum = ga.getDBnum();
+        					StringTerm DBnum = ga.getEB();
         					if (DBnum.isVar()) {
         						if (u instanceof Literal) {
         							Literal l = (Literal) u;
@@ -600,7 +585,7 @@ public class GBelief extends Literal implements GuardAtom {
         				if (h.unifies(ruleC, unC)) {
         					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
         					// This GBelief should be ground? so only one possibility (?)
-            					ruleIt = ruleC.getBody().logicalConsequence(ag, unC);
+            					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC);
             					// ruleIt is an iterator over all possible unifiers for the rule body.
             					get();
             					if (current != null) {
@@ -613,16 +598,16 @@ public class GBelief extends Literal implements GuardAtom {
         			}
         		}
  
-        	}
+        	} */
 	
         	/*
         	 * (non-Javadoc)
         	 * @see java.util.Iterator#remove()
         	 */
-        	public void remove() {
+        /*	public void remove() {
         	}
         };
-	}
+	} */
 	
 	/*
 	 * (non-Javadoc)
@@ -632,6 +617,18 @@ public class GBelief extends Literal implements GuardAtom {
 		ArrayList<LogicalFormula> l = new ArrayList<LogicalFormula>();
 		l.add(this);
 		return l;
+	}
+	
+	public byte getEBType() {
+		return category;
+	}
+	
+	public boolean hasLogicalContent() {
+		return true;
+	}
+	
+	public Predicate getLogicalContent() {
+		return this;
 	}
 
 }

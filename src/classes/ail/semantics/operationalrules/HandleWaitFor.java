@@ -85,10 +85,10 @@ public class HandleWaitFor extends Perceive {
 				thetab = ui.next();
 	
 				topdeed = i.hdD();
-				Term t = topdeed.UnifyingTerm();
-				if (t != null) {
-					t.apply(thetab);
-				}
+				//Term t = topdeed.UnifyingTerm();
+				//if (t != null) {
+					topdeed.apply(thetab);
+				//}
 				if (topdeed.getCategory() == Deed.Dwaitfor) {
 					return true;
 				}

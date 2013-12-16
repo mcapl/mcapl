@@ -66,12 +66,12 @@ public class TermSyntaxTests {
 	/**
 	 * Test that the various constants indicating trivial guards and literals are equated correctly.
 	 */
-	@Test public void trivialGuards() {
+	/*@Test public void trivialGuards() {
 		Guard g = new Guard(new GBelief());
 		Term gt = g.toTerm();
 		Literal l = new Literal(true, new PredicatewAnnotation((Predicate) gt));
 		Assert.assertTrue(l.equals(Predicate.PTrue));
-	}
+	} */
 	
 	/**
 	 * Check that unification is working properly with non-default databases.

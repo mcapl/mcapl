@@ -56,7 +56,7 @@ public class HandleSendAction extends HandleActionwProblem {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		return (super.checkPreconditions(a) && (((Action) topdeed.getTerm()).getActionType()) == SendAction.sendAction);
+		return (super.checkPreconditions(a) && (((Action) topdeed.getContent()).getActionType()) == SendAction.sendAction);
 	}
 	
 	/*
@@ -64,7 +64,7 @@ public class HandleSendAction extends HandleActionwProblem {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		SendAction send = (SendAction) topdeed.getTerm();
+		SendAction send = (SendAction) topdeed.getContent();
 		Message msg = send.getMessage(a.getAgName());
 		msg.apply(thetahd);
 		super.apply(a);

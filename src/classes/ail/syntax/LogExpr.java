@@ -94,21 +94,21 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final RuleBase rb, Unifier un) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
 	        
 	        	case not:
-	        		if (!rhs.logicalConsequence(eb,un).hasNext()) {
+	        		if (!rhs.logicalConsequence(eb,rb,un).hasNext()) {
 	        			return createUnifIterator(un);
 	        		}
 	        		break;
 	        	case none:
-	        		return rhs.logicalConsequence(ag, un);
+	        		return rhs.logicalConsequence(eb, rb, un);
 	        
 	        	case and:
-	        		ileft = lhs.logicalConsequence(ag,un);
+	        		ileft = lhs.logicalConsequence(eb,rb,un);
 	        		return new Iterator<Unifier>() {
 	        			Unifier current = null;
 	        			Iterator<Unifier> iright = null;
@@ -126,7 +126,7 @@ public class LogExpr implements LogicalFormula {
 	        				current = null;
 	        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
 	        					Unifier ul = ileft.next();
-	        					iright = rhs.logicalConsequence(ag, ul);
+	        					iright = rhs.logicalConsequence(eb, rb, ul);
 	        				}
 	        				if (iright != null && iright.hasNext()) {
 	        					current = iright.next();	 
@@ -136,8 +136,8 @@ public class LogExpr implements LogicalFormula {
 	        		};
 	            
 	        	case or:
-	            ileft = lhs.logicalConsequence(ag,un);
-	            final Iterator<Unifier> iright = rhs.logicalConsequence(ag,un);
+	            ileft = lhs.logicalConsequence(eb, rb, un);
+	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un);
 	            return new Iterator<Unifier>() {
 	                Unifier current = null;
 	                public boolean hasNext() {
@@ -164,7 +164,7 @@ public class LogExpr implements LogicalFormula {
     	    } catch (Exception e) {
         		String slhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un);
+        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un);
         			if (i != null) {
         				slhs = "";
         				while (i.hasNext()) {
@@ -176,7 +176,7 @@ public class LogExpr implements LogicalFormula {
         		} 
         		String srhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un);
+        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un);
         			if (i != null) {
         				srhs = "";
         				while (i.hasNext()) {
@@ -411,7 +411,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#toTerm()
      */
-    public Term toTerm() {
+  /*  public Term toTerm() {
     	switch (op) {
     	case none:
     		return getRHS().toTerm();
@@ -432,13 +432,13 @@ public class LogExpr implements LogicalFormula {
     	}
     	
     	return (new Predicate("error"));
-    }
+    } */
     
     /*
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#getPosTerms()
      */
-    public ArrayList<LogicalFormula> getPosTerms() {
+   /* public ArrayList<LogicalFormula> getPosTerms() {
     	ArrayList<LogicalFormula> posterms = new ArrayList<LogicalFormula>();
     	switch (op) {
     		case none:
@@ -455,7 +455,7 @@ public class LogExpr implements LogicalFormula {
     			return posterms;   			
     	}
     	return posterms;
-    }
+    } */
     
     /*
      * (non-Javadoc)
@@ -473,7 +473,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#conjuncts()
      */
-	public List<LogicalFormula> conjuncts() {
+	/* public List<LogicalFormula> conjuncts() {
 		ArrayList<LogicalFormula> gs = new ArrayList<LogicalFormula>();
 		switch (getOp()) {
 			case and :
@@ -488,6 +488,41 @@ public class LogExpr implements LogicalFormula {
 				return gs;
 		}
 			
+	} */
+
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+     */
+	public boolean apply(Unifier theta) {
+		if (getRHS().apply(theta)) {
+			if (getLHS() != null) {
+				return getLHS().apply(theta);
+			}
+			return true;
+		} 
+		
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		if (getLHS() != null) {
+			getLHS().makeVarsAnnon();
+		}
+		getRHS().makeVarsAnnon();
+	}
+
+	@Override
+	public Unifiable strip_varterm() {
+		if (getLHS() != null) {
+			return new LogExpr((LogicalFormula) getLHS().strip_varterm(), getOp(), (LogicalFormula) getRHS().strip_varterm());
+		} else {
+			return new LogExpr(getOp(), (LogicalFormula) getRHS().strip_varterm());				
+		}
 	}
 
 

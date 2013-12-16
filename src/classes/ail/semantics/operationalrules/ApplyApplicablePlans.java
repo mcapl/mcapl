@@ -84,7 +84,7 @@ public class ApplyApplicablePlans implements OSRule {
 			// This plan has not been triggered by an event and so should form a new intention.
 			
 				Literal state_literal = new Literal("state");
-				state_literal.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
+				// state_literal.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
 				Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));

@@ -209,10 +209,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 * @return a Guard representing the goal.
 	 */
 	public Guard toGuard() {
-		Guard g = new Guard();
-		GBelief gb = new GBelief(GBelief.AILBel, getContent());
-		gb.setDBnum(getGoalBase());
-		g.add(gb);
+		Guard g = new Guard(this);
 		
 		return g;
 	}
@@ -474,6 +471,58 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 */
 	public byte getCategory() {
 		return DefaultAILStructure.AILGoal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
+	 */
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
+     	StringTerm ebname =  getEB();
+     	EvaluationBase eb = new TrivialEvaluationBase();
+    	if (ebname instanceof VarTerm) {
+    		VarTerm ebv = (VarTerm) ebname;
+    		if (ebv.hasValue()) {
+    			eb = ag.getGoalBase(getEB());
+    		} else {
+    			for (String ebnames: ag.getGBList()) {
+    				EvaluationBase new_eb = ag.getGoalBase(ebnames);
+    				if (eb instanceof TrivialEvaluationBase) {
+    					eb = new_eb;
+    				} else {
+    					eb = new MergeEvaluationBase(new_eb, eb);
+    				}
+    			}
+    		}
+    	} else {
+    		eb = ag.getGoalBase(getEB());
+    	}
+    	
+    	return super.logicalConsequence(eb, ag.getRuleBase(), un);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEBType()
+	 */
+	public byte getEBType() {
+		return DefaultAILStructure.AILGoal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#hasLogicalContent()
+	 */
+	public boolean hasLogicalContent() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getLogicalContent()
+	 */
+	public Predicate getLogicalContent() {
+		return this;
 	}
 
 }

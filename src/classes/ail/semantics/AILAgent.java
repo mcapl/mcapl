@@ -596,6 +596,39 @@ public class AILAgent implements MCAPLLanguageAgent {
 		
 	}
 	
+	public GoalBase getGoalBase(StringTerm dbnumt) {
+		String dbnum = getDefaultGBName();
+		if (dbnumt.getString() != null) {
+			dbnum = dbnumt.getString();
+		}
+		if (dbnum.equals(getDefaultGBName())) {
+			return getGoalBase();
+		} else {
+			return gbmap.get(dbnum);
+		}
+	}
+   
+	/**
+	 * Get a Beliefbase indexed by a string.
+	 *	 @param dbnum
+	 * @return
+	 */
+	public GoalBase getGoalBase(String dbnum) {
+		if (dbnum.equals(getDefaultGBName())) {
+			return getGoalBase();
+		} else {
+			return gbmap.get(dbnum);
+		}
+	}
+   
+	/**
+	 * Get the index names for all the non-primary belief bases.
+	 * @return
+	 */
+	public Set<String> getGBList() {
+		return gbmap.keySet();
+	}
+
 	public void setGoalBase(GoalBase gb) {
 		gbmap.put(getDefaultGBName(), gb);
 	}
@@ -1841,7 +1874,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		if (getIntention() != null) {
 		for (Event e: getIntention().getPlannedUnifiedEvents()) {
 			if (e.referstoGoal() && e.isAddition()) {
-				if (e.getGoal().getLiteral().equals(fmla_lit)) {
+				if (((Goal) e.getContent()).getLiteral().equals(fmla_lit)) {
 					return true;
 				}
 			}
@@ -1851,7 +1884,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		for (Intention i: getIntentions()) {
 			for (Event e: i.getPlannedUnifiedEvents()) {
 				if (e.referstoGoal() && e.isAddition()) {
-					if (e.getGoal().getLiteral().equals(fmla_lit)) {
+					if (((Goal) e.getContent()).getLiteral().equals(fmla_lit)) {
 						return true;
 					}
 				}

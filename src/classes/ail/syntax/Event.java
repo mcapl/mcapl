@@ -90,7 +90,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		super(t, g);
 	}
 	
-	public Event(int t, byte c, Message msg) {}
+	public Event(int t, byte c, Message msg) {
+		super(t, c, msg);
+	}
 	
 		
 	/**
@@ -117,9 +119,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
             		s += "+-";
             	if (referstoGoal()) {
             		s += "!";
-            		piCache = new PredicateIndicator(s + getGoal().getFunctor(), getGoal().getTermsSize());
+            		piCache = new PredicateIndicator(s + ((Goal) getContent()).getFunctor(), ((Goal) getContent()).getTermsSize());
             	} else {
-            		piCache = new PredicateIndicator(s + getLiteral().getFunctor(), getLiteral().getTermsSize());
+            		piCache = new PredicateIndicator(s + ((Term) getContent()).getFunctor(), ((Term) getContent()).getTermsSize());
             	}
             }
         }
@@ -131,11 +133,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * @see ail.syntax.DefaultAILStructure#clone()
 	 */
 	 public Event clone() {
-			if (hasLiteral()) {
+			if (hasContent()) {
 				if (referstoGoal())  {
-					return (new Event(getTrigType(), getGoal().clone()));
+					return (new Event(getTrigType(), ((Goal) getContent()).clone()));
 				} else {
-					return (new Event(getTrigType(), getCategory(), (Literal) getLiteral().clone()));
+					return (new Event(getTrigType(), getCategory(), ((Literal) getContent()).clone()));
 				}
 			} else {
 				return (new Event(getCategory()));
@@ -158,9 +160,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 				s.append("x");
 			if (referstoGoal()) {
 				s.append("!");
-				s.append(getGoal().toString());
+				s.append(getContent().toString());
 			} else {
-				s.append(getLiteral().toString());
+				s.append(getContent().toString());
 			}
 		}
 		return s.toString();
@@ -193,12 +195,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * Is the event a variable - as in a reactive plan.
 	 */
 	public boolean isVar() {
-		if (hasLiteral()) {
-			if (!referstoGoal()) {
-				return getLiteral().isVar();
-			} else {
-				return getGoal().getLiteral().isVar();
-			}
+		if (hasContent()) {
+			return ((Term) getContent()).isVar();
 		} else {
 			return false;
 		}
@@ -208,11 +206,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * Equals if content is a variable.
 	 */
 	public boolean varequals(DefaultAILStructure s) {
-		if (hasLiteral()) {
+		if (hasContent()) {
 			if (!referstoGoal()) {
-				return (getLiteral().isVar() && getLiteral().equals(s.getLiteral()));
+				return (((Term) getContent()).isVar() && getContent().equals(s.getContent()));
 			} else {
-				return (getGoal().getLiteral().isVar() && getGoal().getLiteral().equals(s.getGoal().getLiteral()));
+				return (((Term) getContent()).isVar() && getContent().equals(s.getContent()));
 			}
 		} else {
 			return false;
@@ -224,7 +222,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	public List<String> getVarNames() {
-		if (hasLiteral() || hasTerm()) {
+		if (hasContent()) {
 			List<String> varnames = getContent().getVarNames();
 			return varnames;
 		}
@@ -232,7 +230,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	}
 	
 	public boolean isGround() {
-		if (hasLiteral() || hasTerm()) {
+		if (hasContent()) {
 			return getContent().isGround();
 		} 
 		
@@ -244,7 +242,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
 	public void renameVar(String oldname, String newname) {
-		if (hasLiteral() || hasTerm()) {
+		if (hasContent()) {
 			getContent().renameVar(oldname, newname);
 		}
 	}
@@ -254,11 +252,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	    	if (t1g instanceof Event) {
 	    		Event e = (Event) t1g;
 	    		if (e.getCategory() == getCategory()) {
-	    			if (e.hasLiteral() || e.hasTerm()) {
-	    				if (hasLiteral() || hasTerm()) {
-	    					ok = u.matchTerms(getContent(), e.getContent());
+	    			if (e.hasContent()) {
+	    				if (hasContent()) {
+	    					ok = u.matchTerms((Term) getContent(), (Term) e.getContent());
 	    				}
-	    			} else if (!hasLiteral() && !hasTerm()) {
+	    			} else if (!hasContent()) {
 	    				ok = true;
 	    			}
 	    			
@@ -273,11 +271,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	    	if (t1g instanceof Event) {
 	    		Event e = (Event) t1g;
 	    		if (e.getCategory() == getCategory()) {
-	    			if (e.hasLiteral() || e.hasTerm()) {
-	    				if (hasLiteral() || hasTerm()) {
-	    					ok = u.matchTermsNG(getContent(), e.getContent());
+	    			if (e.hasContent()) {
+	    				if (hasContent()) {
+	    					ok = u.matchTermsNG((Term) getContent(), (Term) e.getContent());
 	    				}
-	    			} else if (!hasLiteral() && !hasTerm()) {
+	    			} else if (!hasContent()) {
 	    				ok = true;
 	    			}
 	    			

@@ -165,6 +165,14 @@ public class GoalBase implements EvaluationBase {
         
      }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
+     */
+    public Iterator<Unifiable> getRelevant(GuardAtom g) {
+    	return getRelevant(g.getLogicalContent());
+    }
+    
     /**
      * Convert the goal base into a string for printing.
      *
