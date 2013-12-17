@@ -24,6 +24,7 @@
 
 package ail.syntax.ast;
 
+import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.GuardAtom;
 
 /**
@@ -54,7 +55,7 @@ import ail.syntax.GuardAtom;
  * @author lad
  *
  */
-public interface Abstract_GuardAtom extends Abstract_LogicalFormula {
+public interface Abstract_GuardAtom extends Abstract_GLogicalFormula {
 	/**
 	 * Convert this into a concrete GuardAtom.
 	 */
@@ -65,4 +66,11 @@ public interface Abstract_GuardAtom extends Abstract_LogicalFormula {
 	 * @return
 	 */
 	public boolean isTrivial();
+
+	/**
+	 * Replicates expression in the JVM.
+	 * @param env
+	 * @return
+	 */
+	public int newJPFObject(MJIEnv env);
 }

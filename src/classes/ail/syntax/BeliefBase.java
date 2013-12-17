@@ -50,7 +50,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * 
  * @author louiseadennis;
  */
-public class BeliefBase implements Iterable<Literal>, EvaluationBase {
+public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
 
 	@FilterField
 	/**
@@ -236,11 +236,21 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase {
     public Iterator<Literal> iterator() {
         List<Literal> all = new ArrayList<Literal>(size());
         for (BelEntry be : belsMap.values()) {
-            all.addAll(be.list);
-       }
+        	all.addAll(be.list);
+        }
         return all.iterator();
-	}
-    
+    }
+
+    /**
+     * Returns an iterators over all beliefs.
+     */
+    public Iterator<Predicate> prediterator() {
+        List<Predicate> all = new ArrayList<Predicate>(size());
+        for (BelEntry be : belsMap.values()) {
+        	all.addAll(be.list);
+        }
+        return all.iterator();
+    }
 
     /**
      * Does the belief base contain this literal?
@@ -301,8 +311,7 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase {
                 entrylist.addAll(entry.list);
                 return entrylist.iterator();
            } else {
-            	ArrayList<Literal> empty = new ArrayList<Literal>();
-                return empty.iterator();
+                return Collections.<Literal>emptyList().iterator();
             }
         }
         
@@ -319,11 +328,12 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase {
     /**
      * 
      */
-	public Iterator<Unifiable> getRelevant(GuardAtom ga) {
+	public Iterator<Literal> getRelevant(GuardAtom<Literal> g) {
        	Iterator<Literal> ll = null;
-        LinkedList<Unifiable> lll = new LinkedList<Unifiable>();
+        LinkedList<Literal> lll = new LinkedList<Literal>();
         
-        if (ga.hasLogicalContent()) {
+        if (g instanceof LogicalGuardAtom) {
+        	LogicalGuardAtom ga = (LogicalGuardAtom) g; 
         	Predicate p = ga.getLogicalContent();
         	Literal l;
             if (p instanceof Literal) {
@@ -335,7 +345,7 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase {
             ll = getRelevant(l);
             if (ll != null) {
             	while(ll.hasNext()) {
-            		lll.add(ll.next());
+            		lll.add(new GBelief(ll.next()));
             	}
          	}
         }

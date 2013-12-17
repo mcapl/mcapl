@@ -41,7 +41,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class GBelief extends Literal implements GuardAtom {
+public class GBelief extends Literal implements GuardAtom<Literal> {
 	static String logname = "ail.syntax.GBelief";
 	
 	/**
@@ -363,14 +363,14 @@ public class GBelief extends Literal implements GuardAtom {
 	// Based on code by Rafael H. Bordini, Jomi F. Hubner et. al for Jason
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
      	StringTerm ebname =  getEB();
-     	EvaluationBase eb = new TrivialEvaluationBase();
+     	EvaluationBase<Literal> eb = new TrivialEvaluationBase();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
     			eb = ag.getBB(getEB());
     		} else {
     			for (String ebnames: ag.getBBList()) {
-    				EvaluationBase new_eb = ag.getBB(ebnames);
+    				EvaluationBase<Literal> new_eb = ag.getBB(ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
@@ -382,7 +382,7 @@ public class GBelief extends Literal implements GuardAtom {
     		eb = ag.getBB(getEB());
     	}
     	
-    	return super.logicalConsequence(eb, ag.getRuleBase(), un);
+    	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this);
  	}
 	
 	/*

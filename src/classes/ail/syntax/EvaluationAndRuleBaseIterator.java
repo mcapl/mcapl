@@ -11,13 +11,13 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
 	// The agent may believe several things that can unify
 	// with the query.
-	Iterator<Unifiable> il;
+	Iterator<? super Predicate> il;
 	Iterator<Rule> rl;
    
-	EvaluationBase eb;
+	EvaluationBase<? super Predicate> eb;
 	RuleBase rb;
 	Unifier un;
-	GuardAtom ga;
+	Predicate logical_term;
 	
 	/**
 	 * This holds the current unification solution.
@@ -39,13 +39,13 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	String logname = "ail.syntax.EvaluationAndRuleBaseIterator";
 
 
-	public EvaluationAndRuleBaseIterator(EvaluationBase e, RuleBase r, Unifier u, GuardAtom g) {
+	public EvaluationAndRuleBaseIterator(EvaluationBase<? super Predicate> e, RuleBase r, Unifier u, Predicate t) {
 		eb = e;
 		rb = r;
 		un = u;
-		ga = g;
-		il = eb.getRelevant(ga);
-		rl = rb.getRelevant(ga.getLogicalContent());
+		logical_term = t;
+		il = eb.getRelevant(logical_term);
+		rl = rb.getRelevant(logical_term);
 	}
             
 	/*
@@ -91,8 +91,8 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 		if (il != null) {
 			while (il.hasNext()) {
 				Unifier unC = (Unifier) un.clone();
-				Unifiable u = il.next();
-				Unifiable h2 = ga.getLogicalContent().clone();
+				Predicate u = (Predicate) il.next();
+				Unifiable h2 = logical_term.clone();
 				if (h2.unifies(u, unC)) {
 					return;
 				}
@@ -104,7 +104,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 				Unifier unC = (Unifier) un.clone();
 				rule = rl.next();
 				Rule ruleC = rule.clone();
-				Unifiable h = ga.getLogicalContent().clone();
+				Unifiable h = logical_term.clone();
 				ruleC.standardise_apart(h, unC);
 				// This this will just unify the head!!
 				if (h.unifies(ruleC, unC)) {

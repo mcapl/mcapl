@@ -25,6 +25,7 @@
 package ail.syntax.ast;
 
 import ail.semantics.AILAgent;
+import ail.syntax.DefaultAILStructure;
 import ail.syntax.GBelief;
 import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
@@ -69,14 +70,11 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 	 */
 	@FilterField
     public static final byte 	  GTrue = 10;
-	
-	@FilterField
-	public static final byte GpureR = 12;
-	
+		
 	/**
-	 * Logical content of the GBelief
+	 * Is this a proper belief or trivial?
 	 */
-	private Abstract_Term content;
+	public byte category = Abstract_BaseAILStructure.AILBel;
  	
 	/**
 	 * If an agent has several structures of a particular type.
@@ -91,7 +89,12 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      * @param b
      */
     public Abstract_GBelief() {
-    	super(b);
+    	super("true");
+    	category = GTrue;
+    }
+    
+    public Abstract_GBelief(Abstract_Literal l) {
+    	super(l);
     }
     
     /**
@@ -99,7 +102,7 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      * @param b
      * @param s
      */
-	public Abstract_GBelief(byte b, String s) {
+/*	public Abstract_GBelief(byte b, String s) {
 		this(b);
 		if (b == AILContent) {
 			Abstract_Predicate incontent = new Abstract_Predicate("in_content");
@@ -110,7 +113,7 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 			incontext.addTerm(new Abstract_Predicate(s));
 			content = incontext;
 		}
-	}
+	} */
 
 	/**
      * Construct a GBelief from a category and a literal.
@@ -118,20 +121,20 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      * @param b the Belief Category.
      * @param l the Literal/
      */
-    public Abstract_GBelief(byte b, Abstract_Term t) {
-    	super(b);
-    	content = t;
-    }
+  //  public Abstract_GBelief(byte b, Abstract_Term t) {
+  //  	super(b);
+ //   	content = t;
+  //  }
      
     /**
      * Construct one GBelief from another.
      * @param gb
      */
-    public Abstract_GBelief(Abstract_GBelief gb) {
-    	super(gb.getCategory());
-    	content = gb.getContent();
-    	DBnum = gb.getDBnum();
-    }
+  //  public Abstract_GBelief(Abstract_GBelief gb) {
+  //  	super(gb.getCategory());
+  //  	content = gb.getContent();
+ //   	DBnum = gb.getDBnum();
+ //   }
     
     /**
      * Setter for the DB num.
@@ -164,30 +167,12 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 
-		if (hasContent()) {
-			s.append(getContent().toString()).append("(").append(getDBnum().toString()).append(")");
+		if (!isTrivial()) {
+			s.append(super.toString()).append("(").append(getDBnum().toString()).append(")");
 		}  else {
 			s.append("True");
 		}
-		s.append("::" + getCategory());
 		return s.toString();
-	}
-
-
-	/**
-	 * Does this GBelief have logical content?
-	 * @return
-	 */
-	public boolean hasContent() {
-		return content != null;
-	}
-	
-	/**
-	 * Getter for the logical content of the GBelief.
-	 * @return
-	 */
-	public Abstract_Term getContent() {
-		return content;
 	}
 	
 	/*
@@ -195,8 +180,8 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 	 * @see ail.syntax.ast.Abstract_AILStructure#toMCAPL()
 	 */
 	public GBelief toMCAPL() {
-		if (hasContent()) {
-			GBelief g =  new GBelief((Predicate) getContent().toMCAPL());
+		if (!isTrivial()) {
+			GBelief g =  new GBelief(super.toMCAPL());
 			g.setEB((StringTerm) DBnum.toMCAPL());
 			return g;			
 		} else {
@@ -206,15 +191,26 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 		}
 	}
 	
+	public byte getCategory() {
+		return category;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.ast.Abstract_AILStructure#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ail.syntax.ast.Abstract_GBelief");
-		if (hasContent()) {
-			env.setReferenceField(ref, "content", getContent().newJPFObject(env));
+		String functor = getFunctor();
+		if (strings.containsKey(functor)) {
+			env.setReferenceField(ref, "functor", strings.get(functor));
+		} else {
+			int stringref = env.newString(functor);
+			strings.put(functor, stringref);
+			env.setReferenceField(ref, "functor", stringref);
 		}
+		env.setReferenceField(ref, "terms", newJPFTermArray(env));
+		env.setBooleanField(ref, "type", getType());
 		env.setByteField(ref,  "category", getCategory());
 		env.setReferenceField(ref, "DBnum", DBnum.newJPFObject(env));
 		return ref;

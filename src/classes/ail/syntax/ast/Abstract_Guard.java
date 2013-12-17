@@ -24,7 +24,11 @@
 
 package ail.syntax.ast;
 
+import ail.syntax.GLogicalFormula;
 import ail.syntax.Guard;
+import ail.syntax.GuardAtom;
+import ail.syntax.LogExpr;
+import ail.syntax.Guard.GLogicalOp;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.ClassInfo;
@@ -61,35 +65,29 @@ import gov.nasa.jpf.vm.MJIEnv;
  * @author lad
  *
  */
-public class Abstract_Guard {
-
+public class Abstract_Guard implements Abstract_GLogicalFormula {
 	/**
-	 * A positive (to be believed) guard.
+	 * Possible operataors
 	 */
-	@FilterField
-	public static boolean GPos = true;
-	/**
-	 * A negative (to be disbelieved) guard.
-	 */
-	@FilterField
-	public static boolean GNeg = false;
-
-	/**
-	 * The guard represented as  logical expression.
-	 */
-	public Abstract_LogExpr guardexpression;
+	public static int none = 0;
+	public static int not = 1;
+	public static int and = 2;
 	
 	/**
-	 * Guard is trivially true.
+	 * The LHS and RHS of the expression.
 	 */
-	public boolean istrivial = true;
+	private  Abstract_GLogicalFormula lhs, rhs;
+	/**
+	 * The operator.
+	 */
+	private  int      op = none;
+	
 	
 	/**
 	 * Constructs an empty guard.
 	 *
 	 */
-	public Abstract_Guard() {
-	}
+	public Abstract_Guard() {}
 	
 	/**
 	 * Construct a guard from a single GBelief.  This is presumed to be a 
@@ -108,35 +106,11 @@ public class Abstract_Guard {
 	 * @param g The GBelief.
 	 * @param tf A flag showing whether the belief is to be believed or not.
 	 */
-	public Abstract_Guard(Abstract_GuardAtom g, boolean tf) {
+	public Abstract_Guard(Abstract_GLogicalFormula g, boolean tf) {
 		add(g, tf);
 	}
 	
-	/**
-	 * Construct the guard from a logical expression.
-	 * @param l
-	 * @param b
-	 */
-	public Abstract_Guard(Abstract_LogExpr l, boolean b) {
-		istrivial = b;
-		guardexpression = l;
-	}
 	
-	/**
-	 * Get the logical expression for the guard.
-	 * @return
-	 */
-	public Abstract_LogExpr getGuardExpression() {
-		return guardexpression;
-	}
-	
-	/**
-	 * Set the logical expression for the guard.
-	 * @param l
-	 */
-	public void setGuardExpression(Abstract_LogExpr l) {
-		guardexpression = l;
-	}
 
 	/**
 	 * Add a new GBelief (conjunct) to the guard.  By default this is to be believed.
@@ -149,6 +123,20 @@ public class Abstract_Guard {
 	}
 	
 	/**
+     * Operators must also be converted to the relevant concrete class.
+     * @return
+     */
+    Guard.GLogicalOp opToMCAPL() {
+    	if (op == none) {
+    		return Guard.GLogicalOp.none;
+    	}
+    	if (op == not) {
+    		return Guard.GLogicalOp.not;
+    	}
+    	return Guard.GLogicalOp.and;
+    }
+
+    /**
 	 * Add a GBelief to the guard with a flag showing whether or not it should be
 	 * believed or disbelieved for the guard to be true.
 	 * 
@@ -156,45 +144,46 @@ public class Abstract_Guard {
 	 * @param b Flag indiciatin whether gb should be believed or disbelieved.
 	 * @return
 	 */
-	public boolean add(Abstract_GuardAtom gb, boolean b) {
-  
+	public boolean add(Abstract_GLogicalFormula gb, boolean b) {
+		  
 		if (isTrivial()) {
 			if (b) {
 				if (!gb.isTrivial()) {
-					istrivial = false;
+					op = none;
+					rhs = gb;
 				}
 			} else {
-				istrivial = false;
-			}
-		}
-
-		if (guardexpression == null) {
-			if (b) {
-				guardexpression = new Abstract_LogExpr(Abstract_LogExpr.none, gb);
-			} else {
-				guardexpression = new Abstract_LogExpr(Abstract_LogExpr.not, gb);
+				if (!gb.isTrivial()) {
+					op = not;
+					rhs = gb;
+				} else {
+					/// This shouldn't happen but should there be a case anyway?
+				}
 			}
 		} else {
 			if (b) {
-				if (! isTrivial()) {
-					guardexpression = new Abstract_LogExpr(guardexpression, Abstract_LogExpr.and, gb);
+				if (op == none) {
+					lhs = gb;
+					op = and;
+				} else {
+					rhs = this;
+					lhs = gb;
+					op = and;
 				}
 			} else {
-				if (! isTrivial()) {
-					guardexpression = new Abstract_LogExpr(guardexpression, Abstract_LogExpr.and, new Abstract_LogExpr(Abstract_LogExpr.not, gb));
+				Abstract_Guard ng = new Abstract_Guard(gb, false);
+				if (op == none) {
+					lhs = ng;
+					op = and;
+				} else {
+					rhs = this;
+					lhs = ng;
+					op = and;
 				}
 			}
 		}
 
 		return true;
-	}
-
-	/*
-	 * 	    (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return guardexpression.toString();
 	}
 
 	    
@@ -204,7 +193,7 @@ public class Abstract_Guard {
 	 * @return whether the guard contains the true belief.
 	 */
 	public boolean isTrivial() {
-		return istrivial;
+		return (rhs == null);
 	}
 	    
 	/**
@@ -212,7 +201,15 @@ public class Abstract_Guard {
 	 * @return
 	 */
 	public Guard toMCAPL() {
-		return new Guard(guardexpression.toMCAPL(), istrivial);
+		if (lhs == null) {
+			if (rhs == null) {
+				return new Guard();
+			} else {
+				return new Guard(opToMCAPL(), rhs.toMCAPL());
+			}
+		} else {
+			return new Guard(lhs.toMCAPL(), opToMCAPL(), rhs.toMCAPL());
+		}
 	}
 	    
 	/**
@@ -227,8 +224,13 @@ public class Abstract_Guard {
 			return 0;
 		}
 		int objref = env.newObject("ail.syntax.ast.Abstract_Guard");
-		env.setReferenceField(objref, "guardexpression", guardexpression.newJPFObject(env));
-		env.setBooleanField(objref, "istrivial", istrivial);
+		if (rhs != null) {
+			env.setReferenceField(objref, "rhs", rhs.newJPFObject(env));
+		}
+		if (lhs != null) {
+			env.setReferenceField(objref, "lhs", lhs.newJPFObject(env));
+		}
+		env.setIntField(objref, "op", op);
 		return objref;
 	}
 

@@ -8,7 +8,7 @@ public class EvaluationBaseIterator implements Iterator<Unifier> {
 	EvaluationBase eb;
 	Unifier un;
 	GuardAtom ga;
-	Iterator<Unifiable> il;
+	Iterator<GuardAtom> il;
 	
  	/**
    	 * This holds the current unification solution.

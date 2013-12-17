@@ -36,9 +36,9 @@ import ail.syntax.Unifiable;
  *
  */
 public class ListEvaluationBase implements EvaluationBase {
-	List<Unifiable> list;
+	List<GuardAtom> list;
 	
-	public ListEvaluationBase(List<Unifiable> l) {
+	public ListEvaluationBase(List<GuardAtom> l) {
 		list = l;
 	}
 
@@ -46,7 +46,7 @@ public class ListEvaluationBase implements EvaluationBase {
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
 	 */
-	public Iterator<Unifiable> getRelevant(GuardAtom ga) {
+	public Iterator<GuardAtom> getRelevant(GuardAtom ga) {
 		return list.iterator();
 	}
 

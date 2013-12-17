@@ -40,7 +40,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Goal extends PredicatewAnnotation implements GuardAtom {
+public class Goal extends PredicatewAnnotation implements LogicalGuardAtom {
 	/**
 	 * The four types of goal: achieve, test, perform and maint.
 	 */
@@ -479,14 +479,14 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 */
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
      	StringTerm ebname =  getEB();
-     	EvaluationBase eb = new TrivialEvaluationBase();
+     	LogicalEvaluationBase eb = new TrivialEvaluationBase();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
     			eb = ag.getGoalBase(getEB());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBase new_eb = ag.getGoalBase(ebnames);
+    				LogicalEvaluationBase new_eb = ag.getGoalBase(ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {

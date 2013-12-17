@@ -22,20 +22,35 @@
 //
 //----------------------------------------------------------------------------
 
-package ail.syntax;
+package ail.syntax.ast;
+
+import gov.nasa.jpf.vm.MJIEnv;
 
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * An Evaluation Base is a set of ground terms - typically a belief base or a goal base, against which some logical
- * formula can be evaluated.
- * @author lad
- *
- */
-public interface EvaluationBase<K extends Unifiable> {
-	
-	public Iterator<K> getRelevant(GuardAtom<K> ga);
+import ail.semantics.AILAgent;
+import ail.syntax.GLogicalFormula;
 
-	public Iterator<K> getRelevant(K ga);
+/**
+ * Represents a logical formula  (a single atom, negation of an atom or a conjunct)
+ * that can appear in plan guards and so refers explicitly to beliefs and goals rather
+ * than logical predicates.
+ * 
+ */
+public interface Abstract_GLogicalFormula {
+	/**
+	 * Convert to a concrete representation.
+	 * @return
+	 */
+	public GLogicalFormula toMCAPL();
+	
+	/**
+	 * Replicates expression in the JVM.
+	 * @param env
+	 * @return
+	 */
+	public int newJPFObject(MJIEnv env);
+	
+	public boolean isTrivial();
 }

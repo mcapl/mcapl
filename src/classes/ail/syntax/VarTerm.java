@@ -418,9 +418,9 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#isRule()
      */
-    public boolean isRule() {
-        return value != null && getValue().isRule();
-    }
+  //  public boolean isRule() {
+  //      return value != null && getValue().isRule();
+  //  }
 
     /*
      * (non-Javadoc)

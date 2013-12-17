@@ -149,5 +149,13 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
     public void renameVar(String oldname, String newname) {
     	
     }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		
+	}
   
 }

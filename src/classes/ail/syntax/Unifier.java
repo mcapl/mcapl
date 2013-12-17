@@ -90,7 +90,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @param t2g A Structure (i.e., a logical formula of some sort).
      * @retun whether or not the two structures unify.
      */
-    public boolean sunifies(Predicate t1g, Predicate t2g) {
+    public boolean sunifies(Unifiable t1g, Unifiable t2g) {
     	t2g.standardise_apart(t1g, this);
     	return unifies(t1g, t2g);
     }
@@ -112,8 +112,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     	
     	// AIL Structures can return a "unifying term" consisting of 
     	// those bits relevant for unification.
-        Predicate t1gl = t1g.UnifyingTerm();
-    	Predicate t2gl = t2g.UnifyingTerm();
+        Unifiable t1gl = t1g.UnifyingTerm();
+    	Unifiable t2gl = t2g.UnifyingTerm();
     	
     	if (t1gl == null && t2gl == null) {
     		return true;

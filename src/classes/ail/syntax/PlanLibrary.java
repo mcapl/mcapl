@@ -383,7 +383,7 @@ public class PlanLibrary {
         					} 
     						
     	    			} else {
-    	    				if (! intention.empty() || cp.getTriggerEvent().getGoal().getLiteral() instanceof VarTerm) {
+    	    				if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
     	    					appplanlength = 0;
     	    					plan_is_applicable = true;
     	    				} 
@@ -529,7 +529,7 @@ public class PlanLibrary {
     			guards.remove(index);
     			yes.add(p, guards);
     		} else {
-    			Guard ng = new Guard(new LogExpr(LogExpr.LogicalOp.not, g.getGuardExpression()), false);
+    			Guard ng = new Guard(Guard.GLogicalOp.not, g);
     			if (guards.contains(ng)) {
         			int index = guards.indexOf(ng);
         			guards.remove(index);

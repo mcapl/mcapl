@@ -44,7 +44,7 @@ package eass.parser;
 
 @members {
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private Abstract_Literal agentname = new Abstract_Literal("");
+	private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
 	}
 	
 @lexer::members {
@@ -64,7 +64,7 @@ eassagents returns[ArrayList<Abstract_EASSAgent> gags]: EASS {gags=new ArrayList
 // EASS Agent stuff
 eassagent returns [Abstract_EASSAgent g] : 
 	(NAME w=word {try {$g = new Abstract_EASSAgent($w.s);} catch (Exception e) {System.err.println(e);}
-	              agentname = new Abstract_Literal($w.s);} |
+	              agentname = new Abstract_StringTermImpl($w.s);} |
 	ABSTRACTION w=word {String s = "abstraction_" + $w.s; $g = new Abstract_EASSAgent(s); g.setAbstraction($w.s);} 
 				)
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
@@ -93,14 +93,13 @@ event returns [Abstract_Event e] : (PLUS (RECEIVED OPEN p=performative ',' t=pre
 			   MINUS (l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, $l.l);} |
 				SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILDeletion, $g.g);}));
 				
-guard_atom returns [Abstract_GuardAtom g] : (BELIEVE l=literal {$g = new Abstract_GBelief(Abstract_GBelief.AILBel, $l.l);} |
+guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
 				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
-				SENT OPEN an1=literal COMMA {Abstract_Literal agn = agentname;} (an2=literal 
-					COMMA {agn = $an2.l;})? p=performative 
-					COMMA t=pred CLOSE {Abstract_GMessage mess = new Abstract_GMessage(agn, $an1.l, $p.b, $t.t); 
-								$g = new Abstract_GBelief(Abstract_GBelief.AILSent, mess);} |
+				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=stringterm {an1=s;} | v=var {an1 = v;}) COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
+					COMMA {agn = an2;})? p=performative 
+					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
-				TRUE {$g = new Abstract_GBelief(Abstract_GBelief.GTrue);} );
+				TRUE {$g = new Abstract_GBelief();} );
 				
 deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
 				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
@@ -133,12 +132,12 @@ wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = term COM
 	Abstract_Literal wf = new Abstract_Literal("waited"); wf.addTerm($l2.l); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
 	Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); $d = new Abstract_Deed(rs);};
 				
-brule returns [Abstract_Rule r] : head=guard_atom (BRULEARROW f=logicalfmla {$r = new Abstract_Rule($head.g, $f.f);} SEMI | SEMI {$r = new Abstract_Rule($head.g);});
+brule returns [Abstract_Rule r] : head=literal (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA (n2=notfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $n2.f);} | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : gb = guard_atom {$f = $gb.g;} | 
-                                                                              NOT (gb2 = guard_atom {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $gb2.g);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+notfmla returns [Abstract_LogicalFormula f] : gb = literal {$f = gb;} | 
+                                                                              NOT (gb2 = literal {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
 subfmla returns [Abstract_LogicalFormula f] : SQOPEN lf = logicalfmla {$f = $lf.f;} SQCLOSE;
 	
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
@@ -150,7 +149,7 @@ action returns [Abstract_Action a] :
 
 performative returns [int b] : (TELL {$b=1;} | PERFORM {$b=2;} | ACHIEVE {$b = 3;});
 
-UPDATE 	:	'±' ;
+UPDATE 	:	'>' ;
 TELL	:	':tell';
 PERFORM :	':perform';
 ACHIEVE :	':achieve';

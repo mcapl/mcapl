@@ -531,7 +531,7 @@ public class Predicate extends DefaultTerm implements MCAPLFormula, LogicalFormu
  
     } 
     
-	public Iterator<Unifier> logicalConsequence(final EvaluationBase eb, final RuleBase rb, final Unifier un) {
+	public Iterator<Unifier> logicalConsequence(final LogicalEvaluationBase eb, final RuleBase rb, final Unifier un) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this);
 	}
 

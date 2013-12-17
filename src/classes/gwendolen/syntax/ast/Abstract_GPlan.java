@@ -50,7 +50,7 @@ public class Abstract_GPlan extends Abstract_Plan {
 		setTrigger(e);
 		ArrayList<Abstract_Guard> gs = new ArrayList<Abstract_Guard>();
 		for (int i = 1; i < ds.size(); i++) {
-			gs.add(new Abstract_Guard(new Abstract_GBelief(Abstract_GBelief.GTrue)));
+			gs.add(new Abstract_Guard(new Abstract_GBelief()));
 		}
 		gs.add(g);
 		setContext(gs);

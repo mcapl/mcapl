@@ -118,7 +118,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-        posGuardPIs();
+      //  posGuardPIs();
      }
     
     /**
@@ -140,7 +140,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-        posGuardPIs();
+    //    posGuardPIs();
     }
     
     /**
@@ -152,7 +152,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     		Term e = l.getTerm(0);
     		event = new Event(Event.AILAddition, new Goal(new Literal(true, new PredicatewAnnotation((Predicate) e)), Goal.achieveGoal));
     		ArrayList<Guard> guards = new ArrayList<Guard>();
-    		guards.add(new Guard(new GBelief(GBelief.GTrue)));
+    		guards.add(new Guard(new GBelief()));
     		setContext(guards);
     		setPrefix(new ArrayList<Deed>());
     		ArrayList<Deed> deeds = new ArrayList<Deed>();
@@ -232,7 +232,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
 
   		if (i > 1) {
   			for (int j = 0; j < (i - 1); j++) {
-  				context.add(j, new Guard(new GBelief(GBelief.GTrue)));
+  				context.add(j, new Guard(new GBelief()));
   			}
   		}
   		
@@ -450,7 +450,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
      * 
      * @return  The plan represented as a term.
      */
-    public PredicatewAnnotation getPlanTerm() {
+   /* public PredicatewAnnotation getPlanTerm() {
     	if (planterm == null) {
     		Predicate pts = new Predicate("planterm");
     		pts.addTerm(getTriggerEvent().UnifyingTerm());
@@ -482,14 +482,14 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	} else {
     		return planterm;
     	}
-    }
+    } */
     
     /**
      * Create list of predicate indicators for the guards for quick
      * relevance filtering.
      * @return
      */
-    public ArrayList<PredicateIndicator> posGuardPIs() {
+   /* public ArrayList<PredicateIndicator> posGuardPIs() {
     	if (pis != null) {
     		return pis;
     	} else {
@@ -499,7 +499,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     		}
     		return pis;
     	}
-    }
+    } */
 
     /*
      * (non-Javadoc)
@@ -524,7 +524,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
-    		myvarnames.addAll(g.getGuardExpression().getVarNames());
+    		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
@@ -537,10 +537,10 @@ public class Plan implements Cloneable, Comparable<Plan> {
     				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
     				getTriggerEvent().renameVar(s, s1);
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Deed d: getBody()) {
     					d.renameVar(s, s1);
@@ -561,7 +561,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
-    		myvarnames.addAll(g.getGuardExpression().getVarNames());
+    		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
@@ -574,10 +574,10 @@ public class Plan implements Cloneable, Comparable<Plan> {
     				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
     				getTriggerEvent().renameVar(s, s1);
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Deed d: getBody()) {
     					d.renameVar(s, s1);

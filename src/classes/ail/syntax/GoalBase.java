@@ -32,6 +32,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
+import java.util.ArrayList;
 
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifySet;
@@ -41,7 +43,7 @@ import ajpf.util.VerifySet;
  * @author lad
  *
  */
-public class GoalBase implements EvaluationBase {
+public class GoalBase implements LogicalEvaluationBase {
 	/**
      * goalMap is a table ussed for efficient
      * look-up of goals.
@@ -137,8 +139,8 @@ public class GoalBase implements EvaluationBase {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
-    public Iterator<Unifiable> getRelevant(Predicate l) {
-    	LinkedList<Unifiable> ul = new LinkedList<Unifiable>();
+    public Iterator<Predicate> getRelevant(Predicate l) {
+    	LinkedList<Predicate> ul = new LinkedList<Predicate>();
     	Iterator<Goal> gl = null;
     	if (l.isVar()) {
             // all goals are relevant
@@ -169,8 +171,32 @@ public class GoalBase implements EvaluationBase {
      * (non-Javadoc)
      * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
      */
-    public Iterator<Unifiable> getRelevant(GuardAtom g) {
-    	return getRelevant(g.getLogicalContent());
+    public Iterator<GuardAtom> getRelevant(final GuardAtom g) {
+    	if (g instanceof LogicalGuardAtom) {
+    		return new Iterator<GuardAtom>() {
+    			Iterator<Predicate> gb = getRelevant(((LogicalGuardAtom) g).getLogicalContent());
+				@Override
+				public boolean hasNext() {
+					// TODO Auto-generated method stub
+					return gb.hasNext();
+				}
+
+				@Override
+				public GuardAtom next() {
+					// TODO Auto-generated method stub
+					return (Goal) gb.next();
+				}
+
+				@Override
+				public void remove() {
+					// TODO Auto-generated method stub
+					
+				}
+    			
+    		};
+    	} else {
+    		return Collections.<GuardAtom>emptyList().iterator();
+     	}
     }
     
     /**

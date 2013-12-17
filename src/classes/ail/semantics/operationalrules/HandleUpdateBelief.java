@@ -29,10 +29,12 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.syntax.Unifiable;
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
 import ail.syntax.Term;
 import ail.syntax.PredicateIndicator;
+import ail.syntax.Predicate;
 
 import ajpf.util.AJPFLogger;
 
@@ -73,6 +75,7 @@ public class HandleUpdateBelief extends HandleBelief {
 		PredicateIndicator pi = b.getPredicateIndicator();
 		
 		while (bl.hasNext()) {
+			// Since this comes from a belief base it should be a literal, but there really ought to be some kind of a check here.
 			Literal bp = bl.next();
 			Unifier un = new Unifier();
 			PredicateIndicator bpi = bp.getPredicateIndicator();
