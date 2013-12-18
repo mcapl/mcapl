@@ -35,7 +35,7 @@ import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 
-public class GMessage implements GuardAtom {
+public class GMessage implements GuardAtom<Message> {
 	
 	StringTerm sender;
 	StringTerm receiver;
@@ -97,7 +97,7 @@ public class GMessage implements GuardAtom {
     
 	@Override
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
-		List<GuardAtom> ul = new ArrayList<GuardAtom>();
+		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());
 		} else {

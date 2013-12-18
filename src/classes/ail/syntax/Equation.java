@@ -84,7 +84,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 		return logicalConsequence(u);
 	}
 	
-	public Iterator<Unifier> logicalConsequence(EvaluationBase<? super Predicate> e, RuleBase r, Unifier u) {
+	public Iterator<Unifier> logicalConsequence(EvaluationBase<? extends PredicateTerm> e, RuleBase r, Unifier u) {
 		return logicalConsequence(u);
 	}
 	

@@ -46,7 +46,7 @@ import gov.nasa.jpf.annotation.FilterField;
 /**
  * Represents a predicate in first order logic.
  */
-public class Predicate extends DefaultTerm implements MCAPLFormula, LogicalFormula {
+public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormula {
 
 	/**
 	 * The name of the predicate.
@@ -531,7 +531,7 @@ public class Predicate extends DefaultTerm implements MCAPLFormula, LogicalFormu
  
     } 
     
-	public Iterator<Unifier> logicalConsequence(final LogicalEvaluationBase eb, final RuleBase rb, final Unifier un) {
+	public Iterator<Unifier> logicalConsequence(final EvaluationBase<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this);
 	}
 

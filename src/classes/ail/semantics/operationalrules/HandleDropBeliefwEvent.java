@@ -59,10 +59,10 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 	 * @see ail.semantics.operationalrules.HandleDropBelief#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<Predicate> bl = a.getBB().getRelevant(b);
+		Iterator<Literal> bl = a.getBB().getRelevant(b);
 				
 		while (bl.hasNext()) {
-			Literal bp = (Literal) bl.next();
+			Literal bp = bl.next();
 			Unifier un = new Unifier();
 						
 			if (a.relevant(bp, b)) {

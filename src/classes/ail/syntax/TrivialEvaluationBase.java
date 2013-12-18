@@ -4,16 +4,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Collections;
 
-public class TrivialEvaluationBase implements LogicalEvaluationBase {
+public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBase<K> {
 
 	@Override
-	public Iterator<GuardAtom> getRelevant(GuardAtom ga) {
-		return Collections.<GuardAtom>emptyList().iterator();
+	public Iterator<K> getRelevant(GuardAtom<K> ga) {
+		// TODO Auto-generated method stub
+		return Collections.<K>emptyList().iterator();
 	}
-	
-	public Iterator<Predicate> getRelevant(Predicate p) {
-		return Collections.<Predicate>emptyList().iterator();
-		
+
+	@Override
+	public Iterator<K> getRelevant(K ga) {
+		// TODO Auto-generated method stub
+		return Collections.<K>emptyList().iterator();
 	}
+
+
 
 }

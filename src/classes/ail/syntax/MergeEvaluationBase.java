@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collections;
 
-public class MergeEvaluationBase implements LogicalEvaluationBase {
-	EvaluationBase eb1;
-	EvaluationBase eb2;
+public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<K> {
+	EvaluationBase<K> eb1;
+	EvaluationBase<K> eb2;
 	
-	public MergeEvaluationBase(EvaluationBase a, EvaluationBase b) {
+	public MergeEvaluationBase(EvaluationBase<K> a, EvaluationBase<K> b) {
 		eb1 = a;
 		eb2 = b;
 	}
 
 	@Override
-	public Iterator<GuardAtom> getRelevant(final GuardAtom ga) {
+	public Iterator<K> getRelevant(final GuardAtom<K> ga) {
 		
-		return new Iterator<GuardAtom>() {
-			Iterator<GuardAtom> eb1it = eb1.getRelevant(ga);
-			Iterator<GuardAtom> eb2it = eb2.getRelevant(ga);
+		return new Iterator<K>() {
+			Iterator<K> eb1it = eb1.getRelevant(ga);
+			Iterator<K> eb2it = eb2.getRelevant(ga);
 
 			/*
 			 * (non-Javadoc)
@@ -29,47 +29,42 @@ public class MergeEvaluationBase implements LogicalEvaluationBase {
 				if (eb1it.hasNext()) {
 					return true;
 				}
-				
+			
 				return eb2it.hasNext();
 			}
-			
+		
 			/*
 			 * (non-Javadoc)
 			 * @see java.util.Iterator#next()
 			 */
-			public GuardAtom next() {
+			public K next() {
 				if (eb1it.hasNext()) {
 					return eb1it.next();
 				} else {
 					return eb2it.next();
 				}
-				
-			}
 			
+			}
+		
 			/*
 			 * (non-Javadoc)
 			 * @see java.util.Iterator#remove()
 			 */
 			public void remove() {
-				// TODO Auto-generated method stub
-				
+			// TODO Auto-generated method stub
+			
 			}
 
-			
-		};
 		
+	};
 	}
 
 	@Override
-	public Iterator<Predicate> getRelevant(final Predicate p) {
+	public Iterator<K> getRelevant(final K p) {
 		
-		if (eb1 instanceof LogicalEvaluationBase & eb2 instanceof LogicalEvaluationBase) {
-			final LogicalEvaluationBase leb1 = (LogicalEvaluationBase) eb1;
-			final LogicalEvaluationBase leb2 = (LogicalEvaluationBase) eb2;
-		
-			return new Iterator<Predicate>() {
-				Iterator<Predicate> eb1it = leb1.getRelevant(p);
-				Iterator<Predicate> eb2it = leb2.getRelevant(p);
+		return new Iterator<K>() {
+				Iterator<K> eb1it = eb1.getRelevant(p);
+				Iterator<K> eb2it = eb2.getRelevant(p);
 
 				/*
 				 * (non-Javadoc)
@@ -87,7 +82,7 @@ public class MergeEvaluationBase implements LogicalEvaluationBase {
 				 * (non-Javadoc)
 				 * @see java.util.Iterator#next()
 				 */
-				public Predicate next() {
+				public K next() {
 					if (eb1it.hasNext()) {
 						return eb1it.next();
 					} else {
@@ -108,9 +103,6 @@ public class MergeEvaluationBase implements LogicalEvaluationBase {
 			
 		};
 		
-	} else {
-		return Collections.<Predicate>emptyList().iterator();
-
-	}
-	}
+	} 
+	
 }

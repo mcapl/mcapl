@@ -46,7 +46,7 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * 
      * Returns an iterator for all unifiers that are consequence.
      */
-    public Iterator<Unifier> logicalConsequence(EvaluationBase<? super Predicate> eb, RuleBase rb, Unifier un);
+    public Iterator<Unifier> logicalConsequence(EvaluationBase<? extends PredicateTerm> eb, RuleBase rb, Unifier un);
     
     /**
      * Clone this Formula

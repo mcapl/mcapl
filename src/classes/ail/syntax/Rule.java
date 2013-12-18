@@ -276,10 +276,11 @@ public class Rule implements LogicalFormula {
 	}
 
 	@Override
-	public Iterator<Unifier> logicalConsequence(LogicalEvaluationBase eb,
-			RuleBase rb, Unifier un) {
+	public Iterator<Unifier> logicalConsequence(
+			EvaluationBase<? extends PredicateTerm> eb, RuleBase rb, Unifier un) {
 		return head.logicalConsequence(eb, rb, un);
 	}
+
 
  
 }

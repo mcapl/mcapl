@@ -7,17 +7,17 @@ import java.util.LinkedList;
 
 import ajpf.util.AJPFLogger;
 
-public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
+public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
 	// The agent may believe several things that can unify
 	// with the query.
-	Iterator<? super Predicate> il;
+	Iterator<K> il;
 	Iterator<Rule> rl;
    
-	EvaluationBase<? super Predicate> eb;
+	EvaluationBase<K> eb;
 	RuleBase rb;
 	Unifier un;
-	Predicate logical_term;
+	K logical_term;
 	
 	/**
 	 * This holds the current unification solution.
@@ -37,17 +37,22 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	Rule rule = null; // current rule
 	
 	String logname = "ail.syntax.EvaluationAndRuleBaseIterator";
+	
+	public EvaluationAndRuleBaseIterator(EvaluationBase<LogicalFormula> e) {
+		
+	}
 
 
-	public EvaluationAndRuleBaseIterator(EvaluationBase<? super Predicate> e, RuleBase r, Unifier u, Predicate t) {
+	public EvaluationAndRuleBaseIterator(EvaluationBase<K> e, RuleBase r, Unifier u, K t) {
 		eb = e;
 		rb = r;
 		un = u;
 		logical_term = t;
 		il = eb.getRelevant(logical_term);
-		rl = rb.getRelevant(logical_term);
+		rl = rb.getRelevant((Predicate) logical_term);
 	}
-            
+	
+          
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.Iterator#hasNext()

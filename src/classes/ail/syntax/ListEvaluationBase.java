@@ -25,6 +25,7 @@ package ail.syntax;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 
 import ail.syntax.Unifiable;
 
@@ -35,10 +36,10 @@ import ail.syntax.Unifiable;
  * @author lad
  *
  */
-public class ListEvaluationBase implements EvaluationBase {
-	List<GuardAtom> list;
+public class ListEvaluationBase<K extends Unifiable> implements EvaluationBase<K> {
+	List<K> list;
 	
-	public ListEvaluationBase(List<GuardAtom> l) {
+	public ListEvaluationBase(List<K> l) {
 		list = l;
 	}
 
@@ -46,7 +47,13 @@ public class ListEvaluationBase implements EvaluationBase {
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
 	 */
-	public Iterator<GuardAtom> getRelevant(GuardAtom ga) {
+	public Iterator<K> getRelevant(K ga) {
+		return list.iterator();
+	}
+
+	@Override
+	public Iterator<K> getRelevant(GuardAtom<K> ga) {
+		// TODO Auto-generated method stub
 		return list.iterator();
 	}
 

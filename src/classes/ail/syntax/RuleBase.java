@@ -147,7 +147,7 @@ public class RuleBase implements Iterable<Rule> {
      * @return	An iterators of rules in the rule base with the same
      *          predicate name and arity.
      */
-    public Iterator<Rule> getRelevant(Predicate l) {
+    public Iterator<Rule> getRelevant(PredicateTerm l) {
          if (l.isVar()) {
             // all bels are relevant
             return iterator();

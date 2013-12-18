@@ -43,7 +43,7 @@ import ajpf.util.VerifySet;
  * @author lad
  *
  */
-public class GoalBase implements LogicalEvaluationBase {
+public class GoalBase implements EvaluationBase<Predicate> {
 	/**
      * goalMap is a table ussed for efficient
      * look-up of goals.
@@ -171,10 +171,9 @@ public class GoalBase implements LogicalEvaluationBase {
      * (non-Javadoc)
      * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
      */
-    public Iterator<GuardAtom> getRelevant(final GuardAtom g) {
-    	if (g instanceof LogicalGuardAtom) {
-    		return new Iterator<GuardAtom>() {
-    			Iterator<Predicate> gb = getRelevant(((LogicalGuardAtom) g).getLogicalContent());
+    public Iterator<Predicate> getRelevant(final GuardAtom<Predicate> g) {
+     		return new Iterator<Predicate>() {
+    			Iterator<Predicate> gb = getRelevant(g);
 				@Override
 				public boolean hasNext() {
 					// TODO Auto-generated method stub
@@ -182,7 +181,7 @@ public class GoalBase implements LogicalEvaluationBase {
 				}
 
 				@Override
-				public GuardAtom next() {
+				public Predicate next() {
 					// TODO Auto-generated method stub
 					return (Goal) gb.next();
 				}
@@ -194,9 +193,6 @@ public class GoalBase implements LogicalEvaluationBase {
 				}
     			
     		};
-    	} else {
-    		return Collections.<GuardAtom>emptyList().iterator();
-     	}
     }
     
     /**

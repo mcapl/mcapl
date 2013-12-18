@@ -381,7 +381,7 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
     	} else {
     		eb = ag.getBB(getEB());
     	}
-    	
+    	    	
     	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this);
  	}
 	

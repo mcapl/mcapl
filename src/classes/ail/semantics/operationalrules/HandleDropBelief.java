@@ -65,7 +65,7 @@ public class HandleDropBelief extends HandleBelief {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<Predicate> bl = a.getBB(topdeed.getDBnum()).getRelevant(b);
+		Iterator<Literal> bl = a.getBB(topdeed.getDBnum()).getRelevant(b);
 				
 		while (bl.hasNext()) {
 			Literal bp = (Literal) bl.next();
