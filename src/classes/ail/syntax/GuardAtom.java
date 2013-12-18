@@ -59,6 +59,8 @@ public interface GuardAtom<K extends Unifiable> extends Cloneable, GLogicalFormu
 	 */
 	public boolean isTrivial();
 	
+//	public K getContent();
+	
     /**
      * Return a list of the conjuncts that make up this logical forumla
      * @return

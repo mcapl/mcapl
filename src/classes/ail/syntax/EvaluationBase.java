@@ -35,7 +35,7 @@ import java.util.List;
  */
 public interface EvaluationBase<K extends Unifiable> {
 	
-	public Iterator<K> getRelevant(GuardAtom<K> ga);
+//	public Iterator<K> getRelevant(GuardAtom<K> ga);
 
 	public Iterator<K> getRelevant(K ga);
 }

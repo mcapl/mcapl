@@ -171,9 +171,9 @@ public class GoalBase implements EvaluationBase<Predicate> {
      * (non-Javadoc)
      * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
      */
-    public Iterator<Predicate> getRelevant(final GuardAtom<Predicate> g) {
+   /*  public Iterator<Predicate> getRelevant(final GuardAtom<Predicate> g) {
      		return new Iterator<Predicate>() {
-    			Iterator<Predicate> gb = getRelevant(g);
+    			Iterator<Predicate> gb = getRelevant(g.getContent());
 				@Override
 				public boolean hasNext() {
 					// TODO Auto-generated method stub
@@ -193,7 +193,7 @@ public class GoalBase implements EvaluationBase<Predicate> {
 				}
     			
     		};
-    }
+    } */
     
     /**
      * Convert the goal base into a string for printing.

@@ -328,30 +328,9 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
     /**
      * 
      */
-	public Iterator<Literal> getRelevant(GuardAtom<Literal> g) {
-       	Iterator<Literal> ll = null;
-        LinkedList<Literal> lll = new LinkedList<Literal>();
-        
-        if (g instanceof LogicalGuardAtom) {
-        	LogicalGuardAtom ga = (LogicalGuardAtom) g; 
-        	Predicate p = ga.getLogicalContent();
-        	Literal l;
-            if (p instanceof Literal) {
-            	l = (Literal) p;
-            } else {
-            	l = new Literal(true, p);
-            }
-
-            ll = getRelevant(l);
-            if (ll != null) {
-            	while(ll.hasNext()) {
-            		lll.add(new GBelief(ll.next()));
-            	}
-         	}
-        }
-        
-        return lll.iterator();
-	}
+	//public Iterator<Literal> getRelevant(GuardAtom<Literal> ga) {
+	//	return getRelevant(ga.getContent());
+	//}
 
     
     /** 

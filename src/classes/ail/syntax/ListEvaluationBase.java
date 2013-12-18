@@ -51,11 +51,11 @@ public class ListEvaluationBase<K extends Unifiable> implements EvaluationBase<K
 		return list.iterator();
 	}
 
-	@Override
-	public Iterator<K> getRelevant(GuardAtom<K> ga) {
+//	@Override
+/*	public Iterator<K> getRelevant(GuardAtom<K> ga) {
 		// TODO Auto-generated method stub
 		return list.iterator();
-	}
+	} */
 
 
 }

@@ -14,8 +14,8 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<
 		eb2 = b;
 	}
 
-	@Override
-	public Iterator<K> getRelevant(final GuardAtom<K> ga) {
+//	@Override
+/*	public Iterator<K> getRelevant(final GuardAtom<K> ga) {
 		
 		return new Iterator<K>() {
 			Iterator<K> eb1it = eb1.getRelevant(ga);
@@ -25,39 +25,39 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<
 			 * (non-Javadoc)
 			 * @see java.util.Iterator#hasNext()
 			 */
-			public boolean hasNext() {
+	/*		public boolean hasNext() {
 				if (eb1it.hasNext()) {
 					return true;
 				}
 			
 				return eb2it.hasNext();
-			}
+			} */
 		
 			/*
 			 * (non-Javadoc)
 			 * @see java.util.Iterator#next()
 			 */
-			public K next() {
+	/*		public K next() {
 				if (eb1it.hasNext()) {
 					return eb1it.next();
 				} else {
 					return eb2it.next();
 				}
 			
-			}
+			} */
 		
 			/*
 			 * (non-Javadoc)
 			 * @see java.util.Iterator#remove()
 			 */
-			public void remove() {
+	/*		public void remove() {
 			// TODO Auto-generated method stub
 			
 			}
 
 		
 	};
-	}
+	} */
 
 	@Override
 	public Iterator<K> getRelevant(final K p) {
