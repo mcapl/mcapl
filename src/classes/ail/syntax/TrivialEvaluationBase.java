@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Collections;
 
-public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBase<K> {
+import ail.util.Tuple;
+
+public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBasewNames<K> {
 
 	//@Override
 	//public Iterator<K> getRelevant(GuardAtom<K> ga) {
@@ -16,6 +18,10 @@ public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBas
 	public Iterator<K> getRelevant(K ga) {
 		// TODO Auto-generated method stub
 		return Collections.<K>emptyList().iterator();
+	}
+	
+	public Iterator<Tuple<K, String>> getRelevantTuple(K ga) {
+		return Collections.<Tuple<K, String>>emptyList().iterator();
 	}
 
 

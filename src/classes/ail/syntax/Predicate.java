@@ -235,6 +235,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         c.hashCodeCache = this.hashCodeCache;
          return c;
     }
+    
+    public Predicate toPredicate() {
+        Predicate c = new Predicate(this);
+        c.predicateIndicatorCache = this.predicateIndicatorCache;
+        c.hashCodeCache = this.hashCodeCache;
+         return c;    	
+    }
 
     /**
      * Add another parameter.
@@ -533,7 +540,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
  
     } 
     
-	public Iterator<Unifier> logicalConsequence(final EvaluationBase<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un) {
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this);
 	}
 

@@ -6,4 +6,5 @@ public interface PredicateTerm extends LogicalFormula {
 	public boolean isVar();
 	
 	public PredicateIndicator getPredicateIndicator();
+	
 }

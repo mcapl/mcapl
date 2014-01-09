@@ -275,9 +275,9 @@ public abstract class DefaultTerm implements Term {
     	Term t1 = (Term) t1g;
     	boolean ok = false;
     	if (isGround()) {
-    		ok = u.matchTerms(this, t1);
+    		ok = u.matchTerms((DefaultTerm) this, t1);
     	} else {
-    		ok = u.unifyTerms(this, t1);
+    		ok = u.unifyTerms((DefaultTerm) this, t1);
     	}
 
     	return ok;

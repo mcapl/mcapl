@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 import ail.semantics.AILAgent;
 
@@ -948,4 +949,8 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 		return 0;
 	}
     
+	public boolean unifieswith(Predicate p, Unifier u, String s) {
+		return super.unifies(p, u);
+	}
+	
  }

@@ -94,7 +94,7 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final EvaluationBase<? extends PredicateTerm> eb, final RuleBase rb, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<? extends PredicateTerm> eb, final RuleBase rb, Unifier un) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {

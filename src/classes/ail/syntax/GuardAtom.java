@@ -85,5 +85,7 @@ public interface GuardAtom<K extends Unifiable> extends Cloneable, GLogicalFormu
      public byte getEBType();
           
      public GuardAtom clone();
+     
+     public boolean unifieswith(K obj, Unifier u, String ebname);
     
 }

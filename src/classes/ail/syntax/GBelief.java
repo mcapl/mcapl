@@ -363,23 +363,23 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 	// Based on code by Rafael H. Bordini, Jomi F. Hubner et. al for Jason
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
      	StringTerm ebname =  getEB();
-     	EvaluationBase<Literal> eb = new TrivialEvaluationBase();
+     	EvaluationBasewNames<Literal> eb = new TrivialEvaluationBase();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
-    			eb = ag.getBB(getEB());
+    			eb = new NamedEvaluationBase<Literal>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getBBList()) {
     				EvaluationBase<Literal> new_eb = ag.getBB(ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
-    					eb = new_eb;
+    					eb = new NamedEvaluationBase<Literal>(new_eb, ebnames);
     				} else {
-    					eb = new MergeEvaluationBase(new_eb, eb);
+    					eb = new MergeEvaluationBase<Literal>(new NamedEvaluationBase<Literal>(new_eb, ebnames), eb);
     				}
     			}
     		}
     	} else {
-    		eb = ag.getBB(getEB());
+    		eb = new NamedEvaluationBase<Literal>(ag.getBB(getEB()), ebname.getString());
     	}
     	    	
     	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this);
@@ -402,7 +402,19 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 				return false;
 			}
 		} else if (u instanceof Literal) {
-			return super.unifies((Literal) u, un);
+			return unifieswith((Literal) u, un, DBnum.getString());
+		}
+		
+		return false;
+	}
+	
+	public Literal toLiteral() {
+		return new Literal(! negated(), new PredicatewAnnotation((PredicatewAnnotation) this));
+	}
+	
+	public boolean unifieswith(Literal p, Unifier un, String s) {
+		if (DBnum.unifies(new StringTermImpl(s), un)) {
+			return toLiteral().unifies(p, un);
 		}
 		
 		return false;

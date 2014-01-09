@@ -78,7 +78,7 @@ public class GMessage implements GuardAtom<Message> {
     	content = c;
     	performative = ilf;
        	category = sr;
-       	threadId = new StringTermImpl("thdid");
+       	threadId = new StringTermImpl("thid");
     }
 
     /**
@@ -208,7 +208,25 @@ public class GMessage implements GuardAtom<Message> {
 				}
 			}
 		}
+		
+		if (t instanceof Message) {
+			return unifieswith((Message) t, u, "");
+		}
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean unifieswith(Message m, Unifier u, String s) {
+		if (sender.unifies(new StringTermImpl(m.getSender()), u)) {
+			if (receiver.unifies(new StringTermImpl(m.getReceiver()), u)) {
+				if (performative == m.getIlForce()) {
+					if (content.unifies(m.getPropCont(), u)) {
+						return threadId.unifies(m.getThreadId(), u);
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 

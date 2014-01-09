@@ -266,6 +266,14 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		}
 	}
     
+    public boolean unifieswith(Predicate p, Unifier u, String s) {
+    	if (goalbase.unifies(new StringTermImpl(s), u)) {
+    		return super.unifies(p, u);
+    	}
+    	
+    	return false;
+    }
+    
     /**
      * Return the predicate indicator for swift lookup.
      * @return
@@ -416,14 +424,14 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	 */
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
      	StringTerm ebname =  getEB();
-     	EvaluationBase<Predicate> eb = new TrivialEvaluationBase();
+     	EvaluationBasewNames<Predicate> eb = new TrivialEvaluationBase();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
-    			eb = ag.getGoalBase(getEB());
+    			eb = new NamedEvaluationBase(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBase<Predicate> new_eb = ag.getGoalBase(ebnames);
+    				EvaluationBasewNames<Predicate> new_eb = new NamedEvaluationBase(ag.getGoalBase(ebnames), ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
@@ -432,7 +440,7 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
     			}
     		}
     	} else {
-    		eb = ag.getGoalBase(getEB());
+    		eb = new NamedEvaluationBase(ag.getGoalBase(getEB()), ebname.getString());
     	}
     	
     	return logicalConsequence(eb, ag.getRuleBase(), un);

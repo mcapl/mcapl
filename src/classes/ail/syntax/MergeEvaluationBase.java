@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collections;
 
-public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<K> {
-	EvaluationBase<K> eb1;
-	EvaluationBase<K> eb2;
+import ail.util.Tuple;
+
+public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBasewNames<K> {
+	EvaluationBasewNames<K> eb1;
+	EvaluationBasewNames<K> eb2;
 	
-	public MergeEvaluationBase(EvaluationBase<K> a, EvaluationBase<K> b) {
+	public MergeEvaluationBase(EvaluationBasewNames<K> a, EvaluationBasewNames<K> b) {
 		eb1 = a;
 		eb2 = b;
 	}
@@ -60,6 +62,51 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<
 	} */
 
 	@Override
+	public Iterator<Tuple<K, String>> getRelevantTuple(final K p) {
+		
+		return new Iterator<Tuple<K, String>>() {
+				Iterator<Tuple<K, String>> eb1it = eb1.getRelevantTuple(p);
+				Iterator<Tuple<K, String>> eb2it = eb2.getRelevantTuple(p);
+
+				/*
+				 * (non-Javadoc)
+				 * @see java.util.Iterator#hasNext()
+				 */
+				public boolean hasNext() {
+					if (eb1it.hasNext()) {
+						return true;
+					}
+				
+					return eb2it.hasNext();
+				}
+			
+				/*
+				 * (non-Javadoc)
+				 * @see java.util.Iterator#next()
+				 */
+				public Tuple<K, String> next() {
+					if (eb1it.hasNext()) {
+						return eb1it.next();
+					} else {
+						return eb2it.next();
+					}
+				
+				}
+			
+				/*
+				 * (non-Javadoc)
+				 * @see java.util.Iterator#remove()
+				 */
+				public void remove() {
+				// TODO Auto-generated method stub
+				
+				}
+
+			
+		};
+		
+	} 
+	
 	public Iterator<K> getRelevant(final K p) {
 		
 		return new Iterator<K>() {
@@ -104,5 +151,6 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBase<
 		};
 		
 	} 
+
 	
 }

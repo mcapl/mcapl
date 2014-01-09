@@ -58,6 +58,7 @@ public class EvaluationBaseIterator implements Iterator<Unifier> {
    				Unifiable u = il.next();
    				Unifiable h2 = ga.clone();
    				if (h2.unifies(u, unC)) {
+   					current = unC;
       					return;
    				}
    			}

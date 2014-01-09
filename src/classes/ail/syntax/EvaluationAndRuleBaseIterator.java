@@ -5,16 +5,19 @@ import gov.nasa.jpf.annotation.FilterField;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import ail.util.Tuple;
+import ail.syntax.annotation.BeliefBaseAnnotation;
+
 import ajpf.util.AJPFLogger;
 
 public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
 	// The agent may believe several things that can unify
 	// with the query.
-	Iterator<K> il;
+	Iterator<Tuple<K, String>> il;
 	Iterator<Rule> rl;
    
-	EvaluationBase<K> eb;
+	EvaluationBasewNames<K> eb;
 	RuleBase rb;
 	Unifier un;
 	K logical_term;
@@ -43,12 +46,12 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 	}
 
 
-	public EvaluationAndRuleBaseIterator(EvaluationBase<K> e, RuleBase r, Unifier u, K t) {
+	public EvaluationAndRuleBaseIterator(EvaluationBasewNames<K> e, RuleBase r, Unifier u, K t) {
 		eb = e;
 		rb = r;
 		un = u;
 		logical_term = t;
-		il = eb.getRelevant(logical_term);
+		il = eb.getRelevantTuple(logical_term);
 		rl = rb.getRelevant((Predicate) logical_term);
 	}
 	
@@ -96,11 +99,19 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 		if (il != null) {
 			while (il.hasNext()) {
 				Unifier unC = (Unifier) un.clone();
-				Predicate u = (Predicate) il.next();
+				Tuple<K, String> t = il.next();
+				PredicateTerm u = (PredicateTerm) t.getLeft();
 				Unifiable h2 = logical_term.clone();
-				if (h2.unifies(u, unC)) {
-					current = unC;
-					return;
+				if (h2 instanceof GuardAtom<?>) {
+					if (((GuardAtom<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
+						current = unC;
+						return;
+					}
+				} else {
+					if (h2.unifies(u, unC)) {
+						current = unC;
+						return;
+					}
 				}
 			}
 		}
