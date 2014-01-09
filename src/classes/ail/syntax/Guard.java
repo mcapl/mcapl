@@ -323,7 +323,7 @@ public class Guard implements GLogicalFormula {
 		        		break;
 		        	case none:
 		        		if (rhs == null) {
-		        			
+		        			return createUnifIterator(un);
 		        		} else {
 		        			return rhs.logicalConsequence(ag, un);
 		        		}

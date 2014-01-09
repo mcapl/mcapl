@@ -242,7 +242,7 @@ public class TermSyntaxTests {
 	}
 	
 	@Test public void goals_from_vars() {
-		Goal gv = new Goal(new VarTerm("G"), Goal.performGoal);
+		Goal gv = new Goal("G", Goal.performGoal);
 		
 		Goal g = new Goal("goal", Goal.performGoal);
 		

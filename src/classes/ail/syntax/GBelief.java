@@ -401,7 +401,9 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 			} else {
 				return false;
 			}
-		} 
+		} else if (u instanceof Literal) {
+			return super.unifies((Literal) u, un);
+		}
 		
 		return false;
 	}

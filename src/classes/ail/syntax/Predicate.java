@@ -255,9 +255,11 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * @param l
      */
     public void addTerms(List<Term> l) {
-        for (Term t: l) {
-            addTerm( t);
-        }
+    	if (l != null) {
+    		for (Term t: l) {
+    			addTerm( t);
+    		}
+    	}
     }
 
     /**

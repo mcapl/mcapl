@@ -35,11 +35,10 @@ import ail.semantics.operationalrules.HandleDropGeneralGoal;
 
 public class GoalBaseTests {
 	@Test public void DropMultipleGoals() {
-		Literal l1 = new Literal("goal1");
-		Literal l2 = new Literal("goal2");
 		
-		Goal g1 = new Goal(l1, Goal.achieveGoal);
-		Goal g2 = new Goal(l2, Goal.achieveGoal);
+		Goal g1 = new Goal("goal1", Goal.achieveGoal);
+		Goal g2 = new Goal("goal2", Goal.achieveGoal);
+		Goal g1p = new Goal("goal1", Goal.achieveGoal);
 
 		Intention i = new Intention(g1, AILAgent.refertoself());
 		AILAgent a = new AILAgent("ag");
@@ -52,7 +51,7 @@ public class GoalBaseTests {
 		Unifier u = new Unifier();
 		i.iCons(new Event(Event.AILAddition, g1), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
 		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
-		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.AILDeletion, new Goal(l1, Goal.achieveGoal)), new Guard(new GBelief()), u);
+		i.iCons(new Event(Event.AILAddition, g2), new Deed(Deed.AILDeletion, g1p), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);

@@ -145,7 +145,11 @@ public class PredicatewAnnotation extends Predicate {
      * @return
      */
     public boolean addAnnotFrom(PredicatewAnnotation p) {
-    	return annotation.addAnnot(p.getAnnot());
+    	if (p.hasAnnot()) {
+    		return annotation.addAnnot(p.getAnnot());
+    	}
+    	
+    	return false;
     }
 
     /**

@@ -420,6 +420,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	
 	public void setContent(Unifiable u) {
 		content = u;
+		hascontent = true;
 	}
 
 	/*

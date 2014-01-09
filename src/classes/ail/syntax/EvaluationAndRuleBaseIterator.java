@@ -99,6 +99,7 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 				Predicate u = (Predicate) il.next();
 				Unifiable h2 = logical_term.clone();
 				if (h2.unifies(u, unC)) {
+					current = unC;
 					return;
 				}
 			}
