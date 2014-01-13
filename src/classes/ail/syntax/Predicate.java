@@ -278,6 +278,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         predicateIndicatorCache = null;
       }
     
+    public void setFunctor(String s) {
+    	functor = s;
+    }
+    
     /**
      * Set parameter i.
      * @param i

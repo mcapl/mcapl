@@ -38,7 +38,7 @@ my_position_is(middle)
 			
 :Belief Rules: 
 				
-B repairable(X, with(change_line(X))) :- B thruster_line(X, 1); 
+repairable(X, with(change_line(X))) :- thruster_line(X, 1); 
 			
 :Initial Goals:
 		

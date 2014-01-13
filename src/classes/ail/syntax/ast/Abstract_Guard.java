@@ -166,7 +166,7 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 					lhs = gb;
 					op = and;
 				} else {
-					rhs = this;
+					rhs = guard_clone();
 					lhs = gb;
 					op = and;
 				}
@@ -176,7 +176,7 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 					lhs = ng;
 					op = and;
 				} else {
-					rhs = this;
+					rhs = guard_clone();
 					lhs = ng;
 					op = and;
 				}
@@ -185,7 +185,28 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 
 		return true;
 	}
+	
+	private Abstract_Guard guard_clone() {
+		Abstract_Guard gu = new Abstract_Guard();
+		if (lhs != null) {
+			gu.setLHS(lhs);
+		}
+		gu.setOP(op);
+		gu.setRHS(rhs);
+		return gu;
+	}
+	
+	private void setRHS(Abstract_GLogicalFormula lf) {
+		rhs = lf;
+	}
 
+	private void setLHS(Abstract_GLogicalFormula lf) {
+		lhs = lf;
+	}
+	
+	private void setOP(int i) {
+		op = i;
+	}
 	    
 	/**
 	 * Succeeds if the Guard is trivial (ie., contains the belief True).

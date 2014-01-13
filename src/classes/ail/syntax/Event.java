@@ -118,7 +118,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
             	else if (isUpdate())
             		s += "+-";
             	if (getContent() instanceof PredicateTerm) {
-            		s += "!";
+            		if (getContent() instanceof Goal) {
+            			s += "!";
+            		}
             		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
             	} else if (getContent() instanceof HasTermRepresentation) {
             		Term t = ((HasTermRepresentation) getContent()).toTerm();
@@ -189,7 +191,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		if (isStart()) {
 			return sameType(e1);
 		} else {
-			return sameType(e1) && u.unifies(e1.getContent(), getContent());
+			return sameType(e1) && u.unifies(getContent(), e1.getContent());
 		}
  		   
 	}

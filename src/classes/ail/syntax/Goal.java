@@ -272,6 +272,23 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		}
 	}
     
+    public boolean apply(Unifier u) {
+    	boolean r = getGoalBase().apply(u);
+    		
+    	if (Character.isUpperCase(getFunctor().charAt(0))) {
+    		VarTerm v = new VarTerm(getFunctor());
+   			boolean r1 = v.apply(u);
+   			if (v.hasValue()) {
+   				setFunctor(v.getValue().getFunctor()); 
+   				setTerms((List<Term>) v.getValue().getTerms());
+   			}
+   			return r || r1;
+    	} else {
+   			boolean r1 = super.apply(u);
+   			return r || r1;
+   		}
+     }
+    
     public boolean unifieswith(Predicate p, Unifier u, String s) {
     	if (goalbase.unifies(new StringTermImpl(s), u)) {
     		return super.unifies(p, u);

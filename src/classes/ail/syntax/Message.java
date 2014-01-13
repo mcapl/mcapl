@@ -362,6 +362,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 				}
 				
 			}
+		} else if (t instanceof Term) {
+			return toTerm().unifies(t, u);
 		}
 		return false;
 	}
@@ -429,6 +431,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 				}
 				
 			}
+		} else if (t instanceof Term) {
+			return toTerm().match(t, u);
 		}
 		return false;
 	}
@@ -452,6 +456,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 				}
 				
 			}
+		} else if (t instanceof Term) {
+			return toTerm().matchNG(t, u);
 		}
 		return false;
 	}

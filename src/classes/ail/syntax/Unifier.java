@@ -158,10 +158,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     		
     		return np1.unifies(np2, this);
  
-    	} else {
+    	} else if (t1g instanceof Term && t2g instanceof Term){
     		Term tt1 = (Term) t1g;
     		Term tt2 = (Term) t2g;
     		return (unifyTerms(tt1, tt2));
+    	} else {
+    		return t1g.unifies(t2g, this);
     	}
     	
      }
@@ -200,10 +202,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      		
      		return np1.match(np2, this);
   
-     	} else {
+     	} else if (t1g instanceof Term && t2g instanceof Term) {
      		Term tt1 = (Term) t1g;
      		Term tt2 = (Term) t2g;
      		return (matchTerms(tt1, tt2));
+     	} else {
+     		return t1g.match(t2g, this);
      	}
      	
       }
