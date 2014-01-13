@@ -75,7 +75,8 @@ gwendolenagent returns [Abstract_GwendolenAgent g] :
 
 guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
 				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
-				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=stringterm {an1=s;} | v=var {an1 = v;}) COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
+				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=stringterm {an1=s;} | v=var {an1 = v;}) 
+				                        COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
 					COMMA {agn = an2;})? p=performative 
 					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
