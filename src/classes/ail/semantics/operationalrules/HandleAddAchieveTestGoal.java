@@ -62,7 +62,7 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).toGuard(), new Unifier());
+		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
 		
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();

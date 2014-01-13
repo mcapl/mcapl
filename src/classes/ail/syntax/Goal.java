@@ -168,8 +168,11 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	 * 
 	 * @return a Guard representing the goal.
 	 */
-	public Guard toGuard() {
-		Guard g = new Guard(this);
+	public Guard achievedBelief() {
+		Literal achievementLiteral = new Literal(getFunctor());
+		achievementLiteral.addTerms(getTerms());
+		achievementLiteral.addAnnot(getAnnot());
+		Guard g = new Guard(new GBelief(achievementLiteral));
 		
 		return g;
 	}
@@ -260,7 +263,10 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		Goal g1 = (Goal) g;
 
 		if (g1.getGoalType() == getGoalType()) {
-			return super.unifies(g1, u);
+			if (getGoalBase().unifies(g1.getGoalBase(), u)) {
+				return super.unifies(g1, u);
+			}
+			return false;
 		} else {
 			return false;
 		}
@@ -378,6 +384,14 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	 * @see ail.syntax.GuardAtom#isTrivial()
 	 */
 	public boolean isTrivial() {
+		return false;
+	}
+	
+	public boolean isGround() {
+		if (super.isGround()) {
+			return goalbase.isGround();
+		}
+		
 		return false;
 	}
 

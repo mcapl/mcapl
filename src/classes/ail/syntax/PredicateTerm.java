@@ -7,4 +7,8 @@ public interface PredicateTerm extends LogicalFormula {
 	
 	public PredicateIndicator getPredicateIndicator();
 	
+	public String getFunctor();
+	
+	public int getTermsSize();
+	
 }

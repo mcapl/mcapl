@@ -117,11 +117,14 @@ public class Event extends DefaultAILStructure implements Unifiable {
             		s += "-";
             	else if (isUpdate())
             		s += "+-";
-            	if (referstoGoal()) {
+            	if (getContent() instanceof PredicateTerm) {
             		s += "!";
-            		piCache = new PredicateIndicator(s + ((Goal) getContent()).getFunctor(), ((Goal) getContent()).getTermsSize());
+            		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
+            	} else if (getContent() instanceof HasTermRepresentation) {
+            		Term t = ((HasTermRepresentation) getContent()).toTerm();
+            		piCache = new PredicateIndicator(s + t.getFunctor(), t.getTermsSize());
             	} else {
-            		piCache = new PredicateIndicator(s + ((Term) getContent()).getFunctor(), ((Term) getContent()).getTermsSize());
+            		piCache = new PredicateIndicator(s + "not_a_predicate", 0);
             	}
             }
         }

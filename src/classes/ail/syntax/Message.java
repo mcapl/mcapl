@@ -42,7 +42,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Message implements Comparable<Message>, Unifiable {
+public class Message implements Comparable<Message>, Unifiable, HasTermRepresentation {
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
 	 * as keys elsewhere in the system.  Java expects equal objects to 

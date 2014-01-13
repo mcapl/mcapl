@@ -159,7 +159,7 @@ public class TermSyntaxTests {
 	@Test public void unificationofDBsTerms() {
 		Literal l1 = new Literal("l");
 		Literal l2 = new Literal("l");
-		Predicate a = new Predicate("a");
+		StringTerm a = new StringTermImpl("a");
 		
 		VarTerm a3 = new VarTerm("C");
 		

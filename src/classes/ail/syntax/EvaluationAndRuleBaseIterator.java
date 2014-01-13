@@ -107,12 +107,12 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 						current = unC;
 						return;
 					}
-				} else {
-					if (h2.unifies(u, unC)) {
+				} 
+					
+				if (h2.unifies(u, unC)) {
 						current = unC;
 						return;
-					}
-				}
+				 }
 			}
 		}
     		       		
@@ -124,7 +124,7 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 				Unifiable h = logical_term.clone();
 				ruleC.standardise_apart(h, unC);
 				// This this will just unify the head!!
-				if (h.unifies(ruleC, unC)) {
+				if (ruleC.unifies(h, unC)) {
 					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
 					// This GBelief should be ground? so only one possibility (?)
 					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC);

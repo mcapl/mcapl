@@ -109,6 +109,15 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
     	setEB(b.getEB());
     }
     
+	public boolean isGround() {
+		if (super.isGround()) {
+			return DBnum.isGround();
+		}
+		
+		return false;
+	}
+
+    
     /**
      * Return the GBelief as a term - i.e., without the category marker.
      * 
@@ -393,17 +402,19 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 		if (u instanceof GBelief) {
 			GBelief gu = (GBelief) u;
 			if (gu.getEBType() == getEBType()) {
-				if (! isTrue()) {
-					return super.unifies((Literal) gu, un);
-				} else {
-					return true;
+				if (DBnum.unifies(gu.getEB(), un)) {
+					if (! isTrue()) {
+						return super.unifies((Literal) gu, un);
+					} else {
+						return true;
+					}
 				}
 			} else {
 				return false;
 			}
 		} else if (u instanceof Literal) {
 			return unifieswith((Literal) u, un, DBnum.getString());
-		}
+		} 
 		
 		return false;
 	}
