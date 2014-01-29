@@ -261,10 +261,17 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
      */
     public boolean unifies(Unifiable g, Unifier u) {
 		Goal g1 = (Goal) g;
-
+   		
 		if (g1.getGoalType() == getGoalType()) {
 			if (getGoalBase().unifies(g1.getGoalBase(), u)) {
-				return super.unifies(g1, u);
+				if (Character.isUpperCase(getFunctor().charAt(0))) {
+		    		VarTerm v = new VarTerm(getFunctor());
+		    		Literal l = new Literal(g1.getFunctor());
+		    		l.setTerms(g1.getTerms());
+		    		return v.unifies(l, u);
+				} else {
+					return super.unifies(g1, u);
+				}
 			}
 			return false;
 		} else {
@@ -405,12 +412,22 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	}
 	
 	public boolean isGround() {
-		if (super.isGround()) {
-			return goalbase.isGround();
+		if (Character.isLowerCase(getFunctor().charAt(0))) {
+			if (super.isGround()) {
+				return goalbase.isGround();
+			}
 		}
 		
 		return false;
 	}
+	
+	/* public boolean isVar() {
+		if (! super.isVar()) {
+			return Character.isUpperCase(getFunctor().charAt(0));
+		}
+		
+		return true;
+	} */
 
 	/*
 	 * (non-Javadoc)

@@ -36,8 +36,8 @@ square(1, 1)
 
 :Belief Rules: 
 			
-B area_empty :- ~ ((B square(Xc, Y), ~ (B empty(Xc, Y))));
-B unchecked(Xc, Y) :- (B square(Xc, Y), (~ (B at(Xc, Y)), ( ~ (B empty(Xc, Y)), ~ (B human(Xc, Y)))));
+area_empty :- ~ ((square(Xc, Y), ~ (empty(Xc, Y))));
+unchecked(Xc, Y) :- (square(Xc, Y), (~ (at(Xc, Y)), ( ~ (empty(Xc, Y)), ~ (human(Xc, Y)))));
 
 :Initial Goals:
 				
