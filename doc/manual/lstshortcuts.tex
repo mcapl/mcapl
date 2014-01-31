@@ -1,0 +1,333 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listings format
+\usepackage{listings}
+
+\renewcommand{\ttdefault}{pcr} % This is what the courier package does !
+%\usepackage{courier}  
+% Courier package uses courier font and boldfaces keywords.
+% If selected basicstyle should be \small\ttfamily and 
+% comment keywordstyle if in \textbf 
+
+%% \mathtt changed to courier
+%% \SetMathAlphabet{\mathtt}{normal}{OT1}{pcr}{m}{n}
+%% \SetMathAlphabet{\mathtt}{bold}{OT1}{pcr}{m}{n}
+
+\newcommand{\Lst}[1]{%          Short for \lstinline, can't use escapemath!
+  \ifmmode\small\texttt{#1}\else\lstinline!#1!\fi}
+
+%% EBNF Grammars
+\lstdefinelanguage{EBNF}{%
+  comment=[l]{--},
+  moredelim=[is][\normalfont\slshape]{<}{>},
+  literate=%{|}{{$|$}}1%
+           {*}{{$^\ast$}}1%
+           {+}{{$^+$}}1%
+}
+
+\newcommand{\SetEBNF}{%
+  \lstset{%
+    language=EBNF,
+    basicstyle=\small\ttfamily,
+    commentstyle=\normalfont\upshape,
+    xleftmargin=0.2cm,
+    aboveskip=0.3cm,
+    belowskip=0cm,
+    showstringspaces=false,
+    flexiblecolumns=true,
+    mathescape=true}}
+
+\newcommand{\SetHaskell}{%
+\lstset{%
+  language=Haskell,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+%   identifierstyle=\small\ttfamily,
+%   keywordstyle=\bfseries,
+  stringstyle=\small\ttfamily,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false,
+  mathescape=true,
+  deletekeywords={insert,List,Complex,realPart,read,lookup},
+%  basewidth={0.5em,0.45em},
+  literate={->}{{$\rightarrow$}}2
+           {>=}{{$\geq$}}1
+           {<-}{{$\leftarrow$}}1
+           {<=}{{$\leq$}}1
+           {=>}{{$\Rightarrow$}}1
+           {...}{{$\ldots$}}3
+           {\ .\ }{{$\circ$}}3
+           {++}{{$+\!\!\!+$}}2
+           {\\}{{$\lambda$}}1
+           {\{|}{{$\langle$}}1   % Generic Haskell stuff from here
+           {|\}}{{$\rangle$}}1
+           {\{[}{{$\langle$}}1
+           {]\}}{{$\rangle$}}1
+           {forall}{{$\forall\!\!$}}1
+           {(|}{{$\llparenthesis$}}1
+           {|)}{{$\rrparenthesis$}}1
+           {:+:}{{$+$}}1
+           {:*:}{{$\times$}}1
+           {*}{{$\ast$}}1
+           {gM}{{$\gamma\!\!$}}1 % gamma-abstractions
+     }
+}   
+
+\newcommand{\SetSML}{%
+\lstset{%
+  language=ML,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+%   identifierstyle=\small\ttfamily,
+%   keywordstyle=\bfseries,
+  stringstyle=\small\ttfamily,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false,
+  mathescape=true,
+%  basewidth={0.5em,0.45em},
+  literate={->}{{$\rightarrow$}}2
+           {>=}{{$\geq$}}1
+           {<-}{{$\leftarrow$}}1
+           {<=}{{$\leq$}}1
+           {=>}{{$\Rightarrow$}}1
+           {++}{{{$+\!\!\!+$}}}2
+           {...}{{$\ldots$}}3
+           {'a}{{$\alpha$}}1
+           {''a}{{$\alpha^=$}}2
+           {'b}{{$\beta$}}1
+           {''b}{{$\beta^=$}}2
+           {'c}{{$\gamma$}}1
+           {''c}{{$\gamma^=$}}2
+           {'d}{{$\epsilon$}}1
+           {''d}{{$\epsilo^=$}}2
+         }
+}
+
+
+\newcommand{\SetIsabelle}{%
+\lstset{%
+  language=ML,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+%   identifierstyle=\small\ttfamily,
+%   keywordstyle=\bfseries,
+  stringstyle=\small\ttfamily,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false,
+  mathescape=true,
+  deletekeywords={if, then, else},
+  morekeywords={goal, theorem, primrec, recdef},
+  moredelim=[is][\color{red}]{||}{||},
+  moredelim=**[is][\bfseries]{/*}{*/},
+  moredelim=[is][\color{blue}]{|||}{|||},
+%  basewidth={0.5em,0.45em},
+  literate={-->}{{$\rightarrow$}}2
+           {>=}{{$\geq$}}1
+           {ALL}{{$\forall$}}1
+           {~}{{$\neg$}}1
+           {<-}{{$\leftarrow$}}1
+           {<=}{{$\leq$}}1
+           {mem}{{$\in$}}1
+           {~=}{{$\neq$}}1
+           {==>}{{$\Longrightarrow$}}2
+           {=>}{{$\Rightarrow$}}1
+           {++}{{{$+\!\!\!+$}}}2
+           {...}{{$\ldots$}}3
+           {'a}{{$\alpha$}}1
+           {''a}{{$\alpha^=$}}2
+           {'b}{{$\beta$}}1
+           {''b}{{$\beta^=$}}2
+           {'c}{{$\gamma$}}1
+           {''c}{{$\gamma^=$}}2
+           {'d}{{$\epsilon$}}1
+           {''d}{{$\epsilo^=$}}2
+         }
+}
+
+\newcommand{\SetIsar}{%
+\lstset{%
+  language=ML,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+%   identifierstyle=\small\ttfamily,
+%   keywordstyle=\bfseries,
+  stringstyle=\small\ttfamily,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false,
+  mathescape=true,
+  morekeywords={goal, theorem, proof, show},
+%  basewidth={0.5em,0.45em},
+  literate={->}{{$\rightarrow$}}2
+           {>=}{{$\geq$}}1
+           {<-}{{$\leftarrow$}}1
+           {<=}{{$\leq$}}1
+           {=>}{{$\Rightarrow$}}1
+           {++}{{{$+\!\!\!+$}}}2
+           {...}{{$\ldots$}}3
+           {'a}{{$\alpha$}}1
+           {''a}{{$\alpha^=$}}2
+           {'b}{{$\beta$}}1
+           {''b}{{$\beta^=$}}2
+           {'c}{{$\gamma$}}1
+           {''c}{{$\gamma^=$}}2
+           {'d}{{$\epsilon$}}1
+           {''d}{{$\epsilo^=$}}2
+         }
+}
+
+\newcommand{\SetPerl}{%
+\lstset{%
+  language=Perl,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  morekeywords={while, for, foreach, if, then, else, print},
+  basicstyle=\small\ttfamily,
+  stringstyle=\small\ttfamily,
+  keywordstyle=\bfseries,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false}
+}
+
+\newcommand{\SetShell}{%
+\lstset{%
+  language=Perl,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  morekeywords={for, if, then, else, fi, do, done},
+  basicstyle=\small\ttfamily,
+  stringstyle=\small\ttfamily,
+  keywordstyle=\bfseries,
+  showstringspaces=false,
+  commentstyle=\itshape,
+  flexiblecolumns=false}
+}
+
+\newcommand{\SetCPP}{%
+\lstset{%
+  language=C++,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+  showstringspaces=false,
+  flexiblecolumns=false,
+  mathescape=true,
+  literate={...}{{$\ldots$}}3}
+}
+
+\newcommand{\SetJava}{%
+\lstset{%
+  language=Java,
+  xleftmargin=0.2cm,
+  aboveskip=0.3cm,
+  belowskip=0cm,
+  basicstyle=\small\ttfamily,
+  flexiblecolumns=false.
+  mathescape=true,
+  literate={...}{{$\ldots$}}3}
+}
+
+\lstnewenvironment{code}
+    {\lstset{}%
+     \csname lst@SetFirstLabel\endcsname}
+    {\csname lst@SaveFirstLabel\endcsname}
+
+\lstnewenvironment{haskell}[1][]{\lstset{frame=#1}\SetHaskell}{}
+\lstnewenvironment{contrib}[1][]{\lstset{frame=#1}\SetHaskell % Typesetting Chp~9
+    \lstset{morekeywords={fview,by,export}}}{}
+\lstnewenvironment{sml}[1][]{\lstset{frame=#1}\SetSML}{}
+\lstnewenvironment{isabelle}[1][]{\lstset{frame=#1}\SetIsabelle}{}
+\lstnewenvironment{isar}[1][]{\lstset{frame=#1}\SetIsar}{}
+\lstnewenvironment{java}[1][]{\lstset{frame=#1}\SetJava}{}
+\lstnewenvironment{cpp}[1][]{\lstset{frame=#1}\SetCPP}{}
+\lstnewenvironment{alg}[1][]{\lstset{frame=#1}\SetAlg}{}
+\lstnewenvironment{ebnf}[1][]{\lstset{frame=#1}\SetEBNF}{}
+\lstnewenvironment{perl}[1][]{\lstset{frame=#1}\SetPerl}{}
+\lstnewenvironment{shell}[1][]{\lstset{frame=#1}\SetShell}{}
+
+%% lambda prolog plus keywords
+\lstdefinelanguage{LPROLOG}{%
+  literate={*}{{$^\ast$}}1%
+           {+}{{$^+$}}1%
+           {>>>}{{$\vdash$}}3%
+           {->}{{$\rightarrow$}{$\:$}}2
+           {:-}{{$\leftarrow$}{$\:$}}2
+           {sigma}{{$\Sigma$}}2
+}
+
+\newcommand{\SetLPROLOG}{%
+  \lstset{%
+    language=LPROLOG,
+    basicstyle=\small\ttfamily,
+    commentstyle=\normalfont\upshape,
+    morekeywords={type,then,orelse,repeat,if,else,local},
+    xleftmargin=0.2cm,
+    aboveskip=0.3cm,
+    belowskip=0cm,
+    showstringspaces=false,
+    flexiblecolumns=true,
+    mathescape=true,
+ }
+}
+
+\lstnewenvironment{lamprolog}[1][]{\lstset{frame=#1}\SetLPROLOG}{}
+
+%% lambda prolog plus keywords
+\lstdefinelanguage{LCLAM}{%
+   moredelim=[is][\color{red}]{|}{|},
+  moredelim=[is][\color{blue}]{||}{||},
+  moredelim=[is][\color{green}]{|||}{|||},
+ literate={*}{{$^\ast$}}1%
+           {+}{{$^+$}}1%
+           {>>>}{{$\vdash$}}3%
+           {->}{{$\rightarrow$}{$\:$}}2
+           {x1}{{$x_1$}}2
+           {x2}{{$x_2$}}2
+           {x3}{{$x_3$}}2
+           {x4}{{$x_4$}}2
+           {x5}{{$x_5$}}2
+           {W1}{{$W_1$}}2
+           {W2}{{$W_2$}}2
+           {W3}{{$W_3$}}2
+           {W4}{{$W_4$}}2
+           {W5}{{$W_5$}}2
+           {W6}{{$W_6$}}2
+           {\\}{{$\lambda$}}2
+           {:-}{{$\leftarrow$}{$\:$}}2
+           {forall}{{$\forall$}}2
+           {/\\}{{$\wedge$}}2
+           {trueP}{{$\top$}}2
+           {onil}{{$[]$}}2
+}
+
+\newcommand{\SetLCLAM}{%
+  \lstset{%
+    language=LCLAM,
+    basicstyle=\small\ttfamily,
+    commentstyle=\normalfont\upshape,
+    morekeywords={definition,type,then,orelse,repeat,if,else,GOAL,Method,application},
+    xleftmargin=0.2cm,
+    aboveskip=0.3cm,
+    belowskip=0cm,
+    showstringspaces=false,
+    flexiblecolumns=true,
+    mathescape=true,
+ }
+}
+
+\lstnewenvironment{lamclam}[1][]{\lstset{frame=#1}\SetLCLAM}{}
+
