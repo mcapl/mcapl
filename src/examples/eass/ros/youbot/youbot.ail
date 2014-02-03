@@ -70,7 +70,7 @@ cp $AJPF_HOME/src/examples/eass/ros/youbot/*.java src/main/java/eass/ros/youbot/
 
 ../gradlew installApp
 
- 6. Run the application, you will need three terminals
+ 6. Run the application, you will need four terminals
    Terminal 1:   roscore 
       
    Terminal 2: Run Youbot Visualisation

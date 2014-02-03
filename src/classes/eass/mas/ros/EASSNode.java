@@ -68,6 +68,8 @@ public class EASSNode extends AbstractNodeMain {
 		env.addPercept(new Literal(true, new PredicatewAnnotation(per)));
 	}
 	
-
+	public EASSROSEnvironment getEnv() {
+		return env;
+	}
 
 }
