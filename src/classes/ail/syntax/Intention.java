@@ -600,6 +600,15 @@ public class Intention implements Comparable<Intention>{
 	 *              for the intention row.
 	 */
 	public   void iConcat(Event e, ArrayList<Deed> ds, ArrayList<Guard> gs, Unifier theta) {
+		List<String> varnames = getVarNames();
+		varnames.addAll(e.getVarNames());
+		for (Deed d: ds) {
+			varnames.addAll(d.getVarNames());
+		}
+		for (Guard g: gs) {
+			varnames.addAll(g.getVarNames());
+		}
+	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		
 		intentionRows.add(ir);

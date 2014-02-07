@@ -238,7 +238,7 @@ public class Guard implements GLogicalFormula {
 					lhs = gb;
 					op = GLogicalOp.and;
 				} else {
-					rhs = this;
+					rhs = this.clone();
 					lhs = gb;
 					op = GLogicalOp.and;
 				}
@@ -248,7 +248,7 @@ public class Guard implements GLogicalFormula {
 					lhs = ng;
 					op = GLogicalOp.and;
 				} else {
-					rhs = this;
+					rhs = this.clone();
 					lhs = ng;
 					op = GLogicalOp.and;
 				}
