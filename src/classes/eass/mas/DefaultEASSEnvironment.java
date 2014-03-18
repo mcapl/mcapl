@@ -247,7 +247,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#removePercept(ail.syntax.Literal)
 	 */
-	public boolean removePercept(Literal per) {
+	public boolean removePercept(Predicate per) {
 		// System.err.println("removing + " + per);
 		boolean b = false;
 			// System.err.println("removing got flag");
@@ -445,6 +445,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	public void notifyPerceptListeners() {
 		for (String s: agentmap.keySet()) {
 			if (abstractionenginelist.contains(s)) {
+				// System.err.println("Notifying " + s);
 				super.notifyListeners(s);
 			}
 		}

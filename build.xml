@@ -61,11 +61,11 @@
      </fileset>
 
     <fileset dir="/opt/ros/hydro/share/maven/org/ros/">
-        <include name="rosjava_core/rosjava/0.1.5/rosjava-0.1.5.jar"/>
+        <include name="rosjava_core/rosjava/0.1.6/rosjava-0.1.6.jar"/>
        	<include name="rosjava_messages/std_msgs/0.5.8/std_msgs-0.5.8.jar"/>
-       	<include name="rosjava_messages/geometry_msgs/1.10.2/geometry_msgs-1.10.2.jar"/>
+       	<include name="rosjava_messages/geometry_msgs/1.10.3/geometry_msgs-1.10.3.jar"/>
       	<include name="rosjava_messages/control_msgs/1.2.0/control_msgs-1.2.0.jar"/>
-       	<include name="rosjava_bootstrap/message_generation/0.1.11/message_generation-0.1.11.jar"/>
+       	<include name="rosjava_bootstrap/message_generation/0.1.16/message_generation-0.1.16.jar"/>
     </fileset>
 
   	<!-- add in what we need from the core -->

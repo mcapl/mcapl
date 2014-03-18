@@ -405,6 +405,7 @@ public class DefaultEnvironment implements AILEnv {
   	 * @return
   	 */
   	public boolean removePercept(Predicate per) {
+  		System.err.println("test");
   		if (per != null) {
   			uptodateAgs.clear();
   			boolean b =  percepts.remove(per);
