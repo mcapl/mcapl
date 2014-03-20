@@ -34,15 +34,15 @@ import java.util.Iterator;
  *
  * @param <K>
  */
-public class EvaluationBaseIterator implements Iterator<Unifier> {
+public class EvaluationBaseIterator<K extends Unifiable> implements Iterator<Unifier> {
 	// The relevant Evaluation Base
-	EvaluationBase eb;
+	EvaluationBase<K> eb;
 	// The Initial Unifier
 	Unifier un;
 	// The Unifiable to be matched against the evalution base.
-	GuardAtom ga;
+	EBCompare<K> ga;
 	// An iterator of elements in the Evaluation Base that may unify with ga.
-	Iterator<PredicateTerm> il;
+	Iterator<K> il;
 	
  	/**
    	 * This holds the current unification solution.
@@ -63,7 +63,7 @@ public class EvaluationBaseIterator implements Iterator<Unifier> {
 		il = eb.getRelevant(ga);
 	} */
 	           
-	public EvaluationBaseIterator(EvaluationBase e, Unifier u, GuardAtom g) {
+	public EvaluationBaseIterator(EvaluationBase<K> e, Unifier u, EBCompare<K> g) {
 		eb = e;
 		un = u;
 		ga = g;

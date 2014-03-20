@@ -115,8 +115,7 @@ public class GMessage implements GuardAtom<Message> {
 		}
 		
 		EvaluationBase<Message> leb = new ListEvaluationBase<Message>(ul);
-		Iterator<Unifier> iu = new EvaluationBaseIterator(leb, un, this);
-		return iu;
+		return new EvaluationBaseIterator<Message>(leb, un, this);
 	}
 
 	/*

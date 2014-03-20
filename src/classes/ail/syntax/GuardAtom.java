@@ -32,7 +32,7 @@ package ail.syntax;
  * @author lad
  *
  */
-public interface GuardAtom<K extends Unifiable> extends GLogicalFormula {
+public interface GuardAtom<K extends Unifiable> extends GLogicalFormula, EBCompare<K> {
 	
 	/**
 	 * Is this a variable?
@@ -69,16 +69,7 @@ public interface GuardAtom<K extends Unifiable> extends GLogicalFormula {
       * 
       */
      public byte getEBType();
-               
-     /**
-      * Does this guard atom for objects of type K, unify with a particular object of type K?
-      * @param obj
-      * @param u
-      * @param ebname
-      * @return
-      */
-     public boolean unifieswith(K obj, Unifier u, String ebname);
-    
+                   
      /*
       * (non-Javadoc)
       * @see ail.syntax.GLogicalFormula#clone()

@@ -549,9 +549,16 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
      */
-    @SuppressWarnings("unchecked")
-	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EBCompare#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+	 */
+	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
+		return unifies(obj, u);
 	}
 
        

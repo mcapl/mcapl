@@ -42,7 +42,7 @@ import ail.semantics.AILAgent;
  * 
  * @author jomi
  */
-public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm, GuardAtom<Predicate> {
+public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm, GuardAtom<PredicateTerm> {
 	/**
 	 * The value this variable is instantiated to, if any.
 	 */

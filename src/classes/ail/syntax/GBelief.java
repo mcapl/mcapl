@@ -39,7 +39,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class GBelief extends Literal implements GuardAtom<Literal> {
+public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	static String logname = "ail.syntax.GBelief";
 	
 	/**
@@ -215,23 +215,23 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 	 */
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames) {
      	StringTerm ebname =  getEB();
-     	EvaluationBasewNames<Literal> eb = new TrivialEvaluationBase<Literal>();
+     	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
-    			eb = new NamedEvaluationBase<Literal>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
+    			eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getBBList()) {
-    				EvaluationBase<Literal> new_eb = ag.getBB(ebnames);
+    				EvaluationBase<PredicateTerm> new_eb = ag.getBB(ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
-    					eb = new NamedEvaluationBase<Literal>(new_eb, ebnames);
+    					eb = new NamedEvaluationBase<PredicateTerm>(new_eb, ebnames);
     				} else {
-    					eb = new MergeEvaluationBase<Literal>(new NamedEvaluationBase<Literal>(new_eb, ebnames), eb);
+    					eb = new MergeEvaluationBase<PredicateTerm>(new NamedEvaluationBase<PredicateTerm>(new_eb, ebnames), eb);
     				}
     			}
     		}
     	} else {
-    		eb = new NamedEvaluationBase<Literal>(ag.getBB(getEB()), ebname.getString());
+    		eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ebname.getString());
     	}
     	    	
     	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this, varnames);
@@ -272,9 +272,9 @@ public class GBelief extends Literal implements GuardAtom<Literal> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.syntax.GuardAtom#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+	 * @see ail.syntax.PredicatewAnnotation#unifieswith(ail.syntax.PredicateTerm, ail.syntax.Unifier, java.lang.String)
 	 */
-	public boolean unifieswith(Literal p, Unifier un, String s) {
+	public boolean unifieswith(PredicateTerm p, Unifier un, String s) {
 		if (DBnum.unifies(new StringTermImpl(s), un)) {
 			return toLiteral().unifies(p, un);
 		}

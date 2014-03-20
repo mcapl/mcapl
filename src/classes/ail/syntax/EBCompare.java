@@ -1,24 +1,44 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax;
 
-public interface EBCompare<K extends Unifiable> extends Cloneable, Unifiable {
+/**
+ * This is a class for things that can be unified with objects of type K in an
+ * Evaluation base.
+ * @author louiseadennis
+ *
+ * @param <K>
+ */
+public interface EBCompare<K extends Unifiable> extends Unifiable {
 
-	/**
-	 * Is this a variable?
-	 * @return
-	 */
-	public boolean isVar();
-	
-	/**
-	 * Predicate indicators are often used to index parts of the agent state, e.g. the belief base
-	 * in order to speed up access and checking.  Guard Atoms should have a predicate indicator.
-	 * @return
-	 */
-	public PredicateIndicator getPredicateIndicator();
-	
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.GLogicalFormula#clone()
+    /**
+     * Does this guard atom for objects of type K, unify with a particular object of type K?
+     * @param obj
+     * @param u
+     * @param ebname
+     * @return
      */
-    public EBCompare<K> clone();
+    public boolean unifieswith(K obj, Unifier u, String ebname);
 
 }

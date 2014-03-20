@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * 
  * @author louiseadennis;
  */
-public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
+public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<PredicateTerm> {
 
 	@FilterField
 	/**
@@ -230,8 +230,8 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
     /**
      * Returns an iterators over all beliefs.
      */
-    public Iterator<Literal> iterator() {
-        List<Literal> all = new ArrayList<Literal>(size());
+    public Iterator<PredicateTerm> iterator() {
+        List<PredicateTerm> all = new ArrayList<PredicateTerm>(size());
         for (BelEntry be : belsMap.values()) {
         	all.addAll(be.list);
         }
@@ -297,18 +297,19 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
      * @return	An iterators of literals in the belief base with the same
      *          predicate name and arity.
      */
-    public Iterator<Literal> getRelevant(Literal l) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    	PredicateTerm l = (PredicateTerm) ebl;
     	if (l.isVar()) {
             // all bels are relevant
             return iterator();
         } else {
             BelEntry entry = belsMap.get(l.getPredicateIndicator());
             if (entry != null) {
-                List<Literal> entrylist = new ArrayList<Literal>();
+                List<PredicateTerm> entrylist = new ArrayList<PredicateTerm>();
                 entrylist.addAll(entry.list);
                 return entrylist.iterator();
            } else {
-                return Collections.<Literal>emptyList().iterator();
+                return Collections.<PredicateTerm>emptyList().iterator();
             }
         }
         

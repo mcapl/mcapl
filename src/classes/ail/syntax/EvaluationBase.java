@@ -40,5 +40,5 @@ public interface EvaluationBase<K extends Unifiable> {
 	 * @param ga
 	 * @return
 	 */
-	public Iterator<K> getRelevant(K ga);
+	public Iterator<K> getRelevant(EBCompare<K> ga);
 }

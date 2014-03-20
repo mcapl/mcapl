@@ -31,6 +31,7 @@ import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
 import ail.syntax.Event;
+import ail.syntax.PredicateTerm;
 
 import ajpf.util.AJPFLogger;
 
@@ -57,10 +58,10 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 	 * @see ail.semantics.operationalrules.HandleDropBelief#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<Literal> bl = a.getBB().getRelevant(b);
+		Iterator<PredicateTerm> bl = a.getBB().getRelevant(b);
 				
 		while (bl.hasNext()) {
-			Literal bp = bl.next();
+			Literal bp = (Literal) bl.next();
 			Unifier un = new Unifier();
 						
 			if (a.relevant(bp, b)) {

@@ -46,7 +46,7 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBasewNames#getRelevantTuple(ail.syntax.Unifiable)
 	 */
-	public Iterator<Tuple<K, String>> getRelevantTuple(final K p) {
+	public Iterator<Tuple<K, String>> getRelevantTuple(final EBCompare<K> p) {
 		
 		return new Iterator<Tuple<K, String>>() {
 				Iterator<Tuple<K, String>> eb1it = eb1.getRelevantTuple(p);
@@ -92,7 +92,7 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.Unifiable)
 	 */
-	public Iterator<K> getRelevant(final K p) {
+	public Iterator<K> getRelevant(final EBCompare<K> p) {
 		
 		return new Iterator<K>() {
 				Iterator<K> eb1it = eb1.getRelevant(p);

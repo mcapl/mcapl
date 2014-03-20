@@ -15,12 +15,12 @@ public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBas
 	//}
 
 	@Override
-	public Iterator<K> getRelevant(K ga) {
+	public Iterator<K> getRelevant(EBCompare<K> ga) {
 		// TODO Auto-generated method stub
 		return Collections.<K>emptyList().iterator();
 	}
 	
-	public Iterator<Tuple<K, String>> getRelevantTuple(K ga) {
+	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga) {
 		return Collections.<Tuple<K, String>>emptyList().iterator();
 	}
 

@@ -41,7 +41,7 @@ import ajpf.util.VerifySet;
  * @author lad
  *
  */
-public class GoalBase implements EvaluationBase<Predicate> {
+public class GoalBase implements EvaluationBase<PredicateTerm> {
 	/**
      * goalMap is a table ussed for efficient
      * look-up of goals.
@@ -137,8 +137,9 @@ public class GoalBase implements EvaluationBase<Predicate> {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
-    public Iterator<Predicate> getRelevant(Predicate l) {
-    	LinkedList<Predicate> ul = new LinkedList<Predicate>();
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    	PredicateTerm l = (PredicateTerm) ebl;
+    	LinkedList<PredicateTerm> ul = new LinkedList<PredicateTerm>();
     	Iterator<Goal> gl = null;
     	if (l.isVar()) {
             // all goals are relevant

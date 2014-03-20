@@ -40,7 +40,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Goal extends Literal implements GuardAtom<Predicate> {
+public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	/**
 	 * The four types of goal: achieve, test, perform and maint.
 	 */
@@ -453,23 +453,23 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	 */
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
      	StringTerm ebname =  getEB();
-     	EvaluationBasewNames<Predicate> eb = new TrivialEvaluationBase<Predicate>();
+     	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
-    			eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
+    			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBasewNames<Predicate> new_eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(ebnames), ebnames);
+    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(ebnames), ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
-    					eb = new MergeEvaluationBase<Predicate>(new_eb, eb);
+    					eb = new MergeEvaluationBase<PredicateTerm>(new_eb, eb);
     				}
     			}
     		}
     	} else {
-    		eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(getEB()), ebname.getString());
+    		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
     	}
     	
     	return logicalConsequence(eb, ag.getRuleBase(), un, varnames);

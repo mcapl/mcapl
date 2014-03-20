@@ -34,5 +34,5 @@ import ail.util.Tuple;
  * @param <K>
  */
 public interface EvaluationBasewNames<K extends Unifiable> extends EvaluationBase<K> {
-	public Iterator<Tuple<K, String>> getRelevantTuple(K ga);
+	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga);
 }

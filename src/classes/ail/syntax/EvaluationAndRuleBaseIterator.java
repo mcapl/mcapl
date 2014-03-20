@@ -43,12 +43,12 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
 	// The agent may believe several things that can unify
 	// with the query.
-	Iterator<Tuple> il;
+	Iterator<Tuple<PredicateTerm, String>> il;
 	// An iterator of Prolog style rules whose heads may unify.
 	Iterator<Rule> rl;
    
 	// The relevant Evaluation Base 
-	EvaluationBasewNames eb;
+	EvaluationBasewNames<PredicateTerm> eb;
 	// The relevant Rule Base
 	RuleBase rb;
 	// The initial Unifier
@@ -92,7 +92,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 * @param t
 	 * @param vars
 	 */
-	public EvaluationAndRuleBaseIterator(EvaluationBasewNames e, RuleBase r, Unifier u, PredicateTerm t, List<String> vars) {
+	public EvaluationAndRuleBaseIterator(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, PredicateTerm t, List<String> vars) {
 		eb = e;
 		rb = r;
 		un = u;
@@ -159,8 +159,8 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 				}		        					
 				PredicateTerm u = (PredicateTerm) t.getLeft();
 				Unifiable h2 = logical_term.clone();
-				if (h2 instanceof GuardAtom<?>) {
-					if (((GuardAtom<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
+				if (h2 instanceof EBCompare<?>) {
+					if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
 						current = unC;
 						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
 							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
