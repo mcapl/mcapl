@@ -1,25 +1,53 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Collections;
 
 import ail.util.Tuple;
 
+/**
+ * Creates a trivial (i.e., empty) evaluation base.
+ * @author louiseadennis
+ *
+ * @param <K>
+ */
 public class TrivialEvaluationBase<K extends Unifiable> implements EvaluationBasewNames<K> {
 
-	//@Override
-	//public Iterator<K> getRelevant(GuardAtom<K> ga) {
-		// TODO Auto-generated method stub
-	//	return Collections.<K>emptyList().iterator();
-	//}
-
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
+	 */
 	public Iterator<K> getRelevant(EBCompare<K> ga) {
-		// TODO Auto-generated method stub
 		return Collections.<K>emptyList().iterator();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EvaluationBasewNames#getRelevantTuple(ail.syntax.EBCompare)
+	 */
 	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga) {
 		return Collections.<Tuple<K, String>>emptyList().iterator();
 	}

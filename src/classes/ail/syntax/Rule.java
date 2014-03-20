@@ -27,8 +27,6 @@
 
 package ail.syntax;
 
-import ail.semantics.AILAgent;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -116,15 +114,6 @@ public class Rule implements LogicalFormula {
     public Rule clone() {
         return new Rule((Predicate) head.clone(), (LogicalFormula)body.clone());
     }
-
-    /**
-     * Clone just the head.
-     * @return
-     */
-  //  public GuardAtom headClone() {
- //       return (GuardAtom) head.clone();
- //   }
-    
     
     /*
      * (non-Javadoc)
@@ -176,15 +165,7 @@ public class Rule implements LogicalFormula {
     public boolean matchNG(Unifiable u, Unifier un) {
     	return head.matchNG(u, un);
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#toTerm()
-     */
-   // public Term toTerm() {
-  //  	return head.toTerm();
-  //  }
-    
+        
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
@@ -207,15 +188,7 @@ public class Rule implements LogicalFormula {
     	}
  
     } 
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#getPosTerms()
-     */
-   // public List<LogicalFormula> getPosTerms() {
-  //  	return head.getPosTerms();
-  //  }
-    
+        
     /*
      * 
      */
@@ -256,7 +229,8 @@ public class Rule implements LogicalFormula {
 	}
 
 	/*
-	 * 
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
 	public void makeVarsAnnon() {
 		head.makeVarsAnnon();
@@ -266,7 +240,8 @@ public class Rule implements LogicalFormula {
 	}
 
 	/*
-	 * 
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
 	public Unifiable strip_varterm() {
 		if (body != null) {
@@ -276,7 +251,10 @@ public class Rule implements LogicalFormula {
 		}
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
+	 */
 	public Iterator<Unifier> logicalConsequence(
 			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
 		return head.logicalConsequence(eb, rb, un, varnames);

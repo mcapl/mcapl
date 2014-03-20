@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -92,7 +92,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @retun whether or not the two structures unify.
      */
     public boolean sunifies(Unifiable t1g, Unifiable t2g) {
-    	t2g.standardise_apart(t1g, this, Collections.EMPTY_LIST);
+    	t2g.standardise_apart(t1g, this, Collections.<String>emptyList());
     	return unifies(t1g, t2g);
     }
     
