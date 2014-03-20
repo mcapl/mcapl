@@ -372,9 +372,10 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-	public void standardise_apart(Unifiable t, Unifier u) {
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
 		List<String> tvarnames = t.getVarNames();
 		List<String> myvarnames = getVarNames();
+		tvarnames.addAll(varnames);
 	   	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
     	for (String s:myvarnames) {

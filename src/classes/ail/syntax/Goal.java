@@ -279,6 +279,7 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		}
 	}
     
+    @SuppressWarnings("unchecked")
     public boolean apply(Unifier u) {
     	boolean r = getGoalBase().apply(u);
     		
@@ -296,6 +297,10 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
    		}
      }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.GuardAtom#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+     */
     public boolean unifieswith(Predicate p, Unifier u, String s) {
     	if (goalbase.unifies(new StringTermImpl(s), u)) {
     		return super.unifies(p, u);
@@ -303,15 +308,7 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
     	
     	return false;
     }
-    
-    /**
-     * Return the predicate indicator for swift lookup.
-     * @return
-     */
-  //  public PredicateIndicator getPredicateIndicator() {
- //   	return getPredicateIndicator();
-  //  }
-    
+        
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
@@ -371,10 +368,6 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
     	getGoalBase().renameVar(oldname, newname);
     }
     
- //   public Term toTerm() {
-  //  	return l;
-  //  }
-    
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#getPosTerms()
@@ -411,6 +404,10 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.PredicatewAnnotation#isGround()
+	 */
 	public boolean isGround() {
 		if (Character.isLowerCase(getFunctor().charAt(0))) {
 			if (super.isGround()) {
@@ -421,25 +418,9 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 		return false;
 	}
 	
-	/* public boolean isVar() {
-		if (! super.isVar()) {
-			return Character.isUpperCase(getFunctor().charAt(0));
-		}
-		
-		return true;
-	} */
-
 	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.DefaultTerm#isVar()
+	 * 
 	 */
-/*	public boolean isVar() {
-		if (var != null && var.isVar()) {
-			return true;
-		}
-		return false;
-	} */
-	
 	public boolean contentequals(PredicatewAnnotation p) {
 		if (isVar()) {
 			return false;
@@ -470,28 +451,28 @@ public class Goal extends Literal implements GuardAtom<Predicate> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
      	StringTerm ebname =  getEB();
-     	EvaluationBasewNames<Predicate> eb = new TrivialEvaluationBase();
+     	EvaluationBasewNames<Predicate> eb = new TrivialEvaluationBase<Predicate>();
     	if (ebname instanceof VarTerm) {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
-    			eb = new NamedEvaluationBase(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
+    			eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBasewNames<Predicate> new_eb = new NamedEvaluationBase(ag.getGoalBase(ebnames), ebnames);
+    				EvaluationBasewNames<Predicate> new_eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(ebnames), ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
-    					eb = new MergeEvaluationBase(new_eb, eb);
+    					eb = new MergeEvaluationBase<Predicate>(new_eb, eb);
     				}
     			}
     		}
     	} else {
-    		eb = new NamedEvaluationBase(ag.getGoalBase(getEB()), ebname.getString());
+    		eb = new NamedEvaluationBase<Predicate>(ag.getGoalBase(getEB()), ebname.getString());
     	}
     	
-    	return logicalConsequence(eb, ag.getRuleBase(), un);
+    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames);
 	}
 
 	/*

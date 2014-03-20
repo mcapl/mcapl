@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 
@@ -906,10 +907,10 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	}
 
 	@Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
 		if (value != null) {
 			if (value instanceof GuardAtom<?>) {
-				return ((GuardAtom<?>) value).logicalConsequence(ag, un);
+				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames);
 			}
 		}
 		// TODO Auto-generated method stub

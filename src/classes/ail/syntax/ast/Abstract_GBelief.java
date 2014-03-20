@@ -25,9 +25,7 @@
 package ail.syntax.ast;
 
 import ail.semantics.AILAgent;
-import ail.syntax.DefaultAILStructure;
 import ail.syntax.GBelief;
-import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -115,26 +113,6 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 		}
 	} */
 
-	/**
-     * Construct a GBelief from a category and a literal.
-     * 
-     * @param b the Belief Category.
-     * @param l the Literal/
-     */
-  //  public Abstract_GBelief(byte b, Abstract_Term t) {
-  //  	super(b);
- //   	content = t;
-  //  }
-     
-    /**
-     * Construct one GBelief from another.
-     * @param gb
-     */
-  //  public Abstract_GBelief(Abstract_GBelief gb) {
-  //  	super(gb.getCategory());
-  //  	content = gb.getContent();
- //   	DBnum = gb.getDBnum();
- //   }
     
     /**
      * Setter for the DB num.
@@ -191,6 +169,10 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 		}
 	}
 	
+	/**
+	 * What type of GBelief is this?
+	 * @return
+	 */
 	public byte getCategory() {
 		return category;
 	}

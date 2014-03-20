@@ -28,11 +28,9 @@
 package ail.syntax;
 
 import ail.util.AILexception;
-import ajpf.util.VerifyMap;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;

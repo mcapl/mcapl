@@ -26,10 +26,6 @@ package ail.syntax.ast;
 
 import gov.nasa.jpf.vm.MJIEnv;
 
-import java.util.Iterator;
-import java.util.List;
-
-import ail.semantics.AILAgent;
 import ail.syntax.GLogicalFormula;
 
 /**
@@ -52,5 +48,9 @@ public interface Abstract_GLogicalFormula {
 	 */
 	public int newJPFObject(MJIEnv env);
 	
+	/**
+	 * Is this trivially true?
+	 * @return
+	 */
 	public boolean isTrivial();
 }

@@ -29,6 +29,7 @@ package ail.syntax;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ajpf.util.VerifyMap;
 
@@ -91,7 +92,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @retun whether or not the two structures unify.
      */
     public boolean sunifies(Unifiable t1g, Unifiable t2g) {
-    	t2g.standardise_apart(t1g, this);
+    	t2g.standardise_apart(t1g, this, Collections.EMPTY_LIST);
     	return unifies(t1g, t2g);
     }
     

@@ -1606,7 +1606,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      *         does not believe the guard if this iterator is empty.
      */
     public Iterator<Unifier> believes(Guard g, Unifier un) {
-    	return g.logicalConsequence(this, un);
+    	return g.logicalConsequence(this, un, g.getVarNames());
     }
     
 	/**

@@ -32,8 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collections;
-import java.util.ArrayList;
 
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifySet;
@@ -166,35 +164,7 @@ public class GoalBase implements EvaluationBase<Predicate> {
     	return ul.iterator();
         
      }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
-     */
-   /*  public Iterator<Predicate> getRelevant(final GuardAtom<Predicate> g) {
-     		return new Iterator<Predicate>() {
-    			Iterator<Predicate> gb = getRelevant(g.getContent());
-				@Override
-				public boolean hasNext() {
-					// TODO Auto-generated method stub
-					return gb.hasNext();
-				}
-
-				@Override
-				public Predicate next() {
-					// TODO Auto-generated method stub
-					return (Goal) gb.next();
-				}
-
-				@Override
-				public void remove() {
-					// TODO Auto-generated method stub
-					
-				}
-    			
-    		};
-    } */
-    
+        
     /**
      * Convert the goal base into a string for printing.
      *

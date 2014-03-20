@@ -32,8 +32,6 @@ import ail.syntax.Message;
 import ail.syntax.Intention;
 import ail.syntax.Event;
 import ail.syntax.Predicate;
-import ail.syntax.Literal;
-import ail.syntax.PredicatewAnnotation;
 import ail.syntax.annotation.SourceAnnotation;
 
 /**

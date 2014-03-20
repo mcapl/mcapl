@@ -30,7 +30,6 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Deed;
-import ail.syntax.Term;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
@@ -85,10 +84,8 @@ public class HandleWaitForDirect extends DirectPerception {
 				thetab = ui.next();
 	
 				topdeed = i.hdD();
-				//Term t = topdeed.UnifyingTerm();
-				//if (t != null) {
-					topdeed.apply(thetab);
-			//	}
+				topdeed.apply(thetab);
+			
 				if (topdeed.getCategory() == Deed.Dwaitfor) {
 					return true;
 				}

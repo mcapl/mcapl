@@ -31,8 +31,6 @@ import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
 import ail.syntax.Event;
-import ail.syntax.Unifiable;
-import ail.syntax.Predicate;
 
 import ajpf.util.AJPFLogger;
 

@@ -1,14 +1,48 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax;
 
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Iterator;
 
+/**
+ * This is an iterator for Evaluation Bases.  The Iterator returns potential unifiers 
+ * for objects within the Evaluation Base.
+ * @author louiseadennis
+ *
+ * @param <K>
+ */
 public class EvaluationBaseIterator implements Iterator<Unifier> {
+	// The relevant Evaluation Base
 	EvaluationBase eb;
+	// The Initial Unifier
 	Unifier un;
+	// The Unifiable to be matched against the evalution base.
 	GuardAtom ga;
-	Iterator<GuardAtom> il;
+	// An iterator of elements in the Evaluation Base that may unify with ga.
+	Iterator<PredicateTerm> il;
 	
  	/**
    	 * This holds the current unification solution.
@@ -16,13 +50,26 @@ public class EvaluationBaseIterator implements Iterator<Unifier> {
 	@FilterField
 	Unifier current = null;
 
+	/**
+	 * Constructor.
+	 * @param e
+	 * @param u
+	 * @param g
+	 */
+	/* public EvaluationBaseIterator(EvaluationBase<K> e, Unifier u, K g) {
+		eb = e;
+		un = u;
+		ga = g;
+		il = eb.getRelevant(ga);
+	} */
+	           
 	public EvaluationBaseIterator(EvaluationBase e, Unifier u, GuardAtom g) {
 		eb = e;
 		un = u;
 		ga = g;
 		il = eb.getRelevant(ga);
-	}
-	           
+	} 
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.Iterator#hasNext()
@@ -56,7 +103,7 @@ public class EvaluationBaseIterator implements Iterator<Unifier> {
    			while (il.hasNext()) {
    				Unifier unC = (Unifier) un.clone();
    				Unifiable u = il.next();
-   				Unifiable h2 = ga.clone();
+   				Unifiable h2 = (Unifiable) ga.clone();
    				if (h2.unifies(u, unC)) {
    					current = unC;
       					return;

@@ -28,7 +28,6 @@
 package ail.syntax;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
 
@@ -118,8 +117,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-      //  posGuardPIs();
-     }
+      }
     
     /**
      * Construct a plan from an event, two deed stacks, a guard stack and a source.  It is
@@ -140,7 +138,6 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-    //    posGuardPIs();
     }
     
     /**
@@ -445,62 +442,6 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	return s.toString();
      }
     
-    /**
-     * Convert the plan to a term in for unification purposes.
-     * 
-     * @return  The plan represented as a term.
-     */
-   /* public PredicatewAnnotation getPlanTerm() {
-    	if (planterm == null) {
-    		Predicate pts = new Predicate("planterm");
-    		pts.addTerm(getTriggerEvent().UnifyingTerm());
-    		Iterator<Guard> itc = getContext().iterator();
-
-    		Predicate ct = new Predicate("context");
-    		while (itc.hasNext()) {
-    			Guard g = itc.next();
-    			ct.addTerm(g.toTerm());
-    		}
-    		pts.addTerm(ct);
-    		
-    		Predicate dt = new Predicate("prefix");
-    		Iterator<Deed> itd = getPrefix().iterator();
-    		while (itd.hasNext()) {
-    			dt.addTerm(itd.next().UnifyingTerm());
-    		}
-    		pts.addTerm(dt);
-    		
-       		Predicate dt2 = new Predicate("body");
-    		Iterator<Deed> itd2 = getBody().iterator();
-    		while (itd2.hasNext()) {
-    			dt2.addTerm(itd2.next().UnifyingTerm());
-    		}
-    		pts.addTerm(dt2);
-    		
-    		planterm = new PredicatewAnnotation(pts);
-    		return (planterm);
-    	} else {
-    		return planterm;
-    	}
-    } */
-    
-    /**
-     * Create list of predicate indicators for the guards for quick
-     * relevance filtering.
-     * @return
-     */
-   /* public ArrayList<PredicateIndicator> posGuardPIs() {
-    	if (pis != null) {
-    		return pis;
-    	} else {
-    		pis = new ArrayList<PredicateIndicator>();
-    		for (Guard g: getContext()) {
-    			pis.addAll(g.posbelInd());
-    		}
-    		return pis;
-    	}
-    } */
-
     /*
      * (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)

@@ -26,6 +26,7 @@ package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -33,6 +34,11 @@ import org.junit.Assert;
 import ail.semantics.AILAgent;
 import ail.util.AILexception;
 
+/**
+ * Tests of the Unification algorithm.
+ * @author louiseadennis
+ *
+ */
 public class UnificationTests {
 	
 	@Test public void dbNumTest() {
@@ -55,7 +61,7 @@ public class UnificationTests {
 		Rule rule = new Rule(ghead, new GBelief(body));
 		Rule ruleC = rule.clone();
 		
-		ruleC.standardise_apart(ghead2, new Unifier());
+		ruleC.standardise_apart(ghead2, new Unifier(), Collections.<String>emptyList());
 		
 		Assert.assertTrue(ghead.toString().equals(ghead3.toString()));
 		

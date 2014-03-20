@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2014 Louise A. Dennis and  Michael Fisher
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
 //
@@ -27,18 +26,13 @@
 
 package ail.syntax;
 
-import java.util.Iterator;
-import java.util.List;
-
-import ail.semantics.AILAgent;
-
 /**
  * This is an interface for objects that may appear atomically in guards - i.e. logical formulae
  * without connectives -- the base objects than may be checked against the agents state.
  * @author lad
  *
  */
-public interface GuardAtom<K extends Unifiable> extends Cloneable, GLogicalFormula {
+public interface GuardAtom<K extends Unifiable> extends GLogicalFormula {
 	
 	/**
 	 * Is this a variable?
@@ -52,21 +46,13 @@ public interface GuardAtom<K extends Unifiable> extends Cloneable, GLogicalFormu
 	 * @return
 	 */
 	public PredicateIndicator getPredicateIndicator();
-	
+		
 	/**
 	 * Is this trivial?  I.e. simply equivalent to true.
 	 * @return
 	 */
 	public boolean isTrivial();
-	
-//	public K getContent();
-	
-    /**
-     * Return a list of the conjuncts that make up this logical forumla
-     * @return
-     */
-    // public List<LogicalFormula> conjuncts();
-    
+	    
     /**
      * If an agent has several structures of a particular category.
 	 * E.g. several belief bases, the one to be consulted for this
@@ -83,9 +69,19 @@ public interface GuardAtom<K extends Unifiable> extends Cloneable, GLogicalFormu
       * 
       */
      public byte getEBType();
-          
-     public GuardAtom clone();
-     
+               
+     /**
+      * Does this guard atom for objects of type K, unify with a particular object of type K?
+      * @param obj
+      * @param u
+      * @param ebname
+      * @return
+      */
      public boolean unifieswith(K obj, Unifier u, String ebname);
     
+     /*
+      * (non-Javadoc)
+      * @see ail.syntax.GLogicalFormula#clone()
+      */
+     public GuardAtom<K> clone();
 }

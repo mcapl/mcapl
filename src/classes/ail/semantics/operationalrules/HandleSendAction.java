@@ -28,8 +28,6 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.PredicatewAnnotation;
 import ail.syntax.SendAction;
 import ail.syntax.Event;
 

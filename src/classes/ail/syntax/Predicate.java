@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -29,12 +29,9 @@ package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ail.syntax.annotation.BeliefBaseAnnotation;
-import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -278,6 +275,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         predicateIndicatorCache = null;
       }
     
+    /**
+     * Set the functor.
+     * @param s
+     */
     public void setFunctor(String s) {
     	functor = s;
     }
@@ -544,8 +545,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
  
     } 
     
-	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un) {
-		return new EvaluationAndRuleBaseIterator(eb, rb, un, this);
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
+     */
+    @SuppressWarnings("unchecked")
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<? extends PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
+		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames);
 	}
 
        

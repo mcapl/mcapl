@@ -30,7 +30,6 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,8 +37,6 @@ import java.util.Set;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
-import ail.semantics.AILAgent;
-import ail.syntax.annotation.BeliefBaseAnnotation;
 import ail.syntax.annotation.SourceAnnotation;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -325,13 +322,6 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
     	return (belsMap.toString());
      }
     
-    /**
-     * 
-     */
-	//public Iterator<Literal> getRelevant(GuardAtom<Literal> ga) {
-	//	return getRelevant(ga.getContent());
-	//}
-
     
     /** 
      * Special class for storing the actual beliefs.  Each instance of a class
@@ -352,11 +342,6 @@ public class BeliefBase implements Iterable<Literal>, EvaluationBase<Literal> {
          */
         public void add(Literal l) {
             list.put(l);
-      //      try {
-      //      	Collections.sort(list);
-      //      } catch (Exception e) {
-      //      	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
-      //      }
         }
         
         /**

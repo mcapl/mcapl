@@ -1,26 +1,62 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax;
 
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 
 import ail.util.Tuple;
-import ail.syntax.annotation.BeliefBaseAnnotation;
 
 import ajpf.util.AJPFLogger;
 
-public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements Iterator<Unifier> {
+/**
+ * This is an iterator for Evaluation Bases upon which Prolog style reasoning can be performed.  The Iterator returns potential unifiers 
+ * for objects within the Evaluation Base.
+ * @author louiseadennis
+ *
+ * @param <K>
+ */
+public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
 	// The agent may believe several things that can unify
 	// with the query.
-	Iterator<Tuple<K, String>> il;
+	Iterator<Tuple> il;
+	// An iterator of Prolog style rules whose heads may unify.
 	Iterator<Rule> rl;
    
-	EvaluationBasewNames<K> eb;
+	// The relevant Evaluation Base 
+	EvaluationBasewNames eb;
+	// The relevant Rule Base
 	RuleBase rb;
+	// The initial Unifier
 	Unifier un;
-	K logical_term;
+	// The logical term to be evaluated against the evaluation and rule bases.
+	PredicateTerm logical_term;
+	// An initial list of variable names appearing in some top level term, to be used in standardisation apart.
+	List<String> varnames;
 	
 	/**
 	 * This holds the current unification solution.
@@ -39,20 +75,31 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 	@FilterField
 	Rule rule = null; // current rule
 	
+	// Name for error logging.
 	String logname = "ail.syntax.EvaluationAndRuleBaseIterator";
 	
-	public EvaluationAndRuleBaseIterator(EvaluationBase<LogicalFormula> e) {
-		
-	}
+	/**
+	 * Constructor.
+	 * @param e
+	 */
+	public EvaluationAndRuleBaseIterator(EvaluationBase<LogicalFormula> e) {}
 
-
-	public EvaluationAndRuleBaseIterator(EvaluationBasewNames<K> e, RuleBase r, Unifier u, K t) {
+	/**
+	 * Constructor.
+	 * @param e
+	 * @param r
+	 * @param u
+	 * @param t
+	 * @param vars
+	 */
+	public EvaluationAndRuleBaseIterator(EvaluationBasewNames e, RuleBase r, Unifier u, PredicateTerm t, List<String> vars) {
 		eb = e;
 		rb = r;
 		un = u;
 		logical_term = t;
 		il = eb.getRelevantTuple(logical_term);
 		rl = rb.getRelevant((Predicate) logical_term);
+		varnames = vars;
 	}
 	
           
@@ -82,7 +129,11 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 	 * Work horse method that calculate the next unifier.
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	private void get() {
+		if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+			AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " with unifier " + un);
+		}		        					
 		current = null;
     		
 		// try rule iterator, if it has been created I've worked through all of il
@@ -91,6 +142,9 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 			// unifies the rule head with the result of rule evaluation
 			Unifier ruleUn = ruleIt.next(); // evaluation result
 			current = ruleUn;
+			if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+				AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", logical_term + " matches the head of a rule.");
+			}		        					
 			return;
 		}
                       		
@@ -99,18 +153,27 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 		if (il != null) {
 			while (il.hasNext()) {
 				Unifier unC = (Unifier) un.clone();
-				Tuple<K, String> t = il.next();
+				Tuple<PredicateTerm, String> t = il.next();
+				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+					AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
+				}		        					
 				PredicateTerm u = (PredicateTerm) t.getLeft();
 				Unifiable h2 = logical_term.clone();
 				if (h2 instanceof GuardAtom<?>) {
 					if (((GuardAtom<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
 						current = unC;
+						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+						}		        					
 						return;
 					}
 				} 
 					
 				if (h2.unifies(u, unC)) {
 						current = unC;
+						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+						}		        					
 						return;
 				 }
 			}
@@ -122,12 +185,15 @@ public class EvaluationAndRuleBaseIterator<K extends PredicateTerm> implements I
 				rule = rl.next();
 				Rule ruleC = rule.clone();
 				Unifiable h = logical_term.clone();
-				ruleC.standardise_apart(h, unC);
+				ruleC.standardise_apart(h, unC, varnames);
 				// This this will just unify the head!!
+				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+					AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Looking for a rule match for " + ruleC + " and " + h);
+				}		        					
 				if (ruleC.unifies(h, unC)) {
 					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
 					// This GBelief should be ground? so only one possibility (?)
-					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC);
+					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames);
 					// ruleIt is an iterator over all possible unifiers for the rule body.
 					get();
 					if (current != null) {

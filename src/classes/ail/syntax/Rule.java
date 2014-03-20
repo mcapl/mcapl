@@ -189,8 +189,9 @@ public class Rule implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-    public void standardise_apart(Unifiable t, Unifier u) {
+    public void standardise_apart(Unifiable t, Unifier u, List<String> topvarnames) {
     	List<String> tvarnames = t.getVarNames();
+    	tvarnames.addAll(topvarnames);
     	List<String> myvarnames = getVarNames();
     	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
@@ -277,8 +278,8 @@ public class Rule implements LogicalFormula {
 
 	@Override
 	public Iterator<Unifier> logicalConsequence(
-			EvaluationBasewNames<? extends PredicateTerm> eb, RuleBase rb, Unifier un) {
-		return head.logicalConsequence(eb, rb, un);
+			EvaluationBasewNames<? extends PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
+		return head.logicalConsequence(eb, rb, un, varnames);
 	}
 
 

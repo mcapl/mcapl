@@ -14,19 +14,24 @@ import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.semantics.AILAgent;
 import ail.syntax.VarTerm;
-import ail.syntax.VarsCluster;
-import ail.syntax.Term;
 import ail.syntax.Guard;
 import ail.syntax.Unifier;
 
 import java.util.Iterator;
 
+/**
+ * Tests for logical Consequence - should really be elsewhere since it turned out not to be a parser problem.
+ * @author louiseadennis
+ *
+ */
 public class ReasoningRuleTests {
 	
 	/**
 	 * 
 	 */
 	@Test public void ruleUnificationTest() {
+		// AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
+		// AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
 		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(Xc, Y) :- (square(Xc, Y), (~ (at(Xc, Y)), ( ~ (empty(Xc, Y)), ~ (human(Xc, Y)))));"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
 		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);

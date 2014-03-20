@@ -24,25 +24,24 @@
 
 package ail.syntax;
 
-import gov.nasa.jpf.annotation.FilterField;
-
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
-import ajpf.util.AJPFLogger;
 
-
+/**
+ * A Reference to a message that may appear in a Guard.  It extends Message purely to make type matching work with the EvalutionBaseIterator.
+ * I am frankly amazed this works and suspect there is an uncaught bug somewhere.
+ * @author louiseadennis
+ *
+ */
 public class GMessage implements GuardAtom<Message> {
-	
 	StringTerm sender;
 	StringTerm receiver;
 	StringTerm threadId;
 	int performative;
 	Term content;
-	
 	
 	private byte category = DefaultAILStructure.AILSent;
 
@@ -72,6 +71,14 @@ public class GMessage implements GuardAtom<Message> {
        	threadId = thid;
     }
     
+    /**
+     * Constructor
+     * @param sr
+     * @param ilf
+     * @param s
+     * @param r
+     * @param c
+     */
     public GMessage(byte sr, int ilf, StringTerm s, StringTerm r, Term c) {
     	sender = s;
     	receiver = r;
@@ -95,8 +102,11 @@ public class GMessage implements GuardAtom<Message> {
       }
      
     
-	@Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
+	 */
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
 		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());
@@ -104,7 +114,9 @@ public class GMessage implements GuardAtom<Message> {
 			ul.addAll(ag.getInbox());
 		}
 		
-		return new EvaluationBaseIterator(new ListEvaluationBase(ul), un, this);
+		EvaluationBase<Message> leb = new ListEvaluationBase<Message>(ul);
+		Iterator<Unifier> iu = new EvaluationBaseIterator(leb, un, this);
+		return iu;
 	}
 
 	/*
@@ -171,22 +183,42 @@ public class GMessage implements GuardAtom<Message> {
 		return null;
 	}
 	
-	public StringTerm getSender() {
+	/**
+	 * Return the sender as a term.
+	 * @return
+	 */
+	public StringTerm getSenderTerm() {
 		return sender;
 	}
 	
-	public StringTerm getReceiver() {
+	/**
+	 * Return the reciever as a term.
+	 * @return
+	 */
+	public StringTerm getReceiverTerm() {
 		return receiver;
 	}
 	
+	/***
+	 * Return the performative.
+	 * @return
+	 */
 	public int getIlf() {
 		return performative;
 	}
 	
+	/**
+	 * Getter for the thread ID.
+	 * @return
+	 */
 	public StringTerm getThdID() {
 		return threadId;
 	}
 	
+	/**
+	 * Getter for logical content.
+	 * @return
+	 */
 	public Term getContent() {
 		return content;
 	}
@@ -198,8 +230,8 @@ public class GMessage implements GuardAtom<Message> {
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof GMessage) {
 			GMessage tm = (GMessage) t;
-			if (sender.unifies(tm.getSender(), u)) {
-				if (receiver.unifies(tm.getReceiver(), u)) {
+			if (sender.unifies(tm.getSenderTerm(), u)) {
+				if (receiver.unifies(tm.getReceiverTerm(), u)) {
 					if (performative == tm.getIlf()) {
 						if (content.unifies(tm.getContent(), u)) {
 							return threadId.unifies(tm.getThdID(), u);
@@ -212,10 +244,13 @@ public class GMessage implements GuardAtom<Message> {
 		if (t instanceof Message) {
 			return unifieswith((Message) t, u, "");
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+	 */
 	public boolean unifieswith(Message m, Unifier u, String s) {
 		if (sender.unifies(new StringTermImpl(m.getSender()), u)) {
 			if (receiver.unifies(new StringTermImpl(m.getReceiver()), u)) {
@@ -230,10 +265,14 @@ public class GMessage implements GuardAtom<Message> {
 		return false;
 	}
 
-	@Override
-	public void standardise_apart(Unifiable t, Unifier u) {
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
+	 */
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
 	   	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getVarNames();
+    	tvarnames.addAll(varnames);
     	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
     	for (String s:myvarnames) {
@@ -247,7 +286,10 @@ public class GMessage implements GuardAtom<Message> {
     	}
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#getVarNames()
+	 */
 	public List<String> getVarNames() {
     	ArrayList<String> varnames = new ArrayList<String>();
     	varnames.addAll(sender.getVarNames());
@@ -257,7 +299,10 @@ public class GMessage implements GuardAtom<Message> {
 		return varnames;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#renameVar(java.lang.String, java.lang.String)
+	 */
 	public void renameVar(String oldname, String newname) {
 		sender.renameVar(oldname, newname);
 		receiver.renameVar(oldname, newname);
@@ -267,12 +312,15 @@ public class GMessage implements GuardAtom<Message> {
 		
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof GMessage) {
 			GMessage tm = (GMessage) t;
-			if (sender.match(tm.getSender(), u)) {
-				if (receiver.match(tm.getReceiver(), u)) {
+			if (sender.match(tm.getSenderTerm(), u)) {
+				if (receiver.match(tm.getReceiverTerm(), u)) {
 					if (performative == tm.getIlf()) {
 						if (content.match(tm.getContent(), u)) {
 							return threadId.match(tm.getThdID(), u);
@@ -284,12 +332,15 @@ public class GMessage implements GuardAtom<Message> {
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof GMessage) {
 			GMessage tm = (GMessage) t;
-			if (sender.matchNG(tm.getSender(), u)) {
-				if (receiver.matchNG(tm.getReceiver(), u)) {
+			if (sender.matchNG(tm.getSenderTerm(), u)) {
+				if (receiver.matchNG(tm.getReceiverTerm(), u)) {
 					if (performative == tm.getIlf()) {
 						if (content.matchNG(tm.getContent(), u)) {
 							return threadId.matchNG(tm.getThdID(), u);
@@ -298,22 +349,29 @@ public class GMessage implements GuardAtom<Message> {
 				}
 			}
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#isGround()
+	 */
 	public boolean isGround() {
-		// TODO Auto-generated method stub
 		return (sender.isGround() & receiver.isGround() & content.isGround() & threadId.isGround());
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#apply(ail.syntax.Unifier)
+	 */
 	public boolean apply(Unifier theta) {
 		return (sender.apply(theta) && receiver.apply(theta) && content.apply(theta) && threadId.apply(theta));
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#makeVarsAnnon()
+	 */
 	public void makeVarsAnnon() {
 		sender.makeVarsAnnon();
 		receiver.makeVarsAnnon();
@@ -321,7 +379,10 @@ public class GMessage implements GuardAtom<Message> {
 		threadId.makeVarsAnnon();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#strip_varterm()
+	 */
 	public Unifiable strip_varterm() {
 		return new GMessage(category, performative, (StringTerm) sender.strip_varterm(), (StringTerm) receiver.strip_varterm(), (Term) content.strip_varterm(), (StringTerm) threadId.strip_varterm());
 	}

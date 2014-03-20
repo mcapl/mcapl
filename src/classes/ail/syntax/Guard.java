@@ -32,7 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
-import ail.syntax.LogExpr.LogicalOp;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -72,55 +71,68 @@ public class Guard implements GLogicalFormula {
 	public Guard() {}
 	
 	/**
-	 * Construct a guard from a single GBelief.  This is presumed to be a 
-	 * positive belief.
+	 * Construct a guard from a single Guard Atom.  This is presumed to be 
+	 * positive.
 	 * 
 	 * @param g The GBelief in the guard.
 	 */
-	public Guard(GuardAtom g) {
+	public Guard(GuardAtom<? extends Unifiable> g) {
 		add(g);
 	}
 
 	/**
-	 * Constructs a guard from a GBelief and a flag showing whether or not it 
+	 * Constructs a guard from a Guard Atom and a flag showing whether or not it 
 	 * is to be believed.
 	 * 
 	 * @param g The GBelief.
 	 * @param tf A flag showing whether the belief is to be believed or not.
 	 */
-	public Guard(GuardAtom g, boolean tf) {
+	public Guard(GuardAtom<? extends Unifiable> g, boolean tf) {
 		add(g, tf);
 	}
 	
 	/**
-	 * Construct a Guard from a Logical Expression.
+	 * Construct a Guard from two Logical Formulae and an operator.
 	 * @param l
-	 * @param b
+	 * @param o
+	 * @param r
 	 */
-	/* public Guard(LogExpr l, boolean b) {
-		istrivial = b;
-		guardexpression = l;
-	} */
-	
 	public Guard(GLogicalFormula l, GLogicalOp o, GLogicalFormula r) {
 		lhs = l;
 		op = o;
 		rhs = r;
 	}
 	
+	/**
+	 * Construct a guard from an operator and a logical formula.
+	 * @param o
+	 * @param r
+	 */
 	public Guard(GLogicalOp o, GLogicalFormula r) {
 		op = o;
 		rhs = r;
 	}
 	
+	/**
+	 * Getter for the operator.
+	 * @return
+	 */
 	public GLogicalOp getOp() {
 		return op;
 	}
 	
+	/**
+	 * Getter for the LHS.
+	 * @return
+	 */
 	public GLogicalFormula getLHS() {
 		return lhs;
 	}
 	
+	/**
+	 * Getter for the RHS.
+	 * @return
+	 */
 	public GLogicalFormula getRHS() {
 		return rhs;
 	}
@@ -166,57 +178,32 @@ public class Guard implements GLogicalFormula {
 		return false;
 	}
 	
-	/*
+	/**
 	 * 
 	 */
 	public int hashcode() {
 		return lhs.hashCode() + rhs.hashCode();
 	}
-	
+		
 	/**
-	 * Getter for the logical expression.
-	 * @return
-	 */
-	/* public LogExpr getGuardExpression() {
-		return guardexpression;
-	} */
-	
-	/**
-	 * Setter for the logical expression.
-	 * @param l
-	 */
-	/* public void setGuardExpression(LogExpr l) {
-		guardexpression = l;
-	} */
-	
-	/**
-	 * Convert the Guard to an explicit conjuction term.
-	 * 
-	 * @return the term constructed from the guard.
-	 */
-	/* public Term toTerm() {
-		return guardexpression.toTerm();
-	} */
-
-	/**
-	 * Add a new GBelief (conjunct) to the guard.  By default this is to be believed.
+	 * Add a new Guard Atom (conjunct) to the guard.  By default this is to be believed.
 	 * 
 	 * @param gb  The belief to be added.
 	 * @return whether the belief was successfully added.
 	 */
-	public boolean add(GuardAtom gb) {
+	public boolean add(GuardAtom<? extends Unifiable> gb) {
 		return add(gb, true);
 	}
 	
 	/**
-	 * Add a GBelief to the guard with a flag showing whether or not it should be
+	 * Add a Guard Atom to the guard with a flag showing whether or not it should be
 	 * believed or disbelieved for the guard to be true.
 	 * 
 	 * @param gb The GBelief.
-	 * @param b Flag indiciatin whether gb should be believed or disbelieved.
+	 * @param b Flag indicating whether gb should be believed or disbelieved.
 	 * @return
 	 */
-	public boolean add(GuardAtom gb, boolean b) {
+	public boolean add(GuardAtom<? extends Unifiable> gb, boolean b) {
   
 		if (isTrivial()) {
 			if (b) {
@@ -311,13 +298,13 @@ public class Guard implements GLogicalFormula {
 	 * @param un An initial unifier
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
+	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames) {
 	       try {
 		        final Iterator<Unifier> ileft;
 		        switch (op) {
 		        
 		        	case not:
-		        		if (!rhs.logicalConsequence(ag,un).hasNext()) {
+		        		if (!rhs.logicalConsequence(ag,un, varnames).hasNext()) {
 		        			return createUnifIterator(un);
 		        		}
 		        		break;
@@ -325,11 +312,11 @@ public class Guard implements GLogicalFormula {
 		        		if (rhs == null) {
 		        			return createUnifIterator(un);
 		        		} else {
-		        			return rhs.logicalConsequence(ag, un);
+		        			return rhs.logicalConsequence(ag, un, varnames);
 		        		}
 		        
 		        	case and:
-		        		ileft = lhs.logicalConsequence(ag,un);
+		        		ileft = lhs.logicalConsequence(ag,un, varnames);
 		        		return new Iterator<Unifier>() {
 		        			Unifier current = null;
 		        			Iterator<Unifier> iright = null;
@@ -345,11 +332,33 @@ public class Guard implements GLogicalFormula {
 		        			}
 		        			private void get() {
 		        				current = null;
+		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+		        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+		        				}
+		        				
 		        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
 		        					Unifier ul = ileft.next();
-		        					iright = rhs.logicalConsequence(ag, ul);
+		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
+			        				}		        					
+		        					iright = rhs.logicalConsequence(ag, ul, varnames);
+			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+			        				}
 		        				}
+		        				
+		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+		        					AJPFLogger.fine("ail.syntax.Guard", "Either ileft has no next or iright does have next");
+		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright has next: " + rhs);
+		        				}
+
+		        				
 		        				if (iright != null && iright.hasNext()) {
+		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
+			        				}		        					
 		        					current = iright.next();	 
 		        				}
 		        			}
@@ -360,7 +369,7 @@ public class Guard implements GLogicalFormula {
 	       } catch (Exception e) {
 	        		String slhs = "is null";
 	        		if (lhs != null) {
-	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un);
+	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un,varnames);
 	        			if (i != null) {
 	        				slhs = "";
 	        				while (i.hasNext()) {
@@ -372,7 +381,7 @@ public class Guard implements GLogicalFormula {
 	        		} 
 	        		String srhs = "is null";
 	        		if (lhs != null) {
-	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un);
+	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames);
 	        			if (i != null) {
 	        				srhs = "";
 	        				while (i.hasNext()) {
@@ -437,9 +446,10 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-	public void standardise_apart(Unifiable t, Unifier u) {
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getVarNames();
+    	tvarnames.addAll(varnames);
     	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
     	for (String s:myvarnames) {
@@ -517,7 +527,10 @@ public class Guard implements GLogicalFormula {
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Guard) {
 			Guard g = (Guard) t;
@@ -615,32 +628,5 @@ public class Guard implements GLogicalFormula {
 		}
 		return new Guard();
 	}
-
-    /**
-	 * List of the predicate indicators for positive guards that are of
-	 * belief type.  Can be used for quick filtering of plans.
-	 * @return
-	 */
-	/* public ArrayList<PredicateIndicator>  posbelInd() {
-		ArrayList <PredicateIndicator> pis = new ArrayList<PredicateIndicator>();
-		for (LogicalFormula lf: guardexpression.getPosTerms()) {
-			if (lf instanceof GBelief) {
-				GBelief b = (GBelief) lf;
-				if (b.getCategory() == GBelief.AILBel) {
-					pis.add(b.getLiteral().getPredicateIndicator());
-				}
-			}
-		}
-		return pis;
-		
-	} */
-	
-	/**
-	 * Return the variable names in the guard.
-	 * @return
-	 */
-	/* public List<String> getVarNames() {
-		return guardexpression.getVarNames();
-	} */
 	
 }

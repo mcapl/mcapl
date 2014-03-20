@@ -26,6 +26,7 @@ package ail.syntax.ast;
 
 import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.GuardAtom;
+import ail.syntax.Unifiable;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -59,7 +60,7 @@ public interface Abstract_GuardAtom extends Abstract_GLogicalFormula {
 	/**
 	 * Convert this into a concrete GuardAtom.
 	 */
-	public GuardAtom toMCAPL();
+	public GuardAtom<? extends Unifiable> toMCAPL();
 	
 	/**
 	 * Is this trivially true?

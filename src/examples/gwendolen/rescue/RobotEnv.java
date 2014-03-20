@@ -78,7 +78,7 @@ public class RobotEnv extends DefaultEnvironment {
 		if (agName.equals("r")) {
 			if (changer) {
 				if (withsearcher) {
-					//canseehumanr = random.nextBoolean();
+					canseehumanr = random.nextBoolean();
 				}
 			}
 			if (canseehumanr) {
@@ -94,7 +94,6 @@ public class RobotEnv extends DefaultEnvironment {
 			}
 			
 			if (canseehumanl) {
-				// System.err.println("having");
 				percepts.add(clear);
 			}
 			changel = false;

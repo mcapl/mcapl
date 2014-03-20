@@ -51,7 +51,7 @@ public interface Unifiable extends Cloneable {
 	 * @param varnames
 	 * @return
 	 */
-	public void standardise_apart(Unifiable t, Unifier u);
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames);
 	
 	/**
 	 * What are the names of the variables mentioned in this term?

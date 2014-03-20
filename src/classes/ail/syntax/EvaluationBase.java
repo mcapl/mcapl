@@ -25,7 +25,6 @@
 package ail.syntax;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * An Evaluation Base is a set of ground terms - typically a belief base or a goal base, against which some logical
@@ -34,8 +33,12 @@ import java.util.List;
  *
  */
 public interface EvaluationBase<K extends Unifiable> {
-	
-//	public Iterator<K> getRelevant(GuardAtom<K> ga);
 
+	/**
+	 * An iterator of all objects within the evaluation base that may be unifiable with ga.  This potentially allows some pre-filtering of 
+	 * elements for efficiency.
+	 * @param ga
+	 * @return
+	 */
 	public Iterator<K> getRelevant(K ga);
 }

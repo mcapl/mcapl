@@ -30,7 +30,6 @@ import org.junit.Assert;
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
 import ail.syntax.Equation;
-import ail.syntax.LogExpr;
 import ail.syntax.GBelief;
 import ail.syntax.Predicate;
 import ail.syntax.NumberTermImpl;
@@ -61,9 +60,7 @@ public class AILAgentTests {
 		score2.addTerm(new VarTerm("N2"));
 		
 		Equation eq = new Equation(new VarTerm("N1"), Equation.NumericOp.less, new VarTerm("N2"));
-		
-		LogExpr expression = new LogExpr(score1, LogExpr.LogicalOp.and, new LogExpr(score2, LogExpr.LogicalOp.and, eq));
-	
+			
 		AILAgent ag = new AILAgent();
 		
 		Literal b1 = new Literal("score");

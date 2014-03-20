@@ -24,13 +24,8 @@
 
 package ail.syntax.ast;
 
-import ail.syntax.GLogicalFormula;
 import ail.syntax.Guard;
-import ail.syntax.GuardAtom;
-import ail.syntax.LogExpr;
-import ail.syntax.Guard.GLogicalOp;
 
-import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -186,6 +181,10 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		return true;
 	}
 	
+	/**
+	 * Make a copy of this guard.
+	 * @return
+	 */
 	private Abstract_Guard guard_clone() {
 		Abstract_Guard gu = new Abstract_Guard();
 		if (lhs != null) {
@@ -196,14 +195,26 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		return gu;
 	}
 	
+	/**
+	 * Setter for the RHS.
+	 * @param lf
+	 */
 	private void setRHS(Abstract_GLogicalFormula lf) {
 		rhs = lf;
 	}
 
+	/**
+	 * Setter for the LHS.
+	 * @param lf
+	 */
 	private void setLHS(Abstract_GLogicalFormula lf) {
 		lhs = lf;
 	}
 	
+	/**
+	 * Setter for the operator.
+	 * @param i
+	 */
 	private void setOP(int i) {
 		op = i;
 	}

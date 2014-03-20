@@ -18,5 +18,10 @@ public class Tuple<K, L> {
 	public L getRight() {
 		return right;
 	}
+	
+	public String toString() {
+		String s = "<" + left + ", " + right + ">";
+		return s;
+	} 
 
 }

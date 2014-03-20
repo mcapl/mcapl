@@ -37,9 +37,14 @@ import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.GuardAtom;
+import ail.syntax.GMessage;
 import gwendolen.syntax.ast.Abstract_GPlan;
 
-
+/**
+ * Tests that the parser works correctly.
+ * @author louiseadennis
+ *
+ */
 public class ParsingTests {
 
 	
@@ -66,6 +71,9 @@ public class ParsingTests {
 		}
 	}
 	
+	/**
+	 * Testing parsing of message constructs in guards.
+	 */
 	@Test public void MessagesInGuardsTest() {
 		GwendolenLexer msg_lexer = new GwendolenLexer(new ANTLRStringStream("+e:{.sent(Ag, ag1, :tell, win)} <- d;"));
 		CommonTokenStream msg_tokens = new CommonTokenStream(msg_lexer);
@@ -75,8 +83,8 @@ public class ParsingTests {
 			Abstract_GPlan abs_plan = msg_parser.plan();
 			Guard guard = abs_plan.toMCAPL().getContext().get(0);
 		
-		
-			GuardAtom ga = (GuardAtom) guard.getRHS();
+			@SuppressWarnings("unchecked")
+			GuardAtom<GMessage> ga = (GuardAtom<GMessage>) guard.getRHS();
 			AILAgent ag = new AILAgent();
 			Message msg = new Message(1, "ag1", "r", new Literal("win"));
 			ag.newSentMessage(msg);

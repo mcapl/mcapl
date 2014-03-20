@@ -26,9 +26,7 @@ package ail.syntax.ast;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Goal;
-import ail.syntax.Literal;
 import ail.syntax.StringTerm;
-import ail.syntax.VarTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
