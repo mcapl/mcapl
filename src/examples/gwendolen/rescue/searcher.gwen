@@ -38,10 +38,10 @@ square(2, 0)
 square(2, 1)
 square(2, 2)
 
-:Belief Rules: 
+:Reasoning Rules: 
 			
-area_empty :- ~ ((square(Xc, Y), ~ (empty(Xc, Y))));
-unchecked(Xc, Y) :- (square(Xc, Y), (~ (at(Xc, Y)), ( ~ (empty(Xc, Y)), ~ (human(Xc, Y)))));
+area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
+unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
 
 :Initial Goals:
 				

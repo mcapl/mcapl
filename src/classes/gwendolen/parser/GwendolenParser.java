@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2014-01-21 11:03:15
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2014-03-26 16:57:50
 
 package gwendolen.parser;
 
@@ -1844,9 +1844,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:146:6: SEMI
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:119: SEMI
                     {
-                    match(input,SEMI,FOLLOW_SEMI_in_brule969); 
+                    match(input,SEMI,FOLLOW_SEMI_in_brule963); 
 
                     r = new Abstract_Rule(head);
 
@@ -1874,103 +1874,64 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "logicalfmla"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:1: logicalfmla returns [Abstract_LogicalFormula f] : (n= notfmla |a= andfmla |gb= literal );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:1: logicalfmla returns [Abstract_LogicalFormula f] : n= notfmla ( COMMA n2= notfmla )* ;
     public final Abstract_LogicalFormula logicalfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
 
         Abstract_LogicalFormula n =null;
 
-        Abstract_LogicalFormula a =null;
-
-        Abstract_Literal gb =null;
+        Abstract_LogicalFormula n2 =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:49: (n= notfmla |a= andfmla |gb= literal )
-            int alt27=3;
-            switch ( input.LA(1) ) {
-            case NOT:
-                {
-                int LA27_1 = input.LA(2);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:49: (n= notfmla ( COMMA n2= notfmla )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:51: n= notfmla ( COMMA n2= notfmla )*
+            {
+            pushFollow(FOLLOW_notfmla_in_logicalfmla980);
+            n=notfmla();
 
-                if ( (LA27_1==OPEN) ) {
+            state._fsp--;
+
+
+            f = n;
+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:16: ( COMMA n2= notfmla )*
+            loop27:
+            do {
+                int alt27=2;
+                int LA27_0 = input.LA(1);
+
+                if ( (LA27_0==COMMA) ) {
                     alt27=1;
                 }
-                else if ( (LA27_1==CONST||LA27_1==VAR) ) {
-                    alt27=3;
-                }
-                else {
-                    NoViableAltException nvae =
-                        new NoViableAltException("", 27, 1, input);
 
-                    throw nvae;
 
-                }
-                }
-                break;
-            case OPEN:
-                {
-                alt27=2;
-                }
-                break;
-            case CONST:
-            case TRUE:
-            case VAR:
-                {
-                alt27=3;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 27, 0, input);
+                switch (alt27) {
+            	case 1 :
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:17: COMMA n2= notfmla
+            	    {
+            	    match(input,COMMA,FOLLOW_COMMA_in_logicalfmla1000); 
 
-                throw nvae;
+            	    pushFollow(FOLLOW_notfmla_in_logicalfmla1004);
+            	    n2=notfmla();
+
+            	    state._fsp--;
+
+
+            	    f = new Abstract_LogExpr(f, Abstract_LogExpr.and, n2);
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop27;
+                }
+            } while (true);
+
 
             }
 
-            switch (alt27) {
-                case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:51: n= notfmla
-                    {
-                    pushFollow(FOLLOW_notfmla_in_logicalfmla985);
-                    n=notfmla();
-
-                    state._fsp--;
-
-
-                    f = n;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:75: a= andfmla
-                    {
-                    pushFollow(FOLLOW_andfmla_in_logicalfmla992);
-                    a=andfmla();
-
-                    state._fsp--;
-
-
-                    f = a;
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:147:100: gb= literal
-                    {
-                    pushFollow(FOLLOW_literal_in_logicalfmla1002);
-                    gb=literal();
-
-                    state._fsp--;
-
-
-                    f = gb;
-
-                    }
-                    break;
-
-            }
         }
         catch (RecognitionException re) {
             reportError(re);
@@ -1987,34 +1948,107 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "notfmla"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:1: notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf= logicalfmla CLOSE ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:1: notfmla returns [Abstract_LogicalFormula f] : (gb= pred | NOT (gb2= pred |lf= subfmla ) );
     public final Abstract_LogicalFormula notfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
+
+        Abstract_Predicate gb =null;
+
+        Abstract_Predicate gb2 =null;
 
         Abstract_LogicalFormula lf =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:45: ( NOT OPEN lf= logicalfmla CLOSE )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:148:47: NOT OPEN lf= logicalfmla CLOSE
-            {
-            match(input,NOT,FOLLOW_NOT_in_notfmla1015); 
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:45: (gb= pred | NOT (gb2= pred |lf= subfmla ) )
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            match(input,OPEN,FOLLOW_OPEN_in_notfmla1017); 
+            if ( (LA29_0==CONST||LA29_0==VAR) ) {
+                alt29=1;
+            }
+            else if ( (LA29_0==NOT) ) {
+                alt29=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 29, 0, input);
 
-            pushFollow(FOLLOW_logicalfmla_in_notfmla1023);
-            lf=logicalfmla();
-
-            state._fsp--;
-
-
-            f = new Abstract_LogExpr(Abstract_LogExpr.not, lf);
-
-            match(input,CLOSE,FOLLOW_CLOSE_in_notfmla1027); 
+                throw nvae;
 
             }
+            switch (alt29) {
+                case 1 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:47: gb= pred
+                    {
+                    pushFollow(FOLLOW_pred_in_notfmla1039);
+                    gb=pred();
 
+                    state._fsp--;
+
+
+                    f = gb;
+
+                    }
+                    break;
+                case 2 :
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:79: NOT (gb2= pred |lf= subfmla )
+                    {
+                    match(input,NOT,FOLLOW_NOT_in_notfmla1124); 
+
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:83: (gb2= pred |lf= subfmla )
+                    int alt28=2;
+                    int LA28_0 = input.LA(1);
+
+                    if ( (LA28_0==CONST||LA28_0==VAR) ) {
+                        alt28=1;
+                    }
+                    else if ( (LA28_0==OPEN) ) {
+                        alt28=2;
+                    }
+                    else {
+                        NoViableAltException nvae =
+                            new NoViableAltException("", 28, 0, input);
+
+                        throw nvae;
+
+                    }
+                    switch (alt28) {
+                        case 1 :
+                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:84: gb2= pred
+                            {
+                            pushFollow(FOLLOW_pred_in_notfmla1131);
+                            gb2=pred();
+
+                            state._fsp--;
+
+
+                            f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);
+
+                            }
+                            break;
+                        case 2 :
+                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:153: lf= subfmla
+                            {
+                            pushFollow(FOLLOW_subfmla_in_notfmla1141);
+                            lf=subfmla();
+
+                            state._fsp--;
+
+
+                            f = new Abstract_LogExpr(Abstract_LogExpr.not, lf);
+
+                            }
+                            break;
+
+                    }
+
+
+                    }
+                    break;
+
+            }
         }
         catch (RecognitionException re) {
             reportError(re);
@@ -2030,40 +2064,30 @@ public class GwendolenParser extends Parser {
 
 
 
-    // $ANTLR start "andfmla"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:149:1: andfmla returns [Abstract_LogicalFormula f] : OPEN f1= logicalfmla COMMA and= logicalfmla CLOSE ;
-    public final Abstract_LogicalFormula andfmla() throws RecognitionException {
+    // $ANTLR start "subfmla"
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:152:1: subfmla returns [Abstract_LogicalFormula f] : OPEN lf= logicalfmla CLOSE ;
+    public final Abstract_LogicalFormula subfmla() throws RecognitionException {
         Abstract_LogicalFormula f = null;
 
 
-        Abstract_LogicalFormula f1 =null;
-
-        Abstract_LogicalFormula and =null;
+        Abstract_LogicalFormula lf =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:149:45: ( OPEN f1= logicalfmla COMMA and= logicalfmla CLOSE )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:149:47: OPEN f1= logicalfmla COMMA and= logicalfmla CLOSE
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:152:45: ( OPEN lf= logicalfmla CLOSE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:152:47: OPEN lf= logicalfmla CLOSE
             {
-            match(input,OPEN,FOLLOW_OPEN_in_andfmla1038); 
+            match(input,OPEN,FOLLOW_OPEN_in_subfmla1155); 
 
-            pushFollow(FOLLOW_logicalfmla_in_andfmla1044);
-            f1=logicalfmla();
-
-            state._fsp--;
-
-
-            match(input,COMMA,FOLLOW_COMMA_in_andfmla1047); 
-
-            pushFollow(FOLLOW_logicalfmla_in_andfmla1051);
-            and=logicalfmla();
+            pushFollow(FOLLOW_logicalfmla_in_subfmla1161);
+            lf=logicalfmla();
 
             state._fsp--;
 
 
-            f = new Abstract_LogExpr(f1, Abstract_LogExpr.and, and);
+            f = lf;
 
-            match(input,CLOSE,FOLLOW_CLOSE_in_andfmla1055); 
+            match(input,CLOSE,FOLLOW_CLOSE_in_subfmla1165); 
 
             }
 
@@ -2078,12 +2102,12 @@ public class GwendolenParser extends Parser {
         }
         return f;
     }
-    // $ANTLR end "andfmla"
+    // $ANTLR end "subfmla"
 
 
 
     // $ANTLR start "waitfor"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:1: waitfor returns [Abstract_Literal wf] : MULT l= literal ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:1: waitfor returns [Abstract_Literal wf] : MULT l= literal ;
     public final Abstract_Literal waitfor() throws RecognitionException {
         Abstract_Literal wf = null;
 
@@ -2092,12 +2116,12 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:39: ( MULT l= literal )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:151:42: MULT l= literal
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:39: ( MULT l= literal )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:42: MULT l= literal
             {
-            match(input,MULT,FOLLOW_MULT_in_waitfor1068); 
+            match(input,MULT,FOLLOW_MULT_in_waitfor1180); 
 
-            pushFollow(FOLLOW_literal_in_waitfor1072);
+            pushFollow(FOLLOW_literal_in_waitfor1184);
             l=literal();
 
             state._fsp--;
@@ -2123,7 +2147,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "action"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:153:1: action returns [Abstract_Action a] : ( ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:157:1: action returns [Abstract_Action a] : ( ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred );
     public final Abstract_Action action() throws RecognitionException {
         Abstract_Action a = null;
 
@@ -2136,57 +2160,57 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:153:36: ( ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred )
-            int alt28=2;
-            int LA28_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:157:36: ( ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred )
+            int alt30=2;
+            int LA30_0 = input.LA(1);
 
-            if ( (LA28_0==SEND) ) {
-                alt28=1;
+            if ( (LA30_0==SEND) ) {
+                alt30=1;
             }
-            else if ( (LA28_0==CONST||LA28_0==VAR) ) {
-                alt28=2;
+            else if ( (LA30_0==CONST||LA30_0==VAR) ) {
+                alt30=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 28, 0, input);
+                    new NoViableAltException("", 30, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt28) {
+            switch (alt30) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:154:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:158:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
                     {
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:154:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:154:3: SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:158:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:158:3: SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE
                     {
-                    match(input,SEND,FOLLOW_SEND_in_action1089); 
+                    match(input,SEND,FOLLOW_SEND_in_action1201); 
 
-                    match(input,OPEN,FOLLOW_OPEN_in_action1091); 
+                    match(input,OPEN,FOLLOW_OPEN_in_action1203); 
 
-                    pushFollow(FOLLOW_literal_in_action1095);
+                    pushFollow(FOLLOW_literal_in_action1207);
                     an=literal();
 
                     state._fsp--;
 
 
-                    match(input,COMMA,FOLLOW_COMMA_in_action1097); 
+                    match(input,COMMA,FOLLOW_COMMA_in_action1209); 
 
-                    pushFollow(FOLLOW_performative_in_action1101);
+                    pushFollow(FOLLOW_performative_in_action1213);
                     p=performative();
 
                     state._fsp--;
 
 
-                    match(input,COMMA,FOLLOW_COMMA_in_action1103); 
+                    match(input,COMMA,FOLLOW_COMMA_in_action1215); 
 
-                    pushFollow(FOLLOW_pred_in_action1107);
+                    pushFollow(FOLLOW_pred_in_action1219);
                     t=pred();
 
                     state._fsp--;
 
 
-                    match(input,CLOSE,FOLLOW_CLOSE_in_action1109); 
+                    match(input,CLOSE,FOLLOW_CLOSE_in_action1221); 
 
                     a = new Abstract_SendAction(an, p, t);
 
@@ -2196,9 +2220,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:155:2: t= pred
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:159:2: t= pred
                     {
-                    pushFollow(FOLLOW_pred_in_action1120);
+                    pushFollow(FOLLOW_pred_in_action1232);
                     t=pred();
 
                     state._fsp--;
@@ -2226,7 +2250,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "environment"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:197:1: environment returns [String env] : w= classpath ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:1: environment returns [String env] : w= classpath ;
     public final String environment() throws RecognitionException {
         String env = null;
 
@@ -2235,10 +2259,10 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:197:34: (w= classpath )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:197:36: w= classpath
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:34: (w= classpath )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:36: w= classpath
             {
-            pushFollow(FOLLOW_classpath_in_environment1400);
+            pushFollow(FOLLOW_classpath_in_environment1512);
             w=classpath();
 
             state._fsp--;
@@ -2264,7 +2288,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "classpath"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:198:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:202:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
     public final String classpath() throws RecognitionException {
         String s = null;
 
@@ -2275,10 +2299,10 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:198:30: (w= word ( POINT w1= word )+ )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:198:32: w= word ( POINT w1= word )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:202:30: (w= word ( POINT w1= word )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:202:32: w= word ( POINT w1= word )+
             {
-            pushFollow(FOLLOW_word_in_classpath1415);
+            pushFollow(FOLLOW_word_in_classpath1527);
             w=word();
 
             state._fsp--;
@@ -2286,25 +2310,25 @@ public class GwendolenParser extends Parser {
 
             s = w;
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:198:52: ( POINT w1= word )+
-            int cnt29=0;
-            loop29:
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:202:52: ( POINT w1= word )+
+            int cnt31=0;
+            loop31:
             do {
-                int alt29=2;
-                int LA29_0 = input.LA(1);
+                int alt31=2;
+                int LA31_0 = input.LA(1);
 
-                if ( (LA29_0==POINT) ) {
-                    alt29=1;
+                if ( (LA31_0==POINT) ) {
+                    alt31=1;
                 }
 
 
-                switch (alt29) {
+                switch (alt31) {
             	case 1 :
-            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:198:53: POINT w1= word
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:202:53: POINT w1= word
             	    {
-            	    match(input,POINT,FOLLOW_POINT_in_classpath1420); 
+            	    match(input,POINT,FOLLOW_POINT_in_classpath1532); 
 
-            	    pushFollow(FOLLOW_word_in_classpath1424);
+            	    pushFollow(FOLLOW_word_in_classpath1536);
             	    w1=word();
 
             	    state._fsp--;
@@ -2316,12 +2340,12 @@ public class GwendolenParser extends Parser {
             	    break;
 
             	default :
-            	    if ( cnt29 >= 1 ) break loop29;
+            	    if ( cnt31 >= 1 ) break loop31;
                         EarlyExitException eee =
-                            new EarlyExitException(29, input);
+                            new EarlyExitException(31, input);
                         throw eee;
                 }
-                cnt29++;
+                cnt31++;
             } while (true);
 
 
@@ -2343,7 +2367,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "word"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:1: word returns [String s] : ( CONST | VAR ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:1: word returns [String s] : ( CONST | VAR ) ;
     public final String word() throws RecognitionException {
         String s = null;
 
@@ -2352,40 +2376,40 @@ public class GwendolenParser extends Parser {
         Token VAR2=null;
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:25: ( ( CONST | VAR ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:27: ( CONST | VAR )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:25: ( ( CONST | VAR ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:27: ( CONST | VAR )
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:27: ( CONST | VAR )
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:27: ( CONST | VAR )
+            int alt32=2;
+            int LA32_0 = input.LA(1);
 
-            if ( (LA30_0==CONST) ) {
-                alt30=1;
+            if ( (LA32_0==CONST) ) {
+                alt32=1;
             }
-            else if ( (LA30_0==VAR) ) {
-                alt30=2;
+            else if ( (LA32_0==VAR) ) {
+                alt32=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 30, 0, input);
+                    new NoViableAltException("", 32, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt30) {
+            switch (alt32) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:28: CONST
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:28: CONST
                     {
-                    CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word1525); 
+                    CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word1637); 
 
                     s =CONST1.getText();
 
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:199:59: VAR
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:203:59: VAR
                     {
-                    VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word1531); 
+                    VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word1643); 
 
                     s =VAR2.getText();
 
@@ -2413,7 +2437,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "agentnameterm"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:205:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
     public final Abstract_StringTerm agentnameterm() throws RecognitionException {
         Abstract_StringTerm s = null;
 
@@ -2423,37 +2447,37 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:47: ( CONST |v= var )
-            int alt31=2;
-            int LA31_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:205:47: ( CONST |v= var )
+            int alt33=2;
+            int LA33_0 = input.LA(1);
 
-            if ( (LA31_0==CONST) ) {
-                alt31=1;
+            if ( (LA33_0==CONST) ) {
+                alt33=1;
             }
-            else if ( (LA31_0==VAR) ) {
-                alt31=2;
+            else if ( (LA33_0==VAR) ) {
+                alt33=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 31, 0, input);
+                    new NoViableAltException("", 33, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt31) {
+            switch (alt33) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:49: CONST
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:205:49: CONST
                     {
-                    CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1631); 
+                    CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1743); 
 
                     s = new Abstract_StringTermImpl(CONST3.getText());
 
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:201:111: v= var
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:205:111: v= var
                     {
-                    pushFollow(FOLLOW_var_in_agentnameterm1639);
+                    pushFollow(FOLLOW_var_in_agentnameterm1751);
                     v=var();
 
                     state._fsp--;
@@ -2481,7 +2505,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "literal"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:204:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:208:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
     public final Abstract_Literal literal() throws RecognitionException {
         Abstract_Literal l = null;
 
@@ -2492,60 +2516,60 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:204:37: ( ( TRUE | NOT nt= pred ) |t= pred )
-            int alt33=2;
-            int LA33_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:208:37: ( ( TRUE | NOT nt= pred ) |t= pred )
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA33_0==NOT||LA33_0==TRUE) ) {
-                alt33=1;
+            if ( (LA35_0==NOT||LA35_0==TRUE) ) {
+                alt35=1;
             }
-            else if ( (LA33_0==CONST||LA33_0==VAR) ) {
-                alt33=2;
+            else if ( (LA35_0==CONST||LA35_0==VAR) ) {
+                alt35=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 33, 0, input);
+                    new NoViableAltException("", 35, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt33) {
+            switch (alt35) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:204:40: ( TRUE | NOT nt= pred )
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:208:40: ( TRUE | NOT nt= pred )
                     {
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:204:40: ( TRUE | NOT nt= pred )
-                    int alt32=2;
-                    int LA32_0 = input.LA(1);
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:208:40: ( TRUE | NOT nt= pred )
+                    int alt34=2;
+                    int LA34_0 = input.LA(1);
 
-                    if ( (LA32_0==TRUE) ) {
-                        alt32=1;
+                    if ( (LA34_0==TRUE) ) {
+                        alt34=1;
                     }
-                    else if ( (LA32_0==NOT) ) {
-                        alt32=2;
+                    else if ( (LA34_0==NOT) ) {
+                        alt34=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 32, 0, input);
+                            new NoViableAltException("", 34, 0, input);
 
                         throw nvae;
 
                     }
-                    switch (alt32) {
+                    switch (alt34) {
                         case 1 :
-                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:204:41: TRUE
+                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:208:41: TRUE
                             {
-                            match(input,TRUE,FOLLOW_TRUE_in_literal1655); 
+                            match(input,TRUE,FOLLOW_TRUE_in_literal1767); 
 
                             l = new Abstract_Literal(Abstract_Literal.LTrue);
 
                             }
                             break;
                         case 2 :
-                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:205:5: NOT nt= pred
+                            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:209:5: NOT nt= pred
                             {
-                            match(input,NOT,FOLLOW_NOT_in_literal1666); 
+                            match(input,NOT,FOLLOW_NOT_in_literal1778); 
 
-                            pushFollow(FOLLOW_pred_in_literal1670);
+                            pushFollow(FOLLOW_pred_in_literal1782);
                             nt=pred();
 
                             state._fsp--;
@@ -2565,9 +2589,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:209:5: t= pred
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:213:5: t= pred
                     {
-                    pushFollow(FOLLOW_pred_in_literal1684);
+                    pushFollow(FOLLOW_pred_in_literal1796);
                     t=pred();
 
                     state._fsp--;
@@ -2597,7 +2621,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "pred"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:213:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
     public final Abstract_Predicate pred() throws RecognitionException {
         Abstract_Predicate t = null;
 
@@ -2608,28 +2632,28 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:213:37: (v= var |f= function )
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:37: (v= var |f= function )
+            int alt36=2;
+            int LA36_0 = input.LA(1);
 
-            if ( (LA34_0==VAR) ) {
-                alt34=1;
+            if ( (LA36_0==VAR) ) {
+                alt36=1;
             }
-            else if ( (LA34_0==CONST) ) {
-                alt34=2;
+            else if ( (LA36_0==CONST) ) {
+                alt36=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 34, 0, input);
+                    new NoViableAltException("", 36, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt34) {
+            switch (alt36) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:213:39: v= var
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:39: v= var
                     {
-                    pushFollow(FOLLOW_var_in_pred1700);
+                    pushFollow(FOLLOW_var_in_pred1812);
                     v=var();
 
                     state._fsp--;
@@ -2640,9 +2664,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:213:59: f= function
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:59: f= function
                     {
-                    pushFollow(FOLLOW_function_in_pred1707);
+                    pushFollow(FOLLOW_function_in_pred1819);
                     f=function();
 
                     state._fsp--;
@@ -2670,7 +2694,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "function"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:214:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:218:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
     public final Abstract_Predicate function() throws RecognitionException {
         Abstract_Predicate f = null;
 
@@ -2678,33 +2702,33 @@ public class GwendolenParser extends Parser {
         Token CONST4=null;
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:214:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:214:42: CONST ( OPEN terms[$f] CLOSE )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:218:40: ( CONST ( OPEN terms[$f] CLOSE )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:218:42: CONST ( OPEN terms[$f] CLOSE )?
             {
-            CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1719); 
+            CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1831); 
 
             f = new Abstract_Predicate(CONST4.getText());
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:214:97: ( OPEN terms[$f] CLOSE )?
-            int alt35=2;
-            int LA35_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:218:97: ( OPEN terms[$f] CLOSE )?
+            int alt37=2;
+            int LA37_0 = input.LA(1);
 
-            if ( (LA35_0==OPEN) ) {
-                alt35=1;
+            if ( (LA37_0==OPEN) ) {
+                alt37=1;
             }
-            switch (alt35) {
+            switch (alt37) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:214:98: OPEN terms[$f] CLOSE
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:218:98: OPEN terms[$f] CLOSE
                     {
-                    match(input,OPEN,FOLLOW_OPEN_in_function1724); 
+                    match(input,OPEN,FOLLOW_OPEN_in_function1836); 
 
-                    pushFollow(FOLLOW_terms_in_function1726);
+                    pushFollow(FOLLOW_terms_in_function1838);
                     terms(f);
 
                     state._fsp--;
 
 
-                    match(input,CLOSE,FOLLOW_CLOSE_in_function1729); 
+                    match(input,CLOSE,FOLLOW_CLOSE_in_function1841); 
 
                     }
                     break;
@@ -2730,16 +2754,16 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "terms"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:216:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
     public final void terms(Abstract_Predicate f) throws RecognitionException {
         Abstract_Term t =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:216:29: (t= term ( COMMA terms[$f] )? )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:216:31: t= term ( COMMA terms[$f] )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:29: (t= term ( COMMA terms[$f] )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:31: t= term ( COMMA terms[$f] )?
             {
-            pushFollow(FOLLOW_term_in_terms1742);
+            pushFollow(FOLLOW_term_in_terms1854);
             t=term();
 
             state._fsp--;
@@ -2747,20 +2771,20 @@ public class GwendolenParser extends Parser {
 
             f.addTerm(t);
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:216:58: ( COMMA terms[$f] )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:58: ( COMMA terms[$f] )?
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA36_0==COMMA) ) {
-                alt36=1;
+            if ( (LA38_0==COMMA) ) {
+                alt38=1;
             }
-            switch (alt36) {
+            switch (alt38) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:216:59: COMMA terms[$f]
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:59: COMMA terms[$f]
                     {
-                    match(input,COMMA,FOLLOW_COMMA_in_terms1747); 
+                    match(input,COMMA,FOLLOW_COMMA_in_terms1859); 
 
-                    pushFollow(FOLLOW_terms_in_terms1749);
+                    pushFollow(FOLLOW_terms_in_terms1861);
                     terms(f);
 
                     state._fsp--;
@@ -2790,7 +2814,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "term"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
     public final Abstract_Term term() throws RecognitionException {
         Abstract_Term t = null;
 
@@ -2803,40 +2827,40 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:31: (a= atom |s= stringterm |f= function )
-            int alt37=3;
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:31: (a= atom |s= stringterm |f= function )
+            int alt39=3;
             switch ( input.LA(1) ) {
             case MINUS:
             case NUMBER:
             case OPEN:
             case VAR:
                 {
-                alt37=1;
+                alt39=1;
                 }
                 break;
             case DOUBLEQUOTE:
                 {
-                alt37=2;
+                alt39=2;
                 }
                 break;
             case CONST:
                 {
-                alt37=3;
+                alt39=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 37, 0, input);
+                    new NoViableAltException("", 39, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt37) {
+            switch (alt39) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:34: a= atom
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:34: a= atom
                     {
-                    pushFollow(FOLLOW_atom_in_term1768);
+                    pushFollow(FOLLOW_atom_in_term1880);
                     a=atom();
 
                     state._fsp--;
@@ -2847,9 +2871,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:58: s= stringterm
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:58: s= stringterm
                     {
-                    pushFollow(FOLLOW_stringterm_in_term1778);
+                    pushFollow(FOLLOW_stringterm_in_term1890);
                     s=stringterm();
 
                     state._fsp--;
@@ -2860,9 +2884,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:217:88: f= function
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:88: f= function
                     {
-                    pushFollow(FOLLOW_function_in_term1786);
+                    pushFollow(FOLLOW_function_in_term1898);
                     f=function();
 
                     state._fsp--;
@@ -2890,7 +2914,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "atom"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:219:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:223:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
     public final Abstract_NumberTerm atom() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -2903,38 +2927,38 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:219:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
-            int alt38=3;
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:223:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
+            int alt40=3;
             switch ( input.LA(1) ) {
             case MINUS:
             case NUMBER:
                 {
-                alt38=1;
+                alt40=1;
                 }
                 break;
             case VAR:
                 {
-                alt38=2;
+                alt40=2;
                 }
                 break;
             case OPEN:
                 {
-                alt38=3;
+                alt40=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 38, 0, input);
+                    new NoViableAltException("", 40, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt38) {
+            switch (alt40) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:219:40: n= numberstring
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:223:40: n= numberstring
                     {
-                    pushFollow(FOLLOW_numberstring_in_atom1804);
+                    pushFollow(FOLLOW_numberstring_in_atom1916);
                     n=numberstring();
 
                     state._fsp--;
@@ -2945,9 +2969,9 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:6: v= var
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:224:6: v= var
                     {
-                    pushFollow(FOLLOW_var_in_atom1817);
+                    pushFollow(FOLLOW_var_in_atom1929);
                     v=var();
 
                     state._fsp--;
@@ -2958,17 +2982,17 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:220:27: OPEN a= arithexpr CLOSE
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:224:27: OPEN a= arithexpr CLOSE
                     {
-                    match(input,OPEN,FOLLOW_OPEN_in_atom1823); 
+                    match(input,OPEN,FOLLOW_OPEN_in_atom1935); 
 
-                    pushFollow(FOLLOW_arithexpr_in_atom1827);
+                    pushFollow(FOLLOW_arithexpr_in_atom1939);
                     a=arithexpr();
 
                     state._fsp--;
 
 
-                    match(input,CLOSE,FOLLOW_CLOSE_in_atom1829); 
+                    match(input,CLOSE,FOLLOW_CLOSE_in_atom1941); 
 
                     t = a;
 
@@ -2992,7 +3016,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "stringterm"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:225:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
     public final Abstract_StringTerm stringterm() throws RecognitionException {
         Abstract_StringTerm s = null;
 
@@ -3000,14 +3024,14 @@ public class GwendolenParser extends Parser {
         Token STRING5=null;
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:221:46: DOUBLEQUOTE STRING DOUBLEQUOTE
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:225:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:225:46: DOUBLEQUOTE STRING DOUBLEQUOTE
             {
-            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1842); 
+            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1954); 
 
-            STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1845); 
+            STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1957); 
 
-            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1847); 
+            match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1959); 
 
             		 
                                s = new Abstract_StringTermImpl(STRING5.getText());
@@ -3030,7 +3054,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "var"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:224:1: var returns [Abstract_VarTerm v] : VAR ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:228:1: var returns [Abstract_VarTerm v] : VAR ;
     public final Abstract_VarTerm var() throws RecognitionException {
         Abstract_VarTerm v = null;
 
@@ -3038,10 +3062,10 @@ public class GwendolenParser extends Parser {
         Token VAR6=null;
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:224:34: ( VAR )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:224:36: VAR
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:228:34: ( VAR )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:228:36: VAR
             {
-            VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1861); 
+            VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1973); 
 
 
             	if (variables.containsKey(VAR6.getText())) {
@@ -3070,7 +3094,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "numberstring"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
     public final String numberstring() throws RecognitionException {
         String s = null;
 
@@ -3079,23 +3103,23 @@ public class GwendolenParser extends Parser {
         Token n2=null;
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
             {
             s = "";
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:46: ( MINUS )?
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:46: ( MINUS )?
+            int alt41=2;
+            int LA41_0 = input.LA(1);
 
-            if ( (LA39_0==MINUS) ) {
-                alt39=1;
+            if ( (LA41_0==MINUS) ) {
+                alt41=1;
             }
-            switch (alt39) {
+            switch (alt41) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:47: MINUS
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:47: MINUS
                     {
-                    match(input,MINUS,FOLLOW_MINUS_in_numberstring1878); 
+                    match(input,MINUS,FOLLOW_MINUS_in_numberstring1990); 
 
                     s += "-";
 
@@ -3105,29 +3129,29 @@ public class GwendolenParser extends Parser {
             }
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:233:69: n1= NUMBER ( POINT n2= NUMBER )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:68: (n1= NUMBER ( POINT n2= NUMBER )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:237:69: n1= NUMBER ( POINT n2= NUMBER )?
             {
-            n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1887); 
+            n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1999); 
 
             s += n1.getText();
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:234:6: ( POINT n2= NUMBER )?
-            int alt40=2;
-            int LA40_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:6: ( POINT n2= NUMBER )?
+            int alt42=2;
+            int LA42_0 = input.LA(1);
 
-            if ( (LA40_0==POINT) ) {
-                alt40=1;
+            if ( (LA42_0==POINT) ) {
+                alt42=1;
             }
-            switch (alt40) {
+            switch (alt42) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:234:7: POINT n2= NUMBER
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:7: POINT n2= NUMBER
                     {
-                    match(input,POINT,FOLLOW_POINT_in_numberstring1897); 
+                    match(input,POINT,FOLLOW_POINT_in_numberstring2009); 
 
                     s += ".";
 
-                    n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1903); 
+                    n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2015); 
 
                     s += n2.getText();
 
@@ -3158,7 +3182,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "equation"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:235:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
     public final Abstract_Equation equation() throws RecognitionException {
         Abstract_Equation eq = null;
 
@@ -3171,22 +3195,22 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:235:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:235:42: a1= arithexpr oper= eqoper a2= arithexpr
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:40: (a1= arithexpr oper= eqoper a2= arithexpr )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:42: a1= arithexpr oper= eqoper a2= arithexpr
             {
-            pushFollow(FOLLOW_arithexpr_in_equation1920);
+            pushFollow(FOLLOW_arithexpr_in_equation2032);
             a1=arithexpr();
 
             state._fsp--;
 
 
-            pushFollow(FOLLOW_eqoper_in_equation1924);
+            pushFollow(FOLLOW_eqoper_in_equation2036);
             oper=eqoper();
 
             state._fsp--;
 
 
-            pushFollow(FOLLOW_arithexpr_in_equation1928);
+            pushFollow(FOLLOW_arithexpr_in_equation2040);
             a2=arithexpr();
 
             state._fsp--;
@@ -3212,43 +3236,43 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "eqoper"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:236:1: eqoper returns [int oper] : ( LESS | EQ );
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:1: eqoper returns [int oper] : ( LESS | EQ );
     public final int eqoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:236:27: ( LESS | EQ )
-            int alt41=2;
-            int LA41_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:27: ( LESS | EQ )
+            int alt43=2;
+            int LA43_0 = input.LA(1);
 
-            if ( (LA41_0==LESS) ) {
-                alt41=1;
+            if ( (LA43_0==LESS) ) {
+                alt43=1;
             }
-            else if ( (LA41_0==EQ) ) {
-                alt41=2;
+            else if ( (LA43_0==EQ) ) {
+                alt43=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 41, 0, input);
+                    new NoViableAltException("", 43, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt41) {
+            switch (alt43) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:236:29: LESS
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:29: LESS
                     {
-                    match(input,LESS,FOLLOW_LESS_in_eqoper1942); 
+                    match(input,LESS,FOLLOW_LESS_in_eqoper2054); 
 
                     oper =Abstract_Equation.less;
 
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:236:68: EQ
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:240:68: EQ
                     {
-                    match(input,EQ,FOLLOW_EQ_in_eqoper1948); 
+                    match(input,EQ,FOLLOW_EQ_in_eqoper2060); 
 
                     oper =Abstract_Equation.equal;
 
@@ -3272,7 +3296,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "arithexpr"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
     public final Abstract_NumberTerm arithexpr() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -3285,10 +3309,10 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:43: (m= multexpr (oper= addoper m1= multexpr )? )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:45: m= multexpr (oper= addoper m1= multexpr )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:43: (m= multexpr (oper= addoper m1= multexpr )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:45: m= multexpr (oper= addoper m1= multexpr )?
             {
-            pushFollow(FOLLOW_multexpr_in_arithexpr1964);
+            pushFollow(FOLLOW_multexpr_in_arithexpr2076);
             m=multexpr();
 
             state._fsp--;
@@ -3296,24 +3320,24 @@ public class GwendolenParser extends Parser {
 
             t = m;
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:69: (oper= addoper m1= multexpr )?
-            int alt42=2;
-            int LA42_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:69: (oper= addoper m1= multexpr )?
+            int alt44=2;
+            int LA44_0 = input.LA(1);
 
-            if ( (LA42_0==MINUS||LA42_0==PLUS) ) {
-                alt42=1;
+            if ( (LA44_0==MINUS||LA44_0==PLUS) ) {
+                alt44=1;
             }
-            switch (alt42) {
+            switch (alt44) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:238:71: oper= addoper m1= multexpr
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:71: oper= addoper m1= multexpr
                     {
-                    pushFollow(FOLLOW_addoper_in_arithexpr1972);
+                    pushFollow(FOLLOW_addoper_in_arithexpr2084);
                     oper=addoper();
 
                     state._fsp--;
 
 
-                    pushFollow(FOLLOW_multexpr_in_arithexpr1976);
+                    pushFollow(FOLLOW_multexpr_in_arithexpr2088);
                     m1=multexpr();
 
                     state._fsp--;
@@ -3345,7 +3369,7 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "multexpr"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
     public final Abstract_NumberTerm multexpr() throws RecognitionException {
         Abstract_NumberTerm t = null;
 
@@ -3358,10 +3382,10 @@ public class GwendolenParser extends Parser {
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:42: (a= atom (oper= multoper a1= atom )? )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:44: a= atom (oper= multoper a1= atom )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:42: (a= atom (oper= multoper a1= atom )? )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:44: a= atom (oper= multoper a1= atom )?
             {
-            pushFollow(FOLLOW_atom_in_multexpr1993);
+            pushFollow(FOLLOW_atom_in_multexpr2105);
             a=atom();
 
             state._fsp--;
@@ -3369,24 +3393,24 @@ public class GwendolenParser extends Parser {
 
             t = a;
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:64: (oper= multoper a1= atom )?
-            int alt43=2;
-            int LA43_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:64: (oper= multoper a1= atom )?
+            int alt45=2;
+            int LA45_0 = input.LA(1);
 
-            if ( (LA43_0==DIV||(LA43_0 >= MOD && LA43_0 <= MULT)) ) {
-                alt43=1;
+            if ( (LA45_0==DIV||(LA45_0 >= MOD && LA45_0 <= MULT)) ) {
+                alt45=1;
             }
-            switch (alt43) {
+            switch (alt45) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:65: oper= multoper a1= atom
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:243:65: oper= multoper a1= atom
                     {
-                    pushFollow(FOLLOW_multoper_in_multexpr2000);
+                    pushFollow(FOLLOW_multoper_in_multexpr2112);
                     oper=multoper();
 
                     state._fsp--;
 
 
-                    pushFollow(FOLLOW_atom_in_multexpr2004);
+                    pushFollow(FOLLOW_atom_in_multexpr2116);
                     a1=atom();
 
                     state._fsp--;
@@ -3418,46 +3442,46 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "addoper"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
     public final int addoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:28: ( ( PLUS | MINUS ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:30: ( PLUS | MINUS )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:28: ( ( PLUS | MINUS ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:30: ( PLUS | MINUS )
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:30: ( PLUS | MINUS )
-            int alt44=2;
-            int LA44_0 = input.LA(1);
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:30: ( PLUS | MINUS )
+            int alt46=2;
+            int LA46_0 = input.LA(1);
 
-            if ( (LA44_0==PLUS) ) {
-                alt44=1;
+            if ( (LA46_0==PLUS) ) {
+                alt46=1;
             }
-            else if ( (LA44_0==MINUS) ) {
-                alt44=2;
+            else if ( (LA46_0==MINUS) ) {
+                alt46=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 44, 0, input);
+                    new NoViableAltException("", 46, 0, input);
 
                 throw nvae;
 
             }
-            switch (alt44) {
+            switch (alt46) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:31: PLUS
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:31: PLUS
                     {
-                    match(input,PLUS,FOLLOW_PLUS_in_addoper2021); 
+                    match(input,PLUS,FOLLOW_PLUS_in_addoper2133); 
 
                     oper =Abstract_ArithExpr.plus;
 
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:241:70: MINUS
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:245:70: MINUS
                     {
-                    match(input,MINUS,FOLLOW_MINUS_in_addoper2026); 
+                    match(input,MINUS,FOLLOW_MINUS_in_addoper2138); 
 
                     oper =Abstract_ArithExpr.minus;
 
@@ -3485,64 +3509,64 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "multoper"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
     public final int multoper() throws RecognitionException {
         int oper = 0;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:29: ( ( MULT | DIV | MOD ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:31: ( MULT | DIV | MOD )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:29: ( ( MULT | DIV | MOD ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:31: ( MULT | DIV | MOD )
             {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:31: ( MULT | DIV | MOD )
-            int alt45=3;
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:31: ( MULT | DIV | MOD )
+            int alt47=3;
             switch ( input.LA(1) ) {
             case MULT:
                 {
-                alt45=1;
+                alt47=1;
                 }
                 break;
             case DIV:
                 {
-                alt45=2;
+                alt47=2;
                 }
                 break;
             case MOD:
                 {
-                alt45=3;
+                alt47=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 45, 0, input);
+                    new NoViableAltException("", 47, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt45) {
+            switch (alt47) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:32: MULT
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:32: MULT
                     {
-                    match(input,MULT,FOLLOW_MULT_in_multoper2041); 
+                    match(input,MULT,FOLLOW_MULT_in_multoper2153); 
 
                     oper =Abstract_ArithExpr.times;
 
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:73: DIV
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:73: DIV
                     {
-                    match(input,DIV,FOLLOW_DIV_in_multoper2047); 
+                    match(input,DIV,FOLLOW_DIV_in_multoper2159); 
 
                     oper =Abstract_ArithExpr.div;
 
                     }
                     break;
                 case 3 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:242:111: MOD
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:111: MOD
                     {
-                    match(input,MOD,FOLLOW_MOD_in_multoper2053); 
+                    match(input,MOD,FOLLOW_MOD_in_multoper2165); 
 
                     oper =Abstract_ArithExpr.mod;
 
@@ -3673,85 +3697,83 @@ public class GwendolenParser extends Parser {
     public static final BitSet FOLLOW_action_in_deed900 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_waitfor_in_deed913 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_literal_in_brule948 = new BitSet(new long[]{0x0002000000002000L});
-    public static final BitSet FOLLOW_BRULEARROW_in_brule951 = new BitSet(new long[]{0x0C00014000040000L});
+    public static final BitSet FOLLOW_BRULEARROW_in_brule951 = new BitSet(new long[]{0x0800004000040000L});
     public static final BitSet FOLLOW_logicalfmla_in_brule955 = new BitSet(new long[]{0x0002000000000000L});
     public static final BitSet FOLLOW_SEMI_in_brule959 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SEMI_in_brule969 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_notfmla_in_logicalfmla985 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_andfmla_in_logicalfmla992 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_logicalfmla1002 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_notfmla1015 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_OPEN_in_notfmla1017 = new BitSet(new long[]{0x0C00014000040000L});
-    public static final BitSet FOLLOW_logicalfmla_in_notfmla1023 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_CLOSE_in_notfmla1027 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPEN_in_andfmla1038 = new BitSet(new long[]{0x0C00014000040000L});
-    public static final BitSet FOLLOW_logicalfmla_in_andfmla1044 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_andfmla1047 = new BitSet(new long[]{0x0C00014000040000L});
-    public static final BitSet FOLLOW_logicalfmla_in_andfmla1051 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_CLOSE_in_andfmla1055 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MULT_in_waitfor1068 = new BitSet(new long[]{0x0C00004000040000L});
-    public static final BitSet FOLLOW_literal_in_waitfor1072 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SEND_in_action1089 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_OPEN_in_action1091 = new BitSet(new long[]{0x0C00004000040000L});
-    public static final BitSet FOLLOW_literal_in_action1095 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_action1097 = new BitSet(new long[]{0x0300020000080010L});
-    public static final BitSet FOLLOW_performative_in_action1101 = new BitSet(new long[]{0x0000000000010000L});
-    public static final BitSet FOLLOW_COMMA_in_action1103 = new BitSet(new long[]{0x0800000000040000L});
-    public static final BitSet FOLLOW_pred_in_action1107 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_CLOSE_in_action1109 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pred_in_action1120 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_classpath_in_environment1400 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_word_in_classpath1415 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_POINT_in_classpath1420 = new BitSet(new long[]{0x0800000000040000L});
-    public static final BitSet FOLLOW_word_in_classpath1424 = new BitSet(new long[]{0x0000200000000002L});
-    public static final BitSet FOLLOW_CONST_in_word1525 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VAR_in_word1531 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_agentnameterm1631 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_agentnameterm1639 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TRUE_in_literal1655 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_literal1666 = new BitSet(new long[]{0x0800000000040000L});
-    public static final BitSet FOLLOW_pred_in_literal1670 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pred_in_literal1684 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_pred1700 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_function_in_pred1707 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_function1719 = new BitSet(new long[]{0x0000010000000002L});
-    public static final BitSet FOLLOW_OPEN_in_function1724 = new BitSet(new long[]{0x0800018200840000L});
-    public static final BitSet FOLLOW_terms_in_function1726 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_CLOSE_in_function1729 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_term_in_terms1742 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_COMMA_in_terms1747 = new BitSet(new long[]{0x0800018200840000L});
-    public static final BitSet FOLLOW_terms_in_terms1749 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_term1768 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_stringterm_in_term1778 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_function_in_term1786 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_numberstring_in_atom1804 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_var_in_atom1817 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPEN_in_atom1823 = new BitSet(new long[]{0x0800018200000000L});
-    public static final BitSet FOLLOW_arithexpr_in_atom1827 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_CLOSE_in_atom1829 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1842 = new BitSet(new long[]{0x0080000000000000L});
-    public static final BitSet FOLLOW_STRING_in_stringterm1845 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1847 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VAR_in_var1861 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_numberstring1878 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_NUMBER_in_numberstring1887 = new BitSet(new long[]{0x0000200000000002L});
-    public static final BitSet FOLLOW_POINT_in_numberstring1897 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_NUMBER_in_numberstring1903 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arithexpr_in_equation1920 = new BitSet(new long[]{0x0000000041000000L});
-    public static final BitSet FOLLOW_eqoper_in_equation1924 = new BitSet(new long[]{0x0800018200000000L});
-    public static final BitSet FOLLOW_arithexpr_in_equation1928 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LESS_in_eqoper1942 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_EQ_in_eqoper1948 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_multexpr_in_arithexpr1964 = new BitSet(new long[]{0x0000100200000002L});
-    public static final BitSet FOLLOW_addoper_in_arithexpr1972 = new BitSet(new long[]{0x0800018200000000L});
-    public static final BitSet FOLLOW_multexpr_in_arithexpr1976 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_multexpr1993 = new BitSet(new long[]{0x0000000C00400002L});
-    public static final BitSet FOLLOW_multoper_in_multexpr2000 = new BitSet(new long[]{0x0800018200000000L});
-    public static final BitSet FOLLOW_atom_in_multexpr2004 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_addoper2021 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_addoper2026 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MULT_in_multoper2041 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DIV_in_multoper2047 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MOD_in_multoper2053 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SEMI_in_brule963 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_notfmla_in_logicalfmla980 = new BitSet(new long[]{0x0000000000010002L});
+    public static final BitSet FOLLOW_COMMA_in_logicalfmla1000 = new BitSet(new long[]{0x0800004000040000L});
+    public static final BitSet FOLLOW_notfmla_in_logicalfmla1004 = new BitSet(new long[]{0x0000000000010002L});
+    public static final BitSet FOLLOW_pred_in_notfmla1039 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_notfmla1124 = new BitSet(new long[]{0x0800010000040000L});
+    public static final BitSet FOLLOW_pred_in_notfmla1131 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_subfmla_in_notfmla1141 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPEN_in_subfmla1155 = new BitSet(new long[]{0x0800004000040000L});
+    public static final BitSet FOLLOW_logicalfmla_in_subfmla1161 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_CLOSE_in_subfmla1165 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MULT_in_waitfor1180 = new BitSet(new long[]{0x0C00004000040000L});
+    public static final BitSet FOLLOW_literal_in_waitfor1184 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SEND_in_action1201 = new BitSet(new long[]{0x0000010000000000L});
+    public static final BitSet FOLLOW_OPEN_in_action1203 = new BitSet(new long[]{0x0C00004000040000L});
+    public static final BitSet FOLLOW_literal_in_action1207 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_COMMA_in_action1209 = new BitSet(new long[]{0x0300020000080010L});
+    public static final BitSet FOLLOW_performative_in_action1213 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_COMMA_in_action1215 = new BitSet(new long[]{0x0800000000040000L});
+    public static final BitSet FOLLOW_pred_in_action1219 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_CLOSE_in_action1221 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pred_in_action1232 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_classpath_in_environment1512 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_word_in_classpath1527 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_POINT_in_classpath1532 = new BitSet(new long[]{0x0800000000040000L});
+    public static final BitSet FOLLOW_word_in_classpath1536 = new BitSet(new long[]{0x0000200000000002L});
+    public static final BitSet FOLLOW_CONST_in_word1637 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VAR_in_word1643 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CONST_in_agentnameterm1743 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_var_in_agentnameterm1751 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TRUE_in_literal1767 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_literal1778 = new BitSet(new long[]{0x0800000000040000L});
+    public static final BitSet FOLLOW_pred_in_literal1782 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pred_in_literal1796 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_var_in_pred1812 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_function_in_pred1819 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CONST_in_function1831 = new BitSet(new long[]{0x0000010000000002L});
+    public static final BitSet FOLLOW_OPEN_in_function1836 = new BitSet(new long[]{0x0800018200840000L});
+    public static final BitSet FOLLOW_terms_in_function1838 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_CLOSE_in_function1841 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_term_in_terms1854 = new BitSet(new long[]{0x0000000000010002L});
+    public static final BitSet FOLLOW_COMMA_in_terms1859 = new BitSet(new long[]{0x0800018200840000L});
+    public static final BitSet FOLLOW_terms_in_terms1861 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_atom_in_term1880 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_stringterm_in_term1890 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_function_in_term1898 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_numberstring_in_atom1916 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_var_in_atom1929 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPEN_in_atom1935 = new BitSet(new long[]{0x0800018200000000L});
+    public static final BitSet FOLLOW_arithexpr_in_atom1939 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_CLOSE_in_atom1941 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1954 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_STRING_in_stringterm1957 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1959 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VAR_in_var1973 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_numberstring1990 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_NUMBER_in_numberstring1999 = new BitSet(new long[]{0x0000200000000002L});
+    public static final BitSet FOLLOW_POINT_in_numberstring2009 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_NUMBER_in_numberstring2015 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arithexpr_in_equation2032 = new BitSet(new long[]{0x0000000041000000L});
+    public static final BitSet FOLLOW_eqoper_in_equation2036 = new BitSet(new long[]{0x0800018200000000L});
+    public static final BitSet FOLLOW_arithexpr_in_equation2040 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LESS_in_eqoper2054 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_EQ_in_eqoper2060 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_multexpr_in_arithexpr2076 = new BitSet(new long[]{0x0000100200000002L});
+    public static final BitSet FOLLOW_addoper_in_arithexpr2084 = new BitSet(new long[]{0x0800018200000000L});
+    public static final BitSet FOLLOW_multexpr_in_arithexpr2088 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_atom_in_multexpr2105 = new BitSet(new long[]{0x0000000C00400002L});
+    public static final BitSet FOLLOW_multoper_in_multexpr2112 = new BitSet(new long[]{0x0800018200000000L});
+    public static final BitSet FOLLOW_atom_in_multexpr2116 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PLUS_in_addoper2133 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_addoper2138 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MULT_in_multoper2153 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DIV_in_multoper2159 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MOD_in_multoper2165 = new BitSet(new long[]{0x0000000000000002L});
 
 }

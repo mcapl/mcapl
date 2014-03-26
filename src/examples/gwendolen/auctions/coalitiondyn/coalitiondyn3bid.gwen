@@ -32,7 +32,7 @@ my_name(ag1)
 
 :Belief Rules:
 
-B allbids :- (B bid_processed(ag2), (B bid_processed(ag3), B bid_processed(ag4)));
+B allbids :- B bid_processed(ag2), B bid_processed(ag3), B bid_processed(ag4);
 
 :Initial Goals:
 

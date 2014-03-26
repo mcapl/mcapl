@@ -34,10 +34,10 @@ square(0, 1)
 square(1, 0)
 square(1, 1)
 
-:Belief Rules: 
+:Reasoning Rules: 
 			
-area_empty :- ~ ((square(Xc, Y), ~ (empty(Xc, Y))));
-unchecked(Xc, Y) :- (square(Xc, Y), (~ (at(Xc, Y)), ( ~ (empty(Xc, Y)), ~ (human(Xc, Y)))));
+area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
+unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
 
 :Initial Goals:
 				

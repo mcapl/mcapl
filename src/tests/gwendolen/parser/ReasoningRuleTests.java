@@ -17,6 +17,9 @@ import ail.syntax.VarTerm;
 import ail.syntax.Guard;
 import ail.syntax.Unifier;
 
+//import ajpf.util.AJPFLogger;
+//import java.util.logging.Level;
+
 import java.util.Iterator;
 
 /**
@@ -30,13 +33,13 @@ public class ReasoningRuleTests {
 	 * 
 	 */
 	@Test public void ruleUnificationTest() {
-		// AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
-		// AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(Xc, Y) :- (square(Xc, Y), (~ (at(Xc, Y)), ( ~ (empty(Xc, Y)), ~ (human(Xc, Y)))));"));
+//		AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
+//		AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
+		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
 		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
 		
-		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("area_empty :- ~ ((square(Xc, Y), ~ (empty(Xc, Y))));"));
+		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));"));
 		CommonTokenStream rule2_tokens = new CommonTokenStream(rule2_lexer);
 		GwendolenParser rule2_parser = new GwendolenParser(rule2_tokens);
 		try {

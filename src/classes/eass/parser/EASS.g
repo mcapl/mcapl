@@ -135,10 +135,11 @@ wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = term COM
 brule returns [Abstract_Rule r] : head=literal (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
-               (COMMA (n2=notfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $n2.f);} | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : gb = literal {$f = gb;} | 
-                                                                              NOT (gb2 = literal {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
-subfmla returns [Abstract_LogicalFormula f] : SQOPEN lf = logicalfmla {$f = $lf.f;} SQCLOSE;
+               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla returns [Abstract_LogicalFormula f] : gb = pred {$f = gb;} | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
 	
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 
@@ -166,7 +167,7 @@ LOCK	:	'.lock';
 GOALS	:	':Initial Goals:' {belief_rules=0;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
-	:	':Belief Rules:' {belief_rules=1;};
+	:	':Reasoning Rules:' {belief_rules=1;};
 PLANS	:	':Plans:';
 EASS	:	{curly_nesting == 0}?=> 'EASS';
 NAME	:	':name:';

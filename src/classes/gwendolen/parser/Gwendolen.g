@@ -142,11 +142,15 @@ deed returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abst
 // brule returns [Rule r] : head=gbelief BRULEARROW gb=gbelief {$r = new Rule($head.g, $gb.g);} 
 //	(COMMA and=andfmla {LogExpr body = new LogExpr($gb.g, LogExpr.LogicalOp.and, $and.f); 
 //		$r = new Rule($head.g, body);})? SEMI;
-brule returns [Abstract_Rule r] : head=literal (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | 
-					SEMI {$r = new Abstract_Rule(head);});
-logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}| a=andfmla {$f = $a.f;} | gb = literal {$f = gb;};
-notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf = logicalfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);} CLOSE;
-andfmla returns [Abstract_LogicalFormula f] : OPEN f1 = logicalfmla  COMMA and=logicalfmla {$f = new Abstract_LogExpr($f1.f, Abstract_LogExpr.and, $and.f);} CLOSE;
+brule returns [Abstract_Rule r] : head=literal (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
+
+logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
+               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla returns [Abstract_LogicalFormula f] : gb = pred {$f = gb;} | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
+	
 
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 
@@ -159,7 +163,7 @@ GWENDOLEN	:{curly_nesting == 0}?=>'GWENDOLEN' {gwendolen = true;};
 GOALS	:	':Initial Goals:' {belief_rules = 0;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
-	:	':Belief Rules:' {belief_rules = 1;};
+	:	':Reasoning Rules:' {belief_rules = 1;};
 PLANS	:	':Plans:';
 NAME	:	':name:';
 

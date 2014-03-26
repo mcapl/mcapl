@@ -29,7 +29,7 @@
 
 :Belief Rules:
 
-B can_accelerate :- B safe, [~ B driver_accelerates, ~ B driver_brakes];
+B can_accelerate :- B safe, ~ B driver_accelerates, ~ B driver_brakes;
 
 :Initial Goals:
 
