@@ -141,6 +141,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
 			if (hasContent()) {
 				if (referstoGoal())  {
 					return (new Event(getTrigType(), ((Goal) getContent()).clone()));
+				} else if (referstoSentMessage()) {
+					return (new Event(getTrigType(), getCategory(), ((Message) getContent()).clone()));
 				} else {
 					return (new Event(getTrigType(), getCategory(), ((Literal) getContent()).clone()));
 				}

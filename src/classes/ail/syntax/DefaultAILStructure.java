@@ -479,6 +479,14 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	public boolean referstoGoal() {
 		return (getCategory() == AILGoal);
 	}
+	
+	/**
+	 * This structure refers to a message.
+	 * @return
+	 */
+	public boolean referstoSentMessage() {
+		return (getCategory() == AILSent);
+	}
 
 	/*
 	 * (non-Javadoc)
