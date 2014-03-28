@@ -33,7 +33,8 @@ mas.file = /src/examples/eass/verification/leo/satellite.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ajpf.MCAPLAgent
-log.info = eass.mas.DefaultEnvironment, ail.semantics.AILAgent
+log.info = eass.mas.DefaultEnvironment
+log.fine = ail.semantics.AILAgent
 log.format = brief
 
 # Satellite specific configuration

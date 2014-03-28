@@ -158,21 +158,23 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		} else {
 			if (b) {
 				if (op == none) {
-					lhs = gb;
+					lhs = rhs;
+					rhs = gb;
 					op = and;
 				} else {
-					rhs = guard_clone();
-					lhs = gb;
+					lhs = guard_clone();
+					rhs = gb;
 					op = and;
 				}
 			} else {
 				Abstract_Guard ng = new Abstract_Guard(gb, false);
 				if (op == none) {
-					lhs = ng;
+					lhs = rhs;
+					rhs = ng;
 					op = and;
 				} else {
-					rhs = guard_clone();
-					lhs = ng;
+					lhs = guard_clone();
+					rhs = ng;
 					op = and;
 				}
 			}

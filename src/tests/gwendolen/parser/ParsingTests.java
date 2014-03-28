@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012-2014 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -24,6 +24,8 @@
 
 package gwendolen.parser;
 
+import java.util.Iterator;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -35,9 +37,11 @@ import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.syntax.Message;
+import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.GuardAtom;
 import ail.syntax.GMessage;
+import ail.syntax.Plan;
 import gwendolen.syntax.ast.Abstract_GPlan;
 
 /**
@@ -94,6 +98,41 @@ public class ParsingTests {
 			System.err.println(e);
 		}
 		
+	}
+	
+	@Test public void parseOrderTest() {
+//		AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
+//		AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
+		GwendolenLexer plan_lexer = new GwendolenLexer(new ANTLRStringStream("+win(Ag, X): {B my_name(Name), ~ B win(Name, Any), B collaborator(Coll)} <- +!coalition(Coll) [achieve];"));
+		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
+		GwendolenParser plan_parser = new GwendolenParser(plan_tokens);
+		
+		try {
+			Abstract_GPlan ast_plan = plan_parser.plan();
+			Plan plan = ast_plan.toMCAPL();
+			
+			AILAgent ag = new AILAgent();
+
+			Literal myname = new Literal("my_name");
+			myname.addTerm(new Literal("ag2"));
+			ag.addBel(myname, AILAgent.refertoself());
+
+			Literal winner = new Literal("win");
+			winner.addTerm(new Literal("ag4"));
+			winner.addTerm(new NumberTermImpl("1"));
+			ag.addBel(winner, AILAgent.refertoself());
+			
+			Literal collaborator = new Literal("collaborator");
+			collaborator.addTerm(new Literal("ag4"));
+			ag.addBel(collaborator, AILAgent.refertoself());
+						
+			Iterator<Unifier> ui = ag.believes(plan.getContext().get(plan.getContext().size() - 1), new Unifier());
+			
+			Unifier un = ui.next();
+			Assert.assertTrue(un != null);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
  
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2014-03-26 17:01:33
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2014-03-27 14:13:12
 
 package eass.parser;
 
@@ -338,7 +338,7 @@ public class EASSParser extends Parser {
                         int alt4=2;
                         int LA4_0 = input.LA(1);
 
-                        if ( (LA4_0==CONST||LA4_0==NOT||LA4_0==TRUE||LA4_0==VAR) ) {
+                        if ( (LA4_0==CONST||LA4_0==VAR) ) {
                             alt4=1;
                         }
 
@@ -1778,27 +1778,27 @@ public class EASSParser extends Parser {
 
 
     // $ANTLR start "brule"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:1: brule returns [Abstract_Rule r] : head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:1: brule returns [Abstract_Rule r] : head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
     public final Abstract_Rule brule() throws RecognitionException {
         Abstract_Rule r = null;
 
 
-        Abstract_Literal head =null;
+        Abstract_Predicate head =null;
 
         Abstract_LogicalFormula f =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:33: (head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:35: head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:33: (head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:35: head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI )
             {
-            pushFollow(FOLLOW_literal_in_brule877);
-            head=literal();
+            pushFollow(FOLLOW_pred_in_brule877);
+            head=pred();
 
             state._fsp--;
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:48: ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:45: ( BRULEARROW f= logicalfmla SEMI | SEMI )
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -1817,7 +1817,7 @@ public class EASSParser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:49: BRULEARROW f= logicalfmla SEMI
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:46: BRULEARROW f= logicalfmla SEMI
                     {
                     match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule880); 
 
@@ -1834,7 +1834,7 @@ public class EASSParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:119: SEMI
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:116: SEMI
                     {
                     match(input,SEMI,FOLLOW_SEMI_in_brule892); 
 
@@ -3750,8 +3750,8 @@ public class EASSParser extends Parser {
     public static final BitSet FOLLOW_word_in_eassagent145 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_BELIEFS_in_eassagent157 = new BitSet(new long[]{0x0140000402010080L});
     public static final BitSet FOLLOW_literal_in_eassagent162 = new BitSet(new long[]{0x0140000402010080L});
-    public static final BitSet FOLLOW_BELIEFRULES_in_eassagent170 = new BitSet(new long[]{0x0140000402010000L});
-    public static final BitSet FOLLOW_brule_in_eassagent175 = new BitSet(new long[]{0x0140000402010000L});
+    public static final BitSet FOLLOW_BELIEFRULES_in_eassagent170 = new BitSet(new long[]{0x0100000002010000L});
+    public static final BitSet FOLLOW_brule_in_eassagent175 = new BitSet(new long[]{0x0100000002010000L});
     public static final BitSet FOLLOW_GOALS_in_eassagent184 = new BitSet(new long[]{0x0140008400010000L});
     public static final BitSet FOLLOW_goal_in_eassagent189 = new BitSet(new long[]{0x0140008400010000L});
     public static final BitSet FOLLOW_PLANS_in_eassagent196 = new BitSet(new long[]{0x0000010020000002L});
@@ -3839,7 +3839,7 @@ public class EASSParser extends Parser {
     public static final BitSet FOLLOW_COMMA_in_wait849 = new BitSet(new long[]{0x0140000400010000L});
     public static final BitSet FOLLOW_literal_in_wait853 = new BitSet(new long[]{0x0000000000001000L});
     public static final BitSet FOLLOW_CLOSE_in_wait855 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_brule877 = new BitSet(new long[]{0x0000400000000400L});
+    public static final BitSet FOLLOW_pred_in_brule877 = new BitSet(new long[]{0x0000400000000400L});
     public static final BitSet FOLLOW_BRULEARROW_in_brule880 = new BitSet(new long[]{0x0100000400010000L});
     public static final BitSet FOLLOW_logicalfmla_in_brule884 = new BitSet(new long[]{0x0000400000000000L});
     public static final BitSet FOLLOW_SEMI_in_brule888 = new BitSet(new long[]{0x0000000000000002L});

@@ -39,7 +39,7 @@ vm.max_transition_length = MAX
 
 
 
-vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
 
 # ====================================================== results
 # no errors detected

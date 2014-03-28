@@ -91,31 +91,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		this.addAnnotFrom(p);
 		goaltype = n;
 	}
-		
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.DefaultTerm#apply(ail.semantics.Unifier)
-	 */
-/*	public boolean apply(Unifier u) {
-		if (l == null) {
-			boolean b = var.apply(u);
 			
-			if (var.isVar()) {
-				return b;
-			} else if (var.isLiteral()) {
-				l = var;
-				var = null;
-				return b;
-			} else {
-				l = new Literal(var);
-				var = null;
-				return b;
-			}
-		} else {
-			return  l.apply(u);
-		}
-	} */
-	
 	/**
 	 * Getter method for the goal type.
 	 * 
@@ -177,25 +153,6 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return g;
 	}
 	
-	/**
-	 * Returns either the variables or the literal.
-	 * @return
-	 */
-/*	private Literal getContent() {
-		if (var == null) {
-			return l;
-		} else {
-			return var;
-		}
-	} */
-		
-	/**
-	 * Returns the literal part of the goal.
-	 * @return
-	 */
-/*	public Literal getLiteral() {
-		return getContent();
-	} */
 	
 	/**
 	 * Since goals get used in unification we need to be able to annonymise
@@ -497,6 +454,14 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 */
 	public Predicate getLogicalContent() {
 		return this;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
+	public boolean isVar() {
+		return Character.isUpperCase(getFunctor().charAt(0));
 	}
 
 }

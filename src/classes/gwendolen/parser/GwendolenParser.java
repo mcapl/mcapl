@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2014-03-26 16:57:50
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2014-03-27 14:11:47
 
 package gwendolen.parser;
 
@@ -322,7 +322,7 @@ public class GwendolenParser extends Parser {
                         int alt4=2;
                         int LA4_0 = input.LA(1);
 
-                        if ( (LA4_0==CONST||LA4_0==NOT||(LA4_0 >= TRUE && LA4_0 <= VAR)) ) {
+                        if ( (LA4_0==CONST||LA4_0==VAR) ) {
                             alt4=1;
                         }
 
@@ -1788,27 +1788,27 @@ public class GwendolenParser extends Parser {
 
 
     // $ANTLR start "brule"
-    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:1: brule returns [Abstract_Rule r] : head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
+    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:1: brule returns [Abstract_Rule r] : head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
     public final Abstract_Rule brule() throws RecognitionException {
         Abstract_Rule r = null;
 
 
-        Abstract_Literal head =null;
+        Abstract_Predicate head =null;
 
         Abstract_LogicalFormula f =null;
 
 
         try {
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:33: (head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:35: head= literal ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:33: (head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:35: head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI )
             {
-            pushFollow(FOLLOW_literal_in_brule948);
-            head=literal();
+            pushFollow(FOLLOW_pred_in_brule948);
+            head=pred();
 
             state._fsp--;
 
 
-            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:48: ( BRULEARROW f= logicalfmla SEMI | SEMI )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:45: ( BRULEARROW f= logicalfmla SEMI | SEMI )
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -1827,7 +1827,7 @@ public class GwendolenParser extends Parser {
             }
             switch (alt26) {
                 case 1 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:49: BRULEARROW f= logicalfmla SEMI
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:46: BRULEARROW f= logicalfmla SEMI
                     {
                     match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule951); 
 
@@ -1844,7 +1844,7 @@ public class GwendolenParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:119: SEMI
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:145:116: SEMI
                     {
                     match(input,SEMI,FOLLOW_SEMI_in_brule963); 
 
@@ -3604,8 +3604,8 @@ public class GwendolenParser extends Parser {
     public static final BitSet FOLLOW_word_in_gwendolenagent150 = new BitSet(new long[]{0x0000000000000800L});
     public static final BitSet FOLLOW_BELIEFS_in_gwendolenagent155 = new BitSet(new long[]{0x0C00004004040400L});
     public static final BitSet FOLLOW_literal_in_gwendolenagent160 = new BitSet(new long[]{0x0C00004004040400L});
-    public static final BitSet FOLLOW_BELIEFRULES_in_gwendolenagent168 = new BitSet(new long[]{0x0C00004004040000L});
-    public static final BitSet FOLLOW_brule_in_gwendolenagent173 = new BitSet(new long[]{0x0C00004004040000L});
+    public static final BitSet FOLLOW_BELIEFRULES_in_gwendolenagent168 = new BitSet(new long[]{0x0800000004040000L});
+    public static final BitSet FOLLOW_brule_in_gwendolenagent173 = new BitSet(new long[]{0x0800000004040000L});
     public static final BitSet FOLLOW_GOALS_in_gwendolenagent182 = new BitSet(new long[]{0x0C00084000040000L});
     public static final BitSet FOLLOW_goal_in_gwendolenagent187 = new BitSet(new long[]{0x0C00084000040000L});
     public static final BitSet FOLLOW_PLANS_in_gwendolenagent194 = new BitSet(new long[]{0x0000100200000002L});
@@ -3696,7 +3696,7 @@ public class GwendolenParser extends Parser {
     public static final BitSet FOLLOW_LOCK_in_deed881 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_action_in_deed900 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_waitfor_in_deed913 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_brule948 = new BitSet(new long[]{0x0002000000002000L});
+    public static final BitSet FOLLOW_pred_in_brule948 = new BitSet(new long[]{0x0002000000002000L});
     public static final BitSet FOLLOW_BRULEARROW_in_brule951 = new BitSet(new long[]{0x0800004000040000L});
     public static final BitSet FOLLOW_logicalfmla_in_brule955 = new BitSet(new long[]{0x0002000000000000L});
     public static final BitSet FOLLOW_SEMI_in_brule959 = new BitSet(new long[]{0x0000000000000002L});

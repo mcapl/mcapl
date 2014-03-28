@@ -25,3 +25,5 @@
 env = gwendolen.auctions.AuctionEnv
 mas.file = src/examples/gwendolen/auctions/coalitiondyn/coalitiondyn3bid.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+log.fine = ail.syntax.Guard,ail.syntax.EvaluationAndRuleBaseIterator
