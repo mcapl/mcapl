@@ -1352,7 +1352,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 					candidate = p;
 				} else {
 				int value = scoreplan(p);
-					if (value > currentvalue) {
+					if (value < currentvalue) {
 						currentvalue = value;
 						candidate = p;
 					}

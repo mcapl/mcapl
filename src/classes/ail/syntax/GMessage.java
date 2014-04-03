@@ -251,8 +251,8 @@ public class GMessage implements GuardAtom<Message> {
 	 * @see ail.syntax.GuardAtom#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
 	 */
 	public boolean unifieswith(Message m, Unifier u, String s) {
-		if (sender.unifies(new StringTermImpl(m.getSender()), u)) {
-			if (receiver.unifies(new StringTermImpl(m.getReceiver()), u)) {
+		if (sender.unifies(new StringTermImpl(m.getSender()), u) || sender.unifies(new Predicate(m.getSender()), u)) {
+			if (receiver.unifies(new StringTermImpl(m.getReceiver()), u) || receiver.unifies(new Predicate(m.getReceiver()), u)) {
 				if (performative == m.getIlForce()) {
 					if (content.unifies(m.getPropCont(), u)) {
 						return threadId.unifies(m.getThreadId(), u);
@@ -385,5 +385,18 @@ public class GMessage implements GuardAtom<Message> {
 	public Unifiable strip_varterm() {
 		return new GMessage(category, performative, (StringTerm) sender.strip_varterm(), (StringTerm) receiver.strip_varterm(), (Term) content.strip_varterm(), (StringTerm) threadId.strip_varterm());
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+        s.append("<").append(threadId).append(",").append(sender).append(",").append(performative);
+        s.append(",").append(receiver).append(",").append(content).append(">");
+        String s1 = s.toString();
+        return s1;
+    }
+
 
 }

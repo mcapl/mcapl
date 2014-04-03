@@ -37,12 +37,19 @@ import ail.syntax.Unifier;
 import ail.syntax.Deed;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
+import ail.syntax.GMessage;
+import ail.syntax.VarTerm;
+import ail.syntax.Predicate;
 import ail.semantics.operationalrules.HandleAddAchieveTestGoalwEvent;
+
+import java.util.Iterator;
+
+import junit.framework.Assert;
 
 public class MessageHandlingTests {
 	
 	/*
-	 * What happens when an intention contains a sent message.
+	 * What happens when an intention contains a sent message.  Checking no errors are thrown.
 	 */
 	@Test public void sentMessageInIntentions() {
 		
@@ -71,5 +78,30 @@ public class MessageHandlingTests {
 		rule.apply(a);
 	
 	}
+	
+	@Test public void sentMessageInGuard() {
+		SendAction sent = new SendAction(new StringTermImpl("ag1"), 0, new Literal("message"));
+		AILAgent a = new AILAgent();
+		Message msg = sent.getMessage("ag");
+		a.newSentMessage(msg);
+		
+		Guard g = new Guard(new GMessage(Event.AILSent, 0, new StringTermImpl("ag"), new StringTermImpl("ag1"), new Literal("message")));
+		Iterator<Unifier> iun = a.believes(g, new Unifier());
+		Assert.assertTrue(iun.hasNext());
+	}
 
+	@Test public void sentMessageInGuardwUnification() {
+		SendAction sent = new SendAction(new StringTermImpl("ag1"), 1, new Literal("message"));
+		AILAgent a = new AILAgent();
+		Message msg = sent.getMessage("ag");
+		a.newSentMessage(msg);
+		
+		Unifier u = new Unifier();
+		u.unifies(new VarTerm("Name"), new Predicate("ag"));
+		u.unifies(new VarTerm("Ag"), new StringTermImpl("ag1"));
+		
+		Guard g = new Guard(new GMessage(Event.AILSent, 1, new VarTerm("Name"), new VarTerm("Ag"), new Literal("message")));
+		Iterator<Unifier> iun = a.believes(g, u);
+		Assert.assertTrue(iun.hasNext());
+	}
 }
