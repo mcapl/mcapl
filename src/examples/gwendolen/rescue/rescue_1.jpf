@@ -28,7 +28,6 @@ target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/rescue/searcher.ail,${mcapl}/src/examples/gwendolen/rescue/rescue.psl,1
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,gwendolen.rescue.RobotEnv
-log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
