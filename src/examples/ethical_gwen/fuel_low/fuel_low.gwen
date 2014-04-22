@@ -1,0 +1,41 @@
+:name: executive
+
+:Ethical Policy:
+
+E(flightPhase(cruise), doNotViolateRoA500Feet, 2)
+E(flightPhase(cruise), doNotCollideObjectsOnGround, 3)
+E(flightPhase(cruise), doNotCauseDamageToCriticalInfrastructure, 4)
+E(flightPhase(cruise), doNotCollidePeople, 5)
+
+:Initial Beliefs:
+
+flightPhase(cruise)
+
+:Reasoning Rules:
+
+other_choices_violated(T) :- ~ untried_plan_not_violates(T);
+an_ethic_in(P, [Eth|T]) :- ethics_of(P, Eth) [ethics];
+an_ethic_in(P, [Eth|T]) :- an_ethic_in(P, T);
+un_tried_plan :- applicable(P) [applicable_plans], ~ already_tried(P);
+untried_plan(P) :- applicable(P) [applicable_plans], ~ already_tried(P);
+some_applicable :- applicable(P) [applicable_plans];
+some_plan_tried :- already_tried(P);
+untried_plan_not_violates(T) :- untried_plan(P), ~ an_ethic_in(P, T);
+
+:Initial Goals:
+
+startup [perform]
+
+:Plans:
+
++!startup [perform]: {True} <- +! missionComplete [achieve];
+
+// DAS (detect and avoid sensor) is polled
++!missionComplete [achieve] : {B flightPhase(cruise) } <- 
+ *missionComplete;
+   
+ +fuel(fuelLowEmerg) : {B flightPhase(cruise)} <-
+  +! landEmerg [achieve],
+  -! missionComplete [achieve];
+  
++!landEmerg [achieve] : {B safeToLand} <- reqRoute(rp, landEmerg), +missionComplete;

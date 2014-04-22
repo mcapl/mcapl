@@ -30,6 +30,7 @@ package ail.mas;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
@@ -224,9 +225,12 @@ public class MAS implements MCAPLmas {
      */
     public boolean hasPercept(MCAPLFormula fmla) {
     	for (AILAgent ag: fAgents.values()) {
-    		for (Predicate s: fEnv.getPercepts(ag.getAgName(), false)) {
-    			if (s.equals(new Predicate((MCAPLPredicate) fmla))) {
-    				return true;
+    		Set<Predicate> ps = fEnv.getPercepts(ag.getAgName(), false);
+    		if (ps != null) {
+    			for (Predicate s: ps) {
+    				if (s.equals(new Predicate((MCAPLPredicate) fmla))) {
+    					return true;
+    				}
     			}
     		}
     	}
