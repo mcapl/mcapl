@@ -92,7 +92,7 @@ public class EASSMatLabEnvironment extends DefaultEASSEnvironment {
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
-	protected boolean done = false;
+	// protected boolean done = false;
 	/**
 	 * A separate thread for processing calculations and waiting on their answers.
 	 */

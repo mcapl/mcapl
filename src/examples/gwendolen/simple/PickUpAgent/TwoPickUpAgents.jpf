@@ -33,5 +33,5 @@ log.fine = ajpf.MCAPLcontroller
 listener+=,.listener.ExecTracker
 et.print_insn=false
 
-vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
 
