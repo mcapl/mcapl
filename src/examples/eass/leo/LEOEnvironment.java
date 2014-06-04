@@ -40,7 +40,7 @@ import ail.syntax.Predicate;
 
 import ajpf.util.AJPFLogger;
 
-import eass.mas.DefaultEASSEnvironment;
+import eass.mas.matlab.EASSMatLabEnvironment;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -49,7 +49,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * connection in order to speed up debugging.
  *
  */
-public class LEOEnvironment extends DefaultEASSEnvironment {
+public class LEOEnvironment extends EASSMatLabEnvironment {
 	// A counter used to control the frequency of collision detection requests.
 	@FilterField
 	int mycounter = 0;	

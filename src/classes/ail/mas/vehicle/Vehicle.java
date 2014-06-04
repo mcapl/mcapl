@@ -186,7 +186,7 @@ public class Vehicle implements VehicleInterface {
 	 * Add a message to the inbox.
 	 * @param m
 	 */
-	public void addMessage(Message m) {
+	public void addMessage(String agName, Message m) {
 		inbox.add(m);
 	}
 	
@@ -219,10 +219,12 @@ public class Vehicle implements VehicleInterface {
 	 * Remove a percept from the sensors.
 	 * @param l
 	 */
-	public void removePercept(Predicate l) {
+	public boolean removePercept(Predicate l) {
 		for (Sensor s: sensors) {
 			s.removePercept(l);
 		}
+		
+		return true;
 	}
 	
 	/**

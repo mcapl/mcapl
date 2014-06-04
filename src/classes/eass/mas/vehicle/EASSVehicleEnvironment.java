@@ -1,30 +1,35 @@
 package eass.mas.vehicle;
 
-import ail.mas.vehicle.Vehicle;
+import ail.mas.vehicle.VehicleInterface;
 import ail.mas.vehicle.VehicleEnvironment;
+import ail.semantics.AILAgent;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ajpf.util.VerifyMap;
 import eass.mas.DefaultEASSEnvironment;
+import eass.semantics.EASSAgent;
+import eass.sticky_wheel.TwoWheeledRobot;
 
 public class EASSVehicleEnvironment extends VehicleEnvironment {
-	/**
-	 * The vehicles in the environment, indexed by their names.
-	 */
-	VerifyMap<String, Vehicle> vehicles = new VerifyMap<String, Vehicle>();
 	
-	/**
-	 * Add a vehicle to the environment.
-	 * @param v
-	 */
-	public void addVehicle(Vehicle v) {
-		v.setEnv(this);
-		vehicles.put(v.getName(), v);
+		
+	public void addAgentToVehicle(AILAgent a) {
+		EASSAgent eass = (EASSAgent) a;
+		if (eass.isAbstractionEngine()) {
+			String eassR = eass.getReasoningName();
+			if (contains(eassR)) {
+				EASSVehicle v = (EASSVehicle) getVehicle(eassR);
+				v.addAgent(eass);
+				eass.setEnv(v);
+			} 
+		} else {
+			if (contains(eass.getAgName())) {
+				EASSVehicle v = (EASSVehicle) getVehicle(eass.getAgName());
+				v.addAgent(eass);
+				eass.setEnv(v);
+			}
+		}
 	}
-	
-	public Vehicle getVehicle(String name) {
-		return vehicles.get(name);
-	}
-	
+
 
 }

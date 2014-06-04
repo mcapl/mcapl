@@ -1,12 +1,12 @@
 package eass.sticky_wheel;
 
-import ail.mas.vehicle.Vehicle;
+import eass.mas.vehicle.EASSVehicle;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 
-public class TwoWheeledRobot extends Vehicle {
+public class TwoWheeledRobot extends EASSVehicle {
 	double motor1power = 0;
 	double motor2power = 0;
 	double x = 0;
@@ -14,7 +14,6 @@ public class TwoWheeledRobot extends Vehicle {
 	double theta = 0;
 	
 	public TwoWheeledRobot(AILAgent a) {
-		super();
 		addAgent(a);
 		a.setEnv(this);
 	}

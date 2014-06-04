@@ -54,7 +54,6 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 	public EASSNXTEnvironment() {
 		// NB.  NOT connected to matlab
 		super();
-		notConnectedToMatLab();
 	}
 	
 	public void setAddress(String name, String address) {
@@ -100,15 +99,6 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 			r.addPercepts(this);
 		}
 		/// NEEDS TO HANDLE NEXT predicates incoming
-	}
-		
-	public void noconnection_run(String agname, Action act) {
-		// SOMERTHING FOR NXT
-	}
-	
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		//SOMETHING FOR NEXT
-		return new Literal("result");
 	}
 
 	public LegoRobot getRobot(String name) {

@@ -18,17 +18,19 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 		RoundRobinScheduler s = new RoundRobinScheduler();
 		setScheduler(s);
 		addPerceptListener(s);
-		connectedtomatlab = false;
 	}
 	
+
 	public void addAgent(AILAgent a) {
-		if (((EASSAgent) a).isAbstractionEngine()) {
+		EASSAgent eass = (EASSAgent) a;
+		
+		if (contains(eass.getReasoningName())) {
+			this.addAgentToVehicle(eass);
+		} else {
 			TwoWheeledRobot r = new TwoWheeledRobot(a);
 			addVehicle(r);
 		}
-		super.addAgent(a);
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -39,7 +41,7 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("engageBothMotors")) {
-			TwoWheeledRobot r = (TwoWheeledRobot) getVehicle(agName);
+			TwoWheeledRobot r = (TwoWheeledRobot) getVehicle(rationalName(agName));
 			double motorpower1 = r.getMotor1Power();
 			double motorpower2 = r.getMotor2Power();
 			

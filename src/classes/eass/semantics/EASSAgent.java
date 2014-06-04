@@ -96,6 +96,14 @@ public class EASSAgent extends AILAgent {
 	public String getEngineFor() {
 		return abstraction_for;
 	}
+	
+	public String getReasoningName() {
+		if (isAbstractionEngine()) {
+			return getAgName().substring(12);
+		} else {
+			return getAgName();
+		}
+	}
  
 	public void setAgName(String name) {
 		super.setAgName(name);

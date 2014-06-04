@@ -3,8 +3,10 @@ package ail.mas.vehicle;
 import ail.mas.AILEnv;
 
 public interface VehicleEnv extends AILEnv {
-	public void addVehicle(Vehicle v); 
+	public void addVehicle(VehicleInterface v); 
 	
-	public Vehicle getVehicle(String name); 
+	public VehicleInterface getVehicle(String name); 
+	
+	public void notifyListeners(String name);
 
 }

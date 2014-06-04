@@ -40,18 +40,18 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	/**
 	 * The vehicles in the environment, indexed by their names.
 	 */
-	VerifyMap<String, Vehicle> vehicles = new VerifyMap<String, Vehicle>();
+	VerifyMap<String, VehicleInterface> vehicles = new VerifyMap<String, VehicleInterface>();
 	
 	/**
 	 * Add a vehicle to the environment.
 	 * @param v
 	 */
-	public void addVehicle(Vehicle v) {
+	public void addVehicle(VehicleInterface v) {
 		v.setEnv(this);
 		vehicles.put(v.getName(), v);
 	}
 	
-	public Vehicle getVehicle(String name) {
+	public VehicleInterface getVehicle(String name) {
 		return vehicles.get(name);
 	}
 	
@@ -61,8 +61,8 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 */
 	public void addMessage(String agName, Message msg) {
 		if (msg != null && agName != null) {
-			Vehicle v = vehicles.get(agName);
-			v.addMessage(msg);
+			VehicleInterface v = vehicles.get(agName);
+			v.addMessage(agName, msg);
 		}
 		notifyListeners(agName);
 	}
@@ -73,7 +73,7 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 */
 	public void addPercept(Predicate per) {
 		if (per != null) {
-			for (Vehicle v: vehicles.values()) {
+			for (VehicleInterface v: vehicles.values()) {
 				v.addPercept(per);
 			}
 		}
@@ -88,7 +88,7 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 */
 	public void addPercept(String agName, Predicate per) {
 		if (per != null && agName != null) {
-			Vehicle v = vehicles.get(agName);
+			VehicleInterface v = vehicles.get(agName);
 			v.addPercept(per);
 		}
 		super.addPercept(agName, per);
@@ -102,7 +102,7 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 */
 	public boolean removePercept(String agName, Predicate per) {
 		if (per != null && agName != null) {
-			Vehicle v = vehicles.get(agName);
+			VehicleInterface v = vehicles.get(agName);
 			v.removePercept(per);
 				// calcHashCode();
 		}
@@ -117,7 +117,7 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 * @see ail.mas.DefaultEnvironment#clearPercepts(java.lang.String)
 	 */
 	public void clearPercepts(String agName) {
-		Vehicle v = vehicles.get(agName);
+		VehicleInterface v = vehicles.get(agName);
 		v.clearPercepts();
 	}
 	
@@ -126,7 +126,7 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 * @see ail.mas.DefaultEnvironment#removePercept(ail.syntax.Literal)
 	 */
 	public boolean removePercept(Predicate per) {
-		for (Vehicle v: vehicles.values()) {
+		for (VehicleInterface v: vehicles.values()) {
 			v.removePercept(per);
 		}
 		super.removePercept(per);
@@ -139,10 +139,14 @@ public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv
 	 * @see ail.mas.DefaultEnvironment#clearPercepts()
 	 */
 	public void clearPercepts() {
-		for (Vehicle v: vehicles.values()) {
+		for (VehicleInterface v: vehicles.values()) {
 			v.clearPercepts();
 		}
 		notifyListeners();
+	}
+	
+	public boolean contains(String vname) {
+		return vehicles.containsKey(vname);
 	}
 	
 	
