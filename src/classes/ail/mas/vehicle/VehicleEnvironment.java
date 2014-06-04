@@ -36,7 +36,7 @@ import ail.syntax.Message;
  * @author louiseadennis
  *
  */
-public class VehicleEnvironment extends DefaultEnvironment {
+public class VehicleEnvironment extends DefaultEnvironment implements VehicleEnv {
 	/**
 	 * The vehicles in the environment, indexed by their names.
 	 */
@@ -49,6 +49,10 @@ public class VehicleEnvironment extends DefaultEnvironment {
 	public void addVehicle(Vehicle v) {
 		v.setEnv(this);
 		vehicles.put(v.getName(), v);
+	}
+	
+	public Vehicle getVehicle(String name) {
+		return vehicles.get(name);
 	}
 	
 	/*

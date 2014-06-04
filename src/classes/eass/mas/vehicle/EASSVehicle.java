@@ -1,53 +1,27 @@
-// ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
-//
-// This file is part of the Agent Infrastructure Layer (AIL)
-// 
-// This AIL is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 3 of the License, or (at your option) any later version.
-// 
-// The AIL is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-// Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public
-// License along with the AIL; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-// 
-// To contact the authors:
-// http://www.csc.liv.ac.uk/~lad
-//
-//----------------------------------------------------------------------------
-
-package ail.mas.vehicle;
+package eass.mas.vehicle;
 
 import java.util.Set;
 import java.util.TreeSet;
 
-import ajpf.util.VerifySet;
-import ajpf.util.VerifyList;
-import ajpf.MCAPLScheduler;
-import ajpf.PerceptListener;
+import eass.mas.DefaultEASSEnvironment;
 
-import ail.mas.AILEnv;
+import ail.mas.vehicle.Sensor;
+import ail.mas.vehicle.Vehicle;
+import ail.mas.vehicle.VehicleEnv;
+import ail.mas.vehicle.VehicleInterface;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
-import ail.syntax.Unifier;
-import ail.syntax.Predicate;
 import ail.syntax.Message;
+import ail.syntax.Predicate;
+import ail.syntax.Unifier;
 import ail.util.AILConfig;
 import ail.util.AILexception;
+import ajpf.MCAPLScheduler;
+import ajpf.PerceptListener;
+import ajpf.util.VerifyList;
+import ajpf.util.VerifySet;
 
-/**
- * A Basic class for Vehicles controlled by some agent that exist in an environment.  The vehicles act as an environment to the agent, but
- * actually pass most information and actions through to the outer environment.
- * @author louiseadennis
- *
- */
-public class Vehicle implements VehicleInterface {
+public class EASSVehicle extends DefaultEASSEnvironment implements VehicleInterface {
 	/**
 	 * The agent that controls the vehicle.
 	 */
@@ -64,7 +38,8 @@ public class Vehicle implements VehicleInterface {
 	 * The vehicle's inbox.
 	 */
 	VerifySet<Message> inbox = new VerifySet<Message>();
-	
+
+	@Override
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#executeAction(java.lang.String, ail.syntax.Action)
@@ -75,7 +50,7 @@ public class Vehicle implements VehicleInterface {
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		return env.executeAction(agName, act);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#getPercepts(java.lang.String, boolean)
@@ -219,10 +194,11 @@ public class Vehicle implements VehicleInterface {
 	 * Remove a percept from the sensors.
 	 * @param l
 	 */
-	public void removePercept(Predicate l) {
+	public boolean removePercept(Predicate l) {
 		for (Sensor s: sensors) {
 			s.removePercept(l);
 		}
+		return true;
 	}
 	
 	/**
@@ -285,5 +261,6 @@ public class Vehicle implements VehicleInterface {
 	public boolean agentIsUpToDate(String agName) {
 		return false;
 	}
+
 
 }
