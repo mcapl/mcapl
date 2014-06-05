@@ -1,7 +1,7 @@
 package eass.sticky_wheel;
 
 import gwendolen.uavs.prism.SimpleUAV;
-import ail.mas.RoundRobinScheduler;
+import ail.mas.ActionScheduler;
 import ail.mas.vehicle.VehicleEnv;
 import eass.mas.vehicle.EASSVehicleEnvironment;
 import eass.semantics.EASSAgent;
@@ -13,9 +13,11 @@ import ail.util.AILexception;
 public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 	String name = "Simple Wheeled Robot Env";
 	
+	WheeledRobotUI gui;
+	
 	public SimpleWheeledRobotEnv() {
 		super();
-		RoundRobinScheduler s = new RoundRobinScheduler();
+		ActionScheduler s = new ActionScheduler();
 		setScheduler(s);
 		addPerceptListener(s);
 	}
@@ -41,7 +43,7 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("engageBothMotors")) {
-			TwoWheeledRobot r = (TwoWheeledRobot) getVehicle(rationalName(agName));
+			TwoWheeledRobot r = (TwoWheeledRobot) getVehicle(agName);
 			double motorpower1 = r.getMotor1Power();
 			double motorpower2 = r.getMotor2Power();
 			
@@ -61,6 +63,15 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 		} 
 		
 		return super.executeAction(agName, act);
+	}
+	
+	public void setInterface(WheeledRobotUI ui) {
+		gui = ui;
+	}
+
+	
+	public boolean done() {
+		return false;
 	}
 
 }

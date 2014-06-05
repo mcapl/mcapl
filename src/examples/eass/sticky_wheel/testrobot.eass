@@ -35,6 +35,8 @@ EASS
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
++start: {True} <- assert_shared(start);
+
 +position(X, Y, Theta): {True} <- assert_shared(pos(X, Y, Theta));
 
 +!forward [perform] : {True} <- forward;
@@ -47,9 +49,7 @@ EASS
 
 :Initial Goals:
 
-start [perform]
-
 :Plans:
 
-+!start [perform]: {True} <- perf(forward);
++start: {True} <- perf(forward);
     

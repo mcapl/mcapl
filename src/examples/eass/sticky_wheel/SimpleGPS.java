@@ -1,11 +1,13 @@
 package eass.sticky_wheel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ail.mas.vehicle.Sensor;
 import ail.syntax.Predicate;
 
 public class SimpleGPS implements Sensor {
+	Predicate position;
 
 	@Override
 	public int compareTo(Sensor o) {
@@ -16,12 +18,18 @@ public class SimpleGPS implements Sensor {
 	@Override
 	public List<Predicate> getPercepts() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Predicate> percepts = new ArrayList<Predicate>();
+		if (position != null) {
+			percepts.add(position);
+		}
+		return percepts;
 	}
 
 	@Override
 	public void addPercept(Predicate l) {
-		// TODO Auto-generated method stub
+		if (l.getFunctor().equals("position")) {
+			position = l;
+		}
 
 	}
 

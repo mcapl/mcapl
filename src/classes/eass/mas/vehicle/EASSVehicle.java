@@ -127,7 +127,7 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	    		u.unifies(result, z);
 	    		printed = true;
 	    	} else {
-	     		 u = env.executeAction(agName, act);
+	     		 u = env.executeAction(agent.getAgName(), act);
 	    		 printed = true;
 	    	}
 		   
@@ -294,8 +294,10 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	public void addMessage(String agName, Message m) {
 		if (agName.equals(agent.getAgName())) {
 			agent_inbox.add(m);
+			env.notifyListeners(agName);
 		} else {
 			abstraction_inbox.add(m);
+			env.notifyListeners(agName);
 		}
 	}
 	
@@ -324,6 +326,8 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		for (Sensor s: sensors) {
 			s.addPercept(l);
 		}
+		
+		env.notifyListeners(abstraction.getAgName());
 	}
 
 	/**
