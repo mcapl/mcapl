@@ -10,8 +10,15 @@ import eass.mas.DefaultEASSEnvironment;
 import eass.semantics.EASSAgent;
 import eass.sticky_wheel.TwoWheeledRobot;
 
+import javax.swing.JPanel;
+
 public class EASSVehicleEnvironment extends VehicleEnvironment {
 	
+	JPanel gui;
+	
+	public void setInterface(JPanel ui) {
+		gui = ui;
+	}
 		
 	public void addAgentToVehicle(AILAgent a) {
 		EASSAgent eass = (EASSAgent) a;

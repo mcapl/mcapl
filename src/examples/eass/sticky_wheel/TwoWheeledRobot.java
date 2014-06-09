@@ -8,15 +8,15 @@ import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
+import ail.syntax.NumberTerm;
+import ail.syntax.NumberTermImpl;
 import ail.util.AILexception;
 import ail.mas.vehicle.Sensor;
 
 public class TwoWheeledRobot extends EASSVehicle {
 	double motor1power = 0;
 	double motor2power = 0;
-	
-	WheeledRobotUI gui;
-	
+		
 	public TwoWheeledRobot(AILAgent a) {
 		addAgent(a);
 		a.setEnv(this);
@@ -33,15 +33,47 @@ public class TwoWheeledRobot extends EASSVehicle {
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("forward")) {
-			setMotor1Power(10.0);
-			setMotor2Power(10.0);
-			super.executeAction(agName, new Action("engageBothMotors"));
-			gui.updateGraphics(x, y);
+			setMotor1Power(1);
+			setMotor2Power(1);
+			double distance = ((NumberTerm) act.getTerm(0)).solve();
+			Action engage = new Action("engageBothMotors");
+			engage.addTerm(act.getTerm(0));
+			super.executeAction(agName, engage);
 		} else if (act.getFunctor().equals("turn")) {
-		
+			double angle = ((NumberTerm) act.getTerm(0)).solve();
+			if (angle > 0) {
+				setMotor1Power(1);
+				setMotor2Power(-1);
+			} else {
+				setMotor1Power(-1);
+				setMotor2Power(1);
+			}
+			Action engage = new Action("engageBothMotors");
+			engage.addTerm(act.getTerm(0));
+			super.executeAction(agName, engage);		
 		} else if (act.getFunctor().equals("calculate_angle")) {
+			double current_x = ((NumberTerm) act.getTerm(0)).solve();
+			double current_y = ((NumberTerm) act.getTerm(1)).solve();
+			double current_angle = ((NumberTerm) act.getTerm(2)).solve();
+			double target_x = ((NumberTerm) act.getTerm(3)).solve();
+			double target_y = ((NumberTerm) act.getTerm(4)).solve();
 			
+			double tantheta = (target_x - current_x)/(target_y - current_y);
+			double theta = Math.tanh(tantheta);
+			double new_angle = current_angle = theta;
+			Unifier U = new Unifier();
+			U.unifies(act.getTerm(5), new NumberTermImpl(new_angle));
+			return U;
 		} else if (act.getFunctor().equals("calculate_distance")) {
+			double current_x = ((NumberTerm) act.getTerm(0)).solve();
+			double current_y = ((NumberTerm) act.getTerm(1)).solve();
+			double target_x = ((NumberTerm) act.getTerm(2)).solve();
+			double target_y = ((NumberTerm) act.getTerm(3)).solve();
+			
+			double distance = Math.sqrt((target_x - current_x)*(target_x - current_x) + (target_y - current_y)*(target_y - current_y));
+			Unifier U = new Unifier();
+			U.unifies(act.getTerm(4), new NumberTermImpl(distance));
+			return U;
 			
 		}
 		
@@ -64,32 +96,9 @@ public class TwoWheeledRobot extends EASSVehicle {
 		return motor2power;
 	}
 	
-	public void setX(double d) {
-		x = d;
-	}
-	
-	public void setY(double d) {
-		y = d;
-	}
-	
-	public void setTheta(double d) {
-		theta = d;
-	}
-	
-	public double getX() {
-		return x;
-	}
-	
-	public double getY() {
-		return y;
-	}
-	
-	public double getTheta() {
-		return theta;
-	}
 	
 	public void setInterface(WheeledRobotUI ui) {
-		gui = ui;
+		super.setInterface(ui);
 	}
 	
 	public class startSensor implements Sensor {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.swing.JPanel;
 
 import eass.mas.EASSEnv;
 
@@ -77,6 +78,7 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 * List of agents who have already "collected" the current set of percepts.
 	 */
 	protected VerifySet<String> uptodateAgs = new VerifySet<String>();
+	
 
 
 	@Override
@@ -249,6 +251,10 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		} else {
 			agent = eass;
 		}
+	}
+	
+	public void setInterface(JPanel ui) {
+		((EASSVehicleEnvironment) env).setInterface(ui);
 	}
 	
 	/*
