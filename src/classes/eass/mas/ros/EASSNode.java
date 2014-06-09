@@ -31,6 +31,10 @@ public class EASSNode extends AbstractNodeMain {
 		return null;
 	}
 	
+	public ConnectedNode getNode() {
+		return cNode;
+	}
+	
 	public <T> Subscriber<T> newSubscriber(String topic_name, String messageType ) {
 		return cNode.newSubscriber(topic_name, messageType);
 	}

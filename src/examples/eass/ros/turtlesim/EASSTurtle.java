@@ -28,10 +28,10 @@ import org.ros.namespace.GraphName;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
-import geometry_msgs.Twist;
-import geometry_msgs.Point;
-import geometry_msgs.Quaternion;
-import geometry_msgs.Vector3;
+//import geometry_msgs.Twist;
+//import geometry_msgs.Point;
+//import geometry_msgs.Quaternion;
+//import geometry_msgs.Vector3;
 
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
@@ -54,7 +54,7 @@ public class EASSTurtle extends EASSNode {
 	}
 	
 	public void initialise() {
-		turtle = new Turtle("turtle1", this);
+	//	turtle = new Turtle("turtle1", this);
 	}
 	
 	public Turtle getTurtle() {
@@ -63,7 +63,7 @@ public class EASSTurtle extends EASSNode {
 	
 
 	public class Turtle {
-		Subscriber<geometry_msgs.Pose> pose;
+/*		Subscriber<geometry_msgs.Pose> pose;
 		Publisher<geometry_msgs.Twist> command_velocity;
 		String name;
 		
@@ -86,14 +86,14 @@ public class EASSTurtle extends EASSNode {
 					heard.addTerm(position);
 					addPerceptToEnv(heard);
 				};
-			});
-		}
+			}); 
+		} */
 		
 		public void send(float angular, float linear) {
-			Twist v = command_velocity.newMessage();
+	/*		Twist v = command_velocity.newMessage();
 			v.getAngular().setZ(angular);
 			v.getLinear().setX(linear);
-			command_velocity.publish(v);
+			command_velocity.publish(v); */
 		}
 	}
 
