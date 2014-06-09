@@ -139,7 +139,7 @@ public class Intention implements Comparable<Intention>{
     	this();
  
     	ArrayList<Guard> gs = new ArrayList<Guard>();
-		GBelief gtrue = new GBelief(GBelief.GTrue);
+		GBelief gtrue = new GBelief();
 		Guard g = new Guard(gtrue);
    		gs.add(g);
  
@@ -172,7 +172,7 @@ public class Intention implements Comparable<Intention>{
     	this();
     	
     	ArrayList<Guard> gs = new ArrayList<Guard>();
-		GBelief gtrue = new GBelief(GBelief.GTrue);
+		GBelief gtrue = new GBelief();
 		Guard g = new Guard(gtrue);
    		gs.add(g);
  
@@ -600,6 +600,15 @@ public class Intention implements Comparable<Intention>{
 	 *              for the intention row.
 	 */
 	public   void iConcat(Event e, ArrayList<Deed> ds, ArrayList<Guard> gs, Unifier theta) {
+		List<String> varnames = getVarNames();
+		varnames.addAll(e.getVarNames());
+		for (Deed d: ds) {
+			varnames.addAll(d.getVarNames());
+		}
+		for (Guard g: gs) {
+			varnames.addAll(g.getVarNames());
+		}
+	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		
 		intentionRows.add(ir);
@@ -693,11 +702,11 @@ public class Intention implements Comparable<Intention>{
 	 */
 	public   void tlI(AILAgent ag) {
 		if (hdE().referstoGoal()) {
-			Goal g = hdE().getGoal();
+			Goal g = (Goal) hdE().getContent();
 			Goal gcloned = g.clone();
 			gcloned.apply(hdU());
 			dropP(1);
-			if (!hdE().referstoGoal() || hdE().getGoal() != g) {
+			if (!hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
 				ag.removeGoal(gcloned);
 			}
 		} else {

@@ -62,7 +62,7 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(topdeed.getGoal().toGuard(), new Unifier());
+		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
 		
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
@@ -71,9 +71,9 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
 			i.compose(thetahd);
-			a.removeGoal(topdeed.getGoal());
+			a.removeGoal((Goal) topdeed.getContent());
 		} else {
-			a.addGoal(topdeed.getGoal());
+			a.addGoal((Goal) topdeed.getContent());
 		}	
 	}
 }

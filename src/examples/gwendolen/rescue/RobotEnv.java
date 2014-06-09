@@ -94,7 +94,6 @@ public class RobotEnv extends DefaultEnvironment {
 			}
 			
 			if (canseehumanl) {
-				// System.err.println("having");
 				percepts.add(clear);
 			}
 			changel = false;

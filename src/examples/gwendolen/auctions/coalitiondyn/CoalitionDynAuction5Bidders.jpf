@@ -35,3 +35,19 @@ et.print_insn=false
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
 vm.max_transition_length = MAX
+
+// 29th March 2014
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       19:07:53
+// states:             new=115733, visited=383559, backtracked=499292, end=0
+// search:             maxDepth=31, constraints hit=0
+// choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=115733
+// heap:               new=2540815095, released=2545498992, max live=6860, gc-cycles=499292
+// instructions:       380129942921
+// max memory:         760MB
+// loaded code:        classes=357, methods=4992
+// 
+// ====================================================== search finished: 29/03/14 15:32

@@ -449,6 +449,16 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 			// Do something
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	   public void makeVarsAnnon() {
+		   lhs.makeVarsAnnon();
+		   rhs.makeVarsAnnon();
+		   hashCodeCache = null;
+	    }	 
 
 
 }

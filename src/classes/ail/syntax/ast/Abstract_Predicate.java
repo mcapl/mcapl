@@ -66,7 +66,7 @@ import gov.nasa.jpf.vm.Types;
 /**
  * Represents a Predicate in First-Order Logic.
  */
-public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
+public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abstract_LogicalFormula {
 	static HashMap<String,Integer> strings = new HashMap<String,Integer>();
 	
 	/**

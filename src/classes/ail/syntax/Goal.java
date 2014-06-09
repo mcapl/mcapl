@@ -40,7 +40,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Goal extends PredicatewAnnotation implements GuardAtom {
+public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	/**
 	 * The four types of goal: achieve, test, perform and maint.
 	 */
@@ -63,38 +63,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 * CHANGE STATIC REFERENCE
 	 */
 	private StringTerm goalbase = new StringTermImpl(AILAgent.AILdefaultGBname);
-	
-	/**
-	 * A Goal can be a literal or a variable.  When it is instantiated 
-	 * the var should get moved to the literal.  If it is instantiated to
-	 * a non literal it is converted to a positive literal.
-	 */
-	private VarTerm var;
-	
-	/**
-	 * A Goal can be a literal or a variable.  When it is instantiated 
-	 * the var should get moved to the literal.  If it is instantiated to
-	 * a non literal it is converted to a positive literal.
-	 */
-	private Literal l;
-	
-	/**
-	 * A Goal which contains a variable.
-	 * 
-	 * @param vt the Variable term.
-	 * @param i the goal type.
-	 */
-	public Goal(VarTerm vt, int i) {
-		if (vt.isVar()) {
-			var = vt;
-		} else if (vt.isLiteral()) {
-			l = vt;
-		} else {
-			l = new Literal((Literal) vt);
-		}
-		goaltype = i;
-	}
-	
+			
 	/**
 	 * Create an achieve goal from a string.  Assumes this goal is NOT
 	 * a variable.
@@ -102,7 +71,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 * @param s the string.
 	 */
 	public Goal(String s) {
-		l = new Literal(s);
+		super(s);
 	}
 	
 	/**
@@ -112,45 +81,17 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 * @param n The type of the goal.
 	 */
 	public Goal(String s, int n) {
-		this(new Literal(s), n);
+		super(s);
 		goaltype = n;
 	}
 	
-	/**
-	 * Construct a goal from a literal and a goal type.
-	 * 
-	 * @param l The literal representing the goal.
-	 * @param n The type of the goal.
-	 */
-	public Goal(Literal lit, int n) {
-		l = lit;
+	public Goal(PredicatewAnnotation p, int n) {
+		super(p.getFunctor());
+		this.addTerms(p.getTerms());
+		this.addAnnotFrom(p);
 		goaltype = n;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.DefaultTerm#apply(ail.semantics.Unifier)
-	 */
-	public boolean apply(Unifier u) {
-		if (l == null) {
-			boolean b = var.apply(u);
 			
-			if (var.isVar()) {
-				return b;
-			} else if (var.isLiteral()) {
-				l = var;
-				var = null;
-				return b;
-			} else {
-				l = new Literal(var);
-				var = null;
-				return b;
-			}
-		} else {
-			return  l.apply(u);
-		}
-	}
-	
 	/**
 	 * Getter method for the goal type.
 	 * 
@@ -168,7 +109,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		return goalbase;
 	}
 	
-	public StringTerm getDBnum() {
+	public StringTerm getEB() {
 		return getGoalBase();
 	}
 
@@ -186,16 +127,11 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 */
 	public Goal clone() {
 		Goal gl = null;
-		if (var != null) {
-			Term v = var.clone();
-			if (v instanceof VarTerm) {
-				gl = new Goal((VarTerm) v, getGoalType());
-			} else {
-				gl = new Goal((Literal) v, getGoalType());
-			}
+		if (isVar()) {
+			gl = new Goal(getFunctor(), getGoalType());
 		} else {
-			Literal lit = (Literal) l.clone();
-			gl = new Goal(lit, getGoalType());
+			PredicatewAnnotation p = (PredicatewAnnotation) super.clone();
+			gl = new Goal(p, getGoalType());
 			// gl.setGoalBase(getGoalBase().clone());
 		}
 		
@@ -208,34 +144,15 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 * 
 	 * @return a Guard representing the goal.
 	 */
-	public Guard toGuard() {
-		Guard g = new Guard();
-		GBelief gb = new GBelief(GBelief.AILBel, getContent());
-		gb.setDBnum(getGoalBase());
-		g.add(gb);
+	public Guard achievedBelief() {
+		Literal achievementLiteral = new Literal(getFunctor());
+		achievementLiteral.addTerms(getTerms());
+		achievementLiteral.addAnnot(getAnnot());
+		Guard g = new Guard(new GBelief(achievementLiteral));
 		
 		return g;
 	}
 	
-	/**
-	 * Returns either the variables or the literal.
-	 * @return
-	 */
-	private Literal getContent() {
-		if (var == null) {
-			return l;
-		} else {
-			return var;
-		}
-	}
-		
-	/**
-	 * Returns the literal part of the goal.
-	 * @return
-	 */
-	public Literal getLiteral() {
-		return getContent();
-	}
 	
 	/**
 	 * Since goals get used in unification we need to be able to annonymise
@@ -243,50 +160,17 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	 *
 	 */
 	public void makeVarsAnnon() {
-		getContent().makeVarsAnnon();
+		super.makeVarsAnnon();
+		goalbase.makeVarsAnnon();
 	}
-	
-	/**
-	 * Get the literal functor. 
-	 * 
-	 * @return
-	 */
-	public String getFunctor() {
-		return(getContent().getFunctor());
-	}
-	
-	/**
-	 * Get the literal term size.
-	 * @return
-	 */
-	public int getTermsSize() {
-		return(getContent().getTermsSize());
-	}
-	
-	/**
-	 * Add a term to the literal.
-	 * @param t
-	 */
-	public void addTerm(Term t) {
-		getContent().addTerm(t);
-	}
-	
-	/**
-	 * Get the ith sub-term of the literal.
-	 * @param i
-	 * @return
-	 */
-	public Term getTerm(int i) {
-		return (getContent().getTerm(i));
-	}
-	
+		
 	/**
 	 * Represent as a string.
 	 */
 	public String toString() {
 		StringBuilder s1 = new StringBuilder("_");
 		s1.append(typeString());
-		s1.append(getContent().toString());
+		s1.append(super.toString());
 		s1.append("(");
 		s1.append(getGoalBase().toString());
 		s1.append(")");
@@ -317,9 +201,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
     protected int calcHashCode() {
         final int PRIME = 11;
         int result = getGoalType();
-        if (getContent() != null) {
-            result = PRIME * result + getContent().hashCode();
-        }
+        result = PRIME * result + super.hashCode();
         final int ts = getTermsSize();
         if (ts > 0) {
             result = PRIME * result + getTermsSize();
@@ -336,29 +218,67 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
      */
     public boolean unifies(Unifiable g, Unifier u) {
 		Goal g1 = (Goal) g;
-
+   		
 		if (g1.getGoalType() == getGoalType()) {
-			return(u.unifies(getLiteral(), g1.getLiteral()));
+			if (getGoalBase().unifies(g1.getGoalBase(), u)) {
+				if (Character.isUpperCase(getFunctor().charAt(0))) {
+		    		VarTerm v = new VarTerm(getFunctor());
+		    		Literal l = new Literal(g1.getFunctor());
+		    		l.setTerms(g1.getTerms());
+		    		return v.unifies(l, u);
+				} else {
+					return super.unifies(g1, u);
+				}
+			}
+			return false;
 		} else {
 			return false;
 		}
 	}
     
-    /**
-     * Return the predicate indicator for swift lookup.
-     * @return
-     */
-    public PredicateIndicator getPredicateIndicator() {
-    	return getContent().getPredicateIndicator();
-    }
+    @SuppressWarnings("unchecked")
+    public boolean apply(Unifier u) {
+    	boolean r = getGoalBase().apply(u);
+    		
+    	if (Character.isUpperCase(getFunctor().charAt(0))) {
+    		VarTerm v = new VarTerm(getFunctor());
+   			boolean r1 = v.apply(u);
+   			if (v.hasValue()) {
+   				setFunctor(v.getValue().getFunctor()); 
+   				setTerms((List<Term>) v.getValue().getTerms());
+   			}
+   			return r || r1;
+    	} else {
+   			boolean r1 = super.apply(u);
+   			return r || r1;
+   		}
+     }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.GuardAtom#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+     */
+    public boolean unifieswith(Predicate p, Unifier u, String s) {
+    	if (goalbase.unifies(new StringTermImpl(s), u)) {
+    		return super.unifies(p, u);
+    	}
+    	
+    	return false;
+    }
+        
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
      */
     public Term strip_varterm() {
-    	l = (Literal) l.strip_varterm();
-    	return this;
+    	Goal gl = null;
+    	if (isVar()) {
+    		gl = new Goal(getFunctor(), goaltype);
+    	} else {
+    		gl = new Goal((PredicatewAnnotation) super.strip_varterm(), goaltype);
+    	}
+    	gl.setGoalBase((StringTerm) goalbase.strip_varterm());
+    	return gl;
     }
 
     /*
@@ -370,9 +290,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
     		Goal g = (Goal) o;
     		if (getGoalBase().equals(g.getGoalBase())) {
     			if (getGoalType() == g.getGoalType()) {
-    				if (getLiteral().equals(g.getLiteral())) {
-    					return true;
-    				}
+    				return super.equals((PredicatewAnnotation) g);
     			}
     		}
     	}
@@ -385,7 +303,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
      * @see ail.syntax.DefaultTerm#hashCode()
      */
     public int hashCode() {
-    	return (41 * (41 * (41 * getGoalBase().hashCode()) + getGoalType()) + getLiteral().hashCode());
+    	return (41 * (41 * (41 * getGoalBase().hashCode()) + getGoalType()) + super.hashCode());
     }
     
     /*
@@ -393,7 +311,7 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
      * @see ail.syntax.Predicate#getVarNames()
      */
     public List<String> getVarNames() {
-    	List<String> varnames = getContent().getVarNames();
+    	List<String> varnames = super.getVarNames();
     	varnames.addAll(getGoalBase().getVarNames());
     	return varnames;
     }
@@ -403,12 +321,8 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
      * @see ail.syntax.Predicate#renameVar(java.lang.String, java.lang.String)
      */
     public void renameVar(String oldname, String newname) {
-    	getContent().renameVar(oldname, newname);
+    	super.renameVar(oldname, newname);
     	getGoalBase().renameVar(oldname, newname);
-    }
-    
-    public Term toTerm() {
-    	return l;
     }
     
 	/*
@@ -446,24 +360,30 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 	public boolean isTrivial() {
 		return false;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.syntax.DefaultTerm#isVar()
+	 * @see ail.syntax.PredicatewAnnotation#isGround()
 	 */
-	public boolean isVar() {
-		if (var != null && var.isVar()) {
-			return true;
+	public boolean isGround() {
+		if (Character.isLowerCase(getFunctor().charAt(0))) {
+			if (super.isGround()) {
+				return goalbase.isGround();
+			}
 		}
+		
 		return false;
 	}
-
+	
 	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
+	 * 
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u) {
-		return GBelief.logicalConsequence(ag, u, this);
+	public boolean contentequals(PredicatewAnnotation p) {
+		if (isVar()) {
+			return false;
+		} else {
+			return super.equals(p);
+		}
 	}
 	
 	/*
@@ -474,6 +394,74 @@ public class Goal extends PredicatewAnnotation implements GuardAtom {
 		ArrayList<LogicalFormula> l = new ArrayList<LogicalFormula>();
 		l.add(this);
 		return l;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getCategory()
+	 */
+	public byte getCategory() {
+		return DefaultAILStructure.AILGoal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
+	 */
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+     	StringTerm ebname =  getEB();
+     	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
+    	if (ebname instanceof VarTerm) {
+    		VarTerm ebv = (VarTerm) ebname;
+    		if (ebv.hasValue()) {
+    			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
+    		} else {
+    			for (String ebnames: ag.getGBList()) {
+    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(ebnames), ebnames);
+    				if (eb instanceof TrivialEvaluationBase) {
+    					eb = new_eb;
+    				} else {
+    					eb = new MergeEvaluationBase<PredicateTerm>(new_eb, eb);
+    				}
+    			}
+    		}
+    	} else {
+    		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
+    	}
+    	
+    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEBType()
+	 */
+	public byte getEBType() {
+		return DefaultAILStructure.AILGoal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#hasLogicalContent()
+	 */
+	public boolean hasLogicalContent() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getLogicalContent()
+	 */
+	public Predicate getLogicalContent() {
+		return this;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
+	public boolean isVar() {
+		return Character.isUpperCase(getFunctor().charAt(0));
 	}
 
 }

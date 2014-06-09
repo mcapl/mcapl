@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2014 Louise A. Dennis and  Michael Fisher
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
 //
@@ -27,26 +26,13 @@
 
 package ail.syntax;
 
-import java.util.Iterator;
-import java.util.List;
-
-import ail.semantics.AILAgent;
-
 /**
- * This is an interface for objects that may appear atomically in guards - i.e. not proper logical formulae
- * with connectives but the base objects than may be checked against the agents state.
+ * This is an interface for objects that may appear atomically in guards - i.e. logical formulae
+ * without connectives -- the base objects than may be checked against the agents state.
  * @author lad
  *
  */
-public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
-
-	/**
-	 * Get a set of relevant things this may unify against from the agent's state.  E.g. all goals
-	 * or all beliefs.
-	 * @param a
-	 * @return
-	 */
-	public Iterator<Unifiable> getRelevant(AILAgent a);
+public interface GuardAtom<K extends Unifiable> extends GLogicalFormula, EBCompare<K> {
 	
 	/**
 	 * Is this a variable?
@@ -60,26 +46,33 @@ public interface GuardAtom extends LogicalFormula, Cloneable, Unifiable {
 	 * @return
 	 */
 	public PredicateIndicator getPredicateIndicator();
-	
+		
 	/**
 	 * Is this trivial?  I.e. simply equivalent to true.
 	 * @return
 	 */
 	public boolean isTrivial();
-	
+	    
     /**
-     * Return a list of the conjuncts that make up this logical forumla
-     * @return
-     */
-    public List<LogicalFormula> conjuncts();
-    
-    /**
-     * If an agent has several structures of a particular type.
+     * If an agent has several structures of a particular category.
 	 * E.g. several belief bases, the one to be consulted for this
-	 * GuardAtom is the one numbered DBnum.
+	 * GuardAtom is the one so named.  It is a term so that a variable may be
+	 * used if it means _any_ relevant evaluation base.
 	 * 
      * @return
      */
-    public StringTerm getDBnum();
-
+     public StringTerm getEB();
+     
+     /**
+      * Return the category of evaluation base relevant to this guard atom.  These are
+      * assumed to align with the categories defined by DefaultAILStructure.
+      * 
+      */
+     public byte getEBType();
+                   
+     /*
+      * (non-Javadoc)
+      * @see ail.syntax.GLogicalFormula#clone()
+      */
+     public GuardAtom<K> clone();
 }

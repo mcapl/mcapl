@@ -57,14 +57,14 @@ public class DroppingNonGroundGoalTests {
 	@Test public void DropGeneralGoalRuleSimple() {
 		VarTerm v1 = new VarTerm("V1");
 		
-		Literal l1 = new Literal("goal");
-		Literal l2 = new Literal("goal");
+		Goal l1 = new Goal("goal", Goal.achieveGoal);
+		Goal l2 = new Goal("goal", Goal.achieveGoal);
 		
 		l1.addTerm(v1);
 		l2.addTerm(new Literal("term"));
 		
 		
-		Intention i = new Intention(new Goal(l1, Goal.achieveGoal), AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -76,7 +76,7 @@ public class DroppingNonGroundGoalTests {
 		u.unifies(lclone, l2);
 		i.compose(u);
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, l1), new Deed(Deed.AILDeletion, l2), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -90,16 +90,16 @@ public class DroppingNonGroundGoalTests {
 	@Test public void DropGeneralGoalRuleNonGroundDropper() {
 		VarTerm v1 = new VarTerm("V1");
 		
-		Literal l1 = new Literal("goal");
-		Literal l2 = new Literal("goal");
-		Literal l3 = new Literal("goal");
+		Goal l1 = new Goal("goal");
+		Goal l2 = new Goal("goal");
+		Goal l3 = new Goal("goal");
 		l3.addTerm(new Literal("term"));
 		
 		l1.addTerm(v1);
 		l2.addTerm(new VarTerm("V2"));
 		
 		
-		Intention i = new Intention(new Goal(l1, Goal.achieveGoal), AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -111,7 +111,7 @@ public class DroppingNonGroundGoalTests {
 		u.unifies(lclone, l3);
 		i.compose(u);
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, l1), new Deed(Deed.AILDeletion, l2), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -125,14 +125,14 @@ public class DroppingNonGroundGoalTests {
 	@Test public void DropGeneralGoalBothNonGroundInitial() {
 		VarTerm v1 = new VarTerm("V1");
 		
-		Literal l1 = new Literal("goal");
-		Literal l2 = new Literal("goal");
+		Goal l1 = new Goal("goal");
+		Goal l2 = new Goal("goal");
 		
 		l1.addTerm(v1);
 		l2.addTerm(new VarTerm("V2"));
 		
 		
-		Intention i = new Intention(new Goal(l1, Goal.achieveGoal), AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -141,7 +141,7 @@ public class DroppingNonGroundGoalTests {
 		
 		Unifier u = new Unifier();
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, l1), new Deed(Deed.AILDeletion, l2), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
@@ -156,14 +156,14 @@ public class DroppingNonGroundGoalTests {
 	@Test public void DropGeneralGoalNeitherGround() {
 		VarTerm v1 = new VarTerm("V1");
 		
-		Literal l1 = new Literal("goal");
-		Literal l2 = new Literal("goal");
+		Goal l1 = new Goal("goal");
+		Goal l2 = new Goal("goal");
 		
 		l1.addTerm(v1);
 		l2.addTerm(new Literal("V2"));
 		
 		
-		Intention i = new Intention(new Goal(l1, Goal.achieveGoal), AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -172,7 +172,7 @@ public class DroppingNonGroundGoalTests {
 		
 		Unifier u = new Unifier();
 		
-		i.iCons(new Event(Event.AILAddition, new Goal(l1, Goal.achieveGoal)), new Deed(Deed.AILDeletion, new Goal(l2, Goal.achieveGoal)), new Guard(new GBelief(GBelief.GTrue)), u);
+		i.iCons(new Event(Event.AILAddition, l1), new Deed(Deed.AILDeletion, l2), new Guard(new GBelief()), u);
 		
 		HandleDropGeneralGoal dropgoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
 		dropgoal.checkPreconditions(a);
