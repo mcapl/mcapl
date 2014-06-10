@@ -147,8 +147,10 @@ brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
                // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : gb = pred {$f = gb;} | 
-                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
+                                                                                SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                                                              	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
 subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
 	
 

@@ -56,7 +56,7 @@ import gov.nasa.jpf.vm.MJIEnv;
  *  An abstract version of an expression that may appear in a guard statement and represents some kind of equation 
  *  (i.e., an (in)equality).
  */
-public class Abstract_Equation implements Abstract_GLogicalFormula {
+public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_LogicalFormula {
 
 	/**
 	 * What sort of equation is this.
