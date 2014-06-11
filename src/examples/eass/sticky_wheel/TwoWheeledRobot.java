@@ -58,9 +58,9 @@ public class TwoWheeledRobot extends EASSVehicle {
 			double target_x = ((NumberTerm) act.getTerm(3)).solve();
 			double target_y = ((NumberTerm) act.getTerm(4)).solve();
 			
-			double tantheta = (target_x - current_x)/(target_y - current_y);
-			double theta = Math.tanh(tantheta);
-			double new_angle = current_angle = theta;
+			double tantheta = (target_y - current_y)/(target_x - current_x);
+			double theta = Math.toDegrees(Math.atan(tantheta));
+			double new_angle = current_angle + theta;
 			Unifier U = new Unifier();
 			U.unifies(act.getTerm(5), new NumberTermImpl(new_angle));
 			return U;

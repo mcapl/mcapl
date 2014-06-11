@@ -21,35 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-EASS
 
-:abstraction: test
-
-:Initial Beliefs:
-
-:Initial Goals:
-
-:Plans:
-/* Default plans for handling messages */
-+.received(:tell, B): {True} <- +B;   
-+.received(:perform, G): {True} <- +!G [perform];
-+.received(:achieve, G): {True} <- +!G [achieve];
-
-+start: {True} <- assert_shared(start);
-
-+position(X, Y, Theta): {True} <- assert_shared(pos(X, Y, Theta));
-
-+!forward [perform] : {True} <- forward;
-
-:name: test
-
-:Initial Beliefs:
-
-:Reasoning Rules:
-
-:Initial Goals:
-
-:Plans:
-
-+start: {True} <- perf(forward);
-    
+env = eass.sticky_wheel.SimpleWheeledRobotEnv
+mas.file = /src/examples/eass/sticky_wheel/sticky_norecovery.eass
+mas.builder = eass.EASSMASBuilder

@@ -141,6 +141,7 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		   return u;
 	}
 	
+	
     protected String printAction(Action act) {
     	if (act instanceof SendAction) {
     		SendAction sa = (SendAction) act;
@@ -177,6 +178,9 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		for (Sensor s: sensors) {
 			percepts.addAll(s.getPercepts());
+		}
+		if (agSharedBeliefs.containsKey(ag)) {
+			percepts.addAll(agSharedBeliefs.get(ag));
 		}
 		return percepts;
 	}

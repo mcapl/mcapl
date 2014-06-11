@@ -12,21 +12,27 @@ import ail.syntax.Predicate;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
 import ail.util.AILexception;
+import ajpf.MCAPLJobber;
 
-public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
+public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCAPLJobber {
 	String name = "Simple Wheeled Robot Env";
+	ActionScheduler scheduler;
+	String rName;
+	double sticky_modifier = 0;
 	
 	// Assume one robot for the time being
-	double x;
-	double y;
-	double theta;
+	double x = 50;
+	double y = 50;
+	double theta = 0;
 	
 	WheeledRobotUI gui;
 	
 	public SimpleWheeledRobotEnv() {
 		super();
 		ActionScheduler s = new ActionScheduler();
+		scheduler = s;
 		setScheduler(s);
+		s.addJobber(this);
 		addPerceptListener(s);
 	}
 	
@@ -36,9 +42,15 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 		
 		if (contains(eass.getReasoningName())) {
 			this.addAgentToVehicle(eass);
+			Predicate position = new Predicate("position");
+			position.addTerm(new NumberTermImpl(x));
+			position.addTerm(new NumberTermImpl(y));
+			position.addTerm(new NumberTermImpl(theta));
+			getVehicle(eass.getReasoningName()).addPercept(position);
 		} else {
 			TwoWheeledRobot r = new TwoWheeledRobot(a);
 			addVehicle(r);
+			rName = r.getName();
 		}
 	}
 
@@ -54,7 +66,8 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 			TwoWheeledRobot r = (TwoWheeledRobot) getVehicle(agName);
 			double iterations  = ((NumberTerm) act.getTerm(0)).solve();
 			double motorpower1 = r.getMotor1Power();
-			double motorpower2 = r.getMotor2Power();
+			double motorp2 = r.getMotor2Power();
+			double motorpower2 = motorp2 - (motorp2*sticky_modifier);
 			
 			
 			// For the  time being we assume all constants are 1 so motorpower is directly equivalent to the forward velocity of each wheel
@@ -62,8 +75,8 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 			int count = 0;
 			while (count < iterations) {
 				double robot_velocity = (motorpower1 + motorpower2)/2;
-				double xdot = Math.cos(theta) * robot_velocity;
-				double ydot = Math.sin(theta) * robot_velocity;
+				double xdot = Math.cos(Math.toRadians(theta)) * robot_velocity;
+				double ydot = Math.sin(Math.toRadians(theta)) * robot_velocity;
 				double thetadot = (motorpower1 - motorpower2)/2;
 					
 			
@@ -76,11 +89,12 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 				position.addTerm(new NumberTermImpl(y));
 				position.addTerm(new NumberTermImpl(theta));
 			 
-				getVehicle(agName.substring(12)).addPercept(position);
+				getVehicle(agName).addPercept(position);
 
-				((WheeledRobotUI) gui).updateGraphics(xdot, ydot, thetadot);
+				((WheeledRobotUI) gui).updateGraphics(x, y, theta);
 				count++;
 			}
+			System.err.println("(" + x + " ," + y + ")");
 
 		} 
 		
@@ -100,16 +114,48 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment {
 	}
 	
 	public void setTarget(String rname, Predicate p) {
-		getVehicle(rname).addPercept(p);
+		addPercept(rname, p);
 	}
 	
 	public void setInterface(WheeledRobotUI ui) {
+		gui = ui;
+	}
+	
+	public void setGUI(WheeledRobotUI ui) {
 		gui = ui;
 	}
 
 	
 	public boolean done() {
 		return false;
+	}
+
+
+	@Override
+	public int compareTo(MCAPLJobber o) {
+		return 0;
+	}
+
+
+	@Override
+	public void do_job() {
+		// TODO Auto-generated method stub
+		int activeJobbers = scheduler.getActiveJobbers().size();
+		if (activeJobbers > 1 || activeJobbers < 1) {
+			notifyListeners("scheduler");
+		} else {
+			done();
+		}
+	}
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	public void setStickiness(double s) {
+		sticky_modifier = s/100;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.awt.GridBagLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -36,19 +37,24 @@ import eass.mas.nxt.EASSNXTEnvironment;
 public class WheeledRobotUI extends JPanel implements ActionListener,
 		PropertyChangeListener, WindowListener {
 	static String path="/src/examples/eass/sticky_wheel/";
-	static String config_file = "sticky_wheel.ail";
+	static String config_file = "sticky_norecovery.ail";
 	String rName = "sticky";
 	static SimpleWheeledRobotEnv env;
 	MovementCanvas canvas = new MovementCanvas();
-	JFormattedTextField xbox, ybox;
-	JButton go;
-	double target_x;
-	double target_y;
+	JFormattedTextField xbox, ybox, stickiness;
+	JButton go, sticky;
+	Double target_x;
+	Double target_y;
+	double current_x;
+	double current_y;
+	double sticky_modifier = 0;
 	
 	public WheeledRobotUI(GridBagLayout layout) {
     	setLayout(layout);
     	GridBagConstraints c = new GridBagConstraints();
     	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+    	current_x = env.getX();
+    	current_y = env.getY();
 
     	// A JPanel for Controls
     	JPanel controls = new JPanel();
@@ -58,23 +64,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
     	c.gridy = 1;
     	add(controls, c);
     	
-    	JLabel xtext = new JLabel("X:");
-    	controls.add(xtext);
-    	NumberFormat f = NumberFormat.getNumberInstance();
-    	f.setMaximumIntegerDigits(3);
-    	xbox = new JFormattedTextField(f);
-     	xbox.setColumns(3);
-    	xbox.addPropertyChangeListener(this);
-    	controls.add(xbox);
-
-    	JLabel ytext = new JLabel("Y:");
-    	controls.add(ytext);
-    	ybox = new JFormattedTextField(f);
-     	ybox.setColumns(3);
-    	ybox.addPropertyChangeListener(this);
-    	controls.add(ybox);
-
-    	go = new JButton("Go!");
+       	go = new JButton("Go!");
         go.setMnemonic(KeyEvent.VK_G);
         go.setActionCommand("go");
         go.addActionListener(this);
@@ -84,8 +74,47 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
         c.gridwidth = 1;
         controls.add(go, c);
 
+        JLabel xtext = new JLabel("X:");
+    	controls.add(xtext);
+    	NumberFormat f = NumberFormat.getInstance();
+    	f.setMaximumFractionDigits(3);
+    	xbox = new JFormattedTextField(f);
+     	xbox.setColumns(3);
+     	xbox.setValue(current_x);
+    	xbox.addPropertyChangeListener(this);
+    	controls.add(xbox);
+
+    	JLabel ytext = new JLabel("Y:");
+    	controls.add(ytext);
+    	ybox = new JFormattedTextField(f);
+     	ybox.setColumns(3);
+     	ybox.setValue(current_y);
+    	ybox.addPropertyChangeListener(this);
+    	controls.add(ybox);
+    	
+    	sticky = new JButton("Set");
+    	sticky.setMnemonic(KeyEvent.VK_S);
+    	sticky.setActionCommand("set_sticky");
+    	sticky.addActionListener(this);
+    	sticky.setToolTipText("Set stickiness of Wheel");
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	c.gridwidth = 1;
+    	controls.add(sticky, c);
+    	
+    	JLabel stickytext = new JLabel("Stickiness:");
+    	c.gridx = 1;
+    	controls.add(stickytext, c);
+    	stickiness = new JFormattedTextField(f);
+    	stickiness.setColumns(3);
+    	stickiness.setValue(0.0);
+    	stickiness.addPropertyChangeListener(this);
+       	c.gridx = 3;
+       	controls.add(stickiness, c);
+
         //A MovementCanvas
     	add(canvas);
+    	env.setGUI(this);
 
 	}
 	
@@ -101,8 +130,8 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		double yp;
 		double thetap;
 		Polygon robot;
-		int[] xs;
-		int[] ys;
+		int[] xs = new int[100];
+		int[] ys = new int[100];
 		int points = 0;
 		
 		public MovementCanvas() {
@@ -113,16 +142,16 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		public Polygon getPolygon() {
 			Polygon p = new Polygon();
 			p.addPoint((int) x, (int) y);
-			double x2 = x + Math.sin(theta);
-			double y2 = y + Math.cos(theta);
+			double x2 = x + 3*Math.sin(theta);
+			double y2 = y + 3*Math.cos(theta);
 			p.addPoint((int) x2, (int) y2);
 			
-			double x3 = x2 - Math.cos(theta);
-			double y3 = y2 + Math.sin(theta);
+			double x3 = x2 - 2*Math.cos(theta);
+			double y3 = y2 + 2*Math.sin(theta);
 			p.addPoint((int) x3, (int) y3);
 			
-			double x4 = x - Math.cos(theta);
-			double y4 = y + Math.sin(theta);
+			double x4 = x - 2*Math.cos(theta);
+			double y4 = y + 2*Math.sin(theta);
 			p.addPoint((int) x4, (int) y4);
 			
 			return p;
@@ -142,13 +171,16 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
 		public void update(Graphics g) {
 			if (((Double) xp) != null) {
-				x = xp;
-				y = yp;
+				if (xp != x || yp != y) {
+					x = xp;
+					y = yp;
+					theta=thetap;
+					xs[points] = (int) xp;
+					ys[points] = (int) yp;
+					points++;
+					g.drawPolyline(xs, ys, points);
+				}
 				theta=thetap;
-				xs[points] = (int) xp;
-				ys[points] = (int) yp;
-				points++;
-				g.drawPolyline(xs, ys, points);
 				g.drawPolygon(getPolygon());
 			}
 		}
@@ -252,19 +284,37 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		Object source = evt.getSource();
 		
 		if (source == xbox) {
-			target_x = (Double) xbox.getValue();
+			if (xbox.getValue() instanceof Double) {
+				target_x = (Double) xbox.getValue();
+			} else {
+				target_x = Double.parseDouble(xbox.getValue().toString());
+			}
 		} else if  (source == ybox) {
-			target_y = (Double) ybox.getValue();
+			if (ybox.getValue() instanceof Double) {
+				target_y = (Double) ybox.getValue();
+			} else {
+				target_y = Double.parseDouble(ybox.getValue().toString());
+			}
+		} else if (source == stickiness) {
+			if (stickiness.getValue() instanceof Double) {
+				sticky_modifier = (Double) stickiness.getValue();
+			} else {
+				sticky_modifier = Double.parseDouble(stickiness.getValue().toString());
+			}
 		}
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Predicate target = new Predicate("target");
-		target.addTerm(new NumberTermImpl(target_x));
-		target.addTerm(new NumberTermImpl(target_y));
-		env.setTarget(rName, target);
+		if (e.getActionCommand().equals("go")) {
+			Predicate target = new Predicate("target");
+			target.addTerm(new NumberTermImpl(target_x));
+			target.addTerm(new NumberTermImpl(target_y));
+			env.setTarget(rName, target);
+		} else {
+			env.setStickiness(sticky_modifier);
+		}
 
 	}
 
