@@ -61,9 +61,11 @@ bound(1)
 		     calculate_distance(X1, Y1, X, Y, D),
 		     assert_shared(calculate_distance(D));
 +!turn(A) [perform] : {True} <- 
-	  turn(A);
+	  turn(A),
+	  assert_shared(turned);
 +!forward(D) [perform] : {True} <- 
-	     forward(D);
+	     forward(D),
+	     assert_shared(moved);
 
 :name: sticky
 
@@ -82,8 +84,11 @@ bound(1)
 +! reached_target [achieve]: {True} <-
 	     .query(calculate_angle(A)),
 	     perf(turn(A)),
+	     *turned,
+	     remove_shared(turned),
 	     .query(calculate_distance(D)),
 	     perf(forward(D)),
-	     *reached_target,
-	     print(reached_target);
+	     *moved,
+	     remove_shared(moved);
+
     
