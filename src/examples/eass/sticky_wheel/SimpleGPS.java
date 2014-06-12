@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.mas.vehicle.Sensor;
 import ail.syntax.Predicate;
+import ail.syntax.NumberTerm;
 
 public class SimpleGPS implements Sensor {
 	Predicate position;
@@ -44,5 +45,18 @@ public class SimpleGPS implements Sensor {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public double getX() {
+		return ((NumberTerm) position.getTerm(0)).solve();
+	}
+	
+	public double getY() {
+		return ((NumberTerm) position.getTerm(1)).solve();
+	}
+
+	public double getTheta() {
+		return ((NumberTerm) position.getTerm(2)).solve();
+	}
+
 
 }

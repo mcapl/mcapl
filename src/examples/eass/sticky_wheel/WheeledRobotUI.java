@@ -37,7 +37,7 @@ import eass.mas.nxt.EASSNXTEnvironment;
 public class WheeledRobotUI extends JPanel implements ActionListener,
 		PropertyChangeListener, WindowListener {
 	static String path="/src/examples/eass/sticky_wheel/";
-	static String config_file = "sticky_norecovery.ail";
+	static String config_file = "sticky_feedback.ail";
 	String rName = "sticky";
 	static SimpleWheeledRobotEnv env;
 	MovementCanvas canvas = new MovementCanvas();
@@ -130,8 +130,8 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		double yp;
 		double thetap;
 		Polygon robot;
-		int[] xs = new int[100];
-		int[] ys = new int[100];
+		int[] xs = new int[10000];
+		int[] ys = new int[10000];
 		int points = 0;
 		
 		public MovementCanvas() {
@@ -160,11 +160,11 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
 		public void paint(Graphics g) {
 			x = env.getX();
-			y = env.getY();
+			y = 1000 - env.getY();
 			xs[points] = (int) x;
 			ys[points] = (int) y;
 			points++;
-			theta = env.getTheta();
+			theta = -env.getTheta();
 			
 			g.drawPolygon(getPolygon());
 		}
@@ -187,8 +187,8 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
 		public void updateGraphics(double x1, double y1, double theta1) {
 			xp = x1;
-			yp = y1;
-			thetap = theta1;
+			yp = 1000 - y1;
+			thetap = -theta1;
 			repaint();
 		}
 	}

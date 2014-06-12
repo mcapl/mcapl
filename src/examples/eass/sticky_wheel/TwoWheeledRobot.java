@@ -16,12 +16,13 @@ import ail.mas.vehicle.Sensor;
 public class TwoWheeledRobot extends EASSVehicle {
 	double motor1power = 0;
 	double motor2power = 0;
+	SimpleGPS gps = new SimpleGPS();
 		
 	public TwoWheeledRobot(AILAgent a) {
 		addAgent(a);
 		a.setEnv(this);
 		addSensor(new startSensor());
-		addSensor(new SimpleGPS());
+		addSensor(gps);
 	}
 	
 	/*
@@ -70,14 +71,57 @@ public class TwoWheeledRobot extends EASSVehicle {
 			double target_x = ((NumberTerm) act.getTerm(2)).solve();
 			double target_y = ((NumberTerm) act.getTerm(3)).solve();
 			
-			double distance = Math.sqrt((target_x - current_x)*(target_x - current_x) + (target_y - current_y)*(target_y - current_y));
+			double distance = calculatedistance(current_x, current_y, target_x, target_y);
 			Unifier U = new Unifier();
 			U.unifies(act.getTerm(4), new NumberTermImpl(distance));
 			return U;
 			
+		} else if (act.getFunctor().equals("feedback_control")) {
+			double target_x = ((NumberTerm) act.getTerm(0)).solve();
+			double target_y = ((NumberTerm) act.getTerm(1)).solve();
+			
+			double current_x = gps.getX();
+			double current_y = gps.getY();
+			double theta = gps.getTheta();
+			
+			while (calculatedistance(current_x, current_y, target_x, target_y) > 1) {
+				double tantheta = (target_y - current_y)/(target_x - current_x);
+				double desiredtheta = Math.toDegrees(Math.atan(tantheta));
+				
+				double thetadiff = (theta - desiredtheta);
+				double scaling = 1;
+				setMotor1Power(1);
+				setMotor2Power(1);
+				if (thetadiff > 1) {
+					scaling = thetadiff;
+				} else if (thetadiff < -1 ){
+					scaling = -thetadiff;
+				}
+				
+				if (thetadiff > 0) {
+					setMotor1Power(1 - thetadiff/360);
+					setMotor2Power(scaling*(1 + thetadiff/360));					
+				} else if (thetadiff < 0){
+					setMotor1Power(scaling*(1 - thetadiff/360));
+					setMotor2Power(1 + thetadiff/360);
+				}
+				Action engage = new Action("engageBothMotors");
+				engage.addTerm(new NumberTermImpl(1));
+				super.executeAction(agName, engage);		
+				
+				current_x = gps.getX();
+				current_y = gps.getY();
+				theta = gps.getTheta();
+			}
 		}
 		
 		return super.executeAction(agName, act);
+	}
+	
+	private double calculatedistance(double cx, double cy, double tx, double ty) {
+		double xdiff = cx - tx;
+		double ydiff = cy - ty;
+		return Math.sqrt(xdiff*xdiff + ydiff*ydiff);
 	}
 	
 	public void setMotor1Power(double d) {
