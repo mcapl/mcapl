@@ -150,7 +150,7 @@ action returns [Abstract_Action a] :
 
 performative returns [int b] : (TELL {$b=1;} | PERFORM {$b=2;} | ACHIEVE {$b = 3;});
 
-UPDATE 	:	'±' ;
+UPDATE 	:	'?' ;
 TELL	:	':tell';
 PERFORM :	':perform';
 ACHIEVE :	':achieve';
@@ -204,11 +204,12 @@ pred 	returns [Abstract_Predicate t]:	v=var {$t = $v.v;}| f=function {$t = $f.f;
 function returns [Abstract_Predicate f]: CONST {$f = new Abstract_Predicate($CONST.getText());} (OPEN terms[$f] CLOSE)?;
 
 terms[Abstract_Predicate f] : t=term {$f.addTerm($t.t);} (COMMA terms[$f])? ;
-term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | s = stringterm {$t = $s.s;} | f=function {$t = $f.f;};
+term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | s = stringterm {$t = $s.s;} | l = listterm {$t = $l.l;} | f=function {$t = $f.f;};
 
 atom	returns [Abstract_NumberTerm t]	:	n = numberstring {$t = new Abstract_NumberTermImpl($n.s);}| 
 					v=var {$t = $v.v;} | OPEN a=arithexpr CLOSE {$t = $a.t;};
 stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE  STRING DOUBLEQUOTE {$s = new Abstract_StringTermImpl($STRING.getText());};
+listterm returns [Abstract_ListTerm l] : SQOPEN {$l = new Abstract_ListTermImpl();} (h = term '|' t = term {$l.addHead($h.t); $l.addTail((Abstract_ListTerm) $t.t);})? SQCLOSE;
 
 var 	returns [Abstract_VarTerm v]:	VAR {
 	if (variables.containsKey($VAR.getText())) {
@@ -272,4 +273,3 @@ SHRIEK	:	'!';
 COMMA	:	',';
 SEMI	:	';';
 COLON	:	':';
-QUERY	:	'?';
