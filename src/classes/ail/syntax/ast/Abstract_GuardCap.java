@@ -41,7 +41,7 @@ public class Abstract_GuardCap implements Abstract_GuardAtom {
 	
 	public Abstract_GuardCap(Abstract_LogicalFormula p, Abstract_Predicate c, Abstract_LogicalFormula pt) {
 		pre = p;
-		c = cap;
+		cap = c;
 		post = pt;
 	}
 	

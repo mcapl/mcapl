@@ -53,7 +53,7 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 	private boolean isAbstraction = false;
 	private String abstraction_for;
 	
-	Abstract_Capability[] caps = new Abstract_Capability[];
+	Abstract_Capability[] caps = new Abstract_Capability[0];
 
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
@@ -71,7 +71,7 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 	public void addCap(Abstract_Capability c) {
 	  	int newsize = caps.length + 1;
 	   	Abstract_Capability[] newcaps = new Abstract_Capability[newsize];
-	   	for (int i = 0; i < goals.length; i++) {
+	   	for (int i = 0; i < caps.length; i++) {
 	   		newcaps[i] = caps[i];
 	   	}
 	   	newcaps[caps.length] = c; 
@@ -148,6 +148,7 @@ public class Abstract_EASSAgent extends Abstract_Agent {
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
+       	int cRef = env.newObjectArray("ail.syntax.ast.Abstract_Capability", caps.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}

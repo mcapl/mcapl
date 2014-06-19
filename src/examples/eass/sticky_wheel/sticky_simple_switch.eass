@@ -41,7 +41,7 @@ bound(1)
 	     +.lock,
 	     -position(X1, Y1, Theta1),
  	     -pos(X1, Y1, Theta1),
-	     remove_shared(pos(X1, Y1),
+	     remove_shared(pos(X1, Y1)),
 	     remove_shared(angle(Theta1)),
 	     +pos(X, Y, Theta),
 	     assert_shared(pos(X, Y)),
@@ -80,9 +80,9 @@ bound(1)
 :Reasoning Rules:
 
 :Capabilities:
-{pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), angle(Theta + A)}
-{pos(X, Y), angle(Theta)} forward(D) {pos(X + (D * cos(Theta)), Y + (D * sin(Theta))), angle(Theta)}
-{True} feedback(X, Y) {pos(X, Y)}
+{pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
+{pos(X, Y), angle(Theta)} forward(D) {newX(X, D, Theta, NX), newY(Y, D, Theta, NY), pos(NX, NY), angle(Theta)}
+{} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
 
@@ -96,25 +96,25 @@ bound(1)
    	     +! correct_angle(A) [perform],
 	     +! move(D) [perform];
 
-+!correct_angle(A) [perform] : {True}
++!correct_angle(A) [perform] : {True} <-
 	     .query(calculate_angle(A)),
 	     perf(turn(A)),
 	     *turned,
-	     remove_shared(turned),
+	     remove_shared(turned);
 
-+! move(D) [perform] : {True},    
++! move(D) [perform] : {True} <-    
 	     .query(calculate_distance(D)),
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
 	     +!evaluate_success(pos(X, Y), forward(D), True) [perform];
 
-+!evaluate_success(pos(X, Y), Cap, Pre) : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
-+!evaluate_success(pos(X, Y), Cap, Pre) : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);
++!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
++!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);
 			  
-+failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(PreC -> PreC1), .imp(PostC1, PostC)} <-
++failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(PreC -> PreC1), .imp(PostC1 -> PostC)} <-
 	     +!substitute_in_plans(Cap, Cap1) [perform];
-+failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(Pre -> PreC1), .imp(PostC1, Post)} <-
++failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(Pre -> PreC1), .imp(PostC1 -> Post)} <-
 	     +!substitute_in_plans(Post, Pre, Cap, Cap1) [perform];
 
 +!substitute_in_plans(Cap, Cap1) [perform] : {.plan(P, Pre, Cap, Post)} <-

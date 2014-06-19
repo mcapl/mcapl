@@ -587,6 +587,12 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	}
     	
     }
+
+	@Override
+	// Think I may need a new datatype here - or need guard plan to implement EBCompare
+	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
+		return null;
+	}
         
 }
 

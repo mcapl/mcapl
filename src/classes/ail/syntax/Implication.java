@@ -135,7 +135,7 @@ public class Implication implements LogicalFormula, GLogicalFormula {
 			abase.add(ant1);
 			abase.add(ant2);
 		}
-		MergeEvaluationBase joint = new MergeEvaluationBase(new NamedEvaluationBase(abase, "impant"), eb);
+		MergeEvaluationBase<PredicateTerm> joint = new MergeEvaluationBase(new NamedEvaluationBase(abase, "impant"), eb);
 		return consequent.logicalConsequence(joint, rb, un, varnames);
 	}
 

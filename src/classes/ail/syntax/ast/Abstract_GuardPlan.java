@@ -44,9 +44,9 @@ public class Abstract_GuardPlan implements Abstract_GuardAtom {
 	Abstract_LogicalFormula post;
 	Abstract_Predicate cap;
 	
-	public Abstract_GuardPlan(Abstract_NumberTerm pl, Abstract_Predicate c, Abstract_GLogicalFormula p, Abstract_LogicalFormula pt) {
-		pre = p;
-		c = cap;
+	public Abstract_GuardPlan(Abstract_NumberTerm pl, Abstract_Predicate c, Abstract_Predicate p, Abstract_Predicate pt) {
+		pre = new Abstract_GBelief(new Abstract_Literal(new Abstract_Pred(p)));
+		cap = c;
 		post = pt;
 		plan = pl;
 	}

@@ -101,14 +101,16 @@ event returns [Abstract_Event e] : (PLUS (RECEIVED OPEN p=performative ',' t=pre
 				
 guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
 				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
-				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=stringterm {an1=s;} | v=var {an1 = v;}) COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
+				SENT OPEN {Abstract_StringTerm an1=agentname;} (st=stringterm {an1=st;} | v=var {an1 = v;}) COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
 					COMMA {agn = an2;})? p=performative 
 					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
-				CAPABILITY OPEN pre=logicalfmla cap=pred post=logicalfmla CLOSE 
-					{$g = new Abstract_GuardCap($pre.f, $cap.t, $post.f);} |
-				PLAN OPEN pl=pred COMMA pre=logicalfmla COMMA COMMA c=pred COMMA post=logicalfmla CLOSE 
-					{$g = new Abstract_GuardPlan($pl.t, $c.t, $pre.f, $post.f);} |
+				CAPABILITY OPEN pre=pred COMMA cap=pred COMMA pst=pred CLOSE 
+					{$g = new Abstract_GuardCap($pre.t, $cap.t, $pst.t);} |
+				PLAN OPEN {Abstract_NumberTerm n=new Abstract_NumberTermImpl("0");} (v=var {n = $v.v;}| s=numberstring {n = new Abstract_NumberTermImpl($s.s);}) COMMA
+				                                        ga=pred COMMA 
+				                                        c=pred COMMA post=pred CLOSE 
+				                                          {$g = new Abstract_GuardPlan(n, $c.t, $ga.t, $post.t);} |
 				IMPLICATION OPEN ant=logicalfmla ARROW cons=logicalfmla CLOSE {$g = new Abstract_GuardImplication($ant.f, $cons.f);} |
 				TRUE {$g = new Abstract_GBelief();} );
 				
@@ -132,7 +134,7 @@ deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal
 				;
 				
 substitution[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN pl1=pred COMMA c1 = pred COMMA c2 =pred COMMA pl2 = pred CLOSE
-	{Abstract_Action a = new Abstract_Action("substitute"); a.addTerm($pl1.t); a.addTerm($c1.t); a.addTerm($c2.t); a.addTerm($pl2.t); };
+	{Abstract_Action a = new Abstract_Action("substitute"); a.addTerm($pl1.t); a.addTerm($c1.t); a.addTerm($c2.t); a.addTerm($pl2.t); $d = new Abstract_Deed(a);};
 				
 calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = literal COMMA v=var CLOSE 
 	{Abstract_Action a = new Abstract_Action("calculate"); a.addTerm($l1.l); a.addTerm(new Abstract_VarTerm("NewVarForCalculate")); ds.add(new Abstract_Deed(a));

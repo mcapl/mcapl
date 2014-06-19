@@ -31,5 +31,16 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
             }
         }
 	}
+	
+	public void add(Capability c) {
+		PredicateIndicator pi = c.getCap().getPredicateIndicator();
+		if (capMap.containsKey(pi)) {
+			capMap.get(pi).add(c);
+		} else {
+			ArrayList<Capability> cl = new ArrayList<Capability>();
+			cl.add(c);
+			capMap.put(pi, cl);
+		}
+	}
 
 }

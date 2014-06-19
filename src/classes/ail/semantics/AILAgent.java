@@ -61,6 +61,7 @@ import ail.syntax.ApplicablePlan;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
+import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
 
 import ajpf.util.VerifyMap;
@@ -791,6 +792,10 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public CapabilityLibrary getCL() {
 		return cl;
+	}
+	
+	public void addCap(Capability c) {
+		getCL().add(c);
 	}
    
 	//--- Constraints
