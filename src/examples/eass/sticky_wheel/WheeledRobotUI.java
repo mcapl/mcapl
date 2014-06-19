@@ -37,7 +37,7 @@ import eass.mas.nxt.EASSNXTEnvironment;
 public class WheeledRobotUI extends JPanel implements ActionListener,
 		PropertyChangeListener, WindowListener {
 	static String path="/src/examples/eass/sticky_wheel/";
-	static String config_file = "sticky_feedback.ail";
+	static String config_file = "sticky_simple_switch.ail";
 	String rName = "sticky";
 	static SimpleWheeledRobotEnv env;
 	MovementCanvas canvas = new MovementCanvas();

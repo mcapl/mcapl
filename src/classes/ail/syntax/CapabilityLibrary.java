@@ -14,7 +14,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	@Override
 	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
 		// TODO Auto-generated method stub
-		Capability c = ((Capability) ga);
+		Capability c = ((GCapability) ga).getCap();
 		Predicate cPred = c.getCap();
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
