@@ -69,12 +69,18 @@ eassagent returns [Abstract_EASSAgent g] :
 				)
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
+	(CAPABILITIES (c=capability {$g.addCap($c.c);})*)?
 	GOALS (gl=goal {$g.addInitialGoal($gl.g);})*
 	PLANS (p=plan {try {$g.addPlan($p.p);} catch (Exception e) {System.err.println(e);}})*
 	;
 
 goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
 	PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
+	
+capability returns [Abstract_Capability c] : 
+	CURLYOPEN (p=logicalfmla)? CURLYCLOSE 
+	cap=pred {$c = new Abstract_Capability($cap.t); if ($p.f != null) {$c.addPre($p.f);}}
+	CURLYOPEN (pp=logicalfmla {$c.addPost($pp.f);})? CURLYCLOSE;
 
 
 plan returns [Abstract_GPlan p]
@@ -99,23 +105,34 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 					COMMA {agn = an2;})? p=performative 
 					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
+				CAPABILITY OPEN pre=logicalfmla cap=pred post=logicalfmla CLOSE 
+					{$g = new Abstract_GuardCap($pre.f, $cap.t, $post.f);} |
+				PLAN OPEN pl=pred COMMA pre=logicalfmla COMMA COMMA c=pred COMMA post=logicalfmla CLOSE 
+					{$g = new Abstract_GuardPlan($pl.t, $c.t, $pre.f, $post.f);} |
+				IMPLICATION OPEN ant=logicalfmla ARROW cons=logicalfmla CLOSE {$g = new Abstract_GuardImplication($ant.f, $cons.f);} |
 				TRUE {$g = new Abstract_GBelief();} );
 				
 deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
 				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}) |
+				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}|
+				PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.DPlan, $p.t);}) |
 			   MINUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, $l.l);} |
 				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, $g.g);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);}
+				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);} |
+				PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.DPlan, $p.t);}
 				)) |
 				UPDATE (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILUpdate, Abstract_Deed.AILBel, $l.l);}) |
 				CALCULATE c=calculation[ds]  {$d = $c.d;}|
 				QUERYCOM q=query[ds] {$d = $q.d;}	|
 				WAIT w=wait[ds] {$d = $w.d;}	|
 				a=action {$d = new Abstract_Deed($a.a);}) |
-				wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);}
+				wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);} |
+				SUBSTITUTE s=substitution[ds] {$d = $s.d;}
 				)
 				;
+				
+substitution[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN pl1=pred COMMA c1 = pred COMMA c2 =pred COMMA pl2 = pred CLOSE
+	{Abstract_Action a = new Abstract_Action("substitute"); a.addTerm($pl1.t); a.addTerm($c1.t); a.addTerm($c2.t); a.addTerm($pl2.t); };
 				
 calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = literal COMMA v=var CLOSE 
 	{Abstract_Action a = new Abstract_Action("calculate"); a.addTerm($l1.l); a.addTerm(new Abstract_VarTerm("NewVarForCalculate")); ds.add(new Abstract_Deed(a));
@@ -160,6 +177,11 @@ CALCULATE
 	:	'.calculate';
 QUERYCOM	:	'.query';
 WAIT	:	'.wait';
+CAPABILITY	:	'.cap';
+PLAN	:	'.plan';
+IMPLICATION	:	'.imp';
+SUBSTITUTE
+	:	'.substitute';
 BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('G' | '.G') ;
 SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
@@ -168,6 +190,7 @@ GOALS	:	':Initial Goals:' {belief_rules=0;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
 	:	':Reasoning Rules:' {belief_rules=1;};
+CAPABILITIES:	':Capabilities:';
 PLANS	:	':Plans:';
 EASS	:	{curly_nesting == 0}?=> 'EASS';
 NAME	:	':name:';
@@ -181,6 +204,7 @@ BRULEARROW
 	:	':-';
 RULEARROW :	'<-';
 EQ_ASSGN	:	'=';
+ARROW	:	'->';
 
 // General AIL Parsing stuff
 

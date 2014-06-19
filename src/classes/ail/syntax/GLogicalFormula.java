@@ -50,27 +50,4 @@ public interface GLogicalFormula extends Cloneable, Unifiable {
      */
     public GLogicalFormula clone();
     
-    /* public boolean isGuardAtom();
-    
-    public boolean isNegatedGuardAtom();
-    
-    public boolean isConjunct(); */
-    
-    /**
-     * Expresses the logical formula as a term.
-     * @return
-     */
-    // public Term toTerm();
-    
-    /**
-     * Returns a list of Beliefs that appear positively in a formula (can be used potentially for quick filtering of plans).
-     * @return
-     */
-    // public List<LogicalFormula> getPosTerms();
-    
-    /**
-     * Return a list of the conjuncts that make up this logical forumla
-     * @return
-     */
-    // public List<LogicalFormula> conjuncts();
 }

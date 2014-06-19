@@ -44,6 +44,7 @@ import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
+import ail.syntax.CapabilityLibrary;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
@@ -176,6 +177,11 @@ public class AILAgent implements MCAPLLanguageAgent {
     protected List<String> context = new ArrayList<String>();
     
     /**
+     * The agent's capabilities.  Not used operationally at present.
+     */
+    protected CapabilityLibrary cl = new CapabilityLibrary();
+    
+    /**
      * The reasoning cycle used by the agent.  AIL itself provides no classes
      * that implement this interface.
      */
@@ -255,6 +261,11 @@ public class AILAgent implements MCAPLLanguageAgent {
      * The default Constraint Library name for AIL;
      */
     public static final String AILdefaultCLname = "";
+    
+    /**
+     * The default Capability Base name for AIL;
+     */
+    public static final String AILdefaultCBname = "";
     
     /*
      * The default belief base name for this agent;
@@ -770,6 +781,16 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
+	}
+	
+	//--- Capabilities
+	
+	/**
+	 * Return the capability library.
+	 * @return
+	 */
+	public CapabilityLibrary getCL() {
+		return cl;
 	}
    
 	//--- Constraints

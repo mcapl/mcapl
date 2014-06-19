@@ -42,7 +42,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Plan implements Cloneable, Comparable<Plan> {
+public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
   
 	/**
 	 * The plan can have an annotation.
@@ -528,6 +528,66 @@ public class Plan implements Cloneable, Comparable<Plan> {
     		}
     	}
  
-    } 
+    }
+
+	@Override
+	public boolean unifies(Unifiable t, Unifier u) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> getVarNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void renameVar(String oldname, String newname) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean match(Unifiable t, Unifier u) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean matchNG(Unifiable t, Unifier u) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isGround() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apply(Unifier theta) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void makeVarsAnnon() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Unifiable strip_varterm() {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 
 }
