@@ -13,3 +13,6 @@ tmp/*
 *.orig
 *~
 /bin
+
+# Machine Specific Settings #
+.settings/*

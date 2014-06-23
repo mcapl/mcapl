@@ -26,6 +26,7 @@ package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -33,29 +34,34 @@ import org.junit.Assert;
 import ail.semantics.AILAgent;
 import ail.util.AILexception;
 
+/**
+ * Tests of the Unification algorithm.
+ * @author louiseadennis
+ *
+ */
 public class UnificationTests {
 	
 	@Test public void dbNumTest() {
 		Literal head = new Literal("head");
-		GBelief ghead = new GBelief(GBelief.AILBel, head);
-		ghead.setDBnum(new VarTerm("Any"));
+		GBelief ghead = new GBelief(head);
+		ghead.setEB(new VarTerm("Any"));
 		
 		Literal head2 = new Literal("head");
-		GBelief ghead2 = new GBelief(GBelief.AILBel, head2);
-		ghead2.setDBnum(new VarTerm("Any"));
+		GBelief ghead2 = new GBelief(head2);
+		ghead2.setEB(new VarTerm("Any"));
 		
 		Literal head3 = new Literal("head");
-		GBelief ghead3 = new GBelief(GBelief.AILBel, head3);
-		ghead3.setDBnum(new VarTerm("Any"));
+		GBelief ghead3 = new GBelief(head3);
+		ghead3.setEB(new VarTerm("Any"));
 
 		Literal body = new Literal("body");
 		
 		
 		
-		Rule rule = new Rule(ghead, new GBelief(GBelief.AILBel, body));
+		Rule rule = new Rule(ghead, new GBelief(body));
 		Rule ruleC = rule.clone();
 		
-		ruleC.standardise_apart(ghead2, new Unifier());
+		ruleC.standardise_apart(ghead2, new Unifier(), Collections.<String>emptyList());
 		
 		Assert.assertTrue(ghead.toString().equals(ghead3.toString()));
 		
@@ -69,11 +75,11 @@ public class UnificationTests {
 		
 		Literal already_tried_var = new Literal("already_tried");
 		already_tried_var.addTerm(new VarTerm("P"));
-		GBelief g_atv = new GBelief(GBelief.AILBel, already_tried_var);
-		g_atv.setDBnum(new VarTerm("Any"));
+		GBelief g_atv = new GBelief(already_tried_var);
+		g_atv.setEB(new VarTerm("Any"));
 		
-		GBelief spt = new GBelief(GBelief.AILBel, new Literal("some_plan_tried"));
-		spt.setDBnum(new VarTerm("Any"));
+		GBelief spt = new GBelief(new Literal("some_plan_tried"));
+		spt.setEB(new VarTerm("Any"));
 
 		Rule rule = new Rule(spt, g_atv);
 		
@@ -81,7 +87,7 @@ public class UnificationTests {
 		ag.addBel(already_tried, BeliefBase.TSelf);
 		ag.addRule(rule);
 		
-		Assert.assertTrue(ag.believesyn(new Guard(new GBelief(GBelief.AILBel, new Literal("some_plan_tried"))), new Unifier()));
+		Assert.assertTrue(ag.believesyn(new Guard(new GBelief(new Literal("some_plan_tried"))), new Unifier()));
 	}
 	
 	@Test public void composingUnifiers() {
@@ -116,11 +122,11 @@ public class UnificationTests {
 		my_name.addTerm(agp);
 		
 		ArrayList<Guard> guards = new ArrayList<Guard>();
-		guards.add(new Guard(new GBelief(GBelief.AILBel, my_name)));
+		guards.add(new Guard(new GBelief(my_name)));
 		ArrayList<Deed> deeds = new ArrayList<Deed>();
 		deeds.add(new Deed(new Action("do_something")));
 		ArrayList<Deed> prf = new ArrayList<Deed>();
-		Plan p = new Plan(new Event(GBelief.AILAddition, GBelief.AILBel, new Literal("someevent")), prf, guards, deeds);
+		Plan p = new Plan(new Event(Event.AILAddition, Event.AILBel, new Literal("someevent")), prf, guards, deeds);
 		
 		Literal agentg = new Literal("ag2");
 		Literal my_nameg = new Literal("my_name");
@@ -130,10 +136,10 @@ public class UnificationTests {
 		a.addBel(my_nameg, BeliefBase.TSelf);
 		
 		ArrayList<Guard> iguards = new ArrayList<Guard>();
-		iguards.add(new Guard(new GBelief(GBelief.GTrue)));
+		iguards.add(new Guard(new GBelief()));
 		ArrayList<Deed> ideeds = new ArrayList<Deed>();
 		ideeds.add(new Deed(Deed.Dnpy));
-		Intention i = new Intention(new Event(GBelief.AILAddition, GBelief.AILBel, new Literal("someevent")), ideeds, iguards, u1);
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, new Literal("someevent")), ideeds, iguards, u1);
 		a.setIntention(i);
 		
 		try {

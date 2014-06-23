@@ -31,6 +31,7 @@ import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
 import ail.mas.DefaultEnvironment;
@@ -71,6 +72,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
     	for (Abstract_Literal l: beliefs) {
     		ag.addInitialBel(l.toMCAPL());
     	}
+    	for (Abstract_Goal g: goals) {
+    		ag.addInitialGoal(g.toMCAPL());
+    	}
     	for (Abstract_Rule r: rules) {
     		ag.addRule(r.toMCAPL());
     	}
@@ -80,9 +84,6 @@ public class Abstract_EASSAgent extends Abstract_Agent {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
-    	}
-    	if (initialgoal != null) {
-    		ag.addInitialGoal(initialgoal.toMCAPL());
     	}
     	if (isAbstraction) {
     		ag.setAbstraction(abstraction_for);
@@ -125,16 +126,17 @@ public class Abstract_EASSAgent extends Abstract_Agent {
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("eass.syntax.ast.Abstract_EASSAgent");
     	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
-    	if (initialgoal != null) {
-    		env.setReferenceField(objref, "initialgoal", initialgoal.newJPFObject(env));
-    	}
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < rules.length; i++) {
+       	for (int i = 0; i < goals.length; i++) {
+       		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+       	}
+     	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
       	for (int i = 0; i < plans.length; i++) {

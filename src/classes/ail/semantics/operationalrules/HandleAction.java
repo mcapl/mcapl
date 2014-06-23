@@ -68,7 +68,7 @@ public class HandleAction extends HandleTopDeed {
 		/**
 		 * The action to be handled
 		 */
-		Action act = (Action) topdeed.getTerm();
+		Action act = (Action) topdeed.getContent();
 
 		try {
 			Unifier thetaa = a.getEnv().actionResult(a.getAgName(), act);

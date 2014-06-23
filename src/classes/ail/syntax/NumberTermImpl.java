@@ -192,4 +192,12 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
     public void renameVar(String oldname, String newname) {
     	
     }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		
+	}
 }

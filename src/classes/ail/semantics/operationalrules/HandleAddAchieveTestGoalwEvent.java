@@ -68,7 +68,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(topdeed.getGoal().toGuard(), new Unifier());
+		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
 		
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
@@ -85,7 +85,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			for (Intention ip: is) {
 				for (Event e3: ip.eventsUnified()) {
 					if (!flag & e3.referstoGoal()) {
-						if (thetahd.matchesNG(e3.getGoal(), topdeed.getGoal())) {
+						if (thetahd.matchesNG((Goal) e3.getContent(), (Goal) topdeed.getContent())) {
 							flag = true;
 							break;
 						}
@@ -99,7 +99,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			}
 
 			if (!flag ) {
-				a.removeGoal(topdeed.getGoal());
+				a.removeGoal((Goal) topdeed.getContent());
 			}
 		} else {
 			Iterator<Goal> goal_it = a.getGoals();
@@ -117,8 +117,8 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 				}
 			}
 
-			a.addGoal(topdeed.getGoal());
-			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
+			a.addGoal((Goal) topdeed.getContent());
+			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 		}	
 	}
 }

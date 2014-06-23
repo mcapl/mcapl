@@ -28,6 +28,7 @@ import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +41,7 @@ import ajpf.util.VerifySet;
  * @author lad
  *
  */
-public class GoalBase {
+public class GoalBase implements EvaluationBase<PredicateTerm> {
 	/**
      * goalMap is a table ussed for efficient
      * look-up of goals.
@@ -128,7 +129,7 @@ public class GoalBase {
     }
 
     /**
-     * Get a goal relevant to some literl - i.e., a goal with the
+     * Get a goal relevant to some literal - i.e., a goal with the
      * same predicate name and arity.  Presumably you can then check for
      * unifiability.
      * 
@@ -136,24 +137,35 @@ public class GoalBase {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
-    public Iterator<Goal> getRelevant(Literal l) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    	PredicateTerm l = (PredicateTerm) ebl;
+    	LinkedList<PredicateTerm> ul = new LinkedList<PredicateTerm>();
+    	Iterator<Goal> gl = null;
     	if (l.isVar()) {
             // all goals are relevant
-            return iterator();
+            gl = iterator();
         } else {
             Set<Goal> entry = goalMap.get(l.getPredicateIndicator());
             if (entry != null) {
                 List<Goal> entrylist = new ArrayList<Goal>();
                 entrylist.addAll(entry);
-                return entrylist.iterator();
+                gl = entrylist.iterator();
            } else {
             	ArrayList<Goal> empty = new ArrayList<Goal>();
-                return empty.iterator();
+                gl = empty.iterator();
             }
         }
+    	
+    	if (gl != null) {
+    		while (gl.hasNext()) {
+    			ul.add(gl.next());
+    		}
+    	}
+    	
+    	return ul.iterator();
         
      }
-
+        
     /**
      * Convert the goal base into a string for printing.
      *

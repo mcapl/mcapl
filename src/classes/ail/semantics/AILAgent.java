@@ -596,6 +596,39 @@ public class AILAgent implements MCAPLLanguageAgent {
 		
 	}
 	
+	public GoalBase getGoalBase(StringTerm dbnumt) {
+		String dbnum = getDefaultGBName();
+		if (dbnumt.getString() != null) {
+			dbnum = dbnumt.getString();
+		}
+		if (dbnum.equals(getDefaultGBName())) {
+			return getGoalBase();
+		} else {
+			return gbmap.get(dbnum);
+		}
+	}
+   
+	/**
+	 * Get a Beliefbase indexed by a string.
+	 *	 @param dbnum
+	 * @return
+	 */
+	public GoalBase getGoalBase(String dbnum) {
+		if (dbnum.equals(getDefaultGBName())) {
+			return getGoalBase();
+		} else {
+			return gbmap.get(dbnum);
+		}
+	}
+   
+	/**
+	 * Get the index names for all the non-primary belief bases.
+	 * @return
+	 */
+	public Set<String> getGBList() {
+		return gbmap.keySet();
+	}
+
 	public void setGoalBase(GoalBase gb) {
 		gbmap.put(getDefaultGBName(), gb);
 	}
@@ -1319,7 +1352,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 					candidate = p;
 				} else {
 				int value = scoreplan(p);
-					if (value > currentvalue) {
+					if (value < currentvalue) {
 						currentvalue = value;
 						candidate = p;
 					}
@@ -1538,7 +1571,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		//	vc = i.hdU().varClusters();
 			return getAllRelevantPlans(ple);
 		} else {
-			ple = new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal));
+			ple = new Event(Event.AILAddition, new Goal("Any", Goal.achieveGoal));
 			return getAllReactivePlans(ple);
 		//	pl = getAllReactivePlans(ple).iterator();
 		}
@@ -1573,7 +1606,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      *         does not believe the guard if this iterator is empty.
      */
     public Iterator<Unifier> believes(Guard g, Unifier un) {
-    	return g.logicalConsequence(this, un);
+    	return g.logicalConsequence(this, un, g.getVarNames());
     }
     
 	/**
@@ -1805,7 +1838,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {
-		GBelief  gb = new GBelief(GBelief.AILBel, new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
+		GBelief  gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();
 		boolean return_value =  believesyn(gu, un);
@@ -1823,7 +1856,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public boolean MCAPLhasGoal(MCAPLFormula fmla) {
 		Iterator<Goal> gi = getGoals();
 		while (gi.hasNext()) {
-			if (gi.next().getLiteral().equals(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)))) {
+			if (gi.next().contentequals(new PredicatewAnnotation((MCAPLPredicate) fmla))) {
 				return true;
 			}
 			
@@ -1842,7 +1875,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		if (getIntention() != null) {
 		for (Event e: getIntention().getPlannedUnifiedEvents()) {
 			if (e.referstoGoal() && e.isAddition()) {
-				if (e.getGoal().getLiteral().equals(fmla_lit)) {
+				if (((Goal) e.getContent()).contentequals(fmla_lit)) {
 					return true;
 				}
 			}
@@ -1852,7 +1885,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		for (Intention i: getIntentions()) {
 			for (Event e: i.getPlannedUnifiedEvents()) {
 				if (e.referstoGoal() && e.isAddition()) {
-					if (e.getGoal().getLiteral().equals(fmla_lit)) {
+					if (((Goal) e.getContent()).contentequals(fmla_lit)) {
 						return true;
 					}
 				}

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -29,6 +29,7 @@ package ail.syntax;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ajpf.util.VerifyMap;
 
@@ -90,8 +91,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @param t2g A Structure (i.e., a logical formula of some sort).
      * @retun whether or not the two structures unify.
      */
-    public boolean sunifies(Predicate t1g, Predicate t2g) {
-    	t2g.standardise_apart(t1g, this);
+    public boolean sunifies(Unifiable t1g, Unifiable t2g) {
+    	t2g.standardise_apart(t1g, this, Collections.<String>emptyList());
     	return unifies(t1g, t2g);
     }
     
@@ -112,8 +113,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     	
     	// AIL Structures can return a "unifying term" consisting of 
     	// those bits relevant for unification.
-        Predicate t1gl = t1g.UnifyingTerm();
-    	Predicate t2gl = t2g.UnifyingTerm();
+        Unifiable t1gl = t1g.UnifyingTerm();
+    	Unifiable t2gl = t2g.UnifyingTerm();
     	
     	if (t1gl == null && t2gl == null) {
     		return true;
@@ -158,10 +159,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     		
     		return np1.unifies(np2, this);
  
-    	} else {
+    	} else if (t1g instanceof Term && t2g instanceof Term){
     		Term tt1 = (Term) t1g;
     		Term tt2 = (Term) t2g;
     		return (unifyTerms(tt1, tt2));
+    	} else {
+    		return t1g.unifies(t2g, this);
     	}
     	
      }
@@ -200,10 +203,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      		
      		return np1.match(np2, this);
   
-     	} else {
+     	} else if (t1g instanceof Term && t2g instanceof Term) {
      		Term tt1 = (Term) t1g;
      		Term tt2 = (Term) t2g;
      		return (matchTerms(tt1, tt2));
+     	} else {
+     		return t1g.match(t2g, this);
      	}
      	
       }

@@ -35,13 +35,13 @@ GWENDOLEN
 
 +.received(:tell, bid(D, From)) : {.B bid(From, E)} <- -bid(From, E), +bid(From, D);
 +.received(:tell, bid(D, From)) : {True, ~ .B bid(From, E)} <- +bid(From, D);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), [X2 < X1], .B bid(ag4, X3), [X3 < X1], .B bid(ag5, X4), [X4 < X1], .B bid(ag6, X5), [X5 < X1], .B bid(ag7, X6), [X6 < X1]} <- +winning_amount(X1), win(ag2, X1);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), [X1 < X2], .B bid(ag4, X3), [X3 < X2], .B bid(ag5, X4), [X4 < X2], .B bid(ag6, X5), [X5 < X2], .B bid(ag7, X6), [X6 < X2]} <- +winning_amount(X2), win(ag3, X2);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), [X2 < X3], [X1 < X3], .B bid(ag5, X4), [X4 < X3], .B bid(ag6, X5), [X5 < X3], .B bid(ag7, X6), [X6 < X3]} <- +winning_amount(X3), win(ag4, X3);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), [X2 < X4], [X1 < X4], [X3 < X4], .B bid(ag6, X5), [X5 < X4], .B bid(ag7, X6), [X6 < X4]} <- +winning_amount(X4), win(ag5, X4);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), [X2 < X5], [X1 < X5], [X3 < X5], [X4 < X5], .B bid(ag7, X6), [X6 < X5]} <- +winning_amount(X5), win(ag6, X5);
-+bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), .B bid(ag7, X6), [X2 < X6], [X1 < X6], [X3 < X6], [X4 < X6], [X5 < X6]} <- +winning_amount(X6), win(ag7, X6);
-+bid(Z, A) : {.B winning_amount(Am), [Am < A]} <- -winning_amount(Am), +winning_amount(A), win(Z, A);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), X2 < X1, .B bid(ag4, X3), X3 < X1, .B bid(ag5, X4), X4 < X1, .B bid(ag6, X5), X5 < X1, .B bid(ag7, X6), X6 < X1} <- +winning_amount(X1), win(ag2, X1);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), X1 < X2, .B bid(ag4, X3), X3 < X2, .B bid(ag5, X4), X4 < X2, .B bid(ag6, X5), X5 < X2, .B bid(ag7, X6), X6 < X2} <- +winning_amount(X2), win(ag3, X2);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), X2 < X3, X1 < X3, .B bid(ag5, X4), X4 < X3, .B bid(ag6, X5), X5 < X3, .B bid(ag7, X6), X6 < X3} <- +winning_amount(X3), win(ag4, X3);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), X2 < X4, X1 < X4, X3 < X4, .B bid(ag6, X5), X5 < X4, .B bid(ag7, X6), X6 < X4} <- +winning_amount(X4), win(ag5, X4);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), X2 < X5, X1 < X5, X3 < X5, X4 < X5, .B bid(ag7, X6), X6 < X5} <- +winning_amount(X5), win(ag6, X5);
++bid(Z, A) : {~ .B winning_amount(Am), .B bid(ag2, X1), .B bid(ag3, X2), .B bid(ag4, X3), .B bid(ag5, X4), .B bid(ag6, X5), .B bid(ag7, X6), X2 < X6, X1 < X6, X3 < X6, X4 < X6, X5 < X6} <- +winning_amount(X6), win(ag7, X6);
++bid(Z, A) : {.B winning_amount(Am), Am < A} <- -winning_amount(Am), +winning_amount(A), win(Z, A);
 
 :name: ag2
 

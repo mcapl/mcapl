@@ -57,6 +57,10 @@ public interface MCAPLTerm extends Comparable<MCAPLTerm> {
     
     public int getTermsSize();
     
+    /**
+     * We allow _only_ unnamed variables in MCAPL PSL expressions.
+     * @return
+     */
     public boolean isUnnamedVar();
- 
+   
 }
