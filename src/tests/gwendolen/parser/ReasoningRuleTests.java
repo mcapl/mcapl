@@ -8,6 +8,7 @@ import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
 import ail.syntax.ast.Abstract_Rule;
+import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.GBelief;
 import ail.syntax.Rule;
 import ail.syntax.Literal;
@@ -164,6 +165,20 @@ public class ReasoningRuleTests {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+	
+	@Test public void rulesWithEquationsTest() {
+		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("in_formation :- [F < P];"));
+		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
+		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		
+		try {
+			Abstract_Rule rule = rule_parser.brule();
+			Assert.assertTrue(rule.getBody() instanceof Abstract_Equation);
+		} catch (Exception e) {
+			Assert.assertFalse(false);
+		}
+
 	}
 
 }
