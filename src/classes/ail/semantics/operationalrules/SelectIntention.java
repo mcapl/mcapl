@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.semantics.OSRule;
+import ajpf.util.AJPFLogger;
 
 import gov.nasa.jpf.annotation.FilterField;
 /**
@@ -38,6 +39,11 @@ import gov.nasa.jpf.annotation.FilterField;
  *
  */
 public class SelectIntention implements OSRule {
+	/**
+	 * The logname.
+	 */
+	String logname = "ail.semantics.operationalrules.SelectIntention";
+
 	private static final String name = "Select Intention";
 	
 	/*
@@ -89,7 +95,19 @@ public class SelectIntention implements OSRule {
 
 			a.setIntentions(Is);
 			a.setIntention(iprime);
-		} 
+			if (AJPFLogger.ltInfo(logname)) {
+				AJPFLogger.info(logname, "Selected intention " + iprime);
+			}
+
+		} else {
+			if (AJPFLogger.ltFine(logname)) {
+				if (i.locked()) {
+					AJPFLogger.fine(logname, "Current intention was locked");
+				} else {
+					AJPFLogger.fine(logname, "Current Intention was not null");
+				}
+			}
+		}
   		Is = new ArrayList<Intention>();
   		iprime = null;
 	}

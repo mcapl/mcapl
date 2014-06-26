@@ -216,10 +216,13 @@ public class MCAPLcontroller  {
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
+			if (AJPFLogger.ltInfo(logname)) {
+				AJPFLogger.info(logname, "(Choice) Picked jobber " + a.getName() + " from " + activeJobs);
+			}
 		}
 		
-		if (AJPFLogger.ltInfo(logname)) {
-			AJPFLogger.info(logname, "Picked jobber " + a.getName() + " from " + activeJobs);
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "Picked jobber " + a.getName() + " from " + activeJobs);
 		}
 		a.do_job();
 		specification.checkProperties();
