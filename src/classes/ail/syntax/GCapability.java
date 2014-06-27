@@ -36,6 +36,9 @@ public class GCapability implements GuardAtom<Capability> {
 			return getCap().unifies(((GCapability) t).getCap(), u);
 		}
 		
+		if (t instanceof Capability) {
+			return unifieswith((Capability) t, u, "");
+		}
 		return false;
 	}
 
@@ -118,5 +121,9 @@ public class GCapability implements GuardAtom<Capability> {
 	@Override
 	public byte getEBType() {
 		return DefaultAILStructure.AILCapability;
+	}
+	
+	public String toString() {
+		return "C " + cap;
 	}
 }

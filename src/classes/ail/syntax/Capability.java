@@ -150,5 +150,14 @@ public class Capability implements Unifiable,
 	public Unifiable strip_varterm() {
 		return new Capability((LogicalFormula) pre.strip_varterm(), (Predicate) cap.strip_varterm(), (LogicalFormula) post.strip_varterm());
 	}
+	
+	public String toString() {
+		String s = "{";
+		s += pre;
+		s += "} " + cap + " {";
+		s += post;
+		s += "}";
+		return s;
+	}
 
 }
