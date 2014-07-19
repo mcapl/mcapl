@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args =src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail,src/examples/eass/verification/leo/satellite.psl,SpinSpin1
+target.args =src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail,src/examples/eass/verification/leo/satellite.psl,SpinSpin4
 
 log.warning = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,
 

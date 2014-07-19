@@ -221,54 +221,54 @@
 # Property for Spin Paper
 Spin0:   [] ~(B (aglead, bad))
 
-Spin1:   [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) -> [] ~(B (aglead, bad))
+Spin1:   [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) -> [] ~(B (aglead, bad))
 
 Spin2:   ( 
-         [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-         [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  )
+         [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+         [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  )
          ) -> [] ~(B (aglead, bad))
          
 Spin3:    ( 
-         [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-         [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-         [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  )
+         [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+         [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+         [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  )
          ) -> [] ~(B (aglead, bad))
          
-Spin4:    ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) 
+Spin4:    ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) 
          ) -> [] ~(B (aglead, bad))
 
-Spin5:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+Spin5:  ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) &
             [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) )
          ) -> [] ~(B (aglead, bad))
 
-Spin6:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+Spin6:  ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) &
             [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) )
          ) -> [] ~(B (aglead, bad))
         
 
-Spin7:  ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+Spin7:  ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) &
             [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) ) &
           [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag3)) ) 
          ) -> [] ~(B (aglead, bad))
          
-Spin8: ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4)) -> <> B (aglead, maintaining(ag4))  ) &
+Spin8: ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) &
             [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) ) &
            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag2)) ) &
           [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag3)) ) &
@@ -276,32 +276,32 @@ Spin8: ( [] ( B(aglead, informed(ag1)) -> <> B (aglead, maintaining(ag1))  ) &
         ) -> [] ~(B (aglead, bad))
 
 
-SpinSpin: (B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
-  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
-  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) &
+SpinSpin: (B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, line)) & B (aglead, maintaining(ag4)) &
   B (aglead, formation(square))) || [] ~ B (aglead, bad)
   
 SpinSpin0: B (aglead, bad)
 
-SpinSpin1: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  & B (aglead, bad)
+SpinSpin1: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  & B (aglead, bad)
 
-SpinSpin2: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) & B (aglead, bad)
+SpinSpin2: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) & B (aglead, bad)
   
-SpinSpin3: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
-  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
+SpinSpin3: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
   
-SpinSpin4: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
-  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
-  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
+SpinSpin4: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, line)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
 
-SpinSpin5: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2)) & B (aglead, maintaining(ag2)) &
-  B(aglead, informed(ag3)) & B (aglead, maintaining(ag3)) &
-  B(aglead, informed(ag4)) & B (aglead, maintaining(ag4)) &
+SpinSpin5: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, line)) & B (aglead, maintaining(ag4)) &
   B (aglead, formation(square)) & B (aglead, bad)
 
 # Misc other properties - NB. duplicate keys watch out!
@@ -309,10 +309,10 @@ SpinSpin5: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
    ||( 
    ||( 
    ||( 
-   <>(& (B (aglead, informed(ag1)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), 
-   <>(& (B (aglead, informed(ag2)), [] (~ B (aglead, maintaining(ag2)))))), 
-   <>(& (B (aglead, informed(ag3)), [] (~ B (aglead, maintaining(ag3)))))), 
-   <>(& (B (aglead, informed(ag4)), [] (~ B (aglead, maintaining(ag4)))))), 
+   <>(& (B (aglead, informed(ag1, line)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), 
+   <>(& (B (aglead, informed(ag2, line)), [] (~ B (aglead, maintaining(ag2)))))), 
+   <>(& (B (aglead, informed(ag3, line)), [] (~ B (aglead, maintaining(ag3)))))), 
+   <>(& (B (aglead, informed(ag4, line)), [] (~ B (aglead, maintaining(ag4)))))), 
 			# Then eventually it believes it has a line
    <> (B (aglead, in_formation(line)))) 
 
@@ -344,10 +344,10 @@ SpinSpin5: B(aglead, informed(ag1)) & B (aglead, maintaining(ag1))  &
     ||(
  			||(
  			||(
- 			<>(& (B (aglead, informed(ag1)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), \n
-			<>(& (B (aglead, informed(ag2)), [] (~ B (aglead, maintaining(ag2)))))), \n
-			<>(& (B (aglead, informed(ag3)), [] (~ B (aglead, maintaining(ag3)))))), 
-			<>(& (B (aglead, informed(ag4)), [] (~ B (aglead, maintaining(ag4)))))), 
+ 			<>(& (B (aglead, informed(ag1, line)), [] (&(~ B (aglead, maintaining(ag1)), ~ B (aglead, broken(ag1)))))), \n
+			<>(& (B (aglead, informed(ag2, line)), [] (~ B (aglead, maintaining(ag2)))))), \n
+			<>(& (B (aglead, informed(ag3, line)), [] (~ B (aglead, maintaining(ag3)))))), 
+			<>(& (B (aglead, informed(ag4, line)), [] (~ B (aglead, maintaining(ag4)))))), 
 			<> (&(B (aglead, in_formation(square)), <> (B (aglead, in_formation(line))))))
 
 113 : ||( 
