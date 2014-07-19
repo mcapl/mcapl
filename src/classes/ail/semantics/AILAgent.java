@@ -953,7 +953,7 @@ public class AILAgent implements MCAPLLanguageAgent {
  	 * @param msgs
  	 */
  	public void setInbox(List<Message> msgs) {
- 		Inbox = msgs;
+  		Inbox = msgs;
  	}
  	
 	/**
@@ -963,6 +963,11 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void newMessages(Set<Message> msgs) {
 		Inbox.addAll(msgs);
+		// This seems pointless but improves state matching in model checking.
+		// Otherwise the Inbox is represented as an array list of nulls.
+		if (Inbox.isEmpty()) {
+			clearInbox();
+		}
 	}
 	
 	/**
