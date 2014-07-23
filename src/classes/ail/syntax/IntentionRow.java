@@ -135,14 +135,14 @@ public class IntentionRow {
 		String triggers = trigger.toString();
 		StringBuilder s = new StringBuilder();
 		
-		ListIterator<Guard> gi = guardstack.listIterator(guardstack.size());
-		ListIterator<Deed> di = body.listIterator(body.size());
-		ListIterator<Unifier> ui = unif.listIterator(unif.size());
+		ListIterator<Guard> gi = guardstack.listIterator();
+		ListIterator<Deed> di = body.listIterator();
+		ListIterator<Unifier> ui = unif.listIterator();
 		
-		while (gi.hasPrevious()) {
-			Guard gu = gi.previous();
-			Deed d = di.previous();
-			Unifier u = ui.previous();
+		while (gi.hasNext()) {
+			Guard gu = gi.next();
+			Deed d = di.next();
+			Unifier u = ui.next();
 			
 			s.append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(u.toString()).append("\n");
 		}

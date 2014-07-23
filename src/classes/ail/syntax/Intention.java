@@ -139,7 +139,7 @@ public class Intention implements Comparable<Intention>{
     	this();
  
     	ArrayList<Guard> gs = new ArrayList<Guard>();
-		GBelief gtrue = new GBelief(GBelief.GTrue);
+		GBelief gtrue = new GBelief();
 		Guard g = new Guard(gtrue);
    		gs.add(g);
  
@@ -172,7 +172,7 @@ public class Intention implements Comparable<Intention>{
     	this();
     	
     	ArrayList<Guard> gs = new ArrayList<Guard>();
-		GBelief gtrue = new GBelief(GBelief.GTrue);
+		GBelief gtrue = new GBelief();
 		Guard g = new Guard(gtrue);
    		gs.add(g);
  
@@ -236,7 +236,7 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
-     * Unsuspend the intentio nif it's condition met by the changes in perception
+     * Unsuspend the intention if it's condition met by the changes in perception
      * @param newbeliefs
      * @param oldbeliefs
      */
@@ -248,6 +248,9 @@ public class Intention implements Comparable<Intention>{
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
+    			if (! l.negated()) {
+    				l.setNegated(false);
+    			}
     			unsuspendFor(l);
     		}
     	}
@@ -456,6 +459,25 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
+     * The event stack of the intention.
+     * 
+     * @return The event stack of the intention.
+     */
+    public ArrayList<Event> eventsUnified() {
+    	ArrayList<Event> es = new ArrayList<Event>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		IntentionRow ir = i.next();
+    		Event eclone = ir.getEvent().clone();
+    		eclone.apply(ir.unifiers().get(ir.unifiers().size() - 1));
+    		es.add(eclone);
+    	}
+    	
+    	return es;
+    }
+
+    /**
      * A clone of event stack of the intention with unifiers applied.
      * 
      * @return The event stack of the intention.
@@ -578,6 +600,15 @@ public class Intention implements Comparable<Intention>{
 	 *              for the intention row.
 	 */
 	public   void iConcat(Event e, ArrayList<Deed> ds, ArrayList<Guard> gs, Unifier theta) {
+		List<String> varnames = getVarNames();
+		varnames.addAll(e.getVarNames());
+		for (Deed d: ds) {
+			varnames.addAll(d.getVarNames());
+		}
+		for (Guard g: gs) {
+			varnames.addAll(g.getVarNames());
+		}
+	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		
 		intentionRows.add(ir);
@@ -669,10 +700,40 @@ public class Intention implements Comparable<Intention>{
 	/**
 	 * Drop the top deed (with associated event etc.) from the intention.
 	 */
-	public   void tlI() {
-		dropP(1);
+	public   void tlI(AILAgent ag) {
+		if (hdE().referstoGoal()) {
+			Goal g = (Goal) hdE().getContent();
+			Goal gcloned = g.clone();
+			gcloned.apply(hdU());
+			dropP(1);
+			if (!hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
+				ag.removeGoal(gcloned);
+			}
+		} else {
+			dropP(1);
+		}
 	}
 	
+	/**
+	 * Replace top of intention with a new event, deed, guard and unifier onto the top of the intention.
+	 * 
+	 * @param e The event.
+	 * @param d The deed.
+	 * @param g The guard.
+	 * @param theta The unifier.
+	 */
+	public   void iReplace(Event e, Deed d, Guard g, Unifier theta) {
+		dropP(1);
+		ArrayList<Deed> ds = new ArrayList<Deed>();
+		ArrayList<Guard> gs = new ArrayList<Guard>();
+		
+		gs.add(g);
+		ds.add(d);
+		
+		IntentionRow ir = new IntentionRow (e, gs, ds, theta);
+		push(ir);
+	}
+
 	/**
 	 * Push a new event, deed, guard and unifier onto the top of the intention.
 	 * 
@@ -706,7 +767,7 @@ public class Intention implements Comparable<Intention>{
 			thetaHD.compose(theta);
 		
 			thetaHD.pruneRedundantNames(getVarNames());
-			tlI();
+			dropP(1);
 			iCons(e, d, g, thetaHD);
 		}
 	}
@@ -736,7 +797,7 @@ public class Intention implements Comparable<Intention>{
 			Deed d = hdD();
 			Guard g = hdG();
 	
-			tlI();
+			dropP(1);
 			iCons(e, d, g, theta);
 		}
 	}

@@ -31,13 +31,14 @@ import ail.syntax.Term;
 
 import java.util.HashMap;
 
-import gov.nasa.jpf.jvm.ClassInfo;
-import gov.nasa.jpf.jvm.ElementInfo;
-import gov.nasa.jpf.jvm.Heap;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.ThreadInfo;
-import gov.nasa.jpf.jvm.Types;
+import gov.nasa.jpf.vm.ClassInfo;
+import gov.nasa.jpf.vm.ClassLoaderInfo;
+import gov.nasa.jpf.vm.ElementInfo;
+import gov.nasa.jpf.vm.Heap;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.ThreadInfo;
+import gov.nasa.jpf.vm.Types;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -65,7 +66,7 @@ import gov.nasa.jpf.jvm.Types;
 /**
  * Represents a Predicate in First-Order Logic.
  */
-public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
+public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abstract_LogicalFormula {
 	static HashMap<String,Integer> strings = new HashMap<String,Integer>();
 	
 	/**
@@ -221,16 +222,16 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
 	 * (non-Javadoc)
 	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#createInJPF(gov.nasa.jpf.jvm.JVM)
 	 */
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Heap heap = vm.getHeap();
-		ThreadInfo ti = vm.getLastThreadInfo();
-		ClassInfo ci = ClassInfo.getResolvedClassInfo("ail.syntax.ast.Abstract_Predicate");
-		int objref = heap.newObject(ci, ti);
-		ElementInfo ei = vm.getElementInfo(objref);
-		ei.setReferenceField("functor", heap.newString(functor, vm.getLastThreadInfo()));
+		ThreadInfo ti = vm.getCurrentThread();
+		ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_Predicate");
+		ElementInfo ei = heap.newObject(ci, ti);
+		int objref = ei.getObjectRef();
+		ei.setReferenceField("functor", heap.newString(functor, ti).getObjectRef());
   	    String elementClsName = Types.getTypeSignature("ail.syntax.ast.Abstract_Term", false);
-	    int aRef = heap.newArray(elementClsName, terms.length, ti);
-		ElementInfo array_ei = vm.getElementInfo(aRef);
+		ElementInfo array_ei = heap.newArray(elementClsName, terms.length, ti);
+		int aRef = array_ei.getObjectRef();
 		for (int index = 0; index < terms.length; index++) {
 			array_ei.setReferenceElement(index, terms[index].createInJPF(vm));
 		}

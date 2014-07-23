@@ -31,10 +31,11 @@ import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
 import ail.mas.DefaultEnvironment;
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import eass.semantics.EASSAgent;
 
 
@@ -53,7 +54,7 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
 	 * @param arch the Agent Architecture.
-	 * @param name te name of the agent.
+	 * @param name the name of the agent.
 	 */
 	public Abstract_EASSAgent(String name) {
 		super(name);
@@ -67,33 +68,51 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 		abstraction_for = agname;
 	}
 	
+	protected void addStructures(EASSAgent ag) {
+    	for (Abstract_Literal l: beliefs) {
+    		ag.addInitialBel(l.toMCAPL());
+    	}
+    	for (Abstract_Goal g: goals) {
+    		ag.addInitialGoal(g.toMCAPL());
+    	}
+    	for (Abstract_Rule r: rules) {
+    		ag.addRule(r.toMCAPL());
+    	}
+    	for (Abstract_Plan p: plans) {
+    		try {
+    			ag.addPlan(p.toMCAPL());
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	if (isAbstraction) {
+    		ag.setAbstraction(abstraction_for);
+    	}
+    	try {
+    		ag.initAg();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+		
+	}
+	
 	public EASSAgent toMCAPL(MAS mas) {
 		try{
 		    	EASSAgent ag = new EASSAgent(mas, fAgName);
-		    	for (Abstract_Literal l: beliefs) {
-		    		ag.addInitialBel(l.toMCAPL());
-		    	}
-		    	for (Abstract_Rule r: rules) {
-		    		ag.addRule(r.toMCAPL());
-		    	}
-		    	for (Abstract_Plan p: plans) {
-		    		try {
-		    			ag.addPlan(p.toMCAPL());
-		    		} catch (Exception e) {
-		    			e.printStackTrace();
-		    		}
-		    	}
-		    	if (initialgoal != null) {
-		    		ag.addInitialGoal(initialgoal.toMCAPL());
-		    	}
-		    	if (isAbstraction) {
-		    		ag.setAbstraction(abstraction_for);
-		    	}
-		    	try {
-		    		ag.initAg();
-		    	} catch (Exception e) {
-		    		e.printStackTrace();
-		    	}
+		    	addStructures(ag);
+		    	return ag;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		   
+
+	}
+	
+	public EASSAgent toMCAPL() {
+		try{
+		    	EASSAgent ag = new EASSAgent(fAgName);
+		    	addStructures(ag);
 		    	return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,19 +122,21 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 
 	}
 
+
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("eass.syntax.ast.Abstract_EASSAgent");
     	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
-    	if (initialgoal != null) {
-    		env.setReferenceField(objref, "initialgoal", initialgoal.newJPFObject(env));
-    	}
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < rules.length; i++) {
+       	for (int i = 0; i < goals.length; i++) {
+       		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+       	}
+     	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
       	for (int i = 0; i < plans.length; i++) {

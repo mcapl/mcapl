@@ -24,7 +24,7 @@
 
 package ail.syntax.ast;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.LogicalFormula;
 
@@ -59,7 +59,7 @@ import ail.syntax.LogicalFormula;
  */
 public interface Abstract_LogicalFormula {
 	/**
-	 * Converst to a concrete representation.
+	 * Convert to a concrete representation.
 	 * @return
 	 */
 	public LogicalFormula toMCAPL();

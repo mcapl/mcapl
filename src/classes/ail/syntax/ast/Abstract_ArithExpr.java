@@ -28,9 +28,9 @@ import ail.syntax.ArithExpr;
 import ail.syntax.NumberTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.Verify;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -199,7 +199,7 @@ public class Abstract_ArithExpr implements Abstract_NumberTerm {
 	 * (non-Javadoc)
 	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#createInJPF(gov.nasa.jpf.jvm.JVM)
 	 */
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Verify.log("ail.syntax.ast", Verify.WARNING, "Abstract_ArithExpr should not be being created from Listener");
 		return 0;
 	}

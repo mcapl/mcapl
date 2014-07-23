@@ -28,7 +28,7 @@ import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -84,7 +84,7 @@ public class Abstract_Agent {
 	/**
 	 * An initial goal.
 	 */
-	public Abstract_Goal initialgoal;
+	public Abstract_Goal[] goals = new Abstract_Goal[0];
 	  	   
     /**
      * Constructor.
@@ -123,7 +123,7 @@ public class Abstract_Agent {
      * @param g the new initial Goal.
      */
     public void addInitialGoal(Abstract_Goal g) {
-    	initialgoal = g;
+    	addGoal(g);
     }
     
      
@@ -153,6 +153,21 @@ public class Abstract_Agent {
      }
     
     /**
+    * Adds a goal to the goal base annotating it with a source.
+    * 
+    */
+   public void addGoal(Abstract_Goal goal) {
+   	int newsize = goals.length + 1;
+   	Abstract_Goal[] newgoals = new Abstract_Goal[newsize];
+   	for (int i = 0; i < goals.length; i++) {
+   		newgoals[i] = goals[i];
+   	}
+   	newgoals[goals.length] = goal; 
+   	goals = newgoals;
+    	
+    }
+
+   /**
      * Add a rule to the rule base.
      * @param r
      */
@@ -215,8 +230,8 @@ public class Abstract_Agent {
     			
     		}
     	}
-    	if (initialgoal != null) {
-    		ag.addInitialGoal(initialgoal.toMCAPL());
+    	for (Abstract_Goal g: goals) {
+    		ag.addGoal(g.toMCAPL());
     	}
     	try {
     		ag.initAg();
@@ -234,12 +249,15 @@ public class Abstract_Agent {
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("ail.syntax.ast.Abstract_Agent");
      	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
-     	env.setReferenceField(objref, "initialgoal", initialgoal.newJPFObject(env));
-    	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
+       	}
+       	for (int i = 0; i < goals.length; i++) {
+       		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
@@ -248,6 +266,7 @@ public class Abstract_Agent {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "beliefs", bRef);
+      	env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
       	return objref;

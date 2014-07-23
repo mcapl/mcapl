@@ -30,14 +30,11 @@ import ail.mas.AIL;
 
 
 /**
- * regression test for programming-by-contract annotations
+ * Test for goal dropping behaviour - basically all this has to do is terminate!
  */
 public class SimpleTests {
 
-  //--- test methods
-
- 
-  
+   
   @Test //----------------------------------------------------------------------
   public void testDroppingNonExistantGoals () {
 	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";

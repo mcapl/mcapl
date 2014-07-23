@@ -145,7 +145,11 @@ public class PredicatewAnnotation extends Predicate {
      * @return
      */
     public boolean addAnnotFrom(PredicatewAnnotation p) {
-    	return annotation.addAnnot(p.getAnnot());
+    	if (p.hasAnnot()) {
+    		return annotation.addAnnot(p.getAnnot());
+    	}
+    	
+    	return false;
     }
 
     /**
@@ -240,7 +244,15 @@ public class PredicatewAnnotation extends Predicate {
         return s.toString();
     }
     
-    /*
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EBCompare#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
+	 */
+	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
+		return unifies(obj, u);
+	}
+
+	/*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
      */

@@ -30,7 +30,6 @@ import org.junit.Assert;
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
 import ail.syntax.Equation;
-import ail.syntax.LogExpr;
 import ail.syntax.GBelief;
 import ail.syntax.Predicate;
 import ail.syntax.NumberTermImpl;
@@ -61,9 +60,7 @@ public class AILAgentTests {
 		score2.addTerm(new VarTerm("N2"));
 		
 		Equation eq = new Equation(new VarTerm("N1"), Equation.NumericOp.less, new VarTerm("N2"));
-		
-		LogExpr expression = new LogExpr(new GBelief(GBelief.AILBel, score1), LogExpr.LogicalOp.and, new LogExpr(new GBelief(GBelief.AILBel, score2), LogExpr.LogicalOp.and, eq));
-	
+			
 		AILAgent ag = new AILAgent();
 		
 		Literal b1 = new Literal("score");
@@ -77,7 +74,7 @@ public class AILAgentTests {
 		ag.addBel(b2, AILAgent.refertoself());
 		ag.addBel(b1, AILAgent.refertoself());
 		
-		Guard g = new Guard(expression, false);
+		Guard g = new Guard(new GBelief(score1), Guard.GLogicalOp.and, new Guard(new GBelief(score2), Guard.GLogicalOp.and, eq));
 		
 		Assert.assertTrue(ag.believesyn(g, new Unifier()));
 

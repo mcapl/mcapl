@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 /** 
@@ -94,21 +93,21 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final AILAgent ag, Unifier un) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final List<String> varnames) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
 	        
 	        	case not:
-	        		if (!rhs.logicalConsequence(ag,un).hasNext()) {
+	        		if (!rhs.logicalConsequence(eb,rb,un,varnames).hasNext()) {
 	        			return createUnifIterator(un);
 	        		}
 	        		break;
 	        	case none:
-	        		return rhs.logicalConsequence(ag, un);
+	        		return rhs.logicalConsequence(eb, rb, un, varnames);
 	        
 	        	case and:
-	        		ileft = lhs.logicalConsequence(ag,un);
+	        		ileft = lhs.logicalConsequence(eb,rb,un, varnames);
 	        		return new Iterator<Unifier>() {
 	        			Unifier current = null;
 	        			Iterator<Unifier> iright = null;
@@ -126,7 +125,7 @@ public class LogExpr implements LogicalFormula {
 	        				current = null;
 	        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
 	        					Unifier ul = ileft.next();
-	        					iright = rhs.logicalConsequence(ag, ul);
+	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames);
 	        				}
 	        				if (iright != null && iright.hasNext()) {
 	        					current = iright.next();	 
@@ -136,8 +135,8 @@ public class LogExpr implements LogicalFormula {
 	        		};
 	            
 	        	case or:
-	            ileft = lhs.logicalConsequence(ag,un);
-	            final Iterator<Unifier> iright = rhs.logicalConsequence(ag,un);
+	            ileft = lhs.logicalConsequence(eb, rb, un, varnames);
+	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un,varnames);
 	            return new Iterator<Unifier>() {
 	                Unifier current = null;
 	                public boolean hasNext() {
@@ -164,7 +163,7 @@ public class LogExpr implements LogicalFormula {
     	    } catch (Exception e) {
         		String slhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un);
+        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un, varnames);
         			if (i != null) {
         				slhs = "";
         				while (i.hasNext()) {
@@ -176,7 +175,7 @@ public class LogExpr implements LogicalFormula {
         		} 
         		String srhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un);
+        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un, varnames);
         			if (i != null) {
         				srhs = "";
         				while (i.hasNext()) {
@@ -322,9 +321,10 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
-    public void standardise_apart(Unifiable t, Unifier u) {
+    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getVarNames();
+    	tvarnames.addAll(varnames);
     	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
     	for (String s:myvarnames) {
@@ -387,57 +387,27 @@ public class LogExpr implements LogicalFormula {
     	}
     }
 
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+     */
+    public boolean matchNG(Unifiable t, Unifier u) {
+    	if (t instanceof LogExpr) {
+    		LogExpr le = (LogExpr) t;
+    		if (le.getOp().equals(getOp())) {
+    			boolean result = getRHS().matchNG(le.getRHS(), u);
+    			if (!isUnary() && result) {
+    				result = getLHS().matchNG(le.getLHS(), u);
+    				return result;
+    			}
+    		}
+    		return false;
+    	} else {
+    		return false;
+    	}
+    }
         
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#toTerm()
-     */
-    public Term toTerm() {
-    	switch (op) {
-    	case none:
-    		return getRHS().toTerm();
-    	case not:
-    		Predicate s = new Predicate("not");
-    		s.addTerm(getRHS().toTerm());
-    		return s;
-    	case and:
-    		Predicate s1 = new Predicate("and");
-    		s1.addTerm(getLHS().toTerm());
-    		s1.addTerm(getRHS().toTerm());
-    		return s1;
-    	case or:
-    		Predicate s2 = new Predicate("or");
-    		s2.addTerm(getLHS().toTerm());
-    		s2.addTerm(getRHS().toTerm());
-    		return s2;
-    	}
-    	
-    	return (new Predicate("error"));
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#getPosTerms()
-     */
-    public ArrayList<LogicalFormula> getPosTerms() {
-    	ArrayList<LogicalFormula> posterms = new ArrayList<LogicalFormula>();
-    	switch (op) {
-    		case none:
-    			posterms.add(getRHS());
-    			return posterms;
-    		case not:
-    			return posterms;
-    		case and:
-    			posterms.addAll(getLHS().getPosTerms());
-    			posterms.addAll(getRHS().getPosTerms());
-    			return posterms;
-    		case or:
-    			// Safer to return none than too many
-    			return posterms;   			
-    	}
-    	return posterms;
-    }
-    
+     
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#isGround()
@@ -450,25 +420,43 @@ public class LogExpr implements LogicalFormula {
     	}
     }
     
+
     /*
      * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#conjuncts()
+     * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
      */
-	public List<LogicalFormula> conjuncts() {
-		ArrayList<LogicalFormula> gs = new ArrayList<LogicalFormula>();
-		switch (getOp()) {
-			case and :
-				gs.addAll(getLHS().conjuncts());
-				gs.addAll(getRHS().conjuncts());
-				return gs;
-			case none:
-				gs.addAll(getRHS().conjuncts());
-				return gs;
-			default:
-				gs.add(this);
-				return gs;
+	public boolean apply(Unifier theta) {
+		if (getRHS().apply(theta)) {
+			if (getLHS() != null) {
+				return getLHS().apply(theta);
+			}
+			return true;
+		} 
+		
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		if (getLHS() != null) {
+			getLHS().makeVarsAnnon();
 		}
-			
+		getRHS().makeVarsAnnon();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
+	public Unifiable strip_varterm() {
+		if (getLHS() != null) {
+			return new LogExpr((LogicalFormula) getLHS().strip_varterm(), getOp(), (LogicalFormula) getRHS().strip_varterm());
+		} else {
+			return new LogExpr(getOp(), (LogicalFormula) getRHS().strip_varterm());				
+		}
 	}
 
 

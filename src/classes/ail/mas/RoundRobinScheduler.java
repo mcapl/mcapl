@@ -120,6 +120,14 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	public String getListenerName() {
 		return "scheduler";
 	}
+	
+	/**
+	 * Find out which agent's turn it is.
+	 * @return
+	 */
+	public int getTurn() {
+		return turn;
+	}
 
 
 }

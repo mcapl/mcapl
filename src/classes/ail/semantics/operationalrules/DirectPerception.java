@@ -90,7 +90,6 @@ public class DirectPerception implements OSRule {
 														
 					a.delBel(l);
 					a.tellawake();
-					l.setNegated(false);
 					removed_percepts.add(l);
 				} else {
 					percepts.remove(l);

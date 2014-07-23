@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+
 /**
  * Interface class for the various AIL specific structures such as deeds, events
  * beliefs and so forth.  These form a rather mixed bag of objects but there are a
@@ -88,27 +89,25 @@ public interface AILStructure extends Term {
 	 * @param b the category for the structure.
 	 */
 	public void setCategory(byte b);
+	
+	/**
+	 * Does the structure have some content that can be unified with something.
+	 * @return
+	 */
+	public boolean hasContent();
+	
+	/**
+	 * Get the unifiable content of this structure.
+	 * @return
+	 */
+	public Unifiable getContent();
 
 	/**
-	 * Does this AIL Structure contain a literal or a goal?
-	 * 
-	 * @return whether this AIL Structure contains a literal or a goal.
+	 * Set the content of this structure.
+	 * @param u
 	 */
-	public boolean hasLiteral();
-	
-	/**
-	 * Getter method for the Structure's Literal or goal, assuming it has one.
-	 * 
-	 * @return the Structure's literal.
-	 */
-	public Literal getLiteral();
-	
-	/**
-	 * Setter method for the Structure's literal.
-	 * 
-	 * @param l the literal for the structure.
-	 */
-	public void setLiteral(Literal l);
+	public void setContent(Unifiable u);
+
 		
 	/**
 	 * Is the structure an addition or deletion?
@@ -149,28 +148,7 @@ public interface AILStructure extends Term {
 	 */
 	
 	public boolean isUpdate();
-	
-	/**
-	 * Succeeds if the structure contains a term.
-	 * 
-	 * @return whether the structure contains a term.
-	 */
-	public boolean hasTerm();
-	
-	/**
-	 * Setter method for the structure term.
-	 * 
-	 * @param t the term.
-	 */
-	public void setTerm(Predicate t);
-	
-	/**
-	 * Getter method for the structure term.
-	 * 
-	 * @return the structure term.
-	 */
-	public Predicate getTerm();
-	
+		
 	/**
 	 * Is this she same sort of structure (Deed, Event) as another?
 	 * 
@@ -201,11 +179,6 @@ public interface AILStructure extends Term {
 	 * 
 	 * @return a regular Structure for unification.
 	 */
-	public Predicate UnifyingTerm();
+	public Unifiable UnifyingTerm();
 	
-	/**
-	 * Return a predicate indicator (type, functor, size) to aid quick lookup of AIL structures.
-	 * @return
-	 */
-	public PredicateIndicator getPredicateIndicator();
 }

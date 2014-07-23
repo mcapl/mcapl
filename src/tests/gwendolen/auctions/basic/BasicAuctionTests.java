@@ -26,22 +26,16 @@ package gwendolen.auctions.basic;
 
 import org.junit.Test;
 
-import ail.mas.AIL;
-import ail.mas.MAS;
-import ail.util.AILConfig;
 import ail.util.AJPF_w_AIL;
-import ajpf.MCAPLcontroller;
 import gov.nasa.jpf.util.test.TestJPF;
 
 
 /**
- * regression test for programming-by-contract annotations
+ * Simple test that an auction example works.
  */
 public class BasicAuctionTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
-	//	 "+listener+=,.listener.ExecTracker",
-	//     "+et.print_insn=false"
   };
 
 
@@ -66,20 +60,6 @@ public class BasicAuctionTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-
- /* Takes a bit long!
-  * @Test
-  public void test3bidders () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename = "/src/examples/gwendolen/auctions/basic/auction3bid.gwen";
-	    	String abs_filename = MCAPLcontroller.getAbsFilename(filename);
-	    	String[] args = new String[2];
-	    	args[0] = abs_filename;
-	    	args[1] = "0";
-	    	
-	    	AuctionMAS.runexample(args);
-		 }
-	  } */
 
 
 }

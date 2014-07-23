@@ -28,8 +28,8 @@ import ajpf.psl.MCAPLProperty;
 import ajpf.MCAPLmas;
 import ajpf.MCAPLcontroller;
 
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.JVM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.VM;
 
 /**
  * Interface for formulas in the MCAPL Property Specification Language.

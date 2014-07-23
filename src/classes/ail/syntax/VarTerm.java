@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -32,13 +32,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import ail.semantics.AILAgent;
+
 /**
  * Represents a variable Term: like X (starts with upper case). It may have a
  * value.
  * 
  * @author jomi
  */
-public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm {
+public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm, GuardAtom<PredicateTerm> {
 	/**
 	 * The value this variable is instantiated to, if any.
 	 */
@@ -416,14 +418,6 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 
     /*
      * (non-Javadoc)
-     * @see ail.syntax.DefaultTerm#isRule()
-     */
-    public boolean isRule() {
-        return value != null && getValue().isRule();
-    }
-
-    /*
-     * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#isArithExpr()
      */
     public boolean isArithExpr() {
@@ -749,14 +743,6 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public Object[] toArray(Object[] arg0) {
-        if (value != null && getValue().isList())
-            return ((ListTerm) getValue()).toArray(arg0);
-        else
-            return null;
-    }
-
     // from ListTerm
 
     /*
@@ -898,5 +884,68 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
     		return this;
     	}
     }
-    
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.List#toArray(T[])
+	 */
+	public <T> T[] toArray(T[] a) {
+        if (value != null && getValue().isList())
+            return ((ListTerm) getValue()).toArray(a);
+        else
+            return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
+	 */
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames);
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#isTrivial()
+	 */
+	public boolean isTrivial() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).isTrivial();
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEB()
+	 */
+	public StringTerm getEB() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).getEB();
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEBType()
+	 */
+	public byte getEBType() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).getEBType();
+			}
+		}
+		return 0;
+	}
+    	
  }

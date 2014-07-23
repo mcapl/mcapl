@@ -1,0 +1,57 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+
+:name: car
+
+:Initial Beliefs:
+
+:Reasoning Rules:
+
+can_accelerate :- safe, ~ driver_accelerates, ~ driver_brakes;
+
+:Initial Goals:
+
+at_speed_limit [achieve]
+
+:Plans:
+
++! at_speed_limit [achieve] : {B can_accelerate} <-
+       perf(accelerate),
+       wait;
++! at_speed_limit [achieve] : {~B safe} <-
+       *safe;
++! at_speed_limit [achieve] : {B driver_accelerates} <-
+       *~driver_accelerates;
++! at_speed_limit [achieve] : {B driver_brakes} <-
+       *~driver_brakes;
+
++at_speed_limit: {B can_accelerate, B at_speed_limit} <- 
+        perf(maintain_speed);
+-at_speed_limit: {~G at_speed_limit [achieve], ~B at_speed_limit} <-
+        +! at_speed_limit[achieve];
+-safe: {~B driver_brakes, ~B safe} <- perf(brake);
+
++driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates} <- perf(accelerate);
++driver_brakes: {B driver_brakes} <- perf(brake);

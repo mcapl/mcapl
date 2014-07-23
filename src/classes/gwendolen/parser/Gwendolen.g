@@ -38,7 +38,7 @@ import java.util.HashMap;
 
 @members {
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private Abstract_Literal agentname = new Abstract_Literal("");
+	private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
 	}
 
 @lexer::header {
@@ -66,24 +66,33 @@ gwendolenagents returns[ArrayList<Abstract_GwendolenAgent> gags]: GWENDOLEN
 gwendolenagent returns [Abstract_GwendolenAgent g] : 
         (GWENDOLEN?) 
 	NAME w=word {try {$g = new Abstract_GwendolenAgent($w.s);} 
-		catch (Exception e) {System.err.println(e); agentname = new Abstract_Literal($w.s);}}
+		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
 	GOALS (gl=goal {$g.addInitialGoal($gl.g);})*
 	PLANS (p=plan {try {$g.addPlan($p.p);} catch (Exception e) {System.err.println(e);}})*;
 	
 
-guard_atom returns [Abstract_GuardAtom g] : (BELIEVE l=literal {$g = new Abstract_GBelief(Abstract_GBelief.AILBel, $l.l);} |
-				GOAL gl=goal {$g = $gl.g;} |
-				IN_CONTENT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContent, $w.s);} |
-				IN_CONTEXT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContext, $w.s);} |
-				SENT OPEN an1=literal COMMA {Abstract_Literal agn = agentname;} 
-					(an2=literal COMMA {agn = $an2.l;})? p=performative COMMA 
-					t=pred CLOSE 
-						{Abstract_GMessage mess = new Abstract_GMessage(agn, $an1.l, $p.b, new Abstract_Pred($t.t)); 
-						$g = new Abstract_GBelief(Abstract_GBelief.AILSent, mess);} |
-				SQOPEN eq = equation {$g = $eq.eq;} SQCLOSE |
-				TRUE {$g = new Abstract_GBelief(Abstract_GBelief.GTrue);} );
+guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
+				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
+				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=agentnameterm {an1 = s;}) 
+				                        COMMA {Abstract_StringTerm agn = agentname;} (an2=agentnameterm 
+					COMMA {agn = an2;})? p=performative 
+					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
+				eq = equation {$g = $eq.eq;} |
+				TRUE {$g = new Abstract_GBelief();} );
+				
+//guard_atom returns [Abstract_GuardAtom g] : (BELIEVE l=literal {$g = new Abstract_GBelief(Abstract_GBelief.AILBel, $l.l);} |
+//				GOAL gl=goal {$g = $gl.g;} |
+//				IN_CONTENT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContent, $w.s);} |
+//				IN_CONTEXT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContext, $w.s);} |
+//				SENT OPEN an1=literal COMMA {Abstract_Literal agn = agentname;} 
+//					(an2=literal COMMA {agn = $an2.l;})? p=performative COMMA 
+//					t=pred CLOSE 
+//						{Abstract_GMessage mess = new Abstract_GMessage(agn, $an1.l, $p.b, new Abstract_Pred($t.t)); 
+//						$g = new Abstract_GBelief(Abstract_GBelief.AILSent, mess);} |
+//				SQOPEN eq = equation {$g = $eq.eq;} SQCLOSE |
+//				TRUE {$g = new Abstract_GBelief(Abstract_GBelief.GTrue);} );
 
 goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
 			PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
@@ -133,11 +142,17 @@ deed returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abst
 // brule returns [Rule r] : head=gbelief BRULEARROW gb=gbelief {$r = new Rule($head.g, $gb.g);} 
 //	(COMMA and=andfmla {LogExpr body = new LogExpr($gb.g, LogExpr.LogicalOp.and, $and.f); 
 //		$r = new Rule($head.g, body);})? SEMI;
-brule returns [Abstract_Rule r] : head=guard_atom (BRULEARROW f=logicalfmla {$r = new Abstract_Rule($head.g, $f.f);} SEMI | 
-					SEMI {$r = new Abstract_Rule($head.g);});
-logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}| a=andfmla {$f = $a.f;} | gb = guard_atom {$f = $gb.g;};
-notfmla returns [Abstract_LogicalFormula f] : NOT OPEN lf = logicalfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);} CLOSE;
-andfmla returns [Abstract_LogicalFormula f] : OPEN f1 = logicalfmla  COMMA and=logicalfmla {$f = new Abstract_LogExpr($f1.f, Abstract_LogExpr.and, $and.f);} CLOSE;
+brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
+
+logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
+               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
+                                                                                SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                                                              	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
+	
 
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 
@@ -150,7 +165,7 @@ GWENDOLEN	:{curly_nesting == 0}?=>'GWENDOLEN' {gwendolen = true;};
 GOALS	:	':Initial Goals:' {belief_rules = 0;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
-	:	':Belief Rules:' {belief_rules = 1;};
+	:	':Reasoning Rules:' {belief_rules = 1;};
 PLANS	:	':Plans:';
 NAME	:	':name:';
 

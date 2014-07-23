@@ -35,18 +35,10 @@ public class LogicalConsequenceTests {
 		AILAgent ag = new AILAgent();
 		Message msg = new Message(1, "s", "r", new Literal("message"));
 		ag.newSentMessage(msg);
-		
-		Literal msglit = new Literal("message");
-		msglit.addTerm(new StringTermImpl("mid"));
-	    msglit.addTerm(new StringTermImpl("thid"));
-	    msglit.addTerm(new Predicate("s"));
-		msglit.addTerm(new Predicate("r"));
-		msglit.addTerm(new Predicate(((Integer) 1).toString()));
-		msglit.addTerm(new Literal("message"));
-
-		
-		GBelief gb = new GBelief(GBelief.AILSent, msglit);
-		Assert.assertTrue(ag.believesyn(new Guard(gb), new Unifier()));
+		 
+				
+		GMessage gm = new GMessage(DefaultAILStructure.AILSent, 1, new StringTermImpl("s"), new StringTermImpl("r"), new Literal("message"));
+		Assert.assertTrue(ag.believesyn(new Guard(gm), new Unifier()));
 	}
-
+	
 }

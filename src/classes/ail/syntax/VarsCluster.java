@@ -198,6 +198,13 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			v.renameVar(oldname, newname);
 		}
 	}
+
+	@Override
+	public void makeVarsAnnon() {
+		for (VarTerm v: vars) {
+			v.makeVarsAnnon();
+		}
+	}
 	
 	
 }

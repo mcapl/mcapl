@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g 2012-11-29 11:37:30
+// $ANTLR 3.4 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2014-03-27 14:13:13
 
 package eass.parser;
 
@@ -87,17 +87,17 @@ public class EASSLexer extends Lexer {
     public EASSLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g"; }
+    public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
 
     // $ANTLR start "UPDATE"
     public final void mUPDATE() throws RecognitionException {
         try {
             int _type = UPDATE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:151:9: ( '' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:151:11: ''
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:153:9: ( '>' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:153:11: '>'
             {
-            match('\u00B1'); 
+            match('>'); 
 
             }
 
@@ -115,8 +115,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = TELL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:152:6: ( ':tell' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:152:8: ':tell'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:6: ( ':tell' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:8: ':tell'
             {
             match(":tell"); 
 
@@ -138,8 +138,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PERFORM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:153:9: ( ':perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:153:11: ':perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:9: ( ':perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:11: ':perform'
             {
             match(":perform"); 
 
@@ -161,8 +161,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ACHIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:154:9: ( ':achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:154:11: ':achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:9: ( ':achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:11: ':achieve'
             {
             match(":achieve"); 
 
@@ -184,8 +184,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SEND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:155:6: ( '.send' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:155:8: '.send'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:6: ( '.send' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:8: '.send'
             {
             match(".send"); 
 
@@ -207,8 +207,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = RECEIVED;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:156:9: ( '.received' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:156:11: '.received'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:9: ( '.received' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:11: '.received'
             {
             match(".received"); 
 
@@ -230,8 +230,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CALCULATE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:158:2: ( '.calculate' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:158:4: '.calculate'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:2: ( '.calculate' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:4: '.calculate'
             {
             match(".calculate"); 
 
@@ -253,8 +253,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = QUERYCOM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:159:10: ( '.query' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:159:12: '.query'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:10: ( '.query' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:12: '.query'
             {
             match(".query"); 
 
@@ -276,8 +276,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = WAIT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:160:6: ( '.wait' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:160:8: '.wait'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:6: ( '.wait' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:162:8: '.wait'
             {
             match(".wait"); 
 
@@ -299,14 +299,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:9: ({...}? => ( 'B' | '.B' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:11: {...}? => ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:9: ({...}? => ( 'B' | '.B' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:11: {...}? => ( 'B' | '.B' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:75: ( 'B' | '.B' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:75: ( 'B' | '.B' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -325,14 +325,14 @@ public class EASSLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:76: 'B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:76: 'B'
                     {
                     match('B'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:161:82: '.B'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:82: '.B'
                     {
                     match(".B"); 
 
@@ -360,14 +360,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = GOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:6: ({...}? => ( 'G' | '.G' ) )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:8: {...}? => ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:6: ({...}? => ( 'G' | '.G' ) )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:8: {...}? => ( 'G' | '.G' )
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:71: ( 'G' | '.G' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:71: ( 'G' | '.G' )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -386,14 +386,14 @@ public class EASSLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:72: 'G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:72: 'G'
                     {
                     match('G'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:162:78: '.G'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:78: '.G'
                     {
                     match(".G"); 
 
@@ -421,8 +421,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:163:6: ({...}? => '.sent' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:163:8: {...}? => '.sent'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:6: ({...}? => '.sent' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:8: {...}? => '.sent'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
                 throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
@@ -448,8 +448,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:164:6: ( '.lock' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:164:8: '.lock'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:6: ( '.lock' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:8: '.lock'
             {
             match(".lock"); 
 
@@ -471,8 +471,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = GOALS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:165:7: ( ':Initial Goals:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:165:9: ':Initial Goals:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:7: ( ':Initial Goals:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:9: ':Initial Goals:'
             {
             match(":Initial Goals:"); 
 
@@ -496,8 +496,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEFS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:166:9: ( ':Initial Beliefs:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:166:11: ':Initial Beliefs:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:168:9: ( ':Initial Beliefs:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:168:11: ':Initial Beliefs:'
             {
             match(":Initial Beliefs:"); 
 
@@ -519,10 +519,10 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BELIEFRULES;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:168:2: ( ':Belief Rules:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:168:4: ':Belief Rules:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:2: ( ':Reasoning Rules:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:4: ':Reasoning Rules:'
             {
-            match(":Belief Rules:"); 
+            match(":Reasoning Rules:"); 
 
 
 
@@ -544,8 +544,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PLANS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:169:7: ( ':Plans:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:169:9: ':Plans:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:7: ( ':Plans:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:9: ':Plans:'
             {
             match(":Plans:"); 
 
@@ -567,8 +567,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:170:6: ({...}? => 'EASS' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:170:8: {...}? => 'EASS'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:6: ({...}? => 'EASS' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:8: {...}? => 'EASS'
             {
             if ( !((curly_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "EASS", "curly_nesting == 0");
@@ -594,8 +594,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:171:6: ( ':name:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:171:8: ':name:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:173:6: ( ':name:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:173:8: ':name:'
             {
             match(":name:"); 
 
@@ -617,8 +617,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ABSTRACTION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:173:2: ( ':abstraction:' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:173:4: ':abstraction:'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:2: ( ':abstraction:' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:4: ':abstraction:'
             {
             match(":abstraction:"); 
 
@@ -640,8 +640,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:174:6: ({...}? => 'True' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:174:8: {...}? => 'True'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:6: ({...}? => 'True' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:8: {...}? => 'True'
             {
             if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
                 throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -667,8 +667,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = ACHIEVEGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:175:13: ({...}? => 'achieve' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:175:15: {...}? => 'achieve'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:177:13: ({...}? => 'achieve' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:177:15: {...}? => 'achieve'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
@@ -694,8 +694,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PERFORMGOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:176:13: ({...}? => 'perform' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:176:15: {...}? => 'perform'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:178:13: ({...}? => 'perform' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:178:15: {...}? => 'perform'
             {
             if ( !((sq_nesting > 0)) ) {
                 throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
@@ -721,8 +721,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = BRULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:179:2: ( ':-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:179:4: ':-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:2: ( ':-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:4: ':-'
             {
             match(":-"); 
 
@@ -744,8 +744,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = RULEARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:180:11: ( '<-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:180:13: '<-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:11: ( '<-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:13: '<-'
             {
             match("<-"); 
 
@@ -767,8 +767,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EQ_ASSGN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:181:10: ( '=' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:181:12: '='
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:10: ( '=' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:12: '='
             {
             match('='); 
 
@@ -788,14 +788,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:5: ( '/*' ( . )* '*/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:7: '/*' ( . )* '*/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:236:5: ( '/*' ( . )* '*/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:236:7: '/*' ( . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:12: ( . )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:236:12: ( . )*
             loop3:
             do {
                 int alt3=2;
@@ -820,7 +820,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:234:12: .
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:236:12: .
             	    {
             	    matchAny(); 
 
@@ -855,14 +855,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:12: (~ ( '\\n' | '\\r' ) )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:12: (~ ( '\\n' | '\\r' ) )*
             loop4:
             do {
                 int alt4=2;
@@ -875,7 +875,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
             	        input.consume();
@@ -896,7 +896,7 @@ public class EASSLexer extends Lexer {
             } while (true);
 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:26: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:26: ( '\\r' )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -905,7 +905,7 @@ public class EASSLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:237:26: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:26: '\\r'
                     {
                     match('\r'); 
 
@@ -935,10 +935,10 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:8: ( ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: ( '\\r' )? '\\n'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:8: ( ( '\\r' )? '\\n' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:9: ( '\\r' )? '\\n'
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: ( '\\r' )?
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:9: ( '\\r' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -947,7 +947,7 @@ public class EASSLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:239:9: '\\r'
+                    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:9: '\\r'
                     {
                     match('\r'); 
 
@@ -977,10 +977,10 @@ public class EASSLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:5: ( ( ' ' | '\\t' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:5: ( ( ' ' | '\\t' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:9: ( ' ' | '\\t' )+
             {
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:240:9: ( ' ' | '\\t' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:9: ( ' ' | '\\t' )+
             int cnt7=0;
             loop7:
             do {
@@ -994,7 +994,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1037,8 +1037,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = OPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:243:6: ( '(' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:243:9: '('
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:6: ( '(' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:9: '('
             {
             match('('); 
 
@@ -1060,8 +1060,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:244:7: ( ')' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:244:9: ')'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:7: ( ')' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:9: ')'
             {
             match(')'); 
 
@@ -1083,8 +1083,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SQOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:245:8: ( '[' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:245:10: '['
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:8: ( '[' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:10: '['
             {
             match('['); 
 
@@ -1106,8 +1106,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SQCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:246:9: ( ']' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:246:11: ']'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:9: ( ']' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:11: ']'
             {
             match(']'); 
 
@@ -1129,8 +1129,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CURLYOPEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:247:11: ( '{' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:247:13: '{'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:11: ( '{' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:13: '{'
             {
             match('{'); 
 
@@ -1152,8 +1152,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CURLYCLOSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:248:12: ( '}' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:248:14: '}'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:12: ( '}' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:14: '}'
             {
             match('}'); 
 
@@ -1175,8 +1175,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = DOUBLEQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:250:2: ( '\"' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:250:4: '\"'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:252:2: ( '\"' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:252:4: '\"'
             {
             match('\"'); 
 
@@ -1198,8 +1198,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:252:5: ( '~' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:252:7: '~'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:254:5: ( '~' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:254:7: '~'
             {
             match('~'); 
 
@@ -1219,14 +1219,14 @@ public class EASSLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             {
             if ( !((stringterm)) ) {
                 throw new FailedPredicateException(input, "STRING", "stringterm");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:254:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
             int cnt8=0;
             loop8:
             do {
@@ -1240,7 +1240,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1281,8 +1281,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = CONST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "CONST", "!stringterm");
@@ -1290,7 +1290,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('a','z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:255:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:257:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop9:
             do {
                 int alt9=2;
@@ -1303,7 +1303,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1340,8 +1340,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "VAR", "!stringterm");
@@ -1349,7 +1349,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('A','Z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:256:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop10:
             do {
                 int alt10=2;
@@ -1362,7 +1362,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -1399,8 +1399,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:259:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:259:10: {...}? => '0' .. '9' ( '0' .. '9' )*
             {
             if ( !((!stringterm)) ) {
                 throw new FailedPredicateException(input, "NUMBER", "!stringterm");
@@ -1408,7 +1408,7 @@ public class EASSLexer extends Lexer {
 
             matchRange('0','9'); 
 
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:257:35: ( '0' .. '9' )*
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:259:35: ( '0' .. '9' )*
             loop11:
             do {
                 int alt11=2;
@@ -1421,7 +1421,7 @@ public class EASSLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:
+            	    // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -1458,8 +1458,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = LESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:260:6: ( '<' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:260:8: '<'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:6: ( '<' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:8: '<'
             {
             match('<'); 
 
@@ -1479,8 +1479,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = EQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:261:4: ( '==' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:261:7: '=='
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:4: ( '==' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:7: '=='
             {
             match("=="); 
 
@@ -1502,8 +1502,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = POINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:262:7: ( '.' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:262:9: '.'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:264:7: ( '.' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:264:9: '.'
             {
             match('.'); 
 
@@ -1523,8 +1523,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MULT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:263:6: ( '*' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:263:8: '*'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:6: ( '*' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:8: '*'
             {
             match('*'); 
 
@@ -1544,8 +1544,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:264:6: ( '+' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:264:8: '+'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:6: ( '+' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:8: '+'
             {
             match('+'); 
 
@@ -1565,8 +1565,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:265:7: ( '-' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:265:9: '-'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:7: ( '-' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:9: '-'
             {
             match('-'); 
 
@@ -1586,8 +1586,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:266:5: ( '/' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:266:7: '/'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:5: ( '/' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:7: '/'
             {
             match('/'); 
 
@@ -1607,8 +1607,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = MOD;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:267:5: ( '%' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:267:7: '%'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:5: ( '%' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:7: '%'
             {
             match('%'); 
 
@@ -1628,8 +1628,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SHRIEK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:269:8: ( '!' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:269:10: '!'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:8: ( '!' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:10: '!'
             {
             match('!'); 
 
@@ -1649,8 +1649,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:270:7: ( ',' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:270:9: ','
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:7: ( ',' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:9: ','
             {
             match(','); 
 
@@ -1670,8 +1670,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = SEMI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:271:6: ( ';' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:271:8: ';'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:6: ( ';' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:8: ';'
             {
             match(';'); 
 
@@ -1691,8 +1691,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:272:7: ( ':' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:272:9: ':'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:274:7: ( ':' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:274:9: ':'
             {
             match(':'); 
 
@@ -1712,8 +1712,8 @@ public class EASSLexer extends Lexer {
         try {
             int _type = QUERY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:273:7: ( '?' )
-            // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:273:9: '?'
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:7: ( '?' )
+            // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:9: '?'
             {
             match('?'); 
 
@@ -1729,12 +1729,12 @@ public class EASSLexer extends Lexer {
     // $ANTLR end "QUERY"
 
     public void mTokens() throws RecognitionException {
-        // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
+        // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
         int alt12=55;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:10: UPDATE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: UPDATE
                 {
                 mUPDATE(); 
 
@@ -1742,7 +1742,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:17: TELL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:17: TELL
                 {
                 mTELL(); 
 
@@ -1750,7 +1750,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:22: PERFORM
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:22: PERFORM
                 {
                 mPERFORM(); 
 
@@ -1758,7 +1758,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
                 {
                 mACHIEVE(); 
 
@@ -1766,7 +1766,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:38: SEND
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:38: SEND
                 {
                 mSEND(); 
 
@@ -1774,7 +1774,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:43: RECEIVED
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:43: RECEIVED
                 {
                 mRECEIVED(); 
 
@@ -1782,7 +1782,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:52: CALCULATE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:52: CALCULATE
                 {
                 mCALCULATE(); 
 
@@ -1790,7 +1790,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
                 {
                 mQUERYCOM(); 
 
@@ -1798,7 +1798,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:71: WAIT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:71: WAIT
                 {
                 mWAIT(); 
 
@@ -1806,7 +1806,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:76: BELIEVE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:76: BELIEVE
                 {
                 mBELIEVE(); 
 
@@ -1814,7 +1814,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:84: GOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:84: GOAL
                 {
                 mGOAL(); 
 
@@ -1822,7 +1822,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:89: SENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:89: SENT
                 {
                 mSENT(); 
 
@@ -1830,7 +1830,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:94: LOCK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:94: LOCK
                 {
                 mLOCK(); 
 
@@ -1838,7 +1838,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:99: GOALS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:99: GOALS
                 {
                 mGOALS(); 
 
@@ -1846,7 +1846,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:105: BELIEFS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:105: BELIEFS
                 {
                 mBELIEFS(); 
 
@@ -1854,7 +1854,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:113: BELIEFRULES
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:113: BELIEFRULES
                 {
                 mBELIEFRULES(); 
 
@@ -1862,7 +1862,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 17 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:125: PLANS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:125: PLANS
                 {
                 mPLANS(); 
 
@@ -1870,7 +1870,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 18 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:131: EASS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:131: EASS
                 {
                 mEASS(); 
 
@@ -1878,7 +1878,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:136: NAME
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:136: NAME
                 {
                 mNAME(); 
 
@@ -1886,7 +1886,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 20 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:141: ABSTRACTION
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:141: ABSTRACTION
                 {
                 mABSTRACTION(); 
 
@@ -1894,7 +1894,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 21 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:153: TRUE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:153: TRUE
                 {
                 mTRUE(); 
 
@@ -1902,7 +1902,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 22 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:158: ACHIEVEGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:158: ACHIEVEGOAL
                 {
                 mACHIEVEGOAL(); 
 
@@ -1910,7 +1910,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 23 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:170: PERFORMGOAL
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:170: PERFORMGOAL
                 {
                 mPERFORMGOAL(); 
 
@@ -1918,7 +1918,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 24 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:182: BRULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:182: BRULEARROW
                 {
                 mBRULEARROW(); 
 
@@ -1926,7 +1926,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 25 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:193: RULEARROW
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:193: RULEARROW
                 {
                 mRULEARROW(); 
 
@@ -1934,7 +1934,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 26 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:203: EQ_ASSGN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:203: EQ_ASSGN
                 {
                 mEQ_ASSGN(); 
 
@@ -1942,7 +1942,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 27 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:212: COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:212: COMMENT
                 {
                 mCOMMENT(); 
 
@@ -1950,7 +1950,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 28 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:220: LINE_COMMENT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:220: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
@@ -1958,7 +1958,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 29 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:233: NEWLINE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:233: NEWLINE
                 {
                 mNEWLINE(); 
 
@@ -1966,7 +1966,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 30 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:241: WS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:241: WS
                 {
                 mWS(); 
 
@@ -1974,7 +1974,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 31 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:244: OPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:244: OPEN
                 {
                 mOPEN(); 
 
@@ -1982,7 +1982,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 32 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:249: CLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:249: CLOSE
                 {
                 mCLOSE(); 
 
@@ -1990,7 +1990,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 33 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:255: SQOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:255: SQOPEN
                 {
                 mSQOPEN(); 
 
@@ -1998,7 +1998,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 34 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:262: SQCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:262: SQCLOSE
                 {
                 mSQCLOSE(); 
 
@@ -2006,7 +2006,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 35 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:270: CURLYOPEN
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:270: CURLYOPEN
                 {
                 mCURLYOPEN(); 
 
@@ -2014,7 +2014,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 36 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:280: CURLYCLOSE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:280: CURLYCLOSE
                 {
                 mCURLYCLOSE(); 
 
@@ -2022,7 +2022,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 37 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:291: DOUBLEQUOTE
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:291: DOUBLEQUOTE
                 {
                 mDOUBLEQUOTE(); 
 
@@ -2030,7 +2030,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 38 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:303: NOT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:303: NOT
                 {
                 mNOT(); 
 
@@ -2038,7 +2038,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 39 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:307: STRING
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:307: STRING
                 {
                 mSTRING(); 
 
@@ -2046,7 +2046,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 40 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:314: CONST
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:314: CONST
                 {
                 mCONST(); 
 
@@ -2054,7 +2054,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 41 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:320: VAR
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:320: VAR
                 {
                 mVAR(); 
 
@@ -2062,7 +2062,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 42 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:324: NUMBER
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:324: NUMBER
                 {
                 mNUMBER(); 
 
@@ -2070,7 +2070,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 43 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:331: LESS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:331: LESS
                 {
                 mLESS(); 
 
@@ -2078,7 +2078,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:336: EQ
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:336: EQ
                 {
                 mEQ(); 
 
@@ -2086,7 +2086,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 45 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:339: POINT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:339: POINT
                 {
                 mPOINT(); 
 
@@ -2094,7 +2094,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 46 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:345: MULT
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:345: MULT
                 {
                 mMULT(); 
 
@@ -2102,7 +2102,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 47 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:350: PLUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:350: PLUS
                 {
                 mPLUS(); 
 
@@ -2110,7 +2110,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 48 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:355: MINUS
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:355: MINUS
                 {
                 mMINUS(); 
 
@@ -2118,7 +2118,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 49 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:361: DIV
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:361: DIV
                 {
                 mDIV(); 
 
@@ -2126,7 +2126,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 50 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:365: MOD
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:365: MOD
                 {
                 mMOD(); 
 
@@ -2134,7 +2134,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 51 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:369: SHRIEK
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:369: SHRIEK
                 {
                 mSHRIEK(); 
 
@@ -2142,7 +2142,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 52 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:376: COMMA
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:376: COMMA
                 {
                 mCOMMA(); 
 
@@ -2150,7 +2150,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 53 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:382: SEMI
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:382: SEMI
                 {
                 mSEMI(); 
 
@@ -2158,7 +2158,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 54 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:387: COLON
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:387: COLON
                 {
                 mCOLON(); 
 
@@ -2166,7 +2166,7 @@ public class EASSLexer extends Lexer {
                 }
                 break;
             case 55 :
-                // /Users/lad/Eclipse/ajpf/src/classes/eass/parser/EASS.g:1:393: QUERY
+                // /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:393: QUERY
                 {
                 mQUERY(); 
 
@@ -2195,9 +2195,9 @@ public class EASSLexer extends Lexer {
         "\1\60\1\uffff\1\164\1\144\4\60\1\151\2\uffff\2\0\2\60\1\141\2\uffff"+
         "\2\60\1\154\2\60\1\40\2\0\1\102\4\uffff";
     static final String DFA12_maxS =
-        "\1\u00b1\1\uffff\1\164\1\167\6\172\1\55\1\75\1\57\12\uffff\3\172"+
-        "\13\uffff\1\143\1\156\5\uffff\1\145\10\uffff\1\0\1\172\1\0\1\172"+
-        "\1\0\2\172\1\0\2\172\7\uffff\1\0\1\172\2\uffff\1\151\1\156\1\uffff"+
+        "\1\176\1\uffff\1\164\1\167\6\172\1\55\1\75\1\57\12\uffff\3\172\13"+
+        "\uffff\1\143\1\156\5\uffff\1\145\10\uffff\1\0\1\172\1\0\1\172\1"+
+        "\0\2\172\1\0\2\172\7\uffff\1\0\1\172\2\uffff\1\151\1\156\1\uffff"+
         "\3\172\1\uffff\1\172\1\uffff\2\164\4\172\1\151\2\uffff\2\0\2\172"+
         "\1\141\2\uffff\2\172\1\154\2\172\1\40\2\0\1\107\4\uffff";
     static final String DFA12_acceptS =
@@ -2208,19 +2208,19 @@ public class EASSLexer extends Lexer {
         "\2\uffff\1\4\1\24\2\uffff\1\51\3\uffff\1\50\1\uffff\1\52\7\uffff"+
         "\1\5\1\14\5\uffff\1\22\1\25\11\uffff\1\26\1\27\1\16\1\17";
     static final String DFA12_specialS =
-        "\1\45\2\uffff\1\33\1\12\1\34\1\47\1\30\1\40\1\50\15\uffff\1\27\1"+
-        "\46\1\32\33\uffff\1\36\1\31\1\35\1\14\1\23\1\1\1\5\1\24\1\43\1\13"+
-        "\7\uffff\1\22\1\25\5\uffff\1\16\1\3\1\6\1\uffff\1\15\2\uffff\1\26"+
-        "\1\4\1\51\1\7\1\17\3\uffff\1\37\1\44\1\10\1\20\3\uffff\1\11\1\21"+
-        "\1\uffff\1\2\1\0\1\uffff\1\42\1\41\5\uffff}>";
+        "\1\33\2\uffff\1\36\1\31\1\47\1\35\1\26\1\32\1\30\15\uffff\1\4\1"+
+        "\51\1\21\33\uffff\1\37\1\25\1\41\1\16\1\23\1\2\1\3\1\24\1\34\1\20"+
+        "\7\uffff\1\22\1\5\5\uffff\1\14\1\1\1\10\1\uffff\1\17\2\uffff\1\27"+
+        "\1\0\1\45\1\11\1\15\3\uffff\1\40\1\43\1\6\1\13\3\uffff\1\7\1\12"+
+        "\1\uffff\1\50\1\46\1\uffff\1\42\1\44\5\uffff}>";
     static final String[] DFA12_transitionS = {
             "\1\16\1\15\2\uffff\1\15\22\uffff\1\16\1\37\1\25\2\uffff\1\36"+
             "\2\uffff\1\17\1\20\1\33\1\34\1\40\1\35\1\3\1\14\12\31\1\2\1"+
-            "\41\1\12\1\13\1\uffff\1\42\1\uffff\1\30\1\4\2\30\1\6\1\30\1"+
-            "\5\14\30\1\7\6\30\1\21\1\uffff\1\22\1\uffff\1\32\1\uffff\1\10"+
-            "\16\27\1\11\12\27\1\23\1\uffff\1\24\1\26\62\uffff\1\1",
+            "\41\1\12\1\13\1\1\1\42\1\uffff\1\30\1\4\2\30\1\6\1\30\1\5\14"+
+            "\30\1\7\6\30\1\21\1\uffff\1\22\1\uffff\1\32\1\uffff\1\10\16"+
+            "\27\1\11\12\27\1\23\1\uffff\1\24\1\26",
             "",
-            "\1\52\24\uffff\1\47\6\uffff\1\46\6\uffff\1\50\20\uffff\1\45"+
+            "\1\52\33\uffff\1\46\6\uffff\1\50\1\uffff\1\47\16\uffff\1\45"+
             "\14\uffff\1\51\1\uffff\1\44\3\uffff\1\43",
             "\1\61\4\uffff\1\62\33\uffff\1\56\10\uffff\1\63\4\uffff\1\57"+
             "\1\55\1\54\3\uffff\1\60",
@@ -2371,62 +2371,24 @@ public class EASSLexer extends Lexer {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA12_103 = input.LA(1);
+                        int LA12_85 = input.LA(1);
 
                          
-                        int index12_103 = input.index();
+                        int index12_85 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_103 >= '0' && LA12_103 <= '9')||(LA12_103 >= 'A' && LA12_103 <= 'Z')||LA12_103=='_'||(LA12_103 >= 'a' && LA12_103 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+                        if ( ((LA12_85 >= '0' && LA12_85 <= '9')||(LA12_85 >= 'A' && LA12_85 <= 'Z')||LA12_85=='_'||(LA12_85 >= 'a' && LA12_85 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
 
-                        else s = 106;
+                        else s = 92;
 
                          
-                        input.seek(index12_103);
+                        input.seek(index12_85);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 1 : 
-                        int LA12_58 = input.LA(1);
-
-                         
-                        int index12_58 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_58=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 78;}
-
-                        else if ( ((LA12_58 >= '0' && LA12_58 <= '9')||(LA12_58 >= 'A' && LA12_58 <= 'Z')||LA12_58=='_'||(LA12_58 >= 'a' && LA12_58 <= 't')||(LA12_58 >= 'v' && LA12_58 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-
-                        else s = 57;
-
-                         
-                        input.seek(index12_58);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 2 : 
-                        int LA12_102 = input.LA(1);
-
-                         
-                        int index12_102 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA12_102 >= '0' && LA12_102 <= '9')||(LA12_102 >= 'A' && LA12_102 <= 'Z')||LA12_102=='_'||(LA12_102 >= 'a' && LA12_102 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 105;
-
-                         
-                        input.seek(index12_102);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 3 : 
                         int LA12_78 = input.LA(1);
 
                          
@@ -2446,25 +2408,27 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 4 : 
-                        int LA12_85 = input.LA(1);
+                    case 2 : 
+                        int LA12_58 = input.LA(1);
 
                          
-                        int index12_85 = input.index();
+                        int index12_58 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_85 >= '0' && LA12_85 <= '9')||(LA12_85 >= 'A' && LA12_85 <= 'Z')||LA12_85=='_'||(LA12_85 >= 'a' && LA12_85 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+                        if ( (LA12_58=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 78;}
 
-                        else s = 92;
+                        else if ( ((LA12_58 >= '0' && LA12_58 <= '9')||(LA12_58 >= 'A' && LA12_58 <= 'Z')||LA12_58=='_'||(LA12_58 >= 'a' && LA12_58 <= 't')||(LA12_58 >= 'v' && LA12_58 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 57;
 
                          
-                        input.seek(index12_85);
+                        input.seek(index12_58);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 5 : 
+                    case 3 : 
                         int LA12_59 = input.LA(1);
 
                          
@@ -2484,47 +2448,45 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
+                    case 4 : 
+                        int LA12_23 = input.LA(1);
+
+                         
+                        int index12_23 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_23 >= '0' && LA12_23 <= '9')||(LA12_23 >= 'A' && LA12_23 <= 'Z')||LA12_23=='_'||(LA12_23 >= 'a' && LA12_23 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_23);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 5 : 
+                        int LA12_71 = input.LA(1);
+
+                         
+                        int index12_71 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_71 >= '0' && LA12_71 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
+
+                        else if ( ((LA12_71 >= 'A' && LA12_71 <= 'Z')||LA12_71=='_'||(LA12_71 >= 'a' && LA12_71 <= 'z')) && ((stringterm))) {s = 26;}
+
+                        else s = 70;
+
+                         
+                        input.seek(index12_71);
+
+                        if ( s>=0 ) return s;
+                        break;
+
                     case 6 : 
-                        int LA12_79 = input.LA(1);
-
-                         
-                        int index12_79 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_79=='i') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 87;}
-
-                        else if ( ((LA12_79 >= '0' && LA12_79 <= '9')||(LA12_79 >= 'A' && LA12_79 <= 'Z')||LA12_79=='_'||(LA12_79 >= 'a' && LA12_79 <= 'h')||(LA12_79 >= 'j' && LA12_79 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_79);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 7 : 
-                        int LA12_87 = input.LA(1);
-
-                         
-                        int index12_87 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_87=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 94;}
-
-                        else if ( ((LA12_87 >= '0' && LA12_87 <= '9')||(LA12_87 >= 'A' && LA12_87 <= 'Z')||LA12_87=='_'||(LA12_87 >= 'a' && LA12_87 <= 'd')||(LA12_87 >= 'f' && LA12_87 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_87);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 8 : 
                         int LA12_94 = input.LA(1);
 
                          
@@ -2544,7 +2506,7 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 9 : 
+                    case 7 : 
                         int LA12_99 = input.LA(1);
 
                          
@@ -2564,125 +2526,67 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 10 : 
-                        int LA12_4 = input.LA(1);
+                    case 8 : 
+                        int LA12_79 = input.LA(1);
 
                          
-                        int index12_4 = input.index();
+                        int index12_79 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_4 >= '0' && LA12_4 <= '9')||(LA12_4 >= 'A' && LA12_4 <= 'Z')||LA12_4=='_'||(LA12_4 >= 'a' && LA12_4 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+                        if ( (LA12_79=='i') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 87;}
 
-                        else s = 53;
+                        else if ( ((LA12_79 >= '0' && LA12_79 <= '9')||(LA12_79 >= 'A' && LA12_79 <= 'Z')||LA12_79=='_'||(LA12_79 >= 'a' && LA12_79 <= 'h')||(LA12_79 >= 'j' && LA12_79 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
 
                          
-                        input.seek(index12_4);
+                        input.seek(index12_79);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 9 : 
+                        int LA12_87 = input.LA(1);
+
+                         
+                        int index12_87 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_87=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 94;}
+
+                        else if ( ((LA12_87 >= '0' && LA12_87 <= '9')||(LA12_87 >= 'A' && LA12_87 <= 'Z')||LA12_87=='_'||(LA12_87 >= 'a' && LA12_87 <= 'd')||(LA12_87 >= 'f' && LA12_87 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_87);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 10 : 
+                        int LA12_100 = input.LA(1);
+
+                         
+                        int index12_100 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_100=='m') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 103;}
+
+                        else if ( ((LA12_100 >= '0' && LA12_100 <= '9')||(LA12_100 >= 'A' && LA12_100 <= 'Z')||LA12_100=='_'||(LA12_100 >= 'a' && LA12_100 <= 'l')||(LA12_100 >= 'n' && LA12_100 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_100);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 11 : 
-                        int LA12_62 = input.LA(1);
-
-                         
-                        int index12_62 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_62=='r') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 81;}
-
-                        else if ( ((LA12_62 >= '0' && LA12_62 <= '9')||(LA12_62 >= 'A' && LA12_62 <= 'Z')||LA12_62=='_'||(LA12_62 >= 'a' && LA12_62 <= 'q')||(LA12_62 >= 's' && LA12_62 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_62);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 12 : 
-                        int LA12_56 = input.LA(1);
-
-                         
-                        int index12_56 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_56=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 77;}
-
-                        else if ( ((LA12_56 >= '0' && LA12_56 <= '9')||(LA12_56 >= 'A' && LA12_56 <= 'R')||(LA12_56 >= 'T' && LA12_56 <= 'Z')||LA12_56=='_'||(LA12_56 >= 'a' && LA12_56 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-
-                        else s = 57;
-
-                         
-                        input.seek(index12_56);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 13 : 
-                        int LA12_81 = input.LA(1);
-
-                         
-                        int index12_81 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_81=='f') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 88;}
-
-                        else if ( ((LA12_81 >= '0' && LA12_81 <= '9')||(LA12_81 >= 'A' && LA12_81 <= 'Z')||LA12_81=='_'||(LA12_81 >= 'a' && LA12_81 <= 'e')||(LA12_81 >= 'g' && LA12_81 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_81);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 14 : 
-                        int LA12_77 = input.LA(1);
-
-                         
-                        int index12_77 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_77=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 85;}
-
-                        else if ( ((LA12_77 >= '0' && LA12_77 <= '9')||(LA12_77 >= 'A' && LA12_77 <= 'R')||(LA12_77 >= 'T' && LA12_77 <= 'Z')||LA12_77=='_'||(LA12_77 >= 'a' && LA12_77 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-
-                        else s = 57;
-
-                         
-                        input.seek(index12_77);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 15 : 
-                        int LA12_88 = input.LA(1);
-
-                         
-                        int index12_88 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_88=='o') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 95;}
-
-                        else if ( ((LA12_88 >= '0' && LA12_88 <= '9')||(LA12_88 >= 'A' && LA12_88 <= 'Z')||LA12_88=='_'||(LA12_88 >= 'a' && LA12_88 <= 'n')||(LA12_88 >= 'p' && LA12_88 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_88);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 16 : 
                         int LA12_95 = input.LA(1);
 
                          
@@ -2702,22 +2606,122 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 17 : 
-                        int LA12_100 = input.LA(1);
+                    case 12 : 
+                        int LA12_77 = input.LA(1);
 
                          
-                        int index12_100 = input.index();
+                        int index12_77 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA12_100=='m') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 103;}
+                        if ( (LA12_77=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 85;}
 
-                        else if ( ((LA12_100 >= '0' && LA12_100 <= '9')||(LA12_100 >= 'A' && LA12_100 <= 'Z')||LA12_100=='_'||(LA12_100 >= 'a' && LA12_100 <= 'l')||(LA12_100 >= 'n' && LA12_100 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+                        else if ( ((LA12_77 >= '0' && LA12_77 <= '9')||(LA12_77 >= 'A' && LA12_77 <= 'R')||(LA12_77 >= 'T' && LA12_77 <= 'Z')||LA12_77=='_'||(LA12_77 >= 'a' && LA12_77 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 57;
+
+                         
+                        input.seek(index12_77);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 13 : 
+                        int LA12_88 = input.LA(1);
+
+                         
+                        int index12_88 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_88=='o') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 95;}
+
+                        else if ( ((LA12_88 >= '0' && LA12_88 <= '9')||(LA12_88 >= 'A' && LA12_88 <= 'Z')||LA12_88=='_'||(LA12_88 >= 'a' && LA12_88 <= 'n')||(LA12_88 >= 'p' && LA12_88 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
 
                         else s = 60;
 
                          
-                        input.seek(index12_100);
+                        input.seek(index12_88);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 14 : 
+                        int LA12_56 = input.LA(1);
+
+                         
+                        int index12_56 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_56=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 77;}
+
+                        else if ( ((LA12_56 >= '0' && LA12_56 <= '9')||(LA12_56 >= 'A' && LA12_56 <= 'R')||(LA12_56 >= 'T' && LA12_56 <= 'Z')||LA12_56=='_'||(LA12_56 >= 'a' && LA12_56 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 57;
+
+                         
+                        input.seek(index12_56);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 15 : 
+                        int LA12_81 = input.LA(1);
+
+                         
+                        int index12_81 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_81=='f') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 88;}
+
+                        else if ( ((LA12_81 >= '0' && LA12_81 <= '9')||(LA12_81 >= 'A' && LA12_81 <= 'Z')||LA12_81=='_'||(LA12_81 >= 'a' && LA12_81 <= 'e')||(LA12_81 >= 'g' && LA12_81 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_81);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 16 : 
+                        int LA12_62 = input.LA(1);
+
+                         
+                        int index12_62 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_62=='r') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 81;}
+
+                        else if ( ((LA12_62 >= '0' && LA12_62 <= '9')||(LA12_62 >= 'A' && LA12_62 <= 'Z')||LA12_62=='_'||(LA12_62 >= 'a' && LA12_62 <= 'q')||(LA12_62 >= 's' && LA12_62 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_62);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 17 : 
+                        int LA12_25 = input.LA(1);
+
+                         
+                        int index12_25 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_25 >= '0' && LA12_25 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
+
+                        else if ( ((LA12_25 >= 'A' && LA12_25 <= 'Z')||LA12_25=='_'||(LA12_25 >= 'a' && LA12_25 <= 'z')) && ((stringterm))) {s = 26;}
+
+                        else s = 70;
+
+                         
+                        input.seek(index12_25);
 
                         if ( s>=0 ) return s;
                         break;
@@ -2777,62 +2781,24 @@ public class EASSLexer extends Lexer {
                         break;
 
                     case 21 : 
-                        int LA12_71 = input.LA(1);
+                        int LA12_54 = input.LA(1);
 
                          
-                        int index12_71 = input.index();
+                        int index12_54 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_71 >= '0' && LA12_71 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
+                        if ( ((LA12_54 >= '0' && LA12_54 <= '9')||(LA12_54 >= 'A' && LA12_54 <= 'Z')||LA12_54=='_'||(LA12_54 >= 'a' && LA12_54 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
 
-                        else if ( ((LA12_71 >= 'A' && LA12_71 <= 'Z')||LA12_71=='_'||(LA12_71 >= 'a' && LA12_71 <= 'z')) && ((stringterm))) {s = 26;}
-
-                        else s = 70;
+                        else s = 57;
 
                          
-                        input.seek(index12_71);
+                        input.seek(index12_54);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 22 : 
-                        int LA12_84 = input.LA(1);
-
-                         
-                        int index12_84 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_84=='d') ) {s = 90;}
-
-                        else if ( (LA12_84=='t') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 91;}
-
-                         
-                        input.seek(index12_84);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 23 : 
-                        int LA12_23 = input.LA(1);
-
-                         
-                        int index12_23 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA12_23 >= '0' && LA12_23 <= '9')||(LA12_23 >= 'A' && LA12_23 <= 'Z')||LA12_23=='_'||(LA12_23 >= 'a' && LA12_23 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_23);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 24 : 
                         int LA12_7 = input.LA(1);
 
                          
@@ -2852,155 +2818,63 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 25 : 
-                        int LA12_54 = input.LA(1);
+                    case 23 : 
+                        int LA12_84 = input.LA(1);
 
                          
-                        int index12_54 = input.index();
+                        int index12_84 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_54 >= '0' && LA12_54 <= '9')||(LA12_54 >= 'A' && LA12_54 <= 'Z')||LA12_54=='_'||(LA12_54 >= 'a' && LA12_54 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+                        if ( (LA12_84=='d') ) {s = 90;}
 
-                        else s = 57;
+                        else if ( (LA12_84=='t') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 91;}
 
                          
-                        input.seek(index12_54);
+                        input.seek(index12_84);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 24 : 
+                        int LA12_9 = input.LA(1);
+
+                         
+                        int index12_9 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( (LA12_9=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 62;}
+
+                        else if ( ((LA12_9 >= '0' && LA12_9 <= '9')||(LA12_9 >= 'A' && LA12_9 <= 'Z')||LA12_9=='_'||(LA12_9 >= 'a' && LA12_9 <= 'd')||(LA12_9 >= 'f' && LA12_9 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 60;
+
+                         
+                        input.seek(index12_9);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 25 : 
+                        int LA12_4 = input.LA(1);
+
+                         
+                        int index12_4 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_4 >= '0' && LA12_4 <= '9')||(LA12_4 >= 'A' && LA12_4 <= 'Z')||LA12_4=='_'||(LA12_4 >= 'a' && LA12_4 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 53;
+
+                         
+                        input.seek(index12_4);
 
                         if ( s>=0 ) return s;
                         break;
 
                     case 26 : 
-                        int LA12_25 = input.LA(1);
-
-                         
-                        int index12_25 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA12_25 >= '0' && LA12_25 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
-
-                        else if ( ((LA12_25 >= 'A' && LA12_25 <= 'Z')||LA12_25=='_'||(LA12_25 >= 'a' && LA12_25 <= 'z')) && ((stringterm))) {s = 26;}
-
-                        else s = 70;
-
-                         
-                        input.seek(index12_25);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 27 : 
-                        int LA12_3 = input.LA(1);
-
-                         
-                        int index12_3 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( (LA12_3=='s') ) {s = 44;}
-
-                        else if ( (LA12_3=='r') ) {s = 45;}
-
-                        else if ( (LA12_3=='c') ) {s = 46;}
-
-                        else if ( (LA12_3=='q') ) {s = 47;}
-
-                        else if ( (LA12_3=='w') ) {s = 48;}
-
-                        else if ( (LA12_3=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 49;}
-
-                        else if ( (LA12_3=='G') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 50;}
-
-                        else if ( (LA12_3=='l') ) {s = 51;}
-
-                        else s = 52;
-
-                         
-                        input.seek(index12_3);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 28 : 
-                        int LA12_5 = input.LA(1);
-
-                         
-                        int index12_5 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA12_5 >= '0' && LA12_5 <= '9')||(LA12_5 >= 'A' && LA12_5 <= 'Z')||LA12_5=='_'||(LA12_5 >= 'a' && LA12_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-
-                        else s = 55;
-
-                         
-                        input.seek(index12_5);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 29 : 
-                        int LA12_55 = input.LA(1);
-
-                         
-                        int index12_55 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 50;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 76;}
-
-                         
-                        input.seek(index12_55);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 30 : 
-                        int LA12_53 = input.LA(1);
-
-                         
-                        int index12_53 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 49;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 76;}
-
-                         
-                        input.seek(index12_53);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 31 : 
-                        int LA12_92 = input.LA(1);
-
-                         
-                        int index12_92 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((curly_nesting == 0)) ) {s = 97;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 76;}
-
-                         
-                        input.seek(index12_92);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 32 : 
                         int LA12_8 = input.LA(1);
 
                          
@@ -3020,85 +2894,7 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 33 : 
-                        int LA12_106 = input.LA(1);
-
-                         
-                        int index12_106 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((sq_nesting > 0)) ) {s = 109;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 80;}
-
-                         
-                        input.seek(index12_106);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 34 : 
-                        int LA12_105 = input.LA(1);
-
-                         
-                        int index12_105 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((sq_nesting > 0)) ) {s = 108;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 80;}
-
-                         
-                        input.seek(index12_105);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 35 : 
-                        int LA12_61 = input.LA(1);
-
-                         
-                        int index12_61 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((LA12_61 >= '0' && LA12_61 <= '9')||(LA12_61 >= 'A' && LA12_61 <= 'Z')||LA12_61=='_'||(LA12_61 >= 'a' && LA12_61 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-
-                        else s = 60;
-
-                         
-                        input.seek(index12_61);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 36 : 
-                        int LA12_93 = input.LA(1);
-
-                         
-                        int index12_93 = input.index();
-                        input.rewind();
-
-                        s = -1;
-                        if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 98;}
-
-                        else if ( ((stringterm)) ) {s = 26;}
-
-                        else if ( ((!stringterm)) ) {s = 76;}
-
-                         
-                        input.seek(index12_93);
-
-                        if ( s>=0 ) return s;
-                        break;
-
-                    case 37 : 
+                    case 27 : 
                         int LA12_0 = input.LA(1);
 
                          
@@ -3106,7 +2902,7 @@ public class EASSLexer extends Lexer {
                         input.rewind();
 
                         s = -1;
-                        if ( (LA12_0=='\u00B1') ) {s = 1;}
+                        if ( (LA12_0=='>') ) {s = 1;}
 
                         else if ( (LA12_0==':') ) {s = 2;}
 
@@ -3180,25 +2976,25 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 38 : 
-                        int LA12_24 = input.LA(1);
+                    case 28 : 
+                        int LA12_61 = input.LA(1);
 
                          
-                        int index12_24 = input.index();
+                        int index12_61 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( ((LA12_24 >= '0' && LA12_24 <= '9')||(LA12_24 >= 'A' && LA12_24 <= 'Z')||LA12_24=='_'||(LA12_24 >= 'a' && LA12_24 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+                        if ( ((LA12_61 >= '0' && LA12_61 <= '9')||(LA12_61 >= 'A' && LA12_61 <= 'Z')||LA12_61=='_'||(LA12_61 >= 'a' && LA12_61 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
 
-                        else s = 57;
+                        else s = 60;
 
                          
-                        input.seek(index12_24);
+                        input.seek(index12_61);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 39 : 
+                    case 29 : 
                         int LA12_6 = input.LA(1);
 
                          
@@ -3218,27 +3014,159 @@ public class EASSLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
 
-                    case 40 : 
-                        int LA12_9 = input.LA(1);
+                    case 30 : 
+                        int LA12_3 = input.LA(1);
 
                          
-                        int index12_9 = input.index();
+                        int index12_3 = input.index();
                         input.rewind();
 
                         s = -1;
-                        if ( (LA12_9=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 62;}
+                        if ( (LA12_3=='s') ) {s = 44;}
 
-                        else if ( ((LA12_9 >= '0' && LA12_9 <= '9')||(LA12_9 >= 'A' && LA12_9 <= 'Z')||LA12_9=='_'||(LA12_9 >= 'a' && LA12_9 <= 'd')||(LA12_9 >= 'f' && LA12_9 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+                        else if ( (LA12_3=='r') ) {s = 45;}
 
-                        else s = 60;
+                        else if ( (LA12_3=='c') ) {s = 46;}
+
+                        else if ( (LA12_3=='q') ) {s = 47;}
+
+                        else if ( (LA12_3=='w') ) {s = 48;}
+
+                        else if ( (LA12_3=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 49;}
+
+                        else if ( (LA12_3=='G') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 50;}
+
+                        else if ( (LA12_3=='l') ) {s = 51;}
+
+                        else s = 52;
 
                          
-                        input.seek(index12_9);
+                        input.seek(index12_3);
 
                         if ( s>=0 ) return s;
                         break;
 
-                    case 41 : 
+                    case 31 : 
+                        int LA12_53 = input.LA(1);
+
+                         
+                        int index12_53 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 49;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 76;}
+
+                         
+                        input.seek(index12_53);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 32 : 
+                        int LA12_92 = input.LA(1);
+
+                         
+                        int index12_92 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((curly_nesting == 0)) ) {s = 97;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 76;}
+
+                         
+                        input.seek(index12_92);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 33 : 
+                        int LA12_55 = input.LA(1);
+
+                         
+                        int index12_55 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 50;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 76;}
+
+                         
+                        input.seek(index12_55);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 34 : 
+                        int LA12_105 = input.LA(1);
+
+                         
+                        int index12_105 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((sq_nesting > 0)) ) {s = 108;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 80;}
+
+                         
+                        input.seek(index12_105);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 35 : 
+                        int LA12_93 = input.LA(1);
+
+                         
+                        int index12_93 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 98;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 76;}
+
+                         
+                        input.seek(index12_93);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 36 : 
+                        int LA12_106 = input.LA(1);
+
+                         
+                        int index12_106 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((sq_nesting > 0)) ) {s = 109;}
+
+                        else if ( ((stringterm)) ) {s = 26;}
+
+                        else if ( ((!stringterm)) ) {s = 80;}
+
+                         
+                        input.seek(index12_106);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 37 : 
                         int LA12_86 = input.LA(1);
 
                          
@@ -3252,6 +3180,78 @@ public class EASSLexer extends Lexer {
 
                          
                         input.seek(index12_86);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 38 : 
+                        int LA12_103 = input.LA(1);
+
+                         
+                        int index12_103 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_103 >= '0' && LA12_103 <= '9')||(LA12_103 >= 'A' && LA12_103 <= 'Z')||LA12_103=='_'||(LA12_103 >= 'a' && LA12_103 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 106;
+
+                         
+                        input.seek(index12_103);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 39 : 
+                        int LA12_5 = input.LA(1);
+
+                         
+                        int index12_5 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_5 >= '0' && LA12_5 <= '9')||(LA12_5 >= 'A' && LA12_5 <= 'Z')||LA12_5=='_'||(LA12_5 >= 'a' && LA12_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 55;
+
+                         
+                        input.seek(index12_5);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 40 : 
+                        int LA12_102 = input.LA(1);
+
+                         
+                        int index12_102 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_102 >= '0' && LA12_102 <= '9')||(LA12_102 >= 'A' && LA12_102 <= 'Z')||LA12_102=='_'||(LA12_102 >= 'a' && LA12_102 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
+
+                        else s = 105;
+
+                         
+                        input.seek(index12_102);
+
+                        if ( s>=0 ) return s;
+                        break;
+
+                    case 41 : 
+                        int LA12_24 = input.LA(1);
+
+                         
+                        int index12_24 = input.index();
+                        input.rewind();
+
+                        s = -1;
+                        if ( ((LA12_24 >= '0' && LA12_24 <= '9')||(LA12_24 >= 'A' && LA12_24 <= 'Z')||LA12_24=='_'||(LA12_24 >= 'a' && LA12_24 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
+
+                        else s = 57;
+
+                         
+                        input.seek(index12_24);
 
                         if ( s>=0 ) return s;
                         break;

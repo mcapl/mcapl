@@ -36,6 +36,7 @@ import eass.mas.nxt.BasicRobot;
 import eass.mas.nxt.EASSNXTEnvironment;
 import eass.mas.nxt.EASSTouchSensor;
 import eass.mas.nxt.EASSUltrasonicSensor; 
+// import eass.mas.nxt.EASSSoundSensor;
 import eass.mas.nxt.EASSLightSensor;
 import eass.mas.nxt.EASSSensor;
 import eass.mas.nxt.LegoRobot;

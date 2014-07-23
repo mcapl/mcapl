@@ -26,7 +26,7 @@ package ail.syntax.ast;
 
 import ail.syntax.Rule;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -64,14 +64,14 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
 	/**
 	 * The head of the rule.
 	 */
-	private Abstract_GuardAtom head = null;
+	private Abstract_Predicate head = null;
 
 	/**
 	 * Constructor.
 	 * @param head
 	 * @param body
 	 */
-    public Abstract_Rule(Abstract_GuardAtom h, Abstract_LogicalFormula body) {
+    public Abstract_Rule(Abstract_Predicate h, Abstract_LogicalFormula body) {
         this.head = h;
         this.body = body;
     }
@@ -80,9 +80,9 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
      * Constructor.
      * @param head
      */
-    public Abstract_Rule(Abstract_GuardAtom head) {
-    	this(head, new Abstract_GBelief(Abstract_GBelief.GTrue));
-    }
+    public Abstract_Rule(Abstract_Predicate h) {
+        this.head = h;
+     }
 
     /**
      * Getter for the body.

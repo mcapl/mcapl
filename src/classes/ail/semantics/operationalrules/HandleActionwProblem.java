@@ -73,7 +73,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 		/**
 		 * The action to be handled
 		 */
-		Action act = (Action) topdeed.getTerm();
+		Action act = (Action) topdeed.getContent();
 
 		try {
 			Unifier thetaa = a.getEnv().actionResult(a.getAgName(), act);
@@ -86,7 +86,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
-				i.tlI();
+				i.tlI(a);
 				thetahd.compose(thetaa);
 			
 				i.compose(thetahd);
@@ -94,12 +94,12 @@ public class HandleActionwProblem extends HandleTopDeed {
 		} catch (AILexception ex) {
 			Event e = i.hdE();
 			if (e.referstoGoal()) {
-				Goal goal = e.getGoal();
+				Goal goal = (Goal) e.getContent();
 				Event ep = new Event(Event.AILDeletion, goal);
 				thetahd.compose(thetab);
-				i.iCons(ep, new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);
+				i.iCons(ep, new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 			} else {
-				i.tlI();
+				i.tlI(a);
 				i.compose(thetahd);
 			}
 		}

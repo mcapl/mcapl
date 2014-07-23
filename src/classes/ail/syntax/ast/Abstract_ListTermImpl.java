@@ -24,9 +24,9 @@
 
 package ail.syntax.ast;
 
-import gov.nasa.jpf.jvm.JVM;
-import gov.nasa.jpf.jvm.MJIEnv;
-import gov.nasa.jpf.jvm.Verify;
+import gov.nasa.jpf.vm.VM;
+import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.Verify;
 import ail.syntax.ListTermImpl;
 import ail.syntax.ListTerm;
 import ail.syntax.Term;
@@ -150,7 +150,7 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	}
 
 	@Override
-	public int createInJPF(JVM vm) {
+	public int createInJPF(VM vm) {
 		Verify.log("ail.syntax.ast.Abstract_ListTermImpl", Verify.WARNING, "Abstract_ListTermImpl should not be being created from Listener");
 		return 0;
 	}

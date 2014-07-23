@@ -1,0 +1,70 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// 
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: r
+
+:Initial Beliefs:
+
+square(0, 0)
+square(0, 1)
+square(0, 2)
+square(0, 3)
+square(1, 0)
+square(1, 1)
+square(1, 2)
+square(1, 3)
+square(2, 0)
+square(2, 1)
+square(2, 2)
+square(2, 3)
+square(3, 0)
+square(3, 1)
+square(3, 2)
+square(3, 3)
+
+:Reasoning Rules: 
+			
+area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
+unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
+
+:Initial Goals:
+				
+leave [achieve]
+
+:Plans:
+
++! leave [achieve]: {~ B at(X1, Y1), B unchecked(X, Y)} <- +at(X, Y), move_to(X, Y);
++! leave [achieve]: {B at(X, Y), ~ B human, ~B found, B unchecked(X1, Y1) } <- 
+   +empty(X, Y), -at(X, Y), +at(X1, Y1), move_to(X1, Y1);
++! leave [achieve]: {B at(X, Y), ~ B human, ~B unchecked(X1, Y1) } <- 
+   +empty(X, Y), -at(X, Y); 
++! leave [achieve]: {B at(X, Y), B human } <- 
+   +found; 
++! leave [achieve]: {B area_empty} <- 
+   +leave; 
+
++found : {B at(X, Y)} <- +leave, .send(agentlifter, :tell, human(X, Y)), +sent(agentlifter, human(X, Y));
+

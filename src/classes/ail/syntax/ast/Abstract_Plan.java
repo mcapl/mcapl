@@ -30,7 +30,7 @@ import ail.syntax.Plan;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 
-import gov.nasa.jpf.jvm.MJIEnv;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -140,7 +140,7 @@ public class Abstract_Plan {
 
   		if (i > 1) {
   			for (int j = 0; j < (i - 1); j++) {
-  				context[j] = new Abstract_Guard(new Abstract_GBelief(Abstract_GBelief.GTrue));
+  				context[j] = new Abstract_Guard(new Abstract_GBelief());
   			}
   		}
   		
