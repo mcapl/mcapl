@@ -68,6 +68,168 @@ vm.max_transition_length = MAX
 
 # Tests for JPF revised paper version.
 # Model generation SpinSpin0: 
-# elapsed time:       00:17:14, max memory:         412MB
-# elapsed time:       00:27:15, max memory:         411MB
+# ====================================================== statistics
+# elapsed time:       00:09:27
+# states:             new=1474, visited=1454, backtracked=2928, end=16
+# search:             maxDepth=31, constraints hit=0
+# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1472
+# heap:               new=22671146, released=22662550, max live=5083, gc-cycles=2928
+# instructions:       3149770867
+# max memory:         411MB
+# loaded code:        classes=343, methods=5098
+# 
+# ====================================================== search finished: 22/07/14 17:11
 
+# Stats on memory usage (in Megabytes):
+#     0.136	equivalent memory usage for states (stored*(State-vector + overhead))
+#     0.785	actual memory usage for states
+#   128.000	memory used for hash table (-w24)
+#     0.534	memory used for DFS stack (-m10000)
+#   129.315	total actual memory usage
+
+# real	0m1.741s
+# user	0m1.536s
+# sys	0m0.151s
+
+
+# Model generation SpinSpin1: 
+# ====================================================== results
+# no errors detected
+
+# ====================================================== statistics
+# elapsed time:       00:10:30
+# states:             new=1474, visited=1454, backtracked=2928, end=16
+# search:             maxDepth=31, constraints hit=0
+# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1472
+# heap:               new=27208704, released=27200062, max live=5129, gc-cycles=2928
+# instructions:       3503443551
+# max memory:         412MB
+# loaded code:        classes=343, methods=5098
+
+# ====================================================== search finished: 22/07/14 17:52
+
+# Stats on memory usage (in Megabytes):
+#     0.552	equivalent memory usage for states (stored*(State-vector + overhead))
+#     1.559	actual memory usage for states
+#   128.000	memory used for hash table (-w24)
+#     0.534	memory used for DFS stack (-m10000)
+#   129.999	total actual memory usage
+
+
+# pan: elapsed time 0.01 seconds
+
+# real	0m3.016s
+# user	0m2.749s
+# sys	0m0.247s
+
+# Model generation SpinSpin2: 
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:12:11
+# states:             new=1474, visited=1454, backtracked=2928, end=16
+# search:             maxDepth=31, constraints hit=0
+# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1472
+# heap:               new=32718249, released=32709563, max live=5173, gc-cycles=2928
+# instructions:       3950846497
+# max memory:         410MB
+# loaded code:        classes=343, methods=5098
+# 
+# ====================================================== search finished: 22/07/14 18:33
+
+# Stats on memory usage (in Megabytes):
+#     1.692	equivalent memory usage for states (stored*(State-vector + overhead))
+#     2.712	actual memory usage for states
+#   128.000	memory used for hash table (-w24)
+#     0.534	memory used for DFS stack (-m10000)
+#   131.073	total actual memory usage
+
+# pan: elapsed time 0.05 seconds
+# pan: rate    633560 states/second
+
+# real	0m4.579s
+# user	0m4.264s
+# sys	0m0.295s
+
+# Model generation SpinSpin3: 
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:13:50
+# states:             new=1474, visited=1454, backtracked=2928, end=16
+# search:             maxDepth=31, constraints hit=0
+# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1472
+# heap:               new=38967626, released=38958896, max live=5217, gc-cycles=2928
+# instructions:       4469122658
+# max memory:         410MB
+# loaded code:        classes=343, methods=5098
+
+# ====================================================== search finished: 22/07/14 18:56
+
+# Stats on memory usage (in Megabytes):
+#     4.760	equivalent memory usage for states (stored*(State-vector + overhead))
+#     5.008	actual memory usage for states
+#   128.000	memory used for hash table (-w24)
+#     0.534	memory used for DFS stack (-m10000)
+#   133.434	total actual memory usage
+
+# #  pan: rate 387556.52 states/second
+
+# real	0m6.873s
+# user	0m6.468s
+# sys	0m0.349s
+ 
+# Model generation SpinSpin4: 
+
+
+# ====================================================== results
+# no errors detected
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:22:43
+states:             new=1954, visited=1934, backtracked=3888, end=16
+search:             maxDepth=39, constraints hit=0
+choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1952
+heap:               new=64162808, released=64138597, max live=5303, gc-cycles=3888
+instructions:       7156122555
+max memory:         406MB
+loaded code:        classes=345, methods=5127
+
+====================================================== search finished: 23/07/14 17:00
+# Model generation SpinSpin5: 
+
+# ====================================================== results
+# no errors detected
+
+# ====================================================== statistics
+# elapsed time:       00:17:20
+# states:             new=1474, visited=1454, backtracked=2928, end=16
+# search:             maxDepth=31, constraints hit=0
+# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1472
+# heap:               new=48202522, released=48193729, max live=5280, gc-cycles=2928
+# instructions:       5231638225
+# max memory:         409MB
+# loaded code:        classes=343, methods=5098
+
+# ====================================================== search finished: 22/07/14 19:57
+ 
+
+# Stats on memory usage (in Megabytes):
+#    28.262	equivalent memory usage for states (stored*(State-vector + overhead))
+#    24.580	actual memory usage for states (compression: 86.97%)
+#          	state-vector as stored = 21 byte + 28 byte overhead
+#   128.000	memory used for hash table (-w24)
+#     0.534	memory used for DFS stack (-m10000)
+#   152.999	total actual memory usage
+ 
+#  pan: elapsed time 4.78 seconds
+# pan: rate    110709 states/second
+
+# real	0m20.045s
+# user	0m19.186s
+# sys	0m0.726s

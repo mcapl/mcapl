@@ -234,17 +234,17 @@ Spin3:    (
          [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  )
          ) -> [] ~(B (aglead, bad))
          
-Spin4:    ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
-		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
-            [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
-            [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) 
+Spin4:    ( [] ( B(aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag1))  ) &
+		    [] ( B(aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2))  ) &
+            [] ( B(aglead, informed(ag3, square)) -> <> B (aglead, maintaining(ag3))  ) &
+            [] ( B(aglead, informed(ag4, square)) -> <> B (aglead, maintaining(ag4))  ) 
          ) -> [] ~(B (aglead, bad))
 
 Spin5:  ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
 		    [] ( B(aglead, informed(ag2, line)) -> <> B (aglead, maintaining(ag2))  ) &
             [] ( B(aglead, informed(ag3, line)) -> <> B (aglead, maintaining(ag3))  ) &
             [] ( B(aglead, informed(ag4, line)) -> <> B (aglead, maintaining(ag4))  ) &
-            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1)) )
+            [] ( B(aglead, formation(square)) -> <> B (aglead, informed(ag1, line)) )
          ) -> [] ~(B (aglead, bad))
 
 Spin6:  ( [] ( B(aglead, informed(ag1, line)) -> <> B (aglead, maintaining(ag1))  ) &
@@ -293,10 +293,10 @@ SpinSpin3: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
   B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
   B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
   
-SpinSpin4: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
-  B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
-  B(aglead, informed(ag3, line)) & B (aglead, maintaining(ag3)) &
-  B(aglead, informed(ag4, line)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
+SpinSpin4: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, square)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
 
 SpinSpin5: B(aglead, informed(ag1, line)) & B (aglead, maintaining(ag1))  &
   B(aglead, informed(ag2, line)) & B (aglead, maintaining(ag2)) &
