@@ -47,7 +47,11 @@ import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
 
-
+/**
+ * Regression tests for parsing properties.
+ * @author louiseadennis
+ *
+ */
 public class PSLParserTests {
 	
 	/*

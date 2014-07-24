@@ -33,7 +33,7 @@ import ajpf.util.AJPFLogger;
 import java.util.logging.Level;
 
 /**
- * This class will serve as a helper class for initialising and running AIL mas's.  It will take a 
+ * This class serves as a helper class for initialising and running AIL mas's.  It takes a 
  * configuration file and build a MAS from it.
  * @author louiseadennis
  *
@@ -42,26 +42,38 @@ public class AIL {
 	static String logname = "ail.mas.AIL";
 
 	/**
+	 * Main method.  There should be one argument consisting of the name of a configuration file.
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		runAIL(args[0]);
 	}
 	
+	/**
+	 * Run an AIL program as specified in the configuration file.
+	 * @param configfile
+	 */
 	public static void runAIL(String configfile) {
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
 	
+		// Create the initial state of the multi-agent program.
 		MAS mas = AILSetup(config);
 		
-		// Lastly we construct a controller.
+		// Set up a controller
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
-		// Start the system.
+		
+		// Begin!
 		mccontrol.begin(); 
 		mas.finalize();
 
 	}
 	
+	/**
+	 * Set up a multi-agent system from a configuration file.
+	 * @param config
+	 * @return
+	 */
 	public static MAS AILSetup(AILConfig config) {
 		
 		// First we need to build the multi-agent system

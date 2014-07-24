@@ -42,10 +42,6 @@ public class GoalDropATests extends TestJPF {
 
 	};
 
-	  //--- test methods
-
-	  
-	 @Test //----------------------------------------------------------------------
 	 public void testMultipleIdenticalGoal () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)){
 	   	String filename =  "/src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail";

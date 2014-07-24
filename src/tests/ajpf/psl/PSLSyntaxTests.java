@@ -42,11 +42,13 @@ import ajpf.psl.parser.A_PSLLexer;
 import ajpf.psl.parser.A_PSLParser;
 import ajpf.psl.ast.Abstract_Formula;
 
+/**
+ * Regression tests for the syntax elements of the property specification language.
+ * @author louiseadennis
+ *
+ */
 public class PSLSyntaxTests {
 	
-	/*
-	 * Test that literal hashes and equality are behaving sensible.
-	 */
 	@Test public void UntilReleaseEqualityTest() {
 
 		FalseProp f1 = new FalseProp();
@@ -65,9 +67,6 @@ public class PSLSyntaxTests {
 		
 	}
 	
-	/*
-	 * Test that literal hashes and equality are behaving sensible.
-	 */
 	@Test public void UntilEqualityTest() {
 
 		MAS m = new MAS();
@@ -85,10 +84,6 @@ public class PSLSyntaxTests {
 		
 	}
 	
-
-	/*
-	 * Test that literal hashes and equality are behaving sensible.
-	 */
 	@Test public void PerceptTest() {
 
 		MAS m = new MAS();
@@ -100,10 +95,6 @@ public class PSLSyntaxTests {
 		Assert.assertTrue(p1.equals(p2));
 		
 	}
-	
-	/*
-	 * Checking matching of unnamed variables.
-	 */
 	
 	@Test public void UnnamedVarTest() throws Exception {
 		String mcaplwithvar = "somebelief(_)";
@@ -137,7 +128,6 @@ public class PSLSyntaxTests {
 	
 	@Test public void toMCAPLNativeTest() throws Exception {
 		String propertystring = "(  [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )\n     &     [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )    ) \n ->     <> B(ag1, something_false)";
-	//	String propertystring = "[] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) ) )";
 		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
