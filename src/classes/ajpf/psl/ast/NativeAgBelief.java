@@ -24,16 +24,10 @@
 
 package ajpf.psl.ast;
 
-import ajpf.MCAPLAgent;
-import ajpf.MCAPLcontroller;
 import ajpf.psl.ast.Abstract_Formula;
 
-import gov.nasa.jpf.vm.ClassInfo;
-import gov.nasa.jpf.vm.ClassLoaderInfo;
-import gov.nasa.jpf.vm.ThreadInfo;
 import gov.nasa.jpf.vm.ElementInfo;
 import gov.nasa.jpf.vm.VM;
-import gov.nasa.jpf.vm.Heap;
 
 
 /**
@@ -114,11 +108,18 @@ public class NativeAgBelief extends Native_Proposition {
 		return s;
 	}
 	    
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Native_Proposition#getEquivalentJPFClass()
+	 */
 	public String getEquivalentJPFClass() {
 		return "ajpf.psl.ast.Abstract_AgBelief";
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Native_Proposition#createInJPF(gov.nasa.jpf.vm.VM)
+	 */
 	public int createInJPF(VM vm) {
 		int objref = super.createInJPF(vm);
 		ElementInfo ei = vm.getElementInfo(objref);
@@ -127,6 +128,10 @@ public class NativeAgBelief extends Native_Proposition {
 		return objref;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 1;
 	}

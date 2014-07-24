@@ -78,14 +78,26 @@ public class Abstract_And implements Abstract_Property {
 		inR = p2;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_Property#toMCAPL(ajpf.MCAPLmas, ajpf.MCAPLcontroller)
+	 */
 	public MCAPLProperty toMCAPL(MCAPLmas mas, MCAPLcontroller c) {
 		return new And(inL.toMCAPL(mas, c), inR.toMCAPL(mas, c));
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_Property#toMCAPLNative()
+	 */
 	public MCAPLProperty toMCAPLNative() {
 		return new And(inL.toMCAPLNative(), inR.toMCAPLNative());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_Property#newJPFObject(gov.nasa.jpf.vm.MJIEnv)
+	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ajpf.psl.ast.Abstract_And");
 		env.setReferenceField(ref, "inL", inL.newJPFObject(env));
@@ -93,14 +105,26 @@ public class Abstract_And implements Abstract_Property {
 		return ref;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_Property#toNormalForm()
+	 */
 	public Abstract_Property toNormalForm() {
 		return new Abstract_And(inL.toNormalForm(), inR.toNormalForm());
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_Property#negate()
+	 */
 	public Abstract_Property negate() {
 		return new Abstract_Or(inL.negate(), inR.negate());
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String s = "(" + inL.toString();
 		s += " & " + inR.toString() + ")";
