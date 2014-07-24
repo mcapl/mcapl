@@ -50,22 +50,12 @@ public class MCAPLSpec {
 	 */
 	
 	protected Set<Tuple> props = new TreeSet<Tuple>();
-	/**
-	 * Flag used by the listener to see if from this point on
-	 * the Automata can not become empty.
-	 */
-	// protected boolean AlwaysSatisfied = false;
 	
 	/**
 	 * Flag  used by the listener to see if this state is accepting.
 	 */
 	protected boolean AcceptingStateExists = false;
-	
-	/**
-	 * The actual property checked.
-	 */
-//	private MCAPLProperty negatedspec;
-	
+		
 	private String propertystring;
 	
 	private Abstract_Property[] propArray;
@@ -103,7 +93,6 @@ public class MCAPLSpec {
 		initialProperty = p;
 		for (Proposition prop: p.getProps()) {
 			prop.updateTV();
-	//		props.add(prop);
 		}
 	}
 	
@@ -118,13 +107,6 @@ public class MCAPLSpec {
 	 *
 	 */
 	public void createAutomaton() {
-		// System.err.println("creating automaton - MCAPLSpec");
-	//	negatedspec = negateinitialProperties();
-	//	BuchiState init = new BuchiState(0, negatedspec, 1);
-	//	init(init);
-	//	if (outputlevel > 0) {
-	//		System.err.println(this);
-	//	}
 		if (propArray != null) {
 			for (Abstract_Property p: propArray) {
 				MCAPLProperty prop = p.toMCAPL(mas, c);
@@ -132,20 +114,12 @@ public class MCAPLSpec {
 				((Abstract_Proposition) p).setTV(((Proposition) prop).getTV());
 				props.add(new Tuple(p, prop));
 			}
-			AJPFLogger.fine("ajpf.MCAPLSpec", props.toString());
+			if (AJPFLogger.ltFine("ajpf.MCAPSpec")) {
+				AJPFLogger.fine("ajpf.MCAPLSpec", props.toString());
+			}
 		}
 	} 
-	
-	/**
-	 * Treating the intial Properties as a conjunction, negate this property and
-	 * convert to negation normal form.
-	 * 
-	 * @return negation of specification in negation normal form.
-	 */
-	private MCAPLProperty negateinitialProperties() {
-		return initialProperty.negate();
-	} 
-	
+		
 	public void addMas(MCAPLmas m) {
 		mas = m;
 	}
@@ -154,6 +128,11 @@ public class MCAPLSpec {
 		c = cont;
 	}
 	
+	/**
+	 * A Tuple class.  This is a tuple of an abstract 
+	 * @author louiseadennis
+	 *
+	 */
 	public class Tuple implements Comparable<Tuple>{
 		Abstract_Property aprop;
 		MCAPLProperty mprop;
