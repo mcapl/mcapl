@@ -56,6 +56,8 @@ public class MCAPLSpec {
 	 */
 	protected boolean AcceptingStateExists = false;
 		
+	// Property String is used by the Listener in the Native JVM.
+	@SuppressWarnings("all")
 	private String propertystring;
 	
 	private Abstract_Property[] propArray;
@@ -96,6 +98,10 @@ public class MCAPLSpec {
 		}
 	}
 	
+	/**
+	 * Add a property string.
+	 * @param p
+	 */
 	public void addPropertyString(String p) {
 		propertystring = p;
 	}
@@ -120,10 +126,18 @@ public class MCAPLSpec {
 		}
 	} 
 		
+	/**
+	 * Add a Multi-Agent system.
+	 * @param m
+	 */
 	public void addMas(MCAPLmas m) {
 		mas = m;
 	}
 	
+	/**
+	 * Add a controller.
+	 * @param cont
+	 */
 	public void addController(MCAPLcontroller cont) {
 		c = cont;
 	}
