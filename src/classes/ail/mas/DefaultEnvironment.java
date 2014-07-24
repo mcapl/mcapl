@@ -113,6 +113,8 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	protected MCAPLScheduler scheduler;
 	
+	String logname = "ail.mas.DefaultEnvironment";
+	
 	/**
 	 * Create a new Default Environment and set the scheduler as an Action Scheduler.
 	 */
@@ -238,7 +240,9 @@ public class DefaultEnvironment implements AILEnv {
 	   		System.out.println(agentmap.get(agName).toString());
 	   	} 
  
-	   	AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
+	   	if (AJPFLogger.ltInfo(logname)) {
+	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   	}
 	   	
 	   	return (u);
     }

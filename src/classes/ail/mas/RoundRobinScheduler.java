@@ -32,6 +32,17 @@ import ajpf.MCAPLScheduler;
 import ajpf.PerceptListener;
 import ajpf.util.VerifyList;
 
+/**
+ * This is a scheduler that executes each Jobber (typically the agents and the
+ * Environment) in turn (and switches between them when something changes).  
+ * Since there is no random element using a Round Robin
+ * Scheduler with model checking does not create branch points whenever control
+ * changes between jobbers.  This will reduce state space but may reduce the
+ * fidelity to the system of interest.
+ * 
+ * @author louiseadennis
+ *
+ */
 public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	private TreeMap<String, MCAPLJobber> agnames = new TreeMap<String, MCAPLJobber>();
 	/* We use VerifyLists to reduce the state space during verification */

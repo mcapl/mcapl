@@ -28,7 +28,6 @@ target = ail.util.AJPF_w_AIL
 target.args = /src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail,/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl,0
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
-log.fine = ail.util.AILConfig,ail.util.AJPF_w_AIL
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
