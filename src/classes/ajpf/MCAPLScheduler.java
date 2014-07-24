@@ -27,7 +27,6 @@ package ajpf;
 import ajpf.psl.MCAPLFormula;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interface to be implemented by agents in specific APLs.
