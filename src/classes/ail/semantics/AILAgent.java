@@ -1710,7 +1710,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *
 	 */
 	public void sleep() {
-		AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		}
 		RC.setStopandCheck(true);
 		wanttosleep = true;
 	}
