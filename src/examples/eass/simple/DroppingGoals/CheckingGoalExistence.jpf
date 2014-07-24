@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
-//
+// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher
+// 
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
 // The EASS Library is free software; you can redistribute it and/or
@@ -22,40 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.simple;
+@using = mcapl
 
-import org.junit.Test;
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail,src/examples/eass/simple/DroppingGoals/simple.psl,1
 
-import ail.util.AJPF_w_AIL;
+log.info = ajpf.product.Product,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment
 
-import gov.nasa.jpf.util.test.TestJPF;
+listener+=,.listener.ExecTracker
+et.print_insn=false
 
-/**
- * Tests relating to goal dropping behaviour
- */
-public class GoalDropATests extends TestJPF {
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
 
-	static final String[] JPF_ARGS = { "-show", 
-		 "+listener+=,.listener.ExecTracker",
-	     "+et.print_insn=false",
-	     "+vm.max_transition_length=MAX"
-
-	};
-
-	  @Test //----------------------------------------------------------------------
-	 public void testMultipleIdenticalGoal () {
-	   if (verifyNoPropertyViolation(JPF_ARGS)){
-	   	String filename =  "/src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail";
-	   	String prop_filename =  "/src/examples/eass/simple/DroppingGoals/simple.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "1";
-	   	AJPF_w_AIL.run(args);
-	    } else {
-	   	 
-	    }
-	 }
-
-
-}
