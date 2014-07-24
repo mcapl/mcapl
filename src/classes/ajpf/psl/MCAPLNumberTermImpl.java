@@ -27,17 +27,8 @@
 
 package ajpf.psl;
 
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-
 /** Immutable class that implements a term that represents a number */
 public final class MCAPLNumberTermImpl extends MCAPLTermImpl implements MCAPLNumberTerm {
-
 
 	private final double fValue;
 	
@@ -64,30 +55,41 @@ public final class MCAPLNumberTermImpl extends MCAPLTermImpl implements MCAPLNum
 		fValue = t.solve();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLNumberTerm#solve()
+	 */
 	public double solve() {
 		return fValue;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
     public boolean equals(Object o) {
         if (o == this) return true;
 
         if (o != null && o instanceof MCAPLNumberTerm) {
             MCAPLNumberTerm st = (MCAPLNumberTerm)o;
-               //return Double.doubleToLongBits(solve()) == Double.doubleToLongBits(st.solve());
-                return solve() == st.solve();
+                 return solve() == st.solve();
 		} 
 		return false;
 	}
 
-        
-    
+    /*
+     * 
+     */
     public int compareTo(MCAPLNumberTerm st) {
     	if (solve() > st.solve()) return 1;
     	if (solve() < st.solve()) return -1;
     	return 0;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTermImpl#toString()
+     */
 	public String toString() {
 			return String.valueOf(fValue);
 	}

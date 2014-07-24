@@ -89,7 +89,10 @@ public class MCAPLTermImpl implements MCAPLTerm {
 		return false;
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(MCAPLTerm t) {
 		if (t.getFunctor() == getFunctor()) {
 			if (getTermsSize() == t.getTermsSize()) {
@@ -124,19 +127,35 @@ public class MCAPLTermImpl implements MCAPLTerm {
     	return functor;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#getTerms()
+     */
     public List<MCAPLTerm> getTerms() {
     	return terms;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#getTermsSize()
+     */
     public int getTermsSize() {
     	return size;
     }
     
-    public void addTerm(MCAPLTerm t) {
+    /**
+     * Add a new argument to this term.
+     * @param t
+     */
+     public void addTerm(MCAPLTerm t) {
     	terms.add(t);
     	size++;
     }
     
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#isUnnamedVar()
+      */
     public boolean isUnnamedVar() {
     	if (functor != null) {
     		if (this.functor.equals("_")) {
@@ -146,6 +165,10 @@ public class MCAPLTermImpl implements MCAPLTerm {
     	return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
 	   public String toString() {
 	         StringBuilder s = new StringBuilder();
 	         if (functor != null) {

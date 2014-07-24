@@ -27,10 +27,27 @@
 
 package ajpf.psl;
 
+/**
+ * An interface for list type terms appearing in properties.
+ * @author louiseadennis
+ *
+ */
 public interface MCAPLListTerm extends MCAPLTerm {
+	/**
+	 * Add a term to the end of the list.
+	 * @param t
+	 */
 	public void addEnd(MCAPLTerm t);
 	
+	/**
+	 * Get the tail of the list.
+	 * @return
+	 */
 	public MCAPLListTerm getTail();
 	
+	/**
+	 * Get the head of the list.
+	 * @return
+	 */
 	public MCAPLTerm getHead();
 }

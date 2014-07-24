@@ -135,6 +135,10 @@ public class Until implements MCAPLProperty {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return hashcode;
 	}
@@ -294,6 +298,10 @@ public class Until implements MCAPLProperty {
 		return(props);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#getUntils()
+	 */
 	public Set<Until> getUntils() {
 		TreeSet<Until> props = new TreeSet<Until>();
 		props.addAll(finalprop.getUntils());
@@ -325,21 +333,29 @@ public class Until implements MCAPLProperty {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLProperty p) {
-	/*	if (p instanceof Until) {
+	if (p instanceof Until) {
 			int compInl = getFmla1().compareTo(((Until) p).getFmla1());
-			if (compInl != 0) {
+			if (compInl == 0) {
 				return getFmla2().compareTo(((Until) p).getFmla2());
 			} else {
 				return compInl;
 			}
-		} else if (p instanceof Proposition || p instanceof Not || p instanceof And) {
-			return -1;
 		} else {
-			return 1;
-		} */
-		return (this.toString().compareTo(p.toString()));
+			int myq = quickCompareVal();
+			int pq = p.quickCompareVal();
+		
+			if (myq < pq) {
+				return -1;
+			} else {
+				return 1;
+			}
+		} 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 17;
 	}
