@@ -32,6 +32,10 @@ import lejos.nxt.remote.InputValues;
 import java.io.IOException;
 
 /**
+ * This is basically the leJOS SensorPort class but with minor tweaks
+ * to work around a hardware fault in one of our NXT robots.
+ */
+/**
  * Port class. Contains 4 Port instances.<br>
  * Usage: Port.S4.readValue();
  * 

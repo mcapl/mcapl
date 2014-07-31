@@ -30,9 +30,15 @@ import ail.util.AJPF_w_AIL;
 
 import gov.nasa.jpf.util.test.TestJPF;
 
+/**
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
+ */
 public class Simple10Tests extends TestJPF {
 
- static final String[] PICKUP_ARGS = { "-show", 
+static final String[] PICKUP_ARGS = { "-show", 
 	 "+listener+=,.listener.ExecTracker",
      "+et.print_insn=false",
      "+vm.max_transition_length = MAX"

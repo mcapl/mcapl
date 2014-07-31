@@ -43,7 +43,7 @@ pos(square, bottomleft)
 pos(square, bottomright)
 			
 			
-desired_formation(line)
+desired_formation(square)
 
 :Reasoning Rules:
 			

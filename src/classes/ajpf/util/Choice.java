@@ -27,27 +27,49 @@ package ajpf.util;
 import java.util.ArrayList;
 import java.util.Random;
 
-
 /**
- * 
+ * A class that represents a probablistic choice among a finite set of options.
+ * This is important for representing probabilities in AJPF since methods can be
+ * intercepted by native peers in order to branch the search space.
  * @author louiseadennis
  *
  */
 public class Choice<O extends Object> { 
+	// The fine set of options
 	public ArrayList<Option<O>> choicelist = new ArrayList<Option<O>>();
+	// Index to the current choice in choicelist - represented as a double to ease
+	// access from the Native JVM.
 	public double thischoice;
+	
 	public Random r = new Random();
 	
+	/**
+	 * Add an option to this choice, with probability d.
+	 * @param d
+	 * @param o
+	 */
 	public void addChoice(double d, O o) {
 		choicelist.add(new Option<O>(d, o));
 	}
 	
+	/**
+	 * Pick a choice, update this choice accordingly, return index to the choice.
+	 * @return
+	 */
 	public int choose() {
 		int i = pickChoice(choicelist.size() - 1);
 		thischoice = choicelist.get(i).getProb();
 		return i;
 	}
 
+	/**
+	 * This method is intercepted by the native peer when running in JPF.  When running
+	 * outside of JPF it selects an option from the list according to the probability 
+	 * distribution.  When running in JPF it is intercepted and a choice generator created
+	 * that will explore all possible options.
+	 * @param limit
+	 * @return
+	 */
 	public int pickChoice(int limit) {
 		double rvalue = r.nextDouble();
 		int list_index = 0;
@@ -65,16 +87,31 @@ public class Choice<O extends Object> {
 		return list_index;
 	}
 
+	/**
+	 * Choose an options.
+	 * @return
+	 */
 	public O get_choice() {
 		int i = choose();
 		O choice = choicelist.get(i).getObj();
 		return choice;
 	}
 		
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return choicelist.toString();
 	}
 	
+	/**
+	 * A class for the options in the probabilistic distribution.  An option
+	 * is a tuple of a probability and a value.
+	 * @author louiseadennis
+	 *
+	 * @param <O1>
+	 */
 	public class Option<O1 extends Object> {
 		public double probability;
 		public O1 value;
@@ -84,14 +121,26 @@ public class Choice<O extends Object> {
 			value = v;
 		}
 		
+		/**
+		 * Return the probability.
+		 * @return
+		 */
 		public double getProb() {
 			return probability;
 		}
 		
+		/**
+		 * Return the value.
+		 * @return
+		 */
 		public O1 getObj() {
 			return value;
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
 		public String toString() {
 			return "(" + probability + ", " + value + ")";
 		}

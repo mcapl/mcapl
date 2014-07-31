@@ -24,23 +24,22 @@
 
 package ajpf;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
-import ajpf.psl.MCAPLFormula;
-
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.vm.Verify;
-
 /**
- * An encapsulation class for agents in the agent programming language.
+ * An encapsulation class for jobbers that can be called by the scheduler in a multi-agent system.
  * 
  * @author louiseadennis
  */
 public interface MCAPLJobber extends Comparable<MCAPLJobber>{
+	
+	/**
+	 * Do a job.
+	 */
 	public void do_job();
 	
+	/**
+	 * Return your name.
+	 * @return
+	 */
 	public String getName();
 	    
 }

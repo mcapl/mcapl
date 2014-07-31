@@ -11,6 +11,10 @@ import lejos.nxt.remote.NXTCommand;
  */
 
 /**
+ * This is very similar to the leJOS class with minor tweaks to work around a
+ * hardware fault in one of our robots.
+ */
+/**
  * Abstraction for a NXT Ultrasonic Sensor. The sensor knows four modes: off,
  * continuous, ping and capture. In continuous mode, the device periodically
  * tests, whether and object in range. In ping mode, the sensor sends a single

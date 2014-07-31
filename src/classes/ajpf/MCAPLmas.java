@@ -41,15 +41,7 @@ public interface MCAPLmas {
 	 * @return a list of objects implementing the MCAPLLanguageAgent interface.
 	 */
 	public List<MCAPLLanguageAgent> getMCAPLAgents(); 
-	
-	/**
-	 * Start the system.
-	 * 
-	 * @param flag indicates whether or not this is being invoked on a model
-	 * checking run.
-	 */
-	//public void MCAPLstart();
-	
+		
 	/**
 	 * Add a listener for waking agents to the system.
 	 * 
@@ -57,24 +49,11 @@ public interface MCAPLmas {
 	 */
 	public void addPerceptListener(PerceptListener l);
 		
-	/**
-	 * This agent is now asleep;
-	 * @param AgName
-	 */
-    ///public void addAsleep(String AgName);
-        
     /**
      * All the agents and the environment have finished executing.
      * @return
      */
     public boolean alldone();
-    
-    /**
-     * The agent named, a, has nothing left to do.
-     * @param a
-     * @return
-     */
-    //public boolean alldonefor(String a);
     
     /**
      * Stop all the agents - or at least inform them they need to stop.
@@ -101,18 +80,23 @@ public interface MCAPLmas {
      */
     public boolean hasPercept(MCAPLFormula f);
     
+    /**
+     * Return the system's scheduler.
+     * @return
+     */
     public MCAPLScheduler getScheduler();
     
+    /**
+     * Return the system's controller.
+     * @return
+     */
     public MCAPLcontroller getController();
     
+    /**
+     * Set the system's controller.
+     * @param mc
+     */
     public void setController(MCAPLcontroller mc);
     
-    /**
-     * Sets a debugging outputlevel for the MAS.
-     * @param i
-     */
-   // public void setOutputLevel(int i);
-    
-   // public void cleanup();
  
 }

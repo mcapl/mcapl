@@ -57,7 +57,9 @@ public class ModelState implements Comparable<ModelState> {
 	 * Mark this state as fully explored.
 	 */
 	public void markdone() {
-		log.fine("In ModelState: " + this + "  Setting done");
+		if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+			log.fine("In ModelState: " + this + "  Setting done");
+		}
 		done = true;
 	}
 	
@@ -85,9 +87,11 @@ public class ModelState implements Comparable<ModelState> {
 	public ModelState(int statenum, Set<Proposition> product_props) {
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
-			log.fine("proposition is " + p);
+			if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+					log.fine("proposition is " + p);
+			}
 			if (p.check()) {
-				log.fine("proposition added to " + JPFstatenum);
+				// log.fine("proposition added to " + JPFstatenum);
 				props.add(p);
 			}
 		}
@@ -158,7 +162,6 @@ public class ModelState implements Comparable<ModelState> {
 	 * @param d
 	 */
 	public void edge_annotate_double(Integer i, double d) {
-		log.fine("annotating an edge");
 		a.edge_annotate_double(i, d);
 	}
 	

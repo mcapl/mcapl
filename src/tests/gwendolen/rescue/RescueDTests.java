@@ -31,7 +31,8 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
 /**
- * regression test for programming-by-contract annotations
+ * Regresssion test of various properties using the Rescue Robots as an example problem.
+ * Split over several files since JPF was having problems executing multiple tests in one file.
  */
 public class RescueDTests extends TestJPF {
 

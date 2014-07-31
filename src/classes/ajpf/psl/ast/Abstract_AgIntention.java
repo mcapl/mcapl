@@ -83,6 +83,10 @@ public class Abstract_AgIntention extends Abstract_Proposition {
 		agent = a;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String s = "I(" + agent + "," + goal.toString() + ")";
 		return s;

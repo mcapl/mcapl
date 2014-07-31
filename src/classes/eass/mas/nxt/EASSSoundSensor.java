@@ -29,6 +29,12 @@ import lejos.nxt.SoundSensor;
 
 import java.io.PrintStream;
 
+/**
+ * Encapsulation of a sound sensor on an NXT robot, to be used with an 
+ * EASS environment.
+ * @author louiseadennis
+ *
+ */
 public class EASSSoundSensor extends SoundSensor implements EASSSensor {
 	PrintStream out = System.out;
 
@@ -36,6 +42,10 @@ public class EASSSoundSensor extends SoundSensor implements EASSSensor {
 		super(brick.getSensorPort(i));
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.nxt.EASSSensor#addPercept(eass.mas.nxt.EASSNXTEnvironment)
+	 */
 	public void addPercept(EASSNXTEnvironment env) {
 		int soundvalue = readValue();
 		out.println("volume is " + soundvalue);
@@ -44,6 +54,10 @@ public class EASSSoundSensor extends SoundSensor implements EASSSensor {
 		env.addUniquePercept("sound", sound);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.nxt.EASSSensor#setPrintStream(java.io.PrintStream)
+	 */
 	public void setPrintStream(PrintStream s) {		out = s;
 	};
 }

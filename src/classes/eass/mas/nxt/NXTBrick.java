@@ -35,8 +35,6 @@ import lejos.nxt.remote.NXTCommand;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-
-
 /**
  * Abstraction of a LEGO NXT Brick running LeJOS
  * 
@@ -106,38 +104,75 @@ public class NXTBrick  {
 		
 	}
 	
+	/**
+	 * Is this brick connected to a physical NXT Brick?
+	 * @return
+	 */
 	public boolean isConnected() {
 		return connected;
 	}
 	
+	/**
+	 * Get the motor associated with Port A.
+	 * @return
+	 */
 	public RemoteMotor getMotorA() {
 		return motorA;
 	}
 	
+	/**
+	 * Get the motor associated with Port B.
+	 * @return
+	 */
 	public RemoteMotor getMotorB() {
 		return motorB;
 	}
 	
+	/**
+	 * Get the motor associated with Port C.
+	 * @return
+	 */
 	public RemoteMotor getMotorC() {
 		return motorC;
 	}
 
+	/**
+	 * Get sensor port 1.
+	 * @return
+	 */
 	public EASSSensorPort getSensorPort1() {
 		return Port1;
 	}
 	
+	/**
+	 * Get sensor port 2.
+	 * @return
+	 */
 	public EASSSensorPort getSensorPort2() {
 		return Port2;
 	}
 	
+	/**
+	 * Get sensor port 3.
+	 * @return
+	 */
 	public EASSSensorPort getSensorPort3() {
 		return Port3;
 	}
 	
+	/**
+	 * Get sensor port 4.
+	 * @return
+	 */
 	public EASSSensorPort getSensorPort4() {
 		return Port4;
 	}
 	
+	/**
+	 * Get sensor port i.
+	 * @param i
+	 * @return
+	 */
 	public EASSSensorPort getSensorPort(int i) {
 		if (i == 1) {
 			return Port1;
@@ -171,7 +206,9 @@ public class NXTBrick  {
             in = new DataInputStream(comm.getInputStream());
     }
 
-
+    /**
+     * Close Bluetooth connection to actual brick.
+     */
 	public void close() {
 		try {
 			out.close();
@@ -182,6 +219,10 @@ public class NXTBrick  {
 		}
 	}
 	
+	/**
+	 * Get NXT command object used for sending messages to physical brick.
+	 * @return
+	 */
 	public NXTCommand getNXTCommand() {
 		return nxtcommand;
 	}

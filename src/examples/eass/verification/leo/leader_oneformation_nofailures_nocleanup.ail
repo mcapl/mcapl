@@ -44,4 +44,4 @@ requesting_formation=false
 allpositions=false
 all_can_break=false
 changing_formation=false
-initial_formation=line
+initial_formation=square
