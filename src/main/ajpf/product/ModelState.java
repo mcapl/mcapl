@@ -28,6 +28,7 @@ import gov.nasa.jpf.JPF;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ajpf.psl.Proposition;
@@ -57,7 +58,7 @@ public class ModelState implements Comparable<ModelState> {
 	 * Mark this state as fully explored.
 	 */
 	public void markdone() {
-		if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+		if (lowerLogLevelThan(Level.FINE)) {
 			log.fine("In ModelState: " + this + "  Setting done");
 		}
 		done = true;
@@ -87,7 +88,7 @@ public class ModelState implements Comparable<ModelState> {
 	public ModelState(int statenum, Set<Proposition> product_props) {
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
-			if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+			if (lowerLogLevelThan(Level.FINE)) {
 					log.fine("proposition is " + p);
 			}
 			if (p.check()) {
@@ -180,4 +181,20 @@ public class ModelState implements Comparable<ModelState> {
 	public int compareTo(ModelState s) {
 		return ((Integer) JPFstatenum).compareTo((Integer) s.getNum());
 	}
+	
+	/**
+	 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+	 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+	 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+	 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+	 * @param l
+	 * @return
+	 */
+	private static boolean lowerLogLevelThan(Level l) {
+		if  (log.getLevel().intValue() <= l.intValue()) {
+			return true;
+		}
+		return false;
+	}
+
 }
