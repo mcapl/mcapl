@@ -112,16 +112,6 @@ bound(1)
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);
 			  
-+failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(PreC -> PreC1), .imp(PostC1 -> PostC)} <-
-	     +!substitute_in_plans(Cap, Cap1) [perform];
-+failed(Cap, Post, Pre) : {.cap(PreC, Cap, PostC), .cap(PreC1, Cap1, PostC1), .imp(Pre -> PreC1), .imp(PostC1 -> Post)} <-
-	     +!substitute_in_plans(Post, Pre, Cap, Cap1) [perform];
++failed(Cap, Post, Pre) : {True} <-
+	     substitute_in_plans(Cap, Post, Pre);
 
-+!substitute_in_plans(Cap, Cap1) [perform] : {.plan(P, Pre, Cap, Post)} <-
-		      -.plan(P),
-		      .substitute(P, Cap, Cap1, P1),
-		      +.plan(P1);
-+!substitute_in_plans(Post, Pre, Cap, Cap1) [perform] : {.plan(P, Pre, Cap, Post)} <-
-		      -.plan(P),
-		      .substitute(P, Cap, Cap1, P1),
-		      +.plan(P1);

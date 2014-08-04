@@ -129,8 +129,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param pred
 	 */
 	public void printvalues(Literal pred) {}
-	
-	}
 
 	
 	/**

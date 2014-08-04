@@ -32,7 +32,6 @@ import ajpf.util.VerifyList;
 import ajpf.MCAPLScheduler;
 import ajpf.PerceptListener;
 
-import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
