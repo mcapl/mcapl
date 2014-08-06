@@ -15,6 +15,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
 		Capability c = ((GCapability) ga).getCap();
 		Predicate cPred = c.getCap();
+		return getRelevant(cPred);
+	}
+	
+	public Iterator<Capability> getRelevant(Predicate cPred) {
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
 			for (ArrayList<Capability> cl: capMap.values()) {
@@ -29,6 +33,18 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
                 return Collections.<Capability>emptyList().iterator();
             }
         }
+		
+	}
+	
+	public Iterator<Capability> iterator() {
+		ArrayList<Capability> cs = new ArrayList<Capability>();
+		
+		for (ArrayList<Capability> cl: capMap.values()) {
+			cs.addAll(cl);
+		}
+		
+		return cs.iterator();
+
 	}
 	
 	public void add(Capability c) {

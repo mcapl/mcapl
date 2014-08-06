@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
+import java.util.Random;
 
 import ail.mas.AILEnv;
 import ail.util.AILexception;
@@ -62,7 +63,11 @@ import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
+import ail.syntax.LogicalFormula;
 import ail.syntax.annotation.SourceAnnotation;
+import ail.syntax.NamedEvaluationBase;
+import ail.syntax.PredicateTerm;
+import ail.syntax.ListEvaluationBase;
 
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
@@ -796,6 +801,50 @@ public class AILAgent implements MCAPLLanguageAgent {
 	
 	public void addCap(Capability c) {
 		getCL().add(c);
+	}
+	
+	public Capability findSuperCap(Predicate cap_name) {
+		Iterator<Capability> caps = getCL().getRelevant(cap_name);
+		while (caps.hasNext()) {
+			Capability c = caps.next();
+			Iterator<Capability> all_caps = getCL().iterator();
+			LogicalFormula cPre = c.getPre();
+			LogicalFormula cPost = c.getPost();
+			while (all_caps.hasNext()) {
+				Capability ac = all_caps.next();
+				if (! ac.equals(c)) {
+					LogicalFormula acPre = ac.getPre();
+					LogicalFormula acPost = ac.getPost();
+					if (implies(cPre, acPre) && implies(acPost, cPost)) {
+						return ac;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean implies(LogicalFormula a, LogicalFormula b) {
+		LogicalFormula aground = a.ground();
+		Set<List<PredicateTerm>> gsets = aground.groundSets();
+		for (List<PredicateTerm> set : gsets) {
+			Iterator<Unifier> iu = b.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(new ListEvaluationBase<PredicateTerm>(set), "fmla"), getRuleBase(), new Unifier(), a.getVarNames());
+			if (iu.hasNext()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void substitute_in_plans(Predicate cap_name, Capability c) {
+		PlanLibrary PL = getPL();
+		List<Plan> plans = PL.getPlans();
+		for (Plan p: plans) {
+			if (p.containsCap(cap_name)) {
+				p.replaceCap(cap_name, c.getCap());
+			}
+		}
 	}
    
 	//--- Constraints

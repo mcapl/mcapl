@@ -30,6 +30,9 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Random;
+import java.util.HashSet;
 
 import ail.semantics.AILAgent;
 
@@ -372,5 +375,17 @@ public class Equation implements LogicalFormula, GLogicalFormula {
     		getLHS().renameVar(oldname, newname);
     	}
     }
+
+	@Override
+	// For the time being we do not reason symbolically about equations!!!!
+	public Set<List<PredicateTerm>> groundSets() {
+		return new HashSet<List<PredicateTerm>>();
+	}
+
+	@Override
+	public LogicalFormula ground() {
+		// TODO Auto-generated method stub
+		return Predicate.PTrue;
+	}
 
 }

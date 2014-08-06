@@ -589,5 +589,13 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		// TODO Auto-generated method stub
 		return null;
 	} 
+	
+	public boolean containsCap(Predicate cap_name) {
+		
+	}
+	
+	public void replaceCap(Predicate cap_name, Predicate cap2) {
+		kkk
+	}
 
 }

@@ -30,6 +30,7 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ajpf.util.AJPFLogger;
 
@@ -457,6 +458,28 @@ public class LogExpr implements LogicalFormula {
 		} else {
 			return new LogExpr(getOp(), (LogicalFormula) getRHS().strip_varterm());				
 		}
+	}
+
+	@Override
+	public Set<List<PredicateTerm>> groundSets() {
+		switch (op) {
+			case none:
+				return getRHS().groundSets();
+			case not:
+				Set<List<PredicateTerm>> rhsSets = getRHS().groundSets();
+				for (List<PredicateTerm> l : rhsSets) {
+					
+				}
+		}
+	}
+
+	@Override
+	public LogicalFormula ground() {
+		if (lhs != null) {
+			return new LogExpr(getLHS().ground(), getOp(), getRHS().ground());
+		} else {
+			return new LogExpr(getOp(), getRHS().ground());
+		}		
 	}
 
 

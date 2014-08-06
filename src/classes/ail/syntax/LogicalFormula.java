@@ -29,6 +29,8 @@ package ail.syntax;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Random;
 
 /**
  * Represents a logical formula (p, p & q, not p, 3 > X, ...) which can be 
@@ -51,5 +53,9 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * @return
      */
     public LogicalFormula clone();
+    
+    public Set<List<PredicateTerm>> groundSets();
+    
+    public LogicalFormula ground();
     
 }

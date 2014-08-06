@@ -10,6 +10,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
+import ail.syntax.Capability;
 import ail.util.AILexception;
 import ail.mas.vehicle.Sensor;
 
@@ -112,7 +113,16 @@ public class TwoWheeledRobot extends EASSVehicle {
 				current_x = gps.getX();
 				current_y = gps.getY();
 				theta = gps.getTheta();
-			}
+			} 
+		} else if (act.getFunctor().equals("substitute_in_plans")) {
+			Predicate cap_name = (Predicate) act.getTerm(0);
+			// postcondition may be a logical formula but we can use belief rules to mimic this.
+			Predicate postcondition = (Predicate) act.getTerm(1);
+			Predicate precondition = (Predicate) act.getTerm(2);
+			
+			AILAgent ag = getAgent();
+			Capability c1 = ag.findSuperCap(cap_name);
+			ag.substitute_in_plans(cap_name, c1);
 		}
 		
 		return super.executeAction(agName, act);
