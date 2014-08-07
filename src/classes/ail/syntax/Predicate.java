@@ -28,16 +28,17 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTermImpl;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -559,6 +560,32 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 */
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
+	}
+
+	@Override
+	public Set<List<PredicateTerm>> groundSets() {
+		// TODO Auto-generated method stub
+		ArrayList<PredicateTerm> l = new ArrayList<PredicateTerm>();
+		l.add(this);
+		HashSet<List<PredicateTerm>> s = new HashSet<List<PredicateTerm>>();
+		s.add(l);
+		return s;
+	}
+
+	@Override
+	public LogicalFormula ground() {
+		// TODO Auto-generated method stub
+		List<String> varnames = getVarNames();
+		List<String> newnames = new ArrayList<String>();
+		Predicate p = clone();
+		Unifier u = new Unifier();
+		for (String s: varnames) {
+			String s1 = s.toLowerCase();
+			s1 += "skolem";
+			u.unifies(new VarTerm(s), new Predicate(s1));
+			p.apply(u);
+		}
+		return p;
 	}
 
        

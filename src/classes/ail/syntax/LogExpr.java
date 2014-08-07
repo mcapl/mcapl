@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import ajpf.util.AJPFLogger;
 
@@ -462,15 +463,45 @@ public class LogExpr implements LogicalFormula {
 
 	@Override
 	public Set<List<PredicateTerm>> groundSets() {
+		Set<List<PredicateTerm>> currentSets = new HashSet<List<PredicateTerm>>();
+		List<PredicateTerm> bl = new ArrayList<PredicateTerm>();
 		switch (op) {
 			case none:
 				return getRHS().groundSets();
 			case not:
 				Set<List<PredicateTerm>> rhsSets = getRHS().groundSets();
+				currentSets.add(bl);
 				for (List<PredicateTerm> l : rhsSets) {
-					
+					Set<List<PredicateTerm>> tmpSets = new HashSet<List<PredicateTerm>>();
+					for (PredicateTerm p: l) {
+						for (List<PredicateTerm> cl: currentSets) {
+							List<PredicateTerm> newcl = new ArrayList<PredicateTerm>();
+							newcl.addAll(cl);
+							newcl.add(p);
+							tmpSets.add(newcl);
+						}
+					}
+					currentSets = tmpSets;
 				}
+			case or:
+				Set<List<PredicateTerm>> rhsSetsOr = getRHS().groundSets();
+				Set<List<PredicateTerm>> lhsSets = getLHS().groundSets();
+				currentSets.addAll(rhsSetsOr);
+				currentSets.addAll(lhsSets);
+			case and:
+				Set<List<PredicateTerm>> rhsSetsAnd = getRHS().groundSets();
+				Set<List<PredicateTerm>> lhsSetsAnd = getLHS().groundSets();
+				for (List<PredicateTerm> l : lhsSetsAnd) {
+					for (List<PredicateTerm> l2 : rhsSetsAnd) {
+						List<PredicateTerm> newcl = new ArrayList<PredicateTerm>();
+						newcl.addAll(l);
+						newcl.addAll(l2);
+						currentSets.add(newcl);
+					}
+				}
+				
 		}
+		return currentSets;
 	}
 
 	@Override

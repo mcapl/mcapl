@@ -830,11 +830,12 @@ public class AILAgent implements MCAPLLanguageAgent {
 		Set<List<PredicateTerm>> gsets = aground.groundSets();
 		for (List<PredicateTerm> set : gsets) {
 			Iterator<Unifier> iu = b.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(new ListEvaluationBase<PredicateTerm>(set), "fmla"), getRuleBase(), new Unifier(), a.getVarNames());
-			if (iu.hasNext()) {
-				return true;
+			if (! iu.hasNext()) {
+				return false;
 			}
 		}
-		return false;
+		// Need to do something about a being True
+		return true;
 	}
 	
 	public void substitute_in_plans(Predicate cap_name, Capability c) {

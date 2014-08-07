@@ -111,7 +111,6 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				                                        ga=pred COMMA 
 				                                        c=pred COMMA post=pred CLOSE 
 				                                          {$g = new Abstract_GuardPlan(n, $c.t, $ga.t, $post.t);} |
-				IMPLICATION OPEN ant=logicalfmla ARROW cons=logicalfmla CLOSE {$g = new Abstract_GuardImplication($ant.f, $cons.f);} |
 				TRUE {$g = new Abstract_GBelief();} );
 				
 deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
