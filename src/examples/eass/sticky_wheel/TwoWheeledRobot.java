@@ -11,7 +11,6 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
-import ail.syntax.Plan;
 import ail.syntax.Capability;
 import ail.util.AILexception;
 import ail.mas.vehicle.Sensor;

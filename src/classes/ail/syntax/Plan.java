@@ -30,6 +30,7 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
+import java.util.Random;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -606,6 +607,36 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 			}
 		}
 
+	}
+
+	
+	public boolean containsCap(Predicate cap_name) {
+		ArrayList<Deed> body = getBody();
+		for (Deed d: body) {
+			if (d.getContent() instanceof Action) {
+				Action a = (Action) d.getContent();
+				if (a.unifies(cap_name, new Unifier())) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
+	}
+	
+	public void replaceCap(Predicate cap_name, Predicate cap2) {
+		ArrayList<Deed> body = getBody();
+		for (Deed d: body) {
+			if (d.getContent() instanceof Action) {
+				Action a = (Action) d.getContent();
+				Unifier u = new Unifier();
+				if (a.unifies(cap_name, u)) {
+					cap_name.apply(u);
+					int atype = a.getActionType();
+					a = new Action(cap_name, atype);
+				}
+			}
+		}
 	}
 
 }

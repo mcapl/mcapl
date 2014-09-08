@@ -297,6 +297,10 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		}
 	}
 	
+	public EASSAgent getAgent() {
+		return agent;
+	}
+	
 	/**
 	 * Add a message to the inbox.
 	 * @param m
