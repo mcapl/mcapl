@@ -594,6 +594,10 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		notifySharedListeners(agName);
 		return b;
 	}
+	
+	public AILAgent getAgent() {
+		return agent;
+	}
 
 
 }

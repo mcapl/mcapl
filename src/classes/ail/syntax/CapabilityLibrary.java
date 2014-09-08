@@ -41,5 +41,38 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 			capMap.put(pi, cl);
 		}
 	}
+	
+	public Capability findEquivalent(Predicate capname, Predicate Pre, Predicate Post, RuleBase rb) {
+		PredicateIndicator pi = capname.getPredicateIndicator();
+		
+		// Note assuming here there is only one capability with this pi.  Is this a sensible
+		// assumption (probably), if so refactor capMap.
+		// Capability toReplace = capMap.get(pi).get(0);
+
+		
+		for (ArrayList<Capability> l: capMap.values()) {
+			
+			Capability c = l.get(0);
+			
+			if (c != capMap.get(pi).get(0)) {
+			
+	     	EvaluationBasewNames<PredicateTerm> eb = 
+	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
+	     	GBelief gb = new GBelief(Pre);
+			if (gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames()).hasNext()) {
+				
+				BeliefBase postbb = new BeliefBase();
+				postbb.add(new Literal(true, Post));
+				
+				if (c.getPost().logicalConsequence(new NamedEvaluationBase<PredicateTerm>(postbb, "post"), rb, new Unifier(), c.getPost().getVarNames()).hasNext()) {
+					return c;
+				}
+			}
+			}
+			
+		}
+		
+		return null;
+	}
 
 }

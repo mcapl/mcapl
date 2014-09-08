@@ -33,6 +33,8 @@ import ail.syntax.annotation.SourceAnnotation;
 
 import gov.nasa.jpf.annotation.FilterField;
 
+import java.util.Random;
+
 /**
  * AIL Plan class.  A plan consists of an event (trigger), prefix (deed stack), guard (guard
  * stack) and a body (deed stack).  Both the event and prefix must match the current 
@@ -589,5 +591,21 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		// TODO Auto-generated method stub
 		return null;
 	} 
+	
+	public  void replaceCap(Predicate capname, Capability c) {
+    	Action perf = new Action("perf");
+    	perf.addTerm(capname);
+
+    	for (Deed d: body) {
+			if (d.getCategory() == Deed.DAction) {
+				Deed dclone = (Deed) d.clone();
+				Action aclone = (Action) dclone.getContent();
+				if (aclone.unifies(perf, new Unifier())) {
+					aclone.setTerm(0, capname);
+				}
+			}
+		}
+
+	}
 
 }

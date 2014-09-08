@@ -249,6 +249,11 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * @return
     	 */
     	public int size();
+    	/**
+    	 * Remove p from the set of plans.
+    	 * @param p
+    	 */
+    	public void remove(Plan p);
     }
     
     /**
@@ -411,6 +416,14 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     		};
 
     	}
+
+		/*
+		 * (non-Javadoc)
+		 * @see ail.syntax.PlanLibrary.PlanSet#remove(ail.syntax.Plan)
+		 */
+		public void remove(Plan p) {
+			plans.remove(p);
+		}
     }
     
     /// Trees of plans - Experimental.
@@ -451,6 +464,14 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	public Iterator<Plan> iterator() {
     		return plans.iterator();
     	}
+
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#remove(ail.syntax.Plan)
+    	 */
+		public void remove(Plan p) {
+			plans.remove(p);
+		}
     }
     
     protected class PlanLeaf implements PlanTree {
@@ -587,11 +608,59 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	}
     	
     }
+    
+    /**
+     * getPlansContainingCap returns an iterator of all the plans in the library that contain
+     * an Action that unifies with capname.  WARNING: This version of the function is intended 
+     * for use with EASS programs and so in fact searches for perf(capname).  This needs to be generalised.
+     * @param capname
+     * @return
+     */
+    public Iterator<Plan> getPlansContainingCap(Predicate capname) {
+    	Action perf = new Action("perf");
+    	perf.addTerm(capname);
+    	List<Plan> plans = getPlans();
+    	ArrayList<Plan> cap_plans = new ArrayList<Plan>();
+    	for (Plan  p: plans) {
+    		ArrayList<Deed> body = p.getBody();
+    		for (Deed d: body) {
+    			if (d.getCategory() == Deed.DAction) {
+    				Action a = (Action) d.getContent();
+    				Action aclone = (Action) a.clone();
+    				if (aclone.unifies(perf, new Unifier())) {
+    					cap_plans.add(p);
+    				}
+    			}
+    		}
+    	}
+    	return cap_plans.iterator();
+    }
 
 	@Override
 	// Think I may need a new datatype here - or need guard plan to implement EBCompare
 	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
 		return null;
+	}
+	
+	public void remove(Plan p) {
+    	Event trigger = p.getTriggerEvent();
+    	numplans--;
+
+        if (trigger.isVar()) {
+        	varPlans.remove(p);
+          } else {
+    		PredicateIndicator pi = trigger.getPredicateIndicator();
+    		PlanSet lc = relPlans.get(pi);
+    		if (lc != null) {
+    			lc.remove(p);
+    			if (lc.size() == 0) {
+    				relPlans.remove(lc);
+    			}
+    	    }  		
+    	}
+  
+        plans.remove(p);        
+
 	}
         
 }

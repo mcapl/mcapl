@@ -2,6 +2,7 @@ package eass.sticky_wheel;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import eass.mas.vehicle.EASSVehicle;
 import ail.semantics.AILAgent;
@@ -10,6 +11,8 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
+import ail.syntax.Plan;
+import ail.syntax.Capability;
 import ail.util.AILexception;
 import ail.mas.vehicle.Sensor;
 
@@ -59,8 +62,16 @@ public class TwoWheeledRobot extends EASSVehicle {
 			double target_x = ((NumberTerm) act.getTerm(3)).solve();
 			double target_y = ((NumberTerm) act.getTerm(4)).solve();
 			
-			double tantheta = (target_y - current_y)/(target_x - current_x);
-			double theta = Math.toDegrees(Math.atan(tantheta));
+			double theta = 0;
+			if (target_x != current_x) {
+				double tantheta = (target_y - current_y)/(target_x - current_x);
+				theta = Math.toDegrees(Math.atan(tantheta));
+			}  else if (target_y > current_y){
+				theta = 90;
+			}  else {
+				theta = 270;
+			}
+			
 			double new_angle = current_angle + theta;
 			Unifier U = new Unifier();
 			U.unifies(act.getTerm(5), new NumberTermImpl(new_angle));
@@ -112,6 +123,23 @@ public class TwoWheeledRobot extends EASSVehicle {
 				current_x = gps.getX();
 				current_y = gps.getY();
 				theta = gps.getTheta();
+			}
+		} else if (act.getFunctor().equals("substitute_in_plans")) {
+			Predicate capname = (Predicate) act.getTerm(0);
+			Predicate post = (Predicate) act.getTerm(1);
+			Predicate pre = (Predicate) act.getTerm(2);
+			
+			AILAgent ag = getAgent();
+			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
+			Capability c = ag.getCL().findEquivalent(capname, pre, post, ag.getRuleBase());
+			while (plans.hasNext()) {
+				Plan p = plans.next();
+				Plan newplan = (Plan) p.clone();
+				
+				newplan.replaceCap(capname, c);
+				
+				ag.removePlan(p);
+				ag.addPlan(newplan);
 			}
 		}
 		

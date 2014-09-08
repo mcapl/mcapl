@@ -736,6 +736,14 @@ public class AILAgent implements MCAPLLanguageAgent {
 		getPL().add(p);
 	}
 	
+	/**
+	 * Remove a plan from the plan Library.
+	 * @param p
+	 */
+	public void removePlan(Plan p) {
+		getPL().remove(p);
+	}
+	
 	//--- Applicable Plans
 
 	/**
