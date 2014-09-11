@@ -12,6 +12,7 @@ import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Capability;
+import ail.syntax.Plan;
 import ail.util.AILexception;
 import ail.mas.vehicle.Sensor;
 

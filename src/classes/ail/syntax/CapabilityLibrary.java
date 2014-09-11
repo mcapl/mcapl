@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
 
+import ail.semantics.AILAgent;
+
 import ail.syntax.BeliefBase.BelEntry;
 
 public class CapabilityLibrary implements EvaluationBase<Capability> {
@@ -58,6 +60,8 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		}
 	}
 	
+	// WARNING: This is going to need to be made more general.  At the moment it is assuming we
+	// are supplying the pre and post conditions for reasoning about equivalence.
 	public Capability findEquivalent(Predicate capname, Predicate Pre, Predicate Post, RuleBase rb) {
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
@@ -80,7 +84,12 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 				BeliefBase postbb = new BeliefBase();
 				postbb.add(new Literal(true, Post));
 				
-				if (c.getPost().logicalConsequence(new NamedEvaluationBase<PredicateTerm>(postbb, "post"), rb, new Unifier(), c.getPost().getVarNames()).hasNext()) {
+				AILAgent minag = new AILAgent("tmp");
+				
+				minag.setBeliefBase(postbb);
+				minag.setRuleBase(rb);
+				
+				if (c.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames()).hasNext()) {
 					return c;
 				}
 			}

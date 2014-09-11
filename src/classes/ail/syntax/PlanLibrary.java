@@ -38,6 +38,9 @@ import java.util.Map;
 import java.util.Collection;
 import java.util.Iterator;
 
+// Don't forget to fix commenting down the bottom!!!
+import java.util.Random;
+
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -72,6 +75,7 @@ public class PlanLibrary implements EvaluationBase<Plan>{
 	 */
 	@FilterField
 	protected String libname = AILAgent.AILdefaultPLname;
+	
 	
 	/**
 	 * Constructor.
@@ -617,6 +621,7 @@ public class PlanLibrary implements EvaluationBase<Plan>{
      * @return
      */
     public Iterator<Plan> getPlansContainingCap(Predicate capname) {
+    	// Using perf here is very specific - can we fix that somehow?
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
     	List<Plan> plans = getPlans();
@@ -636,12 +641,17 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	return cap_plans.iterator();
     }
 
+    
 	@Override
 	// Think I may need a new datatype here - or need guard plan to implement EBCompare
 	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
 		return null;
 	}
 	
+	/**
+	 * Remove a plan from the plan library.
+	 * @param p
+	 */
 	public void remove(Plan p) {
     	Event trigger = p.getTriggerEvent();
     	numplans--;

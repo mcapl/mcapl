@@ -599,11 +599,14 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 
     	for (Deed d: body) {
 			if (d.getCategory() == Deed.DAction) {
-				Deed dclone = (Deed) d.clone();
-				Action aclone = (Action) dclone.getContent();
-				if (aclone.unifies(perf, new Unifier())) {
-					aclone.setTerm(0, capname);
+				// Deed dclone = (Deed) d.clone();
+				Action a = (Action) d.getContent();
+				if (a.unifies(perf, new Unifier())) {
+					// WARNING: Can we be certain that unification of variables in c is correct???
+					a.setTerm(0, c.getCap());
+					getContext().add(new Guard(Guard.GLogicalOp.none, c.getPre()));
 				}
+				System.err.println("a");
 			}
 		}
 

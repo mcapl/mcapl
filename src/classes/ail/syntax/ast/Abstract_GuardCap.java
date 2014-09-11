@@ -35,11 +35,11 @@ import ail.syntax.GCapability;
  *
  */
 public class Abstract_GuardCap implements Abstract_GuardAtom {
-	Abstract_LogicalFormula pre;
-	Abstract_LogicalFormula post;
+	Abstract_GLogicalFormula pre;
+	Abstract_GLogicalFormula post;
 	Abstract_Predicate cap;
 	
-	public Abstract_GuardCap(Abstract_LogicalFormula p, Abstract_Predicate c, Abstract_LogicalFormula pt) {
+	public Abstract_GuardCap(Abstract_GLogicalFormula p, Abstract_Predicate c, Abstract_GLogicalFormula pt) {
 		pre = p;
 		cap = c;
 		post = pt;

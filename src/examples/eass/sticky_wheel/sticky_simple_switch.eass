@@ -107,7 +107,7 @@ bound(1)
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(pos(X, Y), forward(D1), True) [perform];
+	     +!evaluate_success(pos(X, Y), forward(D1), true) [perform];
 
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);

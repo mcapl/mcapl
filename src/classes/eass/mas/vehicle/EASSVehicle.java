@@ -296,11 +296,7 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 			return abstraction.getReasoningName();
 		}
 	}
-	
-	public EASSAgent getAgent() {
-		return agent;
-	}
-	
+		
 	/**
 	 * Add a message to the inbox.
 	 * @param m

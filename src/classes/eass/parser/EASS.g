@@ -78,9 +78,9 @@ goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstrac
 	PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
 	
 capability returns [Abstract_Capability c] : 
-	CURLYOPEN (p=logicalfmla)? CURLYCLOSE 
-	cap=pred {$c = new Abstract_Capability($cap.t); if ($p.f != null) {$c.addPre($p.f);}}
-	CURLYOPEN (pp=logicalfmla {$c.addPost($pp.f);})? CURLYCLOSE;
+	CURLYOPEN (pre=clogicalfmla)? CURLYCLOSE 
+	cap=pred {$c = new Abstract_Capability($cap.t); if ($pre.f != null) {$c.addPre($pre.f);}}
+	CURLYOPEN post=clogicalfmla {$c.addPost($post.f);} CURLYCLOSE;
 
 
 plan returns [Abstract_GPlan p]
@@ -105,8 +105,8 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 					COMMA {agn = an2;})? p=performative 
 					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
-				CAPABILITY OPEN pre=pred COMMA cap=pred COMMA pst=pred CLOSE 
-					{$g = new Abstract_GuardCap($pre.t, $cap.t, $pst.t);} |
+				// CAPABILITY OPEN pre=pred COMMA cap=pred COMMA pst=pred CLOSE 
+				//	{$g = new Abstract_GuardCap($pre.t, $cap.t, $pst.t);} |
 				PLAN OPEN {Abstract_NumberTerm n=new Abstract_NumberTermImpl("0");} (v=var {n = $v.v;}| s=numberstring {n = new Abstract_NumberTermImpl($s.s);}) COMMA
 				                                        ga=pred COMMA 
 				                                        c=pred COMMA post=pred CLOSE 
@@ -158,6 +158,15 @@ logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
 notfmla returns [Abstract_LogicalFormula f] : gb = pred {$f = gb;} | 
                                                                               NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
 subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
+
+clogicalfmla returns [Abstract_GLogicalFormula f] : n=cnotfmla {$f = $n.f;}
+               (COMMA n2=cnotfmla {$f = new Abstract_Guard($f, Abstract_Guard.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+cnotfmla returns [Abstract_GLogicalFormula f] : gb = pred {$f = new Abstract_GBelief(new Abstract_Literal(gb));} | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));} | 
+                                                                              lf = csubfmla {$f = new Abstract_Guard(Abstract_Guard.not, $lf.f);});
+csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf = clogicalfmla {$f = $lf.f;} CLOSE;
+
 	
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 

@@ -64,6 +64,7 @@ import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
 import ail.syntax.LogicalFormula;
+import ail.syntax.GLogicalFormula;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.NamedEvaluationBase;
 import ail.syntax.PredicateTerm;
@@ -811,18 +812,18 @@ public class AILAgent implements MCAPLLanguageAgent {
 		getCL().add(c);
 	}
 	
-	public Capability findSuperCap(Predicate cap_name) {
+	/*public Capability findSuperCap(Predicate cap_name) {
 		Iterator<Capability> caps = getCL().getRelevant(cap_name);
 		while (caps.hasNext()) {
 			Capability c = caps.next();
 			Iterator<Capability> all_caps = getCL().iterator();
-			LogicalFormula cPre = c.getPre();
-			LogicalFormula cPost = c.getPost();
+			GLogicalFormula cPre = c.getPre();
+			GLogicalFormula cPost = c.getPost();
 			while (all_caps.hasNext()) {
 				Capability ac = all_caps.next();
 				if (! ac.equals(c)) {
-					LogicalFormula acPre = ac.getPre();
-					LogicalFormula acPost = ac.getPost();
+					GLogicalFormula acPre = ac.getPre();
+					GLogicalFormula acPost = ac.getPost();
 					if (implies(cPre, acPre) && implies(acPost, cPost)) {
 						return ac;
 					}
@@ -831,10 +832,10 @@ public class AILAgent implements MCAPLLanguageAgent {
 		}
 		
 		return null;
-	}
+	} */
 	
-	public boolean implies(LogicalFormula a, LogicalFormula b) {
-		LogicalFormula aground = a.ground();
+	/* public boolean implies(GLogicalFormula a, GLogicalFormula b) {
+		GLogicalFormula aground = a.ground();
 		Set<List<PredicateTerm>> gsets = aground.groundSets();
 		for (List<PredicateTerm> set : gsets) {
 			Iterator<Unifier> iu = b.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(new ListEvaluationBase<PredicateTerm>(set), "fmla"), getRuleBase(), new Unifier(), a.getVarNames());
@@ -854,7 +855,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 				p.replaceCap(cap_name, c.getCap());
 			}
 		}
-	}
+	} */
    
 	//--- Constraints
 	

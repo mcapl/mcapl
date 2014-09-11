@@ -14,7 +14,7 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 	ArrayList<Literal> ll = new ArrayList<Literal>();
 	static String logname = "ail.syntax.ConjunctionFormulaEvaluationBase";
 	
-	public ConjunctionFormulaEvaluationBase(LogicalFormula lf) {
+	public ConjunctionFormulaEvaluationBase(GLogicalFormula lf) {
 		try {
 			addConjuncts(lf);
 		} catch (AILexception e) {
@@ -22,15 +22,15 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 		}
 	}
 	
-	public void addConjuncts(LogicalFormula lf) throws AILexception {
-		if (lf instanceof LogExpr) {
-			LogExpr le = (LogExpr)  lf;
-			if (le.getOp() == LogExpr.LogicalOp.and) {
+	public void addConjuncts(GLogicalFormula lf) throws AILexception {
+		if (lf instanceof Guard) {
+			Guard le = (Guard)  lf;
+			if (le.getOp() == Guard.GLogicalOp.and) {
 				addConjuncts(le.getLHS());
 				addConjuncts(le.getRHS());
-			} else if (le.getOp() == LogExpr.LogicalOp.none) {
+			} else if (le.getOp() == Guard.GLogicalOp.none) {
 				addConjuncts(le.getRHS());
-			} else if (le.getOp() == LogExpr.LogicalOp.not) {
+			} else if (le.getOp() == Guard.GLogicalOp.not) {
 				if (le.getRHS() instanceof Predicate) {
 					ll.add(new Literal(false, (Predicate)le.getRHS()));
 				} else {
