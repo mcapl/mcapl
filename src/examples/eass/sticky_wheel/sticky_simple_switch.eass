@@ -82,16 +82,18 @@ bound(1)
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
 {pos(X, Y), angle(Theta)} forward(D) {newX(X, D, Theta, NX), newY(Y, D, Theta, NY), pos(NX, NY), angle(Theta)}
-{} feedback(X, Y) {pos(X, Y)}
+{target(X, Y)} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
 
 :Plans:
 
 +new_target(X, Y): {True} <- 
-	     remove_shared(new_target),
+	     remove_shared(new_target(X, Y)),
+             +target(X, Y),
 	     +! pos(X, Y) [perform],
-	     remove_shared(reached_target(X, Y));
+	     remove_shared(reached_target(X, Y)),
+             -target(X, Y);
 +! pos(X, Y) [perform]: {True} <-
    	     +! correct_angle(A) [perform],
 	     +! move(D) [perform];
