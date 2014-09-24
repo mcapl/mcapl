@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-grammar ActionOnly;;
+grammar ActionOnly;
 
 options {
 	k = 5;
@@ -57,7 +57,7 @@ package actiononly.parser;
 mas returns [Abstract_MAS mas] : {$mas = new Abstract_MAS();} 
 	glist=aoagents {$mas.setAgs($glist.gags);};
 
-aoagents returns[ArrayList<Abstract_GwendolenAgent> gags]: ACTIONONLY 
+aoagents returns[ArrayList<Abstract_AILAgent> gags]: ACTIONONLY 
 	{gags=new ArrayList<Abstract_AILAgent>();} 
 	(g=aoagent {gags.add($g.g);})+;
 
@@ -68,7 +68,7 @@ aoagent returns [Abstract_AILAgent g] :
 		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
-	ACTIONS (l = capability)*;;
+	ACTIONS (c = capability {$g.addCapability($c.c);})*;
 	
 
 guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
@@ -77,7 +77,7 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				
 brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
-capability returns [Abstract_Capability c] : CURLYOPEN f=logicalfmla CURLYCLOSE a=action;
+capability returns [Abstract_Capability c] : CURLYOPEN f=logicalfmla CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); $c.addPre($f.f);};
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
