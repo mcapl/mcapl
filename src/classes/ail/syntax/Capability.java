@@ -41,7 +41,7 @@ public class Capability implements Unifiable,
 		return keynum;
 	}
 	
-	public Predicate getCap() {
+	public Action getCap() {
 		return cap;
 	}
 	

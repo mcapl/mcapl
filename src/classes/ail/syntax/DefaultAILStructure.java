@@ -58,6 +58,8 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	public final static byte AILReceived = 6; 
 	@FilterField
 	public final static byte AILPlan = 7;
+	@FilterField
+	public final static byte AILCapability = 8;
 
 	@FilterField
 	public final static int AILAddition = 0;

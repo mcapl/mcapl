@@ -42,6 +42,8 @@ import ail.syntax.RuleBase;
 import ail.syntax.GoalBase;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
+import ail.syntax.Capability;
+import ail.syntax.CapabilityLibrary;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
 import ail.syntax.Term;
@@ -61,6 +63,8 @@ import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.annotation.SourceAnnotation;
+import ail.syntax.LogicalFormula;
+import ail.syntax.NamedEvaluationBase;
 
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
@@ -123,6 +127,11 @@ public class AILAgent implements MCAPLLanguageAgent {
 	protected Map<String, GoalBase> gbmap = new VerifyMap<String, GoalBase>();
 	
 	/**
+	 * THis is a map from strings to capability libraries.
+	 */
+	protected Map<String, CapabilityLibrary> clmap = new VerifyMap<String, CapabilityLibrary>();
+	
+	/**
 	 * This is a map from strings to plan libraries.  In general an agent only has one plan library (accessed by AILdefaultPLname) but this
 	 * structure allows for languages in which agents can maintain multiple plan libraries.
 	 */
@@ -142,6 +151,11 @@ public class AILAgent implements MCAPLLanguageAgent {
      * Currently applicable plans.
      */
     protected Iterator<ApplicablePlan> AP = new ArrayList<ApplicablePlan>().iterator();
+    
+    /**
+     * Currently applicable capabilties.
+     */
+    protected Iterator<Capability> AC = new ArrayList<Capability>().iterator();
  
     /**
      * Language specific annotations.  Unused by any AIL methods but may be
@@ -237,9 +251,19 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultRBname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default rule base name for this agent;
      */
     protected String defaultrbname = AILdefaultRBname;
+
+    /**
+     * The default Capability Library name for AIL;
+     */
+    public static final String AILdefaultCBname = "";
+    
+    /*
+     * The default capability library name for this agent;
+     */
+    protected String defaultcbname = AILdefaultCBname;
 
     /**
      * The default Plan Library name for AIL;
@@ -247,7 +271,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultPLname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default plan library name for this agent;
      */
     protected String defaultplname = AILdefaultPLname;
  
@@ -257,7 +281,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultCLname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default constraint library name for this agent;
      */
     protected String defaultclname = AILdefaultCLname;
     
@@ -661,6 +685,39 @@ public class AILAgent implements MCAPLLanguageAgent {
 			gb.remove(g);
 		}
 	}
+	
+	//--Capabilities
+	
+	/**
+	 * Get he default capability library.
+	 * 
+	 * @return
+	 */
+	public CapabilityLibrary getCL() {
+		return clmap.get(getDefaultCBName());
+	}
+	
+    /**
+ 	 * Setter method for the currently applicable capabilities.
+ 	 * 
+ 	 * @param ap
+ 	 */
+ 	public void setApplicableCapabilities(Iterator<Capability> cs) {
+ 		AC = cs;
+ 	}
+ 	
+ 	/**
+ 	 * Getter method for currently applicable capabilities.
+ 	 * @return
+ 	 */
+ 	public Iterator<Capability> getApplicableCapabilities() {
+ 		return AC;
+ 	}
+ 	
+ 	public void clearApplicableCapabilities() {
+ 		AC = new ArrayList<Capability>().iterator();
+ 	}
+
 
      //--Plans
 	
@@ -1096,6 +1153,14 @@ public class AILAgent implements MCAPLLanguageAgent {
     public void setDefaultGBName(String s) {
     	 defaultgbname = s;
      }
+    
+    /**
+     * Get the name of the default capability base.
+     * @return
+     */
+    public String getDefaultCBName() {
+    	return defaultcbname;
+    }
      
     /**
      * Get the name of the default goal base.
@@ -1627,6 +1692,16 @@ public class AILAgent implements MCAPLLanguageAgent {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * The agent believes some logical formula.
+	 * @param lf
+	 * @param un
+	 * @return
+	 */
+	public Iterator<Unifier> believeslf(LogicalFormula lf, Unifier un) {
+		return lf.logicalConsequence(new NamedEvaluationBase(getBB(), "default"), getRuleBase(), un, lf.getVarNames());
 	}
 	
 	/**
