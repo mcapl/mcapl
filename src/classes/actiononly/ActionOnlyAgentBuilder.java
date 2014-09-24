@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen;
+package actiononly;
 
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
@@ -34,12 +34,12 @@ import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
 import ail.mas.MAS;
 
-public class GwendolenAgentBuilder implements AgentBuilder {
-	GwendolenAgent agent;
+public class ActionOnlyAgentBuilder implements AgentBuilder {
+	ActionOnlyAgent agent;
 	
-	Abstract_GwendolenAgent abs_agent;
+	Abstract_ActionOnlyAgent abs_agent;
 	
-	public GwendolenAgentBuilder() {}
+	public ActionOnlyAgentBuilder() {}
 
 	@Override
 	public AILAgent getAgent(String filename) {
@@ -53,9 +53,9 @@ public class GwendolenAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			GwendolenLexer lexer = new GwendolenLexer(new ANTLRFileStream(masstring));
+			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			GwendolenParser parser = new GwendolenParser(tokens);
+			ActionOnlyParser parser = new ActionOnlyParser(tokens);
     		abs_agent = parser.gwendolenagent();
      	} catch (Exception e) {
      		e.printStackTrace();
