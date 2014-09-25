@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-24 16:54:10
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 10:51:35
 
 package actiononly.parser;
 
@@ -90,7 +90,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_MAS mas = null;
 
 
-		ArrayList<Abstract_AILAgent> glist =null;
+		ArrayList<Abstract_Agent> glist =null;
 
 		try {
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:57:32: (glist= aoagents )
@@ -119,19 +119,19 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "aoagents"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:1: aoagents returns [ArrayList<Abstract_AILAgent> gags] : ACTIONONLY (g= aoagent )+ ;
-	public final ArrayList<Abstract_AILAgent> aoagents() throws RecognitionException {
-		ArrayList<Abstract_AILAgent> gags = null;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:1: aoagents returns [ArrayList<Abstract_Agent> gags] : ACTIONONLY (g= aoagent )+ ;
+	public final ArrayList<Abstract_Agent> aoagents() throws RecognitionException {
+		ArrayList<Abstract_Agent> gags = null;
 
 
-		Abstract_AILAgent g =null;
+		Abstract_Agent g =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:52: ( ACTIONONLY (g= aoagent )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:54: ACTIONONLY (g= aoagent )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:49: ( ACTIONONLY (g= aoagent )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:51: ACTIONONLY (g= aoagent )+
 			{
 			match(input,ACTIONONLY,FOLLOW_ACTIONONLY_in_aoagents102); 
-			gags=new ArrayList<Abstract_AILAgent>();
+			gags=new ArrayList<Abstract_Agent>();
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:62:2: (g= aoagent )+
 			int cnt1=0;
 			loop1:
@@ -179,9 +179,9 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "aoagent"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:1: aoagent returns [Abstract_AILAgent g] : ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* ;
-	public final Abstract_AILAgent aoagent() throws RecognitionException {
-		Abstract_AILAgent g = null;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:1: aoagent returns [Abstract_Agent g] : ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* ;
+	public final Abstract_Agent aoagent() throws RecognitionException {
+		Abstract_Agent g = null;
 
 
 		String w =null;
@@ -190,7 +190,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Capability c =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:39: ( ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:36: ( ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* )
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:9: ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )*
 			{
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:9: ( ( ACTIONONLY )? )
@@ -219,7 +219,7 @@ public class ActionOnlyParser extends Parser {
 			w=word();
 			state._fsp--;
 
-			try {g = new Abstract_AILAgent(w);} 
+			try {g = new Abstract_Agent(w);} 
 					catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl(w);}
 			match(input,BELIEFS,FOLLOW_BELIEFS_in_aoagent155); 
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:69:10: (l= literal )*

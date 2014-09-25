@@ -57,14 +57,14 @@ package actiononly.parser;
 mas returns [Abstract_MAS mas] : {$mas = new Abstract_MAS();} 
 	glist=aoagents {$mas.setAgs($glist.gags);};
 
-aoagents returns[ArrayList<Abstract_AILAgent> gags]: ACTIONONLY 
-	{gags=new ArrayList<Abstract_AILAgent>();} 
+aoagents returns[ArrayList<Abstract_Agent> gags]: ACTIONONLY 
+	{gags=new ArrayList<Abstract_Agent>();} 
 	(g=aoagent {gags.add($g.g);})+;
 
 // Gwendolen Agent stuff
-aoagent returns [Abstract_AILAgent g] : 
+aoagent returns [Abstract_Agent g] : 
         (ACTIONONLY?) 
-	NAME w=word {try {$g = new Abstract_AILAgent($w.s);} 
+	NAME w=word {try {$g = new Abstract_Agent($w.s);} 
 		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?

@@ -714,8 +714,19 @@ public class AILAgent implements MCAPLLanguageAgent {
  		return AC;
  	}
  	
+ 	/**
+ 	 * Clear the currently applicable capabilities - presumably one has been chosen or the situation has changed.
+ 	 */
  	public void clearApplicableCapabilities() {
  		AC = new ArrayList<Capability>().iterator();
+ 	}
+ 	
+ 	/**
+ 	 * Add a capability to the agent.
+ 	 * @param c
+ 	 */
+ 	public void addCapability(Capability c) {
+ 		getCL().add(c);
  	}
 
 

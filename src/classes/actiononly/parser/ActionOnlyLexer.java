@@ -1,9 +1,9 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-24 16:54:10
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 10:51:35
 
 package actiononly.parser;
 
 
-import org.antlr.runtime.*;
+import mcaplantlr.runtime.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
-//
+// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher 
+// 
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
 // The AIL is free software; you can redistribute it and/or
@@ -24,63 +24,76 @@
 
 package actiononly;
 
+import mcaplantlr.runtime.ANTLRFileStream;
+import mcaplantlr.runtime.ANTLRStringStream;
+import mcaplantlr.runtime.CommonTokenStream;
+
+import ail.mas.MAS;
+import ail.syntax.ast.Abstract_MAS;
+import ail.syntax.ast.Abstract_VarTerm;
+import ail.mas.MASBuilder;
+
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.CommonTokenStream;
-import ail.mas.AgentBuilder;
-import ail.semantics.AILAgent;
-import ail.mas.MAS;
-import ail.syntax.ast.Abstract_Agent;
-import ail.syntax.ast.Abstract_Goal;
-import ail.syntax.ast.Abstract_Literal;
-import ail.syntax.ast.Abstract_Plan;
-import ail.syntax.ast.Abstract_Rule;
 
-
-public class ActionOnlyAgentBuilder implements AgentBuilder {
-	AILAgent agent;
+/**
+ * Utility class.  Builds a Gwendolen MAS by parsing a string or a file.
+ * @author louiseadennis
+ *
+ */
+public class ActionOnlyMASBuilder implements MASBuilder {
+	MAS mas;
 	
-	Abstract_Agent abs_agent;
+	Abstract_MAS amas;
 	
-	public ActionOnlyAgentBuilder() {}
-
-	@Override
-	public AILAgent getAgent(String filename) {
-		parsefile(filename);
-		
-		try {
-			AILAgent agent = new AILAgent(abs_agent.getAgName());
-	    	for (Abstract_Literal l: abs_agent.beliefs) {
-	    		agent.addInitialBel(l.toMCAPL());
-	    	}
-	    	for (Abstract_Rule r: abs_agent.rules) {
-	    		agent.addRule(r.toMCAPL());
-	    	}
-	    	try {
-	    		agent.initAg();
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	}
-	    	
-	    	return agent;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+	public ActionOnlyMASBuilder() {};
+	
+	public ActionOnlyMASBuilder(String masstring, boolean filename) {
+		if (filename) {
+			parsefile(masstring);
+		} else {
+			parse(masstring);
 		}
-	}
-
+		mas = amas.toMCAPL();
+     }
+	
 	
 	public void parsefile(String masstring) {
 		try {
 			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    		abs_agent = parser.aoagent();
+    		amas = parser.mas();
+      	} catch (Exception e) {
+     		e.printStackTrace();
+    	}
+		
+	}
+
+	public void parse(String masstring) {
+	   	ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRStringStream(masstring));
+    	CommonTokenStream tokens = new CommonTokenStream(lexer);
+    	ActionOnlyParser parser = new ActionOnlyParser(tokens);
+    	try {
+    		amas = parser.mas();
      	} catch (Exception e) {
      		e.printStackTrace();
     	}
 		
 	}
+	/**
+	 * Getter method for the resulting MAS.
+	 * @return
+	 */
+	public MAS getMAS() {
+		return mas;
+	}
+	
+	public MAS getMAS(String filename) {
+		parsefile(filename);
+
+		return amas.toMCAPL();
+	}
+	
 
 }
