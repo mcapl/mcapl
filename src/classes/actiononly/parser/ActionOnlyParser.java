@@ -1,8 +1,9 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 12:17:22
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 16:06:04
 
 package actiononly.parser;
 
 import ail.syntax.ast.*;
+import actiononly.syntax.ast.*;
 import java.util.HashMap;
 
 
@@ -85,16 +86,16 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "mas"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:57:1: mas returns [Abstract_MAS mas] :glist= aoagents ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:58:1: mas returns [Abstract_MAS mas] :glist= aoagents ;
 	public final Abstract_MAS mas() throws RecognitionException {
 		Abstract_MAS mas = null;
 
 
-		ArrayList<Abstract_Agent> glist =null;
+		ArrayList<Abstract_ActionOnlyAgent> glist =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:57:32: (glist= aoagents )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:57:34: glist= aoagents
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:58:32: (glist= aoagents )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:58:34: glist= aoagents
 			{
 			mas = new Abstract_MAS();
 			pushFollow(FOLLOW_aoagents_in_mas90);
@@ -119,20 +120,20 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "aoagents"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:1: aoagents returns [ArrayList<Abstract_Agent> gags] : ACTIONONLY (g= aoagent )+ ;
-	public final ArrayList<Abstract_Agent> aoagents() throws RecognitionException {
-		ArrayList<Abstract_Agent> gags = null;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:61:1: aoagents returns [ArrayList<Abstract_ActionOnlyAgent> gags] : ACTIONONLY (g= aoagent )+ ;
+	public final ArrayList<Abstract_ActionOnlyAgent> aoagents() throws RecognitionException {
+		ArrayList<Abstract_ActionOnlyAgent> gags = null;
 
 
-		Abstract_Agent g =null;
+		Abstract_ActionOnlyAgent g =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:49: ( ACTIONONLY (g= aoagent )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:60:51: ACTIONONLY (g= aoagent )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:61:59: ( ACTIONONLY (g= aoagent )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:61:61: ACTIONONLY (g= aoagent )+
 			{
 			match(input,ACTIONONLY,FOLLOW_ACTIONONLY_in_aoagents102); 
-			gags=new ArrayList<Abstract_Agent>();
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:62:2: (g= aoagent )+
+			gags=new ArrayList<Abstract_ActionOnlyAgent>();
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:63:2: (g= aoagent )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -144,7 +145,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt1) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:62:3: g= aoagent
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:63:3: g= aoagent
 					{
 					pushFollow(FOLLOW_aoagent_in_aoagents113);
 					g=aoagent();
@@ -179,9 +180,9 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "aoagent"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:1: aoagent returns [Abstract_Agent g] : ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* ;
-	public final Abstract_Agent aoagent() throws RecognitionException {
-		Abstract_Agent g = null;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:1: aoagent returns [Abstract_ActionOnlyAgent g] : ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* ;
+	public final Abstract_ActionOnlyAgent aoagent() throws RecognitionException {
+		Abstract_ActionOnlyAgent g = null;
 
 
 		String w =null;
@@ -190,13 +191,13 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Capability c =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:65:36: ( ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:9: ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:46: ( ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:67:9: ( ( ACTIONONLY )? ) NAME w= word BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ACTIONS (c= capability )*
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:9: ( ( ACTIONONLY )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:10: ( ACTIONONLY )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:67:9: ( ( ACTIONONLY )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:67:10: ( ACTIONONLY )?
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:10: ( ACTIONONLY )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:67:10: ( ACTIONONLY )?
 			int alt2=2;
 			int LA2_0 = input.LA(1);
 			if ( (LA2_0==ACTIONONLY) ) {
@@ -204,7 +205,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt2) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:66:10: ACTIONONLY
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:67:10: ACTIONONLY
 					{
 					match(input,ACTIONONLY,FOLLOW_ACTIONONLY_in_aoagent140); 
 					}
@@ -219,10 +220,10 @@ public class ActionOnlyParser extends Parser {
 			w=word();
 			state._fsp--;
 
-			try {g = new Abstract_Agent(w);} 
+			try {g = new Abstract_ActionOnlyAgent(w);} 
 					catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl(w);}
 			match(input,BELIEFS,FOLLOW_BELIEFS_in_aoagent155); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:69:10: (l= literal )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:10: (l= literal )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -233,7 +234,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt3) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:69:11: l= literal
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:11: l= literal
 					{
 					pushFollow(FOLLOW_literal_in_aoagent160);
 					l=literal();
@@ -248,7 +249,7 @@ public class ActionOnlyParser extends Parser {
 				}
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:2: ( BELIEFRULES (r= brule )* )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:2: ( BELIEFRULES (r= brule )* )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0==BELIEFRULES) ) {
@@ -256,10 +257,10 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:3: BELIEFRULES (r= brule )*
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:3: BELIEFRULES (r= brule )*
 					{
 					match(input,BELIEFRULES,FOLLOW_BELIEFRULES_in_aoagent168); 
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:15: (r= brule )*
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:15: (r= brule )*
 					loop4:
 					while (true) {
 						int alt4=2;
@@ -270,7 +271,7 @@ public class ActionOnlyParser extends Parser {
 
 						switch (alt4) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:70:16: r= brule
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:16: r= brule
 							{
 							pushFollow(FOLLOW_brule_in_aoagent173);
 							r=brule();
@@ -291,7 +292,7 @@ public class ActionOnlyParser extends Parser {
 			}
 
 			match(input,ACTIONS,FOLLOW_ACTIONS_in_aoagent182); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:10: (c= capability )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:72:10: (c= capability )*
 			loop6:
 			while (true) {
 				int alt6=2;
@@ -302,7 +303,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt6) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:71:11: c= capability
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:72:11: c= capability
 					{
 					pushFollow(FOLLOW_capability_in_aoagent189);
 					c=capability();
@@ -334,7 +335,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "guard_atom"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:74:1: guard_atom returns [Abstract_GLogicalFormula g] : ( BELIEVE l= literal |eq= equation | TRUE ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:1: guard_atom returns [Abstract_GLogicalFormula g] : ( BELIEVE l= literal |eq= equation | TRUE ) ;
 	public final Abstract_GLogicalFormula guard_atom() throws RecognitionException {
 		Abstract_GLogicalFormula g = null;
 
@@ -343,10 +344,10 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Equation eq =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:74:49: ( ( BELIEVE l= literal |eq= equation | TRUE ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:74:51: ( BELIEVE l= literal |eq= equation | TRUE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:49: ( ( BELIEVE l= literal |eq= equation | TRUE ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:51: ( BELIEVE l= literal |eq= equation | TRUE )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:74:51: ( BELIEVE l= literal |eq= equation | TRUE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:51: ( BELIEVE l= literal |eq= equation | TRUE )
 			int alt7=3;
 			switch ( input.LA(1) ) {
 			case BELIEVE:
@@ -374,7 +375,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt7) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:74:52: BELIEVE l= literal
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:52: BELIEVE l= literal
 					{
 					match(input,BELIEVE,FOLLOW_BELIEVE_in_guard_atom208); 
 					pushFollow(FOLLOW_literal_in_guard_atom212);
@@ -385,7 +386,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:75:5: eq= equation
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:76:5: eq= equation
 					{
 					pushFollow(FOLLOW_equation_in_guard_atom226);
 					eq=equation();
@@ -395,7 +396,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:76:5: TRUE
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:77:5: TRUE
 					{
 					match(input,TRUE,FOLLOW_TRUE_in_guard_atom236); 
 					g = new Abstract_GBelief();
@@ -421,7 +422,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "brule"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:1: brule returns [Abstract_Rule r] : head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:1: brule returns [Abstract_Rule r] : head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
 	public final Abstract_Rule brule() throws RecognitionException {
 		Abstract_Rule r = null;
 
@@ -430,14 +431,14 @@ public class ActionOnlyParser extends Parser {
 		Abstract_LogicalFormula f =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:33: (head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:35: head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:33: (head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:35: head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI )
 			{
 			pushFollow(FOLLOW_pred_in_brule258);
 			head=pred();
 			state._fsp--;
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:45: ( BRULEARROW f= logicalfmla SEMI | SEMI )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:45: ( BRULEARROW f= logicalfmla SEMI | SEMI )
 			int alt8=2;
 			int LA8_0 = input.LA(1);
 			if ( (LA8_0==BRULEARROW) ) {
@@ -455,7 +456,7 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt8) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:46: BRULEARROW f= logicalfmla SEMI
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:46: BRULEARROW f= logicalfmla SEMI
 					{
 					match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule261); 
 					pushFollow(FOLLOW_logicalfmla_in_brule265);
@@ -467,7 +468,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:78:116: SEMI
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:79:116: SEMI
 					{
 					match(input,SEMI,FOLLOW_SEMI_in_brule273); 
 					r = new Abstract_Rule(head);
@@ -493,7 +494,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "capability"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:1: capability returns [Abstract_Capability c] : CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:81:1: capability returns [Abstract_Capability c] : CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action ;
 	public final Abstract_Capability capability() throws RecognitionException {
 		Abstract_Capability c = null;
 
@@ -502,11 +503,11 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Action a =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:44: ( CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:46: CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:81:44: ( CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:81:46: CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action
 			{
 			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability288); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:56: (f= clogicalfmla )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:81:56: (f= clogicalfmla )?
 			int alt9=2;
 			int LA9_0 = input.LA(1);
 			if ( (LA9_0==CONST||LA9_0==NOT||LA9_0==VAR) ) {
@@ -514,7 +515,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt9) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:57: f= clogicalfmla
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:81:57: f= clogicalfmla
 					{
 					pushFollow(FOLLOW_clogicalfmla_in_capability293);
 					f=clogicalfmla();
@@ -530,7 +531,7 @@ public class ActionOnlyParser extends Parser {
 			a=action();
 			state._fsp--;
 
-			c = new Abstract_Capability(a); if (c != null) {c.addPre(f);}
+			c = new Abstract_Capability(a); if (f != null) {c.addPre(f);}
 			}
 
 		}
@@ -548,7 +549,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "logicalfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:82:1: logicalfmla returns [Abstract_LogicalFormula f] : n= notfmla ( COMMA n2= notfmla )* ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:1: logicalfmla returns [Abstract_LogicalFormula f] : n= notfmla ( COMMA n2= notfmla )* ;
 	public final Abstract_LogicalFormula logicalfmla() throws RecognitionException {
 		Abstract_LogicalFormula f = null;
 
@@ -557,15 +558,15 @@ public class ActionOnlyParser extends Parser {
 		Abstract_LogicalFormula n2 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:82:49: (n= notfmla ( COMMA n2= notfmla )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:82:51: n= notfmla ( COMMA n2= notfmla )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:49: (n= notfmla ( COMMA n2= notfmla )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:51: n= notfmla ( COMMA n2= notfmla )*
 			{
 			pushFollow(FOLLOW_notfmla_in_logicalfmla317);
 			n=notfmla();
 			state._fsp--;
 
 			f = n;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:16: ( COMMA n2= notfmla )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:84:16: ( COMMA n2= notfmla )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -576,7 +577,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt10) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:17: COMMA n2= notfmla
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:84:17: COMMA n2= notfmla
 					{
 					match(input,COMMA,FOLLOW_COMMA_in_logicalfmla337); 
 					pushFollow(FOLLOW_notfmla_in_logicalfmla341);
@@ -609,7 +610,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "notfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:1: notfmla returns [Abstract_LogicalFormula f] : ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:1: notfmla returns [Abstract_LogicalFormula f] : ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) );
 	public final Abstract_LogicalFormula notfmla() throws RecognitionException {
 		Abstract_LogicalFormula f = null;
 
@@ -620,7 +621,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_LogicalFormula lf =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
 			int alt13=2;
 			int LA13_0 = input.LA(1);
 			if ( (LA13_0==CONST||LA13_0==SQOPEN||LA13_0==VAR) ) {
@@ -638,9 +639,9 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt13) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
 					{
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
 					int alt11=2;
 					int LA11_0 = input.LA(1);
 					if ( (LA11_0==CONST||LA11_0==VAR) ) {
@@ -658,7 +659,7 @@ public class ActionOnlyParser extends Parser {
 
 					switch (alt11) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:48: gb= pred
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:48: gb= pred
 							{
 							pushFollow(FOLLOW_pred_in_notfmla377);
 							gb=pred();
@@ -668,7 +669,7 @@ public class ActionOnlyParser extends Parser {
 							}
 							break;
 						case 2 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:71: SQOPEN eq= equation SQCLOSE
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:71: SQOPEN eq= equation SQCLOSE
 							{
 							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla383); 
 							pushFollow(FOLLOW_equation_in_notfmla389);
@@ -685,10 +686,10 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:79: NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:87:79: NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
 					{
 					match(input,NOT,FOLLOW_NOT_in_notfmla477); 
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:83: (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:87:83: (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
 					int alt12=3;
 					switch ( input.LA(1) ) {
 					case CONST:
@@ -714,7 +715,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					switch (alt12) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:84: gb2= pred
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:87:84: gb2= pred
 							{
 							pushFollow(FOLLOW_pred_in_notfmla484);
 							gb2=pred();
@@ -724,7 +725,7 @@ public class ActionOnlyParser extends Parser {
 							}
 							break;
 						case 2 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:87:81: SQOPEN eq= equation SQCLOSE
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:88:81: SQOPEN eq= equation SQCLOSE
 							{
 							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla571); 
 							pushFollow(FOLLOW_equation_in_notfmla577);
@@ -736,7 +737,7 @@ public class ActionOnlyParser extends Parser {
 							}
 							break;
 						case 3 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:88:80: lf= subfmla
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:80: lf= subfmla
 							{
 							pushFollow(FOLLOW_subfmla_in_notfmla668);
 							lf=subfmla();
@@ -767,7 +768,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "subfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:1: subfmla returns [Abstract_LogicalFormula f] : OPEN lf= logicalfmla CLOSE ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:90:1: subfmla returns [Abstract_LogicalFormula f] : OPEN lf= logicalfmla CLOSE ;
 	public final Abstract_LogicalFormula subfmla() throws RecognitionException {
 		Abstract_LogicalFormula f = null;
 
@@ -775,8 +776,8 @@ public class ActionOnlyParser extends Parser {
 		Abstract_LogicalFormula lf =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:45: ( OPEN lf= logicalfmla CLOSE )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:47: OPEN lf= logicalfmla CLOSE
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:90:45: ( OPEN lf= logicalfmla CLOSE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:90:47: OPEN lf= logicalfmla CLOSE
 			{
 			match(input,OPEN,FOLLOW_OPEN_in_subfmla682); 
 			pushFollow(FOLLOW_logicalfmla_in_subfmla688);
@@ -802,7 +803,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "clogicalfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:1: clogicalfmla returns [Abstract_GLogicalFormula f] : n= cnotfmla ( COMMA n2= cnotfmla )* ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:1: clogicalfmla returns [Abstract_GLogicalFormula f] : n= cnotfmla ( COMMA n2= cnotfmla )* ;
 	public final Abstract_GLogicalFormula clogicalfmla() throws RecognitionException {
 		Abstract_GLogicalFormula f = null;
 
@@ -811,15 +812,15 @@ public class ActionOnlyParser extends Parser {
 		Abstract_GLogicalFormula n2 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:51: (n= cnotfmla ( COMMA n2= cnotfmla )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:53: n= cnotfmla ( COMMA n2= cnotfmla )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:51: (n= cnotfmla ( COMMA n2= cnotfmla )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:53: n= cnotfmla ( COMMA n2= cnotfmla )*
 			{
 			pushFollow(FOLLOW_cnotfmla_in_clogicalfmla707);
 			n=cnotfmla();
 			state._fsp--;
 
 			f = n;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:16: ( COMMA n2= cnotfmla )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:16: ( COMMA n2= cnotfmla )*
 			loop14:
 			while (true) {
 				int alt14=2;
@@ -830,7 +831,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt14) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:17: COMMA n2= cnotfmla
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:17: COMMA n2= cnotfmla
 					{
 					match(input,COMMA,FOLLOW_COMMA_in_clogicalfmla727); 
 					pushFollow(FOLLOW_cnotfmla_in_clogicalfmla731);
@@ -863,7 +864,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "cnotfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:2: cnotfmla returns [Abstract_GLogicalFormula f] : (gb= pred | NOT (gb2= pred |lf= csubfmla ) );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:2: cnotfmla returns [Abstract_GLogicalFormula f] : (gb= pred | NOT (gb2= pred |lf= csubfmla ) );
 	public final Abstract_GLogicalFormula cnotfmla() throws RecognitionException {
 		Abstract_GLogicalFormula f = null;
 
@@ -873,7 +874,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_GLogicalFormula lf =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:48: (gb= pred | NOT (gb2= pred |lf= csubfmla ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:48: (gb= pred | NOT (gb2= pred |lf= csubfmla ) )
 			int alt16=2;
 			int LA16_0 = input.LA(1);
 			if ( (LA16_0==CONST||LA16_0==VAR) ) {
@@ -891,7 +892,7 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt16) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:50: gb= pred
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:50: gb= pred
 					{
 					pushFollow(FOLLOW_pred_in_cnotfmla751);
 					gb=pred();
@@ -901,10 +902,10 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:79: NOT (gb2= pred |lf= csubfmla )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:95:79: NOT (gb2= pred |lf= csubfmla )
 					{
 					match(input,NOT,FOLLOW_NOT_in_cnotfmla836); 
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:83: (gb2= pred |lf= csubfmla )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:95:83: (gb2= pred |lf= csubfmla )
 					int alt15=2;
 					int LA15_0 = input.LA(1);
 					if ( (LA15_0==CONST||LA15_0==VAR) ) {
@@ -922,7 +923,7 @@ public class ActionOnlyParser extends Parser {
 
 					switch (alt15) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:84: gb2= pred
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:95:84: gb2= pred
 							{
 							pushFollow(FOLLOW_pred_in_cnotfmla843);
 							gb2=pred();
@@ -932,7 +933,7 @@ public class ActionOnlyParser extends Parser {
 							}
 							break;
 						case 2 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:95:79: lf= csubfmla
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:79: lf= csubfmla
 							{
 							pushFollow(FOLLOW_csubfmla_in_cnotfmla932);
 							lf=csubfmla();
@@ -963,7 +964,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "csubfmla"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:1: csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf= clogicalfmla CLOSE ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:97:1: csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf= clogicalfmla CLOSE ;
 	public final Abstract_GLogicalFormula csubfmla() throws RecognitionException {
 		Abstract_GLogicalFormula f = null;
 
@@ -971,8 +972,8 @@ public class ActionOnlyParser extends Parser {
 		Abstract_GLogicalFormula lf =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:47: ( OPEN lf= clogicalfmla CLOSE )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:49: OPEN lf= clogicalfmla CLOSE
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:97:47: ( OPEN lf= clogicalfmla CLOSE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:97:49: OPEN lf= clogicalfmla CLOSE
 			{
 			match(input,OPEN,FOLLOW_OPEN_in_csubfmla946); 
 			pushFollow(FOLLOW_clogicalfmla_in_csubfmla952);
@@ -998,7 +999,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "action"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:100:1: action returns [Abstract_Action a] : t= pred ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:101:1: action returns [Abstract_Action a] : t= pred ;
 	public final Abstract_Action action() throws RecognitionException {
 		Abstract_Action a = null;
 
@@ -1006,8 +1007,8 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:100:36: (t= pred )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:101:3: t= pred
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:101:36: (t= pred )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:102:3: t= pred
 			{
 			pushFollow(FOLLOW_pred_in_action975);
 			t=pred();
@@ -1031,7 +1032,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "environment"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:1: environment returns [String env] : w= classpath ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:1: environment returns [String env] : w= classpath ;
 	public final String environment() throws RecognitionException {
 		String env = null;
 
@@ -1039,8 +1040,8 @@ public class ActionOnlyParser extends Parser {
 		String w =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:34: (w= classpath )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:36: w= classpath
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:34: (w= classpath )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:36: w= classpath
 			{
 			pushFollow(FOLLOW_classpath_in_environment1074);
 			w=classpath();
@@ -1064,7 +1065,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "classpath"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
 	public final String classpath() throws RecognitionException {
 		String s = null;
 
@@ -1073,15 +1074,15 @@ public class ActionOnlyParser extends Parser {
 		String w1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:30: (w= word ( POINT w1= word )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:32: w= word ( POINT w1= word )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:30: (w= word ( POINT w1= word )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:32: w= word ( POINT w1= word )+
 			{
 			pushFollow(FOLLOW_word_in_classpath1089);
 			w=word();
 			state._fsp--;
 
 			s = w;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:52: ( POINT w1= word )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:52: ( POINT w1= word )+
 			int cnt17=0;
 			loop17:
 			while (true) {
@@ -1093,7 +1094,7 @@ public class ActionOnlyParser extends Parser {
 
 				switch (alt17) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:53: POINT w1= word
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:53: POINT w1= word
 					{
 					match(input,POINT,FOLLOW_POINT_in_classpath1094); 
 					pushFollow(FOLLOW_word_in_classpath1098);
@@ -1129,7 +1130,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "word"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:1: word returns [String s] : ( CONST | VAR ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:1: word returns [String s] : ( CONST | VAR ) ;
 	public final String word() throws RecognitionException {
 		String s = null;
 
@@ -1138,10 +1139,10 @@ public class ActionOnlyParser extends Parser {
 		Token VAR2=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:25: ( ( CONST | VAR ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:27: ( CONST | VAR )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:25: ( ( CONST | VAR ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:27: ( CONST | VAR )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:27: ( CONST | VAR )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:27: ( CONST | VAR )
 			int alt18=2;
 			int LA18_0 = input.LA(1);
 			if ( (LA18_0==CONST) ) {
@@ -1159,14 +1160,14 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt18) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:28: CONST
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:28: CONST
 					{
 					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word1199); 
 					s =CONST1.getText();
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:59: VAR
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:121:59: VAR
 					{
 					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word1205); 
 					s =VAR2.getText();
@@ -1192,7 +1193,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "agentnameterm"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:123:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
 	public final Abstract_StringTerm agentnameterm() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -1201,7 +1202,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_VarTerm v =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:47: ( CONST |v= var )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:123:47: ( CONST |v= var )
 			int alt19=2;
 			int LA19_0 = input.LA(1);
 			if ( (LA19_0==CONST) ) {
@@ -1219,14 +1220,14 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt19) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:49: CONST
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:123:49: CONST
 					{
 					CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1305); 
 					s = new Abstract_StringTermImpl(CONST3.getText());
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:111: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:123:111: v= var
 					{
 					pushFollow(FOLLOW_var_in_agentnameterm1313);
 					v=var();
@@ -1252,7 +1253,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "literal"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
 	public final Abstract_Literal literal() throws RecognitionException {
 		Abstract_Literal l = null;
 
@@ -1261,7 +1262,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:37: ( ( TRUE | NOT nt= pred ) |t= pred )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:37: ( ( TRUE | NOT nt= pred ) |t= pred )
 			int alt21=2;
 			int LA21_0 = input.LA(1);
 			if ( (LA21_0==NOT||LA21_0==TRUE) ) {
@@ -1279,9 +1280,9 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt21) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:40: ( TRUE | NOT nt= pred )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:40: ( TRUE | NOT nt= pred )
 					{
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:40: ( TRUE | NOT nt= pred )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:40: ( TRUE | NOT nt= pred )
 					int alt20=2;
 					int LA20_0 = input.LA(1);
 					if ( (LA20_0==TRUE) ) {
@@ -1299,14 +1300,14 @@ public class ActionOnlyParser extends Parser {
 
 					switch (alt20) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:41: TRUE
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:41: TRUE
 							{
 							match(input,TRUE,FOLLOW_TRUE_in_literal1329); 
 							l = new Abstract_Literal(Abstract_Literal.LTrue);
 							}
 							break;
 						case 2 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:5: NOT nt= pred
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:127:5: NOT nt= pred
 							{
 							match(input,NOT,FOLLOW_NOT_in_literal1340); 
 							pushFollow(FOLLOW_pred_in_literal1344);
@@ -1325,7 +1326,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:5: t= pred
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:5: t= pred
 					{
 					pushFollow(FOLLOW_pred_in_literal1358);
 					t=pred();
@@ -1353,7 +1354,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "pred"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
 	public final Abstract_Predicate pred() throws RecognitionException {
 		Abstract_Predicate t = null;
 
@@ -1362,7 +1363,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate f =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:37: (v= var |f= function )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:37: (v= var |f= function )
 			int alt22=2;
 			int LA22_0 = input.LA(1);
 			if ( (LA22_0==VAR) ) {
@@ -1380,7 +1381,7 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt22) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:39: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:39: v= var
 					{
 					pushFollow(FOLLOW_var_in_pred1374);
 					v=var();
@@ -1390,7 +1391,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:59: f= function
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:59: f= function
 					{
 					pushFollow(FOLLOW_function_in_pred1381);
 					f=function();
@@ -1416,7 +1417,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "function"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:136:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
 	public final Abstract_Predicate function() throws RecognitionException {
 		Abstract_Predicate f = null;
 
@@ -1424,12 +1425,12 @@ public class ActionOnlyParser extends Parser {
 		Token CONST4=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:42: CONST ( OPEN terms[$f] CLOSE )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:136:40: ( CONST ( OPEN terms[$f] CLOSE )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:136:42: CONST ( OPEN terms[$f] CLOSE )?
 			{
 			CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1393); 
 			f = new Abstract_Predicate(CONST4.getText());
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:97: ( OPEN terms[$f] CLOSE )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:136:97: ( OPEN terms[$f] CLOSE )?
 			int alt23=2;
 			int LA23_0 = input.LA(1);
 			if ( (LA23_0==OPEN) ) {
@@ -1437,7 +1438,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt23) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:98: OPEN terms[$f] CLOSE
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:136:98: OPEN terms[$f] CLOSE
 					{
 					match(input,OPEN,FOLLOW_OPEN_in_function1398); 
 					pushFollow(FOLLOW_terms_in_function1400);
@@ -1467,20 +1468,20 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "terms"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
 	public final void terms(Abstract_Predicate f) throws RecognitionException {
 		Abstract_Term t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:29: (t= term ( COMMA terms[$f] )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:31: t= term ( COMMA terms[$f] )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:29: (t= term ( COMMA terms[$f] )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:31: t= term ( COMMA terms[$f] )?
 			{
 			pushFollow(FOLLOW_term_in_terms1416);
 			t=term();
 			state._fsp--;
 
 			f.addTerm(t);
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:58: ( COMMA terms[$f] )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:58: ( COMMA terms[$f] )?
 			int alt24=2;
 			int LA24_0 = input.LA(1);
 			if ( (LA24_0==COMMA) ) {
@@ -1488,7 +1489,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt24) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:59: COMMA terms[$f]
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:59: COMMA terms[$f]
 					{
 					match(input,COMMA,FOLLOW_COMMA_in_terms1421); 
 					pushFollow(FOLLOW_terms_in_terms1423);
@@ -1516,7 +1517,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "term"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:139:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
 	public final Abstract_Term term() throws RecognitionException {
 		Abstract_Term t = null;
 
@@ -1526,7 +1527,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate f =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:31: (a= atom |s= stringterm |f= function )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:139:31: (a= atom |s= stringterm |f= function )
 			int alt25=3;
 			switch ( input.LA(1) ) {
 			case MINUS:
@@ -1554,7 +1555,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt25) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:34: a= atom
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:139:34: a= atom
 					{
 					pushFollow(FOLLOW_atom_in_term1442);
 					a=atom();
@@ -1564,7 +1565,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:58: s= stringterm
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:139:58: s= stringterm
 					{
 					pushFollow(FOLLOW_stringterm_in_term1452);
 					s=stringterm();
@@ -1574,7 +1575,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:88: f= function
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:139:88: f= function
 					{
 					pushFollow(FOLLOW_function_in_term1460);
 					f=function();
@@ -1600,7 +1601,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "atom"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
 	public final Abstract_NumberTerm atom() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1610,7 +1611,7 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
 			int alt26=3;
 			switch ( input.LA(1) ) {
 			case MINUS:
@@ -1636,7 +1637,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt26) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:40: n= numberstring
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:40: n= numberstring
 					{
 					pushFollow(FOLLOW_numberstring_in_atom1478);
 					n=numberstring();
@@ -1646,7 +1647,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:6: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:6: v= var
 					{
 					pushFollow(FOLLOW_var_in_atom1491);
 					v=var();
@@ -1656,7 +1657,7 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:27: OPEN a= arithexpr CLOSE
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:27: OPEN a= arithexpr CLOSE
 					{
 					match(input,OPEN,FOLLOW_OPEN_in_atom1497); 
 					pushFollow(FOLLOW_arithexpr_in_atom1501);
@@ -1684,7 +1685,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "stringterm"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:143:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
 	public final Abstract_StringTerm stringterm() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -1692,8 +1693,8 @@ public class ActionOnlyParser extends Parser {
 		Token STRING5=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:46: DOUBLEQUOTE STRING DOUBLEQUOTE
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:143:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:143:46: DOUBLEQUOTE STRING DOUBLEQUOTE
 			{
 			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1516); 
 			STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1519); 
@@ -1717,7 +1718,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "var"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:1: var returns [Abstract_VarTerm v] : VAR ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:146:1: var returns [Abstract_VarTerm v] : VAR ;
 	public final Abstract_VarTerm var() throws RecognitionException {
 		Abstract_VarTerm v = null;
 
@@ -1725,8 +1726,8 @@ public class ActionOnlyParser extends Parser {
 		Token VAR6=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:34: ( VAR )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:36: VAR
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:146:34: ( VAR )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:146:36: VAR
 			{
 			VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1535); 
 
@@ -1754,7 +1755,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "numberstring"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
 	public final String numberstring() throws RecognitionException {
 		String s = null;
 
@@ -1763,11 +1764,11 @@ public class ActionOnlyParser extends Parser {
 		Token n2=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
 			{
 			s = "";
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:46: ( MINUS )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:46: ( MINUS )?
 			int alt27=2;
 			int LA27_0 = input.LA(1);
 			if ( (LA27_0==MINUS) ) {
@@ -1775,7 +1776,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt27) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:47: MINUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:47: MINUS
 					{
 					match(input,MINUS,FOLLOW_MINUS_in_numberstring1552); 
 					s += "-";
@@ -1784,12 +1785,12 @@ public class ActionOnlyParser extends Parser {
 
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:69: n1= NUMBER ( POINT n2= NUMBER )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:68: (n1= NUMBER ( POINT n2= NUMBER )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:69: n1= NUMBER ( POINT n2= NUMBER )?
 			{
 			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1561); 
 			s += n1.getText();
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:6: ( POINT n2= NUMBER )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:6: ( POINT n2= NUMBER )?
 			int alt28=2;
 			int LA28_0 = input.LA(1);
 			if ( (LA28_0==POINT) ) {
@@ -1797,7 +1798,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt28) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:7: POINT n2= NUMBER
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:7: POINT n2= NUMBER
 					{
 					match(input,POINT,FOLLOW_POINT_in_numberstring1571); 
 					s += ".";
@@ -1827,7 +1828,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "equation"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
 	public final Abstract_Equation equation() throws RecognitionException {
 		Abstract_Equation eq = null;
 
@@ -1837,8 +1838,8 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a2 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:42: a1= arithexpr oper= eqoper a2= arithexpr
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:40: (a1= arithexpr oper= eqoper a2= arithexpr )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:42: a1= arithexpr oper= eqoper a2= arithexpr
 			{
 			pushFollow(FOLLOW_arithexpr_in_equation1594);
 			a1=arithexpr();
@@ -1870,13 +1871,13 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "eqoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:1: eqoper returns [int oper] : ( LESS | EQ );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:158:1: eqoper returns [int oper] : ( LESS | EQ );
 	public final int eqoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:27: ( LESS | EQ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:158:27: ( LESS | EQ )
 			int alt29=2;
 			int LA29_0 = input.LA(1);
 			if ( (LA29_0==LESS) ) {
@@ -1894,14 +1895,14 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt29) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:29: LESS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:158:29: LESS
 					{
 					match(input,LESS,FOLLOW_LESS_in_eqoper1616); 
 					oper =Abstract_Equation.less;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:68: EQ
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:158:68: EQ
 					{
 					match(input,EQ,FOLLOW_EQ_in_eqoper1622); 
 					oper =Abstract_Equation.equal;
@@ -1924,7 +1925,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "arithexpr"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
 	public final Abstract_NumberTerm arithexpr() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1934,15 +1935,15 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm m1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:43: (m= multexpr (oper= addoper m1= multexpr )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:45: m= multexpr (oper= addoper m1= multexpr )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:43: (m= multexpr (oper= addoper m1= multexpr )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:45: m= multexpr (oper= addoper m1= multexpr )?
 			{
 			pushFollow(FOLLOW_multexpr_in_arithexpr1638);
 			m=multexpr();
 			state._fsp--;
 
 			t = m;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:69: (oper= addoper m1= multexpr )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:69: (oper= addoper m1= multexpr )?
 			int alt30=2;
 			int LA30_0 = input.LA(1);
 			if ( (LA30_0==MINUS||LA30_0==PLUS) ) {
@@ -1950,7 +1951,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt30) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:71: oper= addoper m1= multexpr
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:71: oper= addoper m1= multexpr
 					{
 					pushFollow(FOLLOW_addoper_in_arithexpr1646);
 					oper=addoper();
@@ -1983,7 +1984,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "multexpr"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:161:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
 	public final Abstract_NumberTerm multexpr() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1993,15 +1994,15 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:42: (a= atom (oper= multoper a1= atom )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:44: a= atom (oper= multoper a1= atom )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:161:42: (a= atom (oper= multoper a1= atom )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:161:44: a= atom (oper= multoper a1= atom )?
 			{
 			pushFollow(FOLLOW_atom_in_multexpr1667);
 			a=atom();
 			state._fsp--;
 
 			t = a;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:64: (oper= multoper a1= atom )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:161:64: (oper= multoper a1= atom )?
 			int alt31=2;
 			int LA31_0 = input.LA(1);
 			if ( (LA31_0==DIV||(LA31_0 >= MOD && LA31_0 <= MULT)) ) {
@@ -2009,7 +2010,7 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt31) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:65: oper= multoper a1= atom
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:161:65: oper= multoper a1= atom
 					{
 					pushFollow(FOLLOW_multoper_in_multexpr1674);
 					oper=multoper();
@@ -2042,16 +2043,16 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "addoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
 	public final int addoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:28: ( ( PLUS | MINUS ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:30: ( PLUS | MINUS )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:28: ( ( PLUS | MINUS ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:30: ( PLUS | MINUS )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:30: ( PLUS | MINUS )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:30: ( PLUS | MINUS )
 			int alt32=2;
 			int LA32_0 = input.LA(1);
 			if ( (LA32_0==PLUS) ) {
@@ -2069,14 +2070,14 @@ public class ActionOnlyParser extends Parser {
 
 			switch (alt32) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:31: PLUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:31: PLUS
 					{
 					match(input,PLUS,FOLLOW_PLUS_in_addoper1695); 
 					oper =Abstract_ArithExpr.plus;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:70: MINUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:70: MINUS
 					{
 					match(input,MINUS,FOLLOW_MINUS_in_addoper1700); 
 					oper =Abstract_ArithExpr.minus;
@@ -2102,16 +2103,16 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "multoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
 	public final int multoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:29: ( ( MULT | DIV | MOD ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:31: ( MULT | DIV | MOD )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:29: ( ( MULT | DIV | MOD ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:31: ( MULT | DIV | MOD )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:31: ( MULT | DIV | MOD )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:31: ( MULT | DIV | MOD )
 			int alt33=3;
 			switch ( input.LA(1) ) {
 			case MULT:
@@ -2136,21 +2137,21 @@ public class ActionOnlyParser extends Parser {
 			}
 			switch (alt33) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:32: MULT
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:32: MULT
 					{
 					match(input,MULT,FOLLOW_MULT_in_multoper1715); 
 					oper =Abstract_ArithExpr.times;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:73: DIV
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:73: DIV
 					{
 					match(input,DIV,FOLLOW_DIV_in_multoper1721); 
 					oper =Abstract_ArithExpr.div;
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:111: MOD
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:164:111: MOD
 					{
 					match(input,MOD,FOLLOW_MOD_in_multoper1727); 
 					oper =Abstract_ArithExpr.mod;

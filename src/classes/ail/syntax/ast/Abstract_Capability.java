@@ -66,7 +66,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 public class Abstract_Capability {
 	Abstract_Action cap;
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
-	Abstract_GLogicalFormula post;
+	Abstract_GLogicalFormula post = new Abstract_GBelief();
 	
 	public Capability toMCAPL() {
 		return new Capability(pre.toMCAPL(), cap.toMCAPL(), post.toMCAPL());

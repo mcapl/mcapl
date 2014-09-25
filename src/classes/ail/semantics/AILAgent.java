@@ -300,6 +300,7 @@ public class AILAgent implements MCAPLLanguageAgent {
        	setBeliefBase(new BeliefBase());
     	setRuleBase(new RuleBase());
     	setPlanLibrary(new PlanLibrary());
+    	setCapabilityLibrary(new CapabilityLibrary());
     	setGoalBase(new GoalBase());
      }
     
@@ -687,6 +688,16 @@ public class AILAgent implements MCAPLLanguageAgent {
 	}
 	
 	//--Capabilities
+	
+	/**
+	 * Setter method for the Plan Library;
+	 * 
+	 * @param pl the new plan library.
+	 */
+	public void setCapabilityLibrary(CapabilityLibrary pl) {
+		clmap.put(getDefaultCBName(), pl);
+	}
+
 	
 	/**
 	 * Get he default capability library.

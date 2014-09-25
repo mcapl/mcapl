@@ -97,7 +97,7 @@ public class ActionOnlyRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#not_interrupted()
 	 */
 	public boolean not_interrupted() {
-		return false;
+		return true;
 	}
 
 }

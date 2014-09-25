@@ -60,7 +60,7 @@ public class GenerateApplicableCapabilities implements OSRule {
 		Iterator<Capability> ci = CL.iterator();
 		while (ci.hasNext()) {
 			Capability c = ci.next();
-			if (a.believeslf(c.getPre(), new Unifier()).hasNext()) {
+			if (c.getPre().logicalConsequence(a, new Unifier(), c.getVarNames()).hasNext()) {
 				cs.add(c);
 			}
 		}

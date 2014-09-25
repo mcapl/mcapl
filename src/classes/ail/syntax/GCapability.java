@@ -10,7 +10,7 @@ public class GCapability implements GuardAtom<Capability> {
 	Capability cap;
 	StringTerm DBnum = new StringTermImpl(AILAgent.AILdefaultCBname);;
 	
-	public GCapability(LogicalFormula f1, Action p, LogicalFormula f2) {
+	public GCapability(GLogicalFormula f1, Action p, GLogicalFormula f2) {
 		cap = new Capability(f1, p, f2);
 	}
 	
@@ -90,7 +90,7 @@ public class GCapability implements GuardAtom<Capability> {
 
 	@Override
 	public Unifiable strip_varterm() {
-		return new GCapability((LogicalFormula) cap.getPre().strip_varterm(), (Action) cap.getCap().strip_varterm(), (LogicalFormula) cap.getPost().strip_varterm());
+		return new GCapability((GLogicalFormula) cap.getPre().strip_varterm(), (Action) cap.getCap().strip_varterm(), (GLogicalFormula) cap.getPost().strip_varterm());
 	}
 
 	@Override

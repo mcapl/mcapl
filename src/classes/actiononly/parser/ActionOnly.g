@@ -32,6 +32,7 @@ options {
 package actiononly.parser;
 
 import ail.syntax.ast.*;
+import actiononly.syntax.ast.*;
 import java.util.HashMap;
 }
 
@@ -57,14 +58,14 @@ package actiononly.parser;
 mas returns [Abstract_MAS mas] : {$mas = new Abstract_MAS();} 
 	glist=aoagents {$mas.setAgs($glist.gags);};
 
-aoagents returns[ArrayList<Abstract_Agent> gags]: ACTIONONLY 
-	{gags=new ArrayList<Abstract_Agent>();} 
+aoagents returns[ArrayList<Abstract_ActionOnlyAgent> gags]: ACTIONONLY 
+	{gags=new ArrayList<Abstract_ActionOnlyAgent>();} 
 	(g=aoagent {gags.add($g.g);})+;
 
 // Gwendolen Agent stuff
-aoagent returns [Abstract_Agent g] : 
+aoagent returns [Abstract_ActionOnlyAgent g] : 
         (ACTIONONLY?) 
-	NAME w=word {try {$g = new Abstract_Agent($w.s);} 
+	NAME w=word {try {$g = new Abstract_ActionOnlyAgent($w.s);} 
 		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
@@ -77,7 +78,7 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				
 brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
-capability returns [Abstract_Capability c] : CURLYOPEN (f=clogicalfmla)? CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); if ($c != null) {$c.addPre($f.f);}};
+capability returns [Abstract_Capability c] : CURLYOPEN (f=clogicalfmla)? CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); if ($f.f != null) {$c.addPre($f.f);}};
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;

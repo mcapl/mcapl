@@ -1,9 +1,9 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 12:17:22
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 16:06:04
 
 package actiononly.parser;
 
 
-import org.antlr.runtime.*;
+import mcaplantlr.runtime.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
@@ -77,8 +77,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = ACTIONONLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:103:12: ({...}? => 'AO' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:103:13: {...}? => 'AO'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:104:12: ({...}? => 'AO' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:104:13: {...}? => 'AO'
 			{
 			if ( !((curly_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "ACTIONONLY", "curly_nesting == 0");
@@ -102,8 +102,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEFS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:9: ( ':Initial Beliefs:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:11: ':Initial Beliefs:'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:106:9: ( ':Initial Beliefs:' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:106:11: ':Initial Beliefs:'
 			{
 			match(":Initial Beliefs:"); 
 
@@ -123,8 +123,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEFRULES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:2: ( ':Reasoning Rules:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:4: ':Reasoning Rules:'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:2: ( ':Reasoning Rules:' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:4: ':Reasoning Rules:'
 			{
 			match(":Reasoning Rules:"); 
 
@@ -145,8 +145,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:6: ( ':name:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:8: ':name:'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:6: ( ':name:' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:8: ':name:'
 			{
 			match(":name:"); 
 
@@ -166,13 +166,13 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:11: {...}? => ( 'B' | '.B' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:9: ({...}? => ( 'B' | '.B' ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:11: {...}? => ( 'B' | '.B' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:75: ( 'B' | '.B' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:75: ( 'B' | '.B' )
 			int alt1=2;
 			int LA1_0 = input.LA(1);
 			if ( (LA1_0=='B') ) {
@@ -190,13 +190,13 @@ public class ActionOnlyLexer extends Lexer {
 
 			switch (alt1) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:76: 'B'
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:76: 'B'
 					{
 					match('B'); 
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:82: '.B'
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:82: '.B'
 					{
 					match(".B"); 
 
@@ -221,8 +221,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BRULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:2: ( ':-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:4: ':-'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:2: ( ':-' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:4: ':-'
 			{
 			match(":-"); 
 
@@ -242,8 +242,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = ACTIONS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:9: ( ':Actions:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:11: ':Actions:'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:9: ( ':Actions:' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:11: ':Actions:'
 			{
 			match(":Actions:"); 
 
@@ -263,8 +263,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = TRUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:6: ({...}? => 'True' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:8: {...}? => 'True'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:6: ({...}? => 'True' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:8: {...}? => 'True'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -287,12 +287,12 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:167:5: ( '/*' ( . )* '*/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:167:7: '/*' ( . )* '*/'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:5: ( '/*' ( . )* '*/' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:7: '/*' ( . )* '*/'
 			{
 			match("/*"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:167:12: ( . )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:12: ( . )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -313,7 +313,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt2) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:167:12: .
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:12: .
 					{
 					matchAny(); 
 					}
@@ -343,12 +343,12 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
 			match("//"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:12: (~ ( '\\n' | '\\r' ) )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:12: (~ ( '\\n' | '\\r' ) )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -377,7 +377,7 @@ public class ActionOnlyLexer extends Lexer {
 				}
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:26: ( '\\r' )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:26: ( '\\r' )?
 			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0=='\r') ) {
@@ -385,7 +385,7 @@ public class ActionOnlyLexer extends Lexer {
 			}
 			switch (alt4) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:26: '\\r'
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:26: '\\r'
 					{
 					match('\r'); 
 					}
@@ -411,10 +411,10 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:172:8: ( ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:172:9: ( '\\r' )? '\\n'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:8: ( ( '\\r' )? '\\n' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( '\\r' )? '\\n'
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:172:9: ( '\\r' )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( '\\r' )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0=='\r') ) {
@@ -422,7 +422,7 @@ public class ActionOnlyLexer extends Lexer {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:172:9: '\\r'
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: '\\r'
 					{
 					match('\r'); 
 					}
@@ -448,10 +448,10 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:5: ( ( ' ' | '\\t' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( ' ' | '\\t' )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:5: ( ( ' ' | '\\t' )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:9: ( ' ' | '\\t' )+
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( ' ' | '\\t' )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:9: ( ' ' | '\\t' )+
 			int cnt6=0;
 			loop6:
 			while (true) {
@@ -501,8 +501,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = OPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:6: ( '(' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:9: '('
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:6: ( '(' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:9: '('
 			{
 			match('('); 
 			plain_nesting++;
@@ -522,8 +522,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:7: ( ')' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:9: ')'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:7: ( ')' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:9: ')'
 			{
 			match(')'); 
 			plain_nesting--;
@@ -543,8 +543,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SQOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:8: ( '[' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:10: '['
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:8: ( '[' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:10: '['
 			{
 			match('['); 
 			sq_nesting++;
@@ -564,8 +564,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SQCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:9: ( ']' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:11: ']'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:9: ( ']' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:11: ']'
 			{
 			match(']'); 
 			sq_nesting--;
@@ -585,8 +585,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CURLYOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:11: ( '{' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:13: '{'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:11: ( '{' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:13: '{'
 			{
 			match('{'); 
 			curly_nesting++;
@@ -606,8 +606,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CURLYCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:12: ( '}' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:14: '}'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:12: ( '}' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:14: '}'
 			{
 			match('}'); 
 			curly_nesting--;
@@ -627,8 +627,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = DOUBLEQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:2: ( '\"' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:4: '\"'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:2: ( '\"' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:4: '\"'
 			{
 			match('\"'); 
 			if (stringterm) {stringterm = false;} else {stringterm = true;}
@@ -648,8 +648,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:5: ( '~' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:7: '~'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:185:5: ( '~' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:185:7: '~'
 			{
 			match('~'); 
 			}
@@ -668,13 +668,13 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
 			{
 			if ( !((stringterm)) ) {
 				throw new FailedPredicateException(input, "STRING", "stringterm");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
 			int cnt7=0;
 			loop7:
 			while (true) {
@@ -723,14 +723,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CONST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "CONST", "!stringterm");
 			}
 			matchRange('a','z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop8:
 			while (true) {
 				int alt8=2;
@@ -775,14 +775,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = VAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "VAR", "!stringterm");
 			}
 			matchRange('A','Z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -827,14 +827,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:10: {...}? => '0' .. '9' ( '0' .. '9' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
 			}
 			matchRange('0','9'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:35: ( '0' .. '9' )*
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:35: ( '0' .. '9' )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -879,8 +879,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = LESS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:6: ( '<' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:8: '<'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:6: ( '<' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:8: '<'
 			{
 			match('<'); 
 			}
@@ -899,8 +899,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = EQ;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:4: ( '==' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:7: '=='
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:4: ( '==' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:7: '=='
 			{
 			match("=="); 
 
@@ -920,8 +920,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = POINT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:7: ( '.' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:9: '.'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:7: ( '.' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:9: '.'
 			{
 			match('.'); 
 			}
@@ -940,8 +940,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MULT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:6: ( '*' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:8: '*'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:6: ( '*' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:8: '*'
 			{
 			match('*'); 
 			}
@@ -960,8 +960,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:6: ( '+' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:8: '+'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:6: ( '+' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:8: '+'
 			{
 			match('+'); 
 			}
@@ -980,8 +980,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:7: ( '-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:9: '-'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:7: ( '-' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:9: '-'
 			{
 			match('-'); 
 			}
@@ -1000,8 +1000,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = DIV;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:5: ( '/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:7: '/'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:5: ( '/' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:7: '/'
 			{
 			match('/'); 
 			}
@@ -1020,8 +1020,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MOD;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:5: ( '%' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:7: '%'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:5: ( '%' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:7: '%'
 			{
 			match('%'); 
 			}
@@ -1040,8 +1040,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SHRIEK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:8: ( '!' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:10: '!'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:8: ( '!' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:10: '!'
 			{
 			match('!'); 
 			}
@@ -1060,8 +1060,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:7: ( ',' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:9: ','
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:7: ( ',' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:9: ','
 			{
 			match(','); 
 			}
@@ -1080,8 +1080,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:6: ( ';' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:8: ';'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:6: ( ';' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:8: ';'
 			{
 			match(';'); 
 			}
@@ -1100,8 +1100,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:7: ( ':' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:9: ':'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:7: ( ':' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:9: ':'
 			{
 			match(':'); 
 			}
@@ -1120,8 +1120,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = QUERY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:7: ( '?' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:9: '?'
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:7: ( '?' )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:9: '?'
 			{
 			match('?'); 
 			}
