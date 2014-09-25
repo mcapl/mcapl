@@ -77,7 +77,7 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				
 brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
-capability returns [Abstract_Capability c] : CURLYOPEN f=logicalfmla CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); $c.addPre($f.f);};
+capability returns [Abstract_Capability c] : CURLYOPEN (f=clogicalfmla)? CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); if ($c != null) {$c.addPre($f.f);}};
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
@@ -88,6 +88,13 @@ notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SQOPEN eq 
                                                                               	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
 subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
 	
+clogicalfmla returns [Abstract_GLogicalFormula f] : n=cnotfmla {$f = $n.f;}
+               (COMMA n2=cnotfmla {$f = new Abstract_Guard($f, Abstract_Guard.and, $n2.f);})*;
+ cnotfmla returns [Abstract_GLogicalFormula f] : gb = pred {$f = new Abstract_GBelief(new Abstract_Literal(gb));} | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));} | 
+                                                                              lf = csubfmla {$f = new Abstract_Guard(Abstract_Guard.not, $lf.f);});
+csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf = clogicalfmla {$f = $lf.f;} CLOSE;
+
 
 
 action returns [Abstract_Action a] : 

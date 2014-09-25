@@ -7,12 +7,12 @@ import ail.semantics.AILAgent;
 public class Capability implements Unifiable,
 		Comparable<Capability> {
 	
-	LogicalFormula pre;
-	LogicalFormula post;
+	GLogicalFormula pre;
+	GLogicalFormula post;
 	Action cap;
 	protected int keynum;
 	
-	public Capability(LogicalFormula pr, Action c, LogicalFormula pt) {
+	public Capability(GLogicalFormula pr, Action c, GLogicalFormula pt) {
 		pre = pr;
 		cap = c;
 		post = pt;
@@ -41,15 +41,15 @@ public class Capability implements Unifiable,
 		return keynum;
 	}
 	
-	public Action getCap() {
+	public Predicate getCap() {
 		return cap;
 	}
 	
-	public LogicalFormula getPre() {
+	public GLogicalFormula getPre() {
 		return pre;
 	}
 	
-	public LogicalFormula getPost() {
+	public GLogicalFormula getPost() {
 		return post;
 	}
 
@@ -57,8 +57,8 @@ public class Capability implements Unifiable,
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			LogExpr expr = new LogExpr(getCap(), LogExpr.LogicalOp.and, new LogExpr(getPre(), LogExpr.LogicalOp.and, getPost()));
-			LogExpr oexpr = new LogExpr(c.getCap(), LogExpr.LogicalOp.and, new LogExpr(c.getPre(), LogExpr.LogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.unifies(oexpr, u);			
 		}
 		return false;
@@ -102,8 +102,8 @@ public class Capability implements Unifiable,
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			LogExpr expr = new LogExpr(getCap(), LogExpr.LogicalOp.and, new LogExpr(getPre(), LogExpr.LogicalOp.and, getPost()));
-			LogExpr oexpr = new LogExpr(c.getCap(), LogExpr.LogicalOp.and, new LogExpr(c.getPre(), LogExpr.LogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.match(oexpr, u);			
 		}
 		return false;
@@ -113,8 +113,8 @@ public class Capability implements Unifiable,
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			LogExpr expr = new LogExpr(getCap(), LogExpr.LogicalOp.and, new LogExpr(getPre(), LogExpr.LogicalOp.and, getPost()));
-			LogExpr oexpr = new LogExpr(c.getCap(), LogExpr.LogicalOp.and, new LogExpr(c.getPre(), LogExpr.LogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.matchNG(oexpr, u);			
 		}
 		return false;
@@ -148,7 +148,7 @@ public class Capability implements Unifiable,
 
 	@Override
 	public Unifiable strip_varterm() {
-		return new Capability((LogicalFormula) pre.strip_varterm(), (Action) cap.strip_varterm(), (LogicalFormula) post.strip_varterm());
+		return new Capability((GLogicalFormula) pre.strip_varterm(), (Action) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
 	}
 	
 	public String toString() {

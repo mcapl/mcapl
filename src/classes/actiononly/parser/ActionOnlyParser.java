@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 10:51:35
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 12:17:22
 
 package actiononly.parser;
 
@@ -493,29 +493,44 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "capability"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:1: capability returns [Abstract_Capability c] : CURLYOPEN f= logicalfmla CURLYCLOSE a= action ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:1: capability returns [Abstract_Capability c] : CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action ;
 	public final Abstract_Capability capability() throws RecognitionException {
 		Abstract_Capability c = null;
 
 
-		Abstract_LogicalFormula f =null;
+		Abstract_GLogicalFormula f =null;
 		Abstract_Action a =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:44: ( CURLYOPEN f= logicalfmla CURLYCLOSE a= action )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:46: CURLYOPEN f= logicalfmla CURLYCLOSE a= action
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:44: ( CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:46: CURLYOPEN (f= clogicalfmla )? CURLYCLOSE a= action
 			{
 			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability288); 
-			pushFollow(FOLLOW_logicalfmla_in_capability292);
-			f=logicalfmla();
-			state._fsp--;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:56: (f= clogicalfmla )?
+			int alt9=2;
+			int LA9_0 = input.LA(1);
+			if ( (LA9_0==CONST||LA9_0==NOT||LA9_0==VAR) ) {
+				alt9=1;
+			}
+			switch (alt9) {
+				case 1 :
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:80:57: f= clogicalfmla
+					{
+					pushFollow(FOLLOW_clogicalfmla_in_capability293);
+					f=clogicalfmla();
+					state._fsp--;
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability294); 
-			pushFollow(FOLLOW_action_in_capability298);
+					}
+					break;
+
+			}
+
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability297); 
+			pushFollow(FOLLOW_action_in_capability301);
 			a=action();
 			state._fsp--;
 
-			c = new Abstract_Capability(a); c.addPre(f);
+			c = new Abstract_Capability(a); if (c != null) {c.addPre(f);}
 			}
 
 		}
@@ -545,26 +560,26 @@ public class ActionOnlyParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:82:49: (n= notfmla ( COMMA n2= notfmla )* )
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:82:51: n= notfmla ( COMMA n2= notfmla )*
 			{
-			pushFollow(FOLLOW_notfmla_in_logicalfmla314);
+			pushFollow(FOLLOW_notfmla_in_logicalfmla317);
 			n=notfmla();
 			state._fsp--;
 
 			f = n;
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:16: ( COMMA n2= notfmla )*
-			loop9:
+			loop10:
 			while (true) {
-				int alt9=2;
-				int LA9_0 = input.LA(1);
-				if ( (LA9_0==COMMA) ) {
-					alt9=1;
+				int alt10=2;
+				int LA10_0 = input.LA(1);
+				if ( (LA10_0==COMMA) ) {
+					alt10=1;
 				}
 
-				switch (alt9) {
+				switch (alt10) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:83:17: COMMA n2= notfmla
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_logicalfmla334); 
-					pushFollow(FOLLOW_notfmla_in_logicalfmla338);
+					match(input,COMMA,FOLLOW_COMMA_in_logicalfmla337); 
+					pushFollow(FOLLOW_notfmla_in_logicalfmla341);
 					n2=notfmla();
 					state._fsp--;
 
@@ -573,7 +588,7 @@ public class ActionOnlyParser extends Parser {
 					break;
 
 				default :
-					break loop9;
+					break loop10;
 				}
 			}
 
@@ -606,46 +621,46 @@ public class ActionOnlyParser extends Parser {
 
 		try {
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
-			int alt12=2;
-			int LA12_0 = input.LA(1);
-			if ( (LA12_0==CONST||LA12_0==SQOPEN||LA12_0==VAR) ) {
-				alt12=1;
+			int alt13=2;
+			int LA13_0 = input.LA(1);
+			if ( (LA13_0==CONST||LA13_0==SQOPEN||LA13_0==VAR) ) {
+				alt13=1;
 			}
-			else if ( (LA12_0==NOT) ) {
-				alt12=2;
+			else if ( (LA13_0==NOT) ) {
+				alt13=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 12, 0, input);
+					new NoViableAltException("", 13, 0, input);
 				throw nvae;
 			}
 
-			switch (alt12) {
+			switch (alt13) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
 					{
 					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
-					int alt10=2;
-					int LA10_0 = input.LA(1);
-					if ( (LA10_0==CONST||LA10_0==VAR) ) {
-						alt10=1;
+					int alt11=2;
+					int LA11_0 = input.LA(1);
+					if ( (LA11_0==CONST||LA11_0==VAR) ) {
+						alt11=1;
 					}
-					else if ( (LA10_0==SQOPEN) ) {
-						alt10=2;
+					else if ( (LA11_0==SQOPEN) ) {
+						alt11=2;
 					}
 
 					else {
 						NoViableAltException nvae =
-							new NoViableAltException("", 10, 0, input);
+							new NoViableAltException("", 11, 0, input);
 						throw nvae;
 					}
 
-					switch (alt10) {
+					switch (alt11) {
 						case 1 :
 							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:48: gb= pred
 							{
-							pushFollow(FOLLOW_pred_in_notfmla374);
+							pushFollow(FOLLOW_pred_in_notfmla377);
 							gb=pred();
 							state._fsp--;
 
@@ -655,13 +670,13 @@ public class ActionOnlyParser extends Parser {
 						case 2 :
 							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:85:71: SQOPEN eq= equation SQCLOSE
 							{
-							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla380); 
-							pushFollow(FOLLOW_equation_in_notfmla386);
+							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla383); 
+							pushFollow(FOLLOW_equation_in_notfmla389);
 							eq=equation();
 							state._fsp--;
 
 							f = eq;
-							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla390); 
+							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla393); 
 							}
 							break;
 
@@ -672,36 +687,36 @@ public class ActionOnlyParser extends Parser {
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:79: NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
 					{
-					match(input,NOT,FOLLOW_NOT_in_notfmla474); 
+					match(input,NOT,FOLLOW_NOT_in_notfmla477); 
 					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:83: (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
-					int alt11=3;
+					int alt12=3;
 					switch ( input.LA(1) ) {
 					case CONST:
 					case VAR:
 						{
-						alt11=1;
+						alt12=1;
 						}
 						break;
 					case SQOPEN:
 						{
-						alt11=2;
+						alt12=2;
 						}
 						break;
 					case OPEN:
 						{
-						alt11=3;
+						alt12=3;
 						}
 						break;
 					default:
 						NoViableAltException nvae =
-							new NoViableAltException("", 11, 0, input);
+							new NoViableAltException("", 12, 0, input);
 						throw nvae;
 					}
-					switch (alt11) {
+					switch (alt12) {
 						case 1 :
 							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:86:84: gb2= pred
 							{
-							pushFollow(FOLLOW_pred_in_notfmla481);
+							pushFollow(FOLLOW_pred_in_notfmla484);
 							gb2=pred();
 							state._fsp--;
 
@@ -711,19 +726,19 @@ public class ActionOnlyParser extends Parser {
 						case 2 :
 							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:87:81: SQOPEN eq= equation SQCLOSE
 							{
-							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla568); 
-							pushFollow(FOLLOW_equation_in_notfmla574);
+							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla571); 
+							pushFollow(FOLLOW_equation_in_notfmla577);
 							eq=equation();
 							state._fsp--;
 
-							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla576); 
+							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla579); 
 							f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);
 							}
 							break;
 						case 3 :
 							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:88:80: lf= subfmla
 							{
-							pushFollow(FOLLOW_subfmla_in_notfmla665);
+							pushFollow(FOLLOW_subfmla_in_notfmla668);
 							lf=subfmla();
 							state._fsp--;
 
@@ -763,13 +778,13 @@ public class ActionOnlyParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:45: ( OPEN lf= logicalfmla CLOSE )
 			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:89:47: OPEN lf= logicalfmla CLOSE
 			{
-			match(input,OPEN,FOLLOW_OPEN_in_subfmla679); 
-			pushFollow(FOLLOW_logicalfmla_in_subfmla685);
+			match(input,OPEN,FOLLOW_OPEN_in_subfmla682); 
+			pushFollow(FOLLOW_logicalfmla_in_subfmla688);
 			lf=logicalfmla();
 			state._fsp--;
 
 			f = lf;
-			match(input,CLOSE,FOLLOW_CLOSE_in_subfmla689); 
+			match(input,CLOSE,FOLLOW_CLOSE_in_subfmla692); 
 			}
 
 		}
@@ -786,8 +801,204 @@ public class ActionOnlyParser extends Parser {
 
 
 
+	// $ANTLR start "clogicalfmla"
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:1: clogicalfmla returns [Abstract_GLogicalFormula f] : n= cnotfmla ( COMMA n2= cnotfmla )* ;
+	public final Abstract_GLogicalFormula clogicalfmla() throws RecognitionException {
+		Abstract_GLogicalFormula f = null;
+
+
+		Abstract_GLogicalFormula n =null;
+		Abstract_GLogicalFormula n2 =null;
+
+		try {
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:51: (n= cnotfmla ( COMMA n2= cnotfmla )* )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:91:53: n= cnotfmla ( COMMA n2= cnotfmla )*
+			{
+			pushFollow(FOLLOW_cnotfmla_in_clogicalfmla707);
+			n=cnotfmla();
+			state._fsp--;
+
+			f = n;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:16: ( COMMA n2= cnotfmla )*
+			loop14:
+			while (true) {
+				int alt14=2;
+				int LA14_0 = input.LA(1);
+				if ( (LA14_0==COMMA) ) {
+					alt14=1;
+				}
+
+				switch (alt14) {
+				case 1 :
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:92:17: COMMA n2= cnotfmla
+					{
+					match(input,COMMA,FOLLOW_COMMA_in_clogicalfmla727); 
+					pushFollow(FOLLOW_cnotfmla_in_clogicalfmla731);
+					n2=cnotfmla();
+					state._fsp--;
+
+					f = new Abstract_Guard(f, Abstract_Guard.and, n2);
+					}
+					break;
+
+				default :
+					break loop14;
+				}
+			}
+
+			}
+
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		return f;
+	}
+	// $ANTLR end "clogicalfmla"
+
+
+
+	// $ANTLR start "cnotfmla"
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:2: cnotfmla returns [Abstract_GLogicalFormula f] : (gb= pred | NOT (gb2= pred |lf= csubfmla ) );
+	public final Abstract_GLogicalFormula cnotfmla() throws RecognitionException {
+		Abstract_GLogicalFormula f = null;
+
+
+		Abstract_Predicate gb =null;
+		Abstract_Predicate gb2 =null;
+		Abstract_GLogicalFormula lf =null;
+
+		try {
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:48: (gb= pred | NOT (gb2= pred |lf= csubfmla ) )
+			int alt16=2;
+			int LA16_0 = input.LA(1);
+			if ( (LA16_0==CONST||LA16_0==VAR) ) {
+				alt16=1;
+			}
+			else if ( (LA16_0==NOT) ) {
+				alt16=2;
+			}
+
+			else {
+				NoViableAltException nvae =
+					new NoViableAltException("", 16, 0, input);
+				throw nvae;
+			}
+
+			switch (alt16) {
+				case 1 :
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:50: gb= pred
+					{
+					pushFollow(FOLLOW_pred_in_cnotfmla751);
+					gb=pred();
+					state._fsp--;
+
+					f = new Abstract_GBelief(new Abstract_Literal(gb));
+					}
+					break;
+				case 2 :
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:79: NOT (gb2= pred |lf= csubfmla )
+					{
+					match(input,NOT,FOLLOW_NOT_in_cnotfmla836); 
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:83: (gb2= pred |lf= csubfmla )
+					int alt15=2;
+					int LA15_0 = input.LA(1);
+					if ( (LA15_0==CONST||LA15_0==VAR) ) {
+						alt15=1;
+					}
+					else if ( (LA15_0==OPEN) ) {
+						alt15=2;
+					}
+
+					else {
+						NoViableAltException nvae =
+							new NoViableAltException("", 15, 0, input);
+						throw nvae;
+					}
+
+					switch (alt15) {
+						case 1 :
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:84: gb2= pred
+							{
+							pushFollow(FOLLOW_pred_in_cnotfmla843);
+							gb2=pred();
+							state._fsp--;
+
+							f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));
+							}
+							break;
+						case 2 :
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:95:79: lf= csubfmla
+							{
+							pushFollow(FOLLOW_csubfmla_in_cnotfmla932);
+							lf=csubfmla();
+							state._fsp--;
+
+							f = new Abstract_Guard(Abstract_Guard.not, lf);
+							}
+							break;
+
+					}
+
+					}
+					break;
+
+			}
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		return f;
+	}
+	// $ANTLR end "cnotfmla"
+
+
+
+	// $ANTLR start "csubfmla"
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:1: csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf= clogicalfmla CLOSE ;
+	public final Abstract_GLogicalFormula csubfmla() throws RecognitionException {
+		Abstract_GLogicalFormula f = null;
+
+
+		Abstract_GLogicalFormula lf =null;
+
+		try {
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:47: ( OPEN lf= clogicalfmla CLOSE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:96:49: OPEN lf= clogicalfmla CLOSE
+			{
+			match(input,OPEN,FOLLOW_OPEN_in_csubfmla946); 
+			pushFollow(FOLLOW_clogicalfmla_in_csubfmla952);
+			lf=clogicalfmla();
+			state._fsp--;
+
+			f = lf;
+			match(input,CLOSE,FOLLOW_CLOSE_in_csubfmla956); 
+			}
+
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+		return f;
+	}
+	// $ANTLR end "csubfmla"
+
+
+
 	// $ANTLR start "action"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:1: action returns [Abstract_Action a] : t= pred ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:100:1: action returns [Abstract_Action a] : t= pred ;
 	public final Abstract_Action action() throws RecognitionException {
 		Abstract_Action a = null;
 
@@ -795,10 +1006,10 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:93:36: (t= pred )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:94:3: t= pred
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:100:36: (t= pred )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:101:3: t= pred
 			{
-			pushFollow(FOLLOW_pred_in_action709);
+			pushFollow(FOLLOW_pred_in_action975);
 			t=pred();
 			state._fsp--;
 
@@ -820,7 +1031,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "environment"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:1: environment returns [String env] : w= classpath ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:1: environment returns [String env] : w= classpath ;
 	public final String environment() throws RecognitionException {
 		String env = null;
 
@@ -828,10 +1039,10 @@ public class ActionOnlyParser extends Parser {
 		String w =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:34: (w= classpath )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:36: w= classpath
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:34: (w= classpath )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:36: w= classpath
 			{
-			pushFollow(FOLLOW_classpath_in_environment808);
+			pushFollow(FOLLOW_classpath_in_environment1074);
 			w=classpath();
 			state._fsp--;
 
@@ -853,7 +1064,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "classpath"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
 	public final String classpath() throws RecognitionException {
 		String s = null;
 
@@ -862,30 +1073,30 @@ public class ActionOnlyParser extends Parser {
 		String w1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:30: (w= word ( POINT w1= word )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:32: w= word ( POINT w1= word )+
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:30: (w= word ( POINT w1= word )+ )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:32: w= word ( POINT w1= word )+
 			{
-			pushFollow(FOLLOW_word_in_classpath823);
+			pushFollow(FOLLOW_word_in_classpath1089);
 			w=word();
 			state._fsp--;
 
 			s = w;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:52: ( POINT w1= word )+
-			int cnt13=0;
-			loop13:
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:52: ( POINT w1= word )+
+			int cnt17=0;
+			loop17:
 			while (true) {
-				int alt13=2;
-				int LA13_0 = input.LA(1);
-				if ( (LA13_0==POINT) ) {
-					alt13=1;
+				int alt17=2;
+				int LA17_0 = input.LA(1);
+				if ( (LA17_0==POINT) ) {
+					alt17=1;
 				}
 
-				switch (alt13) {
+				switch (alt17) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:112:53: POINT w1= word
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:53: POINT w1= word
 					{
-					match(input,POINT,FOLLOW_POINT_in_classpath828); 
-					pushFollow(FOLLOW_word_in_classpath832);
+					match(input,POINT,FOLLOW_POINT_in_classpath1094); 
+					pushFollow(FOLLOW_word_in_classpath1098);
 					w1=word();
 					state._fsp--;
 
@@ -894,11 +1105,11 @@ public class ActionOnlyParser extends Parser {
 					break;
 
 				default :
-					if ( cnt13 >= 1 ) break loop13;
-					EarlyExitException eee = new EarlyExitException(13, input);
+					if ( cnt17 >= 1 ) break loop17;
+					EarlyExitException eee = new EarlyExitException(17, input);
 					throw eee;
 				}
-				cnt13++;
+				cnt17++;
 			}
 
 			}
@@ -918,7 +1129,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "word"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:1: word returns [String s] : ( CONST | VAR ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:1: word returns [String s] : ( CONST | VAR ) ;
 	public final String word() throws RecognitionException {
 		String s = null;
 
@@ -927,37 +1138,37 @@ public class ActionOnlyParser extends Parser {
 		Token VAR2=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:25: ( ( CONST | VAR ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:27: ( CONST | VAR )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:25: ( ( CONST | VAR ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:27: ( CONST | VAR )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:27: ( CONST | VAR )
-			int alt14=2;
-			int LA14_0 = input.LA(1);
-			if ( (LA14_0==CONST) ) {
-				alt14=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:27: ( CONST | VAR )
+			int alt18=2;
+			int LA18_0 = input.LA(1);
+			if ( (LA18_0==CONST) ) {
+				alt18=1;
 			}
-			else if ( (LA14_0==VAR) ) {
-				alt14=2;
+			else if ( (LA18_0==VAR) ) {
+				alt18=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 14, 0, input);
+					new NoViableAltException("", 18, 0, input);
 				throw nvae;
 			}
 
-			switch (alt14) {
+			switch (alt18) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:28: CONST
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:28: CONST
 					{
-					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word933); 
+					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word1199); 
 					s =CONST1.getText();
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:59: VAR
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:120:59: VAR
 					{
-					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word939); 
+					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word1205); 
 					s =VAR2.getText();
 					}
 					break;
@@ -981,7 +1192,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "agentnameterm"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
 	public final Abstract_StringTerm agentnameterm() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -990,34 +1201,34 @@ public class ActionOnlyParser extends Parser {
 		Abstract_VarTerm v =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:47: ( CONST |v= var )
-			int alt15=2;
-			int LA15_0 = input.LA(1);
-			if ( (LA15_0==CONST) ) {
-				alt15=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:47: ( CONST |v= var )
+			int alt19=2;
+			int LA19_0 = input.LA(1);
+			if ( (LA19_0==CONST) ) {
+				alt19=1;
 			}
-			else if ( (LA15_0==VAR) ) {
-				alt15=2;
+			else if ( (LA19_0==VAR) ) {
+				alt19=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 15, 0, input);
+					new NoViableAltException("", 19, 0, input);
 				throw nvae;
 			}
 
-			switch (alt15) {
+			switch (alt19) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:49: CONST
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:49: CONST
 					{
-					CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1039); 
+					CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm1305); 
 					s = new Abstract_StringTermImpl(CONST3.getText());
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:111: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:122:111: v= var
 					{
-					pushFollow(FOLLOW_var_in_agentnameterm1047);
+					pushFollow(FOLLOW_var_in_agentnameterm1313);
 					v=var();
 					state._fsp--;
 
@@ -1041,7 +1252,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "literal"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
 	public final Abstract_Literal literal() throws RecognitionException {
 		Abstract_Literal l = null;
 
@@ -1050,55 +1261,55 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:37: ( ( TRUE | NOT nt= pred ) |t= pred )
-			int alt17=2;
-			int LA17_0 = input.LA(1);
-			if ( (LA17_0==NOT||LA17_0==TRUE) ) {
-				alt17=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:37: ( ( TRUE | NOT nt= pred ) |t= pred )
+			int alt21=2;
+			int LA21_0 = input.LA(1);
+			if ( (LA21_0==NOT||LA21_0==TRUE) ) {
+				alt21=1;
 			}
-			else if ( (LA17_0==CONST||LA17_0==VAR) ) {
-				alt17=2;
+			else if ( (LA21_0==CONST||LA21_0==VAR) ) {
+				alt21=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 17, 0, input);
+					new NoViableAltException("", 21, 0, input);
 				throw nvae;
 			}
 
-			switch (alt17) {
+			switch (alt21) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:40: ( TRUE | NOT nt= pred )
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:40: ( TRUE | NOT nt= pred )
 					{
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:40: ( TRUE | NOT nt= pred )
-					int alt16=2;
-					int LA16_0 = input.LA(1);
-					if ( (LA16_0==TRUE) ) {
-						alt16=1;
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:40: ( TRUE | NOT nt= pred )
+					int alt20=2;
+					int LA20_0 = input.LA(1);
+					if ( (LA20_0==TRUE) ) {
+						alt20=1;
 					}
-					else if ( (LA16_0==NOT) ) {
-						alt16=2;
+					else if ( (LA20_0==NOT) ) {
+						alt20=2;
 					}
 
 					else {
 						NoViableAltException nvae =
-							new NoViableAltException("", 16, 0, input);
+							new NoViableAltException("", 20, 0, input);
 						throw nvae;
 					}
 
-					switch (alt16) {
+					switch (alt20) {
 						case 1 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:118:41: TRUE
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:125:41: TRUE
 							{
-							match(input,TRUE,FOLLOW_TRUE_in_literal1063); 
+							match(input,TRUE,FOLLOW_TRUE_in_literal1329); 
 							l = new Abstract_Literal(Abstract_Literal.LTrue);
 							}
 							break;
 						case 2 :
-							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:119:5: NOT nt= pred
+							// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:126:5: NOT nt= pred
 							{
-							match(input,NOT,FOLLOW_NOT_in_literal1074); 
-							pushFollow(FOLLOW_pred_in_literal1078);
+							match(input,NOT,FOLLOW_NOT_in_literal1340); 
+							pushFollow(FOLLOW_pred_in_literal1344);
 							nt=pred();
 							state._fsp--;
 
@@ -1114,9 +1325,9 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:123:5: t= pred
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:5: t= pred
 					{
-					pushFollow(FOLLOW_pred_in_literal1092);
+					pushFollow(FOLLOW_pred_in_literal1358);
 					t=pred();
 					state._fsp--;
 
@@ -1142,7 +1353,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "pred"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:127:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
 	public final Abstract_Predicate pred() throws RecognitionException {
 		Abstract_Predicate t = null;
 
@@ -1151,27 +1362,27 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate f =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:127:37: (v= var |f= function )
-			int alt18=2;
-			int LA18_0 = input.LA(1);
-			if ( (LA18_0==VAR) ) {
-				alt18=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:37: (v= var |f= function )
+			int alt22=2;
+			int LA22_0 = input.LA(1);
+			if ( (LA22_0==VAR) ) {
+				alt22=1;
 			}
-			else if ( (LA18_0==CONST) ) {
-				alt18=2;
+			else if ( (LA22_0==CONST) ) {
+				alt22=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 18, 0, input);
+					new NoViableAltException("", 22, 0, input);
 				throw nvae;
 			}
 
-			switch (alt18) {
+			switch (alt22) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:127:39: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:39: v= var
 					{
-					pushFollow(FOLLOW_var_in_pred1108);
+					pushFollow(FOLLOW_var_in_pred1374);
 					v=var();
 					state._fsp--;
 
@@ -1179,9 +1390,9 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:127:59: f= function
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:59: f= function
 					{
-					pushFollow(FOLLOW_function_in_pred1115);
+					pushFollow(FOLLOW_function_in_pred1381);
 					f=function();
 					state._fsp--;
 
@@ -1205,7 +1416,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "function"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:128:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
 	public final Abstract_Predicate function() throws RecognitionException {
 		Abstract_Predicate f = null;
 
@@ -1213,27 +1424,27 @@ public class ActionOnlyParser extends Parser {
 		Token CONST4=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:128:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:128:42: CONST ( OPEN terms[$f] CLOSE )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:40: ( CONST ( OPEN terms[$f] CLOSE )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:42: CONST ( OPEN terms[$f] CLOSE )?
 			{
-			CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1127); 
+			CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function1393); 
 			f = new Abstract_Predicate(CONST4.getText());
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:128:97: ( OPEN terms[$f] CLOSE )?
-			int alt19=2;
-			int LA19_0 = input.LA(1);
-			if ( (LA19_0==OPEN) ) {
-				alt19=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:97: ( OPEN terms[$f] CLOSE )?
+			int alt23=2;
+			int LA23_0 = input.LA(1);
+			if ( (LA23_0==OPEN) ) {
+				alt23=1;
 			}
-			switch (alt19) {
+			switch (alt23) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:128:98: OPEN terms[$f] CLOSE
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:98: OPEN terms[$f] CLOSE
 					{
-					match(input,OPEN,FOLLOW_OPEN_in_function1132); 
-					pushFollow(FOLLOW_terms_in_function1134);
+					match(input,OPEN,FOLLOW_OPEN_in_function1398); 
+					pushFollow(FOLLOW_terms_in_function1400);
 					terms(f);
 					state._fsp--;
 
-					match(input,CLOSE,FOLLOW_CLOSE_in_function1137); 
+					match(input,CLOSE,FOLLOW_CLOSE_in_function1403); 
 					}
 					break;
 
@@ -1256,31 +1467,31 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "terms"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
 	public final void terms(Abstract_Predicate f) throws RecognitionException {
 		Abstract_Term t =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:29: (t= term ( COMMA terms[$f] )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:31: t= term ( COMMA terms[$f] )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:29: (t= term ( COMMA terms[$f] )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:31: t= term ( COMMA terms[$f] )?
 			{
-			pushFollow(FOLLOW_term_in_terms1150);
+			pushFollow(FOLLOW_term_in_terms1416);
 			t=term();
 			state._fsp--;
 
 			f.addTerm(t);
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:58: ( COMMA terms[$f] )?
-			int alt20=2;
-			int LA20_0 = input.LA(1);
-			if ( (LA20_0==COMMA) ) {
-				alt20=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:58: ( COMMA terms[$f] )?
+			int alt24=2;
+			int LA24_0 = input.LA(1);
+			if ( (LA24_0==COMMA) ) {
+				alt24=1;
 			}
-			switch (alt20) {
+			switch (alt24) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:130:59: COMMA terms[$f]
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:137:59: COMMA terms[$f]
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_terms1155); 
-					pushFollow(FOLLOW_terms_in_terms1157);
+					match(input,COMMA,FOLLOW_COMMA_in_terms1421); 
+					pushFollow(FOLLOW_terms_in_terms1423);
 					terms(f);
 					state._fsp--;
 
@@ -1305,7 +1516,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "term"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function );
 	public final Abstract_Term term() throws RecognitionException {
 		Abstract_Term t = null;
 
@@ -1315,37 +1526,37 @@ public class ActionOnlyParser extends Parser {
 		Abstract_Predicate f =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:31: (a= atom |s= stringterm |f= function )
-			int alt21=3;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:31: (a= atom |s= stringterm |f= function )
+			int alt25=3;
 			switch ( input.LA(1) ) {
 			case MINUS:
 			case NUMBER:
 			case OPEN:
 			case VAR:
 				{
-				alt21=1;
+				alt25=1;
 				}
 				break;
 			case DOUBLEQUOTE:
 				{
-				alt21=2;
+				alt25=2;
 				}
 				break;
 			case CONST:
 				{
-				alt21=3;
+				alt25=3;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 21, 0, input);
+					new NoViableAltException("", 25, 0, input);
 				throw nvae;
 			}
-			switch (alt21) {
+			switch (alt25) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:34: a= atom
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:34: a= atom
 					{
-					pushFollow(FOLLOW_atom_in_term1176);
+					pushFollow(FOLLOW_atom_in_term1442);
 					a=atom();
 					state._fsp--;
 
@@ -1353,9 +1564,9 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:58: s= stringterm
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:58: s= stringterm
 					{
-					pushFollow(FOLLOW_stringterm_in_term1186);
+					pushFollow(FOLLOW_stringterm_in_term1452);
 					s=stringterm();
 					state._fsp--;
 
@@ -1363,9 +1574,9 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:131:88: f= function
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:88: f= function
 					{
-					pushFollow(FOLLOW_function_in_term1194);
+					pushFollow(FOLLOW_function_in_term1460);
 					f=function();
 					state._fsp--;
 
@@ -1389,7 +1600,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "atom"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:133:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
 	public final Abstract_NumberTerm atom() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1399,35 +1610,35 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:133:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
-			int alt22=3;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
+			int alt26=3;
 			switch ( input.LA(1) ) {
 			case MINUS:
 			case NUMBER:
 				{
-				alt22=1;
+				alt26=1;
 				}
 				break;
 			case VAR:
 				{
-				alt22=2;
+				alt26=2;
 				}
 				break;
 			case OPEN:
 				{
-				alt22=3;
+				alt26=3;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 22, 0, input);
+					new NoViableAltException("", 26, 0, input);
 				throw nvae;
 			}
-			switch (alt22) {
+			switch (alt26) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:133:40: n= numberstring
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:140:40: n= numberstring
 					{
-					pushFollow(FOLLOW_numberstring_in_atom1212);
+					pushFollow(FOLLOW_numberstring_in_atom1478);
 					n=numberstring();
 					state._fsp--;
 
@@ -1435,9 +1646,9 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:6: v= var
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:6: v= var
 					{
-					pushFollow(FOLLOW_var_in_atom1225);
+					pushFollow(FOLLOW_var_in_atom1491);
 					v=var();
 					state._fsp--;
 
@@ -1445,14 +1656,14 @@ public class ActionOnlyParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:134:27: OPEN a= arithexpr CLOSE
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:141:27: OPEN a= arithexpr CLOSE
 					{
-					match(input,OPEN,FOLLOW_OPEN_in_atom1231); 
-					pushFollow(FOLLOW_arithexpr_in_atom1235);
+					match(input,OPEN,FOLLOW_OPEN_in_atom1497); 
+					pushFollow(FOLLOW_arithexpr_in_atom1501);
 					a=arithexpr();
 					state._fsp--;
 
-					match(input,CLOSE,FOLLOW_CLOSE_in_atom1237); 
+					match(input,CLOSE,FOLLOW_CLOSE_in_atom1503); 
 					t = a;
 					}
 					break;
@@ -1473,7 +1684,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "stringterm"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
 	public final Abstract_StringTerm stringterm() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -1481,12 +1692,12 @@ public class ActionOnlyParser extends Parser {
 		Token STRING5=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:135:46: DOUBLEQUOTE STRING DOUBLEQUOTE
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:142:46: DOUBLEQUOTE STRING DOUBLEQUOTE
 			{
-			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1250); 
-			STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1253); 
-			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1255); 
+			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1516); 
+			STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm1519); 
+			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm1521); 
 					 
 			                   s = new Abstract_StringTermImpl(STRING5.getText());
 			}
@@ -1506,7 +1717,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "var"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:1: var returns [Abstract_VarTerm v] : VAR ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:1: var returns [Abstract_VarTerm v] : VAR ;
 	public final Abstract_VarTerm var() throws RecognitionException {
 		Abstract_VarTerm v = null;
 
@@ -1514,10 +1725,10 @@ public class ActionOnlyParser extends Parser {
 		Token VAR6=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:34: ( VAR )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:138:36: VAR
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:34: ( VAR )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:145:36: VAR
 			{
-			VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1269); 
+			VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var1535); 
 
 				if (variables.containsKey(VAR6.getText())) {
 					v = variables.get(VAR6.getText());
@@ -1543,7 +1754,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "numberstring"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
 	public final String numberstring() throws RecognitionException {
 		String s = null;
 
@@ -1552,45 +1763,45 @@ public class ActionOnlyParser extends Parser {
 		Token n2=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
 			{
 			s = "";
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:46: ( MINUS )?
-			int alt23=2;
-			int LA23_0 = input.LA(1);
-			if ( (LA23_0==MINUS) ) {
-				alt23=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:46: ( MINUS )?
+			int alt27=2;
+			int LA27_0 = input.LA(1);
+			if ( (LA27_0==MINUS) ) {
+				alt27=1;
 			}
-			switch (alt23) {
+			switch (alt27) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:47: MINUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:47: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_numberstring1286); 
+					match(input,MINUS,FOLLOW_MINUS_in_numberstring1552); 
 					s += "-";
 					}
 					break;
 
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:147:69: n1= NUMBER ( POINT n2= NUMBER )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:68: (n1= NUMBER ( POINT n2= NUMBER )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:154:69: n1= NUMBER ( POINT n2= NUMBER )?
 			{
-			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1295); 
+			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1561); 
 			s += n1.getText();
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:148:6: ( POINT n2= NUMBER )?
-			int alt24=2;
-			int LA24_0 = input.LA(1);
-			if ( (LA24_0==POINT) ) {
-				alt24=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:6: ( POINT n2= NUMBER )?
+			int alt28=2;
+			int LA28_0 = input.LA(1);
+			if ( (LA28_0==POINT) ) {
+				alt28=1;
 			}
-			switch (alt24) {
+			switch (alt28) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:148:7: POINT n2= NUMBER
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:7: POINT n2= NUMBER
 					{
-					match(input,POINT,FOLLOW_POINT_in_numberstring1305); 
+					match(input,POINT,FOLLOW_POINT_in_numberstring1571); 
 					s += ".";
-					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1311); 
+					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring1577); 
 					s += n2.getText();
 					}
 					break;
@@ -1616,7 +1827,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "equation"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:149:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
 	public final Abstract_Equation equation() throws RecognitionException {
 		Abstract_Equation eq = null;
 
@@ -1626,18 +1837,18 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a2 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:149:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:149:42: a1= arithexpr oper= eqoper a2= arithexpr
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:40: (a1= arithexpr oper= eqoper a2= arithexpr )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:42: a1= arithexpr oper= eqoper a2= arithexpr
 			{
-			pushFollow(FOLLOW_arithexpr_in_equation1328);
+			pushFollow(FOLLOW_arithexpr_in_equation1594);
 			a1=arithexpr();
 			state._fsp--;
 
-			pushFollow(FOLLOW_eqoper_in_equation1332);
+			pushFollow(FOLLOW_eqoper_in_equation1598);
 			oper=eqoper();
 			state._fsp--;
 
-			pushFollow(FOLLOW_arithexpr_in_equation1336);
+			pushFollow(FOLLOW_arithexpr_in_equation1602);
 			a2=arithexpr();
 			state._fsp--;
 
@@ -1659,40 +1870,40 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "eqoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:150:1: eqoper returns [int oper] : ( LESS | EQ );
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:1: eqoper returns [int oper] : ( LESS | EQ );
 	public final int eqoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:150:27: ( LESS | EQ )
-			int alt25=2;
-			int LA25_0 = input.LA(1);
-			if ( (LA25_0==LESS) ) {
-				alt25=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:27: ( LESS | EQ )
+			int alt29=2;
+			int LA29_0 = input.LA(1);
+			if ( (LA29_0==LESS) ) {
+				alt29=1;
 			}
-			else if ( (LA25_0==EQ) ) {
-				alt25=2;
+			else if ( (LA29_0==EQ) ) {
+				alt29=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 25, 0, input);
+					new NoViableAltException("", 29, 0, input);
 				throw nvae;
 			}
 
-			switch (alt25) {
+			switch (alt29) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:150:29: LESS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:29: LESS
 					{
-					match(input,LESS,FOLLOW_LESS_in_eqoper1350); 
+					match(input,LESS,FOLLOW_LESS_in_eqoper1616); 
 					oper =Abstract_Equation.less;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:150:68: EQ
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:157:68: EQ
 					{
-					match(input,EQ,FOLLOW_EQ_in_eqoper1356); 
+					match(input,EQ,FOLLOW_EQ_in_eqoper1622); 
 					oper =Abstract_Equation.equal;
 					}
 					break;
@@ -1713,7 +1924,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "arithexpr"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:152:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
 	public final Abstract_NumberTerm arithexpr() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1723,29 +1934,29 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm m1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:152:43: (m= multexpr (oper= addoper m1= multexpr )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:152:45: m= multexpr (oper= addoper m1= multexpr )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:43: (m= multexpr (oper= addoper m1= multexpr )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:45: m= multexpr (oper= addoper m1= multexpr )?
 			{
-			pushFollow(FOLLOW_multexpr_in_arithexpr1372);
+			pushFollow(FOLLOW_multexpr_in_arithexpr1638);
 			m=multexpr();
 			state._fsp--;
 
 			t = m;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:152:69: (oper= addoper m1= multexpr )?
-			int alt26=2;
-			int LA26_0 = input.LA(1);
-			if ( (LA26_0==MINUS||LA26_0==PLUS) ) {
-				alt26=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:69: (oper= addoper m1= multexpr )?
+			int alt30=2;
+			int LA30_0 = input.LA(1);
+			if ( (LA30_0==MINUS||LA30_0==PLUS) ) {
+				alt30=1;
 			}
-			switch (alt26) {
+			switch (alt30) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:152:71: oper= addoper m1= multexpr
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:159:71: oper= addoper m1= multexpr
 					{
-					pushFollow(FOLLOW_addoper_in_arithexpr1380);
+					pushFollow(FOLLOW_addoper_in_arithexpr1646);
 					oper=addoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_multexpr_in_arithexpr1384);
+					pushFollow(FOLLOW_multexpr_in_arithexpr1650);
 					m1=multexpr();
 					state._fsp--;
 
@@ -1772,7 +1983,7 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "multexpr"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:153:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
 	public final Abstract_NumberTerm multexpr() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -1782,29 +1993,29 @@ public class ActionOnlyParser extends Parser {
 		Abstract_NumberTerm a1 =null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:153:42: (a= atom (oper= multoper a1= atom )? )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:153:44: a= atom (oper= multoper a1= atom )?
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:42: (a= atom (oper= multoper a1= atom )? )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:44: a= atom (oper= multoper a1= atom )?
 			{
-			pushFollow(FOLLOW_atom_in_multexpr1401);
+			pushFollow(FOLLOW_atom_in_multexpr1667);
 			a=atom();
 			state._fsp--;
 
 			t = a;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:153:64: (oper= multoper a1= atom )?
-			int alt27=2;
-			int LA27_0 = input.LA(1);
-			if ( (LA27_0==DIV||(LA27_0 >= MOD && LA27_0 <= MULT)) ) {
-				alt27=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:64: (oper= multoper a1= atom )?
+			int alt31=2;
+			int LA31_0 = input.LA(1);
+			if ( (LA31_0==DIV||(LA31_0 >= MOD && LA31_0 <= MULT)) ) {
+				alt31=1;
 			}
-			switch (alt27) {
+			switch (alt31) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:153:65: oper= multoper a1= atom
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:160:65: oper= multoper a1= atom
 					{
-					pushFollow(FOLLOW_multoper_in_multexpr1408);
+					pushFollow(FOLLOW_multoper_in_multexpr1674);
 					oper=multoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_atom_in_multexpr1412);
+					pushFollow(FOLLOW_atom_in_multexpr1678);
 					a1=atom();
 					state._fsp--;
 
@@ -1831,43 +2042,43 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "addoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
 	public final int addoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:28: ( ( PLUS | MINUS ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:30: ( PLUS | MINUS )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:28: ( ( PLUS | MINUS ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:30: ( PLUS | MINUS )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:30: ( PLUS | MINUS )
-			int alt28=2;
-			int LA28_0 = input.LA(1);
-			if ( (LA28_0==PLUS) ) {
-				alt28=1;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:30: ( PLUS | MINUS )
+			int alt32=2;
+			int LA32_0 = input.LA(1);
+			if ( (LA32_0==PLUS) ) {
+				alt32=1;
 			}
-			else if ( (LA28_0==MINUS) ) {
-				alt28=2;
+			else if ( (LA32_0==MINUS) ) {
+				alt32=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 28, 0, input);
+					new NoViableAltException("", 32, 0, input);
 				throw nvae;
 			}
 
-			switch (alt28) {
+			switch (alt32) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:31: PLUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:31: PLUS
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_addoper1429); 
+					match(input,PLUS,FOLLOW_PLUS_in_addoper1695); 
 					oper =Abstract_ArithExpr.plus;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:155:70: MINUS
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:162:70: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_addoper1434); 
+					match(input,MINUS,FOLLOW_MINUS_in_addoper1700); 
 					oper =Abstract_ArithExpr.minus;
 					}
 					break;
@@ -1891,57 +2102,57 @@ public class ActionOnlyParser extends Parser {
 
 
 	// $ANTLR start "multoper"
-	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
+	// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
 	public final int multoper() throws RecognitionException {
 		int oper = 0;
 
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:29: ( ( MULT | DIV | MOD ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:31: ( MULT | DIV | MOD )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:29: ( ( MULT | DIV | MOD ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:31: ( MULT | DIV | MOD )
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:31: ( MULT | DIV | MOD )
-			int alt29=3;
+			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:31: ( MULT | DIV | MOD )
+			int alt33=3;
 			switch ( input.LA(1) ) {
 			case MULT:
 				{
-				alt29=1;
+				alt33=1;
 				}
 				break;
 			case DIV:
 				{
-				alt29=2;
+				alt33=2;
 				}
 				break;
 			case MOD:
 				{
-				alt29=3;
+				alt33=3;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 29, 0, input);
+					new NoViableAltException("", 33, 0, input);
 				throw nvae;
 			}
-			switch (alt29) {
+			switch (alt33) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:32: MULT
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:32: MULT
 					{
-					match(input,MULT,FOLLOW_MULT_in_multoper1449); 
+					match(input,MULT,FOLLOW_MULT_in_multoper1715); 
 					oper =Abstract_ArithExpr.times;
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:73: DIV
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:73: DIV
 					{
-					match(input,DIV,FOLLOW_DIV_in_multoper1455); 
+					match(input,DIV,FOLLOW_DIV_in_multoper1721); 
 					oper =Abstract_ArithExpr.div;
 					}
 					break;
 				case 3 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:156:111: MOD
+					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:163:111: MOD
 					{
-					match(input,MOD,FOLLOW_MOD_in_multoper1461); 
+					match(input,MOD,FOLLOW_MOD_in_multoper1727); 
 					oper =Abstract_ArithExpr.mod;
 					}
 					break;
@@ -1987,78 +2198,88 @@ public class ActionOnlyParser extends Parser {
 	public static final BitSet FOLLOW_logicalfmla_in_brule265 = new BitSet(new long[]{0x0000000200000000L});
 	public static final BitSet FOLLOW_SEMI_in_brule269 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SEMI_in_brule273 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_capability288 = new BitSet(new long[]{0x0000009008004000L});
-	public static final BitSet FOLLOW_logicalfmla_in_capability292 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_capability294 = new BitSet(new long[]{0x0000008000004000L});
-	public static final BitSet FOLLOW_action_in_capability298 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_notfmla_in_logicalfmla314 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_COMMA_in_logicalfmla334 = new BitSet(new long[]{0x0000009008004000L});
-	public static final BitSet FOLLOW_notfmla_in_logicalfmla338 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_pred_in_notfmla374 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla380 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_equation_in_notfmla386 = new BitSet(new long[]{0x0000000800000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_notfmla390 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_notfmla474 = new BitSet(new long[]{0x0000009020004000L});
-	public static final BitSet FOLLOW_pred_in_notfmla481 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla568 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_equation_in_notfmla574 = new BitSet(new long[]{0x0000000800000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_notfmla576 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_subfmla_in_notfmla665 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_subfmla679 = new BitSet(new long[]{0x0000009008004000L});
-	public static final BitSet FOLLOW_logicalfmla_in_subfmla685 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_subfmla689 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_pred_in_action709 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_classpath_in_environment808 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_word_in_classpath823 = new BitSet(new long[]{0x0000000080000000L});
-	public static final BitSet FOLLOW_POINT_in_classpath828 = new BitSet(new long[]{0x0000008000004000L});
-	public static final BitSet FOLLOW_word_in_classpath832 = new BitSet(new long[]{0x0000000080000002L});
-	public static final BitSet FOLLOW_CONST_in_word933 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_word939 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_agentnameterm1039 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_agentnameterm1047 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_TRUE_in_literal1063 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_literal1074 = new BitSet(new long[]{0x0000008000004000L});
-	public static final BitSet FOLLOW_pred_in_literal1078 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_pred_in_literal1092 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_pred1108 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_in_pred1115 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_function1127 = new BitSet(new long[]{0x0000000020000002L});
-	public static final BitSet FOLLOW_OPEN_in_function1132 = new BitSet(new long[]{0x0000008030444000L});
-	public static final BitSet FOLLOW_terms_in_function1134 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_function1137 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_term_in_terms1150 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_COMMA_in_terms1155 = new BitSet(new long[]{0x0000008030444000L});
-	public static final BitSet FOLLOW_terms_in_terms1157 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_term1176 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_stringterm_in_term1186 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_in_term1194 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_numberstring_in_atom1212 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_atom1225 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_atom1231 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_arithexpr_in_atom1235 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_atom1237 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1250 = new BitSet(new long[]{0x0000002000000000L});
-	public static final BitSet FOLLOW_STRING_in_stringterm1253 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1255 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_var1269 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_numberstring1286 = new BitSet(new long[]{0x0000000010000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring1295 = new BitSet(new long[]{0x0000000080000002L});
-	public static final BitSet FOLLOW_POINT_in_numberstring1305 = new BitSet(new long[]{0x0000000010000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring1311 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_equation1328 = new BitSet(new long[]{0x0000000000180000L});
-	public static final BitSet FOLLOW_eqoper_in_equation1332 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_arithexpr_in_equation1336 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LESS_in_eqoper1350 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EQ_in_eqoper1356 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr1372 = new BitSet(new long[]{0x0000000040400002L});
-	public static final BitSet FOLLOW_addoper_in_arithexpr1380 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr1384 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_multexpr1401 = new BitSet(new long[]{0x0000000001820002L});
-	public static final BitSet FOLLOW_multoper_in_multexpr1408 = new BitSet(new long[]{0x0000008030400000L});
-	public static final BitSet FOLLOW_atom_in_multexpr1412 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_addoper1429 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_addoper1434 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_multoper1449 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DIV_in_multoper1455 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MOD_in_multoper1461 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_capability288 = new BitSet(new long[]{0x000000800800C000L});
+	public static final BitSet FOLLOW_clogicalfmla_in_capability293 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_capability297 = new BitSet(new long[]{0x0000008000004000L});
+	public static final BitSet FOLLOW_action_in_capability301 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_notfmla_in_logicalfmla317 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_logicalfmla337 = new BitSet(new long[]{0x0000009008004000L});
+	public static final BitSet FOLLOW_notfmla_in_logicalfmla341 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_pred_in_notfmla377 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla383 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_equation_in_notfmla389 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_SQCLOSE_in_notfmla393 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NOT_in_notfmla477 = new BitSet(new long[]{0x0000009020004000L});
+	public static final BitSet FOLLOW_pred_in_notfmla484 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla571 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_equation_in_notfmla577 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_SQCLOSE_in_notfmla579 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_subfmla_in_notfmla668 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_OPEN_in_subfmla682 = new BitSet(new long[]{0x0000009008004000L});
+	public static final BitSet FOLLOW_logicalfmla_in_subfmla688 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_subfmla692 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla707 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_clogicalfmla727 = new BitSet(new long[]{0x0000008008004000L});
+	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla731 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_pred_in_cnotfmla751 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NOT_in_cnotfmla836 = new BitSet(new long[]{0x0000008020004000L});
+	public static final BitSet FOLLOW_pred_in_cnotfmla843 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_csubfmla_in_cnotfmla932 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_OPEN_in_csubfmla946 = new BitSet(new long[]{0x0000008008004000L});
+	public static final BitSet FOLLOW_clogicalfmla_in_csubfmla952 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_csubfmla956 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_pred_in_action975 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_classpath_in_environment1074 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_word_in_classpath1089 = new BitSet(new long[]{0x0000000080000000L});
+	public static final BitSet FOLLOW_POINT_in_classpath1094 = new BitSet(new long[]{0x0000008000004000L});
+	public static final BitSet FOLLOW_word_in_classpath1098 = new BitSet(new long[]{0x0000000080000002L});
+	public static final BitSet FOLLOW_CONST_in_word1199 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_word1205 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CONST_in_agentnameterm1305 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_var_in_agentnameterm1313 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_TRUE_in_literal1329 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NOT_in_literal1340 = new BitSet(new long[]{0x0000008000004000L});
+	public static final BitSet FOLLOW_pred_in_literal1344 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_pred_in_literal1358 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_var_in_pred1374 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_function_in_pred1381 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CONST_in_function1393 = new BitSet(new long[]{0x0000000020000002L});
+	public static final BitSet FOLLOW_OPEN_in_function1398 = new BitSet(new long[]{0x0000008030444000L});
+	public static final BitSet FOLLOW_terms_in_function1400 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_function1403 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_term_in_terms1416 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_terms1421 = new BitSet(new long[]{0x0000008030444000L});
+	public static final BitSet FOLLOW_terms_in_terms1423 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_term1442 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_stringterm_in_term1452 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_function_in_term1460 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_numberstring_in_atom1478 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_var_in_atom1491 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_OPEN_in_atom1497 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_arithexpr_in_atom1501 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_atom1503 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1516 = new BitSet(new long[]{0x0000002000000000L});
+	public static final BitSet FOLLOW_STRING_in_stringterm1519 = new BitSet(new long[]{0x0000000000040000L});
+	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm1521 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_var1535 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_numberstring1552 = new BitSet(new long[]{0x0000000010000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring1561 = new BitSet(new long[]{0x0000000080000002L});
+	public static final BitSet FOLLOW_POINT_in_numberstring1571 = new BitSet(new long[]{0x0000000010000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring1577 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_arithexpr_in_equation1594 = new BitSet(new long[]{0x0000000000180000L});
+	public static final BitSet FOLLOW_eqoper_in_equation1598 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_arithexpr_in_equation1602 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LESS_in_eqoper1616 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_EQ_in_eqoper1622 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr1638 = new BitSet(new long[]{0x0000000040400002L});
+	public static final BitSet FOLLOW_addoper_in_arithexpr1646 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr1650 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_multexpr1667 = new BitSet(new long[]{0x0000000001820002L});
+	public static final BitSet FOLLOW_multoper_in_multexpr1674 = new BitSet(new long[]{0x0000008030400000L});
+	public static final BitSet FOLLOW_atom_in_multexpr1678 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PLUS_in_addoper1695 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_addoper1700 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MULT_in_multoper1715 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DIV_in_multoper1721 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MOD_in_multoper1727 = new BitSet(new long[]{0x0000000000000002L});
 }
