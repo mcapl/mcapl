@@ -42,7 +42,7 @@ public class RandomEnv extends DefaultEnvironment implements ActionOnlyEnv {
 	Random r = new Random();
 
 	@Override
-	public Action selectAction(Iterator<Capability> ic) {
+	public Action selectAction(Iterator<Capability> ic, String agName) {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
 		
 		while (ic.hasNext()) {

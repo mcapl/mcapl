@@ -654,5 +654,15 @@ public class DefaultEnvironment implements AILEnv {
 	public Unifier actionResult(String agName, Action act) {
 		return null;
 	}
+	
+	/**
+	 * A crude method for stopping all agents.  Use with caution.
+	 */
+	public void stopagents() {
+		MCAPLScheduler scheduler = getScheduler();
+		for (String jobber: scheduler.getActiveJobberNames()) {
+			scheduler.notActive(jobber);
+		}
+	}
 
 }

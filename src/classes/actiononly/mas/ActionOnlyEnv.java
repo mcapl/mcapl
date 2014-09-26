@@ -41,5 +41,5 @@ public interface ActionOnlyEnv extends AILEnv {
 	 * @param ic
 	 * @return
 	 */
-	public Action selectAction(Iterator<Capability> ic);
+	public Action selectAction(Iterator<Capability> ic, String agName);
 }

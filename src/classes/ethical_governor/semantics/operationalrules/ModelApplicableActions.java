@@ -1,48 +1,48 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher 
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher and Alan Winfield
 // 
-// This file is part of the Agent Infrastructure Layer (AIL)
-//
-// The AIL is free software; you can redistribute it and/or
+// This file is part of Declarative Ethical Governor (DEG)
+// 
+// The DEG is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The AIL is distributed in the hope that it will be useful,
+// The DEG is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
+// License along with the AIL; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
+//
 //----------------------------------------------------------------------------
-
-package actiononly.semantics.operationalrules;
-
-import actiononly.mas.ActionOnlyEnv;
+package ethical_governor.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Action;
-import ail.syntax.Event;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
-import ail.syntax.Intention;
-import ail.syntax.Unifier;
+import ail.syntax.Predicate;
+
+import ethical_governor.semantics.EthicalGovernor;
+import ethical_governor.semantics.AnnotatedAction;
+import ethical_governor.mas.EthicalGovernorEnv;
 
 import java.util.ArrayList;
 
 /**
- * Select an action from a list of capabilities.
- * @author lad
+ * A rule that invokes an external simulator to model the outcome of a possible action the 
+ * agent is planning.
+ * @author louiseadennis
  *
  */
-public class SelectAction implements OSRule {
-	private static String name = "Select Action from Capabilities";
+public class ModelApplicableActions implements OSRule {
+	private static 
+	String name = "Model Applicable Actions";
 
 	/*
 	 * (non-Javadoc)
@@ -57,20 +57,15 @@ public class SelectAction implements OSRule {
 	 * @see ail.semantics.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		ActionOnlyEnv env = (ActionOnlyEnv) a.getEnv();
-		Action act = env.selectAction(a.getApplicableCapabilities(), a.getAgName());
-		
-		ArrayList<Deed> ds = new ArrayList<Deed>();
-		ds.add(new Deed(act));
-		
-		ArrayList<Guard> gs = new ArrayList<Guard>();
-		gs.add(new Guard());
-		
-		Intention i = new Intention(new Event(Event.Estart), ds, gs, new Unifier());
-		a.setIntention(i);
-		
-		a.clearApplicableCapabilities();
-		
+		EthicalGovernor eg = (EthicalGovernor) a;
+		ArrayList<Action> as = eg.getApplicableActions();
+		ArrayList<AnnotatedAction> aas = new ArrayList<AnnotatedAction>();
+		for (Action act: as) {
+			ArrayList<Predicate> outcomes = ((EthicalGovernorEnv) eg.getEnv()).model(act, eg.getAgName());
+			AnnotatedAction aa = new AnnotatedAction(act, outcomes);
+			aas.add(aa);
+		}
+		eg.setAnnotatedActions(aas);
 	}
 
 	/*
