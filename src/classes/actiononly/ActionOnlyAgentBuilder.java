@@ -26,6 +26,8 @@ package actiononly;
 
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
+import actiononly.semantics.ActionOnlyAgent;
+import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
 import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
@@ -50,13 +52,8 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 		parsefile(filename);
 		
 		try {
-			AILAgent agent = new AILAgent(abs_agent.getAgName());
-	    	for (Abstract_Literal l: abs_agent.beliefs) {
-	    		agent.addInitialBel(l.toMCAPL());
-	    	}
-	    	for (Abstract_Rule r: abs_agent.rules) {
-	    		agent.addRule(r.toMCAPL());
-	    	}
+			ActionOnlyAgent agent = new ActionOnlyAgent(abs_agent.getAgName());
+			((Abstract_ActionOnlyAgent) abs_agent).addStructures(agent);
 	    	try {
 	    		agent.initAg();
 	    	} catch (Exception e) {

@@ -27,7 +27,7 @@ env = ethical_governor.human_hole.HumanHoleEnv
 mas.agent.1.file = src/examples/ethical_governor/human_hole/governor.eg
 mas.agent.1.builder = ethical_governor.EthicalGovernorBuilder
 mas.agent.2.file = src/examples/actiononly/random/simplerobot.ao
-mas.agent.2.build = actiononly.ActionOnlyAgentBuilder
+mas.agent.2.builder = actiononly.ActionOnlyAgentBuilder
 
 log.info = eass.mas.DefaultEnvironment,ethical_governor.human_hole.HumanHoleEnv
 log.format = brief

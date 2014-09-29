@@ -236,6 +236,22 @@ public class Abstract_Agent {
  	 */
     public AILAgent toMCAPL(MAS mas) {
     	AILAgent ag = new AILAgent(mas, fAgName);
+    	addStructures(ag);
+     	
+    	try {
+    		ag.initAg();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return ag;
+    }
+    
+    /**
+     * Helper method for converting the abstract agent to a concrete one.  This is useful for builders that do not
+     * reference a MAS.
+     * @param ag
+     */
+    public void addStructures(AILAgent ag) {
     	for (Abstract_Literal l: beliefs) {
     		ag.addInitialBel(l.toMCAPL());
     	}
@@ -256,13 +272,7 @@ public class Abstract_Agent {
     	for (Abstract_Capability c: capabilities) {
     		ag.addCapability(c.toMCAPL());
     	}
-    	
-    	try {
-    		ag.initAg();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	return ag;
+   	
     }
     
     /**

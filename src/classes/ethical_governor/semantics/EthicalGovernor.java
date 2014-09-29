@@ -52,7 +52,7 @@ public class EthicalGovernor extends AILAgent {
 	ArrayList<Action> selectedActions;
 	
 	// A List ordering actors in the order there safety should be prioritised.
-	ArrayList<Predicate> ethical_precedence;
+	ArrayList<Predicate> ethical_precedence = new ArrayList<Predicate>();
 	
 	// A Map of outcomes to numeric scores
 	HashMap<String, Integer> ethical_scores = new HashMap<String, Integer>();

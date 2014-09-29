@@ -37,6 +37,8 @@ import ail.syntax.ast.Abstract_Rule;
 
 import ethical_governor.parser.EthicalGovernorLexer;
 import ethical_governor.parser.EthicalGovernorParser;
+import ethical_governor.semantics.EthicalGovernor;
+import ethical_governor.syntax.ast.Abstract_EthicalGovernor;
 
 
 public class EthicalGovernorBuilder implements AgentBuilder {
@@ -51,18 +53,8 @@ public class EthicalGovernorBuilder implements AgentBuilder {
 		parsefile(filename);
 		
 		try {
-			AILAgent agent = new AILAgent(abs_agent.getAgName());
-	    	for (Abstract_Literal l: abs_agent.beliefs) {
-	    		agent.addInitialBel(l.toMCAPL());
-	    	}
-	    	for (Abstract_Rule r: abs_agent.rules) {
-	    		agent.addRule(r.toMCAPL());
-	    	}
-	    	try {
-	    		agent.initAg();
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	}
+			EthicalGovernor agent = new EthicalGovernor(abs_agent.getAgName());
+	    	((Abstract_EthicalGovernor) abs_agent).addStructures(agent);
 	    	
 	    	return agent;
 		} catch (Exception e) {

@@ -22,16 +22,32 @@
 //
 //----------------------------------------------------------------------------
 
-:name: ethical_g
-:agent: robot
+package ethical_governor.parser;
 
-:Outcome Scores:
+import junit.framework.Assert;
 
-safe = 0
-collision = 4
-hole = 10
+import org.junit.Test;
 
-:Ethical Precedence:
+import ethical_governor.EthicalGovernorBuilder;
+import ethical_governor.semantics.EthicalGovernor;
+import ail.syntax.Unifier;
+import ajpf.MCAPLcontroller;
 
-human > robot
-
+/**
+ * Tests of the ethical governor parser.
+ * @author lad
+ *
+ */
+public class ParsingTests {
+	@Test public void simplegovernor() {
+		try {
+			String abs_filename = MCAPLcontroller.getFilename("/src/examples/ethical_governor/human_hole/governor.eg");
+			EthicalGovernorBuilder builder = new EthicalGovernorBuilder();
+			EthicalGovernor eg = (EthicalGovernor) builder.getAgent(abs_filename);
+			Assert.assertNotNull(eg);
+		} catch (Exception e) {
+			System.err.println(e);
+			Assert.assertTrue(false);
+		}
+	}
+}

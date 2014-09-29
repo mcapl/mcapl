@@ -99,10 +99,12 @@ public class Abstract_EthicalGovernor extends Abstract_Agent {
 	}
 	
 	/**
-	 * Helper method for constructing a concrete Ethical Governor from an abstract one.
+	 * Helper method for constructing a concrete Ethical Governor from an abstract one.  Separated
+	 * out from toMCAPL since this one does not need a MAS as an argument so can be used by
+	 * Agent Builders.
 	 * @param ag
 	 */
-	protected void addStructures(EthicalGovernor ag) {
+	public void addStructures(EthicalGovernor ag) {
 				ag.setGoverned(governed);
 
 		    	for (StringTuple score: scores) {
