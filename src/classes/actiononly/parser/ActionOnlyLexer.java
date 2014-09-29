@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-25 16:06:04
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-29 15:37:19
 
 package actiononly.parser;
 
@@ -27,27 +27,28 @@ public class ActionOnlyLexer extends Lexer {
 	public static final int DIV=17;
 	public static final int DOUBLEQUOTE=18;
 	public static final int EQ=19;
-	public static final int LESS=20;
-	public static final int LINE_COMMENT=21;
-	public static final int MINUS=22;
-	public static final int MOD=23;
-	public static final int MULT=24;
-	public static final int NAME=25;
-	public static final int NEWLINE=26;
-	public static final int NOT=27;
-	public static final int NUMBER=28;
-	public static final int OPEN=29;
-	public static final int PLUS=30;
-	public static final int POINT=31;
-	public static final int QUERY=32;
-	public static final int SEMI=33;
-	public static final int SHRIEK=34;
-	public static final int SQCLOSE=35;
-	public static final int SQOPEN=36;
-	public static final int STRING=37;
-	public static final int TRUE=38;
-	public static final int VAR=39;
-	public static final int WS=40;
+	public static final int GOAL=20;
+	public static final int LESS=21;
+	public static final int LINE_COMMENT=22;
+	public static final int MINUS=23;
+	public static final int MOD=24;
+	public static final int MULT=25;
+	public static final int NAME=26;
+	public static final int NEWLINE=27;
+	public static final int NOT=28;
+	public static final int NUMBER=29;
+	public static final int OPEN=30;
+	public static final int PLUS=31;
+	public static final int POINT=32;
+	public static final int QUERY=33;
+	public static final int SEMI=34;
+	public static final int SHRIEK=35;
+	public static final int SQCLOSE=36;
+	public static final int SQOPEN=37;
+	public static final int STRING=38;
+	public static final int TRUE=39;
+	public static final int VAR=40;
+	public static final int WS=41;
 
 	    public int plain_nesting = 0;
 	    public int sq_nesting = 0;
@@ -70,15 +71,15 @@ public class ActionOnlyLexer extends Lexer {
 	public ActionOnlyLexer(CharStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
-	@Override public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g"; }
+	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g"; }
 
 	// $ANTLR start "ACTIONONLY"
 	public final void mACTIONONLY() throws RecognitionException {
 		try {
 			int _type = ACTIONONLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:104:12: ({...}? => 'AO' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:104:13: {...}? => 'AO'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:12: ({...}? => 'AO' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:13: {...}? => 'AO'
 			{
 			if ( !((curly_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "ACTIONONLY", "curly_nesting == 0");
@@ -102,8 +103,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEFS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:106:9: ( ':Initial Beliefs:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:106:11: ':Initial Beliefs:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:9: ( ':Initial Beliefs:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:11: ':Initial Beliefs:'
 			{
 			match(":Initial Beliefs:"); 
 
@@ -123,8 +124,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEFRULES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:2: ( ':Reasoning Rules:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:108:4: ':Reasoning Rules:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:2: ( ':Reasoning Rules:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:4: ':Reasoning Rules:'
 			{
 			match(":Reasoning Rules:"); 
 
@@ -140,13 +141,34 @@ public class ActionOnlyLexer extends Lexer {
 	}
 	// $ANTLR end "BELIEFRULES"
 
+	// $ANTLR start "GOAL"
+	public final void mGOAL() throws RecognitionException {
+		try {
+			int _type = GOAL;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:6: ( ':Initial Goal:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:8: ':Initial Goal:'
+			{
+			match(":Initial Goal:"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "GOAL"
+
 	// $ANTLR start "NAME"
 	public final void mNAME() throws RecognitionException {
 		try {
 			int _type = NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:6: ( ':name:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:8: ':name:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:6: ( ':name:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:8: ':name:'
 			{
 			match(":name:"); 
 
@@ -166,13 +188,13 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BELIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:11: {...}? => ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:9: ({...}? => ( 'B' | '.B' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:11: {...}? => ( 'B' | '.B' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:75: ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:75: ( 'B' | '.B' )
 			int alt1=2;
 			int LA1_0 = input.LA(1);
 			if ( (LA1_0=='B') ) {
@@ -190,13 +212,13 @@ public class ActionOnlyLexer extends Lexer {
 
 			switch (alt1) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:76: 'B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:76: 'B'
 					{
 					match('B'); 
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:82: '.B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:82: '.B'
 					{
 					match(".B"); 
 
@@ -221,8 +243,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = BRULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:2: ( ':-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:4: ':-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:2: ( ':-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:4: ':-'
 			{
 			match(":-"); 
 
@@ -242,8 +264,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = ACTIONS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:9: ( ':Actions:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:114:11: ':Actions:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:116:9: ( ':Actions:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:116:11: ':Actions:'
 			{
 			match(":Actions:"); 
 
@@ -263,8 +285,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = TRUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:6: ({...}? => 'True' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:8: {...}? => 'True'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:117:6: ({...}? => 'True' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:117:8: {...}? => 'True'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -287,12 +309,12 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:5: ( '/*' ( . )* '*/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:7: '/*' ( . )* '*/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:5: ( '/*' ( . )* '*/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:7: '/*' ( . )* '*/'
 			{
 			match("/*"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:12: ( . )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:12: ( . )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -313,7 +335,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt2) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:168:12: .
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:12: .
 					{
 					matchAny(); 
 					}
@@ -343,12 +365,12 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
 			match("//"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:12: (~ ( '\\n' | '\\r' ) )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:12: (~ ( '\\n' | '\\r' ) )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -359,7 +381,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt3) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -377,7 +399,7 @@ public class ActionOnlyLexer extends Lexer {
 				}
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:26: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:26: ( '\\r' )?
 			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0=='\r') ) {
@@ -385,7 +407,7 @@ public class ActionOnlyLexer extends Lexer {
 			}
 			switch (alt4) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:171:26: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:26: '\\r'
 					{
 					match('\r'); 
 					}
@@ -411,10 +433,10 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:8: ( ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:8: ( ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: ( '\\r' )? '\\n'
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: ( '\\r' )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0=='\r') ) {
@@ -422,7 +444,7 @@ public class ActionOnlyLexer extends Lexer {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:9: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: '\\r'
 					{
 					match('\r'); 
 					}
@@ -448,10 +470,10 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:5: ( ( ' ' | '\\t' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:9: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:5: ( ( ' ' | '\\t' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:9: ( ' ' | '\\t' )+
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:174:9: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:9: ( ' ' | '\\t' )+
 			int cnt6=0;
 			loop6:
 			while (true) {
@@ -463,7 +485,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt6) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
 						input.consume();
@@ -501,8 +523,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = OPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:6: ( '(' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:177:9: '('
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:6: ( '(' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:9: '('
 			{
 			match('('); 
 			plain_nesting++;
@@ -522,8 +544,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:7: ( ')' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:178:9: ')'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:7: ( ')' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:9: ')'
 			{
 			match(')'); 
 			plain_nesting--;
@@ -543,8 +565,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SQOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:8: ( '[' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:10: '['
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:8: ( '[' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:10: '['
 			{
 			match('['); 
 			sq_nesting++;
@@ -564,8 +586,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SQCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:9: ( ']' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:11: ']'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:9: ( ']' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:11: ']'
 			{
 			match(']'); 
 			sq_nesting--;
@@ -585,8 +607,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CURLYOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:11: ( '{' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:13: '{'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:11: ( '{' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:13: '{'
 			{
 			match('{'); 
 			curly_nesting++;
@@ -606,8 +628,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CURLYCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:12: ( '}' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:14: '}'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:12: ( '}' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:14: '}'
 			{
 			match('}'); 
 			curly_nesting--;
@@ -627,8 +649,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = DOUBLEQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:2: ( '\"' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:4: '\"'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:2: ( '\"' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:4: '\"'
 			{
 			match('\"'); 
 			if (stringterm) {stringterm = false;} else {stringterm = true;}
@@ -648,8 +670,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:185:5: ( '~' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:185:7: '~'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:5: ( '~' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:7: '~'
 			{
 			match('~'); 
 			}
@@ -668,13 +690,13 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
 			{
 			if ( !((stringterm)) ) {
 				throw new FailedPredicateException(input, "STRING", "stringterm");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
 			int cnt7=0;
 			loop7:
 			while (true) {
@@ -686,7 +708,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt7) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -723,14 +745,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = CONST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "CONST", "!stringterm");
 			}
 			matchRange('a','z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:188:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop8:
 			while (true) {
 				int alt8=2;
@@ -741,7 +763,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt8) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -775,14 +797,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = VAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "VAR", "!stringterm");
 			}
 			matchRange('A','Z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -793,7 +815,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt9) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -827,14 +849,14 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:10: {...}? => '0' .. '9' ( '0' .. '9' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
 			}
 			matchRange('0','9'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:35: ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:35: ( '0' .. '9' )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -845,7 +867,7 @@ public class ActionOnlyLexer extends Lexer {
 
 				switch (alt10) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 						input.consume();
@@ -879,8 +901,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = LESS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:6: ( '<' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:193:8: '<'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:6: ( '<' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:8: '<'
 			{
 			match('<'); 
 			}
@@ -899,8 +921,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = EQ;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:4: ( '==' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:194:7: '=='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:4: ( '==' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:7: '=='
 			{
 			match("=="); 
 
@@ -920,8 +942,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = POINT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:7: ( '.' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:9: '.'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:7: ( '.' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:9: '.'
 			{
 			match('.'); 
 			}
@@ -940,8 +962,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MULT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:6: ( '*' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:8: '*'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:6: ( '*' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:8: '*'
 			{
 			match('*'); 
 			}
@@ -960,8 +982,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:6: ( '+' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:8: '+'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:6: ( '+' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:8: '+'
 			{
 			match('+'); 
 			}
@@ -980,8 +1002,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:7: ( '-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:9: '-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:7: ( '-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:9: '-'
 			{
 			match('-'); 
 			}
@@ -1000,8 +1022,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = DIV;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:5: ( '/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:7: '/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:5: ( '/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:7: '/'
 			{
 			match('/'); 
 			}
@@ -1020,8 +1042,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = MOD;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:5: ( '%' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:7: '%'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:5: ( '%' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:7: '%'
 			{
 			match('%'); 
 			}
@@ -1040,8 +1062,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SHRIEK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:8: ( '!' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:10: '!'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:8: ( '!' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:10: '!'
 			{
 			match('!'); 
 			}
@@ -1060,8 +1082,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:7: ( ',' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:203:9: ','
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:7: ( ',' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:9: ','
 			{
 			match(','); 
 			}
@@ -1080,8 +1102,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:6: ( ';' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:8: ';'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:6: ( ';' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:8: ';'
 			{
 			match(';'); 
 			}
@@ -1100,8 +1122,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:7: ( ':' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:9: ':'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:207:7: ( ':' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:207:9: ':'
 			{
 			match(':'); 
 			}
@@ -1120,8 +1142,8 @@ public class ActionOnlyLexer extends Lexer {
 		try {
 			int _type = QUERY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:7: ( '?' )
-			// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:9: '?'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:208:7: ( '?' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:208:9: '?'
 			{
 			match('?'); 
 			}
@@ -1137,264 +1159,271 @@ public class ActionOnlyLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:8: ( ACTIONONLY | BELIEFS | BELIEFRULES | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
-		int alt11=37;
+		// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:8: ( ACTIONONLY | BELIEFS | BELIEFRULES | GOAL | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
+		int alt11=38;
 		alt11 = dfa11.predict(input);
 		switch (alt11) {
 			case 1 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:10: ACTIONONLY
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:10: ACTIONONLY
 				{
 				mACTIONONLY(); 
 
 				}
 				break;
 			case 2 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:21: BELIEFS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:21: BELIEFS
 				{
 				mBELIEFS(); 
 
 				}
 				break;
 			case 3 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:29: BELIEFRULES
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:29: BELIEFRULES
 				{
 				mBELIEFRULES(); 
 
 				}
 				break;
 			case 4 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:41: NAME
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:41: GOAL
+				{
+				mGOAL(); 
+
+				}
+				break;
+			case 5 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:46: NAME
 				{
 				mNAME(); 
 
 				}
 				break;
-			case 5 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:46: BELIEVE
+			case 6 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:51: BELIEVE
 				{
 				mBELIEVE(); 
 
 				}
 				break;
-			case 6 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:54: BRULEARROW
+			case 7 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:59: BRULEARROW
 				{
 				mBRULEARROW(); 
 
 				}
 				break;
-			case 7 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:65: ACTIONS
+			case 8 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:70: ACTIONS
 				{
 				mACTIONS(); 
 
 				}
 				break;
-			case 8 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:73: TRUE
+			case 9 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:78: TRUE
 				{
 				mTRUE(); 
 
 				}
 				break;
-			case 9 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:78: COMMENT
+			case 10 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:83: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
-			case 10 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:86: LINE_COMMENT
+			case 11 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:91: LINE_COMMENT
 				{
 				mLINE_COMMENT(); 
 
 				}
 				break;
-			case 11 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:99: NEWLINE
+			case 12 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:104: NEWLINE
 				{
 				mNEWLINE(); 
 
 				}
 				break;
-			case 12 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:107: WS
+			case 13 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:112: WS
 				{
 				mWS(); 
 
 				}
 				break;
-			case 13 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:110: OPEN
+			case 14 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:115: OPEN
 				{
 				mOPEN(); 
 
 				}
 				break;
-			case 14 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:115: CLOSE
+			case 15 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:120: CLOSE
 				{
 				mCLOSE(); 
 
 				}
 				break;
-			case 15 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:121: SQOPEN
+			case 16 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:126: SQOPEN
 				{
 				mSQOPEN(); 
 
 				}
 				break;
-			case 16 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:128: SQCLOSE
+			case 17 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:133: SQCLOSE
 				{
 				mSQCLOSE(); 
 
 				}
 				break;
-			case 17 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:136: CURLYOPEN
+			case 18 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:141: CURLYOPEN
 				{
 				mCURLYOPEN(); 
 
 				}
 				break;
-			case 18 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:146: CURLYCLOSE
+			case 19 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:151: CURLYCLOSE
 				{
 				mCURLYCLOSE(); 
 
 				}
 				break;
-			case 19 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:157: DOUBLEQUOTE
+			case 20 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:162: DOUBLEQUOTE
 				{
 				mDOUBLEQUOTE(); 
 
 				}
 				break;
-			case 20 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:169: NOT
+			case 21 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:174: NOT
 				{
 				mNOT(); 
 
 				}
 				break;
-			case 21 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:173: STRING
+			case 22 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:178: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
-			case 22 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:180: CONST
+			case 23 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:185: CONST
 				{
 				mCONST(); 
 
 				}
 				break;
-			case 23 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:186: VAR
+			case 24 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:191: VAR
 				{
 				mVAR(); 
 
 				}
 				break;
-			case 24 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:190: NUMBER
+			case 25 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:195: NUMBER
 				{
 				mNUMBER(); 
 
 				}
 				break;
-			case 25 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:197: LESS
+			case 26 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:202: LESS
 				{
 				mLESS(); 
 
 				}
 				break;
-			case 26 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:202: EQ
+			case 27 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:207: EQ
 				{
 				mEQ(); 
 
 				}
 				break;
-			case 27 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:205: POINT
+			case 28 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:210: POINT
 				{
 				mPOINT(); 
 
 				}
 				break;
-			case 28 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:211: MULT
+			case 29 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:216: MULT
 				{
 				mMULT(); 
 
 				}
 				break;
-			case 29 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:216: PLUS
+			case 30 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:221: PLUS
 				{
 				mPLUS(); 
 
 				}
 				break;
-			case 30 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:221: MINUS
+			case 31 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:226: MINUS
 				{
 				mMINUS(); 
 
 				}
 				break;
-			case 31 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:227: DIV
+			case 32 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:232: DIV
 				{
 				mDIV(); 
 
 				}
 				break;
-			case 32 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:231: MOD
+			case 33 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:236: MOD
 				{
 				mMOD(); 
 
 				}
 				break;
-			case 33 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:235: SHRIEK
+			case 34 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:240: SHRIEK
 				{
 				mSHRIEK(); 
 
 				}
 				break;
-			case 34 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:242: COMMA
+			case 35 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:247: COMMA
 				{
 				mCOMMA(); 
 
 				}
 				break;
-			case 35 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:248: SEMI
+			case 36 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:253: SEMI
 				{
 				mSEMI(); 
 
 				}
 				break;
-			case 36 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:253: COLON
+			case 37 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:258: COLON
 				{
 				mCOLON(); 
 
 				}
 				break;
-			case 37 :
-				// /Users/lad/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:259: QUERY
+			case 38 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:264: QUERY
 				{
 				mQUERY(); 
 
@@ -1408,27 +1437,29 @@ public class ActionOnlyLexer extends Lexer {
 	protected DFA11 dfa11 = new DFA11(this);
 	static final String DFA11_eotS =
 		"\1\uffff\1\40\1\47\1\50\1\52\1\40\1\56\12\uffff\1\57\1\40\1\61\13\uffff"+
-		"\1\63\1\uffff\1\40\11\uffff\1\40\4\uffff\1\57\1\uffff\1\61\2\uffff\1\40"+
-		"\3\uffff\1\72\2\uffff";
+		"\1\63\1\uffff\1\40\11\uffff\1\40\4\uffff\1\57\1\uffff\1\61\3\uffff\1\40"+
+		"\4\uffff\1\75\11\uffff";
 	static final String DFA11_eofS =
-		"\74\uffff";
+		"\105\uffff";
 	static final String DFA11_minS =
 		"\1\11\1\60\1\55\1\60\1\102\1\60\1\52\12\uffff\3\60\13\uffff\1\60\1\0\1"+
-		"\60\6\uffff\1\0\2\uffff\1\60\3\uffff\1\0\1\60\1\0\1\60\1\0\1\uffff\1\60"+
-		"\3\uffff\1\60\1\0\1\uffff";
+		"\60\1\156\5\uffff\1\0\2\uffff\1\60\3\uffff\1\0\1\60\1\0\1\60\1\0\1\uffff"+
+		"\1\151\1\60\3\uffff\1\164\1\60\1\151\1\0\1\141\1\uffff\1\154\1\40\1\102"+
+		"\2\uffff";
 	static final String DFA11_maxS =
 		"\1\176\1\172\1\156\1\172\1\102\1\172\1\57\12\uffff\3\172\13\uffff\1\172"+
-		"\1\0\1\172\6\uffff\1\0\2\uffff\1\172\3\uffff\1\0\1\172\1\0\1\172\1\0\1"+
-		"\uffff\1\172\3\uffff\1\172\1\0\1\uffff";
+		"\1\0\1\172\1\156\5\uffff\1\0\2\uffff\1\172\3\uffff\1\0\1\172\1\0\1\172"+
+		"\1\0\1\uffff\1\151\1\172\3\uffff\1\164\1\172\1\151\1\0\1\141\1\uffff\1"+
+		"\154\1\40\1\107\2\uffff";
 	static final String DFA11_acceptS =
-		"\7\uffff\1\13\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\3\uffff\1\25"+
-		"\1\31\1\32\1\34\1\35\1\36\1\40\1\41\1\42\1\43\1\45\3\uffff\1\2\1\3\1\4"+
-		"\1\6\1\7\1\44\1\uffff\1\5\1\33\1\uffff\1\11\1\12\1\37\5\uffff\1\27\1\uffff"+
-		"\1\26\1\30\1\1\2\uffff\1\10";
+		"\7\uffff\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\3\uffff\1\26"+
+		"\1\32\1\33\1\35\1\36\1\37\1\41\1\42\1\43\1\44\1\46\4\uffff\1\3\1\5\1\7"+
+		"\1\10\1\45\1\uffff\1\6\1\34\1\uffff\1\12\1\13\1\40\5\uffff\1\30\2\uffff"+
+		"\1\27\1\31\1\1\5\uffff\1\11\3\uffff\1\2\1\4";
 	static final String DFA11_specialS =
-		"\1\20\1\6\1\uffff\1\11\1\12\1\24\13\uffff\1\1\1\23\1\5\13\uffff\1\2\1"+
-		"\16\1\10\6\uffff\1\14\2\uffff\1\4\3\uffff\1\15\1\22\1\17\1\3\1\7\1\uffff"+
-		"\1\0\3\uffff\1\21\1\13\1\uffff}>";
+		"\1\1\1\10\1\uffff\1\24\1\0\1\6\13\uffff\1\15\1\22\1\7\13\uffff\1\13\1"+
+		"\17\1\11\6\uffff\1\12\2\uffff\1\5\3\uffff\1\21\1\23\1\20\1\3\1\14\2\uffff"+
+		"\1\4\4\uffff\1\2\1\uffff\1\16\7\uffff}>";
 	static final String[] DFA11_transitionS = {
 			"\1\10\1\7\2\uffff\1\7\22\uffff\1\10\1\33\1\17\2\uffff\1\32\2\uffff\1"+
 			"\11\1\12\1\27\1\30\1\34\1\31\1\4\1\6\12\23\1\2\1\35\1\25\1\26\1\uffff"+
@@ -1467,7 +1498,7 @@ public class ActionOnlyLexer extends Lexer {
 			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
 			"\1\uffff",
 			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"",
+			"\1\65",
 			"",
 			"",
 			"",
@@ -1476,7 +1507,7 @@ public class ActionOnlyLexer extends Lexer {
 			"\1\uffff",
 			"",
 			"",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\24\41\1\65\5\41",
+			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\24\41\1\66\5\41",
 			"",
 			"",
 			"",
@@ -1486,12 +1517,21 @@ public class ActionOnlyLexer extends Lexer {
 			"\12\62\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
 			"\1\uffff",
 			"",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\4\41\1\71\25\41",
+			"\1\72",
+			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\4\41\1\73\25\41",
 			"",
 			"",
 			"",
+			"\1\74",
 			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+			"\1\76",
 			"\1\uffff",
+			"\1\100",
+			"",
+			"\1\101",
+			"\1\102",
+			"\1\103\4\uffff\1\104",
+			"",
 			""
 	};
 
@@ -1526,7 +1566,7 @@ public class ActionOnlyLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( ACTIONONLY | BELIEFS | BELIEFRULES | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY );";
+			return "1:1: Tokens : ( ACTIONONLY | BELIEFS | BELIEFRULES | GOAL | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY );";
 		}
 		@Override
 		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
@@ -1534,142 +1574,6 @@ public class ActionOnlyLexer extends Lexer {
 			int _s = s;
 			switch ( s ) {
 					case 0 : 
-						int LA11_53 = input.LA(1);
-						 
-						int index11_53 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_53=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 57;}
-						else if ( ((LA11_53 >= '0' && LA11_53 <= '9')||(LA11_53 >= 'A' && LA11_53 <= 'Z')||LA11_53=='_'||(LA11_53 >= 'a' && LA11_53 <= 'd')||(LA11_53 >= 'f' && LA11_53 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_53);
-						if ( s>=0 ) return s;
-						break;
-
-					case 1 : 
-						int LA11_17 = input.LA(1);
-						 
-						int index11_17 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_17 >= '0' && LA11_17 <= '9')||(LA11_17 >= 'A' && LA11_17 <= 'Z')||LA11_17=='_'||(LA11_17 >= 'a' && LA11_17 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
-						else s = 47;
-						 
-						input.seek(index11_17);
-						if ( s>=0 ) return s;
-						break;
-
-					case 2 : 
-						int LA11_31 = input.LA(1);
-						 
-						int index11_31 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_31 >= '0' && LA11_31 <= '9')||(LA11_31 >= 'A' && LA11_31 <= 'Z')||LA11_31=='_'||(LA11_31 >= 'a' && LA11_31 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 51;
-						 
-						input.seek(index11_31);
-						if ( s>=0 ) return s;
-						break;
-
-					case 3 : 
-						int LA11_50 = input.LA(1);
-						 
-						int index11_50 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_50 >= '0' && LA11_50 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
-						else if ( ((LA11_50 >= 'A' && LA11_50 <= 'Z')||LA11_50=='_'||(LA11_50 >= 'a' && LA11_50 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
-						 
-						input.seek(index11_50);
-						if ( s>=0 ) return s;
-						break;
-
-					case 4 : 
-						int LA11_43 = input.LA(1);
-						 
-						int index11_43 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_43=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 53;}
-						else if ( ((LA11_43 >= '0' && LA11_43 <= '9')||(LA11_43 >= 'A' && LA11_43 <= 'Z')||LA11_43=='_'||(LA11_43 >= 'a' && LA11_43 <= 't')||(LA11_43 >= 'v' && LA11_43 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_43);
-						if ( s>=0 ) return s;
-						break;
-
-					case 5 : 
-						int LA11_19 = input.LA(1);
-						 
-						int index11_19 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_19 >= '0' && LA11_19 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
-						else if ( ((LA11_19 >= 'A' && LA11_19 <= 'Z')||LA11_19=='_'||(LA11_19 >= 'a' && LA11_19 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
-						 
-						input.seek(index11_19);
-						if ( s>=0 ) return s;
-						break;
-
-					case 6 : 
-						int LA11_1 = input.LA(1);
-						 
-						int index11_1 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_1=='O') && (((curly_nesting == 0)||(stringterm)||(!stringterm)))) {s = 31;}
-						else if ( ((LA11_1 >= '0' && LA11_1 <= '9')||(LA11_1 >= 'A' && LA11_1 <= 'N')||(LA11_1 >= 'P' && LA11_1 <= 'Z')||LA11_1=='_'||(LA11_1 >= 'a' && LA11_1 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_1);
-						if ( s>=0 ) return s;
-						break;
-
-					case 7 : 
-						int LA11_51 = input.LA(1);
-						 
-						int index11_51 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting == 0)) ) {s = 56;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_51);
-						if ( s>=0 ) return s;
-						break;
-
-					case 8 : 
-						int LA11_33 = input.LA(1);
-						 
-						int index11_33 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_33 >= '0' && LA11_33 <= '9')||(LA11_33 >= 'A' && LA11_33 <= 'Z')||LA11_33=='_'||(LA11_33 >= 'a' && LA11_33 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_33);
-						if ( s>=0 ) return s;
-						break;
-
-					case 9 : 
-						int LA11_3 = input.LA(1);
-						 
-						int index11_3 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_3 >= '0' && LA11_3 <= '9')||(LA11_3 >= 'A' && LA11_3 <= 'Z')||LA11_3=='_'||(LA11_3 >= 'a' && LA11_3 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 40;
-						 
-						input.seek(index11_3);
-						if ( s>=0 ) return s;
-						break;
-
-					case 10 : 
 						int LA11_4 = input.LA(1);
 						 
 						int index11_4 = input.index();
@@ -1682,74 +1586,7 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 11 : 
-						int LA11_58 = input.LA(1);
-						 
-						int index11_58 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 59;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_58);
-						if ( s>=0 ) return s;
-						break;
-
-					case 12 : 
-						int LA11_40 = input.LA(1);
-						 
-						int index11_40 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 41;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_40);
-						if ( s>=0 ) return s;
-						break;
-
-					case 13 : 
-						int LA11_47 = input.LA(1);
-						 
-						int index11_47 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 54;}
-						 
-						input.seek(index11_47);
-						if ( s>=0 ) return s;
-						break;
-
-					case 14 : 
-						int LA11_32 = input.LA(1);
-						 
-						int index11_32 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_32);
-						if ( s>=0 ) return s;
-						break;
-
-					case 15 : 
-						int LA11_49 = input.LA(1);
-						 
-						int index11_49 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 55;}
-						 
-						input.seek(index11_49);
-						if ( s>=0 ) return s;
-						break;
-
-					case 16 : 
+					case 1 : 
 						int LA11_0 = input.LA(1);
 						 
 						int index11_0 = input.index();
@@ -1790,33 +1627,224 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 17 : 
-						int LA11_57 = input.LA(1);
+					case 2 : 
+						int LA11_59 = input.LA(1);
 						 
-						int index11_57 = input.index();
+						int index11_59 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA11_57 >= '0' && LA11_57 <= '9')||(LA11_57 >= 'A' && LA11_57 <= 'Z')||LA11_57=='_'||(LA11_57 >= 'a' && LA11_57 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 58;
+						if ( ((LA11_59 >= '0' && LA11_59 <= '9')||(LA11_59 >= 'A' && LA11_59 <= 'Z')||LA11_59=='_'||(LA11_59 >= 'a' && LA11_59 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 61;
 						 
-						input.seek(index11_57);
+						input.seek(index11_59);
+						if ( s>=0 ) return s;
+						break;
+
+					case 3 : 
+						int LA11_50 = input.LA(1);
+						 
+						int index11_50 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_50 >= '0' && LA11_50 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
+						else if ( ((LA11_50 >= 'A' && LA11_50 <= 'Z')||LA11_50=='_'||(LA11_50 >= 'a' && LA11_50 <= 'z')) && ((stringterm))) {s = 20;}
+						else s = 49;
+						 
+						input.seek(index11_50);
+						if ( s>=0 ) return s;
+						break;
+
+					case 4 : 
+						int LA11_54 = input.LA(1);
+						 
+						int index11_54 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_54=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 59;}
+						else if ( ((LA11_54 >= '0' && LA11_54 <= '9')||(LA11_54 >= 'A' && LA11_54 <= 'Z')||LA11_54=='_'||(LA11_54 >= 'a' && LA11_54 <= 'd')||(LA11_54 >= 'f' && LA11_54 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_54);
+						if ( s>=0 ) return s;
+						break;
+
+					case 5 : 
+						int LA11_43 = input.LA(1);
+						 
+						int index11_43 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_43=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 54;}
+						else if ( ((LA11_43 >= '0' && LA11_43 <= '9')||(LA11_43 >= 'A' && LA11_43 <= 'Z')||LA11_43=='_'||(LA11_43 >= 'a' && LA11_43 <= 't')||(LA11_43 >= 'v' && LA11_43 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_43);
+						if ( s>=0 ) return s;
+						break;
+
+					case 6 : 
+						int LA11_5 = input.LA(1);
+						 
+						int index11_5 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_5=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 43;}
+						else if ( ((LA11_5 >= '0' && LA11_5 <= '9')||(LA11_5 >= 'A' && LA11_5 <= 'Z')||LA11_5=='_'||(LA11_5 >= 'a' && LA11_5 <= 'q')||(LA11_5 >= 's' && LA11_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_5);
+						if ( s>=0 ) return s;
+						break;
+
+					case 7 : 
+						int LA11_19 = input.LA(1);
+						 
+						int index11_19 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_19 >= '0' && LA11_19 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
+						else if ( ((LA11_19 >= 'A' && LA11_19 <= 'Z')||LA11_19=='_'||(LA11_19 >= 'a' && LA11_19 <= 'z')) && ((stringterm))) {s = 20;}
+						else s = 49;
+						 
+						input.seek(index11_19);
+						if ( s>=0 ) return s;
+						break;
+
+					case 8 : 
+						int LA11_1 = input.LA(1);
+						 
+						int index11_1 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_1=='O') && (((curly_nesting == 0)||(stringterm)||(!stringterm)))) {s = 31;}
+						else if ( ((LA11_1 >= '0' && LA11_1 <= '9')||(LA11_1 >= 'A' && LA11_1 <= 'N')||(LA11_1 >= 'P' && LA11_1 <= 'Z')||LA11_1=='_'||(LA11_1 >= 'a' && LA11_1 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_1);
+						if ( s>=0 ) return s;
+						break;
+
+					case 9 : 
+						int LA11_33 = input.LA(1);
+						 
+						int index11_33 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_33 >= '0' && LA11_33 <= '9')||(LA11_33 >= 'A' && LA11_33 <= 'Z')||LA11_33=='_'||(LA11_33 >= 'a' && LA11_33 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_33);
+						if ( s>=0 ) return s;
+						break;
+
+					case 10 : 
+						int LA11_40 = input.LA(1);
+						 
+						int index11_40 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 41;}
+						else if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
+						 
+						input.seek(index11_40);
+						if ( s>=0 ) return s;
+						break;
+
+					case 11 : 
+						int LA11_31 = input.LA(1);
+						 
+						int index11_31 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_31 >= '0' && LA11_31 <= '9')||(LA11_31 >= 'A' && LA11_31 <= 'Z')||LA11_31=='_'||(LA11_31 >= 'a' && LA11_31 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 51;
+						 
+						input.seek(index11_31);
+						if ( s>=0 ) return s;
+						break;
+
+					case 12 : 
+						int LA11_51 = input.LA(1);
+						 
+						int index11_51 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting == 0)) ) {s = 57;}
+						else if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
+						 
+						input.seek(index11_51);
+						if ( s>=0 ) return s;
+						break;
+
+					case 13 : 
+						int LA11_17 = input.LA(1);
+						 
+						int index11_17 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_17 >= '0' && LA11_17 <= '9')||(LA11_17 >= 'A' && LA11_17 <= 'Z')||LA11_17=='_'||(LA11_17 >= 'a' && LA11_17 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
+						else s = 47;
+						 
+						input.seek(index11_17);
+						if ( s>=0 ) return s;
+						break;
+
+					case 14 : 
+						int LA11_61 = input.LA(1);
+						 
+						int index11_61 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 63;}
+						else if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
+						 
+						input.seek(index11_61);
+						if ( s>=0 ) return s;
+						break;
+
+					case 15 : 
+						int LA11_32 = input.LA(1);
+						 
+						int index11_32 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
+						 
+						input.seek(index11_32);
+						if ( s>=0 ) return s;
+						break;
+
+					case 16 : 
+						int LA11_49 = input.LA(1);
+						 
+						int index11_49 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 56;}
+						 
+						input.seek(index11_49);
+						if ( s>=0 ) return s;
+						break;
+
+					case 17 : 
+						int LA11_47 = input.LA(1);
+						 
+						int index11_47 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 55;}
+						 
+						input.seek(index11_47);
 						if ( s>=0 ) return s;
 						break;
 
 					case 18 : 
-						int LA11_48 = input.LA(1);
-						 
-						int index11_48 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_48 >= '0' && LA11_48 <= '9')||(LA11_48 >= 'A' && LA11_48 <= 'Z')||LA11_48=='_'||(LA11_48 >= 'a' && LA11_48 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
-						else s = 47;
-						 
-						input.seek(index11_48);
-						if ( s>=0 ) return s;
-						break;
-
-					case 19 : 
 						int LA11_18 = input.LA(1);
 						 
 						int index11_18 = input.index();
@@ -1829,17 +1857,29 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 20 : 
-						int LA11_5 = input.LA(1);
+					case 19 : 
+						int LA11_48 = input.LA(1);
 						 
-						int index11_5 = input.index();
+						int index11_48 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA11_5=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 43;}
-						else if ( ((LA11_5 >= '0' && LA11_5 <= '9')||(LA11_5 >= 'A' && LA11_5 <= 'Z')||LA11_5=='_'||(LA11_5 >= 'a' && LA11_5 <= 'q')||(LA11_5 >= 's' && LA11_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
+						if ( ((LA11_48 >= '0' && LA11_48 <= '9')||(LA11_48 >= 'A' && LA11_48 <= 'Z')||LA11_48=='_'||(LA11_48 >= 'a' && LA11_48 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
+						else s = 47;
 						 
-						input.seek(index11_5);
+						input.seek(index11_48);
+						if ( s>=0 ) return s;
+						break;
+
+					case 20 : 
+						int LA11_3 = input.LA(1);
+						 
+						int index11_3 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_3 >= '0' && LA11_3 <= '9')||(LA11_3 >= 'A' && LA11_3 <= 'Z')||LA11_3=='_'||(LA11_3 >= 'a' && LA11_3 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						else s = 40;
+						 
+						input.seek(index11_3);
 						if ( s>=0 ) return s;
 						break;
 			}

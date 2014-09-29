@@ -69,6 +69,10 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
 		    	for (Abstract_Capability c: capabilities) {
 		    		ag.addCapability(c.toMCAPL());
 		    	}
+		    	
+		    	for (Abstract_Goal g: goals) {
+		    		ag.addGoal(g.toMCAPL());
+		    	}
 		    	try {
 		    		ag.initAg();
 		    	} catch (Exception e) {
@@ -84,6 +88,7 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
       	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int cRef = env.newObjectArray("ail.syntax.ast.Abstract_Capability", capabilities.length);
+       	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
@@ -93,10 +98,14 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
       	for (int i = 0; i < plans.length; i++) {
        		env.setReferenceArrayElement(cRef, i, capabilities[i].newJPFObject(env));
        	}
+      	for (int i = 0; i < goals.length; i++) {
+       		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+       	}
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "capabilities", cRef);
-      	return objref;
+      	env.setReferenceField(objref, "goals", gRef);
+     	return objref;
    	
     }
 

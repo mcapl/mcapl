@@ -5,9 +5,11 @@ import actiononly.semantics.operationalrules.SelectAction;
 import ail.semantics.AILAgent;
 import ail.semantics.RCStage;
 import ail.semantics.ReasoningCycle;
-import ail.semantics.operationalrules.Perceive;
+import ail.semantics.operationalrules.DirectPerception;
 import ail.semantics.operationalrules.GenerateApplicableCapabilities;
 import ail.semantics.operationalrules.HandleGeneralAction;
+import ail.semantics.operationalrules.SleepIfGoalAchieved;
+import ail.semantics.operationalrules.RemoveAchievedGoals;
 
 import java.util.LinkedList;
 
@@ -19,15 +21,18 @@ import java.util.LinkedList;
  */
 public class ActionOnlyRC implements ReasoningCycle {
 	
-	Perceive perceive = new Perceive();
+	DirectPerception perceive = new DirectPerception();
 	GenerateApplicableCapabilities rule1 = new GenerateApplicableCapabilities();
 	SelectAction rule2 = new SelectAction();
 	HandleGeneralAction rule3 = new HandleGeneralAction(new LinkedList<Integer>());
+	SleepIfGoalAchieved rule4 = new SleepIfGoalAchieved();
+	RemoveAchievedGoals rule5 = new RemoveAchievedGoals();
 	
 	private RCStage generate_actions = new ActionOnlyStage(1, "Stage 1");
 	private RCStage select_action = new ActionOnlyStage(2, "Stage 2");
 	private RCStage execute_action = new ActionOnlyStage(3, "Stage 3");
 	private RCStage perception = new ActionOnlyStage(4, "Stage 4");
+	private RCStage goalsachieved = new ActionOnlyStage(5, "Stage 5");
 	
 	private RCStage currentstage = perception;
 	
@@ -37,10 +42,12 @@ public class ActionOnlyRC implements ReasoningCycle {
 	 * Constructor.  Assign rules to stages.
 	 */
 	public ActionOnlyRC() {
+		generate_actions.setRule(rule4);
 		generate_actions.setRule(rule1);
 		select_action.setRule(rule2);
 		execute_action.setRule(rule3);
 		perception.setRule(perceive);
+		goalsachieved.setRule(rule5);
 	}
 
 	/*
@@ -65,6 +72,8 @@ public class ActionOnlyRC implements ReasoningCycle {
 	 */
 	public void cycle(AILAgent ag) {
 		if (currentstage == perception) {
+			currentstage = goalsachieved;
+		} else if (currentstage == goalsachieved) {
 			currentstage = generate_actions;
 		} else if (currentstage == generate_actions) {
 			currentstage = select_action;

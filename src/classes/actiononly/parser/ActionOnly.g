@@ -69,6 +69,7 @@ aoagent returns [Abstract_ActionOnlyAgent g] :
 		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
+	GOAL (l = literal {$g.addInitialGoal(new Abstract_Goal($l.l, Abstract_Goal.achieveGoal));})+
 	ACTIONS (c = capability {$g.addCapability($c.c);})*;
 	
 
@@ -106,6 +107,7 @@ ACTIONONLY	:{curly_nesting == 0}?=>'AO' {ao = true;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
 	:	':Reasoning Rules:' {belief_rules = 1;};
+GOAL	:	':Initial Goal:';
 NAME	:	':name:';
 
 BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
