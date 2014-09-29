@@ -35,6 +35,9 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
 
+import ethical_governor.parser.EthicalGovernorLexer;
+import ethical_governor.parser.EthicalGovernorParser;
+
 
 public class EthicalGovernorBuilder implements AgentBuilder {
 	AILAgent agent;
@@ -71,10 +74,10 @@ public class EthicalGovernorBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
+			EthicalGovernorLexer lexer = new EthicalGovernorLexer(new ANTLRFileStream(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    		abs_agent = parser.aoagent();
+			EthicalGovernorParser parser = new EthicalGovernorParser(tokens);
+    		abs_agent = parser.degagent();
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

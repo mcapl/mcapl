@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 package ethical_governor.semantics;
 
+import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Capability;
@@ -56,11 +57,25 @@ public class EthicalGovernor extends AILAgent {
 	// A Map of outcomes to numeric scores
 	HashMap<String, Integer> ethical_scores = new HashMap<String, Integer>();
 	
+	/**
+	 * Constructor.
+	 * @param agname
+	 */
 	public EthicalGovernor(String agname) {
 		super(agname);
 		setReasoningCycle(new EthicalGovernorRC());
 	}
 	
+	/**
+	 * Constructor.
+	 * @param mas
+	 * @param agname
+	 */
+	public EthicalGovernor(MAS mas, String agname) {
+		super(mas, agname);
+		setReasoningCycle(new EthicalGovernorRC());
+	}
+
 	/**
 	 * This is method that selects some action from a list presented for consideration.  It does this by calling
 	 * one turn of the reasoning cycle.
@@ -120,6 +135,14 @@ public class EthicalGovernor extends AILAgent {
 	}
 	
 	/**
+	 * Setter for the agent that is governed.
+	 * @param s
+	 */
+	public void setGoverned(String s) {
+		governed_agent = s;
+	}
+	
+	/**
 	 * Setter for the Annotated Actions.
 	 * @param as
 	 */
@@ -144,12 +167,29 @@ public class EthicalGovernor extends AILAgent {
 	}
 	
 	/**
+	 * Add a new precendecen to the end of the list;
+	 * @param p
+	 */
+	public void addPrec(Predicate p) {
+		ethical_precedence.add(p);
+	}
+	
+	/**
 	 * Scoring of ethical outcomes;
 	 * @param outcome
 	 * @return
 	 */
 	public int score(String outcome, Predicate actor) {
 		return ethical_scores.get(outcome);
+	}
+	
+	/**
+	 * Setting the score for some outcome.
+	 * @param outcome
+	 * @param score
+	 */
+	public void setScore(String outcome, int score) {
+		ethical_scores.put(outcome, score);
 	}
 
 }
