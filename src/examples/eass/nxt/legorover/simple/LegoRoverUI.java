@@ -357,7 +357,7 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        );
 
 	        // Lastly we construct a controller.
-			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
+			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "");
 			// Start the system.
 			mccontrol.begin(); 
 			mas.finalize();

@@ -67,7 +67,7 @@ public class AJPF_w_AIL {
 		String propertystring = getProperty(args[1],args[2]);
 		
 		// Run the system.
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
+		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring);
 		mccontrol.begin(); 		
 	}
 	

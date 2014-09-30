@@ -76,32 +76,11 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public MCAPLcontroller(MCAPLmas mas, String pstring, int outputlevel) {
-		this(mas, outputlevel);
+	public MCAPLcontroller(MCAPLmas mas, String pstring) {
+		this(mas);
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param m
-	 *            The multi-agent system to be model-checked.
-	 * @param s
-	 *            The specification against which the system is to be checked.
-	 */
-	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s, int mc) {
-		mas = m;
-		scheduler = mas.getScheduler();
-		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
-		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
-			agents.put(magent.getAgName(), magent);
-			m.addPerceptListener(magent);
-		}
-		specification = s;
-		mas.setController(this);
 	}
 	
 	/**
@@ -109,12 +88,12 @@ public class MCAPLcontroller  {
 	 * @param m
 	 * @param mc
 	 */
-	public MCAPLcontroller(MCAPLmas m, int mc) {
+	public MCAPLcontroller(MCAPLmas m) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
+			MCAPLAgent magent = new MCAPLAgent(a, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);

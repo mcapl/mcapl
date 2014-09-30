@@ -37,10 +37,8 @@ public interface MCAPLLanguageAgent {
 	 * One reasoning step.  This defines the transition between which
 	 * properties should be checked.  In AIL this is one full reasoning
 	 * cycle, but this need not be the case.
-	 * 
-	 * @param flag Flag indicating whether or not this is a model checking run.
 	 */
-	public void MCAPLreason(int debuglevel);   
+	public void MCAPLreason();   
 	
 	/**
 	 * Indicates whether the agent should continue reasoning or not.

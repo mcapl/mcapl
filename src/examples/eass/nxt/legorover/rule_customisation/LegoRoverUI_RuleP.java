@@ -509,7 +509,7 @@ public class LegoRoverUI_RuleP extends JPanel implements ActionListener, WindowL
 	        );
 
 	        // Lastly we construct a controller.
-			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
+			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "");
 			// Start the system.
 			mccontrol.begin(); 
 			mas.finalize();
