@@ -61,4 +61,22 @@ public interface MCAPLScheduler {
 	 * @return
 	 */
 	public List<String> getActiveJobberNames();
+	
+	/**
+	 * Remove a jobber from the scheduler;
+	 * @param a
+	 */
+	public void removeJobber(MCAPLJobber a);
+	
+	/**
+	 * Remove an agent from scheduling irrespective of its sleeping or waking status.
+	 * @param a
+	 */
+	public void doNotSchedule(String a);
+	
+	/**
+	 * Return an agent to scheduling.
+	 * @param a
+	 */
+	public void resumeScheduling(String a);
 }

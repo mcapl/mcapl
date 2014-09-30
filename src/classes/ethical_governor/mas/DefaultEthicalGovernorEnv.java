@@ -46,7 +46,8 @@ public abstract class DefaultEthicalGovernorEnv extends DefaultEnvironment imple
 		if (a instanceof EthicalGovernor) {
 			EthicalGovernor eg = (EthicalGovernor) a;
 			addEthicalGovernor(eg.getAgName(), eg.getGovernorFor());
-			getScheduler().notActive(eg.getAgName());
+			
+			getScheduler().doNotSchedule(eg.getAgName());
 		}
 	}
 	

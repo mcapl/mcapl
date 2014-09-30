@@ -61,40 +61,41 @@ public class EvaluateOutcomes implements OSRule {
 		ArrayList<Predicate> ethical_precedence = eg.getEthicalPrecedence();
 		
 		ArrayList<Action> best_actions = new ArrayList<Action>();
+		ArrayList<AnnotatedAction> currently_best = new ArrayList<AnnotatedAction>();
+		ArrayList<AnnotatedAction> currently_best2 = new ArrayList<AnnotatedAction>();
+		currently_best = aas;
 		for (Predicate actor: ethical_precedence) {
 			best_actions = new ArrayList<Action>();
+			currently_best2 = new ArrayList<AnnotatedAction>();
 			int outcome_score = 100;
-			boolean unsafe_outcome = false;
-			boolean start = true;
-			for (AnnotatedAction aact: aas) {
+			for (AnnotatedAction aact: currently_best) {
 				ArrayList<Predicate> outcomes = aact.getAnnotations();
 				Action act = aact.getAction();
+				int worst_outcome = 0;
 				for (Predicate outcome: outcomes) {
 					if (outcome.getFunctor().equals(actor.getFunctor())) {
 						int score = eg.score(((Predicate) outcome.getTerm(0)).getFunctor(), actor);
-						if (score < outcome_score) {
-							outcome_score = score;
-							best_actions = new ArrayList<Action>();
-							best_actions.add(act);
-							if (!start) {
-								unsafe_outcome = true;
-							} else {
-								start = false;
-							}
-						} else if (score == outcome_score) {
-							best_actions.add(act);
-							start = false;
-						} else {
-							unsafe_outcome = true;
+						if (score > worst_outcome) {
+							worst_outcome = score;
 						}
-					}
+					}						
 				}
 				
-				if (unsafe_outcome) {
-					eg.setSelectedActions(best_actions);
-					return;
+				if (worst_outcome < outcome_score) {
+					outcome_score = worst_outcome;
+					best_actions = new ArrayList<Action>();
+					best_actions.add(act);
+					currently_best2 = new ArrayList<AnnotatedAction>();
+					currently_best2.add(aact);
+				} else if (worst_outcome == outcome_score) {
+					best_actions.add(act);
+					currently_best2.add(aact);
+				} else {
 				}
+
 			}
+			
+			currently_best = currently_best2;
 		}
 		
 		eg.setSelectedActions(best_actions);

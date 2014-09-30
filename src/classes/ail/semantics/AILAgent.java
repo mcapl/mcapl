@@ -1799,6 +1799,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void stop() {
 	 	fRunning = false;
+	 	getEnv().getScheduler().doNotSchedule(getAgName());
 	}
 	
 
@@ -1901,10 +1902,8 @@ public class AILAgent implements MCAPLLanguageAgent {
      * One reasoning step from the point of view of the model checker.  
      * Implemented as one full turn of the agent's reasoning cycle.
      * 
-     *  @param An (unused) flag indicating whether or not this is a model
-     *         checking run.
      */
-	public void MCAPLreason(int flag) {
+	public void MCAPLreason() {
 		reason();
 	}
 	
