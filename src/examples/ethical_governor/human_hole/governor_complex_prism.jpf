@@ -22,10 +22,26 @@
 //
 //----------------------------------------------------------------------------
 
-0: <>(B(robot, at(4, 2)))
+@using = mcapl
 
-1: [](~B(robot, human1(hole)) || ~B(robot, human2(hole)))
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/ethical_governor/human_hole/governor_complex.ail,${mcapl}/src/examples/ethical_governor/human_hole/human_hole.psl,prism
 
-sanity: [](~B(robot, human2(hole)))
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent,ethical_governor.human_hole.HumanHoleGoalEnv
 
-prism: B(robot, at(4, 2)) & B(robot, human1(hole)) & B(robot, human2(hole))
+ajpf.model.location = ethical_governor.pm
+ajpf.model_only = true
+ajpf.target_modelchecker = prism
+ajpf.model.path = /Users/louiseadennis/Research/ajpf/Prism/DEG/
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+
+
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+
+

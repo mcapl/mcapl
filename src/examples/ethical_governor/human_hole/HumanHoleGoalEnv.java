@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import ajpf.util.AJPFLogger;
+import ajpf.util.Choice;
 
 import ail.syntax.Action;
 import ail.syntax.Capability;
@@ -46,13 +47,14 @@ import actiononly.mas.ActionOnlyEnv;
 
 public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements ActionOnlyEnv {
 	private String logname = "ethical_governor.human_hole.HumanHoleGoalEnv";
-	Random r = new Random();
+	
+	Choice<Boolean> human_moves = new Choice<Boolean>();
 	
 	int robot_x = 0;
 	int robot_y = 2;
 	
-	int human1_x = 1;
-	int human1_y = 1;
+	int human1_x = 0;
+	int human1_y = 0;
 	
 	int human2_x = 0;
 	int human2_y = 4;
@@ -66,6 +68,12 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	boolean robot_collision = false;
 	boolean human1_collision = false;
 	boolean human2_collision = false;
+	
+	public HumanHoleGoalEnv() {
+		super();
+		human_moves.addChoice(0.5, false);
+		human_moves.addChoice(0.5, true);
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -281,7 +289,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	}
 
 	private void human1move() {
-		if (human1canmove() && r.nextBoolean()) {
+		if (human1canmove() && human_moves.get_choice()) {
 			human1_x++;
 			human1_y++;
 			AJPFLogger.info(logname, "Human 1 moves to [" + human1_x + ", " + human1_y + "]");
@@ -289,7 +297,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	}
 	
 	private void human2move() {
-		if (human2canmove() && r.nextBoolean()) {
+		if (human2canmove() && human_moves.get_choice()) {
 			human2_x++;
 			human2_y--;
 			AJPFLogger.info(logname, "Human 2 moves to [" + human2_x + ", " + human2_y + "]");
