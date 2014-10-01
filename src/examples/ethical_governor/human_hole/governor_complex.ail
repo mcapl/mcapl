@@ -30,4 +30,5 @@ mas.agent.2.file = src/examples/actiononly/goal/simplerobot.ao
 mas.agent.2.builder = actiononly.ActionOnlyAgentBuilder
 
 log.info = eass.mas.DefaultEnvironment,ethical_governor.human_hole.HumanHoleGoalEnv
+log.warning = ajpf.MCAPLAgent
 log.format = brief

@@ -89,6 +89,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		
 		ArrayList<Pos> line = bresenham_plus(target_x, target_y);
 		
+
 		for (Pos p: line) {
 			if (p.getX() == hole_x & p.getY() == hole_y) {
 				robotinhole();
@@ -126,18 +127,19 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		old_position.addTerm(new VarTerm("X"));
 		old_position.addTerm(new VarTerm("Y"));
 			
+		human1move();
+		if (human1_x == hole_x && human1_y == hole_y) {
+			holehuman1();
+		}		
+		human2move();
+		if (human2_x == hole_x && human2_y == hole_y) {
+			holehuman2();
+		}		
+
 		removeUnifiesPercept(old_position);
 		addPercept(position);
 		AJPFLogger.info(logname, "Robot is at [" + robot_x + ", " + robot_y + "]");
 				
-		human1move();
-		if (human1_x == 2 && human1_y == 2) {
-			holehuman1();
-		}		
-		human2move();
-		if (human2_x == 2 && human2_y == 2) {
-			holehuman2();
-		}		
 						
 		return new Unifier();
 	}
@@ -320,6 +322,19 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	public Action selectAction(Iterator<Capability> ic, String agName) {
 		int target_x = 4;
 		int target_y = 2;
+		Literal path_h1 = new Literal("path_to");
+		path_h1.addTerm(new Predicate("human1"));
+		Literal path_h2 = new Literal("path_to");
+		path_h2.addTerm(new Predicate("human2"));
+		removePercept(path_h1);
+		removePercept(path_h2);
+		
+		Literal danger_h1 = new Literal("danger");
+		danger_h1.addTerm(new Literal("human1"));
+		Literal danger_h2 = new Literal("danger");
+		danger_h2.addTerm(new Literal("human2"));
+		removePercept(danger_h1);
+		removePercept(danger_h2);
 		
 		EthicalGovernor eg = getGovernorFor(agName);
 
@@ -354,6 +369,16 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		ArrayList<Pos> line = bresenham_plus(target_x, target_y);
 		ArrayList<Predicate> outcomes = new ArrayList<Predicate>();
 		
+		Literal path_h1 = new Literal("path_to");
+		path_h1.addTerm(new Predicate("human1"));
+		Literal path_h2 = new Literal("path_to");
+		path_h2.addTerm(new Predicate("human2"));
+		
+		Literal danger_h1 = new Literal("danger");
+		danger_h1.addTerm(new Literal("human1"));
+		Literal danger_h2 = new Literal("danger");
+		danger_h2.addTerm(new Literal("human2"));
+		
 		boolean collision1 = false;
 		boolean collision2 = false;
 		boolean safe = true;
@@ -369,6 +394,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 			if (p.getX() == human1_x && p.getY() == human1_y) {
 				outcomes.add(collisionhuman());
 				outcomes.add(collisionrobot());
+				addPercept(path_h1);
 				safe = false;
 				hsafe = false;
 				collision1 = true;
@@ -378,6 +404,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 			if (p.getX() == human2_x && p.getY() == human2_y) {
 				outcomes.add(collisionhuman());
 				outcomes.add(collisionrobot());
+				addPercept(path_h2);
 				collision2 = true;
 				hsafe = false;
 				safe = false;
@@ -387,18 +414,20 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		}
 				
 		if (human1canmove() && !collision1) {
-			if (human1_x + 1 == 2) {
-				if (human1_y + 1 == 2) {
+			if (human1_x + 1 == hole_x) {
+				if (human1_y + 1 == hole_y) {
 					outcomes.add(holehumanpred());
+					addPercept(danger_h1);
 					hsafe = false;
 				}
 			}
 		}		
 
 		if (human2canmove() && !collision2) {
-			if (human2_x + 1 == 2) {
-				if (human2_y - 1 == 2) {
+			if (human2_x + 1 == hole_x) {
+				if (human2_y - 1 == hole_y) {
 					outcomes.add(holehumanpred());
+					addPercept(danger_h2);
 					hsafe = false;
 				}
 			}

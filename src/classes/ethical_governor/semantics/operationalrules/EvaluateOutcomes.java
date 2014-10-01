@@ -75,9 +75,10 @@ public class EvaluateOutcomes implements OSRule {
 				for (Predicate outcome: outcomes) {
 					if (outcome.getFunctor().equals(actor.getFunctor())) {
 						int score = eg.score(((Predicate) outcome.getTerm(0)).getFunctor(), actor);
-						if (score > worst_outcome) {
-							worst_outcome = score;
-						}
+						//if (score < worst_outcome) {
+						//	worst_outcome = score;
+						//}
+						worst_outcome += score;
 					}						
 				}
 				
