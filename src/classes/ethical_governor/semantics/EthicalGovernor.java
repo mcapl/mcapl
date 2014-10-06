@@ -28,6 +28,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Capability;
 import ail.syntax.Predicate;
+import ail.syntax.Literal;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -87,7 +88,11 @@ public class EthicalGovernor extends AILAgent {
 		clearSelectedActions();
 		
 		while (ic.hasNext()) {
-			applicable_actions.add(ic.next().getCap());
+			Action a = ic.next().getCap();
+			applicable_actions.add(a);
+			Literal action_belief = new Literal("applicable_action");
+			action_belief.addTerm(a);
+			addBel(action_belief, AILAgent.refertoself());
 		}
 		
 		reason();
@@ -124,6 +129,11 @@ public class EthicalGovernor extends AILAgent {
 	 */
 	public void setSelectedActions(ArrayList<Action> as) {
 		selectedActions = as;
+		for (Action a: as) {
+			Literal selected = new Literal("selected");
+			selected.addTerm(a);
+			addBel(selected, AILAgent.refertoself());
+		}
 	}
 	
 	/**
@@ -148,6 +158,18 @@ public class EthicalGovernor extends AILAgent {
 	 */
 	public void setAnnotatedActions(ArrayList<AnnotatedAction> as) {
 		annotated_actions = as;
+		
+		
+		for (AnnotatedAction a: as) {
+			for (Predicate p: a.getAnnotations()) {
+				Literal outcome = new Literal("outcome");
+				outcome.addTerm(a.getAction());
+				outcome.addTerm(p);
+				addBel(outcome, AILAgent.refertoself());
+				
+			}
+		}
+
 	}
 	
 	/**

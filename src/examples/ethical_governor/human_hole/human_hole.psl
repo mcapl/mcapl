@@ -30,6 +30,59 @@
 
 3: [](B(robot, danger(human1)) & B(robot, path_to(human1)) -> [] ~B(robot, human1(hole)))
 
+4: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, human(hole))) -> 
+          (B(ethical_g, outcome(action2, human(hole))) &
+            (B(ethical_g, outcome(action3, human(hole))) &
+             B(ethical_g, outcome(action4, human(hole))) ) )
+          
+          )
+          
+
+5: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, human(collision))) -> 
+         ( (B(ethical_g, outcome(action2, human(hole))) ||
+             B(ethical_g, outcome(action2, human(collision)))
+          ) &
+         ( (B(ethical_g, outcome(action3, human(hole))) ||
+             B(ethical_g, outcome(action3, human(collision)))
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+             B(ethical_g, outcome(action4, human(collision)))
+          ) ) )
+    )
+
+6: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, robot(hole))) -> 
+          ( (B(ethical_g, outcome(action2, human(hole))) ||
+             (B(ethical_g, outcome(action2, human(collision))) ||
+             B(ethical_g, outcome(action2, robot(hole))) )
+          ) &
+          ( (B(ethical_g, outcome(action3, human(hole))) ||
+             (B(ethical_g, outcome(action3, human(collision))) ||
+             B(ethical_g, outcome(action3, robot(hole))) )
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+             (B(ethical_g, outcome(action4, human(collision))) ||
+             B(ethical_g, outcome(action4, robot(hole))) )
+          ) ) )
+     )
+
+7: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, robot(collision))) -> 
+          ( (B(ethical_g, outcome(action2, human(hole))) ||
+            ( (B(ethical_g, outcome(action2, human(collision))) ||
+              B(ethical_g, outcome(action2, robot(hole))) ) ||
+              B(ethical_g, outcome(action2, robot(collision))) )
+          ) &
+          ( (B(ethical_g, outcome(action3, human(hole))) ||
+            ( (B(ethical_g, outcome(action3, human(collision))) ||
+              B(ethical_g, outcome(action3, robot(hole))) ) ||
+              B(ethical_g, outcome(action3, robot(collision))) )
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+            ( (B(ethical_g, outcome(action4, human(collision))) ||
+              B(ethical_g, outcome(action4, robot(hole))) ) ||
+              B(ethical_g, outcome(action4, robot(collision))) )
+          ) ) )
+     )
+
 2sanity: [](~B(robot, danger(human2)) || ~B(robot, path_to(human2))
 
 sanity: [](~B(robot, human2(hole)))
