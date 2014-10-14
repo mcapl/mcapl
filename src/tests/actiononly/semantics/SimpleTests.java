@@ -30,15 +30,15 @@ import org.junit.Test;
 import actiononly.ActionOnlyMASBuilder;
 import ajpf.MCAPLcontroller;
 import ail.mas.MAS;
-import actiononly.random.RandomEnv;
+import actiononly.goal.GoalEnv;
 
 public class SimpleTests {
 	@Test public void simpleagent() {
 		try {
-			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/random/simplerobot.ao");
+			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			ActionOnlyMASBuilder builder = new ActionOnlyMASBuilder();
 			MAS mas = builder.getMAS(abs_filename);
-			RandomEnv env = new RandomEnv();
+			GoalEnv env = new GoalEnv();
 			mas.setEnv(env);
 			env.initialise();
 			

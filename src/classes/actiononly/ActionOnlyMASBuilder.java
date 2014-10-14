@@ -30,14 +30,13 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import ail.mas.MAS;
 import ail.syntax.ast.Abstract_MAS;
-import ail.syntax.ast.Abstract_VarTerm;
 import ail.mas.MASBuilder;
 
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
 
 /**
- * Utility class.  Builds a Gwendolen MAS by parsing a string or a file.
+ * Utility class.  Builds an Action Only MAS by parsing a string or a file.
  * @author louiseadennis
  *
  */

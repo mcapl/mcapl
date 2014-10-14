@@ -30,7 +30,6 @@ import org.junit.Test;
 
 import ethical_governor.EthicalGovernorBuilder;
 import ethical_governor.semantics.EthicalGovernor;
-import ail.syntax.Unifier;
 import ajpf.MCAPLcontroller;
 
 /**

@@ -24,11 +24,6 @@
 
 package ail.syntax.ast;
 
-import java.util.ArrayList;
-
-import ail.syntax.Plan;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
 import ail.syntax.Capability;
 
 import gov.nasa.jpf.vm.MJIEnv;
@@ -68,10 +63,19 @@ public class Abstract_Capability {
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
 	Abstract_GLogicalFormula post = new Abstract_GBelief();
 	
+	/**
+	 * Convert the abstract capability into a concrete one.
+	 * @return
+	 */
 	public Capability toMCAPL() {
 		return new Capability(pre.toMCAPL(), cap.toMCAPL(), post.toMCAPL());
 	}
 	
+	/**
+	 * When used with MJI, create an object in the JPF virtual machine that corresponds to this abstract capability.
+	 * @param env
+	 * @return
+	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ail.syntax.ast.Abstract_Capability");
 		env.setReferenceField(ref, "cap", cap.newJPFObject(env));
@@ -87,10 +91,18 @@ public class Abstract_Capability {
     	cap = p;
     }
     
+    /**
+     * Add a precondition.
+     * @param f
+     */
     public void addPre(Abstract_GLogicalFormula f) {
     	pre = f;
     }
     
+    /**
+     * Add a postcondition.
+     * @param f
+     */
     public void addPost(Abstract_GLogicalFormula f) {
     	post = f;
     }

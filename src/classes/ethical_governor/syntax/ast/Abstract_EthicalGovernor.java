@@ -27,7 +27,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 import ethical_governor.semantics.EthicalGovernor;
 import ail.mas.MAS;
 import ail.syntax.ast.Abstract_Agent;
-import ail.syntax.ast.Abstract_Predicate;import ail.syntax.ast.Abstract_Rule;
+import ail.syntax.ast.Abstract_Predicate;
 
 /**
  * An abstract class for Ethical Governors.  To be used in parsing.
@@ -88,6 +88,10 @@ public class Abstract_EthicalGovernor extends Abstract_Agent {
     	scores = newscores;
 	}
 	
+	/**
+	 * Add a predicate to the precedence order.
+	 * @param p
+	 */
 	public void addPrec(Abstract_Predicate p) {
 		int newsize = precedence.length + 1;
 		Abstract_Predicate[] newprecedence = new Abstract_Predicate[newsize];

@@ -26,7 +26,6 @@ package ethical_governor.human_hole;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 import ajpf.util.AJPFLogger;
 import ajpf.util.Choice;
@@ -45,9 +44,17 @@ import ethical_governor.semantics.EthicalGovernor;
 
 import actiononly.mas.ActionOnlyEnv;
 
+/**
+ * This is an environment for an ActionOnly Agent with a Consequence Engine being used to filter
+ * out actions.  Two humans proceed randomly towards a hole in the ground which the agent must 
+ * also avoid.
+ * @author lad
+ *
+ */
 public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements ActionOnlyEnv {
 	private String logname = "ethical_governor.human_hole.HumanHoleGoalEnv";
 	
+	// We use a choice class so PRISM can be used for analysis if desired.
 	Choice<Boolean> human_moves = new Choice<Boolean>();
 	
 	int robot_x = 0;
@@ -68,7 +75,10 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	boolean robot_collision = false;
 	boolean human1_collision = false;
 	boolean human2_collision = false;
-	
+
+	/**
+	 * Constructor.
+	 */
 	public HumanHoleGoalEnv() {
 		super();
 		human_moves.addChoice(0.5, false);
@@ -144,6 +154,13 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		return new Unifier();
 	}
 	
+	/**
+	 * Implementation of a Bresenham Style super-cover algorithm based on that
+	 * at http://lifc.univ-fcomte.fr/home/~ededu/projects/bresenham/
+	 * @param target_x
+	 * @param target_y
+	 * @return
+	 */
 	private ArrayList<Pos> bresenham_plus(double target_x, double target_y) {
 		double dx = target_x - robot_x;
 		double dy = target_y - robot_y;
@@ -220,18 +237,28 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 
 	}
 	
+	/**
+	 * Outcomes for the robot falling in the hole.
+	 */
 	private void robotinhole() {
 		robot_hole = true;
 		addPercept(robotholepred());
 		System.err.println("The Robot has Fallen in the Hole");
 	}
 	
+	/**
+	 * Predicate representing the robot in the hole.
+	 * @return
+	 */
 	private static Literal robotholepred() {
 		Literal holer = new Literal("robot");
 		holer.addTerm(new Predicate("hole"));
 		return holer;
 	}
 	
+	/**
+	 * Outcomes for the robot colliding with human one.
+	 */
 	private void collisionhuman1() {
 		human1_collision = true;
 		robot_collision = true;
@@ -240,6 +267,9 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		System.err.println("The Robot has Collided with Human 1");
 	}
 	
+	/**
+	 * Outcomes for the robot colliding with human 2.
+	 */
 	private void collisionhuman2() {
 		human2_collision = true;
 		addPercept(collisionhuman());
@@ -247,12 +277,20 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		System.err.println("The Robot has Collided with Human 2");
 	}
 
+	/**
+	 * Predidcate representing a human involved in a collision.
+	 * @return
+	 */
 	private static Literal collisionhuman() {
 		Literal collisionh = new Literal("human");
 		collisionh.addTerm(new Predicate("collision"));
 		return collisionh;
 	}
 	
+	/**
+	 * Predicate representing a robot involved in a collision.
+	 * @return
+	 */
 	private static Literal collisionrobot() {
 		Literal collisionr = new Literal("robot");
 		collisionr.addTerm(new Predicate("collision"));
@@ -260,36 +298,57 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		
 	}
 		
+	/**
+	 * Outcomes of human 1 falling in the hole.
+	 */
 	private void holehuman1() {
 		human1_hole = true;
 		addPercept(holehuman1pred());
 		System.err.println("Human 1 has Fallen in the Hole");
 	}
 	
+	/**
+	 * Outcomes of human 2 falling in the hole.
+	 */
 	private void holehuman2() {
 		human2_hole = true;
 		addPercept(holehuman2pred());
 		System.err.println("Human 2 has Fallen in the Hole");
 	}
 	
+	/**
+	 * Predicate representing a human in the hole.
+	 * @return
+	 */
 	private static Literal holehumanpred() {
 		Literal holeh = new Literal("human");
 		holeh.addTerm(new Predicate("hole"));
 		return holeh;
 	}
 
+	/**
+	 * Predicate representing human 1 in the hole (used for verification).
+	 * @return
+	 */
 	private static Literal holehuman1pred() {
 		Literal holeh = new Literal("human1");
 		holeh.addTerm(new Predicate("hole"));
 		return holeh;
 	}
 
+	/**
+	 * Predicate representing human 2 in the hole (used for verification).
+	 * @return
+	 */
 	private static Literal holehuman2pred() {
 		Literal holeh = new Literal("human2");
 		holeh.addTerm(new Predicate("hole"));
 		return holeh;
 	}
 
+	/**
+	 * Deciding if and to where human 1 moves.
+	 */
 	private void human1move() {
 		if (human1canmove() && human_moves.get_choice()) {
 			human1_x++;
@@ -298,6 +357,9 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		}
 	}
 	
+	/**
+	 * Deciding if and to where human 2 moves.
+	 */
 	private void human2move() {
 		if (human2canmove() && human_moves.get_choice()) {
 			human2_x++;
@@ -307,10 +369,18 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		
 	}
 	
+	/**
+	 * Can human 1 move?
+	 * @return
+	 */
 	private boolean human1canmove() {
 		return (!human1_hole && !human1_collision);
 	}
 
+	/**
+	 * Can human 2 move?
+	 * @return
+	 */
 	private boolean human2canmove() {
 		return (!human2_hole && !human2_collision);
 	}
@@ -448,6 +518,11 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 		return outcomes;
 	}
 	
+	/**
+	 * Class for X, Y coordinates.
+	 * @author lad
+	 *
+	 */
 	public class Pos {
 		int xcoord;
 		int ycoord; 

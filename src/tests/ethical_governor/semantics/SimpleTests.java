@@ -31,15 +31,15 @@ import actiononly.ActionOnlyAgentBuilder;
 import actiononly.semantics.ActionOnlyAgent;
 import ajpf.MCAPLcontroller;
 import ail.mas.MAS;
-import ethical_governor.human_hole.HumanHoleEnv;
+import ethical_governor.human_hole.HumanHoleGoalEnv;
 import ethical_governor.EthicalGovernorBuilder;
 
 public class SimpleTests {
 	@Test public void simpleagent() {
 		try {
-			String ao_abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/random/simplerobot.ao");
+			String ao_abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			String eg_abs_filename = MCAPLcontroller.getFilename("/src/examples/ethical_governor/human_hole/governor.eg");
-			HumanHoleEnv env = new HumanHoleEnv();
+			HumanHoleGoalEnv env = new HumanHoleGoalEnv();
 			MAS mas = new MAS();
 			mas.setEnv(env);
 			

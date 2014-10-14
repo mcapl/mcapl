@@ -32,14 +32,13 @@ import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
-import ail.mas.MAS;
 import ail.syntax.ast.Abstract_Agent;
-import ail.syntax.ast.Abstract_Goal;
-import ail.syntax.ast.Abstract_Literal;
-import ail.syntax.ast.Abstract_Plan;
-import ail.syntax.ast.Abstract_Rule;
 
-
+/**
+ * A class to build action only agents from files.
+ * @author lad
+ *
+ */
 public class ActionOnlyAgentBuilder implements AgentBuilder {
 	AILAgent agent;
 	

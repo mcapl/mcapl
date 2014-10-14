@@ -1,13 +1,34 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher and Alan Winfield
+// 
+// This file is part of Declarative Ethical Governor (DEG)
+// 
+// The DEG is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The DEG is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ethical_governor.human_hole;
 
 import java.util.ArrayList;
 
-import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Capability;
 import ail.syntax.GBelief;
-import ail.mas.DefaultEnvironment;
 
 import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
@@ -16,6 +37,11 @@ import ethical_governor.mas.DefaultEthicalGovernorEnv;
 import ethical_governor.semantics.EthicalGovernor;
 import java.util.Random;
 
+/**
+ * An environment for verifying an ethical governor trying to keep humans out of holes.
+ * @author lad
+ *
+ */
 public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implements MCAPLJobber {
 	static String logname = "ethical_governor.human_hole.HumanHoleVerificationEnv";
 	
@@ -23,6 +49,7 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 	
 	boolean done = false;
 	
+	// Four abstract actions.
 	static Capability action1 = new Capability(new GBelief(), new Action("action1"), new GBelief());
 	static Capability action2 = new Capability(new GBelief(), new Action("action2"), new GBelief());
 	static Capability action3 = new Capability(new GBelief(), new Action("action3"), new GBelief());
@@ -34,6 +61,7 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 		actions.add(action4);
 	}
 	
+	// Four possible outcomes.
 	static Predicate outcome1 = new Predicate("human");
 	static {
 		outcome1.addTerm(new Predicate("hole"));
@@ -52,7 +80,9 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 	}
 
 
-	@Override
+	/**
+	 * Randomly assign outcomes to actions.
+	 */
 	public ArrayList<Predicate> model(Action act, String agName) {
 		ArrayList<Predicate> outcomes = new ArrayList<Predicate>();
 		
@@ -93,12 +123,18 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 		return (EthicalGovernor) agentmap.get(agName);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(MCAPLJobber o) {
 		return 0;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#do_job()
+	 */
 	public void do_job() {
 		for (String egName: agentmap.keySet()) {
 			EthicalGovernor eg = (EthicalGovernor) agentmap.get(egName);
@@ -109,16 +145,26 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 		done = true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#done()
+	 */
 	public boolean done() {
 		return done;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#getName()
+	 */
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Human Hole Verification Environment";
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#initialise()
+	 */
 	public void initialise() {
 		super.initialise();
 		getScheduler().addJobber(this);

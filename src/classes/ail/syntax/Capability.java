@@ -25,27 +25,43 @@ package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.List;
-import ail.semantics.AILAgent;
 
-public class Capability implements Unifiable,
-		Comparable<Capability> {
+/**
+ * A Capability consists of an action together with explicit pre and post conditions.
+ * @author lad
+ *
+ */
+public class Capability implements Unifiable, Comparable<Capability> {
 	
 	GLogicalFormula pre;
 	GLogicalFormula post;
 	Action cap;
 	protected int keynum;
 	
+	/**
+	 * Constructor
+	 * @param pr
+	 * @param c
+	 * @param pt
+	 */
 	public Capability(GLogicalFormula pr, Action c, GLogicalFormula pt) {
 		pre = pr;
 		cap = c;
 		post = pt;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	public Capability clone() {
 		return new Capability(pre.clone(), cap.clone(), post.clone());
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(Capability o) {
     	if (keynum == o.getID()) {
     		return 0;
@@ -56,27 +72,50 @@ public class Capability implements Unifiable,
     	}
 	}
 	
+	/**
+	 * Give the capability and ID.
+	 * @param i
+	 */
 	public void setID(int i) {
 		keynum = i;
 	}
 	
+	/**
+	 * Get the capabilities ID.
+	 * @return
+	 */
 	public int getID() {
 		return keynum;
 	}
 	
+	/**
+	 * Get the capability's aciton.
+	 * @return
+	 */
 	public Action getCap() {
 		return cap;
 	}
 	
+	/**
+	 * Get the capability's preconditions.
+	 * @return
+	 */
 	public GLogicalFormula getPre() {
 		return pre;
 	}
 	
+	/**
+	 * Get the capability's postconditions.
+	 * @return
+	 */
 	public GLogicalFormula getPost() {
 		return post;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -87,7 +126,10 @@ public class Capability implements Unifiable,
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
+	 */
 	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
 		List<String> tvarnames = t.getVarNames();
 		List<String> myvarnames = getVarNames();
@@ -105,7 +147,10 @@ public class Capability implements Unifiable,
     	}
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
 	public List<String> getVarNames() {
 		ArrayList<String> varnames = new ArrayList<String>();
 		varnames.addAll(cap.getVarNames());
@@ -114,14 +159,20 @@ public class Capability implements Unifiable,
 		return varnames;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
 	public void renameVar(String oldname, String newname) {
 		cap.renameVar(oldname, newname);
 		pre.renameVar(oldname, newname);
 		post.renameVar(oldname, newname);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -132,7 +183,10 @@ public class Capability implements Unifiable,
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -143,7 +197,10 @@ public class Capability implements Unifiable,
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
 	public boolean isGround() {
 		if (cap.isGround()) {
 			if (pre.isGround()) {
@@ -154,7 +211,10 @@ public class Capability implements Unifiable,
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
 	public boolean apply(Unifier theta) {
 		boolean c = cap.apply(theta);
 		boolean p1 = pre.apply(theta);
@@ -162,18 +222,28 @@ public class Capability implements Unifiable,
 		return (c || p1 || p2);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
 	public void makeVarsAnnon() {
 		cap.makeVarsAnnon();
 		pre.makeVarsAnnon();
 		post.makeVarsAnnon();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
 	public Unifiable strip_varterm() {
 		return new Capability((GLogicalFormula) pre.strip_varterm(), (Action) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String s = "{";
 		s += pre;

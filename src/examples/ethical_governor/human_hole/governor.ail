@@ -22,12 +22,13 @@
 //
 //----------------------------------------------------------------------------
 
-env = ethical_governor.human_hole.HumanHoleEnv
+env = ethical_governor.human_hole.HumanHoleGoalEnv
 
 mas.agent.1.file = src/examples/ethical_governor/human_hole/governor.eg
 mas.agent.1.builder = ethical_governor.EthicalGovernorBuilder
-mas.agent.2.file = src/examples/actiononly/random/simplerobot.ao
+mas.agent.2.file = src/examples/actiononly/goal/simplerobot.ao
 mas.agent.2.builder = actiononly.ActionOnlyAgentBuilder
 
-log.info = eass.mas.DefaultEnvironment,ethical_governor.human_hole.HumanHoleEnv
+log.info = eass.mas.DefaultEnvironment,ethical_governor.human_hole.HumanHoleGoalEnv
+log.warning = ajpf.MCAPLAgent
 log.format = brief

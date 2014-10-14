@@ -28,7 +28,6 @@ import ail.semantics.OSRule;
 import ail.syntax.Capability;
 import ail.syntax.CapabilityLibrary;
 import ail.syntax.Unifier;
-import ail.syntax.NamedEvaluationBase;
 
 import java.util.ArrayList;
 import java.util.Iterator;
