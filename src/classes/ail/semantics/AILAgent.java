@@ -65,6 +65,7 @@ import ail.syntax.Unifier;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.LogicalFormula;
 import ail.syntax.NamedEvaluationBase;
+import ail.syntax.PredicateTerm;
 
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
@@ -1723,7 +1724,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @return
 	 */
 	public Iterator<Unifier> believeslf(LogicalFormula lf, Unifier un) {
-		return lf.logicalConsequence(new NamedEvaluationBase(getBB(), "default"), getRuleBase(), un, lf.getVarNames());
+		return lf.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(getBB(), "default"), getRuleBase(), un, lf.getVarNames());
 	}
 	
 	/**

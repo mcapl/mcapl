@@ -25,8 +25,6 @@
 package actiononly.goal;
 
 import java.util.Iterator;
-import java.util.Random;
-import java.util.ArrayList;
 
 import actiononly.mas.ActionOnlyEnv;
 import ail.mas.DefaultEnvironment;
@@ -38,11 +36,13 @@ import ail.syntax.Literal;
 import ail.util.AILexception;
 
 /**
- * A Very simple environment that chooses randomly among agent capabilities.
+ * A Very simple environment that chooses among agent capabilities (assumed to be moves) by calculating the 
+ * distance to some goal location.
  * @author lad
  *
  */
 public class GoalEnv extends DefaultEnvironment implements ActionOnlyEnv {
+	// Goal location is hard coded in, not extracted from the agent.
 	int target_x = 2;
 	int target_y = 4;
 

@@ -29,7 +29,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import actiononly.ActionOnlyMASBuilder;
-import ail.syntax.Unifier;
 import ajpf.MCAPLcontroller;
 
 /**
@@ -40,7 +39,7 @@ import ajpf.MCAPLcontroller;
 public class ParsingTests {
 	@Test public void simpleagent() {
 		try {
-			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/random/simplerobot.ao");
+			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			ActionOnlyMASBuilder builder = new ActionOnlyMASBuilder();
 			builder.getMAS(abs_filename);
 		} catch (Exception e) {

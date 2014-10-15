@@ -26,17 +26,34 @@ package actiononly.semantics;
 import ail.semantics.AILAgent;
 import ail.mas.MAS;
 
+/**
+ * A class for agents that have a set of actions/capabilities and a goal.
+ * @author lad
+ *
+ */
 public class ActionOnlyAgent extends AILAgent {
+	/**
+	 * Constructor.
+	 */
 	public ActionOnlyAgent() {
 		super();
 		setReasoningCycle(new ActionOnlyRC());
 	}
 
+	/**
+	 * Construct an agent from its name.
+	 * @param name
+	 */
 	public ActionOnlyAgent(String name) {
 		super(name);
 		setReasoningCycle(new ActionOnlyRC());
 	}
 	
+	/**
+	 * Construct an agent from its name and the MAS.
+	 * @param mas
+	 * @param name
+	 */
 	public ActionOnlyAgent(MAS mas, String name) {
 		super(mas, name);
 		setReasoningCycle(new ActionOnlyRC());

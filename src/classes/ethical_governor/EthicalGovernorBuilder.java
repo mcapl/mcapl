@@ -28,19 +28,18 @@ import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
-import ail.mas.MAS;
 import ail.syntax.ast.Abstract_Agent;
-import ail.syntax.ast.Abstract_Goal;
-import ail.syntax.ast.Abstract_Literal;
-import ail.syntax.ast.Abstract_Plan;
-import ail.syntax.ast.Abstract_Rule;
 
 import ethical_governor.parser.EthicalGovernorLexer;
 import ethical_governor.parser.EthicalGovernorParser;
 import ethical_governor.semantics.EthicalGovernor;
 import ethical_governor.syntax.ast.Abstract_EthicalGovernor;
 
-
+/**
+ * A class to build an ethical governor from a progrma file.
+ * @author lad
+ *
+ */
 public class EthicalGovernorBuilder implements AgentBuilder {
 	AILAgent agent;
 	
@@ -48,7 +47,10 @@ public class EthicalGovernorBuilder implements AgentBuilder {
 	
 	public EthicalGovernorBuilder() {}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AgentBuilder#getAgent(java.lang.String)
+	 */
 	public AILAgent getAgent(String filename) {
 		parsefile(filename);
 		
@@ -63,7 +65,10 @@ public class EthicalGovernorBuilder implements AgentBuilder {
 		}
 	}
 
-	
+	/**
+	 * Parse the file.
+	 * @param masstring
+	 */
 	public void parsefile(String masstring) {
 		try {
 			EthicalGovernorLexer lexer = new EthicalGovernorLexer(new ANTLRFileStream(masstring));
