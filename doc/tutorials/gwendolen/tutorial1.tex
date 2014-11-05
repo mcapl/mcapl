@@ -72,7 +72,10 @@ This is a very simple configuration consisting of four items only.
 \item Change the filename of \texttt{hello\_world.gwen} to something else (e.g., \texttt{hello.gwen}.  Update \texttt{hello\_world.ail} to reflect this change.  Check you can still run the program.
 \item Edit the hello world program so it prints out \texttt{hi} instead of \texttt{hello}.
 \item Edit the hello world program so the goal is called \texttt{hello} instead of \texttt{say\_hello}.  If you don't change the plan notice how the behaviour of the program changes.  Edit the plan to return to the original behaviour of the program.
-\item Change the plan to \lstinline{+!say_hello [perform] : {True} <- print(hello),print(louise);} and see how this changes the behaviour of the program.
+\item Change the plan to
+\begin{verbatim}
++!say_hello [perform] : {True} <- print(hello),print(louise);
+\end{verbatim} and see how this changes the behaviour of the program.
 \item Experiment getting the program to print out various different things.  Note the parser can not cope with whitespace in print statements (sorry!).
 \end{enumerate}
 
