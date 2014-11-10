@@ -42,10 +42,14 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 	double rubble1_x = 5;
 	double rubble1_y = 5;
 	
+	double rubble2_x = 3;
+	double rubble2_y = 4;
+
 	double robot_x = 0;
 	double robot_y = 0;
 	
-	boolean robot_rubble = false;
+	boolean robot_rubble1 = false;
+	boolean robot_rubble2 = false;
 	
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
@@ -68,7 +72,7 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 			robot_x = x;
 			robot_y = y;
 					
-			if (robot_y == rubble1_y && !robot_rubble) {
+			if (robot_y == rubble1_y && robot_x == rubble1_x && !robot_rubble1) {
 				Predicate rubble = new Predicate("rubble");
 				rubble.addTerm(new NumberTermImpl(rubble1_x));
 				rubble.addTerm(new NumberTermImpl(rubble1_y));
@@ -76,9 +80,17 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 				addPercept(agName, rubble);
 			}
 					
+			if (robot_y == rubble2_y && robot_x == rubble2_x && !robot_rubble2) {
+				Predicate rubble = new Predicate("rubble");
+				rubble.addTerm(new NumberTermImpl(rubble2_x));
+				rubble.addTerm(new NumberTermImpl(rubble2_y));
+						
+				addPercept(agName, rubble);
+			}
+
 		} if (act.getFunctor().equals("lift_rubble")) {
 			if (robot_x == rubble1_x) {
-				if (robot_y == rubble1_y && !robot_rubble) {
+				if (robot_y == rubble1_y && !robot_rubble1) {
 					Predicate rubble = new Predicate("rubble");
 					rubble.addTerm(new NumberTermImpl(rubble1_x));
 					rubble.addTerm(new NumberTermImpl(rubble1_y));
@@ -88,12 +100,25 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 					Predicate holding = new Predicate("holding");
 					holding.addTerm(new Predicate("rubble"));
 					addPercept(agName, holding);
-					robot_rubble = true;
+					robot_rubble1 = true;
+				}
+			} else if (robot_x == rubble2_x) {
+				if (robot_y == rubble2_y && !robot_rubble2) {
+					Predicate rubble = new Predicate("rubble");
+					rubble.addTerm(new NumberTermImpl(rubble2_x));
+					rubble.addTerm(new NumberTermImpl(rubble2_y));
+					
+					removePercept(agName, rubble);
+					
+					Predicate holding = new Predicate("holding");
+					holding.addTerm(new Predicate("rubble"));
+					addPercept(agName, holding);
+					robot_rubble2 = true;
 				}
 			}
 		} if (act.getFunctor().equals("drop")) {
-			if (robot_rubble) {
-				robot_rubble = false;
+			if (robot_rubble1) {
+				robot_rubble1 = false;
 				rubble1_x = robot_x;
 				rubble1_y = robot_y;
 
@@ -104,6 +129,21 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 				Predicate rubble = new Predicate("rubble");
 				rubble.addTerm(new NumberTermImpl(rubble1_x));
 				rubble.addTerm(new NumberTermImpl(rubble1_y));
+				
+				addPercept(agName, rubble);
+				
+			} else if (robot_rubble2) {
+				robot_rubble2 = false;
+				rubble2_x = robot_x;
+				rubble2_y = robot_y;
+
+				Predicate holding = new Predicate("holding");
+				holding.addTerm(new Predicate("rubble"));
+				removePercept(agName, holding);
+				
+				Predicate rubble = new Predicate("rubble");
+				rubble.addTerm(new NumberTermImpl(rubble2_x));
+				rubble.addTerm(new NumberTermImpl(rubble2_y));
 				
 				addPercept(agName, rubble);
 				

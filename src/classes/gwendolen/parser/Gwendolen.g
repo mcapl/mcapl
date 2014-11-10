@@ -171,10 +171,10 @@ NAME	:	':name:';
 
 SEND	:	'.send';
 RECEIVED:	{gwendolen}?=> '.received';
-BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
-GOAL	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('G' | '.G') ;
-IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('N') ;
-IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('X') ;
+BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('B' | '.B') ;
+GOAL	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('G' | '.G') ;
+IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
+IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
 SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
 LOCK	:	'.lock';
 ADD_PLAN	:	'.plan';
