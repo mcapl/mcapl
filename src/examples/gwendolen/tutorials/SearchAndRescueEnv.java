@@ -24,6 +24,12 @@
 package gwendolen.tutorials;
 
 import ail.mas.DefaultEnvironment;
+import ail.syntax.Action;
+import ail.syntax.Unifier;
+import ail.syntax.NumberTerm;
+import ail.syntax.NumberTermImpl;
+import ail.syntax.Predicate;
+import ail.util.AILexception;
 
 /**
  * This is a simple class representing a search and rescue environment on a grid.  For use 
@@ -32,5 +38,80 @@ import ail.mas.DefaultEnvironment;
  *
  */
 public class SearchAndRescueEnv extends DefaultEnvironment {
+	
+	double rubble1_x = 5;
+	double rubble1_y = 5;
+	
+	double robot_x = 0;
+	double robot_y = 0;
+	
+	boolean robot_rubble = false;
+	
+	public Unifier executeAction(String agName, Action act) throws AILexception {
+		Unifier u = new Unifier();
+		
+		if (act.getFunctor().equals("move_to")) {
+			double x = ((NumberTerm) act.getTerm(0)).solve();
+			double y = ((NumberTerm) act.getTerm(1)).solve();
+			
+			Predicate at = new Predicate("at");
+			at.addTerm(new NumberTermImpl(x));
+			at.addTerm(new NumberTermImpl(y));
+			
+			Predicate old_pos = new Predicate("at");
+			old_pos.addTerm(new NumberTermImpl(robot_x));
+			old_pos.addTerm(new NumberTermImpl(robot_y));
+			
+			removePercept(agName, old_pos);
+			addPercept(agName, at);
+			
+			robot_x = x;
+			robot_y = y;
+					
+			if (robot_y == rubble1_y && !robot_rubble) {
+				Predicate rubble = new Predicate("rubble");
+				rubble.addTerm(new NumberTermImpl(rubble1_x));
+				rubble.addTerm(new NumberTermImpl(rubble1_y));
+						
+				addPercept(agName, rubble);
+			}
+					
+		} if (act.getFunctor().equals("lift_rubble")) {
+			if (robot_x == rubble1_x) {
+				if (robot_y == rubble1_y && !robot_rubble) {
+					Predicate rubble = new Predicate("rubble");
+					rubble.addTerm(new NumberTermImpl(rubble1_x));
+					rubble.addTerm(new NumberTermImpl(rubble1_y));
+					
+					removePercept(agName, rubble);
+					
+					Predicate holding = new Predicate("holding");
+					holding.addTerm(new Predicate("rubble"));
+					addPercept(agName, holding);
+					robot_rubble = true;
+				}
+			}
+		} if (act.getFunctor().equals("drop")) {
+			if (robot_rubble) {
+				robot_rubble = false;
+				rubble1_x = robot_x;
+				rubble1_y = robot_y;
+
+				Predicate holding = new Predicate("holding");
+				holding.addTerm(new Predicate("rubble"));
+				removePercept(agName, holding);
+				
+				Predicate rubble = new Predicate("rubble");
+				rubble.addTerm(new NumberTermImpl(rubble1_x));
+				rubble.addTerm(new NumberTermImpl(rubble1_y));
+				
+				addPercept(agName, rubble);
+				
+			}
+		}
+		super.executeAction(agName, act);
+		
+		return u;
+	}
 
 }
