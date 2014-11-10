@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -24,41 +24,31 @@
 
 package gwendolen.tutorials;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
-import ail.util.AJPF_w_AIL;
-import gov.nasa.jpf.util.test.TestJPF;
+import ajpf.MCAPLcontroller;
+import gwendolen.GwendolenAgentBuilder;
+import gwendolen.semantics.GwendolenAgent;
 
 
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial1Tests extends TestJPF {
+public class Tutorial1Tests {
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
-
-
-
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
- 
   @Test //----------------------------------------------------------------------
-  public void hello_world () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "0";
-    	AJPF_w_AIL.run(args);
- 	 }
+  public void hello_world() {
+	  try {
+		  String abs_filename = MCAPLcontroller.getFilename("/src/examples/gwendolen/tutorials/tutorial1/hello_world.gwen");
+		  GwendolenAgentBuilder builder = new GwendolenAgentBuilder();
+		  GwendolenAgent g = (GwendolenAgent) builder.getAgent(abs_filename);
+		  Assert.assertNotNull(g);
+	  } catch (Exception e) {
+		  System.err.println(e);
+		  Assert.assertTrue(false);
+	  }
   }
 
 
