@@ -57,7 +57,7 @@ public class ReasoningRuleTests {
 	 * 
 	 */
 	@Test public void ruleUnificationTest() {
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);"));
+		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(X, Y) :- square(X, Y), ~ at(X, Y), ~ empty(X, Y), ~ human(X, Y);"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
 		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
 		
