@@ -1658,8 +1658,8 @@ public class AILAgent implements MCAPLLanguageAgent {
 	
 		while(! RC.stopandcheck()) {
 			RCStage stage = RC.getStage();
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "About to pick a rule for stage " + stage.getStageName());
+			if (AJPFLogger.ltFiner(logname)) {
+				AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 			}
 			
 			Iterator<OSRule> rules = stage.getStageRules();
@@ -1667,8 +1667,8 @@ public class AILAgent implements MCAPLLanguageAgent {
 		    boolean stagerulefound = false;
 			while(rules.hasNext()) {
 				OSRule rule = rules.next();
-				if (AJPFLogger.ltFine(logname)) {
-					AJPFLogger.fine(logname, "checking " + rule.getName());
+				if (AJPFLogger.ltFiner(logname)) {
+					AJPFLogger.finer(logname, "checking " + rule.getName());
 				}
 				
 				if (rule.checkPreconditions(this)) {

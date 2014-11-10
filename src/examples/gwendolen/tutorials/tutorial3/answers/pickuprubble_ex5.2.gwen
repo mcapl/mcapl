@@ -45,7 +45,7 @@ all_squares_checked [achieve]
 
 :Plans:
 
-+!all_squares_checked [achieve] : {B square_to_check(X, Y), ~B holding(rubble)} <- move_to(X, Y);
++!all_squares_checked [achieve] : {B square_to_check(X, Y), ~B holding(rubble)} <- move_to(X, Y), do_nothing;
 +!all_squares_checked [achieve] : {B holding(rubble)} <- move_to(2, 2), drop;
 
 +rubble(X, Y) : {~B at(2, 2)} <- lift_rubble;

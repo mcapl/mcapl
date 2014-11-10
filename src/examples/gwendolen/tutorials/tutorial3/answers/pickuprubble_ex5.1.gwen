@@ -36,7 +36,7 @@ square(5, 1) square(5, 2) square(5, 3) square(5, 4) square(5, 5)
 :Reasoning Rules:
 
 square_to_check(X, Y) :- square(X, Y), ~checked(X, Y);
-see_rubble :- rubble(X, Y)
+see_rubble :- rubble(X, Y);
 
 :Initial Goals:
 

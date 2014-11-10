@@ -26,3 +26,5 @@
 2: <>(B(robot, rubble(2, 2)))
 
 3: <>(B(robot, see_rubble))
+
+4: [](<>(B(robot, rubble(2, 2))))
