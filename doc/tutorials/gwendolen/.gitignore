@@ -2,3 +2,5 @@
 *.idx
 *.log
 *.pdf
+*.bbl
+*.blg

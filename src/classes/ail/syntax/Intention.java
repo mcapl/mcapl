@@ -416,9 +416,11 @@ public class Intention implements Comparable<Intention>{
          }
          s+="\n";
 
+         String s1 = "";
          for (IntentionRow ir : intentionRows) {
-        	s += "   *  " + ir.toString();
+        	s1 = "   *  " + ir.toString() + s1;
         }
+         s+= s1;
          return s.toString();
     }
 
