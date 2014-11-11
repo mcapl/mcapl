@@ -410,14 +410,16 @@ public class Intention implements Comparable<Intention>{
          if (suspended) {
         	 s += "SUSPENDED\n";
          }
+         s += source.toString() + ":: ";
+         if (annotation != null) {
+        	 s += annotation.toString();
+         }
+         s+="\n";
+
          for (IntentionRow ir : intentionRows) {
         	s += "   *  " + ir.toString();
         }
-        if (annotation != null) {
-        	 s += annotation.toString();
-        }
-        s += source.toString();
-        return s.toString();
+         return s.toString();
     }
 
     // The operations on intentions defined in the AIL technical reports //
