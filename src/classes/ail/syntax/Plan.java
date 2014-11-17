@@ -593,9 +593,10 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		return null;
 	} 
 	
-	public  void replaceCap(Predicate capname, Capability c) {
+	public  void replaceCap(Predicate capname, Capability c, Predicate pre) {
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
+    	ArrayList<Deed> newbody = new ArrayList<Deed>();
 
     	for (Deed d: body) {
 			if (d.getCategory() == Deed.DAction) {
@@ -604,11 +605,20 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 				if (a.unifies(perf, new Unifier())) {
 					// WARNING: Can we be certain that unification of variables in c is correct???
 					a.setTerm(0, c.getCap());
-					getContext().add(new Guard(Guard.GLogicalOp.none, c.getPre()));
-				}
+					Goal tg = new Goal(new PredicatewAnnotation(pre), Goal.testGoal);
+					Deed gd = new Deed(tg);
+					// getContext().add(new Guard(Guard.GLogicalOp.none, c.getPre()));
+					
+					AARGH NEED TO Add GUard and UNIFIER TOO!
+					newbody.add(gd);
+				} 
 				System.err.println("a");
-			}
+			} 
+			
+			newbody.add(d);
 		}
+    	
+    	body = newbody;
 
 	}
 

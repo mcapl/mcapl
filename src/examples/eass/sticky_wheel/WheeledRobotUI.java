@@ -135,7 +135,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		int points = 0;
 		
 		public MovementCanvas() {
-			setSize(1000, 1000);
+			setSize(500, 500);
 			setBackground(Color.white);
 		}
 		
@@ -160,7 +160,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
 		public void paint(Graphics g) {
 			x = env.getX();
-			y = 1000 - env.getY();
+			y = 500 - env.getY();
 			xs[points] = (int) x;
 			ys[points] = (int) y;
 			points++;
@@ -187,7 +187,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
 		public void updateGraphics(double x1, double y1, double theta1) {
 			xp = x1;
-			yp = 1000 - y1;
+			yp = 500 - y1;
 			thetap = -theta1;
 			repaint();
 		}

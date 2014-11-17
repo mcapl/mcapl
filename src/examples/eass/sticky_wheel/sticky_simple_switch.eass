@@ -27,7 +27,7 @@ EASS
 
 :Initial Beliefs:
 
-bound(1)
+bound(3)
 
 :Initial Goals:
 
@@ -46,9 +46,9 @@ bound(1)
 	     +pos(X, Y, Theta),
 	     assert_shared(pos(X, Y)),
 	     assert_shared(angle(Theta)),
-	     -.lock,
 	     calculate_distance(X2, Y2, X, Y, D),
-	     +!within_bound(D) [perform];
+	     +!within_bound(D) [perform],
+             -.lock;
 +position(X, Y, Theta): {~B pos(X1, Y1, Theta1)} <- 
 	     +pos(X, Y, Theta), 
 	     assert_shared(pos(X, Y)),
@@ -81,7 +81,7 @@ bound(1)
 
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
-{pos(X, Y), angle(Theta)} forward(D) {newX(X, D, Theta, NX), newY(Y, D, Theta, NY), pos(NX, NY), angle(Theta)}
+{pos(X, Y), target(NX, NT), newX(X, D, Theta, NX), newY(Y, D, Theta, NY), angle(Theta)} forward(D) {pos(NX, NY), angle(Theta)}
 {target(X, Y)} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
@@ -109,7 +109,7 @@ bound(1)
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(pos(X, Y), forward(D1), true) [perform];
+	     +!evaluate_success(pos(X, Y), forward(D1), target(X, Y)) [perform];
 
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);

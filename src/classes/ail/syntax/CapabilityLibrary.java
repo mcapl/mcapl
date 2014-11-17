@@ -78,7 +78,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 			
 	     	EvaluationBasewNames<PredicateTerm> eb = 
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
-	     	GBelief gb = new GBelief(Pre);
+	     	//GBelief gb = new GBelief();
+	     	//if (! Pre.equals(Predicate.PTrue)) {
+	     		GBelief gb = new GBelief(Pre);
+	     	//}
 			if (gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames()).hasNext()) {
 				
 				BeliefBase postbb = new BeliefBase();
