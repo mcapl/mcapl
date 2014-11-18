@@ -44,12 +44,22 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 	
 	double rubble2_x = 3;
 	double rubble2_y = 4;
+	
+	double rubble3_x = 0;
+	double rubble3_y = 2;
+	
+	double siren_x = rubble3_x;
+	double siren_y = rubble3_y;
+	
+	double allclear_x = 0;
+	double allclear_y = 0;
 
 	double robot_x = 0;
 	double robot_y = 0;
 	
 	boolean robot_rubble1 = false;
 	boolean robot_rubble2 = false;
+	boolean robot_rubble3 = false;
 	
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
@@ -88,6 +98,25 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 				addPercept(agName, rubble);
 			}
 
+			if (robot_y == rubble3_y && robot_x == rubble3_x && !robot_rubble3) {
+				Predicate rubble = new Predicate("rubble");
+				rubble.addTerm(new NumberTermImpl(rubble3_x));
+				rubble.addTerm(new NumberTermImpl(rubble3_y));
+						
+				addPercept(agName, rubble);
+			}
+
+			if (robot_y == siren_y && robot_x == siren_x) {
+				Predicate warning = new Predicate("warning");
+						
+				addPercept(agName, warning);
+			}
+
+			if (robot_y == allclear_y && robot_x == allclear_x) {
+				Predicate warning = new Predicate("warning");
+						
+				removePercept(agName, warning);
+			}
 		} if (act.getFunctor().equals("lift_rubble")) {
 			if (robot_x == rubble1_x) {
 				if (robot_y == rubble1_y && !robot_rubble1) {
