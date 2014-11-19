@@ -33,6 +33,11 @@ import org.junit.Test;
 import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.HandleDropGeneralGoal;
 
+/**
+ * Regression tests involving goal bases.
+ * @author louiseadennis
+ *
+ */
 public class GoalBaseTests {
 	@Test public void DropMultipleGoals() {
 		

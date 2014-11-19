@@ -23,26 +23,42 @@
 //----------------------------------------------------------------------------
 
 package ajpf;
-
-import ajpf.psl.MCAPLFormula;
-
 import java.util.List;
-import java.util.Set;
 
 /**
- * Interface to be implemented by agents in specific APLs.
+ * Interface to be implemented by schedulers in a multi-agent system.
  * 
  * @author louiseadennis
  *
  */
 public interface MCAPLScheduler {
+	/**
+	 * Get the currently active jobbers.
+	 * @return
+	 */
 	public List<MCAPLJobber> getActiveJobbers();
 	
+	/**
+	 * Note that this jobber is inactive.
+	 * @param a
+	 */
 	public void notActive(String a);
 	
+	/**
+	 * Note that this jobber is active.
+	 * @param a
+	 */
 	public void isActive(String a);
 	
+	/**
+	 * Add a jobber to the scheduler.
+	 * @param a
+	 */
 	public void addJobber(MCAPLJobber a);
 	
+	/**
+	 * Get the names of the currently active jobbers.
+	 * @return
+	 */
 	public List<String> getActiveJobberNames();
 }

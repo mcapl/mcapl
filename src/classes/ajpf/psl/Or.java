@@ -119,6 +119,10 @@ public class Or implements MCAPLProperty {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return hashcode;
 	}
@@ -252,6 +256,10 @@ public class Or implements MCAPLProperty {
 		return(props);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#getUntils()
+	 */
 	public Set<Until> getUntils() {
 		TreeSet<Until> props = new TreeSet<Until>();
 		props.addAll(inL.getUntils());
@@ -281,21 +289,29 @@ public class Or implements MCAPLProperty {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLProperty p) {
-		/* if (p instanceof Or) {
+		if (p instanceof Or) {
 			int compInl = getInL().compareTo(((Or) p).getInL());
-			if (compInl != 0) {
+			if (compInl == 0) {
 				return getInR().compareTo(((Or) p).getInR());
 			} else {
 				return compInl;
 			}
-		} else if (p instanceof Proposition || p instanceof Not) {
-			return -1;
 		} else {
-			return 1;
-		} */
-		return (this.toString().compareTo(p.toString()));
+			int myq = quickCompareVal();
+			int pq = p.quickCompareVal();
+		
+			if (myq < pq) {
+				return -1;
+			} else {
+				return 1;
+			}
+		} 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 13;
 	}

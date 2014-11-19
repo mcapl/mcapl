@@ -47,6 +47,10 @@ public interface PerceptListener {
      */
     public void perceptChanged(String agName);
     
+    /**
+     * Return a name for the listener.
+     * @return
+     */
     public String getListenerName();
 
 }

@@ -43,6 +43,10 @@ public class FalseProp extends Proposition {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.Proposition#check(java.util.Set)
+	 */
 	public boolean check(Set<Proposition> s) {
 		return false;
 	}
@@ -67,6 +71,10 @@ public class FalseProp extends Proposition {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return 2;
 	}
@@ -95,18 +103,12 @@ public class FalseProp extends Proposition {
 		return (new TrueProp());
 	}
 	
-//	public String getEquivalentJPFClass("ajpf.psl.FalseProp");
-	
-/*	public boolean keepInOld() {
-		return keepinold;
-	}
-	
-	public void noteKeep() {
-		keepinold = true;
-	} */
-	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 10;
 	}
-
+	
 }

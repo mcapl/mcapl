@@ -29,6 +29,11 @@ import org.junit.Assert;
 
 import ail.semantics.AILAgent;
 
+/**
+ * Regression tests involving Logical Consequence.
+ * @author louiseadennis
+ *
+ */
 public class LogicalConsequenceTests {
 	
 	@Test public void sentMessages() {

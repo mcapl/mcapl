@@ -34,6 +34,11 @@ import gov.nasa.jpf.vm.ThreadInfo;
 import ajpf.util.AJPFLogger;
 import ajpf.psl.MCAPLListTermImpl;
 
+/**
+ * An implementation of abstract lists of terms that can be used in AJPF supporting systems.
+ * @author louiseadennis
+ *
+ */
 public class Abstract_MCAPLListTermImpl implements Abstract_MCAPLListTerm {
 	private String logname = "ajpf.psl.ast.Abstract_MCAPLListTerm";
 	protected Abstract_MCAPLTerm head;
@@ -43,6 +48,10 @@ public class Abstract_MCAPLListTermImpl implements Abstract_MCAPLListTerm {
 		head = h;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	public Abstract_MCAPLListTermImpl clone() {
 		return this;
 	}
@@ -64,6 +73,21 @@ public class Abstract_MCAPLListTermImpl implements Abstract_MCAPLListTerm {
 
 		return objref;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
+	 */
+	public int newJPFObject(MJIEnv env) {
+		int ref = env.newObject("ajpf.psl.ast.Abstract_MCAPLListTermImpl");
+		env.setReferenceField(ref, "head", head.newJPFObject(env));
+		if (tail != null) {
+			env.setReferenceField(ref, "tail", tail.newJPFObject(env));
+		}
+		return ref;
+	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -80,19 +104,6 @@ public class Abstract_MCAPLListTermImpl implements Abstract_MCAPLListTerm {
 
 	/*
 	 * (non-Javadoc)
-	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
-	 */
-	public int newJPFObject(MJIEnv env) {
-		int ref = env.newObject("ajpf.psl.ast.Abstract_MCAPLListTermImpl");
-		env.setReferenceField(ref, "head", head.newJPFObject(env));
-		if (tail != null) {
-			env.setReferenceField(ref, "tail", tail.newJPFObject(env));
-		}
-		return ref;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see ajpf.psl.ast.Abstract_MCAPLListTerm#addEnd(ajpf.psl.ast.Abstract_MCAPLListTerm)
 	 */
 	public void addEnd(Abstract_MCAPLTerm t) {
@@ -105,6 +116,10 @@ public class Abstract_MCAPLListTermImpl implements Abstract_MCAPLListTerm {
 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String s = new String("[");
 		s += head.toString();

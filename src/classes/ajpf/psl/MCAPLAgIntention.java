@@ -91,6 +91,10 @@ public class MCAPLAgIntention extends Proposition {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return hashcode;
 	}
@@ -129,6 +133,10 @@ public class MCAPLAgIntention extends Proposition {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 8;
 	}

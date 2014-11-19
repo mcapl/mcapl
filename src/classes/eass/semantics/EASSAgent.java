@@ -35,6 +35,9 @@ import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 
+// Got this far in comment updatign.
+import java.util.Random;
+
 
 /**
  * An EASS Agent - a specialised language for use in Satellite control systems.
