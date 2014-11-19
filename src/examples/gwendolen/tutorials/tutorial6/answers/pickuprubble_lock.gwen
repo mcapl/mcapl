@@ -55,7 +55,15 @@ all_squares_checked [achieve]
 -warning: {True} <- +search_mode;
 +warning: {True} <- -search_mode, move_to(0, 0);
 
-+rubble(X, Y) : {~B at(2, 2)} <- warning_lights_on, lift_rubble, warning_lights_off, move_to(2, 2), drop, +checked(X, Y);
++rubble(X, Y) : {~B at(2, 2)} <- 
+	+.lock,
+	warning_lights_on, 
+	lift_rubble, 
+	warning_lights_off, 
+	-.lock,
+	move_to(2, 2), 
+	drop, 
+	+checked(X, Y);
 
 +at(X, Y) : {~B rubble(X, Y)} <- +checked(X, Y);
 +at(2, 2) : {True} <- +checked(2, 2);

@@ -30,6 +30,7 @@ import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
 import ail.util.AILexception;
+import ajpf.util.AJPFLogger;
 
 /**
  * This is a simple class representing a search and rescue environment on a grid.  For use 
@@ -38,6 +39,7 @@ import ail.util.AILexception;
  *
  */
 public class SearchAndRescueEnv extends DefaultEnvironment {
+	String logname = "gwendolen.tutorials.SearchAndRescueEnv";
 	
 	double rubble1_x = 5;
 	double rubble1_y = 5;
@@ -60,6 +62,9 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 	boolean robot_rubble1 = false;
 	boolean robot_rubble2 = false;
 	boolean robot_rubble3 = false;
+	
+	boolean warning_message = false;
+	boolean nowarning_message = false;
 	
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
@@ -109,12 +114,14 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 			if (robot_y == siren_y && robot_x == siren_x) {
 				Predicate warning = new Predicate("warning");
 						
+				warning_message = true;
 				addPercept(agName, warning);
 			}
 
 			if (robot_y == allclear_y && robot_x == allclear_x) {
 				Predicate warning = new Predicate("warning");
 						
+				nowarning_message = true;
 				removePercept(agName, warning);
 			}
 		} if (act.getFunctor().equals("lift_rubble")) {
@@ -179,6 +186,16 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 			}
 		}
 		super.executeAction(agName, act);
+		
+		if (warning_message) {
+			AJPFLogger.info(logname, "Warning is Sounding");
+			warning_message = false;
+		}
+		
+		if (nowarning_message) {
+			AJPFLogger.info(logname, "Warning Ceases");
+			nowarning_message = false;
+		}
 		
 		return u;
 	}

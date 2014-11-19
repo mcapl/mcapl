@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial6/pickuprubble_lock.gwen
+mas.file = /src/examples/gwendolen/tutorials/tutorial6/answers/pickuprubble_lock.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.tutorials.SearchAndRescueEnv
