@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.uavs.prism;
+package gwendolen.uavs.jlc;
 
 import ail.mas.vehicle.VehicleEnvironment;
 import ajpf.MCAPLJobber;
@@ -40,19 +40,23 @@ import ail.util.AILexception;
  * @author lad
  *
  */
-public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJobber{
+public class SimpleUAVfromPRISMEnvTimings extends VehicleEnvironment implements MCAPLJobber{
 	String name;
 	// The choice over whether there will be a collision
 	Choice<Boolean> objectSet = new Choice<Boolean>();
 	// The choice of actions returned by the navigation manager.
 	Choice<Integer> navMan = new Choice<Integer>();
 	
+	Choice<Boolean> dummy1 = new Choice<Boolean>();
+	Choice<Boolean> dummy2 = new Choice<Boolean>();
+	Choice<Boolean> dummy3 = new Choice<Boolean>();
+	
 	// Tracking state.
 	public boolean colliding = false;
 	public boolean done = false;
 	public boolean flying = false;
-	
-	public SimpleUAVfromPRISMEnv() {
+		
+	public SimpleUAVfromPRISMEnvTimings() {
 		name = "Simple UAV Environment";
 		RoundRobinScheduler s = new RoundRobinScheduler();
 		s.addJobber(this);
@@ -63,6 +67,13 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 		navMan.addChoice(0.3, new Integer(1));
 		navMan.addChoice(0.4, new Integer(2));
 		navMan.addChoice(0.3, new Integer(3));
+		
+		dummy1.addChoice(0.9, new Boolean(true));
+		dummy1.addChoice(0.1, new Boolean(false));
+		dummy2.addChoice(0.1, new Boolean(true));
+		dummy2.addChoice(0.9, new Boolean(false));
+		dummy3.addChoice(0.1, new Boolean(true));
+		dummy3.addChoice(0.9, new Boolean(false));
 	}
 	
 	/*
@@ -119,6 +130,22 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 			colliding = false;
 		}
 		
+		if (!flying & !done) {
+			if (dummy1.get_choice()) {
+				addPercept(new Predicate("dummy1"));
+			}
+			
+			if (dummy2.get_choice()) {
+				addPercept(new Predicate("dummy2"));
+			}
+			
+			if (dummy3.get_choice()) {
+				addPercept(new Predicate("dummy3"));
+			}
+
+		}
+		
+		
 		getScheduler().notActive(name);
 	}
 	
@@ -137,6 +164,9 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("take_off") || act.getFunctor().equals("normal")) {
 			flying = true;
+			removePercept(new Predicate("dummy1"));
+			removePercept(new Predicate("dummy2"));
+			removePercept(new Predicate("dummy3"));
 		} else if (act.getFunctor().equals("land")) {
 			flying = false;
 			colliding = false;

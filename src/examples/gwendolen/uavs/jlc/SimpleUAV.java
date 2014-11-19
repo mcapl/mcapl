@@ -22,13 +22,29 @@
 //
 //----------------------------------------------------------------------------
 
-@using = mcapl
+package gwendolen.uavs.jlc;
 
-target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/uavs/prism/really_simple_uav.ail,${mcapl}/src/examples/gwendolen/uavs/prism/simple_uav.psl,2
+import ail.mas.vehicle.Vehicle;
 
-log.info = ail.mas.DefaultEnvironment,gwendolen.uavs.simple.SimpleUAVfromPRISMEnv,ajpf.product.Product,ajpf.MCAPLListener
+import ail.semantics.AILAgent;
+import gwendolen.uavs.prism.SimpleRadar;
+import gwendolen.uavs.prism.navMan;
 
-listener+=,.listener.ExecTracker
-et.print_insn=false
-# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+/**
+ * A Simple UAV which has a single (unreliable) Radar Sensor and a navigation manager.
+ * @author lad
+ *
+ */
+public class SimpleUAV extends Vehicle {
+	
+	public SimpleUAV(AILAgent a) {
+		super();
+		addAgent(a);
+		a.setEnv(this);
+		addSensor(new SimpleRadar());
+		addSensor(new navMan());
+		addSensor(new DummySensor());
+	}
+	
+		
+}

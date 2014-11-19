@@ -1,3 +1,5 @@
 0: P(collision) & D(uav,evade) & D(uav, land)
 
 1: [] (B(uav, collision) -> <> D(uav, evade))
+
+2: [] (P(collision) -> <> D(uav, evade))

@@ -1,0 +1,6 @@
+0: [] (B(uav, collision) -> <>D(uav,evade))
+
+0complex: [] ((B(uav, collision) & B(uav,airborne)) -> <>(D(uav,evade) || D(uav,land)))
+
+
+1: [] (P(collision) -> <>D(uav,evade))
