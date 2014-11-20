@@ -28,3 +28,7 @@
 3: <>(B(robot, see_rubble))
 
 4: [](<>(B(robot, rubble(2, 2))))
+
+5: [](B(robot, warning) -> <>B(robot, at(0, 0)))
+
+6: [](~B(robot, at(4, 4)))

@@ -78,13 +78,10 @@ public class GwendolenRC implements ReasoningCycle {
 		SelectIntentionNotUnplannedProblemGoal rule1 = new SelectIntentionNotUnplannedProblemGoal();
 		SleepIfEmpty rule2 = new SleepIfEmpty();
 		DropIntentionIfEmpty rule3 = new DropIntentionIfEmpty();
-		MatchDropGoal rule4 = new MatchDropGoal();
-		// Then we set these rules to the appropriate stage in the reasoning cycle.
 		RCStage StageA = getStageA();
 		StageA.setRule(rule1);  
 		StageA.setRule(rule2);
 		StageA.setRule(rule3);
-		StageA.setRule(rule4);
 		
 		/* Stage B Rules */
 		
