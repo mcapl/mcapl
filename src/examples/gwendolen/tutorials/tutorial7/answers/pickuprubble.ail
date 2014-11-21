@@ -21,10 +21,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial6/pickuprubble_waitfor.gwen
+mas.file = /src/examples/gwendolen/tutorials/tutorial7/answers/pickuprubble.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
-env = gwendolen.tutorials.SearchAndRescueEnv
+env = gwendolen.tutorials.tutorial7.SearchAndRescueDynamicEnv
 
 log.info = ail.mas.DefaultEnvironment
+log.fine = ail.semantics.AILAgent
 log.format = brief

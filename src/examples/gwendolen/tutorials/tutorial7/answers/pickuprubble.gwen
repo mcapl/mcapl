@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher.
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
 // 
 // This file is part of Gwendolen
 //
@@ -21,10 +21,35 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial6/pickuprubble_waitfor.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+GWENDOLEN
 
-env = gwendolen.tutorials.SearchAndRescueEnv
+:name: robot
 
-log.info = ail.mas.DefaultEnvironment
-log.format = brief
+:Initial Beliefs:
+
+square(0, 0) square(0, 1) square(0, 2) square(0, 3) square(0, 4)
+square(1, 0) square(1, 1) square(1, 2) square(1, 3) square(1, 4) 
+square(2, 0) square(2, 1) square(2, 2) square(2, 3) square(2, 4) 
+square(3, 0) square(3, 1) square(3, 2) square(3, 3) square(3, 4) 
+square(4, 0) square(4, 1) square(4, 2) square(4, 3) square(4, 4) 
+
+max_x(4) max_y(4) min_x(0) min_y(0)
+
+going_up
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- square(X, Y), ~checked(X, Y);
+all_squares_checked :- ~square_to_check(X, Y);
+
+:Initial Goals:
+
+all_squares_checked [achieve]
+
+:Plans:
+
++!all_squares_checked [achieve] : {B at(X, Y), ~B max_x(X), B going_up} <- forwards;
++!all_squares_checked [achieve] : {B at(X, Y), ~B min_x(X), B going_up} <- backwards;
++!all_squares_checked [achieve] : {B at(X, Y), B max_x(X), B going_up, ~B max_y} <- -going_up, +going_down, right;
+
++at(X, Y): {True} <- +checked(X, Y);

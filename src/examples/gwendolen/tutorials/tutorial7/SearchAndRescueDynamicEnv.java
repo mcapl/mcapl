@@ -24,6 +24,7 @@
 package gwendolen.tutorials.tutorial7;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
@@ -78,6 +79,9 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 */
 	public SearchAndRescueDynamicEnv() {
 		super();
+		RoundRobinScheduler scheduler = new RoundRobinScheduler();
+		this.setScheduler(scheduler);
+		addPerceptListener(scheduler);
 		generatesquares();
 		int numbuildings = r.nextInt(4);
 		placebuildings(numbuildings, true);
@@ -88,6 +92,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		Predicate at = new Predicate("at");
 		at.addTerm(new NumberTermImpl(robot_x));
 		at.addTerm(new NumberTermImpl(robot_y));
+		addPercept(at);
 		
 		getScheduler().addJobber(this);
 	}
@@ -107,6 +112,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public void do_job() {
 		collapsebuildings();
 		movehumans();
+		System.err.println(this);
 	}
 
 	/*
@@ -165,15 +171,18 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 				holding_rubble.drop();
 			}
 		} else if (actionname.equals("assist_human")) {
-			Human h = human_at_location();
-			if (h != null) {
-				h.assist();
+			for (Human h: getHumans(robot_x, robot_y)) {
+				if (h.injured) {
+					h.assist();
+					break;
+				}
 			}
-		} else if (actionname.equals("direct_human")) {
-			Human h = human_at_location();
-			if (h != null) {
-				h.direct();
-			}			
+		} else if (actionname.equals("direct_humans")) {
+			for (Human h: getHumans(robot_x, robot_y)) {
+				if (h != null) {
+					h.direct();
+				}
+			}
 		}
 		return super.executeAction(agName, act);
 	}
@@ -209,6 +218,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			addPercept(holding);
 			rubble.remove(this);
 			holding_rubble = this;
+			
+			for (Human h: getHumans(x, y)) {
+				addHumanPercept(h);
+			}
 		}
 		
 		public void drop() {
@@ -225,8 +238,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			removePercept(holding);
 			rubble.add(this);
 			
-			Human h = human_at_location();
-			if (h != null) {
+			for (Human h: getHumans(x, y)) {
 				h.injure();
 				removeHumanPercept(h);
 			}
@@ -280,14 +292,14 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		public void move(double dx, double dy) {
 			if (dx > (min_x - 2) || dx < (max_x + 2)) {
 				if (dy > (min_y - 2) || dy < (max_y + 2)) {
-					if (isVisible(this)) {
+					if (! isVisible()) {
 						removeHumanPercept(this);
 					}
 			
 					x = dx;
 					y = dy;
 			
-					if (isVisible(this) && !inBuilding()) {
+					if (isVisible()) {
 						addHumanPercept(this);
 					}
 				}
@@ -304,6 +316,20 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			humans.remove(this);
 			return false;
 		}
+		
+		/**
+		 * Is this human visible
+		 * @param h
+		 * @return
+		 */
+		public boolean isVisible() {
+			if ((SearchAndRescueDynamicEnv.this.rubble_at(getX(), getY()) && injured()) || SearchAndRescueDynamicEnv.this.building_at(getX(), getY())) {
+				return false;
+			}
+			
+			return true;
+		}
+
 		
 		
 	}
@@ -339,11 +365,11 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		double y = 0;
 		for (int i = 0; i < 25; i++) {
 			free_squares.add(new Square(x, y));
-			if (x < max_x) {
+			if (x <= max_x) {
 				x++;
 			} else {
 				x = min_x;
-				if (y < max_y) {
+				if (y <= max_y) {
 					y++;
 				} else {
 					AJPFLogger.warning(logname, "Generated too many squares!!!");
@@ -392,7 +418,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 				h = new Human(x, y, r.nextBoolean());
 			}
 			
-			if (visibleHuman(h)) {
+			if (h.isVisible()) {
 				addHumanPercept(h);
 			}
 			humans.add(h);
@@ -517,10 +543,38 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	}
 	
 	/**
+	 * Is there rubble at (X, Y)?
+	 * @return
+	 */
+	public boolean rubble_at(double x, double y) {
+		for (Rubble r: rubble) {
+			if (r.getX() == x && r.getY() == y) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Is there a building at (X, Y)?
+	 * @return
+	 */
+	public boolean building_at(double x, double y) {
+		for (Building b: buildings) {
+			if (b.getX() == x && b.getY() == y) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	/**
 	 * Is there a human at this location?
 	 * @return
 	 */
-	public Human human_at_location() {
+/*	public Human human_at_location() {
 		for (Human h: humans) {
 			if (h.getX() == robot_x && h.getY() == robot_y) {
 				return h;
@@ -528,7 +582,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		
 		return null;
-	}
+	} */
 	
 	/**
 	 * Is there a human at (x, y)?
@@ -589,6 +643,16 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	}
 	
 	/**
+	 * Add that a building can be seen in this square.
+	 */
+	public void removeRubblePercept(Square s) {
+		Predicate building = new Predicate("rubble");
+		building.addTerm(new NumberTermImpl(s.getX()));
+		building.addTerm(new NumberTermImpl(s.getY()));
+		removePercept(building);
+	}
+
+	/**
 	 * Add that a human can be seen in this square.
 	 * @param h
 	 */
@@ -640,21 +704,107 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		
 		return false;
 	}
+		
 	
 	/**
-	 * Is this human visible
-	 * @param h
+	 * Get an array of Squares visible to the robot.
 	 * @return
 	 */
-	public boolean visibleHuman(Human h) {
-		if ((rubble_at(h.getX(), h.getY()) && h.injured()) || building_at(h.getX(), h.getY())) {
-			return false;
+	public ArrayList<Square> visible_squares() {
+		ArrayList<Square> squares = new ArrayList<Square>();
+		for (double x = robot_x - 1; x <= robot_x + 1; x++) {
+			for (double y = robot_y - 1; y <= robot_y + 1; y++) {
+				if (x >= min_x && y >= min_y && x <= max_x && y <= max_y) {
+					squares.add(new Square(x, y));
+				}
+			}
 		}
-		
-		return true;
+		return squares;
 	}
 	
+	/**
+	 * Remove any percepts associated with this square.
+	 * @param s
+	 */
+	public void removePerceptsFor(Square s) {
+		double x = s.getX();
+		double y = s.getY();
+		if  (rubble_at(x, y)) {
+			removeRubblePercept(s);
+		} else if  (building_at(x, y)) {
+			removeBuildingPercept(s);
+		}
+		
+		for (Human h: getHumans(x, y)) {
+			if (h.isVisible()) {
+				removeHumanPercept(h);
+			}
+		}
+
+	}
 	
-	public ArrayList
+	/**
+	 * Add any percepts associated with this square.
+	 * @param s
+	 */
+	public void addPerceptsFor(Square s) {
+		double x = s.getX();
+		double y = s.getY();
+		if  (rubble_at(x, y)) {
+			addRubblePercept(s);
+		} else if  (building_at(x, y)) {
+			addBuildingPercept(s);
+		}
+		
+		for (Human h: getHumans(x, y)) {
+			if (h.isVisible()) {
+				addHumanPercept(h);
+			}
+		}
+
+	}
+	
+	/**
+	 * Print out this environment;
+	 */
+	public String toString() {
+		String s = "---------------------\n";
+		for (double y = 4; y >= 0; y--) {
+			s += "|";
+			for (double x = 0; x < 5; x++) {
+				if (rubble_at(x, y)) {
+					s += "R";
+				} else if (building_at(x, y)) {
+					s += "B";
+				} else {
+					s += " ";
+				}
+				
+				ArrayList<Human> hs = getHumans(x, y);
+				if (hs.size() > 0) {
+					s += "h";
+					s += hs.size();
+				} else {
+					s += "  ";
+				}
+				s+="|";
+			}	
+			s += "\n|";
+			for (double x = 0; x < 5; x++) {
+				if (x == robot_x && y == robot_y) {
+					s += "r";
+				} else {
+					s += " ";
+				}
+				
+				s += "  |";
+			}
+			s +="\n";
+			s += "---------------------\n";
+		}
+		return s;
+		
+	}
+
 
 }
