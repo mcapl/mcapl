@@ -55,6 +55,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public ArrayList<Building> buildings = new ArrayList<Building>();
 	public ArrayList<Rubble> rubble = new ArrayList<Rubble>();
 	public ArrayList<Human> humans = new ArrayList<Human>();
+	public ArrayList<Human> cleanup = new ArrayList<Human>();
 	public ArrayList<Square> free_squares = new ArrayList<Square>();
 	
 	Random r = new Random();
@@ -84,7 +85,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		addPerceptListener(scheduler);
 		generatesquares();
 		int numbuildings = r.nextInt(4);
-		placebuildings(numbuildings, true);
+		placebuildings(3, true);
 		int numrubble = r.nextInt(4);
 		placebuildings(numrubble, false);
 		placehumans(numhumans);
@@ -110,8 +111,12 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 * @see ajpf.MCAPLJobber#do_job()
 	 */
 	public void do_job() {
+		for (Human h: cleanup) {
+			humans.remove(h);
+		}
 		collapsebuildings();
 		movehumans();
+		((RoundRobinScheduler) scheduler).perceptChanged();
 		System.err.println(this);
 	}
 
@@ -181,6 +186,13 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			for (Human h: getHumans(robot_x, robot_y)) {
 				if (h != null) {
 					h.direct();
+				}
+			}
+		} else if (actionname.equals("check_building")) {
+			for (Human h: getHumans(robot_x, robot_y)) {
+				if (h != null) {
+					h.revealed();
+					addHumanPercept(h);
 				}
 			}
 		}
@@ -253,18 +265,26 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public class Human extends Square{
 		boolean injured;
 		boolean directed = false;
+		boolean in_building = false;
 		
 		public Human(double x, double y, boolean inj) {
 			super(x, y);
 			injured = inj;
+			if (SearchAndRescueDynamicEnv.this.building_at(x, y)) {
+				in_building = true;
+			}
 		}
 		
 		public void assist() {
 			injured = false;
+			removeHumanPercept(this);
+			addHumanPercept(this);
+			((RoundRobinScheduler) scheduler).perceptChanged();
 		}
 		
 		public void direct() {
 			directed = true;
+			((RoundRobinScheduler) scheduler).perceptChanged();
 		}
 		
 		public void injure() {
@@ -290,31 +310,37 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		
 		public void move(double dx, double dy) {
-			if (dx > (min_x - 2) || dx < (max_x + 2)) {
-				if (dy > (min_y - 2) || dy < (max_y + 2)) {
-					if (! isVisible()) {
-						removeHumanPercept(this);
-					}
+			removeHumanPercept(this);
+			if ((dx >= min_x && dx <= max_x) || directed) {
+				if ((dy >= min_y  && dy <= max_y) || directed) {
 			
 					x = dx;
 					y = dy;
+					
+					System.err.println("MOVING " + x + " " + y);
 			
 					if (isVisible()) {
 						addHumanPercept(this);
 					}
+					
+					onGrid();
 				}
 			}
 		}
 		
 		public boolean onGrid() {
-			if (x > (min_x - 1) || x < (max_x + 1)) {
-				if (y > (min_y - 1) || y < (max_y + 1)) {
+			if (x > (min_x - 1) && x < (max_x + 1)) {
+				if (y > (min_y - 1) && y < (max_y + 1)) {
 					return true;
 				}
 			}
 			
-			humans.remove(this);
+			cleanup.add(this);
 			return false;
+		}
+		
+		public void revealed() {
+			in_building = false;
 		}
 		
 		/**
@@ -323,7 +349,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		 * @return
 		 */
 		public boolean isVisible() {
-			if ((SearchAndRescueDynamicEnv.this.rubble_at(getX(), getY()) && injured()) || SearchAndRescueDynamicEnv.this.building_at(getX(), getY())) {
+			if ((! SearchAndRescueDynamicEnv.this.isVisible(new Square(getX(), getY()))) || (SearchAndRescueDynamicEnv.this.rubble_at(getX(), getY()) && injured()) || in_building) {
 				return false;
 			}
 			
@@ -354,6 +380,15 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		
 		public double getY() {
 			return y;
+		}
+		
+		public String toString() {
+			String s = "(";
+			s += x;
+			s += ", ";
+			s += y;
+			s += ")";
+			return s;
 		}
 	}
 	
@@ -418,7 +453,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 				h = new Human(x, y, r.nextBoolean());
 			}
 			
-			if (h.isVisible()) {
+			if (h.isVisible() ) {
 				addHumanPercept(h);
 			}
 			humans.add(h);
@@ -603,8 +638,8 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 * Is this square visible to the robot?
 	 */
 	public boolean isVisible(Square s) {
-		if (Math.abs(s.getX() - robot_x) <= 1 ) {
-			if (Math.abs(s.getY() - robot_y) <= 1) {
+		if (Math.abs(s.getX() - robot_x) < 1 ) {
+			if (Math.abs(s.getY() - robot_y) < 1) {
 				return true;
 			}
 		}
@@ -675,17 +710,15 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 * @param h
 	 */
 	public void removeHumanPercept(Human h) {
-		if (h.injured()) {
 			Predicate human = new Predicate("injured_human");
 			human.addTerm(new NumberTermImpl(h.getX()));
 			human.addTerm(new NumberTermImpl(h.getY()));
 			removePercept(human);
-		} else {
-			Predicate human = new Predicate("uninjured_human");
-			human.addTerm(new NumberTermImpl(h.getX()));
-			human.addTerm(new NumberTermImpl(h.getY()));
-			removePercept(human);			
-		}
+
+			Predicate uhuman = new Predicate("uninjured_human");
+			uhuman.addTerm(new NumberTermImpl(h.getX()));
+			uhuman.addTerm(new NumberTermImpl(h.getY()));
+			removePercept(uhuman);			
 		
 	}
 	
@@ -762,6 +795,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			}
 		}
 
+	}
+	
+	public boolean done() {
+		return humans.isEmpty();
 	}
 	
 	/**
