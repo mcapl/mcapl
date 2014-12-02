@@ -32,6 +32,8 @@ import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
 import java.util.Random;
 
+import ajpf.util.AJPFLogger;
+
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Random;
@@ -46,6 +48,7 @@ import java.util.Random;
  *
  */
 public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
+	private static String logname = "ail.syntax.Plan";
   
 	/**
 	 * The plan can have an annotation.
@@ -593,10 +596,13 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		return null;
 	} 
 	
-	public  void replaceCap(Predicate capname, Capability c) {
+	public  void replaceCap(Predicate capname, Capability c, Capability old) {
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
+    	ArrayList<Deed> newdeeds = new ArrayList<Deed>();
+    	ArrayList<Guard> guards = new ArrayList<Guard>();
 
+    	int i = 0;
     	for (Deed d: body) {
 			if (d.getCategory() == Deed.DAction) {
 				// Deed dclone = (Deed) d.clone();
@@ -604,12 +610,52 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 				if (a.unifies(perf, new Unifier())) {
 					// WARNING: Can we be certain that unification of variables in c is correct???
 					a.setTerm(0, c.getCap());
-					getContext().add(new Guard(Guard.GLogicalOp.none, c.getPre()));
+					newdeeds.add(d);
+					guards.add(context.get(i));
+					insertRowsHere(guards, context.get(i), newdeeds, old.getPre());
+				} else {
+					newdeeds.add(d);
+					guards.add(context.get(i));
 				}
 				System.err.println("a");
+			} else {
+				newdeeds.add(d);
+				guards.add(context.get(i));
 			}
+			i++;
 		}
+    	body = newdeeds;
+    	context = guards;
 
+	}
+	
+	public void insertRowsHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp().equals(Guard.GLogicalOp.none)) {
+				GLogicalFormula f = g.getLHS();
+			 insertRowHere(gs, gu, ds, f);
+			} else if (g.getOp().equals(Guard.GLogicalOp.and)) {
+				insertRowsHere(gs, gu, ds, g.getRHS());
+				insertRowsHere(gs, gu, ds, g.getLHS());
+			} else {
+				AJPFLogger.warning(logname, "Can not insert deeds of this type");
+			}
+		} else if (lf instanceof GBelief) {
+			insertRowHere(gs, gu, ds, lf);
+		}
+		AJPFLogger.warning(logname, "Can not insert Guards of this type");
+	}
+	
+	public void insertRowHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		GBelief gb = (GBelief) lf;
+		Goal gl = new Goal(gb, Goal.achieveGoal);
+		//NOTE at some point we need to handle deletions or absenses as well.
+		Deed d = new Deed(Deed.AILAddition, gl);
+		ds.add(d);
+		gs.add(gu);
+		// return index + 1;
+		
 	}
 
 	

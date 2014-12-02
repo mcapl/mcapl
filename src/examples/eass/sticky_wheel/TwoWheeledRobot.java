@@ -132,11 +132,12 @@ public class TwoWheeledRobot extends EASSVehicle {
 			AILAgent ag = getAgent();
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
 			Capability c = ag.getCL().findEquivalent(capname, pre, post, ag.getRuleBase());
+			Capability oldcap = ag.getCL().getByName(capname.getFunctor());
 			while (plans.hasNext()) {
 				Plan p = plans.next();
 				Plan newplan = (Plan) p.clone();
 				
-				newplan.replaceCap(capname, c);
+				newplan.replaceCap(capname, c, oldcap);
 				
 				ag.removePlan(p);
 				ag.addPlan(newplan);

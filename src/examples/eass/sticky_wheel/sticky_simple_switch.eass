@@ -81,8 +81,8 @@ bound(1)
 
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
-{pos(X, Y), angle(Theta)} forward(D) {newX(X, D, Theta, NX), newY(Y, D, Theta, NY), pos(NX, NY), angle(Theta)}
-{target(X, Y)} feedback(X, Y) {pos(X, Y)}
+{pos(X, Y), angle(Theta), newX(X, D, Theta, NX), newY(Y, D, Theta, NY)} forward(D) {pos(NX, NY), angle(Theta)}
+{true} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
 

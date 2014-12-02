@@ -38,6 +38,17 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		
 	}
 	
+	public Capability getByName(String s) {
+		Iterator<Capability> cs = iterator();
+		while (cs.hasNext()) {
+			Capability c = cs.next();
+			if (c.getCap().getFunctor().equals(s)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	public Iterator<Capability> iterator() {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
 		
