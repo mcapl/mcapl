@@ -66,6 +66,10 @@ bound(1)
 +!calculate_distance(D) [perform]: {B target(X, Y), B position(X1, Y1, Theta)} <-
 		     calculate_distance(X1, Y1, X, Y, D),
 		     assert_shared(calculate_distance(D));
++!calculate_new_coords(X, Y, D, Theta, Cs) [perform]: {True} <-
+		     calculate_new_coords(X, Y, D, Theta, Cs),
+		     assert_shared(calculate_new_coords(X, Y, D, Theta, Cs));
+		     
 +!turn(A) [perform] : {True} <- 
 	  turn(A),
 	  assert_shared(turned);
@@ -81,7 +85,7 @@ bound(1)
 
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
-{pos(X, Y), angle(Theta), newX(X, D, Theta, NX), newY(Y, D, Theta, NY)} forward(D) {pos(NX, NY), angle(Theta)}
+{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}
 {true} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
@@ -110,6 +114,9 @@ bound(1)
 	     *moved,
 	     remove_shared(moved),
 	     +!evaluate_success(pos(X, Y), forward(D1), true) [perform];
+	     
++!newC(X, Y, D, Theta, Cs) [achieve] : {True} <-
+	.query(calculate_new_coords(X, Y, D, Theta, Cs));
 
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);

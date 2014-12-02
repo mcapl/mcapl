@@ -87,6 +87,23 @@ public class TwoWheeledRobot extends EASSVehicle {
 			U.unifies(act.getTerm(4), new NumberTermImpl(distance));
 			return U;
 			
+		} else if (act.getFunctor().equals("calculate_new_coords")) {
+			double current_x = ((NumberTerm) act.getTerm(0)).solve();
+			double current_y = ((NumberTerm) act.getTerm(1)).solve();
+			double distance = ((NumberTerm) act.getTerm(2)).solve();
+			// Suspect I have the wrong angle for this to work.
+			double angle = ((NumberTerm) act.getTerm(3)).solve();
+			
+			double sintheta = Math.sin(Math.toRadians(angle));
+			double costheta = Math.cos(Math.toRadians(angle));
+			
+			double target_x = distance * sintheta + current_x;
+			double target_y = distance * costheta + current_y;
+			
+			Unifier U = new Unifier();
+//			U.unifies(act.getTerm(4), coords);
+			return U;
+			
 		} else if (act.getFunctor().equals("feedback_control")) {
 			double target_x = ((NumberTerm) act.getTerm(0)).solve();
 			double target_y = ((NumberTerm) act.getTerm(1)).solve();

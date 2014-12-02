@@ -100,6 +100,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 				minag.setBeliefBase(postbb);
 				minag.setRuleBase(rb);
 				
+				// NEED TO RETURN THE UNIFIER!!
 				if (c.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames()).hasNext()) {
 					return c;
 				}
