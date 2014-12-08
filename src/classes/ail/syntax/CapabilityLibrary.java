@@ -90,8 +90,12 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	     	EvaluationBasewNames<PredicateTerm> eb = 
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
 	     	GBelief gb = new GBelief(Pre);
-			if (gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames()).hasNext()) {
+	     	Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames());
+			if (preuni.hasNext()) {
 				
+				Capability cc = (Capability) c.clone();
+				Unifier u1 = preuni.next();
+				cc.apply(u1);
 				BeliefBase postbb = new BeliefBase();
 				postbb.add(new Literal(true, Post));
 				
@@ -101,8 +105,11 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 				minag.setRuleBase(rb);
 				
 				// NEED TO RETURN THE UNIFIER!!
-				if (c.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames()).hasNext()) {
-					return c;
+				Iterator<Unifier> postuni = cc.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames());
+				if (postuni.hasNext()) {
+					Unifier u2 = postuni.next();
+					cc.apply(u2);
+					return cc;
 				}
 			}
 			}

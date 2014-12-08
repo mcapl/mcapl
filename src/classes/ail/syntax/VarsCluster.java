@@ -206,5 +206,22 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#apply(ail.syntax.Unifier)
+	 */
+	public boolean apply(Unifier un) {
+		for (VarTerm v: vars) {
+			Term uv = un.get(v);
+			// NB.  If two vars in the cluster are unified differently by the unifier, this will set the whole cluster to the first option.
+			if (uv != null) {
+				u = un;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 }
