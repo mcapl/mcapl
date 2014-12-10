@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ajpf.util.AJPFLogger;
-
 import gov.nasa.jpf.annotation.FilterField;
     
 /**
@@ -62,16 +61,24 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
     // The variables in this cluster.
     Set<VarTerm> vars = null;
     
-    // A Cluster of variables is associated with the unifier that identifies them all as thes ame.
+    // A Cluster of variables is associated with the unifier that identifies them all as the same.
     Unifier      u;
+    
+    // The VarsCluster needs a value for when it gets actually put in a term (rather than a unifier).
+    Term value;
 		
     // used in clone
     /**
      * Constructor.
      * @param u
      */
-	private VarsCluster(Unifier u) {
+	private VarsCluster(Set<VarTerm> vs, Unifier u) {
 		this.u = u;
+		vars = new HashSet<VarTerm>();
+		for (VarTerm vt : vs) {
+			vars.add((VarTerm) vt.clone());
+		}
+
 	}
 
 	/**
@@ -79,12 +86,15 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * @param v1
 	 * @param v2
 	 * @param u
+	 * 
+	 * The Unifier could associate one of the var terms with a var cluster, so that cluster needs to expand.
 	 */
 	VarsCluster(VarTerm v1, VarTerm v2, Unifier u) {
 		id = ++idCount;
 		this.u = u;
 		add(v1);
 		add(v2);
+		u.updateWithVarsCluster(this);
 	}
 
 	/**
@@ -94,13 +104,20 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	private void add(VarTerm vt) {
 		Term vl = u.get(vt);
 		if (vl == null) {
-			// v1 has no value
+			// This variable isn't already in a cluster according to the unifier
 			if (vars == null) {
+				// This is a new cluster
 				vars = new HashSet<VarTerm>();
+				vars.add(vt);
+			} else {
+				vars.add(vt);
+                for (VarTerm vtc : vars) {
+                }
 			}
-			vars.add(vt);
 		} else if (vl instanceof VarsCluster) {
+			// This variable is already in a VarCluster according to the unifier
 			if (vars == null) {
+				// But this var cluster is new so we inherit all the vars from the old cluster.
 				vars = ((VarsCluster) vl).vars;
 			} else {
 				vars.addAll(((VarsCluster) vl).vars);
@@ -108,6 +125,19 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		} else {
 			AJPFLogger.warning("ail.syntax.VarsCluster", "joining var that has value!");
 		}
+	}
+	
+	public Unifier getUnifier() {
+		return u;
+	}
+	
+	/**
+	 * Is v unified by this cluster.
+	 * @param v
+	 * @return
+	 */
+	public boolean contains(VarTerm v) {
+		return vars.contains(v);
 	}
 
 	/**
@@ -130,28 +160,24 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			return vars.equals(((VarsCluster) o).vars);
 		}
 		return false;
-	}
+	} 
 
 	/**
 	 * The cluster now has a value.
 	 * @return
 	 */
-	boolean hasValue() {
-		return vars != null && !vars.isEmpty();
-	}
+//	boolean hasValue() {
+//		return vars != null && !vars.isEmpty();
+//	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
 	public VarsCluster clone() {
-		VarsCluster c = new VarsCluster(u);
-		c.vars = new HashSet<VarTerm>();
-		for (VarTerm vt : this.vars) {
-			c.vars.add((VarTerm) vt.clone());
-		}
+		VarsCluster c = new VarsCluster(vars, u);
 		return c;
-	}
+	} 
 
 	/*
 	 * (non-Javadoc)
@@ -174,7 +200,19 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * @see ail.syntax.Term#strip_varterm()
 	 */
 	public Term strip_varterm() {
-		return this;
+		if (hasValue()) {
+			return getValue().strip_varterm();
+		} else {
+			return this;
+		}
+	}
+	
+	public Term getValue() {
+		return value;
+	}
+	
+	public boolean hasValue() {
+		return value != null;
 	}
 	
 	/*
@@ -197,6 +235,8 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		for (VarTerm v: vars) {
 			v.renameVar(oldname, newname);
 		}
+		
+		u.renameVar(oldname, newname);
 	}
 
 	@Override
@@ -215,8 +255,14 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			Term uv = un.get(v);
 			// NB.  If two vars in the cluster are unified differently by the unifier, this will set the whole cluster to the first option.
 			if (uv != null) {
-				u = un;
-				return true;
+				if (uv instanceof VarsCluster) {
+					
+				} else {
+					value = uv;
+					for (VarTerm var: vars) {
+						u.unifies(var, uv);
+					}
+				}
 			}
 		}
 		

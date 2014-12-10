@@ -97,7 +97,7 @@ public class CapabilitiesinPlansTests {
 			post.addTerm(new VarTerm("Y"));
 			
 			Capability c = a.getCL().findEquivalent(cap1.getCap(), Predicate.PTrue, post, a.getRuleBase());
-			Assert.assertTrue(c.equals(cap2));
+			Assert.assertTrue(c.getCap().unifies(cap2.getCap(), new Unifier()));
 		} catch (Exception e) {
 			
 		}
