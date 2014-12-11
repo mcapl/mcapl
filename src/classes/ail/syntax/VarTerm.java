@@ -134,6 +134,11 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      */
     private boolean setValue(Term vl) {
         if (vl.isVar()) {
+        	if (vl instanceof VarsCluster){
+        		value = vl;
+        		setAnnot(null);
+        		return true;
+        	}
              return false;
         }
         
@@ -228,6 +233,10 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
                         if (tAsVT.getValue() == null) {
                             return super.getFunctor().equals(tAsVT.getFunctor());
                         }
+            		} else {
+            			if (!((VarsCluster) vl).hasValue()) {
+            				((VarsCluster) vl).setValue((Term) t); 
+            			}
             		}
             	}
                 return vl.equals(t);

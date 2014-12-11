@@ -58,8 +58,8 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
     @FilterField
     int          id = 0;
     
-    // The variables in this cluster.
-    Set<VarTerm> vars = null;
+    // The variables in this cluster.  As a list so we can use the first when applying a unifier.
+    List<VarTerm> vars = null;
     
     // A Cluster of variables is associated with the unifier that identifies them all as the same.
     Unifier      u;
@@ -72,9 +72,9 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
      * Constructor.
      * @param u
      */
-	private VarsCluster(Set<VarTerm> vs, Unifier u) {
+	private VarsCluster(List<VarTerm> vs, Unifier u) {
 		this.u = u;
-		vars = new HashSet<VarTerm>();
+		vars = new ArrayList<VarTerm>();
 		for (VarTerm vt : vs) {
 			vars.add((VarTerm) vt.clone());
 		}
@@ -101,13 +101,13 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * Add a new variable to this cluster.
 	 * @param vt
 	 */
-	private void add(VarTerm vt) {
+	public void add(VarTerm vt) {
 		Term vl = u.get(vt);
 		if (vl == null) {
 			// This variable isn't already in a cluster according to the unifier
 			if (vars == null) {
 				// This is a new cluster
-				vars = new HashSet<VarTerm>();
+				vars = new ArrayList<VarTerm>();
 				vars.add(vt);
 			} else {
 				vars.add(vt);
@@ -129,6 +129,15 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	
 	public Unifier getUnifier() {
 		return u;
+	}
+	
+	public Unifier getVarUnifier() {
+		Unifier un = new Unifier();
+		for (VarTerm v: vars) {
+			Term t = u.get(v);
+			un.unifies(v, t);
+		}
+		return un;
 	}
 	
 	/**
@@ -203,7 +212,7 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		if (hasValue()) {
 			return getValue().strip_varterm();
 		} else {
-			return this;
+			return vars.get(0);
 		}
 	}
 	
@@ -267,6 +276,29 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 		
 		return false;
+	}
+	
+	public void setValue(Term uv) {
+		value = uv;
+		for (VarTerm var: vars) {
+			u.unifies(var, uv);
+		}
+	}
+	
+	public boolean isGround() {
+		if (value != null) {
+			return value.isGround();
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isVar() {
+		if (value != null) {
+			return value.isVar();
+		} else {
+			return false;
+		}
 	}
 	
 	

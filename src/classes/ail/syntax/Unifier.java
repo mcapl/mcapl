@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ajpf.util.VerifyMap;
+import ajpf.util.AJPFLogger;
 
 /**
  * Unifiers for formulas.  Very similar to the Jason Unifier class by Rafael
@@ -343,6 +344,22 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
         // if any of the terms is not a structure (is a number or a
         // string), they must be equal
         if (!t1g.isPredicate() || !t2g.isPredicate()) {
+        	if (t1g instanceof VarTerm && ((VarTerm) t1g).getValue() instanceof VarsCluster) {
+        		VarsCluster cl = (VarsCluster) ((VarTerm) t1g).getValue();
+        		if (t2g instanceof VarsCluster) {
+        			// DO SOMETHING HERE
+        			AJPFLogger.warning(logname, "Warning unifying two vars clusters");
+        		} else {
+        			if (cl.hasValue()) {
+        				return cl.equals(t2g);
+        			} else {
+        				cl.setValue(t2g);
+        				compose(cl.getVarUnifier());
+        				return true;
+        			}
+        		}
+        		
+        	}
          	return t1g.equals(t2g);
         	
         }
@@ -525,6 +542,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             }
         } else {
             // no value in cluster
+        	if (value instanceof VarsCluster) {
+        		((VarsCluster) value).add(vt);
+        	}
             function.put((VarTerm) vt.clone(), (Term) value.clone());
         }
         return true;
