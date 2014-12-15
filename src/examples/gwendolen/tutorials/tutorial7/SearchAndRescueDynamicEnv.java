@@ -31,7 +31,6 @@ import ail.syntax.Unifier;
 import ail.syntax.NumberTermImpl;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
-import ajpf.util.AJPFLogger;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,7 +43,10 @@ import java.util.Random;
  *  - up to 4 injured humans who do not move and do require assistance
  *  - 4 humans total
  *  - up to 4 rubble that can be lifted and may reveal injuired humans beneath
- *  - up to 4 buildings that may collapse and may contain uninjured humans.
+ *  - up to 4 buildings that may collapse into rubble and may contain uninjured humans.
+ *  - There may be multiple humans or rubble in one square, but there can't be multiple buildings.
+ *  
+ *  - The robot can not see humans in buildings or under rubble, it has to life the rubble or check the building to see them.
  * @author lad
  *
  */
@@ -85,7 +87,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		addPerceptListener(scheduler);
 		generatesquares();
 		int numbuildings = r.nextInt(4);
-		placebuildings(3, true);
+		placebuildings(numbuildings, true);
 		int numrubble = r.nextInt(4);
 		placebuildings(numrubble, false);
 		placehumans(numhumans);
@@ -191,7 +193,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		} else if (actionname.equals("check_building")) {
 			for (Human h: getHumans(robot_x, robot_y)) {
 				if (h != null) {
-					h.revealed();
 					addHumanPercept(h);
 				}
 			}
@@ -231,8 +232,11 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			rubble.remove(this);
 			holding_rubble = this;
 			
-			for (Human h: getHumans(x, y)) {
-				addHumanPercept(h);
+			if (! rubble_at(x, y)) {
+				for (Human h: getHumans(x, y)) {
+					h.free();
+					addHumanPercept(h);
+				}
 			}
 		}
 		
@@ -251,7 +255,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			rubble.add(this);
 			
 			for (Human h: getHumans(x, y)) {
-				h.injure();
+				h.injured_by_falling_rubble();
 				removeHumanPercept(h);
 			}
 		}
@@ -266,10 +270,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		boolean injured;
 		boolean directed = false;
 		boolean in_building = false;
+		boolean under_rubble = false;
 		
-		public Human(double x, double y, boolean inj) {
+		public Human(double x, double y) {
 			super(x, y);
-			injured = inj;
 			if (SearchAndRescueDynamicEnv.this.building_at(x, y)) {
 				in_building = true;
 			}
@@ -284,11 +288,17 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		
 		public void direct() {
 			directed = true;
+			in_building = false;
 			((RoundRobinScheduler) scheduler).perceptChanged();
 		}
 		
-		public void injure() {
+		public void injured_by_falling_rubble() {
 			injured = true;
+			under_rubble = true;
+		}
+		
+		public void free() {
+			under_rubble = false;
 		}
 		
 		public boolean injured() {
@@ -296,13 +306,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		
 		public boolean inBuilding() {
-			for (Building b: buildings) {
-				if (b.getX() == x && b.getY() == y) {
-					return true;
-				}
-			}
-			
-			return false;
+			return in_building;
 		}
 		
 		public boolean directed() {
@@ -317,6 +321,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 					x = dx;
 					y = dy;
 					
+					if (building_at(x,y) && !directed) {
+						enter_building();
+					}
+					
 					System.err.println("MOVING " + x + " " + y);
 			
 					if (isVisible()) {
@@ -326,6 +334,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 					onGrid();
 				}
 			}
+		}
+		
+		public void enter_building() {
+			in_building = true;
 		}
 		
 		public boolean onGrid() {
@@ -339,9 +351,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			return false;
 		}
 		
-		public void revealed() {
-			in_building = false;
-		}
 		
 		/**
 		 * Is this human visible
@@ -400,15 +409,13 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		double y = 0;
 		for (int i = 0; i < 25; i++) {
 			free_squares.add(new Square(x, y));
-			if (x <= max_x) {
+			if (x < max_x) {
 				x++;
 			} else {
 				x = min_x;
-				if (y <= max_y) {
+				if (y < max_y) {
 					y++;
-				} else {
-					AJPFLogger.warning(logname, "Generated too many squares!!!");
-				}
+				} 
 			}
 			
 		}
@@ -446,11 +453,11 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			int square = r.nextInt(25);
 			double x = square % 5;
 			int y = square / 5;
-			Human h;
+			Human h = new Human(x, y);
 			if (isRubble(x, y)) {
-				h = new Human(x, y, true);
-			} else {
-				h = new Human(x, y, r.nextBoolean());
+				h.injured_by_falling_rubble();
+			} else if (building_at(x, y)){
+				h.enter_building();
 			}
 			
 			if (h.isVisible() ) {
@@ -473,7 +480,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 				collapses.add(i);
 				ArrayList<Human> hs = getHumans(b.getX(), b.getY());
 				for (Human h: hs) {
-					h.injure();
+					h.injured_by_falling_rubble();
 				}
 				if (isVisible(b)) {
 					removeBuildingPercept(b);
@@ -484,7 +491,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		
 		for (Integer it: collapses) {
-			buildings.remove(it);
+			buildings.remove(it.intValue());
 		}
 	}
 	
@@ -554,6 +561,13 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		for (Square s: visible) {
 			if (! visible_now.contains(s)) {
 				removePerceptsFor(s);
+			} else {
+				ArrayList<Human> humans = getHumans(s.getX(), s.getY());
+				for (Human h: humans) {
+					if (h.inBuilding()) {
+						removeHumanPercept(h);
+					}
+				}
 			}
 		}
 		for (Square s: visible_now) {
@@ -632,6 +646,21 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		
 		return hs;
+	}
+
+	/**
+	 * Is there a human at (x, y)?
+	 * @return
+	 */
+	public ArrayList<Rubble> getRubble(double x, double y) {
+		ArrayList<Rubble> rs = new ArrayList<Rubble>();
+		for (Rubble r: rubble) {
+			if (r.getX() == x && r.getY() == y) {
+				rs.add(r);
+			}
+		}
+		
+		return rs;
 	}
 
 	/**
@@ -809,20 +838,18 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		for (double y = 4; y >= 0; y--) {
 			s += "|";
 			for (double x = 0; x < 5; x++) {
-				if (rubble_at(x, y)) {
-					s += "R";
-				} else if (building_at(x, y)) {
+				if (building_at(x, y)) {
 					s += "B";
 				} else {
 					s += " ";
 				}
 				
-				ArrayList<Human> hs = getHumans(x, y);
-				if (hs.size() > 0) {
-					s += "h";
-					s += hs.size();
+				ArrayList<Rubble> rs = getRubble(x, y);
+				if (rs.size() > 0) {
+					s += "R";
+					s += rs.size();
 				} else {
-					s += "  ";
+					s+= "  ";
 				}
 				s+="|";
 			}	
@@ -834,7 +861,16 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 					s += " ";
 				}
 				
-				s += "  |";
+				ArrayList<Human> hs = getHumans(x, y);
+				if (hs.size() > 0) {
+					s += "h";
+					s += hs.size();
+				} else {
+					s += "  ";
+				}
+
+				
+				s += "|";
 			}
 			s +="\n";
 			s += "---------------------\n";
