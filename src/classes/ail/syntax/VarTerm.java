@@ -937,7 +937,19 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
     	}
     }
 
-	/*
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Predicate#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	if (hasValue()) {
+    		return getValue().strip_varterm();
+    	} else {
+    		return this;
+    	}
+    }
+
+    /*
 	 * (non-Javadoc)
 	 * @see java.util.List#toArray(T[])
 	 */

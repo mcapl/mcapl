@@ -255,6 +255,18 @@ public class Rule implements LogicalFormula {
 
 	/*
 	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		if (body != null) {
+			return new Rule((Predicate) head.resolveVarsClusters(), (LogicalFormula) body.resolveVarsClusters());
+		} else {
+			return new Rule((Predicate) head.resolveVarsClusters());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
 	public Iterator<Unifier> logicalConsequence(

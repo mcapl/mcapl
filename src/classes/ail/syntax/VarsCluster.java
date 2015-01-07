@@ -72,7 +72,8 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
      * Constructor.
      * @param u
      */
-	private VarsCluster(List<VarTerm> vs, Unifier u) {
+	private VarsCluster(List<VarTerm> vs, Unifier u, int id1) {
+		id = id1;
 		this.u = u;
 		vars = new ArrayList<VarTerm>();
 		for (VarTerm vt : vs) {
@@ -184,7 +185,7 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
 	public VarsCluster clone() {
-		VarsCluster c = new VarsCluster(vars, u);
+		VarsCluster c = new VarsCluster(vars, u, id);
 		return c;
 	} 
 
@@ -218,6 +219,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	
 	public Term getValue() {
 		return value;
+	}
+	
+	public int getID() {
+		return id;
 	}
 	
 	public boolean hasValue() {
@@ -299,6 +304,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		} else {
 			return false;
 		}
+	}
+	
+	public Term resolveVarsClusters() {
+		return vars.get(0);
 	}
 	
 	

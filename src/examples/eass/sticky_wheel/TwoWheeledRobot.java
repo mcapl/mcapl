@@ -155,6 +155,7 @@ public class TwoWheeledRobot extends EASSVehicle {
 				Plan newplan = (Plan) p.clone();
 				
 				newplan.replaceCap(capname, c, oldcap);
+				newplan.resolveVarsClusters();
 				
 				ag.removePlan(p);
 				ag.addPlan(newplan);

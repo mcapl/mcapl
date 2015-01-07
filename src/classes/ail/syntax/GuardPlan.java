@@ -145,6 +145,14 @@ public class GuardPlan implements GuardAtom<Plan> {
 		return new GuardPlan((NumberTerm) plan.strip_varterm(), (Predicate) cap.strip_varterm(), (GLogicalFormula) pre.strip_varterm(), (LogicalFormula) post.strip_varterm());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		return new GuardPlan((NumberTerm) plan.resolveVarsClusters(), (Predicate) cap.resolveVarsClusters(), (GLogicalFormula) pre.resolveVarsClusters(), (LogicalFormula) post.resolveVarsClusters());
+	}
+
 	@Override
 	public boolean unifieswith(Plan obj, Unifier u, String ebname) {
 		Event trigger = obj.getTriggerEvent();

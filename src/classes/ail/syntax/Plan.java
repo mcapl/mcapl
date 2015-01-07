@@ -596,6 +596,42 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		return null;
 	} 
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+        Plan p = new Plan();
+        
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation);
+        }
+ 
+        p.event = (Event) event.resolveVarsClusters();
+        
+        ArrayList<Deed> copy = new ArrayList<Deed>(); 
+        for (Deed l : body) {
+            copy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setBody(copy);
+        
+        ArrayList<Deed> pcopy = new ArrayList<Deed>();
+        for (Deed l : prefix) {
+        	pcopy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setPrefix(pcopy);
+        
+        ArrayList<Guard> ccopy = new ArrayList<Guard>();
+        for (Guard f : context) {
+        	ccopy.add((Guard) f.resolveVarsClusters());
+        }
+        p.setContext(ccopy);
+        p.setID(getID());
+        p.setLibID(getLibID());
+ 
+        return p;
+	}
+	
 	public  void replaceCap(Predicate capname, Capability c, Capability old) {
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
@@ -687,5 +723,6 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 			}
 		}
 	}
+	
 
 }

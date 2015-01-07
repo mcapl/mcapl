@@ -134,6 +134,14 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
     public Term strip_varterm() {
     	return this;
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	return this;
+    }
         
     /*
      * (non-Javadoc)

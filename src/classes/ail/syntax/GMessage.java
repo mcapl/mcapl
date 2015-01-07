@@ -385,6 +385,10 @@ public class GMessage implements GuardAtom<Message> {
 		return new GMessage(category, performative, (StringTerm) sender.strip_varterm(), (StringTerm) receiver.strip_varterm(), (Term) content.strip_varterm(), (StringTerm) threadId.strip_varterm());
 	}
 	
+	public Unifiable resolveVarsClusters() {
+		return new GMessage(category, performative, (StringTerm) sender.resolveVarsClusters(), (StringTerm) receiver.resolveVarsClusters(), (Term) content.resolveVarsClusters(), (StringTerm) threadId.resolveVarsClusters());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()

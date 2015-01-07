@@ -460,6 +460,19 @@ public class LogExpr implements LogicalFormula {
 			return new LogExpr(getOp(), (LogicalFormula) getRHS().strip_varterm());				
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		if (getLHS() != null) {
+			return new LogExpr((LogicalFormula) getLHS().resolveVarsClusters(), getOp(), (LogicalFormula) getRHS().resolveVarsClusters());
+		} else {
+			return new LogExpr(getOp(), (LogicalFormula) getRHS().resolveVarsClusters());				
+		}
+	}
+
 
 	@Override
 	public Set<List<PredicateTerm>> groundSets() {

@@ -106,6 +106,8 @@ public interface Unifiable extends Cloneable {
 	
 	public Unifiable strip_varterm();
 	
+	public Unifiable resolveVarsClusters();
+	
 	/**
 	 * 
 	 */

@@ -93,6 +93,14 @@ public class GCapability implements GuardAtom<Capability> {
 		return new GCapability((GLogicalFormula) cap.getPre().strip_varterm(), (Predicate) cap.getCap().strip_varterm(), (GLogicalFormula) cap.getPost().strip_varterm());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		return new GCapability((GLogicalFormula) cap.getPre().resolveVarsClusters(), (Predicate) cap.getCap().resolveVarsClusters(), (GLogicalFormula) cap.getPost().resolveVarsClusters());
+	}
+
 	@Override
 	public boolean unifieswith(Capability obj, Unifier u, String ebname) {
 		return cap.unifies(obj, u);

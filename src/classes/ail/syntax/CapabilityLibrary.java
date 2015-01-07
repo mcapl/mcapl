@@ -109,6 +109,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 				if (postuni.hasNext()) {
 					Unifier u2 = postuni.next();
 					cc.apply(u2);
+					cc.toString();
 					return cc;
 				}
 			}
