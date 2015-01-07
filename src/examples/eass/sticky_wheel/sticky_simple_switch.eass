@@ -113,7 +113,7 @@ bound(1)
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(pos(X, Y), forward(D1), true) [perform];
+	     +!evaluate_success(pos(A, B), forward(D1), true) [perform];
 	     
 +!newC(X, Y, D, Theta, Cs) [achieve] : {True} <-
 	.query(calculate_new_coords(X, Y, D, Theta, Cs));

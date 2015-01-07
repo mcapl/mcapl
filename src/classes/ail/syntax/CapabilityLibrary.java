@@ -73,13 +73,22 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	
 	// WARNING: This is going to need to be made more general.  At the moment it is assuming we
 	// are supplying the pre and post conditions for reasoning about equivalence.
-	public Capability findEquivalent(Predicate capname, Predicate Pre, Predicate Post, RuleBase rb) {
+	public Capability findEquivalent(Predicate capname, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
 		// Note assuming here there is only one capability with this pi.  Is this a sensible
 		// assumption (probably), if so refactor capMap.
 		// Capability toReplace = capMap.get(pi).get(0);
+		
+		Capability oldcap = capMap.get(pi).get(0);
 
+		EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
+		GBelief pgb = new GBelief(Post);
+		Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
+		Unifier puni = pun.next();
+		// puni infies vars in post but not in oldcap.
+		
+		u.compose(puni);
 		
 		for (ArrayList<Capability> l: capMap.values()) {
 			
@@ -87,32 +96,35 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 			
 			if (c != capMap.get(pi).get(0)) {
 			
-	     	EvaluationBasewNames<PredicateTerm> eb = 
+				EvaluationBasewNames<PredicateTerm> eb = 
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
-	     	GBelief gb = new GBelief(Pre);
-	     	Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames());
-			if (preuni.hasNext()) {
+				GBelief gb = new GBelief(Pre);
+				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames());
+				if (preuni.hasNext()) {
 				
-				Capability cc = (Capability) c.clone();
-				Unifier u1 = preuni.next();
-				cc.apply(u1);
-				BeliefBase postbb = new BeliefBase();
-				postbb.add(new Literal(true, Post));
+					Capability cc = (Capability) c.clone();
+					Unifier u1 = preuni.next();
+					cc.apply(u1);
+					BeliefBase postbb = new BeliefBase();
+					Post.apply(u);
+					postbb.add(new Literal(true, Post));
 				
-				AILAgent minag = new AILAgent("tmp");
+					AILAgent minag = new AILAgent("tmp");
 				
-				minag.setBeliefBase(postbb);
-				minag.setRuleBase(rb);
+					minag.setBeliefBase(postbb);
+					minag.setRuleBase(rb);
+					
+					cc.apply(u);
 				
-				// NEED TO RETURN THE UNIFIER!!
-				Iterator<Unifier> postuni = cc.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames());
-				if (postuni.hasNext()) {
-					Unifier u2 = postuni.next();
-					cc.apply(u2);
-					cc.toString();
-					return cc;
+					// NEED TO RETURN THE UNIFIER!!
+					Iterator<Unifier> postuni = cc.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames());
+					if (postuni.hasNext()) {
+						u.compose(postuni.next());
+						cc.apply(u);
+						cc.toString();
+						return cc;
+					}
 				}
-			}
 			}
 			
 		}

@@ -648,6 +648,7 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 					a.setTerm(0, c.getCap());
 					newdeeds.add(d);
 					guards.add(context.get(i));
+					// Need to standarise apart variables in old's preconditions that are not mentioned in the cap name.
 					insertRowsHere(guards, context.get(i), newdeeds, old.getPre());
 				} else {
 					newdeeds.add(d);
