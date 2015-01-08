@@ -590,8 +590,8 @@ public class Guard implements GLogicalFormula {
 			la = getLHS().apply(theta);
 		}
 		
-		if (la & rhs != null) {
-			return getRHS().apply(theta);
+		if (rhs != null) {
+			return (la || getRHS().apply(theta));
 		}
 		
 		return la;

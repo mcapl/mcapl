@@ -270,7 +270,7 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			// NB.  If two vars in the cluster are unified differently by the unifier, this will set the whole cluster to the first option.
 			if (uv != null) {
 				if (uv instanceof VarsCluster) {
-					
+					return false;
 				} else {
 					value = uv;
 					for (VarTerm var: vars) {
@@ -280,7 +280,7 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public void setValue(Term uv) {

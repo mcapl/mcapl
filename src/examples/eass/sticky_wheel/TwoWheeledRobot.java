@@ -118,21 +118,32 @@ public class TwoWheeledRobot extends EASSVehicle {
 				
 				double thetadiff = (theta - desiredtheta);
 				double scaling = 1;
-				setMotor1Power(1);
-				setMotor2Power(1);
-				if (thetadiff > 1) {
+				setMotor1Power(0);
+				setMotor2Power(0);
+				if (thetadiff > 0) {
 					scaling = thetadiff;
-				} else if (thetadiff < -1 ){
+				} else if (thetadiff < 0 ){
 					scaling = -thetadiff;
 				}
 				
-				if (thetadiff > 0) {
-					setMotor1Power(1 - thetadiff/360);
-					setMotor2Power(scaling*(1 + thetadiff/360));					
-				} else if (thetadiff < 0){
-					setMotor1Power(scaling*(1 - thetadiff/360));
-					setMotor2Power(1 + thetadiff/360);
-				}
+				//if (thetadiff > 0) {
+				//	setMotor1Power(-scaling);
+				//	setMotor2Power(scaling);
+				//} else if (thetadiff < 0){
+				//	if (scaling < 2) {
+				//		setMotor1Power(1 + scaling);
+				//	} else {
+				//		setMotor2Power(2);
+				//	}
+				//	if (scaling < 1) {
+				//		setMotor2Power(1 - scaling);
+				//	}
+				//	setMotor2Power(1 + thetadiff/360);
+				//}
+			
+				setMotor1Power(1-thetadiff);
+				setMotor2Power(1+thetadiff);
+				
 				Action engage = new Action("engageBothMotors");
 				engage.addTerm(new NumberTermImpl(1));
 				super.executeAction(agName, engage);		
@@ -149,8 +160,9 @@ public class TwoWheeledRobot extends EASSVehicle {
 			AILAgent ag = getAgent();
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
 			Unifier u = new Unifier();
-			Capability c = ag.getCL().findEquivalent(capname, pre, post, ag.getRuleBase(), u );
 			Capability oldcap = ag.getCL().getByName(capname.getFunctor());
+			Capability c = ag.getCL().findEquivalent(oldcap, capname, pre, post, ag.getRuleBase(), u );
+			oldcap.apply(u);
 			while (plans.hasNext()) {
 				Plan p = plans.next();
 				Plan newplan = (Plan) p.clone();

@@ -76,6 +76,8 @@ bound(1)
 +!forward(D) [perform] : {True} <- 
 	     forward(D),
 	     assert_shared(moved);
++!feedback(X, Y) [perform] : {True} <-
+		feedback_control(X, Y);
 
 :name: sticky
 

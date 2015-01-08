@@ -73,23 +73,18 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	
 	// WARNING: This is going to need to be made more general.  At the moment it is assuming we
 	// are supplying the pre and post conditions for reasoning about equivalence.
-	public Capability findEquivalent(Predicate capname, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
+	public Capability findEquivalent(Capability oldcap, Predicate capname, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
 		// Note assuming here there is only one capability with this pi.  Is this a sensible
 		// assumption (probably), if so refactor capMap.
 		// Capability toReplace = capMap.get(pi).get(0);
 		
-		Capability oldcap = capMap.get(pi).get(0);
+		// Capability oldcap = capMap.get(pi).get(0);
 
-		EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
+		
 		GBelief pgb = new GBelief(Post);
-		Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
-		Unifier puni = pun.next();
-		// puni infies vars in post but not in oldcap.
-		
-		u.compose(puni);
-		
+
 		for (ArrayList<Capability> l: capMap.values()) {
 			
 			Capability c = l.get(0);
@@ -103,26 +98,45 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 				if (preuni.hasNext()) {
 				
 					Capability cc = (Capability) c.clone();
+					cc.standardise_apart(oldcap, u, oldcap.getVarNames());
 					Unifier u1 = preuni.next();
 					cc.apply(u1);
-					BeliefBase postbb = new BeliefBase();
-					Post.apply(u);
-					postbb.add(new Literal(true, Post));
+					//BeliefBase postbb = new BeliefBase();
+					//Post.apply(u);
+					//postbb.add(new Literal(true, Post));
 				
-					AILAgent minag = new AILAgent("tmp");
+					//AILAgent minag = new AILAgent("tmp");
 				
-					minag.setBeliefBase(postbb);
-					minag.setRuleBase(rb);
+					//minag.setBeliefBase(postbb);
+					//minag.setRuleBase(rb);
 					
-					cc.apply(u);
+					// pgb.apply(u);
+					
+					EvaluationBasewNames<PredicateTerm> posteb = 
+							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
+					
+					// cc.apply(u);
 				
 					// NEED TO RETURN THE UNIFIER!!
-					Iterator<Unifier> postuni = cc.getPost().logicalConsequence(minag, new Unifier(), c.getPost().getVarNames());
+					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
 					if (postuni.hasNext()) {
 						u.compose(postuni.next());
 						cc.apply(u);
-						cc.toString();
+						// cc.toString();
+						
+//						oldcap.standardise_apart(cc, u, cc.getVarNames());
+						pgb.apply(u);
+						
+						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
+						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
+						Unifier puni = pun.next();
+						// puni infies vars in post but not in oldcap.
+						
+						u.compose(puni);
+
 						return cc;
+						
+						
 					}
 				}
 			}
