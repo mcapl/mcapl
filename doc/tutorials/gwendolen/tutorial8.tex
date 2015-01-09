@@ -19,194 +19,67 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 
 \section{Pick Up Rubble (Again)}
 
-You will find a \gwendolen\ program in the tutorial directory called \texttt{pickuprubble\_achieve.gwen}.  Its contents should look like Listing~\ref{code:pickuprubble_achieve}.
-\begin{lstlisting}[float,caption=Pick Up Rubble (Reasoning Rules),basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble_achieve]
+You will find a \gwendolen\ program in the tutorial directory called \texttt{simple_mas.gwen}.  Its contents should look like Listing~\ref{code:simple_mas}.
+\begin{lstlisting}[float,caption=Simple Multi-Agent System,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:simple_mas]
 GWENDOLEN
 
-:name: robot
+:name: lifter
 
 :Initial Beliefs:
 
-possible_rubble(1, 1)
-possible_rubble(3, 3)
-possible_rubble(5, 5)
-
-:Reasoning Rules:
-
-square_to_check(X, Y) :- possible_rubble(X, Y), ~no_rubble(X, Y);
-
 :Initial Goals:
 
-holding(rubble) [achieve]
+goto55 [perform]
 
 :Plans:
 
-+!holding(rubble) [achieve] : {B square_to_check(X, Y)} <- move_to(X, Y);
++!goto55 [perform] : {True} <- move_to(5, 5);
 
-+at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
++rubble(5, 5): {True} <- lift_rubble;
 
-+rubble(X, Y): {B at(X, Y)} <- lift_rubble;
++human(X, Y): {True} <- .send(medic, :perform, assist_human(X, Y));
 
-+holding(rubble): {True} <- print(done);
-\end{lstlisting}
-
-This is very similar to the second program in tutorial 2.  However instead of having 
-\begin{verbatim}
-{B possible_rubble(X, Y), ~B no_rubble(X, Y)}
-\end{verbatim}as the guard to the first plan we have \lstinline{B square_to_check(X, Y)} as the guard.
-
-We can then reason about whether there is a square to check using the \prolog\ style rule on line 13.  The syntax is very similar to \prolog\ syntax but there are a few differences.  We use the symbol, $\sim$, to indicate ``not'' and we can not use ``cut''s to control backtracking~\footnote{NB.  There is no reason in principle why we could no use cut, it just hasn't been implemented}.
-
-\section{More Complex \prolog\ Reasoning -- Grouping predicates under a negation}
-
-\texttt{pickuprubble\_grouping.gwen} shows more complex use of Reasoning Rules including some syntax not available in \prolog.  This is shown in listing~\ref{code:pickuprubble_grouping}
-\begin{lstlisting}[float,caption=Pick Up Rubble (More Complex Reasoning Rules),basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble_grouping]
-GWENDOLEN
-
-:name: robot
+:name: medic
 
 :Initial Beliefs:
 
-possible_rubble(1, 1)
-possible_rubble(3, 3)
-possible_rubble(5, 5)
-
-:Reasoning Rules:
-
-square_to_check(X, Y) :- possible_rubble(X, Y), ~no_rubble(X, Y);
-done :- holding(rubble);
-done :- ~ (possible_rubble(X, Y), ~no_rubble(X, Y));
-
 :Initial Goals:
-
-done [achieve]
 
 :Plans:
 
-+!done [achieve] : {B square_to_check(X, Y)} <- move_to(X, Y);
++.received(:perform, G): {True} <- +!G [perform];
 
-+at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
-
-+rubble(X, Y): {B at(X, Y)} <- lift_rubble;
-
-+holding(rubble): {True} <- print(done);
++!assist_human(X, Y) [perform] : {True} <- 
+	move_to(X, Y),
+	assist;
 \end{lstlisting}
 
-In this program the agent's goal is to achieve \lstinline{done}.  It achieves this either if it is holding rubble (deduced using the code on line 14), or if there is no square it thinks may possibly contain rubble that has no rubble in it (deduced using the code on line 15).
+This is very similar to the first program in tutorial 2.  However  there are now two agents, \texttt{lifter} and \texttt{medic}.  As in the program in tutoral 2, the lifter robot moves to square (5, 5) and lifts the rubble there.  However if he sees a human he performs a special kind of action which is a \emph{send action}.  This sends a message to the medic agent asking it to perform \texttt{assist\_human(X, Y)}.  When the medic recieves a perform instruction it converts it into a perform goal and if it has a goal to assist a human it moves to their square and assists them.
 
-\begin{sloppypar}
-The rule on line 15
+You can run this program using \texttt{simple\_mas.ail}.  It uses a new environment \texttt{SearchAndRescueMASEnv.java} which is similar to \texttt{SearchAndRescueEnv.java}.
+
+\subsection{Syntax}
+
+A send action starts with the constant \texttt{.send}.  It then has three arguments, the first is the name of the agent to whom the message is to be sent, the second is a performative and the last is a logical term.  The performative can be one of \texttt{:tell}, \texttt{:perform} or \texttt{:achieve}.  \gwendolen\ attaches no particular meaning to these performatives but they are often used to tell an agent to believe something, ask an agent to adopt a perform goal or ask an agent to adopt an achieve goal.
+
+When a message is received \gwendolen\ turns it into an event: \texttt{.received(P, F)} were \texttt{P} is the performative and \texttt{F} is the logical term.  The interpretation of \texttt{:tell}, \texttt{:perform} or \texttt{:achieve} described above that many \gwendolen\ programs involving communication automatically include the following three plans 
 \begin{verbatim}
-done :- ~ (possible_rubble(X, Y), ~no_rubble(X, Y));
++.received(:tell, B): {True} <- +B;
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 \end{verbatim}
-isn't standard \prolog\ syntax.  Here we group the two predicates \lstinline{possible_rubble(X, Y), ~no_rubble(X, Y)} (from \lstinline{square_to_check}) together using brackets and then negate the whole concept (i.e., there are no squares left to check).
-\end{sloppypar}
+which embody that interpretation.  However many programs instead choose only to handle certain performatives (e.g., only \texttt{:tell} messages) or only certain message contents, (e.g., \texttt{.received(:perform, assist\_human(X, Y)} only handles messages asking the agent to perform \texttt{assist\_human(X, Y)} for some \texttt{X} and \texttt{Y}).
 
-\subsection{Some Simple Exercises to Try}
-\begin{enumerate}
-\item Try removing the initial belief that there is possible rubble in square (5, 5).  You should find the the program still completes and prints out done.
-\item Try replacing the rule on line 15 with one that refers to \lstinline{square_to_check}
-\end{enumerate}
+\subsection{Exercise}
+Amend the \texttt{simple\_mas} program so that, instead of sending a perform message, the lifter agent sends a tell message and the medic reacts to the new belief, instead of the new goal.
 
-\section{Using Goals in Plan Guards}
+NB. It is important, for using the \texttt{SearchAndRescueMASEnv.java} environment that the lifting agent be called \texttt{lifter} and the medic agent be called \texttt{medic}.
 
-\texttt{pickuprubble\_goal.gwen} shows how reasoning rules can be used to reason about both goals and beliefs.  This is shown in listing~\ref{code:pickuprubble_goal}
-\begin{lstlisting}[float,caption=Pick Up Rubble (Goals in Guards),basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble_goal]
-GWENDOLEN
+\section{Two Ways to Create a Multi-Agent System}
 
-:name: robot
+In the previous example we put all the agents in a multi-agent system in one file.  However you often want to separate out your agents into two different files.  This is easy to do in \gwendolen.  You write each agent as you normally would in a separate file.  Then in the \texttt{.ail} file for running the system instead of using \texttt{mas.file} you use \texttt{mas.agent.1.file} (for the file containing agent one), \texttt{mas.agent.2.file} etc.  Similarly instead of using a MAS builder you link to individual agent builders.  \gwendolen's agent builder is \texttt{gwendolen.GwendolenAgentBuilder} - so you use \texttt{mas.agent.1.builder = gwendolen.GwendolenAgentBuilder} etc., for each agent rather than \texttt{mas.builder = gwendolen.GwendolenMASBuilder}.
 
-:Initial Beliefs:
-
-possible_rubble(1, 1)
-possible_rubble(3, 3)
-possible_rubble(5, 5)
-
-:Initial Goals:
-
-rubble(2, 2) [achieve]
-
-:Plans:
-
-+!rubble(2, 2) [achieve]: {True} <- +! holding(rubble)[achieve],
-    move_to(2, 2), 
-    drop;
-
-+!holding(rubble) [achieve] : 
-    {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
-
-+at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
-
-+rubble(X, Y): {B at(X, Y), G holding(rubble) [achieve]} <- 
-    lift_rubble;
-\end{lstlisting}
-Recall that in the exercises at the end of tutorial 2 we had to use a belief to prevent the robot picking up the rubble after it had put it down.  Here instead we have added \lstinline{G holding(rubble) [achieve]} as a guard to the plan that is activated when the robot sees some rubble.  In this case it only picks up the rubble if it has goal to be holding rubble.
-
-\section{Reasoning about Beliefs and Goals}
-\texttt{pickuprubble\_goalat.gwen} shows how goals can be used in plan guards.  This is shown in listing~\ref{code:pickuprubble_goalat}
-\begin{lstlisting}[float,caption=Pick Up Rubble (Reasoning about Goals),basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble_goalat]
-GWENDOLEN
-
-:name: robot
-
-:Initial Beliefs:
-
-possible_rubble(1, 1)
-possible_rubble(3, 3)
-possible_rubble(5, 5)
-
-:Reasoning Rules:
-
-rubble_at_22 :- holding(rubble), at(2, 2);
-
-:Initial Goals:
-
-at(2, 2) [achieve]
-
-:Plans:
-
-+!at(X, Y) [achieve]: {True} <- +! holding(rubble)[achieve],
-     move_to(X, Y);
-
-+!holding(rubble) [achieve] : 
-    {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
-
-+at(X, Y) : {~B rubble(X, Y), ~B rubble_at_22} <- 
-    +no_rubble(X, Y);
-+at(X, Y) : {B rubble_at_22} <- drop;
-
-+rubble(X, Y): {B at(X, Y), G rubble_at_22 [achieve]} <- 
-    lift_rubble;
-\end{lstlisting}
-Here the reasoning rule on line 13 is used both in the plan on line 29 in order to reason about whether the robot is holding the rubble at square (2, 2) \emph{and} in the plan on line 31 to deduce that the robot has a goal to get the rubble to square (2, 2), from the the fact that it has a goal to be holding rubble (added on line 21) \emph{and} a goal to be at (2, 2) -- the initial goal.
-
-Note that we can't use reasoning rules to break down a goal into subgoals.  So if you gave the robot the initial goal \lstinline{rubble_at_22} you need to provide a plan specifically for \lstinline{rubble_at_22}.  It is no good providing a plan for holding rubble and a plan for being at 2, 2 and then expecting the robot to compose these sensibly in order to achieve \lstinline{rubble_at_22}.
-
-Try change the agents initial goal to \lstinline{rubble_at_22 [achieve]} without changing anything else in the program.  You should see a warning generated that the agent can not find a plan for the goal.  At this point the program will fail to terminate (when \gwendolen\ can't find a plan for a goal it cycles infinitely looking a plan to handle a failed goal (most programs don't include one of these).  {\bf You will need to terminate the program} (control-C at the command line or clicking the red stop square in Eclipse).
-
-\section{Some Simple Programs to Write}
-NB.  The environment \texttt{gwendolen.tutorials.SearchAndRescueEnv} contains rubble both at (5, 5) and at (3, 4).
-\begin{enumerate}
-\item Write a program to make the robot check every square in a 5x5 grid (i.e., (1, 1), (1, 2), (1, 3) etc.,) until it finds some rubble at which point it stops.
-\item Write a program to make the robot search every square in a 5x5 grid (i.e., (1, 1), (1, 2) etc.,) taking all the rubble it finds to the square (2, 2) until it believes there is only rubble in square (2, 2).
-
-Hints:
-\begin{enumerate}
-\item You may see the warning similar to:
-\begin{small}
-\begin{verbatim}
-ail.semantics.operationalrules.GenerateApplicablePlansEmptyProblemGoal[WARNING|main|2:09:29]: 
-Warning no applicable plan for goal _aall_squares_checked() 
-\end{verbatim}
-\end{small}
-As noted above, this warning appears if the agent can not find a plan to achieve a goal.  Sometimes this arises because of bugs in the code, but it can also happen if the agent has not had a chance to process all new perceptions/beliefs before it once again looks for a plan to achieve a goal (we will talk about this some more in later tutorials).  
-
-It may be worth adding an action \lstinline{do_nothing} into your plan, this will act to delay the next time the agent attempts to achieve the goal giving it time to process all new beliefs.
-\item You may need to include \lstinline{at(2, 2)} in your goal in some way to make sure the agent actually takes the final piece of rubble to the square (2, 2).
-\end{enumerate}
-\end{enumerate}
-\begin{sloppypar}
-Sample answers for these two exercises can be found in \texttt{gwendolen/examples/tutorials/tutorial3/answers}.
-\end{sloppypar}
+\subsection{Exercise}
+Convert \texttt{simple\_mas.gwen} into a system consisting of two agents in different files.  NB.  You will need to make sure both agent files start with the declaration \texttt{GWENDOLEN} for the language the agent is programmed in.
 
 \end{document}

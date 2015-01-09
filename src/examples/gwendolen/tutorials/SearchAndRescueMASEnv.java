@@ -77,16 +77,22 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 			
 			double robot_x;
 			double robot_y;
+			double new_robot_x;
+			double new_robot_y;
 			if (agName.equals("lifter")) {
 				robot_x = robot1_x;
 				robot_y = robot1_y;
 				robot1_x = x;
 				robot1_y = y;
+				new_robot_x = x;
+				new_robot_y = y;
 			} else {
 				robot_x = robot2_x;
 				robot_y = robot2_y;
 				robot2_x = x;
 				robot2_y = y;
+				new_robot_x = x;
+				new_robot_y = y;
 			}
 			
 			old_pos.addTerm(new NumberTermImpl(robot_x));
@@ -94,8 +100,9 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 			
 			removePercept(agName, old_pos);
 			addPercept(agName, at);
+			
 					
-			if (robot_y == rubble1_y && robot_x == rubble1_x && !robot_rubble1) {
+			if (new_robot_y == rubble1_y && new_robot_x == rubble1_x && !robot_rubble1) {
 				Predicate rubble = new Predicate("rubble");
 				rubble.addTerm(new NumberTermImpl(rubble1_x));
 				rubble.addTerm(new NumberTermImpl(rubble1_y));
@@ -103,7 +110,7 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 				addPercept(agName, rubble);
 			}
 					
-			if (robot_y == rubble2_y && robot_x == rubble2_x && !robot_rubble2) {
+			if (new_robot_y == rubble2_y && new_robot_x == rubble2_x && !robot_rubble2) {
 				Predicate rubble = new Predicate("rubble");
 				rubble.addTerm(new NumberTermImpl(rubble2_x));
 				rubble.addTerm(new NumberTermImpl(rubble2_y));
@@ -111,7 +118,7 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 				addPercept(agName, rubble);
 			}
 
-			if (robot_y == human1_y && robot_x == human1_x ) {
+			if (new_robot_y == human1_y && new_robot_x == human1_x ) {
 				Predicate rubble = new Predicate("human");
 				rubble.addTerm(new NumberTermImpl(human1_x));
 				rubble.addTerm(new NumberTermImpl(human1_y));

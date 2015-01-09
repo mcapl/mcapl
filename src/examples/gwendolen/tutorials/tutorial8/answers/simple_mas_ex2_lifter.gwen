@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher.
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
 // 
 // This file is part of Gwendolen
 //
@@ -21,9 +21,20 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial8/simple_mas.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+GWENDOLEN
 
-env = gwendolen.tutorials.SearchAndRescueMASEnv
+:name: lifter
 
-log.info = ail.mas.DefaultEnvironment
+:Initial Beliefs:
+
+:Initial Goals:
+
+goto55 [perform]
+
+:Plans:
+
++!goto55 [perform] : {True} <- move_to(5, 5);
+
++rubble(5, 5): {True} <- lift_rubble;
+
++human(X, Y): {True} <- .send(medic, :perform, assist_human(X, Y));

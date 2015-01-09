@@ -21,8 +21,10 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial8/simple_mas.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+mas.agent.1.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2_lifter.gwen
+mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
+mas.agent.2.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2_medic.gwen
+mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
 
 env = gwendolen.tutorials.SearchAndRescueMASEnv
 

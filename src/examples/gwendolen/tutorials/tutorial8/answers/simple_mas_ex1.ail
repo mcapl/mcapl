@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial8/simple_mas.gwen
+mas.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex1.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.tutorials.SearchAndRescueMASEnv
