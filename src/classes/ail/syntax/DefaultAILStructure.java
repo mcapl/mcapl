@@ -646,6 +646,18 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		return this;
 		
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#resolveVarsClusters()
+	 */
+	public Term resolveVarsClusters() {
+		if (hasContent()) {
+			setContent(getContent().resolveVarsClusters());
+		}
+		return this;
+		
+	}
 
 	/**
 	 * Checking two variables are equal.

@@ -87,6 +87,23 @@ public class TwoWheeledRobot extends EASSVehicle {
 			U.unifies(act.getTerm(4), new NumberTermImpl(distance));
 			return U;
 			
+		} else if (act.getFunctor().equals("calculate_new_coords")) {
+			double current_x = ((NumberTerm) act.getTerm(0)).solve();
+			double current_y = ((NumberTerm) act.getTerm(1)).solve();
+			double distance = ((NumberTerm) act.getTerm(2)).solve();
+			// Suspect I have the wrong angle for this to work.
+			double angle = ((NumberTerm) act.getTerm(3)).solve();
+			
+			double sintheta = Math.sin(Math.toRadians(angle));
+			double costheta = Math.cos(Math.toRadians(angle));
+			
+			double target_x = distance * sintheta + current_x;
+			double target_y = distance * costheta + current_y;
+			
+			Unifier U = new Unifier();
+//			U.unifies(act.getTerm(4), coords);
+			return U;
+			
 		} else if (act.getFunctor().equals("feedback_control")) {
 			double target_x = ((NumberTerm) act.getTerm(0)).solve();
 			double target_y = ((NumberTerm) act.getTerm(1)).solve();
@@ -101,21 +118,32 @@ public class TwoWheeledRobot extends EASSVehicle {
 				
 				double thetadiff = (theta - desiredtheta);
 				double scaling = 1;
-				setMotor1Power(1);
-				setMotor2Power(1);
-				if (thetadiff > 1) {
+				setMotor1Power(0);
+				setMotor2Power(0);
+				if (thetadiff > 0) {
 					scaling = thetadiff;
-				} else if (thetadiff < -1 ){
+				} else if (thetadiff < 0 ){
 					scaling = -thetadiff;
 				}
 				
-				if (thetadiff > 0) {
-					setMotor1Power(1 - thetadiff/360);
-					setMotor2Power(scaling*(1 + thetadiff/360));					
-				} else if (thetadiff < 0){
-					setMotor1Power(scaling*(1 - thetadiff/360));
-					setMotor2Power(1 + thetadiff/360);
-				}
+				//if (thetadiff > 0) {
+				//	setMotor1Power(-scaling);
+				//	setMotor2Power(scaling);
+				//} else if (thetadiff < 0){
+				//	if (scaling < 2) {
+				//		setMotor1Power(1 + scaling);
+				//	} else {
+				//		setMotor2Power(2);
+				//	}
+				//	if (scaling < 1) {
+				//		setMotor2Power(1 - scaling);
+				//	}
+				//	setMotor2Power(1 + thetadiff/360);
+				//}
+			
+				setMotor1Power(1-thetadiff);
+				setMotor2Power(1+thetadiff);
+				
 				Action engage = new Action("engageBothMotors");
 				engage.addTerm(new NumberTermImpl(1));
 				super.executeAction(agName, engage);		
@@ -131,12 +159,17 @@ public class TwoWheeledRobot extends EASSVehicle {
 			
 			AILAgent ag = getAgent();
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
-			Capability c = ag.getCL().findEquivalent(capname, pre, post, ag.getRuleBase());
+			Unifier u = new Unifier();
+			Capability oldcap = ag.getCL().getByName(capname.getFunctor());
+			Capability c = ag.getCL().findEquivalent(oldcap, capname, pre, post, ag.getRuleBase(), u );
+			oldcap.apply(u);
 			while (plans.hasNext()) {
 				Plan p = plans.next();
 				Plan newplan = (Plan) p.clone();
 				
-				newplan.replaceCap(capname, c, pre);
+				newplan.replaceCap(capname, c, oldcap);
+				// newplan.apply(u);
+				newplan.resolveVarsClusters();
 				
 				ag.removePlan(p);
 				ag.addPlan(newplan);

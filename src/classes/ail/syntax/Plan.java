@@ -32,6 +32,8 @@ import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
 import java.util.Random;
 
+import ajpf.util.AJPFLogger;
+
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Random;
@@ -46,6 +48,7 @@ import java.util.Random;
  *
  */
 public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
+	private static String logname = "ail.syntax.Plan";
   
 	/**
 	 * The plan can have an annotation.
@@ -593,11 +596,49 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		return null;
 	} 
 	
-	public  void replaceCap(Predicate capname, Capability c, Predicate pre) {
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+        Plan p = new Plan();
+        
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation);
+        }
+ 
+        p.event = (Event) event.resolveVarsClusters();
+        
+        ArrayList<Deed> copy = new ArrayList<Deed>(); 
+        for (Deed l : body) {
+            copy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setBody(copy);
+        
+        ArrayList<Deed> pcopy = new ArrayList<Deed>();
+        for (Deed l : prefix) {
+        	pcopy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setPrefix(pcopy);
+        
+        ArrayList<Guard> ccopy = new ArrayList<Guard>();
+        for (Guard f : context) {
+        	ccopy.add((Guard) f.resolveVarsClusters());
+        }
+        p.setContext(ccopy);
+        p.setID(getID());
+        p.setLibID(getLibID());
+ 
+        return p;
+	}
+	
+	public  void replaceCap(Predicate capname, Capability c, Capability old) {
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
-    	ArrayList<Deed> newbody = new ArrayList<Deed>();
+    	ArrayList<Deed> newdeeds = new ArrayList<Deed>();
+    	ArrayList<Guard> guards = new ArrayList<Guard>();
 
+    	int i = 0;
     	for (Deed d: body) {
 			if (d.getCategory() == Deed.DAction) {
 				// Deed dclone = (Deed) d.clone();
@@ -605,21 +646,53 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 				if (a.unifies(perf, new Unifier())) {
 					// WARNING: Can we be certain that unification of variables in c is correct???
 					a.setTerm(0, c.getCap());
-					Goal tg = new Goal(new PredicatewAnnotation(pre), Goal.testGoal);
-					Deed gd = new Deed(tg);
-					// getContext().add(new Guard(Guard.GLogicalOp.none, c.getPre()));
-					
-					AARGH NEED TO Add GUard and UNIFIER TOO!
-					newbody.add(gd);
-				} 
+					newdeeds.add(d);
+					guards.add(context.get(i));
+					// Need to standarise apart variables in old's preconditions that are not mentioned in the cap name.
+					insertRowsHere(guards, context.get(i), newdeeds, old.getPre());
+				} else {
+					newdeeds.add(d);
+					guards.add(context.get(i));
+				}
 				System.err.println("a");
-			} 
-			
-			newbody.add(d);
+			} else {
+				newdeeds.add(d);
+				guards.add(context.get(i));
+			}
+			i++;
 		}
-    	
-    	body = newbody;
+    	body = newdeeds;
+    	context = guards;
 
+	}
+	
+	public void insertRowsHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp().equals(Guard.GLogicalOp.none)) {
+				GLogicalFormula f = g.getLHS();
+			 insertRowHere(gs, gu, ds, f);
+			} else if (g.getOp().equals(Guard.GLogicalOp.and)) {
+				insertRowsHere(gs, gu, ds, g.getRHS());
+				insertRowsHere(gs, gu, ds, g.getLHS());
+			} else {
+				AJPFLogger.warning(logname, "Can not insert deeds of this type");
+			}
+		} else if (lf instanceof GBelief) {
+			insertRowHere(gs, gu, ds, lf);
+		}
+		AJPFLogger.warning(logname, "Can not insert Guards of this type");
+	}
+	
+	public void insertRowHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		GBelief gb = (GBelief) lf;
+		Goal gl = new Goal(gb, Goal.achieveGoal);
+		//NOTE at some point we need to handle deletions or absenses as well.
+		Deed d = new Deed(Deed.AILAddition, gl);
+		ds.add(d);
+		gs.add(gu);
+		// return index + 1;
+		
 	}
 
 	
@@ -651,5 +724,6 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 			}
 		}
 	}
+	
 
 }

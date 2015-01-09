@@ -27,7 +27,7 @@ EASS
 
 :Initial Beliefs:
 
-bound(3)
+bound(1)
 
 :Initial Goals:
 
@@ -46,9 +46,9 @@ bound(3)
 	     +pos(X, Y, Theta),
 	     assert_shared(pos(X, Y)),
 	     assert_shared(angle(Theta)),
+	     -.lock,
 	     calculate_distance(X2, Y2, X, Y, D),
-	     +!within_bound(D) [perform],
-             -.lock;
+	     +!within_bound(D) [perform];
 +position(X, Y, Theta): {~B pos(X1, Y1, Theta1)} <- 
 	     +pos(X, Y, Theta), 
 	     assert_shared(pos(X, Y)),
@@ -66,12 +66,18 @@ bound(3)
 +!calculate_distance(D) [perform]: {B target(X, Y), B position(X1, Y1, Theta)} <-
 		     calculate_distance(X1, Y1, X, Y, D),
 		     assert_shared(calculate_distance(D));
++!calculate_new_coords(X, Y, D, Theta, Cs) [perform]: {True} <-
+		     calculate_new_coords(X, Y, D, Theta, Cs),
+		     assert_shared(calculate_new_coords(X, Y, D, Theta, Cs));
+		     
 +!turn(A) [perform] : {True} <- 
 	  turn(A),
 	  assert_shared(turned);
 +!forward(D) [perform] : {True} <- 
 	     forward(D),
 	     assert_shared(moved);
++!feedback(X, Y) [perform] : {True} <-
+		feedback_control(X, Y);
 
 :name: sticky
 
@@ -81,8 +87,8 @@ bound(3)
 
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
-{pos(X, Y), target(NX, NT), newX(X, D, Theta, NX), newY(Y, D, Theta, NY), angle(Theta)} forward(D) {pos(NX, NY), angle(Theta)}
-{target(X, Y)} feedback(X, Y) {pos(X, Y)}
+{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}
+{true} feedback(X, Y) {pos(X, Y)}
 
 :Initial Goals:
 
@@ -109,7 +115,10 @@ bound(3)
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(pos(X, Y), forward(D1), target(X, Y)) [perform];
+	     +!evaluate_success(pos(A, B), forward(D1), true) [perform];
+	     
++!newC(X, Y, D, Theta, Cs) [achieve] : {True} <-
+	.query(calculate_new_coords(X, Y, D, Theta, Cs));
 
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);

@@ -42,7 +42,7 @@ public interface GLogicalFormula extends Cloneable, Unifiable {
      * Returns an iterator for all unifiers that are consequence.
      */
     public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames);
-    
+   
     /**
      * Clone this Formula
      * @return

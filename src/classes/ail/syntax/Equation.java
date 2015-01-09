@@ -354,6 +354,14 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	   }
 
 	   /*
+	    * (non-Javadoc)
+	    * @see ail.syntax.Unifiable#resolveVarsClusters()
+	    */
+	   public Equation resolveVarsClusters() {
+		   return new Equation((NumberTerm) lhs.resolveVarsClusters(), op, (NumberTerm) rhs.resolveVarsClusters());
+	   }
+
+	   /*
      * (non-Javadoc)
      * @see ail.syntax.GBelief#getVarNames()
      */

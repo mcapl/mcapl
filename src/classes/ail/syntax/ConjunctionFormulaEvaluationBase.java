@@ -60,7 +60,7 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 		for (Literal l: ll) {
 			PredicateTerm p = (PredicateTerm) ga;
 			if (p.getPredicateIndicator().equals(l.getPredicateIndicator())) {
-				ptl.add(p);
+				ptl.add(l);
 			}
 		}
 		return ptl.iterator();

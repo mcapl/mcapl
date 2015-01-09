@@ -590,8 +590,8 @@ public class Guard implements GLogicalFormula {
 			la = getLHS().apply(theta);
 		}
 		
-		if (la & rhs != null) {
-			return getRHS().apply(theta);
+		if (rhs != null) {
+			return (la || getRHS().apply(theta));
 		}
 		
 		return la;
@@ -629,4 +629,22 @@ public class Guard implements GLogicalFormula {
 		return new Guard();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		if (getLHS() != null) {
+			if (getRHS() != null) {
+				return new Guard((GLogicalFormula) getLHS().resolveVarsClusters(), getOp(), (GLogicalFormula) getRHS().resolveVarsClusters());
+				
+			}
+		} else {
+			if (getRHS() != null) {
+				return new Guard(getOp(), (GLogicalFormula) getRHS().resolveVarsClusters());				
+			}
+		}
+		return new Guard();
+	}
+
 }

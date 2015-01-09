@@ -8,7 +8,6 @@ import ail.syntax.Predicate;
 import ajpf.util.VerifyMap;
 import eass.mas.DefaultEASSEnvironment;
 import eass.semantics.EASSAgent;
-import eass.sticky_wheel.TwoWheeledRobot;
 
 import javax.swing.JPanel;
 

@@ -152,4 +152,41 @@ public class UnificationTests {
 		Assert.assertTrue(it.hasNext());
 	}
 	
+	@Test public void complexOverVariables() {
+		Predicate b1 = new Predicate("b");
+		b1.addTerm(new VarTerm("X"));
+	
+		Predicate b2 = new Predicate("b");
+		b2.addTerm(new VarTerm("A"));
+		
+		Unifier bunifier = new Unifier();
+		b1.unifies(b2, bunifier);
+		
+		Predicate f = new Predicate("f");
+		Predicate a = new Predicate("a");
+		a.addTerm(new VarTerm("X"));
+		
+		Predicate c1 = new Predicate("c");
+		c1.addTerm(new VarTerm("A"));
+		
+		f.addTerm(a);
+		f.addTerm(b1);
+		f.addTerm(c1);
+		
+		Predicate c2 = new Predicate("c");
+		c2.addTerm(new Predicate("a"));
+		
+		Unifier cunifier = new Unifier();
+		c2.unifies(c1, cunifier);
+		
+		f.apply(bunifier);
+		f.apply(cunifier);
+		
+		Predicate newa = (Predicate) f.getTerm(0);
+		Term arg = newa.getTerm(0);
+		
+		Assert.assertTrue(arg.getFunctor().equals("a"));
+		
+	}
+	
 }

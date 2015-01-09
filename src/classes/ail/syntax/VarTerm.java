@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ail.semantics.AILAgent;
+import ajpf.util.AJPFLogger;
 
 /**
  * Represents a variable Term: like X (starts with upper case). It may have a
@@ -45,6 +46,8 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 * The value this variable is instantiated to, if any.
 	 */
 	private Term value  = null;
+	
+	private static final String logname = "ail.syntax.VarTerm";
     
     /**
      * New constructor for sub-classes (i.e., Goals at this point) construct
@@ -129,22 +132,32 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      * grounds a variable, set a value for this var (e.g. X = 10; Y = a(b,c);
      * ...)
      */
-    public boolean setValue(Term vl) {
+    private boolean setValue(Term vl) {
         if (vl.isVar()) {
+        	if (vl instanceof VarsCluster){
+        		value = vl;
+        		setAnnot(null);
+        		return true;
+        	}
              return false;
         }
         
         if (vl instanceof VarTerm) {
         	VarTerm vl1 = (VarTerm) vl;
         	value = vl1.getValue();
+        	if (value == null) {
+        		AJPFLogger.warning(logname, "Setting variable value to a null!!");
+        	}
+        	setAnnot(null);
+        } else if (vl instanceof VarsCluster){
+        	value = vl;
         	setAnnot(null);
         } else {
         	value = vl;
-        	setAnnot(null);
         }
         resetHashCodeCache();
         return true;
-    }
+    } 
 
     /** returns true if this var has a value */
     public boolean hasValue() {
@@ -160,11 +173,38 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             Term vl = u.get(this);
             if (vl != null && !(vl instanceof VarsCluster)) {
                 setValue(vl);
-                vl.apply(u); // in case t has var args
-                return true;
-            }
+                return vl.apply(u); // in case t has var args
+            } else if (vl !=null && vl instanceof VarsCluster) {
+            	// The unifier shouldn't, at this point, contain a value for anything in the var cluster (because, if so, the 
+            	// cluster should have been dropped and each variable unified to the value, but that doesn't avoid the 
+            	// possibility that they may get unified later.  I suggest replacing with the var cluster and hoping!!!
+            	if (((VarsCluster) vl).hasValue()) {
+            		Term vlp = ((VarsCluster) vl).getValue();
+            		setValue(vlp);
+            		return vlp.apply(u);
+            	} else {
+            		value = vl;
+            		return vl.apply(u);
+            	}
+            	
+            	// This is a place holder method in case we want to remove all unifications _apart_ from those involved with
+            	// the actual cluster from the VarsCluster
+            	// vl.trim();
+            } 
         } else {
-        	return getValue().apply(u);
+        	if (value instanceof VarsCluster) {
+               	// This variable is associated with a Vars Cluster which may not be part of the unifier
+        		VarsCluster cluster = (VarsCluster) value;
+        		
+        		u.compose(cluster.getUnifier());
+        		
+        		Term vl = u.get(this);
+        		
+        		setValue(vl);
+        		return vl.apply(u);
+        	} else {
+        		return getValue().apply(u);
+        	}
         }
         return false;            	
     }    
@@ -187,6 +227,18 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             Term vl = getValue();
             if (vl != null) {
                 // campare the values
+            	if (vl instanceof VarsCluster) {
+            		if (t instanceof VarTerm) {
+            			final VarTerm tAsVT = (VarTerm) t;
+                        if (tAsVT.getValue() == null) {
+                            return super.getFunctor().equals(tAsVT.getFunctor());
+                        }
+            		} else {
+            			if (!((VarsCluster) vl).hasValue()) {
+            				((VarsCluster) vl).setValue((Term) t); 
+            			}
+            		}
+            	}
                 return vl.equals(t);
             }
 
@@ -885,7 +937,19 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
     	}
     }
 
-	/*
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Predicate#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	if (hasValue()) {
+    		return getValue().strip_varterm();
+    	} else {
+    		return this;
+    	}
+    }
+
+    /*
 	 * (non-Javadoc)
 	 * @see java.util.List#toArray(T[])
 	 */
