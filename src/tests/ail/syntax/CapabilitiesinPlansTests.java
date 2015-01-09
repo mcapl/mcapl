@@ -36,6 +36,7 @@ import org.junit.Test;
 import ail.semantics.AILAgent;
 
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Regression tests associated with reasoning about capabilities/actions appearing
@@ -77,29 +78,61 @@ public class CapabilitiesinPlansTests {
 	}
 	
 	@Test public void findEquivalentCapabilityTest() {
-		EASSLexer cap1_lexer = new EASSLexer(new ANTLRStringStream("{pos(X, Y), angle(Theta)} forward(D) {newX(X, D, Theta, NX), newY(Y, D, Theta, NY), pos(NX, NY), angle(Theta)}"));		
+		EASSLexer cap1_lexer = new EASSLexer(new ANTLRStringStream("{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}"));		
 		CommonTokenStream cap1_tokens = new CommonTokenStream(cap1_lexer);
 		EASSParser cap1_parser = new EASSParser(cap1_tokens);
-		EASSLexer cap2_lexer = new EASSLexer(new ANTLRStringStream("{} feedback(X, Y) {pos(X, Y)}"));
+		EASSLexer cap2_lexer = new EASSLexer(new ANTLRStringStream("{true} feedback(X, Y) {pos(X, Y)}"));
 		CommonTokenStream cap2_tokens = new CommonTokenStream(cap2_lexer);
 		EASSParser cap2_parser = new EASSParser(cap2_tokens);
+		EASSLexer plan_lexer = new EASSLexer(new ANTLRStringStream("+! move(D) [perform] : {True} <-  .query(calculate_distance(D)), perf(forward(D)),  *moved, remove_shared(moved), +!evaluate_success(pos(A, B), forward(D1), true) [perform];"));
+		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
+		EASSParser plan_parser = new EASSParser(plan_tokens);
 		
 		try {
 			Capability cap1 = (cap1_parser.capability()).toMCAPL();
 			Capability cap2 = (cap2_parser.capability()).toMCAPL();
+			Plan plan = (plan_parser.plan()).toMCAPL();
 			
 			AILAgent a = new AILAgent("ag");
 			a.addCap(cap1);
 			a.addCap(cap2);
+			a.addPlan(plan);
 			
 			Predicate post = new Predicate("pos");
-			post.addTerm(new VarTerm("X"));
-			post.addTerm(new VarTerm("Y"));
+			post.addTerm(new VarTerm("A"));
+			post.addTerm(new VarTerm("B"));
 			
-			Capability c = a.getCL().findEquivalent(cap1, cap1.getCap(), Predicate.PTrue, post, a.getRuleBase(), new Unifier());
+			Unifier u = new Unifier();
+			Capability c = a.getCL().findEquivalent(cap1, cap1.getCap(), Predicate.PTrue, post, a.getRuleBase(), u);
 			Assert.assertTrue(c.getCap().unifies(cap2.getCap(), new Unifier()));
-		} catch (Exception e) {
 			
+			cap1.apply(u);
+			
+			Iterator<Plan> plans = a.getPL().getPlansContainingCap(cap1.getCap());
+			while (plans.hasNext()) {
+				Plan p = plans.next();
+				Plan newplan = (Plan) p.clone();
+				
+				newplan.replaceCap(cap1.getCap(), c, cap1);
+				// newplan.apply(u);
+				newplan.resolveVarsClusters();
+				ArrayList<Deed> deeds = newplan.getBody();
+				Deed poscheck = deeds.get(6);
+				Literal pos = (Literal) poscheck.getContent();
+				VarTerm x = (VarTerm) pos.getTerms().get(0);
+				Assert.assertTrue(x.getFunctor().equals("X"));
+				Deed target = deeds.get(4);
+				Literal tg = (Literal) target.getContent();
+				VarTerm notx = (VarTerm) tg.getTerms().get(0);
+				Assert.assertFalse(notx.getFunctor().equals("X"));
+				Deed feedback = deeds.get(3);
+				Literal fb = (Literal) target.getContent();
+				VarTerm notx2 = (VarTerm) tg.getTerms().get(0);
+				Assert.assertTrue(notx.getFunctor().equals(notx2.getFunctor()));
+				
+			}
+		} catch (Exception e) {
+			Assert.assertFalse(true);
 		}
 		
 	}
