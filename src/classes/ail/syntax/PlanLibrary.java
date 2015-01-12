@@ -38,9 +38,6 @@ import java.util.Map;
 import java.util.Collection;
 import java.util.Iterator;
 
-// Don't forget to fix commenting down the bottom!!!
-import java.util.Random;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -430,188 +427,6 @@ public class PlanLibrary implements EvaluationBase<Plan>{
 		}
     }
     
-    /// Trees of plans - Experimental.
-    
-    protected interface PlanTree {
-    	public void add(Plan p, List<Guard> g);
-    	
-    	public Iterator<ApplicablePlan> get(AILAgent a, Unifier un);
-    }
-    
-    protected class PlanTop implements PlanSet {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanTree topnode;
-    	
-    	public List<Plan> getAsList() {
-    		return plans;
-    	}
-    	
-    	public void addAll(Collection<Plan> ps) {
-    		for (Plan p: ps) {
-    			add(p);
-    		}
-    	}
-    	
-    	public void add(Plan p) {
-     		plans.add(p);
-    		topnode.add(p, p.getContext());
-    	}
-    	
-    	public int size() {
-    		return plans.size();
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(AILAgent a) {
-    		return topnode.get(a, new Unifier());
-    	}
-    	
-    	public Iterator<Plan> iterator() {
-    		return plans.iterator();
-    	}
-
-    	/*
-    	 * (non-Javadoc)
-    	 * @see ail.syntax.PlanLibrary.PlanSet#remove(ail.syntax.Plan)
-    	 */
-		public void remove(Plan p) {
-			plans.remove(p);
-		}
-    }
-    
-    protected class PlanLeaf implements PlanTree {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanNode parent;
-    	boolean yes = true;
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		plans.add(p);
-    		if (! guards.isEmpty()) {
-    			PlanNode new_node = new PlanNode(guards, this);
-    			parent.addNode(new_node, yes);
-    		}
-    	}
-    	
-    	public PlanLeaf(PlanNode p) {
-    		parent = p;
-    		yes = false;
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		final Iterator<Plan> planIterator = plans.iterator();
-    		
-    		return new Iterator<ApplicablePlan>() {
-    			ApplicablePlan current = null;
-    			
-    			public void remove() {}
-    			
-    			public ApplicablePlan next() {
-    				if (current == null)
-    					get();
-    				ApplicablePlan ap = current;
-    				current = null;
-    				return ap;
-    			}
-    			
-    			public boolean hasNext() {        		
-    				if (current == null)
-    					get();
-    				return current != null;
-    			}
-    			
-    			public void get() {
-    				if (planIterator.hasNext()) {
-    					Plan p = planIterator.next();
-    					current = new ApplicablePlan(p.getTriggerEvent(), p.getBody(), p.getContext(), p.getPrefix().size(), un, p.getID(), p.getLibID());
-    				}
-    			}
-    		};
-     	}
-    }
-    
-    protected class PlanNode implements PlanTree {
-    	PredicateIndicator pi;
-    	Guard g;
-    	PlanTree yes;
-    	PlanTree no;
-    	
-    	public PlanNode(List<Guard> gs, PlanLeaf l) {
-    		g = gs.remove(0);
-    		yes = new PlanNode(gs, l);
-    		no = new PlanLeaf(this);
-    	}
-    	
-    	public void addNode(PlanTree p, boolean yesno) {
-    		if (yesno) {
-    			yes = p;
-    		} else {
-    			no = p;
-    		}
-    	}
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		if (guards.contains(g)) {
-    			int index = guards.indexOf(g);
-    			guards.remove(index);
-    			yes.add(p, guards);
-    		} else {
-    			Guard ng = new Guard(Guard.GLogicalOp.not, g);
-    			if (guards.contains(ng)) {
-        			int index = guards.indexOf(ng);
-        			guards.remove(index);
-        			no.add(p, guards);    				
-    			} else {
-    				yes.add(p, guards);
-    				no.add(p, guards);
-    			}
-    		}
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		
-    		return new Iterator<ApplicablePlan>() {
-        		@FilterField
-        		ApplicablePlan current = null;
-        		
-        		Iterator<Unifier> gunifiers = ag.believes(g, un);
-        		
-        		public void remove() {}
-    			
-    			public ApplicablePlan next() {        		
-    				if (current == null)
-    					get();
-    				ApplicablePlan ap = current;
-    				current = null;
-    				return ap;
-    			}
-    			
-    			public boolean hasNext() {        		
-    				if (current == null)
-    					get();
-    				return current != null;
-    			}
-    			
-    			public void get() {
-    				if (gunifiers.hasNext()) {
-    					Iterator<ApplicablePlan> yesIterator = yes.get(ag, gunifiers.next());
-    					if (yesIterator.hasNext()) {
-    						current = yesIterator.next();
-    					} else {
-    						current = null;
-    					}
-    				} else {
-    					Iterator<ApplicablePlan> noIterator = no.get(ag, un);
-    					if (noIterator.hasNext()) {
-    						current = noIterator.next();
-    					} else {
-    						current = null;
-    					}
-    				}
-     			}
-    		};
-    		
-    	}
-    	
-    }
     
     /**
      * getPlansContainingCap returns an iterator of all the plans in the library that contain
@@ -642,9 +457,8 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     }
 
     
-	@Override
 	// Think I may need a new datatype here - or need guard plan to implement EBCompare
-	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
+   	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
 		return null;
 	}
 	
@@ -671,7 +485,7 @@ public class PlanLibrary implements EvaluationBase<Plan>{
   
         plans.remove(p);        
 
-	}
+	} 
         
 }
 

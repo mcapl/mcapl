@@ -24,11 +24,6 @@
 
 package ail.syntax.ast;
 
-import java.util.ArrayList;
-
-import ail.syntax.Plan;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
 import ail.syntax.Capability;
 
 import gov.nasa.jpf.vm.MJIEnv;
@@ -58,7 +53,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * AIL Capability class.  A capability consists of preconditions, some kind of action and postconditions.
- * In general the AIL models these as perform plans, but sometimes we need to model them explicitly.
+ * In general/in the past the AIL models these as perform plans, but sometimes we need to model them explicitly.
  * 
  * @author louiseadennis
  *
@@ -68,10 +63,19 @@ public class Abstract_Capability {
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
 	Abstract_GLogicalFormula post;
 	
+	/**
+	 * Convert to a concrete object.
+	 * @return
+	 */
 	public Capability toMCAPL() {
 		return new Capability(pre.toMCAPL(), cap.toMCAPL(), post.toMCAPL());
 	}
 	
+	/**
+	 * Create an equivalent object in the JPF Virtual machine.
+	 * @param env
+	 * @return
+	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ail.syntax.ast.Abstract_Capability");
 		env.setReferenceField(ref, "cap", cap.newJPFObject(env));
@@ -80,17 +84,25 @@ public class Abstract_Capability {
 		return ref;
 	}
   
-	/*
+	/**
 	 * Construct a capability with trivial pre- and post- conditions.
 	 */
     public Abstract_Capability(Abstract_Predicate p) {
     	cap = p;
     }
     
+    /**
+     * Add a precondition.
+     * @param f
+     */
     public void addPre(Abstract_GLogicalFormula f) {
     	pre = f;
     }
     
+    /**
+     * Add a postcondition
+     * @param f
+     */
     public void addPost(Abstract_GLogicalFormula f) {
     	post = f;
     }

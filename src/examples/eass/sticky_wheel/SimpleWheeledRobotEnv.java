@@ -35,11 +35,9 @@ import ail.syntax.NumberTerm;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
 
-import javax.swing.JPanel;
-
 /**
  * SimpleWheeledRobot Env is an environment for a simple wheeled robot.  This is using the EASS classes for
- * Vehicles, so the environment contain vehicles which in turn act as environments for sets of agents which control that
+ * Vehicles, so the environment contains vehicles which in turn act as environments for sets of agents which control that
  * individual vehicle.  
  * 
  * This environment determines what happens when a wheeled robot moves (i.e., engages both its motors).  It contains no obstacles 
@@ -139,8 +137,8 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 				getVehicle(agName).addPercept(position);
 
 				// Vehicle environments may have GUI interfaces.  We assume that we have a WheeledRobotUI interface for this and
-				// update it with the robot's new position.
-				((JPanel) gui).updateGraphics(x, y, theta);
+				// update it with the robot's new position.  NB. It might be nice to make this more generic via an interface at some point.
+				((WheeledRobotUI) gui).updateGraphics(x, y, theta);
 				count++;
 			}
 		} 
@@ -181,29 +179,37 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 		addPercept(rname, p);
 	}
 	
-	public void setInterface(WheeledRobotUI ui) {
-		gui = ui;
-	}
-	
+	/**
+	 * Set the environment's GUI interface.
+	 * @param ui
+	 */
 	public void setGUI(WheeledRobotUI ui) {
 		gui = ui;
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#done()
+	 */
 	public boolean done() {
 		return false;
 	}
 
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(MCAPLJobber o) {
-		return 0;
+		return (getName().compareTo(o.getName()));
 	}
 
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#do_job()
+	 */
 	public void do_job() {
-		// TODO Auto-generated method stub
 		int activeJobbers = scheduler.getActiveJobbers().size();
 		if (activeJobbers > 1 || activeJobbers < 1) {
 			notifyListeners("scheduler");
@@ -212,12 +218,18 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 		}
 	}
 
-
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#getName()
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Set the stickiness of the Wheel.
+	 * @param s
+	 */
 	public void setStickiness(double s) {
 		sticky_modifier = s/100;
 	}

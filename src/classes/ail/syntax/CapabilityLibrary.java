@@ -1,25 +1,57 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of the Agent Infrastructure Layer (AIL)
+// 
+// The AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.HashMap;
 
-import ail.semantics.AILAgent;
-
-import ail.syntax.BeliefBase.BelEntry;
-
+/**
+ * A class for libraries of capabilities.
+ * @author lad
+ *
+ */
 public class CapabilityLibrary implements EvaluationBase<Capability> {
+	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
+	 */
 	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
 		Capability c = ((GCapability) ga).getCap();
 		Predicate cPred = c.getCap();
 		return getRelevant(cPred);
 	}
 	
+	/**
+	 * Helper method for getRelevant.  We get the capability that uses this action predicate - or several if there are several.
+	 * @param cPred
+	 * @return
+	 */
 	public Iterator<Capability> getRelevant(Predicate cPred) {
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
@@ -38,17 +70,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		
 	}
 	
-	public Capability getByName(String s) {
-		Iterator<Capability> cs = iterator();
-		while (cs.hasNext()) {
-			Capability c = cs.next();
-			if (c.getCap().getFunctor().equals(s)) {
-				return c;
-			}
-		}
-		return null;
-	}
-	
+	/**
+	 * An iterator of all the capabilities in the library.
+	 * @return
+	 */
 	public Iterator<Capability> iterator() {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
 		
@@ -60,6 +85,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 
 	}
 	
+	/**
+	 * Add a capability to the library.
+	 * @param c
+	 */
 	public void add(Capability c) {
 		PredicateIndicator pi = c.getCap().getPredicateIndicator();
 		if (capMap.containsKey(pi)) {
@@ -71,15 +100,20 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		}
 	}
 	
-	// WARNING: This is going to need to be made more general.  At the moment it is assuming we
-	// are supplying the pre and post conditions for reasoning about equivalence.
-	public Capability findEquivalent(Capability oldcap, Predicate capname, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
+	/**
+	 * Preliminary implemenation for finding a capability in a library that can be exchanged for some other capability in the library
+	 * on the assumption that certain preconditions hold and certain post-conditions are desired.
+	 * @param oldcap
+	 * @param capname
+	 * @param Pre
+	 * @param Post
+	 * @param rb - A rulebase that may define reasoning involving the pre and post-conditions.
+	 * @param u
+	 * @return
+	 */
+	public Capability findEquivalent(Capability oldcap, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
+		Predicate capname = oldcap.getCap();
 		PredicateIndicator pi = capname.getPredicateIndicator();
-		
-		// Note assuming here there is only one capability with this pi.  Is this a sensible
-		// assumption (probably), if so refactor capMap.
-		// Capability toReplace = capMap.get(pi).get(0);
-
 		
 		GBelief pgb = new GBelief(Post);
 
@@ -87,48 +121,33 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 			
 			Capability c = l.get(0);
 			
+			// NB we are assuming that capability names are unique here (give or take)
 			if (c != capMap.get(pi).get(0)) {
 			
+				// We check first the preconditions.  Only tests with trivial preconditions.
 				EvaluationBasewNames<PredicateTerm> eb = 
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
 				GBelief gb = new GBelief(Pre);
 				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames());
+
 				if (preuni.hasNext()) {
 				
 					Capability cc = (Capability) c.clone();
 					cc.standardise_apart(oldcap, u, oldcap.getVarNames());
-					Unifier u1 = preuni.next();
-					cc.apply(u1);
-					//BeliefBase postbb = new BeliefBase();
-					//Post.apply(u);
-					//postbb.add(new Literal(true, Post));
-				
-					//AILAgent minag = new AILAgent("tmp");
-				
-					//minag.setBeliefBase(postbb);
-					//minag.setRuleBase(rb);
+					u.compose(preuni.next());
 					
-					// pgb.apply(u);
-					
+					// Then we check postconditions.
 					EvaluationBasewNames<PredicateTerm> posteb = 
 							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
-					
-					// cc.apply(u);
-				
-					// NEED TO RETURN THE UNIFIER!!
 					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
 					if (postuni.hasNext()) {
 						u.compose(postuni.next());
 						cc.apply(u);
-						// cc.toString();
-						
-//						oldcap.standardise_apart(cc, u, cc.getVarNames());
 						pgb.apply(u);
 						
 						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
 						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
 						Unifier puni = pun.next();
-						// puni infies vars in post but not in oldcap.
 						
 						u.compose(puni);
 

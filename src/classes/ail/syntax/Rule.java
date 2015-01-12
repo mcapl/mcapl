@@ -30,8 +30,6 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.Random;
 
 /**
  * A rule is a Literal (head) with an optional body, as in "a :- b &amp; c".
@@ -191,13 +189,18 @@ public class Rule implements LogicalFormula {
  
     } 
         
-    /*
-     * 
+    /**
+     * Get a predicate indicator from the head literal.
+     * @return
      */
-    public PredicateIndicator getPredicateIndicator() {
+     public PredicateIndicator getPredicateIndicator() {
     	return head.getPredicateIndicator();
     }
     
+     /*
+      * (non-Javadoc)
+      * @see ail.syntax.Unifiable#isGround()
+      */
     public boolean isGround() {
     	if (body != null) {
     		return head.isGround() && body.isGround();
@@ -217,7 +220,8 @@ public class Rule implements LogicalFormula {
 	}
 
 	/*
-	 * 
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
 	 */
 	public boolean apply(Unifier theta) {
 		if (head.apply(theta)) {
@@ -272,19 +276,6 @@ public class Rule implements LogicalFormula {
 	public Iterator<Unifier> logicalConsequence(
 			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
 		return head.logicalConsequence(eb, rb, un, varnames);
-	}
-
-	int comment_and_fix_nulls;
-	@Override
-	public Set<List<PredicateTerm>> groundSets() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LogicalFormula ground() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

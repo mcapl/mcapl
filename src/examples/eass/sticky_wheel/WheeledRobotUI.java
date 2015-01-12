@@ -1,3 +1,26 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher 
+// 
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package eass.sticky_wheel;
 
 import java.awt.GridBagConstraints;
@@ -9,7 +32,6 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
-import java.text.DecimalFormat;
 import java.awt.GridBagLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -18,7 +40,6 @@ import java.awt.Polygon;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,17 +53,33 @@ import ail.util.AILConfig;
 import ail.syntax.Predicate;
 import ail.syntax.NumberTermImpl;
 import ajpf.MCAPLcontroller;
-import eass.mas.nxt.EASSNXTEnvironment;
 
+/**
+ * A very simple interface for checking the sticky_wheel implementation.  It consists of a square around which a dot representing the robot
+ * can move and with some simple buttons to set targets and the stickiness of the wheel.
+ * @author lad
+ *
+ */
 public class WheeledRobotUI extends JPanel implements ActionListener,
 		PropertyChangeListener, WindowListener {
+	// Not sure about setting this to one.
+	static final long serialVersionUID = 1;
+	
+	// NB. hard-coding in the program to run.
 	static String path="/src/examples/eass/sticky_wheel/";
+	// Uncomment the below to run the files with just the feedback controller or dead reckoning controller.
 	static String config_file = "sticky_simple_switch.ail";
+	// static String config_file = "sticky_feedback.ail";
+	// static String config_file = "sticky_norecovery.ail";
 	String rName = "sticky";
 	static SimpleWheeledRobotEnv env;
+
+	// Components.
 	MovementCanvas canvas = new MovementCanvas();
 	JFormattedTextField xbox, ybox, stickiness;
 	JButton go, sticky;
+
+	// Robot coordinates and wheel stickiness.
 	Double target_x;
 	Double target_y;
 	double current_x;
@@ -64,6 +101,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
     	c.gridy = 1;
     	add(controls, c);
     	
+    	// Setting a target
        	go = new JButton("Go!");
         go.setMnemonic(KeyEvent.VK_G);
         go.setActionCommand("go");
@@ -92,6 +130,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
     	ybox.addPropertyChangeListener(this);
     	controls.add(ybox);
     	
+    	// Setting the stickiness
     	sticky = new JButton("Set");
     	sticky.setMnemonic(KeyEvent.VK_S);
     	sticky.setActionCommand("set_sticky");
@@ -118,27 +157,54 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 
 	}
 	
+	/**
+	 * I'm not sure this is the best way to get the canvas to update the location of the robot.  GUI's are not really my strong point.
+	 * @param x
+	 * @param y
+	 * @param theta
+	 */
 	public void updateGraphics(double  x, double y, double theta) {
 		canvas.updateGraphics(x, y, theta);
 	}
 	
+	/**
+	 * A canvas to show the path taken by the robot.
+	 * @author lad
+	 *
+	 */
 	public class MovementCanvas extends Canvas {
+		static final long serialVersionUID = 2;
+		
+		// Where the robot is now
 		double x;
 		double y;
 		double theta;
+
+		// Where the robot is next
 		double xp;
 		double yp;
 		double thetap;
+		
+		// The robot is a polygon (a rectangle in fact)
 		Polygon robot;
+		
+		// Arrays for the points in the path.
 		int[] xs = new int[10000];
 		int[] ys = new int[10000];
 		int points = 0;
 		
+		/**
+		 * Constructor.  A 500x500 white swuare.
+		 */
 		public MovementCanvas() {
 			setSize(500, 500);
 			setBackground(Color.white);
 		}
 		
+		/**
+		 * The rectangle that is the robot!!
+		 * @return
+		 */
 		public Polygon getPolygon() {
 			Polygon p = new Polygon();
 			p.addPoint((int) x, (int) y);
@@ -158,7 +224,12 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 			
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.Canvas#paint(java.awt.Graphics)
+		 */
 		public void paint(Graphics g) {
+			// set the positions and arrays and draw the robot.
 			x = env.getX();
 			y = 500 - env.getY();
 			xs[points] = (int) x;
@@ -169,7 +240,12 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 			g.drawPolygon(getPolygon());
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.Canvas#update(java.awt.Graphics)
+		 */
 		public void update(Graphics g) {
+			// If the robot has moved update the position and arrays, join the dots in the path with a line and draw the robot's new position.
 			if (((Double) xp) != null) {
 				if (xp != x || yp != y) {
 					x = xp;
@@ -185,6 +261,12 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 			}
 		}
 		
+		/**
+		 * Update the canvas with the robot's new position and then repaint it.
+		 * @param x1
+		 * @param y1
+		 * @param theta1
+		 */
 		public void updateGraphics(double x1, double y1, double theta1) {
 			xp = x1;
 			yp = 500 - y1;
@@ -193,8 +275,10 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		}
 	}
 	
+	/**
+	 * Create and set up the windoe.
+	 */
 	public static void createAndShowGUI() {
-        //Create and set up the window.
         JFrame frame = new JFrame("Mars Robot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -236,51 +320,68 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		
     }
 
-    @Override
+    /*
+     * (non-Javadoc)
+     * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+     */
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 */
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-
+		// NB this should probably gracefully stop the program.
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+	 */
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-
+		// NB this should probably gracefully stop the program.
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+	 */
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+	 */
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+	 */
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+	 */
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
+		// Handle user changes in the input boxes.
 		Object source = evt.getSource();
 		
 		if (source == xbox) {
@@ -305,7 +406,10 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("go")) {
 			Predicate target = new Predicate("target");

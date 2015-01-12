@@ -27,9 +27,7 @@
 
 package ail.syntax;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -112,9 +110,7 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 				vars.add(vt);
 			} else {
 				vars.add(vt);
-                for (VarTerm vtc : vars) {
-                }
-			}
+ 			}
 		} else if (vl instanceof VarsCluster) {
 			// This variable is already in a VarCluster according to the unifier
 			if (vars == null) {
@@ -172,13 +168,6 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		return false;
 	} 
 
-	/**
-	 * The cluster now has a value.
-	 * @return
-	 */
-//	boolean hasValue() {
-//		return vars != null && !vars.isEmpty();
-//	}
 
 	/*
 	 * (non-Javadoc)
@@ -217,18 +206,30 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 	}
 	
+	/**
+	 * Return the value of this cluster.
+	 * @return
+	 */
 	public Term getValue() {
 		return value;
 	}
 	
+	/**
+	 * return the Cluster ID.
+	 * @return
+	 */
 	public int getID() {
 		return id;
 	}
 	
+	/**
+	 * Has this cluster been unified with a value?
+	 * @return
+	 */
 	public boolean hasValue() {
 		return value != null;
 	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
@@ -253,7 +254,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		u.renameVar(oldname, newname);
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
 	public void makeVarsAnnon() {
 		for (VarTerm v: vars) {
 			v.makeVarsAnnon();
@@ -283,6 +287,9 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		return true;
 	}
 	
+	/**
+	 * Instantiate this cluster.
+	 */
 	public void setValue(Term uv) {
 		value = uv;
 		for (VarTerm var: vars) {
@@ -290,6 +297,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isGround()
+	 */
 	public boolean isGround() {
 		if (value != null) {
 			return value.isGround();
@@ -298,6 +309,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
 	public boolean isVar() {
 		if (value != null) {
 			return value.isVar();
@@ -306,7 +321,12 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#resolveVarsClusters()
+	 */
 	public Term resolveVarsClusters() {
+		// We return the first variable in vars (is this ideal - should we have some kind of explicit canonical variable representing the cluster)
 		return vars.get(0);
 	}
 	

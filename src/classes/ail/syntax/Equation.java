@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Random;
 import java.util.HashSet;
 
 import ail.semantics.AILAgent;
@@ -100,7 +99,12 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 		return logicalConsequence(u);
 	}
 	
-    public Iterator<Unifier> logicalConsequence(Unifier un) {
+	/**
+	 * Does this equation hold true given a particularly unifier?
+	 * @param un
+	 * @return
+	 */
+    private Iterator<Unifier> logicalConsequence(Unifier un) {
         try {
         	Equation ec = (Equation) this.clone();
         	ec.apply(un);
@@ -384,15 +388,16 @@ public class Equation implements LogicalFormula, GLogicalFormula {
     	}
     }
 
-	@Override
 	// For the time being we do not reason symbolically about equations!!!!
 	public Set<List<PredicateTerm>> groundSets() {
 		return new HashSet<List<PredicateTerm>>();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#ground()
+	 */
 	public LogicalFormula ground() {
-		// TODO Auto-generated method stub
 		return Predicate.PTrue;
 	}
 

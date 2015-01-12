@@ -1,9 +1,29 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of the Agent Infrastructure Layer (AIL)
+// 
+// The AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax.ast;
 
 import gov.nasa.jpf.vm.MJIEnv;
-import ail.syntax.GMessage;
-import ail.syntax.Term;
-import ail.syntax.StringTerm;
 import ail.syntax.GuardPlan;
 import ail.syntax.Predicate;
 import ail.syntax.GLogicalFormula;
@@ -34,7 +54,8 @@ import ail.syntax.NumberTerm;
  */
 
 /**
- * Abstract version of an interface for References to capabilities appearing within Guards.
+ * Abstract version of an interface for References to Plans appearing within Guards.  This is untested and it is currently unclear
+ * if we need this functionality.
  * @author lad
  *
  */
@@ -44,6 +65,13 @@ public class Abstract_GuardPlan implements Abstract_GuardAtom {
 	Abstract_LogicalFormula post;
 	Abstract_Predicate cap;
 	
+	/**
+	 * Constructor
+	 * @param pl
+	 * @param c
+	 * @param p
+	 * @param pt
+	 */
 	public Abstract_GuardPlan(Abstract_NumberTerm pl, Abstract_Predicate c, Abstract_Predicate p, Abstract_Predicate pt) {
 		pre = new Abstract_GBelief(new Abstract_Literal(new Abstract_Pred(p)));
 		cap = c;
@@ -51,11 +79,18 @@ public class Abstract_GuardPlan implements Abstract_GuardAtom {
 		plan = pl;
 	}
 	
-
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#toMCAPL()
+	 */
 	public GuardPlan toMCAPL() {
 		return new GuardPlan((NumberTerm) plan.toMCAPL(), (Predicate) cap.toMCAPL(), (GLogicalFormula) pre.toMCAPL(), (LogicalFormula) post.toMCAPL());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#newJPFObject(gov.nasa.jpf.vm.MJIEnv)
+	 */
 	public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("ail.syntax.ast.Abstract_GuardPlan");
 		env.setReferenceField(objref, "plan", plan.newJPFObject(env));
@@ -65,10 +100,11 @@ public class Abstract_GuardPlan implements Abstract_GuardAtom {
 		return objref;
 	}
 
-
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#isTrivial()
+	 */
 	public boolean isTrivial() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

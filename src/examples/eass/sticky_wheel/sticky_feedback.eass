@@ -21,6 +21,8 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+
+// A two wheeled robot that navigates using a feedback controller.
 EASS
 
 :abstraction: sticky

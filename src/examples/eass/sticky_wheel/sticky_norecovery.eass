@@ -21,6 +21,9 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+// An agent that controls a two wheeled robot using dead reckoning.  It is
+// unable to recover if something goes wrong.
+
 EASS
 
 :abstraction: sticky

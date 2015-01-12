@@ -309,6 +309,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             	VarTerm t1c = (VarTerm) t1gv.clone();
                 VarTerm t2c = (VarTerm) t2gv.clone();
                 VarsCluster cluster = new VarsCluster(t1c, t2c, this);
+                updateWithVarsCluster(cluster);
+                // ?
+                return true;
             }
             return true;
         }
@@ -725,20 +728,6 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     		function.remove(v1);
     	}
     }
-
-    /**
-     * Return all varClusters in this unifier.
-     * @return
-     */
-   // public Unifier varClusters() {
-   // 	Unifier u = new Unifier();
-   // 	for (VarTerm v: function.keySet()) {
-   // 		if (get(v) instanceof VarsCluster) {
-   // 			u.setVarValue(v, get(v));
-   // 		}
-   // 	}
-   // 	return u;
-  //  }
     
     /**
      * Unify two logical terms.  We assume t1g is not to be unified but may contain variables.
@@ -788,6 +777,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             	VarTerm t1c = (VarTerm) t1gv.clone();
                 VarTerm t2c = (VarTerm) t2gv.clone();
                 VarsCluster cluster = new VarsCluster(t1c, t2c, this);
+                updateWithVarsCluster(cluster);
+                return true;
             }
             return true;
         }
@@ -914,20 +905,4 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     	return varnames;
     }
 
-    /**
-     * Method for working with MJI.  
-     */
-    // NOT USED WORK IN PROGRESS
-    public Term[] mapToArray() {
-    	int array_size = size()*2;
-    	Term[] array = new Term[array_size];
-    	int i = 0;
-    	for (VarTerm v : function.keySet()) {
-    		array[i] = v;
-    		i++;
-    		array[i] = function.get(v);
-    		i++;
-    	}
-    	return array;
-    }
 }

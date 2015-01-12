@@ -21,6 +21,9 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+
+// An agent to demonstrate reasoning about and switching of capabilities in the face
+// of errors.  Very, very basic.
 EASS
 
 :abstraction: sticky
@@ -66,9 +69,6 @@ bound(1)
 +!calculate_distance(D) [perform]: {B target(X, Y), B position(X1, Y1, Theta)} <-
 		     calculate_distance(X1, Y1, X, Y, D),
 		     assert_shared(calculate_distance(D));
-+!calculate_new_coords(X, Y, D, Theta, Cs) [perform]: {True} <-
-		     calculate_new_coords(X, Y, D, Theta, Cs),
-		     assert_shared(calculate_new_coords(X, Y, D, Theta, Cs));
 		     
 +!turn(A) [perform] : {True} <- 
 	  turn(A),
@@ -96,10 +96,10 @@ bound(1)
 
 +new_target(X, Y): {True} <- 
 	     remove_shared(new_target(X, Y)),
-             +target(X, Y),
+         +target(X, Y),
 	     +! pos(X, Y) [perform],
 	     remove_shared(reached_target(X, Y)),
-             -target(X, Y);
+         -target(X, Y);
 +! pos(X, Y) [perform]: {True} <-
    	     +! correct_angle(A) [perform],
 	     +! move(D) [perform];
@@ -117,9 +117,6 @@ bound(1)
 	     remove_shared(moved),
 	     +!evaluate_success(pos(A, B), forward(D1), true) [perform];
 	     
-+!newC(X, Y, D, Theta, Cs) [achieve] : {True} <-
-	.query(calculate_new_coords(X, Y, D, Theta, Cs));
-
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
 +!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);
 			  

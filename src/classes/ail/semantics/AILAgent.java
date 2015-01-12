@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
-import java.util.Random;
 
 import ail.mas.AILEnv;
 import ail.util.AILexception;
@@ -63,12 +62,7 @@ import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
-import ail.syntax.LogicalFormula;
-import ail.syntax.GLogicalFormula;
 import ail.syntax.annotation.SourceAnnotation;
-import ail.syntax.NamedEvaluationBase;
-import ail.syntax.PredicateTerm;
-import ail.syntax.ListEvaluationBase;
 
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
@@ -808,55 +802,14 @@ public class AILAgent implements MCAPLLanguageAgent {
 		return cl;
 	}
 	
+	/**
+	 * Add a capability.
+	 * @param c
+	 */
 	public void addCap(Capability c) {
 		getCL().add(c);
 	}
-	
-	/*public Capability findSuperCap(Predicate cap_name) {
-		Iterator<Capability> caps = getCL().getRelevant(cap_name);
-		while (caps.hasNext()) {
-			Capability c = caps.next();
-			Iterator<Capability> all_caps = getCL().iterator();
-			GLogicalFormula cPre = c.getPre();
-			GLogicalFormula cPost = c.getPost();
-			while (all_caps.hasNext()) {
-				Capability ac = all_caps.next();
-				if (! ac.equals(c)) {
-					GLogicalFormula acPre = ac.getPre();
-					GLogicalFormula acPost = ac.getPost();
-					if (implies(cPre, acPre) && implies(acPost, cPost)) {
-						return ac;
-					}
-				}
-			}
-		}
-		
-		return null;
-	} */
-	
-	/* public boolean implies(GLogicalFormula a, GLogicalFormula b) {
-		GLogicalFormula aground = a.ground();
-		Set<List<PredicateTerm>> gsets = aground.groundSets();
-		for (List<PredicateTerm> set : gsets) {
-			Iterator<Unifier> iu = b.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(new ListEvaluationBase<PredicateTerm>(set), "fmla"), getRuleBase(), new Unifier(), a.getVarNames());
-			if (! iu.hasNext()) {
-				return false;
-			}
-		}
-		// Need to do something about a being True
-		return true;
-	}
-	
-	public void substitute_in_plans(Predicate cap_name, Capability c) {
-		PlanLibrary PL = getPL();
-		List<Plan> plans = PL.getPlans();
-		for (Plan p: plans) {
-			if (p.containsCap(cap_name)) {
-				p.replaceCap(cap_name, c.getCap());
-			}
-		}
-	} */
-   
+	   
 	//--- Constraints
 	
 	/**
@@ -1722,7 +1675,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @return
 	 */
 	public boolean goalEntails(Event e, Plan p, Unifier un) {
-		p.standardise_apart(e, un);
+		p.standardise_apart(e, un, Collections.<String>emptyList());
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 

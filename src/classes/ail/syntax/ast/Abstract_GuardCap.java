@@ -1,9 +1,29 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of the Agent Infrastructure Layer (AIL)
+// 
+// The AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.syntax.ast;
 
 import gov.nasa.jpf.vm.MJIEnv;
-import ail.syntax.GMessage;
-import ail.syntax.Term;
-import ail.syntax.StringTerm;
 import ail.syntax.GCapability;
 
 /**
@@ -30,7 +50,8 @@ import ail.syntax.GCapability;
  */
 
 /**
- * Abstract version of an interface for References to capabilities appearing within Guards.
+ * Abstract version of an interface for References to capabilities appearing within Guards.  Currently unused.  Not sure
+ * whether or not we need this functionality.
  * @author lad
  *
  */
@@ -39,21 +60,38 @@ public class Abstract_GuardCap implements Abstract_GuardAtom {
 	Abstract_GLogicalFormula post;
 	Abstract_Predicate cap;
 	
+	/**
+	 * Constructor.
+	 * @param p
+	 * @param c
+	 * @param pt
+	 */
 	public Abstract_GuardCap(Abstract_GLogicalFormula p, Abstract_Predicate c, Abstract_GLogicalFormula pt) {
 		pre = p;
 		cap = c;
 		post = pt;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#isTrivial()
+	 */
 	public boolean isTrivial() {
 		return false;
 	}
 	
-
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#toMCAPL()
+	 */
 	public GCapability toMCAPL() {
 		return new GCapability(pre.toMCAPL(), cap.toMCAPL(), post.toMCAPL());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_GuardAtom#newJPFObject(gov.nasa.jpf.vm.MJIEnv)
+	 */
 	public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("ail.syntax.ast.Abstract_GuardCap");
 		env.setReferenceField(objref, "pre", pre.newJPFObject(env));

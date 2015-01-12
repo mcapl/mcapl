@@ -30,13 +30,10 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
-import java.util.Random;
 
 import ajpf.util.AJPFLogger;
 
 import gov.nasa.jpf.annotation.FilterField;
-
-import java.util.Random;
 
 /**
  * AIL Plan class.  A plan consists of an event (trigger), prefix (deed stack), guard (guard
@@ -467,8 +464,9 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
      * @param t
      * @param u
      */
-    public void standardise_apart(Unifiable t, Unifier u) {
+    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	List<String> tvarnames = t.getVarNames();
+    	tvarnames.addAll(varnames);
     	List<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
     		myvarnames.addAll(g.getVarNames());
@@ -523,10 +521,7 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
     			   	for (Guard g: getContext()) {
     		    		g.renameVar(s, s1);
     		    	}
-    			   	for (Guard g: getContext()) {
-    		    		g.renameVar(s, s1);
-    		    	}
-    			   	for (Deed d: getBody()) {
+     			   	for (Deed d: getBody()) {
     					d.renameVar(s, s1);
     				}
     				u.renameVar(s, s1);
@@ -536,64 +531,230 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
  
     }
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+    // NB. untested.
 	public boolean unifies(Unifiable t, Unifier u) {
-		// TODO Auto-generated method stub
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().unifies(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.unifies(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.unifies(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
 		return false;
 	}
 
-	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
+	// NB. untested.
 	public List<String> getVarNames() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> varnames = new ArrayList<String>();
+		varnames.addAll(getTriggerEvent().getVarNames());
+		for (Guard g: getContext()) {
+			varnames.addAll(g.getVarNames());
+		}
+		for (Deed d: getBody()) {
+			varnames.addAll(d.getVarNames());
+		}
+		return varnames;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
 	public void renameVar(String oldname, String newname) {
-		// TODO Auto-generated method stub
-		
+		getTriggerEvent().renameVar(oldname, newname);
+	   	for (Guard g: getContext()) {
+    		g.renameVar(oldname, newname);
+    	}
+		for (Deed d: getBody()) {
+			d.renameVar(oldname, newname);
+		}
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	// NB. untested
 	public boolean match(Unifiable t, Unifier u) {
-		// TODO Auto-generated method stub
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().match(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.match(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.match(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	// NB. untested
 	public boolean matchNG(Unifiable t, Unifier u) {
-		// TODO Auto-generated method stub
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().matchNG(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.matchNG(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.matchNG(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
 	public boolean isGround() {
-		// TODO Auto-generated method stub
+		if (getTriggerEvent().isGround()) {
+			for (Guard g : getContext()) {
+				if (!g.isGround()) {
+					return false;
+				}
+			}
+			for (Deed d: getBody()) {
+				if (!d.isGround()) {
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
+	// NB. untested.
 	public boolean apply(Unifier theta) {
-		// TODO Auto-generated method stub
+		if (getTriggerEvent().apply(theta)) {
+			boolean unifiessofar = true;
+			for (Guard g: getContext()) {
+				if (! g.apply(theta)) {
+					unifiessofar = false;
+				}
+			}
+			if (unifiessofar) {
+				for (Deed d: getBody()) {
+					if (! d.apply(theta)) {
+						unifiessofar = false;
+					}
+				}
+			}
+			return unifiessofar;
+
+		}
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
 	public void makeVarsAnnon() {
-		// TODO Auto-generated method stub
+		getTriggerEvent().makeVarsAnnon();
+	   	for (Guard g: getContext()) {
+    		g.makeVarsAnnon();
+    	}
+		for (Deed d: getBody()) {
+			d.makeVarsAnnon();
+		}
 		
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
 	public Unifiable strip_varterm() {
-		// TODO Auto-generated method stub
-		return null;
+        Plan p = new Plan();
+
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation);
+        }
+ 
+        p.event = (Event) event.strip_varterm();
+        
+        ArrayList<Deed> copy = new ArrayList<Deed>(); 
+        for (Deed l : body) {
+            copy.add((Deed) l.strip_varterm());
+        }
+        p.setBody(copy);
+        
+        ArrayList<Deed> pcopy = new ArrayList<Deed>();
+        for (Deed l : prefix) {
+        	pcopy.add((Deed) l.strip_varterm());
+        }
+        p.setPrefix(pcopy);
+        
+        ArrayList<Guard> ccopy = new ArrayList<Guard>();
+        for (Guard f : context) {
+        	ccopy.add((Guard) f.strip_varterm());
+        }
+        p.setContext(ccopy);
+        p.setID(getID());
+        p.setLibID(getLibID());
+ 
+        return p;
+		
 	} 
 	
 	/*
@@ -632,7 +793,14 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
         return p;
 	}
 	
+	/**
+	 * Replace one capability mentioned in this plan with another.
+	 * @param capname
+	 * @param c
+	 * @param old
+	 */
 	public  void replaceCap(Predicate capname, Capability c, Capability old) {
+		// NB. we are explicitly assuming EASS style plans here!!
     	Action perf = new Action("perf");
     	perf.addTerm(capname);
     	ArrayList<Deed> newdeeds = new ArrayList<Deed>();
@@ -641,20 +809,17 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
     	int i = 0;
     	for (Deed d: body) {
 			if (d.getCategory() == Deed.DAction) {
-				// Deed dclone = (Deed) d.clone();
 				Action a = (Action) d.getContent();
 				if (a.unifies(perf, new Unifier())) {
 					// WARNING: Can we be certain that unification of variables in c is correct???
 					a.setTerm(0, c.getCap());
 					newdeeds.add(d);
 					guards.add(context.get(i));
-					// Need to standarise apart variables in old's preconditions that are not mentioned in the cap name.
 					insertRowsHere(guards, context.get(i), newdeeds, old.getPre());
 				} else {
 					newdeeds.add(d);
 					guards.add(context.get(i));
 				}
-				System.err.println("a");
 			} else {
 				newdeeds.add(d);
 				guards.add(context.get(i));
@@ -666,7 +831,14 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 
 	}
 	
-	public void insertRowsHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+	/**
+	 * Insert some new rows into a plan
+	 * @param gs
+	 * @param gu
+	 * @param ds
+	 * @param lf
+	 */
+	private void insertRowsHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
 		if (lf instanceof Guard) {
 			Guard g = (Guard) lf;
 			if (g.getOp().equals(Guard.GLogicalOp.none)) {
@@ -681,21 +853,29 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		} else if (lf instanceof GBelief) {
 			insertRowHere(gs, gu, ds, lf);
 		}
-		AJPFLogger.warning(logname, "Can not insert Guards of this type");
 	}
 	
-	public void insertRowHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+	/**
+	 * Insert one new row into the plan.
+	 * @param gs
+	 * @param gu
+	 * @param ds
+	 * @param lf
+	 */
+	private void insertRowHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
 		GBelief gb = (GBelief) lf;
 		Goal gl = new Goal(gb, Goal.achieveGoal);
 		//NOTE at some point we need to handle deletions or absenses as well.
 		Deed d = new Deed(Deed.AILAddition, gl);
 		ds.add(d);
 		gs.add(gu);
-		// return index + 1;
-		
 	}
 
-	
+	/**
+	 * Does this plan mentioned this capability?
+	 * @param cap_name
+	 * @return
+	 */
 	public boolean containsCap(Predicate cap_name) {
 		ArrayList<Deed> body = getBody();
 		for (Deed d: body) {
@@ -710,20 +890,4 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		
 	}
 	
-	public void replaceCap(Predicate cap_name, Predicate cap2) {
-		ArrayList<Deed> body = getBody();
-		for (Deed d: body) {
-			if (d.getContent() instanceof Action) {
-				Action a = (Action) d.getContent();
-				Unifier u = new Unifier();
-				if (a.unifies(cap_name, u)) {
-					cap_name.apply(u);
-					int atype = a.getActionType();
-					a = new Action(cap_name, atype);
-				}
-			}
-		}
-	}
-	
-
 }

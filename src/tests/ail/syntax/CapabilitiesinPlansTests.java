@@ -45,6 +45,10 @@ import java.util.ArrayList;
  *
  */
 public class CapabilitiesinPlansTests {
+	
+	/**
+	 * Test to check that we can extract all the plans containing some capability
+	 */
 	@Test public void getPlansContainingCapTest() {
 		EASSLexer plan1_lexer = new EASSLexer(new ANTLRStringStream("+!correct_angle(A) [perform] : {True} <- .query(calculate_angle(A)), perf(turn(A)), *turned, remove_shared(turned);"));		
 		CommonTokenStream plan1_tokens = new CommonTokenStream(plan1_lexer);
@@ -77,6 +81,9 @@ public class CapabilitiesinPlansTests {
 		}
 	}
 	
+	/**
+	 * A fairly involved test to check identifying an equivalent capability and substituting it into a plan.
+	 */
 	@Test public void findEquivalentCapabilityTest() {
 		EASSLexer cap1_lexer = new EASSLexer(new ANTLRStringStream("{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}"));		
 		CommonTokenStream cap1_tokens = new CommonTokenStream(cap1_lexer);
@@ -103,7 +110,7 @@ public class CapabilitiesinPlansTests {
 			post.addTerm(new VarTerm("B"));
 			
 			Unifier u = new Unifier();
-			Capability c = a.getCL().findEquivalent(cap1, cap1.getCap(), Predicate.PTrue, post, a.getRuleBase(), u);
+			Capability c = a.getCL().findEquivalent(cap1, Predicate.PTrue, post, a.getRuleBase(), u);
 			Assert.assertTrue(c.getCap().unifies(cap2.getCap(), new Unifier()));
 			
 			cap1.apply(u);
@@ -126,8 +133,8 @@ public class CapabilitiesinPlansTests {
 				VarTerm notx = (VarTerm) tg.getTerms().get(0);
 				Assert.assertFalse(notx.getFunctor().equals("X"));
 				Deed feedback = deeds.get(3);
-				Literal fb = (Literal) target.getContent();
-				VarTerm notx2 = (VarTerm) tg.getTerms().get(0);
+				Action fb = (Action) feedback.getContent();
+				VarTerm notx2 = (VarTerm) (fb.getTerms().get(0)).getTerms().get(0);
 				Assert.assertTrue(notx.getFunctor().equals(notx2.getFunctor()));
 				
 			}
