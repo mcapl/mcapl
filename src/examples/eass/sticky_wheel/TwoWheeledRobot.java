@@ -158,15 +158,15 @@ public class TwoWheeledRobot extends EASSVehicle {
 		} else if (act.getFunctor().equals("substitute_in_plans")) {
 			// This finds a new capability in the agents plans if the current capability has failed.
 			// This code should probably appear elsewhere in the Capability or Plan classes.
-			Predicate capname = (Predicate) act.getTerm(0);
-			Predicate post = (Predicate) act.getTerm(1);
-			Predicate pre = (Predicate) act.getTerm(2);
+			Predicate capname = (Predicate) act.getTerm(1);
+			Predicate post = (Predicate) act.getTerm(0);
+			// Predicate pre = (Predicate) act.getTerm(2);
 			
 			AILAgent ag = getAgent();
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
 			Unifier u = new Unifier();
 			Capability oldcap = ag.getCL().getRelevant(capname).next();
-			Capability c = ag.getCL().findEquivalent(oldcap, pre, post, ag.getRuleBase(), u );
+			Capability c = ag.getCL().findEquivalent(oldcap, post, ag.getRuleBase(), u );
 			oldcap.apply(u);
 			while (plans.hasNext()) {
 				Plan p = plans.next();

@@ -87,8 +87,8 @@ bound(1)
 
 :Capabilities:
 {pos(X, Y), angle(Theta)} turn(A) {pos(X, Y), sum(Theta, A, NA), angle(NA)}
-{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}
-{true} feedback(X, Y) {pos(X, Y)}
+{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {reached_target(NX, NY), angle(Theta)}
+{target(X, Y)} feedback(X, Y) {reached_target(X, Y)}
 
 :Initial Goals:
 
@@ -96,13 +96,14 @@ bound(1)
 
 +new_target(X, Y): {True} <- 
 	     remove_shared(new_target(X, Y)),
-         +target(X, Y),
-	     +! pos(X, Y) [perform],
+             +target(X, Y),
+	     +! get_to_pos(X, Y) [perform],
 	     remove_shared(reached_target(X, Y)),
-         -target(X, Y);
-+! pos(X, Y) [perform]: {True} <-
-   	     +! correct_angle(A) [perform],
-	     +! move(D) [perform];
+             -target(X, Y);
+
++! get_to_pos(X, Y) [perform]: {True} <-
+   	     +! align [perform],
+	     +! reached_target(X, Y) [achieve];
 
 +!correct_angle(A) [perform] : {True} <-
 	     .query(calculate_angle(A)),
@@ -110,16 +111,13 @@ bound(1)
 	     *turned,
 	     remove_shared(turned);
 
-+! move(D) [perform] : {True} <-    
++! reached_target(X, Y) [achieve] : {~B failed(forward)} <-    
 	     .query(calculate_distance(D)),
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(pos(A, B), forward(D1), true) [perform];
+	     +!evaluate_success(reached_target(X, Y), forward) [perform];
 	     
-+!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {B reached_target(X, Y)} <- -failed(Cap, Post, PreC), +success(Cap);
-+!evaluate_success(pos(X, Y), Cap, Pre) [perform] : {~B reached_target(X, Y)} <- -success(Cap), +failed(Cap, pos(X, Y), Pre);
++!evaluate_success(Post, Cap) [perform] : {B Post};
++!evaluate_success(Post, Cap) [perform] : {~B Post} <- substitute_in_plans(Post, Cap);
 			  
-+failed(Cap, Post, Pre) : {True} <-
-	     substitute_in_plans(Cap, Post, Pre);
-

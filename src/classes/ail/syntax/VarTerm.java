@@ -201,7 +201,7 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
         		Term vl = u.get(this);
         		
         		setValue(vl);
-        		return vl.apply(u);
+        		return true;
         	} else {
         		return getValue().apply(u);
         	}

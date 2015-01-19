@@ -111,7 +111,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	 * @param u
 	 * @return
 	 */
-	public Capability findEquivalent(Capability oldcap, Predicate Pre, Predicate Post, RuleBase rb, Unifier u) {
+	public Capability findEquivalent(Capability oldcap, Predicate Post, RuleBase rb, Unifier u) {
 		Predicate capname = oldcap.getCap();
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
@@ -121,19 +121,24 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 			
 			Capability c = l.get(0);
 			
+			Capability cc = (Capability) c.clone();
+			cc.standardise_apart(oldcap, u, oldcap.getVarNames());
 			// NB we are assuming that capability names are unique here (give or take)
-			if (c != capMap.get(pi).get(0)) {
+
+			if (cc != capMap.get(pi).get(0)) {
 			
 				// We check first the preconditions.  Only tests with trivial preconditions.
 				EvaluationBasewNames<PredicateTerm> eb = 
-	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(c.getPre()), "precondition");
-				GBelief gb = new GBelief(Pre);
-				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), Pre.getVarNames());
+	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPre()), "precondition");
+				
+				// NB. This needs to be generalised to GLogical Formulae in some way.
+				GBelief gb = (GBelief) cc.getPre();
+				
+				// The preconditions of the new capability are implied by the preconditions of the old capability
+				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames());
 
 				if (preuni.hasNext()) {
 				
-					Capability cc = (Capability) c.clone();
-					cc.standardise_apart(oldcap, u, oldcap.getVarNames());
 					u.compose(preuni.next());
 					
 					// Then we check postconditions.

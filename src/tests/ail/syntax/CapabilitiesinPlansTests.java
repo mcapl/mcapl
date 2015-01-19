@@ -88,7 +88,7 @@ public class CapabilitiesinPlansTests {
 		EASSLexer cap1_lexer = new EASSLexer(new ANTLRStringStream("{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}"));		
 		CommonTokenStream cap1_tokens = new CommonTokenStream(cap1_lexer);
 		EASSParser cap1_parser = new EASSParser(cap1_tokens);
-		EASSLexer cap2_lexer = new EASSLexer(new ANTLRStringStream("{true} feedback(X, Y) {pos(X, Y)}"));
+		EASSLexer cap2_lexer = new EASSLexer(new ANTLRStringStream("{target(X, Y)} feedback(X, Y) {pos(X, Y)}"));
 		CommonTokenStream cap2_tokens = new CommonTokenStream(cap2_lexer);
 		EASSParser cap2_parser = new EASSParser(cap2_tokens);
 		EASSLexer plan_lexer = new EASSLexer(new ANTLRStringStream("+! move(D) [perform] : {True} <-  .query(calculate_distance(D)), perf(forward(D)),  *moved, remove_shared(moved), +!evaluate_success(pos(A, B), forward(D1), true) [perform];"));
@@ -110,7 +110,7 @@ public class CapabilitiesinPlansTests {
 			post.addTerm(new VarTerm("B"));
 			
 			Unifier u = new Unifier();
-			Capability c = a.getCL().findEquivalent(cap1, Predicate.PTrue, post, a.getRuleBase(), u);
+			Capability c = a.getCL().findEquivalent(cap1, post, a.getRuleBase(), u);
 			Assert.assertTrue(c.getCap().unifies(cap2.getCap(), new Unifier()));
 			
 			cap1.apply(u);
@@ -124,10 +124,7 @@ public class CapabilitiesinPlansTests {
 				// newplan.apply(u);
 				newplan.resolveVarsClusters();
 				ArrayList<Deed> deeds = newplan.getBody();
-				Deed poscheck = deeds.get(6);
-				Literal pos = (Literal) poscheck.getContent();
-				VarTerm x = (VarTerm) pos.getTerms().get(0);
-				Assert.assertTrue(x.getFunctor().equals("X"));
+
 				Deed target = deeds.get(4);
 				Literal tg = (Literal) target.getContent();
 				VarTerm notx = (VarTerm) tg.getTerms().get(0);
