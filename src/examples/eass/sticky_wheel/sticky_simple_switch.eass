@@ -77,7 +77,8 @@ bound(1)
 	     forward(D),
 	     assert_shared(moved);
 +!feedback(X, Y) [perform] : {True} <-
-		feedback_control(X, Y);
+		feedback_control(X, Y),
+		assert_shared(moved);
 
 :name: sticky
 
@@ -105,7 +106,7 @@ bound(1)
    	     +! align [perform],
 	     +! reached_target(X, Y) [achieve];
 
-+!correct_angle(A) [perform] : {True} <-
++! align [perform] : {True} <-
 	     .query(calculate_angle(A)),
 	     perf(turn(A)),
 	     *turned,
@@ -116,7 +117,7 @@ bound(1)
 	     perf(forward(D)),
 	     *moved,
 	     remove_shared(moved),
-	     +!evaluate_success(reached_target(X, Y), forward) [perform];
+	     +!evaluate_success(reached_target(X1, Y1), forward(D1)) [perform];
 	     
 +!evaluate_success(Post, Cap) [perform] : {B Post};
 +!evaluate_success(Post, Cap) [perform] : {~B Post} <- substitute_in_plans(Post, Cap);
