@@ -37,7 +37,6 @@ import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTermImpl;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -489,6 +488,24 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     	return this;
     }
    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	
+    	for (int i = 0; i < getTermsSize(); i++) {
+    		try{
+     			setTerm(i, getTerm(i).resolveVarsClusters());
+    		} catch (Exception  e) {
+    			System.err.println(this); System.err.println(i);
+    		}
+   	}
+    	
+    	return this;
+    }
+
+    
     /**
      * Assuming we are not higher order here!
      */
@@ -559,8 +576,6 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 */
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
-	}
-
-       
+	}       
 
 }

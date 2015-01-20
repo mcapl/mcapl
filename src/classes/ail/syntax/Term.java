@@ -93,5 +93,7 @@ public interface Term extends  Unifiable, MCAPLTerm {
      * @return
      */
     public Term strip_varterm();
+    
+    public Term resolveVarsClusters();
         	      
 }

@@ -28,14 +28,22 @@ import ail.syntax.NumberTermImpl;
 
 import java.io.PrintStream;
 
+/**
+ * Encapsulation of an Ultrasonic Sensor to be used with an EASS environment.
+ * @author louiseadennis
+ *
+ */
 public class EASSUltrasonicSensor extends UltrasonicSensor implements EASSSensor {
 	PrintStream out = System.out;
 	
 	public EASSUltrasonicSensor(NXTBrick brick, int i) {
 		super(brick.getSensorPort(i), brick.getNXTCommand());
-	//	continuous();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.nxt.EASSSensor#addPercept(eass.mas.nxt.EASSNXTEnvironment)
+	 */
 	public void addPercept(EASSNXTEnvironment env) {
 		ping();
 		int distancevalue = getDistance();
@@ -45,6 +53,10 @@ public class EASSUltrasonicSensor extends UltrasonicSensor implements EASSSensor
 		env.addUniquePercept("distance", distance);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.nxt.EASSSensor#setPrintStream(java.io.PrintStream)
+	 */
 	public void setPrintStream(PrintStream s) {
 		out = s;
 	}

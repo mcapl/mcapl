@@ -236,6 +236,17 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
+     * Unsuspend the intention if it's condition is met by the new belief
+     * @param beliefcondition
+     */
+    public void unsuspendFor(Predicate beliefcondition) {
+    	if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
+    		suspendedfor = null;
+    		unsuspend();
+    	}
+    }
+
+    /**
      * Unsuspend the intention if it's condition met by the changes in perception
      * @param newbeliefs
      * @param oldbeliefs
@@ -243,7 +254,8 @@ public class Intention implements Comparable<Intention>{
     public void unsuspendFor(Set<Predicate> newbeliefs, Set<Literal> oldbeliefs) {
     	if (suspended) {
     		for (Predicate p: newbeliefs) {
-    			unsuspendFor((Literal ) p);
+    			System.err.println(p);
+    			unsuspendFor(p);
     		}
     	}
     	if (suspended) {

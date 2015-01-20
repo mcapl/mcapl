@@ -486,4 +486,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.strip_varterm(), (StringTerm) msgId.strip_varterm(), (StringTerm)  threadId.strip_varterm());
 	}
 	
+	public Unifiable resolveVarsClusters() {
+		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.resolveVarsClusters(), (StringTerm) msgId.resolveVarsClusters(), (StringTerm)  threadId.resolveVarsClusters());
+	}
+
 }

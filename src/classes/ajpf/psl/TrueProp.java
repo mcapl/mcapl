@@ -47,6 +47,10 @@ public class TrueProp extends Proposition {
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.Proposition#check(java.util.Set)
+	 */
 	public boolean check(Set<Proposition> props) {
 		return true;
 	}
@@ -103,6 +107,10 @@ public class TrueProp extends Proposition {
 		return(props);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 11;
 	}

@@ -44,6 +44,7 @@ import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
+import ail.syntax.CapabilityLibrary;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
@@ -60,6 +61,7 @@ import ail.syntax.ApplicablePlan;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
+import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
 
 import ajpf.util.VerifyMap;
@@ -176,6 +178,11 @@ public class AILAgent implements MCAPLLanguageAgent {
     protected List<String> context = new ArrayList<String>();
     
     /**
+     * The agent's capabilities.  Not used operationally at present.
+     */
+    protected CapabilityLibrary cl = new CapabilityLibrary();
+    
+    /**
      * The reasoning cycle used by the agent.  AIL itself provides no classes
      * that implement this interface.
      */
@@ -255,6 +262,11 @@ public class AILAgent implements MCAPLLanguageAgent {
      * The default Constraint Library name for AIL;
      */
     public static final String AILdefaultCLname = "";
+    
+    /**
+     * The default Capability Base name for AIL;
+     */
+    public static final String AILdefaultCBname = "";
     
     /*
      * The default belief base name for this agent;
@@ -724,6 +736,14 @@ public class AILAgent implements MCAPLLanguageAgent {
 		getPL().add(p);
 	}
 	
+	/**
+	 * Remove a plan from the plan Library.
+	 * @param p
+	 */
+	public void removePlan(Plan p) {
+		getPL().remove(p);
+	}
+	
 	//--- Applicable Plans
 
 	/**
@@ -771,7 +791,25 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-   
+	
+	//--- Capabilities
+	
+	/**
+	 * Return the capability library.
+	 * @return
+	 */
+	public CapabilityLibrary getCL() {
+		return cl;
+	}
+	
+	/**
+	 * Add a capability.
+	 * @param c
+	 */
+	public void addCap(Capability c) {
+		getCL().add(c);
+	}
+	   
 	//--- Constraints
 	
 	/**
@@ -953,7 +991,7 @@ public class AILAgent implements MCAPLLanguageAgent {
  	 * @param msgs
  	 */
  	public void setInbox(List<Message> msgs) {
- 		Inbox = msgs;
+  		Inbox = msgs;
  	}
  	
 	/**
@@ -963,6 +1001,11 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void newMessages(Set<Message> msgs) {
 		Inbox.addAll(msgs);
+		// This seems pointless but improves state matching in model checking.
+		// Otherwise the Inbox is represented as an array list of nulls.
+		if (Inbox.isEmpty()) {
+			clearInbox();
+		}
 	}
 	
 	/**
@@ -1632,7 +1675,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @return
 	 */
 	public boolean goalEntails(Event e, Plan p, Unifier un) {
-		p.standardise_apart(e, un);
+		p.standardise_apart(e, un, Collections.<String>emptyList());
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 
@@ -1704,7 +1747,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *
 	 */
 	public void sleep() {
-		AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		}
 		RC.setStopandCheck(true);
 		wanttosleep = true;
 	}

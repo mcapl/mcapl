@@ -113,10 +113,7 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	protected MCAPLScheduler scheduler;
 	
-	/*
-	 * Logname
-	 */
-	public String logname = "ail.mas.DefaultEnvironment";
+	String logname = "ail.mas.DefaultEnvironment";
 	
 	/**
 	 * Create a new Default Environment and set the scheduler as an Action Scheduler.
@@ -148,7 +145,6 @@ public class DefaultEnvironment implements AILEnv {
 	 * @param l
 	 */
 	public void addPerceptListener(PerceptListener l) {
-		System.err.println("adding percept listener " + l);
 		if (perceptListeners == null) {
 			perceptListeners = new ArrayList<PerceptListener>();
 		}
@@ -244,7 +240,9 @@ public class DefaultEnvironment implements AILEnv {
 	   		System.out.println(agentmap.get(agName).toString());
 	   	} 
  
-	   	AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
+	   	if (AJPFLogger.ltInfo(logname)) {
+	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   	}
 	   	
 	   	return (u);
     }
@@ -405,7 +403,6 @@ public class DefaultEnvironment implements AILEnv {
   	 * @return
   	 */
   	public boolean removePercept(Predicate per) {
-  		System.err.println("test");
   		if (per != null) {
   			uptodateAgs.clear();
   			boolean b =  percepts.remove(per);
@@ -582,7 +579,7 @@ public class DefaultEnvironment implements AILEnv {
 					s.append(l.toString()).append(", ");
 				}
 			}
-			// percepts.toString();
+			percepts.toString();
 		
 			s.append("\nAgent Percepts:\n");
 			for (String sAg : agPercepts.keySet()) {

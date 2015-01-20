@@ -24,18 +24,14 @@
 
 package ajpf.psl;
 
-import java.util.List;
-
-
+/**
+ * A class for predicate terms that appear in properties.
+ * @author louiseadennis
+ *
+ */
 public class MCAPLPredicate extends MCAPLTermImpl implements MCAPLFormula {
 
     public MCAPLPredicate(String functor) {
         this.functor = functor;
     }
-
-    public boolean isAtom() {
-		return getTerms().isEmpty();
-	}
-    
-	
 }

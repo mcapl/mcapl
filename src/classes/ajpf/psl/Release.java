@@ -136,6 +136,10 @@ public class Release implements MCAPLProperty {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return hashcode;
 	}
@@ -309,9 +313,29 @@ public class Release implements MCAPLProperty {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLProperty p) {
-		return (this.toString().compareTo(p.toString()));
+		if (p instanceof Release) {
+			int compInl = getFmla1().compareTo(((Release) p).getFmla1());
+			if (compInl == 0) {
+				return getFmla2().compareTo(((Release) p).getFmla2());
+			} else {
+				return compInl;
+			}
+		} else {
+			int myq = quickCompareVal();
+			int pq = p.quickCompareVal();
+		
+			if (myq < pq) {
+				return -1;
+			} else {
+				return 1;
+			}
+		} 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 15;
 	}

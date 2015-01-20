@@ -28,12 +28,21 @@ import java.io.PrintStream;
 import ail.syntax.Literal;
 import lejos.nxt.TouchSensor;
 
+/**
+ * Encapsulation of a Touch sensor to be used with an EASS environment.
+ * @author louiseadennis
+ *
+ */
 public class EASSTouchSensor extends TouchSensor implements EASSSensor {
 	
 	public EASSTouchSensor(NXTBrick brick, int i) {
 		super(brick.getSensorPort(i));
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.nxt.EASSSensor#addPercept(eass.mas.nxt.EASSNXTEnvironment)
+	 */
 	public void addPercept(EASSNXTEnvironment env) {
 		boolean bumped = isPressed();
 		if (bumped) {

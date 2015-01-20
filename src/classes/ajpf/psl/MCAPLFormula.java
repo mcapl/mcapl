@@ -39,8 +39,6 @@ public interface MCAPLFormula extends MCAPLTerm {
 	 * @return a new, identical, formula.
 	 */
 	public Object clone();
-	
- //   public boolean isAtom();
 
 
 }

@@ -32,7 +32,8 @@ import gov.nasa.jpf.util.test.TestJPF;
 import gov.nasa.jpf.util.TypeRef;
 
 /**
- * regression test for programming-by-contract annotations
+ * Regresssion test of various properties using the Rescue Robots as an example problem.
+ * Split over several files since JPF was having problems executing multiple tests in one file.
  */
 public class RescueBTests extends TestJPF {
 

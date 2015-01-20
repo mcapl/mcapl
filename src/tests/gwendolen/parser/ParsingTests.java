@@ -45,7 +45,7 @@ import ail.syntax.Plan;
 import gwendolen.syntax.ast.Abstract_GPlan;
 
 /**
- * Tests that the parser works correctly.
+ * Tests that the Gwendolen parser works correctly.
  * @author louiseadennis
  *
  */

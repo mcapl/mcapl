@@ -278,6 +278,10 @@ public class MAS implements MCAPLmas {
     	 return controller;
      }
      
+     /*
+      * (non-Javadoc)
+      * @see ajpf.MCAPLmas#setController(ajpf.MCAPLcontroller)
+      */
      public void setController(MCAPLcontroller mc) {
     	 controller = mc;
      }

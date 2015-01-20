@@ -25,8 +25,22 @@ package eass.mas.nxt;
 
 import java.io.PrintStream;
 
+/**
+ * Interface for a sensor that encapsulates an NXT robot sensor and whic
+ * can be used within an EASS environment.
+ * @author louiseadennis
+ *
+ */
 public interface EASSSensor {
+	/**
+	 * Add a percept to this sensor.
+	 * @param env
+	 */
 	public void addPercept(EASSNXTEnvironment env);
 	
+	/**
+	 * Set the printstream where values from this sensor should be displayed.
+	 * @param o
+	 */
 	public void setPrintStream(PrintStream o);
 }

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ajpf.util.VerifyMap;
+import ajpf.util.AJPFLogger;
 
 /**
  * Unifiers for formulas.  Very similar to the Jason Unifier class by Rafael
@@ -283,10 +284,11 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             Term t2vl = function.get(t2gv);
 
             // if the variable value is a var cluster, it means it has no value
+            // Correctly updating VarsClusters is handled by setVarValue 
             if (t1vl instanceof VarsCluster)
                 t1vl = null;
             if (t2vl instanceof VarsCluster)
-                t2vl = null;
+            	t2vl = null;
 
             // both has value, their values should unify
             if (t1vl != null && t2vl != null) {
@@ -307,12 +309,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             	VarTerm t1c = (VarTerm) t1gv.clone();
                 VarTerm t2c = (VarTerm) t2gv.clone();
                 VarsCluster cluster = new VarsCluster(t1c, t2c, this);
-                if (cluster.hasValue()) {
-                    // all vars of the cluster should have the same value
-                    for (VarTerm vtc : cluster) {
-                        function.put(vtc, cluster);
-                    }
-                }
+                updateWithVarsCluster(cluster);
+                // ?
+                return true;
             }
             return true;
         }
@@ -348,6 +347,22 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
         // if any of the terms is not a structure (is a number or a
         // string), they must be equal
         if (!t1g.isPredicate() || !t2g.isPredicate()) {
+        	if (t1g instanceof VarTerm && ((VarTerm) t1g).getValue() instanceof VarsCluster) {
+        		VarsCluster cl = (VarsCluster) ((VarTerm) t1g).getValue();
+        		if (t2g instanceof VarsCluster) {
+        			// DO SOMETHING HERE
+        			AJPFLogger.warning(logname, "Warning unifying two vars clusters");
+        		} else {
+        			if (cl.hasValue()) {
+        				return cl.equals(t2g);
+        			} else {
+        				cl.setValue(t2g);
+        				compose(cl.getVarUnifier());
+        				return true;
+        			}
+        		}
+        		
+        	}
          	return t1g.equals(t2g);
         	
         }
@@ -410,6 +425,18 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
         }
         return true;
     }
+    
+    /**
+     * When two variables are unified they create a vars cluster.  It is then necessary to make sure all variables
+     * unified by the cluster are mapped to the cluster by the unifier.  Assumes this is the unifier associated with
+     * the vars cluster.
+     * @param cluster
+     */
+    public void updateWithVarsCluster(VarsCluster cluster) {
+        for (VarTerm vtc : cluster) {
+            function.put(vtc, cluster);
+        }    	
+    }
 
     /**
      * Unify two logical terms.  We assume t1g is ground.
@@ -434,9 +461,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             // if t1g is not free, must unify values
             Term t2vl = function.get(t2gv);
             if (t2vl != null && !(t2vl instanceof VarsCluster)) {
-                return matches(t1g, t2vl);
+            	return matches(t1g, t2vl);
             } else {
-                return setVarValue(t2gv, t1g);
+            	return setVarValue(t2gv, t1g);
             } 
         }
 
@@ -518,6 +545,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             }
         } else {
             // no value in cluster
+        	if (value instanceof VarsCluster) {
+        		((VarsCluster) value).add(vt);
+        	}
             function.put((VarTerm) vt.clone(), (Term) value.clone());
         }
         return true;
@@ -552,22 +582,35 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      */
     public void compose(Unifier u) {
         for (VarTerm k: u.function.keySet()) {
-        	if (! function.keySet().contains(k) ) { // || function.get(k) instanceof VarsCluster) {
+        	if (! function.keySet().contains(k) ) { 
+        		// k does not appear in this unifier.  Easypeasy solution.
         		function.put( (VarTerm)k.clone(), (Term)u.function.get(k).clone());
         	} else  {
         		Term t1 = u.get(k);
         		Term t2 = get(k);
         		if (t1 instanceof VarsCluster) {
         			if (t2 instanceof VarsCluster) {
+        				// Both unifiers associate k with a VarsCluster
         				for (VarTerm v: (VarsCluster) t2) {
-         					function.put(v, t1);
+        					// For every variable in this cluster.
+        					if (!((VarsCluster) t1).contains(v)) {
+        						// If the other unifier doesn't already include it in the Cluster.
+        						// Unify the two variables in the other unifier and then compose with the result.
+        						Unifier uc = u.clone();
+        						uc.unifies(v, k);
+        						compose(uc);
+        					}
         				}
         			} else {
+        				// The other unifier associates k with a vars cluster, the other does not.  So we unify k in the other unifier
+        				// with the value from this and then compose with this new unifier.
         				Unifier uc = u.clone();
         				uc.unifies(k, t2);
         				compose(uc);
         			}
         		} else if (t2 instanceof VarsCluster) {
+    				// This unifier associates k with a vars cluster, the other does not.  So we unify k with the value in the 
+    				// other unifier which will in turn unify all the other vars in the cluster with that unifier.
         			unifies(t1, k);
         		} else {
         			// we assume if neither are vars clusters we can throw away the oldest version.
@@ -685,20 +728,6 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     		function.remove(v1);
     	}
     }
-
-    /**
-     * Return all varClusters in this unifier.
-     * @return
-     */
-   // public Unifier varClusters() {
-   // 	Unifier u = new Unifier();
-   // 	for (VarTerm v: function.keySet()) {
-   // 		if (get(v) instanceof VarsCluster) {
-   // 			u.setVarValue(v, get(v));
-   // 		}
-   // 	}
-   // 	return u;
-  //  }
     
     /**
      * Unify two logical terms.  We assume t1g is not to be unified but may contain variables.
@@ -725,9 +754,9 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
 
             // if the variable value is a var cluster, it means it has no value
             if (t1vl instanceof VarsCluster)
-                t1vl = null;
+            	t1vl = null;
             if (t2vl instanceof VarsCluster)
-                t2vl = null;
+            	t2vl = null;
 
             // both have value, their values should unify
             if (t1vl != null && t2vl != null) {
@@ -748,12 +777,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             	VarTerm t1c = (VarTerm) t1gv.clone();
                 VarTerm t2c = (VarTerm) t2gv.clone();
                 VarsCluster cluster = new VarsCluster(t1c, t2c, this);
-                if (cluster.hasValue()) {
-                    // all vars of the cluster should have the same value
-                    for (VarTerm vtc : cluster) {
-                        function.put(vtc, cluster);
-                    }
-                }
+                updateWithVarsCluster(cluster);
+                return true;
             }
             return true;
         }
@@ -880,20 +905,4 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     	return varnames;
     }
 
-    /**
-     * Method for working with MJI.  
-     */
-    // NOT USED WORK IN PROGRESS
-    public Term[] mapToArray() {
-    	int array_size = size()*2;
-    	Term[] array = new Term[array_size];
-    	int i = 0;
-    	for (VarTerm v : function.keySet()) {
-    		array[i] = v;
-    		i++;
-    		array[i] = function.get(v);
-    		i++;
-    	}
-    	return array;
-    }
 }

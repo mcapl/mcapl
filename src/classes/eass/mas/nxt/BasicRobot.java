@@ -28,6 +28,12 @@ import java.util.ArrayList;
 
 import lejos.robotics.navigation.DifferentialPilot;
 
+/**
+ * A class that encapsulates a basic Lego Robot that is running leJOS on the
+ * hardward.
+ * @author louiseadennis
+ *
+ */
 public class BasicRobot implements LegoRobot {
 	NXTBrick brick;
 	DifferentialPilot pilot;
@@ -38,21 +44,40 @@ public class BasicRobot implements LegoRobot {
 	EASSSensor sensor3;
 	EASSSensor sensor4;
 	
+	/**
+	 * Construct the robot from a name and the Bluetooth address.
+	 * @param name
+	 * @param address
+	 */
 	public BasicRobot(String name, String address) {
 		brick = new NXTBrick(name, address);
 	}
 	
+	/**
+	 * Does the robot have a pilot?
+	 */
 	public boolean hasPilot() {
 		return haspilot;
 	}
+	
+	/**
+	 * Set a pilot for the robot.
+	 */
 	public void setPilot(DifferentialPilot npilot) {
 		pilot = npilot;
 		haspilot = true;
 	}
+	
+	/**
+	 * Get the robot's pilot.
+	 */
 	public DifferentialPilot getPilot() {
 		return pilot;
 	}
 
+	/**
+	 * Add a sensor to a particular port on the robot.
+	 */
 	public void setSensor(int portnumber, EASSSensor sensor) {
 		if (portnumber == 1) {
 			sensor1 = sensor;
@@ -69,7 +94,11 @@ public class BasicRobot implements LegoRobot {
 
 	}
 	
-	
+	/**
+	 * Get the sensor for port portnumber.
+	 * @param portnumber
+	 * @return
+	 */
 	public EASSSensor getSensor(int portnumber) {
 		if (portnumber == 1) {
 			return sensor1;
@@ -87,6 +116,9 @@ public class BasicRobot implements LegoRobot {
 		return null;
 	}
 	
+	/**
+	 * Get all the sensors.
+	 */
 	public ArrayList<EASSSensor> getSensors() {
 		ArrayList<EASSSensor> sensors = new ArrayList<EASSSensor>();
 		
@@ -105,20 +137,32 @@ public class BasicRobot implements LegoRobot {
 		return sensors;
 	}
 	
+	/**
+	 * Add a percept.
+	 */
 	public void addPercepts(EASSNXTEnvironment env) {
 		for (EASSSensor sensor: getSensors()) {
 			sensor.addPercept(env);
 		}
 	}
 	
+	/**
+	 * Get the underlying NXT Brick.
+	 */
 	public NXTBrick getBrick() {
 		return brick;
 	}
 	
+	/**
+	 * Is this program actually connected to a physical robot?
+	 */
 	public boolean isConnected() {
 		return getBrick().isConnected();
 	}
 	
+	/**
+	 * Close the connection to the robot.
+	 */
 	public void close() {
 		brick.close();
 	}
