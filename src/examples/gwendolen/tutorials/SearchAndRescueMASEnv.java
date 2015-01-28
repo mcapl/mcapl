@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis and Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis and Michael Fisher 
 // 
 // This file is part of Gwendolen
 //
@@ -47,9 +47,12 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 	double human1_x = 5;
 	double human1_y = 5;
 	
+	double human2_x = 3;
+	double human2_y = 4;
+
 	double rubble2_x = 3;
 	double rubble2_y = 4;
-			
+
 	double allclear_x = 0;
 	double allclear_y = 0;
 
@@ -59,6 +62,9 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 	double robot2_x = 0;
 	double robot2_y = 0;
 	
+	double robot3_x = 0;
+	double robot3_y = 0;
+
 	boolean robot_rubble1 = false;
 	boolean robot_rubble2 = false;
 		
@@ -86,14 +92,22 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 				robot1_y = y;
 				new_robot_x = x;
 				new_robot_y = y;
-			} else {
+			} else if (agName.equals("medic")) {
 				robot_x = robot2_x;
 				robot_y = robot2_y;
 				robot2_x = x;
 				robot2_y = y;
 				new_robot_x = x;
 				new_robot_y = y;
+			} else {
+				robot_x = robot3_x;
+				robot_y = robot3_y;
+				robot3_x = x;
+				robot3_y = y;
+				new_robot_x = x;
+				new_robot_y = y;
 			}
+
 			
 			old_pos.addTerm(new NumberTermImpl(robot_x));
 			old_pos.addTerm(new NumberTermImpl(robot_y));
@@ -122,6 +136,14 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 				Predicate rubble = new Predicate("human");
 				rubble.addTerm(new NumberTermImpl(human1_x));
 				rubble.addTerm(new NumberTermImpl(human1_y));
+						
+				addPercept(agName, rubble);
+			}
+
+			if (new_robot_y == human2_y && new_robot_x == human2_x ) {
+				Predicate rubble = new Predicate("human");
+				rubble.addTerm(new NumberTermImpl(human2_x));
+				rubble.addTerm(new NumberTermImpl(human2_y));
 						
 				addPercept(agName, rubble);
 			}
@@ -196,6 +218,33 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 						Predicate rubble = new Predicate("human");
 						rubble.addTerm(new NumberTermImpl(human1_x));
 						rubble.addTerm(new NumberTermImpl(human1_y));
+					
+						removePercept(agName, rubble);
+					}
+				} else if (robot2_x == human2_x) {
+					if (robot2_y == human2_y) {
+						Predicate rubble = new Predicate("human");
+						rubble.addTerm(new NumberTermImpl(human2_x));
+						rubble.addTerm(new NumberTermImpl(human2_y));
+					
+						removePercept(agName, rubble);
+					}
+				} 
+
+			} else if (agName.equals("medic2")) {
+				if (robot3_x == human1_x) {
+					if (robot3_y == human1_y) {
+						Predicate rubble = new Predicate("human");
+						rubble.addTerm(new NumberTermImpl(human1_x));
+						rubble.addTerm(new NumberTermImpl(human1_y));
+					
+						removePercept(agName, rubble);
+					}
+				} else if (robot3_x == human2_x) {
+					if (robot3_y == human2_y) {
+						Predicate rubble = new Predicate("human");
+						rubble.addTerm(new NumberTermImpl(human2_x));
+						rubble.addTerm(new NumberTermImpl(human2_y));
 					
 						removePercept(agName, rubble);
 					}
