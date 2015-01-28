@@ -25,7 +25,6 @@ mas.agent.1.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_ma
 mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
 mas.agent.2.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2_medic.gwen
 mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
-mas.agent.2.name = medic
 mas.agent.3.file = /src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2_medic.gwen
 mas.agent.3.builder = gwendolen.GwendolenAgentBuilder
 mas.agent.3.name = nurse
