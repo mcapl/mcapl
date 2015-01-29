@@ -30,7 +30,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
 import ail.util.AILexception;
-import ajpf.util.AJPFLogger;
 
 /**
  * This is a simple class representing a search and rescue environment on a grid.  For use 
@@ -68,6 +67,10 @@ public class SearchAndRescueMASEnv extends DefaultEnvironment {
 	boolean robot_rubble1 = false;
 	boolean robot_rubble2 = false;
 		
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
+	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
 		
