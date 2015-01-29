@@ -36,3 +36,5 @@
 7: <>(D(medic, assist))
 
 8: <>(D(nurse, assist))
+
+9: <>(B(arithmetic, sum(6)) & B(arithmetic, times(250)))
