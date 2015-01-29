@@ -12,10 +12,10 @@
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
-	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/std_msgs/0.5.8/std_msgs-0.5.8.jar"/>
-	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/control_msgs/1.2.0/control_msgs-1.2.0.jar"/>
-	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/geometry_msgs/1.10.6/geometry_msgs-1.10.6.jar"/>
-	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_bootstrap/message_generation/0.2.0/message_generation-0.2.0.jar"/>
-	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_core/rosjava/0.2.0/rosjava-0.2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_messages/share/maven/org/ros/rosjava_messages/std_msgs/0.5.8/std_msgs-0.5.8.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_messages/share/maven/org/ros/rosjava_messages/control_msgs/1.2.0/control_msgs-1.2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_messages/share/maven/org/ros/rosjava_messages/geometry_msgs/1.10.6/geometry_msgs-1.10.6.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_bootstrap/share/maven/org/ros/rosjava_bootstrap/message_generation/0.2.0/message_generation-0.2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_core/share/maven/org/ros/rosjava_core/rosjava/0.2.0/rosjava-0.2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
