@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package eass.sticky_wheel;
+package eass.sticky_wheel.java_simulator;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -46,6 +46,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+
 
 import ail.mas.AIL;
 import ail.mas.MAS;

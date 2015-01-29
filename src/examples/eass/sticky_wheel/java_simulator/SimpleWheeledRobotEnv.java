@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package eass.sticky_wheel;
+package eass.sticky_wheel.java_simulator;
 
 import ail.mas.ActionScheduler;
 import eass.mas.vehicle.EASSVehicleEnvironment;

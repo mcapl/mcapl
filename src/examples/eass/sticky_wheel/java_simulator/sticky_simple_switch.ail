@@ -22,6 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.sticky_wheel.SimpleWheeledRobotEnv
+env = eass.sticky_wheel.java_simulator.SimpleWheeledRobotEnv
 mas.file = /src/examples/eass/sticky_wheel/sticky_simple_switch.eass
 mas.builder = eass.EASSMASBuilder

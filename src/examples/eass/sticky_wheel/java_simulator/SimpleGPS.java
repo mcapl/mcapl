@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.sticky_wheel;
+package eass.sticky_wheel.java_simulator;
 
 import java.util.ArrayList;
 import java.util.List;

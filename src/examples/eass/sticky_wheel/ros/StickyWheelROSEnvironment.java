@@ -1,67 +1,19 @@
-// ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher 
-// 
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
-// 
-// The EASS Library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 3 of the License, or (at your option) any later version.
-// 
-// The EASS Library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-// Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public
-// License along with the EASS Library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-// 
-// To contact the authors:
-// http://www.csc.liv.ac.uk/~lad
-//
-//----------------------------------------------------------------------------
-package eass.sticky_wheel;
+package eass.sticky_wheel.ros;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
 
-import eass.mas.vehicle.EASSVehicle;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
-import ail.syntax.Predicate;
-import ail.syntax.Unifier;
+import ail.syntax.Capability;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
-import ail.syntax.Capability;
 import ail.syntax.Plan;
+import ail.syntax.Predicate;
+import ail.syntax.Unifier;
 import ail.util.AILexception;
-import ail.mas.vehicle.Sensor;
+import eass.mas.ros.EASSROSEnvironment;
 
-/**
- * A TwoWheeledRobot represents the control system for a two-wheeled robot.  It implements the EASSVehicle class and exists in 
- * a larger environment which reports the outcomes of the control system.
- * @author lad
- *
- */
-public class TwoWheeledRobot extends EASSVehicle {
-	double motor1power = 0;
-	double motor2power = 0;
-	SimpleGPS gps = new SimpleGPS();
-		
-	/**
-	 * A Two wheeled robot use a gps sensor for position and orientation information and a "start sensor" to get information 
-	 * about user commands from the interface.
-	 * @param a
-	 */
-	public TwoWheeledRobot(AILAgent a) {
-		addAgent(a);
-		a.setEnv(this);
-		addSensor(new startSensor());
-		addSensor(gps);
-	}
-	
+public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#executeAction(java.lang.String, ail.syntax.Action)
@@ -183,110 +135,4 @@ public class TwoWheeledRobot extends EASSVehicle {
 		return super.executeAction(agName, act);
 	}
 	
-	/**
-	 * Standard maths for calculating a distance between two sets of coordinates.
-	 * @param cx
-	 * @param cy
-	 * @param tx
-	 * @param ty
-	 * @return
-	 */
-	private double calculatedistance(double cx, double cy, double tx, double ty) {
-		double xdiff = cx - tx;
-		double ydiff = cy - ty;
-		return Math.sqrt(xdiff*xdiff + ydiff*ydiff);
-	}
-	
-	/**
-	 * Setter for the power of motor 1.
-	 * @param d
-	 */
-	public void setMotor1Power(double d) {
-		motor1power = d;
-	}
-
-	/**
-	 * Setter for the power of motor 2.
-	 * @param d
-	 */
-	public void setMotor2Power(double d) {
-		motor2power = d;
-	}
-	
-	/**
-	 * Getter for the power of motor 1.
-	 * @return
-	 */
-	public double getMotor1Power() {
-		return motor1power;
-	}
-	
-	/**
-	 * Getter for the power of motor 2.
-	 * @return
-	 */
-	public double getMotor2Power() {
-		return motor2power;
-	}
-	
-	/**
-	 * A mechanism to get user commands from the interface, implemented as a sensor.
-	 * @author lad
-	 *
-	 */
-	public class startSensor implements Sensor {
-		// The sensor only ever contains one percept - the current vehicle target.
-		Predicate percept;
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Comparable#compareTo(java.lang.Object)
-		 */
-		public int compareTo(Sensor o) {
-			if (o instanceof startSensor) {
-				return 0;
-			} else {
-				return -1;
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see ail.mas.vehicle.Sensor#getPercepts()
-		 */
-		public List<Predicate> getPercepts() {
-			ArrayList<Predicate> percepts = new ArrayList<Predicate>();
-			if (percept != null) {
-				percepts.add(percept);
-			}
-			return percepts;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see ail.mas.vehicle.Sensor#addPercept(ail.syntax.Predicate)
-		 */
-		public void addPercept(Predicate l) {
-			// Basically the only thing this senses is the addition of new targets for the robot.
-			if (l.getFunctor().equals("target")) {
-				percept = l;
-			}
-			
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see ail.mas.vehicle.Sensor#removePercept(ail.syntax.Predicate)
-		 */
-		public void removePercept(Predicate l) {
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see ail.mas.vehicle.Sensor#clearPercepts()
-		 */
-		public void clearPercepts() {
-		}
-		
-	}
 }
