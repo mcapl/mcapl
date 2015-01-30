@@ -30,51 +30,33 @@ import org.ros.node.topic.Subscriber;
 import org.ros.node.topic.Publisher;
 import org.ros.concurrent.CancellableLoop;
 import sticky_wheel_msgs.ActionStatus;
-import sticky_wheel_msgs.PositionInfo;
+import sticky_wheel_msgs.TargetInfo;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 
 
-public class ManualControl extends AbstractNodeMain {
+public class TargetSettingNode extends AbstractNodeMain {
 
 	public GraphName getDefaultNodeName() {
-		return GraphName.of("human/fake_robot");
+		return GraphName.of("human/teleop");
 	}
 	
 	public void onStart(final ConnectedNode connectedNode) {
-		final Publisher<sticky_wheel_msgs.ActionStatus> actionPublisher =
-				connectedNode.newPublisher("human/actionStatus", sticky_wheel_msgs.ActionStatus._TYPE);
-		final Publisher<sticky_wheel_msgs.PositionInfo> positionPublisher =
-				connectedNode.newPublisher("human/position", sticky_wheel_msgs.PositionInfo._TYPE);
+		final Publisher<sticky_wheel_msgs.TargetInfo> publisher =
+				connectedNode.newPublisher("human/teleop", sticky_wheel_msgs.TargetInfo._TYPE);
 		final Scanner in = new Scanner(System.in);
 		
 		connectedNode.executeCancellableLoop(new CancellableLoop() {
 			protected void loop() throws InterruptedException {
-				System.out.println("Send Command");
-				String yn = in.nextLine();
-				
-				if (yn.equals("e")) {
-					ActionStatus message = actionPublisher.newMessage();				
-					message.setActionid("executing");
-					actionPublisher.publish(message);
-				} else if (yn.equals("d")) {
-					ActionStatus message = actionPublisher.newMessage();				
-					message.setActionid("done");
-					actionPublisher.publish(message);
-				} else if (yn.equals("p")) {
-					PositionInfo message = positionPublisher.newMessage();
-					System.out.println("x coordinate?");
-					String xs = in.nextLine();
-					message.setX(Double.parseDouble(xs));
-					System.out.println("y coordinate?");
-					String ys = in.nextLine();
-					message.setY(Double.parseDouble(ys));
-					System.out.println("angle?");
-					String thetas = in.nextLine();
-					message.setTheta(Double.parseDouble(thetas));
-					positionPublisher.publish(message);
-				}
+				TargetInfo message = publisher.newMessage();
+				System.out.println("x coordinate?");
+				String xs = in.nextLine();
+				message.setX(Double.parseDouble(xs));
+				System.out.println("y coordinate?");
+				String ys = in.nextLine();
+				message.setY(Double.parseDouble(ys));
+				publisher.publish(message);
 
 				Thread.sleep(1000);
 			}

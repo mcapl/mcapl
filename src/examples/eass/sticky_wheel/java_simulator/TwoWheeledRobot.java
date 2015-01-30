@@ -191,7 +191,7 @@ public class TwoWheeledRobot extends EASSVehicle {
 	 * @param ty
 	 * @return
 	 */
-	private double calculatedistance(double cx, double cy, double tx, double ty) {
+	private static double calculatedistance(double cx, double cy, double tx, double ty) {
 		double xdiff = cx - tx;
 		double ydiff = cy - ty;
 		return Math.sqrt(xdiff*xdiff + ydiff*ydiff);

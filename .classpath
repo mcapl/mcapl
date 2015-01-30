@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_messages/share/maven/org/ros/rosjava_messages/geometry_msgs/1.10.6/geometry_msgs-1.10.6.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_bootstrap/share/maven/org/ros/rosjava_bootstrap/message_generation/0.2.0/message_generation-0.2.0.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel_isolated/rosjava_core/share/maven/org/ros/rosjava_core/rosjava/0.2.0/rosjava-0.2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/louiseadennis/ros/sticky_wheel_ws/src/sticky_wheel_messages/sticky_wheel_msgs/build/libs/sticky_wheel_msgs-0.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

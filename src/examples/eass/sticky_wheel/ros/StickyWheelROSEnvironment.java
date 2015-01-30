@@ -9,11 +9,49 @@ import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Plan;
 import ail.syntax.Predicate;
+import ail.syntax.Literal;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 import eass.mas.ros.EASSROSEnvironment;
 
 public class StickyWheelROSEnvironment extends EASSROSEnvironment {
+	String logname = "eass.sticky_wheel.ros.StickyWheelROSEnvironment";
+	static int NO_ACTION = 0;
+	static int FORWARD = 1;
+	static int TURN = 2;
+	static int FEEDBACK = 3;
+	
+	int action_status = NO_ACTION;
+
+	int count = 0;
+	int count_max = 20;
+	public void setCountMax(int cm) {
+		count_max = cm;
+	}
+	
+	public void newTarget(Predicate target) {
+		addPercept(target);
+	}
+	
+	public void newPosition(Predicate position) {
+		addUniquePercept("position", new Literal(true, position));
+	}
+	
+	public void newStatus(String status) {
+		if (status.equals("done")) {
+			if (action_status == FORWARD || action_status == FEEDBACK) {
+				action_status = NO_ACTION;
+				addPercept(new Predicate("done_move"));
+			} else if (action_status == TURN) {
+				action_status = NO_ACTION;
+				addPercept(new Predicate("done_turn"));
+			}
+		} else {
+			removePercept(new Predicate("done_move"));
+			removePercept(new Predicate("done_turn"));
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#executeAction(java.lang.String, ail.syntax.Action)
@@ -23,26 +61,13 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("forward")) {
-			//To move forward N engage both motors at power 1 for N iterations.
-			setMotor1Power(1);
-			setMotor2Power(1);
-
-			Action engage = new Action("engageBothMotors");
-			engage.addTerm(act.getTerm(0));
-			super.executeAction(agName, engage);
+			StickyWheelAgentNode node = (StickyWheelAgentNode) getROSNode();
+			action_status = FORWARD;
+			node.forward(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("turn")) {
-			// To turn theta engage one motor at 1 and one at -1 for theta iterations.
-			double angle = ((NumberTerm) act.getTerm(0)).solve();
-			if (angle > 0) {
-				setMotor1Power(1);
-				setMotor2Power(-1);
-			} else {
-				setMotor1Power(-1);
-				setMotor2Power(1);
-			}
-			Action engage = new Action("engageBothMotors");
-			engage.addTerm(act.getTerm(0));
-			super.executeAction(agName, engage);		
+			StickyWheelAgentNode node = (StickyWheelAgentNode) getROSNode();
+			action_status = TURN;
+			node.turn(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("calculate_angle")) {
 			// Maths for calculating the angle the robot needs to turn to in order to face some target point.
 			
@@ -79,34 +104,9 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 			return U;
 			
 		} else if (act.getFunctor().equals("feedback_control")) {
-			// Use a simple feedback controller to move so some point.
-			double target_x = ((NumberTerm) act.getTerm(0)).solve();
-			double target_y = ((NumberTerm) act.getTerm(1)).solve();
-			
-			double current_x = gps.getX();
-			double current_y = gps.getY();
-			double theta = gps.getTheta();
-			
-			while (calculatedistance(current_x, current_y, target_x, target_y) > 1) {
-				double tantheta = (target_y - current_y)/(target_x - current_x);
-				double desiredtheta = Math.toDegrees(Math.atan(tantheta));
-				
-				// thetadiff represents how far the robot needs to turn to face the target.
-				double thetadiff = (theta - desiredtheta);
-
-				// We set the motors to turn towards the target with a slow forward movement.
-				setMotor1Power(1-thetadiff);
-				setMotor2Power(1+thetadiff);
-				
-				// Engage the motors for 1 iteration and then repeat the calculuations.
-				Action engage = new Action("engageBothMotors");
-				engage.addTerm(new NumberTermImpl(1));
-				super.executeAction(agName, engage);		
-				
-				current_x = gps.getX();
-				current_y = gps.getY();
-				theta = gps.getTheta();
-			}
+			StickyWheelAgentNode node = (StickyWheelAgentNode) getROSNode();
+			action_status = FEEDBACK;
+			node.feedback(((NumberTerm) act.getTerm(0)).solve(), ((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("substitute_in_plans")) {
 			// This finds a new capability in the agents plans if the current capability has failed.
 			// This code should probably appear elsewhere in the Capability or Plan classes.
@@ -114,7 +114,7 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 			Predicate post = (Predicate) act.getTerm(0);
 			// Predicate pre = (Predicate) act.getTerm(2);
 			
-			AILAgent ag = getAgent();
+			AILAgent ag = agentmap.get(agName);
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
 			Unifier u = new Unifier();
 			Capability oldcap = ag.getCL().getRelevant(capname).next();
@@ -134,5 +134,24 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 		
 		return super.executeAction(agName, act);
 	}
+	
+	/**
+	 * Standard maths for calculating a distance between two sets of coordinates.
+	 * @param cx
+	 * @param cy
+	 * @param tx
+	 * @param ty
+	 * @return
+	 */
+	private static double calculatedistance(double cx, double cy, double tx, double ty) {
+		double xdiff = cx - tx;
+		double ydiff = cy - ty;
+		return Math.sqrt(xdiff*xdiff + ydiff*ydiff);
+	}
+	
+	public boolean done() {
+		return false;
+	}
+
 	
 }
