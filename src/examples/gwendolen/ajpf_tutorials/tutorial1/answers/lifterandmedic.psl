@@ -28,8 +28,8 @@ ex1: <> B(lifter, human(5, 5))
 
 ex2: <> G(medic, assist_human(5, 5))
 
-ex3: <> I(lifter, goto55) & <> I(lifter, goto34)
+ex3: <> B(lifter, human(3, 4)) & <> B(lifter, holding(rubble))
 
-ex4: G(lifter, goto34then55) -> <> G(medic, assist_human(5, 5))
+ex4: I(lifter, goto55then34) -> <> G(medic, assist_human(5, 5))
 
-ex5: [](P(human(5, 5)) -> <> D(medic, assist))
+ex5: [](D(lifter, move_to(5, 5)) -> <> P(human(5, 5)))
