@@ -21,14 +21,14 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.agent.1.file = /src/examples/gwendolen/ajpf_tutorials/tutorial1/lifter.gwen
+mas.agent.1.file = /src/examples/gwendolen/ail_tutorials/tutorial1/lifter.gwen
 mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
-mas.agent.2.file = /src/examples/gwendolen/ajpf_tutorials/tutorial1/medic.gwen
+mas.agent.2.file = /src/examples/gwendolen/ail_tutorials/tutorial1/medic.gwen
 mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
-mas.agent.3.file = /src/examples/gwendolen/ajpf_tutorials/tutorial1/medic.gwen
+mas.agent.3.file = /src/examples/gwendolen/ail_tutorials/tutorial1/medic.gwen
 mas.agent.3.builder = gwendolen.GwendolenAgentBuilder
 mas.agent.3.name = nurse
 
-env = gwendolen.ajpf_tutorials.tutorial1.SearchAndRescueMASEnv
+env = gwendolen.ail_tutorials.tutorial1.SearchAndRescueMASEnv
 
 log.info = ail.mas.DefaultEnvironment

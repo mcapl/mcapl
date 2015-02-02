@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package gwendolen.ajpf_tutorials.tutorial1;
+package gwendolen.ail_tutorials.tutorial1;
 
 import ail.mas.DefaultEnvironment;
 import ail.syntax.Action;
