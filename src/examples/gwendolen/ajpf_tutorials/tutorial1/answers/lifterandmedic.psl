@@ -22,11 +22,14 @@
 //
 //----------------------------------------------------------------------------
 
-@using = mcapl
+1: [] (~B(medic, bad))
 
-target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+ex1: <> B(lifter, human(5, 5))
 
-# this is a preemption boundary specifying the max number of instructions after which we
-# break the current transition if there are other runnable threads
-vm.max_transition_length = MAX
+ex2: <> G(medic, assist_human(5, 5))
+
+ex3: <> I(lifter, goto55) & <> I(lifter, goto34)
+
+ex4: G(lifter, goto34then55) -> <> G(medic, assist_human(5, 5))
+
+ex5: [](P(human(5, 5)) -> <> D(medic, assist))

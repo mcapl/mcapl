@@ -34,70 +34,186 @@ We strongly recommend that you also set up an environment variable \texttt{\$AJP
 
 To run \ajpf\ you need to run the program \texttt{gov.jpf.tool.RunJPF} which is contained in \textt{lib/3rdparty/jpf.jar} in the \mcapl\ distribution.  Alternatively you can use the \texttt{run-JPF (MCAPL)} Run Configuration in Eclipse.
 
-You need to supply a JPF Configuration file as an argument.  You will find a sample file in \texttt{src/examples/gwendolen/ajpf\_tutorials/lifterandmedic.jpf}.  If you run this you should see output which starts
+You need to supply a JPF Configuration file as an argument.  You will find a sample file in \texttt{src/examples/gwendolen/ajpf\_tutorials/lifterandmedic.jpf}.  If you run this you should see output like the following:
 
 \begin{verbatim}
------------------------------------ search started
-      [skipping static init instructions]
 JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
 
 
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl","1")
 
-====================================================== search started: 02/02/15 04:30
-		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"<root>" ,1/1,isCascaded:false}
-		 # garbage collection
-[INFO] Adding 0 to []
------------------------------------ [1] forward: 0 new
-		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1,2]
-[INFO] Sleeping agent nurse
-		 # garbage collection
-[INFO] Adding 1 to [0]
------------------------------------ [2] forward: 1 new
-\end{verbatim}
-
-and ends
-
-\begin{verbatim}
-[INFO] medic done move_to(5,5)
-		 # garbage collection
-[INFO] Adding 73 to [0, 78, 79, 80, 91, 92, 93, 95]
------------------------------------ [9] forward: 73 visited
------------------------------------ [8] backtrack: 95
------------------------------------ [8] done: 95
------------------------------------ [7] backtrack: 93
------------------------------------ [7] done: 93
------------------------------------ [6] backtrack: 92
------------------------------------ [6] done: 92
------------------------------------ [5] backtrack: 91
------------------------------------ [5] done: 91
------------------------------------ [4] backtrack: 80
------------------------------------ [4] done: 80
------------------------------------ [3] backtrack: 79
------------------------------------ [3] done: 79
------------------------------------ [2] backtrack: 78
------------------------------------ [2] done: 78
------------------------------------ [1] backtrack: 0
------------------------------------ [1] done: 0
------------------------------------ [0] backtrack: -1
------------------------------------ [0] done: -1
------------------------------------ search finished
+====================================================== search started: 02/02/15 08:16
 
 ====================================================== results
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:18
+elapsed time:       00:00:12
 states:             new=96, visited=116, backtracked=212, end=3
 search:             maxDepth=16, constraints hit=0
 choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=95
-heap:               new=764145, released=755379, max live=4592, gc-cycles=212
-instructions:       122857067
-max memory:         490MB
-loaded code:        classes=317, methods=4723
+heap:               new=761483, released=752805, max live=4582, gc-cycles=212
+instructions:       122799365
+max memory:         495MB
+loaded code:        classes=316, methods=4705
 
-====================================================== search finished: 02/02/15 04:30
+====================================================== search finished: 02/02/15 08:16
 \end{verbatim}
+
+Note this will take several seconds to generate.  We will discuss in future tutorials how to get more detailed output from the model checker.
+
+\section{JPF Configuration Files}
+
+\texttt{lifterandmedic.jpf} is a JPF Configuration file.  There are a large number of configuration options for JPF which you can find in the JPF documentation~\footnote{Currently to be found at \url{????}}.  We will only discuss a handful of these options.  If you open \texttt{lifterandmedic.jpf} you should see the following:
+
+\begin{verbatim}
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+
+# this is a preemption boundary specifying the max number of instructions after which we
+# break the current transition if there are other runnable threads
+vm.max_transition_length = MAX
+\end{verbatim}
+
+\begin{description}
+\item[\@using = mcapl] Means that the proof is using the home directory for \texttt{mcapl} that you set up in \texttt{.jpf/site.properties}.
+\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  For those who are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.
+\item[target.args =...] This sets up the arguments to be passed to \texttt{ail.util.AJPF\_w\_AIL}.  \texttt{ail.util.AJPF\_w\_AIL} takes three arguments:
+\begin{itemize}
+\item The first is an \ail\ configuration file.  In this example the file is \texttt{\${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail} which is a configuration file for a multi-agent system written in the \gwendolen\ language.
+\item The second argument is a file containing a list of properties in \ajpf's property specification language that can be checked.  In this example this file is \texttt{lifterandmedic.psl} in the tutorial directory.
+\item The last argument is the name of the property to be checked, \texttt{1}, in this case.
+\end{itemize}
+\item[vm.max_transition_length = MAX] \jpf\ allows the user to set a maximum number of \java\ instructions that can be executed before a transition is forced to occur in the model checker.  Because many \ail\ interpreters use significant numbers of bytecode instructions executing individual transitions in the operational semantics we set this to \texttt{MAX} to minimize the search space.  This doesn't over-ride transitions that occur because of search space branching, it just prevents extra states being created for property checking.
+\end{description}
+
+\section{The Property Specification Language}
+
+\paragraph{\psl{} Syntax}
+The syntax for property formul\ae\ $\phi$ is as follows, where
+$\AILagent$ is an ``agent constant'' referring to a specific agent in
+the system, and $f$ is a ground first-order atomic formula:
+%
+\begin{equation*}
+\begin{array}{rl}
+\phi ::= & \lbelief{\AILagent}{f} \mid \lgoal{\AILagent}{f} \mid
+  \lactions{\AILagent}{f} \mid \lintention{\AILagent}{f} \mid
+  \lpercept{f}
+%% \\
+%%    &
+%% \mid \phi \land \phi
+  \mid \phi \vee \phi \mid \neg \phi
+   \mid \phi \: \until \phi \mid \phi \release \phi \mid \sometime \phi \mid \always \phi
+\end{array}
+\end{equation*}
+%
+Here, $\lbelief{\AILagent}{f}$ is true if $\AILagent$ believes
+$f$ to be true, $\lgoal{\AILagent}{f}$ is true if $\AILagent$ has a
+goal to make $f$ true, and so on (with $\lactionsfunc$ representing
+actions, $\lintentionfunc$ representing intentions, and $\lperceptfunc$
+representing percepts, i.e., properties that are true in the environment).
+
+The following representation of this syntax is used in \ajpf's property specification files:
+
+\begin{array}{rl}
+\phi ::= & \texttt{B(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{G(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{D(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{I(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{P(}f\texttt{)} 
+%% \\
+%%    &
+%% \mid \phi \land \phi
+  \mid \phi \texttt{||} \phi \mid \texttt{~} \phi
+   \mid \phi \: \textt{U} \phi \mid \phi \texttt{R} \phi \mid \texttt{<>} \phi \mid \texttt{[]} \phi
+\end{array}
+\end{equation*}
+
+It is also possible to use $\phi \texttt{->} \psi$ as shorthand for $\neg \phi \vee \psi$
+
+\medskip
+
+\paragraph{\psl{} Semantics}
+%\noindent
+We summarise those aspects of the semantics of property formul\ae{} relevant to this paper.
+Consider a program, $P$, describing a multi-agent system and let
+$\MAS$ be the state of the multi-agent system at one point in the run
+of $P$.  $\MAS$ is a tuple consisting of the local states of the individual agents and of the environment. Let $\AILagent \in \MAS$ be the state of an agent in the $\MAS$ tuple at this point in the 
+program execution. Then 
+$$
+\MAS \models_{MC} \lbelief{\AILagent}{f} \text{\quad iff\quad }
+\AILagent \models  \lbelief{\AILagent}{f}
+$$
+where $\models$ is logical consequence as implemented by the agent
+programming language. The semantics of $\lgoal{\AILagent}{f}$ and $\lintention{\AILagent}{f}$ similarly refer to internal implementations of the language interpreter. 
+The interpretation of $\lactions{\AILagent}{f}$ is:
+$$\MAS \models_{MC}
+\lactions{\AILagent}{f}$$ if, and only if, the last action changing
+the environment was action $f$ taken by agent $\AILagent$.  Finally, the interpretation of
+$\lpercept{f}$ is given as:
+$$\MAS
+\models_{MC} \lpercept{f}$$ if, and only if, $f$ is a percept that
+holds true in the environment.
+\medskip
+
+\noindent The other operators in the \ajpf{} property specification
+language have standard PLTL semantics~\cite{emerson:90a} and are
+implemented as B\"{u}chi Automata as described
+in~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}. Thus, the
+classical logic operators are defined by:
+$$
+\begin{array}{rcl}
+%%  \MAS \models_{MC} \varphi \land \psi &\quad\text{iff}\quad& \MAS
+%%  \models_{MC} \varphi \text{ and } \MAS \models_{MC} \psi\\
+  \MAS \models_{MC} \varphi \vee \psi &\text{iff}& \MAS \models_{MC}
+  \varphi \text{ or } \MAS \models_{MC} \psi \\
+  \MAS \models_{MC} \neg \phi &\text{iff}& \MAS \not\models_{MC} \phi.
+\end{array}
+$$
+The temporal formul\ae\ apply to runs of the programs in the \jpf{}
+model checker. A run consists of a (possibly infinite) sequence of
+program states $\MAS_i$, $i \geq 0$ where $\MAS_0$ is the initial
+state of the program (note, however, that for model checking the
+number of \emph{different} states in any run is assumed to be
+finite). Let $P$ be a multi-agent program, then:
+$$
+\begin{array}{lcl}
+  \MAS \models_{MC}\quad \varphi \: \until \psi 
+   &\quad\text{iff}\quad&
+    \text{ in all runs of $P$ there exists a state } \MAS_j\\
+  &&  \text{ such that } \MAS_i \models_{MC}\ \varphi \text{ for all } 0 \leq i < j \\
+  && \text{ and } \MAS_j \models_{MC} \psi{}.\\[.5em]
+%
+  \MAS \models_{MC}\quad\varphi \release \psi  
+   &\quad\text{iff}\quad&
+    \text{ either } \MAS_i \models_{MC} \varphi \text{ for all } i \text{ or there }\\
+  && \text{ exists } \MAS_j \text{ such  that } \MAS_i \models_{MC} \varphi\\
+  && \text{ for all } 0 \leq i \leq j \text{ and } \MAS_j \models_{MC} \varphi \land \psi{}.
+\end{array}
+$$
+%
+The common temporal operators $\sometime$ (eventually) and $\always$
+(always) are, in turn, derivable from $\until$ and $\release$ in the
+usual way~\cite{emerson:90a}.
+
+\section{Exercises}
+If you look in \texttt{lifterandmedic.psl} you should see the following:
+\begin{verbatim}
+1: [] (~B(medic, bad))
+\end{verbatim}
+So this file contains one formula, labelled, \texttt{1} and the forumula is equivalent to $\always \neg \lbelief{\texttt{medic}}{bad}$ -- which means it is always the case the medic agent doesn't believe the formula \texttt{bad} (or alternatively that the medic agent never believes \emph{bad}.
+
+Adapt the JPF configuration file and extend the property specification file to verify the following properties of the multi-agent system.  You can find sample answers in the \texttt{answers} directory.
+
+\begin{itemize}
+\item Eventually the lifter believes $human(5, 5)$ -- $\sometime \lbelief{\texttt{medic}}{human(5, 5)}$.
+\item Eventually the medic has the goal $assist\_human(5, 5)$ -- $\sometime \lgoal{\texttt{medic}}{human(5, 5)}$.
+\item The lifter always forms an intention to $goto55$ and always forms an intention to $goto34$ -- $\always \lintention{\textt{lifter}}{goto55} \wedge \always \lintention{\textt{lifter}}{goto34}$.
+\item If the lifter has the goal to $goto55then34$ then eventually the medic will have the goal $assist\_human(5, 5)$ -- $\lgoal{\texttt{lifter}}{goto55then34} \Rightarrow \lgoal{\texttt{medic}}{assist\_human(5, 5)}$.
+\item It is always the case that if a $human(5, 5)$ is perceptable then eventually the medic will do $assist$ -- $\always (\lpercept{human(5, 5)} \Rightarrow \sometime \lactions{\texttt{medic}}{\texttt{assist}}$.
+\end{itemize}
 
 \end{document}

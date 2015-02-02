@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl,ex3
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
