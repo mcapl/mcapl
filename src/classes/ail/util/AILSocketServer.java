@@ -111,7 +111,7 @@ public class AILSocketServer {
 		}
 	}
 	
-	public void writeBinary(ByteBuffer buf) {
+	public void write(ByteBuffer buf) {
 		try {
 			buf.rewind();
 			while (buf.hasRemaining()) {
@@ -136,7 +136,7 @@ public class AILSocketServer {
 		}
 	}
 	
-	public ByteBuffer readBinary(int maxLength) {
+	public ByteBuffer read(int maxLength) {
 		ByteBuffer buf = ByteBuffer.allocate(maxLength);
 		try {
 			socket.read(buf);

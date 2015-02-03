@@ -112,7 +112,7 @@ public class AILSocketClient {
 		}
 	}
 	
-	public void writeBinary(ByteBuffer buf) {
+	public void write(ByteBuffer buf) {
 		if (!socket.socket().isClosed() && socket.isConnected()) {
 			try {
 				buf.rewind();
@@ -159,7 +159,7 @@ public class AILSocketClient {
 		}
 	}
 	
-	public ByteBuffer readBinary(int maxLength) {
+	public ByteBuffer read(int maxLength) {
 		ByteBuffer buf = ByteBuffer.allocate(maxLength);
 		try {
 			socket.read(buf);
