@@ -25,7 +25,9 @@
 
 package ail.util;
 
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,7 +45,7 @@ public class AILSocketClient {
 	/**
 	 * The socket.
 	 */
-	Socket socket = null;
+	SocketChannel socket = null;
 	/**
 	 * A Reader for input.
 	 */
@@ -66,13 +68,7 @@ public class AILSocketClient {
 	 *
 	 */
 	public AILSocketClient() {
-		try {
-			socket = new Socket("localhost", 6253);
-			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-		} catch (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
-		}
+		this(6253);
 	}
 	
 	/**
@@ -81,9 +77,10 @@ public class AILSocketClient {
 	 */
 	public AILSocketClient(int portnumber) {
 		try {
-			socket = new Socket("localhost", portnumber);
-			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			socket = SocketChannel.open();
+			socket.connect(new InetSocketAddress("localhost", portnumber));
+			input = new BufferedReader(new InputStreamReader(socket.socket().getInputStream()));
+			output = new BufferedWriter(new OutputStreamWriter(socket.socket().getOutputStream()));
 		} catch (IOException e) {
 			AJPFLogger.warning(logname, e.getMessage());
 		}
@@ -102,7 +99,7 @@ public class AILSocketClient {
 	 * @param s
 	 */
 	public void write(String s) {
-		if (!socket.isClosed() && socket.isConnected()) {
+		if (!socket.socket().isClosed() && socket.isConnected()) {
 			try {
 				output.write(s);
 				output.write(linefeed);
@@ -112,6 +109,20 @@ public class AILSocketClient {
 			}
 		} else {
 			write ("error");
+		}
+	}
+	
+	public void writeBinary(ByteBuffer buf) {
+		if (!socket.socket().isClosed() && socket.isConnected()) {
+			try {
+				buf.rewind();
+				while (buf.hasRemaining()) {
+					socket.write(buf);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -148,6 +159,18 @@ public class AILSocketClient {
 		}
 	}
 	
+	public ByteBuffer readBinary(int maxLength) {
+		ByteBuffer buf = ByteBuffer.allocate(maxLength);
+		try {
+			socket.read(buf);
+			buf.rewind();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return buf;
+	}
+	
 	/**
 	 * Close the socket.
 	 *
@@ -174,7 +197,7 @@ public class AILSocketClient {
 	 */
 	public boolean isClosed() {
 		if (socket != null) {
-			return socket.isClosed();
+			return socket.socket().isClosed();
 		} else {
 			return false;
 		}
