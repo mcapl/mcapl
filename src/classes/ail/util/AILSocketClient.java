@@ -159,16 +159,15 @@ public class AILSocketClient {
 		}
 	}
 	
-	public ByteBuffer read(int maxLength) {
-		ByteBuffer buf = ByteBuffer.allocate(maxLength);
+	public int read(ByteBuffer buf) {
 		try {
-			socket.read(buf);
-			buf.rewind();
+			int len = socket.read(buf);
+			buf.flip();
+			return len;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AJPFLogger.severe(logname, e.getMessage());
 		}
-		return buf;
+		return -1;
 	}
 	
 	/**

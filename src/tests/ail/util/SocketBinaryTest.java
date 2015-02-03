@@ -17,7 +17,8 @@ public class SocketBinaryTest extends Thread {
 	 */
 	public void run() {
 		 server = new AILSocketServer();
-		 data = server.read(16);
+		 data = ByteBuffer.allocate(16);
+		 server.read(data);
 		 data.order(ByteOrder.LITTLE_ENDIAN);
 		 data.rewind();
 		 server.close();
