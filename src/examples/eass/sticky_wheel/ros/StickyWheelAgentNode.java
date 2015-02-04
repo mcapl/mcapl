@@ -68,8 +68,8 @@ public class StickyWheelAgentNode extends EASSNode {
     	outTopic.publish(message);
     }
     
-    public void forward(double d) {
-    	publish("forward", 0, 0, 0, d);
+    public void forward(double d, double theta) {
+    	publish("DEADRECKONING", 0, 0, theta, d);
     }
     
     public void turn(double theta) {
@@ -77,7 +77,7 @@ public class StickyWheelAgentNode extends EASSNode {
     }
     
     public void feedback(double x, double y) {
-    	publish("intelligent_control", x, y, 0, 0);
+    	publish("INTELLIGENT", x, y, 0, 0);
     }
 
     Predicate getTarget(sticky_wheel_msgs.TargetInfo message) {

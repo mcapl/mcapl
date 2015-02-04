@@ -22,6 +22,7 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 	static int FEEDBACK = 3;
 	
 	int action_status = NO_ACTION;
+	double turn_angle = 0.0;
 
 	int count = 0;
 	int count_max = 20;
@@ -33,8 +34,16 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 		addPercept(target);
 	}
 	
+	int counter = 0;
 	public void newPosition(Predicate position) {
-		addUniquePercept("position", new Literal(true, position));
+		//if (counter == 0) {
+			addUniquePercept("position", new Literal(true, position));
+		//	counter++;
+	//	} else if (counter > 100) {
+	//		counter = 0;
+	//	} else {
+	//		counter++;
+	//	}
 	}
 	
 	public void newStatus(String status) {
@@ -63,11 +72,12 @@ public class StickyWheelROSEnvironment extends EASSROSEnvironment {
 		if (act.getFunctor().equals("forward")) {
 			StickyWheelAgentNode node = (StickyWheelAgentNode) getROSNode();
 			action_status = FORWARD;
-			node.forward(((NumberTerm) act.getTerm(0)).solve());
+			node.forward(((NumberTerm) act.getTerm(0)).solve(), turn_angle);
 		} else if (act.getFunctor().equals("turn")) {
 			StickyWheelAgentNode node = (StickyWheelAgentNode) getROSNode();
 			action_status = TURN;
-			node.turn(((NumberTerm) act.getTerm(0)).solve());
+			turn_angle = ((NumberTerm) act.getTerm(0)).solve();
+			// node.turn(((NumberTerm) act.getTerm(0)).solve());
 		} else if (act.getFunctor().equals("calculate_angle")) {
 			// Maths for calculating the angle the robot needs to turn to in order to face some target point.
 			

@@ -30,7 +30,7 @@ EASS
 
 :Initial Beliefs:
 
-bound(1)
+bound(0.07)
 
 :Initial Goals:
 
@@ -44,18 +44,12 @@ bound(1)
 	     +.lock,
 	     -position(X1, Y1, Theta1),
  	     -pos(X1, Y1, Theta1),
-	     remove_shared(pos(X1, Y1)),
-	     remove_shared(angle(Theta1)),
 	     +pos(X, Y, Theta),
-	     assert_shared(pos(X, Y)),
-	     assert_shared(angle(Theta)),
 	     -.lock,
 	     calculate_distance(X2, Y2, X, Y, D),
 	     +!within_bound(D) [perform];
 +position(X, Y, Theta): {~B pos(X1, Y1, Theta1)} <- 
-	     +pos(X, Y, Theta), 
-	     assert_shared(pos(X, Y)),
-	     assert_shared(angle(Theta));
+	     +pos(X, Y, Theta);
 +target(X, Y): {True} <- assert_shared(new_target(X, Y));
 
 +!within_bound(D) [perform]: {B bound(N), D < N, B target(X, Y)} <-
@@ -108,9 +102,7 @@ bound(1)
 
 +! align [perform] : {True} <-
 	     .query(calculate_angle(A)),
-	     perf(turn(A)),
-	     *turned,
-	     remove_shared(turned);
+	     perf(turn(A));
 
 +! reached_target(X, Y) [achieve] : {True} <-    
 	     .query(calculate_distance(D)),
