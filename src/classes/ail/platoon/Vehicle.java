@@ -8,8 +8,8 @@ import ail.util.AILSocketServer;
 
 public class Vehicle {
 	/* Base port numbers - vehicle ID will be added to these */
-	private int BASE_INBOUND_PORT = 8000;
-	private int BASE_OUTBOUND_PORT = 7000;
+	private int INBOUND_PORT = 8005;
+	private int OUTBOUND_PORT = 7005;
 	
 	/* Inbound and outbound sockets, both are needed as Simulink can't handle bidirectional communication on a single socket */
 	private AILSocketServer inbound;
@@ -21,16 +21,14 @@ public class Vehicle {
 	public VehicleData preceding = new VehicleData();
 	
 	/* Set up our sockets */
-	public Vehicle(int id) {
-		ego.uniqueID = id;
-		
+	public Vehicle() {
 		/* 
 		 * IMPORTANT: Because these calls block on 'accept', we need to force Simulink to connect to the sockets in the right order.
 		 * Use an atomic (or function-call) sub-system to encapsulate TCP Send/Receive blocks then use block priorities to force
 		 * sorted execution order
 		 */
-		inbound = new AILSocketServer(BASE_INBOUND_PORT + ego.uniqueID);
-		outbound = new AILSocketServer(BASE_OUTBOUND_PORT + ego.uniqueID);
+		inbound = new AILSocketServer(INBOUND_PORT);
+		outbound = new AILSocketServer(OUTBOUND_PORT);
 	}
 	
 	/* Update our data and send a command */
@@ -100,15 +98,15 @@ public class Vehicle {
 	
 	/* Quick example usage */
 	public static void main(String [] args) {
-		/* Connect to Vehicle #3 (0 is leader, 1 and 2 are non-agent platooning vehicles) */
-		Vehicle v = new Vehicle(3);
+		Vehicle v = new Vehicle();
 		
 		/* Loop forever and update from Simulink, read will block so the processes naturally sync */
 		while (true) {
 			/* Call update with a random integer (as we have no commands to send yet!) */
 			if (v.update((new Random()).nextInt(10))) {
 				/* Print out some information */
-				System.out.println("Vehicle " + v.ego.uniqueID + " is travelling at " +
+				System.out.println(String.format("%.1f",v.ego.timestamp) + 
+						"s: Vehicle is travelling at " +
 						String.format("%.1f", v.ego.speed) + "m/s and is " +
 						String.format("%.2f", v.ego.range) + "m behind another vehicle");
 			}
