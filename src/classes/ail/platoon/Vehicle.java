@@ -108,7 +108,7 @@ public class Vehicle {
 		 * This is because the service.accept() call blocks until the relevent Simulink block is connected
 		 */
 		Vehicle v = new Vehicle(4);
-		Vehicle v2 = new Vehicle(5);
+//		Vehicle v2 = new Vehicle(5);
 		
 		/* Loop forever and update from Simulink, read will block so the processes naturally sync */
 		while (true) {
@@ -118,16 +118,16 @@ public class Vehicle {
 			 * These calls also need to be in the order than Simulink executes the blocks
 			 * (check sorted executed order)
 			 */
-			if (v.update((new Random()).nextInt(10)) && v2.update((new Random()).nextInt(10))) {
+			if (v.update((new Random()).nextInt(10))) { //) && v2.update((new Random()).nextInt(10))) {
 				/* Print out some information */
 				System.out.println(String.format("%.1f",v.ego.timestamp) + 
 						"s: Vehicle " + v.ego.uniqueID + " is travelling at " +
 						String.format("%.1f", v.ego.speed) + "m/s and is " +
 						String.format("%.2f", v.ego.range) + "m behind another vehicle");
-				System.out.println(String.format("%.1f",v2.ego.timestamp) + 
+/*				System.out.println(String.format("%.1f",v2.ego.timestamp) + 
 						"s: Vehicle " + v2.ego.uniqueID + " is travelling at " +
 						String.format("%.1f", v2.ego.speed) + "m/s and is " +
-						String.format("%.2f", v2.ego.range) + "m behind another vehicle");
+						String.format("%.2f", v2.ego.range) + "m behind another vehicle");*/
 			}
 		}
 	}
