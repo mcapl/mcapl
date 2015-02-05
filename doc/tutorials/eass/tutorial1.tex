@@ -40,8 +40,41 @@ In the \gwendolen\ language incoming perceptions are converted into intentions w
 
 In the \eass\ variant, therefore, new perceptions are placed directly into the agent's belief base during the perception stage of the reasoning cycle.
 
-\subsection{Abstraction Engines}
-Since each agent is, in fact, a pair of agents, it is necessary to identify and link 
+\subsection{Identifying Abstraction and Reasoning Engines}
+Since each agent is, in fact, a pair of agents, it is necessary to identify and link the abstraction and reasoning engines.  This is done by starting the abstraction engine with the line
+\begin{verbatim}
+:abstraction: agentname
+\end{verbatim} 
+instead of 
+\begin{verbatim}
+:name: agentname
+\end{verbatim} 
+which is reserved as the start of the reasoning engine code.  So long as the two agents have the same name then the environment will link them.
+
+\subsection{Shared Beliefs}
+The reasoning engine does not recieve percepts from the outside world but only via a \emph{shared belief} set.  An abstractione engine may get perceptions both form the outside world and from the shared beliefs.
+
+\eass\ environments support this communication via support for two dedicated actions, \lstinline{assert_shared(B)} and \lstinline{remove_shared(B)} which can be used to assert and remove the shared belief, \lstinline{B}.
+
+Both the abstraction and reasoning engine may use these commands.
+
+\subsection{Perf}
+The reasoning engine may also request the abstraction engine to reify an action to be sent to some external system.  It does this via the dedicated actions, \texttt{perf}.  This sends a message to the abstraction engine asking it to adopt a perform goal.
+
+This means that abstraction engines need to implement plans for handling perform messages.
+
+\subsection{Query}
+A construct, \texttt{.query} has been added into the \eass\ language.  This is intended to support the use of external tools, particularly simulators, to make predictions or calculations for use in reasoning.  
+
+The command works as a macro and is eliminated during parsing and replaced as follows:
+
+\texttt{.query(C)} is replaced by
+\begin{verbatim}
+perf(C),
+*C,
+remove_shared(C);
+\end{verbatim}
+This has the effect of sending a request to the abstraction engine to peform $C$ and then waiting until $C$ appears as a shared belief.  Obviously the abstraction engine needs to implement the perform goal appropriately -- in particular to assert the shared belief once the calculation is completed.
 
 
 \bibliographystyle{abbrv} %% {plain}
