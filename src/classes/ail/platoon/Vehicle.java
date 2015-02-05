@@ -8,8 +8,8 @@ import ail.util.AILSocketServer;
 
 public class Vehicle {
 	/* Base port numbers - vehicle ID will be added to these */
-	private int INBOUND_PORT = 8005;
-	private int OUTBOUND_PORT = 7005;
+	private int BASE_INBOUND_PORT = 7000;
+	private int BASE_OUTBOUND_PORT = 8000;
 	
 	/* Inbound and outbound sockets, both are needed as Simulink can't handle bidirectional communication on a single socket */
 	private AILSocketServer inbound;
@@ -21,14 +21,19 @@ public class Vehicle {
 	public VehicleData preceding = new VehicleData();
 	
 	/* Set up our sockets */
-	public Vehicle() {
+	public Vehicle(int id) {
+		ego.uniqueID = id;
 		/* 
 		 * IMPORTANT: Because these calls block on 'accept', we need to force Simulink to connect to the sockets in the right order.
 		 * Use an atomic (or function-call) sub-system to encapsulate TCP Send/Receive blocks then use block priorities to force
 		 * sorted execution order
 		 */
-		inbound = new AILSocketServer(INBOUND_PORT);
-		outbound = new AILSocketServer(OUTBOUND_PORT);
+		System.out.print("Vehicle " + id + " waiting for connection on port " + (BASE_INBOUND_PORT + id) + "... ");
+		inbound = new AILSocketServer(BASE_INBOUND_PORT + id);
+		System.out.println("Connected!");
+		System.out.print("Vehicle " + id + " waiting for connection on port " + (BASE_OUTBOUND_PORT + id) + "... ");
+		outbound = new AILSocketServer(BASE_OUTBOUND_PORT + id);
+		System.out.println("Connected!");
 	}
 	
 	/* Update our data and send a command */
@@ -98,17 +103,31 @@ public class Vehicle {
 	
 	/* Quick example usage */
 	public static void main(String [] args) {
-		Vehicle v = new Vehicle();
+		/*
+		 * Vehicle instantiation must be in the same order that the vehicles are initiated in Simulink.
+		 * This is because the service.accept() call blocks until the relevent Simulink block is connected
+		 */
+		Vehicle v = new Vehicle(4);
+		Vehicle v2 = new Vehicle(5);
 		
 		/* Loop forever and update from Simulink, read will block so the processes naturally sync */
 		while (true) {
-			/* Call update with a random integer (as we have no commands to send yet!) */
-			if (v.update((new Random()).nextInt(10))) {
+			
+			/*
+			 * Call update with a random integer (as we have no commands to send yet!)
+			 * These calls also need to be in the order than Simulink executes the blocks
+			 * (check sorted executed order)
+			 */
+			if (v.update((new Random()).nextInt(10)) && v2.update((new Random()).nextInt(10))) {
 				/* Print out some information */
 				System.out.println(String.format("%.1f",v.ego.timestamp) + 
-						"s: Vehicle is travelling at " +
+						"s: Vehicle " + v.ego.uniqueID + " is travelling at " +
 						String.format("%.1f", v.ego.speed) + "m/s and is " +
 						String.format("%.2f", v.ego.range) + "m behind another vehicle");
+				System.out.println(String.format("%.1f",v2.ego.timestamp) + 
+						"s: Vehicle " + v2.ego.uniqueID + " is travelling at " +
+						String.format("%.1f", v2.ego.speed) + "m/s and is " +
+						String.format("%.2f", v2.ego.range) + "m behind another vehicle");
 			}
 		}
 	}
