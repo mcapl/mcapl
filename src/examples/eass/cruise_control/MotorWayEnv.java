@@ -78,11 +78,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	
 	public MotorWayEnv() {
 		super();
-		RoundRobinScheduler s = new RoundRobinScheduler();
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
-		
+		super.scheduler_setup(this, new RoundRobinScheduler());
 	}
 	
 	public void set_up_cars() {

@@ -1,0 +1,64 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\author{Louise A. Dennis}
+
+\title{EASS Tutorial 2 -- Extending the Default EASS Environment}
+
+\begin{document}
+\maketitle
+This is the second in a series of tutorials on the use of the \eass\ variant of the \gwendolen\ language.  This tutorial covers creating environments for agent programs by extending the \texttt{eass.mas.DefaultEASSEnvironment} class.  
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/eass/tutorials/tutorial2}.
+
+The tutorial assumes a good working knowledge of Java programming and an understanding of how unification works in \prolog\ programs.
+
+\section{The Default Environment and the AILEnv Interface}
+\begin{sloppypar}
+All environments for use with \eass\ must implement a java interface \texttt{eass.mas.EASSEnv}.  This extends \texttt{ail.mas.AILEnv} (discussed in \ail\ tutorial 2) and \texttt{ajpf.MCALJobber} which specifies the functionality required for \ajpf\ to include the environment in the scheduler.  One of the key features of \eass\ environments is that they are \emph{dynamic} -- that is things may occur in the environment which are not caused by the agents.  The \ajpf\ framework uses a scheduler to switch between agents and any other \emph{jobbers} known to the scheduler.  When a dynamic environment is used the scheduler switches between agents and the environment.  In fact there are a number of schedulers that can be used, and we will look at them in more detail in another tutorial.  As well as the functionality required by the two interfaces it extends, \texttt{eass.mas.EASSEnv} requires some extra functionality to support the \eass\ \gwendolen\ variant, particularly managing the links between abstraction and reasoning engines and shared beliefs.
+
+\texttt{eass.mas.DefaultEASSEnvironment} provides a basic level implementation of all these methods, so any environment that extends it only has to worry about those aspects particular to that environment.  Typically this is just the way that actions performed by the agents are to be handled and the way perceptions may change in between agent actions.  \texttt{ail.mas.DefaultEASSEnvironment} also provides a set of useful methods for handling changing the perceptions available to the agent that can then be used to program these action results.  \texttt{eass.mas.DefaultEASSEnvironment} extends \texttt{ail.mas.DefaultEnvironment} (see \ail\ tutorial 2) so all the methods available in that class are also available to classes that subclass \texttt{eass.mas.DefaultEASSEnvironment}.
+\end{sloppypar}
+
+\section{A Survey of some of Default \eass\ Environment's Methods}
+We note here some of the more useful methods made available by the Default Environment before we talk about implementing the outcomes of agent actions and getting new perceptions.
+
+\begin{sloppypar}
+\begin{description}
+\item[public static void scheduler\_setup(EASSEnv env, MCAPLScheduler s)] This takes an environment (typically one sub-classing \texttt{eass.mas.DefaultEASSEnvironment}) and a scheduler and sets the environment and scheduler up appropriately.  In general an \eass\ environment will want to use \texttt{ail.mas.NActionScheduler} -- this is a scheduler which can switch between agents and the environment every time an agent takes an action but will also switch every $N$ reasoning cycles in to force checking of changes in the environment.  A good value to start $N$ at is 100 though this will vary by application.  A typical constructor for an environment may look something like Listing~\ref{code:constructor}.
+\begin{lstlisting}[float,caption=Handling Numbers,basicstyle=\sffamily,language=Java,style=easslisting,label=code:constructor]
+public MyEnvironment() {
+	super();
+	super.scheduler_setup(this, new NActionScheduler(100));
+}
+\end{lstlisting}
+\item[public void addUniquePercept(String s, Predicate per)] It is fairly typical in the kinds of applications the \eass\ is used for that incoming perceptions indicate the current value of some measure -- e.g. the current distance to the car in front.  This gets converted into a predicate such as $distance(5.5)$ however the application only wants to have one such percept available.  \texttt{addUniquePercept} avoids the need to use \texttt{removeUnifiesPercept} followed by \texttt{addPercept} each time the value changes.  Instead \texttt{addUniquePercept} takes a unique reference string, \texttt{s} (normally the functor of the predicate -- e.g., \texttt{distance}) and then removes the old percept and adds the new one. 
+\item[public void addUniquePercept(String agName, String s, Literal  pred)] As above but the percept is perceivable only by the agent called \texttt{agName}.
+\end{description}
+\end{sloppypar}
+
+\section{Default Actions}
+Just as \texttt{ail.mas.DefaultEnvironment} provides a set of built-in actions, so does \texttt{eass.mas.DefaultEASSEnvironment}.  These critically support some aspects of the \eass\ language:
+
+\begin{description}
+\item[assert\_shared(B)] This puts $B$ in the shared belief set.
+\item[remove\_shared(B)] This removes $B$ from the shared belief set.
+\item[remove\_shared\_unifies(B)] This removes all beliefs that unify with $B$ from the shared belief set.  This is useful when you do not necessarily know the current value of one of a shared belief's parameters.
+\item[perf(G) and query(G)] These are actually identical and send a message to the abstraction engine requesting it adopt $G$ as a perform goal.
+\item[append\_string\_pred(S, T, V)] This is occasionally useful for converting between values treated as parameters by the agent, but which need to be translated to unique actions for the application (e.g., converting from $thruster(2)$ to ``thruster\_2''.  It takes a string as its first argument, a term, $T$, as its second argument.  It converts $T$ to a string and then unifies the concatenation of the first string and the new string with $V$.
+\end{description}
+
+\section{Adding Additional Actions}
+Adding additional actions can be done in the same way as for environments that subclass \texttt{ail.mas.DefaultEnvironment} (see \ail\ tutorial 2).
+
+\section{Adding Dynamic Behaviour}
+
+Dynamic behaviour can be added by overriding the method \texttt{eachrun()}.  This method is called each time the scheduler executes the environment.  Overrides of this method can be used simply to change the set of percepts (possibly at random) or to read data from sockets or other communications mechanisms.
+
+\end{document}

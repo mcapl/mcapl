@@ -62,10 +62,7 @@ public class LEOEnvironment extends EASSMatLabEnvironment {
 	 */
 	public LEOEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(100);
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
+		super.scheduler_setup(this, new NActionScheduler(100));
 	}
 	
 	/*

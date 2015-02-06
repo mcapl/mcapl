@@ -40,6 +40,7 @@ import java.lang.Thread;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
+import ail.mas.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -59,6 +60,7 @@ import eass.semantics.EASSAgent;
 import ajpf.MCAPLJobber;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
+import ajpf.MCAPLScheduler;
 
 /**
  * Default environment class for EASS project.  Sets up socket servers and generic actions.
@@ -69,7 +71,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Literal> values = new HashMap<String, Literal>();
+	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
@@ -100,6 +102,12 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		super();
 	}
 	
+	public static void scheduler_setup(EASSEnv env, MCAPLScheduler s) {
+		s.addJobber(env);
+		env.setScheduler(s);
+		env.addPerceptListener(s);
+	}
+	
 	
 	
 	public void do_job() {			
@@ -128,7 +136,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * This method can be overriden during debugging to print out specific information.
 	 * @param pred
 	 */
-	public void printvalues(Literal pred) {}
+	// public void printvalues(Literal pred) {}
 
 	
 	/**
@@ -137,7 +145,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param s
 	 * @param pred
 	 */
-	public void addUniquePercept(String s, Literal  pred) {
+	public void addUniquePercept(String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(values.get(s.toLowerCase()));
 		}
@@ -153,7 +161,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param s
 	 * @param pred
 	 */
-	public void addUniquePercept(String agName, String s, Literal  pred) {
+	public void addUniquePercept(String agName, String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(agName, values.get(s.toLowerCase()));
 		}
