@@ -54,7 +54,6 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 	public EASSNXTEnvironment() {
 		// NB.  NOT connected to matlab
 		super();
-		notConnectedToMatLab();
 	}
 	
 	/**
@@ -122,23 +121,6 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 		for (LegoRobot r: robots.values()) {
 			r.addPercepts(this);
 		}
-	}
-		
-	/*
-	 * (non-Javadoc)
-	 * @see eass.mas.DefaultEASSEnvironment#noconnection_run(java.lang.String, ail.syntax.Action)
-	 */
-	public void noconnection_run(String agname, Action act) {
-		// SOMERTHING FOR NXT
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see eass.mas.DefaultEASSEnvironment#noconnection_calc(ail.syntax.Predicate, ail.syntax.VarTerm, ail.syntax.Unifier)
-	 */
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		//SOMETHING FOR NEXT
-		return new Literal("result");
 	}
 
 	/**

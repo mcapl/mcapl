@@ -166,7 +166,7 @@ public class Abstract_Agent {
    	goals = newgoals;
     	
     }
-
+   
    /**
      * Add a rule to the rule base.
      * @param r
