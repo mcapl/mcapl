@@ -30,13 +30,13 @@ Figure~\ref{fig:arch} shows the architecture of an \eass\ Agent.  The agent is a
 
 The reasons for this separation are primarily driven by the observation that BDI agents are unable to process incoming perceptions from real or simulated sources fast enough and so they get ``clogged'' by an ever increasing number of intentions to do with perception processing.  
 
-The theoretical underpinnings of this architecture are described in~\cite{DALT10:abstraction}.  The key points are that the \emph{reasoning engine} does not interact with the physical world (or a simulation) at all.  It gains perceptions via \emph{shared beliefs} which are communicated with the abstraction engine via the Java \eass\ environment.  Similarly most of its actions (ideally all) are communicated to the abstraction engine which then reifies them (e.g., adding more low level detail that may be required by the physical system or simulation to actually enact the action.  As a rule of thumb while perceptions and actions, as used by the physical system or simulation generally involve numeric values, reasoning generally uses logical (``yes/no'') information and outputs simple non-numeric commands.  Therefore the abstraction engine should be responsible for converting numeric data (``distance = 5.4m'') into logical statements (``too close'') and converting simple commands (``slow down'') into numerical instructions (``apply a decelleration of $-1m/s^2$'').  This is only a rule of thumb and the reality is that a certain amount of experimentation is often required to balance a system appropriately so that reasoning happens fast enough to adequately control the physical system.
+The theoretical underpinnings of this architecture are described in~\cite{DALT10:abstraction}.  The key points are that the \emph{reasoning engine} does not interact with the physical world (or a simulation) at all.  It gains perceptions via \emph{shared beliefs} which are communicated with the abstraction engine via the Java \eass\ environment.  Similarly most of its actions (ideally all) are communicated to the abstraction engine which then reifies them (e.g., adding more low level detail that may be required by the physical system or simulation to actually enact the action).  As a rule of thumb while perceptions and actions, as used by the physical system or simulation generally involve numeric values, reasoning generally uses logical (``yes/no'') information and outputs simple non-numeric commands.  Therefore the abstraction engine should be responsible for converting numeric data (``distance = 5.4m'') into logical statements (``too close'') and converting simple commands (``slow down'') into numerical instructions (``apply a decelleration of $-1m/s^2$'').  This is only a rule of thumb and the reality is that a certain amount of experimentation is often required to balance a system appropriately so that reasoning happens fast enough to adequately control the physical system.
 
 In order for this to work \gwendolen's reasoning cycle was adapted slightly, a set of dedicated actions were introduced for handling shared beliefs and delegated actions, and some new constructs were added to the language.
 
 \section{Key Differences}
 \subsection{Perception Processing}
-In the \gwendolen\ language incoming perceptions are converted into intentions which contains a deed to add the perception to the belief base.  In theory this gives the agent more control over the contents of its beliefs (although in practice no use has ever been made of this).  However a side effect is that it take the agent two turns of the reasoning cycle to convert a perception into a belief and this slowed down the processing of perceptions.
+In the \gwendolen\ language incoming perceptions are converted into intentions which contain a deed to add the perception to the belief base.  In theory this gives the agent more control over the contents of its beliefs (although in practice no use has ever been made of this).  However a side effect is that it takes the agent two turns of the reasoning cycle to convert a perception into a belief and this slowed down the processing of perceptions.
 
 In the \eass\ variant, therefore, new perceptions are placed directly into the agent's belief base during the perception stage of the reasoning cycle.
 
@@ -52,7 +52,7 @@ instead of
 which is reserved as the start of the reasoning engine code.  So long as the two agents have the same name then the environment will link them.
 
 \subsection{Shared Beliefs}
-The reasoning engine does not recieve percepts from the outside world but only via a \emph{shared belief} set.  An abstractione engine may get perceptions both form the outside world and from the shared beliefs.
+The reasoning engine does not recieve percepts from the outside world but only via a \emph{shared belief} set.  An abstraction engine may get perceptions both form the outside world and from the shared beliefs.
 
 \eass\ environments support this communication via support for two dedicated actions, \lstinline{assert_shared(B)} and \lstinline{remove_shared(B)} which can be used to assert and remove the shared belief, \lstinline{B}.
 
@@ -74,7 +74,7 @@ perf(C),
 *C,
 remove_shared(C);
 \end{verbatim}
-This has the effect of sending a request to the abstraction engine to peform $C$ and then waiting until $C$ appears as a shared belief.  Obviously the abstraction engine needs to implement the perform goal appropriately -- in particular to assert the shared belief once the calculation is completed.
+This has the effect of sending a request to the abstraction engine to peform $C$ and then waiting until $C$ appears as a shared belief.  It then removes that shred belief so that it doesn't confuse the system if the calculation is performed again.  Obviously the abstraction engine needs to implement the perform goal appropriately -- in particular to assert the shared belief once the calculation is completed.
 
 
 \bibliographystyle{abbrv} %% {plain}
