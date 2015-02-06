@@ -216,6 +216,14 @@ public class DefaultEnvironment implements AILEnv {
     		NumberTermImpl z = new NumberTermImpl(d);
     		u.unifies(sum, z);
     	}
+    	if (act.getFunctor().equals("times")) {
+    		NumberTerm x = (NumberTerm) act.getTerm(0);
+    		NumberTerm y = (NumberTerm) act.getTerm(1);
+    		VarTerm sum = (VarTerm) act.getTerm(2);
+    		double d = x.solve()*y.solve();
+    		NumberTermImpl z = new NumberTermImpl(d);
+    		u.unifies(sum, z);
+    	}
    	
     	if (act.getFunctor().equals("append")) {
     		StringTerm x = (StringTerm) act.getTerm(0);
@@ -224,6 +232,15 @@ public class DefaultEnvironment implements AILEnv {
     		VarTerm result = (VarTerm) act.getTerm(2);
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
+    	}
+    	
+    	if (act.getFunctor().equals("toString")) {
+    		Term x = act.getTerm(0);
+    		
+    		String s = x.toString();
+    		VarTerm result = (VarTerm) act.getTerm(1);
+    		
+    		u.unifies(result, new StringTermImpl(s));
     	}
     	
     	if (act.getFunctor().equals("printagentstate")) {

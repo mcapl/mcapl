@@ -171,10 +171,10 @@ NAME	:	':name:';
 
 SEND	:	'.send';
 RECEIVED:	{gwendolen}?=> '.received';
-BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
-GOAL	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('G' | '.G') ;
-IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('N') ;
-IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('X') ;
+BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('B' | '.B') ;
+GOAL	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('G' | '.G') ;
+IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
+IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
 SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
 LOCK	:	'.lock';
 ADD_PLAN	:	'.plan';
@@ -255,7 +255,7 @@ LINE_COMMENT
     : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     ;
 NEWLINE:'\r'? '\n' {skip();} ;
-WS  :   (' '|'\t')+ {skip();} ;
+WS  :  {!stringterm}?=>(' '|'\t')+ {skip();} ;
 
 
 OPEN	: 	'(' {plain_nesting++;};
@@ -268,7 +268,7 @@ DOUBLEQUOTE
 	:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
 NOT	:	'~';
 
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
@@ -276,7 +276,7 @@ NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
 
 LESS	:	'<';
 EQ	: 	'==';
-POINT	:	'.';
+POINT	:	{!stringterm}?=>'.';
 MULT	:	'*';
 PLUS	:	'+';
 MINUS	:	'-';
