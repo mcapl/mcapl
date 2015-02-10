@@ -155,8 +155,10 @@ brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
                // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : gb = pred {$f = gb;} | 
-                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} |   SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} |
+                                                                              SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                                                               lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
 subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
 
 clogicalfmla returns [Abstract_GLogicalFormula f] : n=cnotfmla {$f = $n.f;}
@@ -273,7 +275,7 @@ LINE_COMMENT
     : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     ;
 NEWLINE:'\r'? '\n' {skip();} ;
-WS  :   (' '|'\t')+ {skip();} ;
+WS  :  {!stringterm}?=>(' '|'\t')+ {skip();} ;
 
 
 OPEN	: 	'(' {plain_nesting++;};
@@ -287,7 +289,7 @@ DOUBLEQUOTE
 
 NOT	:	'~';
 
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
