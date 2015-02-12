@@ -8,7 +8,7 @@ However these languages only describe the agent and these agents must execute wi
 Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL}. 
 
 \section{Example: Executing a Multi-Agent-System (UNIX Based Systems)}
-{\bf Important:} Make sure that \texttt{ajpf2014/bin} and \texttt{ajpf2014/lib/3rdparty/jpf.jar} are in your CLASSPATH.  We also recommend setting the environment variable AJPF\_HOME\index{AJPF\_HOME} to be the path to \texttt{ajpf2014} (NB. throughout this chapter, if you are using the development version \texttt{ajpf2014} should be \texttt{mcapl}).
+{\bf Important:} Make sure that \texttt{\ajpfversion/bin} and \texttt{\ajpfversion/lib/3rdparty/jpf.jar} are in your CLASSPATH.  We also recommend setting the environment variable AJPF\_HOME\index{AJPF\_HOME} to be the path to \texttt{\ajpfversion} (NB. throughout this chapter, if you are using the development version \texttt{\ajpfversion} should be \texttt{mcapl}).
 
 You can run the simple agent \texttt{pickupagent.gwen} whose code you will find in \texttt{/src/examples/gwendolen/simple/PickUpAgent}\index{example!pickupagent} by calling
 
@@ -23,14 +23,14 @@ You should see output similar to:
 
 \noindent \begin{lstlisting}
  Jun 25, 2012 11:57:24 AM ajpf.util.AJPFLogger info
- INFO: loading property file: /Users/lad/Eclipse/ajpf2014/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
+ INFO: loading property file: /Users/lad/Eclipse/\ajpfversion/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
  done
 \end{lstlisting}
 \medskip
  
 \texttt{PickUpAgent.ail} is a Configuration File which describes how AIL should build the relevant multi-agent system.
 
-{\bf NB}  If you do not have AJPF\_HOME set then you will need to run the example from the \texttt{ajpf2014} directory.
+{\bf NB}  If you do not have AJPF\_HOME set then you will need to run the example from the \texttt{\ajpfversion} directory.
 
 \subsection{In Eclipse}
 
@@ -41,14 +41,14 @@ Select the configuration file you will to run, and then select \texttt{run-AIL} 
 
 \section{Example: Model Checking a Multi-Agent System (UNIX Systems)}
 
-You will need to run jpf which uses a class containing in \texttt{lib/3rdparty/jpf.jar}.  Make sure this is on your class path.  Call \emph{in the ajpf2014} directory:
+You will need to run jpf which uses a class containing in \texttt{lib/3rdparty/jpf.jar}.  Make sure this is on your class path.  Call \emph{in the \ajpfversion} directory:
 
 \noindent \begin{lstlisting}[basicstyle=\tiny]
 > java gov.nasa.jpf.tool.RunJPF ${path-to}/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf
 \end{lstlisting}
 \medskip
 
-\noindent where \texttt{\${path-to}} is the path to ajpf2014 in your system.
+\noindent where \texttt{\${path-to}} is the path to \ajpfversion\ in your system.
 
 You should see output similar to: 
 
