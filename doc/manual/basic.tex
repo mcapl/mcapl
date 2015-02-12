@@ -61,22 +61,8 @@ JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 29/01/14 13:59
+====================================================== search started: 12/02/15 14:09
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"<root>" ,1/1,isCascaded:false}
-[FINE] Entering Main in AJPF_w_AIL
-[INFO] loading property file: /Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
-[FINE] ----------- Config contents
-// = http://www.csc.liv.ac.uk/~lad
-//---------------------------------------------------------------------------- = 
-config = /Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
-config_path = /Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/simple/PickUpAgent
-env = gwendolen.simple.SimpleEnv
-log.warning = ail.mas.DefaultEnvironment
-mas.builder = gwendolen.GwendolenMASBuilder
-mas.file = /src/examples/gwendolen/simple/PickUpAgent/pickupagent.gwen
-
-[FINE]  <>(B(ag1, pickup))
-[INFO]  <>(B(ag1, pickup))
 		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
@@ -102,11 +88,11 @@ states:             new=1, visited=1, backtracked=2, end=0
 search:             maxDepth=1, constraints hit=0
 choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1
 heap:               new=8683, released=5787, max live=2735, gc-cycles=2
-instructions:       1032624
-max memory:         123MB
-loaded code:        classes=293, methods=4355
-
-====================================================== search finished: 29/01/14 13:59
+heap:               new=8454, released=5469, max live=2827, gc-cycles=2
+instructions:       1093345
+max memory:         156MB
+loaded code:        classes=303, methods=4521
+====================================================== search finished: 12/02/15 14:09
 \end{lstlisting}
 
 \subsection{In Eclipse}
