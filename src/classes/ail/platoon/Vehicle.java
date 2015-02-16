@@ -107,7 +107,7 @@ public class Vehicle {
 		 * Vehicle instantiation must be in the same order that the vehicles are initiated in Simulink.
 		 * This is because the service.accept() call blocks until the relevent Simulink block is connected
 		 */
-		Vehicle v = new Vehicle(4);
+		Vehicle v = new Vehicle(3);
 //		Vehicle v2 = new Vehicle(5);
 		
 		/* Loop forever and update from Simulink, read will block so the processes naturally sync */
@@ -120,14 +120,21 @@ public class Vehicle {
 			 */
 			if (v.update((new Random()).nextInt(10))) { //) && v2.update((new Random()).nextInt(10))) {
 				/* Print out some information */
-				System.out.println(String.format("%.1f",v.ego.timestamp) + 
+				System.out.print(String.format("%.1f",v.ego.timestamp) + 
 						"s: Vehicle " + v.ego.uniqueID + " is travelling at " +
-						String.format("%.1f", v.ego.speed) + "m/s and is " +
-						String.format("%.2f", v.ego.range) + "m behind another vehicle");
+						String.format("%.1f", v.ego.speed) + "m/s and is ");
+				if (v.ego.range < 100) {
+					System.out.print(String.format("%.2f", v.ego.range) + "m");
+				} else {
+					System.out.print("not");
+				}
+				System.out.println(" behind another vehicle");
 /*				System.out.println(String.format("%.1f",v2.ego.timestamp) + 
 						"s: Vehicle " + v2.ego.uniqueID + " is travelling at " +
 						String.format("%.1f", v2.ego.speed) + "m/s and is " +
 						String.format("%.2f", v2.ego.range) + "m behind another vehicle");*/
+			} else{
+				return;
 			}
 		}
 	}
