@@ -25,8 +25,10 @@
 
 package ail.util;
 
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,11 +43,11 @@ import ajpf.util.AJPFLogger;
  *
  */
 public class AILSocketServer {
-	ServerSocket service;
+	ServerSocketChannel service;
 	/**
 	 * The socket.
 	 */
-	Socket socket = null;
+	SocketChannel socket = null;
 	/**
 	 * A Reader for input.
 	 */
@@ -68,16 +70,7 @@ public class AILSocketServer {
 	 *
 	 */
 	public AILSocketServer() {
-		try {
-			service = new ServerSocket(6253);
-			socket = service.accept();
-			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-		} catch (IOException e) {
-			AJPFLogger.severe(logname, e.getMessage());
-			AJPFLogger.fine(logname, e.getStackTrace().toString());
-			System.exit(-1);
-		}
+		this(6253);
 	}
 	
 	/**
@@ -86,10 +79,11 @@ public class AILSocketServer {
 	 */
 	public AILSocketServer(int portnumber) {
 		try {
-			service = new ServerSocket(portnumber);
+			service = ServerSocketChannel.open();
+			service.socket().bind(new InetSocketAddress(portnumber));
 			socket = service.accept();
-			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			input = new BufferedReader(new InputStreamReader(socket.socket().getInputStream()));
+			output = new BufferedWriter(new OutputStreamWriter(socket.socket().getOutputStream()));
 		} catch (IOException e) {
 			AJPFLogger.warning(logname, e.getMessage());
 		}
@@ -117,6 +111,18 @@ public class AILSocketServer {
 		}
 	}
 	
+	public void write(ByteBuffer buf) {
+		try {
+			buf.rewind();
+			while (buf.hasRemaining()) {
+				socket.write(buf);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Read from the socket.
 	 * @return
@@ -128,6 +134,17 @@ public class AILSocketServer {
 			AJPFLogger.severe(logname, e.getMessage());
 			return "failed read";
 		}
+	}
+	
+	public int read(ByteBuffer buf) {
+		try {
+			int len = socket.read(buf);
+			buf.flip();
+			return len;
+		} catch (IOException e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}
+		return -1;
 	}
 	
 	/**
@@ -193,7 +210,7 @@ public class AILSocketServer {
 	 */
 	public boolean isClosed() {
 		if (socket != null && service != null) {
-			return (socket.isClosed() || service.isClosed());
+			return (socket.socket().isClosed() || service.socket().isClosed());
 		} else {
 			return false;
 		}
