@@ -30,43 +30,9 @@ EASS
 
 :Initial Beliefs:
 vehicle_id(3)
-
-:Initial Goals:
-
-:Plans:
-
-//========== Input abstraction = {agreement, no_platoon_member, preceding_vehicle_platoon_member} ===========
-
-+.received(:tell, B): {True} <- +B;
-+.received(:perform, G): {True} <- +!G [perform];
-
-+precedingPID(PID): {~B preceding_vehicle_platoon_member, 0 < PID}<- assert_shared(preceding_vehicle_platoon_member); // assume ID = 0 when a vehicle is not a member of the platoon
-+precedingPID(PID): {B preceding_vehicle_platoon_member, PID < 1}<- remove_shared(preceding_vehicle_platoon_member); 
-
-+egoPID(PID): {B no_platoon_member, 0 < PID}<- remove_shared(no_platoon_member);
-+egoPID(PID): {~B no_platoon_member, PID < 1}<- assert_shared(no_platoon_member);
-
-+leaderAgreement(X,Y): {B no_platoon_member, B vehicle_id(X), ~B agreement(X,Y)} <- assert_shared(agreement(X,Y));
-
-//========== Output reification = {switch_platoon_to_cruise, switch_cruise_to_platoon, request_to_join } =====
-
-+!switch_platoon_to_cruise [perform]: {True}<- run(switch_platoon_to_cruise);
-
-+!switch_cruise_to_platoon [perform]: {True}<- run(switch_cruise_to_platoon);
-
-+!assign_platoon_id(X) [perform]: {True}<- run(assign_platoon_id(X));
-
-+!request_to_join(X) [perform]: {True}<- run(request_to_join(X));
-
-
-//=================================== behind vehicle reasoning engine ===============================================
-
-:name: follower1
-
-:Initial Beliefs:
-
-//no_platoon_member
-vehicle_id(3)
+init_min_speed(10) // minimum initial speed to switch to speed control
+init_max_dist(20) // maximum initial distance to switch to steering control
+min_azimuth(10) // minimum azimuth to leave platoon
 
 :Initial Goals:
 
@@ -77,17 +43,99 @@ vehicle_id(3)
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member}<- 
-				perf(pred(assign_platoon_id),args(Y)), perf(switch_cruise_to_platoon), remove_shared(no_platoon_member), remove_shared(agreement(X,Y)), +join_to_platoon_from_behind(X,Y), print(done); //, assert_shared(platoon_member);
+//========== Input abstraction = {join_agreement, no_platoon_member, preceding_vehicle_platoon_member} ===========
 
-			
++precedingPID(PID): {~B preceding_vehicle_platoon_member, 0 < PID}<- assert_shared(preceding_vehicle_platoon_member); // assume ID = 0 when a vehicle is not a member of the platoon
++precedingPID(PID): {B preceding_vehicle_platoon_member, PID < 1}<- remove_shared(preceding_vehicle_platoon_member); 
+
++egoPID(PID): {B no_platoon_member, 0 < PID}<- remove_shared(no_platoon_member);
++egoPID(PID): {~B no_platoon_member, PID == 0}<- assert_shared(no_platoon_member);
+
++speed(X): {~B initial_speed, B init_min_speed(Y), Y < X}<- assert_shared(initial_speed); // if vehicle's speed is greater than minimum initial speed, we add "initial_speed" belief
++speed(X): {B initial_speed, B init_min_speed(Y), X < Y}<- remove_shared(initial_speed); // if vehicle's speed is less than minimum initial speed, we remove "initial_speed" belief
+
++distance(X): {~B initial_distance, B init_max_dist(Y), Y < X }<- assert_shared(initial_distance); // if vehicle's distance is less than maximum initial distance, we add "initial_distance" belief
++distance(X): {B initial_distance, B init_max_dist(Y), X < Y }<- remove_shared(initial_distance); // if vehicle's distance is greater than maximum initial distance, we remove "initial_distance" belief
+
++azimuth(X): {~B no_platoon_member, ~B azimuth, B min_azimuth(Y), Y < X }<- assert_shared(azimuth);
++azimuth(X): {B azimuth, B min_azimuth(Y), X < Y }<- remove_shared(azimuth);
+
+
+//========== Output reification = {switch_platoon_to_cruise, switch_cruise_to_platoon, request_to_join } =====
+
++!switch_to_speed_controller [perform]: {True}<- run(switch_to_speed_controller);
+
++!switch_to_steering_controller [perform]: {True}<- run(switch_to_steering_controller);
+
++!assign_platoon_id(X) [perform]: {True}<- run(pred(assign_platoon_id),args(X));
+
+
+
+//=================================== behind vehicle reasoning engine ===============================================
+
+:name: follower1
+
+:Initial Beliefs:
+
+//no_platoon_member
+vehicle_id(3)
+req(join)
+req(leave)
+
+:Reasoning Rules:
+
+join_to_platoon_from_behind(X,Y):- ~ no_platoon_member;
+
+:Initial Goals:
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++no_platoon_member: {B preceding_vehicle_platoon_member, B vehicle_id(X), ~B request_to_join(X), B req(join)}<- .send(leader, :tell, message(X, 1)), +request_to_join(X), print(send_request_to_join);
++preceding_vehicle_platoon_member: {B no_platoon_member, B vehicle_id(X), ~B request_to_join(X), B req(join)}<- .send(leader, :tell, message(X, 1)), +request_to_join(X), print(send_request_to_join);
+
++azimuth: {~B no_platoon_member, ~B request_to_leave(X), B req(leave)}<- .send(leader, :tell, message(X, 0)), +request_to_leave(X), print(send_request_to_leave);
+
+
++!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member, 
+											B initial_speed, B initial_distance, B join_agreement(X,Y)}<- 
+											perf(switch_to_speed_controller), +speed_controller,
+											print(speed_controller_enabled);
+				 
++!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
+											~B initial_distance, B join_agreement(X,Y), B speed_controller, B vehicle_id(K)}<- 
+											perf(assign_platoon_id(Y)), 
+											perf(switch_to_steering_controller), 
+											remove_shared(no_platoon_member),
+											remove_shared(join_agreement(X,Y)),
+											-speed_controller,
+											.send(leader, :tell, platoon_member(K)),
+											print(switch_to_steering_controller),
+											print(joining_to_platoon_completed);
+
++!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
+											B initial_speed, ~B initial_distance, B join_agreement(X,Y), ~B speed_controller, B vehicle_id(K)} <-
+											perf(switch_to_speed_controller), +speed_controller,
+											perf(assign_platoon_id(Y)), 
+											perf(switch_to_steering_controller), 
+											remove_shared(no_platoon_member),
+											remove_shared(join_agreement(X,Y)),
+											.send(leader, :tell, platoon_member(K)),
+											print(speed_controller),
+											print(steering_controller),
+											print(joining_to_platoon_completed);
+											
+
 +!leave_platoon_from_behind [achieve]: {~B no_platoon_member} <- 
-				perf(switch_platoon_to_cruise), assert_shared(no_platoon_member); //, assert_shared(no_platoon_member);
+				perf(switch_platoon_to_cruise), assert_shared(no_platoon_member); 
+			
++join_agreement(X,Y): {B no_platoon_member, B vehicle_id(X), B request_to_join(X) }<- -request_to_join(X), print(go_for_joining), +!join_to_platoon_from_behind(X,Y) [achieve];
 
-+agreement(X,Y): {B no_platoon_member, B vehicle_id(X), B request_to_join(X) }<- -request_to_join(X), print(go_for_joining), +!join_to_platoon_from_behind(X,Y) [achieve];
 
-
-+no_platoon_member: {B preceding_vehicle_platoon_member, B vehicle_id(X), ~B request_to_join(X)}<- print(send_request_to_join), perf(pred(request_to_join),args(X)), +request_to_join(X);
 
 
 //=================================== leader abstract engine ===============================================
@@ -101,24 +149,22 @@ platoon_member(1) platoon_member(2)
 //platoon_member(3)
 //platoon_member(4) platoon_member(5) platoon_member(6)
 //platoon_member(7) platoon_member(8)
-
-
-:Reasoning Rules:
-
-last_car(X) :- platoon_member(X), ~platoon_member(Y), [X < Y];
+req(join)
+req(leave)
 
 
 :Initial Goals:
 
 :Plans:
 
-+message(SENDER, REQ): {~B platoon_member(SENDER), ~B request_to_join(SENDER)}<- assert_shared(request_to_join(SENDER));
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 
-+check_tick(X, ID): {B platoon_member(X), ID < X}<- remove_assert(platoon_member(X)); // in each run check if we receive live bit (ID) from all members (X)
 
-+check_tick(X, ID): {~B platoon_member(X), B last_car(Y), Y < ID } <- assert_shared(platoon_member(X));
 
-+!agreement_preprocessing(SENDER) [perform]: {True}<- run(time_synchronisation), run(send_agreement(SENDER, SENDER)), remove_shared(request_to_join(SENDER)); //, run(send_agreement_message(x))
++!time_synch(SENDER) [perform]: {True}<- run(time_synchronisation); 
 
 //=================================== leader reasoning engine ===============================================
 
@@ -131,11 +177,9 @@ platoon_member(1) platoon_member(2)
 //platoon_member(3)
 //platoon_member(4) platoon_member(5) platoon_member(6)
 //platoon_member(7) platoon_member(8)
-
-
-:Reasoning Rules:
-
-last_car(X) :- platoon_member(X), ~platoon_member(Y), [X < Y];
+req(1) // means request to join
+req(0) // means request to leave
+last_car(2)
 
 :Initial Goals:
 
@@ -146,8 +190,20 @@ last_car(X) :- platoon_member(X), ~platoon_member(Y), [X < Y];
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
++message(SENDER, REQ): {~B platoon_member(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ} <- 
+						assert_shared(request_to_join(SENDER)),
+						+accept_request_join(SENDER),
+						print(leader_received_req); 
 
-+!request_to_join(SENDER) [achieve]: {~B platoon_member(SENDER), B last_car(Y), Y< SENDER}<- perf(pred(agreement_preprocessing),args(SENDER)), print(answertorequest);  //what are conditions to accept joining request?
- 
- 
++message(SENDER, REQ): {B platoon_member(SENDER), ~B request_to_leave(SENDER), B req(0), 0 == REQ} <-
+						assert_shared(request_to_leave(SENDER)),
+						+accept_request_leave(SENDER),
+						print(leader_received_req_leave); 
+
++platoon_member(SENDER): {~B platoon_member(SENDER), ~B request_to_join(SENDER), B last_car(X)}<- -accept_request_join(SENDER), -last_car(X), +last_car(SENDER), print(leader_knows_a_vehicle_joined_to_platoon);
+
++accept_request_join(SENDER): {~B platoon_member(SENDER), B last_car(Y), Y < SENDER, ~B ack_sent(SENDER), B request_to_join(SENDER)} <- 
+									.send(follower1, :tell, join_agreement(SENDER,SENDER)), -request_to_join(SENDER), perf(time_synch(SENDER)),
+									print(leader_sent_acknowledge_back_to_sender), -message(SENDER, 1);
+
  

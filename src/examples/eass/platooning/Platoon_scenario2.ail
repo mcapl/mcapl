@@ -11,4 +11,3 @@ log.info= eass.mas.DefaultEnvironment,
 log.fine = ail.semantics.AILAgent
 //log.fine = eass.platooning.PlatoonEnvironment_Scenario2
 
-connectedtomatlab = false
