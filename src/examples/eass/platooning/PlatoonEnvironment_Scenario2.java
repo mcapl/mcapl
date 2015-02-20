@@ -24,7 +24,7 @@ import eass.mas.matlab.EASSMatLabEnvironment;
 
 
 
-public class PlatoonEnvironment_Scenario2 extends EASSMatLabEnvironment {
+public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 	String logname = "eass.platooning.PlatoonEnvironment";
 
 	
@@ -63,22 +63,18 @@ public class PlatoonEnvironment_Scenario2 extends EASSMatLabEnvironment {
 	public void initialise() {
 		super.initialise();
 		// If not connected to matlab make the scheduler more verification friendly.
-		if (!connectedtomatlab) {
 			NActionScheduler s = (NActionScheduler) getScheduler();
 			removePerceptListener(s);
 			ActionScheduler s1 = new ActionScheduler();
 			s1.addJobber(this);
 			setScheduler(s1);
 			addPerceptListener(s1);
-		}
 	}
 
 	public void eachrun() {
 
-		if (Y == 10){
+		if (Y == 40){
 			Y=1;
-			agreement= r.nextBoolean();
-	//		egoPID = r.nextInt(2);
 		}
 		
 /*		for (Vehicle v: vehicles) {
@@ -94,31 +90,43 @@ public class PlatoonEnvironment_Scenario2 extends EASSMatLabEnvironment {
 			}
 		}
 */
-		if(agreement){
-			   Literal LeaderAgreement = new Literal("leaderAgreement");
-//				egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
-			   int pid= 3;
-			   LeaderAgreement.addTerm(new NumberTermImpl(egoID));
-			   LeaderAgreement.addTerm(new NumberTermImpl(pid));
-			   addPercept("abstraction_follower1",LeaderAgreement);
-			   agreement= false;
-		}
+//		if(agreement){
+//			   Literal LeaderAgreement = new Literal("leaderAgreement");
+////				egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
+//			   int pid= 3;
+//			   LeaderAgreement.addTerm(new NumberTermImpl(egoID));
+//			   LeaderAgreement.addTerm(new NumberTermImpl(pid));
+//			   addPercept("abstraction_follower1",LeaderAgreement);
+//			   agreement= false;
+//		}
 		
 		
 		Literal distance = new Literal("distance");
 //		distance.addTerm(new NumberTermImpl(v.getDistance()));
 		distance.addTerm(new NumberTermImpl(Y));
-		addUniquePercept("abstraction_follower1", distance);		
+		addUniquePercept("abstraction_follower1", "distance", distance);		
 		
 		Literal precedingPlatoonID = new Literal("precedingPID");
 //		precedingPlatoonID.addTerm(new NumberTermImpl(v.getPrecedingPID()));
 		precedingPlatoonID.addTerm(new NumberTermImpl(precedingPID));
-		addPercept("abstraction_follower1",precedingPlatoonID);
+		addUniquePercept("abstraction_follower1","precedingPID", precedingPlatoonID);
 		
 		Literal egoPlatoonID = new Literal("egoPID");
 //		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 		egoPlatoonID.addTerm(new NumberTermImpl(egoPID));
-		addPercept("abstraction_follower1",egoPlatoonID);
+		addUniquePercept("abstraction_follower1","egoPID", egoPlatoonID);
+		
+		Literal speed = new Literal("speed");
+//		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
+		speed.addTerm(new NumberTermImpl(new Random().nextInt(150)));
+		addUniquePercept("abstraction_follower1", "speed", speed);
+
+		if(egoPID != 0){
+			Literal azimuth = new Literal("azimuth");
+			//		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
+			speed.addTerm(new NumberTermImpl(new Random().nextInt(150)));
+			addUniquePercept("abstraction_follower1", "azimuth", azimuth);
+		}
 		
 		Y++;
 		
@@ -138,7 +146,53 @@ public class PlatoonEnvironment_Scenario2 extends EASSMatLabEnvironment {
 	public boolean done() {
 		   return false;
 		}
-	
+
+	public Unifier executeAction(String agName, Action act) throws AILexception {
+		   
+		Unifier u = new Unifier();
+		boolean printed = false;
+		 
+	   if (act.getFunctor().equals("run")) {
+			   Predicate predlist = (Predicate) act.getTerm(0);
+			   int num_name_comps = predlist.getTermsSize();
+			   String predname = "";
+
+			   // to extract predname as String
+			   for (int i=0; i<num_name_comps; i++) {
+				   // Lots of extra work to get the string correct.
+				   Term nb = predlist.getTerm(i);
+				   String s = nb.toString();
+				   if (nb instanceof VarTerm) {
+					   VarTerm v = (VarTerm) nb;
+					   nb = v.getValue();
+				   }
+				   if (nb instanceof NumberTerm) {
+					   NumberTerm num = (NumberTerm) nb;
+					   Double number = num.solve();
+					   int num_as_int = number.intValue();
+					   s = ((Integer) num_as_int).toString();
+				   }
+				   if (nb instanceof StringTermImpl) {
+					   StringTermImpl string = (StringTermImpl) nb;
+					   s = string.getString();
+				   }
+				   predname += s;
+			   }
+			   System.out.println("real call for performing an action for "+ predname);
+
+				if (predname.equals("assign_platoon_id"))
+						egoPID = 3;
+						System.out.println("set platoonID"+ egoPID);
+	   }  else {
+     		 u = super.executeAction(agName, act);
+    		 printed = true;
+    	}
+	   
+	   if (!printed) {
+		   AJPFLogger.info("eass.mas.DefaultEASSEnvironment", agName + " done " + printAction(act));
+	   }
+	   return u;
+	  }		
 //	public void noconnection_run(String agname, Action act) {
 //		if (act.getFunctor().equals("run")) {
 //			   Predicate predlist = (Predicate) act.getTerm(0);
