@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ail.mas.ActionScheduler;
 import ail.mas.NActionScheduler;
+import ail.mas.RoundRobinScheduler;
 import ail.platoon.Vehicle;
 import ail.syntax.Action;
 import ail.syntax.Literal;
@@ -48,6 +49,7 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 	 */
 	public PlatoonEnvironment_Scenario2() {
 		super();
+	//	RoundRobinScheduler s = new RoundRobinScheduler();
 		NActionScheduler s = new NActionScheduler(100);
 		s.addJobber(this);
 		setScheduler(s);
@@ -72,7 +74,7 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 	}
 
 	public void eachrun() {
-
+		
 		if (Y == 40){
 			Y=1;
 		}
@@ -124,7 +126,7 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 		if(egoPID != 0){
 			Literal azimuth = new Literal("azimuth");
 			//		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
-			speed.addTerm(new NumberTermImpl(new Random().nextInt(150)));
+			azimuth.addTerm(new NumberTermImpl(Y));
 			addUniquePercept("abstraction_follower1", "azimuth", azimuth);
 		}
 		
@@ -136,12 +138,12 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#printvalues(ail.syntax.Literal)
 	 */
-	public void printvalues(Literal pred) {
-		if (pred.getFunctor().equals("distance")) {
-			AJPFLogger.fine("eass.platooning", pred.toString());
-		} 
-
-	}
+//	public void printvalues(Literal pred) {
+//		if (pred.getFunctor().equals("distance")) {
+//			AJPFLogger.fine("eass.platooning", pred.toString());
+//		} 
+//
+//	}
 
 	public boolean done() {
 		   return false;
@@ -178,11 +180,11 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 				   }
 				   predname += s;
 			   }
-			   System.out.println("real call for performing an action for "+ predname);
-
-				if (predname.equals("assign_platoon_id"))
+			  
+				if (predname.equals("assign_platoon_id")){
 						egoPID = 3;
 						System.out.println("set platoonID"+ egoPID);
+				}
 	   }  else {
      		 u = super.executeAction(agName, act);
     		 printed = true;

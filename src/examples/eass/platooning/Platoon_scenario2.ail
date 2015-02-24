@@ -7,7 +7,6 @@ mas.builder= eass.EASSMASBuilder
 
 log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontrocller
 log.info= eass.mas.DefaultEnvironment,
-//log.format = brief
-log.fine = ail.semantics.AILAgent
+log.format = brief
+//log.fine = ail.semantics.AILAgent
 //log.fine = eass.platooning.PlatoonEnvironment_Scenario2
-

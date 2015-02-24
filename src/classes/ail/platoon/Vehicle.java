@@ -32,8 +32,10 @@ public class Vehicle {
 									"set_distance_parameter_for_latency(3)",
 									"request_to_join",
 									"assign_platoon_id",
-									"switch_cruise_to_platoon",
-									"switch_platoon_to_cruise"};
+									"speed_controller_enabled",
+									"speed_controller_disabled",
+									"steering_controller_enabled",
+									"steering_controller_disabled"};
 	/* Set up our sockets */
 	public Vehicle(int id) {
 		ego.uniqueID = id;
@@ -138,7 +140,7 @@ public class Vehicle {
 		return preceding.platoonID;
 	}
 	
-	public int getegoPID(){
+	public int getegoPID(){ // IT SHOULD BE MODIFIED
 		return ego.uniqueID;
 	}
 	
@@ -148,6 +150,10 @@ public class Vehicle {
 	
 	public double getSpeed(){
 		return preceding.speed;
+	}
+	
+	public double getAzimuth(){
+		return ego.azimuth;
 	}
 	
 	

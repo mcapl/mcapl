@@ -91,14 +91,19 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 
 			Literal precedingSpeed = new Literal("precedingSpeed");
 //			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
-			egoPlatoonID.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
+			precedingSpeed.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "precedingSpeed", precedingSpeed);
 			
 			Literal speed = new Literal("speed");
 //			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
-			egoPlatoonID.addTerm(new NumberTermImpl(v.getSpeed()));
+			speed.addTerm(new NumberTermImpl(v.getSpeed()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
 			
+			Literal azimuth = new Literal("azimuth");
+//			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
+			azimuth.addTerm(new NumberTermImpl(v.getAzimuth()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "azimuth", azimuth);
+
 			
 		}
 
@@ -108,12 +113,12 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#printvalues(ail.syntax.Literal)
 	 */
-	public void printvalues(Literal pred) {
-		if (pred.getFunctor().equals("distance")) {
-			AJPFLogger.fine("eass.platooning", pred.toString());
-		} 
-
-	}
+//	public void printvalues(Literal pred) {
+//		if (pred.getFunctor().equals("distance")) {
+//			AJPFLogger.fine("eass.platooning", pred.toString());
+//		} 
+//
+//	}
 
 	public boolean done() {
 		   return false;
