@@ -39,8 +39,7 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import eass.mas.matlab.EASSMatLabEnvironment;
-
+import eass.mas.eass.EASSOriginalEnvironment;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -48,7 +47,7 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class LEOVerificationEnvironment extends EASSMatLabEnvironment {
+public class LEOVerificationEnvironment extends EASSOriginalEnvironment {
 	static final String logname = "eass.verification.leo.LEOVerificationEnvironment";
 	// Configuration settings for various tests
 	boolean testing_movement = true;

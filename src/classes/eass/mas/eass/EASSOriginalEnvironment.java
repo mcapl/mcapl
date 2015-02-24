@@ -23,7 +23,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.mas.matlab;
+package eass.mas.eass;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,11 +68,11 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
 
 /**
- * Default environment class for EASS project.  Sets up socket servers and generic actions.
+ * Default environment class for EASS project.  Sets up socket servers and generic actions.  As originally developed for EASS Project.
  * @author louiseadennis
  *
  */
-public class EASSMatLabEnvironment extends DefaultEASSEnvironment {
+public class EASSOriginalEnvironment extends DefaultEASSEnvironment {
 	/**
 	 * Socket that connects to the Physical Engine.
 	 */
@@ -113,7 +113,7 @@ public class EASSMatLabEnvironment extends DefaultEASSEnvironment {
 	 * Constructor - creates sockets.
 	 *
 	 */
-	public EASSMatLabEnvironment() {
+	public EASSOriginalEnvironment() {
 		super();
 	}
 	
