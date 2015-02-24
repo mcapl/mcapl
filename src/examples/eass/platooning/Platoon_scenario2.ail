@@ -1,5 +1,5 @@
 
-env = eass.platooning.PlatoonEnvironment_Scenario2
+env = eass.platooning.PlatoonEnvironment_Scenario
 
 mas.file=/src/examples/eass/platooning/platoon_scenario2.eass
 mas.builder= eass.EASSMASBuilder

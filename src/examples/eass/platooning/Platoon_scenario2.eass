@@ -32,8 +32,8 @@ EASS
 vehicle_id(3)
 init_min_speed(10) // minimum initial speed to switch to speed control
 init_max_dist(20) // maximum initial distance to switch to steering control
-min_azimuth(20) // minimum azimuth to leave platoon
-leave_distance(15)
+min_azimuth(20) // minimum azimuth to leave the platoon
+leave_distance(15) // minimum distance to be able to leave the platoon
 
 
 :Initial Goals:
@@ -45,7 +45,8 @@ leave_distance(15)
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-//========== Input abstraction = {join_agreement, no_platoon_member, preceding_vehicle_platoon_member} ===========
+//================= follower abstraction, provides the required conditions for joining and leaving a platoon for reasoning engine ===========
+
 
 +precedingPID(PID): {~B preceding_vehicle_platoon_member, 0 < PID}<- assert_shared(preceding_vehicle_platoon_member); // assume ID = 0 when a vehicle is not a member of the platoon
 +precedingPID(PID): {B preceding_vehicle_platoon_member, PID < 1}<- remove_shared(preceding_vehicle_platoon_member); 
@@ -79,7 +80,7 @@ leave_distance(15)
 
 
 
-//========== Output reification = {switch_platoon_to_cruise, switch_cruise_to_platoon, request_to_join } =====
+//========== the list of actions that agent sends back to Simulator  ===============
 
 +!speed_controller_enabled [perform]: {True}<- run(speed_controller_enabled);
 
@@ -93,6 +94,7 @@ leave_distance(15)
 
 +!set_spacing(Y) [perform]: {True}<- run(pred(set_spacing),args(Y));
 
+
 //=================================== behind vehicle reasoning engine ===============================================
 
 :name: follower1
@@ -103,7 +105,6 @@ vehicle_id(3)
 req(join)
 req(leave)
 leave_spacing(15)
-
 
 :Reasoning Rules:
 
@@ -120,24 +121,24 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+join_to_platoon_from_behind(X,Y): {True}<- print(waiting_phase), +! wait [perform], print(waiting_phase_over);									
 
-+ready_to_leave: {True}<- print(leaving_can_start), +!leave_platoon_from_behind [achieve];
+// ================================= joining to a platoon ================
 
-
+// ================================= once the agent found out that is not part of platoon and the preceding vehicle is in platoon, it sends a request to leader to join ===============================
 +no_platoon_member: {B preceding_vehicle_platoon_member, B vehicle_id(X), ~B request_to_join(X), B req(join), ~B leave_agreement(X)}<- .send(leader, :tell, message(X, 1)), +request_to_join(X), print(send_request_to_join);
 +preceding_vehicle_platoon_member: {B no_platoon_member, B vehicle_id(X), ~B request_to_join(X), B req(join)}<- .send(leader, :tell, message(X, 1)), +request_to_join(X), print(send_request_to_join);
 
-//+azimuth: {~B no_platoon_member, ~B request_to_leave(X), B req(leave), B vehicle_id(X),
-//			 ~G join_to_platoon_from_behind(X,Y) [achieve]}<- 
-//			 .send(leader, :tell, message(X, 0)), +request_to_leave(X), 
-//			 print(send_request_to_leave), *leave_agreement(X), +!leave_platoon_from_behind [achieve];
+// ================================ when the follower recieves the agreement from leader for joining, it initiates a goal for joining ===========================================
++join_agreement(X,Y): {B no_platoon_member, B vehicle_id(X), B request_to_join(X) }<- -request_to_join(X), print(go_for_joining), +!join_to_platoon_from_behind(X,Y) [achieve];
 
+// ================================ follower waits for speed>10  and distance>20, then enables speed controller ====================
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											B initial_speed, B initial_distance, B join_agreement(X,Y)}<- 
 											perf(speed_controller_enabled), +speed_controller,
 											print(speed_controller_enabled);
-				 
+
+// ================================ follower already enabled speed controller and its distance<20, then enables steering controller. ========================
+// ================================ it also assigns the platoon ID which has been sent by leader. Finally sends a message to leader saying it is now a member of platoon  ====================				 
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											~B initial_distance, B join_agreement(X,Y), B speed_controller, B vehicle_id(Y)}<- 
 											perf(assign_platoon_id(Y)), 
@@ -148,6 +149,9 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 											print(steering_controller_enabled),
 											print(joining_to_platoon_completed), assert_shared(waiting_to_leave);
 
+
+// ================================ follower at first place informed that speed>10 and distance<20, then enables both speed and steering controllers.====================				 
+// ================================ it also assigns the platoon ID which has been sent by leader. Finally sends a message to leader saying it is now a member of platoon  ====================				 
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											B initial_speed, ~B initial_distance, B join_agreement(X,Y), ~B speed_controller, B vehicle_id(Y)} <-
 											perf(speed_controller_enabled), +speed_controller,
@@ -159,20 +163,27 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 											print(speed_controller),
 											print(steering_controller),
 											print(joining_to_platoon_completed), assert_shared(waiting_to_leave);
-											
-+!leave_platoon_from_behind [achieve]: {~B no_platoon_member, B leave_agreement(X), B request_to_leave(X), B vehicle_id(X), B leave_spacing(Y), ~B set_spacing} <- 
-										perf(set_spacing(Y)), *leave_distance, *azimuth, print(set_spacing_to_leave), +set_spacing; 
 
-+!leave_platoon_from_behind [achieve]: {B leave_agreement(X), B request_to_leave(X), B vehicle_id(X),
-										B set_spacing, B azimuth, B leave_distance,
-										G leave_platoon_from_behind [achieve] }<-
-										perf(speed_controller_disabled), perf(steering_controller_disabled), assert_shared(no_platoon_member), print(vehicle_left_platoon), remove_shared(ready_to_leave), -set_spacing; 
-										
+
+// ======================== leaving a platoon ==============================
+
+// ======================== follower waits sometime after joining then initiates a goal for leaving the platoon ======================
++ready_to_leave: {True}<- print(leaving_can_start), +!leave_platoon_from_behind [achieve];
+
+// ======================== follower sends a request to leader to leave and wait for reply =============================										
 +!leave_platoon_from_behind [achieve]: {~B no_platoon_member, ~B request_to_leave(X), B vehicle_id(X)}<-
 										print(send_request_to_leave), .send(leader, :tell, message(X, 0)),
 										 +request_to_leave(X), *leave_agreement(X);
 
-+join_agreement(X,Y): {B no_platoon_member, B vehicle_id(X), B request_to_join(X) }<- -request_to_join(X), print(go_for_joining), +!join_to_platoon_from_behind(X,Y) [achieve];
+// ======================== when follower recieves agreement from the leader, first send command to set spacing = 20 and wait for the distance and azimuth data ======================											
++!leave_platoon_from_behind [achieve]: {~B no_platoon_member, B leave_agreement(X), B request_to_leave(X), B vehicle_id(X), B leave_spacing(Y), ~B set_spacing} <- 
+										perf(set_spacing(Y)), *leave_distance, *azimuth, print(set_spacing_to_leave), +set_spacing; 
+
+// ======================== when distance > 15 and azimuth >10, speed  and steering controllers being disable =============================
++!leave_platoon_from_behind [achieve]: {B leave_agreement(X), B request_to_leave(X), B vehicle_id(X),
+										B set_spacing, B azimuth, B leave_distance,
+										G leave_platoon_from_behind [achieve] }<-
+										perf(speed_controller_disabled), perf(steering_controller_disabled), assert_shared(no_platoon_member), print(vehicle_left_platoon), remove_shared(ready_to_leave), -set_spacing; 
 
 
 //=================================== leader abstract engine ===============================================
@@ -227,22 +238,27 @@ last_car(2)
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
+// =================================== leader receives a joining request ================
 +message(SENDER, REQ): {~B platoon_member(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ} <- 
 						+request_to_join(SENDER),
 						+accept_request_join(SENDER),
 						print(leader_received_req); 
 
+// =================================== leader receives a leaving request ================
 +message(SENDER, REQ): {B platoon_member(SENDER), ~B request_to_leave(SENDER), B req(0), 0 == REQ} <-
 						+request_to_leave(SENDER),
 						+accept_request_leave(SENDER),
 						print(leader_received_req_leave); 
 
+// =================================== leader receives a confirmation from the last vehicle saying the follower is now part of the platoon ================
 +platoon_member(SENDER): {~B request_to_join(SENDER), B last_car(X), X< SENDER}<- -accept_request_join(SENDER), -last_car(X), +last_car(SENDER), print(leader_knows_a_vehicle_joined_to_platoon);
 
+// =================================== leader checks the sender if senderID is greater than the last vehicle in the platoon, it accepts the request and sends back the agreement to the follower to join (it is done in agent level)=========================
 +accept_request_join(SENDER): {~B platoon_member(SENDER), B last_car(Y), Y < SENDER, ~B ack_sent(SENDER), B request_to_join(SENDER)} <- 
 									.send(follower1, :tell, join_agreement(SENDER,SENDER)), -request_to_join(SENDER), perf(time_synch(SENDER)),
 									print(leader_sent_acknowledge_back_to_sender_to_join), -message(SENDER, 1);
 
+// =================================== leader checks the sender if senderID is the last vehicle in the platoon, it accepts the request and sends back the agreement to the follower to leave (it is done in agent level)=========================
 +accept_request_leave(SENDER): {B platoon_member(SENDER), B last_car(SENDER), ~B ack_sent_leave(SENDER), B request_to_leave(SENDER)} <- 
 									.send(follower1, :tell, leave_agreement(SENDER)), -request_to_leave(SENDER),
 									print(leader_sent_acknowledge_back_to_sender_to_leave), -message(SENDER, 0);
