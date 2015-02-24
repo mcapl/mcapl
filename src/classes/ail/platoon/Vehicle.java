@@ -3,7 +3,10 @@ package ail.platoon;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
+
+import javax.microedition.lcdui.Command;
 
 import ail.syntax.Unifier;
 import ail.util.AILSocketServer;
@@ -22,20 +25,24 @@ public class Vehicle {
 	public VehicleData leader = new VehicleData();
 	public VehicleData preceding = new VehicleData();
 
-	public String[] command_list = {"", 
-									"send_message_too_close", 
-									"send_message_too_far",
-									"breaking_platoon",
-									"set_distance_parameter_for_latency(0)",
-									"set_distance_parameter_for_latency(1)",
-									"set_distance_parameter_for_latency(2)",
-									"set_distance_parameter_for_latency(3)",
-									"request_to_join",
-									"assign_platoon_id",
-									"speed_controller_enabled",
-									"speed_controller_disabled",
-									"steering_controller_enabled",
-									"steering_controller_disabled"};
+	ArrayList<ExecutableAction> commandList = new ArrayList<ExecutableAction>();
+	
+//	public String[] command_list = {"", 
+//									"send_message_too_close",
+//									"send_message_too_far",
+//									"breaking_platoon",
+//									"set_distance_parameter_for_latency(0)",
+//									"set_distance_parameter_for_latency(1)",
+//									"set_distance_parameter_for_latency(2)",
+//									"set_distance_parameter_for_latency(3)",
+//									"assign_platoon_id",
+//									"speed_controller_enabled",
+//									"speed_controller_disabled",
+//									"steering_controller_enabled",
+//									"steering_controller_disabled",
+//									"set_spacing"};
+	
+	
 	/* Set up our sockets */
 	public Vehicle(int id) {
 		ego.uniqueID = id;
@@ -50,25 +57,44 @@ public class Vehicle {
 		System.out.print("Vehicle " + id + " waiting for connection on port " + (BASE_OUTBOUND_PORT + id) + "... ");
 		outbound = new AILSocketServer(BASE_OUTBOUND_PORT + id);
 		System.out.println("Connected!");
+
+		commandList.add(new ExecutableAction("speed_controller", 1, 1));
+		commandList.add(new ExecutableAction("steering_controller", 2, 1));
+		commandList.add(new ExecutableAction("set_spacing", 3, 1));
+		commandList.add(new ExecutableAction("assign_platoon_id", 4, 1));
+		commandList.add(new ExecutableAction("send_message_too_close", 5, 0));
+		commandList.add(new ExecutableAction("send_message_too_far", 6, 0));
+		commandList.add(new ExecutableAction("breaking_platoon", 7, 0));
+		
+		
 	}
 
-	public void execute(String command) {
+	// command composed of three attributes: commandID (int), number of arguments (int) and the value of arguments (double)
+	// if commandID == 0, there is no equivalent command in command_list, 
+	public void execute(String command, int num_args, double[] cmd_args) {
 		int command_number = 0;
 		
-		for(int i=0; i< command_list.length; i++){
-			if(command.equals(command_list[i]))
-				command_number= i;
+		for (ExecutableAction ea : commandList) {
+			if(ea.actionName.equals(command))	
+				command_number = ea.actionID;
 		}
-		
-		/* Create buffer to transmit our command */
-		ByteBuffer buf2 = ByteBuffer.allocate(4);
-		buf2.order(ByteOrder.LITTLE_ENDIAN);
-		buf2.putInt(command_number);
-		
-		/* Write to outbound socket */
-		outbound.write(buf2);
+
+		if(command_number != 0){
+			/* Create buffer to transmit our command */
+			ByteBuffer buf2 = ByteBuffer.allocate(4);
+			buf2.order(ByteOrder.LITTLE_ENDIAN);
+			buf2.putInt(command_number);
+			buf2.putInt(num_args);
+			if(num_args != 0){
+				for(int i=0; i< num_args; i++)			
+					buf2.putDouble(cmd_args[i]);
+			}
+			/* Write to outbound socket */
+			outbound.write(buf2);
+		}
 //		System.out.println("\n command_number is "+ command_number+ " and it is "+ command);		
 	}
+	
 	
 	/* Update our data and send a command */
 	public boolean update() {
@@ -156,7 +182,22 @@ public class Vehicle {
 		return ego.azimuth;
 	}
 	
+	// PRIVATE INNER CLASS 
+	private class ExecutableAction {
+		String actionName;
+		int actionID;
+		int actionArgumentNumber;
+		
+		public ExecutableAction(String actionName, int actionID, int actionArgumentNumber){
+			this.actionName = actionName;
+			this.actionID = actionID;
+			this.actionArgumentNumber = actionArgumentNumber;
+		}
+		
+	}
 	
+	
+
 //	
 //	/* Quick example usage */
 //	public static void main(String [] args) {

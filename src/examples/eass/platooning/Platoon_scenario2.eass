@@ -82,15 +82,11 @@ leave_distance(15) // minimum distance to be able to leave the platoon
 
 //========== the list of actions that agent sends back to Simulator  ===============
 
-+!speed_controller_enabled [perform]: {True}<- run(speed_controller_enabled);
++!speed_controller(X) [perform]: {True}<- run(pred(speed_controller),args(X));
 
-+!steering_controller_enabled [perform]: {True}<- run(steering_controller_enabled);
++!steering_controller(X) [perform]: {True}<- run(pred(steering_controller),args(X));
 
 +!assign_platoon_id(X) [perform]: {True}<- run(pred(assign_platoon_id),args(X));
-
-+!speed_controller_disabled [perform]: {True}<- run(speed_controller_disabled);
-
-+!steering_controller_disabled [perform]: {True}<- run(steering_controller_disabled);
 
 +!set_spacing(Y) [perform]: {True}<- run(pred(set_spacing),args(Y));
 
@@ -134,7 +130,7 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 // ================================ follower waits for speed>10  and distance>20, then enables speed controller ====================
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											B initial_speed, B initial_distance, B join_agreement(X,Y)}<- 
-											perf(speed_controller_enabled), +speed_controller,
+											perf(speed_controller(1)), +speed_controller,
 											print(speed_controller_enabled);
 
 // ================================ follower already enabled speed controller and its distance<20, then enables steering controller. ========================
@@ -142,7 +138,7 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											~B initial_distance, B join_agreement(X,Y), B speed_controller, B vehicle_id(Y)}<- 
 											perf(assign_platoon_id(Y)), 
-											perf(steering_controller_enabled), 
+											perf(steering_controller(1)), 
 											.send(leader, :tell, platoon_member(Y)),
 											remove_shared(no_platoon_member),
 											-join_agreement(X,Y),
@@ -154,9 +150,9 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 // ================================ it also assigns the platoon ID which has been sent by leader. Finally sends a message to leader saying it is now a member of platoon  ====================				 
 +!join_to_platoon_from_behind(X,Y) [achieve]: {B preceding_vehicle_platoon_member, B no_platoon_member,
 											B initial_speed, ~B initial_distance, B join_agreement(X,Y), ~B speed_controller, B vehicle_id(Y)} <-
-											perf(speed_controller_enabled), +speed_controller,
+											perf(speed_controller(1)), +speed_controller,
 											perf(assign_platoon_id(Y)),
-											perf(steering_controller_enabled), 
+											perf(steering_controller(1)), 
 											.send(leader, :tell, platoon_member(Y)),
 											remove_shared(no_platoon_member),
 											-join_agreement(X,Y),
@@ -183,7 +179,7 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 +!leave_platoon_from_behind [achieve]: {B leave_agreement(X), B request_to_leave(X), B vehicle_id(X),
 										B set_spacing, B azimuth, B leave_distance,
 										G leave_platoon_from_behind [achieve] }<-
-										perf(speed_controller_disabled), perf(steering_controller_disabled), assert_shared(no_platoon_member), print(vehicle_left_platoon), remove_shared(ready_to_leave), -set_spacing; 
+										perf(speed_controller(0)), perf(steering_controller(0)), assert_shared(no_platoon_member), print(vehicle_left_platoon), remove_shared(ready_to_leave), -set_spacing; 
 
 
 //=================================== leader abstract engine ===============================================

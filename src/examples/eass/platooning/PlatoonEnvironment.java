@@ -73,7 +73,6 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		
 		for (Vehicle v: vehicles) {
 			v.update();
-			v.execute("");
 
 			Literal distance = new Literal("distance");
 			distance.addTerm(new NumberTermImpl(v.getDistance()));
@@ -134,7 +133,7 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 			   Predicate predlist = (Predicate) act.getTerm(0);
 			   Predicate predargs = (Predicate) act.getTerm(1);
 			   int num_args = predargs.getTermsSize();
-			   String num_arg_s = "" + num_args;
+//			   String num_arg_s = "" + num_args;
 			   int num_name_comps = predlist.getTermsSize();
 			   String predname = "";
 
@@ -159,12 +158,31 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 				   }
 				   predname += s;
 			   }
-			   System.out.println("real call for performing an action for "+ predname);
+			   
+			   	double arg_list[] = new double[num_args-1];
+			   	for (int i=0; i < num_args; i++) {
+			   		Term arg = predargs.getTerm(i);
+			   		arg_list[i]= 0;
+//			   		String s = arg.toString();
+			   		if (arg instanceof VarTerm) {
+			   			VarTerm v = (VarTerm) arg;
+			   			arg = v.getValue();
+			   		}
+			   		if (arg instanceof NumberTerm) {
+			   			NumberTerm num = (NumberTerm) arg;
+			   			Double number = num.solve();
+			   			arg_list[i] = number.intValue();
+			   		}
+			   		if (arg instanceof StringTermImpl) {
+			   			arg_list[i]= 0;
+			   		}
+			   	}
+//			   System.out.println("real call for performing an action for "+ predname);
 
 			   // send the predicate for vehicle to convert it to binary
 				for (Vehicle v: vehicles) {
 					if (agName.equals("abstraction_follower"+v.getID()))
-						v.execute(predname);
+						v.execute(predname, num_args, arg_list);
 				}
 	   }  else {
      		 u = super.executeAction(agName, act);
