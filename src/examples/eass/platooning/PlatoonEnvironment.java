@@ -37,7 +37,7 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 //	Vehicle v1 = new Vehicle(1);
 //	Vehicle v2 = new Vehicle(2);
 	Vehicle v3 = new Vehicle(3);
-	
+	int counter=0;
 	/**
 	 * Constructor.
 	 *
@@ -70,7 +70,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	}
 
 	public void eachrun() {
-		
+		counter++;
+		if(counter ==5){
 		for (Vehicle v: vehicles) {
 			v.update();
 
@@ -97,13 +98,20 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 //			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			speed.addTerm(new NumberTermImpl(v.getSpeed()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
-			
-			Literal azimuth = new Literal("azimuth");
+
+			Literal timeStamp = new Literal("timeStamp");
 //			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
-			azimuth.addTerm(new NumberTermImpl(v.getAzimuth()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "azimuth", azimuth);
+			timeStamp.addTerm(new NumberTermImpl(v.getTimeStamp()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "timeStamp", timeStamp);
 
 			
+//			Literal azimuth = new Literal("azimuth");
+////			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
+//			azimuth.addTerm(new NumberTermImpl(v.getAzimuth()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "azimuth", azimuth);
+////			System.out.println("azimuth is "+ v.getAzimuth());
+			counter=0;
+		} 
 		}
 
 	}
@@ -129,12 +137,17 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		boolean printed = false;
 		 
 	   if (act.getFunctor().equals("run")) {
-			   int agentnum = Integer.parseInt(((String) agName).substring(14));
+//			   int agentnum = Integer.parseInt(((String) agName).substring(14));
+//			   System.out.println("agentnumber is "+ agentnum+ " and its name is "+ agName);
 			   Predicate predlist = (Predicate) act.getTerm(0);
 			   Predicate predargs = (Predicate) act.getTerm(1);
-			   int num_args = predargs.getTermsSize();
-//			   String num_arg_s = "" + num_args;
+//			   int num_args = predargs.getTermsSize();
+//			   System.out.println("number of arguments is "+ num_args);
+
+			   //			   String num_arg_s = "" + num_args;
 			   int num_name_comps = predlist.getTermsSize();
+//			   System.out.println("length of action predicate is "+ num_name_comps);
+
 			   String predname = "";
 
 			   // to extract predname as String
@@ -159,8 +172,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 				   predname += s;
 			   }
 			   
-			   	double arg_list[] = new double[num_args-1];
-			   	for (int i=0; i < num_args; i++) {
+			   	double arg_list[] = new double[1];
+			   	for (int i=0; i < 1; i++) {
 			   		Term arg = predargs.getTerm(i);
 			   		arg_list[i]= 0;
 //			   		String s = arg.toString();
@@ -182,7 +195,10 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 			   // send the predicate for vehicle to convert it to binary
 				for (Vehicle v: vehicles) {
 					if (agName.equals("abstraction_follower"+v.getID()))
-						v.execute(predname, num_args, arg_list);
+//						System.out.println("action predicate is "+ predname);
+//						System.out.println("argument predicate is "+ arg_list[0]);
+					
+						v.execute(predname, 1, arg_list);
 				}
 	   }  else {
      		 u = super.executeAction(agName, act);

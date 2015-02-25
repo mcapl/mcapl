@@ -46,6 +46,7 @@ public class Vehicle {
 	/* Set up our sockets */
 	public Vehicle(int id) {
 		ego.uniqueID = id;
+		ego.platoonID = 0;
 		/* 
 		 * IMPORTANT: Because these calls block on 'accept', we need to force Simulink to connect to the sockets in the right order.
 		 * Use an atomic (or function-call) sub-system to encapsulate TCP Send/Receive blocks then use block priorities to force
@@ -74,23 +75,28 @@ public class Vehicle {
 	public void execute(String command, int num_args, double[] cmd_args) {
 		int command_number = 0;
 		
-		for (ExecutableAction ea : commandList) {
-			if(ea.actionName.equals(command))	
-				command_number = ea.actionID;
-		}
-
-		if(command_number != 0){
-			/* Create buffer to transmit our command */
-			ByteBuffer buf2 = ByteBuffer.allocate(4);
-			buf2.order(ByteOrder.LITTLE_ENDIAN);
-			buf2.putInt(command_number);
-			buf2.putInt(num_args);
-			if(num_args != 0){
-				for(int i=0; i< num_args; i++)			
-					buf2.putDouble(cmd_args[i]);
+		if(command.equals("assign_platoon_id")){
+			ego.platoonID = (int) cmd_args[0];
+		}else{
+		
+			for (ExecutableAction ea : commandList) {
+				if(ea.actionName.equals(command))	
+					command_number = ea.actionID;
 			}
-			/* Write to outbound socket */
-			outbound.write(buf2);
+		
+			if(command_number != 0){
+				/* Create buffer to transmit our command */
+				ByteBuffer buf2 = ByteBuffer.allocate(16);
+				buf2.order(ByteOrder.LITTLE_ENDIAN);
+				buf2.putInt(command_number);
+				buf2.putInt(num_args);
+				if(num_args != 0){
+					for(int i=0; i< num_args; i++)			
+						buf2.putDouble(cmd_args[i]);
+				}
+				/* Write to outbound socket */
+				outbound.write(buf2);
+			}
 		}
 //		System.out.println("\n command_number is "+ command_number+ " and it is "+ command);		
 	}
@@ -167,7 +173,7 @@ public class Vehicle {
 	}
 	
 	public int getegoPID(){ // IT SHOULD BE MODIFIED
-		return ego.uniqueID;
+		return ego.platoonID;
 	}
 	
 	public double getprecedingSpeed(){
@@ -179,9 +185,12 @@ public class Vehicle {
 	}
 	
 	public double getAzimuth(){
-		return ego.azimuth;
+		return (Math.abs(ego.azimuth)*100);
 	}
 	
+	public int getTimeStamp(){
+		return (int) ego.timestamp;
+	}
 	// PRIVATE INNER CLASS 
 	private class ExecutableAction {
 		String actionName;
