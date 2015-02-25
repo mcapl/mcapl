@@ -106,28 +106,28 @@ public class PlatoonEnvironment_Scenario2 extends DefaultEASSEnvironment {
 		Literal distance = new Literal("distance");
 //		distance.addTerm(new NumberTermImpl(v.getDistance()));
 		distance.addTerm(new NumberTermImpl(Y));
-		addUniquePercept("abstraction_follower1", "distance", distance);		
+		addUniquePercept("abstraction_follower3", "distance", distance);		
 		
 		Literal precedingPlatoonID = new Literal("precedingPID");
 //		precedingPlatoonID.addTerm(new NumberTermImpl(v.getPrecedingPID()));
 		precedingPlatoonID.addTerm(new NumberTermImpl(precedingPID));
-		addUniquePercept("abstraction_follower1","precedingPID", precedingPlatoonID);
+		addUniquePercept("abstraction_follower3","precedingPID", precedingPlatoonID);
 		
 		Literal egoPlatoonID = new Literal("egoPID");
 //		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 		egoPlatoonID.addTerm(new NumberTermImpl(egoPID));
-		addUniquePercept("abstraction_follower1","egoPID", egoPlatoonID);
+		addUniquePercept("abstraction_follower3","egoPID", egoPlatoonID);
 		
 		Literal speed = new Literal("speed");
 //		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 		speed.addTerm(new NumberTermImpl(new Random().nextInt(150)));
-		addUniquePercept("abstraction_follower1", "speed", speed);
+		addUniquePercept("abstraction_follower3", "speed", speed);
 
 		if(egoPID != 0){
 			Literal azimuth = new Literal("azimuth");
 			//		egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			azimuth.addTerm(new NumberTermImpl(Y));
-			addUniquePercept("abstraction_follower1", "azimuth", azimuth);
+			addUniquePercept("abstraction_follower3", "azimuth", azimuth);
 		}
 		
 		Y++;
