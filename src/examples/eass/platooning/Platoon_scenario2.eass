@@ -32,7 +32,6 @@ EASS
 vehicle_id(3)
 init_min_speed(10) // minimum initial speed to switch to speed control
 init_max_dist(20) // maximum initial distance to switch to steering control
-min_azimuth(9) // minimum azimuth to leave the platoon
 leave_distance(15) // minimum distance to be able to leave the platoon
 
 
@@ -59,9 +58,6 @@ leave_distance(15) // minimum distance to be able to leave the platoon
 
 +distance(X): {~B ready_to_leave, ~B initial_distance, B init_max_dist(Y), Y < X }<- assert_shared(initial_distance); // if vehicle's distance is less than maximum initial distance, we add "initial_distance" belief
 +distance(X): {~B ready_to_leave, B initial_distance, B init_max_dist(Y), X < Y }<- remove_shared(initial_distance); // if vehicle's distance is greater than maximum initial distance, we remove "initial_distance" belief
-
-+azimuth(X): {B ready_to_leave, ~B no_platoon_member, ~B azimuth, B min_azimuth(Y), Y < X }<- assert_shared(azimuth);
-+azimuth(X): {B ready_to_leave, ~B no_platoon_member, B azimuth, B min_azimuth(Y), X < Y }<- remove_shared(azimuth);
 
 +distance(X): {B ready_to_leave, ~B no_platoon_member, B leave_distance(Y), Y < X }<- assert_shared(leave_distance);
 +distance(X): {B ready_to_leave, ~B no_platoon_member, B leave_distance(Y), X < Y }<- remove_shared(leave_distance);
@@ -171,13 +167,13 @@ leave_platoon_from_behind:- preceding_vehicle_platoon_member, no_platoon_member;
 										print(send_request_to_leave), .send(leader, :tell, message(X, 0)),
 										 +request_to_leave(X), *leave_agreement(X);
 
-// ======================== when follower recieves agreement from the leader, first send command to set spacing = 20 and wait for the distance and azimuth data ======================											
+// ======================== when follower recieves agreement from the leader, first send command to set spacing = 20 and wait for the distance data ======================											
 +!leave_platoon_from_behind [achieve]: {~B no_platoon_member, B leave_agreement(X), B request_to_leave(X), B vehicle_id(X), B leave_spacing(Y), ~B set_spacing} <- 
-										perf(set_spacing(Y)), *leave_distance, *azimuth, print(set_spacing_to_leave), +set_spacing; 
+										perf(set_spacing(Y)), *leave_distance, print(set_spacing_to_leave), +set_spacing; 
 
-// ======================== when distance > 15 and azimuth >10, speed  and steering controllers being disable =============================
+// ======================== when distance > 15, speed  and steering controllers being disable =============================
 +!leave_platoon_from_behind [achieve]: {B leave_agreement(X), B request_to_leave(X), B vehicle_id(X),
-										B set_spacing, B azimuth, B leave_distance,
+										B set_spacing, B leave_distance,
 										G leave_platoon_from_behind [achieve] }<-
 										perf(speed_controller(0)), perf(steering_controller(0)), assert_shared(no_platoon_member), print(vehicle_left_platoon), remove_shared(ready_to_leave), -set_spacing; 
 
