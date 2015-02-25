@@ -51,6 +51,7 @@ public class Motorway extends JPanel implements Runnable {
 	private boolean car1control = false;
 	
 	private boolean started = false;
+	private boolean running = true;
 	
 	/**
 	 * Constructor.
@@ -138,7 +139,7 @@ public class Motorway extends JPanel implements Runnable {
 		beforeTime = System.currentTimeMillis();
 		repaint();
 		
-		while (true) {
+		while (running) {
 			
 			if (started) {
 				cycle();
@@ -169,5 +170,27 @@ public class Motorway extends JPanel implements Runnable {
 		started = true;
 		car1.start();
 	}
+	
+	public boolean started() {
+		return started;
+	}
+	
+	/**
+	 * Stop the loop in run().  Mostly  used for test cases.
+	 */
+	public void stop() {
+		running = false;
+		car1.close();
+	}
+	
+	/**
+	 * Return car1 object.  Again mostly used for control in tests.
+	 * @return
+	 */
+	public Car getCar1() {
+		return car1;
+	}
+	
+	
 
 }

@@ -98,6 +98,14 @@ public class Car {
 	}
 	
 	/**
+	 * Setter for the y speed.
+	 * @param speed
+	 */
+	public void setYDot(double speed) {
+		ydot = speed;
+	}
+	
+	/**
 	 * Getter for speed in the x direction.
 	 * @return
 	 */
