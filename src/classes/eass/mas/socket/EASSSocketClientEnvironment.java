@@ -42,7 +42,7 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class EASSSocketEnvironment extends DefaultEASSEnvironment {
+public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	/**
 	 * Socket that connects to the Physical Engine.
 	 */
@@ -70,7 +70,7 @@ public class EASSSocketEnvironment extends DefaultEASSEnvironment {
 	 * Constructor - creates sockets.
 	 *
 	 */
-	public EASSSocketEnvironment() {
+	public EASSSocketClientEnvironment() {
 		super();
 	}
 	

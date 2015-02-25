@@ -50,11 +50,13 @@ public class Motorway extends JPanel implements Runnable {
 	private Car car1;
 	private boolean car1control = false;
 	
+	private boolean started = false;
+	
 	/**
 	 * Constructor.
 	 * @param args
 	 */
-	public Motorway(boolean control) {
+	public Motorway(String control) {
 		initMotorway(control);
 	}
 		
@@ -62,12 +64,14 @@ public class Motorway extends JPanel implements Runnable {
 	 * Initialisation.
 	 * @param args
 	 */
-	private void initMotorway(boolean control) {
+	private void initMotorway(String control) {
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 		setDoubleBuffered(true);
 		
-		car1control = control;
+		if (control.equals("agent")) {
+			car1control = true;
+		}
 		
 		
 		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, B_HEIGHT, car1control);
@@ -100,7 +104,16 @@ public class Motorway extends JPanel implements Runnable {
 	 * @param g
 	 */
 	private void drawMotorway(Graphics g) {
-		g.drawRect(car1.getX(), car1.getY(), 10, 15);
+		Double d1 = car1.getX();
+		Double d2 = car1.getY();
+		
+		g.drawRect(d1.intValue(), d2.intValue(), 10, 15);
+		g.drawLine(30, 0, 30, B_HEIGHT);
+		g.drawLine(60, 0, 60, B_HEIGHT);
+		
+		Double ydot = car1.getYDot();
+		g.drawString("Speed: " + ydot.intValue(), 200, 20);
+		g.drawString("Distance: " + d2.intValue(), 200, 50);
 		
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -127,8 +140,10 @@ public class Motorway extends JPanel implements Runnable {
 		
 		while (true) {
 			
-			cycle();
-			repaint();
+			if (started) {
+				cycle();
+				repaint();
+			}
 			
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
@@ -145,6 +160,14 @@ public class Motorway extends JPanel implements Runnable {
 			
 			beforeTime = System.currentTimeMillis();
 		} 
+	}
+	
+	/**
+	 * Called by the GUI when the user starts the simulation.
+	 */
+	public void start() {
+		started = true;
+		car1.start();
 	}
 
 }

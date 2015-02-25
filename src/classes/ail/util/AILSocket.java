@@ -56,12 +56,15 @@ public class AILSocket {
 	String logname = "ail.util.AILSocketClient";
 	
 	/**
-	 * Constructor.  Sets a default Socket number for use by the project.
+	 * Constructor. 
 	 *
 	 */
-	public AILSocket() {
-	}
+	public AILSocket() {}
 	
+	/**
+	 * Separated out from the constructor to allow error handling in the constructors of subclasses.
+	 * @param sock
+	 */
 	public void initialise(Socket sock) {
 		try {
 			socket = sock;
@@ -81,7 +84,7 @@ public class AILSocket {
 	}
 	
 	/**
-	 * Write to the socket.
+	 * Write a string to the socket.
 	 * @param s
 	 */
 	public void write(String s) {
@@ -98,11 +101,31 @@ public class AILSocket {
 		}
 	}
 		
-	
+	/**
+	 * Write an integer to the socket.
+	 * @param i
+	 */
 	public void write(int i) {
 		if (!socket.isClosed() && socket.isConnected()) {
 			try {
 				output.writeInt(i);
+				output.flush();
+			} catch (Exception e) {
+				AJPFLogger.warning(logname, e.getMessage());
+			}
+		} else {
+			write ("error");
+		}
+	}
+
+	/**
+	 * Write a double to the socket.
+	 * @param d
+	 */
+	public void write(double d) {
+		if (!socket.isClosed() && socket.isConnected()) {
+			try {
+				output.writeDouble(d);
 				output.flush();
 			} catch (Exception e) {
 				AJPFLogger.warning(logname, e.getMessage());
@@ -126,7 +149,7 @@ public class AILSocket {
 	}
 	
 	/**
-	 * Read a line from the socket.
+	 * Read an int from the socket.
 	 * @return
 	 */
 	public int readInt() {
@@ -138,6 +161,27 @@ public class AILSocket {
 		}
 	}
 
+	/**
+	 * Read a double from the socket.
+	 * @return
+	 */
+	public double readDouble() {
+		try{
+			return input.readDouble();
+		} catch (IOException e) {
+			AJPFLogger.warning(logname, e.getMessage());
+			return 0;
+		}
+	}
+
+	/**
+	 * Are there any bytes left on the socket.
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean pendingInput() throws IOException {
+		return (input.available() > 0);
+	}
 	
 	/**
 	 * Close the socket.

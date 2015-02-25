@@ -31,14 +31,15 @@ import ail.util.AILSocketServer;
  *
  */
 public class Car {
-	private int x, y;
-	private int xdot = 0, ydot = 1;
-	private int xaccel = 0;
-	private int yaccel = 0;
+	private double x, y, xrel, yrel;
+	private double xdot = 0, ydot = 0;
+	private double xaccel = 0;
+	private double yaccel = 0;
 	
 	private int INITIAL_X, INITIAL_Y, B_WIDTH, B_HEIGHT;
 	
 	private boolean controlled;
+	private int started = 0;
 
 	/**
 	 * Socket that connects to the agent.
@@ -56,6 +57,8 @@ public class Car {
 	public Car (int xi, int yi, int bw, int bh, boolean externalcontrol) {
 		x = xi;
 		y = yi;
+		xrel = xi;
+		yrel = yi;
 		INITIAL_X = xi;
 		INITIAL_Y = yi;
 		B_WIDTH = bw;
@@ -63,7 +66,9 @@ public class Car {
 		controlled = externalcontrol;
 		
 		if (controlled) {
+			System.err.println("Motorway Sim waiting Socket Connection");
 			socketserver = new AILSocketServer();
+			System.err.println("Got Socket Connection");
 		}
 
 	}
@@ -72,15 +77,31 @@ public class Car {
 	 * Getter for x coordinate of car.
 	 * @return
 	 */
-	public int getX() {
-		return x;
+	public double getX() {
+		return xrel;
 	}
 	
 	/**
 	 * Getter for y coordinate of car.
 	 * @return
 	 */
-	public int getY() {
+	public double getY() {
+		return yrel;
+	}
+	
+	/**
+	 * Getter for speed in the y direction.
+	 * @return
+	 */
+	public double getYDot() {
+		return ydot;
+	}
+	
+	/**
+	 * Getter for speed in the x direction.
+	 * @return
+	 */
+	public double getYTot() {
 		return y;
 	}
 	
@@ -91,15 +112,30 @@ public class Car {
 		xdot += xaccel;
 		ydot += yaccel;
 		
-		x += xdot;
-		y += ydot;
+//		System.err.println(ydot);
 		
-		if (y > B_HEIGHT) {
-			y = INITIAL_Y;
+		
+		if (xdot < 0) {
+			xdot = 0;
 		}
 		
-		if (x > B_WIDTH) {
-			x = INITIAL_X;
+		if (ydot < 0) {
+			ydot = 0;
+		}
+		
+		x += xdot;
+		y += ydot;
+		xrel += xdot;
+		yrel += ydot;
+
+		//		System.err.println(y);
+		
+		if (yrel > B_HEIGHT) {
+			yrel = INITIAL_Y;
+		}
+		
+		if (xrel > B_WIDTH) {
+			xrel = INITIAL_X;
 		}
 
 	}
@@ -108,13 +144,21 @@ public class Car {
 	 * Read in new accelerations from the socket and write current position and speed to the socket.
 	 */
 	public void updateParameters() {
-		if (controlled && socketserver.allok()) {
-			// System.err.println("reading in predicates");
-			readValues();
-			writeValues();
-			// System.err.println("finished reading in predicates");
-		}	else {
-			System.err.println("something wrong with socket server");
+		if (controlled) {
+			if (socketserver.allok()) {
+				try {
+					if (socketserver.pendingInput()) {
+						System.err.println("reading values");
+						readValues();
+					}
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+				writeValues();
+			} else {
+				System.err.println("something wrong with socket server");
+			}
+			
 		}
 
 	}
@@ -124,9 +168,8 @@ public class Car {
 	 */
 	private void readValues() {
 		if (controlled) {
-			xaccel = socketserver.readInt();
-		
-			yaccel = socketserver.readInt();
+			xaccel = socketserver.readDouble();
+			yaccel = socketserver.readDouble();
 		}
 
 	}
@@ -136,10 +179,11 @@ public class Car {
 	 */
 	public void writeValues() {
 		if ( controlled ) {
-			socketserver.write(x);
-			socketserver.write(y);
+			socketserver.write(xrel);
+			socketserver.write(yrel);
 			socketserver.write(xdot);
 			socketserver.write(ydot);
+			socketserver.write(started);
 		}
 	}
 	
@@ -150,5 +194,12 @@ public class Car {
 		if (controlled) {
 			socketserver.close();
 		}
+	}
+	
+	/**
+	 * Called to tell the car that the simulation has started.
+	 */
+	public void start() {
+		started = 1;
 	}
 }
