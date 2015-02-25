@@ -6,11 +6,11 @@
 
 	A vehicle at the end of the platoon sends a join or leave request to the leader. In case of joining, the leader through a simple joining protocol decides to authorise the vehicle 
 	to join and synchronise clocks. The vehicle receiving confirmation decides for itself to go through a series of switches in order to get to platoon control. 
-	We will then verify if the vehicle gets a confirmation from the leader for joining then it switches to platoon control and if the vehicle doesn’t get a confirmation from the leader
+	We will then verify if the vehicle gets a confirmation from the leader for joining then it switches to platoon control and if the vehicle doesn't get a confirmation from the leader
 	for joining then it stays on cruise control.
 
-	There are some temporal properties such as “if in some certain amount of time the last vehicle gets to Ok-distance, meaning the joining protocol satisfies the joining requirement” 
-	and “when a vehicle leaves the platoon, we can check after e.g., 2 sec., the vehicle is too-far from the platoon”. These remain for future work because at the moment we cannot 
+	There are some temporal properties such as if in some certain amount of time the last vehicle gets to Ok-distance, meaning the joining protocol satisfies the joining requirement
+	and when a vehicle leaves the platoon, we can check after e.g., 2 sec., the vehicle is too-far from the platoon. These remain for future work because at the moment we cannot 
 	verify them in AJPF. We need to investigate on how to export models from AJPF to UPPAAL.
 
 	Our assumption is that other vehicles do nothing. The focus is on coordination between the leader and a vehicle joining the platoon from behind.
@@ -26,13 +26,13 @@ EASS
 
 //=================================== behind vehicle abstract engine ===============================================
 
-:abstraction: follower1
+:abstraction: follower3
 
 :Initial Beliefs:
 vehicle_id(3)
 init_min_speed(10) // minimum initial speed to switch to speed control
 init_max_dist(20) // maximum initial distance to switch to steering control
-min_azimuth(20) // minimum azimuth to leave the platoon
+min_azimuth(9) // minimum azimuth to leave the platoon
 leave_distance(15) // minimum distance to be able to leave the platoon
 
 
@@ -93,7 +93,7 @@ leave_distance(15) // minimum distance to be able to leave the platoon
 
 //=================================== behind vehicle reasoning engine ===============================================
 
-:name: follower1
+:name: follower3
 
 :Initial Beliefs:
 
@@ -208,7 +208,7 @@ req(leave)
 
 
 
-+!time_synch(SENDER) [perform]: {True}<- run(time_synchronisation); 
+//+!time_synch(SENDER) [perform]: {True}<- run(time_synchronisation); 
 
 //=================================== leader reasoning engine ===============================================
 
@@ -251,11 +251,11 @@ last_car(2)
 
 // =================================== leader checks the sender if senderID is greater than the last vehicle in the platoon, it accepts the request and sends back the agreement to the follower to join (it is done in agent level)=========================
 +accept_request_join(SENDER): {~B platoon_member(SENDER), B last_car(Y), Y < SENDER, ~B ack_sent(SENDER), B request_to_join(SENDER)} <- 
-									.send(follower1, :tell, join_agreement(SENDER,SENDER)), -request_to_join(SENDER), perf(time_synch(SENDER)),
+									.send(follower3, :tell, join_agreement(SENDER,SENDER)), -request_to_join(SENDER), //perf(time_synch(SENDER)),
 									print(leader_sent_acknowledge_back_to_sender_to_join), -message(SENDER, 1);
 
 // =================================== leader checks the sender if senderID is the last vehicle in the platoon, it accepts the request and sends back the agreement to the follower to leave (it is done in agent level)=========================
 +accept_request_leave(SENDER): {B platoon_member(SENDER), B last_car(SENDER), ~B ack_sent_leave(SENDER), B request_to_leave(SENDER)} <- 
-									.send(follower1, :tell, leave_agreement(SENDER)), -request_to_leave(SENDER),
+									.send(follower3, :tell, leave_agreement(SENDER)), -request_to_leave(SENDER),
 									print(leader_sent_acknowledge_back_to_sender_to_leave), -message(SENDER, 0);
 									

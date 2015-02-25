@@ -81,7 +81,7 @@ public class Vehicle {
 
 		if(command_number != 0){
 			/* Create buffer to transmit our command */
-			ByteBuffer buf2 = ByteBuffer.allocate(4);
+			ByteBuffer buf2 = ByteBuffer.allocate(16);
 			buf2.order(ByteOrder.LITTLE_ENDIAN);
 			buf2.putInt(command_number);
 			buf2.putInt(num_args);
@@ -167,7 +167,7 @@ public class Vehicle {
 	}
 	
 	public int getegoPID(){ // IT SHOULD BE MODIFIED
-		return ego.uniqueID;
+		return 0;
 	}
 	
 	public double getprecedingSpeed(){
@@ -179,7 +179,7 @@ public class Vehicle {
 	}
 	
 	public double getAzimuth(){
-		return ego.azimuth;
+		return (Math.abs(ego.azimuth)*100);
 	}
 	
 	// PRIVATE INNER CLASS 
