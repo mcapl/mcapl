@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 env = eass.platooning.PlatoonEnvironment
 
@@ -10,17 +9,4 @@ log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontrocller
 log.info= eass.mas.DefaultEnvironment,
 //log.format = brief
 //log.fine = ail.semantics.AILAgent
-=======
-
-env = eass.platooning.PlatoonEnvironment
-
-mas.file=/src/examples/eass/platooning/platoon_scenario2.eass
-mas.builder= eass.EASSMASBuilder
-
-
-log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontrocller
-log.info= eass.mas.DefaultEnvironment,
-//log.format = brief
-log.fine = ail.semantics.AILAgent
->>>>>>> 58a05446252813df882c6215accac958acf2a325
 //log.fine = eass.platooning.PlatoonEnvironment_Scenario2
