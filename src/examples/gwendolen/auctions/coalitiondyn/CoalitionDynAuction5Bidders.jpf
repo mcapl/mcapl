@@ -48,31 +48,3 @@ et.show_shared=false
 // loaded code:        classes=357, methods=4992
 // 
 // ====================================================== search finished: 29/03/14 15:32
-
-[INFO] Adding 123370 to [0, 123532, 123775]
------------------------------------ [4] forward: 123370 visited
------------------------------------ [3] backtrack: 123775
------------------------------------ [3] done: 123775
------------------------------------ [2] backtrack: 123532
------------------------------------ [2] done: 123532
------------------------------------ [1] backtrack: 0
------------------------------------ [1] done: 0
------------------------------------ [0] backtrack: -1
------------------------------------ [0] done: -1
-[INFO] Number of States in Product Automata: 115713
------------------------------------ search finished
-
-====================================================== results
-no errors detected
-
-====================================================== statistics
-elapsed time:       41:17:39
-states:             new=115713,visited=383522,backtracked=499235,end=0
-search:             maxDepth=31,constraints=0
-choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=115713
-heap:               new=2429820034,released=2435307640,maxLive=6988,gcCycles=499235
-instructions:       373949260188
-max memory:         900MB
-loaded code:        classes=367,methods=5351
-
-====================================================== search finished: 22/02/15 13:45
