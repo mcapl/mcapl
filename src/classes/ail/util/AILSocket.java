@@ -156,7 +156,7 @@ public class AILSocket {
 		try{
 			return input.readInt();
 		} catch (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
+			AJPFLogger.warning(logname, "readInt:" + e.getMessage());
 			return 0;
 		}
 	}
@@ -169,7 +169,7 @@ public class AILSocket {
 		try{
 			return input.readDouble();
 		} catch (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
+			AJPFLogger.warning(logname, "readDouble:" + e.getMessage());
 			return 0;
 		}
 	}

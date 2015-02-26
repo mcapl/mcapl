@@ -87,7 +87,7 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	public void readPredicatesfromSocket() {}
 
 	
-	public void finalize() {
+	public void finalise() {
 		done = true;
 		socket.close();
 	}

@@ -81,38 +81,45 @@ public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
 	 */
 	public void readPredicatesfromSocket() {
 		
-		socket.readDouble();
-		socket.readDouble();
-		double xdot = socket.readDouble();
-		double ydot = socket.readDouble();
-		int started = socket.readInt();
-		
-		
 		try {
-			while (socket.pendingInput()) {
+			if (socket.pendingInput()) {
+
 				socket.readDouble();
 				socket.readDouble();
-				xdot = socket.readDouble();
-				ydot = socket.readDouble();
-				started = socket.readInt();			
+				double xdot = socket.readDouble();
+				double ydot = socket.readDouble();
+				int started = socket.readInt();
+				
+				
+				try {
+					while (socket.pendingInput()) {
+						socket.readDouble();
+						socket.readDouble();
+						xdot = socket.readDouble();
+						ydot = socket.readDouble();
+						started = socket.readInt();			
+					}
+				} catch (Exception e) {
+					AJPFLogger.warning(logname, e.getMessage());
+				} 
+				
+				
+				Literal xspeed = new Literal("xspeed");
+				xspeed.addTerm(new NumberTermImpl(xdot));
+				
+				Literal yspeed = new Literal("yspeed");
+				yspeed.addTerm(new NumberTermImpl(ydot));
+				
+				if (started > 0) {
+					addPercept(new Literal("started"));
+				}
+				
+				addUniquePercept("xspeed", xspeed);
+				addUniquePercept("yspeed", yspeed);
 			}
 		} catch (Exception e) {
 			AJPFLogger.warning(logname, e.getMessage());
-		} 
-		
-		
-		Literal xspeed = new Literal("xspeed");
-		xspeed.addTerm(new NumberTermImpl(xdot));
-		
-		Literal yspeed = new Literal("yspeed");
-		yspeed.addTerm(new NumberTermImpl(ydot));
-		
-		if (started > 0) {
-			addPercept(new Literal("started"));
 		}
-		
-		addUniquePercept("xspeed", xspeed);
-		addUniquePercept("yspeed", yspeed);
 	}
 	
 	/*

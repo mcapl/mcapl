@@ -27,43 +27,19 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ail.mas.AIL;
-import ail.mas.MAS;
-import ail.util.AILConfig;
-import ajpf.MCAPLcontroller;
 import eass.tutorials.motorwaysim.Motorway;
 import eass.tutorials.motorwaysim.MotorwayConfig;
 import eass.tutorials.motorwaysim.Car;
 
-public class Tutorial1Tests {
+public class Tutorial2Tests {
 	
-	  @Test //----------------------------------------------------------------------
-	  public void basicmotorway () {
-		
-		Motorway motorway = new Motorway("default");
-		
-		Thread motorwayThread = new Thread(motorway);
-		motorway.start();
-		motorwayThread.start();
-		Car car = motorway.getCar1();
-		car.setYDot(1);
-		while (car.getY() < 10 ) {
-			try {
-				Thread.sleep(3);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted: " + e.getMessage());
-			}
-		}
-		motorway.stop();
-		Assert.assertTrue(car.getY() >= 10);
-
-	  }
 
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialexample () {
-		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
+			final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
-		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/car.ail");
+		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial2/answers/car_ex1.ail");
 		motorwayThread.start();
 
 		// Allowing times for sockets to start up.
@@ -86,25 +62,24 @@ public class Tutorial1Tests {
 		Car car = motorway.getCar1();
 
 		motorway.start();
-		while (car.getYTot() < 1500 ) {
+		while (car.getYTot() < 1000 ) {
 			try {
 				Thread.sleep(3);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted: " + e.getMessage());
 			}
 		}
-		ailThread.stopAIL();
 		motorway.stop();
-		Assert.assertTrue(car.getYDot() >= 5);
+		Assert.assertTrue(car.getX() <= 100);
 
 	  }
 	  
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialex2 () {
-		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
+		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/tutorial2/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
-		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/answers/car_ex2.ail");
+		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial2/answers/car_ex2.ail");
 		motorwayThread.start();
 
 		// Allowing times for sockets to start up.
@@ -127,51 +102,27 @@ public class Tutorial1Tests {
 		Car car = motorway.getCar1();
 
 		motorway.start();
-		while (car.getYTot() < 500 ) {
+		while (car.getYTot() < 1000 ) {
 			try {
 				Thread.sleep(3);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted: " + e.getMessage());
 			}
 		}
-
-		while (car.getYDot() > 0 ) {
-			try {
-				Thread.sleep(3);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted: " + e.getMessage());
-			}
-		}
-		ailThread.stopAIL();
+		Assert.assertTrue(car.getX() > 0);
 		motorway.stop();
 	  }
 
 	  
 	  public class AILThread extends Thread {
 		  String filename;
-		  MCAPLcontroller mccontrol;
 		  
 		  public AILThread(String s) {
 			  filename = s;
 		  }
 		  
 		  public void run() {
-				AILConfig config = new AILConfig(filename);
-				AIL.configureLogging(config);
-			
-				// Create the initial state of the multi-agent program.
-				MAS mas = AIL.AILSetup(config);
-				
-				// Set up a controller
-				mccontrol = new MCAPLcontroller(mas, "", 1);
-				
-				// Begin!
-				mccontrol.begin(); 
-				mas.finalise();
-		  }
-		  
-		  public void stopAIL() {
-			  mccontrol.stop();
+				AIL.runAIL(filename);			  
 		  }
 	  }
 	  
@@ -185,6 +136,7 @@ public class Tutorial1Tests {
 		  Motorway motorway;
 		  public void run() {
 			  motorway = new Motorway(config.getProperty("car1.control"));
+			  motorway.configure(config);
 			 
 			  motorway.run();
 		  }

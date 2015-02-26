@@ -64,7 +64,10 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, "Reading Values from Socket");
 		}
-		
+				
+		try {
+			if ( socket.pendingInput()) {
+
 		double x = socket.readDouble();
 		double y = socket.readDouble();
 		double xdot = socket.readDouble();
@@ -115,6 +118,11 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 		addUniquePercept("ypos", ypos);
 		addUniquePercept("xspeed", xspeed);
 		addUniquePercept("yspeed", yspeed);
+			} 			
+	} catch (Exception e) {
+		AJPFLogger.warning(logname, e.getMessage());
+	} 
+
 	}
 	
 	/*

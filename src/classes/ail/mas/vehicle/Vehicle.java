@@ -255,7 +255,7 @@ public class Vehicle implements VehicleInterface {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void finalise() {}
 
 	/*
 	 * (non-Javadoc)

@@ -38,3 +38,7 @@
 8: <>(D(nurse, assist))
 
 9: <>(B(arithmetic, sum(6)) & B(arithmetic, times(250)))
+
+10: <>(B(ag1, holding_block))
+
+11: <>(B(ag1, holding(toy)))

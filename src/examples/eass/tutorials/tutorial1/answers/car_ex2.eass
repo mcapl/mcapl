@@ -91,7 +91,7 @@ speed_limit(5)
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed),
-	perf(alert_at(600));
+	perf(alert_at(2000));
 	
 +alert: {True} <-
 	perf(stop);

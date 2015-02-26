@@ -83,49 +83,56 @@ public class CarOnMotorwayEnvironment_ex2 extends DefaultEASSEnvironment {
 	 */
 	public void readPredicatesfromSocket() {
 		
-		double x = socket.readDouble();
-		double y = socket.readDouble();
-		socket.readDouble();
-		socket.readDouble();
-		double xdot = socket.readDouble();
-		double ydot = socket.readDouble();
-		int started = socket.readInt();
-
 		try {
-			while (socket.pendingInput()) {
-				x = socket.readDouble();
-				y = socket.readDouble();
+			if (socket.pendingInput()) {
+				double x = socket.readDouble();
+				double y = socket.readDouble();
 				socket.readDouble();
 				socket.readDouble();
-				xdot = socket.readDouble();
-				ydot = socket.readDouble();
-				started = socket.readInt();			
+				double xdot = socket.readDouble();
+				double ydot = socket.readDouble();
+				int started = socket.readInt();
+		
+				try {
+					while (socket.pendingInput()) {
+						x = socket.readDouble();
+						y = socket.readDouble();
+						socket.readDouble();
+						socket.readDouble();
+						xdot = socket.readDouble();
+						ydot = socket.readDouble();
+						started = socket.readInt();			
+					}
+				} catch (Exception e) {
+					AJPFLogger.warning(logname, e.getMessage());
+				} 
+				
+				
+				Literal xpos = new Literal("xpos");
+				xpos.addTerm(new NumberTermImpl(x));
+				
+				Literal ypos = new Literal("ypos");
+				ypos.addTerm(new NumberTermImpl(y));
+				
+				Literal xspeed = new Literal("xspeed");
+				xspeed.addTerm(new NumberTermImpl(xdot));
+				
+				Literal yspeed = new Literal("yspeed");
+				yspeed.addTerm(new NumberTermImpl(ydot));
+				
+				if (started > 0) {
+					addPercept(new Literal("started"));
+				}
+				
+				addUniquePercept("xpos", xpos);
+				addUniquePercept("ypos", ypos);
+				addUniquePercept("xspeed", xspeed);
+				addUniquePercept("yspeed", yspeed);
 			}
 		} catch (Exception e) {
 			AJPFLogger.warning(logname, e.getMessage());
-		} 
-		
-		
-		Literal xpos = new Literal("xpos");
-		xpos.addTerm(new NumberTermImpl(x));
-		
-		Literal ypos = new Literal("ypos");
-		ypos.addTerm(new NumberTermImpl(y));
-		
-		Literal xspeed = new Literal("xspeed");
-		xspeed.addTerm(new NumberTermImpl(xdot));
-		
-		Literal yspeed = new Literal("yspeed");
-		yspeed.addTerm(new NumberTermImpl(ydot));
-		
-		if (started > 0) {
-			addPercept(new Literal("started"));
 		}
-		
-		addUniquePercept("xpos", xpos);
-		addUniquePercept("ypos", ypos);
-		addUniquePercept("xspeed", xspeed);
-		addUniquePercept("yspeed", yspeed);
+
 	}
 	
 	/*
