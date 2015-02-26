@@ -11,6 +11,5 @@
 	<classpathentry kind="lib" path="lib/3rdparty/classes.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
