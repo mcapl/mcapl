@@ -49,30 +49,8 @@ speed_limit(5)
 	
 +! accelerate [perform] : {B yspeed(X)} <- accelerate;
 +! accelerate [perform] : {~B yspeed(X)} <- print("Waiting for Simulator to Start");
-
 +! maintain_speed [perform] : {True} <- maintain_speed;
-
-+! calculate_totaldistance(D) [perform] : {True} <-
-	calculate_totaldistance(D),
-	assert_shared(calculate_totaldistance(D));
-
-+! alert_at(D) [perform] : {True} <-
-	+waiting_until(D);
-	
-+! stop [perform] : {True} <-
-	decelerate;
-	
-+ypos(P) : {B waiting_until(D), ~B totaldistance(T1)} <-
-	calculate_totaldistance(T),
-	+ totaldistance(T);
-+ypos(P) : {B waiting_until(D), B totaldistance(T1)} <-
-	calculate_totaldistance(T),
-	-totaldistance(T1),
-	+totaldistance(T);
-+totaldistance(T) : {B waiting_until(D), D < T} <-
-	-waiting_until(D),
-	assert_shared(alert);
-
++! finished [perform] : {True} <- finished;
 
 :name: car
 			
@@ -91,7 +69,4 @@ speed_limit(5)
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed),
-	perf(alert_at(600));
-	
-+alert: {True} <-
-	perf(stop);
+	perf(finished);

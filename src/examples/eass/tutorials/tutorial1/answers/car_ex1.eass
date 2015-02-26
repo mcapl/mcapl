@@ -69,7 +69,8 @@ speed_limit(5)
 	+!at_speed_limit[achieve];
 
 +! at_speed_limit [achieve] : {True} <-
-	perf(accelerate);
+	perf(accelerate),
+	*at_speed_limit;
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed),

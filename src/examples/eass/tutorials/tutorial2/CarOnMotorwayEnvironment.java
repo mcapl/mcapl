@@ -22,15 +22,15 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.tutorials.tutorial1;
+package eass.tutorials.tutorial2;
 
-import eass.mas.socket.EASSSocketClientEnvironment;
+import eass.mas.DefaultEASSEnvironment;
 import ail.mas.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.VarTerm;
+import ail.util.AILSocketClient;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 
@@ -39,53 +39,59 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
+public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
 	
-	String logname = "eass.tutorials.tutorial1.CarOnMotorwayEnvironment";
+	String logname = "eass.tutorials.tutorial2.CarOnMotorwayEnvironment";
+		
+	/**
+	 * Socket that connects to the Simulator.
+	 */
+	protected AILSocketClient socket;
 	
-	// Two doubles used to keep track of the total distance the car has travelled.
-	private double totalydistance = 0;
-	private double prevy = 0;
-	
+	/**
+	 * Has the environment concluded?
+	 */
+	private boolean finished = false;
+
 	/**
 	 * Constructor.
 	 */
 	public CarOnMotorwayEnvironment() {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
+		AJPFLogger.info(logname, "Waiting Connection");
+		socket = new AILSocketClient();
+		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#do_job()
+	 */
+	public void do_job() {
+		if (socket.allok()) {
+			readPredicatesfromSocket();
+		}	else {
+			System.err.println("something wrong with socket");
+		}
+	}
+
 	/**
-	 * Overwriting the EASSSocketClient method that is activated when do_job is called.
-	 * This gets the values from the simulator and converts them into predicates.  It also
-	 * updates total distance.
+	 * Reading the values from the sockets and turning them into perceptions.
 	 */
 	public void readPredicatesfromSocket() {
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "Reading Values from Socket");
-		}
 		
-		double x = socket.readDouble();
-		double y = socket.readDouble();
+		socket.readDouble();
+		socket.readDouble();
 		double xdot = socket.readDouble();
 		double ydot = socket.readDouble();
 		int started = socket.readInt();
-		// System.err.println(ydot);
 		
-		if (y >= prevy) {
-			totalydistance += (y - prevy);
-		}  else {
-			double ylost = 550 - prevy;
-			totalydistance += ylost;
-			totalydistance += y;
-		}
-		// System.err.println(totalydistance);
-		prevy = y;
 		
 		try {
 			while (socket.pendingInput()) {
-				x = socket.readDouble();
-				y = socket.readDouble();
+				socket.readDouble();
+				socket.readDouble();
 				xdot = socket.readDouble();
 				ydot = socket.readDouble();
 				started = socket.readInt();			
@@ -94,12 +100,6 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 			AJPFLogger.warning(logname, e.getMessage());
 		} 
 		
-		
-		Literal xpos = new Literal("xpos");
-		xpos.addTerm(new NumberTermImpl(x));
-		
-		Literal ypos = new Literal("ypos");
-		ypos.addTerm(new NumberTermImpl(y));
 		
 		Literal xspeed = new Literal("xspeed");
 		xspeed.addTerm(new NumberTermImpl(xdot));
@@ -111,8 +111,6 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 			addPercept(new Literal("started"));
 		}
 		
-		addUniquePercept("xpos", xpos);
-		addUniquePercept("ypos", ypos);
 		addUniquePercept("xspeed", xspeed);
 		addUniquePercept("yspeed", yspeed);
 	}
@@ -122,29 +120,40 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 	 * @see eass.mas.DefaultEASSEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-		Unifier u = new Unifier();
-		
+
 		if (act.getFunctor().equals("accelerate")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(0.01);
-			// System.err.println("written to socket 0.0 0.1");
 		} else if (act.getFunctor().equals("decelerate")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(-0.1);
-			// System.err.println("written to socket 0.0 -0.1");
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(0.0);
-			// System.err.println("written to socket 0.0 0.0");
-		} else if (act.getFunctor().equals("calculate_totaldistance")) {
-			VarTerm distance = (VarTerm) act.getTerm(0);
-			u.unifies(distance, new NumberTermImpl(totalydistance));
+		} else if (act.getFunctor().equals("finished")) {
+			finished = true;
 		}
 		
-		u.compose(super.executeAction(agName, act));
-		return u;
-		
+		return super.executeAction(agName, act);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#finalize()
+	 */
+	public void finalize() {
+		socket.close();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.others.DefaultEnvironment#done()
+	 */
+	public boolean done() {
+		if (finished) {
+			return true;
+		}
+		return false;
+	}
 
 }

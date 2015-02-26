@@ -191,6 +191,14 @@ public class Motorway extends JPanel implements Runnable {
 		return car1;
 	}
 	
+	/**
+	 * Configure the motorway for this simulation.
+	 * @param config
+	 */
+	public void configure(MotorwayConfig config) {
+		car1.configure(config);
+	}
+	
 	
 
 }

@@ -79,7 +79,7 @@ remove_shared(C);
 This has the effect of sending a request to the abstraction engine to perform $C$ and then waiting until $C$ appears as a shared belief.  It then removes that shred belief so that it doesn't confuse the system if the calculation is performed again.  Obviously the abstraction engine needs to implement the perform goal appropriately -- in particular to assert the shared belief once the calculation is completed.
 
 \section{Example}
-Listing~\ref{code:example} shows a simple \eass\ program to control a car by making it accelerate up to the speed limit and then maintain that speed.  Lines 3-28 are the abstraction engine, and lines 30-45 are the reasoning engine.
+Listing~\ref{code:example} shows a simple \eass\ program to control a car by making it accelerate up to the speed limit and then maintain that speed.  Lines 3-28 are the abstraction engine, and lines 30-46 are the reasoning engine.
 
 \begin{lstlisting}[float,caption=A Simple EASS Program,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:example]
 EASS
@@ -123,7 +123,8 @@ speed_limit(5)
 	+!at_speed_limit[achieve];
 
 +! at_speed_limit [achieve] : {True} <-
-	perf(accelerate);
+	perf(accelerate),
+  *at_speed_limit;
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed);
@@ -133,7 +134,7 @@ As an initial belief the abstraction engine has that the speed limit on the road
 
 Lines 13-15 are the standard plans for handling messages.  It is important that the abstraction engine has these to it correctly handles \texttt{perf} requests from the reasoning engine.
 
-If the reasoning engine has a goal to reach the speed limit (lines 41 and 42) then it requests the abstraction engine to perform \lstinline{accelerate}.  This is passed on directly to the environment (line 25).  Once the reasoning engine believes the speed limit is reached (lines 44 and 45) then it requests the abstraction engine to perform \lstinline{maintain_speed}.
+If the reasoning engine has a goal to reach the speed limit (lines 41-43) then it requests the abstraction engine to perform \lstinline{accelerate}.  This is passed on directly to the environment (line 25).  Once the reasoning engine believes the speed limit is reached (lines 45 and 46) then it requests the abstraction engine to perform \lstinline{maintain_speed}.
 
 Lastly, in order to allow time for the simulation to start, a perception, \lstinline{started} is used.  When the abstraction engine perceives this (lines 17 and 18) it asserts the shared belief \lstinline{start} which causes the reasoning engine to adopt the goal of reaching the speed limit (lines 38 and 39).
 

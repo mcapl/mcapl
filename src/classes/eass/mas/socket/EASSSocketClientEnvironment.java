@@ -49,23 +49,12 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	protected AILSocketClient socket;
 
 	/**
-	 * Tracking of input predicates.
-	 */
-	HashMap<String, Literal> values = new HashMap<String, Literal>();
-
-	/**
 	 * Are we actually connected to a socket?  Useful for debugging.
 	 */
 	protected boolean connectedtosocket = true;
 
-
 	private String name = "Default EASS Socket Environment";
 	
-	protected int control = 0;
-	int misccounter = 0;
-	boolean running = true;
-	int version = 1;
-
 	/**
 	 * Constructor - creates sockets.
 	 *
@@ -93,8 +82,6 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 				System.err.println("something wrong with socket");
 			}
 		}
-			
-		super.do_job();
 	}
 	
 	public void readPredicatesfromSocket() {}
@@ -104,19 +91,7 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		done = true;
 		socket.close();
 	}
-	
-	/**
-	 * Overridable function.
-	 *
-	 */
-	public void eachrun() {
-		
-	}
-	
-	public void printvalues(Literal pred) {
-	
-	}
-	
+			
 	public void noconnection_run(String agname, Action act) {
 		System.err.println("No Socket Connection: " + act.toString());
 	}

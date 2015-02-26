@@ -105,7 +105,7 @@ public class AILSocket {
 	 * Write an integer to the socket.
 	 * @param i
 	 */
-	public void write(int i) {
+	public void writeInt(int i) {
 		if (!socket.isClosed() && socket.isConnected()) {
 			try {
 				output.writeInt(i);
@@ -122,7 +122,7 @@ public class AILSocket {
 	 * Write a double to the socket.
 	 * @param d
 	 */
-	public void write(double d) {
+	public void writeDouble(double d) {
 		if (!socket.isClosed() && socket.isConnected()) {
 			try {
 				output.writeDouble(d);

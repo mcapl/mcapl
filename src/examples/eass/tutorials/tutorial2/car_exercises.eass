@@ -29,6 +29,7 @@ EASS
 :Initial Beliefs:
 
 speed_limit(5)
+lane2xpos(35)
 													
 :Initial Goals:
 		
@@ -42,37 +43,23 @@ speed_limit(5)
 +started : {True} <-
 	assert_shared(start);
 
++yspeed(0) : {B xspeed(0)} <-
+	assert_shared(stopped);
 +yspeed(X) : {B speed_limit(SL), SL < X} <-
 	assert_shared(at_speed_limit);
 +yspeed(X) : {B speed_limit(SL), X < SL} <-
 	remove_shared(at_speed_limit);
 	
++xpos(L) : {B lane2xpos(X), X < L} <-
+	assert_shared(in_lane_2);
+	
 +! accelerate [perform] : {B yspeed(X)} <- accelerate;
 +! accelerate [perform] : {~B yspeed(X)} <- print("Waiting for Simulator to Start");
-
 +! maintain_speed [perform] : {True} <- maintain_speed;
-
-+! calculate_totaldistance(D) [perform] : {True} <-
-	calculate_totaldistance(D),
-	assert_shared(calculate_totaldistance(D));
-
-+! alert_at(D) [perform] : {True} <-
-	+waiting_until(D);
-	
-+! stop [perform] : {True} <-
-	decelerate;
-	
-+ypos(P) : {B waiting_until(D), ~B totaldistance(T1)} <-
-	calculate_totaldistance(T),
-	+ totaldistance(T);
-+ypos(P) : {B waiting_until(D), B totaldistance(T1)} <-
-	calculate_totaldistance(T),
-	-totaldistance(T1),
-	+totaldistance(T);
-+totaldistance(T) : {B waiting_until(D), D < T} <-
-	-waiting_until(D),
-	assert_shared(alert);
-
++! finished [perform] : {True} <- finished;
++! change_lane [perform] : {True} <- change_lane;
++! stay_in_lane [perform] : {True} <- stay_in_lane;
++! decelerate [perform] : {True} <- decelerate;
 
 :name: car
 			
@@ -91,7 +78,7 @@ speed_limit(5)
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed),
-	perf(alert_at(600));
+	perf(change_lane);
 	
-+alert: {True} <-
-	perf(stop);
++in_lane_2: {True} <-
+	perf(stay_in_lane);

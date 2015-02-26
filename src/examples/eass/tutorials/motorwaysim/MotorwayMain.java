@@ -25,6 +25,9 @@
 package eass.tutorials.motorwaysim;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -65,6 +68,7 @@ public class MotorwayMain extends JFrame implements ActionListener {
     	c.gridx = 0;
     	c.gridy = 0;
     	motorway = new Motorway(control);
+    	motorway.configure(config);
 		add(motorway, c);
 		
 		c.gridy = 1;
@@ -80,7 +84,18 @@ public class MotorwayMain extends JFrame implements ActionListener {
 		
 		setTitle("Motorway");
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		WindowListener exitListener = new WindowAdapter() {
+
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	        	motorway.stop();
+	        	System.exit(0);
+	        }
+	    };
+
+	    addWindowListener(exitListener);
+
 	}
 	
 	/**
@@ -116,5 +131,5 @@ public class MotorwayMain extends JFrame implements ActionListener {
 	private static void configure(String filename) {
 		config = new MotorwayConfig(filename);
 	}
-
+	
 }

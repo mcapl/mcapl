@@ -22,15 +22,16 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.tutorials.tutorial1;
+package eass.tutorials.tutorial2.answers;
 
-import eass.mas.socket.EASSSocketClientEnvironment;
+import eass.mas.DefaultEASSEnvironment;
 import ail.mas.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.VarTerm;
+import ail.util.AILSocketClient;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 
@@ -39,53 +40,63 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
+public class CarOnMotorwayEnvironment_ex2 extends DefaultEASSEnvironment {
 	
 	String logname = "eass.tutorials.tutorial1.CarOnMotorwayEnvironment";
-	
-	// Two doubles used to keep track of the total distance the car has travelled.
-	private double totalydistance = 0;
-	private double prevy = 0;
-	
+		
+	/**
+	 * Socket that connects to the Physical Engine.
+	 */
+	protected AILSocketClient socket;
+	/**
+	 * Has the environment concluded?
+	 */
+	private boolean finished = false;
+
 	/**
 	 * Constructor.
 	 */
-	public CarOnMotorwayEnvironment() {
+	public CarOnMotorwayEnvironment_ex2() {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
+		AJPFLogger.info("eass.mas", "Waiting Connection");
+		socket = new AILSocketClient();
+		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#do_job()
+	 */
+	public void do_job() {
+		try {
+			if (socket.allok()) {
+				readPredicatesfromSocket();
+			}
+		} catch (Exception e) {
+			AJPFLogger.warning(logname, e.getMessage());
+		}
+	}
+
 	/**
-	 * Overwriting the EASSSocketClient method that is activated when do_job is called.
-	 * This gets the values from the simulator and converts them into predicates.  It also
-	 * updates total distance.
+	 * Reading the values from the sockets and turning them into perceptions.
 	 */
 	public void readPredicatesfromSocket() {
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "Reading Values from Socket");
-		}
 		
 		double x = socket.readDouble();
 		double y = socket.readDouble();
+		socket.readDouble();
+		socket.readDouble();
 		double xdot = socket.readDouble();
 		double ydot = socket.readDouble();
 		int started = socket.readInt();
-		// System.err.println(ydot);
-		
-		if (y >= prevy) {
-			totalydistance += (y - prevy);
-		}  else {
-			double ylost = 550 - prevy;
-			totalydistance += ylost;
-			totalydistance += y;
-		}
-		// System.err.println(totalydistance);
-		prevy = y;
-		
+
 		try {
 			while (socket.pendingInput()) {
 				x = socket.readDouble();
 				y = socket.readDouble();
+				socket.readDouble();
+				socket.readDouble();
 				xdot = socket.readDouble();
 				ydot = socket.readDouble();
 				started = socket.readInt();			
@@ -126,25 +137,70 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 		
 		if (act.getFunctor().equals("accelerate")) {
 			socket.writeDouble(0.0);
-			socket.writeDouble(0.01);
-			// System.err.println("written to socket 0.0 0.1");
+			socket.writeDouble(0.1);
 		} else if (act.getFunctor().equals("decelerate")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(-0.1);
-			// System.err.println("written to socket 0.0 -0.1");
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(0.0);
-			// System.err.println("written to socket 0.0 0.0");
-		} else if (act.getFunctor().equals("calculate_totaldistance")) {
-			VarTerm distance = (VarTerm) act.getTerm(0);
-			u.unifies(distance, new NumberTermImpl(totalydistance));
+		} else if (act.getFunctor().equals("finished")) {
+			finished = true;
+		} else if (act.getFunctor().equals("change_lane")) {
+			socket.writeDouble(0.1);
+			socket.writeDouble(0.0);
+			
+			// The following probably isn't necessary, the idea is to stop the
+			// car accelerating sideways once it has some speed in the x direction.
+			boolean xspeed0 = true;
+			while (xspeed0) {
+				try {
+					if (socket.pendingInput()) {
+						socket.readDouble();
+						socket.readDouble();
+						socket.readDouble();
+						socket.readDouble();
+						double xdot = socket.readDouble();
+						socket.readDouble();
+						socket.readInt();
+				
+						if (xdot != 0.0) {
+							xspeed0 = false;
+						}
+					}
+				} catch (Exception e) {
+					AJPFLogger.warning(logname, e.getMessage());
+				}
+			}
+			socket.writeDouble(0.0);
+			socket.writeDouble(0.0);
+		} else if (act.getFunctor().equals("stay_in_lane")) {
+			socket.writeDouble(-0.1);
+			socket.writeDouble(0.0);
 		}
 		
 		u.compose(super.executeAction(agName, act));
 		return u;
 		
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#finalize()
+	 */
+	public void finalize() {
+		socket.close();
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.others.DefaultEnvironment#done()
+	 */
+	public boolean done() {
+		if (finished) {
+			return true;
+		}
+		return false;
+	}
 
 }

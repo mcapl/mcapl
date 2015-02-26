@@ -39,6 +39,7 @@ public class Car {
 	private int INITIAL_X, INITIAL_Y, B_WIDTH, B_HEIGHT;
 	
 	private boolean controlled;
+	private boolean include_total_distance;
 	private int started = 0;
 
 	/**
@@ -156,7 +157,7 @@ public class Car {
 			if (socketserver.allok()) {
 				try {
 					if (socketserver.pendingInput()) {
-						System.err.println("reading values");
+						// System.err.println("reading values");
 						readValues();
 					}
 				} catch (Exception e) {
@@ -187,11 +188,13 @@ public class Car {
 	 */
 	public void writeValues() {
 		if ( controlled ) {
-			socketserver.write(xrel);
-			socketserver.write(yrel);
-			socketserver.write(xdot);
-			socketserver.write(ydot);
-			socketserver.write(started);
+			socketserver.writeDouble(x);
+			socketserver.writeDouble(y);
+			socketserver.writeDouble(xrel);
+			socketserver.writeDouble(yrel);
+			socketserver.writeDouble(xdot);
+			socketserver.writeDouble(ydot);
+			socketserver.writeInt(started);
 		}
 	}
 	
@@ -209,5 +212,17 @@ public class Car {
 	 */
 	public void start() {
 		started = 1;
+	}
+	
+	/** 
+	 * Configure the car.
+	 * @param config
+	 */
+	public void configure(MotorwayConfig config) {
+		if (config.containsKey("data.include_total_distance")) {
+			if (config.getProperty("data.include_total_distance").equals("true")) {
+				include_total_distance = true;
+			}
+		}
 	}
 }
