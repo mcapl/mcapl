@@ -26,7 +26,7 @@
 // This file sets up the configuration for a leader agent where there are no
 // thruster failures among the follower agents and were only one formation (line) is being used.
 
-env=eass.verification.leo.LEOVerificationEnvironment
+env=eass.verification.leo.LEOVerificationEnvironmentv2
 
 mas.file = /src/examples/eass/verification/leo/satellite_leader_agent_line.eass
 mas.builder = eass.EASSMASBuilder
@@ -45,3 +45,4 @@ allpositions=false
 all_can_break=false
 changing_formation=false
 initial_formation=line
+agname=aglead

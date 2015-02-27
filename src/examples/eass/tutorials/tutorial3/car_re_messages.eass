@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
-// Lisitsa and Sandor M. Veres
+// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -23,26 +22,23 @@
 //
 //----------------------------------------------------------------------------
 
-// This file sets up the configuration for a follower satellite agent 
-// in which there are no thruster failures and where it is never requested to change formation.
+EASS
 
-env=eass.verification.leo.LEOVerificationEnvironmentv2
+:name: car
+			
+:Initial Beliefs:
+													
+:Initial Goals:
+		
+:Plans: 
++.received(:tell, LG): {~B LG} <- +LG;
 
-mas.file = /src/examples/eass/verification/leo/satellite_middle_line.eass
-mas.builder = eass.EASSMASBuilder
++start: {True} <-
+	+!at_speed_limit[achieve];
 
-log.warning = ajpf.MCAPLAgent
-log.info = eass.mas.DefaultEnvironment
-log.format = brief
++! at_speed_limit [achieve] : {True} <-
+	perf(accelerate),
+	*at_speed_limit;
 
-# Satellite specific configuration
-testing_movement=true
-testing_thrusters=false
-allthrusters=false
-requesting_positions=false
-requesting_formation=false
-allpositions=false
-all_can_break=false
-changing_formation=false
-initial_formation=line
-agname=ag1
++at_speed_limit: {True} <-
+	perf(maintain_speed);

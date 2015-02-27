@@ -28,7 +28,7 @@
 target = ail.util.AJPF_w_AIL
 target.args =src/examples/eass/verification/leo/satellite_nothrusters.ail,src/examples/eass/verification/leo/satellite.psl,15
 
-log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product,ajpf.MCAPLListener
+log.info = ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product,ajpf.MCAPLListener
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

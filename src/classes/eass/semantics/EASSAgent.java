@@ -48,6 +48,10 @@ import java.util.Random;
 public class EASSAgent extends AILAgent { 
 	private boolean isAbstraction = false;
 	private String abstraction_for;
+	
+	public static final int TELL = 1;
+	public static final int PERFORM = 2;
+	public static final int ACHIEVE = 3;
 
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
