@@ -139,12 +139,12 @@ if (act.getFunctor().equals("red_button")) {
 }
 \end{lstlisting}
 
-\section{Initialising and Finalising}
+\section{Initialising and Cleaning Up}
 Environments get created \emph{before} any agents are created or added to them.  This can sometimes cause problems if you want the environment to be configured in some way relating tot he agents (e.g., setting up a location for each agent in the environment) before everything starts running.
 
 The method \texttt{public void initialise()} is called on environments after the agents have been created and added to the environment but before the environment starts running.  Therefore overriding this method can be a good way in which to perform any configuration that involves agents.
 
-Similarly \texttt{public void finalize()} is called at the end of a run of the multi-agent system and so can be used for any final clean up of the environment or to print out reports or statistics.
+Similarly \texttt{public void cleanup()} is called at the end of a run of the multi-agent system and so can be used for any final clean up of the environment or to print out reports or statistics.
 
 \section{Exercises}
 

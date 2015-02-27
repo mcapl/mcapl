@@ -147,7 +147,7 @@ public interface AILEnv {
    /**
     * Perform any final cleanup needed after the system stops.
     */
-   public void finalise();
+   public void cleanup();
    
    /**
     * Perform any iniatilisation of the environment.  If the set up of the environment object depends

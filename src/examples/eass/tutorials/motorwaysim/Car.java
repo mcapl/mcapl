@@ -188,8 +188,10 @@ public class Car {
 	 */
 	public void writeValues() {
 		if ( controlled ) {
-			socketserver.writeDouble(x);
-			socketserver.writeDouble(y);
+			if (include_total_distance) {
+				socketserver.writeDouble(x);
+				socketserver.writeDouble(y);
+			}
 			socketserver.writeDouble(xrel);
 			socketserver.writeDouble(yrel);
 			socketserver.writeDouble(xdot);

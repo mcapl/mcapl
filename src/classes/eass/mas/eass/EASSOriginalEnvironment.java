@@ -180,7 +180,7 @@ public class EASSOriginalEnvironment extends DefaultEASSEnvironment {
 	}
 
 	
-	public void finalize() {
+	public void cleanup() {
 		done = true;
 		calculator.terminate();
 		waiter.terminate();

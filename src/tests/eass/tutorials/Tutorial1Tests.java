@@ -167,7 +167,7 @@ public class Tutorial1Tests {
 				
 				// Begin!
 				mccontrol.begin(); 
-				mas.finalise();
+				mas.cleanup();
 		  }
 		  
 		  public void stopAIL() {

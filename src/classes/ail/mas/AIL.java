@@ -65,7 +65,7 @@ public class AIL {
 		
 		// Begin!
 		mccontrol.begin(); 
-		mas.finalise();
+		mas.cleanup();
 
 	}
 	

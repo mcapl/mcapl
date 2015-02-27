@@ -30,7 +30,6 @@ import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.VarTerm;
 import ail.util.AILSocketClient;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
