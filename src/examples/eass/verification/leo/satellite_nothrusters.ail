@@ -26,7 +26,7 @@
 // This file sets up the configuration for a follower satellite agent 
 // in which there are no thruster failures and where it is never requested to change formation.
 
-env=eass.verification.leo.LEOVerificationEnvironmentv2
+env=eass.verification.leo.LEOVerificationEnvironment
 
 mas.file = /src/examples/eass/verification/leo/satellite_middle_line.eass
 mas.builder = eass.EASSMASBuilder

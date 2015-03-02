@@ -78,9 +78,6 @@ At the moment the key point is the fact that it states \texttt{no errors detecte
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
 
-# this is a preemption boundary specifying the max number of instructions after which we
-# break the current transition if there are other runnable threads
-vm.max_transition_length = MAX
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
@@ -97,7 +94,6 @@ We explain each line of this below.
 \item The second argument is a file containing a list of properties in \ajpf's property specification language that can be checked.  In this example this file is \texttt{lifterandmedic.psl} in the directory for this tutorial.
 \item The last argument is the name of the property to be checked, \texttt{1} in this case.
 \end{enumerate}
-\item[vm.max\_transition\_length = MAX] \jpf\ allows the user to set a maximum number of \java\ instructions that can be executed before a transition is forced to occur in the model checker.  Because many \ail\ interpreters use significant numbers of bytecode instructions executing individual transitions in the operational semantics we set this to \texttt{MAX} to minimize the search space.  This doesn't over-ride transitions that occur because of search space branching, it just prevents extra states being created for property checking.  In general when using \ajpf\ it is best to set this to \texttt{MAX} tweaking this setting would be advanced usage.
 \end{description}
 \end{sloppypar}
 

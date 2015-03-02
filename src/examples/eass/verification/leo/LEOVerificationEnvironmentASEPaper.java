@@ -39,8 +39,7 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import eass.mas.verification.EASSVerificationEnvironment;
-import eass.semantics.EASSAgent;
+import eass.mas.eass.EASSOriginalEnvironment;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -48,9 +47,8 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
+public class LEOVerificationEnvironmentASEPaper extends EASSOriginalEnvironment {
 	static final String logname = "eass.verification.leo.LEOVerificationEnvironment";
-	private String agName;
 	// Configuration settings for various tests
 	boolean testing_movement = true;
 	boolean testing_thrusters = false;
@@ -268,11 +266,36 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 		send_pos_ag3.addTerm(agent3);
 		send_pos_ag4.addTerm(agent4);
 	}
-				
+		
+	Random random = new Random();
+	
+	/**
+	 * Constructor.
+	 */
+	public LEOVerificationEnvironmentASEPaper() {
+		ActionScheduler s = new ActionScheduler();
+		setScheduler(s);
+		addPerceptListener(s);
+		setConnected(false);
+	}
+	
+	// All basically irrelevant in a verification setting since there is no abstraction engine to share beliefs with.
+	public void addSharedBelief(String agName, Literal per) {};
+	public boolean removeSharedBelief(String agName, Literal per) {return true;}
+	public boolean removeUnifiesShared(String agName, Literal per) {return true;}
+	
+	/*
+	 * 	(non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#mThreads()
+	 */
+	public boolean mThreads() {
+		return false;
+	}
+	
 	/**
 	 * Randomly determine the messages received by the agent.
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> getMessages(String agName) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		if (agName.equals("ag1")) {
 			if (change_message_ag1) {
@@ -294,31 +317,31 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 				if (testing_movement) {
 					if (requesting_positions) {
 						if (formation_line) {
-							send_middle = random_generator.nextBoolean();
+							send_middle = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 position(middle): " + send_middle);
 							if (allpositions) {
-								send_left = random_generator.nextBoolean();
+								send_left = random.nextBoolean();
 								AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 position(left): " + send_left);
-								send_right = random_generator.nextBoolean();							
+								send_right = random.nextBoolean();							
 								AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 position(right): " + send_right);
 							}
 						}
 						if (formation_square) {
-							send_topleft = random_generator.nextBoolean();
+							send_topleft = random.nextBoolean();
 							if (allpositions) {
-								send_topright = random_generator.nextBoolean();
-								send_bottomleft = random_generator.nextBoolean();	
-								send_bottomright = random_generator.nextBoolean();							
+								send_topright = random.nextBoolean();
+								send_bottomleft = random.nextBoolean();	
+								send_bottomright = random.nextBoolean();							
 							}
 						}
 					}
 					if (requesting_formation) {
 						if (formation_line) {
-							send_start_line = random_generator.nextBoolean();
+							send_start_line = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 assume_formation(line): " + send_start_line);
 						}
 						if (formation_square) {
-							send_start_square = random_generator.nextBoolean();
+							send_start_square = random.nextBoolean();
 						}
 					}
 				}
@@ -335,14 +358,14 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 				} */
 				
 				if (changing_formations) {
-					dropline = random_generator.nextBoolean();
+					dropline = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(line): " + dropline);
-					dropsquare = random_generator.nextBoolean();
+					dropsquare = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 drop_formation(square): " + dropsquare);
 				}
 										
 				if (send_start_line) {
-					Message msg = new Message(EASSAgent.PERFORM, "aglead", "ag1", assuming_formation_line);
+					Message msg = new Message(2, "aglead", "ag1", assuming_formation_line);
 					messages.add(msg);
 				}
 				if (send_start_square) {
@@ -416,31 +439,31 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 				boolean ag3_sendpos = false;
 				boolean ag4_sendpos = false;
 					
-				ag1maintain = random_generator.nextBoolean();
+				ag1maintain = random.nextBoolean();
 				AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random aglead maintaining(ag1): " + ag1maintain);
-				ag2maintain = random_generator.nextBoolean();
+				ag2maintain = random.nextBoolean();
 				AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random aglead maintaining(ag2): " + ag2maintain);
-				ag3maintain = random_generator.nextBoolean();
+				ag3maintain = random.nextBoolean();
 				AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random aglead maintaining(ag3): " + ag3maintain);
-				ag4maintain = random_generator.nextBoolean();
+				ag4maintain = random.nextBoolean();
 				AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random aglead maintaining(ag4): " + ag4maintain);
 				if (testing_thrusters) {
-					ag1broken = random_generator.nextBoolean();
+					ag1broken = random.nextBoolean();
 					if (all_can_break) {
-						ag2broken = random_generator.nextBoolean();
-						ag3broken = random_generator.nextBoolean();
-						ag4broken = random_generator.nextBoolean();
+						ag2broken = random.nextBoolean();
+						ag3broken = random.nextBoolean();
+						ag4broken = random.nextBoolean();
 					}
 				}
 					
 				if (requesting_positions) {
-					ag1_sendpos = random_generator.nextBoolean();
+					ag1_sendpos = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 send_position(ag1): " + ag1_sendpos);
-					ag2_sendpos = random_generator.nextBoolean();
+					ag2_sendpos = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 send_position(ag2): " + ag2_sendpos);
-					ag3_sendpos = random_generator.nextBoolean();
+					ag3_sendpos = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 send_position(ag3): " + ag3_sendpos);
-					ag4_sendpos = random_generator.nextBoolean();
+					ag4_sendpos = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 send_position(ag4): " + ag4_sendpos);
 				}
 					
@@ -510,47 +533,47 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 	/**
 	 * Randomly determine the percepts received by the agent.
 	 */
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> getPercepts(String agName, boolean update) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		if (agName.equals("ag1")){
 			if (change_ag1) {
 				if (testing_movement) {
 					if (formation_line) {
-						ag1_plan_to_middle = random_generator.nextBoolean();
+						ag1_plan_to_middle = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(middle, plan_middle): " + ag1_plan_to_middle);
-						ag1_close_to_middle = random_generator.nextBoolean();
+						ag1_close_to_middle = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(middle): " + ag1_close_to_middle);
 					}
 					if (formation_square) {
-						ag1_plan_to_topleft = random_generator.nextBoolean();
+						ag1_plan_to_topleft = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(topleft, plan_topleft): " + ag1_plan_to_topleft);
-						ag1_close_to_topleft = random_generator.nextBoolean();
+						ag1_close_to_topleft = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(topleft): " + ag1_close_to_topleft);
 					}
 					
 					if (allpositions) {
 						if (formation_line) {
-							ag1_plan_to_left = random_generator.nextBoolean();
+							ag1_plan_to_left = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(left, plan_left): " + ag1_plan_to_left);
-							ag1_close_to_left = random_generator.nextBoolean();
+							ag1_close_to_left = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(left): " + ag1_close_to_left);
-							ag1_plan_to_right = random_generator.nextBoolean();
+							ag1_plan_to_right = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(right, plan_right): " + ag1_plan_to_right);
-							ag1_close_to_right = random_generator.nextBoolean();		
+							ag1_close_to_right = random.nextBoolean();		
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(right): " + ag1_close_to_right);
 						}
 						if (formation_square) {
-							ag1_plan_to_topright = random_generator.nextBoolean();
+							ag1_plan_to_topright = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(topright, plan_topright): " + ag1_plan_to_topright);
-							ag1_close_to_topright = random_generator.nextBoolean();
+							ag1_close_to_topright = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(topright): " + ag1_close_to_topright);
-							ag1_plan_to_bottomright = random_generator.nextBoolean();
+							ag1_plan_to_bottomright = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(bottomright, plan_bottomright): " + ag1_plan_to_bottomright);
-							ag1_close_to_bottomright = random_generator.nextBoolean();
+							ag1_close_to_bottomright = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(bottomright): " + ag1_close_to_bottomright);
-							ag1_plan_to_bottomleft = random_generator.nextBoolean();
+							ag1_plan_to_bottomleft = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 get_close_to(bottomleft, plan_bottomleft): " + ag1_plan_to_bottomleft);
-							ag1_close_to_bottomleft = random_generator.nextBoolean();
+							ag1_close_to_bottomleft = random.nextBoolean();
 							AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 close_to(bottomleft): " + ag1_close_to_bottomleft);
 						}
 						
@@ -558,20 +581,20 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 				}
 				
 				if (testing_thrusters) {
-					ag1_broken_x = random_generator.nextBoolean();
+					ag1_broken_x = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 broken x: " + ag1_broken_x);
 					if (allthrusters) {
-						ag1_broken_y = random_generator.nextBoolean();
+						ag1_broken_y = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 broken y: " + ag1_broken_y);
-						ag1_broken_z = random_generator.nextBoolean();
+						ag1_broken_z = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 broken z: " + ag1_broken_z);
 					}
-					ag1_tl_1x = random_generator.nextBoolean();
+					ag1_tl_1x = random.nextBoolean();
 					AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(x, 1): " + ag1_tl_1x);
 					if (allthrusters) {
-						ag1_tl_1y = random_generator.nextBoolean();
+						ag1_tl_1y = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(y, 1): " + ag1_tl_1y);
-						ag1_tl_1z = random_generator.nextBoolean();
+						ag1_tl_1z = random.nextBoolean();
 						AJPFLogger.info("eass.verification.leo.LEOVerificationEnvironment", "Random ag1 thruster_line(z, 1): " + ag1_tl_1z);
 					}
 				}
@@ -650,7 +673,7 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 			change_ag1 = false;
 			
 		} else {
-			return percepts; 
+			return null; 
 		}
 		return percepts;
 	}
@@ -660,15 +683,36 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 	 * When the agent executes an action then something may change.  This method doesn't do anything except alter the flags for generating random numbers.
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
+	   	Unifier theta = new Unifier();
+	   	if (AJPFLogger.ltInfo(logname)) {
+	   		AJPFLogger.info(logname, agName + " about to do " + act);
+	   	}
+    	lastAgent = agName;
+    	lastAction = act;
 	   	
     	if (!act.getFunctor().equals("remove_shared")) {
     		change_for(agName);
     	}
  	   		   	 
-    	return super.executeAction(agName, act);
+    	return theta;
     }
    
-      
+   /*
+    * 
+    */
+   public void run() {
+	   done = true;
+	   notifyListeners();
+   }
+   
+   /*
+    * (non-Javadoc)
+    * @see eass.mas.DefaultEASSEnvironment#eachrun()
+    */
+   public void eachrun() {
+	   AJPFLogger.fine(logname, "running");
+   }
+   
    /**
     * Manage flags indicating which agents may have things change.
     * @param name
@@ -683,7 +727,44 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 	   }
    }
    
- 	
+    public boolean nothingPending(String agName) {
+	   if (agName.equals("ag1")) {
+		   return (!change_ag1);
+	   } else if (agName.equals("aglead")) {
+		   return (!change_message_aglead);
+	   } else {
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, "returning nothing pending for: " + agName);
+		   }
+		   return true;
+	   }
+   }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.mas.DefaultEnvironment#agentIsUpToDate(java.lang.String)
+     */
+    public boolean agentIsUpToDate(String agName) {
+     	return nothingPending(agName);
+    }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.others.DefaultEnvironment#separateThread()
+	 */
+	public boolean separateThread() {
+		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#done()
+	 */
+	public boolean done() {
+		setDone(true);
+		return super.done();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#configure(ail.util.AILConfig)
@@ -722,10 +803,6 @@ public class LEOVerificationEnvironmentv2 extends EASSVerificationEnvironment {
 
 		if (configuration.containsKey("requesting_formation")) {
 			requesting_formation = Boolean.valueOf((String) configuration.get("requesting_formation"));
-		}
-		
-		if (configuration.containsKey("agname")) {
-			agName = configuration.getProperty("agname");
 		}
 
 

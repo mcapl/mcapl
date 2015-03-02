@@ -1,0 +1,131 @@
+\documentclass[a4]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+\author{Louise A. Dennis}
+
+\title{AJPF Tutorial 2 -- \jpf\ Configuration Files: Troubleshooting Model Checking}
+
+\begin{document}
+\maketitle
+This is the second in a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers \jpf\ configuration files in more detail as well as techniques for troubleshooting model-checking.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial2}.
+
+The tutorials assume some familiarity with the basics of running Java programs either at the command line or in Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic.
+
+\section{\jpf\ Configuration Files}
+As mentioned in \ajpf\ tutorial 1, \jpf\ had an extensive set of configuration options which you can find in the JPF documentation~\footnote{Currently to be found at \url{http://babelfish.arc.nasa.gov/trac/jpf}}. We only examined the most basic in Tutorial 1 but in this tutorial we will cover a few more that are useful, particulary when debugging a program you are attempting to model check.
+
+In the tutorial directory you will find a simple \gwendolen\ program, \texttt{twopickupagents.gwen}.  This contains two agents, one holding a block and one holding a flag.  Each agent puts down what they are holding.  If the agent with the block puts it down before the agent with the flag puts the flag down, then the agent with the flag will pick up the box.  The agent with the flag also perform an action with random consequences after it puts down the flag.
+
+\subsection{TwoPickUpAgents\_basic.jpf} is a minimal configuration file containing only options discussed in \ajpf\ tutorial 1.  This generates the following output:
+
+\begin{verbatim}
+JavaPathfinder core system v8.0 (rev ${version}) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
+
+====================================================== search started: 27/02/15 16:59
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:00:03
+states:             new=13,visited=10,backtracked=23,end=0
+search:             maxDepth=5,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=13
+heap:               new=84557,released=80981,maxLive=3504,gcCycles=23
+instructions:       7938974
+max memory:         309MB
+loaded code:        classes=309,methods=4795
+
+====================================================== search finished: 27/02/15 16:59
+\end{verbatim}
+
+This is obviously fine as output in situations where the model checking completes quickly and with \texttt{no errors detected} but gives the user very little to go on if there is a problem or the model checking is taking a long time and they are not sure whether to kill the attempt or not.
+
+\subsection{TwoPickUpAgents\_ExecTracker.jpf}
+
+\texttt{PickUpTwiceAgent\_ExecTracker.jp} adds the configuration option:
+
+\begin{verbatim}
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+\end{verbatim}
+
+Adding \texttt{listener.ExecTracker} to \jpf's listeners means that it collects more information about progress as it goes and then prints this information out.  The next two lines suppress some of this information which I, personally, don't find so useful.  With these settings the following output is generated (only the start is shown):
+
+\begin{small}
+\begin{verbatim}
+----------------------------------- search started
+      [skipping static init instructions]
+JavaPathfinder core system v8.0 (rev ${version}) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
+
+====================================================== search started: 27/02/15 17:02
+		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+		 # garbage collection
+----------------------------------- [1] forward: 0 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [2] forward: 1 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [3] forward: 2 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [4] forward: 3 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [5] forward: 4 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+		 # garbage collection
+----------------------------------- [6] forward: 5 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [7] forward: 6 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+		 # garbage collection
+----------------------------------- [8] forward: 7 visited
+----------------------------------- [7] backtrack: 6
+----------------------------------- [7] done: 6
+----------------------------------- [6] backtrack: 5
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,0,>1]
+		 # garbage collection
+----------------------------------- [7] forward: 8 visited
+----------------------------------- [6] backtrack: 5
+----------------------------------- [6] done: 5
+----------------------------------- [5] backtrack: 4
+----------------------------------- [5] done: 4
+----------------------------------- [4] backtrack: 3
+\end{verbatim}
+\end{small}
+
+Every time \jpf\ generates a new state for model checking it assigns that state a number.  In the output here you can see it generating new states 0 through to 7 and advancing forward to each state.  You then see it backtracking back to state 5 at which point it finds a branching point in the search space and advances to state 8 before backtracking to 3.
+
+Typically search space branching is caused either when the scheduler must choose between several agents, or when a random value is generated.  Both can be seen here.
+
+Random value generation activates a \texttt{BooleanChoiceGenerator} and the output here shows it alternately selecting  \texttt{false}.
+
+Scheduler choice activates an \texttt{IntChoiceFromSet} choice generator.  The scheduler keeps track of the agents which are awake and assigns an integer to them.  You can see here that sometimes both agents are awake and the choice is between \texttt{0} abd \texttt{1} and at other times only one agent is awake in which case the only choice is \texttt{0}
+
+The numbers in square brackets -- \texttt{[7]}, \texttt{[6]} etc. indicate the depth that model checking has reached in the search tree.  If these numbers become very large without apparent reason then it may well be the case that the search has encountered an infinite branch of the tree and needs to be killed.
+
+\subsection{Logging}
+\jpf\ suppresses the logging configuration you have in your \ail\ configuration files so you need to add and logging configurations you want 
+
+\end{document}

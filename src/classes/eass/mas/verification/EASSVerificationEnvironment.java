@@ -91,7 +91,7 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	public Set<Message> getMessages(String agName) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		if (at_start_messages) {
-			messages.addAll(generate_messages());
+			// messages.addAll(generate_messages());
 			at_start_messages = false;
 			return messages;
 		} else {
