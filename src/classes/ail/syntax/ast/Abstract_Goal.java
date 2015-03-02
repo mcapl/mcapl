@@ -94,7 +94,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * @param l
 	 * @param i
 	 */
-	public Abstract_Goal(Abstract_Literal l, int i) {
+	public Abstract_Goal(Abstract_Predicate l, int i) {
 		if (l instanceof Abstract_VarTerm) {
 			isVariable = true;
 		}
@@ -102,18 +102,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		setTerms(l.getTerms());
 		goaltype = i;
 	}
-	
-	public Abstract_Goal(Abstract_Predicate p, int i) {
-		setFunctor(p.getFunctor());
-		setTerms(p.getTerms());
-		goaltype = i;
-	}
-	
-	public Abstract_Goal(Abstract_LogicalFormula lf) {
-		// We assume lf is actually a GBelief
-		this((Abstract_Predicate) ((Abstract_GBelief) lf).getContent(), achieveGoal);
-	}
-	
+		
 	/**
 	 * Constructor.
 	 * @param g
@@ -243,21 +232,4 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 */
 	public void setCategory(byte b) {};
 	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.ast.Abstract_Predicate#apply(ail.syntax.ast.Abstract_Unifier)
-	 */
-	public Abstract_LogicalFormula apply(Abstract_Unifier u) {
-		Abstract_Predicate p = (Abstract_Predicate) super.applyu(u);
-		return new Abstract_Goal(p, goaltype);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.ast.Abstract_LogicalFormula#unifies(ail.syntax.ast.Abstract_LogicalFormula, ail.syntax.ast.Abstract_Unifier)
-	 */
-	public void unifies(Abstract_LogicalFormula lf, Abstract_Unifier u) {
-		Abstract_Goal g = (Abstract_Goal) lf;
-		super.unifies(g, u);
-	}
 }

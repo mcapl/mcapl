@@ -119,29 +119,5 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
     	env.setReferenceField(objref, "head", head.newJPFObject(env));
 		return objref;
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.ast.Abstract_LogicalFormula#setCategory(byte)
-     */
-	public void setCategory(byte b) {
-		head.setCategory(b);
-		body.setCategory(b);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.ast.Abstract_LogicalFormula#apply(ail.syntax.Unifier)
-	 */
-	public Abstract_LogicalFormula apply(Abstract_Unifier u) {
-		return new Abstract_Rule((Abstract_GuardAtom) head.apply(u), body.apply(u));
-	}
-	
-	public void unifies(Abstract_LogicalFormula lf, Abstract_Unifier u) {
-		Abstract_Rule r = (Abstract_Rule) lf;
-		head.unifies(r.head, u);
-		body.unifies(r.getBody(), u);
-	}
-
-    
+        
  }

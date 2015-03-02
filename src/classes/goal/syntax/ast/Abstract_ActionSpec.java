@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of GOAL (AIL version) - GOAL-AIL
 // 
@@ -45,6 +45,7 @@ import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Pred;
+import ail.syntax.ast.Abstract_BaseAILStructure;
 
 /**
  * Class for GOAL Capabilities/Action Specifications.  Capabilities are, in fact 
@@ -62,13 +63,30 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 	 * @param gs
 	 * @param ds
 	 */
-	public Abstract_ActionSpec(Abstract_Goal g, Abstract_MentalState ms, ArrayList<Abstract_Deed> ds) {
+	public Abstract_ActionSpec(Abstract_Goal g, Abstract_MentalAtom ms, Abstract_LogicalFormula lf) {
 		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, g));
+		ArrayList<Abstract_Deed> ds = new ArrayList<Abstract_Deed>();
+		logicalFmlatoDeeds(lf, ds);
 		setContextSingle(ms, ds.size());
 		ArrayList<Abstract_Deed> prf = new ArrayList<Abstract_Deed>();
 		prf.add(new Abstract_Deed(Abstract_Deed.Dnpy));
 		setPrefix(prf);
 		setBody(ds);
+	}
+	
+	private void logicalFmlatoDeeds(Abstract_LogicalFormula lf, ArrayList<Abstract_Deed> ds) {
+		if (lf instanceof Abstract_Literal) {
+			Abstract_Literal lit = (Abstract_Literal) lf;
+			int adddel = Abstract_BaseAILStructure.AILDeletion;
+			if (lit.getType()) {
+				adddel = Abstract_BaseAILStructure.AILAddition;
+			}
+			ds.add(new Abstract_Deed(adddel, Abstract_BaseAILStructure.AILBel, lit));
+		} else {
+			Abstract_LogExpr le = (Abstract_LogExpr) lf;
+			logicalFmlatoDeeds(le.getRHS(), ds);
+			logicalFmlatoDeeds(le.getLHS(), ds);
+		}
 	}
 	
 	/**
@@ -88,11 +106,11 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 		setBody(ds);
 	}
 	
-	public Abstract_ActionSpec(Abstract_Goal g, Abstract_Guard ms, Abstract_LogicalFormula lf) {
+/*	public Abstract_ActionSpec(Abstract_Goal g, Abstract_Guard ms, Abstract_LogicalFormula lf) {
 		this(g, ms, lf_to_deedlist(lf));
-	}
+	} */
 	
-	private static ArrayList<Abstract_Deed> lf_to_deedlist(Abstract_LogicalFormula lf) {
+/*	private static ArrayList<Abstract_Deed> lf_to_deedlist(Abstract_LogicalFormula lf) {
 		ArrayList<Abstract_Deed> deeds = new ArrayList<Abstract_Deed>();
 		if (lf instanceof Abstract_LogExpr) {
 			Abstract_LogExpr le = (Abstract_LogExpr) lf;
@@ -120,7 +138,7 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 		}
 		
 		return deeds;
-	}
+	} */
 
 	/**
 	 * Create a capability from a goal and a deed list (effects).  Assumes that the
@@ -128,7 +146,7 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 	 * @param g
 	 * @param ds
 	 */
-	public Abstract_ActionSpec(Abstract_Goal g, ArrayList<Abstract_Deed> ds) {
+/*	public Abstract_ActionSpec(Abstract_Goal g, ArrayList<Abstract_Deed> ds) {
 		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, new Abstract_Goal(new Abstract_VarTerm("Any"), Abstract_Goal.achieveGoal)));
 		ArrayList<Abstract_Guard> gs2 = new ArrayList<Abstract_Guard>(ds.size());
 		for (int i = 0; i < ds.size(); i++) {
@@ -139,7 +157,7 @@ public class Abstract_ActionSpec extends Abstract_Plan {
 		prf.add(new Abstract_Deed(Abstract_Deed.AILAddition, g));
 		setPrefix(prf);
 		setBody(ds);
-	}
+	} */
 	
     public ActionSpec toMCAPL() {
     	ArrayList<Deed> newdeed = new ArrayList<Deed>();

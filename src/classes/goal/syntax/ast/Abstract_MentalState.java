@@ -32,6 +32,8 @@ import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_StringTerm;
+import ail.syntax.ast.Abstract_Unifier;
+import ail.syntax.ast.Abstract_GLogicalFormula;
 
 public class Abstract_MentalState extends Abstract_Guard {
 	boolean conjunct = false;
@@ -50,6 +52,14 @@ public class Abstract_MentalState extends Abstract_Guard {
 	public Abstract_MentalState(Abstract_GBelief gb) {
 		super(new Abstract_GBelief(gb));
 	} 
+	
+	public Abstract_MentalState(Abstract_GLogicalFormula lf) {
+		
+	}
+		
+	public Abstract_MentalState(Abstract_GLogicalFormula lf, int i, Abstract_GLogicalFormula lf2) {
+		
+	}
 		
 	/**
 	 * G(me, phi)
@@ -110,6 +120,8 @@ public class Abstract_MentalState extends Abstract_Guard {
 		public Abstract_MentalState getMS() {
 			return conjunct1;
 		}	
+		
+		public Abstract_MentalState apply(Abstract_Unifier u) {}
 		
 	    public MentalState toMCAPL() {
 	    	if (negation) {

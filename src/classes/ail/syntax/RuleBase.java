@@ -52,7 +52,7 @@ public class RuleBase implements Iterable<Rule> {
      * is a list of literals with the same functorArity.  Used for efficient
      * look-up of beliefs.
      */
-    private Map<Tuple, RuleEntry> ruleMap = new VerifyMap<Tuple, RuleEntry>();
+    private Map<PredicateIndicator, RuleEntry> ruleMap = new VerifyMap<PredicateIndicator, RuleEntry>();
 
     /**
      * Number of rules.
@@ -75,11 +75,10 @@ public class RuleBase implements Iterable<Rule> {
      * @return whether addition of the rule was successful.
      */
     public boolean add(Rule l) {
-    		Tuple t = new Tuple(l.getPredicateIndicator(), l.getHead().getCategory());
-            RuleEntry entry = ruleMap.get(t);
+            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
             if (entry == null) {
                 entry = new RuleEntry();
-                ruleMap.put(t, entry);
+                ruleMap.put(l.getPredicateIndicator(), entry);
             }
             entry.add(l);
  
@@ -92,8 +91,7 @@ public class RuleBase implements Iterable<Rule> {
      */
     public boolean remove(Rule l) {
          if (l != null) {
-                 
-        	Tuple key = new Tuple(l.getPredicateIndicator(), l.getHead().getCategory());
+        	 PredicateIndicator key = l.getPredicateIndicator();
         	RuleEntry entry = ruleMap.get(key);
         	entry.remove(l);
         	if (entry.isEmpty()) {
@@ -131,7 +129,7 @@ public class RuleBase implements Iterable<Rule> {
             // all rules are relevant
             return iterator();
         } else {
-            RuleEntry entry = ruleMap.get(new Tuple(l.getPredicateIndicator(), l.getCategory()));
+            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
             if (entry != null) {
                 return Collections.unmodifiableList(entry.list).iterator();
             } else {
@@ -153,7 +151,7 @@ public class RuleBase implements Iterable<Rule> {
             // all bels are relevant
             return iterator();
         } else {
-            RuleEntry entry = ruleMap.get(new Tuple(l.getPredicateIndicator(), l.getCategory()));
+            RuleEntry entry = ruleMap.get(l.getPredicateIndicator());
             if (entry != null) {
                 return Collections.unmodifiableList(entry.list).iterator();
             } else {

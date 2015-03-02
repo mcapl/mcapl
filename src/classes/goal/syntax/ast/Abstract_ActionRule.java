@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of GOAL (AIL version) - GOAL-AIL
 // 
@@ -49,6 +49,7 @@ import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_GuardAtom;
 import ail.syntax.ast.Abstract_LogExpr;
+import ail.syntax.ast.Abstract_GLogicalFormula;
 
 public class Abstract_ActionRule extends Abstract_Plan {
 	public Abstract_ActionRule() {
@@ -58,13 +59,8 @@ public class Abstract_ActionRule extends Abstract_Plan {
 		
 	}
 	
-	public void setMentalStateCond(Abstract_LogicalFormula lf) {
-		Abstract_Guard guard = null;
-		if (lf instanceof Abstract_GuardAtom) {
-			guard = new Abstract_Guard((Abstract_GuardAtom) lf);
-		} else if (lf instanceof Abstract_LogExpr) {
-			guard = new Abstract_Guard((Abstract_LogExpr) lf, false);
-		}
+	public void setMentalStateCond(Abstract_MentalState lf) {
+		Abstract_Guard guard = lf;
 		if (guard != null) {
 			setContextSingle(guard, 1);
 		}
@@ -84,7 +80,7 @@ public class Abstract_ActionRule extends Abstract_Plan {
 
   		if (bd.size() > 1) {
   			for (int j = 0; j < (bd.size() - 1); j++) {
-  				context[j] = new Abstract_Guard(new Abstract_GBelief(Abstract_GBelief.GTrue));
+  				context[j] = new Abstract_Guard(new Abstract_GBelief());
   			}
   		}
   		

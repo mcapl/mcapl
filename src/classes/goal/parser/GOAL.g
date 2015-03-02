@@ -29,6 +29,7 @@ grammar GOAL;
 package goal.parser;
 
 import ail.syntax.ast.*;
+import ail.syntax.DefaultAILStructure;
 import goal.syntax.ast.*;
 import ail.syntax.PredicateIndicator;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ package goal.parser;
 
 @members {
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private static HashMap<PredicateIndicator,Abstract_LogicalFormula> macros = new HashMap<PredicateIndicator, Abstract_LogicalFormula>();
+	private static HashMap<PredicateIndicator,Abstract_MentalState> macros = new HashMap<PredicateIndicator, Abstract_MentalState>();
 	private static HashMap<PredicateIndicator,Abstract_Term> macro_subs = new HashMap<PredicateIndicator, Abstract_Term>();
 	private String name = "";
 }
@@ -70,21 +71,22 @@ module[Abstract_GOALAgent gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                              CURLYCLOSE
                              (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
                              
-krspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructure.AILBel);} 
+krspec[Abstract_GOALAgent gl]:  (hd=atom
 	(STOP {$gl.addFact(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule(hd, body));}))+;
     
-brspec[Abstract_GOALAgent gl]:  (hd=atom {hd.setCategory(Abstract_BaseAILStructure.AILBel);}  
+brspec[Abstract_GOALAgent gl]:  (hd=atom 
 	(STOP {$gl.addBel(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
-poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g.getContent());} (COMMA g1=atom{$gl.addGoal(g1.getContent());})* STOP;
+poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g);} (COMMA g1=atom{$gl.addGoal(g1);})* STOP;
 
 litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
 literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
 
-atom returns [Abstract_GBelief t] : (s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = new Abstract_GBelief(p);})? | e=equation {$t=e;});
+atom returns [Abstract_Predicate t] : s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = p;});
+//  | e=equation {$t=e;});
 
 parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);} 
 	(COMMA t1=term {tl.add(t1);})* CLOSE { $ts = (Abstract_Term[]) tl.toArray(new Abstract_Term[0]);};	
@@ -96,28 +98,22 @@ macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator p
 
 actionrule[Abstract_GOALAgent gl]   	: {Abstract_ActionRule rule = new Abstract_ActionRule();} 
 	IF (lf=mentalstatecond {rule.setMentalStateCond(lf);}|
-		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); Abstract_LogicalFormula macro=macros.get(pi); Abstract_Term sub=macro_subs.get(pi); Abstract_Unifier u=rule.getUnifier(f, pl, sub); Abstract_LogicalFormula k = macro.apply(u); rule.setMentalStateCond(k);} ) 
+		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); Abstract_MentalState macro=macros.get(pi); Abstract_Term sub=macro_subs.get(pi); Abstract_Unifier u=rule.getUnifier(f, pl, sub); Abstract_MentalState k = macro.apply(u); rule.setMentalStateCond(k);} ) 
 	THEN dl=actioncombo[gl] {rule.setBody(dl);} STOP {gl.addPlan(rule);};	
 
-mentalstatecond returns [Abstract_LogicalFormula lf]
-	: ml=mentalliteral {$lf = ml;} (COMMA ml2=mentalliteral {ml = new Abstract_LogExpr(ml, Abstract_LogExpr.and, ml2); $lf = ml;})*;	
+mentalstatecond returns [Abstract_MentalState lf]
+	: ml=mentalliteral {Abstract_MentalState ms = new Abstract_MentalState(ml);} (COMMA ml2=mentalliteral {ms = new Abstract_MentalState(ms, Abstract_Guard.and, ml2); $lf = ms;})*;	
 	
-mentalliteral returns [Abstract_LogicalFormula lf]
-	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_LogExpr(Abstract_LogExpr.not, nma);} CLOSE;
+mentalliteral returns [Abstract_GLogicalFormula lf]
+	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_Guard(Abstract_Guard.not, nma);} CLOSE;
 	
-mentalatom returns [Abstract_LogicalFormula lf]
-	: BEL OPEN b=litconj  {b.setCategory(Abstract_BaseAILStructure.AILBel); $lf = b;} CLOSE | GOAL OPEN g=litconj {Abstract_Goal gl = new Abstract_Goal(g); $lf = gl;}CLOSE;
+mentalatom returns [Abstract_GLogicalFormula lf]
+	: BEL OPEN b=litconj  {$lf = new Abstract_MentalAtom(b, DefaultAILStructure.AILBel);} CLOSE | GOAL OPEN g=litconj {$lf = new Abstract_MentalAtom(g, DefaultAILStructure.AILGoal);}CLOSE;
 	
 
 actionspec[Abstract_GOALAgent gl]: deed=action[gl] {Abstract_Goal goal = (Abstract_Goal) deed.getContent();} 
-	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_Guard guard = null;
-		if (lf1 instanceof Abstract_GuardAtom) {
-			guard = new Abstract_Guard((Abstract_GuardAtom) lf1);
-		} else if (lf1 instanceof Abstract_LogExpr) {
-			guard = new Abstract_Guard((Abstract_LogExpr) lf1, false);
-		};
-	}
-	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addPlan(new Abstract_ActionSpec(goal, guard, lf2));};
+	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_MentalAtom pres = new Abstract_MentalAtom(lf1, DefaultAILStructure.AILBel);}
+	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addPlan(new Abstract_ActionSpec(goal, pres, lf2));};
 
 actioncombo[Abstract_GOALAgent gl] returns [ArrayList<Abstract_Deed> dl]
 	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;

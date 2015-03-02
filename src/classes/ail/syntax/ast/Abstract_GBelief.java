@@ -207,19 +207,5 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      */
 	public boolean isTrivial() {
 		return (getCategory() == GTrue);
-	}
-	
-	public void unifies(Abstract_LogicalFormula lf, Abstract_Unifier u) {
-		Abstract_GBelief gb = (Abstract_GBelief) lf;
-		
-		content.unifies(gb.getContent(), u);
-	}
-	
-	public Abstract_LogicalFormula apply(Abstract_Unifier u) {
-		Abstract_Term newcontent = content.applyu(u);
-		content = newcontent;
-		return this;
-	}
-	
-	
+	}	
 }
