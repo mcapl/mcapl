@@ -66,8 +66,7 @@ public class MCAPLcontroller  {
 	private boolean mainconcluded = false;
 	
 	private MCAPLScheduler scheduler;
-	
-	//private String propertystring;
+
 	Random random_numbers = new Random();
 		
 
@@ -79,11 +78,6 @@ public class MCAPLcontroller  {
 	 */
 	public MCAPLcontroller(MCAPLmas mas, String pstring, int outputlevel) {
 		this(mas, outputlevel);
-		//propertystring = pstring;
-		//Property_AST prop_ast = new Property_AST();
-		//prop_ast.parse(propertystring);
-		//MCAPLProperty prop = prop_ast.toMCAPL(mas, this);
-		//System.err.println(prop);
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
@@ -105,12 +99,9 @@ public class MCAPLcontroller  {
 			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
-			//System.err.println(magent.getAgName());
 		}
-		//m.addPerceptListener(this);
 		specification = s;
 		mas.setController(this);
-	//	setOutputLevel(mc);
 	}
 	
 	/**
@@ -127,11 +118,8 @@ public class MCAPLcontroller  {
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
-			//System.err.println(magent.getAgName());
 		}
 		mas.setController(this);
-		//m.addPerceptListener(this);
-		//setOutputLevel(mc);
 	}
 
 	/**
@@ -152,16 +140,7 @@ public class MCAPLcontroller  {
 	public MCAPLSpec getSpecification() {
 		return (specification);
 	}
-	
-	/**
-	 * Setter method for the outputlevel flag.
-	 * 
-	 * @param b the value of the flag.
-	 */
-//	public void setOutputLevel(int b) {
-//		mas.setOutputLevel(b);
-//	}
-	
+		
 	/**
 	 * Getter method for the multi-agent system.
 	 * @return
@@ -179,48 +158,59 @@ public class MCAPLcontroller  {
 	public void begin() {
 		// We assume it makes no difference the exact order the agents and the 
 		// environment (if relevant) start in so make this atomic.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
+		}
 		specification.createAutomaton();
 		specification.checkProperties();
-		//mas.MCAPLstart();
-		//for (MCAPLAgent a: agents.values()) {
-		//	System.out.println("starting agent" + a.getName());
-		//	a.start();
-		//}
-		// a = scheduling();
 		boolean checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {			
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
+			}
 			checkend = checkEnd();
 		}
 		triggerendstate();
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
+		}
 		
 	}
 	
+	/**
+	 * Use scheduler to pick a Jobber, do a Jobber, and return the Jobber.
+	 * @return
+	 */
 	public MCAPLJobber scheduling() {
 		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
-		//AJPFLogger.info("ajpf.MCAPLcontroller", "About to pick job");
+
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
-		//	AJPFLogger.info("ajpf.MCAPLcontroller", "Picked jobber " + a.getName());
-		} //else {
-		//	pickJob(1);
-		//}
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
+		} 
+
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
+		}
 		a.do_job();
 		specification.checkProperties();
 		return a;
 	}
 	
+	/**
+	 * Pick a jobber.  This method is intercepted by a native peer when executing in JPF.
+	 * Hence why it returns an int.
+	 * @param limit
+	 * @return
+	 */
 	private int pickJob(int limit) {
-		// System.err.println(limit);
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
+		}
 		int choice = random_numbers.nextInt(limit);
 		return choice;
 	}
@@ -235,12 +225,18 @@ public class MCAPLcontroller  {
 		return mainconcluded;
 	}
 		
-	
-	//private VerifySet<String> sleeping = new VerifySet<String>();
+	/**
+	 * This Jobber is asleep.
+	 * @param agname
+	 */
 	public void addAsleep(String agname) {
 		scheduler.notActive(agname);
-//		System.out.println(sleeping);
 	}
+	
+	/**
+	 * This Jobber is now awake.
+	 * @param agname
+	 */
 	public void addAwake(String agname) {
 		scheduler.isActive(agname);
 	}
@@ -253,31 +249,31 @@ public class MCAPLcontroller  {
 	 */
 	public boolean checkEnd() {
 		// Check all agents are sleeping and without notifications.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		}
 		for (MCAPLAgent ag : agents.values()) {
 			if (scheduler.getActiveJobberNames().contains(ag.getAgName())) {
-				//	!sleeping.contains(ag.getAgName()) ) {
-				// System.err.println(ag.getAgName());
-				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
+				if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+					AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
+				}
 				return false;
 			}
 		}
 
 		// If the MAS also reckons it's done.
 		if (getMAS().alldone()) {
-			//boolean tmp = triggerendstate();
 			getMAS().stopAgs();
-		//	for (MCAPLAgent ag : agents.values()) {
-		//		ag.perceptChanged();
-		//	}
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
+			}
 			return true;
 		}
-		// System.err.println("not done");
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
+		}
 		return false;
 		
-
 	} 
 	
 	/**
@@ -285,23 +281,21 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean triggerendstate() {
-//		Thread.yield();
 		return true;
 	}
 		
 	/**
-	 * Check an agent is all done.
-	 * @param a
+	 * Return the current scheduler.
 	 * @return
 	 */
-	//public boolean nothingpendingfor(MCAPLLanguageAgent a) {
-	//	return (getMAS().alldonefor(a.getMCAPLAgName()));
-	//}
-
 	public MCAPLScheduler getScheduler() {
 		return scheduler;
 	}
 
+	/**
+	 * Return the current path being used to store config files etc.
+	 * @return
+	 */
 	public static String getPath() {
 		if (System.getenv("AJPF_HOME") != null) {
 			return System.getenv("AJPF_HOME");
@@ -311,6 +305,12 @@ public class MCAPLcontroller  {
 
 	}
 	
+	/**
+	 * Given a filename, try to find the file.
+	 * @param filename
+	 * @return
+	 * @throws AJPFException
+	 */
 	public static String getFilename(String filename) throws AJPFException {
 		String ajpf_filename = null;
 		String abs_filename = System.getenv("HOME") + filename;
@@ -345,6 +345,11 @@ public class MCAPLcontroller  {
 		throw (new AJPFException(msg));
 	}
 	
+	/**
+	 * Get the absolute file name of a file in the current user.dir.
+	 * @param filename
+	 * @return
+	 */
 	public static String getAbsFilename(String filename) {
 		return System.getProperty("user.dir") + "/" + filename;
 	}

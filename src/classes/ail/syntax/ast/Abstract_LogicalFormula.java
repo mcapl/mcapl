@@ -60,7 +60,7 @@ import ail.syntax.Unifier;
  */
 public interface Abstract_LogicalFormula {
 	/**
-	 * Converst to a concrete representation.
+	 * Convert to a concrete representation.
 	 * @return
 	 */
 	public LogicalFormula toMCAPL();

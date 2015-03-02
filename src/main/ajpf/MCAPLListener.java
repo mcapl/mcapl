@@ -152,7 +152,11 @@ public class MCAPLListener extends PropertyListenerAdapter {
     		}
     		
     		// Negate the property and initialise the product automataon
-     		product_automata = new Product(prop.negate(), props, getAutomataType(), model_only);
+     		MCAPLProperty negprop = prop;
+     		if (!model_only) {
+     			negprop = prop.negate();
+     		} 
+     		product_automata = new Product(negprop, props, getAutomataType(), model_only);
     		automata_initialised = true;
        	} 
 	}

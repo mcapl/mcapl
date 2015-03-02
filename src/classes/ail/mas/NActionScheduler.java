@@ -30,7 +30,10 @@ import ajpf.MCAPLJobber;
 
 /**
  * Like the ActionScheduler but forces the system to pick a new Jobber
- * every N cycles irrespective of whether anything has "changed".
+ * every N cycles irrespective of whether anything has "changed".  This
+ * can be useful in applications where there are streams of incoming information
+ * which may not be registering as changed information - e.g., the Environment
+ * thread has to execute before the perception change is noted.
  * 
  * Not really a good idea to use this one with model checking since the
  * counters will prevent state matching.
@@ -41,6 +44,10 @@ public class NActionScheduler extends ActionScheduler {
 	int counter = 0;
 	int max_count;
 	
+	/**
+	 * Constructor.
+	 * @param count
+	 */
 	public NActionScheduler(int count) {
 		max_count = count;
 	}

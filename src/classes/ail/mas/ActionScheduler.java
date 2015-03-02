@@ -31,6 +31,7 @@ import ajpf.util.VerifyList;
 import ajpf.PerceptListener;
 import ajpf.MCAPLScheduler;
 import ajpf.MCAPLJobber;
+import ajpf.util.AJPFLogger;
 
 
 /**
@@ -50,6 +51,8 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	private VerifyList<String> activeAgents = new VerifyList<String>();
 	private VerifyList<String> inactiveAgents = new VerifyList<String>();
 	
+	private String logname = "ail.mas.ActionScheduler";
+	
 	/* Flag that indicates a change in the  system somewhere indicating a new choice of 
 	 * agent is wanted
 	 */
@@ -62,8 +65,13 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
-			for (String s: activeAgents) {
-				ags.add(agnames.get(s));
+			// Got a Concurrent Modification Error here in the Sticky Wheel example.
+			try {
+				for (String s: activeAgents) {
+					ags.add(agnames.get(s));
+				}
+			} catch (Exception e) {
+				AJPFLogger.warning(logname, e.getMessage());
 			}
 		}
 		somethinghaschanged = false;

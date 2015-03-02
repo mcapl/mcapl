@@ -27,6 +27,9 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ail.util.AILexception;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -39,7 +42,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Message implements Comparable<Message> {
+public class Message implements Comparable<Message>, Unifiable, HasTermRepresentation {
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
 	 * as keys elsewhere in the system.  Java expects equal objects to 
@@ -339,5 +342,152 @@ public class Message implements Comparable<Message> {
 	public int hashCode() {
 		return toTerm().hashCode();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean unifies(Unifiable t, Unifier u) {
+		if (t instanceof Message) {
+			Message msg = (Message) t;
+			if (msg.getIlForce() == getIlForce()) {
+				if (msg.getSender() == getSender()) {
+					if (msg.getReceiver() == getReceiver()) {
+						if (getMsgId().unifies(msg.getMsgId(), u)) {
+							if (getThreadId().unifies(msg.getThreadId(), u)) {
+								return getPropCont().unifies(msg.getPropCont(), u);
+							}
+						}
+					}
+				}
+				
+			}
+		} else if (t instanceof Term) {
+			return toTerm().unifies(t, u);
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
+		List<String> tvarnames = t.getVarNames();
+		List<String> myvarnames = getVarNames();
+		tvarnames.addAll(varnames);
+	   	ArrayList<String> replacednames = new ArrayList<String>();
+    	ArrayList<String> newnames = new ArrayList<String>();
+    	for (String s:myvarnames) {
+    		if (tvarnames.contains(s)) {
+    			if (!replacednames.contains(s)) {
+    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
+    				renameVar(s, s1);
+    				u.renameVar(s, s1);
+    			}
+    		}
+    	}
+
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
+	public List<String> getVarNames() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		varnames.addAll(msgId.getVarNames());
+		varnames.addAll(threadId.getVarNames());
+		varnames.addAll(propCont.getVarNames());
+		return varnames;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
+	public void renameVar(String oldname, String newname) {
+		msgId.renameVar(oldname, newname);
+		threadId.renameVar(oldname, newname);
+		propCont.renameVar(oldname, newname);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean match(Unifiable t, Unifier u) {
+		if (t instanceof Message) {
+			Message msg = (Message) t;
+			if (msg.getIlForce() == getIlForce()) {
+				if (msg.getSender() == getSender()) {
+					if (msg.getReceiver() == getReceiver()) {
+						if (getMsgId().match(msg.getMsgId(), u)) {
+							if (getThreadId().match(msg.getThreadId(), u)) {
+								return getPropCont().match(msg.getPropCont(), u);
+							}
+						}
+					}
+				}
+				
+			}
+		} else if (t instanceof Term) {
+			return toTerm().match(t, u);
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean matchNG(Unifiable t, Unifier u) {
+		if (t instanceof Message) {
+			Message msg = (Message) t;
+			if (msg.getIlForce() == getIlForce()) {
+				if (msg.getSender() == getSender()) {
+					if (msg.getReceiver() == getReceiver()) {
+						if (getMsgId().matchNG(msg.getMsgId(), u)) {
+							if (getThreadId().matchNG(msg.getThreadId(), u)) {
+								return getPropCont().matchNG(msg.getPropCont(), u);
+							}
+						}
+					}
+				}
+				
+			}
+		} else if (t instanceof Term) {
+			return toTerm().matchNG(t, u);
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
+	public boolean isGround() {
+		return (msgId.isGround() & threadId.isGround() & propCont.isGround());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		msgId.makeVarsAnnon();
+		threadId.makeVarsAnnon();
+		propCont.makeVarsAnnon();
+	}
+
+	@Override
+	public Unifiable strip_varterm() {
+		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.strip_varterm(), (StringTerm) msgId.strip_varterm(), (StringTerm)  threadId.strip_varterm());
+	}
 	
+	public Unifiable resolveVarsClusters() {
+		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.resolveVarsClusters(), (StringTerm) msgId.resolveVarsClusters(), (StringTerm)  threadId.resolveVarsClusters());
+	}
+
 }

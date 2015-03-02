@@ -1,0 +1,92 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+// A two wheeled robot that navigates using a feedback controller.
+EASS
+
+:abstraction: sticky
+
+:Initial Beliefs:
+
+bound(1)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++position(X, Y, Theta): {B pos(X1, Y1, Theta1), B target(X2, Y2)} <- 
+	     +.lock,
+	     -position(X1, Y1, Theta1),
+ 	     -pos(X1, Y1, Theta1),
+	     +pos(X, Y, Theta),
+	     -.lock,
+	     calculate_distance(X2, Y2, X, Y, D),
+	     +!within_bound(D) [perform];
++position(X, Y, Theta): {~B pos(X1, Y1, Theta1)} <- 
+	     +pos(X, Y, Theta);
++target(X, Y): {True} <- assert_shared(new_target);
+
++!within_bound(D) [perform]: {B bound(N), D < N, B target(X, Y)} <-
+		   assert_shared(reached_target);
++!within_bound(D) [perform]: {True};
+
+
++!calculate_angle(A) [perform]: {B target(X, Y), B position(X1, Y1, Theta)} <- 
+		     calculate_angle(X1, Y1, Theta, X, Y, A),
+		     assert_shared(calculate_angle(A));
++!calculate_distance(D) [perform]: {B target(X, Y), B position(X1, Y1, Theta)} <-
+		     calculate_distance(X1, Y1, X, Y, D),
+		     assert_shared(calculate_distance(D));
++!turn(A) [perform] : {True} <- 
+	  turn(A),
+	  assert_shared(turned);
++!forward(D) [perform] : {True} <- 
+	     forward(D),
+	     assert_shared(moved);
++!feedback_control [perform] : {B target(X, Y)} <-
+		feedback_control(X, Y);
+
+:name: sticky
+
+:Initial Beliefs:
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+:Plans:
+
++new_target: {True} <- 
+	     remove_shared(new_target),
+	     +! reached_target [achieve],
+	     remove_shared(reached_target);
++! reached_target [achieve]: {True} <-
+	     perf(feedback_control),
+	     *reached_target;
+
+    

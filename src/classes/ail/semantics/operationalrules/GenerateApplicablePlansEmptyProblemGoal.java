@@ -31,6 +31,9 @@ import ail.syntax.Event;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
+import ail.syntax.Goal;
+
+import ajpf.util.AJPFLogger;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,8 @@ import java.util.ArrayList;
  */
 public class GenerateApplicablePlansEmptyProblemGoal extends GenerateApplicablePlansEmpty {
 	private static final String name = "Generate Applicable Plans Empty with Problem Goal";
+	
+	private static final String logname = "ail.semantics.operationalrules.GenerateApplicablePlansEmptyProblemGoal";
 	
 	/*
 	 * (non-Javadoc)
@@ -58,17 +63,19 @@ public class GenerateApplicablePlansEmptyProblemGoal extends GenerateApplicableP
 	 */
 	public void apply(AILAgent a) {
 		Intention I = a.getIntention();
-		
+				
 		if (I != null && I.events().size() > 1 && I.hdE().referstoGoal() && I.hdE().isAddition()) {
 			ArrayList<ApplicablePlan> Plp = new ArrayList<ApplicablePlan>();
 			ArrayList<Deed> ds = new ArrayList<Deed>();
 			ArrayList<Guard> gs = new ArrayList<Guard>();
-			Event e = new Event(Event.AILDeletion, I.hdE().getGoal());
+			Event e = new Event(Event.AILDeletion, (Goal) I.hdE().getContent());
 
 			ds.add(new Deed(Deed.Dnpy));
-			gs.add(new Guard(new GBelief(GBelief.GTrue)));
+			gs.add(new Guard(new GBelief()));
 			Plp.add(new ApplicablePlan(e, ds, gs, 0, I.hdU(), 0, AILAgent.AILdefaultPLname));
 			a.setApplicablePlans(Plp.iterator());
+
+			AJPFLogger.warning(logname, "Warning no applicable plan for goal " + I.hdE().getContent() );
 		} else {
 			super.apply(a);
 		}

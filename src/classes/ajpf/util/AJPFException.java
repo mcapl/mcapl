@@ -25,7 +25,6 @@
 
 package ajpf.util;
 
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**

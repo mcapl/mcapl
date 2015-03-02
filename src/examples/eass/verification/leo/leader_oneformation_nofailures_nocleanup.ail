@@ -28,7 +28,7 @@
 
 env=eass.verification.leo.LEOVerificationEnvironment
 
-mas.file = /Eclipse/mcapl/src/examples/eass/verification/leo/satellite_leader_agent_line_nocleanup.eass
+mas.file = /src/examples/eass/verification/leo/satellite_leader_agent_line_nocleanup.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ajpf.MCAPLAgent
@@ -44,4 +44,4 @@ requesting_formation=false
 allpositions=false
 all_can_break=false
 changing_formation=false
-initial_formation=line
+initial_formation=square

@@ -35,6 +35,9 @@ import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 
+// Got this far in comment updatign.
+import java.util.Random;
+
 
 /**
  * An EASS Agent - a specialised language for use in Satellite control systems.
@@ -95,6 +98,14 @@ public class EASSAgent extends AILAgent {
 	
 	public String getEngineFor() {
 		return abstraction_for;
+	}
+	
+	public String getReasoningName() {
+		if (isAbstractionEngine()) {
+			return getAgName().substring(12);
+		} else {
+			return getAgName();
+		}
 	}
  
 	public void setAgName(String name) {

@@ -1,0 +1,69 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
+// 
+// This file is part of Gwendolen
+//
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+square(0, 0) square(0, 1) square(0, 2) square(0, 3) square(0, 4) square(0, 5)
+square(1, 1) square(1, 2) square(1, 3) square(1, 4) square(1, 5)
+square(2, 1) square(2, 2) square(2, 3) square(2, 4) square(2, 5)
+square(3, 1) square(3, 2) square(3, 3) square(3, 4) square(3, 5)
+square(4, 1) square(4, 2) square(4, 3) square(4, 4) square(4, 5)
+square(5, 1) square(5, 2) square(5, 3) square(5, 4) square(5, 5)
+
+search_mode
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- square(X, Y), ~checked(X, Y);
+no_rubble_in(X, Y) :- checked(X, Y), no_rubble(X, Y);
+all_squares_checked :- ~square_to_check(X, Y), ~holding(rubble), at(2, 2);
+
+:Initial Goals:
+
+all_squares_checked [achieve]
+
+:Plans:
+
++!all_squares_checked [achieve] : {~ B search_mode} <- *search_mode;
++!all_squares_checked [achieve] : {B search_mode, B square_to_check(X, Y), ~B holding(rubble)} <- move_to(X, Y), *checked(X, Y);
++!all_squares_checked [achieve] : {B holding(rubble)};
+
+-warning: {True} <- +search_mode;
++warning: {True} <- -search_mode, move_to(0, 0);
+
++rubble(X, Y) : {~B at(2, 2)} <- 
+	+.lock,
+	warning_lights_on, 
+	lift_rubble, 
+	warning_lights_off, 
+	-.lock,
+	move_to(2, 2), 
+	drop, 
+	+checked(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +checked(X, Y);
++at(2, 2) : {True} <- +checked(2, 2);

@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2008-2012 Louise A. Dennis, Michael Fisher
 // 
 // This file is part of Agent JPF (AJPF)
 //
@@ -20,13 +19,15 @@
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
-//
-// This file is based on code from the Open Source software "Jason", copyright
-// by Jomi F. Hubner and Rafael H. Bordini.  http://jason.sf.net
 //----------------------------------------------------------------------------
 
 package ajpf.psl;
 
+/**
+ * An interface for numeric terms appearing in properties.
+ * @author louiseadennis
+ *
+ */
 public interface MCAPLNumberTerm extends MCAPLTerm {
 	public double solve();
 }

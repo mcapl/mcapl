@@ -45,18 +45,46 @@ public interface MCAPLTerm extends Comparable<MCAPLTerm> {
 	 */
 	public Object clone();
 	
+	/**
+	 * Is this a numeric term.
+	 * @return
+	 */
     public boolean isNumeric();
 
+    /**
+     * Is this a list term.
+     * @return
+     */
     public boolean isList();
 
+    /**
+     * Is this a string term.
+     * @return
+     */
     public boolean isString();
     
+    /**
+     * return the functor of this term.  NB. may return null if this makes no sense.
+     * @return
+     */
     public String getFunctor();
     
+    /**
+     * Return the arguments to this term.  NB. may return null if this makes no sense.
+     * @return
+     */
     public List<? extends MCAPLTerm> getTerms();
     
+    /**
+     * How many arguments does this term have.
+     * @return
+     */
     public int getTermsSize();
     
+    /**
+     * We allow _only_ unnamed variables in MCAPL PSL expressions.
+     * @return
+     */
     public boolean isUnnamedVar();
- 
+   
 }

@@ -27,8 +27,6 @@
 
 package ail.syntax;
 
-import ail.semantics.AILAgent;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -44,14 +42,14 @@ public class Rule implements LogicalFormula {
 	/**
 	 * The Head
 	 */
-	private GuardAtom head = null;
+	private Predicate head = null;
 
 	/**
 	 * Create a rule from a head and a body.
 	 * @param h
 	 * @param body
 	 */
-    public Rule(GuardAtom h, LogicalFormula body) {
+    public Rule(Predicate h, LogicalFormula body) {
         head = h;
         this.body = body;
     }
@@ -60,8 +58,8 @@ public class Rule implements LogicalFormula {
      * Create a rule with just a head - i.e. true by default.
      * @param head
      */
-    public Rule(GuardAtom head) {
-    	this(head, new GBelief(GBelief.GTrue));
+    public Rule(Predicate h) {
+    	head = h;
     }
     
     /*
@@ -104,7 +102,7 @@ public class Rule implements LogicalFormula {
      * Getter for the body.
      * @return
      */
-    public GuardAtom getHead() {
+    public Predicate getHead() {
     	return head;
     }
 
@@ -114,17 +112,8 @@ public class Rule implements LogicalFormula {
      * @see java.lang.Object#clone()
      */
     public Rule clone() {
-        return new Rule((GuardAtom) head.clone(), (LogicalFormula)body.clone());
+        return new Rule((Predicate) head.clone(), (LogicalFormula)body.clone());
     }
-
-    /**
-     * Clone just the head.
-     * @return
-     */
-  //  public GuardAtom headClone() {
- //       return (GuardAtom) head.clone();
- //   }
-    
     
     /*
      * (non-Javadoc)
@@ -152,15 +141,7 @@ public class Rule implements LogicalFormula {
     	head.renameVar(oldname, newname);
     	getBody().renameVar(oldname, newname);
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
-     */
-    public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un) {
-    	return head.logicalConsequence(ag, un);
-    }
-    
+        
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
@@ -184,21 +165,14 @@ public class Rule implements LogicalFormula {
     public boolean matchNG(Unifiable u, Unifier un) {
     	return head.matchNG(u, un);
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#toTerm()
-     */
-    public Term toTerm() {
-    	return head.toTerm();
-    }
-    
+        
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-    public void standardise_apart(Unifiable t, Unifier u) {
+    public void standardise_apart(Unifiable t, Unifier u, List<String> topvarnames) {
     	List<String> tvarnames = t.getVarNames();
+    	tvarnames.addAll(topvarnames);
     	List<String> myvarnames = getVarNames();
     	ArrayList<String> replacednames = new ArrayList<String>();
     	ArrayList<String> newnames = new ArrayList<String>();
@@ -214,22 +188,19 @@ public class Rule implements LogicalFormula {
     	}
  
     } 
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.LogicalFormula#getPosTerms()
+        
+    /**
+     * Get a predicate indicator from the head literal.
+     * @return
      */
-    public List<LogicalFormula> getPosTerms() {
-    	return head.getPosTerms();
-    }
-    
-    /*
-     * 
-     */
-    public PredicateIndicator getPredicateIndicator() {
+     public PredicateIndicator getPredicateIndicator() {
     	return head.getPredicateIndicator();
     }
     
+     /*
+      * (non-Javadoc)
+      * @see ail.syntax.Unifiable#isGround()
+      */
     public boolean isGround() {
     	if (body != null) {
     		return head.isGround() && body.isGround();
@@ -247,6 +218,66 @@ public class Rule implements LogicalFormula {
 		l.add(this);
 		return l;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
+	public boolean apply(Unifier theta) {
+		if (head.apply(theta)) {
+			if (body != null) {
+				return body.apply(theta);
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		head.makeVarsAnnon();
+		if (body != null) {
+			body.makeVarsAnnon();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
+	public Unifiable strip_varterm() {
+		if (body != null) {
+			return new Rule((Predicate) head.strip_varterm(), (LogicalFormula) body.strip_varterm());
+		} else {
+			return new Rule((Predicate) head.strip_varterm());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		if (body != null) {
+			return new Rule((Predicate) head.resolveVarsClusters(), (LogicalFormula) body.resolveVarsClusters());
+		} else {
+			return new Rule((Predicate) head.resolveVarsClusters());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
+	 */
+	public Iterator<Unifier> logicalConsequence(
+			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
+		return head.logicalConsequence(eb, rb, un, varnames);
+	}
+
 
  
 }

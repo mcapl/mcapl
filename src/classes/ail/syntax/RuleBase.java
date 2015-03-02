@@ -148,7 +148,7 @@ public class RuleBase implements Iterable<Rule> {
      * @return	An iterators of rules in the rule base with the same
      *          predicate name and arity.
      */
-    public Iterator<Rule> getRelevant(GuardAtom l) {
+    public Iterator<Rule> getRelevant(PredicateTerm l) {
          if (l.isVar()) {
             // all bels are relevant
             return iterator();
@@ -161,7 +161,7 @@ public class RuleBase implements Iterable<Rule> {
             }
         }
     }
-
+ 
     /**
      * There is a rule relevant to this predicate indicator.
      * @param pi

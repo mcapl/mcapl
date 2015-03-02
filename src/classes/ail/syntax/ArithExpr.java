@@ -370,6 +370,24 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
     	}
     }
 
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	if (isEvaluated()) {
+    		return fValue;
+    	} else {
+    	if (rhs != null) {
+    		return (new ArithExpr((NumberTerm) lhs.resolveVarsClusters(), op, (NumberTerm) rhs.resolveVarsClusters()));
+    	} else {
+    		return (new ArithExpr(op, (NumberTerm) lhs.resolveVarsClusters()));
+    	}
+    	}
+    }
+
+    
     /*
      * (non-Javadoc)
      * @see java.lang.Object#toString()
@@ -449,6 +467,16 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 			// Do something
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	   public void makeVarsAnnon() {
+		   lhs.makeVarsAnnon();
+		   rhs.makeVarsAnnon();
+		   hashCodeCache = null;
+	    }	 
 
 
 }

@@ -179,6 +179,14 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
     
     /*
      * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	return this;
+    }
+    
+    /*
+     * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
     public ArrayList<String> getVarNames() {
@@ -192,4 +200,12 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
     public void renameVar(String oldname, String newname) {
     	
     }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		
+	}
 }

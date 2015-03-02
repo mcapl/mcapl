@@ -44,7 +44,7 @@ package eass.parser;
 
 @members {
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private Abstract_Literal agentname = new Abstract_Literal("");
+	private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
 	}
 	
 @lexer::members {
@@ -64,17 +64,23 @@ eassagents returns[ArrayList<Abstract_EASSAgent> gags]: EASS {gags=new ArrayList
 // EASS Agent stuff
 eassagent returns [Abstract_EASSAgent g] : 
 	(NAME w=word {try {$g = new Abstract_EASSAgent($w.s);} catch (Exception e) {System.err.println(e);}
-	              agentname = new Abstract_Literal($w.s);} |
+	              agentname = new Abstract_StringTermImpl($w.s);} |
 	ABSTRACTION w=word {String s = "abstraction_" + $w.s; $g = new Abstract_EASSAgent(s); g.setAbstraction($w.s);} 
 				)
 	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
 	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
+	(CAPABILITIES (c=capability {$g.addCap($c.c);})*)?
 	GOALS (gl=goal {$g.addInitialGoal($gl.g);})*
 	PLANS (p=plan {try {$g.addPlan($p.p);} catch (Exception e) {System.err.println(e);}})*
 	;
 
 goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
 	PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
+	
+capability returns [Abstract_Capability c] : 
+	CURLYOPEN (pre=clogicalfmla)? CURLYCLOSE 
+	cap=pred {$c = new Abstract_Capability($cap.t); if ($pre.f != null) {$c.addPre($pre.f);}}
+	CURLYOPEN post=clogicalfmla {$c.addPost($post.f);} CURLYCLOSE;
 
 
 plan returns [Abstract_GPlan p]
@@ -93,30 +99,41 @@ event returns [Abstract_Event e] : (PLUS (RECEIVED OPEN p=performative ',' t=pre
 			   MINUS (l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, $l.l);} |
 				SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILDeletion, $g.g);}));
 				
-guard_atom returns [Abstract_GuardAtom g] : (BELIEVE l=literal {$g = new Abstract_GBelief(Abstract_GBelief.AILBel, $l.l);} |
+guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
 				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
-				SENT OPEN an1=literal COMMA {Abstract_Literal agn = agentname;} (an2=literal 
-					COMMA {agn = $an2.l;})? p=performative 
-					COMMA t=pred CLOSE {Abstract_GMessage mess = new Abstract_GMessage(agn, $an1.l, $p.b, $t.t); 
-								$g = new Abstract_GBelief(Abstract_GBelief.AILSent, mess);} |
+				SENT OPEN {Abstract_StringTerm an1=agentname;} (st=stringterm {an1=st;} | v=var {an1 = v;}) COMMA {Abstract_StringTerm agn = agentname;} (an2=stringterm 
+					COMMA {agn = an2;})? p=performative 
+					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
 				eq = equation {$g = $eq.eq;} |
-				TRUE {$g = new Abstract_GBelief(Abstract_GBelief.GTrue);} );
+				// CAPABILITY OPEN pre=pred COMMA cap=pred COMMA pst=pred CLOSE 
+				//	{$g = new Abstract_GuardCap($pre.t, $cap.t, $pst.t);} |
+				PLAN OPEN {Abstract_NumberTerm n=new Abstract_NumberTermImpl("0");} (v=var {n = $v.v;}| s=numberstring {n = new Abstract_NumberTermImpl($s.s);}) COMMA
+				                                        ga=pred COMMA 
+				                                        c=pred COMMA post=pred CLOSE 
+				                                          {$g = new Abstract_GuardPlan(n, $c.t, $ga.t, $post.t);} |
+				TRUE {$g = new Abstract_GBelief();} );
 				
 deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
 				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}) |
+				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}|
+				PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.DPlan, $p.t);}) |
 			   MINUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, $l.l);} |
 				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, $g.g);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);}
+				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);} |
+				PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.DPlan, $p.t);}
 				)) |
 				UPDATE (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILUpdate, Abstract_Deed.AILBel, $l.l);}) |
 				CALCULATE c=calculation[ds]  {$d = $c.d;}|
 				QUERYCOM q=query[ds] {$d = $q.d;}	|
 				WAIT w=wait[ds] {$d = $w.d;}	|
 				a=action {$d = new Abstract_Deed($a.a);}) |
-				wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);}
+				wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);} |
+				SUBSTITUTE s=substitution[ds] {$d = $s.d;}
 				)
 				;
+				
+substitution[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN pl1=pred COMMA c1 = pred COMMA c2 =pred COMMA pl2 = pred CLOSE
+	{Abstract_Action a = new Abstract_Action("substitute"); a.addTerm($pl1.t); a.addTerm($c1.t); a.addTerm($c2.t); a.addTerm($pl2.t); $d = new Abstract_Deed(a);};
 				
 calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = literal COMMA v=var CLOSE 
 	{Abstract_Action a = new Abstract_Action("calculate"); a.addTerm($l1.l); a.addTerm(new Abstract_VarTerm("NewVarForCalculate")); ds.add(new Abstract_Deed(a));
@@ -133,13 +150,25 @@ wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = term COM
 	Abstract_Literal wf = new Abstract_Literal("waited"); wf.addTerm($l2.l); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
 	Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); $d = new Abstract_Deed(rs);};
 				
-brule returns [Abstract_Rule r] : head=guard_atom (BRULEARROW f=logicalfmla {$r = new Abstract_Rule($head.g, $f.f);} SEMI | SEMI {$r = new Abstract_Rule($head.g);});
+brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
-               (COMMA (n2=notfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $n2.f);} | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : gb = guard_atom {$f = $gb.g;} | 
-                                                                              NOT (gb2 = guard_atom {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $gb2.g);} | lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
-subfmla returns [Abstract_LogicalFormula f] : SQOPEN lf = logicalfmla {$f = $lf.f;} SQCLOSE;
+               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} |   SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} |
+                                                                              SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                                                               lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
+
+clogicalfmla returns [Abstract_GLogicalFormula f] : n=cnotfmla {$f = $n.f;}
+               (COMMA n2=cnotfmla {$f = new Abstract_Guard($f, Abstract_Guard.and, $n2.f);})*;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+cnotfmla returns [Abstract_GLogicalFormula f] : gb = pred {$f = new Abstract_GBelief(new Abstract_Literal(gb));} | 
+                                                                              NOT (gb2 = pred {$f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));} | 
+                                                                              lf = csubfmla {$f = new Abstract_Guard(Abstract_Guard.not, $lf.f);});
+csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf = clogicalfmla {$f = $lf.f;} CLOSE;
+
 	
 waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 
@@ -150,7 +179,7 @@ action returns [Abstract_Action a] :
 
 performative returns [int b] : (TELL {$b=1;} | PERFORM {$b=2;} | ACHIEVE {$b = 3;});
 
-UPDATE 	:	'±' ;
+UPDATE 	:	'>' ;
 TELL	:	':tell';
 PERFORM :	':perform';
 ACHIEVE :	':achieve';
@@ -160,6 +189,11 @@ CALCULATE
 	:	'.calculate';
 QUERYCOM	:	'.query';
 WAIT	:	'.wait';
+CAPABILITY	:	'.cap';
+PLAN	:	'.plan';
+IMPLICATION	:	'.imp';
+SUBSTITUTE
+	:	'.substitute';
 BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('G' | '.G') ;
 SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
@@ -167,7 +201,8 @@ LOCK	:	'.lock';
 GOALS	:	':Initial Goals:' {belief_rules=0;};
 BELIEFS	:	':Initial Beliefs:';
 BELIEFRULES 
-	:	':Belief Rules:' {belief_rules=1;};
+	:	':Reasoning Rules:' {belief_rules=1;};
+CAPABILITIES:	':Capabilities:';
 PLANS	:	':Plans:';
 EASS	:	{curly_nesting == 0}?=> 'EASS';
 NAME	:	':name:';
@@ -181,6 +216,7 @@ BRULEARROW
 	:	':-';
 RULEARROW :	'<-';
 EQ_ASSGN	:	'=';
+ARROW	:	'->';
 
 // General AIL Parsing stuff
 
@@ -239,7 +275,7 @@ LINE_COMMENT
     : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     ;
 NEWLINE:'\r'? '\n' {skip();} ;
-WS  :   (' '|'\t')+ {skip();} ;
+WS  :  {!stringterm}?=>(' '|'\t')+ {skip();} ;
 
 
 OPEN	: 	'(' {plain_nesting++;};
@@ -253,7 +289,7 @@ DOUBLEQUOTE
 
 NOT	:	'~';
 
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;

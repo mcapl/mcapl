@@ -43,7 +43,7 @@ public abstract class HandleBelief extends HandleTopDeed {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		if (super.checkPreconditions(a) && topdeed.referstoBelief()) {
-			b = topdeed.getLiteral();
+			b = (Literal) topdeed.getContent();
 			return true;
 		}
 		

@@ -37,7 +37,7 @@ import java.util.HashMap;
 import eass.mas.DefaultEASSEnvironment;
 
 /**
- * Default environment class for EASS project.  Sets up socket servers and generic actions.
+ * Default environment class for an NXT robot.
  * @author louiseadennis
  *
  */
@@ -54,17 +54,30 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 	public EASSNXTEnvironment() {
 		// NB.  NOT connected to matlab
 		super();
-		notConnectedToMatLab();
 	}
 	
+	/**
+	 * Set the Bluetooth address of the robot.
+	 * @param name
+	 * @param address
+	 */
 	public void setAddress(String name, String address) {
 		namesandaddresses.put(name, address);
 	}
 	
+	/**
+	 * Get the Bluetooth address of the robot.
+	 * @param name
+	 * @return
+	 */
 	public String getAddress(String name) {
 		return namesandaddresses.get(name);
 	}
 	
+	/**
+	 * Close the connection to the robot.
+	 * @param rname
+	 */
 	public void  close(String rname) {
 		LegoRobot r = getRobot(rname);
 		r.close();
@@ -81,36 +94,40 @@ public class EASSNXTEnvironment extends DefaultEASSEnvironment {
 		robots.put(foragent, robot);
 	}
 	
+	/**
+	 * Add a robot to the environment.
+	 * @param name
+	 * @param r
+	 */
 	public void addRobot(String name, LegoRobot r) {
 		robots.put(name, r);
 	}
 	
+	/**
+	 * Create an encapsulation for a robot.
+	 * @param agent
+	 * @return
+	 */
 	public LegoRobot createRobot(String agent) {
 		BasicRobot robot = new BasicRobot(agent, getAddress(agent));
 		return robot;
 	}
 		
-	
-	/**
-	 * Overridable function.
-	 *
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#eachrun()
 	 */
 	public void eachrun() {
 		for (LegoRobot r: robots.values()) {
 			r.addPercepts(this);
 		}
-		/// NEEDS TO HANDLE NEXT predicates incoming
-	}
-		
-	public void noconnection_run(String agname, Action act) {
-		// SOMERTHING FOR NXT
-	}
-	
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		//SOMETHING FOR NEXT
-		return new Literal("result");
 	}
 
+	/**
+	 * Get the robot with this name from the environment.
+	 * @param name
+	 * @return
+	 */
 	public LegoRobot getRobot(String name) {
 		return robots.get(name);
 	}

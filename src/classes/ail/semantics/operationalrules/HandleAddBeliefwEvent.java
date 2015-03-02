@@ -53,7 +53,7 @@ public class HandleAddBeliefwEvent extends HandleAddBelief {
 	 */
 	public void apply(AILAgent a) {
 		boolean alreadybelieved = false;
-		if (a.believesyn(new Guard(new GBelief(GBelief.AILBel, b)), thetab)) {
+		if (a.believesyn(new Guard(new GBelief(b)), thetab)) {
 			alreadybelieved = true;
 		}
 		

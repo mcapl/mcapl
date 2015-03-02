@@ -139,13 +139,19 @@ public class IntentionRow {
 		ListIterator<Deed> di = body.listIterator();
 		ListIterator<Unifier> ui = unif.listIterator();
 		
+		StringBuilder s1 = new StringBuilder();
 		while (gi.hasNext()) {
+			StringBuilder ir = new StringBuilder();
 			Guard gu = gi.next();
 			Deed d = di.next();
 			Unifier u = ui.next();
 			
-			s.append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(u.toString()).append("\n");
+			ir.append("      ");
+			ir.append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(u.toString()).append("\n");
+			ir.append(s1);
+			s1 = ir;
 		}
+		s.append(s1.substring(6));
 		
 		if (annotation != null) {
 			s.append(annotation.toString());

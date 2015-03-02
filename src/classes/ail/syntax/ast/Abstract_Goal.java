@@ -26,10 +26,7 @@ package ail.syntax.ast;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Goal;
-import ail.syntax.Literal;
 import ail.syntax.StringTerm;
-import ail.syntax.Unifier;
-import ail.syntax.VarTerm;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -199,9 +196,9 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	public Goal toMCAPL() {
 		Goal g;
 		if (isVariable()) {
-			g = new Goal(new VarTerm(super.getFunctor()), getGoalType());
+			g = new Goal(super.getFunctor(), getGoalType());
 		} else {
-			g = new Goal(new Literal(true, super.toMCAPL()), getGoalType());
+			g = new Goal(super.toMCAPL(), getGoalType());
 		}
 		g.setGoalBase((StringTerm) getGoalBase().toMCAPL());
 		return g;
