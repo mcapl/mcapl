@@ -395,18 +395,18 @@ public class BuchiState implements Comparable<BuchiState> {
 	 */
 	public String toString() {
 		StringBuilder s = new StringBuilder("Number: " + number + "\n");
-		s.append("Incoming: ");
+		s.append("Incoming States: ");
 		for (Integer i: incoming) {
 			s.append(i).append(",");
 		}
 		s.append("\n");
-		s.append("Old: ");
+		s.append("True in this State: ");
 		for (MCAPLProperty p: old) {
 			s.append(p.toString()).append(",");
 		}
 		s.append("\n");
 		if (! next.isEmpty()) {
-			s.append("Next: ");
+			s.append("True in next State: ");
 			for (MCAPLProperty p: next) {
 				s.append(p.toString()).append(",");
 			}

@@ -22,6 +22,9 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-1: <>(~B(ag1, hold(block)))
+@using = mcapl
 
-2: <>(B(ag2, hold(block)))
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl,2
+
+log.info = ajpf.psl.buchi.BuchiAutomaton

@@ -119,13 +119,21 @@ Every time \jpf\ generates a new state for model checking it assigns that state 
 
 Typically search space branching is caused either when the scheduler must choose between several agents, or when a random value is generated.  Both can be seen here.
 
-Random value generation activates a \texttt{BooleanChoiceGenerator} and the output here shows it alternately selecting  \texttt{false}.
+Random value generation activates a \texttt{BooleanChoiceGenerator} and the output here shows it alternately selecting  \texttt{false} (with \texttt{>false}).
 
-Scheduler choice activates an \texttt{IntChoiceFromSet} choice generator.  The scheduler keeps track of the agents which are awake and assigns an integer to them.  You can see here that sometimes both agents are awake and the choice is between \texttt{0} abd \texttt{1} and at other times only one agent is awake in which case the only choice is \texttt{0}
+Scheduler choice activates an \texttt{IntChoiceFromSet} choice generator.  The scheduler keeps track of the agents which are awake and assigns an integer to them.  You can see here that sometimes both agents are awake and the choice is between \texttt{0} abd \texttt{1} and at other times only one agent is awake in which case the only choice is \texttt{0} (\texttt{>0}).
 
 The numbers in square brackets -- \texttt{[7]}, \texttt{[6]} etc. indicate the depth that model checking has reached in the search tree.  If these numbers become very large without apparent reason then it may well be the case that the search has encountered an infinite branch of the tree and needs to be killed.
 
 \subsection{Logging}
-\jpf\ suppresses the logging configuration you have in your \ail\ configuration files so you need to add and logging configurations you want 
+\jpf\ suppresses the logging configuration you have in your \ail\ configuration files so you need to add any logging configurations you want to the \jpf\ configuration file.  Useful classes when debugging a model checking run are
+
+\begin{description}
+\item[ail.mas.DefaultEnvironment] At the \texttt{info} level this prints out any actions the agent performs.  Since the scheduler normally only switches between agents when one sleeps or performs an action this can be useful for tracking progress on this model checking branch.
+\item[ajpf.MCAPLAgent] At the \texttt{info} level this prints information when an agent sleeps or wakes.  Again this can be useful for seeing what has triggered a scheduler switch.  It can also be useful for tracking which agents are awake and so deducing which one is being picked from teh set by the \texttt{IntChoiceFromSet} choice generator.
+\item[ajpf.product.Product] At the \texttt{info} level this prints out the current path through the search tree being explored by the agent.  This can be useful just to get a feel for the agents progress through the search space.  It can also be useful, when an error is thrown and in conjunction with some combination of logging actions, sleeping and waking behavior and (if necessary) internal agent states, to work out why a property has failed to hold.
+\item[ajpf.psl.buchi.BuchiAutomaton] At the \texttt{info} level this prints out the Buchi Automaton that has been generated from the the property that is to be proved.  Again this is useful, when model checking fails, for working out what property was expected to hold in that state.
+\item[ail.semantics.AILAgent] At the \texttt{fine} level this prints out the internal agent state once every reasoning cycle.  Be warned that this produces a lot of output in the course of a model checking run.
+\end{description}
 
 \end{document}
