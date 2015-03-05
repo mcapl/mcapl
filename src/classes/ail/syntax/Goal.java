@@ -92,6 +92,12 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		goaltype = n;
 	}
 			
+	public Goal(Predicate p, int n) {
+		super(p.getFunctor());
+		this.addTerms(p.getTerms());
+//		this.addAnnotFrom(p);
+		goaltype = n;
+	}
 	/**
 	 * Getter method for the goal type.
 	 * 

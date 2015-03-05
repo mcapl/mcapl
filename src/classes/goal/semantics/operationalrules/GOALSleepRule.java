@@ -28,6 +28,8 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.semantics.OSRule;
 
+import goal.semantics.executorStages.startCycleStage;
+
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -37,9 +39,13 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author lad
  *
  */
-public class SleepIfNothingToDo implements OSRule {
+public class GOALSleepRule implements OSRule {
 	@FilterField
 	private final static String name = "Sleep if Nothing to Do";
+	
+	public GOALSleepRule(startCycleStage scs) {
+		
+	}
 	
 	/*
 	 * (non-Javadoc)

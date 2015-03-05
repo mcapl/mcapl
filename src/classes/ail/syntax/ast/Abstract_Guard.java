@@ -71,11 +71,11 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 	/**
 	 * The LHS and RHS of the expression.
 	 */
-	private  Abstract_GLogicalFormula lhs, rhs;
+	protected  Abstract_GLogicalFormula lhs, rhs;
 	/**
 	 * The operator.
 	 */
-	private  int      op = none;
+	protected  int      op = none;
 	
 	
 	/**

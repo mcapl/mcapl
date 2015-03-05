@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author lad
  *
  */
-public class HandleGoalMessages implements OSRule {
+public class ProcessMessages implements OSRule {
 	@FilterField
 	private static final String name = "Handle Goal Messages";
 	

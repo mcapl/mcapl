@@ -32,9 +32,9 @@ import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.*;
 import ail.semantics.OSRule;
 import ail.syntax.Goal;
-
 import goal.semantics.operationalrules.*;
-
+import goal.semantics.executorStages.ModuleExecutorStage;
+import goal.semantics.executorStages.startCycleStage;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -45,81 +45,25 @@ import gov.nasa.jpf.annotation.FilterField;
  *
  */
 public class GOALRC implements ReasoningCycle {
-	/**
-	 * Place holder for the current stage of the reasoning cycle.
-	 */
-	private GOALRCStage currentstage;
-
-	/**
-	 * Set up the reasoning cycle stages: Apply Action Rule.
-	 */
-	@FilterField
-	public GOALRCStage ActionRuleStage = new GOALRCStage(0, "Apply Action Rule");
-	@FilterField
-	public GOALRCStage TransformerFunction = new GOALRCStage(0, "Transformer Function");
-	@FilterField
-	public GOALRCStage MessageReceipt = new GOALRCStage(0, "Message Receipt");
-	@FilterField
-	public GOALRCStage Perception = new GOALRCStage(0, "Perception");
-	/**
-	 * Set up the reasoning cycle stages: Goal Stage.
-	 */
-	/**
-	 * Flag indicating whether this is a point where the properties of the 
-	 * multi-agent system should be checked.
-	 */
-	private boolean stopandcheck = false;
-	private boolean interrupted = false;
+	
+	public final GOALRCStage startCycle = new startCycleStage();
+	public GOALRCStage mainModule;
+	public GOALRCStage initModule;
+	public GOALRCStage eventModule;
+	
+	GOALRCStage currentStage = startCycle; 
+	boolean stopandcheck = false;
+	private GOALAgent ag;
 		
-	/**
-	 * Start at Main Stage.
-	 *
-	 */
-	public GOALRC() {
-		currentstage = ActionRuleStage;
-		
-		PlanWithActionRule plActionRule = new PlanWithActionRule();		
-		//HouseKeeping
-		SleepIfNothingToDo sleep = new SleepIfNothingToDo();
-		DropIntentionIfEmpty dropint = new DropIntentionIfEmpty();
-		
-		ActionRuleStage.setRule(dropint);
-		ActionRuleStage.setRule(plActionRule);
-		ActionRuleStage.setRule(sleep);
-		
-		HandleAddBelief addBelief = new HandleAddBelief();
-		HandleDropBelief delBelief = new HandleDropBelief();
-		AddGoal addGoal = new AddGoal();
-		HandleDropGeneralGoal dropGoal = new HandleDropGeneralGoal(new LinkedList<Integer>());
-		HandleGoalSend sendAction = new HandleGoalSend();
-		PlanWithActionSpec actionspec = new PlanWithActionSpec();
-		HandleAction closeAction = new HandleAction();
-		HandleAddGoal handleactspec = new HandleAddGoal();
-		HandleNull handlenull = new HandleNull();
-		DoNothing donothing = new DoNothing();
-		HandleAddContent handleaddcontent = new HandleAddContent();
-		HandleAddContext handleaddcontext = new HandleAddContext();
-		
-		TransformerFunction.setRule(addBelief);
-		TransformerFunction.setRule(delBelief);
-		TransformerFunction.setRule(addGoal);
-		TransformerFunction.setRule(dropGoal);
-		TransformerFunction.setRule(sendAction);
-		TransformerFunction.setRule(closeAction);
-		TransformerFunction.setRule(handleactspec);
-		TransformerFunction.setRule(handlenull);
-		TransformerFunction.setRule(handleaddcontent);
-		TransformerFunction.setRule(handleaddcontext);
-		TransformerFunction.setRule(actionspec);
-		TransformerFunction.setRule(donothing);
-		
-		DirectPerception perception = new DirectPerception();
-		Perception.setRule(perception);
-		
-		HandleGoalMessages messages = new HandleGoalMessages();
-		MessageReceipt.setRule(messages);
-		
-
+	public GOALRC(GOALAgent ag) {
+		mainModule = new ModuleExecutorStage(ag.getMainModule());
+		if (ag.hasInitModule()) {
+			initModule = new ModuleExecutorStage(ag.getInitModule());
+		}
+		if (ag.hasEventModule()) {
+			eventModule = new ModuleExecutorStage(ag.getEventModule());
+		}
+		this.ag = ag;
 	}
 
 	/*
@@ -127,25 +71,8 @@ public class GOALRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#cycle(ail.semantics.AILAgent)
 	 */
 	public void cycle(AILAgent ag) {
-		// Stage a is the only complex one. 
-		// If the current intention is empty and teh other intentions are
-		// also empty then we want to remain in stage A.
-		if (currentstage == ActionRuleStage) {
-			if (! ag.lastruleexecuted.equals("Drop Intention If Empty")) {
-				currentstage = TransformerFunction;	
-			} 
-		} else if (currentstage == TransformerFunction) {
-			if (ag.getIntention() == null || ag.getIntention().empty() || (ag.getIntention().hdE().referstoGoal() && ag.getIntention().hdE().getGoal().getGoalType() == Goal.achieveGoal)) {
-				currentstage = Perception;			
-				setStopandCheck(true);
-			} else {
-				currentstage = TransformerFunction;
-			}
-		} else if (currentstage == Perception) {
-			currentstage = MessageReceipt;
-		} else {
-			currentstage = ActionRuleStage;
-		}
+		currentStage.advance(ag);
+		currentStage = currentStage.getNextStage(this);
 	}
 
 	/*
@@ -153,7 +80,11 @@ public class GOALRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#getStage()
 	 */
 	public RCStage getStage() {
-		return currentstage;
+		return currentStage;
+	}
+	
+	public GOALAgent getAgent() {
+		return ag;
 	}
 
 	
@@ -162,9 +93,12 @@ public class GOALRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#stopandcheck()
 	 */
 	public boolean stopandcheck() {
-		boolean tmp = stopandcheck;
-		// stopandcheck = false;
-		return tmp;
+		if (! stopandcheck ) {
+			return stopandcheck;
+		} else {
+			setStopandCheck(true);
+			return true;
+		}
 	} 
 	
 	public void setStopandCheck(boolean b) {
@@ -172,11 +106,15 @@ public class GOALRC implements ReasoningCycle {
 	}
 
 	public void setCurrentStage(RCStage rcs) {
-		currentstage = (GOALRCStage) rcs;
+		currentStage = (GOALRCStage) rcs;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#not_interrupted()
+	 */
 	public boolean not_interrupted() {
-		return !interrupted;
+		return false;
 	}
 
 }

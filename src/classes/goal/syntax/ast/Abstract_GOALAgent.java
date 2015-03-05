@@ -29,6 +29,7 @@ import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Plan;
+import ail.syntax.Literal;
 import ail.syntax.ast.Abstract_Event;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_StringTerm;
@@ -40,6 +41,7 @@ import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_GLogicalFormula;
+import ail.syntax.ast.Abstract_Capability;
 import ail.mas.DefaultEnvironment;
 import gov.nasa.jpf.vm.MJIEnv;
 import goal.semantics.GOALAgent;
@@ -53,16 +55,19 @@ import goal.syntax.ActionRule;
  * @author louiseadennis
  *
  */
-public class Abstract_GOALAgent extends Abstract_Agent { 
+public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOALS { 
 		
 	Abstract_Predicate[] knowledge = new Abstract_Predicate[0];
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 
-	/*
-	 * The Plan Library.
-	 */
-	public Abstract_Plan[] condactions = new Abstract_Plan[0];
+	Abstract_Predicate[] beliefs = new Abstract_Predicate[0];
+
+	Abstract_Rule[] belief_rules = new Abstract_Rule[0];
+
+	Abstract_GOALModule[] modules = new Abstract_GOALModule[0];
+
+	public Abstract_ActionSpec[] actionspecs = new Abstract_ActionSpec[0];
 
 	 /**
 	 * Construct a Gwendolen agent from an architecture and a name.
@@ -72,9 +77,16 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 	 */
 	public Abstract_GOALAgent(String name) {
 		super(name);
-		// first we create an AIL Agent.		
- 
-		
+	}
+	
+	public void addModule(Abstract_GOALModule gm) {
+		int newsize = modules.length + 1;
+		Abstract_GOALModule[] newmodules = new Abstract_GOALModule[newsize];
+		for (int i = 0; i < modules.length; i++) {
+			newmodules[i] = modules[i];
+		}
+		newmodules[modules.length] = gm;
+		modules = newmodules;
 	}
 	
     /**
@@ -105,22 +117,26 @@ public class Abstract_GOALAgent extends Abstract_Agent {
    	newrules[knowledge_rules.length] = r;
    	knowledge_rules = newrules;
   }
+   
+   public void addGoal(Abstract_Predicate p) {
+	   super.addGoal(new Abstract_Goal(p, Abstract_Goal.achieveGoal));
+   }
 
-   public void addPlan(Abstract_Plan p)  {
-     	if (p instanceof Abstract_ActionRule) {
-          	int newsize = condactions.length + 1;
-        	Abstract_Plan[] newplans = new Abstract_Plan[newsize];
-        	for (int i = 0; i < condactions.length; i++) {
-        		newplans[i] = condactions[i];
-        	}
-           	newplans[condactions.length] = p;
-        	condactions = newplans;
-    		// CondActions.init(this);
-    	 } else { 
-    		super.addPlan(p);
-    		// fPL.init(this);
-    	 }  
-    }
+   
+   public void addCap(Abstract_ActionSpec c) {
+	   if (c instanceof Abstract_ActionSpec) {
+		   int newsize = actionspecs.length + 1;
+		   Abstract_ActionSpec[] newplans = new Abstract_ActionSpec[newsize];
+		   for (int i = 0; i < actionspecs.length; i++) {
+			   newplans[i] = actionspecs[i];
+		   }
+		   newplans[actionspecs.length] = c;
+		   actionspecs = newplans;
+		   // CondActions.init(this);
+	   } else { 
+		  System.err.println("Why doesn't abstract_agent have addCap method?");
+	   }  
+   }
    
    public void addBel(Abstract_Predicate gb) {
 	   addBel(new Abstract_Literal((Abstract_Predicate) gb));
@@ -130,8 +146,8 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     public GOALAgent toMCAPL(MAS mas) {
 		try{
 		    	GOALAgent ag = new GOALAgent(mas, fAgName);
-		    	for (Abstract_Literal l: beliefs) {
-		    		ag.addInitialBel(l.toMCAPL());
+		    	for (Abstract_Predicate l: beliefs) {
+		    		ag.addInitialBel(new Literal(l.toMCAPL()));
 		    	}
 		       	for (Abstract_Goal g: goals) {
 		    		ag.addGoal(g.toMCAPL());
@@ -139,16 +155,16 @@ public class Abstract_GOALAgent extends Abstract_Agent {
 		    	for (Abstract_Rule r: knowledge_rules) {
 		    		ag.addRule(r.toMCAPL());
 		    	}
-		    	for (Abstract_Plan p: plans) {
+		    	for (Abstract_GOALModule m: modules) {
 		    		try {
-		    			ag.addPlan(p.toMCAPL());
+		    			ag.addModule(m.toMCAPL());
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
 		    		}
 		    	}
-		    	for (Abstract_Plan ca: condactions) {
+		    	for (Abstract_ActionSpec ca: actionspecs) {
 		    		try {
-		    			ag.addPlan(ca.toMCAPL());
+		    			ag.addCap(ca.toMCAPL());
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
 		    		}
@@ -178,27 +194,27 @@ public class Abstract_GOALAgent extends Abstract_Agent {
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
-       	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
-      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", condactions.length);
+       	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_GOALModule", modules.length);
+      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionSpec", actionspecs.length);
         	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
       	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < plans.length; i++) {
-       		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
+      	for (int i = 0; i < modules.length; i++) {
+       		env.setReferenceArrayElement(pRef, i, modules[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < condactions.length; i++) {
-       		env.setReferenceArrayElement(caRef, i, condactions[i].newJPFObject(env));
+      	for (int i = 0; i < actionspecs.length; i++) {
+       		env.setReferenceArrayElement(caRef, i, actionspecs[i].newJPFObject(env));
        	}
       	for (int i = 0; i < goals.length; i++) {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "rules", rRef);
-      	env.setReferenceField(objref, "plans", pRef);
-      	env.setReferenceField(objref, "condactions", pRef);
+      	env.setReferenceField(objref, "modules", pRef);
+      	env.setReferenceField(objref, "actionspecs", pRef);
       	env.setReferenceField(objref, "goals", gRef);
       	return objref;
    	

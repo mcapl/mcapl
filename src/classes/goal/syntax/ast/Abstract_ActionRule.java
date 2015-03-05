@@ -24,7 +24,6 @@
 
 package goal.syntax.ast;
 
-import goal.syntax.MentalState;
 import goal.syntax.ActionRule;
 import gov.nasa.jpf.vm.MJIEnv;
 
@@ -121,7 +120,7 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	for (int i = 0; i < body.length; i++) {
     		newdeed.add(i, body[i].toMCAPL());
     	}
-    	MentalState ms = new MentalState(context[context.length - 1].toMCAPL());
+    	Guard ms = context[context.length - 1].toMCAPL();
     	return new ActionRule(ms, newdeed);
     }
     

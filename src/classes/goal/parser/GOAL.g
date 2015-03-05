@@ -56,22 +56,22 @@ program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abst
   	                (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                                         (BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE)?
                                         (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
-                                         MAIN MODULE CURLYOPEN module[gl] CURLYCLOSE
-                                         (EVENT MODULE CURLYOPEN module[gl] CURLYCLOSE)?
+                                         MAIN MODULE CURLYOPEN { Abstract_GOALModule gm = new Abstract_GOALModule(Abstract_GOALModule.main); gl.addModule(gm);} module[gm] CURLYCLOSE
+                                         (EVENT MODULE CURLYOPEN { Abstract_GOALModule gme = new Abstract_GOALModule(Abstract_GOALModule.event); gl.addModule(gme);} module[gme] CURLYCLOSE)?
                                          (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?
                                               
                                          CURLYCLOSE
                                               {mas.setAgs(agents);};
                                    
-module[Abstract_GOALAgent gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
+module [Abstract_GOALModule gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                              (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
                              PROGRAM (optionorder)? CURLYOPEN
                                  macro*
                                  actionrule[gl]+
-                             CURLYCLOSE
-                             (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
+                             CURLYCLOSE;
+      //                       (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
                              
-krspec[Abstract_GOALAgent gl]:  (hd=atom
+krspec[Abstract_KRGOALS gl]:  (hd=atom
 	(STOP {$gl.addFact(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule(hd, body));}))+;
     
@@ -79,7 +79,7 @@ brspec[Abstract_GOALAgent gl]:  (hd=atom
 	(STOP {$gl.addBel(hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
                                      
-poslitconj[Abstract_GOALAgent gl]	: g=atom {$gl.addGoal(g);} (COMMA g1=atom{$gl.addGoal(g1);})* STOP;
+poslitconj[Abstract_KRGOALS gl]	: g=atom {$gl.addGoal(g);} (COMMA g1=atom{$gl.addGoal(g1);})* STOP;
 
 litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
@@ -96,9 +96,13 @@ optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQ
 macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(f, pl.length); macros.put(pi, msc); 
                                   Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl); macro_subs.put(pi, p);} STOP;
 
-actionrule[Abstract_GOALAgent gl]   	: {Abstract_ActionRule rule = new Abstract_ActionRule();} 
+actionrule[Abstract_GOALModule gl]   	: {Abstract_ActionRule rule = new Abstract_ActionRule();} 
 	IF (lf=mentalstatecond {rule.setMentalStateCond(lf);}|
-		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); Abstract_MentalState macro=macros.get(pi); Abstract_Term sub=macro_subs.get(pi); Abstract_Unifier u=rule.getUnifier(f, pl, sub); Abstract_MentalState k = macro.apply(u); rule.setMentalStateCond(k);} ) 
+		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); 
+		                                      Abstract_MentalState macro=macros.get(pi); 
+		                                      Abstract_Term sub=macro_subs.get(pi); 
+		                                      Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl);
+			            Abstract_MentalState k = new Abstract_MentalState(macro, sub, p); rule.setMentalStateCond(k);} ) 
 	THEN dl=actioncombo[gl] {rule.setBody(dl);} STOP {gl.addPlan(rule);};	
 
 mentalstatecond returns [Abstract_MentalState lf]
@@ -111,17 +115,17 @@ mentalatom returns [Abstract_GLogicalFormula lf]
 	: BEL OPEN b=litconj  {$lf = new Abstract_MentalAtom(b, DefaultAILStructure.AILBel);} CLOSE | GOAL OPEN g=litconj {$lf = new Abstract_MentalAtom(g, DefaultAILStructure.AILGoal);}CLOSE;
 	
 
-actionspec[Abstract_GOALAgent gl]: deed=action[gl] {Abstract_Goal goal = (Abstract_Goal) deed.getContent();} 
+actionspec[Abstract_GOALAgent gl]: a=action[gl] 
 	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_MentalAtom pres = new Abstract_MentalAtom(lf1, DefaultAILStructure.AILBel);}
-	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addPlan(new Abstract_ActionSpec(goal, pres, lf2));};
+	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addCap(new Abstract_ActionSpec(a, pres, lf2));};
 
-actioncombo[Abstract_GOALAgent gl] returns [ArrayList<Abstract_Deed> dl]
+actioncombo[Abstract_GOALModule gl] returns [ArrayList<Abstract_Deed> dl]
 	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;
 	
-action[Abstract_GOALAgent gl] returns [Abstract_Deed d]	: (deed=userdefaction {$d=deed;}| builtinaction {$d = new Abstract_Deed(Abstract_Deed.DNull);} | communication[gl] {$d = new Abstract_Deed(Abstract_Deed.DNull);}) ;
+action[Abstract_KRGOALS gl] returns [Abstract_Deed d]	: (deed=userdefaction {$d=deed;}| builtinaction {$d = new Abstract_Deed(Abstract_Deed.DNull);} | communication[gl] {$d = new Abstract_Deed(Abstract_Deed.DNull);}) ;
 
 userdefaction returns [Abstract_Deed d]
-	: f=id {Abstract_Predicate p = new Abstract_Predicate(f);} (pl=parameters {p.setTerms(pl);})+ {d=new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, new Abstract_Goal(p, Abstract_Goal.performGoal));} ;
+	: f=id {Abstract_Predicate p = new Abstract_Predicate(f);} (pl=parameters {p.setTerms(pl);})+ {d=new Abstract_Deed(p);} ;
 	
 builtinaction
 	: INSERT OPEN litconj CLOSE |
@@ -129,7 +133,7 @@ builtinaction
 	  ADOPT OPEN litconj CLOSE |
 	  DROP OPEN litconj CLOSE;
 	  
-communication[Abstract_GOALAgent gl] returns [Abstract_Deed d]
+communication[Abstract_KRGOALS gl] returns [Abstract_Deed d]
 	: SEND OPEN id COMMA poslitconj[gl] CLOSE;
                                          
 id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	

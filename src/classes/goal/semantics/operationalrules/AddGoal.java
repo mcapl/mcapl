@@ -67,7 +67,7 @@ public class AddGoal extends HandleAddGoal {
 	public void apply(AILAgent a) {
 		// Some working to check if goal is believed even if it is a 
 		// conjunction.
-	   	ArrayList<Goal> gls1 = ((GOALAgent) a).splitgoals(topdeed.getGoal());
+/*	   	ArrayList<Goal> gls1 = ((GOALAgent) a).splitgoals(topdeed.getGoal());
     	Guard gu = new Guard();
     	for (Goal g1: gls1) {
     		gu.add(new GBelief(GBelief.AILBel, g1.getLiteral()));
@@ -104,7 +104,7 @@ public class AddGoal extends HandleAddGoal {
 		
 		// If re-implementing this method to run through MJI then an AgentStateChange
 		// object will need to be created and its intention set to i before it is returned.
-		// return (new AgentStateChange(a.getAgName()));
+		// return (new AgentStateChange(a.getAgName())); */
 	
 	}
 }

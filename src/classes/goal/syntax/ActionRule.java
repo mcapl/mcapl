@@ -50,11 +50,11 @@ public class ActionRule extends Plan {
 	
 	/**
 	 * Construct a conditional action from a mental state and a goal.  This
-	 * is a reactive conditinal action.
+	 * is a reactive conditional action.
 	 * @param ms
 	 * @param g2
 	 */
-	public ActionRule(MentalState ms, ArrayList<Deed> ds) {
+	public ActionRule(Guard ms, ArrayList<Deed> ds) {
 		setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
 		setContextSingle(ms, ds.size());
 		ArrayList<Deed> prf = new ArrayList<Deed>();

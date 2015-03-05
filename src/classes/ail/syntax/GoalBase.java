@@ -173,5 +173,13 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
     public String toString() {
     	return (goalMap.toString());
      }
+    
+    /**
+     * Does this goal base have any goals?
+     * @return
+     */
+    public boolean isEmpty() {
+    	return size == 0;
+    }
 
 }

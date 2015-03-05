@@ -76,6 +76,13 @@ public class Literal extends PredicatewAnnotation {
 		type = pos;
 	}
 
+	/**
+	 * By default a literal created from a predicate is positive.
+	 * @param p
+	 */
+	public Literal(Predicate p) {
+		this(true, p);
+	}
 	
 	/**
 	 * This looks like a strange constructor but is used by sub-classes.

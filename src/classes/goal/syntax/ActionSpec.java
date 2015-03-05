@@ -35,6 +35,7 @@ import ail.syntax.GBelief;
 import ail.syntax.Guard;
 import ail.syntax.Predicate;
 import ail.syntax.VarTerm;
+import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
 
 /**
@@ -44,43 +45,10 @@ import ail.syntax.annotation.SourceAnnotation;
  * @author louiseadennis
  *
  */
-public class ActionSpec extends Plan { 
-	/**
-	 * Create a capability from a Goal (the capability), a mental states
-	 * (the precondition) and a list of deeds (the effects).
-	 * 
-	 * @param g
-	 * @param gs
-	 * @param ds
-	 */
-	public ActionSpec(Goal g, MentalState ms, ArrayList<Deed> ds) {
-		setTrigger(new Event(Event.AILAddition, g));
-		setContextSingle(ms, ds.size());
-		ArrayList<Deed> prf = new ArrayList<Deed>();
-		prf.add(new Deed(Deed.Dnpy));
-		setPrefix(prf);
-		setBody(ds);
-		setSource(new SourceAnnotation(new Predicate("self")));
-	}
+public class ActionSpec extends Capability { 
 	
-	/**
-	 * Create a capability from a goal and a deed list (effects).  Assumes that the
-	 * precondition is simply T.
-	 * @param g
-	 * @param ds
-	 */
-	public ActionSpec(Goal g, ArrayList<Deed> ds) {
-		setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
-		ArrayList<Guard> gs2 = new ArrayList<Guard>(ds.size());
-		for (int i = 0; i < ds.size(); i++) {
-			gs2.add(i, new MentalState(new GBelief(GBelief.GTrue)));
-		}
-		setContext(gs2);
-		ArrayList<Deed> prf = new ArrayList<Deed>();
-		prf.add(new Deed(Deed.AILAddition, g));
-		setPrefix(prf);
-		setBody(ds);
-		setSource(new SourceAnnotation(new Predicate("self")));
-	}
-
+	public ActionSpec(Capability c) {
+		super(c.getPre(), c.getCap(), c.getPost());
+	};
+	
 }

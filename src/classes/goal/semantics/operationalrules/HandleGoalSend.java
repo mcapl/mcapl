@@ -58,7 +58,8 @@ public class HandleGoalSend extends HandleAction {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		return (super.checkPreconditions(a) && (((Action) topdeed.getTerm()).getActionType()) == Action.sendAction);
+		return false;
+//		return (super.checkPreconditions(a) && (((Action) topdeed.getTerm()).getActionType()) == Action.sendAction);
 	}
 	
 	/*
@@ -66,12 +67,12 @@ public class HandleGoalSend extends HandleAction {
 	 * @see ail.semantics.operationalrules.HandleAction#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Verify.beginAtomic();
+	/*	Verify.beginAtomic();
 		BroadcastSendAction send = (BroadcastSendAction) topdeed.getTerm();
 		send.apply(thetahd);
 		GoalMessage msg = new GoalMessage(send.getMessage(a.getAgName()));
 		send.setMessage(msg);
 		Verify.endAtomic();
-		super.apply(a);
+		super.apply(a); */
 	}
 }

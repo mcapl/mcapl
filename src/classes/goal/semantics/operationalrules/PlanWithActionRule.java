@@ -94,7 +94,7 @@ public class PlanWithActionRule implements OSRule {
 //			System.out.println("Plan: " + p);
 //			Verify.endAtomic();
 
-			if (p.getN() == 0 && (! (p.getGuard().isEmpty()) && (! (p.getGuard().get(p.getGuard().size() - 1).isTrivial())))) {
+/*			if (p.getN() == 0 && (! (p.getGuard().isEmpty()) && (! (p.getGuard().get(p.getGuard().size() - 1).isTrivial())))) {
 					// A reactive plan.
 					Literal gl = new Literal("state");
 					gl.addTerm(p.getGuard().get(p.getGuard().size() - 1).toTerm());
@@ -113,7 +113,7 @@ public class PlanWithActionRule implements OSRule {
 				}
 			} else {
 					System.err.println("Encountering a triggered Action Rule:  This should not happen!");
-			}
+			} */
 		
 		}
 		aps = new ArrayList<ApplicablePlan>().iterator();

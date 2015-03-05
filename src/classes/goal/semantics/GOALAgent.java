@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2015 Louise A. Dennis,  Michael Fisher and Koen Hindriks
 // 
 // This file is part of GOAL (AIL version) - GOAL-AIL
 //
@@ -25,6 +24,8 @@
 package goal.semantics;
 
 import goal.syntax.ActionRule;
+import goal.syntax.GOALModule;
+import goal.syntax.MentalState;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -56,6 +57,8 @@ import ail.syntax.StringTerm;
 import ajpf.util.AJPFLogger;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.AILAnnotation;
+import ail.syntax.GoalBase;
+
 
 /**
  * A GOAL Agent.  This assumes the semantics for GOAL with communication as developed by Hindriks and
@@ -66,21 +69,34 @@ import ail.syntax.AILAnnotation;
  *
  */
 public class GOALAgent extends AILAgent { 
+	
+	public GOALModule mainModule;
+	
+	public GOALModule eventModule;
+	
+	public GOALModule initModule;
+	
+	private GOALModule.ModuleType topLevelContext = GOALModule.ModuleType.MAIN;
+	
+    /**
+     * Stack of (non-anonymous) modules that have been entered and not yet
+     * exited; last element on the list has been entered last.
+     */
+    private final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
+
 	// Specific library for conditional actions/Action Rules.  Separate from
 	// the library of Capabilities/Action Specs.  Use to control plan selection.
 	//PlanLibrary CondActions = new PlanLibrary(2);
 	
 	// Used to record the important aspects of the plan state from Goal's 
 	// persepctive.  Used to control plan selection and application.
-	@FilterField
-	String lastplanstate = "";
+	//@FilterField
+	//String lastplanstate = "";
 	
 	// The plans that have already been applied in this state.  Used to
 	// force agents to sleep if there is nothing new to be done
 	// at present.
-	public ArrayList<String> generatedthis = new ArrayList<String>();
-	
-	public static String condaction_libname = "2";
+	//public ArrayList<String> generatedthis = new ArrayList<String>();
 
 	/**
 	 * Construct a GOAL agent from an multi-agent system and a name.
@@ -90,10 +106,13 @@ public class GOALAgent extends AILAgent {
 	 */
 	public GOALAgent(MAS mas, String name) throws AILexception {
 		super(mas, name);
-	    setPlanLibrary(new PlanLibrary(condaction_libname), condaction_libname);
-	    setReasoningCycle(new GOALRC());
+	    setReasoningCycle(new GOALRC(this));
 	    setTrackPlanUsage(true);
-	    lastplanstate = this.toString();
+//	    lastplanstate = this.toString();
+	}
+	
+	public GOALModule getMainModule() {
+		return mainModule;
 	}
 		
     /**
@@ -106,7 +125,7 @@ public class GOALAgent extends AILAgent {
      * @param s The source of the plan.
      * @throws AILexception
      */
-    public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
+ /*  public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
     	p.setSource(s);
       	if (p.getTriggerEvent().getGoal().getGoalType() == Goal.achieveGoal) {
     		getPL(condaction_libname).add(p); 
@@ -115,7 +134,7 @@ public class GOALAgent extends AILAgent {
     		getPL().add(p);
     	//	getPL().init(this);
     	 }
-    } 
+    } */
     
     /**
      * Adds a belief to the default belief base annotating it with a source.
@@ -124,29 +143,22 @@ public class GOALAgent extends AILAgent {
     public void addBel(Literal bel, SourceAnnotation s) {
     	bel.addAnnot(s);   
     	getBB().add(bel);
-    //	getPL().addBel(bel);
-    //	getPL("2").addBel(bel);
     	// When a new goal arrives we check to see if any goals
     	// have been achieved.
-    	removeachievedgoals();
+  //  	removeachievedgoals();
      }
         
     /**
      * Adds a belief to the belief base indexed by n.
      */
      public void addBel(Literal bel, Term s, String n) {
- 	//	bel.addAnnot(s);   
 		if (n == "") {
 			if (bel.negated()) {
 				Literal belpos = (Literal) bel.clone();
 				belpos.setNegated(true);
-			//   	getPL().delBel(belpos);
-		    //	getPL("2").delBel(belpos);
 				getBB().remove(belpos);
 			} else {
 				getBB().add(bel);
-			 //  	getPL().addBel(bel);
-		    //	getPL("2").addBel(bel);
 			}
 		} else {
 		if (! bbmap.containsKey(n)) {
@@ -157,16 +169,12 @@ public class GOALAgent extends AILAgent {
 			Literal belpos = (Literal) bel.clone();
 			belpos.setNegated(true);
 			getBB(n).remove(belpos);
-		 //  	getPL().delBel(bel, n);
-	    //	getPL("2").delBel(bel, n);
 		} else {
 			getBB(n).add(bel);
-		 //  	getPL().addBel(bel, n);
-	    //	getPL("2").addBel(bel,n);
 		}
 		}
 		
-		removeachievedgoals();
+	//	removeachievedgoals();
     }	  
     
     /**
@@ -189,7 +197,7 @@ public class GOALAgent extends AILAgent {
 		 //  	getPL().addBel(bel, n);
 	    //	getPL("2").addBel(bel, n);
 		}
-		removeachievedgoals();
+//		removeachievedgoals();
     }	  
 
     /**
@@ -244,7 +252,7 @@ public class GOALAgent extends AILAgent {
      * @param g
      * @return
      */
-    public boolean believesUnSplitGoal(Goal g) {
+/*    public boolean believesUnSplitGoal(Goal g) {
     	ArrayList<Goal> gls = splitgoals(g);
  //   	Guard gu = new Guard();
    // 	for (Goal g1: gls) {
@@ -253,13 +261,13 @@ public class GOALAgent extends AILAgent {
     	
     	//return believesyn(gu, new Unifier());
     	return gls.isEmpty();
-    }
+    } */
     
     /**
      * Remove all achieved goals from the agent.
      *
      */
-    public void removeachievedgoals() {
+ /*   public void removeachievedgoals() {
 		Iterator<Goal> gi = super.getGoals();
 		while (gi.hasNext()) {
 			Goal g = gi.next();
@@ -269,7 +277,7 @@ public class GOALAgent extends AILAgent {
 		//    	getPL("2").delGoal(g);
 			}
 		}
-    } 
+    } */
 
     /**
      * Adds a plan from itself to the lbirary.
@@ -277,7 +285,7 @@ public class GOALAgent extends AILAgent {
      * @param p The plan to be added.
      * @throws AILexception
      */
-    public void addPlan(Plan p) throws AILexception {
+/*    public void addPlan(Plan p) throws AILexception {
     		p.setSource(refertoself());
     		AJPFLogger.finer("goal.semantics.GOALAgent", "Adding plan " + p.toString());
          	if (p instanceof ActionRule) {
@@ -287,25 +295,25 @@ public class GOALAgent extends AILAgent {
         		getPL().add(p);
         		// fPL.init(this);
         	 }  
-    } 
+    } */ 
     
     /**
      * Gets all reactive plans.  Returns either Action Rules or
      * Action Specifications, depending on the stage of the reasoning cycle.
      */
-    protected Iterator<ApplicablePlan> getAllReactivePlans(Event ple) {
+ /*   protected Iterator<ApplicablePlan> getAllReactivePlans(Event ple) {
     	if (getReasoningCycle().getStage().getStageName().equals("Transformer Function")) {
     		return getPL().getAllReactivePlans(this);
     	} else {
     		return getPL(condaction_libname).getAllReactivePlans(this);
     	}
-	}
+	} */
 
     /**
      * Gets all plans relevant to a particular trigger.  Returns either Action Rules
      * or Actions Specifications, depending on the stage of the reasoning cycle.
      */
-	protected Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
+/*	protected Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
     	if (ple.referstoGoal()) {
     		if (getReasoningCycle().getStage().getStageName().equals("Transformer Function")) {
     			return getPL().getAllRelevant(ple.getPredicateIndicator(), this);
@@ -315,7 +323,7 @@ public class GOALAgent extends AILAgent {
     	} else {
     		return getPL().getAllRelevant(ple.getPredicateIndicator(), this);
     	}
-	} 
+	} */
 
 	
 	/**
@@ -323,7 +331,7 @@ public class GOALAgent extends AILAgent {
 	 * the current intention is a Capability and Capability plans if the
 	 * current intention is Goal triggered.
 	 */
-	public ArrayList<ApplicablePlan> filterPlans(ArrayList<ApplicablePlan> aps) {
+/*	public ArrayList<ApplicablePlan> filterPlans(ArrayList<ApplicablePlan> aps) {
 		ArrayList<ApplicablePlan> nq = new ArrayList<ApplicablePlan>();
 		
 		String s = this.toString();
@@ -345,12 +353,12 @@ public class GOALAgent extends AILAgent {
 
 		return nq;
 
-	}
+	} */
 	
 	/**
 	 * Updates all the plan usage information.
 	 */
-	public void updatePlanUsage(ApplicablePlan p) {
+/*	public void updatePlanUsage(ApplicablePlan p) {
 		String s = this.toString();
 		String ps = p.keyString();
 		if (s.equals(lastplanstate)) {
@@ -366,7 +374,7 @@ public class GOALAgent extends AILAgent {
 		if (generated.get(ps) != null) {
 			generated.put(ps, 0);
 		}
-	} 
+	} */
 	
 
 	/**
@@ -374,7 +382,7 @@ public class GOALAgent extends AILAgent {
 	 * @param g
 	 * @return
 	 */
-	public ArrayList<Goal> splitgoals(Goal g) {
+/*	public ArrayList<Goal> splitgoals(Goal g) {
 		ArrayList<Goal> goals = new ArrayList<Goal>();
 		AJPFLogger.finest("goal.semantics.GOALAgent", "Attempting to Split: " + g.getFunctor());
 		
@@ -400,7 +408,7 @@ public class GOALAgent extends AILAgent {
 		}
 		
 		return goals;
-	}
+	} */
 	
 	/**
 	 * Get all goals in the agent, as conjunctions where applicable.
@@ -419,24 +427,14 @@ public class GOALAgent extends AILAgent {
 		
 		while (gl.hasNext()) {
 			Goal g = gl.next();
-			ArrayList<Goal> goals = splitgoals(g);
-			AJPFLogger.finer("goal.semantics.GOALAgent", "Goals are: " + goals);
-			ngl.addAll(goals);
+	//		ArrayList<Goal> goals = splitgoals(g);
+	//		AJPFLogger.finer("goal.semantics.GOALAgent", "Goals are: " + goals);
+	//		ngl.addAll(goals);
 		}
 		
 		return ngl.iterator();
 	}
 	
-	/**
-	 * Adding a belief rule to the agent.
-	 * @param head
-	 * @param body
-	 */
-	public void addLiteralRule(Literal head, Literal body) {
-		addRule(new Rule(new GBelief(GBelief.AILBel, head), new GBelief(GBelief.AILBel, body)));
-		addRule(new Rule(new Goal(head, Goal.achieveGoal), new Goal(body, Goal.achieveGoal)));
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see ail.semantics.AILAgent#goalEntails(ail.syntax.Event, ail.syntax.Plan, ail.semantics.Unifier)
@@ -524,7 +522,7 @@ public class GOALAgent extends AILAgent {
      * @param intentions
      * @return the selected intention.
      */
-    public Intention selectIntention(Queue<Intention> intentions) {
+  /*   public Intention selectIntention(Queue<Intention> intentions) {
         // make sure the selected Intention is removed from 'intentions'
         // and make sure no intention will "starve"!!!
     	ArrayList<Intention> iiprime = new ArrayList<Intention>();
@@ -548,10 +546,10 @@ public class GOALAgent extends AILAgent {
     	intentions.addAll(iiprime);
 
     	return i;
-    }
+    } */
     
     public void sleep() {
-    	generatedthis.clear();
+//    	generatedthis.clear();
     	super.sleep();
     }
     
@@ -594,6 +592,61 @@ public class GOALAgent extends AILAgent {
     	  	
     	
     }
+    
+    public void addModule(GOALModule m) {
+    	if (m.getType() == GOALModule.ModuleType.MAIN) {
+    		mainModule = m;
+    	} else if (m.getType() == GOALModule.ModuleType.EVENT) {
+    		eventModule = m;
+    	}
+    }
+    
+    public boolean isMainModuleRunning() {
+    	return (topLevelContext == GOALModule.ModuleType.MAIN);
+    }
 
+    public boolean exitModule(GOALModule module) {
+        if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
+                return false;
+        }
+
+        switch (module.getType()) {
+        case EVENT:
+    //    case INIT:
+                // We're leaving the init or event module and returning
+                // to main top level context.
+                this.topLevelContext = GOALModule.ModuleType.MAIN;
+                break;
+        default:
+                // top level context does not change for other
+                // kinds of modules. If we're leaving the main module,
+                // main module should be only element on stack; in that
+                // case we're leaving the agent, no need to reset context.
+                break;
+        }
+        this.activeStackOfModules.pop();
+        // Report module re-entry on module's debug channel.
+        return (this.activeStackOfModules.peek() != null);
+}
+    
+    public GoalBase getAttentionSet() {
+    	return getGoalBase();
+    }
+    
+    public boolean hasInitModule() {
+    	return (initModule != null);
+    }
+
+    public boolean hasEventModule() {
+    	return (eventModule != null);
+    }
+    
+    public GOALModule getInitModule() {
+    	return initModule;
+    }
+    
+    public GOALModule getEventModule() {
+    	return eventModule;
+    }
 
 } 

@@ -39,6 +39,7 @@ import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.semantics.OSRule;
 import goal.mas.GoalEnvironment;
+import goal.semantics.executorStages.ModuleExecutorStage;
 
 import java.util.Iterator;
 
@@ -54,9 +55,13 @@ import gov.nasa.jpf.vm.Verify;
  * @author lad
  *
  */
-public class PlanWithActionSpec implements OSRule {
+public class UserSpecAction implements OSRule {
 	@FilterField
 	private final static String name = "Plan with Action Specs";
+	
+	public UserSpecAction(ModuleExecutorStage mes) {
+		
+	}
 	
 	public String getName() {
 		return name;
@@ -80,9 +85,9 @@ public class PlanWithActionSpec implements OSRule {
 		if (i.hdE().getCategory() == Event.AILContext) {
 			return false;
 		}
-		if (!(i.hdE().getGoal() == null) && i.hdE().getGoal().getGoalType() == Goal.achieveGoal) { 
+	/*	if (!(i.hdE().getGoal() == null) && i.hdE().getGoal().getGoalType() == Goal.achieveGoal) { 
 			return false;
-		}
+		} */
 		
 		return true;
 
@@ -102,7 +107,7 @@ public class PlanWithActionSpec implements OSRule {
 		
 			ArrayList<Guard> guardstack = p.getGuard();
 			
-			if (p.getN() == 0 && (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial())))) {
+/*			if (p.getN() == 0 && (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial())))) {
 				Literal gl = new Literal("state");
 				gl.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
 				Event state = new Event(Event.AILAddition, DefaultAILStructure.AILBel, gl);
@@ -125,11 +130,11 @@ public class PlanWithActionSpec implements OSRule {
 				i.iConcat(p.getEvent(), p.getPrefix(), p.getGuard(), p.getUnifier().clone());
 				AJPFLogger.info("goal.semantics.operationalrules.PlanWithActionSpec", a.getAgName() + " does " + p.getEvent() + p.getUnifier());
 				((GoalEnvironment) a.getEnv()).notifyListeners("scheduler");
-			}
+			} */
 		} else {
-			if (i.hdE().referstoGoal() && i.hdE().getGoal().getGoalType() == Goal.performGoal) {
+		/*	if (i.hdE().referstoGoal() && i.hdE().getGoal().getGoalType() == Goal.performGoal) {
 				i.dropE(i.size());
-			}
-		}
+			} */
+		} 
 	}
 }
