@@ -55,7 +55,7 @@ program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abst
 		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
   	                (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                                         (BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE)?
-                                        (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
+                                        (GOALS CURLYOPEN le=poslitconj* {gl.addGoal(le);} CURLYCLOSE)?
                                          MAIN MODULE CURLYOPEN { Abstract_GOALModule gm = new Abstract_GOALModule(Abstract_GOALModule.main); gl.addModule(gm);} module[gm] CURLYCLOSE
                                          (EVENT MODULE CURLYOPEN { Abstract_GOALModule gme = new Abstract_GOALModule(Abstract_GOALModule.event); gl.addModule(gme);} module[gme] CURLYCLOSE)?
                                          (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?
@@ -64,7 +64,7 @@ program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abst
                                               {mas.setAgs(agents);};
                                    
 module [Abstract_GOALModule gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
-                             (GOALS CURLYOPEN poslitconj[gl]* CURLYCLOSE)?
+                             (GOALS CURLYOPEN le=poslitconj* {gl.addGoal(le);} CURLYCLOSE)?
                              PROGRAM (optionorder)? CURLYOPEN
                                  macro*
                                  actionrule[gl]+
@@ -72,20 +72,21 @@ module [Abstract_GOALModule gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
       //                       (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
                              
 krspec[Abstract_KRGOALS gl]:  (hd=atom
-	(STOP {$gl.addFact(hd);} | 
-	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule(hd, body));}))+;
+	(STOP {$gl.addFact((Abstract_Predicate) hd);} | 
+	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
     
 brspec[Abstract_GOALAgent gl]:  (hd=atom 
-	(STOP {$gl.addBel(hd);} | 
-	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule(hd, body));}))+;
+	(STOP {$gl.addBel((Abstract_Predicate) hd);} | 
+	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
                                      
-poslitconj[Abstract_KRGOALS gl]	: g=atom {$gl.addGoal(g);} (COMMA g1=atom{$gl.addGoal(g1);})* STOP;
+poslitconj returns [Abstract_LogExpr le]	: g=atom {$le = new Abstract_LogExpr(Abstract_LogExpr.none, g);} (COMMA g1=atom{$le = new Abstract_LogExpr(g, Abstract_LogExpr.and, g1);})* STOP;
 
 litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
 
 literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
 
-atom returns [Abstract_Predicate t] : s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = p;});
+atom returns [Abstract_LogicalFormula t] : s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = p;}) |
+		e=equation {$t = e;};
 //  | e=equation {$t=e;});
 
 parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);} 
@@ -106,7 +107,9 @@ actionrule[Abstract_GOALModule gl]   	: {Abstract_ActionRule rule = new Abstract
 	THEN dl=actioncombo[gl] {rule.setBody(dl);} STOP {gl.addPlan(rule);};	
 
 mentalstatecond returns [Abstract_MentalState lf]
-	: ml=mentalliteral {Abstract_MentalState ms = new Abstract_MentalState(ml);} (COMMA ml2=mentalliteral {ms = new Abstract_MentalState(ms, Abstract_Guard.and, ml2); $lf = ms;})*;	
+	: ml=mentalliteral {Abstract_MentalState ms = new Abstract_MentalState(ml);} 
+	(COMMA ml2=mentalliteral {ms = new Abstract_MentalState(ms, Abstract_Guard.and, ml2);})*
+	{$lf = ms;};	
 	
 mentalliteral returns [Abstract_GLogicalFormula lf]
 	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_Guard(Abstract_Guard.not, nma);} CLOSE;
@@ -130,11 +133,11 @@ userdefaction returns [Abstract_Deed d]
 builtinaction
 	: INSERT OPEN litconj CLOSE |
 	 DELETE OPEN litconj CLOSE |
-	  ADOPT OPEN litconj CLOSE |
+	  ADOPT OPEN poslitconj CLOSE |
 	  DROP OPEN litconj CLOSE;
 	  
 communication[Abstract_KRGOALS gl] returns [Abstract_Deed d]
-	: SEND OPEN id COMMA poslitconj[gl] CLOSE;
+	: SEND OPEN id COMMA poslitconj CLOSE;
                                          
 id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	
                                                  

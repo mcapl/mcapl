@@ -32,6 +32,7 @@ import ail.syntax.RuleBase;
 import ail.syntax.PlanLibrary;
 import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
+import ail.syntax.ApplicablePlan;
 
 import java.util.List;
 
@@ -50,6 +51,8 @@ public class GOALModule {
      * Rule evaluation order option. By default, order is linear.
      */
     private RuleEvaluationOrder order = RuleEvaluationOrder.LINEAR;
+    
+    private ApplicablePlan rule;
 	
 	public static enum ExitCondition {
 		NOGOALS,
@@ -166,7 +169,15 @@ public class GOALModule {
 		return true;
 	}
 	
-	public List<Plan> getRules() {
-		return pl.getPlans();
+	public PlanLibrary getRules() {
+		return pl;
+	}
+	
+	public RuleEvaluationOrder getRuleOrder() {
+		return order;
+	}
+	
+	public void setRule(ApplicablePlan p) {
+		rule = p;
 	}
 }

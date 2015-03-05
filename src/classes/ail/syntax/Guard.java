@@ -195,6 +195,11 @@ public class Guard implements GLogicalFormula {
 		return add(gb, true);
 	}
 	
+	int remenbertoadcomments;
+	public boolean add(GLogicalFormula gb) {
+		return add(gb, true);
+	}
+	
 	/**
 	 * Add a Guard Atom to the guard with a flag showing whether or not it should be
 	 * believed or disbelieved for the guard to be true.
@@ -203,16 +208,16 @@ public class Guard implements GLogicalFormula {
 	 * @param b Flag indicating whether gb should be believed or disbelieved.
 	 * @return
 	 */
-	public boolean add(GuardAtom<? extends Unifiable> gb, boolean b) {
+	public boolean add(GLogicalFormula gb, boolean b) {
   
 		if (isTrivial()) {
 			if (b) {
-				if (!gb.isTrivial()) {
+				if (gb instanceof GuardAtom<?> && !((GuardAtom<?>) gb).isTrivial()) {
 					op = GLogicalOp.none;
 					rhs = gb;
 				}
 			} else {
-				if (!gb.isTrivial()) {
+				if (gb instanceof GuardAtom<?> && !((GuardAtom<?>) gb).isTrivial()) {
 					op = GLogicalOp.not;
 					rhs = gb;
 				} else {

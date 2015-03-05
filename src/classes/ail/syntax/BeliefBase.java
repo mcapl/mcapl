@@ -136,6 +136,25 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
  		}
     	return p_structs.iterator();
     }
+ 	
+ 	/**
+ 	 * Add a set of percepts to the belief base.
+ 	 * @param ps
+ 	 */
+ 	public void addPercepts(Set<Predicate> ps) {
+ 		for (Predicate p: ps) {
+ 			add(new Literal(new PredicatewAnnotation(p, TPercept)));
+ 		}
+ 	}
+ 	
+ 	/**
+ 	 * Remove all the percepts from the agent.
+ 	 */
+ 	public void removePercepts() {
+ 		for (Literal l: percepts) {
+ 			remove(l);
+ 		}
+ 	}
 
  	/**
      * Add a literal to the belief base.

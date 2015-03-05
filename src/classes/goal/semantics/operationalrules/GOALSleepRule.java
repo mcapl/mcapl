@@ -24,12 +24,20 @@
 
 package goal.semantics.operationalrules;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.syntax.Literal;
+import ail.syntax.Message;
+import ail.syntax.Predicate;
 import ail.semantics.OSRule;
-
 import goal.semantics.executorStages.startCycleStage;
-
+import goal.semantics.GOALAgent;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -43,8 +51,12 @@ public class GOALSleepRule implements OSRule {
 	@FilterField
 	private final static String name = "Sleep if Nothing to Do";
 	
+	private boolean sleepConditionHoldingPreviousCycle = false;
+	
+	private startCycleStage scs;
+	
 	public GOALSleepRule(startCycleStage scs) {
-		
+		this.scs = scs;
 	}
 	
 	/*
@@ -60,17 +72,44 @@ public class GOALSleepRule implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		Intention i = a.getIntention();
+		AILEnv env = a.getEnv();
+		Set<Message> messages = env.getMessages(a.getAgName());
+		Set<Predicate> percepts = env.getPercepts(a.getAgName(), true);
+		scs.setMessages(messages);
+		scs.setPercepts(percepts);
 		
-		// If no more plans are applicable in this situation
-		if (a.filterPlans(a.appPlans(i)).hasNext()) return false;
-		else {
-			for (Intention ip : a.getIntentions()) {
-				if (a.filterPlans(a.appPlans(ip)).hasNext()) return false;
+		boolean sleepcondition = percepts_have_changed(a, percepts) || !messages.isEmpty() || actionWasPerformed();
+		boolean newsleepcondition = sleepcondition || sleepConditionHoldingPreviousCycle;
+		sleepConditionHoldingPreviousCycle = sleepcondition;
+		return newsleepcondition;
+	}
+	
+	private boolean actionWasPerformed() {
+		return false;
+	}
+	
+	private boolean percepts_have_changed(AILAgent a, Set<Predicate> percepts) {
+		Iterator<Literal> percept_iterator = ((GOALAgent) a).getMentalState().getPercepts();
+		Set<Literal> removed_percepts = new TreeSet<Literal>();
+		while (percept_iterator.hasNext()) {
+			Literal l = percept_iterator.next();
+			if (percepts == null | ! percepts.contains(l)) {
+				return true;
+			} else {
+				percepts.remove(l);
 			}
 		}
 		
-		return true;
+		if (percepts == null) {
+			return false;
+		}
+		
+		for (Predicate l: percepts) {
+			return true;
+		}
+			
+		return false;
+
 	}
 	
 	/**

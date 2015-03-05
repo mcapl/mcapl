@@ -42,6 +42,7 @@ import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_GLogicalFormula;
 import ail.syntax.ast.Abstract_Capability;
+import ail.syntax.ast.Abstract_LogExpr;
 import ail.mas.DefaultEnvironment;
 import gov.nasa.jpf.vm.MJIEnv;
 import goal.semantics.GOALAgent;
@@ -120,6 +121,10 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    
    public void addGoal(Abstract_Predicate p) {
 	   super.addGoal(new Abstract_Goal(p, Abstract_Goal.achieveGoal));
+   }
+   
+   public void addGoal(Abstract_LogExpr le) {
+	   
    }
 
    

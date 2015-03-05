@@ -25,6 +25,7 @@
 package goal.semantics.operationalrules;
 
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Message;
@@ -39,6 +40,7 @@ import goal.mas.GoalEnvironment;
 import goal.semantics.GOALAgent;
 import goal.syntax.ActionRule;
 import gov.nasa.jpf.annotation.FilterField;
+import goal.semantics.executorStages.startCycleStage;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
 /**
@@ -50,6 +52,11 @@ import gov.nasa.jpf.annotation.FilterField;
 public class ProcessMessages implements OSRule {
 	@FilterField
 	private static final String name = "Handle Goal Messages";
+	private startCycleStage scs;
+	
+	public ProcessMessages(startCycleStage scs) {
+		this.scs = scs;
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -73,8 +80,17 @@ public class ProcessMessages implements OSRule {
 	 */
 	public void apply(AILAgent a) {
 		GOALAgent ga = (GOALAgent) a;
-		List<Message> msgs = a.getInbox();
-		for (Message m: msgs) {
+		Set<Message> messages = scs.getMessages();
+		
+        for (Message message : messages) {
+        //    processMessageMentalModel(message);
+        	((GOALAgent) a).getMentalState().addMessage(message);
+        	}
+
+    // Check if goals have been achieved and, if so, update goal base.
+        ((GOALAgent) a).getMentalState().updateGoalState();
+
+/*		for (Message m: msgs) {
 			GoalMessage gm = (GoalMessage) m;
 			if (gm.getIlForce() == GoalEnvironment.Imperative) {
 				ga.delBel((Literal) gm.getPropCont(), gm.getSender());
@@ -105,7 +121,7 @@ public class ProcessMessages implements OSRule {
 					System.err.println("failed to add constraint" + gm.getPropCont());
 				}
 			}
-		}
+		} */
 	
 		a.clearInbox();
 	}

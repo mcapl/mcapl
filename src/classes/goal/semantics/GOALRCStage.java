@@ -41,5 +41,5 @@ import gov.nasa.jpf.annotation.FilterField;
  */
 public interface GOALRCStage extends RCStage {
 	public void advance(AILAgent ag);
-	public GOALRCStage getNextStage(GOALRC rc);
+	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag);
 }

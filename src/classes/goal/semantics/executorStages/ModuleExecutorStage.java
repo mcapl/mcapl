@@ -22,7 +22,6 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	private boolean exit = false;
 	boolean selectedrules = false;
 		
-	private GOALRCStage nextStage;
 	
 	ModuleInitialisation init = new ModuleInitialisation();
 	SelectRule ruleSelection = new SelectRule();
@@ -33,7 +32,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		
 	public ModuleExecutorStage(GOALModule m) {
 		module = m;
-		ruleSelection.setRules(m.getRules());
+		ruleSelection.setModule(m);
 	}
 
 	@Override
@@ -108,7 +107,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 
 	@Override
-	public GOALRCStage getNextStage(GOALRC rc) {
+	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
 		if (!selectedrules & !first & !exit) {
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
 				rc.setStopandCheck(true);

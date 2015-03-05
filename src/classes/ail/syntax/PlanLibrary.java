@@ -29,10 +29,10 @@ package ail.syntax;
 
 import ail.semantics.AILAgent;
 import ail.util.MergeIterator;
-
 import ajpf.util.VerifyMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis.
  *
  */
-public class PlanLibrary implements EvaluationBase<Plan>{
+public class PlanLibrary implements EvaluationBase<Plan> {
 	/** a MAP from TE to a list of relevant plans */
 	@FilterField
     Map<PredicateIndicator,PlanSet> relPlans = new VerifyMap<PredicateIndicator,PlanSet>();
@@ -72,6 +72,18 @@ public class PlanLibrary implements EvaluationBase<Plan>{
 	 */
 	@FilterField
 	protected String libname = AILAgent.AILdefaultPLname;
+	
+	public PlanLibrary copy() {
+		PlanLibrary pl = new PlanLibrary();
+		for (Plan p: getPlans()) {
+			pl.add(p);
+		}
+		return pl;
+	}
+	
+	public void shuffle() {
+		plans.shuffle();
+	}
 	
 	
 	/**
@@ -255,6 +267,8 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * @param p
     	 */
     	public void remove(Plan p);
+    	
+    	public void shuffle();
     }
     
     /**
@@ -424,6 +438,10 @@ public class PlanLibrary implements EvaluationBase<Plan>{
 		 */
 		public void remove(Plan p) {
 			plans.remove(p);
+		}
+		
+		public void shuffle() {
+			Collections.shuffle(plans);
 		}
     }
     

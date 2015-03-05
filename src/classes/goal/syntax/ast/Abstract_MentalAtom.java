@@ -13,6 +13,8 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.GLogicalFormula;
 import ail.syntax.LogicalFormula;
 import ail.syntax.Unifiable;
@@ -34,33 +36,51 @@ public class Abstract_MentalAtom extends Abstract_Guard {
 
 	@Override
 	public Guard toMCAPL() {
-		ArrayList<Abstract_Literal> lits = new ArrayList<Abstract_Literal>();
-		lf_to_lits(logical_formula, lits);
+		ArrayList<Abstract_LogicalFormula> lits = new ArrayList<Abstract_LogicalFormula>();
+		split(logical_formula, lits);
 		if (type == Abstract_BaseAILStructure.AILBel) {
-			Guard g = new Guard(new GBelief(lits.get(0).toMCAPL()));
+			Guard g = guard_from_lf(lits.get(0));
 			lits.remove(0);
-			for (Abstract_Literal l: lits) {
-				g.add(new GBelief(l.toMCAPL()));
+			for (Abstract_LogicalFormula l: lits) {
+				if (l instanceof Abstract_Literal) {
+					g.add(new GBelief(((Abstract_Literal) l).toMCAPL()));
+				} else {
+					g.add(((Abstract_Equation) l).toMCAPL());
+				}
 			}
 			return g;
 		} else {
-			Guard g = new Guard(new Goal(lits.get(0).toMCAPL(), Goal.achieveGoal));
+			Guard g = new Guard(new Goal(((Abstract_Literal) lits.get(0)).toMCAPL(), Goal.achieveGoal));
 			lits.remove(0);
-			for (Abstract_Literal l: lits) {
-				g.add(new Goal(l.toMCAPL(), Goal.achieveGoal));
+			for (Abstract_LogicalFormula l: lits) {
+				g.add(new Goal(((Abstract_Literal) l).toMCAPL(), Goal.achieveGoal));
 			}
 			return g;
 		}
 	}
 	
-	private void lf_to_lits(Abstract_LogicalFormula lf, ArrayList<Abstract_Literal> ds) {
+	private Guard guard_from_lf(Abstract_LogicalFormula lf) {
 		if (lf instanceof Abstract_Literal) {
-			Abstract_Literal lit = (Abstract_Literal) lf;
-			ds.add(lit);
+			return new Guard(new GBelief(((Abstract_Literal) lf).toMCAPL()));
+		} else {
+			return new Guard(Guard.GLogicalOp.none, ((Abstract_Equation) lf).toMCAPL());
+		}
+	}
+	
+	private void split(Abstract_LogicalFormula lf, ArrayList<Abstract_LogicalFormula> ds) {
+		if (lf instanceof Abstract_Predicate) {
+			Abstract_Predicate lit = (Abstract_Predicate) lf;
+			ds.add(new Abstract_Literal(lit));
+		} else if (lf instanceof Abstract_Equation) {
+			ds. add((Abstract_Equation) lf);
 		} else {
 			Abstract_LogExpr le = (Abstract_LogExpr) lf;
-			lf_to_lits(le.getRHS(), ds);
-			lf_to_lits(le.getLHS(), ds);
+			if (le.getOp() == Abstract_LogExpr.and) {
+				split(le.getRHS(), ds);
+				split(le.getLHS(), ds);
+			} else {
+				split(le.getRHS(), ds);
+			}
 		}
 	}
 

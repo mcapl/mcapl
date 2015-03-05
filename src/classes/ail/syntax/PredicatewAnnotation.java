@@ -61,6 +61,11 @@ public class PredicatewAnnotation extends Predicate {
     public PredicatewAnnotation(Predicate t) {
         super(t);
     }
+    
+    public PredicatewAnnotation(Predicate t, AILAnnotation a) {
+    	super(t);
+    	addAnnot(a);
+    }
 
     /**
      * Constructor.

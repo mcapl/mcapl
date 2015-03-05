@@ -31,6 +31,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.Plan;
 import ail.syntax.ast.Abstract_Event;
 import ail.syntax.ast.Abstract_Goal;
+import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_StringTerm;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_Agent;
@@ -137,6 +138,12 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	   newgoals[goals.length] = p;
 	   goals = newgoals;
    }
+   
+   public void addGoal(Abstract_LogExpr le) {
+	   
+   }
+
+
     
     public GOALModule toMCAPL() {
     	GOALModule.ModuleType mtype;

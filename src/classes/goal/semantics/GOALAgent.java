@@ -83,6 +83,8 @@ public class GOALAgent extends AILAgent {
      * exited; last element on the list has been entered last.
      */
     private final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
+    
+    public MentalState ms;
 
 	// Specific library for conditional actions/Action Rules.  Separate from
 	// the library of Capabilities/Action Specs.  Use to control plan selection.
@@ -108,6 +110,9 @@ public class GOALAgent extends AILAgent {
 		super(mas, name);
 	    setReasoningCycle(new GOALRC(this));
 	    setTrackPlanUsage(true);
+	    ms.addBB(this.getBB());
+	    ms.addGB(this.getGoalBase());
+	    ms.addRB(this.getRuleBase());
 //	    lastplanstate = this.toString();
 	}
 	
@@ -647,6 +652,10 @@ public class GOALAgent extends AILAgent {
     
     public GOALModule getEventModule() {
     	return eventModule;
+    }
+    
+    public MentalState getMentalState() {
+    	return ms;
     }
 
 } 

@@ -30,6 +30,7 @@ import goal.syntax.ActionRule;
 import goal.syntax.GOALModule.RuleEvaluationOrder;
 import goal.syntax.ActionCombo;
 import goal.syntax.MentalState;
+import goal.syntax.GOALModule;
 
 import java.util.Iterator;
 import java.util.List;
@@ -42,20 +43,29 @@ import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Unifier;
 import ail.syntax.Plan;
+import ail.syntax.PlanLibrary;
+import ail.syntax.ApplicablePlan;
 
 public class SelectRule implements OSRule {
+	GOALModule m;
 	
     /**
      * The set of rules in this container.
      */
-    private List<ActionRule> rules = new LinkedList<>();
+    private PlanLibrary rules;
     /**
      * Determines how the next action to be executed is selected.
      */
-    private final RuleEvaluationOrder ruleOrder;
+    private RuleEvaluationOrder ruleOrder;
     
     public SelectRule() {
     	this.ruleOrder = RuleEvaluationOrder.LINEAR;
+    }
+    
+    public void setModule(GOALModule m) {
+    	this.m = m;
+    	rules = m.getRules();
+    	ruleOrder = m.getRuleOrder();
     }
     
     public void setRules(List<Plan> plans) {
@@ -64,7 +74,7 @@ public class SelectRule implements OSRule {
     	}
     }
 
-    public SelectRule(List<ActionRule> rules, RuleEvaluationOrder ruleOrder) {
+    public SelectRule(PlanLibrary rules, RuleEvaluationOrder ruleOrder) {
             this.rules = rules;
             this.ruleOrder = ruleOrder;
     }
@@ -92,7 +102,7 @@ public class SelectRule implements OSRule {
      * @throws UnknownObjectException
      */
     @SuppressWarnings("fallthrough")
-    private final List<ActionCombo> getActionOptions(MentalState mentalState) {
+ /*   private final List<ActionCombo> getActionOptions(MentalState mentalState) {
             List<ActionCombo> actionOptions = new LinkedList<>();
             Set<Unifier> solutions;
             boolean finished = false;
@@ -106,7 +116,7 @@ public class SelectRule implements OSRule {
                                                     + "supported by RuleSet.getOptions(RunState).");
             default:
                     // continue.
-            }
+            } */
 
             /*
              * In case of 'linear' style evaluation find the first applicable rule
@@ -118,7 +128,7 @@ public class SelectRule implements OSRule {
              * and return the options of that rule only; otherwise check all rules
              * and return the options for every rule that is applicable.
              */
-            for (ActionRule rule : this.rules) {
+  /*          while(rules.getAllReactivePlans(a).hasNext()) {
                     // Evaluate the rule's condition.
                     solutions = new MentalStateConditionExecutor(rule.getCondition())
                     .evaluate(mentalState, debugger);
@@ -167,11 +177,11 @@ public class SelectRule implements OSRule {
               }
 
               return actionOptions;
-      }
+      } */
     
     public void apply(AILAgent ag) {
         // Make a copy of the rules so we don't shuffle the original below.
-        List<ActionRule> rules = new ArrayList<>(this.rules);
+        PlanLibrary rules = this.rules.copy();
 
         switch (this.ruleOrder) {
         case ADAPTIVE:
@@ -231,16 +241,15 @@ public class SelectRule implements OSRule {
         //}
         break;
         case RANDOM:
-        	Collections.shuffle(rules);
+        	rules.shuffle();
         case LINEAR:
-        	for (ActionRule rule : rules) {
-                 if (rule.isApplicable()) {
-                        break;
-                }
-        }
+        	Iterator<ApplicablePlan> ruleIterator = rules.getAllReactivePlans(ag);
+        	if (ruleIterator.hasNext()) {
+        		m.setRule(ruleIterator.next());
+        	}
         break;
         case RANDOMALL:
-        	Collections.shuffle(rules);
+        	rules.shuffle();
         case LINEARALL:
         // Continue evaluating and applying rule as long as there are more,
         // and no {@link ExitModuleAction} has been performed.
@@ -254,16 +263,12 @@ public class SelectRule implements OSRule {
         default:
         	break;
         }
-
-        return module.hasPerformedNoAction();
-
-
     }
 
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

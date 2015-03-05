@@ -36,6 +36,7 @@ import goal.semantics.operationalrules.*;
 import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.semantics.executorStages.startCycleStage;
 import gov.nasa.jpf.annotation.FilterField;
+import goal.syntax.GOALModule;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
 /**
@@ -56,13 +57,6 @@ public class GOALRC implements ReasoningCycle {
 	private GOALAgent ag;
 		
 	public GOALRC(GOALAgent ag) {
-		mainModule = new ModuleExecutorStage(ag.getMainModule());
-		if (ag.hasInitModule()) {
-			initModule = new ModuleExecutorStage(ag.getInitModule());
-		}
-		if (ag.hasEventModule()) {
-			eventModule = new ModuleExecutorStage(ag.getEventModule());
-		}
 		this.ag = ag;
 	}
 
@@ -72,7 +66,7 @@ public class GOALRC implements ReasoningCycle {
 	 */
 	public void cycle(AILAgent ag) {
 		currentStage.advance(ag);
-		currentStage = currentStage.getNextStage(this);
+		currentStage = currentStage.getNextStage(this, (GOALAgent) ag);
 	}
 
 	/*
@@ -114,7 +108,30 @@ public class GOALRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#not_interrupted()
 	 */
 	public boolean not_interrupted() {
-		return false;
+		return true;
+	}
+	
+	public boolean mainModuleInstantiated() {
+		return mainModule != null;
 	}
 
+	public boolean initModuleInstantiated() {
+		return mainModule != null;
+	}
+	
+	public boolean eventModuleInstantiated() {
+		return mainModule != null;
+	}
+	
+	public void setMainModule(GOALModule m) {
+		mainModule = new ModuleExecutorStage(m);
+	}
+	
+	public void setInitModule(GOALModule m) {
+		initModule = new ModuleExecutorStage(m);
+	}
+
+	public void setEventModule(GOALModule m) {
+		eventModule = new ModuleExecutorStage(m);
+	}
 }
