@@ -23,6 +23,7 @@
 package goal.syntax;
 
 
+import ail.syntax.CapabilityLibrary;
 import ail.syntax.Predicate;
 import ail.syntax.Rule;
 import ail.syntax.Goal;
@@ -42,6 +43,7 @@ public class GOALModule {
 	RuleBase rb = new RuleBase();
 	PlanLibrary pl = new PlanLibrary();
 	BeliefBase bb = new BeliefBase();
+	CapabilityLibrary cl = new CapabilityLibrary();
 	
 	ModuleType module_type;
 	
@@ -173,11 +175,23 @@ public class GOALModule {
 		return pl;
 	}
 	
+	public CapabilityLibrary getCL() {
+		return cl;
+	}
+	
 	public RuleEvaluationOrder getRuleOrder() {
 		return order;
 	}
 	
 	public void setRule(ApplicablePlan p) {
 		rule = p;
+	}
+	
+	public boolean hasRuleSet() {
+		return rule != null;
+	}
+	
+	public ApplicablePlan getRule() {
+		return rule;
 	}
 }

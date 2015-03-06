@@ -381,10 +381,13 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     			public void get() {
     				if (i < size()) {
     					Plan cp = (Plan) plans.get(i).clone();
-    					cp.standardise_apart(intention.hdU(), new Unifier());
+    					Unifier un = new Unifier();
+    					if (intention != null) {
+    						cp.standardise_apart(intention.hdU(), new Unifier());
+    	   					un = intention.hdU();
+    					}  
     					int prefixsize = cp.getPrefix().size();
     					int appplanlength = prefixsize;
-    					Unifier un = intention.hdU();
     					boolean plan_is_applicable = false;
     				
     					if (prefixsize > 0) {
@@ -403,8 +406,8 @@ public class PlanLibrary implements EvaluationBase<Plan> {
         					} 
     						
     	    			} else {
-    	    				if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
-    	    					appplanlength = 0;
+    	    				if ( (intention != null && intention.empty()) || (appplanlength == 0)) {
+    	    					// appplanlength = 0;
     	    					plan_is_applicable = true;
     	    				} 
     	    			} 

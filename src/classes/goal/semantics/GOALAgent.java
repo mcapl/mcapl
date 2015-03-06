@@ -84,7 +84,7 @@ public class GOALAgent extends AILAgent {
      */
     private final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
     
-    public MentalState ms;
+    public MentalState ms = new MentalState();
 
 	// Specific library for conditional actions/Action Rules.  Separate from
 	// the library of Capabilities/Action Specs.  Use to control plan selection.
@@ -110,14 +110,20 @@ public class GOALAgent extends AILAgent {
 		super(mas, name);
 	    setReasoningCycle(new GOALRC(this));
 	    setTrackPlanUsage(true);
-	    ms.addBB(this.getBB());
-	    ms.addGB(this.getGoalBase());
-	    ms.addRB(this.getRuleBase());
 //	    lastplanstate = this.toString();
 	}
 	
 	public GOALModule getMainModule() {
 		return mainModule;
+	}
+	
+	@Override
+	public void initAg() {
+		super.initAg();
+	    ms.addBB(this.getBB());
+	    ms.addGB(this.getGoalBase());
+	    ms.addRB(this.getRuleBase());
+		
 	}
 		
     /**
@@ -589,14 +595,6 @@ public class GOALAgent extends AILAgent {
    // 	getPL("2").addGoal(g);
     }
     
-    public void initAg() {
-        // set the agent
-    	
-    		super.initAg();
-    //		getPL("2").init(this);
-    	  	
-    	
-    }
     
     public void addModule(GOALModule m) {
     	if (m.getType() == GOALModule.ModuleType.MAIN) {
@@ -656,6 +654,10 @@ public class GOALAgent extends AILAgent {
     
     public MentalState getMentalState() {
     	return ms;
+    }
+    
+    public void setTopLevelContext(GOALModule.ModuleType t) {
+    	topLevelContext = t;
     }
 
 } 

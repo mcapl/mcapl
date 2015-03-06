@@ -263,5 +263,43 @@ public class Capability implements Unifiable,
 		s += "}";
 		return s;
 	}
+	
+	public ArrayList<Literal> postConditionsToLiterals() {
+		GLogicalFormula posts = getPost();
+		return fmla_to_lits(posts);
+	}
+	
+	private static ArrayList<Literal> fmla_to_lits(GLogicalFormula lf) {
+		ArrayList<Literal> lits = new ArrayList<Literal>();
+		if (lf instanceof Literal) {
+			lits.add((Literal) lf);
+			return lits;
+		}
+		
+		if (lf instanceof Predicate) {
+			lits.add(new Literal((Predicate) lf));
+			return lits;
+		}
+		
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp() == Guard.GLogicalOp.none) {
+				lits.addAll(fmla_to_lits(g.getLHS()));
+			} else if (g.getOp() == Guard.GLogicalOp.not) {
+				ArrayList<Literal> neglits = fmla_to_lits(g.getLHS());
+				Literal neglit = neglits.get(0);
+				if (neglit.negated()) {
+					neglit.setNegated(false);
+				} else {
+					neglit.setNegated(true);
+				}
+				lits.add(neglit);
+			} else {
+				lits.addAll(fmla_to_lits(g.getLHS()));
+				lits.addAll(fmla_to_lits(g.getRHS()));
+			}
+		}
+		return lits;
+	}
 
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Deed;
 import ail.syntax.Intention;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.DefaultAILStructure;
@@ -36,7 +37,7 @@ import ail.syntax.GBelief;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.semantics.OSRule;
-
+import goal.syntax.GOALModule;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -46,12 +47,17 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author lad
  *
  */
-public class PlanWithActionRule implements OSRule {
+public class ActionRuleExecutor implements OSRule {
 	@FilterField
 	private static final String name = "Plan with Cond Actions";
 	@FilterField
 	private Iterator<ApplicablePlan> aps = new ArrayList<ApplicablePlan>().iterator();
 	
+	private GOALModule module;
+	
+	public void setModule(GOALModule module) {
+		this.module = module;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see ail.semantics.operationalrules.OSRule#getName()
@@ -64,15 +70,7 @@ public class PlanWithActionRule implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		aps = a.filterPlans(a.appPlans(new Intention()));
-		/* Verify.beginAtomic();
-		System.err.println(aps);
-		Verify.endAtomic(); */
-
-		if (aps.hasNext()) return true;
-		
-		// aps = new LinkedList<ApplicablePlan>();
-		return false;
+		return module.hasRuleSet();
 	}
 	
 	/*
@@ -83,40 +81,19 @@ public class PlanWithActionRule implements OSRule {
 	// these may be set by checkPreconditions, in which case that may need to be run
 	// first in MJI to check everything is in the correct state.
 	public void apply(AILAgent a) {
-		Intention i = a.getIntention();
-
-		if (aps.hasNext()) {
+		// Note GOAL implementation has some stuff about SingleGoals here
 		
-			// get the plan
-			ApplicablePlan p = a.selectPlan(aps, i);
-//			Verify.beginAtomic();
-//			System.out.println(aps);
-//			System.out.println("Plan: " + p);
-//			Verify.endAtomic();
-
-/*			if (p.getN() == 0 && (! (p.getGuard().isEmpty()) && (! (p.getGuard().get(p.getGuard().size() - 1).isTrivial())))) {
-					// A reactive plan.
-					Literal gl = new Literal("state");
-					gl.addTerm(p.getGuard().get(p.getGuard().size() - 1).toTerm());
-					Event state = new Event(Event.AILAddition, DefaultAILStructure.AILBel, gl);
-					p.getGuard().set(p.getGuard().size() - 1, new Guard(new GBelief(GBelief.GTrue)));
-					a.setIntention(new Intention(state, p.getPrefix(), p.getGuard(), p.getUnifier().clone(), AILAgent.refertoself()));
-					if (!i.empty()) {
-						a.getIntentions().add(i);
-					}
-			} else if (p.getN() == 0 && (! (p.getGuard().isEmpty()) && ((p.getGuard().get(p.getGuard().size() - 1).isTrivial())))) {
-				Literal gl = new Literal("alwaystrue");
-				Event state = new Event(Event.AILAddition, DefaultAILStructure.AILBel, gl);
-				a.setIntention(new Intention(state, p.getPrefix(), p.getGuard(), p.getUnifier().clone(), AILAgent.refertoself()));	
-				if (i != null) {
-					a.getIntentions().add(i);
-				}
-			} else {
-					System.err.println("Encountering a triggered Action Rule:  This should not happen!");
-			} */
+		// What happens next also depends upon whether this is an ifthenrule or not.
+		ApplicablePlan p = module.getRule();
 		
-		}
-		aps = new ArrayList<ApplicablePlan>().iterator();
+		ArrayList<Guard> guardstack = p.getGuard();
+
+		Literal state_literal = new Literal("state");
+		// state_literal.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
+		Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
+		// change the head of the guardstack to trivial - we've already checked it holds
+		guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
+		a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
 
 	}
 }

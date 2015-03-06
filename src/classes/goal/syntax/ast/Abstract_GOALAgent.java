@@ -124,7 +124,7 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    }
    
    public void addGoal(Abstract_LogExpr le) {
-	   
+	  System.err.println("uh oh!"); 
    }
 
    

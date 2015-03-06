@@ -7,6 +7,7 @@ import goal.semantics.operationalrules.ModuleInitialisation;
 import goal.semantics.operationalrules.SelectRule;
 import goal.semantics.operationalrules.UserSpecAction;
 import goal.semantics.operationalrules.ModuleExit;
+import goal.semantics.operationalrules.ActionRuleExecutor;
 
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -21,18 +22,25 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	private boolean first = true;
 	private boolean exit = false;
 	boolean selectedrules = false;
+	boolean agintention = false;
 		
 	
-	ModuleInitialisation init = new ModuleInitialisation();
+	ModuleInitialisation init = new ModuleInitialisation(this);
 	SelectRule ruleSelection = new SelectRule();
+	ActionRuleExecutor actionRule = new ActionRuleExecutor();
 	UserSpecAction userspec= new UserSpecAction(this);
-	ModuleExit exitModule = new ModuleExit();
+	ModuleExit exitModule = new ModuleExit(this);
 	
 	boolean performedAnAction = false;
 		
 	public ModuleExecutorStage(GOALModule m) {
 		module = m;
 		ruleSelection.setModule(m);
+		actionRule.setModule(m);
+	}
+	
+	public GOALModule getModule() {
+		return module;
 	}
 
 	@Override
@@ -48,6 +56,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		} else if (!selectedrules & !exit) {
 			rules.add(ruleSelection);
 		} else if (selectedrules & !exit) {
+			rules.add(actionRule);
+		} else if (agintention & !exit) {
 			rules.add(userspec);
 		} else {
 			rules.add(exitModule);
@@ -64,7 +74,14 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 	@Override
 	public void advance(AILAgent ag) {
-		if (selectedrules) {
+		if (ag.getIntention() != null) {
+			agintention = true;
+		}
+		if (agintention && ag.getIntention().empty()) {
+			ag.setIntention(null);
+			agintention = false;
+		}
+		if (!agintention && !selectedrules && !first) {
 			exit = module.isModuleTerminated();
 		
 			switch (module.getExitCondition()) {
@@ -92,9 +109,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 				} 
 		} else {
 			if (!exit) {
-				first = false;
-				if (!selectedrules) {
-					selectedrules = true;
+				if (!agintention) {
 					performedAnAction = false;
 				}
 			}
@@ -108,11 +123,21 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 	@Override
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
-		if (!selectedrules & !first & !exit) {
+		if (first) {
+			first = false;
+			return this;
+		}
+		if (selectedrules & !first & !exit & !agintention) {
+			selectedrules = true;
+			return this;
+		} else if (selectedrules & agintention) {
+			selectedrules = false;
+			return this;
+		} else {
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
 				rc.setStopandCheck(true);
 			}
-			if (!this.performedAnAction && rc.getAgent().isMainModuleRunning()) {
+			if (rc.getAgent().isMainModuleRunning()) {
 				//	nextStage = new startCycle(this, ag, this.hasPerformedAction());
 				return rc.startCycle;
 			} else {
@@ -120,12 +145,14 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			}
 
 		}
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public void performedAnAction() {
 		performedAnAction = true;
+	}
+	
+	public boolean first() {
+		return first;
 	}
 
 }
