@@ -948,6 +948,15 @@ public class Product {
 			return s;
 		}
 				
+		public String toPrettyString() {
+			String s = "[MS: ";
+			if (!hasmodelstate) {
+				s += "null, BS: " + buchistate + ", UN: " + until + "]";
+			} else {
+				s+= modelstate + ", BS: " + buchistate + ", UN: " + until + "]";
+			}
+			return s;
+		}
 
 	}
 }

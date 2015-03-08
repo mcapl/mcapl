@@ -311,7 +311,6 @@ public class DefaultEnvironment implements AILEnv {
     		uptodateAgs.add(agName);
     	}
     		
- 		
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
     		
@@ -324,8 +323,7 @@ public class DefaultEnvironment implements AILEnv {
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
     	}
-    				
-    	return p;
+     	return p;
      }
     
     
@@ -638,7 +636,7 @@ public class DefaultEnvironment implements AILEnv {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 
 	/*
 	 * (non-Javadoc)

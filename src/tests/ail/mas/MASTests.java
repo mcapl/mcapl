@@ -35,7 +35,7 @@ import ail.syntax.Action;
 import ail.syntax.VarTerm;
 
 import eass.EASSMASBuilder;
-import eass.verification.leo.LEOVerificationEnvironment;
+import eass.verification.leo.LEOVerificationEnvironmentASEPaper;
 
 /**
  * Regression tests for methods involving the multi-agent system.
@@ -53,7 +53,7 @@ public class MASTests {
     		String abs_filename = MCAPLcontroller.getFilename(filename);
 
     		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
-    		LEOVerificationEnvironment env = new LEOVerificationEnvironment();
+    		LEOVerificationEnvironmentASEPaper env = new LEOVerificationEnvironmentASEPaper();
     		mas.setEnv(env);
 		
     		Action envaction = new Action("does");
