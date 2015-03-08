@@ -641,5 +641,9 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	public Object[] toArray(Object[] arg0) {
 		return getAsList().toArray(arg0);
 	}
+    
+    public boolean unifies(Unifiable t1g, Unifier u) {
+    	return super.unifies(t1g, u);
+    }
 
 }

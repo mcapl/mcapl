@@ -34,7 +34,7 @@ main: stackBuilder
       clear(table).
       % the tower predicate holds for any stack of blocks that sits on the table.
       tower([X]) :- on(X, table).
-      tower([X, Y| T]) :- on(X, Y), tower([X| T]). 
+      tower([X, Y| T]) :- on(X, Y), tower([Y | T]). 
     }
    
    beliefs{

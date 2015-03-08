@@ -25,6 +25,8 @@
 package goal.syntax.ast;
 
 
+import java.util.ArrayList;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
@@ -32,6 +34,7 @@ import ail.syntax.Plan;
 import ail.syntax.Literal;
 import ail.syntax.ast.Abstract_Event;
 import ail.syntax.ast.Abstract_Goal;
+import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_StringTerm;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_Agent;
@@ -124,7 +127,27 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    }
    
    public void addGoal(Abstract_LogExpr le) {
-	  System.err.println("uh oh!"); 
+	  ArrayList<Abstract_Predicate> goals = lf_to_lits(le);
+	  for (Abstract_Predicate p: goals) {
+		  addGoal(p);
+	  }
+   }
+   
+   private static ArrayList<Abstract_Predicate> lf_to_lits(Abstract_LogicalFormula le) {
+	   ArrayList<Abstract_Predicate> out = new ArrayList<Abstract_Predicate>();
+	   if (le instanceof Abstract_Predicate) {
+		   out.add((Abstract_Predicate) le);
+	   } else {
+		   Abstract_LogExpr ale = (Abstract_LogExpr) le;
+	  
+		   if (ale.getOp() == Abstract_LogExpr.none) {
+			   out.addAll(lf_to_lits(ale.getRHS()));
+		   } else if (ale.getOp() == Abstract_LogExpr.and) {
+			   out.addAll(lf_to_lits(ale.getLHS()));
+			   out.addAll(lf_to_lits(ale.getRHS()));
+		   }
+	   }
+	   return out;
    }
 
    

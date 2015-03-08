@@ -79,9 +79,11 @@ brspec[Abstract_GOALAgent gl]:  (hd=atom
 	(STOP {$gl.addBel((Abstract_Predicate) hd);} | 
 	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
                                      
-poslitconj returns [Abstract_LogExpr le]	: g=atom {$le = new Abstract_LogExpr(Abstract_LogExpr.none, g);} (COMMA g1=atom{$le = new Abstract_LogExpr(g, Abstract_LogExpr.and, g1);})* STOP;
+poslitconj returns [Abstract_LogExpr le]	: g=atom {Abstract_LogExpr lge = new Abstract_LogExpr(Abstract_LogExpr.none, g);} 
+                             (COMMA g1=atom{lge = new Abstract_LogExpr(lge, Abstract_LogExpr.and, g1);})* STOP {$le = lge;};
 
-litconj returns [Abstract_LogicalFormula f]: l=literal {$f = l;} (COMMA l1=literal {$f = new Abstract_LogExpr(l, Abstract_LogExpr.and, l1);})* ;
+litconj returns [Abstract_LogicalFormula f]: l=literal {Abstract_LogExpr le = new Abstract_LogExpr(Abstract_LogExpr.none, l);} 
+	(COMMA l1=literal {le = new Abstract_LogExpr(le, Abstract_LogExpr.and, l1);})* {$f = le;} ;
 
 literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
 
