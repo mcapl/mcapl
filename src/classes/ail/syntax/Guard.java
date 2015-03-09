@@ -296,7 +296,7 @@ public class Guard implements GLogicalFormula {
 		return (rhs == null);
 	}
 	
-	public Iterator<Unifier> gbeliefLC(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase ruleb, final Unifier u, final List<String> varnames) {
+	public Iterator<Unifier> gbeliefLC(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase ruleb, final Unifier u, final List<String> varnames, AILAgent.SelectionOrder so) {
 		try {
 			final Iterator<Unifier> ileft;
 			
@@ -304,13 +304,13 @@ public class Guard implements GLogicalFormula {
 			case not:
 				if (rhs instanceof GBelief) {
 					GBelief gbrhs = (GBelief) rhs;
-					if (! gbrhs.logicalConsequence(eb, ruleb, u, varnames).hasNext()) {
+					if (! gbrhs.logicalConsequence(eb, ruleb, u, varnames, so).hasNext()) {
 						return createUnifIterator(u);
 					}
 					break;
 				} else if (rhs instanceof Guard) {
 					Guard gurhs = (Guard) rhs;
-					if (!gurhs.gbeliefLC(eb, ruleb, u, varnames).hasNext()) {
+					if (!gurhs.gbeliefLC(eb, ruleb, u, varnames, so).hasNext()) {
 						return createUnifIterator(u);
 					}
 					break;
@@ -321,18 +321,18 @@ public class Guard implements GLogicalFormula {
 				if (rhs == null) {
 					return createUnifIterator(u);
 				} else if (rhs instanceof GBelief) {
-					return ((GBelief) rhs).logicalConsequence(eb, ruleb, u, varnames);
+					return ((GBelief) rhs).logicalConsequence(eb, ruleb, u, varnames, so);
 				} else if (rhs instanceof Guard) {
-					return ((Guard) rhs).gbeliefLC(eb, ruleb, u, varnames);
+					return ((Guard) rhs).gbeliefLC(eb, ruleb, u, varnames, so);
 				} else {
 					return createUnifIterator(u);
 				}
 				
 			case and:
 				if (lhs instanceof GBelief) {
-					ileft = ((GBelief) lhs).logicalConsequence(eb, ruleb, u, varnames);
+					ileft = ((GBelief) lhs).logicalConsequence(eb, ruleb, u, varnames, so);
 				} else if (lhs instanceof Guard) {
-					ileft = ((Guard) lhs).gbeliefLC(eb, ruleb, u, varnames);
+					ileft = ((Guard) lhs).gbeliefLC(eb, ruleb, u, varnames, so);
 				} else {
 					ileft = createUnifIterator(u);
 				}
@@ -363,9 +363,9 @@ public class Guard implements GLogicalFormula {
 	        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
 	        				}	
         					if (rhs instanceof GBelief) {
-        						iright = ((GBelief) rhs).logicalConsequence(eb,  ruleb,  u, varnames);
+        						iright = ((GBelief) rhs).logicalConsequence(eb,  ruleb,  u, varnames, so);
         					} else if (rhs instanceof  Guard) {
-        						iright = ((Guard) rhs).gbeliefLC(eb, ruleb, u, varnames);
+        						iright = ((Guard) rhs).gbeliefLC(eb, ruleb, u, varnames, so);
         					}
  	        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
 	        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
@@ -405,13 +405,13 @@ public class Guard implements GLogicalFormula {
 	 * @param un An initial unifier
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
 	       try {
 		        final Iterator<Unifier> ileft;
 		        switch (op) {
 		        
 		        	case not:
-		        		if (!rhs.logicalConsequence(ag,un, varnames).hasNext()) {
+		        		if (!rhs.logicalConsequence(ag,un, varnames, so).hasNext()) {
 		        			return createUnifIterator(un);
 		        		}
 		        		break;
@@ -419,11 +419,11 @@ public class Guard implements GLogicalFormula {
 		        		if (rhs == null) {
 		        			return createUnifIterator(un);
 		        		} else {
-		        			return rhs.logicalConsequence(ag, un, varnames);
+		        			return rhs.logicalConsequence(ag, un, varnames, so);
 		        		}
 		        
 		        	case and:
-		        		ileft = lhs.logicalConsequence(ag,un, varnames);
+		        		ileft = lhs.logicalConsequence(ag,un, varnames, so);
 		        		return new Iterator<Unifier>() {
 		        			Unifier current = null;
 		        			Iterator<Unifier> iright = null;
@@ -449,7 +449,7 @@ public class Guard implements GLogicalFormula {
 		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
 			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
 			        				}		        					
-		        					iright = rhs.logicalConsequence(ag, ul, varnames);
+		        					iright = rhs.logicalConsequence(ag, ul, varnames, so);
 			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
 			        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
 			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
@@ -470,13 +470,24 @@ public class Guard implements GLogicalFormula {
 		        				}
 		        			}
 		        			public void remove() {}
+		        			
+		        			public String toString() {
+		        				String s = "Iterator for: ";
+		        				s += Guard.this.toString();
+		        				s += " -- ";
+		        				s += un;
+		        				s += "\n";
+		        				s += "Current Unifier: ";
+		        				s += current;
+		        				return s;
+		        			}
 		        		};
 		        }
 		        
 	       } catch (Exception e) {
 	        		String slhs = "is null";
 	        		if (lhs != null) {
-	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un,varnames);
+	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un,varnames, so);
 	        			if (i != null) {
 	        				slhs = "";
 	        				while (i.hasNext()) {
@@ -488,7 +499,7 @@ public class Guard implements GLogicalFormula {
 	        		} 
 	        		String srhs = "is null";
 	        		if (lhs != null) {
-	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames);
+	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames, so);
 	        			if (i != null) {
 	        				srhs = "";
 	        				while (i.hasNext()) {

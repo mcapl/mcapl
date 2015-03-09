@@ -26,9 +26,9 @@ public class GuardPlan implements GuardAtom<Plan> {
 
 	@Override
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un,
-			List<String> varnames) {
+			List<String> varnames, AILAgent.SelectionOrder so) {
 		PlanLibrary leb = ag.getPL();
-		return new EvaluationBaseIterator<Plan>(leb, un, this);
+		return new EvaluationBaseIterator<Plan>(leb, un, this, so);
 	}
 	
 	public NumberTerm getPlan() {

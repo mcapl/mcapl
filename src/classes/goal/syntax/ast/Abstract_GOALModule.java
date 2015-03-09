@@ -58,10 +58,16 @@ import goal.syntax.GOALModule;
  */
 public class Abstract_GOALModule implements Abstract_KRGOALS { 
 	
+	public static int linear = 0;
+	public static int linearall = 1;
+	public static int random = 2;
+	public static int randomall = 3;
+	
 	public static int main = 0;
 	public static int event = 1;
 	
 	int module_type;
+	int optionorder = linear;
 		
 	Abstract_Predicate[] knowledge = new Abstract_Predicate[0];
 
@@ -98,6 +104,10 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
    	knowledge = newbeliefs;
     	
     }
+   
+   public void setOptionOrder(int i) {
+	   optionorder = i;
+   }
    
    /**
     * Add a rule to the rule base.
@@ -167,6 +177,16 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		}
     	}
     	
+    	if (optionorder == linear) {
+    		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.LINEAR);
+    	} else if (optionorder == linearall) {
+    		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.LINEARALL);
+    	} else if (optionorder == random) {
+    		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.RANDOM);
+    	} else if (optionorder == randomall) {
+    		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.RANDOMALL);
+    	}
+    	
     	for (Abstract_Predicate g: knowledge) {
     		m.addFact(g.toMCAPL());
     	}
@@ -177,6 +197,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALModule");
     	env.setIntField(objref, "module_type", module_type);
+    	env.setIntField(objref, "optionorder", optionorder);
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);

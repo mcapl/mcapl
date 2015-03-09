@@ -179,6 +179,14 @@ public class GOALModule {
 		return cl;
 	}
 	
+	public BeliefBase getBB() {
+		return bb;
+	}
+	
+	public GoalBase getGB() {
+		return gb;
+	}
+	
 	public RuleEvaluationOrder getRuleOrder() {
 		return order;
 	}
@@ -193,5 +201,9 @@ public class GOALModule {
 	
 	public ApplicablePlan getRule() {
 		return rule;
+	}
+	
+	public void setRuleEvaluationOrder(RuleEvaluationOrder o) {
+		order = o;
 	}
 }

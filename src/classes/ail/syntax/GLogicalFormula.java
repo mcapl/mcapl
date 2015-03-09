@@ -41,7 +41,7 @@ public interface GLogicalFormula extends Cloneable, Unifiable {
      * 
      * Returns an iterator for all unifiers that are consequence.
      */
-    public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames);
+    public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so);
    
     /**
      * Clone this Formula

@@ -61,10 +61,10 @@ public class GCapability implements GuardAtom<Capability> {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
 	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un,
-			List<String> varnames) {
+			List<String> varnames, AILAgent.SelectionOrder so) {
 		
 		CapabilityLibrary leb = ag.getCL();
-		return new EvaluationBaseIterator<Capability>(leb, un, this);
+		return new EvaluationBaseIterator<Capability>(leb, un, this, so);
 	}
 	
 	/**

@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
+
 /**
  * A rule is a Literal (head) with an optional body, as in "a :- b &amp; c".
  */
@@ -274,8 +276,8 @@ public class Rule implements LogicalFormula {
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
 	public Iterator<Unifier> logicalConsequence(
-			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
-		return head.logicalConsequence(eb, rb, un, varnames);
+			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+		return head.logicalConsequence(eb, rb, un, varnames, so);
 	}
 
 

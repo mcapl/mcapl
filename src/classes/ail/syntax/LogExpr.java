@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 /** 
@@ -93,21 +94,21 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final List<String> varnames) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
 	        
 	        	case not:
-	        		if (!rhs.logicalConsequence(eb,rb,un,varnames).hasNext()) {
+	        		if (!rhs.logicalConsequence(eb,rb,un,varnames, so).hasNext()) {
 	        			return createUnifIterator(un);
 	        		}
 	        		break;
 	        	case none:
-	        		return rhs.logicalConsequence(eb, rb, un, varnames);
+	        		return rhs.logicalConsequence(eb, rb, un, varnames, so);
 	        
 	        	case and:
-	        		ileft = lhs.logicalConsequence(eb,rb,un, varnames);
+	        		ileft = lhs.logicalConsequence(eb,rb,un, varnames, so);
 	        		return new Iterator<Unifier>() {
 	        			Unifier current = null;
 	        			Iterator<Unifier> iright = null;
@@ -125,18 +126,25 @@ public class LogExpr implements LogicalFormula {
 	        				current = null;
 	        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
 	        					Unifier ul = ileft.next();
-	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames);
+	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames, so);
 	        				}
 	        				if (iright != null && iright.hasNext()) {
 	        					current = iright.next();	 
 	        				}
 	        			}
 	        			public void remove() {}
+	        			
+	        			public String toString() {
+	        				String s = "Iterator for :" + LogExpr.this + " -- " + un + "\n";
+	        				s += "Current Unifier: ";
+	        				s += current;
+	        				return s;
+	        			}
 	        		};
 	            
 	        	case or:
-	            ileft = lhs.logicalConsequence(eb, rb, un, varnames);
-	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un,varnames);
+	            ileft = lhs.logicalConsequence(eb, rb, un, varnames, so);
+	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un,varnames, so);
 	            return new Iterator<Unifier>() {
 	                Unifier current = null;
 	                public boolean hasNext() {
@@ -163,7 +171,7 @@ public class LogExpr implements LogicalFormula {
     	    } catch (Exception e) {
         		String slhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un, varnames);
+        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un, varnames, so);
         			if (i != null) {
         				slhs = "";
         				while (i.hasNext()) {
@@ -175,7 +183,7 @@ public class LogExpr implements LogicalFormula {
         		} 
         		String srhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un, varnames);
+        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un, varnames, so);
         			if (i != null) {
         				srhs = "";
         				while (i.hasNext()) {

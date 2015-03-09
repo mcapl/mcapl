@@ -47,7 +47,7 @@ main: stackBuilder
    
    main module{
       program[order=random]{
-         #define constructiveMove(X,Y) a-goal(tower([X,Y| T])), bel(tower([X|Y])).
+         #define constructiveMove(X,Y) a-goal(tower([X,Y| T])), bel(tower([Y|T])).
          #define misplaced(X) a-goal(tower([X| T])).
          
          if constructiveMove(X, Y) then move(X, Y).

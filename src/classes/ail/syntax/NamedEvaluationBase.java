@@ -24,6 +24,7 @@ package ail.syntax;
 
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
 import ail.util.Tuple;
 
 /**
@@ -52,16 +53,16 @@ public class NamedEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.Unifiable)
 	 */
-	public Iterator<K> getRelevant(EBCompare<K> ga) {
-		return eb.getRelevant(ga);
+	public Iterator<K> getRelevant(EBCompare<K> ga, AILAgent.SelectionOrder so) {
+		return eb.getRelevant(ga, so);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBasewNames#getRelevantTuple(ail.syntax.Unifiable)
 	 */
-	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga) {
-		final Iterator<K> ebl = eb.getRelevant(ga);
+	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga, AILAgent.SelectionOrder so) {
+		final Iterator<K> ebl = eb.getRelevant(ga, so);
 		
 		return new Iterator<Tuple<K, String>>() {
 

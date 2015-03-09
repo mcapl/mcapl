@@ -85,7 +85,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -94,7 +94,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}

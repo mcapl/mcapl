@@ -27,12 +27,14 @@ package ail.syntax;
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifySet;
 
@@ -137,7 +139,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
-    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl, AILAgent.SelectionOrder so) {
     	PredicateTerm l = (PredicateTerm) ebl;
     	LinkedList<PredicateTerm> ul = new LinkedList<PredicateTerm>();
     	Iterator<Goal> gl = null;
@@ -162,6 +164,9 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
     		}
     	}
     	
+    	if (so == AILAgent.SelectionOrder.RANDOM) {
+    		Collections.shuffle(ul);
+    	}
     	return ul.iterator();
         
      }

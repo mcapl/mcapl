@@ -23,6 +23,7 @@
 
 package ail.syntax;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class GMessage implements GuardAtom<Message> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
 		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());
@@ -113,8 +114,12 @@ public class GMessage implements GuardAtom<Message> {
 			ul.addAll(ag.getInbox());
 		}
 		
+/*		if (so == AILAgent.SelectionOrder.RANDOM) {
+			Collections.shuffle(ul);
+		} */
+		
 		EvaluationBase<Message> leb = new ListEvaluationBase<Message>(ul);
-		return new EvaluationBaseIterator<Message>(leb, un, this);
+		return new EvaluationBaseIterator<Message>(leb, un, this, so);
 	}
 
 	/*

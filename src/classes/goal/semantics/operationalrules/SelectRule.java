@@ -41,6 +41,8 @@ import java.util.Collections;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
+import ail.syntax.BeliefBase;
+import ail.syntax.GoalBase;
 import ail.syntax.Unifier;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
@@ -88,6 +90,7 @@ public class SelectRule implements OSRule {
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
         PlanLibrary rules = this.rules.copy();
+        boolean shufflebases = false;
 
         switch (this.ruleOrder) {
         case ADAPTIVE:
@@ -96,11 +99,13 @@ public class SelectRule implements OSRule {
         	break;
         case RANDOM:
         	rules.shuffle();
-        case LINEAR:
-        	ruleIterator = rules.getAllReactivePlans(a);
+        	shufflebases = true;
+         case LINEAR:
+        	ruleIterator = rules.getAllReactivePlans(a, shufflebases);
         	return ruleIterator.hasNext();
         case RANDOMALL:
         	rules.shuffle();
+        	shufflebases = true;
         case LINEARALL:
         // Continue evaluating and applying rule as long as there are more,
         // and no {@link ExitModuleAction} has been performed.

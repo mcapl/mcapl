@@ -50,6 +50,7 @@ package goal.parser;
 }
 
 // GOAL Grammar from Programming Rational Agents in GOAL by Koen Hindriks.
+
 program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}   
 	                 MAIN COLON i=id CURLYOPEN 
 		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
@@ -65,7 +66,7 @@ program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abst
                                    
 module [Abstract_GOALModule gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
                              (GOALS CURLYOPEN le=poslitconj* {gl.addGoal(le);} CURLYCLOSE)?
-                             PROGRAM (optionorder)? CURLYOPEN
+                             PROGRAM (oo=optionorder {$gl.setOptionOrder(oo);})? CURLYOPEN
                                  macro*
                                  actionrule[gl]+
                              CURLYCLOSE;
@@ -94,7 +95,10 @@ atom returns [Abstract_LogicalFormula t] : s=id {Abstract_Predicate p =new Abstr
 parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);} 
 	(COMMA t1=term {tl.add(t1);})* CLOSE { $ts = (Abstract_Term[]) tl.toArray(new Abstract_Term[0]);};	
 
-optionorder	: SQOPEN ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL ) SQCLOSE;
+optionorder returns [int i]	: SQOPEN ORDER EQUALS ( LINEAR {$i=Abstract_GOALModule.linear;} | 
+	LINEARALL {$i=Abstract_GOALModule.linearall;}| 
+	RANDOM {$i=Abstract_GOALModule.random;}| 
+	RANDOMALL {$i=Abstract_GOALModule.randomall;}) SQCLOSE;
 
 macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(f, pl.length); macros.put(pi, msc); 
                                   Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl); macro_subs.put(pi, p);} STOP;

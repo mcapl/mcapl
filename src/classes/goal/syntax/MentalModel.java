@@ -1,5 +1,6 @@
 package goal.syntax;
 
+import ail.semantics.AILAgent;
 import ail.syntax.BeliefBase;
 import ail.syntax.GoalBase;
 import ail.syntax.Goal;
@@ -50,7 +51,7 @@ public class MentalModel {
         		Predicate gterm = goal.getLogicalContent();
         		GBelief gb = new GBelief(gterm);
         		
-                if (gb.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(bb, "self"), rb, new Unifier(), gb.getVarNames()).hasNext()) {
+                if (gb.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(bb, "self"), rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
                         goalsToBeRemoved.add(goal);
                 }
         }

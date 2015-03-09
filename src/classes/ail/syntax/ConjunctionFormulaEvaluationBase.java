@@ -23,11 +23,12 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import ail.semantics.AILAgent;
 import ail.util.AILexception;
-
 import ajpf.util.AJPFLogger;
 
 /**
@@ -90,13 +91,17 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
 	 */
-	public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ga) {
+	public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ga, AILAgent.SelectionOrder so) {
 		ArrayList<PredicateTerm> ptl = new ArrayList<PredicateTerm>();
 		for (Literal l: ll) {
 			PredicateTerm p = (PredicateTerm) ga;
 			if (p.getPredicateIndicator().equals(l.getPredicateIndicator())) {
 				ptl.add(l);
 			}
+		}
+		
+		if (so == AILAgent.SelectionOrder.RANDOM) {
+			Collections.shuffle(ptl);
 		}
 		return ptl.iterator();
 	}

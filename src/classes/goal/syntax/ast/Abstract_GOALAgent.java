@@ -65,7 +65,7 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 
-	Abstract_Predicate[] beliefs = new Abstract_Predicate[0];
+//	Abstract_Predicate[] beliefs = new Abstract_Predicate[0];
 
 	Abstract_Rule[] belief_rules = new Abstract_Rule[0];
 
@@ -98,13 +98,14 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     * 
     */
    public void addFact(Abstract_Predicate bel) {
-   	int newsize = knowledge.length + 1;
+/*   	int newsize = knowledge.length + 1;
    	Abstract_Predicate[] newbeliefs = new Abstract_Predicate[newsize];
    	for (int i = 0; i < knowledge.length; i++) {
    		newbeliefs[i] = knowledge[i];
    	}
    	newbeliefs[knowledge.length] = bel; 
-   	knowledge = newbeliefs;
+   	knowledge = newbeliefs; */
+	   addBel(bel);
     	
     }
    

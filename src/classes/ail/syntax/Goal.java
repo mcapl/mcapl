@@ -27,6 +27,7 @@ package ail.syntax;
 import ail.semantics.AILAgent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -345,7 +346,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GuardAtom#getRelevant(ail.semantics.AILAgent)
 	 */
-	public Iterator<Unifiable> getRelevant(AILAgent ag) {
+	public Iterator<Unifiable> getRelevant(AILAgent ag, AILAgent.SelectionOrder so) {
       	Iterator<Goal> ll = ag.getGoals();
     	List<Unifiable> ul = new LinkedList<Unifiable>();
     	while (ll.hasNext()) {
@@ -355,6 +356,10 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		} else if (lln.getGoalBase().equals(getGoalBase())) {
     			ul.add(lln);
     		}
+    	}
+    	
+    	if (so == AILAgent.SelectionOrder.RANDOM) {
+    		Collections.shuffle(ul);
     	}
     	return ul.iterator();
 	}
@@ -414,7 +419,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -435,7 +440,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
     	}
     	
-    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames);
+    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames, so);
 	}
 
 	/*

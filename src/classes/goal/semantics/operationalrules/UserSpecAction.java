@@ -72,16 +72,16 @@ public class UserSpecAction implements OSRule {
 	private Capability action;
 	
 	GOALModule module;
-	
-	public UserSpecAction(ModuleExecutorStage mes) {
-		module = mes.getModule();
-	}
-	
+		
 	public String getName() {
 		return name;
 	}
 
-	/*
+    public void setModule(GOALModule m) {
+    	this.module = m;
+    }
+
+    /*
 	 * (non-Javadoc)
 	 * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
 	 */
@@ -95,10 +95,17 @@ public class UserSpecAction implements OSRule {
 		
 		Predicate cap = (Predicate) d.getContent();
 		
-		Iterator<Capability> cit = module.getCL().getRelevant(cap);
+		Iterator<Capability> cit = ((GOALAgent) a).getCL().getRelevant(cap, AILAgent.SelectionOrder.LINEAR);
 		action = cit.next();
 		
-		preiterator = action.getPre().logicalConsequence(a, a.getIntention().hdU(), action.getPre().getVarNames());
+		Unifier u = a.getIntention().hdU();
+		cap.unifies(action.getCap(), u);
+		AILAgent.SelectionOrder order = AILAgent.SelectionOrder.LINEAR;
+		if (module.getRuleOrder() == GOALModule.RuleEvaluationOrder.RANDOM) {
+			order = AILAgent.SelectionOrder.RANDOM;
+		}
+		
+		preiterator = action.getPre().logicalConsequence(a, a.getIntention().hdU(), action.getPre().getVarNames(), order);
 		return preiterator.hasNext();
 
 	}

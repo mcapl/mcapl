@@ -28,7 +28,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	ModuleInitialisation init = new ModuleInitialisation(this);
 	SelectRule ruleSelection = new SelectRule();
 	ActionRuleExecutor actionRule = new ActionRuleExecutor();
-	UserSpecAction userspec= new UserSpecAction(this);
+	UserSpecAction userspec= new UserSpecAction();
 	ModuleExit exitModule = new ModuleExit(this);
 	
 	boolean performedAnAction = false;
@@ -37,6 +37,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		module = m;
 		ruleSelection.setModule(m);
 		actionRule.setModule(m);
+		userspec.setModule(m);
 	}
 	
 	public GOALModule getModule() {
@@ -53,8 +54,9 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		ArrayList<OSRule> rules = new ArrayList<OSRule>();
 		if (first) {
 			rules.add(init);
-		} else if (!selectedrules & !exit) {
+		} else if (!selectedrules & !exit & !agintention) {
 			rules.add(ruleSelection);
+			selectedrules = true;
 		} else if (selectedrules & !exit) {
 			rules.add(actionRule);
 		} else if (agintention & !exit) {

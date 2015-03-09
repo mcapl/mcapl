@@ -123,7 +123,6 @@ public class GOALAgent extends AILAgent {
 	    ms.addBB(this.getBB());
 	    ms.addGB(this.getGoalBase());
 	    ms.addRB(this.getRuleBase());
-		
 	}
 		
     /**

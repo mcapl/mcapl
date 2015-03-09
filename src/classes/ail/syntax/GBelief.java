@@ -215,7 +215,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -236,7 +236,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ebname.getString());
     	}
     	    	
-    	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this, varnames);
+    	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this, varnames, so);
  	}
 	
 	/*

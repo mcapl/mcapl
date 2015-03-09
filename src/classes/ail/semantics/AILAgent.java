@@ -276,6 +276,10 @@ public class AILAgent implements MCAPLLanguageAgent {
     /* The default log name for this class */
     protected String logname = "ail.semantics.AILAgent";
     
+    public enum SelectionOrder {
+    	LINEAR, RANDOM;
+    }
+    
     
      //-----------------CONSTRUCTORS---------------//
  
@@ -1649,10 +1653,14 @@ public class AILAgent implements MCAPLLanguageAgent {
      *         does not believe the guard if this iterator is empty.
      */
     public Iterator<Unifier> believes(Guard g, Unifier un) {
-    	return g.logicalConsequence(this, un, g.getVarNames());
+    	return believes(g, un, SelectionOrder.LINEAR);
     }
     
-	/**
+    public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
+    	return g.logicalConsequence(this, un, g.getVarNames(), so);
+    }
+ 
+    /**
 	 * Yes or no, does the agent believe a guard.
 	 * @param gu the guard in question.
 	 * @param un the current unifier.

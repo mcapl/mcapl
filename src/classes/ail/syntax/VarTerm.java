@@ -964,10 +964,10 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
 		if (value != null) {
 			if (value instanceof GuardAtom<?>) {
-				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames);
+				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames, so);
 			}
 		}
 		return null;
