@@ -108,7 +108,7 @@ brspec[Abstract_GOALModule gl]: (hd=atom
 
 
 goals [Abstract_GOALModule gl]
-	: GOALS CURLYOPEN le=parameters {gl.addGoal(le);} CURLYCLOSE;
+	: GOALS CURLYOPEN le=goal_list {gl.addGoal(le);} CURLYCLOSE;
 	
 atom returns [Abstract_LogicalFormula l]
 	: p=declarationOrCallWithTerms {$l=p;}
@@ -171,7 +171,7 @@ basicCondition returns [Abstract_MentalState ms]
 	;
 
 mentalatom returns [Abstract_MentalAtom lf]
-	: (selector STOP)? b=mentalOperator tl=parameters
+	: (selector STOP)? b=mentalOperator tl=atom_parameters
 	{$lf = new Abstract_MentalAtom(tl, b);}
 	;
 
@@ -202,8 +202,8 @@ action returns [Abstract_Deed d]
 actionOperator returns [Abstract_Deed d]
 	: op = 'adopt'
 	| op = 'drop'
-	| op = 'insert'
-	| op = 'delete'
+	| op = 'insert' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);}
+	| op = 'delete'  {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILBel);}
 	| op = 'send'
 	| op = 'sendonce'
 	| op = 'print' {d = new Abstract_Deed(new Abstract_PrintAction());}
@@ -255,10 +255,23 @@ id returns [String s]
 	| VAR {$s = $VAR.getText();})
 	; 
 	
+	
+atom_parameters returns [ArrayList<Abstract_LogicalFormula>ts] 
+	: OPEN t=atom {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>(); tl.add(t);}
+	(COMMA t1=atom {tl.add(t1);})* 
+	CLOSE { $ts = tl;}
+	;
+
 parameters returns [ArrayList<Abstract_Term>ts] 
 	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
 	(COMMA t1=term {tl.add(t1);})* 
 	CLOSE { $ts = tl;}
+	;
+
+goal_list returns [ArrayList<Abstract_Term>ts] 
+	: t=term STOP {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
+	(COMMA t1=term STOP {tl.add(t1);})* 
+	 { $ts = tl;}
 	;
 
 
@@ -369,7 +382,7 @@ addoper returns [int i]
 	: (PLUS {$i = 1;} | MINUS {$i = 2;} );
 multoper returns [int i]
 	: (MULT {$i = 3;} | DIV {$i = 4;} );
-eqoper returns [int i] : (LESS {$i = 1;} | EQUALS {$i = 2;});
+eqoper returns [int i] : (LESS {$i = 1;} | IS {$i = 2;});
 
 // Lexer Misc Syntax
 COLON 	: ':';
@@ -387,6 +400,7 @@ SINGLEQUOTE
 	: '\'';
 BAR 	: '|';
 
+IS	:	 'is';
 CONST : 'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR : ('A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 STRING	:	'"'('a'..'z'|'A'..'Z'|','|' '|'!')+'"';

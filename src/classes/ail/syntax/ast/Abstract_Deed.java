@@ -329,7 +329,11 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     }
     
     public void addParams(ArrayList<Abstract_Term> tl) {
-    	getContent().addParams(tl);
+    	if (content != null) {
+    		getContent().addParams(tl);
+    	} else {
+    		content = tl.get(0);
+    	}
     }
 
 }
