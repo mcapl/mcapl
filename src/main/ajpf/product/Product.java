@@ -163,6 +163,7 @@ public class Product {
 		}
 		m.addEdge(s);
 		m.addToPath(s);
+		log.fine("Leaving justaddModelState");
 		return true;
 		
 	}

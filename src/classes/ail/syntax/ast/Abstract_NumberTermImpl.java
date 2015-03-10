@@ -24,10 +24,10 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.syntax.NumberTermImpl;
-
 import ajpf.util.AJPFLogger;
-
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.ElementInfo;
@@ -163,5 +163,10 @@ public final class Abstract_NumberTermImpl implements Abstract_NumberTerm {
 	 */
 	public Abstract_Term applyu(Abstract_Unifier u) {return this;};
     
-  
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		System.err.println("WARNING: Do not add params to a NumberTerm");
+		
+	}
+
 }

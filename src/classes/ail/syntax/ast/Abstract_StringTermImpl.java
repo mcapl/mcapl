@@ -24,8 +24,9 @@
 
 package ail.syntax.ast;
 
-import ail.syntax.StringTermImpl;
+import java.util.ArrayList;
 
+import ail.syntax.StringTermImpl;
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.Verify;
@@ -153,6 +154,12 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 	 */
 	public String toString() {
 		return "\"" + fValue + "\"";
+	}
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		System.err.println("WARNING: Do not add params to a string term");
+		
 	}
 
 }

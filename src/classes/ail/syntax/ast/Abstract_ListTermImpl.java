@@ -24,6 +24,8 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.Verify;
@@ -224,6 +226,12 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 			String tailstringchomp = tailstring.substring(1, tailstring.length() - 1);
 			return "[" + term.toString() + "," + tailstringchomp + "]";
 		}
+	}
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		System.err.println("WARNING: Do not add params to a listterm");
+		
 	}
 
 }

@@ -4,6 +4,7 @@ import goal.semantics.AbstractGoalStage;
 import goal.semantics.GOALRC;
 import goal.semantics.GOALRCStage;
 import goal.semantics.operationalrules.ModuleInitialisation;
+import goal.semantics.operationalrules.PrintActionExecutor;
 import goal.semantics.operationalrules.SelectRule;
 import goal.semantics.operationalrules.UserSpecAction;
 import goal.semantics.operationalrules.ModuleExit;
@@ -29,6 +30,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	SelectRule ruleSelection = new SelectRule();
 	ActionRuleExecutor actionRule = new ActionRuleExecutor();
 	UserSpecAction userspec= new UserSpecAction();
+	PrintActionExecutor printaction = new PrintActionExecutor();
 	ModuleExit exitModule = new ModuleExit(this);
 	
 	boolean performedAnAction = false;
@@ -60,6 +62,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		} else if (selectedrules & !exit) {
 			rules.add(actionRule);
 		} else if (agintention & !exit) {
+			rules.add(printaction);
 			rules.add(userspec);
 		} else {
 			rules.add(exitModule);
@@ -83,7 +86,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			ag.setIntention(null);
 			agintention = false;
 		}
-		if (!agintention && !selectedrules && !first) {
+		if (!agintention && !selectedrules && !first && !exit) {
 			exit = module.isModuleTerminated();
 		
 			switch (module.getExitCondition()) {
@@ -125,15 +128,18 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 	@Override
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
-		if (first) {
+		if (first & !exit) {
 			first = false;
 			return this;
 		}
 		if (selectedrules & !first & !exit & !agintention) {
-			selectedrules = true;
 			return this;
 		} else if (selectedrules & agintention) {
 			selectedrules = false;
+			return this;
+		} else if (agintention) {
+			return this;
+		} else if (!first & exit) {
 			return this;
 		} else {
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
@@ -143,7 +149,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 				//	nextStage = new startCycle(this, ag, this.hasPerformedAction());
 				return rc.startCycle;
 			} else {
-				return this;
+				return rc.startCycle;
 			}
 
 		}

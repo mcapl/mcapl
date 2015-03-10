@@ -71,8 +71,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 
 	Abstract_GOALModule[] modules = new Abstract_GOALModule[0];
 
-	public Abstract_ActionSpec[] actionspecs = new Abstract_ActionSpec[0];
-
 	 /**
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
@@ -152,21 +150,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    }
 
    
-   public void addCap(Abstract_ActionSpec c) {
-	   if (c instanceof Abstract_ActionSpec) {
-		   int newsize = actionspecs.length + 1;
-		   Abstract_ActionSpec[] newplans = new Abstract_ActionSpec[newsize];
-		   for (int i = 0; i < actionspecs.length; i++) {
-			   newplans[i] = actionspecs[i];
-		   }
-		   newplans[actionspecs.length] = c;
-		   actionspecs = newplans;
-		   // CondActions.init(this);
-	   } else { 
-		  System.err.println("Why doesn't abstract_agent have addCap method?");
-	   }  
-   }
-   
    public void addBel(Abstract_Predicate gb) {
 	   addBel(new Abstract_Literal((Abstract_Predicate) gb));
    }
@@ -191,13 +174,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 		    			e.printStackTrace();
 		    		}
 		    	}
-		    	for (Abstract_ActionSpec ca: actionspecs) {
-		    		try {
-		    			ag.addCap(ca.toMCAPL());
-		    		} catch (Exception e) {
-		    			e.printStackTrace();
-		    		}
-		    	} 
 		    	
 		    	for (Abstract_Goal g: goals) {
 		    		ag.addGoal(g.toMCAPL());
@@ -224,18 +200,14 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_GOALModule", modules.length);
-      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionSpec", actionspecs.length);
-        	for (int i = 0; i < beliefs.length; i++) {
-       		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
-       	}
-      	for (int i = 0; i < rules.length; i++) {
+    	for (int i = 0; i < beliefs.length; i++) {
+    		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
+    	}
+     	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
       	for (int i = 0; i < modules.length; i++) {
        		env.setReferenceArrayElement(pRef, i, modules[i].newJPFObject(env));
-       	}
-      	for (int i = 0; i < actionspecs.length; i++) {
-       		env.setReferenceArrayElement(caRef, i, actionspecs[i].newJPFObject(env));
        	}
       	for (int i = 0; i < goals.length; i++) {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));

@@ -69,6 +69,12 @@ public class Abstract_ActionSpec extends Abstract_Capability {
 		addPost(new Abstract_MentalAtom(lf, Abstract_BaseAILStructure.AILBel));
 	}
 	
+	public Abstract_ActionSpec(Abstract_Predicate p, Abstract_LogicalFormula pre, Abstract_LogicalFormula pos) {
+		super(p);
+		addPre(new Abstract_MentalAtom(pre, Abstract_BaseAILStructure.AILBel));
+		addPost(new Abstract_MentalAtom(pos, Abstract_BaseAILStructure.AILBel));
+	}
+	
     public ActionSpec toMCAPL() {
     	Capability c = super.toMCAPL();
     	return new ActionSpec(c);

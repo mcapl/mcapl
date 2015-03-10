@@ -25,6 +25,8 @@
 package goal.syntax.ast;
 
 
+import java.util.ArrayList;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
@@ -62,18 +64,28 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	public static int linearall = 1;
 	public static int random = 2;
 	public static int randomall = 3;
+	public static int adaptive = 4;
 	
 	public static int main = 0;
 	public static int event = 1;
 	
+	public static int always = 0;
+	public static int never = 1;
+	public static int nogoals = 2;
+	public static int noaction = 3;
+	
 	int module_type;
 	int optionorder = linear;
+	int exitcondition = always;
 		
 	Abstract_Predicate[] knowledge = new Abstract_Predicate[0];
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 	
 	Abstract_Predicate[] goals = new Abstract_Predicate[0];
+
+
+	public Abstract_ActionSpec[] actionspecs = new Abstract_ActionSpec[0];
 
 	/*
 	 * The Plan Library.
@@ -90,7 +102,29 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 		module_type = type;
 	}
 	
-    /**
+	public void addAllCap(ArrayList<Abstract_ActionSpec> as) {
+		for (Abstract_ActionSpec a: as) {
+			addCap(a);
+		}
+	}
+	
+	   public void addCap(Abstract_ActionSpec c) {
+		   if (c instanceof Abstract_ActionSpec) {
+			   int newsize = actionspecs.length + 1;
+			   Abstract_ActionSpec[] newplans = new Abstract_ActionSpec[newsize];
+			   for (int i = 0; i < actionspecs.length; i++) {
+				   newplans[i] = actionspecs[i];
+			   }
+			   newplans[actionspecs.length] = c;
+			   actionspecs = newplans;
+			   // CondActions.init(this);
+		   } else { 
+			  System.err.println("Why doesn't abstract_agent have addCap method?");
+		   }  
+	   }
+	   
+
+	   /**
     * Adds a belief to the belief base annotating it with a source.
     * 
     */
@@ -105,6 +139,17 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	
     }
    
+   public void addBel(Abstract_Predicate bel) {
+	   	int newsize = knowledge.length + 1;
+	   	Abstract_Predicate[] newbeliefs = new Abstract_Predicate[newsize];
+	   	for (int i = 0; i < knowledge.length; i++) {
+	   		newbeliefs[i] = knowledge[i];
+	   	}
+	   	newbeliefs[knowledge.length] = bel; 
+	   	knowledge = newbeliefs;
+	    	
+	    }
+
    public void setOptionOrder(int i) {
 	   optionorder = i;
    }
@@ -114,6 +159,20 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     * @param r
     */
    public void addKRule(Abstract_Rule r) {
+      	int newsize = knowledge_rules.length + 1;
+   	Abstract_Rule[] newrules = new Abstract_Rule[newsize];
+   	for (int i = 0; i < knowledge_rules.length; i++) {
+   		newrules[i] = knowledge_rules[i];
+   	}
+   	newrules[knowledge_rules.length] = r;
+   	knowledge_rules = newrules;
+  }
+
+   /**
+    * Add a rule to the rule base.
+    * @param r
+    */
+   public void addRule(Abstract_Rule r) {
       	int newsize = knowledge_rules.length + 1;
    	Abstract_Rule[] newrules = new Abstract_Rule[newsize];
    	for (int i = 0; i < knowledge_rules.length; i++) {
@@ -149,10 +208,15 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	   goals = newgoals;
    }
    
-   public void addGoal(Abstract_LogExpr le) {
-	   
+   public void addGoal(ArrayList<Abstract_Term> le) {
+	   for (Abstract_Term t: le) {
+		   addGoal((Abstract_Predicate) t);
+	   }
    }
 
+   public void setExitCondition(int i) {
+	   exitcondition = i;
+   }
 
     
     public GOALModule toMCAPL() {
@@ -177,6 +241,15 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		}
     	}
     	
+    	for (Abstract_ActionSpec ca: actionspecs) {
+    		try {
+    			m.addCap(ca.toMCAPL());
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	} 
+
+    	
     	if (optionorder == linear) {
     		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.LINEAR);
     	} else if (optionorder == linearall) {
@@ -185,6 +258,16 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.RANDOM);
     	} else if (optionorder == randomall) {
     		m.setRuleEvaluationOrder(GOALModule.RuleEvaluationOrder.RANDOMALL);
+    	}
+    	
+    	if (exitcondition == always) {
+    		m.setExitCondition(GOALModule.ExitCondition.ALWAYS);
+    	} else if (exitcondition == never) {
+    		m.setExitCondition(GOALModule.ExitCondition.NEVER);
+    	} else if (exitcondition == nogoals) {
+    		m.setExitCondition(GOALModule.ExitCondition.NOGOALS);
+    	} else {
+    		m.setExitCondition(GOALModule.ExitCondition.NOACTION);
     	}
     	
     	for (Abstract_Predicate g: knowledge) {
@@ -198,10 +281,12 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALModule");
     	env.setIntField(objref, "module_type", module_type);
     	env.setIntField(objref, "optionorder", optionorder);
+    	env.setIntField(objref, "exitcondition", exitcondition);
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionRule", actionrules.length);
+      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionSpec", actionspecs.length);
        	for (int i = 0; i < knowledge.length; i++) {
        		env.setReferenceArrayElement(bRef, i, knowledge[i].newJPFObject(env));
        	}
@@ -213,6 +298,9 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
        	}
        	for (int i = 0; i < goals.length; i++) {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+       	}
+      	for (int i = 0; i < actionspecs.length; i++) {
+       		env.setReferenceArrayElement(caRef, i, actionspecs[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "knowledge", bRef);
       	env.setReferenceField(objref, "knowledge_rules", rRef);

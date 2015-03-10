@@ -15,6 +15,7 @@ import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Equation;
+import ail.syntax.ast.Abstract_Term;
 import ail.syntax.GLogicalFormula;
 import ail.syntax.LogicalFormula;
 import ail.syntax.Unifiable;
@@ -34,6 +35,11 @@ public class Abstract_MentalAtom extends Abstract_Guard {
 		type = i;
 	}
 
+	public Abstract_MentalAtom(ArrayList<Abstract_Term> lf, byte i) {
+		logical_formula = Abstract_LogExpr.termlist_to_lf(lf);
+		type = i;
+	}
+	
 	@Override
 	public Guard toMCAPL() {
 		ArrayList<Abstract_LogicalFormula> lits = new ArrayList<Abstract_LogicalFormula>();

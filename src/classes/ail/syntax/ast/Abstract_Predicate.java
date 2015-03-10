@@ -25,11 +25,11 @@
 package ail.syntax.ast;
 
 import ajpf.psl.ast.Abstract_Formula;
-
 import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import gov.nasa.jpf.vm.ClassInfo;
@@ -98,6 +98,10 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
      */
     public void setTerms(Abstract_Term[] ts) {
     	terms = ts;
+    }
+    
+    public void setTerms(ArrayList<Abstract_Term> ts) {
+    	terms = (Abstract_Term[]) ts.toArray();
     }
     
     /**
@@ -287,5 +291,12 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
 			 getTerm(i).unifies(p.getTerm(i), u);
 		 }
 	 }
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		for (Abstract_Term t: tl) {
+			addTerm(t);
+		}
+	}
 
 }

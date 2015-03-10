@@ -24,8 +24,9 @@
 
 package ail.syntax.ast;
 
-import ail.semantics.AILAgent;
+import java.util.ArrayList;
 
+import ail.semantics.AILAgent;
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.Deed;
@@ -325,6 +326,10 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
 		env.setBooleanField(ref, "hastrigtype", hastrigtype);
 		return ref;
 
+    }
+    
+    public void addParams(ArrayList<Abstract_Term> tl) {
+    	getContent().addParams(tl);
     }
 
 }

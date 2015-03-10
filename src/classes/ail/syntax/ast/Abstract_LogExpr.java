@@ -24,10 +24,11 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.MJIEnv;
-
 import ail.syntax.LogExpr;
 import ail.syntax.LogicalFormula;
 import ail.syntax.Unifier;
@@ -105,6 +106,23 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 	public Abstract_LogExpr(int oper, Abstract_LogicalFormula f) {
 		op = oper;
 		rhs = f;
+	}
+	
+	public Abstract_LogExpr(ArrayList<Abstract_Term> tl) {
+		this(none, termlist_to_lf(tl));
+	}
+	
+	public static Abstract_LogExpr termlist_to_lf(ArrayList<Abstract_Term> tl) {
+		if (tl.size() < 2) {
+			if (tl.isEmpty()) {
+				return new Abstract_LogExpr();
+			} else {
+				return new Abstract_LogExpr(none, (Abstract_Predicate) tl.get(0));
+			}
+		} else {
+			Abstract_Term t = tl.remove(0);
+			return new Abstract_LogExpr((Abstract_Predicate) t, and, termlist_to_lf(tl));
+		}
 	}
     
   	/** gets the Operation of this Expression */

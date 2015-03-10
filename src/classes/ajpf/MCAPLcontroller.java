@@ -175,6 +175,7 @@ public class MCAPLcontroller  {
 			checkend = checkEnd();
 		}
 		triggerendstate();
+		specification.checkProperties();
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}

@@ -38,14 +38,13 @@ import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
-
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
-
 import goal.syntax.GoalMessage;
 import gov.nasa.jpf.vm.Verify;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +54,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+
 import ail.mas.AILEnv;
 import ail.mas.ActionScheduler;
+import ail.mas.DefaultEnvironment;
 
 /**
  * An environment for Goal Agents with the semantics or GOAL with communication as developed by Hindriks and
@@ -68,7 +69,7 @@ import ail.mas.ActionScheduler;
  * @author louiseadennis
  *
  */
-public class GoalEnvironment implements AILEnv { 
+public class GoalEnvironment extends DefaultEnvironment { 
 
 	/**
 	 * Three types of message.
@@ -138,7 +139,7 @@ public class GoalEnvironment implements AILEnv {
 	
 	private ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
 	
-	private boolean isdone = false;
+	//private boolean isdone = false;
 	
 	MCAPLScheduler scheduler;
 	
@@ -372,8 +373,6 @@ public class GoalEnvironment implements AILEnv {
 	  * Handle the actions - i.e. send and close actions of the agents.
 	  */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-	    lastAgent = agName;
-	    lastAction = act;
 	    boolean somethinghappened = true;
 	    	    	
 	    if (act instanceof BroadcastSendAction) {
@@ -475,7 +474,7 @@ public class GoalEnvironment implements AILEnv {
 	    	AJPFLogger.info("goal.mas.GoalEnvironment", s.toString());
 	    }
 	    
-	    return new Unifier();
+	    return super.executeAction(agName, act);
 
 	}
 	   
@@ -502,9 +501,9 @@ public class GoalEnvironment implements AILEnv {
 		
 			uptodateAgs.add(agName);
 			
-			if (isdone) {
-				p.add(new Literal("done"));
-			}
+			//if (isdone) {
+			//	p.add(new Literal("done"));
+			//}
 			
 			return p;
 		
@@ -654,9 +653,9 @@ public class GoalEnvironment implements AILEnv {
      * @see ail.others.AILEnv#setOutputLevel(int)
      */
      
-    public void cleanup() {
-    	isdone = true;
-    }
+ //   public void cleanup() {
+ //   	isdone = true;
+ //   }
     
     public void init() {
     	
@@ -689,7 +688,7 @@ public class GoalEnvironment implements AILEnv {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 	
 	/*
 	 * (non-Javadoc)

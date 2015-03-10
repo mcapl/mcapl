@@ -1,34 +1,28 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
-// 
-// This file is part of Gwendolen
+// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
 //
-// Gwendolen is free software; you can redistribute it and/or
+// This file is part of GOAL (AIL version) - GOAL-AIL
+// 
+// GOAL-AIL is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// Gwendolen is distributed in the hope that it will be useful,
+// GOAL-AIL is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with Gwendolen if not, write to the Free Software
+// License along with GOAL-AIL; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
+//
 //----------------------------------------------------------------------------
 
-@using = mcapl
+env = ail.mas.DefaultEnvironment
 
-target = ail.util.AJPF_w_AIL
-target.args = /src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail,/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl,0
-
-log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,ajpf.product.Product
-
-listener+=,.listener.ExecTracker
-et.print_insn=false
-et.show_shared=false
+mas.file = /src/examples/goal/programming_guide/chapter1/hello_world.gl
+mas.builder = goal.GOALMASBuilder

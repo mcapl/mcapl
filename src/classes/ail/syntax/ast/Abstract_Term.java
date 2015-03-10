@@ -24,6 +24,8 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.syntax.Unifier;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 
@@ -80,4 +82,6 @@ public interface Abstract_Term extends Cloneable, Abstract_MCAPLTerm {
 	 * @param u
 	 */
 	public void unifies(Abstract_Term t, Abstract_Unifier u);
+	
+	public void addParams(ArrayList<Abstract_Term> tl);
 }

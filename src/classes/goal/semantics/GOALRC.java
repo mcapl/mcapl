@@ -90,7 +90,7 @@ public class GOALRC implements ReasoningCycle {
 		if (! stopandcheck ) {
 			return stopandcheck;
 		} else {
-			setStopandCheck(true);
+			setStopandCheck(false);
 			return true;
 		}
 	} 
@@ -116,11 +116,11 @@ public class GOALRC implements ReasoningCycle {
 	}
 
 	public boolean initModuleInstantiated() {
-		return mainModule != null;
+		return initModule != null;
 	}
 	
 	public boolean eventModuleInstantiated() {
-		return mainModule != null;
+		return eventModule != null;
 	}
 	
 	public void setMainModule(GOALModule m) {

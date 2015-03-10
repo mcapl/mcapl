@@ -155,6 +155,10 @@ public class GOALModule {
 		pl.add(r);
 	};
 	
+	public void addCap(ActionSpec as) {
+		cl.add(as);
+	}
+	
 	public void addFact(Predicate p) {
 		bb.add(new Literal(p));
 	};
@@ -168,7 +172,7 @@ public class GOALModule {
 	}
 	
 	public boolean isModuleTerminated() {
-		return true;
+		return is_terminated;
 	}
 	
 	public PlanLibrary getRules() {

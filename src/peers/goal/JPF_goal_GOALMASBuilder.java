@@ -28,12 +28,13 @@ import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import gov.nasa.jpf.vm.ClinitRequired;
 import gov.nasa.jpf.vm.MJIEnv;
+import gov.nasa.jpf.vm.NativePeer;
 import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.syntax.ast.Abstract_MAS;
 
-public class JPF_goal_GOALMASBuilder {
+public class JPF_goal_GOALMASBuilder extends NativePeer {
 
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
@@ -41,7 +42,7 @@ public class JPF_goal_GOALMASBuilder {
     	CommonTokenStream tokens = new CommonTokenStream(lexer);
     	GOALParser parser = new GOALParser(tokens);
  		try {
- 	   		Abstract_MAS amas = parser.program();
+ 	   		Abstract_MAS amas = parser.mas();
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);
 		} catch (Exception e) {
@@ -57,7 +58,7 @@ public class JPF_goal_GOALMASBuilder {
  	    	CommonTokenStream tokens = new CommonTokenStream(lexer);
  	    	GOALParser parser = new GOALParser(tokens);
  	    	//System.err.println("parsing");
- 	   		Abstract_MAS amas = parser.program();
+ 	   		Abstract_MAS amas = parser.mas();
  	   		//System.err.println("done parsing");
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);

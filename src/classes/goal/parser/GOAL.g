@@ -1,22 +1,22 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
 //
 // This file is part of GOAL (AIL version) - GOAL-AIL
-// 
+//
 // GOAL-AIL is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
-// 
+//
 // GOAL-AIL is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public
 // License along with GOAL-AIL; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-// 
+//
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //
@@ -40,219 +40,368 @@ package goal.parser;
 }
 
 @members {
-	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private static HashMap<PredicateIndicator,Abstract_MentalState> macros = new HashMap<PredicateIndicator, Abstract_MentalState>();
-	private static HashMap<PredicateIndicator,Abstract_Term> macro_subs = new HashMap<PredicateIndicator, Abstract_Term>();
-	private String name = "";
+private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
+private static HashMap<PredicateIndicator,Abstract_MentalState> macros = new HashMap<PredicateIndicator, Abstract_MentalState>();
+private static HashMap<PredicateIndicator,Abstract_Term> macro_subs = new HashMap<PredicateIndicator, Abstract_Term>();
+private String name = "";
 }
 
 @lexer::members {
+private boolean stringterm = false;
 }
 
-// GOAL Grammar from Programming Rational Agents in GOAL by Koen Hindriks.
+mas returns [Abstract_MAS mas] 
+	: {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}
+	MAIN COLON i=id CURLYOPEN
+	{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
+	(moduleImport | gm=module {gl.addModule(gm);})+
+	CURLYCLOSE
+	{mas.setAgs(agents);}
+	;
 
-program returns [Abstract_MAS mas]	:  {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}   
-	                 MAIN COLON i=id CURLYOPEN 
-		{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
-  	                (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
-                                        (BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE)?
-                                        (GOALS CURLYOPEN le=poslitconj* {gl.addGoal(le);} CURLYCLOSE)?
-                                         MAIN MODULE CURLYOPEN { Abstract_GOALModule gm = new Abstract_GOALModule(Abstract_GOALModule.main); gl.addModule(gm);} module[gm] CURLYCLOSE
-                                         (EVENT MODULE CURLYOPEN { Abstract_GOALModule gme = new Abstract_GOALModule(Abstract_GOALModule.event); gl.addModule(gme);} module[gme] CURLYCLOSE)?
-                                         (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?
-                                              
-                                         CURLYCLOSE
-                                              {mas.setAgs(agents);};
-                                   
-module [Abstract_GOALModule gl]	: (KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE)?
-                             (GOALS CURLYOPEN le=poslitconj* {gl.addGoal(le);} CURLYCLOSE)?
-                             PROGRAM (oo=optionorder {$gl.setOptionOrder(oo);})? CURLYOPEN
-                                 macro*
-                                 actionrule[gl]+
-                             CURLYCLOSE;
-      //                       (ACTIONSPEC CURLYOPEN actionspec[gl]+ CURLYCLOSE)?;
-                             
-krspec[Abstract_KRGOALS gl]:  (hd=atom
-	(STOP {$gl.addFact((Abstract_Predicate) hd);} | 
-	PROLOGARROW body=litconj STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
-    
-brspec[Abstract_GOALAgent gl]:  (hd=atom 
-	(STOP {$gl.addBel((Abstract_Predicate) hd);} | 
-	PROLOGARROW body=litconj STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
-                                     
-poslitconj returns [Abstract_LogExpr le]	: g=atom {Abstract_LogExpr lge = new Abstract_LogExpr(Abstract_LogExpr.none, g);} 
-                             (COMMA g1=atom{lge = new Abstract_LogExpr(lge, Abstract_LogExpr.and, g1);})* STOP {$le = lge;};
+moduleImport
+	: '#import' MODULEFILE '.'
+	;
 
-litconj returns [Abstract_LogicalFormula f]: l=literal {Abstract_LogExpr le = new Abstract_LogExpr(Abstract_LogExpr.none, l);} 
-	(COMMA l1=literal {le = new Abstract_LogExpr(le, Abstract_LogExpr.and, l1);})* {$f = le;} ;
+module returns [Abstract_GOALModule gl]
+	: def=moduleDef {$gl = new Abstract_GOALModule(def);} (SQOPEN moduleOption[gl] (COMMA moduleOption[gl])* SQCLOSE)?
+	CURLYOPEN krImport? knowledge[gl] ? beliefs[gl]? goals[gl]? program[gl]? 
+	(as=actionSpecs {$gl.addAllCap(as);})? 
+	CURLYCLOSE
+	;
 
-literal returns[Abstract_LogicalFormula l] : a=atom {l=a;} | (NOT OPEN a1=atom {l=new Abstract_LogExpr(Abstract_LogExpr.not, a1);} CLOSE);
+moduleDef returns [int i]
+	: MODULE declaration
+	| INIT MODULE
+	| MAIN MODULE {$i = Abstract_GOALModule.main;}
+	| EVENT MODULE
+	;
 
-atom returns [Abstract_LogicalFormula t] : s=id {Abstract_Predicate p =new Abstract_Predicate(s);}( tl=parameters {p.setTerms(tl); $t = p;}) |
-		e=equation {$t = e;};
-//  | e=equation {$t=e;});
 
-parameters returns [Abstract_Term[\] ts]	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);} 
-	(COMMA t1=term {tl.add(t1);})* CLOSE { $ts = (Abstract_Term[]) tl.toArray(new Abstract_Term[0]);};	
+moduleOption [Abstract_GOALModule gl]
+	: key= 'exit' '=' value = ('always' {gl.setExitCondition(Abstract_GOALModule.always);} 
+			| 'never' {gl.setExitCondition(Abstract_GOALModule.never);} 
+			| 'nogoals' {gl.setExitCondition(Abstract_GOALModule.nogoals);} 
+			 | 'noaction' {gl.setExitCondition(Abstract_GOALModule.noaction);} ) 
+	| key = 'focus' '=' value = ('none' | 'new' | 'select' | 'filter')
+	;
 
-optionorder returns [int i]	: SQOPEN ORDER EQUALS ( LINEAR {$i=Abstract_GOALModule.linear;} | 
-	LINEARALL {$i=Abstract_GOALModule.linearall;}| 
-	RANDOM {$i=Abstract_GOALModule.random;}| 
-	RANDOMALL {$i=Abstract_GOALModule.randomall;}) SQCLOSE;
+krImport
+	: '#import' (stringLiteral | singleQuotedStringLiteral) '.'
+	;
 
-macro	: HASH DEFINE f=id pl=parameters msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(f, pl.length); macros.put(pi, msc); 
-                                  Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl); macro_subs.put(pi, p);} STOP;
+knowledge [Abstract_GOALModule gl]
+	: KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE;
 
-actionrule[Abstract_GOALModule gl]   	: {Abstract_ActionRule rule = new Abstract_ActionRule();} 
-	IF (lf=mentalstatecond {rule.setMentalStateCond(lf);}|
-		 f=id pl=parameters {PredicateIndicator pi = new PredicateIndicator(f, pl.length); 
-		                                      Abstract_MentalState macro=macros.get(pi); 
-		                                      Abstract_Term sub=macro_subs.get(pi); 
-		                                      Abstract_Predicate p = new Abstract_Predicate(f); p.setTerms(pl);
-			            Abstract_MentalState k = new Abstract_MentalState(macro, sub, p); rule.setMentalStateCond(k);} ) 
-	THEN dl=actioncombo[gl] {rule.setBody(dl);} STOP {gl.addPlan(rule);};	
+
+krspec[Abstract_GOALModule gl]: (hd=atom
+	(STOP {$gl.addFact((Abstract_Predicate) hd);} |
+	PROLOGARROW body=parameters STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
+
+beliefs [Abstract_GOALModule gl]
+	: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE;
+
+
+brspec[Abstract_GOALModule gl]: (hd=atom
+	(STOP {$gl.addBel((Abstract_Predicate) hd);} |
+	PROLOGARROW body=parameters STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
+
+
+goals [Abstract_GOALModule gl]
+	: GOALS CURLYOPEN le=parameters {gl.addGoal(le);} CURLYCLOSE;
+	
+atom returns [Abstract_LogicalFormula l]
+	: p=declarationOrCallWithTerms {$l=p;}
+	| e=equation {$l = e;}
+	;
+
+
+program[Abstract_GOALModule gl]
+	: PROGRAM (SQOPEN i=ruleEvaluationOrder {$gl.setOptionOrder(i);} SQCLOSE)? 
+	CURLYOPEN macroDef* programRule[gl]* CURLYCLOSE
+	;
+
+
+ruleEvaluationOrder returns [int i] 
+	: SQOPEN ORDER EQUALS ( LINEAR {$i=Abstract_GOALModule.linear;} |
+	LINEARALL {$i=Abstract_GOALModule.linearall;}|
+	RANDOM {$i=Abstract_GOALModule.random;}|
+	RANDOMALL {$i=Abstract_GOALModule.randomall;} |
+	ADAPTIVE {$i = Abstract_GOALModule.adaptive;})
+	SQCLOSE;
+
+macroDef
+	: HASH DEFINE p=declarationOrCallWithTerms
+	msc=mentalstate {PredicateIndicator pi = new PredicateIndicator(p.getFunctor(), p.getTermSize()); macros.put(pi, msc);
+	macro_subs.put(pi, p);} 
+	STOP;
+
+
+programRule[Abstract_GOALModule gl]
+	:{Abstract_ActionRule rule = new Abstract_ActionRule();}
+	(IF lf=mentalstatecond {rule.setMentalStateCond(lf);} THEN ( dl=actions {rule.setBody(dl);} STOP | nestedRules[gl]  )
+	| 'forall' mentalstatecond DO (actions STOP | nestedRules[gl] )
+	| 'listall' VAR '<-' mentalstatecond DO (actions STOP | nestedRules[gl]  )
+	| 'listall' mentalstatecond '->' VAR DO (actions STOP | nestedRules[gl]  ))
+	{gl.addPlan(rule);};
+
+nestedRules[Abstract_GOALModule gl]
+	: CURLYOPEN programRule[gl]+ CURLYCLOSE
+	;
+
 
 mentalstatecond returns [Abstract_MentalState lf]
-	: ml=mentalliteral {Abstract_MentalState ms = new Abstract_MentalState(ml);} 
-	(COMMA ml2=mentalliteral {ms = new Abstract_MentalState(ms, Abstract_Guard.and, ml2);})*
-	{$lf = ms;};	
+	: ma=basicCondition {Abstract_MentalState ms =  ma;}
+	(COMMA ms2=basicCondition {ms = new Abstract_MentalState(ms, Abstract_Guard.and, ms2);})*
+	{$lf = ms;};
 	
-mentalliteral returns [Abstract_GLogicalFormula lf]
-	: TRUE | ma=mentalatom {$lf = ma;} | NOT OPEN nma=mentalatom {$lf = new Abstract_Guard(Abstract_Guard.not, nma);} CLOSE;
-	
-mentalatom returns [Abstract_GLogicalFormula lf]
-	: BEL OPEN b=litconj  {$lf = new Abstract_MentalAtom(b, DefaultAILStructure.AILBel);} CLOSE | GOAL OPEN g=litconj {$lf = new Abstract_MentalAtom(g, DefaultAILStructure.AILGoal);}CLOSE;
-	
+mentalstate returns [Abstract_MentalState ms]
+	: ma=mentalatom {$ms = new Abstract_MentalState(ma);}
+	| NOT OPEN mentalatom CLOSE
+	| TRUE {$ms = new Abstract_MentalState();}
+		;
 
-actionspec[Abstract_GOALAgent gl]: a=action[gl] 
-	CURLYOPEN PRE CURLYOPEN lf1=litconj CURLYCLOSE {Abstract_MentalAtom pres = new Abstract_MentalAtom(lf1, DefaultAILStructure.AILBel);}
-	POST CURLYOPEN lf2=litconj CURLYCLOSE CURLYCLOSE {$gl.addCap(new Abstract_ActionSpec(a, pres, lf2));};
+basicCondition returns [Abstract_MentalState ms]
+	: ms1=mentalstate {$ms = ms1;}
+	| p=declarationOrCallWithTerms {PredicateIndicator pi = new PredicateIndicator(p.getFunctor(), p.getTermSize());
+		Abstract_MentalState macro=macros.get(pi);
+		Abstract_Term sub=macro_subs.get(pi);
+		Abstract_MentalState k = new Abstract_MentalState(macro, sub, p); $ms = k;
+	}// macro
+	;
 
-actioncombo[Abstract_GOALModule gl] returns [ArrayList<Abstract_Deed> dl]
-	: {$dl = new ArrayList<Abstract_Deed>();} a=action[gl] {$dl.add(a);} (PLUS a1=action[gl] {$dl.add(a1);})*;
-	
-action[Abstract_KRGOALS gl] returns [Abstract_Deed d]	: (deed=userdefaction {$d=deed;}| builtinaction {$d = new Abstract_Deed(Abstract_Deed.DNull);} | communication[gl] {$d = new Abstract_Deed(Abstract_Deed.DNull);}) ;
+mentalatom returns [Abstract_MentalAtom lf]
+	: (selector STOP)? b=mentalOperator tl=parameters
+	{$lf = new Abstract_MentalAtom(tl, b);}
+	;
 
-userdefaction returns [Abstract_Deed d]
-	: f=id {Abstract_Predicate p = new Abstract_Predicate(f);} (pl=parameters {p.setTerms(pl);})+ {d=new Abstract_Deed(p);} ;
+mentalOperator returns [byte b]
+	: op = BEL {b = Abstract_BaseAILStructure.AILBel;}
+	| op = GOAL {b = Abstract_BaseAILStructure.AILGoal;}
+	| op = AGOAL
+	| op = GOALA
+	;
+
+actions returns [ArrayList<Abstract_Deed> dl]
+	: {$dl = new ArrayList<Abstract_Deed>();} 
+	a=action {$dl.add(a);} 
+	(PLUS a1=action {$dl.add(a1);})*
+	;
+
+action returns [Abstract_Deed d]
+	: (selector STOP)? d1=actionOperator tl=parameters {d1.addParams(tl); $d=d1;}
+
+	| op = 'exit-module'
+	| op = 'log'
+	| op = INIT
+	| op = MAIN
+	| op = EVENT
+	| p=declarationOrCallWithTerms {d = new Abstract_Deed(p);}
+	;
+
+actionOperator returns [Abstract_Deed d]
+	: op = 'adopt'
+	| op = 'drop'
+	| op = 'insert'
+	| op = 'delete'
+	| op = 'send'
+	| op = 'sendonce'
+	| op = 'print' {d = new Abstract_Deed(new Abstract_PrintAction());}
+	| op = 'log'
+	;
+
+
+selector
+	: word
+	| op = 'all'
+	| op = 'allother'
+	| op = 'self'
+	| op = 'some'
+	| op = 'someother'
+	| op = 'this'
+	;
+
+actionSpecs returns [ArrayList<Abstract_ActionSpec> as] 
+	: {as = new ArrayList<Abstract_ActionSpec>();}
+	ACTIONSPEC CURLYOPEN (a=actionSpec {as.add(a);})+ CURLYCLOSE
+	;
+
+actionSpec returns [Abstract_ActionSpec as]
+	: cap=declarationOrCallWithTerms (INTERNAL | EXTERNAL)? 
+	CURLYOPEN pre=precondition post=postcondition CURLYCLOSE
+	{as = new Abstract_ActionSpec(cap, pre, post);}
+	;
+
+precondition returns [Abstract_LogicalFormula f]
+	: PRE tl=parameters {f = new Abstract_LogExpr(tl);}
+	;
+
+postcondition returns [Abstract_LogicalFormula f]
+	: POST tl=parameters {
+		f = new Abstract_LogExpr(tl);
+	}
+	;
+
+declaration returns [Abstract_Predicate p]
+	: f=id {p= new Abstract_Predicate(f);} (tl=parameters {p.setTerms(tl);})?
+	;
+
+declarationOrCallWithTerms returns [Abstract_Predicate p]
+	: f=function_term {p = (Abstract_Predicate) f;}
+	;
+
+id returns [String s] 
+	: (CONST {$s = $CONST.getText();}
+	| VAR {$s = $VAR.getText();})
+	; 
 	
-builtinaction
-	: INSERT OPEN litconj CLOSE |
-	 DELETE OPEN litconj CLOSE |
-	  ADOPT OPEN poslitconj CLOSE |
-	  DROP OPEN litconj CLOSE;
-	  
-communication[Abstract_KRGOALS gl] returns [Abstract_Deed d]
-	: SEND OPEN id COMMA poslitconj CLOSE;
-                                         
-id returns [String s]	: (CONST {$s = $CONST.getText();}| VAR {$s = $VAR.getText();}); //| '_' | '$') (CONST | VAR | '_' | NUMBER | '$')*;	
-                                                 
+parameters returns [ArrayList<Abstract_Term>ts] 
+	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
+	(COMMA t1=term {tl.add(t1);})* 
+	CLOSE { $ts = tl;}
+	;
+
+
 // GOAL keywords
-MAIN: 'main';	
- KNOWLEDGE:	 'knowledge';   
- BELIEFS:	'beliefs';
- GOALS	:	'goals';
- EVENT	: 'event';
- ACTIONSPEC
- 	: 'actionspec';
- MODULE	:	'module';
- PROGRAM: 'program';
- PROLOGARROW
- 	:	':-';
- NOT	:	'not';
- ORDER	:'order';
- EQUALS	:	'=';
- LINEAR	:	'linear';
- LINEARALL
- 	:	'linearall';
- RANDOM	:	'random';
- RANDOMALL
- 	:	'randomall';
- DEFINE	:	'define';
- IF	:	'if';
- THEN	:	'then';
- TRUE	:	'true';
- BEL	:	'bel';
- GOAL	:	'a-goal';
- PRE	:	'pre';
- POST	:	'post';
- PLUS	:	'+';
- INSERT	:	'insert';
- DELETE	:	'delete';
- ADOPT	:	'adopt';
- DROP	:	'drop';
- SEND	:	'send';
- 
- // term syntax
- equation returns [Abstract_Equation e]
- 	: a1=arithexpr i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);};
- term returns [Abstract_Term t]	: (st=stringterm {$t = st;} | ft=function_term {$t=ft;} | at=arithexpr {$t=at;}| lt=listterm {$t=lt;});
- function_term  returns [Abstract_Term t]
- 	:	c=CONST {t=new Abstract_Predicate(c.getText());} (OPEN t1=term {((Abstract_Predicate) t).addTerm($t1.t);} (COMMA t2=term {((Abstract_Predicate) t).addTerm($t2.t);})* CLOSE)?;
- atom_term  returns [Abstract_NumberTerm t]: (n = numberstring {$t = new Abstract_NumberTermImpl($n.s);} | v=var {$t = $v.v;});
- stringterm returns [Abstract_StringTerm s]
- 	: DOUBLEQUOTE w=word DOUBLEQUOTE {s=new Abstract_StringTermImpl($w.s);};
- var returns [Abstract_VarTerm v]	:	VAR {
-	if (variables.containsKey($VAR.getText())) {
+MAIN	: 'main';
+MODULEFILE :  '.mod2g';
+KNOWLEDGE	: 'knowledge';
+BELIEFS	: 'beliefs';
+GOALS 	: 'goals';
+EVENT 	: 'event';
+INIT 	: 'init';
+ACTIONSPEC
+	: 'actionspec';
+MODULE 	: 'module';
+PROGRAM	: 'program';
+PROLOGARROW
+	: ':-';
+NOT	 : 'not';
+ORDER 	:'order';
+EQUALS 	: '=';
+LINEAR 	: 'linear';
+LINEARALL
+	: 'linearall';
+RANDOM 		: 'random';
+RANDOMALL
+	: 'randomall';
+ADAPTIVE	: 'adaptive';
+DEFINE 	: 'define';
+IF 	: 'if';
+DO 	: 'do';
+THEN 	: 'then';
+TRUE 	: 'true';
+BEL 	: 'bel';
+GOAL 	: 'goal';
+AGOAL 	: 'a-goal';
+GOALA 	: 'goal-a';
+PRE 	: 'pre';
+POST 	: 'post';
+PLUS 	: '+';
+INSERT 	: 'insert';
+DELETE 	: 'delete';
+ADOPT 	: 'adopt';
+DROP 	: 'drop';
+SEND 	: 'send';
+INTERNAL 	: '@int';
+EXTERNAL  : '@ext';
+
+// term syntax
+term returns [Abstract_Term t] 
+	: (st=stringterm {$t = st;} 
+	| ft=function_term {$t=ft;} 
+	| at=arithexpr {$t=at;}
+	| lt=listterm {$t=lt;});
+function_term returns [Abstract_Term t]
+	: c=CONST {t=new Abstract_Predicate(c.getText());} 
+	(OPEN t1=term {((Abstract_Predicate) t).addTerm($t1.t);} 
+	(COMMA t2=term {((Abstract_Predicate) t).addTerm($t2.t);})* CLOSE)?
+	;
+
+
+var returns [Abstract_VarTerm v] 
+	: VAR {if (variables.containsKey($VAR.getText())) {
 		$v = variables.get($VAR.getText());
-		} else {
+	            } else {
 		$v = new Abstract_VarTerm($VAR.getText());
-		variables.put($VAR.getText(), $v);
-		}
+                                                     variables.put($VAR.getText(), $v);
+	           }
 	};
 
- numberstring returns [String s]
- 	:	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}
- 	                                  (STOP {$s += ".";} n2=NUMBER {$s += $n2.getText();})?);
- 	                             	
+stringLiteral returns [Abstract_StringTerm s]
+	: st=stringterm {$s = st;};
+singleQuotedStringLiteral returns [Abstract_StringTerm s]
+	: SINGLEQUOTE w=word SINGLEQUOTE {s = new Abstract_StringTermImpl($w.s);}
+	;	
+stringterm returns [Abstract_StringTerm s]
+	: STRING  {String str = $STRING.getText();s=new Abstract_StringTermImpl(str.substring(1,str.length()-1));};
+
+
+word returns [String s] : (CONST {$s=$CONST.getText();} | VAR {$s=$VAR.getText();});
+
+listterm returns [Abstract_ListTermImpl l]
+ 	: {$l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = $l;}
+ 	SQOPEN (h=term {$l.addHead($h.t); $l.addTail(new Abstract_ListTermImpl());}
+ 	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl(); l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning.addTail(l2); lrunning=l2;})*
+ 	(BAR v=VAR {lrunning.addTail(new Abstract_VarTerm($v.getText()));})? )? 
+ 	SQCLOSE
+ 	;
+
+equation returns [Abstract_Equation e]
+	: a1=arithexpr i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);}
+	;
+
+numberstring returns [String s]
+	: {$s = "";} (MINUS {$s += "-";})? 
+	(n1=NUMBER {$s += $n1.getText();}
+	(STOP {$s += ".";} n2=NUMBER {$s += $n2.getText();})?);
+
 arithexpr returns [Abstract_NumberTerm ae]
- 	:  a1=multexpr {$ae = a1;} (i=addoper a2=multexpr {$ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
-multexpr returns [Abstract_NumberTerm ae]:	a1=atom_term{$ae = a1;} (i=multoper a2=atom_term {ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+	: a1=multexpr {$ae = a1;} (i=addoper a2=multexpr {$ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+multexpr returns [Abstract_NumberTerm ae]
+	: a1=atom_term{$ae = a1;} (i=multoper a2=atom_term {ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
 
-word returns [String s] : (CONST {$s=$CONST.getText();} | VAR {$s=$VAR.getText();});                                                                                     
+atom_term returns [Abstract_NumberTerm t]
+	: (n = numberstring {$t = new Abstract_NumberTermImpl($n.s);} | v=var {$t = $v.v;})
+	;
 
- 
- listterm returns [Abstract_ListTermImpl l]
- 	: {$l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = $l;} 
- 	SQOPEN (h=term {$l.addHead($h.t); $l.addTail(new Abstract_ListTermImpl());} 
- 	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl();  l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning.addTail(l2); lrunning=l2;})* 
- 	(BAR v=VAR {lrunning.addTail(new Abstract_VarTerm($v.getText()));})? )? SQCLOSE;
- 	
- addoper returns [int i]:	(PLUS {$i = 1;} | MINUS {$i = 2;} );
- multoper returns [int i]
- 	:	(MULT {$i = 3;} | DIV {$i = 4;} );
- eqoper returns [int i]	: (LESS {$i = 1;} | EQUALS {$i = 2;});
- 	                                              
+addoper returns [int i]
+	: (PLUS {$i = 1;} | MINUS {$i = 2;} );
+multoper returns [int i]
+	: (MULT {$i = 3;} | DIV {$i = 4;} );
+eqoper returns [int i] : (LESS {$i = 1;} | EQUALS {$i = 2;});
+
 // Lexer Misc Syntax
-COLON	: ':';
-CURLYOPEN: '{';
+COLON 	: ':';
+CURLYOPEN	: '{';
 CURLYCLOSE
 	:'}';
-STOP	: '.';
-COMMA	: ',';
-OPEN	: '(';
-CLOSE	: ')';
-SQOPEN	: '[';
-SQCLOSE	: ']';
-HASH: '#';
-DOUBLEQUOTE
-	: '"';
-BAR	: '|';
+STOP 	: '.';
+COMMA 	: ',';
+OPEN 	: '(';
+CLOSE 	: ')';
+SQOPEN 	: '[';
+SQCLOSE 	: ']';
+HASH	: '#';
+SINGLEQUOTE
+	: '\'';
+BAR 	: '|';
 
-CONST 	: 	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-VAR	:	('A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NUMBER	:	'0'..'9' ('0'..'9')*;
+CONST : 'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+VAR : ('A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+STRING	:	'"'('a'..'z'|'A'..'Z'|','|' '|'!')+'"';
+NUMBER : '0'..'9' ('0'..'9')*;
 
-MINUS	:	'-';
-MULT	:	'*';
-DIV	:	'/';
-LESS	:	'<';
+MINUS : '-';
+MULT : '*';
+DIV : '/';
+LESS : '<';
 
 COMMENT
-    : '/*' .* '*/' {$channel=HIDDEN;}
-    ;
+: '/*' .* '*/' {$channel=HIDDEN;}
+;
 LINE_COMMENT
-    : ('//'|'%') ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    ;
+: ('//'|'%') ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+;
 NEWLINE:'\r'? '\n' {skip();} ;
-WS  :   (' '|'\t')+ {skip();} ;
+WS : (' '|'\t')+ {skip();} ;

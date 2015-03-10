@@ -40,7 +40,7 @@ public class ModuleExit implements OSRule {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Exit Module";
 	}
 
 }

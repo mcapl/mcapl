@@ -51,7 +51,7 @@ public class GOALSleepRule implements OSRule {
 	@FilterField
 	private final static String name = "Sleep if Nothing to Do";
 	
-	private boolean sleepConditionHoldingPreviousCycle = false;
+	private boolean sleepConditionHoldingPreviousCycle = true;
 	
 	private startCycleStage scs;
 	
@@ -81,7 +81,7 @@ public class GOALSleepRule implements OSRule {
 		boolean sleepcondition = percepts_have_changed(a, percepts) || !messages.isEmpty() || actionWasPerformed();
 		boolean newsleepcondition = sleepcondition || sleepConditionHoldingPreviousCycle;
 		sleepConditionHoldingPreviousCycle = sleepcondition;
-		return newsleepcondition;
+		return ! newsleepcondition;
 	}
 	
 	private boolean actionWasPerformed() {

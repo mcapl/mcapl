@@ -51,7 +51,7 @@ public class startCycleStage extends AbstractGoalStage {
 
 	@Override
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
-		if (atstart instanceof ProcessPercepts) {
+		if (atstart instanceof GOALSleepRule) {
 			if (rc.initModuleInstantiated()) {
 				return rc.initModule;
 			} else if (ag.hasInitModule()){

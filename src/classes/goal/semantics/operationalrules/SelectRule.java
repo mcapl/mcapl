@@ -126,7 +126,7 @@ public class SelectRule implements OSRule {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Rule Selection";
 	}
 
 

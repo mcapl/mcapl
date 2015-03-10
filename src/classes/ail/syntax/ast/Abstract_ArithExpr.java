@@ -24,12 +24,13 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.syntax.ArithExpr;
 import ail.syntax.NumberTerm;
 import ail.syntax.Term;
 import ail.syntax.Unifiable;
 import ail.syntax.Unifier;
-
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -240,5 +241,11 @@ public class Abstract_ArithExpr implements Abstract_NumberTerm {
 	    	getLHS().unifies(ae.getLHS(), u);
 	    	getRHS().unifies(ae.getRHS(), u);
 	    }
+	    
+	  
+	    public void addParams(ArrayList<Abstract_Term> tl) {
+	    	System.err.println("WARNING: should not add parameters to an arithmetic expressions");
+	    }
+
 
 }

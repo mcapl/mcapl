@@ -24,9 +24,10 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.syntax.Rule;
 import ail.syntax.Unifier;
-
 import gov.nasa.jpf.vm.MJIEnv;
 
 /**
@@ -77,6 +78,12 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
         this.body = body;
     }
     
+    public Abstract_Rule(Abstract_Predicate h, ArrayList<Abstract_Term> body) {
+        this.head = h;
+        this.body = Abstract_LogExpr.termlist_to_lf(body);
+    }
+    
+
     /**
      * Constructor.
      * @param head

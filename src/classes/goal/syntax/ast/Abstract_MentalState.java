@@ -47,9 +47,9 @@ public class Abstract_MentalState extends Abstract_Guard {
 	Abstract_Term t;
 	Abstract_Predicate p;
 		
-//	public Abstract_MentalState() {
-//		super();
-//	}
+	public Abstract_MentalState() {
+		super();
+	}
 		
 	/**
 	 * B(me, phi)

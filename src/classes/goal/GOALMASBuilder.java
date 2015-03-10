@@ -62,7 +62,7 @@ public class GOALMASBuilder implements MASBuilder {
     	CommonTokenStream tokens = new CommonTokenStream(lexer);
     	GOALParser parser = new GOALParser(tokens);
     	try {
-    		amas = parser.program();
+    		amas = parser.mas();
     	} catch (Exception e) {
     		System.err.println(e);
     	}
@@ -73,7 +73,7 @@ public class GOALMASBuilder implements MASBuilder {
 			GOALLexer lexer = new GOALLexer(new ANTLRFileStream(filename));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			GOALParser parser = new GOALParser(tokens);
-			amas = parser.program();
+			amas = parser.mas();
 		} catch (Exception e) {
 			System.err.println(e);
 		}
