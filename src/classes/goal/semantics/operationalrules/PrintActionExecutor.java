@@ -15,8 +15,12 @@ public class PrintActionExecutor implements OSRule {
 		
 		boolean isaction = d.getCategory() == Deed.DAction;
 		
-		action = (Action) d.getContent();
-		return (action instanceof PrintAction);
+		if (isaction) {
+			action = (Action) d.getContent();
+			return (action instanceof PrintAction);
+		} else {
+			return false;
+		}
 		// TODO Auto-generated method stub
 		
 	}

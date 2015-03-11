@@ -70,7 +70,7 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 	Abstract_Rule[] belief_rules = new Abstract_Rule[0];
 
 	Abstract_GOALModule[] modules = new Abstract_GOALModule[0];
-
+	
 	 /**
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
@@ -234,5 +234,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     	goals = newgoals;
 
     }
+    
 
 }

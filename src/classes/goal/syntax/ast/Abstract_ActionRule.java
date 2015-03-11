@@ -117,8 +117,10 @@ public class Abstract_ActionRule extends Abstract_Plan {
     
     public ActionRule toMCAPL() {
     	ArrayList<Deed> newdeed = new ArrayList<Deed>();
-    	for (int i = 0; i < body.length; i++) {
-    		newdeed.add(i, body[i].toMCAPL());
+    	int counter=0;
+    	for (int i = body.length - 1; i >= 0; i--) {
+    		newdeed.add(counter, body[i].toMCAPL());
+    		counter++;
     	}
     	Guard ms = context[context.length - 1].toMCAPL();
     	return new ActionRule(ms, newdeed);

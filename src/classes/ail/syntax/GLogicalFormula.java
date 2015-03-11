@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /**
  * Represents a logical formula  (a single atom, negation of an atom or a conjunct)
@@ -41,7 +42,7 @@ public interface GLogicalFormula extends Cloneable, Unifiable {
      * 
      * Returns an iterator for all unifiers that are consequence.
      */
-    public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so);
+    public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so);
    
     /**
      * Clone this Formula

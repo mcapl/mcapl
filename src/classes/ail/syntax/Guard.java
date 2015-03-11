@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -227,21 +228,23 @@ public class Guard implements GLogicalFormula {
 		} else {
 			if (b) {
 				if (op == GLogicalOp.none) {
-					lhs = gb;
+					lhs = rhs;
 					op = GLogicalOp.and;
+					rhs = gb;
 				} else {
-					rhs = this.clone();
-					lhs = gb;
+					lhs = this.clone();
+					rhs = gb;
 					op = GLogicalOp.and;
 				}
 			} else {
 				Guard ng = new Guard(GLogicalOp.not, gb);
 				if (op == GLogicalOp.none) {
-					lhs = ng;
+					lhs = rhs;
+					rhs = ng;
 					op = GLogicalOp.and;
 				} else {
-					rhs = this.clone();
-					lhs = ng;
+					lhs = this.clone();
+					rhs = ng;
 					op = GLogicalOp.and;
 				}
 			}
@@ -405,7 +408,8 @@ public class Guard implements GLogicalFormula {
 	 * @param un An initial unifier
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
 	       try {
 		        final Iterator<Unifier> ileft;
 		        switch (op) {

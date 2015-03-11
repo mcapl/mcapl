@@ -87,7 +87,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class AILAgent implements MCAPLLanguageAgent {
+public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 /**
 	 * The environment.
 	 */
@@ -473,6 +473,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Get the index names for all the non-primary belief bases.
 	 * @return
 	 */
+	@Override
 	public Set<String> getBBList() {
 		return bbmap.keySet();
 	}
@@ -641,6 +642,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Get the index names for all the non-primary belief bases.
 	 * @return
 	 */
+	@Override
 	public Set<String> getGBList() {
 		return gbmap.keySet();
 	}

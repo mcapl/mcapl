@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
+import ail.semantics.operationalrules.HandleAddBelief;
+import ail.semantics.operationalrules.HandleDropBelief;
 import goal.syntax.GOALModule;
 import goal.semantics.GOALAgent;
 
@@ -32,6 +34,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	UserSpecAction userspec= new UserSpecAction();
 	PrintActionExecutor printaction = new PrintActionExecutor();
 	ModuleExit exitModule = new ModuleExit(this);
+	HandleAddBelief addBelief = new HandleAddBelief();
+	HandleDropBelief dropBelief = new HandleDropBelief();
 	
 	boolean performedAnAction = false;
 		
@@ -58,11 +62,13 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			rules.add(init);
 		} else if (!selectedrules & !exit & !agintention) {
 			rules.add(ruleSelection);
-			selectedrules = true;
+			// selectedrules = true;
 		} else if (selectedrules & !exit) {
 			rules.add(actionRule);
 		} else if (agintention & !exit) {
 			rules.add(printaction);
+			rules.add(addBelief);
+			rules.add(dropBelief);
 			rules.add(userspec);
 		} else {
 			rules.add(exitModule);
@@ -85,6 +91,12 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		if (agintention && ag.getIntention().empty()) {
 			ag.setIntention(null);
 			agintention = false;
+		}
+		
+		if (module.hasRuleSet()) {
+			selectedrules = true;
+		} else {
+			selectedrules = false;
 		}
 		if (!agintention && !selectedrules && !first && !exit) {
 			exit = module.isModuleTerminated();
@@ -113,6 +125,12 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 					}
 				} 
 		} else {
+			if (agintention) {
+				module.setRule(null);
+				selectedrules = false;
+				((GOALAgent) ag).actionPerformed();
+			}
+			
 			if (!exit) {
 				if (!agintention) {
 					performedAnAction = false;
@@ -135,7 +153,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		if (selectedrules & !first & !exit & !agintention) {
 			return this;
 		} else if (selectedrules & agintention) {
-			selectedrules = false;
+			// selectedrules = false;
 			return this;
 		} else if (agintention) {
 			return this;
@@ -145,12 +163,17 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
 				rc.setStopandCheck(true);
 			}
-			if (rc.getAgent().isMainModuleRunning()) {
-				//	nextStage = new startCycle(this, ag, this.hasPerformedAction());
-				return rc.startCycle;
-			} else {
-				return rc.startCycle;
+			if (module.getType() == GOALModule.ModuleType.INIT) {
+				if (rc.eventModuleInstantiated()) {
+					return rc.eventModule;
+				} else {
+					return rc.mainModule;
+				}
 			}
+			if (module.getType() == GOALModule.ModuleType.EVENT) {
+				return rc.mainModule;
+			}
+			return rc.startCycle;
 
 		}
 	}

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /**
  * A Reference to a message that may appear in a Guard.  It extends Message purely to make type matching work with the EvalutionBaseIterator.
@@ -106,7 +107,8 @@ public class GMessage implements GuardAtom<Message> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+    @Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
 		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());

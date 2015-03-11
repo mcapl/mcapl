@@ -72,9 +72,9 @@ module returns [Abstract_GOALModule gl]
 
 moduleDef returns [int i]
 	: MODULE declaration
-	| INIT MODULE
+	| INIT MODULE {$i = Abstract_GOALModule.init;}
 	| MAIN MODULE {$i = Abstract_GOALModule.main;}
-	| EVENT MODULE
+	| EVENT MODULE {$i = Abstract_GOALModule.event;}
 	;
 
 

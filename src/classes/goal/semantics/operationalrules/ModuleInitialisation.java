@@ -2,8 +2,12 @@ package goal.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-
 import goal.semantics.executorStages.ModuleExecutorStage;
+import goal.syntax.GOALModule;
+import goal.semantics.GOALAgent;
+import ail.syntax.BeliefBase;
+import ail.syntax.Goal;
+import ail.syntax.Literal;
 
 public class ModuleInitialisation implements OSRule {
 	ModuleExecutorStage mes;
@@ -20,6 +24,15 @@ public class ModuleInitialisation implements OSRule {
 
 	@Override
 	public void apply(AILAgent a) {
+		GOALModule m = mes.getModule();
+		((GOALAgent) a).enteredModule(m);
+		for (Literal l: m.getBB().getAll()) {
+			a.addBel(l, BeliefBase.TSelf);
+		}
+		
+		for (Goal g: m.getGB().getAll()) {
+			((GOALAgent) a).adopt(g);
+		}
 		// TODO Auto-generated method stub
 		// Add module beliefs to agent
 		// Adopt modules goals 

@@ -28,6 +28,8 @@ public class startCycleStage extends AbstractGoalStage {
 	ProcessMessages messages = new ProcessMessages(this);
 	ProcessPercepts percepts = new ProcessPercepts(this);
 	
+	boolean firstround = true;
+	
 	public void setMessages(Set<Message> ms) {
 		current_messages = ms;
 	}
@@ -52,9 +54,11 @@ public class startCycleStage extends AbstractGoalStage {
 	@Override
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
 		if (atstart instanceof GOALSleepRule) {
-			if (rc.initModuleInstantiated()) {
+			if (rc.initModuleInstantiated() && firstround) {
+				firstround = false;
 				return rc.initModule;
-			} else if (ag.hasInitModule()){
+			} else if (ag.hasInitModule() && firstround ){
+				firstround = false;
 				rc.setInitModule(ag.getInitModule());
 				return rc.initModule;
 			} else if (rc.eventModuleInstantiated()) {

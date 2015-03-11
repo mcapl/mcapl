@@ -120,9 +120,10 @@ public class GOALAgent extends AILAgent {
 	@Override
 	public void initAg() {
 		super.initAg();
-	    ms.addBB(this.getBB());
-	    ms.addGB(this.getGoalBase());
-	    ms.addRB(this.getRuleBase());
+		ms.addBB(getBB());
+		ms.addGB(getGoalBase());
+		ms.addRB(getRuleBase());
+		((GOALRC) getReasoningCycle()).init(this);
 	}
 		
     /**
@@ -231,6 +232,10 @@ public class GOALAgent extends AILAgent {
     	//   	getPL().addBel(bel, i);
        // 	getPL("2").addBel(bel, i);
     	}
+    }
+    
+    public void adopt(Goal g) {
+    	ms.adopt(g);
     }
  
     /**
@@ -600,6 +605,8 @@ public class GOALAgent extends AILAgent {
     		mainModule = m;
     	} else if (m.getType() == GOALModule.ModuleType.EVENT) {
     		eventModule = m;
+    	} else if (m.getType() == GOALModule.ModuleType.INIT) {
+    		initModule = m;
     	}
     }
     
@@ -614,7 +621,7 @@ public class GOALAgent extends AILAgent {
 
         switch (module.getType()) {
         case EVENT:
-    //    case INIT:
+        case INIT:
                 // We're leaving the init or event module and returning
                 // to main top level context.
                 this.topLevelContext = GOALModule.ModuleType.MAIN;
@@ -629,7 +636,25 @@ public class GOALAgent extends AILAgent {
         this.activeStackOfModules.pop();
         // Report module re-entry on module's debug channel.
         return (this.activeStackOfModules.peek() != null);
-}
+	}
+    
+    public void enteredModule(GOALModule module) {
+    	if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
+    		return;
+    	}
+    	
+    	this.activeStackOfModules.push(module);
+        switch (module.getType()) {
+        case MAIN:
+        case EVENT:
+        case INIT:
+                this.topLevelContext = module.getType();
+                break;
+        default:
+                // top level context does not change for other
+                // kinds of modules.
+        }
+    }
     
     public GoalBase getAttentionSet() {
     	return getGoalBase();
@@ -658,5 +683,19 @@ public class GOALAgent extends AILAgent {
     public void setTopLevelContext(GOALModule.ModuleType t) {
     	topLevelContext = t;
     }
+    
+	boolean actionPerformedLastCycle = false;
+    public void actionPerformed() {
+    	actionPerformedLastCycle = true;
+    }
+    
+    public boolean actionPerformedLastCycle() {
+    	return actionPerformedLastCycle;
+    }
+    
+    public void clearActionPerformed() {
+    	actionPerformedLastCycle = false;
+    }
+
 
 } 

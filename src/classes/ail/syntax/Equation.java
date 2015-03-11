@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /** 
  *  represents an (in)equality. 
@@ -85,7 +86,8 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -110,9 +112,9 @@ public class Equation implements LogicalFormula, GLogicalFormula {
         	ec.apply(un);
         	NumberTerm elhs = ec.getLHS();
         	NumberTerm erhs = ec.getRHS();
-	        int comp = elhs.eqcompareTo(erhs);
 	        if (!elhs.isGround() & !erhs.isGround()) {
-	        	comp = 1;
+	        	ArrayList<Unifier> empty = new ArrayList<Unifier>();
+	            return empty.iterator();
 	        }
 	        
 	        switch (op) {
@@ -121,6 +123,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	return createUnifIterator(un);
 	        	
 	        case less:
+		        int comp = elhs.eqcompareTo(erhs);
 	        	if (comp < 0) {
 	        		return createUnifIterator(un);
 	        	} 
@@ -128,8 +131,16 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	break;
 	            
 	        case equal:
-	        	if (comp == 0) {
-	        		return createUnifIterator(un);
+	        	if (elhs.isGround() & erhs.isGround()) {
+	        		int comp1 = elhs.eqcompareTo(erhs);
+	        		if (comp1 == 0) {
+	        			return createUnifIterator(un);
+	        		}
+	        	} else {
+	        		ArrayList<Unifier> uns = new ArrayList<Unifier>();
+	        		elhs.unifies(erhs, un);
+	        		uns.add(un);
+	        		return uns.iterator();
 	        	}
 	        	
 	        	break;

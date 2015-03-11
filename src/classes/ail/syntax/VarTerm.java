@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -964,7 +965,8 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
 		if (value != null) {
 			if (value instanceof GuardAtom<?>) {
 				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames, so);

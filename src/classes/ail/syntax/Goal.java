@@ -25,6 +25,7 @@
 package ail.syntax;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -419,7 +420,8 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -428,7 +430,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(ebnames), ebnames);
+    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(new StringTermImpl(ebnames)), ebnames);
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {

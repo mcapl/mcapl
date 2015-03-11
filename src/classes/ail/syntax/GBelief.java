@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.LinkedList;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ail.syntax.annotation.BeliefBaseAnnotation;
 import ajpf.util.AJPFLogger;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -215,7 +215,8 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -224,7 +225,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getBBList()) {
-    				EvaluationBase<PredicateTerm> new_eb = ag.getBB(ebnames);
+    				EvaluationBase<PredicateTerm> new_eb = ag.getBB(new StringTermImpl(ebnames));
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new NamedEvaluationBase<PredicateTerm>(new_eb, ebnames);
     				} else {

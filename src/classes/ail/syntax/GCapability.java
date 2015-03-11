@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /**
  * A Class for references to capabilities that can appear in plan guards.  This is untested and we're not sure if
@@ -60,7 +61,8 @@ public class GCapability implements GuardAtom<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un,
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un,
 			List<String> varnames, AILAgent.SelectionOrder so) {
 		
 		CapabilityLibrary leb = ag.getCL();

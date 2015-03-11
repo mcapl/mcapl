@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 public class GuardPlan implements GuardAtom<Plan> {
 	NumberTerm plan;
@@ -25,7 +26,7 @@ public class GuardPlan implements GuardAtom<Plan> {
 	}
 
 	@Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un,
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un,
 			List<String> varnames, AILAgent.SelectionOrder so) {
 		PlanLibrary leb = ag.getPL();
 		return new EvaluationBaseIterator<Plan>(leb, un, this, so);

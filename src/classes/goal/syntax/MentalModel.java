@@ -1,26 +1,35 @@
 package goal.syntax;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ail.syntax.BeliefBase;
+import ail.syntax.CapabilityLibrary;
 import ail.syntax.GoalBase;
 import ail.syntax.Goal;
+import ail.syntax.Message;
+import ail.syntax.PlanLibrary;
 import ail.syntax.RuleBase;
 import ail.syntax.Predicate;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
+import ail.syntax.StringTerm;
+import ail.syntax.StringTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.NamedEvaluationBase;
 import ail.syntax.PredicateTerm;
 import ail.syntax.Literal;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.Stack;
 
-public class MentalModel {
+public class MentalModel implements AgentMentalState {
 	BeliefBase bb;
-	GoalBase gb;
+	public Stack<GoalBase> goalbases = new Stack<>();
 	RuleBase rb;
 
 	
@@ -29,7 +38,7 @@ public class MentalModel {
 	}
 	
 	public void addGB(GoalBase g) {
-		gb = g;
+		goalbases.push(g);
 	}
 	
 	public void addRB(RuleBase rb) {
@@ -41,7 +50,7 @@ public class MentalModel {
 	}
 	
 	public void updateGoalState() {
-		if (gb.isEmpty()) {
+		if (goalbases.isEmpty()) {
 			return;
 		}
 		
@@ -63,11 +72,72 @@ public class MentalModel {
 	}
 	
     protected GoalBase getAttentionSet(boolean use) {
-    	return gb;
+    	return goalbases.peek();
     }
     
     public BeliefBase getBB() {
-    	return bb;
+    	return getBB(new StringTermImpl(""));
     }
+    
+    public void adopt(Goal g) {
+    	getAttentionSet(true).add(g);
+    }
+
+	@Override
+	public BeliefBase getBB(StringTerm s) {
+		// TODO Auto-generated method stub
+		return bb;
+	}
+
+	@Override
+	public Set<String> getBBList() {
+		// TODO Auto-generated method stub
+		Set<String> bblist = new HashSet<String>();
+		bblist.add("");
+		return bblist;
+	}
+
+	@Override
+	public RuleBase getRuleBase() {
+		// TODO Auto-generated method stub
+		return rb;
+	}
+
+	@Override
+	public CapabilityLibrary getCL() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Message> getOutbox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Message> getInbox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GoalBase getGoalBase(StringTerm s) {
+		// TODO Auto-generated method stub
+		return goalbases.peek();
+	}
+
+	@Override
+	public Set<String> getGBList() {
+		HashSet<String> bblist = new HashSet<String>();
+		bblist.add("");
+		return bblist;
+	}
+
+	@Override
+	public PlanLibrary getPL() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

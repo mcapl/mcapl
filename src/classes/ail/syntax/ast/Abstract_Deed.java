@@ -300,7 +300,11 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     			return new Deed(trigtype, getCategory(), (Literal) content_term);
     		}
     		if (content_term instanceof Predicate) {
-    			return new Deed((Predicate) content_term);
+    			if (getCategory() == DAction) {
+    				return new Deed((Predicate) content_term);
+    			} else if (hasTrigType()) {
+    				return new Deed(trigtype, getCategory(), new Literal((Predicate) content_term));
+    			}
     		}
     	} 
     	Deed d = new Deed(getCategory());

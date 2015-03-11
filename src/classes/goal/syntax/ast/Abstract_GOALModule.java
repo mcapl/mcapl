@@ -68,6 +68,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	
 	public static int main = 0;
 	public static int event = 1;
+	public static int init = 2;
 	
 	public static int always = 0;
 	public static int never = 1;
@@ -223,8 +224,10 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	GOALModule.ModuleType mtype;
     	if (module_type == main) {
     		mtype = GOALModule.ModuleType.MAIN;
-    	} else {
+    	} else if (module_type == event) {
     		mtype = GOALModule.ModuleType.EVENT;
+    	} else {
+    		mtype = GOALModule.ModuleType.INIT;
     	}
     	GOALModule m = new GOALModule(mtype);
     	for (Abstract_Predicate g: goals) {

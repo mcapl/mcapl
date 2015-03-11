@@ -76,7 +76,7 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 			if (type == Abstract_BaseAILStructure.AILBel ) {
 				return new Guard(new GBelief(((Abstract_Predicate) lf).toMCAPL()));
 			} else {
-				return new Guard(new Goal(((Abstract_Predicate) lf).toMCAPL(), Goal.performGoal));
+				return new Guard(new Goal(((Abstract_Predicate) lf).toMCAPL(), Goal.achieveGoal));
 			}
 		} else {
 			return new Guard(Guard.GLogicalOp.none, ((Abstract_Equation) lf).toMCAPL());

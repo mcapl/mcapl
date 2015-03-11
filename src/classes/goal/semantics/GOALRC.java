@@ -59,6 +59,12 @@ public class GOALRC implements ReasoningCycle {
 	public GOALRC(GOALAgent ag) {
 		this.ag = ag;
 	}
+	
+	public void init(GOALAgent ag) {
+		setMainModule(ag.getMainModule());
+		setInitModule(ag.getInitModule());
+		setEventModule(ag.getEventModule());
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -128,10 +134,14 @@ public class GOALRC implements ReasoningCycle {
 	}
 	
 	public void setInitModule(GOALModule m) {
-		initModule = new ModuleExecutorStage(m);
+		if (m != null) {
+			initModule = new ModuleExecutorStage(m);
+		}
 	}
 
 	public void setEventModule(GOALModule m) {
-		eventModule = new ModuleExecutorStage(m);
+		if (m != null) {
+			eventModule = new ModuleExecutorStage(m);
+		}
 	}
 }

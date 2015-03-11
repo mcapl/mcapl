@@ -22,6 +22,7 @@ public class ModuleExit implements OSRule {
 	@Override
 	public void apply(AILAgent a) {
 		// TODO Auto-generated method stub
+		mes.getModule().setModuleTerminated(true);
 		if (mes.getModule().getType() == GOALModule.ModuleType.ANONYMOUS) {
 			return;
 		}
