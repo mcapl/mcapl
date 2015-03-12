@@ -210,4 +210,11 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 
 	}
 	
+	public boolean isTrivial() {
+		if (lhs == null && rhs == null) {
+			return true;
+		}
+		return false;
+	}
+	
 }

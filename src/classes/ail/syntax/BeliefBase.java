@@ -151,7 +151,11 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
  	 * Remove all the percepts from the agent.
  	 */
  	public void removePercepts() {
+ 		ArrayList<Literal> toberemoved = new ArrayList<Literal>();
  		for (Literal l: percepts) {
+ 			toberemoved.add(l);
+ 		}
+ 		for (Literal l:toberemoved) {
  			remove(l);
  		}
  	}

@@ -233,13 +233,17 @@ actionSpec returns [Abstract_ActionSpec as]
 	;
 
 precondition returns [Abstract_LogicalFormula f]
-	: PRE tl=parameters {f = new Abstract_LogExpr(tl);}
+	: PRE CURLYOPEN  (TRUE  {f = new Abstract_LogExpr();}
+	| tl=parameters {f = new Abstract_LogExpr(tl);}) CURLYCLOSE
 	;
 
 postcondition returns [Abstract_LogicalFormula f]
-	: POST tl=parameters {
-		f = new Abstract_LogExpr(tl);
-	}
+	: POST  CURLYOPEN
+	(TRUE  {f = new Abstract_LogExpr();}
+	| tl=parameters {
+		f = new Abstract_LogExpr(tl);}
+		)
+	CURLYCLOSE
 	;
 
 declaration returns [Abstract_Predicate p]
@@ -267,6 +271,13 @@ parameters returns [ArrayList<Abstract_Term>ts]
 	(COMMA t1=term {tl.add(t1);})* 
 	CLOSE { $ts = tl;}
 	;
+	
+no_bracket_parameters returns [ArrayList<Abstract_Term>ts] 
+	:  t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
+	(COMMA t1=term {tl.add(t1);})* 
+	{ $ts = tl;}
+	;
+
 
 goal_list returns [ArrayList<Abstract_Term>ts] 
 	: t=term STOP {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}

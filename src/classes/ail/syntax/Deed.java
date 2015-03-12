@@ -97,7 +97,11 @@ public class Deed extends DefaultAILStructure {
      */
     public Deed(Predicate t) {
     	super(DAction);
-    	setContent(t);
+    	if (t instanceof Action) {
+    		setContent(t);
+    	} else {
+    		setContent(new Action(t, Action.normalAction));
+    	}
     }
     
     /**

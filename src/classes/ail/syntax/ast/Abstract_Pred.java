@@ -96,7 +96,7 @@ public class Abstract_Pred extends Abstract_Predicate {
 	 */
 	public PredicatewAnnotation toMCAPL() {
 		Predicate s = super.toMCAPL();
-		return new PredicatewAnnotation(s);
+		return new PredicatewAnnotation(s, null);
 	}
 	
 	/*

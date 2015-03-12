@@ -138,7 +138,7 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     public Abstract_Deed(Abstract_Predicate t) {
     	super(DAction);
     	content = t;
-    }
+     }
     
     /**
      * Construct a Deed from an addition/deletion flag, Category and literal.

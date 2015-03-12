@@ -556,7 +556,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
  		} else if (belcontents instanceof PredicatewAnnotation) {
  			l = new Literal(! v.negated(), (PredicatewAnnotation) belcontents);
  		} else if (belcontents instanceof Predicate) {
-    		l = new Literal(! v.negated(), new PredicatewAnnotation((Predicate) belcontents));
+    		l = new Literal(! v.negated(), new PredicatewAnnotation((Predicate) belcontents, null));
     		l.setAnnot(v.getAnnot());
  		}
  		return l;

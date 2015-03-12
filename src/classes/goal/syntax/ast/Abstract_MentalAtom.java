@@ -78,6 +78,8 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 			} else {
 				return new Guard(new Goal(((Abstract_Predicate) lf).toMCAPL(), Goal.achieveGoal));
 			}
+		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).isTrivial()) {
+			return new Guard();
 		} else {
 			return new Guard(Guard.GLogicalOp.none, ((Abstract_Equation) lf).toMCAPL());
 		}

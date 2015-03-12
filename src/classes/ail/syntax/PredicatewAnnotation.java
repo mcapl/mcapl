@@ -59,12 +59,17 @@ public class PredicatewAnnotation extends Predicate {
      * @param t
      */
     public PredicatewAnnotation(Predicate t) {
-        super(t);
+        this(t, null);
     }
     
+
     public PredicatewAnnotation(Predicate t, AILAnnotation a) {
     	super(t);
-    	addAnnot(a);
+    	if (t instanceof PredicatewAnnotation) {
+    		addAnnot(((PredicatewAnnotation) t).getAnnot());
+    	} else {
+    		addAnnot(a);
+    	}
     }
 
     /**

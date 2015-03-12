@@ -708,6 +708,7 @@ public class GOALAgent extends AILAgent {
     public void clearActionPerformed() {
     	actionPerformedLastCycle = false;
     }
+    
 
 
 } 

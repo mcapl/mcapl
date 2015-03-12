@@ -1,11 +1,14 @@
 package goal.semantics.operationalrules;
 
+import java.util.Iterator;
+
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.syntax.GOALModule;
 import goal.semantics.GOALAgent;
 import ail.syntax.BeliefBase;
+import ail.syntax.Capability;
 import ail.syntax.Goal;
 import ail.syntax.Literal;
 
@@ -32,6 +35,13 @@ public class ModuleInitialisation implements OSRule {
 		
 		for (Goal g: m.getGB().getAll()) {
 			((GOALAgent) a).adopt(g);
+		}
+		
+		if (mes.getModule().getType() == GOALModule.ModuleType.INIT) {
+			Iterator<Capability> initcaps = m.getCL().iterator();
+			while (initcaps.hasNext()) {
+				a.addCap(initcaps.next());
+			}
 		}
 		// TODO Auto-generated method stub
 		// Add module beliefs to agent

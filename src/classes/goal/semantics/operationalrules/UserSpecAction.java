@@ -117,6 +117,7 @@ public class UserSpecAction implements OSRule {
 	public void apply(AILAgent a) {
 		// UserSpec should really include whether or not this is an external action.
 		try {
+			action.apply(preiterator.next());
 			a.getEnv().executeAction(a.getAgName(), new Action(action.getCap(), Action.normalAction));
 		} catch (Exception e) {
 			
@@ -132,6 +133,7 @@ public class UserSpecAction implements OSRule {
 		}
 		
 		((GOALAgent) a).getMentalState().updateGoalState();
+		a.getIntention().tlI(a);
 	//	((GOALAgent) a).actionPerformed();
 		
 		

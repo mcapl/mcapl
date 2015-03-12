@@ -1,0 +1,32 @@
+main: hello_world
+{
+	init module{
+		beliefs{
+			nrOfPrintedLines(0).
+		}
+		
+		goals{
+			nrOfPrintedLines(10).
+		}
+		
+		actionspec{
+			printText(Text) {
+				pre{ true }
+				post{ true }
+			}
+		}
+	}
+	
+	event module{
+		program{
+			if bel(percept(printedText(NewCount)), nrOfPrintedLines(Count) )
+				then delete(nrOfPrintedLines(Count)) + insert( nrOfPrintedLines(NewCount) ).
+		}
+	}
+	
+	main module[exit=nogoals] {
+		program{
+			if goal(nrOfPrintedLines(10)) then printText("Hello, world!").
+		}
+	}
+}
