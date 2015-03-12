@@ -4,8 +4,6 @@ target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/goal/programming_guide/chapter1/hello_world10.ail,${mcapl}/src/examples/goal/programming_guide/chapter1/simple.psl,2
 
 log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
-log.fine = property_logging
-log.finer=ajpf.MCAPLListener
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

@@ -20,5 +20,19 @@ public class Chapter1Tests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
+	 
+	 @Test //----------------------------------------------------------------------
+	  public void ex2 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/goal/programming_guide/chapter1/hello_world10.ail";
+	    	String prop_filename =  "/src/examples/goal/programming_guide/chapter1/simple.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "2";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
+
 
 }

@@ -1892,6 +1892,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {
+ 		if (AJPFLogger.ltFine("property_logging")) {
+ 			AJPFLogger.fine("property_logging", "checking agent beliefs");
+ 		}
 		GBelief  gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();

@@ -201,7 +201,7 @@ public class MCAPLcontroller  {
 				AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
 		}
 		a.do_job();
-		// specification.checkProperties();
+		specification.checkProperties();
 		return a;
 	}
 	
