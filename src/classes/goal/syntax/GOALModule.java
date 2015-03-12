@@ -141,6 +141,9 @@ public class GOALModule {
 
 	public GOALModule(ModuleType type) {
 		module_type = type;
+		if (module_type == ModuleType.MAIN) {
+			exitCondition = ExitCondition.NEVER;
+		}
 	}
 	
 	public void addGoal(Predicate p) {
