@@ -1896,7 +1896,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();
 		boolean return_value =  believesyn(gu, un);
- 		if (return_value & AJPFLogger.ltFine(logname)) {
+ 		if (return_value & AJPFLogger.ltFine("property_logging")) {
  			AJPFLogger.fine("property_logging", "Unifier for property " + un);
  		}
 		return return_value;

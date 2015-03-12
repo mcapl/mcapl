@@ -21,8 +21,9 @@ public class ModuleExit implements OSRule {
 
 	@Override
 	public void apply(AILAgent a) {
+		((GOALAgent) a).exitModule(mes.getModule());
 		// TODO Auto-generated method stub
-		mes.getModule().setModuleTerminated(true);
+/*		mes.getModule().setModuleTerminated(true);
 		if (mes.getModule().getType() == GOALModule.ModuleType.ANONYMOUS) {
 			return;
 		}
@@ -35,7 +36,7 @@ public class ModuleExit implements OSRule {
 		default:
 			break;
 		}
-		// a.activeStackOfModule.pop();
+		((GOALAgent) a).activeStackOfModules.pop(); */
 	}
 
 	@Override

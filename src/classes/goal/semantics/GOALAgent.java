@@ -82,7 +82,7 @@ public class GOALAgent extends AILAgent {
      * Stack of (non-anonymous) modules that have been entered and not yet
      * exited; last element on the list has been entered last.
      */
-    private final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
+    public final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
     
     public MentalState ms = new MentalState();
 
@@ -154,6 +154,8 @@ public class GOALAgent extends AILAgent {
     public void addBel(Literal bel, SourceAnnotation s) {
     	bel.addAnnot(s);   
     	getBB().add(bel);
+    	// actionPerformed();
+    	ms.updateGoalState();
     	// When a new goal arrives we check to see if any goals
     	// have been achieved.
   //  	removeachievedgoals();
@@ -184,6 +186,8 @@ public class GOALAgent extends AILAgent {
 			getBB(n).add(bel);
 		}
 		}
+		// actionPerformed();
+    	ms.updateGoalState();
 		
 	//	removeachievedgoals();
     }	  
@@ -208,6 +212,8 @@ public class GOALAgent extends AILAgent {
 		 //  	getPL().addBel(bel, n);
 	    //	getPL("2").addBel(bel, n);
 		}
+		// actionPerformed();
+    	ms.updateGoalState();
 //		removeachievedgoals();
     }	  
 
@@ -232,10 +238,12 @@ public class GOALAgent extends AILAgent {
     	//   	getPL().addBel(bel, i);
        // 	getPL("2").addBel(bel, i);
     	}
+    	//actionPerformed();
     }
     
     public void adopt(Goal g) {
-    	ms.adopt(g);
+     ms.adopt(g);
+    	// actionPerformed();
     }
  
     /**
@@ -249,6 +257,7 @@ public class GOALAgent extends AILAgent {
     	StringTerm i = gl.getGoalBase();
     	Intention intention = new Intention(new Event(Event.AILAddition, gl), new SourceAnnotation(new Predicate(i.toString())));
     	getIntentions().add(intention);
+    	ms.updateGoalState();
       // 	getPL().addGoal(g, i);
     //	getPL("2").addGoal(g, i);
     }
@@ -258,7 +267,8 @@ public class GOALAgent extends AILAgent {
     	gl.setGoalBase(i);
     	Intention intention = new Intention(new Event(Event.AILAddition, gl), new SourceAnnotation(new Predicate(i.toString())));
     	getIntentions().add(intention);
-    //   	getPL().addGoal(g, i);
+    	ms.updateGoalState();
+   //   	getPL().addGoal(g, i);
     ////	getPL("2").addGoal(g, i);
     }
     /**
@@ -590,6 +600,7 @@ public class GOALAgent extends AILAgent {
     
     public void delBel(Literal bel) {
        	super.delBel(bel);
+       	// actionPerformed();
     //	getPL().delBel(bel);
     //	getPL("2").delBel(bel);
     }	
@@ -631,6 +642,7 @@ public class GOALAgent extends AILAgent {
                 // kinds of modules. If we're leaving the main module,
                 // main module should be only element on stack; in that
                 // case we're leaving the agent, no need to reset context.
+        		this.topLevelContext = null;
                 break;
         }
         this.activeStackOfModules.pop();

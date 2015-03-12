@@ -132,6 +132,7 @@ public class UserSpecAction implements OSRule {
 		}
 		
 		((GOALAgent) a).getMentalState().updateGoalState();
+	//	((GOALAgent) a).actionPerformed();
 		
 		
 	}

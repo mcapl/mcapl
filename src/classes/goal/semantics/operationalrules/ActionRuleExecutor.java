@@ -37,6 +37,7 @@ import ail.syntax.GBelief;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.semantics.OSRule;
+import goal.semantics.GOALAgent;
 import goal.syntax.GOALModule;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
@@ -94,6 +95,6 @@ public class ActionRuleExecutor implements OSRule {
 		// change the head of the guardstack to trivial - we've already checked it holds
 		guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 		a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
-
+		((GOALAgent) a).actionPerformed(); 
 	}
 }

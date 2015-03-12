@@ -81,7 +81,7 @@ public class GOALSleepRule implements OSRule {
 		boolean sleepcondition = percepts_have_changed(a, percepts) || !messages.isEmpty() || actionWasPerformed((GOALAgent) a);
 		boolean newsleepcondition = sleepcondition || sleepConditionHoldingPreviousCycle;
 		sleepConditionHoldingPreviousCycle = sleepcondition;
-		((GOALAgent) a).clearActionPerformed();
+//		((GOALAgent) a).clearActionPerformed();
 		return ! newsleepcondition;
 	}
 	

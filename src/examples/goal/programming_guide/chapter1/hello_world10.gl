@@ -17,7 +17,7 @@ main: hello_world
 		}
 	}
 	
-	main module[exit=always] {
+	main module[exit=nogoals] {
 		program{
 			if goal(nrOfPrintedLines(10)) then print("Hello, world!").
 		}

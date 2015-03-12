@@ -98,6 +98,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		} else {
 			selectedrules = false;
 		}
+
 		if (!agintention && !selectedrules && !first && !exit) {
 			exit = module.isModuleTerminated();
 		
@@ -128,7 +129,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			if (agintention) {
 				module.setRule(null);
 				selectedrules = false;
-				((GOALAgent) ag).actionPerformed();
+			//	((GOALAgent) ag).actionPerformed();
 			}
 			
 			if (!exit) {
@@ -138,6 +139,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			}
 			
 			if (exit) {
+				// ? Or possibly not, maybe we only initialise modules onece.
 				first = true;
 			}
 		}
@@ -157,23 +159,30 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			return this;
 		} else if (agintention) {
 			return this;
-		} else if (!first & exit) {
+		} else if (!first & exit & !module.isModuleTerminated()) {
 			return this;
 		} else {
+			// exit = false;
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
 				rc.setStopandCheck(true);
 			}
 			if (module.getType() == GOALModule.ModuleType.INIT) {
-				if (rc.eventModuleInstantiated()) {
-					return rc.eventModule;
-				} else {
+			//	if (rc.eventModuleInstantiated()  && ag.actionPerformedLastCycle()) {
+			//		return rc.eventModule;
+			//	} else {
 					return rc.mainModule;
-				}
+			//	}
 			}
 			if (module.getType() == GOALModule.ModuleType.EVENT) {
+				exit = false;
 				return rc.mainModule;
 			}
-			return rc.startCycle;
+			if (ag.isMainModuleRunning()) {
+				return rc.startCycle;
+			} else {
+				ag.getEnv().getScheduler().notActive(ag.getAgName());
+				return null;
+			}
 
 		}
 	}
