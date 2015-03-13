@@ -96,7 +96,7 @@ knowledge [Abstract_GOALModule gl]
 
 krspec[Abstract_GOALModule gl]: (hd=atom
 	(STOP {$gl.addFact((Abstract_Predicate) hd);} |
-	PROLOGARROW body=parameters STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
+	PROLOGARROW body=no_bracket_literals STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
 
 beliefs [Abstract_GOALModule gl]
 	: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE;
@@ -104,7 +104,7 @@ beliefs [Abstract_GOALModule gl]
 
 brspec[Abstract_GOALModule gl]: (hd=atom
 	(STOP {$gl.addBel((Abstract_Predicate) hd);} |
-	PROLOGARROW body=parameters STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
+	PROLOGARROW body=no_bracket_literals STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
 
 
 goals [Abstract_GOALModule gl]
@@ -170,16 +170,37 @@ basicCondition returns [Abstract_MentalState ms]
 	}// macro
 	;
 
-mentalatom returns [Abstract_MentalAtom lf]
-	: (selector STOP)? b=mentalOperator tl=atom_parameters
-	{$lf = new Abstract_MentalAtom(tl, b);}
+mentalatom returns [Abstract_MentalState ms]
+	: 
+	(selector STOP)? b=mentalOperator tl=atom_parameters
+	{ if (b == Abstract_MentalAtom.agoal) {
+	      Abstract_MentalAtom g = new Abstract_MentalAtom(tl, Abstract_BaseAILStructure.AILGoal);
+	      Abstract_MentalAtom bl = new Abstract_MentalAtom(tl, Abstract_BaseAILStructure.AILBel);
+	      $ms = new Abstract_MentalState(new Abstract_MentalState(g), Abstract_Guard.and, new Abstract_MentalState(Abstract_Guard.not, bl));
+	   } else if (b == Abstract_MentalAtom.goala) {
+	      Abstract_MentalAtom g = new Abstract_MentalAtom(tl, Abstract_BaseAILStructure.AILGoal);
+	      Abstract_MentalAtom bl = new Abstract_MentalAtom(tl, Abstract_BaseAILStructure.AILBel);
+	      $ms = new Abstract_MentalState(new Abstract_MentalState(g), Abstract_Guard.and, new Abstract_MentalState(bl));
+	   } else {$ms= new Abstract_MentalState(new Abstract_MentalAtom(tl, b));}
+	 }
 	;
+
+atom_parameters returns [Abstract_LogExpr ts] 
+	: OPEN (
+	t=atom {Abstract_LogExpr tl = new Abstract_LogExpr(Abstract_LogExpr.none, t);}
+	(COMMA t1=atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and, t1);}
+	| SEMI t1 = atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.or, t1);}
+	)*  { $ts = tl;}
+	|  ap=atom_parameters {$ts = ap;}  )
+	CLOSE
+	;
+	
 
 mentalOperator returns [byte b]
 	: op = BEL {b = Abstract_BaseAILStructure.AILBel;}
 	| op = GOAL {b = Abstract_BaseAILStructure.AILGoal;}
-	| op = AGOAL
-	| op = GOALA
+	| op = AGOAL {b = Abstract_MentalAtom.agoal;}
+	| op = GOALA {b = Abstract_MentalAtom.goala;}
 	;
 
 actions returns [ArrayList<Abstract_Deed> dl]
@@ -234,13 +255,13 @@ actionSpec returns [Abstract_ActionSpec as]
 
 precondition returns [Abstract_LogicalFormula f]
 	: PRE CURLYOPEN  (TRUE  {f = new Abstract_LogExpr();}
-	| tl=parameters {f = new Abstract_LogExpr(tl);}) CURLYCLOSE
+	| tl=no_bracket_literals {f = new Abstract_LogExpr(tl);}) CURLYCLOSE
 	;
 
 postcondition returns [Abstract_LogicalFormula f]
 	: POST  CURLYOPEN
 	(TRUE  {f = new Abstract_LogExpr();}
-	| tl=parameters {
+	| tl=no_bracket_literals {
 		f = new Abstract_LogExpr(tl);}
 		)
 	CURLYCLOSE
@@ -260,12 +281,6 @@ id returns [String s]
 	; 
 	
 	
-atom_parameters returns [ArrayList<Abstract_LogicalFormula>ts] 
-	: OPEN t=atom {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>(); tl.add(t);}
-	(COMMA t1=atom {tl.add(t1);})* 
-	CLOSE { $ts = tl;}
-	;
-
 parameters returns [ArrayList<Abstract_Term>ts] 
 	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
 	(COMMA t1=term {tl.add(t1);})* 
@@ -278,10 +293,19 @@ no_bracket_parameters returns [ArrayList<Abstract_Term>ts]
 	{ $ts = tl;}
 	;
 
+no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts] 
+	:  {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
+	((NOT OPEN t=atom {Abstract_LogExpr l=new Abstract_LogExpr(Abstract_LogExpr.not, t); tl.add(l);} CLOSE)
+	| t=atom { tl.add(t);})
+	(COMMA (NOT OPEN t1=atom {Abstract_LogExpr l=new Abstract_LogExpr(Abstract_LogExpr.not, t1); tl.add(l);} CLOSE
+	| t1 = atom {tl.add(t1);}))* 
+	{ $ts = tl;}
+	;
+
 
 goal_list returns [ArrayList<Abstract_Term>ts] 
-	: t=term STOP {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
-	(COMMA t1=term STOP {tl.add(t1);})* 
+	: t=term  {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
+	(COMMA t1=term {tl.add(t1);})*  STOP
 	 { $ts = tl;}
 	;
 
@@ -336,6 +360,7 @@ term returns [Abstract_Term t]
 	| ft=function_term {$t=ft;} 
 	| at=arithexpr {$t=at;}
 	| lt=listterm {$t=lt;});
+
 function_term returns [Abstract_Term t]
 	: c=CONST {t=new Abstract_Predicate(c.getText());} 
 	(OPEN t1=term {((Abstract_Predicate) t).addTerm($t1.t);} 
@@ -393,7 +418,7 @@ addoper returns [int i]
 	: (PLUS {$i = 1;} | MINUS {$i = 2;} );
 multoper returns [int i]
 	: (MULT {$i = 3;} | DIV {$i = 4;} );
-eqoper returns [int i] : (LESS {$i = 1;} | IS {$i = 2;});
+eqoper returns [int i] : (LESS {$i = 1;} | (IS | EQUALS) {$i = 2;});
 
 // Lexer Misc Syntax
 COLON 	: ':';
@@ -402,6 +427,7 @@ CURLYCLOSE
 	:'}';
 STOP 	: '.';
 COMMA 	: ',';
+SEMI	:';';
 OPEN 	: '(';
 CLOSE 	: ')';
 SQOPEN 	: '[';

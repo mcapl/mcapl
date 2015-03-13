@@ -84,7 +84,7 @@ public class SelectRule implements OSRule {
 		
     
     public void apply(AILAgent ag) {
-        m.setRule(ruleIterator.next());
+        m.setRule(ruleIterator);
     }
 
 	@Override

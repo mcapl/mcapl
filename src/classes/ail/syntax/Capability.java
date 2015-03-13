@@ -272,7 +272,7 @@ public class Capability implements Unifiable,
 	private static ArrayList<Literal> fmla_to_lits(GLogicalFormula lf) {
 		ArrayList<Literal> lits = new ArrayList<Literal>();
 		if (lf instanceof Literal) {
-			lits.add((Literal) lf);
+			lits.add(new Literal((Literal) lf));
 			return lits;
 		}
 		
@@ -284,14 +284,14 @@ public class Capability implements Unifiable,
 		if (lf instanceof Guard) {
 			Guard g = (Guard) lf;
 			if (g.getOp() == Guard.GLogicalOp.none) {
-				lits.addAll(fmla_to_lits(g.getLHS()));
+				lits.addAll(fmla_to_lits(g.getRHS()));
 			} else if (g.getOp() == Guard.GLogicalOp.not) {
-				ArrayList<Literal> neglits = fmla_to_lits(g.getLHS());
+				ArrayList<Literal> neglits = fmla_to_lits(g.getRHS());
 				Literal neglit = neglits.get(0);
 				if (neglit.negated()) {
-					neglit.setNegated(false);
-				} else {
 					neglit.setNegated(true);
+				} else {
+					neglit.setNegated(false);
 				}
 				lits.add(neglit);
 			} else {

@@ -45,12 +45,12 @@ main: stackBuilder
    		}
    
    		goals{
-      		on(a,table), on(b,a), on(c,b), on(d,c), on(e,table), on(f,e).
+      		on(a,table), on(b,a).
    		}
    		
    		actionspec{
    			pickup(X) {
-   				pre{ clear(X), on(X, Y), not(holding(Z)) }
+   				pre{ clear(X), on(X, Y), not(holding(_)) }
    				post{ holding(X), not(on(X, Y)) }
    			}
    			putdown(X, Y) {
@@ -63,9 +63,9 @@ main: stackBuilder
    main module{
       program{
       	% pick up a block that needs moving
-      	if a-goal(tower[X|T])), bel(above(Z,X);Z=X)) then pickup(Z).
+      	if a-goal(tower([X|T])), bel((above(Z,X);Z=X)) then pickup(Z).
       	% constructive move
-      	if a-goal(tower[X, Y|T])), bel(tower([Y|T])) then putdown(X, Y).
+      	if a-goal(tower([X, Y|T])), bel(tower([Y|T])) then putdown(X, Y).
       	% put block on table
       	if bel(holding(X)) then putdown(X, table).
       }

@@ -71,7 +71,16 @@ public class ActionRuleExecutor implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		return module.hasRuleSet();
+		if (module.hasRuleSet()) {
+			if ( module.getRule().hasNext() ) {
+				return true;
+			} else {
+				module.setRule(null);
+			}
+		}
+		
+		// What happens to reasoning cycle in this case?
+		return false;
 	}
 	
 	/*
@@ -85,7 +94,8 @@ public class ActionRuleExecutor implements OSRule {
 		// Note GOAL implementation has some stuff about SingleGoals here
 		
 		// What happens next also depends upon whether this is an ifthenrule or not.
-		ApplicablePlan p = module.getRule();
+		Iterator<ApplicablePlan> ruleIt = module.getRule();
+		ApplicablePlan p = ruleIt.next();
 		
 		ArrayList<Guard> guardstack = p.getGuard();
 
@@ -95,6 +105,6 @@ public class ActionRuleExecutor implements OSRule {
 		// change the head of the guardstack to trivial - we've already checked it holds
 		guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 		a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
-		((GOALAgent) a).actionPerformed(); 
+
 	}
 }

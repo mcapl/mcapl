@@ -31,6 +31,9 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 	
 	byte type;
 	
+	public static byte agoal = 100;
+	public static byte goala = 101;
+	
 	
 	public Abstract_MentalAtom(ArrayList<Abstract_LogicalFormula> lf, byte i) {
 		Abstract_LogicalFormula[] lfs = new Abstract_LogicalFormula[lf.size()];
@@ -80,8 +83,21 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 			}
 		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).isTrivial()) {
 			return new Guard();
-		} else {
+		} else if (lf instanceof Abstract_Equation ){
 			return new Guard(Guard.GLogicalOp.none, ((Abstract_Equation) lf).toMCAPL());
+		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).getOp() == Abstract_LogExpr.and) {
+			Guard glhs = guard_from_lf (((Abstract_LogExpr) lf).getLHS());
+			Guard grhs = guard_from_lf (((Abstract_LogExpr) lf).getRHS());
+			return new Guard(glhs, Guard.GLogicalOp.and, grhs);
+		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).getOp() == Abstract_LogExpr.or){
+			Guard glhs = guard_from_lf (((Abstract_LogExpr) lf).getLHS());
+			Guard grhs = guard_from_lf (((Abstract_LogExpr) lf).getRHS());
+			return new Guard(glhs, Guard.GLogicalOp.or, grhs);			
+		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).getOp() == Abstract_LogExpr.not){
+			Guard grhs = guard_from_lf (((Abstract_LogExpr) lf).getRHS());
+			return new Guard(Guard.GLogicalOp.not, grhs);	
+		} else {
+			return guard_from_lf(((Abstract_LogExpr) lf).getRHS());
 		}
 	}
 	

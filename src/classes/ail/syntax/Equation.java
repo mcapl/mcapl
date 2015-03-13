@@ -138,8 +138,9 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        		}
 	        	} else {
 	        		ArrayList<Unifier> uns = new ArrayList<Unifier>();
-	        		elhs.unifies(erhs, un);
-	        		uns.add(un);
+	        		Unifier unc = un.clone();
+	        		elhs.unifies(erhs, unc);
+	        		uns.add(unc);
 	        		return uns.iterator();
 	        	}
 	        	

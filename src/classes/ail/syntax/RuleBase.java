@@ -137,6 +137,14 @@ public class RuleBase implements Iterable<Rule> {
             }
         }
     }
+    
+    public List<Rule> getAll() {
+    	ArrayList<Rule> rls = new ArrayList<Rule>();
+    	for (PredicateIndicator pi : ruleMap.keySet()) {
+    		rls.addAll(ruleMap.get(pi).getAll());
+    	}
+    	return rls;
+    }
 
     /**
      * Get a rule relevant to some guard atom - i.e., a rules whose head has the
@@ -234,6 +242,10 @@ public class RuleBase implements Iterable<Rule> {
         		be.add((Rule)l.clone());
         	}
         	return be;
+        }
+        
+        public List<Rule> getAll() {
+        	return list;
         }
         
         /*

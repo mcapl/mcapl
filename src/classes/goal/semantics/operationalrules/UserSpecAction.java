@@ -64,22 +64,16 @@ import gov.nasa.jpf.vm.Verify;
  * @author lad
  *
  */
-public class UserSpecAction implements OSRule {
+public class UserSpecAction extends ActionExecutor {
 	@FilterField
 	private final static String name = "Plan with Action Specs";
 	
 	private Iterator<Unifier> preiterator;
 	private Capability action;
-	
-	GOALModule module;
-		
+			
 	public String getName() {
 		return name;
 	}
-
-    public void setModule(GOALModule m) {
-    	this.module = m;
-    }
 
     /*
 	 * (non-Javadoc)
@@ -93,20 +87,32 @@ public class UserSpecAction implements OSRule {
 			return false;
 		}
 		
-		Predicate cap = (Predicate) d.getContent();
+		Predicate cap = (Predicate) d.getContent().clone();
 		
 		Iterator<Capability> cit = ((GOALAgent) a).getCL().getRelevant(cap, AILAgent.SelectionOrder.LINEAR);
-		action = cit.next();
+		action = cit.next().clone();
 		
 		Unifier u = a.getIntention().hdU();
-		cap.unifies(action.getCap(), u);
+		cap.apply(u);
+		System.err.println("Attempting " + cap);
+		Unifier newu = new Unifier();
+		cap.standardise_apart(action, newu);
+		cap.unifies(action.getCap(), newu);
 		AILAgent.SelectionOrder order = AILAgent.SelectionOrder.LINEAR;
 		if (module.getRuleOrder() == GOALModule.RuleEvaluationOrder.RANDOM) {
 			order = AILAgent.SelectionOrder.RANDOM;
 		}
 		
-		preiterator = action.getPre().logicalConsequence(a, a.getIntention().hdU(), action.getPre().getVarNames(), order);
-		return preiterator.hasNext();
+		// Think his is always random but check!!!
+		preiterator = action.getPre().logicalConsequence(a, newu, action.getPre().getVarNames(), AILAgent.SelectionOrder.RANDOM);
+		if (preiterator.hasNext()) {
+			return true;
+		} else {
+			// abort the intention and back track over rule selection.
+			// But what if there was more than one deed on the intention?
+			a.setIntention(null);
+			return false;
+		}
 
 	}
 	
@@ -115,6 +121,7 @@ public class UserSpecAction implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
+		super.apply(a);
 		// UserSpec should really include whether or not this is an external action.
 		try {
 			action.apply(preiterator.next());
@@ -126,6 +133,7 @@ public class UserSpecAction implements OSRule {
 		ArrayList<Literal> updates = action.postConditionsToLiterals();
 		for (Literal b: updates) {
 			if (b.negated()) {
+				b.setNegated(true);
 				a.delBel(b);
 			} else {
 				a.addBel(b, BeliefBase.TSelf);

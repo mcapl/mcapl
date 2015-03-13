@@ -11,6 +11,7 @@ import ail.syntax.BeliefBase;
 import ail.syntax.Capability;
 import ail.syntax.Goal;
 import ail.syntax.Literal;
+import ail.syntax.Rule;
 
 public class ModuleInitialisation implements OSRule {
 	ModuleExecutorStage mes;
@@ -31,6 +32,10 @@ public class ModuleInitialisation implements OSRule {
 		((GOALAgent) a).enteredModule(m);
 		for (Literal l: m.getBB().getAll()) {
 			a.addBel(l, BeliefBase.TSelf);
+		}
+		
+		for (Rule r : m.getRuleBase().getAll()) {
+			a.addRule(r);
 		}
 		
 		for (Goal g: m.getGB().getAll()) {

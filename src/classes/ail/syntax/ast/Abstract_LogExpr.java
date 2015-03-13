@@ -108,8 +108,8 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 		rhs = f;
 	}
 	
-	public Abstract_LogExpr(ArrayList<Abstract_Term> tl) {
-		this(none, termlist_to_lf(tl));
+	public Abstract_LogExpr(ArrayList<Abstract_LogicalFormula> tl) {
+		this(none, lflist_to_lf(tl));
 	}
 	
 	public static Abstract_LogExpr termlist_to_lf(ArrayList<Abstract_Term> tl) {
@@ -125,7 +125,20 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 		}
 	}
     
-  	/** gets the Operation of this Expression */
+	public static Abstract_LogExpr lflist_to_lf(ArrayList<Abstract_LogicalFormula> tl) {
+		if (tl.size() < 2) {
+			if (tl.isEmpty()) {
+				return new Abstract_LogExpr();
+			} else {
+				return new Abstract_LogExpr(none, tl.get(0));
+			}
+		} else {
+			Abstract_LogicalFormula t = tl.remove(0);
+			return new Abstract_LogExpr( t, and, lflist_to_lf(tl));
+		}
+	}
+
+	/** gets the Operation of this Expression */
 	public int getOp() {
 		return op;
 	}

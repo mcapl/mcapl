@@ -77,12 +77,11 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
         this.head = h;
         this.body = body;
     }
-    
-    public Abstract_Rule(Abstract_Predicate h, ArrayList<Abstract_Term> body) {
+        
+    public Abstract_Rule(Abstract_Predicate h, ArrayList<Abstract_LogicalFormula> body) {
         this.head = h;
-        this.body = Abstract_LogExpr.termlist_to_lf(body);
+        this.body = Abstract_LogExpr.lflist_to_lf(body);
     }
-    
 
     /**
      * Constructor.

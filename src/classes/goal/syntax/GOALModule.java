@@ -35,6 +35,7 @@ import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
 import ail.syntax.ApplicablePlan;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class GOALModule {
@@ -54,7 +55,7 @@ public class GOALModule {
      */
     private RuleEvaluationOrder order = RuleEvaluationOrder.LINEAR;
     
-    private ApplicablePlan rule;
+    private Iterator<ApplicablePlan> ruleIt;
 	
 	public static enum ExitCondition {
 		NOGOALS,
@@ -143,6 +144,8 @@ public class GOALModule {
 		module_type = type;
 		if (module_type == ModuleType.MAIN) {
 			exitCondition = ExitCondition.NEVER;
+		} else {
+			exitCondition = ExitCondition.ALWAYS;
 		}
 	}
 	
@@ -194,20 +197,24 @@ public class GOALModule {
 		return gb;
 	}
 	
+	public RuleBase getRuleBase() {
+		return rb;
+	}
+	
 	public RuleEvaluationOrder getRuleOrder() {
 		return order;
 	}
 	
-	public void setRule(ApplicablePlan p) {
-		rule = p;
+	public void setRule(Iterator<ApplicablePlan> p) {
+		ruleIt = p;
 	}
 	
 	public boolean hasRuleSet() {
-		return rule != null;
+		return ruleIt != null;
 	}
 	
-	public ApplicablePlan getRule() {
-		return rule;
+	public Iterator<ApplicablePlan> getRule() {
+		return ruleIt;
 	}
 	
 	public void setRuleEvaluationOrder(RuleEvaluationOrder o) {

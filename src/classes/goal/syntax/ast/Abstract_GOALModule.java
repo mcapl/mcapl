@@ -74,10 +74,11 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	public static int never = 1;
 	public static int nogoals = 2;
 	public static int noaction = 3;
+	public static int noneset = 4;
 	
 	int module_type;
 	int optionorder = linear;
-	int exitcondition = always;
+	int exitcondition = noneset;
 		
 	Abstract_Predicate[] knowledge = new Abstract_Predicate[0];
 
@@ -269,7 +270,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		m.setExitCondition(GOALModule.ExitCondition.NEVER);
     	} else if (exitcondition == nogoals) {
     		m.setExitCondition(GOALModule.ExitCondition.NOGOALS);
-    	} else {
+    	} else if (exitcondition == noaction) {
     		m.setExitCondition(GOALModule.ExitCondition.NOACTION);
     	}
     	
@@ -285,7 +286,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	env.setIntField(objref, "module_type", module_type);
     	env.setIntField(objref, "optionorder", optionorder);
     	env.setIntField(objref, "exitcondition", exitcondition);
-    	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
+     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionRule", actionrules.length);

@@ -44,6 +44,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		ruleSelection.setModule(m);
 		actionRule.setModule(m);
 		userspec.setModule(m);
+		printaction.setModule(m);
 	}
 	
 	public GOALModule getModule() {
@@ -87,6 +88,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	public void advance(AILAgent ag) {
 		if (ag.getIntention() != null) {
 			agintention = true;
+		} else {
+			agintention = false;
 		}
 		if (agintention && ag.getIntention().empty()) {
 			ag.setIntention(null);
@@ -127,7 +130,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 				} 
 		} else {
 			if (agintention) {
-				module.setRule(null);
+				//module.setRule(null);
 				selectedrules = false;
 			//	((GOALAgent) ag).actionPerformed();
 			}

@@ -6,7 +6,7 @@ import ail.semantics.OSRule;
 import ail.syntax.Action;
 import ail.syntax.Deed;
 
-public class PrintActionExecutor implements OSRule {
+public class PrintActionExecutor extends ActionExecutor {
 	Action action;
 
 	@Override
@@ -27,6 +27,7 @@ public class PrintActionExecutor implements OSRule {
 
 	@Override
 	public void apply(AILAgent a) {
+		super.apply(a);
 		System.out.println(action.getTerm(0));
 		a.getIntention().tlI(a);
 	//	a.setIntention(null);

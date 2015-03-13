@@ -63,6 +63,10 @@ public class Abstract_MentalState extends Abstract_Guard {
 		super(lf, true);
 	}
 		
+	public Abstract_MentalState(int i, Abstract_GLogicalFormula lf) {
+		super(i, lf);
+	}
+
 	public Abstract_MentalState(Abstract_GLogicalFormula lf, int i, Abstract_GLogicalFormula lf2) {
 		super(lf, i, lf2);
 	}
