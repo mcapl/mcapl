@@ -24,13 +24,10 @@
 
 package eass.mas.nxt;
 
-import lejos.pc.comm.NXTComm;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
-import lejos.pc.comm.NXTInfo;
-
-import lejos.nxt.remote.RemoteMotor;
-import lejos.nxt.remote.NXTCommand;
+import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteMotorPort;
+import lejos.remote.ev3.RemotePort;
+import lejos.hardware.port.SensorPort;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -42,32 +39,29 @@ import java.io.DataOutputStream;
  *
  */
 public class NXTBrick  { 
-	private String btname, btaddress;
-	private NXTComm comm;
-	private NXTInfo nxt;
+	private String ipaddress;
 	private DataInputStream in;
 	private DataOutputStream out;
-	private NXTCommand nxtcommand;
 	
 	private boolean connected = false;
 	
-	public RemoteMotor motorA;
-	public RemoteMotor motorB;
-	public RemoteMotor motorC;
+/*	public RemoteMotorPort motorA;
+	public RemoteMotorPort motorB;
+	public RemoteMotorPort motorC;
 
-	public EASSSensorPort Port1;
-	public EASSSensorPort Port2;
-	public EASSSensorPort Port3;
-	public EASSSensorPort Port4;
+	public RemotePort SPort1 = SensorPort.S1;
+	public RemotePort SPort2;
+	public RemotePort SPort3;
+	public RemotePort SPort4;
 
 	public static int APort = 0;
 	public static int BPort = 1;
 	public static int CPort = 2;
 	
-	public static int SPort1 = 0;
-	public static int SPort2 = 1;
-	public static int SPort3 = 2;
-	public static int SPort4 = 3;
+	public static int S1 = 0;
+	public static int S2 = 1;
+	public static int S3 = 2;
+	public static int S4 = 3; */
 
 	/**
 	 * Construct an abstraction of an NXT Brick
