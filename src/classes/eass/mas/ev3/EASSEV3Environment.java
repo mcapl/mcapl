@@ -80,6 +80,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 */
 	public void  close(String rname) {
 		LegoRobot r = getRobot(rname);
+		r.close();
 	}
 	
 	/**

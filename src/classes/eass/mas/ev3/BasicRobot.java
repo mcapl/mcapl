@@ -153,6 +153,25 @@ public class BasicRobot implements LegoRobot {
 	public RemoteEV3 getBrick() {
 		return brick;
 	}
+
+	@Override
+	public void close() {
+		if (sensor1 != null) {
+			sensor1.close();
+		}
+		
+		if (sensor2 != null) {
+			sensor2.close();
+		}
+		
+		if (sensor3 != null) {
+			sensor3.close();
+		}
+		
+		if (sensor4 != null) {
+			sensor4.close();
+		}
+	}
 		
 
 }

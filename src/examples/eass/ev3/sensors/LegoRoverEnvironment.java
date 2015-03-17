@@ -37,6 +37,7 @@ import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSSensor;
 import lejos.hardware.device.NXTMMX;
 import lejos.hardware.motor.NXTRegulatedMotor;
+import lejos.hardware.port.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import lejos.remote.ev3.RemoteEV3;
@@ -73,7 +74,8 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	public LegoRobot createRobot(String agent) {
 		LegoRobot robot;
 		try {
-			robot = new Noor(getAddress(agent));
+			robot = new Noor("10.0.1.1");
+			addRobot(agent, robot);
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -221,18 +223,18 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 //			if (isConnected()) {
 				RemoteEV3 brick = getBrick();
 				try {
-					EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "1");
+					EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
 					setSensor(1, uSensor);
 					uSensor.setPrintStream(uPrintStream);
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
 				}
-				NXTRegulatedMotor claudia_motorLeft = new NXTRegulatedMotor(brick.getPort("C"));
+	/*			NXTRegulatedMotor claudia_motorLeft = new NXTRegulatedMotor(brick.getPort("C"));
 				NXTRegulatedMotor  claudia_motorRight = new NXTRegulatedMotor(brick.getPort("A"));
 				pilot = new  DifferentialPilot(5, 11, claudia_motorLeft, claudia_motorRight);
 				pilot.setTravelSpeed(10);
 				pilot.setRotateSpeed(15);
-				setPilot(pilot);
+				setPilot(pilot); */
 //			}
 		}
 		

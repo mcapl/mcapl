@@ -43,4 +43,6 @@ public interface EASSSensor {
 	 * @param o
 	 */
 	public void setPrintStream(PrintStream o);
+	
+	public void close();
 }

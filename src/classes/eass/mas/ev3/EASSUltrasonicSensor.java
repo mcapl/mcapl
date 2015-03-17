@@ -31,6 +31,7 @@ import java.rmi.RemoteException;
 
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.remote.ev3.RMIRemoteSampleProvider;
+import lejos.remote.ev3.RMISampleProvider;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.robotics.SampleProvider;
 
@@ -41,12 +42,12 @@ import lejos.robotics.SampleProvider;
  */
 public class EASSUltrasonicSensor implements EASSSensor {
 	PrintStream out = System.out;
-	EV3UltrasonicSensor sensor;
-	SampleProvider distances;
+	RMISampleProvider sensor;
+//	SampleProvider distances;
 	
 	public EASSUltrasonicSensor(RemoteEV3 brick, String portName) throws RemoteException {
-		sensor = new EV3UltrasonicSensor(brick.getPort(portName));
-		distances = sensor.getDistanceMode();
+		sensor = brick.createSampleProvider(portName, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
+//		distances = sensor.getDistanceMode();
 	}
 	
 	/*
@@ -54,13 +55,16 @@ public class EASSUltrasonicSensor implements EASSSensor {
 	 * @see eass.mas.nxt.EASSSensor#addPercept(eass.mas.nxt.EASSNXTEnvironment)
 	 */
 	public void addPercept(EASSEV3Environment env) {
-		float[] sample = new float[1];
-		distances.fetchSample(sample, 0);
-		float distancevalue = sample[0];
-		out.println("distance is " + distancevalue);
-		Literal distance = new Literal("distance");
-		distance.addTerm(new NumberTermImpl(distancevalue));
-		env.addUniquePercept("distance", distance);
+		try {
+			float[] sample = sensor.fetchSample();
+			float distancevalue = sample[0];
+			out.println("distance is " + distancevalue);
+			Literal distance = new Literal("distance");
+			distance.addTerm(new NumberTermImpl(distancevalue));
+			env.addUniquePercept("distance", distance);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	/*
@@ -69,5 +73,13 @@ public class EASSUltrasonicSensor implements EASSSensor {
 	 */
 	public void setPrintStream(PrintStream s) {
 		out = s;
+	}
+	
+	public void close() {
+		try {
+			sensor.close();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 }

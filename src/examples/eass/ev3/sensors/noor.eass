@@ -21,11 +21,51 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+EASS
 
-env = eass.ev3.sensors.LegoRoverEnvironment
-mas.file = /src/examples/eass/ev3/sensors/noor.eass
-mas.builder = eass.EASSMASBuilder
-nxt.robotAddress = 00165312A8AB
+:abstraction: noor
 
-log.warning = ajpf.MCAPLAgent
-log.fine = ail.semantics.AILAgent
+:Initial Beliefs:
+
+distance_threshold(50)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
++distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
+
++! stop [perform] : {True} <-
+	stop;
++! right90 [perform] : {True} <-
+    right90;
++! backward [perform] : {True} <-
+    backward;
+
++change_distance(D) : {B distance_threshold(D1)} <-
+    -distance_threshold(D1), +distance_threshold(D);
+
+:name: noor
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+start [perform]
+
+:Plans:
+
++obstacle : {B rule1} <- 
+	perf(stop);
++obstacle : {B rule2} <-
+    perf(stop),
+    perf(right90);
++obstacle : {B rule3} <-
+    perf(backward),
+    perf(right90);
+    

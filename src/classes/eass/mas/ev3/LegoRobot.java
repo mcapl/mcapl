@@ -78,4 +78,6 @@ public interface LegoRobot {
 	 */
 	public void addPercepts(EASSEV3Environment env);
 	
+	public void close();
+	
 }
