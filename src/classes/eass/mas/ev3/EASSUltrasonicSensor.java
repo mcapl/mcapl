@@ -31,8 +31,8 @@ import java.rmi.RemoteException;
 
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.remote.ev3.RMIRemoteSampleProvider;
-import lejos.remote.ev3.RMISampleProvider;
-import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.remote.ev3.RemoteRequestSampleProvider;
 import lejos.robotics.SampleProvider;
 
 /**
@@ -42,11 +42,11 @@ import lejos.robotics.SampleProvider;
  */
 public class EASSUltrasonicSensor implements EASSSensor {
 	PrintStream out = System.out;
-	RMISampleProvider sensor;
+	RemoteRequestSampleProvider sensor;
 //	SampleProvider distances;
 	
-	public EASSUltrasonicSensor(RemoteEV3 brick, String portName) throws RemoteException {
-		sensor = brick.createSampleProvider(portName, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
+	public EASSUltrasonicSensor(RemoteRequestEV3 brick, String portName) throws RemoteException {
+		sensor = (RemoteRequestSampleProvider) brick.createSampleProvider(portName, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
 //		distances = sensor.getDistanceMode();
 	}
 	
@@ -56,7 +56,8 @@ public class EASSUltrasonicSensor implements EASSSensor {
 	 */
 	public void addPercept(EASSEV3Environment env) {
 		try {
-			float[] sample = sensor.fetchSample();
+			float[] sample = new float[1];
+			sensor.fetchSample(sample, 0);
 			float distancevalue = sample[0];
 			out.println("distance is " + distancevalue);
 			Literal distance = new Literal("distance");

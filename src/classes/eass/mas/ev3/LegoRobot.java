@@ -24,7 +24,8 @@
 
 package eass.mas.ev3;
 
-import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.DifferentialPilot;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public interface LegoRobot {
 	 * Get the brick associated with this robot.
 	 * @return
 	 */
-	public RemoteEV3 getBrick();
+	public RemoteRequestEV3 getBrick();
 	
 	/**
 	 * Does this robot have a pilot?
@@ -51,13 +52,13 @@ public interface LegoRobot {
 	 * Set the pilot for this robot.
 	 * @param pilot
 	 */
-	public void setPilot(DifferentialPilot pilot);
+	public void setPilot(ArcRotateMoveController pilot);
 	
 	/**
 	 * Get the pilot for this robot.
 	 * @return
 	 */
-	public DifferentialPilot getPilot();
+	public ArcRotateMoveController getPilot();
 	
 	/**
 	 * Attach a sensor to a port.

@@ -39,8 +39,11 @@ import lejos.hardware.device.NXTMMX;
 import lejos.hardware.motor.NXTRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.remote.ev3.RMIRegulatedMotor;
-import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestPilot;
+import lejos.remote.ev3.RemoteRequestRegulatedMotor;
+import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.io.PrintStream;
 
@@ -104,11 +107,11 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 		   		}
 		   	} else if (act.getFunctor().equals("right")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotateRight();
+		  // 			robot.getPilot().rotateRight();
 		   		}
 		   	} else if (act.getFunctor().equals("left")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotateLeft();
+		 //  			robot.getPilot().rotateLeft();
 		   		}
 		   	} else if (act.getFunctor().equals("right90")) {
 		   		if (robot.hasPilot()) {
@@ -209,7 +212,7 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	 *
 	 */
 	public class Noor extends BasicRobot {
-		DifferentialPilot pilot;
+		RemoteRequestPilot pilot;
 		PrintStream uPrintStream = System.out;
 		
 		/**
@@ -221,20 +224,20 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 			super(address);
 			
 //			if (isConnected()) {
-				RemoteEV3 brick = getBrick();
+				RemoteRequestEV3 brick = getBrick();
 				try {
-					EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
-					setSensor(1, uSensor);
-					uSensor.setPrintStream(uPrintStream);
+				//	EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
+				//	setSensor(1, uSensor);
+				//	uSensor.setPrintStream(uPrintStream);
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
 				}
-	/*			NXTRegulatedMotor claudia_motorLeft = new NXTRegulatedMotor(brick.getPort("C"));
-				NXTRegulatedMotor  claudia_motorRight = new NXTRegulatedMotor(brick.getPort("A"));
-				pilot = new  DifferentialPilot(5, 11, claudia_motorLeft, claudia_motorRight);
+		//		RemoteRequestRegulatedMotor claudia_motorLeft = brick.createRegulatedMotor("B", 'L');
+		//		RemoteRequestRegulatedMotor  claudia_motorRight = brick.createRegulatedMotor("A", 'L');
+				pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
 				pilot.setTravelSpeed(10);
 				pilot.setRotateSpeed(15);
-				setPilot(pilot); */
+				setPilot(pilot); 
 //			}
 		}
 		
@@ -264,6 +267,11 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 		 */
 		public void setRotateSpeed(int speed) {
 			pilot.setRotateSpeed(speed);
+		}
+		
+		public void close() {
+			pilot.close();
+			super.close();
 		}
 	}
 

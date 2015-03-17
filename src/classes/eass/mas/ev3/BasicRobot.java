@@ -26,8 +26,8 @@ package eass.mas.ev3;
 
 import java.util.ArrayList;
 
-import lejos.robotics.navigation.DifferentialPilot;
-import lejos.remote.ev3.RemoteEV3;
+import lejos.robotics.navigation.ArcRotateMoveController;
+import lejos.remote.ev3.RemoteRequestEV3;
 
 /**
  * A class that encapsulates a basic Lego Robot that is running leJOS on the
@@ -36,8 +36,8 @@ import lejos.remote.ev3.RemoteEV3;
  *
  */
 public class BasicRobot implements LegoRobot {
-	RemoteEV3 brick;
-	DifferentialPilot pilot;
+	RemoteRequestEV3 brick;
+	ArcRotateMoveController pilot;
 	boolean haspilot = false;
 	
 	EASSSensor sensor1;
@@ -51,7 +51,7 @@ public class BasicRobot implements LegoRobot {
 	 * @param address
 	 */
 	public BasicRobot(String address) throws Exception {
-		brick = new RemoteEV3(address);
+		brick = new RemoteRequestEV3(address);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class BasicRobot implements LegoRobot {
 	/**
 	 * Set a pilot for the robot.
 	 */
-	public void setPilot(DifferentialPilot npilot) {
+	public void setPilot(ArcRotateMoveController npilot) {
 		pilot = npilot;
 		haspilot = true;
 	}
@@ -72,7 +72,7 @@ public class BasicRobot implements LegoRobot {
 	/**
 	 * Get the robot's pilot.
 	 */
-	public DifferentialPilot getPilot() {
+	public ArcRotateMoveController getPilot() {
 		return pilot;
 	}
 
@@ -150,7 +150,7 @@ public class BasicRobot implements LegoRobot {
 	/**
 	 * Get the underlying NXT Brick.
 	 */
-	public RemoteEV3 getBrick() {
+	public RemoteRequestEV3 getBrick() {
 		return brick;
 	}
 
@@ -171,6 +171,7 @@ public class BasicRobot implements LegoRobot {
 		if (sensor4 != null) {
 			sensor4.close();
 		}
+		brick.disConnect();
 	}
 		
 

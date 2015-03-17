@@ -81,6 +81,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	public void  close(String rname) {
 		LegoRobot r = getRobot(rname);
 		r.close();
+		setDone(true);
 	}
 	
 	/**
@@ -163,6 +164,10 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 			holdingaddress = config.getProperty("nxt.robotAddress");
 		}
 
+	}
+	
+	public boolean done() {
+		return super.done;
 	}
 	  
 	

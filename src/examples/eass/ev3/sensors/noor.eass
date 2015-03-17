@@ -56,8 +56,6 @@ distance_threshold(50)
 
 :Initial Goals:
 
-start [perform]
-
 :Plans:
 
 +obstacle : {B rule1} <- 
