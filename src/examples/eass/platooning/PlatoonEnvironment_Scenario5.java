@@ -1,11 +1,9 @@
 package eass.platooning;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import ail.mas.ActionScheduler;
 import ail.mas.NActionScheduler;
-import ail.platoon.Vehicle;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.NumberTerm;
@@ -17,10 +15,7 @@ import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
-import ajpf.util.VerifyMap;
-import eass.cruise_control.MotorWayEnv.Car;
 import eass.mas.DefaultEASSEnvironment;
-import eass.mas.matlab.EASSMatLabEnvironment;
 
 
 
