@@ -25,6 +25,7 @@
 package gwendolen.semantics;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import ail.semantics.ReasoningCycle;
 import ail.semantics.RCStage;
@@ -33,6 +34,7 @@ import ail.semantics.operationalrules.*;
 import ail.syntax.Action;
 import ail.syntax.Goal;
 
+import ajpf.MCAPLcontroller;
 // import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
 /**
@@ -183,6 +185,7 @@ public class GwendolenRC implements ReasoningCycle {
 				currentstage = StageD;
 			}
 		} else if (currentstage == StageD) {
+			MCAPLcontroller.force_transition();
 			if (ag.lastruleexecuted.equals("Handle General Action")) {
 				setStopandCheck(true);
 			}

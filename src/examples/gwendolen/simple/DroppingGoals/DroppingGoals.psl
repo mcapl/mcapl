@@ -25,3 +25,5 @@
 1: [](~ B(ag1, bad))
 
 2: <>(ItD(ag1, print(goal_not_dropped)))
+
+3: <>(ItD(ag1, putdown(block1)))
