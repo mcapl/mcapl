@@ -185,7 +185,6 @@ public class GwendolenRC implements ReasoningCycle {
 				currentstage = StageD;
 			}
 		} else if (currentstage == StageD) {
-			MCAPLcontroller.force_transition();
 			if (ag.lastruleexecuted.equals("Handle General Action")) {
 				setStopandCheck(true);
 			}

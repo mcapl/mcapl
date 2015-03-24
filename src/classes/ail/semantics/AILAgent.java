@@ -66,6 +66,7 @@ import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
+import ajpf.MCAPLcontroller;
 import ajpf.psl.MCAPLFormula;
 import ajpf.util.AJPFLogger;
 import ajpf.psl.MCAPLPredicate;
@@ -1691,42 +1692,43 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void reason() {
 		if (RC.not_interrupted()) {
-		RC.setStopandCheck(false);
+			RC.setStopandCheck(false);
 	
-		while(! RC.stopandcheck()) {
-			RCStage stage = RC.getStage();
-			if (AJPFLogger.ltFiner(logname)) {
-				AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
-			}
-			
-			Iterator<OSRule> rules = stage.getStageRules();
-			
-		    boolean stagerulefound = false;
-			while(rules.hasNext()) {
-				OSRule rule = rules.next();
+			while(! RC.stopandcheck()) {
+				RCStage stage = RC.getStage();
 				if (AJPFLogger.ltFiner(logname)) {
-					AJPFLogger.finer(logname, "checking " + rule.getName());
+					AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 				}
-				
-				if (rule.checkPreconditions(this)) {
-					stagerulefound = true;
-					rule.apply(this);
-					lastruleexecuted = rule.getName();
-					if (AJPFLogger.ltFine(logname)) {
-						AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+			
+				Iterator<OSRule> rules = stage.getStageRules();
+			
+				boolean stagerulefound = false;
+				while(rules.hasNext()) {
+					OSRule rule = rules.next();
+					if (AJPFLogger.ltFiner(logname)) {
+						AJPFLogger.finer(logname, "checking " + rule.getName());
 					}
-					printagentstate();
-					RC.cycle(this);
-					break;
+				
+					if (rule.checkPreconditions(this)) {
+						stagerulefound = true;
+						rule.apply(this);
+						lastruleexecuted = rule.getName();
+						if (AJPFLogger.ltFine(logname)) {
+							AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+						}
+						printagentstate();
+						RC.cycle(this);
+						break;
+					}
+			
 				}
 			
-			}
-			
-			if (!stagerulefound) {
-				RC.cycle(this);
+				if (!stagerulefound) {
+					RC.cycle(this);
+				}
 			}
 		}
-		}
+		// MCAPLcontroller.force_transition();
 	
 	}
 	
