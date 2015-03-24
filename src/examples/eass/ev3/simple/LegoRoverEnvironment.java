@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.nxt.legorover.simple;
+package eass.ev3.simple;
 
 import ail.util.AILexception;
 import ail.mas.NActionScheduler;
@@ -30,17 +30,24 @@ import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.NumberTerm;
-
-import eass.mas.nxt.BasicRobot;
-import eass.mas.nxt.EASSNXTEnvironment;
-import eass.mas.nxt.EASSTouchSensor;
-import eass.mas.nxt.EASSUltrasonicSensor; 
-import eass.mas.nxt.EASSSensor;
-import eass.mas.nxt.LegoRobot;
-import eass.mas.nxt.NXTBrick;
-
-import lejos.nxt.remote.RemoteMotor;
+import eass.mas.ev3.EASSEV3Environment;
+import eass.mas.ev3.EASSUltrasonicSensor;
+import eass.mas.ev3.LegoRobot;
+import eass.mas.ev3.BasicRobot;
+import eass.mas.ev3.EASSSensor;
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.BrickInfo;
+import lejos.hardware.device.NXTMMX;
+import lejos.hardware.motor.NXTRegulatedMotor;
+import lejos.hardware.port.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestPilot;
+import lejos.remote.ev3.RemoteRequestRegulatedMotor;
+import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.io.PrintStream;
 
@@ -52,10 +59,7 @@ import java.io.PrintStream;
  * @author louiseadennis
  *
  */
-public class LegoRoverEnvironment extends EASSNXTEnvironment {
-	boolean rule1 = false;
-	boolean rule2 = false;
-	boolean rule3 = false;
+public class LegoRoverEnvironment extends EASSEV3Environment {
 	
 	/**
 	 * Construct the Environment.
@@ -73,12 +77,24 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 	 */
 	public LegoRobot createRobot(String agent) {
 		LegoRobot robot;
-		if (agent.equals("claudia")) {
-			robot = new Claudia(agent, getAddress(agent));
-		} else {
-			robot = new Noor(agent, getAddress(agent));
+		
+		try {
+			BrickInfo[] bricks = BrickFinder.discover();
+
+			for(BrickInfo info: bricks) {
+			   Brick brick = new RemoteEV3(info.getIPAddress());
+			   brick.getAudio().systemSound(0);
+			   System.err.println(info.getIPAddress());
+			}
+
+			
+			robot = new Noor("10.0.1.1");
+			addRobot(agent, robot);
+			return robot;
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return null;
 		}
-		return robot;
 	}
 	
 	
@@ -100,17 +116,9 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 		   		if (robot.hasPilot()) {
 		   			robot.getPilot().stop();
 		   		}
-		   	} else if (act.getFunctor().equals("right")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotateRight();
-		   		}
-		   	} else if (act.getFunctor().equals("left")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotateLeft();
-		   		}
 		   	} else if (act.getFunctor().equals("right90")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotate(-90);
+		   			robot.getPilot().travelArc(1000, 1000);
 		   		}
 		   	} else if (act.getFunctor().equals("left90")) {
 		   		if (robot.hasPilot()) {
@@ -118,31 +126,7 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 		   		}
 		   	} else if (act.getFunctor().equals("backward")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().travel(-10);
-		   		}
-		   	} else if (act.getFunctor().equals("rule1")) {
-		   		if (!rule1) {
-		   			addSharedBelief(rname, new Literal("rule1"));
-		   			rule1 = true;
-		   		} else {
-		   			removeSharedBelief(rname, new Literal("rule1"));
-		   			rule1 = false;
-		   		}
-		   	} else if (act.getFunctor().equals("rule2")) {
-		   		if (!rule2) {
-		   			addSharedBelief(rname, new Literal("rule2"));
-		   			rule2 = true;
-		   		} else {
-		   			removeSharedBelief(rname, new Literal("rule2"));
-		   			rule2 = false;
-		   		}
-		   	} else if (act.getFunctor().equals("rule3")) {
-		   		if (!rule3) {
-		   			addSharedBelief(rname, new Literal("rule3"));
-		   			rule3 = true;
-		   		} else {
-		   			removeSharedBelief(rname, new Literal("rule3"));
-		   			rule3 = false;
+		   			robot.getPilot().backward();
 		   		}
 		   	} else if (act.getFunctor().equals("wait")) {
 				try {
@@ -151,27 +135,6 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 	    			System.out.println("catching interrupt");
 	    		}
 				addSharedBelief(rname, new Literal("waited"));
-		   	} else if (act.getFunctor().equals("speed")) {
-		   		if (robot instanceof Noor) {
-		   			((Noor) robot).setSpeed((int) ((NumberTerm) act.getTerm(0)).solve());
-		   		}
-		   		if (robot instanceof Claudia) {
-		   			((Claudia) robot).setSpeed((int) ((NumberTerm) act.getTerm(0)).solve());
-		   		}
-		   	}  else if (act.getFunctor().equals("rspeed")) {
-		   		if (robot instanceof Noor) {
-		   			((Noor) robot).setRotateSpeed((int) ((NumberTerm) act.getTerm(0)).solve());
-		   		}
-		   		if (robot instanceof Claudia) {
-		   			((Claudia) robot).setRotateSpeed((int) ((NumberTerm) act.getTerm(0)).solve());
-		   		}
-		   	} else if (act.getFunctor().equals("obstacle_distance")) {
-		   		if (robot instanceof Noor) {
-		   			Literal distance_threshold = new Literal("change_distance");
-		   			distance_threshold.addTerm(act.getTerm(0));
-		   			String abstraction_name = "abstraction_" + rname;
-		   			addPercept(abstraction_name, distance_threshold);
-		   		}
 		   	} else {
 		   		u = super.executeAction(agName, act);
 		   	}
@@ -213,7 +176,7 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 	 *
 	 */
 	public class Noor extends BasicRobot {
-		DifferentialPilot pilot;
+		RemoteRequestPilot pilot;
 		PrintStream uPrintStream = System.out;
 		
 		/**
@@ -221,21 +184,25 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 		 * @param name
 		 * @param address
 		 */
-		public Noor(String name, String address) {
-			super(name, address);
+		public Noor(String address) throws Exception {
+			super(address);
 			
-			if (isConnected()) {
-				NXTBrick brick = getBrick();
-				EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, 1);
-				setSensor(1, uSensor);
-				uSensor.setPrintStream(uPrintStream);
-				RemoteMotor claudia_motorLeft = brick.getMotorC();
-				RemoteMotor claudia_motorRight = brick.getMotorA();
-				pilot = new  DifferentialPilot(5, 11, claudia_motorLeft, claudia_motorRight);
+//			if (isConnected()) {
+				RemoteRequestEV3 brick = getBrick();
+				try {
+				//	EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
+				//	setSensor(1, uSensor);
+				//	uSensor.setPrintStream(uPrintStream);
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+		//		RemoteRequestRegulatedMotor claudia_motorLeft = brick.createRegulatedMotor("B", 'L');
+		//		RemoteRequestRegulatedMotor  claudia_motorRight = brick.createRegulatedMotor("A", 'L');
+				pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
 				pilot.setTravelSpeed(10);
 				pilot.setRotateSpeed(15);
-				setPilot(pilot);
-			}
+				setPilot(pilot); 
+//			}
 		}
 		
 		/**
@@ -265,52 +232,12 @@ public class LegoRoverEnvironment extends EASSNXTEnvironment {
 		public void setRotateSpeed(int speed) {
 			pilot.setRotateSpeed(speed);
 		}
+		
+		public void close() {
+			pilot.close();
+			super.close();
+		}
 	}
 
-	/**
-	 * A class for Claudia type robots (Robots with one bump sensor) and two motors.
-	 * @author louiseadennis
-	 *
-	 */
-	public class Claudia extends BasicRobot {
-		DifferentialPilot pilot;
-		
-		/**
-		 * Set up the configuration for the robot.
-		 * @param name
-		 * @param address
-		 */
-		public Claudia(String name, String address) {
-			super(name, address);
-			
-			if (isConnected()) {
-				NXTBrick brick = getBrick();
-				EASSTouchSensor tSensor = new EASSTouchSensor(brick, 1);
-				setSensor(1, tSensor);
-				RemoteMotor claudia_motorLeft = brick.getMotorC();
-				RemoteMotor claudia_motorRight = brick.getMotorA();
-				pilot = new  DifferentialPilot(5, 11, claudia_motorLeft, claudia_motorRight);
-				pilot.setTravelSpeed(10);
-				pilot.setRotateSpeed(15);
-				setPilot(pilot);
-			}
-		}
-		
-		/**
-		 * Set the travel speed.
-		 * @param speed
-		 */
-		public void setSpeed(int speed) {
-			pilot.setTravelSpeed(speed);
-		}
-
-		/**
-		 * Set the rotation speed.
-		 * @param speed
-		 */
-		public void setRotateSpeed(int speed) {
-			pilot.setRotateSpeed(speed);
-		}
-	}
 
 }

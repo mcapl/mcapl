@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.nxt.legorover.simple;
+package eass.ev3.simple;
 
 import javax.swing.*;   
 import javax.swing.border.Border;
@@ -44,7 +44,7 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import eass.mas.nxt.EASSNXTEnvironment;
+import eass.mas.ev3.EASSEV3Environment;
 import ail.syntax.Action;
 import ail.syntax.NumberTermImpl;
 import ail.util.AILConfig;
@@ -62,22 +62,13 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 		private static final long serialVersionUID = 1L;
 		
 		// The various buttons and boxes used by the interface.
-	    protected JButton fbutton, rbutton, lbutton, sbutton, delaybutton, r90button, l90button, bbutton;
-	    protected JCheckBox r1button, r2button, r3button;
-	    protected JComboBox<String> delaybox;
-	    protected JFormattedTextField speedbox, rspeedbox, distancebox;
+	    protected JButton fbutton, sbutton, r90button, l90button, bbutton;
 	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
-	    //
-	    // 500 = 0.5s = Satellite Call UK-Australia
-	    // 1000 = 1s
-	    // 13000 = 1.3s = Earth-Moon delay
-	    // 180000 = 3 min = Earth-Mars delay
-	    protected String[] delays = {"0","500","1000","1300","180000"};
 	    
 	    // The delay before instructions reach the robot, the environment and the default robot name.
 	    protected int delay = 0;
-	    protected static EASSNXTEnvironment env;
+	    protected static EASSEV3Environment env;
 	    protected static String rName = "noor";
 	    
 	    // Wrapping the environment in a thread so events are handled faster.
@@ -105,35 +96,6 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	
 	    	// ---------- Components of the Settings box
 	    	
-	    	// Delay
-	    	JLabel dtext = new JLabel("Delay:");
-	    	settings.add(dtext);
-	    	delaybox = new JComboBox<String>(delays);
-	    	delaybox.setActionCommand("delay");
-	    	delaybox.addActionListener(this);
-	    	settings.add(delaybox);
-	    	
-	    	// Speed
-	    	JLabel stext = new JLabel("Forward Speed:");
-	    	settings.add(stext);
-	    	NumberFormat f = NumberFormat.getIntegerInstance(); 
-	    	f.setMaximumIntegerDigits(3);
-	    	speedbox = new JFormattedTextField(f);
-	    	speedbox.setValue(10);
-	    	speedbox.setColumns(3);
-	    	speedbox.addPropertyChangeListener(this);
-	    	settings.add(speedbox);
-	    	
-	    	// Speed
-	    	JLabel ttext = new JLabel("Turning Speed:");
-	    	settings.add(ttext);
-	    	NumberFormat f1 = NumberFormat.getIntegerInstance(); 
-	    	f1.setMaximumIntegerDigits(3);
-	    	rspeedbox = new JFormattedTextField(f1);
-	    	rspeedbox.setValue(15);
-	    	rspeedbox.setColumns(3);
-	    	rspeedbox.addPropertyChangeListener(this);
-	    	settings.add(rspeedbox);
 	    		    	
 	    	// A JPanel for Controls
 	    	JPanel controls = new JPanel();
@@ -154,25 +116,6 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        c.gridwidth = 1;
 	        controls.add(fbutton, c);
 	    	
-	        // Right
-	        rbutton = new JButton("Right");
-	        rbutton.setMnemonic(KeyEvent.VK_R);
-	        rbutton.setActionCommand("right");
-	        rbutton.addActionListener(this);
-	        rbutton.setToolTipText("Click to turn Right");
-	        c.gridx = 1;
-	        c.gridy = 0;
-	        controls.add(rbutton, c);
-
-	        // Left
-	        lbutton = new JButton("Left");
-	        lbutton.setMnemonic(KeyEvent.VK_L);
-	        lbutton.setActionCommand("left");
-	        lbutton.addActionListener(this);
-	        lbutton.setToolTipText("Click to turn Left");
-	        c.gridx = 2;
-	        c.gridy = 0;
-	        controls.add(lbutton, c);
 	        
 	        // Stop
 	        sbutton = new JButton("Stop");
@@ -221,45 +164,6 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        c.gridwidth = 1;
 	    	add(rules, c);
 
-	    	// Rule 1
-	    	r1button = new JCheckBox("rule1:");
-	        r1button.setActionCommand("rule1");
-	        r1button.addActionListener(this);
-	        r1button.setToolTipText("Activate rule 1");
-	        c.gridx = 0;
-	        c.gridy = 0;
-	        c.gridwidth = 1;
-	        rules.add(r1button, c);
-	        JLabel r1 = new JLabel("if you Believe there is an obstacle then Stop ");
-	        c.gridx = 1;
-	        c.gridy = 0;
-	        rules.add(r1, c);
-	       
-	        // Rule 2
-	        r2button = new JCheckBox("rule2:");
-	        r2button.setActionCommand("rule2");
-	        r2button.addActionListener(this);
-	        r2button.setToolTipText("Activate rule 2");
-	        c.gridx = 0;
-	        c.gridy = 1;
-	        rules.add(r2button, c);
-	        JLabel r2 = new JLabel("if you Believe there is an obstacle then Stop and then Turn Right ");
-	        c.gridx = 1;
-	        c.gridy = 1;
-	        rules.add(r2, c);
-
-	        // Rule 3
-	        r3button = new JCheckBox("rule3:");
-	        r3button.setActionCommand("rule3");
-	        r3button.addActionListener(this);
-	        r3button.setToolTipText("Activate rule 3");
-	        c.gridx = 0;
-	        c.gridy = 2;
-	        rules.add(r3button, c);
-	        JLabel r3 = new JLabel("if you Believe there is an obstacle then Reverse and then Turn Right ");
-	        c.gridx = 1;
-	        c.gridy = 2;
-	        rules.add(r3, c);
 	        
 	        // Control of Ultrasound Sensor
 	    	if (env.getRobot(rName) instanceof LegoRoverEnvironment.Noor) {
@@ -272,16 +176,6 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 		        c.gridwidth = 1;
 		    	add(ultra, c);
 		    	
-		    	// Distance Setting
-		    	JLabel utext = new JLabel("Obstacle Distance:");
-		    	ultra.add(utext);
-		    	NumberFormat f2 = NumberFormat.getIntegerInstance(); 
-		    	f2.setMaximumIntegerDigits(3);
-		    	distancebox = new JFormattedTextField(f2);
-		    	distancebox.setValue(50);
-		    	distancebox.setColumns(3);
-		    	distancebox.addPropertyChangeListener(this);
-		    	ultra.add(distancebox);
 		    	
 		    	// Ultrasound Values
 		    	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
@@ -341,12 +235,12 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	if (rName.equals("claudia")) {
 		    	config = new AILConfig("/src/examples/eass/nxt/legorover/simple/Claudia.ail");
 	    	} else {
-	    		config = new AILConfig("/src/examples/eass/nxt/legorover/simple/Noor.ail");
+	    		config = new AILConfig("/src/examples/eass/ev3/simple/Noor.ail");
 	    	}
 			AIL.configureLogging(config);
 		
 			MAS mas = AIL.AILSetup(config);
-			env = (EASSNXTEnvironment) mas.getEnv();
+			env = (EASSEV3Environment) mas.getEnv();
 			
 			//Schedule a job for the event-dispatching thread:
 	        //creating and showing this application's GUI.
@@ -389,43 +283,6 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 		 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 		 */
 		public void propertyChange(PropertyChangeEvent e) {
-			Object source = e.getSource();
-			
-			if (source == speedbox) {
-				Number speed = (Number) speedbox.getValue();
-			
-				Action act = new Action("speed");
-				act.addTerm(new NumberTermImpl(speed.intValue()));
-			
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-			} else if (source == rspeedbox) {
-				Number speed = (Number) rspeedbox.getValue();
-				
-				Action act = new Action("rspeed");
-				act.addTerm(new NumberTermImpl(speed.intValue()));
-			
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-				
-			} else if (source == distancebox) {
-				Number distance = (Number) distancebox.getValue();
-				
-				Action act = new Action("obstacle_distance");
-				act.addTerm(new NumberTermImpl(distance.intValue()));
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-			}
-						
 		}
 		
 		/*

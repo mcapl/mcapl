@@ -48,18 +48,13 @@ distance_threshold(50)
     backward;
 
 +change_distance(D) : {B distance_threshold(D1)} <-
-    ±distance_threshold(D);
+    -distance_threshold(D1), +distance_threshold(D);
 
 :name: noor
 
 :Initial Beliefs:
 
-
-:Belief Rules:
-
 :Initial Goals:
-
-start [perform]
 
 :Plans:
 
