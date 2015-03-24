@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/rescue/searcher.ail,${mcapl}/src/examples/gwendolen/rescue/rescue.psl,1
+target.args = ${mcapl}/src/examples/gwendolen/rescue/searcher.ail,${mcapl}/src/examples/gwendolen/rescue/rescue.psl,8a
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,gwendolen.rescue.RobotEnv
 

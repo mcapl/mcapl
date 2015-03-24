@@ -61,8 +61,22 @@ static final String[] PICKUP_ARGS = {
 		  } else {
 			    	 
 		  }
-  }
+	  }
 
+	  @Test //----------------------------------------------------------------------
+	  public void testIntendToDo () {
+		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+		    	String filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail";
+		    	String prop_filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "2";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+  }
 
 
 }

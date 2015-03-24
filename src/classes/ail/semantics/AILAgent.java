@@ -45,6 +45,7 @@ import ail.syntax.Literal;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
 import ail.syntax.CapabilityLibrary;
+import ail.syntax.SendAction;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
@@ -63,13 +64,11 @@ import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
-
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.psl.MCAPLFormula;
 import ajpf.util.AJPFLogger;
 import ajpf.psl.MCAPLPredicate;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -1937,6 +1936,49 @@ public class AILAgent implements MCAPLLanguageAgent {
 		}
 		
 		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLLanguageAgent#MCAPLintendsToDo(ajpf.psl.MCAPLFormula)
+	 */
+	@Override
+	public boolean MCAPLintendsToDo(MCAPLFormula fmla) {
+		Action action;
+		if (fmla.getFunctor().equals("send")) {
+			Predicate sendpred = new Predicate((MCAPLPredicate) fmla);
+			List<Term> args = sendpred.getTerms();
+			Term recip = args.get(0);
+			Integer ilf = Integer.parseInt(args.get(1).toString());
+			Term content = args.get(2);
+			action = new SendAction(recip, ilf, content);
+		} else {
+			action = new Action(new Predicate((MCAPLPredicate) fmla), Action.normalAction);
+		}
+		
+		if (getIntention() != null) {
+			for (Deed d: getIntention().deeds()) {
+				if (d.getCategory() == Deed.DAction) {
+					System.err.println(d + "-- " + action);
+					if (d.getContent().unifies(action, new Unifier())) {
+						System.err.println("match!");
+						return true;
+					}
+				}
+			}
+		}
+		
+		for (Intention i: getIntentions()) {
+			for (Deed d: i.deeds()) {
+				if (d.getCategory() == Deed.DAction && d.getContent().equals(action)) {
+					System.err.println("match!");
+					return true;
+				}
+			}			
+		}
+		
+		return false;
+		
 	}
 	
 
