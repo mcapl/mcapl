@@ -85,7 +85,7 @@ proposition returns [Abstract_Proposition p1] :
 	p3 = goalproperty {$p1 = (Abstract_Proposition) $p3.p;} | p4 = falseprop {$p1 = (Abstract_Proposition) $p4.p;} | 
 	p5 = intentionproperty {$p1 = (Abstract_Proposition) $p5.p;} | p6 = lastactionproperty {$p1 = (Abstract_Proposition) $p6.p;} |
 	p7 = perceptproperty {$p1 = (Abstract_Proposition) $p7.p;} | 
-	//p8 = intendtodoproperty {$p1 = (Abstract_Proposition) $p8.p;} |
+	p8 = intendtodoproperty {$p1 = (Abstract_Proposition) $p8.p;} |
 	p = trueprop {$p1 = (Abstract_Proposition) $p.p;};
 	
 beliefproperty returns [Abstract_AgBelief p] :

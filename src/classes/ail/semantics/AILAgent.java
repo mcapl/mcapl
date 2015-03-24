@@ -1959,9 +1959,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 		if (getIntention() != null) {
 			for (Deed d: getIntention().deeds()) {
 				if (d.getCategory() == Deed.DAction) {
-					System.err.println(d + "-- " + action);
 					if (d.getContent().unifies(action, new Unifier())) {
-						System.err.println("match!");
 						return true;
 					}
 				}
@@ -1971,7 +1969,6 @@ public class AILAgent implements MCAPLLanguageAgent {
 		for (Intention i: getIntentions()) {
 			for (Deed d: i.deeds()) {
 				if (d.getCategory() == Deed.DAction && d.getContent().equals(action)) {
-					System.err.println("match!");
 					return true;
 				}
 			}			
