@@ -148,16 +148,26 @@ assuming_formation(line) [perform]
     -.lock; 
 +! cleanup [perform] : {~ B perform_cleanup}; 
 			
-+broken(X): {B aborted(thruster_failure)} <- -fixed(X); 
-+broken(X): {B repairable(X, with(Y)), ~B aborted(thruster_failure), ~B fixed(X)} <- 
++broken(X): {B aborted(thruster_failure)} <- 
+    -fixed(X); 
+    
++broken(X): {B repairable(X, with(Y)), 
+             ~B aborted(thruster_failure), 
+             ~B fixed(X)} <- 
 	perf(Y); 
-+broken(X): {~B repairable(X, Y), ~B aborted(thruster_failure)} <- 
+
++broken(X): {~B repairable(X, Y), 
+             ~B aborted(thruster_failure)} <- 
     -fixed(X), 
     +! abort(thruster_failure) [perform]; 
-+broken(X): {B repairable(X, Y), B fixed(X), ~B aborted(thruster_failure)} <- 
+
++broken(X): {B repairable(X, Y), B fixed(X), 
+             ~B aborted(thruster_failure)} <- 
     -fixed(X), 
     +! abort(thruster_failure) [perform]; 
--broken(X): {True} <- +fixed(X); 
+
+-broken(X): {True} <- 
+    +fixed(X); 
 			
 +!abort(R) [perform]: {B leader(Leader), B my_name(Name), G maintaining(Pos) [achieve]} <- 
     +aborted(R), 
