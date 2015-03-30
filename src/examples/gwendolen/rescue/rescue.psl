@@ -81,6 +81,7 @@ Goal: []( B(agentlifter, human(_, _)) -> <>( G (agentlifter, free(human)) || B(a
  ) )
 			
 8: [] ( B(r, found) -> <>B(r, sent(agentlifter, human(_, _))) )
+8a:  B(r, found) -> <>ItD(r, send(agentlifter, 1, human(_, _))) 
 
 9: [] ( B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
 
