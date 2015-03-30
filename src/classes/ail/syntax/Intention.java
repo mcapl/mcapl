@@ -260,10 +260,11 @@ public class Intention implements Comparable<Intention>{
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
-    			if (! l.negated()) {
-    				l.setNegated(false);
+   				Literal l1 = l.clone();
+   				if (! l.negated()) {
+    				l1.setNegated(false);
     			}
-    			unsuspendFor(l);
+    			unsuspendFor(l1);
     		}
     	}
     }
