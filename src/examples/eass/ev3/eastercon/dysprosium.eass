@@ -57,23 +57,15 @@ distance_threshold(1)
 
 :Plans:
 
-+obstacle : {G keep_moving [perform], ~B shutting_down} <- 
-    print("Believe there is an obstacle"),
-    print("Turning right"),
-    perf(right);
--obstacle : {G keep_moving [perform], ~B shutting_down} <-
-    print("Believe there is no obstacle"),
-    print("Going forward"),
-    perf(forward);
-+click : {B waiting_for_second_click} <-
-       +shutting_down,
-       perf(stop),
-      shutdown;
-+click : {~G keep_moving [perform]} <-
++click : {~G keep_moving [perform], ~B shutting_down} <-
       print("Adopting Goal Keep Moving"),
       +! keep_moving [perform];
 -click: {True} <-
        +waiting_for_second_click;
++click : {B waiting_for_second_click, ~B shutting_down} <-
+       +shutting_down,
+       perf(stop),
+       shutdown;
 
 +! keep_moving [perform] : {~B obstacle} <-
    perf(forward),
@@ -85,5 +77,14 @@ distance_threshold(1)
    *waiting_for_second_click,
    *click,
    print("Goal performed");
+
++obstacle : {G keep_moving [perform], ~B shutting_down} <- 
+    print("Believe there is an obstacle"),
+    print("Turning right"),
+    perf(right);
+-obstacle : {G keep_moving [perform], ~B shutting_down} <-
+    print("Believe there is no obstacle"),
+    print("Going forward"),
+    perf(forward);
 
     

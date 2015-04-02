@@ -247,7 +247,6 @@ public class Product {
 			return false;
 		}
 		
-		log.fine("Current Path Ended");
 		List<Integer> current_model_path = m.getCurrentPath();
 		if (m.currentPathSize() > 0) {
 		newProductStates(current_model_path.get(m.currentPathSize() - 1));
@@ -393,6 +392,9 @@ public class Product {
 	public boolean hasAcceptingPath() {
 		if (model_only) {
 			return false;
+		}
+		if (!accepting_path.isEmpty()) {
+			System.err.println(accepting_path);
 		}
 		return (!accepting_path.isEmpty());
 	} 

@@ -180,8 +180,10 @@ public class DefaultEnvironment implements AILEnv {
     public Unifier executeAction(String agName, Action act) throws AILexception {
  
     	decidetostop(agName, act);
-    	lastAgent = agName;
-    	lastAction = act;
+    	if (!act.getFunctor().equals("print")) {
+    		lastAgent = agName;
+    		lastAction = act;
+    	}
     	Unifier u = new Unifier();
     	
     	// Some basic actions you might expect all environments to support
