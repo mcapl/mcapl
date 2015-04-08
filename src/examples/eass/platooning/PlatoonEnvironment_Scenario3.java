@@ -2,16 +2,15 @@ package eass.platooning;
 
 import java.util.Random;
 
+import eass.mas.DefaultEASSEnvironment;
 import ail.mas.ActionScheduler;
 import ail.mas.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ajpf.util.AJPFLogger;
-import eass.mas.matlab.EASSMatLabEnvironment;
 
 
-
-public class PlatoonEnvironment_Scenario3 extends EASSMatLabEnvironment {
+public class PlatoonEnvironment_Scenario3 extends DefaultEASSEnvironment {
 	String logname = "eass.platooning.PlatoonEnvironment";
 
 	
@@ -50,7 +49,6 @@ public class PlatoonEnvironment_Scenario3 extends EASSMatLabEnvironment {
 	public void initialise() {
 		super.initialise();
 		// If not connected to matlab make the scheduler more verification friendly.
-		if (!connectedtomatlab) {
 			NActionScheduler s = (NActionScheduler) getScheduler();
 			removePerceptListener(s);
 			ActionScheduler s1 = new ActionScheduler();
@@ -63,7 +61,6 @@ public class PlatoonEnvironment_Scenario3 extends EASSMatLabEnvironment {
 //			latency.addTerm(new NumberTermImpl(0));
 //			addPercept("abstraction_follower1",latency);
 			
-		}
 	}
 
 	public void eachrun() {

@@ -31,5 +31,5 @@ platoon_member
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+latency(X): {True}<- perf(adjust_distance_parameter(X));
++latency(X): {True}<- perf(adjust_distance_parameter(X)), print(adjustingDist);
 +unrecoverable: {True}<- perf(breaking_platoon), print(unrecoverable);

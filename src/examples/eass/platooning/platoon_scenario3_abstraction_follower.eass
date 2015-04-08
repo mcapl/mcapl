@@ -11,6 +11,9 @@
 
 	For recoverable latency problem, we can verify that too-far state (defined for this particular control strategy) is not reachable.
 
+
+	Assumption: all vehicles are members of platoon at the beginning
+
 */
 
 
@@ -23,6 +26,13 @@ next_latency(1,2)
 next_latency(2,3)
 next_latency(3,4)
 
+spacing(0,5)
+spacing(1,10)
+spacing(2,15)
+spacing(3,20)
+
+check_latency_time(40)
+
 :Initial Goals:
 
 :Plans:
@@ -34,13 +44,19 @@ next_latency(3,4)
 //+precedingPID(PID): {~B preceding_vehicle_platoon_member, 0 < PID}<- assert_shared(preceding_vehicle_platoon_member); // assume ID = 0 when a vehicle is not a member of the platoon
 //+precedingPID(PID): {B preceding_vehicle_platoon_member, PID < 1}<- remove_shared(preceding_vehicle_platoon_member); 
 
-+precedingPID(X): {~ B latency(Y), X ==0 , ~B unrecoverable}<- assert_shared(latency(1));
-+precedingPID(X): {~ B latency(Y), X != 0, ~B unrecoverable}<- assert_shared(latency(0));
++timeStamp(X): {~B check_latency, B check_latency_time(Y), Y < X}<- assert_shared(check_latency), print(checkLatencyStarted);
 
-+precedingPID(X): {B latency(Y), X == 0, B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(latency(Z)),  print(Z);
-+precedingPID(X): {B latency(Y), X == 0, ~B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(unrecoverable), print(unrecoverable);
++precedingSpeed(X): {B check_latency, ~ B latency(Y), X == 0 , ~B unrecoverable}<- assert_shared(latency(1)), print(SpeedReadinglatency1);
++precedingSpeed(X): {B check_latency, ~ B latency(Y), 0 < X, ~B unrecoverable}<- assert_shared(latency(0)), print(SpeedReadinglatency0);
 
-+precedingPID(X): {B latency(Y), Y != 0, X != 0, ~B unrecoverable}<- remove_shared(latency(Y)), assert_shared(latency(0)), print(0);
+
++precedingPID(X): {B check_latency, ~ B latency(Y), X == 0 , ~B unrecoverable}<- assert_shared(latency(1)), print(latency1);
++precedingPID(X): {B check_latency, ~ B latency(Y), 0 < X, ~B unrecoverable}<- assert_shared(latency(0)), print(latency0);
+
++precedingPID(X): {B check_latency, B latency(Y), X == 0, B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(latency(Z)),  print(Z);
++precedingPID(X): {B check_latency, B latency(Y), X == 0, ~B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(unrecoverable), print(unrecoverable);
+
++precedingPID(X): {B check_latency, B latency(Y), 0 < Y, 0 < X, ~B unrecoverable}<- remove_shared(latency(Y)), assert_shared(latency(0)), print(latency0);
 
 +!breaking_platoon [perform]: {True}<- run(breaking_platoon);
-+!adjust_distance_parameter(X) [perform]: {True}<- run(pred(set_distance_parameter_for_latency),args(X));
++!adjust_distance_parameter(X) [perform]: {B spacing(X,Y)}<- run(pred(set_spacing),args(Y)), print(Y);

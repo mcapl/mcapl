@@ -27,8 +27,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	
 	ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	
-//	Vehicle v1 = new Vehicle(1);
-//	Vehicle v2 = new Vehicle(2);
+	Vehicle v1 = new Vehicle(1);
+	Vehicle v2 = new Vehicle(2);
 	Vehicle v3 = new Vehicle(3);
 	int counter=0;
 	/**
@@ -50,21 +50,14 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	 */
 	public void initialise() {
 		super.initialise();
+		vehicles.add(v1);
+		vehicles.add(v2);
 		vehicles.add(v3);
-		// If not connected to matlab make the scheduler more verification friendly.
-//		if (!connectedtomatlab) {
-//			NActionScheduler s = (NActionScheduler) getScheduler();
-//			removePerceptListener(s);
-//			ActionScheduler s1 = new ActionScheduler();
-//			s1.addJobber(this);
-//			setScheduler(s1);
-//			addPerceptListener(s1);
-//		}
 	}
 
 	public void eachrun() {
-		counter++;
-		if(counter ==5){
+//		counter++;
+//		if(counter ==5){
 		for (Vehicle v: vehicles) {
 			v.update();
 
@@ -73,27 +66,22 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 			addUniquePercept("abstraction_follower"+ v.getID(), "distance", distance);		
 
 			Literal precedingPlatoonID = new Literal("precedingPID");
-//			precedingPlatoonID.addTerm(new NumberTermImpl(v.getPrecedingPID()));
 			precedingPlatoonID.addTerm(new NumberTermImpl(v.getprecedingPID()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "precedingPID", precedingPlatoonID);
 			
 			Literal egoPlatoonID = new Literal("egoPID");
-//			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			egoPlatoonID.addTerm(new NumberTermImpl(v.getegoPID()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "egoPID", egoPlatoonID);
 
 			Literal precedingSpeed = new Literal("precedingSpeed");
-//			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			precedingSpeed.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "precedingSpeed", precedingSpeed);
 			
 			Literal speed = new Literal("speed");
-//			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			speed.addTerm(new NumberTermImpl(v.getSpeed()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
 
 			Literal timeStamp = new Literal("timeStamp");
-//			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 			timeStamp.addTerm(new NumberTermImpl(v.getTimeStamp()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "timeStamp", timeStamp);
 
@@ -103,23 +91,12 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 //			azimuth.addTerm(new NumberTermImpl(v.getAzimuth()));
 //			addUniquePercept("abstraction_follower"+ v.getID(), "azimuth", azimuth);
 ////			System.out.println("azimuth is "+ v.getAzimuth());
-			counter=0;
-		} 
+//			counter=0;
+//		} 
 		}
 
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see eass.mas.DefaultEASSEnvironment#printvalues(ail.syntax.Literal)
-	 */
-//	public void printvalues(Literal pred) {
-//		if (pred.getFunctor().equals("distance")) {
-//			AJPFLogger.fine("eass.platooning", pred.toString());
-//		} 
-//
-//	}
-
 	public boolean done() {
 		   return false;
 		}
