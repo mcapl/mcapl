@@ -26,7 +26,7 @@ next_latency(1,2)
 next_latency(2,3)
 next_latency(3,4)
 
-spacing(0,5)
+spacing(0,50)
 spacing(1,10)
 spacing(2,15)
 spacing(3,20)
@@ -46,17 +46,26 @@ check_latency_time(40)
 
 +timeStamp(X): {~B check_latency, B check_latency_time(Y), Y < X}<- assert_shared(check_latency), print(checkLatencyStarted);
 
+// if a vehicle recieves precedingPID from socket, we read precedingPID(X) (AT THE MOMEMENT IT IS NOT THE CASE)
+// otherwise another piece of information should be considered like precedingSpeed(X) in order to detect latency
+//+precedingPID(X): {B check_latency, ~ B latency(Y), X == 0 , ~B unrecoverable}<- assert_shared(latency(1)), print(latency1);
+//+precedingPID(X): {B check_latency, ~ B latency(Y), 0 < X, ~B unrecoverable}<- assert_shared(latency(0)), print(latency0);
+
+//+precedingPID(X): {B check_latency, B latency(Y), X == 0, B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(latency(Z)),  print(Z);
+//+precedingPID(X): {B check_latency, B latency(Y), X == 0, ~B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(unrecoverable), print(unrecoverable);
+
+//+precedingPID(X): {B check_latency, B latency(Y), 0 < Y, 0 < X, ~B unrecoverable}<- remove_shared(latency(Y)), assert_shared(latency(0)), print(latency0);
+
+
+// (ALTERNATIVE OPTION) to detect latency, we need to consider some information which is transfered via communication links like "speed"
 +precedingSpeed(X): {B check_latency, ~ B latency(Y), X == 0 , ~B unrecoverable}<- assert_shared(latency(1)), print(SpeedReadinglatency1);
 +precedingSpeed(X): {B check_latency, ~ B latency(Y), 0 < X, ~B unrecoverable}<- assert_shared(latency(0)), print(SpeedReadinglatency0);
 
++precedingSpeed(X): {B check_latency, B latency(Y), X == 0, B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(latency(Z)),  print(Z);
++precedingSpeed(X): {B check_latency, B latency(Y), X == 0, ~B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(unrecoverable), print(unrecoverable);
 
-+precedingPID(X): {B check_latency, ~ B latency(Y), X == 0 , ~B unrecoverable}<- assert_shared(latency(1)), print(latency1);
-+precedingPID(X): {B check_latency, ~ B latency(Y), 0 < X, ~B unrecoverable}<- assert_shared(latency(0)), print(latency0);
++precedingSpeed(X): {B check_latency, B latency(Y), 0 < Y, 0 < X, ~B unrecoverable}<- remove_shared(latency(Y)), assert_shared(latency(0)), print(latency0);
 
-+precedingPID(X): {B check_latency, B latency(Y), X == 0, B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(latency(Z)),  print(Z);
-+precedingPID(X): {B check_latency, B latency(Y), X == 0, ~B next_latency(Y,Z)}<- remove_shared(latency(Y)), assert_shared(unrecoverable), print(unrecoverable);
-
-+precedingPID(X): {B check_latency, B latency(Y), 0 < Y, 0 < X, ~B unrecoverable}<- remove_shared(latency(Y)), assert_shared(latency(0)), print(latency0);
 
 +!breaking_platoon [perform]: {True}<- run(breaking_platoon);
 +!adjust_distance_parameter(X) [perform]: {B spacing(X,Y)}<- run(pred(set_spacing),args(Y)), print(Y);
