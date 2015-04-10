@@ -131,7 +131,7 @@ public class Vehicle {
 		ego.roadCurvature = buf.getDouble();
 		
 		/* Leader data */
-		leader.timestamp = buf.getDouble();
+		leader.timestamp = buf.getDouble(); // presenting leader latency
 		leader.distance = buf.getDouble();
 		leader.speed = buf.getDouble();
 		leader.acceleration = buf.getDouble();
@@ -145,7 +145,7 @@ public class Vehicle {
 		
 		/* Preceding data */
 		preceding.platoonID = (int)buf.getDouble();
-		preceding.timestamp = buf.getDouble();
+		preceding.timestamp = buf.getDouble(); // presenting preceding latency
 		preceding.distance = buf.getDouble();
 		preceding.speed = buf.getDouble();
 		preceding.acceleration = buf.getDouble();
@@ -191,6 +191,17 @@ public class Vehicle {
 	public int getTimeStamp(){
 		return (int) ego.timestamp;
 	}
+	
+	public double getLeaderLatency(){
+		double latency = leader.timestamp * 1.0E12;
+		return latency;
+	}
+	
+	public double getPrecedingLatency(){
+		double latency = preceding.timestamp * 1.0E12;
+		return latency;
+	}
+	
 	// PRIVATE INNER CLASS 
 	private class ExecutableAction {
 		String actionName;
