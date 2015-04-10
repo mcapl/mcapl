@@ -56,44 +56,59 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	}
 
 	public void eachrun() {
-//		counter++;
+		counter++;
 //		if(counter ==5){
 		for (Vehicle v: vehicles) {
 			v.update();
 
-			Literal distance = new Literal("distance");
-			distance.addTerm(new NumberTermImpl(v.getDistance()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "distance", distance);		
 
-			Literal precedingPlatoonID = new Literal("precedingPID");
-			precedingPlatoonID.addTerm(new NumberTermImpl(v.getprecedingPID()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "precedingPID", precedingPlatoonID);
+//			Literal precedingPlatoonID = new Literal("precedingPID");
+//			precedingPlatoonID.addTerm(new NumberTermImpl(v.getprecedingPID()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "precedingPID", precedingPlatoonID);
 			
-			Literal egoPlatoonID = new Literal("egoPID");
-			egoPlatoonID.addTerm(new NumberTermImpl(v.getegoPID()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "egoPID", egoPlatoonID);
+//			Literal egoPlatoonID = new Literal("egoPID");
+//			egoPlatoonID.addTerm(new NumberTermImpl(v.getegoPID()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "egoPID", egoPlatoonID);
 
-			Literal precedingSpeed = new Literal("precedingSpeed");
-			precedingSpeed.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "precedingSpeed", precedingSpeed);
+//			Literal precedingSpeed = new Literal("precedingSpeed");
+//			precedingSpeed.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "precedingSpeed", precedingSpeed);
 			
-			Literal speed = new Literal("speed");
-			speed.addTerm(new NumberTermImpl(v.getSpeed()));
-			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
+//			Literal speed = new Literal("speed");
+//			speed.addTerm(new NumberTermImpl(v.getSpeed()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
 
 			Literal timeStamp = new Literal("timeStamp");
 			timeStamp.addTerm(new NumberTermImpl(v.getTimeStamp()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "timeStamp", timeStamp);
 
 			
+//			if(counter ==3){
+
+//			Literal precedingLatency = new Literal("precedingLatency");
+//			precedingLatency.addTerm(new NumberTermImpl(v.getPrecedingLatency()));
+//			addUniquePercept("abstraction_follower"+ v.getID(), "precedingLatency", precedingLatency);
+			
+			Literal leaderLatency = new Literal("leaderLatency");
+			leaderLatency.addTerm(new NumberTermImpl(v.getLeaderLatency()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "leaderLatency", leaderLatency);
+
+			Literal distance = new Literal("distance");
+			distance.addTerm(new NumberTermImpl(v.getDistance()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "distance", distance);		
+
+//			counter=0;
+//			}
+			
+
 //			Literal azimuth = new Literal("azimuth");
 ////			egoPlatoonId.addTerm(new NumberTermImpl(v.getegoPID());
 //			azimuth.addTerm(new NumberTermImpl(v.getAzimuth()));
 //			addUniquePercept("abstraction_follower"+ v.getID(), "azimuth", azimuth);
 ////			System.out.println("azimuth is "+ v.getAzimuth());
 //			counter=0;
-//		} 
-		}
+		} 
+//		}
 
 	}
 	

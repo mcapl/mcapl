@@ -18,7 +18,11 @@
 
 :Initial Beliefs:
 
-platoon_member
+:Reasoning Rules:
+
+adjust_space(0):- nominal_space; 
+adjust_space(1):- double_nominal_space; 
+
 
 :Initial Goals:
 
@@ -31,5 +35,16 @@ platoon_member
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-+latency(X): {True}<- perf(adjust_distance_parameter(X)), print(adjustingDist);
++platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
++latency(0): {~G nominal_space [achieve]}<- print(goalAdjustSpace5), +!nominal_space [achieve], print(goal5Done);
++latency(1): {~G double_nominal_space [achieve]}<- print(goalAdjustSpace10), +!double_nominal_space [achieve], print(goal10Done);
+
++!nominal_space [achieve]: {~B latency(1)}<- perf(adjust_distance_parameter(0)), print(adjustingnomDist), *nominal_space;
++!nominal_space [achieve]: {B latency(1)}<- -!nominal_space [achieve];
+
++!double_nominal_space [achieve]: {B latency(0)}<- -!double_nominal_space [achieve];
++!double_nominal_space [achieve]: {~G nominal_space [achieve], B latency(1)}<- perf(adjust_distance_parameter(1)), print(adjustingdoubleDist), *double_nominal_space;
++!double_nominal_space [achieve]: {G nominal_space [achieve],  B latency(1)}<- -!nominal_space [achieve], perf(adjust_distance_parameter(1)), print(adjustingdoubleDist);;
+
+//+latency(X): {True}<- perf(adjust_distance_parameter(X)), print(adjustingDist);
 +unrecoverable: {True}<- perf(breaking_platoon), print(unrecoverable);
