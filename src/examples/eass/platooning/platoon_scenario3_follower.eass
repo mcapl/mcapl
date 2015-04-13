@@ -18,12 +18,6 @@
 
 :Initial Beliefs:
 
-:Reasoning Rules:
-
-adjust_space(0):- nominal_space; 
-adjust_space(1):- double_nominal_space; 
-
-
 :Initial Goals:
 
 
@@ -35,16 +29,20 @@ adjust_space(1):- double_nominal_space;
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
+//initialisation phase-- vehicle joins to platoon after 50 sec
 +platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
-+latency(0): {~G nominal_space [achieve]}<- print(goalAdjustSpace5), +!nominal_space [achieve], print(goal5Done);
-+latency(1): {~G double_nominal_space [achieve]}<- print(goalAdjustSpace10), +!double_nominal_space [achieve], print(goal10Done);
 
-+!nominal_space [achieve]: {~B latency(1)}<- perf(adjust_distance_parameter(0)), print(adjustingnomDist), *nominal_space;
-+!nominal_space [achieve]: {B latency(1)}<- -!nominal_space [achieve];
+// check for latency 0 and 1 to add goals to set spacing to 5 and 10, accordingly
++latency(0): {~G nominal_space [achieve], ~G double_nominal_space [achieve]}<- print(goalAdjustSpace5), +!nominal_space [achieve], print(goal5Done);
++latency(0): {G double_nominal_space [achieve]}<- -!double_nominal_space [achieve], print(drop10goalAdjustSpace5), +!nominal_space [achieve], print(goal5Done);
++latency(1): {~G double_nominal_space [achieve], ~G nominal_space [achieve]}<- print(goalAdjustSpace10), +!double_nominal_space [achieve], print(goal10Done);
++latency(1): {G nominal_space [achieve]}<- -!nominal_space [achieve], print(drop5goalAdjustSpace10), +!double_nominal_space [achieve], print(goal10Done);
 
-+!double_nominal_space [achieve]: {B latency(0)}<- -!double_nominal_space [achieve];
-+!double_nominal_space [achieve]: {~G nominal_space [achieve], B latency(1)}<- perf(adjust_distance_parameter(1)), print(adjustingdoubleDist), *double_nominal_space;
-+!double_nominal_space [achieve]: {G nominal_space [achieve],  B latency(1)}<- -!nominal_space [achieve], perf(adjust_distance_parameter(1)), print(adjustingdoubleDist);;
+// goal to set spacing to nominal (5)
++!nominal_space [achieve]: {True}<- perf(adjust_distance_parameter(0)), print(adjustingnomDist), *nominal_space;
 
-//+latency(X): {True}<- perf(adjust_distance_parameter(X)), print(adjustingDist);
-+unrecoverable: {True}<- perf(breaking_platoon), print(unrecoverable);
+// goal to set spacing to double nominal (10)
++!double_nominal_space [achieve]: {True}<- perf(adjust_distance_parameter(1)), print(adjustingdoubleDist), *double_nominal_space;
+
+// if unrecoverable latency occurs, all goals are dropped and breaking_platoon action should be taken (assume it doesnt happen in this scenario)
++unrecoverable: {True}<- -!nominal_space [achieve], -!double_nominal_space [achieve], perf(breaking_platoon), print(unrecoverable);

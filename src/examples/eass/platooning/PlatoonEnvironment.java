@@ -37,7 +37,7 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	 */
 	public PlatoonEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(100);
+		NActionScheduler s = new NActionScheduler(50);
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
