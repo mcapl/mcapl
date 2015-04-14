@@ -57,7 +57,7 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 
 	public void eachrun() {
 		counter++;
-//		if(counter ==5){
+		if(counter ==5){
 		for (Vehicle v: vehicles) {
 			v.update();
 
@@ -97,8 +97,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 			distance.addTerm(new NumberTermImpl(v.getDistance()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "distance", distance);		
 
-//			counter=0;
-//			}
+			counter=0;
+			}
 			
 
 //			Literal azimuth = new Literal("azimuth");
