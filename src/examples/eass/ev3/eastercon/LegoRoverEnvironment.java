@@ -26,6 +26,7 @@ package eass.ev3.eastercon;
 
 import ail.util.AILexception;
 import ail.mas.NActionScheduler;
+import ail.mas.RoundRobinScheduler;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Literal;
@@ -67,7 +68,7 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	 */
 	public LegoRoverEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(50);
+		RoundRobinScheduler s = new RoundRobinScheduler();
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
@@ -102,7 +103,7 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 			     
 		   	if (act.getFunctor().equals("forward")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().forward();
+		   			robot.getPilot().backward();
 		   		}
 		   	} else if (act.getFunctor().equals("shutdown")) {
 		   		this.setDone(true);

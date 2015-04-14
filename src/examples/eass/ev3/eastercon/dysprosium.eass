@@ -27,7 +27,7 @@ EASS
 
 :Initial Beliefs:
 
-distance_threshold(1)
+distance_threshold(0.5)
 
 :Initial Goals:
 

@@ -201,7 +201,7 @@ public class MCAPLcontroller  {
 		}
 		a.do_job();
 		specification.checkProperties();
-		// force_transition();
+		force_transition();
 		return a;
 	}
 	
