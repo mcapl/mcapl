@@ -29,8 +29,8 @@ next_latency(3,4)
 spacing(0,5)
 spacing(1,10)
 
-lb_latency(4)
-ub_latecny(8)
+lb_latency(0.04)
+ub_latecny(0.08)
 
 platoon_set_up_time(50)
 

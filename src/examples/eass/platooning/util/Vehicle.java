@@ -193,12 +193,12 @@ public class Vehicle {
 	}
 	
 	public double getLeaderLatency(){
-		double latency = leader.timestamp * 1.0E12;
+		double latency = leader.timestamp;
 		return latency;
 	}
 	
 	public double getPrecedingLatency(){
-		double latency = preceding.timestamp * 1.0E12;
+		double latency = preceding.timestamp;
 		return latency;
 	}
 	
