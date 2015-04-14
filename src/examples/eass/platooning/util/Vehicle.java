@@ -13,8 +13,8 @@ import eass.platooning.util.AILSocketServer;
 
 public class Vehicle {
 	/* Base port numbers - vehicle ID will be added to these */
-	private int BASE_INBOUND_PORT = 7000;
-	private int BASE_OUTBOUND_PORT = 8000;
+	private int BASE_INBOUND_PORT = 17000;
+	private int BASE_OUTBOUND_PORT = 18000;
 	
 	/* Inbound and outbound sockets, both are needed as Simulink can't handle bidirectional communication on a single socket */
 	private AILSocketServer inbound;
