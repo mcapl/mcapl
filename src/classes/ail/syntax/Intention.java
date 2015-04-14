@@ -254,16 +254,16 @@ public class Intention implements Comparable<Intention>{
     public void unsuspendFor(Set<Predicate> newbeliefs, Set<Literal> oldbeliefs) {
     	if (suspended) {
     		for (Predicate p: newbeliefs) {
-    			System.err.println(p);
     			unsuspendFor(p);
     		}
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
-    			if (! l.negated()) {
-    				l.setNegated(false);
+   				Literal l1 = l.clone();
+   				if (! l.negated()) {
+    				l1.setNegated(false);
     			}
-    			unsuspendFor(l);
+    			unsuspendFor(l1);
     		}
     	}
     }

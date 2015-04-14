@@ -115,12 +115,12 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	 * Action execution simply causes the random generation of perceptions and messages.
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-	   	if (AJPFLogger.ltInfo(logname)) {
+	   	if (AJPFLogger.ltInfo(logname) && !act.getFunctor().equals("print")) {
 	   		AJPFLogger.info(logname, agName + " about to do " + act);
 	   	}
 
 	   	// We exclude remove_shared and assert_shared assuming these are instantaneous.
-	   	if (!act.getFunctor().equals("remove_shared") || !act.getFunctor().equals("assert_shared")) {
+	   	if (!act.getFunctor().equals("print") && !act.getFunctor().equals("remove_shared") && !act.getFunctor().equals("assert_shared")) {
 			Set<Predicate> percepts = generate_sharedbeliefs();
 			Set<Message> messages = generate_messages();
 			clearPercepts();

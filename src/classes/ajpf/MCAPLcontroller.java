@@ -174,6 +174,7 @@ public class MCAPLcontroller  {
 			}
 			checkend = checkEnd();
 		}
+		// force_transition();
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
