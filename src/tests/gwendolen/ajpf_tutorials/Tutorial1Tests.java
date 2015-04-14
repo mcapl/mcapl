@@ -110,4 +110,26 @@ public class Tutorial1Tests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
+	  @Test //----------------------------------------------------------------------
+	  public void ex6 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "ex6";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
+	  @Test //----------------------------------------------------------------------
+	  public void ex7 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "ex7";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
 }

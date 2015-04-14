@@ -79,11 +79,20 @@ public interface MCAPLLanguageAgent {
 	/**
 	 * Succeeds if the agent has an intention phi.  The implementation of this
 	 * method defines the semantics of intentions in the Property Specificaiton
-	 * Languages.
+	 * Language.
 	 * @param phi the intention.
 	 * @return
 	 */
 	public boolean MCAPLhasIntention(MCAPLFormula phi);
+	
+	/**
+	 * Succeeds if the agent intends to perform some action phi.  The implementation
+	 * of this method defines the semantics of intends to do in the Property Specification
+	 * Language.
+	 * @param phi
+	 * @return
+	 */
+	public boolean MCAPLintendsToDo(MCAPLFormula phi);
 	
 	/**
 	 * Succeeds if the agent "wants to sleep" - typically envisaged for when the 

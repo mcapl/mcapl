@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -21,19 +21,38 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package gwendolen.ail_tutorials;
 
-1: [] (~B(medic, bad))
+import org.junit.Test;
 
-ex1: <> B(lifter, human(5, 5))
+import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.test.TestJPF;
 
-ex2: <> G(medic, assist_human(5, 5))
+public class Tutorial3Tests extends TestJPF {
+	 static final String[] JPF_ARGS = {  "-show" 
+	  };
 
-ex3: <> B(lifter, human(3, 4)) & <> B(lifter, holding(rubble))
 
-ex4: I(lifter, goto55then34) -> <> G(medic, assist_human(5, 5))
 
-ex5: [](D(lifter, move_to(5, 5)) -> <> P(human(5, 5)))
+	  //--- driver to execute single test methods
+	  public static void main(String[] args) {
+	    runTestsOfThisClass(args);
+	  }
 
-ex6: <> ItD(lifter, move_to(5, 5))
+	  //--- test methods
 
-ex7: <> ItD(lifter, send(medic, 2, assist_human(_, _)))
+	  @Test //----------------------------------------------------------------------
+	  public void ex1 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/answers/searcher_ex2.ail";
+	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "12";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
+	  
+
+}

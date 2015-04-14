@@ -37,7 +37,7 @@ import gov.nasa.jpf.vm.Verify;
  * @author louiseadennis
  *
  */
-public class AJPFLogger {
+public final class AJPFLogger {
 	  //--- those need to be kept in sync with the model side
 	  public static final int SEVERE = 1;
 	  public static final int WARNING = 2;
@@ -48,6 +48,20 @@ public class AJPFLogger {
 
 	  static HashMap<String, Level> levels = new HashMap<String, Level>();
 	  
+	  /**
+	   * The log level for this class is less than or equal to FINEST.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
+	  public static boolean ltFinest(String logname) {
+			if (!Verify.isRunningInJPF()) {
+				return getLevel(logname).intValue() <= Level.FINEST.intValue();
+			} else {
+				return getIntLevel(logname) <= Level.FINEST.intValue();
+			}
+	  }
+
 	  /**
 	   * The log level for this class is less than or equal to FINER.  Useful for
 	   * efficiency in order not to create logging strings unless they are to be used.
@@ -140,7 +154,7 @@ public class AJPFLogger {
 	   * @param logname
 	   * @return
 	   */
-	  public static int getIntLevel(String logname) {
+	  private static int getIntLevel(String logname) {
 		  return INFO;
 	  }
 	

@@ -174,7 +174,6 @@ public class MCAPLcontroller  {
 			}
 			checkend = checkEnd();
 		}
-		triggerendstate();
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
@@ -201,6 +200,7 @@ public class MCAPLcontroller  {
 		}
 		a.do_job();
 		specification.checkProperties();
+		force_transition();
 		return a;
 	}
 	
@@ -283,7 +283,7 @@ public class MCAPLcontroller  {
 	 * Dummy procedure for triggering the listener.
 	 * @return
 	 */
-	public boolean triggerendstate() {
+	public static boolean force_transition() {
 		return true;
 	}
 		

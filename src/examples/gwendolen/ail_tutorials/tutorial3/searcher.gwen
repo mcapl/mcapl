@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
-//
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// 
 // This file is part of Gwendolen
 // 
 // Gwendolen is free software; you can redistribute it and/or
@@ -22,18 +22,42 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (~B(medic, bad))
+GWENDOLEN
 
-ex1: <> B(lifter, human(5, 5))
+:name: searcher
 
-ex2: <> G(medic, assist_human(5, 5))
+:Initial Beliefs:
 
-ex3: <> B(lifter, human(3, 4)) & <> B(lifter, holding(rubble))
+square(0, 0)
+square(0, 1)
+square(0, 2)
+square(1, 0)
+square(1, 1)
+square(1, 2)
+square(2, 0)
+square(2, 1)
+square(2, 2)
 
-ex4: I(lifter, goto55then34) -> <> G(medic, assist_human(5, 5))
+:Reasoning Rules: 
+			
+area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
+unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
 
-ex5: [](D(lifter, move_to(5, 5)) -> <> P(human(5, 5)))
+:Initial Goals:
+				
+leave [achieve]
 
-ex6: <> ItD(lifter, move_to(5, 5))
+:Plans:
 
-ex7: <> ItD(lifter, send(medic, 2, assist_human(_, _)))
++! leave [achieve]: {~ B at(X1, Y1), B unchecked(X, Y)} <- +at(X, Y), move_to(X, Y);
++! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, B unchecked(X1, Y1) } <- 
+   +empty(X, Y), -at(X, Y), +at(X1, Y1), move_to(X1, Y1);
++! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, ~B unchecked(X1, Y1) } <- 
+   +empty(X, Y), -at(X, Y); 
++! leave [achieve]: {B at(X, Y), B human } <- 
+   +found; 
++! leave [achieve]: {B area_empty} <- 
+   +leave; 
+
++found : {B at(X, Y)} <- .send(lifter, :tell, human(X, Y)), +sent(lifter, human(X, Y)), +leave;
+
