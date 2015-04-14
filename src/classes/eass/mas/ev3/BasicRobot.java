@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.remote.ev3.RemoteRequestPilot;
 
 /**
  * A class that encapsulates a basic Lego Robot that is running leJOS on the
@@ -37,7 +38,7 @@ import lejos.remote.ev3.RemoteRequestEV3;
  */
 public class BasicRobot implements LegoRobot {
 	RemoteRequestEV3 brick;
-	ArcRotateMoveController pilot;
+	RemoteRequestPilot pilot;
 	boolean haspilot = false;
 	
 	EASSSensor sensor1;
@@ -64,7 +65,7 @@ public class BasicRobot implements LegoRobot {
 	/**
 	 * Set a pilot for the robot.
 	 */
-	public void setPilot(ArcRotateMoveController npilot) {
+	public void setPilot(RemoteRequestPilot npilot) {
 		pilot = npilot;
 		haspilot = true;
 	}
@@ -72,7 +73,7 @@ public class BasicRobot implements LegoRobot {
 	/**
 	 * Get the robot's pilot.
 	 */
-	public ArcRotateMoveController getPilot() {
+	public RemoteRequestPilot getPilot() {
 		return pilot;
 	}
 

@@ -79,9 +79,9 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 * @param rname
 	 */
 	public void  close(String rname) {
+		setDone(true);
 		LegoRobot r = getRobot(rname);
 		r.close();
-		setDone(true);
 	}
 	
 	/**

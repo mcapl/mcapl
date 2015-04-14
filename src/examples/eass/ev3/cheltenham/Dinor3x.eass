@@ -23,11 +23,11 @@
 //----------------------------------------------------------------------------
 EASS
 
-:abstraction: noor
+:abstraction: dinor3x
 
 :Initial Beliefs:
 
-distance_threshold(50)
+distance_threshold(0.5)
 
 :Initial Goals:
 
@@ -42,15 +42,21 @@ distance_threshold(50)
 
 +! stop [perform] : {True} <-
 	stop;
-+! right90 [perform] : {True} <-
-    right90;
++! right [perform] : {True} <-
+    right;
++! left [perform] : {True} <-
+    left;
 +! backward [perform] : {True} <-
     backward;
++! forward [perform] : {True} <-
+    forward;
++! do_nothing [perform] : {True} <-
+    do_nothing;
 
 +change_distance(D) : {B distance_threshold(D1)} <-
     -distance_threshold(D1), +distance_threshold(D);
 
-:name: noor
+:name: dinor3x
 
 :Initial Beliefs:
 
@@ -58,12 +64,11 @@ distance_threshold(50)
 
 :Plans:
 
-+obstacle : {B rule1} <- 
-	perf(stop);
-+obstacle : {B rule2} <-
-    perf(stop),
-    perf(right90);
-+obstacle : {B rule3} <-
-    perf(backward),
-    perf(right90);
-    
++obstacle : {B active(rule1), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
+    perf(A),
+    perf(B),
+	perf(C);
+-obstacle : {B active(rule2), B rule(rule2, act1, A), B rule(rule2, act2, B), B rule(rule2, act3, C)} <-
+    perf(A),
+    perf(B),
+	perf(C);

@@ -25,6 +25,7 @@
 package eass.mas.ev3;
 
 import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.remote.ev3.RemoteRequestPilot;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.DifferentialPilot;
 
@@ -52,13 +53,13 @@ public interface LegoRobot {
 	 * Set the pilot for this robot.
 	 * @param pilot
 	 */
-	public void setPilot(ArcRotateMoveController pilot);
+	public void setPilot(RemoteRequestPilot pilot);
 	
 	/**
 	 * Get the pilot for this robot.
 	 * @return
 	 */
-	public ArcRotateMoveController getPilot();
+	public RemoteRequestPilot getPilot();
 	
 	/**
 	 * Attach a sensor to a port.

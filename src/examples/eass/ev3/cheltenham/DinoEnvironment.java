@@ -22,27 +22,27 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.ev3.simple;
+package eass.ev3.cheltenham;
 
 import ail.util.AILexception;
 import ail.mas.NActionScheduler;
+import ail.mas.RoundRobinScheduler;
+import ail.syntax.Predicate;
+import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.NumberTerm;
+import ail.syntax.VarTerm;
 import eass.mas.ev3.EASSEV3Environment;
 import eass.mas.ev3.EASSUltrasonicSensor;
 import eass.mas.ev3.LegoRobot;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSSensor;
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.BrickInfo;
 import lejos.hardware.device.NXTMMX;
 import lejos.hardware.motor.NXTRegulatedMotor;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RemoteRequestPilot;
 import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import lejos.remote.ev3.RemoteRequestEV3;
@@ -59,14 +59,22 @@ import java.io.PrintStream;
  * @author louiseadennis
  *
  */
-public class LegoRoverEnvironment extends EASSEV3Environment {
+public class DinoEnvironment extends EASSEV3Environment {
+	boolean rule1 = false;
+	boolean rule2 = false;
+	
+	static Literal activer1 = new Literal("active");
+	static {activer1.addTerm(new Literal("rule1"));};
+	
+	static Literal activer2 = new Literal("active");
+	static {activer2.addTerm(new Literal("rule2"));};
 	
 	/**
 	 * Construct the Environment.
 	 */
-	public LegoRoverEnvironment() {
+	public DinoEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(50);
+		RoundRobinScheduler s = new RoundRobinScheduler();
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
@@ -76,24 +84,31 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	 * Create the relevant object for the robot.
 	 */
 	public LegoRobot createRobot(String agent) {
-		LegoRobot robot;
-		
+		Dinor3x robot;
 		try {
-			BrickInfo[] bricks = BrickFinder.discover();
-
-			for(BrickInfo info: bricks) {
-			   Brick brick = new RemoteEV3(info.getIPAddress());
-			   brick.getAudio().systemSound(0);
-			   System.err.println(info.getIPAddress());
-			}
-
-			
-			robot = new Noor("10.0.1.1");
+			System.err.println("Contacting Robot");
+			robot = new Dinor3x("10.0.1.1");
+			System.err.println("Connection Established");
 			addRobot(agent, robot);
+			addSharedBelief(agent, create_rule_action("rule1", "act1", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule1", "act2", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule1", "act3", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule2", "act1", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule2", "act2", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule2", "act3", new Predicate("do_nothing")));
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
-			return null;
+			try {
+				System.err.println("Trying to Contact Robot Again");
+				robot = new Dinor3x("10.0.1.1");
+				System.err.println("Connection Established");
+				addRobot(agent, robot);
+				return robot;
+			} catch (Exception e1) {
+				System.err.println(e1.getMessage());
+				return null;
+			}
 		}
 	}
 	
@@ -105,7 +120,7 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
-		   LegoRobot robot = getRobot(rname);
+		   Dinor3x robot = (Dinor3x) getRobot(rname);
 		  
 			     
 		   	if (act.getFunctor().equals("forward")) {
@@ -116,30 +131,72 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 		   		if (robot.hasPilot()) {
 		   			robot.getPilot().stop();
 		   		}
-		   	} else if (act.getFunctor().equals("right90")) {
+		   	} else if (act.getFunctor().equals("right")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().travelArc(1000, 1000);
+		   			robot.getPilot().steer(100);
 		   		}
-		   	} else if (act.getFunctor().equals("left90")) {
+		   	} else if (act.getFunctor().equals("left")) {
 		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotate(90);
+		   			robot.getPilot().steer(-100);
 		   		}
 		   	} else if (act.getFunctor().equals("backward")) {
 		   		if (robot.hasPilot()) {
 		   			robot.getPilot().backward();
 		   		}
-		   	} else if (act.getFunctor().equals("wait")) {
-				try {
-	    			Thread.sleep(500);
-	    		} catch (InterruptedException ie) {
-	    			System.out.println("catching interrupt");
-	    		}
-				addSharedBelief(rname, new Literal("waited"));
-		   	} else {
-		   		u = super.executeAction(agName, act);
+		   	} else if (act.getFunctor().equals("rule1")) {
+		   		if (!rule1) {
+		   			addSharedBelief(rname, activer1);
+		   			rule1 = true;
+		   		} else {
+		   			removeSharedBelief(rname, activer1);
+		   			rule1 = false;
+		   		}
+		   		return u;
+		   	} else if (act.getFunctor().equals("rule2")) {
+		   		if (!rule2) {
+		   			addSharedBelief(rname, activer2);
+		   			rule2 = true;
+		   		} else {
+		   			removeSharedBelief(rname, activer2);
+		   			rule2 = false;
+		   		}
+		   		return u;
+		   	} else if (act.getFunctor().equals("r1action1")) {
+		   		change_rule_action(rname, act, "rule1", "act1");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r1action2")) {
+		   		change_rule_action(rname, act, "rule1", "act2");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r1action3")) {
+		   		change_rule_action(rname, act, "rule1", "act3");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r2action1")) {
+		   		change_rule_action(rname, act, "rule2", "act1");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r2action2")) {
+		   		change_rule_action(rname, act, "rule2", "act2");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r2action3")) {
+		   		change_rule_action(rname, act, "rule2", "act3");
+		   		return u;
 		   	}
 		   	
+		   	u = super.executeAction(agName, act);
 		   	return u;
+	}
+	
+	private void change_rule_action(String rname, Action act, String rule_string, String action_string) {
+   		removeUnifiesShared(rname, create_rule_action(rule_string, action_string, new VarTerm("A")));
+   		addSharedBelief(rname, create_rule_action(rule_string, action_string, act.getTerm(0)));
+		
+	}
+	
+	private Literal create_rule_action(String rule_string, String action_string, Term action) {
+  		Literal ract = new Literal("rule");
+   		ract.addTerm(new Literal(rule_string));
+   		ract.addTerm(new Literal(action_string));
+   		ract.addTerm(action);
+   		return ract;	
 	}
 	
 	/**
@@ -164,80 +221,15 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	 * @param s
 	 */
 	public void setUltraPrintStream(String rname, PrintStream s) {
-		LegoRobot robot = getRobot(rname);
-		if (robot instanceof Noor) {
-			((Noor) robot).setUPrintStream(s);
-		}
+		Dinor3x robot = (Dinor3x) getRobot(rname);
+			robot.setUPrintStream(s);
 	}
 	
-	/**
-	 * A class for Noor type robots (Robots with one ultrasonic sensor) and two motors.
-	 * @author louiseadennis
-	 *
-	 */
-	public class Noor extends BasicRobot {
-		RemoteRequestPilot pilot;
-		PrintStream uPrintStream = System.out;
-		
-		/**
-		 * Set up the configuration of the robot.
-		 * @param name
-		 * @param address
-		 */
-		public Noor(String address) throws Exception {
-			super(address);
-			
-//			if (isConnected()) {
-				RemoteRequestEV3 brick = getBrick();
-				try {
-				//	EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
-				//	setSensor(1, uSensor);
-				//	uSensor.setPrintStream(uPrintStream);
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-		//		RemoteRequestRegulatedMotor claudia_motorLeft = brick.createRegulatedMotor("B", 'L');
-		//		RemoteRequestRegulatedMotor  claudia_motorRight = brick.createRegulatedMotor("A", 'L');
-				pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
-				pilot.setTravelSpeed(10);
-				pilot.setRotateSpeed(15);
-				setPilot(pilot); 
-//			}
-		}
-		
-		/**
-		 * Grab the print stream from the ultrasonic sensor.
-		 * @param s
-		 */
-		public void setUPrintStream(PrintStream s) {
-			uPrintStream = s;
-			EASSSensor uSensor = getSensor(1);
-			if (uSensor != null) {
-				uSensor.setPrintStream(s);
-			}
-		}
-		
-		/**
-		 * Setter for the robot's travel speed.
-		 * @param speed
-		 */
-		public void setSpeed(int speed) {
-			pilot.setTravelSpeed(speed);
-		}
-		
-		/**
-		 * Setter for the robot's rotation speed.
-		 * @param speed
-		 */
-		public void setRotateSpeed(int speed) {
-			pilot.setRotateSpeed(speed);
-		}
-		
-		public void close() {
-			pilot.close();
-			super.close();
-		}
+	public void cleanup(String rname) {
+		Dinor3x robot = (Dinor3x) getRobot(rname);
+		robot.close();
 	}
+	
 
 
 }

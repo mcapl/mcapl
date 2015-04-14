@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.ev3.sensors;
+package eass.ev3.cheltenham;
 
 import javax.swing.*;   
 import javax.swing.border.Border;
@@ -36,16 +36,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
 import eass.mas.ev3.EASSEV3Environment;
 import ail.syntax.Action;
+import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.util.AILConfig;
 import ail.mas.AIL;
@@ -58,83 +57,37 @@ import ajpf.MCAPLcontroller;
  * @author louiseadennis
  *
  */
-public class LegoRoverUI extends JPanel implements ActionListener, WindowListener, PropertyChangeListener {
+public class DinoUI extends JPanel implements ActionListener, WindowListener, PropertyChangeListener {
 		private static final long serialVersionUID = 1L;
 		
 		// The various buttons and boxes used by the interface.
-	    protected JButton fbutton, rbutton, lbutton, sbutton, delaybutton, r90button, l90button, bbutton;
-	    protected JCheckBox r1button, r2button, r3button;
-	    protected JComboBox<String> delaybox;
-	    protected JFormattedTextField speedbox, rspeedbox, distancebox;
+	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton;
+	    protected JCheckBox r1button, r2button;
 	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
-	    //
-	    // 500 = 0.5s = Satellite Call UK-Australia
-	    // 1000 = 1s
-	    // 13000 = 1.3s = Earth-Moon delay
-	    // 180000 = 3 min = Earth-Mars delay
-	    protected String[] delays = {"0","500","1000","1300","180000"};
+	    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward"};
 	    
 	    // The delay before instructions reach the robot, the environment and the default robot name.
 	    protected int delay = 0;
 	    protected static EASSEV3Environment env;
-	    protected static String rName = "noor";
+	    protected static String rName = "dinor3x";
+	    protected static String program = "/src/examples/eass/ev3/cheltenham/Dinor3x.ail";
 	    
 	    // Wrapping the environment in a thread so events are handled faster.
 	    protected EnvironmentThread envThread = new EnvironmentThread();
+	    
 	
 	    /**
 	     * Constructs the User Interface.
 	     * @param layout
 	     */
-	    public LegoRoverUI(GridBagLayout layout) {
+	    public DinoUI(GridBagLayout layout) {
 	    	
 			
 	    	setLayout(layout);
 	    	GridBagConstraints c = new GridBagConstraints();
-	    	
-	    	// A JPanel for Settings
-	    	JPanel settings = new JPanel();
 	    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-	    	settings.setBorder(BorderFactory.createTitledBorder(loweredetched, "Settings"));
-	    	c.gridx = 0;
-	    	c.gridy = 0;
-	        c.gridwidth = 1;
-	    	c.fill = GridBagConstraints.HORIZONTAL;
-	    	add(settings, c);
-	    	
-	    	// ---------- Components of the Settings box
-	    	
-	    	// Delay
-	    	JLabel dtext = new JLabel("Delay:");
-	    	settings.add(dtext);
-	    	delaybox = new JComboBox<String>(delays);
-	    	delaybox.setActionCommand("delay");
-	    	delaybox.addActionListener(this);
-	    	settings.add(delaybox);
-	    	
-	    	// Speed
-	    	JLabel stext = new JLabel("Forward Speed:");
-	    	settings.add(stext);
-	    	NumberFormat f = NumberFormat.getIntegerInstance(); 
-	    	f.setMaximumIntegerDigits(3);
-	    	speedbox = new JFormattedTextField(f);
-	    	speedbox.setValue(10);
-	    	speedbox.setColumns(3);
-	    	speedbox.addPropertyChangeListener(this);
-	    	settings.add(speedbox);
-	    	
-	    	// Speed
-	    	JLabel ttext = new JLabel("Turning Speed:");
-	    	settings.add(ttext);
-	    	NumberFormat f1 = NumberFormat.getIntegerInstance(); 
-	    	f1.setMaximumIntegerDigits(3);
-	    	rspeedbox = new JFormattedTextField(f1);
-	    	rspeedbox.setValue(15);
-	    	rspeedbox.setColumns(3);
-	    	rspeedbox.addPropertyChangeListener(this);
-	    	settings.add(rspeedbox);
-	    		    	
+	    		    		    	
 	    	// A JPanel for Controls
 	    	JPanel controls = new JPanel();
 	    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
@@ -189,28 +142,11 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        bbutton.setMnemonic(KeyEvent.VK_S);
 	        bbutton.setActionCommand("backward");
 	        bbutton.addActionListener(this);
-	        bbutton.setToolTipText("Click to Got Backwards 10");
-	        c.gridx = 0;
-	        c.gridy = 1;
+	        bbutton.setToolTipText("Click to Go Backwards");
+	        c.gridx = 4;
+	        c.gridy = 0;
 	        controls.add(bbutton, c);
 
-	        // Right 90
-	        r90button = new JButton("Right (90)");
-	        r90button.setActionCommand("right90");
-	        r90button.addActionListener(this);
-	        r90button.setToolTipText("Click to turn Right 90 degrees");
-	        c.gridx = 1;
-	        c.gridy = 1;
-	        controls.add(r90button, c);
-
-	        // Left 90
-	        l90button = new JButton("Left (90)");
-	        l90button.setActionCommand("left90");
-	        l90button.addActionListener(this);
-	        l90button.setToolTipText("Click to turn Left 90 degrees");
-	        c.gridx = 2;
-	        c.gridy = 1;
-	        controls.add(l90button, c);
 	        
 	    	// A JPanel for Rules
 	    	JPanel rules = new JPanel();
@@ -222,7 +158,7 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	add(rules, c);
 
 	    	// Rule 1
-	    	r1button = new JCheckBox("rule1:");
+	    	r1button = new JCheckBox("Rule:");
 	        r1button.setActionCommand("rule1");
 	        r1button.addActionListener(this);
 	        r1button.setToolTipText("Activate rule 1");
@@ -230,81 +166,90 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        c.gridy = 0;
 	        c.gridwidth = 1;
 	        rules.add(r1button, c);
-	        JLabel r1 = new JLabel("if you Believe there is an obstacle then Stop ");
+	        JLabel r1 = new JLabel("if you Believe an Obstacle has appeared then"); 
 	        c.gridx = 1;
 	        c.gridy = 0;
 	        rules.add(r1, c);
-	       
-	        // Rule 2
-	        r2button = new JCheckBox("rule2:");
+	        c.gridx = 2;
+	        c.gridy = 0;
+	        JComboBox<String> r1action1box = new JComboBox<String>(actions);
+	    	r1action1box.setActionCommand("r1action1");
+	    	r1action1box.addActionListener(this);
+	        c.gridx = 3;
+	        c.gridy = 0;
+	        rules.add(r1action1box, c);	        
+	        JComboBox<String> r1action2box = new JComboBox<String>(actions);
+	    	r1action2box.setActionCommand("r1action2");
+	    	r1action2box.addActionListener(this);
+	        c.gridx = 4;
+	        c.gridy = 0;
+	        rules.add(r1action2box, c);	   
+	        JComboBox<String> r1action3box = new JComboBox<String>(actions);
+	    	r1action2box.setActionCommand("r1action3");
+	    	r1action2box.addActionListener(this);
+	        c.gridx = 5;
+	        c.gridy = 0;
+	        rules.add(r1action3box, c);	   
+	        
+	    	// Rule 2
+	    	r2button = new JCheckBox("Rule:");
 	        r2button.setActionCommand("rule2");
 	        r2button.addActionListener(this);
 	        r2button.setToolTipText("Activate rule 2");
 	        c.gridx = 0;
 	        c.gridy = 1;
+	        c.gridwidth = 1;
 	        rules.add(r2button, c);
-	        JLabel r2 = new JLabel("if you Believe there is an obstacle then Stop and then Turn Right ");
+	        JLabel r2 = new JLabel("if you Believe an Obstacle has vanished then"); 
 	        c.gridx = 1;
 	        c.gridy = 1;
 	        rules.add(r2, c);
+	        c.gridx = 2;
+	        c.gridy = 1;
+	        JComboBox<String> r2action1box = new JComboBox<String>(actions);
+	    	r2action1box.setActionCommand("r2action1");
+	    	r2action1box.addActionListener(this);
+	        c.gridx = 3;
+	        c.gridy = 1;
+	        rules.add(r2action1box, c);	        
+	        JComboBox<String> r2action2box = new JComboBox<String>(actions);
+	    	r2action2box.setActionCommand("r2action2");
+	    	r2action2box.addActionListener(this);
+	        c.gridx = 4;
+	        c.gridy = 1;
+	        rules.add(r2action2box, c);	   
+	        JComboBox<String> r2action3box = new JComboBox<String>(actions);
+	    	r2action2box.setActionCommand("r2action3");
+	    	r2action2box.addActionListener(this);
+	        c.gridx = 5;
+	        c.gridy = 1;
+	        rules.add(r2action3box, c);	   
 
-	        // Rule 3
-	        r3button = new JCheckBox("rule3:");
-	        r3button.setActionCommand("rule3");
-	        r3button.addActionListener(this);
-	        r3button.setToolTipText("Activate rule 3");
+	        JPanel ultra = new JPanel();
+	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
+	        ultra.setLayout(new GridBagLayout());
+	        c.gridx = 0;
+	        c.gridy = 3;
+	        c.gridwidth = 1;
+	        add(ultra, c);
+		    			    	
+		    // Ultrasound Values
+	        JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
+	        c.gridx = 0;
+	        c.gridy = 1;
+	        c.gridwidth = 2;
+	        ultra.add(vtext, c);
+	        JTextArea textArea = new JTextArea(15, 30);
+	        uvalues = new TextAreaOutputStream(textArea, "Ultrasound Sensor Value");
+	        ((DinoEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
+	        JPanel output = new JPanel();
+	        output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
 	        c.gridx = 0;
 	        c.gridy = 2;
-	        rules.add(r3button, c);
-	        JLabel r3 = new JLabel("if you Believe there is an obstacle then Reverse and then Turn Right ");
-	        c.gridx = 1;
-	        c.gridy = 2;
-	        rules.add(r3, c);
-	        
-	        // Control of Ultrasound Sensor
-	    	if (env.getRobot(rName) instanceof LegoRoverEnvironment.Noor) {
-	    		// Obstacle Distance
-		    	JPanel ultra = new JPanel();
-		    	ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
-		    	ultra.setLayout(new GridBagLayout());
-		    	c.gridx = 0;
-		    	c.gridy = 3;
-		        c.gridwidth = 1;
-		    	add(ultra, c);
-		    	
-		    	// Distance Setting
-		    	JLabel utext = new JLabel("Obstacle Distance:");
-		    	ultra.add(utext);
-		    	NumberFormat f2 = NumberFormat.getIntegerInstance(); 
-		    	f2.setMaximumIntegerDigits(3);
-		    	distancebox = new JFormattedTextField(f2);
-		    	distancebox.setValue(50);
-		    	distancebox.setColumns(3);
-		    	distancebox.addPropertyChangeListener(this);
-		    	ultra.add(distancebox);
-		    	
-		    	// Ultrasound Values
-		    	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
-		    	c.gridx = 0;
-		    	c.gridy = 1;
-		        c.gridwidth = 2;
-		    	ultra.add(vtext, c);
-		    	JTextArea textArea = new JTextArea(15, 30);
-		    	uvalues = new TextAreaOutputStream(textArea, "Ultrasound Sensor Value");
-		    	((LegoRoverEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
-		    	JPanel output = new JPanel();
-		    	output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
-		    	c.gridx = 0;
-		    	c.gridy = 2;
-		        c.gridwidth = 2;
-		    	ultra.add(output, c);
-		    	
-
-	    	}
+	        c.gridwidth = 2;
+	        ultra.add(output, c);
 	    	
 	    	envThread.start();
-
-
 	    }
 
 	    /**
@@ -317,7 +262,7 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	        JFrame frame = new JFrame("Mars Robot");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        
-	        LegoRoverUI contentPane = new LegoRoverUI(new GridBagLayout());
+	        DinoUI contentPane = new DinoUI(new GridBagLayout());
 	        frame.addWindowListener(contentPane);
 	        frame.setContentPane(contentPane);
 	 
@@ -334,15 +279,8 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    public static void main(String[] args) {
 	    	AILConfig config;
 	    	// By default the robot is Noor, but if a different name is supplied then this is used.
-	    	if (args.length > 0) {
-	    		rName = args[0];
-	    	}
-	    	
-	    	if (rName.equals("claudia")) {
-		    	config = new AILConfig("/src/examples/eass/nxt/legorover/simple/Claudia.ail");
-	    	} else {
-	    		config = new AILConfig("/src/examples/eass/ev3/sensors/Noor.ail");
-	    	}
+		    	
+		    config = new AILConfig(program);
 			AIL.configureLogging(config);
 		
 			MAS mas = AIL.AILSetup(config);
@@ -372,62 +310,16 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 		public void actionPerformed(ActionEvent e) {
 	    	Action act = new Action(e.getActionCommand());
 	    	
-	    	if (e.getActionCommand().equals("delay")) {
-	    		@SuppressWarnings("unchecked")
+	    	if (e.getActionCommand().equals("r1action1") || e.getActionCommand().equals("r1action2") || e.getActionCommand().equals("r1action3") ||
+	    			e.getActionCommand().equals("r2action1") || e.getActionCommand().equals("r2action2") || e.getActionCommand().equals("r2action3")
+	    			) {
 	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
-	    		delay = Integer.parseInt((String)cb.getSelectedItem());
-	    		return;
-	    	}
+	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
+	    	} 
 	    	
 	    	envThread.latestAction(act);
-	    		    	
-
 		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-		 */
-		public void propertyChange(PropertyChangeEvent e) {
-			Object source = e.getSource();
-			
-			if (source == speedbox) {
-				Number speed = (Number) speedbox.getValue();
-			
-				Action act = new Action("speed");
-				act.addTerm(new NumberTermImpl(speed.intValue()));
-			
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-			} else if (source == rspeedbox) {
-				Number speed = (Number) rspeedbox.getValue();
 				
-				Action act = new Action("rspeed");
-				act.addTerm(new NumberTermImpl(speed.intValue()));
-			
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-				
-			} else if (source == distancebox) {
-				Number distance = (Number) distancebox.getValue();
-				
-				Action act = new Action("obstacle_distance");
-				act.addTerm(new NumberTermImpl(distance.intValue()));
-				try {
-					env.executeAction(rName, act);
-				} catch (Exception ex) {
-					System.err.println(ex.getMessage());
-				}
-			}
-						
-		}
-		
 		/*
 		 * (non-Javadoc)
 		 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
@@ -602,6 +494,12 @@ public class LegoRoverUI extends JPanel implements ActionListener, WindowListene
 	    	}
 	    	
 	    }
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			// TODO Auto-generated method stub
+			
+		}
 
 	    
 
