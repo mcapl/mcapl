@@ -88,7 +88,7 @@ public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 	 * final state properly.
 	 */
 	  @MJI
-	public static boolean triggerendstate____Z(MJIEnv env, int objref) {
+	public static boolean force_transition____Z(MJIEnv env, int objref) {
 		log.fine("attempting to yield");
 		int myChoice = 0;
 		VM vm = env.getVM();

@@ -45,6 +45,7 @@ import ail.syntax.Literal;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
 import ail.syntax.CapabilityLibrary;
+import ail.syntax.SendAction;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
@@ -63,13 +64,12 @@ import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
-
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
+import ajpf.MCAPLcontroller;
 import ajpf.psl.MCAPLFormula;
 import ajpf.util.AJPFLogger;
 import ajpf.psl.MCAPLPredicate;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -1692,42 +1692,43 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void reason() {
 		if (RC.not_interrupted()) {
-		RC.setStopandCheck(false);
+			RC.setStopandCheck(false);
 	
-		while(! RC.stopandcheck()) {
-			RCStage stage = RC.getStage();
-			if (AJPFLogger.ltFiner(logname)) {
-				AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
-			}
-			
-			Iterator<OSRule> rules = stage.getStageRules();
-			
-		    boolean stagerulefound = false;
-			while(rules.hasNext()) {
-				OSRule rule = rules.next();
+			while(! RC.stopandcheck()) {
+				RCStage stage = RC.getStage();
 				if (AJPFLogger.ltFiner(logname)) {
-					AJPFLogger.finer(logname, "checking " + rule.getName());
+					AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 				}
-				
-				if (rule.checkPreconditions(this)) {
-					stagerulefound = true;
-					rule.apply(this);
-					lastruleexecuted = rule.getName();
-					if (AJPFLogger.ltFine(logname)) {
-						AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+			
+				Iterator<OSRule> rules = stage.getStageRules();
+			
+				boolean stagerulefound = false;
+				while(rules.hasNext()) {
+					OSRule rule = rules.next();
+					if (AJPFLogger.ltFiner(logname)) {
+						AJPFLogger.finer(logname, "checking " + rule.getName());
 					}
-					printagentstate();
-					RC.cycle(this);
-					break;
+				
+					if (rule.checkPreconditions(this)) {
+						stagerulefound = true;
+						rule.apply(this);
+						lastruleexecuted = rule.getName();
+						if (AJPFLogger.ltFine(logname)) {
+							AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+						}
+						printagentstate();
+						RC.cycle(this);
+						break;
+					}
+			
 				}
 			
-			}
-			
-			if (!stagerulefound) {
-				RC.cycle(this);
+				if (!stagerulefound) {
+					RC.cycle(this);
+				}
 			}
 		}
-		}
+		// MCAPLcontroller.force_transition();
 	
 	}
 	
@@ -1937,6 +1938,46 @@ public class AILAgent implements MCAPLLanguageAgent {
 		}
 		
 		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLLanguageAgent#MCAPLintendsToDo(ajpf.psl.MCAPLFormula)
+	 */
+	@Override
+	public boolean MCAPLintendsToDo(MCAPLFormula fmla) {
+		Action action;
+		if (fmla.getFunctor().equals("send")) {
+			Predicate sendpred = new Predicate((MCAPLPredicate) fmla);
+			List<Term> args = sendpred.getTerms();
+			Term recip = args.get(0);
+			Integer ilf = Integer.parseInt(args.get(1).toString());
+			Term content = args.get(2);
+			action = new SendAction(recip, ilf, content);
+		} else {
+			action = new Action(new Predicate((MCAPLPredicate) fmla), Action.normalAction);
+		}
+		
+		if (getIntention() != null) {
+			for (Deed d: getIntention().deeds()) {
+				if (d.getCategory() == Deed.DAction) {
+					if (d.getContent().unifies(action, new Unifier())) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		for (Intention i: getIntentions()) {
+			for (Deed d: i.deeds()) {
+				if (d.getCategory() == Deed.DAction && d.getContent().equals(action)) {
+					return true;
+				}
+			}			
+		}
+
+		return false;
+		
 	}
 	
 

@@ -33,3 +33,7 @@ ex3: <> B(lifter, human(3, 4)) & <> B(lifter, holding(rubble))
 ex4: I(lifter, goto55then34) -> <> G(medic, assist_human(5, 5))
 
 ex5: [](D(lifter, move_to(5, 5)) -> <> P(human(5, 5)))
+
+ex6: <> ItD(lifter, move_to(5, 5))
+
+ex7: <> ItD(lifter, send(medic, 2, assist_human(_, _)))
