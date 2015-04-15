@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -47,6 +48,9 @@ public class Action extends Predicate {
 	public final static int synchronisedAdopt = 3;
 	@FilterField
 	public final static int receivedAction = 4;
+	
+	@FilterField
+	public int loglevel = AJPFLogger.INFO;
 	
 	/**
 	 * By default an action is a normalAction (i.e. a term).
@@ -135,5 +139,23 @@ public class Action extends Predicate {
 		
 		return false;
 	}
+	
+	/**
+	 * Set the log level at which this action should be printed.
+	 * This is mostly so "print" actions don't end up getting printed twice during logging at INFO level.
+	 * @param level
+	 */
+	public void setLogLevel(int level) {
+		loglevel = level;
+	}
+	
+	/**
+	 * Get the logging level at which this action should be printed.
+	 * @return
+	 */
+	public int getLogLevel() {
+		return loglevel;
+	}
+	
 	
 }

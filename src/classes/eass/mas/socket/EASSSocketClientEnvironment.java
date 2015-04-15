@@ -24,15 +24,8 @@
 
 package eass.mas.socket;
 
-import java.util.HashMap;
-
 import ail.util.AILConfig;
 import ail.util.AILSocketClient;
-import ail.syntax.Unifier;
-import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.Predicate;
-import ail.syntax.VarTerm;
 import eass.mas.DefaultEASSEnvironment;
 
 import ajpf.util.AJPFLogger;
@@ -72,8 +65,11 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		}		
 	}
 	
-	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#do_job()
+	 */
+	@Override
 	public void do_job() {
 		if (connectedtosocket) {
 			if (socket.allok()) {
@@ -84,31 +80,21 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		}
 	}
 	
+	/**
+	 * Can be overridden.
+	 */
 	public void readPredicatesfromSocket() {}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#cleanup()
+	 */
+	@Override
 	public void cleanup() {
 		done = true;
 		socket.close();
 	}
-			
-	public void noconnection_run(String agname, Action act) {
-		System.err.println("No Socket Connection: " + act.toString());
-	}
-	
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		try {
-			System.err.println("calculated");
-		} catch (Exception e) {
-			System.err.println("didn't sleep");
-		}
-		Literal result = new Literal("result");
-		result.addTerm(predicate);
-		result.addTerm(new Predicate("result"));
-		return result;
-	}
-
-	
+				
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#done()
@@ -134,10 +120,17 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		}
 	}
 	
+	/**
+	 * We are not to connect to a socket.  Can be useful for debugging.
+	 */
 	public void notConnectedToSocket() {
 		connectedtosocket = false;
 	}
 	
+	/**
+	 * Are we supposed to connect to a socket?
+	 * @return
+	 */
 	public boolean connectedToSocket() {
 		return connectedtosocket;
 	}
