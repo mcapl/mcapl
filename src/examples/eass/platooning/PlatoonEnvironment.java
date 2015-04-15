@@ -3,6 +3,7 @@ package eass.platooning;
 import java.util.ArrayList;
 
 import ail.mas.NActionScheduler;
+import ail.mas.RoundRobinScheduler;
 import eass.platooning.util.Vehicle;
 import ail.syntax.Action;
 import ail.syntax.Literal;
@@ -37,7 +38,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	 */
 	public PlatoonEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(50);
+	//	RoundRobinScheduler s = new RoundRobinScheduler();
+		NActionScheduler s = new NActionScheduler(20);
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);

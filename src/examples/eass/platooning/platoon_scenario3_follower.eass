@@ -37,6 +37,7 @@
 +latency(0): {G double_nominal_space [achieve]}<- -!double_nominal_space [achieve], +!nominal_space [achieve];
 +latency(1): {~G double_nominal_space [achieve], ~G nominal_space [achieve]}<- +!double_nominal_space [achieve];
 +latency(1): {G nominal_space [achieve]}<- -!nominal_space [achieve], +!double_nominal_space [achieve];
++latency(K): {True}<- print(K);
 
 // goal to set spacing to nominal (5)
 +!nominal_space [achieve]: {True}<- perf(adjust_distance_parameter(0)), *nominal_space;
