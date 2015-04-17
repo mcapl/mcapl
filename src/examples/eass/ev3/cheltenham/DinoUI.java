@@ -61,7 +61,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 		private static final long serialVersionUID = 1L;
 		
 		// The various buttons and boxes used by the interface.
-	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton;
+	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton;
 	    protected JCheckBox r1button, r2button;
 	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
@@ -148,7 +148,15 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	        controls.add(bbutton, c);
 
 	        
-	    	// A JPanel for Rules
+	        // Reverse
+	        lfbutton = new JButton("Follow_Line");
+	        lfbutton.setActionCommand("follow_line");
+	        lfbutton.addActionListener(this);
+	        c.gridx = 5;
+	        c.gridy = 0;
+	        controls.add(lfbutton, c);
+
+	        // A JPanel for Rules
 	    	JPanel rules = new JPanel();
 	    	rules.setBorder(BorderFactory.createTitledBorder(loweredetched, "Rules"));
 	    	rules.setLayout(new GridBagLayout());

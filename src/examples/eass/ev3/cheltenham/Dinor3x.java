@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.remote.ev3.RemoteRequestPilot;
 import eass.mas.ev3.BasicRobot;
+import eass.mas.ev3.EASSColorSensor;
 import eass.mas.ev3.EASSSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 
@@ -25,7 +26,11 @@ public class Dinor3x extends BasicRobot {
 				EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
 				setSensor(1, uSensor);
 				uSensor.setPrintStream(uPrintStream);
+				
+				EASSColorSensor cSensor = new EASSColorSensor(brick, "S2");
+				setSensor(2, cSensor);
 			} catch (Exception e) {
+				super.close();
 				throw e;
 			}
 			pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");

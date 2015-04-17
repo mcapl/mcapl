@@ -71,7 +71,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */

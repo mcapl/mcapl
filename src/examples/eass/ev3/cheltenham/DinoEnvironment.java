@@ -69,6 +69,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 	static Literal activer2 = new Literal("active");
 	static {activer2.addTerm(new Literal("rule2"));};
 	
+	private LineFollowingThread line_follower;
+	
 	/**
 	 * Construct the Environment.
 	 */
@@ -90,6 +92,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 			robot = new Dinor3x("10.0.1.1");
 			System.err.println("Connection Established");
 			addRobot(agent, robot);
+			line_follower = new LineFollowingThread(robot);
 			addSharedBelief(agent, create_rule_action("rule1", "act1", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule1", "act2", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule1", "act3", new Predicate("do_nothing")));
@@ -99,17 +102,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
-			try {
-				System.err.println("Trying to Contact Robot Again");
-				robot = new Dinor3x("10.0.1.1");
-				System.err.println("Connection Established");
-				addRobot(agent, robot);
-				return robot;
-			} catch (Exception e1) {
-				System.err.println(e1.getMessage());
-				return null;
-			}
 		}
+		return null;
 	}
 	
 	
@@ -125,23 +119,34 @@ public class DinoEnvironment extends EASSEV3Environment {
 			     
 		   	if (act.getFunctor().equals("forward")) {
 		   		if (robot.hasPilot()) {
+		   			line_follower.stopFollowing();
 		   			robot.getPilot().forward();
 		   		}
 		   	} else if (act.getFunctor().equals("stop")) {
 		   		if (robot.hasPilot()) {
+		   			line_follower.stopFollowing();
 		   			robot.getPilot().stop();
 		   		}
 		   	} else if (act.getFunctor().equals("right")) {
 		   		if (robot.hasPilot()) {
+		   			line_follower.stopFollowing();
 		   			robot.getPilot().steer(100);
 		   		}
 		   	} else if (act.getFunctor().equals("left")) {
 		   		if (robot.hasPilot()) {
+		   			line_follower.stopFollowing();
 		   			robot.getPilot().steer(-100);
 		   		}
 		   	} else if (act.getFunctor().equals("backward")) {
 		   		if (robot.hasPilot()) {
+		   			line_follower.stopFollowing();
 		   			robot.getPilot().backward();
+		   		}
+		   	} else if (act.getFunctor().equals("follow_line")) {
+		   		synchronized (line_follower) {
+		   			if (!line_follower.isRunning()) {
+		   				line_follower.start();
+		   			}
 		   		}
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
@@ -222,7 +227,9 @@ public class DinoEnvironment extends EASSEV3Environment {
 	 */
 	public void setUltraPrintStream(String rname, PrintStream s) {
 		Dinor3x robot = (Dinor3x) getRobot(rname);
+		if (robot != null) {
 			robot.setUPrintStream(s);
+		}
 	}
 	
 	public void cleanup(String rname) {
@@ -230,6 +237,47 @@ public class DinoEnvironment extends EASSEV3Environment {
 		robot.close();
 	}
 	
+	public class LineFollowingThread extends Thread {
+    	boolean isrunning = false;
+    	Dinor3x robot;
+    	
+    	public LineFollowingThread(Dinor3x dino) {
+    		robot = dino;
+    	}
+    	
+    	public void run() {
+    		isrunning = true;
+    		boolean steering_right = false;
+    		boolean steering_left = false;
+    		while (isrunning) {
+		   		if (DinoEnvironment.this.values.containsKey("light")) {
+		   			Predicate light = DinoEnvironment.this.values.get("light");
+		   			double value = ((NumberTerm) light.getTerm(0)).solve();
+		   			if (value > 50) {
+		   				if (!steering_right) {
+		   					robot.getPilot().steer(100);
+		   					steering_left = false;
+		   					steering_right = true;
+		   				}
+		   			} else {
+		   				if (!steering_left) {
+		   					robot.getPilot().steer(-100);
+		   					steering_left = true;
+		   					steering_right = false;
+		   				}
+		   			}
+		   		}
+    		}
+    	}
+    	
+    	public boolean isRunning() {
+    		return isrunning;
+    	}
+    	
+    	public void stopFollowing() {
+    		isrunning = false;
+    	}
+	}
 
 
 }
