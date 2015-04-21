@@ -86,6 +86,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 		}
 	}
 	
+	public boolean error = false;
 	/**
 	 * Add and abstraction engine.
 	 * @param s
@@ -93,8 +94,12 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	public void addAbstractionEngine(String s, String foragent) {
 		super.addAbstractionEngine(s, foragent);
 		setAddress(foragent, holdingaddress);
-		LegoRobot robot = createRobot(foragent);
-		robots.put(foragent, robot);
+		try {
+			LegoRobot robot = createRobot(foragent);
+			robots.put(foragent, robot);
+		} catch (Exception e) {
+			error = true;
+		}
 	}
 	
 	/**
@@ -111,13 +116,13 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 * @param agent
 	 * @return
 	 */
-	public LegoRobot createRobot(String agent) {
+	public LegoRobot createRobot(String agent) throws Exception {
 		try {
 			BasicRobot robot = new BasicRobot(getAddress(agent));
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
-			return null;
+			throw e;
 		}
 	}
 		

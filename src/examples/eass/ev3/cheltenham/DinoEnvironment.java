@@ -85,7 +85,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 	/**
 	 * Create the relevant object for the robot.
 	 */
-	public LegoRobot createRobot(String agent) {
+	public LegoRobot createRobot(String agent) throws Exception {
 		Dinor3x robot;
 		try {
 			System.err.println("Contacting Robot");
@@ -102,8 +102,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
 	}
 	
 	
@@ -148,6 +148,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   				line_follower.start();
 		   			}
 		   		}
+		   	} else if (act.getFunctor().equals("growl")) {
+		   		robot.growl();
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
 		   			addSharedBelief(rname, activer1);
@@ -253,7 +255,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		if (DinoEnvironment.this.values.containsKey("light")) {
 		   			Predicate light = DinoEnvironment.this.values.get("light");
 		   			double value = ((NumberTerm) light.getTerm(0)).solve();
-		   			if (value > 50) {
+		   			if (value > 0.5) {
 		   				if (!steering_right) {
 		   					robot.getPilot().steer(100);
 		   					steering_left = false;

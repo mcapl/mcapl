@@ -4,13 +4,16 @@ import java.io.PrintStream;
 
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.remote.ev3.RemoteRequestPilot;
+import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import eass.mas.ev3.BasicRobot;
-import eass.mas.ev3.EASSColorSensor;
+import eass.mas.ev3.EASSRGBColorSensor;
+import eass.mas.ev3.EASSRedColorSensor;
 import eass.mas.ev3.EASSSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 
 public class Dinor3x extends BasicRobot {
 		RemoteRequestPilot pilot;
+		RemoteRequestRegulatedMotor motor;
 		PrintStream uPrintStream = System.out;
 		
 		/**
@@ -20,23 +23,56 @@ public class Dinor3x extends BasicRobot {
 		 */
 		public Dinor3x(String address) throws Exception {
 			super(address);
-			
 			RemoteRequestEV3 brick = getBrick();
+			EASSUltrasonicSensor uSensor;
 			try {
-				EASSUltrasonicSensor uSensor = new EASSUltrasonicSensor(brick, "S1");
+				System.err.println("Connecting to Ultrasonic Sensor");
+				uSensor = new EASSUltrasonicSensor(brick, "S1");
+				System.err.println("Connected to Sensor");
 				setSensor(1, uSensor);
 				uSensor.setPrintStream(uPrintStream);
-				
-				EASSColorSensor cSensor = new EASSColorSensor(brick, "S2");
-				setSensor(2, cSensor);
 			} catch (Exception e) {
-				super.close();
+				brick.disConnect();
 				throw e;
 			}
-			pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
+			
+			EASSRedColorSensor cSensor;
+			try {
+				System.err.println("Connected to Colour Sensor");
+				cSensor = new EASSRedColorSensor(brick, "S2");
+				System.err.println("Connected to Sensor");
+				setSensor(2, cSensor);
+			} catch (Exception e) {
+				uSensor.close();
+				brick.disConnect();
+				throw e;
+			}
+			
+			try {
+				System.err.println("Creating Pilot");
+				pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
+				System.err.println("Created Pilot");
+			} catch (Exception e) {
+				uSensor.close();
+				cSensor.close();
+				brick.disConnect();
+				throw e;
+			}
 			pilot.setTravelSpeed(10);
 			pilot.setRotateSpeed(15);
 			setPilot(pilot); 
+			
+			try {
+				System.err.println("Contacting Medium Motor");
+				motor = (RemoteRequestRegulatedMotor) brick.createRegulatedMotor("C", 'M');
+				System.err.println("Created Medium Motor");
+			} catch (Exception e) {
+				uSensor.close();
+				cSensor.close();
+				pilot.close();
+				brick.disConnect();
+				throw e;
+			}
 		}
 		
 	@Override
@@ -75,7 +111,13 @@ public class Dinor3x extends BasicRobot {
 	public void close() {
 		System.err.println("Closing Dinor3x");
 		// pilot.close();
+		motor.close();
 		super.close();
+	}
+	
+	public void growl() {
+		motor.rotate(10);
+		motor.rotate(-10);
 	}
 
 

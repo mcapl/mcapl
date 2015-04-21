@@ -40,14 +40,14 @@ import lejos.robotics.SampleProvider;
  * @author louiseadennis
  *
  */
-public class EASSColorSensor implements EASSSensor {
+public class EASSRedColorSensor implements EASSSensor {
 	PrintStream out = System.out;
 	RemoteRequestSampleProvider sensor;
 //	SampleProvider distances;
 	
-	public EASSColorSensor(RemoteRequestEV3 brick, String portName) throws RemoteException {
+	public EASSRedColorSensor(RemoteRequestEV3 brick, String portName) throws RemoteException {
 		try {
-			sensor = (RemoteRequestSampleProvider) brick.createSampleProvider(portName, "lejos.hardware.sensor.EV3ColorSensor", "RGB");
+			sensor = (RemoteRequestSampleProvider) brick.createSampleProvider(portName, "lejos.hardware.sensor.EV3ColorSensor", "Red");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

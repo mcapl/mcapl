@@ -149,8 +149,8 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 
 	        
 	        // Reverse
-	        lfbutton = new JButton("Follow_Line");
-	        lfbutton.setActionCommand("follow_line");
+	        lfbutton = new JButton("Growl");
+	        lfbutton.setActionCommand("growl");
 	        lfbutton.addActionListener(this);
 	        c.gridx = 5;
 	        c.gridy = 0;
@@ -294,6 +294,8 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 			MAS mas = AIL.AILSetup(config);
 			env = (EASSEV3Environment) mas.getEnv();
 			
+			if (!env.error) {
+			
 			//Schedule a job for the event-dispatching thread:
 	        //creating and showing this application's GUI.
 	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -306,6 +308,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
 			// Start the system.
 			mccontrol.begin(); 
+			}
 			mas.cleanup();
 			
 	    }
