@@ -1,60 +1,79 @@
- 
+
 /*
-Vehicle break down. RE recognize power loss. All followers stop immediately
+	Platooning Scenario 4 FOLLOWER AGENT
 
-Leader and vehicles recognise problem in a vehicle and break the platoon. 
-Vehicles, receiving a notice of failures from a vehicle, independently decide to switch to NOT control cruise. 
-We want to verify that when the platoon breaks, vehicles do not follow each other and are NOT in cruise control.
-
-The aim is to verify that vehicles stop before crashing. Probably we need to assume there is no communication delay.
-
-The difference between #4 and #5 is that when the platoon breaks vehicles should switch to different control strategies.
-
+	unrecoverable latency problems. 
 */
+
 
 :abstraction: follower
 
 :Initial Beliefs:
 
-too_close_threshold(3)
-too_far_threshold(6)
-lb_speed(20)
-hb_speed(100)
-lb_diff_speed(5)
-hb_diff_speed(40)
+next_latency(0,1)
+next_latency(1,2)
+next_latency(2,3)
+next_latency(3,4)
+
+spacing(0,5)
+spacing(1,10)
+
+lb_latency(0.04)
+ub_latecny(0.08)
+
+platoon_set_up_time(70)
+
+check_latency_time(100)
+check_latency_clean_up_time(102)
 
 :Initial Goals:
 
 :Plans:
 
-+.received(:tell, B): {True} <- +B;
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
 +.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 
-+precedingPID(PID): {~B preceding_vehicle_platoon_member, 0 < PID}<- assert_shared(preceding_vehicle_platoon_member); // assume ID = 0 when a vehicle is not a member of the platoon
-+precedingPID(PID): {B preceding_vehicle_platoon_member, PID < 1}<- remove_shared(preceding_vehicle_platoon_member); 
 
-+egoPID(PID): {B no_platoon_member, 0 < PID}<- remove_shared(no_platoon_member);
-+egoPID(PID): {~B no_platoon_member, PID == 0}<- assert_shared(no_platoon_member);
++timeStamp(X): {~B platoon_set_up, B platoon_set_up_time(Y), Y < X}<- assert_shared(platoon_set_up), print(platoonSetUp);
++timeStamp(X): {~B check_latency, B check_latency_time(Y), Y < X}<- print(checkLatencyStarted), assert_shared(check_latency), -leaderLatency(Y);
++timeStamp(X): {B check_latency, B check_latency_clean_up_time(K), K < X, B leaderLatency(Y)}<- -leaderLatency(Y);
 
-+distance(Y): {~B status(S), B too_close_threshold(X), Y < X}<- assert_shared(status(too_close));
-+distance(Y): {~B status(too_close), B status(too_far), B too_close_threshold(X), Y < X}<- remove_shared(status(too_far)), assert_shared(status(too_close));
+//+leaderLatency(X): {B check_latency, ~B unrecoverable}<- print(X);
 
-+distance(Y): {~B status(S), B too_far_threshold(X), X < Y}<- assert_shared(status(too_far));
-+distance(Y): {~B status(too_far), B status(too_close), B too_far_threshold(X), X < Y}<- remove_shared(status(too_close)), assert_shared(status(too_far));
++leaderLatency(X): {B check_latency, B lb_latency(Y), X < Y, ~B unrecoverable, ~B latency(0), ~B latency(1) }<- 
+					print(latency0), assert_shared(latency(0));
++leaderLatency(X): {B check_latency, B lb_latency(Y), X < Y, ~B unrecoverable, ~B latency(0), B latency(1) }<- 
+					print(latency0), remove_shared(latency(1)), assert_shared(latency(0));
++leaderLatency(X): {B check_latency, B lb_latency(Y), Y < X, B ub_latecny(Z), X < Z, 
+						 ~B unrecoverable, ~B latency(1), ~B latency(0) }<- print(latency1), assert_shared(latency(1));
++leaderLatency(X): {B check_latency, B lb_latency(Y), Y < X, B ub_latecny(Z), X < Z, 
+						 ~B unrecoverable, ~B latency(1), B latency(0) }<- print(latency1), remove_shared(latency(0)), assert_shared(latency(1));
 
-+distance(Y): {B too_far_threshold(X), Y < X, B too_close_threshold(K), K < Y, B status(S)}<- remove_shared(status(S));
++leaderLatency(X): {B check_latency, B ub_latecny(Z), Z < X, ~B unrecoverable, ~B latency(K)}
+					   <- assert_shared(unrecoverable);
++leaderLatency(X): {B check_latency, B ub_latecny(Z), Z < X, ~B unrecoverable, B latency(K)}
+					   <- remove_shared(latency(K)), assert_shared(unrecoverable);
 
-+precedingSpeed(X): {~B no_platoon_member,
-					B preceding_vehicle_platoon_member, 
-					B status(too_close), 
-					B lb_speed(Y), X< Y, 
-					B hb_diff_speed(Z), B speed(K), Z< K-X, 
-					~B preceding_power_loss} <- assert_shared(preceding_power_loss);
-//+precedingSpeed(X): {~B no_platoon_member,
-//					B preceding_vehicle_platoon_member, 
-//					B lb_speed(Y), Y< X,
-//					B hb_diff_speed(Z), B speed(K), K-X< Z,
-//					B preceding_power_loss} <- remove_shared(preceding_power_loss); 
-					
-+!switch_from_platoon_to_manual [perform]: {True}<- run(switch_from_platoon_to_manual);
-+!release_platoonID [perform]: {True}<- run(release_platoonID);
++distance(X): {B check_latency, ~B unrecoverable, X < 4, B nominal_space, B double_nominal_space}<- remove_shared(nominal_space), remove_shared(double_nominal_space), print(less_than_nominal), print(X);
++distance(X): {B check_latency, ~B unrecoverable, X < 4, B nominal_space}<- remove_shared(nominal_space), print(less_than_nominal);
++distance(X): {B check_latency, ~B unrecoverable, X < 4, B double_nominal_space}<- remove_shared(double_nominal_space), print(less_than_nominal);
+
++distance(X): {B check_latency, ~B unrecoverable, 4 < X, X < 5.5, ~B nominal_space }<- remove_shared(double_nominal_space), assert_shared(nominal_space);
+
++distance(X): {B check_latency, ~B unrecoverable, 6 < X , X < 9, B nominal_space, B double_nominal_space}<- remove_shared(double_nominal_space), remove_shared(nominal_space);
++distance(X): {B check_latency, ~B unrecoverable, 6 < X , X < 9, B nominal_space}<- remove_shared(nominal_space);
++distance(X): {B check_latency, ~B unrecoverable, 6 < X , X < 9, B double_nominal_space}<- remove_shared(double_nominal_space);
+
++distance(X): {B check_latency, ~B unrecoverable, 9 < X, X < 11, ~B double_nominal_space}<- remove_shared(nominal_space), assert_shared(double_nominal_space);
+
++distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B nominal_space, B double_nominal_space}<- remove_shared(double_nominal_space), remove_shared(nominal_space), print(greater_than_double), print(X);
++distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B nominal_space}<- remove_shared(nominal_space), print(greater_than_double);
++distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B double_nominal_space}<- remove_shared(double_nominal_space), print(greater_than_double);
+
++!breaking_platoon [perform]: {True}<- run(pred(breaking_platoon), args(0));
++!adjust_distance_parameter(X) [perform]: {B spacing(X,Y)}<- run(pred(set_spacing),args(Y));
++!speed_controller(X) [perform]: {True}<- run(pred(speed_controller),args(X)), print(speedControllerEnabled);
++!steering_controller(X)[perform]: {True}<- run(pred(steering_controller), args(X)), print(steeringControllerEnabled);
++!stop [perform]: {True}<- run(pred(stop),args(0));

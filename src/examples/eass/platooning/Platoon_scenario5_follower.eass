@@ -1,4 +1,11 @@
 
+/*
+	Platooning Scenario 4  FOLLOWER AGENT
+
+	unecoverable latency problems. 
+	
+*/
+
 
 :name: follower
 
@@ -7,19 +14,29 @@
 :Initial Goals:
 
 
+
 :Plans:
 
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
 
-+preceding_power_loss: {True}<- +!left_platoon [achieve];
+//initialisation phase-- vehicle joins to platoon after 50 sec
++platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
 
-+!left_platoon [achieve]: {B preceding_power_loss, ~B no_platoon_member}<- perf(release_platoonID), perf(switch_from_platoon_to_manual), print(setgoal);
+// check for latency 0 and 1 to add goals to set spacing to 5 and 10, accordingly
++latency(0): {~G nominal_space [achieve], ~G double_nominal_space [achieve]}<- +!nominal_space [achieve];
++latency(0): {G double_nominal_space [achieve]}<- -!double_nominal_space [achieve], +!nominal_space [achieve];
++latency(1): {~G double_nominal_space [achieve], ~G nominal_space [achieve]}<- +!double_nominal_space [achieve];
++latency(1): {G nominal_space [achieve]}<- -!nominal_space [achieve], +!double_nominal_space [achieve];
++latency(K): {True}<- print(K);
 
-+no_platoon_member: {B preceding_power_loss}<- remove_shared(preceding_power_loss), -!left_platoon [achieve], print(done);
-+no_platoon_member: {~B preceding_power_loss, G left_platoon [achieve]}<- -!left_platoon [achieve], print(done);
+// goal to set spacing to nominal (5)
++!nominal_space [achieve]: {True}<- perf(adjust_distance_parameter(0)), *nominal_space;
 
-+status(too_far): {~B no_platoon_member, G left_platoon [achieve], B preceding_power_loss}<- remove_shared(preceding_power_loss), -!left_platoon [achieve], print(done);
-+status(too_far): {~B no_platoon_member, G left_platoon [achieve], ~B preceding_power_loss}<- -!left_platoon [achieve], print(done);
+// goal to set spacing to double nominal (10)
++!double_nominal_space [achieve]: {True}<- perf(adjust_distance_parameter(1)), *double_nominal_space;
 
-+status(too_far): {B no_platoon_member, G left_platoon [achieve], B preceding_power_loss}<- remove_shared(preceding_power_loss), -!left_platoon  [achieve], print(done);
-+status(too_far): {B no_platoon_member, G left_platoon [achieve], ~B preceding_power_loss}<- -!left_platoon  [achieve], print(done);
-
+// if unrecoverable latency occurs, all goals are dropped and breaking_platoon action should be taken (assume it doesnt happen in this scenario)
++unrecoverable: {True}<- -!nominal_space [achieve], -!double_nominal_space [achieve], perf(stop);
