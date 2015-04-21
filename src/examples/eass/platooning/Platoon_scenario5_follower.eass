@@ -40,3 +40,5 @@
 
 // if unrecoverable latency occurs, all goals are dropped and breaking_platoon action should be taken (assume it doesnt happen in this scenario)
 +unrecoverable: {True}<- -!nominal_space [achieve], -!double_nominal_space [achieve], perf(stop);
+
++stopping: {True}<- perf(stop);

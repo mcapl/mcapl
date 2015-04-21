@@ -26,6 +26,8 @@ platoon_set_up_time(70)
 check_latency_time(100)
 check_latency_clean_up_time(102)
 
+stop_signal(150)
+
 :Initial Goals:
 
 :Plans:
@@ -39,7 +41,8 @@ check_latency_clean_up_time(102)
 +timeStamp(X): {~B platoon_set_up, B platoon_set_up_time(Y), Y < X}<- assert_shared(platoon_set_up), print(platoonSetUp);
 +timeStamp(X): {~B check_latency, B check_latency_time(Y), Y < X}<- print(checkLatencyStarted), assert_shared(check_latency), -leaderLatency(Y);
 +timeStamp(X): {B check_latency, B check_latency_clean_up_time(K), K < X, B leaderLatency(Y)}<- -leaderLatency(Y);
-
+//+timeStamp(X): {B stop_signal(Y), Y < X, }<- assert(stop_imm);
++distance(X): {B platoon_set_up, X== 0}<- assert(stopping); 
 //+leaderLatency(X): {B check_latency, ~B unrecoverable}<- print(X);
 
 +leaderLatency(X): {B check_latency, B lb_latency(Y), X < Y, ~B unrecoverable, ~B latency(0), ~B latency(1) }<- 
@@ -71,6 +74,8 @@ check_latency_clean_up_time(102)
 +distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B nominal_space, B double_nominal_space}<- remove_shared(double_nominal_space), remove_shared(nominal_space), print(greater_than_double), print(X);
 +distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B nominal_space}<- remove_shared(nominal_space), print(greater_than_double);
 +distance(X): {B check_latency, ~B unrecoverable,  11 < X,  B double_nominal_space}<- remove_shared(double_nominal_space), print(greater_than_double);
+
+
 
 +!breaking_platoon [perform]: {True}<- run(pred(breaking_platoon), args(0));
 +!adjust_distance_parameter(X) [perform]: {B spacing(X,Y)}<- run(pred(set_spacing),args(Y));
