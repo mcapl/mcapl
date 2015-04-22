@@ -132,7 +132,9 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 */
 	public void eachrun() {
 		for (LegoRobot r: robots.values()) {
-			r.addPercepts(this);
+			synchronized(r) {
+				r.addPercepts(this);
+			}
 		}
 	}
 

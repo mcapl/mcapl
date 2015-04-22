@@ -115,7 +115,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
 		   Dinor3x robot = (Dinor3x) getRobot(rname);
-		  
+		   synchronized(robot) {
 			     
 		   	if (act.getFunctor().equals("forward")) {
 		   		if (robot.hasPilot()) {
@@ -126,6 +126,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		if (robot.hasPilot()) {
 		   			line_follower.stopFollowing();
 		   			robot.getPilot().stop();
+		   			// robot.stopGrowling();
 		   		}
 		   	} else if (act.getFunctor().equals("right")) {
 		   		if (robot.hasPilot()) {
@@ -149,7 +150,11 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   			}
 		   		}
 		   	} else if (act.getFunctor().equals("growl")) {
-		   		robot.growl();
+		   		RegulatedMotor motor = robot.getMotor();
+		   		int pos = motor.getTachoCount();
+		   		motor.rotateTo(pos + 10);
+		   		motor.waitComplete();
+		   		motor.rotateTo(pos);
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
 		   			addSharedBelief(rname, activer1);
@@ -187,6 +192,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		change_rule_action(rname, act, "rule2", "act3");
 		   		return u;
 		   	}
+		   }
 		   	
 		   	u = super.executeAction(agName, act);
 		   	return u;
@@ -236,7 +242,9 @@ public class DinoEnvironment extends EASSEV3Environment {
 	
 	public void cleanup(String rname) {
 		Dinor3x robot = (Dinor3x) getRobot(rname);
-		robot.close();
+		synchronized(robot) {
+			robot.close();
+		}
 	}
 	
 	public class LineFollowingThread extends Thread {

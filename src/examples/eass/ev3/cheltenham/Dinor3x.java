@@ -5,9 +5,12 @@ import java.io.PrintStream;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.remote.ev3.RemoteRequestPilot;
 import lejos.remote.ev3.RemoteRequestRegulatedMotor;
+import lejos.robotics.RegulatedMotor;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSRGBColorSensor;
 import eass.mas.ev3.EASSRedColorSensor;
+import eass.mas.ev3.EASSRemoteRequestEV3;
+import eass.mas.ev3.EASSRemoteRequestRegulatedMotor;
 import eass.mas.ev3.EASSSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 
@@ -111,13 +114,34 @@ public class Dinor3x extends BasicRobot {
 	public void close() {
 		System.err.println("Closing Dinor3x");
 		// pilot.close();
-		motor.close();
+		try {
+			motor.close();
+		} catch (Exception e) {
+			
+		}
 		super.close();
 	}
 	
+	public RegulatedMotor getMotor() {
+		return motor;
+	}
+	
 	public void growl() {
-		motor.rotate(10);
-		motor.rotate(-10);
+		try {
+			motor.resetTachoCount();
+			motor.forward();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public void stopGrowling() {
+		try {
+			motor.flt();
+//			motor.stop();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 
