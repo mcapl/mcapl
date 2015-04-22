@@ -76,12 +76,16 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	    // Wrapping the environment in a thread so events are handled faster.
 	    protected EnvironmentThread envThread = new EnvironmentThread();
 	    
+	    public DinoUI() {
+	    	
+	    }
+	    
 	
 	    /**
 	     * Constructs the User Interface.
 	     * @param layout
 	     */
-	    public DinoUI(GridBagLayout layout) {
+	    public void createPane(GridBagLayout layout) {
 	    	
 			
 	    	setLayout(layout);
@@ -265,14 +269,22 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	     * this method should be invoked from the
 	     * event-dispatching thread.
 	     */
-	    private static void createAndShowGUI() {
-	        //Create and set up the window.
+	    public void createAndShowGUI() {
+	    	JMenuBar menuBar = new JMenuBar();
+	    	JMenu file = new JMenu("File");
+	    	JMenuItem item = new JMenuItem("Nothing Yet");
+	    	file.add(item);
+	    	menuBar.add(file);
+	    	
+	    	//Create and set up the window.
 	        JFrame frame = new JFrame("Mars Robot");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        
-	        DinoUI contentPane = new DinoUI(new GridBagLayout());
-	        frame.addWindowListener(contentPane);
-	        frame.setContentPane(contentPane);
+	        createPane(new GridBagLayout());
+	        frame.addWindowListener(this);
+	        frame.setContentPane(this);
+	    	frame.setJMenuBar(menuBar);
+	    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	frame.setSize(100, 100);
 	 
 	 
 	        //Display the window.
@@ -280,38 +292,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	        frame.setVisible(true);
 	    }
 	 
-	    /**
-	     * Start up the whole application
-	     * @param args
-	     */
-	    public static void main(String[] args) {
-	    	AILConfig config;
-	    	// By default the robot is Noor, but if a different name is supplied then this is used.
-		    	
-		    config = new AILConfig(program);
-			AIL.configureLogging(config);
-		
-			MAS mas = AIL.AILSetup(config);
-			env = (EASSEV3Environment) mas.getEnv();
-			
-			if (!env.error) {
-			
-			//Schedule a job for the event-dispatching thread:
-	        //creating and showing this application's GUI.
-	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
-	                createAndShowGUI();
-	            }}
-	        );
-
-	        // Lastly we construct a controller.
-			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
-			// Start the system.
-			mccontrol.begin(); 
-			}
-			mas.cleanup();
-			
-	    }
 	
 	    
 	    /*

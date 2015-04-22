@@ -9,8 +9,6 @@ import lejos.robotics.RegulatedMotor;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSRGBColorSensor;
 import eass.mas.ev3.EASSRedColorSensor;
-import eass.mas.ev3.EASSRemoteRequestEV3;
-import eass.mas.ev3.EASSRemoteRequestRegulatedMotor;
 import eass.mas.ev3.EASSSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 
