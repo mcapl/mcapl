@@ -22,6 +22,14 @@ mas.agent.6.file= /src/examples/eass/Platooning/platoon_scenario5_abstraction_fo
 mas.agent.6.builder= eass.EASSAgentBuilder
 mas.agent.6.name= abstraction_follower3
 
+mas.agent.7.file= /src/examples/eass/Platooning/platoon_scenario5_leader.eass
+mas.agent.7.builder= eass.EASSAgentBuilder
+mas.agent.7.name= leader
+mas.agent.8.file= /src/examples/eass/Platooning/platoon_scenario5_abstraction_leader.eass
+mas.agent.8.builder= eass.EASSAgentBuilder
+mas.agent.8.name= abstraction_leader
+
+
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
 log.info = eass.mas.DefaultEnvironment
 log.format = brief

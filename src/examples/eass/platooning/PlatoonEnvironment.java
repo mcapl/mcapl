@@ -1,6 +1,10 @@
 package eass.platooning;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import ail.mas.NActionScheduler;
 import ail.mas.RoundRobinScheduler;
@@ -25,7 +29,7 @@ import eass.mas.DefaultEASSEnvironment;
 public class PlatoonEnvironment extends DefaultEASSEnvironment{
 	String logname = "eass.platooning.PlatoonEnvironment";
 
-	
+	int initial= 0;
 	ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	
 	Vehicle v1 = new Vehicle(1);
@@ -55,14 +59,58 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		vehicles.add(v1);
 		vehicles.add(v2);
 		vehicles.add(v3);
+		
+		Literal id1 = new Literal("id");
+		id1.addTerm(new Literal("follower1"));	
+		addPercept("abstraction_follower"+ v1.getID(), id1);
+		
+		Literal id2 = new Literal("id");
+		id2.addTerm(new Literal("follower2"));	
+		addPercept("abstraction_follower"+ v2.getID(), id2);
+		
+		Literal id3 = new Literal("id");
+		id3.addTerm(new Literal("follower3"));	
+		addPercept("abstraction_follower"+ v3.getID(), id3);
+
+		Literal platoon_member = new Literal("platoon_member");
+		platoon_member.addTerm(new Literal("follower1"));
+		platoon_member.addTerm(new Literal("follower2"));
+		addPercept("abstraction_leader", platoon_member);
+		
+		Literal platoon_member2 = new Literal("platoon_member");
+		platoon_member2.addTerm(new Literal("follower2"));
+		platoon_member2.addTerm(new Literal("follower3"));
+		addPercept("abstraction_leader", platoon_member2);
+		
+		
 	}
 
 	public void eachrun() {
+
 		counter++;
 		if(counter ==5){
 		for (Vehicle v: vehicles) {
+			
+//			if(initial<3){
+//				Literal platoon_member = new Literal("platoon_member");
+//				platoon_member.addTerm(new Literal("follower"+ v.getID()));
+//				platoon_member.addTerm(new Literal("follower"+ (v.getID()+1)));
+//				addPercept("abstraction_leader", platoon_member);
+//				
+////				Literal platoon_member2 = new Literal("platoon_m");
+////				platoon_member2.addTerm(new Literal("follower2"));
+////				platoon_member2.addTerm(new Literal("follower3"));
+////				addPercept("abstraction_leader", platoon_member2);
+//
+//				Predicate id = new Predicate("id");
+//				id.addTerm(new Predicate("follower"+ v.getID()));	
+//				addUniquePercept("abstraction_follower"+ v.getID(), "id", id);				
+//				initial++;
+////				System.out.println(initial);
+//			}
+			
 			v.update();
-
+			
 
 //			Literal precedingPlatoonID = new Literal("precedingPID");
 //			precedingPlatoonID.addTerm(new NumberTermImpl(v.getprecedingPID()));
@@ -76,9 +124,9 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 //			precedingSpeed.addTerm(new NumberTermImpl(v.getprecedingSpeed()));
 //			addUniquePercept("abstraction_follower"+ v.getID(), "precedingSpeed", precedingSpeed);
 			
-//			Literal speed = new Literal("speed");
-//			speed.addTerm(new NumberTermImpl(v.getSpeed()));
-//			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
+			Literal speed = new Literal("speed");
+			speed.addTerm(new NumberTermImpl(v.getSpeed()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "speed", speed);
 
 			Literal timeStamp = new Literal("timeStamp");
 			timeStamp.addTerm(new NumberTermImpl(v.getTimeStamp()));
