@@ -28,6 +28,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
@@ -36,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.io.OutputStream;
@@ -57,19 +59,26 @@ import ajpf.MCAPLcontroller;
  * @author louiseadennis
  *
  */
-public class DinoUI extends JPanel implements ActionListener, WindowListener, PropertyChangeListener {
+public class DinoUI extends JPanel implements ActionListener, WindowListener{
 		private static final long serialVersionUID = 1L;
 		
-		// The various buttons and boxes used by the interface.
+        SensorPanel ultra; 
+        BeliefPanel beliefpanel;
+    	RulesPanel rules;
+
+        // The various buttons and boxes used by the interface.
 	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton;
-	    protected JCheckBox r1button, r2button;
 	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
 	    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward"};
+	    JLabel belieflist = new JLabel();
+	    
+	    protected ArrayList<String> beliefs = new ArrayList<String>();
 	    
 	    // The delay before instructions reach the robot, the environment and the default robot name.
 	    protected int delay = 0;
 	    protected static EASSEV3Environment env;
+	    protected MAS mas;
 	    protected static String rName = "dinor3x";
 	    protected static String program = "/src/examples/eass/ev3/cheltenham/Dinor3x.ail";
 	    
@@ -91,6 +100,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	    	setLayout(layout);
 	    	GridBagConstraints c = new GridBagConstraints();
 	    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+	    	c.fill = GridBagConstraints.HORIZONTAL;
 	    		    		    	
 	    	// A JPanel for Controls
 	    	JPanel controls = new JPanel();
@@ -98,8 +108,220 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	    	controls.setLayout(new GridBagLayout());
 	    	c.gridx = 0;
 	    	c.gridy = 1;
+	        c.gridwidth = 2;
 	    	add(controls, c);
+	    	createControlsPanel(controls);
+	        
+	        // A JPanel for Beliefs
+	    	beliefpanel = new BeliefPanel();
+	    	beliefpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Beliefs"));
+	    	c.gridx = 0;
+	    	c.gridy = 2;
+	        c.gridwidth = 2;
+	    	add(beliefpanel, c);
+	    	beliefpanel.setEnabled(false);
 
+	        // A JPanel for Rules
+	    	rules = new RulesPanel();
+	    	rules.setBorder(BorderFactory.createTitledBorder(loweredetched, "Rules"));
+	    	c.gridx = 0;
+	    	c.gridy = 3;
+	        c.gridwidth = 2;
+	    	add(rules, c);
+	    	rules.setEnabled(false);
+
+
+	    	// A Panel for the Sensor Streams
+	        // A Panel for the ultrasound sensor values
+	    	ultra = new SensorPanel();
+	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
+	        c.gridx = 0;
+	        c.gridy = 4;
+	        c.gridwidth = 1;
+	        add(ultra, c);
+	        ultra.setEnabled(false);
+	        
+	        // The Instrucions Panel
+	        InstructionsPanel instructions = new InstructionsPanel();
+	        instructions.setBorder(BorderFactory.createTitledBorder(loweredetched, "Instructions"));
+	        c.gridx = 1;
+	        c.gridy = 4;
+	        c.gridwidth = 1;
+	    	c.fill = GridBagConstraints.BOTH;
+	        add(instructions, c);
+		    			    	
+	    	
+	    	envThread.start();
+	    }
+	    
+	    private class BeliefPanel extends JPanel {
+	        @Override
+	        public void setEnabled(boolean enabled) {
+	        	super.setEnabled(enabled);
+	        	belieflist.setEnabled(enabled);
+	        }
+	    	
+	        
+	        public BeliefPanel() {
+	        	setLayout(new GridBagLayout());
+	        	GridBagConstraints c = new GridBagConstraints();
+	        	belieflist.setText(beliefs.toString());
+	        	add(belieflist);
+	        }
+	    }
+	    
+	    private class SensorPanel extends JPanel {
+	    	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
+	    	JTextArea textArea = new JTextArea(15, 30);
+	        JPanel output = new JPanel();
+	        
+	        @Override
+	        public void setEnabled(boolean enabled) {
+	        	super.setEnabled(enabled);
+	        	vtext.setEnabled(enabled);
+	        	textArea.setEnabled(enabled);
+	        	output.setEnabled(enabled);
+	        }
+	    	
+	    	public SensorPanel() {
+	    		setLayout(new GridBagLayout());
+		    	GridBagConstraints c = new GridBagConstraints();
+		        c.gridx = 0;
+		        c.gridy = 1;
+		        c.gridwidth = 1;
+		        add(vtext, c);
+		        uvalues = new TextAreaOutputStream(textArea, "Ultrasound Sensor Value");
+		        ((DinoEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
+		        output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+		        c.gridx = 0;
+		        c.gridy = 2;
+		        c.gridwidth = 1;
+		        add(output, c);
+	    		
+	    	}
+	    }
+	    
+	    private class InstructionsPanel extends DinoPanel {
+	    	ArrayList<String> instructions = new ArrayList<String>();
+	    	int step = 0;
+	    	
+	    	public InstructionsPanel() {
+	    		super();
+	    		setLayout(new BorderLayout());
+	    		String instructions1 = "Use the Forward, Reverse, Left, Right and Stop buttons in controls to steer your robot.";
+	    		String instructions2 = "The Ultrasonic Sensor detects the distance from the front of the Triceratops to an obstacle.\n\n  You can see the values it is returning on the left.";
+	    		String instructions3 = "If the value from the sensor falls below 0.5 then the Triceratops believes there is an obstacle in front of it.\n\n  You can see this belief appear in the Belief section.";
+	    		String instructions4 = "You can use rules to tell the Triceratops how to react to the appearance and  disappearance of obstacles.\n\n  Use the checkboxes to enable and disable rules and use the drop down menus to select the sequenc of actions the Triceratops should take.";
+	    		
+	    		instructions.add(instructions1);
+	    		instructions.add(instructions2);
+	    		instructions.add(instructions3);
+	    		instructions.add(instructions4);
+	    		
+		    	JTextArea info1 = new JTextArea(instructions.get(step));
+		    	info1.setLineWrap(true);
+		    	info1.setWrapStyleWord(true);
+		    	info1.setBackground(this.getBackground());
+		    	info1.setSize(300, 300);
+		    	
+		    	step++;
+		    	add(info1, BorderLayout.NORTH);
+		    	
+		    	JPanel buttonpanel = new JPanel();
+		    	add(buttonpanel, BorderLayout.SOUTH);
+		    	buttonpanel.setLayout(new GridBagLayout());
+		    	JButton nextbutton = new JButton("Next");
+		    	nextbutton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (step == instructions.size() - 1) {
+							step = 0;
+						} else {
+							step++;
+						}
+
+						enablePanels(step);
+						info1.setText(instructions.get(step));
+						
+					}
+		    		
+		    	});
+		    	c.gridx = 0;
+		    	c.gridy = 0;
+		    	buttonpanel.add(nextbutton, c);
+
+		    	JButton previousbutton = new JButton("Back");
+		    	previousbutton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (step != 0) {
+							step--;
+						}
+
+						enablePanels(step);
+						info1.setText(instructions.get(step));
+					}
+		    		
+		    	});
+		    	c.gridx = 1;
+		    	c.gridy = 0;
+		    	c.gridwidth = 1;
+		    	buttonpanel.add(previousbutton, c);
+
+		    	JButton resetbutton = new JButton("Restart");
+		    	resetbutton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						step = 0;
+						enablePanels(step);
+						info1.setText(instructions.get(step));	
+					}
+		    		
+		    	});
+		    	c.gridx = 2;
+		    	c.gridy = 0;
+		    	buttonpanel.add(resetbutton, c);
+	    		
+	    	}
+	    	
+	    	private void enablePanels(int step) {
+	    		switch (step) {
+	    			case 3:
+	    				beliefpanel.setEnabled(true);
+	    				ultra.setEnabled(true);
+	    				rules.setEnabled(true);
+	    				break;	    			
+	    			case 2:
+	    				beliefpanel.setEnabled(true);
+	    				ultra.setEnabled(true);
+	    				rules.setEnabled(false);
+	    				break;
+	    			case 1:
+	    				beliefpanel.setEnabled(false);
+	    				ultra.setEnabled(true);
+	    				rules.setEnabled(false);
+	    				break;
+	    			default:
+	    				beliefpanel.setEnabled(false);
+	    				ultra.setEnabled(false);
+	    				rules.setEnabled(false);
+	    		}
+	    				
+	    	}
+	    }
+	    
+	    public class DinoPanel extends JPanel {
+	    	GridBagConstraints c = new GridBagConstraints();
+	    	public DinoPanel() {
+	    		setLayout(new GridBagLayout());
+	    	}
+	    }
+	    	    
+	    private void createControlsPanel(JPanel controls) {
+	    	GridBagConstraints c = new GridBagConstraints();
 	    	// Forward
 	    	fbutton = new JButton("Forward");
 	        fbutton.setMnemonic(KeyEvent.VK_F);
@@ -160,110 +382,118 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	        c.gridy = 0;
 	        controls.add(lfbutton, c);
 
-	        // A JPanel for Rules
-	    	JPanel rules = new JPanel();
-	    	rules.setBorder(BorderFactory.createTitledBorder(loweredetched, "Rules"));
-	    	rules.setLayout(new GridBagLayout());
-	    	c.gridx = 0;
-	    	c.gridy = 2;
-	        c.gridwidth = 1;
-	    	add(rules, c);
+	    }
+	    
 
-	    	// Rule 1
-	    	r1button = new JCheckBox("Rule:");
-	        r1button.setActionCommand("rule1");
-	        r1button.addActionListener(this);
-	        r1button.setToolTipText("Activate rule 1");
-	        c.gridx = 0;
-	        c.gridy = 0;
-	        c.gridwidth = 1;
-	        rules.add(r1button, c);
-	        JLabel r1 = new JLabel("if you Believe an Obstacle has appeared then"); 
-	        c.gridx = 1;
-	        c.gridy = 0;
-	        rules.add(r1, c);
-	        c.gridx = 2;
-	        c.gridy = 0;
-	        JComboBox<String> r1action1box = new JComboBox<String>(actions);
-	    	r1action1box.setActionCommand("r1action1");
-	    	r1action1box.addActionListener(this);
-	        c.gridx = 3;
-	        c.gridy = 0;
-	        rules.add(r1action1box, c);	        
-	        JComboBox<String> r1action2box = new JComboBox<String>(actions);
-	    	r1action2box.setActionCommand("r1action2");
-	    	r1action2box.addActionListener(this);
-	        c.gridx = 4;
-	        c.gridy = 0;
-	        rules.add(r1action2box, c);	   
-	        JComboBox<String> r1action3box = new JComboBox<String>(actions);
-	    	r1action2box.setActionCommand("r1action3");
-	    	r1action2box.addActionListener(this);
-	        c.gridx = 5;
-	        c.gridy = 0;
-	        rules.add(r1action3box, c);	   
-	        
-	    	// Rule 2
-	    	r2button = new JCheckBox("Rule:");
-	        r2button.setActionCommand("rule2");
-	        r2button.addActionListener(this);
-	        r2button.setToolTipText("Activate rule 2");
-	        c.gridx = 0;
-	        c.gridy = 1;
-	        c.gridwidth = 1;
-	        rules.add(r2button, c);
+	    private class RulesPanel extends JPanel {
+		    JCheckBox r1button, r2button;
+		    JComboBox<String> r1action1box, r1action2box, r1action3box, 
+		    	r2action1box, r2action2box, r2action3box;
+		    JLabel r1 = new JLabel("if you Believe an Obstacle has appeared then"); 
 	        JLabel r2 = new JLabel("if you Believe an Obstacle has vanished then"); 
-	        c.gridx = 1;
-	        c.gridy = 1;
-	        rules.add(r2, c);
-	        c.gridx = 2;
-	        c.gridy = 1;
-	        JComboBox<String> r2action1box = new JComboBox<String>(actions);
-	    	r2action1box.setActionCommand("r2action1");
-	    	r2action1box.addActionListener(this);
-	        c.gridx = 3;
-	        c.gridy = 1;
-	        rules.add(r2action1box, c);	        
-	        JComboBox<String> r2action2box = new JComboBox<String>(actions);
-	    	r2action2box.setActionCommand("r2action2");
-	    	r2action2box.addActionListener(this);
-	        c.gridx = 4;
-	        c.gridy = 1;
-	        rules.add(r2action2box, c);	   
-	        JComboBox<String> r2action3box = new JComboBox<String>(actions);
-	    	r2action2box.setActionCommand("r2action3");
-	    	r2action2box.addActionListener(this);
-	        c.gridx = 5;
-	        c.gridy = 1;
-	        rules.add(r2action3box, c);	   
+		    
+		    
+		    @Override
+		    public void setEnabled(boolean enabled) {
+		    	super.setEnabled(enabled);
+		    	r1button.setEnabled(enabled);
+		    	r2button.setEnabled(enabled);
+		    	r1action1box.setEnabled(enabled);
+		    	r1action2box.setEnabled(enabled);
+		    	r1action3box.setEnabled(enabled);
+		    	r2action1box.setEnabled(enabled);
+		    	r2action2box.setEnabled(enabled);
+		    	r2action3box.setEnabled(enabled);
+		    	r1.setEnabled(enabled);
+		    	r2.setEnabled(enabled);
+		    }
 
-	        JPanel ultra = new JPanel();
-	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
-	        ultra.setLayout(new GridBagLayout());
-	        c.gridx = 0;
-	        c.gridy = 3;
-	        c.gridwidth = 1;
-	        add(ultra, c);
-		    			    	
-		    // Ultrasound Values
-	        JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
-	        c.gridx = 0;
-	        c.gridy = 1;
-	        c.gridwidth = 2;
-	        ultra.add(vtext, c);
-	        JTextArea textArea = new JTextArea(15, 30);
-	        uvalues = new TextAreaOutputStream(textArea, "Ultrasound Sensor Value");
-	        ((DinoEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
-	        JPanel output = new JPanel();
-	        output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
-	        c.gridx = 0;
-	        c.gridy = 2;
-	        c.gridwidth = 2;
-	        ultra.add(output, c);
-	    	
-	    	envThread.start();
+		    public RulesPanel() {
+		    	setLayout(new GridBagLayout());
+		    	GridBagConstraints c = new GridBagConstraints();
+		    	// Rule 1
+		    	r1button = new JCheckBox("Rule:");
+		        r1button.setActionCommand("rule1");
+		        r1button.addActionListener(DinoUI.this);
+		        r1button.setToolTipText("Activate rule 1");
+		        c.gridx = 0;
+		        c.gridy = 0;
+		        c.gridwidth = 1;
+		        add(r1button, c);
+		        c.gridx = 1;
+		        c.gridy = 0;
+		        add(r1, c);
+		        c.gridx = 2;
+		        c.gridy = 0;
+		        r1action1box = new JComboBox<String>(actions);
+		    	r1action1box.setActionCommand("r1action1");
+		    	r1action1box.addActionListener(DinoUI.this);
+		        c.gridx = 3;
+		        c.gridy = 0;
+		        add(r1action1box, c);	        
+		        r1action2box = new JComboBox<String>(actions);
+		    	r1action2box.setActionCommand("r1action2");
+		    	r1action2box.addActionListener(DinoUI.this);
+		        c.gridx = 4;
+		        c.gridy = 0;
+		        add(r1action2box, c);	   
+		        r1action3box = new JComboBox<String>(actions);
+		    	r1action2box.setActionCommand("r1action3");
+		    	r1action2box.addActionListener(DinoUI.this);
+		        c.gridx = 5;
+		        c.gridy = 0;
+		        add(r1action3box, c);	   
+		        
+		    	// Rule 2
+		    	r2button = new JCheckBox("Rule:");
+		        r2button.setActionCommand("rule2");
+		        r2button.addActionListener(DinoUI.this);
+		        r2button.setToolTipText("Activate rule 2");
+		        c.gridx = 0;
+		        c.gridy = 1;
+		        c.gridwidth = 1;
+		        add(r2button, c);
+		        c.gridx = 1;
+		        c.gridy = 1;
+		        add(r2, c);
+		        c.gridx = 2;
+		        c.gridy = 1;
+		        r2action1box = new JComboBox<String>(actions);
+		    	r2action1box.setActionCommand("r2action1");
+		    	r2action1box.addActionListener(DinoUI.this);
+		        c.gridx = 3;
+		        c.gridy = 1;
+		        add(r2action1box, c);	        
+		        r2action2box = new JComboBox<String>(actions);
+		    	r2action2box.setActionCommand("r2action2");
+		    	r2action2box.addActionListener(DinoUI.this);
+		        c.gridx = 4;
+		        c.gridy = 1;
+		        add(r2action2box, c);	   
+		        r2action3box = new JComboBox<String>(actions);
+		    	r2action2box.setActionCommand("r2action3");
+		    	r2action2box.addActionListener(DinoUI.this);
+		        c.gridx = 5;
+		        c.gridy = 1;
+		        add(r2action3box, c);	  
+	    	}
+
+	    }
+	    
+	    public void addMas(MAS mas) {
+	    	this.mas = mas;
+	    	((DinoEnvironment) env).setUI(this);
+	    }
+	    
+	    public void addToBeliefList(String p) {
+	    	beliefs.add(p);
+	    	belieflist.setText(beliefs.toString());
 	    }
 
+	    public void removeFromBeliefList(String p) {
+	    	beliefs.remove(p);
+	    	belieflist.setText(beliefs.toString());
+	    }
 	    /**
 	     * Create the GUI and show it.  For thread safety,
 	     * this method should be invoked from the
@@ -271,13 +501,37 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	     */
 	    public void createAndShowGUI() {
 	    	JMenuBar menuBar = new JMenuBar();
-	    	JMenu file = new JMenu("File");
-	    	JMenuItem item = new JMenuItem("Nothing Yet");
-	    	file.add(item);
+	    	JMenu file = new JMenu("Menu");
+	    	JMenuItem config = new JMenuItem("Settings");
+	    	config.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JFrame settings = new JFrame("Settings");
+					ConfigurationPanel config = new ConfigurationPanel(settings, env);
+					settings.setContentPane(config);
+					settings.pack();
+					settings.setVisible(true);
+				}
+	    		
+	    	});
+	    	file.add(config);
+	    	
+	    	JMenuItem quit = new JMenuItem("Quit");
+	    	quit.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mas.cleanup();
+					System.exit(0);
+				}
+	    		
+	    	});
+	    	file.add(quit);
 	    	menuBar.add(file);
 	    	
 	    	//Create and set up the window.
-	        JFrame frame = new JFrame("Mars Robot");
+	        JFrame frame = new JFrame("Triceratops Robot");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        createPane(new GridBagLayout());
 	        frame.addWindowListener(this);
@@ -321,15 +575,16 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	     * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
 	     */
 	    public void windowClosed(WindowEvent e) {
-	    	envThread.stopRunning();
+	    	// envThread.stopRunning();
 	    	env.close(rName);
-	    	System.out.println("closing "+rName);
+	    	System.out.println("closed "+rName);
 	    }
 	    /*
 	     * (non-Javadoc)
 	     * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	     */
 	    public void windowClosing(WindowEvent e) {
+	    	envThread.stopRunning();
 	    	env.close(rName);
 	    	System.out.println("closing "+rName);
 	    };
@@ -484,14 +739,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener, Pr
 	    		isrunning = false;
 	    	}
 	    	
-	    }
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			// TODO Auto-generated method stub
-			
-		}
-
-	    
+	    }	    
 
 }

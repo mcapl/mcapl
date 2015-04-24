@@ -50,6 +50,7 @@ import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.io.PrintStream;
+import java.util.Set;
 
 
 /**
@@ -71,6 +72,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 	
 	private LineFollowingThread line_follower;
 	
+	DinoUI ui;
+	
 	/**
 	 * Construct the Environment.
 	 */
@@ -80,6 +83,10 @@ public class DinoEnvironment extends EASSEV3Environment {
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
+	}
+	
+	public void setUI(DinoUI ui) {
+		this.ui = ui;
 	}
 	
 	/**
@@ -107,6 +114,15 @@ public class DinoEnvironment extends EASSEV3Environment {
 	}
 	
 	
+	public Set<Predicate> getPercepts(String agName, boolean update) {
+		   String rname = rationalName(agName);
+		   Dinor3x robot = (Dinor3x) getRobot(rname);
+		   synchronized(robot) {
+			   return super.getPercepts(agName, update);
+		   }
+		
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.nxt.EASSNXTEnvironment#executeAction(java.lang.String, ail.syntax.Action)
@@ -191,6 +207,17 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   	} else if (act.getFunctor().equals("r2action3")) {
 		   		change_rule_action(rname, act, "rule2", "act3");
 		   		return u;
+		   	} else if (act.getFunctor().equals("obstacle_distance")) {
+		   		Literal distance_threshold = new Literal("change_distance");
+		   		distance_threshold.addTerm(act.getTerm(0));
+		   		String abstraction_name = "abstraction_" + rname;
+		   		addPercept(abstraction_name, distance_threshold);
+		   	} else if (act.getFunctor().equals("show_belief")) {
+		   		Predicate belief = (Predicate) act.getTerm(0);
+		   		ui.addToBeliefList(belief.toString());
+		   	} else if (act.getFunctor().equals("remove_belief")) {
+		   		Predicate belief = (Predicate) act.getTerm(0);
+		   		ui.removeFromBeliefList(belief.toString());
 		   	}
 		   }
 		   	
@@ -239,6 +266,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 			robot.setUPrintStream(s);
 		}
 	}
+	
 	
 	public void cleanup(String rname) {
 		Dinor3x robot = (Dinor3x) getRobot(rname);

@@ -64,11 +64,21 @@ distance_threshold(0.5)
 
 :Plans:
 
++obstacle : {True} <-
+    show_belief(obstacle);
+
 +obstacle : {B active(rule1), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
+    show_belief(obstacle),
     perf(A),
     perf(B),
-	perf(C);
+    perf(C);
 -obstacle : {B active(rule2), B rule(rule2, act1, A), B rule(rule2, act2, B), B rule(rule2, act3, C)} <-
+    remove_belief(obstacle),
     perf(A),
     perf(B),
-	perf(C);
+    perf(C);
+
++obstacle : {True} <-
+    show_belief(obstacle);
+-obstacle : {True} <-
+    remove_belief(obstacle);

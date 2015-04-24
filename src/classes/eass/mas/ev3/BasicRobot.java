@@ -40,6 +40,7 @@ public class BasicRobot implements LegoRobot {
 	RemoteRequestEV3 brick;
 	RemoteRequestPilot pilot;
 	boolean haspilot = false;
+	boolean disconnected = false;
 	
 	EASSSensor sensor1;
 	EASSSensor sensor2;
@@ -143,8 +144,10 @@ public class BasicRobot implements LegoRobot {
 	 * Add a percept.
 	 */
 	public void addPercepts(EASSEV3Environment env) {
-		for (EASSSensor sensor: getSensors()) {
-			sensor.addPercept(env);
+		if (! disconnected ) {
+			for (EASSSensor sensor: getSensors()) {
+				sensor.addPercept(env);
+			}
 		}
 	}
 	
@@ -157,6 +160,7 @@ public class BasicRobot implements LegoRobot {
 
 	@Override
 	public void close() {
+		disconnected = true;
 		if (sensor1 != null) {
 			sensor1.close();
 		}

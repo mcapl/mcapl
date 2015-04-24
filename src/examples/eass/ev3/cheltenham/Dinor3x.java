@@ -16,6 +16,7 @@ public class Dinor3x extends BasicRobot {
 		RemoteRequestPilot pilot;
 		RemoteRequestRegulatedMotor motor;
 		PrintStream uPrintStream = System.out;
+		private boolean closed = false;
 		
 		/**
 		 * Set up the configuration of the robot.
@@ -110,14 +111,19 @@ public class Dinor3x extends BasicRobot {
 	}
 	
 	public void close() {
-		System.err.println("Closing Dinor3x");
-		// pilot.close();
-		try {
-			motor.close();
-		} catch (Exception e) {
+		if (! closed) {
+			System.err.println("Closing Dinor3x");
+			try {
+				motor.stop();
+				motor.close();
+				pilot.stop();
+				pilot.close();
+			} catch (Exception e) {
 			
+			}
+			super.close();
 		}
-		super.close();
+		closed = true;
 	}
 	
 	public RegulatedMotor getMotor() {

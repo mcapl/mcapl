@@ -81,8 +81,10 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	public void  close(String rname) {
 		setDone(true);
 		LegoRobot r = getRobot(rname);
-		if (r != null) {
-			r.close();
+		synchronized(r) {
+			if (r != null) {
+				r.close();
+			}
 		}
 	}
 	
@@ -137,6 +139,16 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 			}
 		}
 	}
+	
+	@Override
+	public void cleanup() {
+		for (LegoRobot r: robots.values()) {
+			synchronized(r) {
+				r.close();
+			}
+		}
+	}
+
 
 	/**
 	 * Get the robot with this name from the environment.
