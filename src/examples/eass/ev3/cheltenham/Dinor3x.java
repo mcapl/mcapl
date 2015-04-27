@@ -26,6 +26,7 @@ public class Dinor3x extends BasicRobot {
 		public Dinor3x(String address) throws Exception {
 			super(address);
 			RemoteRequestEV3 brick = getBrick();
+			// System.err.println(brick.getName());
 			EASSUltrasonicSensor uSensor;
 			try {
 				System.err.println("Connecting to Ultrasonic Sensor");
