@@ -66,6 +66,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
         SensorPanel ultra; 
         BeliefPanel beliefpanel;
     	RulesPanel rules;
+    	GoalPanel goals;
 
         // The various buttons and boxes used by the interface.
 	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton;
@@ -131,14 +132,21 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        c.gridwidth = 2;
 	    	add(rules, c);
 	    	rules.setEnabled(false);
-
+	    	
+	    	// A Panel for Goals
+	    	goals = new GoalPanel();
+	    	goals.setBorder(BorderFactory.createTitledBorder(loweredetched, "Goals"));
+	    	c.gridx = 0;
+	    	c.gridy = 4;
+	    	add(goals, c);
+	    	goals.setEnabled(false);
 
 	    	// A Panel for the Sensor Streams
 	        // A Panel for the ultrasound sensor values
 	    	ultra = new SensorPanel();
 	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
 	        c.gridx = 0;
-	        c.gridy = 4;
+	        c.gridy = 5;
 	        c.gridwidth = 1;
 	        add(ultra, c);
 	        ultra.setEnabled(false);
@@ -147,7 +155,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        InstructionsPanel instructions = new InstructionsPanel();
 	        instructions.setBorder(BorderFactory.createTitledBorder(loweredetched, "Instructions"));
 	        c.gridx = 1;
-	        c.gridy = 4;
+	        c.gridy = 5;
 	        c.gridwidth = 1;
 	    	c.fill = GridBagConstraints.BOTH;
 	        add(instructions, c);
@@ -172,7 +180,35 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        }
 	    }
 	    
-	    private class SensorPanel extends JPanel {
+	    private class GoalPanel extends DinoPanel {
+	    	JCheckBox growl = new JCheckBox("Do scare away intruders"), find_water = new JCheckBox("Achieve believe there is water");
+	//    	JLabel dogrowl = new JLabel("Do scare away intruders");
+	//    	JLabel achieve_water = new JLabel("Achieve believe there is water");
+	    	
+	    	@Override
+	    	public void setEnabled(boolean enabled) {
+	    		super.setEnabled(enabled);
+	    		growl.setEnabled(enabled);
+	    		find_water.setEnabled(enabled);
+	   // 		dogrowl.setEnabled(enabled);
+	  //  		achieve_water.setEnabled(enabled);
+	    	}
+	    	
+	    	public GoalPanel() {
+	    		c.gridx = 0;
+	    		c.gridwidth = 1;
+	    		add(growl, c);
+	    		c.gridx = 1;
+	    //		add(dogrowl, c);
+	    //		c.gridx = 2;
+	    		add(find_water);
+	    //		c.gridx = 3;
+	    //		add(achieve_water);
+	    	}
+	    	
+	    }
+	    
+	    private class SensorPanel extends DinoPanel {
 	    	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
 	    	JTextArea textArea = new JTextArea(15, 30);
 	        JPanel output = new JPanel();
@@ -186,8 +222,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        }
 	    	
 	    	public SensorPanel() {
-	    		setLayout(new GridBagLayout());
-		    	GridBagConstraints c = new GridBagConstraints();
 		        c.gridx = 0;
 		        c.gridy = 1;
 		        c.gridwidth = 1;
@@ -215,12 +249,14 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    		String instructions3 = "If the value from the sensor falls below 0.5 then the Triceratops believes there is an obstacle in front of it.\n\n  You can see this belief appear in the Belief section.";
 	    		String instructions4 = "You can use rules to tell the Triceratops how to react to the appearance and  disappearance of obstacles.\n\n  Use the checkboxes to enable and disable rules and use the drop down menus to select the sequenc of actions the Triceratops should take.";
 	    		String instructions5 = "You can vary your rules depending upon the situation the Triceratops finds itself in.\n\n  For instance you can create separate rules for how it should behave when an obstacle appears when the Triceratops has found water, and when it hasn't.\n\n Note that if two rules both apply in the same situation, then the Triceratops will only follow the first.";
+	    		String instructions6 = "You can set goals for the Triceratops to get more complex behaviours\n\n Do scare away intruders will make the Triceratops growl and gnash its teeth\n\n Achieve believe there is water will cause the Triceratops to look for water only stopping when it is found.  It does this by finding a path and then following it to the water.";
 	    		
 	    		instructions.add(instructions1);
 	    		instructions.add(instructions2);
 	    		instructions.add(instructions3);
 	    		instructions.add(instructions4);
 	    		instructions.add(instructions5);
+	    		instructions.add(instructions6);
 	    		
 		    	JTextArea info1 = new JTextArea(instructions.get(step));
 		    	info1.setLineWrap(true);
@@ -293,30 +329,44 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	
 	    	private void enablePanels(int step) {
 	    		switch (step) {
+	    			case 5:
+	    				beliefpanel.setEnabled(true);
+	    				ultra.setEnabled(true);
+	    				goals.setEnabled(true);
+	    				rules.setEnabled(false);
+	    				rules.choiceEnabled(false);
+	    				break;
 	    			case 4:
 	    				beliefpanel.setEnabled(true);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(true);
 	    				rules.choiceEnabled(true);
+	    				goals.setEnabled(false);
+	    				break;
 	    			case 3:
 	    				beliefpanel.setEnabled(true);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(true);
+	    				rules.choiceEnabled(false);
+	    				goals.setEnabled(false);
 	    				break;	    			
 	    			case 2:
 	    				beliefpanel.setEnabled(true);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(false);
+	    				goals.setEnabled(false);
 	    				break;
 	    			case 1:
 	    				beliefpanel.setEnabled(false);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(false);
+	    				goals.setEnabled(false);
 	    				break;
 	    			default:
 	    				beliefpanel.setEnabled(false);
 	    				ultra.setEnabled(false);
 	    				rules.setEnabled(false);
+	    				goals.setEnabled(false);
 	    		}
 	    				
 	    	}
