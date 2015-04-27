@@ -28,6 +28,7 @@ EASS
 :Initial Beliefs:
 
 distance_threshold(0.5)
+water_threshold(0.3)
 
 :Initial Goals:
 
@@ -39,6 +40,8 @@ distance_threshold(0.5)
 
 +distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
 +distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
++light(L) : {~B water, B water_threshold(V), L < V} <- assert_shared(water);
+-light(L) : {B water, B water_threshold(V), V < L} <- remove_shared(water);
 
 +! stop [perform] : {True} <-
 	stop;
@@ -60,19 +63,31 @@ distance_threshold(0.5)
 
 :Initial Beliefs:
 
+have_belief(anything)
+
+:Reasoning Rules:
+have_belief(no_water) :- ~ have_belief(water);
+
 :Initial Goals:
 
 :Plans:
 
-+obstacle : {True} <-
-    show_belief(obstacle);
-
-+obstacle : {B active(rule1), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
++obstacle : {B active(rule1), B context(rule1, X), B have_belief(X), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
     show_belief(obstacle),
     perf(A),
     perf(B),
     perf(C);
--obstacle : {B active(rule2), B rule(rule2, act1, A), B rule(rule2, act2, B), B rule(rule2, act3, C)} <-
+-obstacle : {B active(rule2), B context(rule2, X), B have_belief(X), B rule(rule2, act1, A), B rule(rule2, act2, B), B rule(rule2, act3, C)} <-
+    remove_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
++obstacle : {B active(rule3), B context(rule3, X), B have_belief(X), B rule(rule3, act1, A), B rule(rule3, act2, B), B rule(rule3, act3, C)} <-
+    show_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
+-obstacle : {B active(rule4), B context(rule4, X), B have_belief(X), B rule(rule4, act1, A), B rule(rule4, act2, B), B rule(rule4, act3, C)} <-
     remove_belief(obstacle),
     perf(A),
     perf(B),
@@ -82,3 +97,10 @@ distance_threshold(0.5)
     show_belief(obstacle);
 -obstacle : {True} <-
     remove_belief(obstacle);
+    
++water : {True} <-
+	+have_belief(water),
+	show_belief(water);
+-water : {True} <-
+	-have_belief(water),
+	remove_belief(water);

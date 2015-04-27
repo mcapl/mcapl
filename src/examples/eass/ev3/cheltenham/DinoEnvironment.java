@@ -63,12 +63,20 @@ import java.util.Set;
 public class DinoEnvironment extends EASSEV3Environment {
 	boolean rule1 = false;
 	boolean rule2 = false;
+	boolean rule3 = false;
+	boolean rule4 = false;
 	
 	static Literal activer1 = new Literal("active");
 	static {activer1.addTerm(new Literal("rule1"));};
 	
 	static Literal activer2 = new Literal("active");
 	static {activer2.addTerm(new Literal("rule2"));};
+	
+	static Literal activer3 = new Literal("active");
+	static {activer3.addTerm(new Literal("rule3"));};
+	
+	static Literal activer4 = new Literal("active");
+	static {activer4.addTerm(new Literal("rule4"));};
 	
 	private LineFollowingThread line_follower;
 	
@@ -106,6 +114,10 @@ public class DinoEnvironment extends EASSEV3Environment {
 			addSharedBelief(agent, create_rule_action("rule2", "act1", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule2", "act2", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule2", "act3", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_context("rule1", new Predicate("anything")));
+			addSharedBelief(agent, create_rule_context("rule2", new Predicate("anything")));
+			addSharedBelief(agent, create_rule_context("rule3", new Predicate("anything")));
+			addSharedBelief(agent, create_rule_context("rule4", new Predicate("anything")));
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -173,11 +185,31 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		motor.rotateTo(pos);
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
+		   			System.err.println("enabling rule 1");
 		   			addSharedBelief(rname, activer1);
 		   			rule1 = true;
 		   		} else {
+		   			System.err.println("disabling rule 1");
 		   			removeSharedBelief(rname, activer1);
 		   			rule1 = false;
+		   		}
+		   		return u;
+		   	} else if (act.getFunctor().equals("rule3")) {
+		   		if (!rule3) {
+		   			addSharedBelief(rname, activer3);
+		   			rule3 = true;
+		   		} else {
+		   			removeSharedBelief(rname, activer3);
+		   			rule3 = false;
+		   		}
+		   		return u;
+		   	} else if (act.getFunctor().equals("rule4")) {
+		   		if (!rule4) {
+		   			addSharedBelief(rname, activer4);
+		   			rule4 = true;
+		   		} else {
+		   			removeSharedBelief(rname, activer4);
+		   			rule4 = false;
 		   		}
 		   		return u;
 		   	} else if (act.getFunctor().equals("rule2")) {
@@ -207,6 +239,36 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   	} else if (act.getFunctor().equals("r2action3")) {
 		   		change_rule_action(rname, act, "rule2", "act3");
 		   		return u;
+		   	} else if (act.getFunctor().equals("r3action1")) {
+		   		change_rule_action(rname, act, "rule3", "act1");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r3action2")) {
+		   		change_rule_action(rname, act, "rule3", "act2");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r3action3")) {
+		   		change_rule_action(rname, act, "rule3", "act3");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r4action1")) {
+		   		change_rule_action(rname, act, "rule4", "act1");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r4action2")) {
+		   		change_rule_action(rname, act, "rule4", "act2");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r4action3")) {
+		   		change_rule_action(rname, act, "rule4", "act3");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r1context")) {
+		   		change_rule_context(rname, act.getTerm(0), "rule1");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r2context")) {
+		   		change_rule_context(rname, act.getTerm(0), "rule2");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r3context")) {
+		   		change_rule_context(rname, act.getTerm(0), "rule3");
+		   		return u;
+		   	} else if (act.getFunctor().equals("r4context")) {
+		   		change_rule_context(rname, act.getTerm(0), "rule4");
+		   		return u;
 		   	} else if (act.getFunctor().equals("obstacle_distance")) {
 		   		Literal distance_threshold = new Literal("change_distance");
 		   		distance_threshold.addTerm(act.getTerm(0));
@@ -230,6 +292,28 @@ public class DinoEnvironment extends EASSEV3Environment {
    		addSharedBelief(rname, create_rule_action(rule_string, action_string, act.getTerm(0)));
 		
 	}
+	
+	private void change_rule_context(String rname, Term context, String rule_string) {
+		Predicate finalcontext = Predicate.PTrue;
+		if (context.getFunctor().equals("there is water")) {
+			finalcontext = new Predicate("water");
+		} else if (context.getFunctor().equals("there is no water")) {
+			finalcontext = new Predicate("no_water");
+		} else {
+			finalcontext = new Predicate("anything");
+		}
+   		removeUnifiesShared(rname, create_rule_context(rule_string, new VarTerm("A")));
+   		addSharedBelief(rname, create_rule_context(rule_string, finalcontext));
+		
+	}
+
+	private Literal create_rule_context(String rule_string, Term context) {
+  		Literal ract = new Literal("context");
+   		ract.addTerm(new Literal(rule_string));
+   		ract.addTerm(context);
+   		return ract;	
+	}
+
 	
 	private Literal create_rule_action(String rule_string, String action_string, Term action) {
   		Literal ract = new Literal("rule");
