@@ -28,7 +28,9 @@ EASS
 :Initial Beliefs:
 
 distance_threshold(0.5)
-water_threshold(0.3)
+water_threshold_upper(0.1)
+water_threshold_lower(0.05)
+path_threshold(0.02)
 
 :Initial Goals:
 
@@ -40,8 +42,13 @@ water_threshold(0.3)
 
 +distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
 +distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
-+light(L) : {~B water, B water_threshold(V), L < V} <- assert_shared(water);
--light(L) : {B water, B water_threshold(V), V < L} <- remove_shared(water);
++blue(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V} <- assert_shared(water);
++blue(L) : {B water, B water_threshold_lower(V), L < V} <- remove_shared(water);
++blue(L) : {B water, B water_threshold_upper(V), V < L} <- remove_shared(water);
+
++red(L) : {~B path, B path_threshold(V), L < V} <- assert_shared(path);
++red(L) : {B path, B path_threshold(V), V < L} <-
+	  remove_shared(path);
 
 +! stop [perform] : {True} <-
 	stop;
@@ -104,3 +111,24 @@ have_belief(no_water) :- ~ have_belief(water);
 -water : {True} <-
 	-have_belief(water),
 	remove_belief(water);
++path : {True} <-
+      show_belief(path);
+-path : {True} <-
+      remove_belief(path);
+
++goal(scare) : {True} <-
+	     growl;
+
++goal(water) : {True} <-
+	     +! water [achieve];
+-goal(water) : {True} <-
+	     -! water [achieve];
+
++! water [achieve] : {True} <-
+   +! path [achieve],
+   follow_line,
+   *water,
+   stop;
+
++! path [achieve] : {True} <-
+   random;

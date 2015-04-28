@@ -182,28 +182,33 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    
 	    private class GoalPanel extends DinoPanel {
 	    	JCheckBox growl = new JCheckBox("Do scare away intruders"), find_water = new JCheckBox("Achieve believe there is water");
-	//    	JLabel dogrowl = new JLabel("Do scare away intruders");
-	//    	JLabel achieve_water = new JLabel("Achieve believe there is water");
 	    	
 	    	@Override
 	    	public void setEnabled(boolean enabled) {
 	    		super.setEnabled(enabled);
 	    		growl.setEnabled(enabled);
 	    		find_water.setEnabled(enabled);
-	   // 		dogrowl.setEnabled(enabled);
-	  //  		achieve_water.setEnabled(enabled);
+	    		if (!enabled) {
+	    			if ( growl.isSelected() ) {
+	    				growl.setSelected(false);
+	    				envThread.latestAction(new Action("do_growl"));
+	    			}
+	    			if ( find_water.isSelected() ) {
+	    				find_water.setSelected(false);
+	    				envThread.latestAction(new Action("achieve_water"));
+	    			}
+	    		}
+
 	    	}
 	    	
 	    	public GoalPanel() {
+	    		growl.setActionCommand("do_growl");
+	    		find_water.setActionCommand("achieve_water");
 	    		c.gridx = 0;
 	    		c.gridwidth = 1;
 	    		add(growl, c);
 	    		c.gridx = 1;
-	    //		add(dogrowl, c);
-	    //		c.gridx = 2;
 	    		add(find_water);
-	    //		c.gridx = 3;
-	    //		add(achieve_water);
 	    	}
 	    	
 	    }

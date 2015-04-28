@@ -65,6 +65,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean rule2 = false;
 	boolean rule3 = false;
 	boolean rule4 = false;
+	boolean do_growl = false;
+	boolean achieve_water = false;
 	
 	static Literal activer1 = new Literal("active");
 	static {activer1.addTerm(new Literal("rule1"));};
@@ -77,6 +79,12 @@ public class DinoEnvironment extends EASSEV3Environment {
 	
 	static Literal activer4 = new Literal("active");
 	static {activer4.addTerm(new Literal("rule4"));};
+	
+	static Literal scaregoal = new Literal("goal");
+	static {scaregoal.addTerm(new Literal("scare"));};
+	
+	static Literal watergoal = new Literal("goal");
+	static {watergoal.addTerm(new Literal("water"));};
 	
 	private LineFollowingThread line_follower;
 	
@@ -177,6 +185,22 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   				line_follower.start();
 		   			}
 		   		}
+		   	} else if (act.getFunctor().equals("do_growl")) {
+		   		if (!do_growl) {
+		   			addSharedBelief(rname, scaregoal);
+		   			do_growl = true;
+		   		} else {
+		   			removeSharedBelief(rname, scaregoal);
+		   			do_growl = false;
+		   		}
+		   	} else if (act.getFunctor().equals("achieve_water")) {
+		   		if (!achieve_water) {
+		   			addSharedBelief(rname, watergoal);
+		   			achieve_water = true;
+		   		} else {
+		   			removeSharedBelief(rname, watergoal);
+		   			achieve_water = false;
+		   		}
 		   	} else if (act.getFunctor().equals("growl")) {
 		   		RegulatedMotor motor = robot.getMotor();
 		   		int pos = motor.getTachoCount();
@@ -185,11 +209,9 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		motor.rotateTo(pos);
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
-		   			System.err.println("enabling rule 1");
 		   			addSharedBelief(rname, activer1);
 		   			rule1 = true;
 		   		} else {
-		   			System.err.println("disabling rule 1");
 		   			removeSharedBelief(rname, activer1);
 		   			rule1 = false;
 		   		}

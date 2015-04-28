@@ -39,10 +39,10 @@ public class Dinor3x extends BasicRobot {
 				throw e;
 			}
 			
-			EASSRedColorSensor cSensor;
+			EASSRGBColorSensor cSensor;
 			try {
 				System.err.println("Connected to Colour Sensor");
-				cSensor = new EASSRedColorSensor(brick, "S2");
+				cSensor = new EASSRGBColorSensor(brick, "S2");
 				System.err.println("Connected to Sensor");
 				setSensor(2, cSensor);
 			} catch (Exception e) {
