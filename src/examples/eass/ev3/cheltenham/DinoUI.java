@@ -65,6 +65,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 		
         SensorPanel ultra; 
         BeliefPanel beliefpanel;
+        GoalsPanel goalpanel;
     	RulesPanel rules;
     	GoalPanel goals;
 
@@ -74,9 +75,10 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    protected NumberFormat numberFormat;
 	    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward"};
 	    protected String[] choices = {"anything", "there is water", "there is no water"};
-	    JLabel belieflist = new JLabel();
+	    JLabel belieflist = new JLabel(), goallist = new JLabel();
 	    
 	    protected ArrayList<String> beliefs = new ArrayList<String>();
+	    protected ArrayList<String> currentgoals = new ArrayList<String>();
 	    
 	    // The delay before instructions reach the robot, the environment and the default robot name.
 	    protected int delay = 0;
@@ -120,9 +122,19 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	beliefpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Beliefs"));
 	    	c.gridx = 0;
 	    	c.gridy = 2;
-	        c.gridwidth = 2;
+	        c.gridwidth = 1;
 	    	add(beliefpanel, c);
 	    	beliefpanel.setEnabled(false);
+	    	
+	    	// A JPanel for Goals
+	    	goalpanel = new GoalsPanel();
+	    	goalpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Goals"));
+	    	c.gridx = 1;
+	    	c.gridy = 2;
+	        c.gridwidth = 1;
+	    	add(goalpanel, c);
+	    	goalpanel.setEnabled(false);
+	    	
 
 	        // A JPanel for Rules
 	    	rules = new RulesPanel();
@@ -164,7 +176,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	envThread.start();
 	    }
 	    
-	    private class BeliefPanel extends JPanel {
+	    private class BeliefPanel extends DinoPanel {
 	        @Override
 	        public void setEnabled(boolean enabled) {
 	        	super.setEnabled(enabled);
@@ -173,42 +185,54 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	
 	        
 	        public BeliefPanel() {
-	        	setLayout(new GridBagLayout());
-	        	GridBagConstraints c = new GridBagConstraints();
 	        	belieflist.setText(beliefs.toString());
 	        	add(belieflist);
 	        }
 	    }
 	    
+	    private class GoalsPanel extends DinoPanel {
+	        @Override
+	        public void setEnabled(boolean enabled) {
+	        	super.setEnabled(enabled);
+	        	goallist.setEnabled(enabled);
+	        }
+	    	
+	        
+	        public GoalsPanel() {
+	        	goallist.setText(currentgoals.toString());
+	        	add(goallist);
+	        }
+	    }
+
 	    private class GoalPanel extends DinoPanel {
-	    	JCheckBox growl = new JCheckBox("Do scare away intruders"), find_water = new JCheckBox("Achieve believe there is water");
+	    	JButton growl = new JButton("Do scare away intruders"), find_water = new JButton("Achieve believe there is water"), drop_goal = new JButton("Stop trying to find water");
 	    	
 	    	@Override
 	    	public void setEnabled(boolean enabled) {
 	    		super.setEnabled(enabled);
 	    		growl.setEnabled(enabled);
 	    		find_water.setEnabled(enabled);
+	    		drop_goal.setEnabled(enabled);
 	    		if (!enabled) {
-	    			if ( growl.isSelected() ) {
-	    				growl.setSelected(false);
-	    				envThread.latestAction(new Action("do_growl"));
-	    			}
-	    			if ( find_water.isSelected() ) {
-	    				find_water.setSelected(false);
-	    				envThread.latestAction(new Action("achieve_water"));
-	    			}
+	    			envThread.latestAction(new Action("drop_goal"));
 	    		}
 
 	    	}
 	    	
 	    	public GoalPanel() {
 	    		growl.setActionCommand("do_growl");
+	    		growl.addActionListener(DinoUI.this);
 	    		find_water.setActionCommand("achieve_water");
+	    		find_water.addActionListener(DinoUI.this);
+	    		drop_goal.setActionCommand("drop_goal");
+	    		drop_goal.addActionListener(DinoUI.this);
 	    		c.gridx = 0;
 	    		c.gridwidth = 1;
 	    		add(growl, c);
 	    		c.gridx = 1;
 	    		add(find_water);
+	    		c.gridx = 2;
+	    		add(drop_goal);
 	    	}
 	    	
 	    }
@@ -338,6 +362,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    				beliefpanel.setEnabled(true);
 	    				ultra.setEnabled(true);
 	    				goals.setEnabled(true);
+	    				goalpanel.setEnabled(true);
 	    				rules.setEnabled(false);
 	    				rules.choiceEnabled(false);
 	    				break;
@@ -347,6 +372,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    				rules.setEnabled(true);
 	    				rules.choiceEnabled(true);
 	    				goals.setEnabled(false);
+	    				goalpanel.setEnabled(false);
 	    				break;
 	    			case 3:
 	    				beliefpanel.setEnabled(true);
@@ -354,24 +380,28 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    				rules.setEnabled(true);
 	    				rules.choiceEnabled(false);
 	    				goals.setEnabled(false);
+	    				goalpanel.setEnabled(false);
 	    				break;	    			
 	    			case 2:
 	    				beliefpanel.setEnabled(true);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(false);
 	    				goals.setEnabled(false);
+	    				goalpanel.setEnabled(false);
 	    				break;
 	    			case 1:
 	    				beliefpanel.setEnabled(false);
 	    				ultra.setEnabled(true);
 	    				rules.setEnabled(false);
 	    				goals.setEnabled(false);
+	    				goalpanel.setEnabled(false);
 	    				break;
 	    			default:
 	    				beliefpanel.setEnabled(false);
 	    				ultra.setEnabled(false);
 	    				rules.setEnabled(false);
 	    				goals.setEnabled(false);
+	    				goalpanel.setEnabled(false);
 	    		}
 	    				
 	    	}
@@ -671,6 +701,16 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    public void removeFromBeliefList(String p) {
 	    	beliefs.remove(p);
 	    	belieflist.setText(beliefs.toString());
+	    }
+
+	    public void addToGoalList(String p) {
+	    	currentgoals.add(p);
+	    	goallist.setText(currentgoals.toString());
+	    }
+
+	    public void removeFromGoalList(String p) {
+	    	currentgoals.remove(p);
+	    	goallist.setText(currentgoals.toString());
 	    }
 	    /**
 	     * Create the GUI and show it.  For thread safety,

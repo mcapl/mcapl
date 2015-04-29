@@ -181,7 +181,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		}
 		   	} else if (act.getFunctor().equals("follow_line")) {
 		   		synchronized (line_follower) {
-		   			if (!line_follower.isRunning()) {
+		   			if (!line_follower.isAlive()) {
 		   				line_follower.start();
 		   			}
 		   		}
@@ -197,7 +197,9 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		if (!achieve_water) {
 		   			addSharedBelief(rname, watergoal);
 		   			achieve_water = true;
-		   		} else {
+		   		} 
+		   	} else if (act.getFunctor().equals("drop_goal")) {
+		   		if (achieve_water) {
 		   			removeSharedBelief(rname, watergoal);
 		   			achieve_water = false;
 		   		}
@@ -302,6 +304,12 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   	} else if (act.getFunctor().equals("remove_belief")) {
 		   		Predicate belief = (Predicate) act.getTerm(0);
 		   		ui.removeFromBeliefList(belief.toString());
+		   	} else if (act.getFunctor().equals("show_goal")) {
+		   		Predicate belief = (Predicate) act.getTerm(0);
+		   		ui.addToGoalList(belief.toString());
+		   	} else if (act.getFunctor().equals("remove_goal")) {
+		   		Predicate belief = (Predicate) act.getTerm(0);
+		   		ui.removeFromGoalList(belief.toString());
 		   	}
 		   }
 		   	
