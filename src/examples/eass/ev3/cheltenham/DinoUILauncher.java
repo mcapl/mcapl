@@ -33,7 +33,7 @@ public class DinoUILauncher {
 		AIL.configureLogging(config);
 	
 		MAS mas = AIL.AILSetup(config);
-		ui.env = (EASSEV3Environment) mas.getEnv();
+		ui.env = (DinoEnvironment) mas.getEnv();
 		ui.addMas(mas);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
