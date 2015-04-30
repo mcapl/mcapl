@@ -13,11 +13,11 @@ public class SimplePanel extends TabPanel {
     	c.fill = GridBagConstraints.HORIZONTAL;
 
     	// A JPanel for Controls
-    	ControlsPanel controls = new ControlsPanel("Controls", ui);
+    	ControlsPanel controls = new BigControlsPanel("Controls", ui);
     	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
     	c.gridx = 0;
     	c.gridy = 1;
-        c.gridwidth = 1;
+        c.gridwidth = 2;
     	add(controls, c);
 		
         // The Instructions Panel
@@ -27,7 +27,7 @@ public class SimplePanel extends TabPanel {
         InstructionsPanel ins = new InstructionsPanel(1, this, "Instructions", instructions);
         c.gridx = 0;
         c.gridy = 2;
-        c.gridwidth = 1;
+        c.gridwidth = 2;
     	c.fill = GridBagConstraints.BOTH;
         add(ins, c);
 

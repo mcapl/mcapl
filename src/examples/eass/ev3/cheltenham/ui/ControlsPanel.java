@@ -66,8 +66,8 @@ public class ControlsPanel extends DinoPanel {
 
     
     // Reverse
-    lfbutton = new JButton("Growl");
-    lfbutton.setActionCommand("growl");
+    lfbutton = new JButton("Snap Jaws");
+    lfbutton.setActionCommand("scare");
     lfbutton.addActionListener(ui);
     c.gridx = 5;
     c.gridy = 0;

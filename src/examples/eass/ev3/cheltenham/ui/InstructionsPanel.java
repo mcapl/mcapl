@@ -1,12 +1,15 @@
 package eass.ev3.cheltenham.ui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -27,7 +30,10 @@ public class InstructionsPanel extends DinoPanel {
 	public InstructionsPanel(int limit, TabPanel panel, String title, ArrayList<String> ins) {
 		super(title, panel.getDinoUI());
 		this.panel = panel;
-		setLayout(new BorderLayout());
+		BorderLayout layout = new BorderLayout();
+		layout.setHgap(5);
+		layout.setVgap(5);
+		setLayout(layout);
 		
 		instructions = ins;
 		
@@ -36,6 +42,7 @@ public class InstructionsPanel extends DinoPanel {
     	info1.setWrapStyleWord(true);
     	info1.setBackground(this.getBackground());
     	info1.setSize(300, 300);
+    	info1.setMargin(new Insets(0, 5, 0, 5));
     	
     	step++;
     	add(info1, BorderLayout.NORTH);
@@ -115,8 +122,12 @@ public class InstructionsPanel extends DinoPanel {
     	c.gridx = 2;
     	c.gridy = 0;
     	buttonpanel.add(resetbutton, c);
+    	
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	c.gridwidth = 3;
+    	c.fill = GridBagConstraints.HORIZONTAL;
     	}
-		
 	}
 
 }

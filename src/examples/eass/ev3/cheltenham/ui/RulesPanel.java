@@ -13,7 +13,7 @@ import ail.syntax.Action;
 import eass.ev3.cheltenham.DinoUI;
 
 public class RulesPanel extends DinoPanel {
-    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward"};
+    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward", "scare"};
     protected String[] choices = {"anything", "there is water", "there is no water"};
 
     JCheckBox r1button = new JCheckBox("If you"), r2button = new JCheckBox("If you"), r3button = new JCheckBox("If you"), r4button = new JCheckBox("If you");

@@ -203,7 +203,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   			removeSharedBelief(rname, watergoal);
 		   			achieve_water = false;
 		   		}
-		   	} else if (act.getFunctor().equals("growl")) {
+		   	} else if (act.getFunctor().equals("scare")) {
 		   		RegulatedMotor motor = robot.getMotor();
 		   		int pos = motor.getTachoCount();
 		   		motor.rotateTo(pos + 10);

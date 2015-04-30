@@ -22,6 +22,7 @@ public class ComplexPanel extends TabPanel {
 	    c.gridx = 0;
 	    c.gridy = 0;
 	    c.gridheight = 6;
+	    c.gridwidth = 1;
 	    SensorPanel ultra = new SensorPanel("Sensors", ui, true, true);
 	    setSensorPanel(ultra);
 	    add(ultra, c);

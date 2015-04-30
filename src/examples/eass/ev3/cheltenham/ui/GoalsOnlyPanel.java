@@ -22,6 +22,7 @@ public class GoalsOnlyPanel extends TabPanel {
 	    c.gridx = 0;
 	    c.gridy = 0;
 	    c.gridheight = 5;
+	    c.gridwidth = 1;
 	    SensorPanel ultra = new SensorPanel("Sensors", ui, true, false);
 	    setSensorPanel(ultra);
 	    add(ultra, c);

@@ -1,5 +1,9 @@
 package eass.ev3.cheltenham.ui;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,10 +16,20 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		BeliefPanel bPanel;
 		GoalsPanel gPanel;
 		int index;
+    	JLabel twitter = new JLabel("If you've enjoyed this activity why not tweet us your thoughts and photos: @legorovers #legodinos");
 		
 		public TabPanel(DinoUI ui, int tabindex) {
 			super(ui);
 			index = tabindex;
+			
+			c.gridx = 0;
+			c.gridy = 8;
+			c.gridwidth = 2;
+			c.gridheight = 1;
+			c.fill = GridBagConstraints.NONE;
+			c.insets = new Insets(10, 0, 0, 0);
+			add(twitter, c);
+			c.insets = new Insets(0, 0, 0, 0);
 		}
     	
     	public boolean hasSensorPanel() {

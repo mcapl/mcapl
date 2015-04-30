@@ -22,18 +22,18 @@ public class SetGoalPanel extends DinoPanel {
 	
 	public SetGoalPanel(String title, DinoUI ui) {
 		super(title, ui);
-		growl.setActionCommand("do_growl");
-		growl.addActionListener(ui);
+//		growl.setActionCommand("do_growl");
+//		growl.addActionListener(ui);
 		find_water.setActionCommand("achieve_water");
 		find_water.addActionListener(ui);
 		drop_goal.setActionCommand("drop_goal");
 		drop_goal.addActionListener(ui);
 		c.gridx = 0;
 		c.gridwidth = 1;
-		add(growl, c);
-		c.gridx = 1;
+//		add(growl, c);
+//		c.gridx = 1;
 		add(find_water);
-		c.gridx = 2;
+		c.gridx = 1;
 		add(drop_goal);
 	}
 

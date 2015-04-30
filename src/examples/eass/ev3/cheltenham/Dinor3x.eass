@@ -62,6 +62,8 @@ path_threshold(0.05)
     forward;
 +! do_nothing [perform] : {True} <-
     do_nothing;
++! scare [perform] : {True} <-
+	scare;
 
 +change_distance(D) : {B distance_threshold(D1)} <-
     -distance_threshold(D1), +distance_threshold(D);
@@ -125,7 +127,7 @@ have_belief(no_water) :- ~ have_belief(water);
 
 +goal(scare) : {True} <-
 		 show_goal(scare),
-	     growl,
+	     scare,
 	     remove_goal(scare);
 
 +goal(water) : {True} <-
