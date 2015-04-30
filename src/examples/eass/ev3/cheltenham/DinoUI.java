@@ -52,6 +52,7 @@ import java.io.PrintStream;
 import eass.ev3.cheltenham.ui.BeliefPanel;
 import eass.ev3.cheltenham.ui.ComplexPanel;
 import eass.ev3.cheltenham.ui.DinoPanel;
+import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
 import eass.ev3.cheltenham.ui.SimplePanel;
 import eass.ev3.cheltenham.ui.TabPanel;
@@ -143,7 +144,10 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	        RulesOnlyPanel ro = new RulesOnlyPanel(this, 1);
 	        addTab("Rules", ro);
 	        
-	        ComplexPanel all = new ComplexPanel(this, 2);
+	        GoalsOnlyPanel go = new GoalsOnlyPanel(this, 2);
+	        addTab("Goals", go);
+	        
+	        ComplexPanel all = new ComplexPanel(this, 3);
 	        addTab("Goals and Rules", all);
 	    	
 	        envThread.start();

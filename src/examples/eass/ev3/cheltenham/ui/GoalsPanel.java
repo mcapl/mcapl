@@ -20,5 +20,10 @@ public class GoalsPanel extends DinoPanel {
     	super(title, ui);
     	add(getDinoUI().goallist);
     }
+    
+    public void componentShown() {
+    	add(getDinoUI().goallist);
+    }
+
 
 }

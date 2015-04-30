@@ -10,6 +10,7 @@ import eass.ev3.cheltenham.DinoUI;
 public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		SensorPanel sPanel;
 		BeliefPanel bPanel;
+		GoalsPanel gPanel;
 		int index;
 		
 		public TabPanel(DinoUI ui, int tabindex) {
@@ -23,6 +24,10 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     	
     	public boolean hasBeliefPanel() {
     		return bPanel != null;
+    	}
+    	
+    	public boolean hasGoalsPanel() {
+    		return gPanel != null;
     	}
 
     	@Override
@@ -39,6 +44,10 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     					getBeliefPanel().componentShown();
     				}
     				
+    				if (hasGoalsPanel()) {
+    					getGoalsPanel().componentShown();
+    				}
+    				
     				enablePanels(0);
     			}
     		}
@@ -52,12 +61,20 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     		return bPanel;
     	}
     	
+    	public GoalsPanel getGoalsPanel() {
+    		return gPanel;
+    	}
+    	
     	public void setSensorPanel(SensorPanel panel) {
     		sPanel = panel;
     	}
     	
     	public void setBeliefPanel(BeliefPanel panel) {
     		bPanel = panel;
+    	}
+    	
+    	public void setGoalPanel(GoalsPanel panel) {
+    		gPanel = panel;
     	}
     	
     	public abstract void enablePanels(int i);
