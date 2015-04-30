@@ -27,11 +27,15 @@ package eass.ev3.cheltenham;
 import javax.swing.*;   
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,18 +64,10 @@ import ajpf.MCAPLcontroller;
  * @author louiseadennis
  *
  */
-public class DinoUI extends JPanel implements ActionListener, WindowListener{
+public class DinoUI extends JTabbedPane implements ActionListener, WindowListener {
 		private static final long serialVersionUID = 1L;
 		
-        SensorPanel ultra; 
-        BeliefPanel beliefpanel;
-        GoalsPanel goalpanel;
-    	RulesPanel rules;
-    	GoalPanel goals;
-
         // The various buttons and boxes used by the interface.
-	    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton;
-	    protected TextAreaOutputStream uvalues;
 	    protected NumberFormat numberFormat;
 	    protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward"};
 	    protected String[] choices = {"anything", "there is water", "there is no water"};
@@ -94,31 +90,180 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	
 	    }
 	    
+	    /**
+	     * Create the GUI and show it.  For thread safety,
+	     * this method should be invoked from the
+	     * event-dispatching thread.
+	     */
+	    public void createAndShowGUI() {
+	    	JMenuBar menuBar = new JMenuBar();
+	    	JMenu file = new JMenu("Menu");
+	    	JMenuItem config = new JMenuItem("Settings");
+	    	config.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JFrame settings = new JFrame("Settings");
+					ConfigurationPanel config = new ConfigurationPanel(settings, env);
+					settings.setContentPane(config);
+					settings.pack();
+					settings.setVisible(true);
+				}
+	    		
+	    	});
+	    	file.add(config);
+	    	
+	    	JMenuItem quit = new JMenuItem("Quit");
+	    	quit.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mas.cleanup();
+					System.exit(0);
+				}
+	    		
+	    	});
+	    	file.add(quit);
+	    	menuBar.add(file);
+	    		    	
+	    	//Create and set up the window.
+	        JFrame frame = new JFrame("Triceratops Robot");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        SimplePanel teleop = new SimplePanel();
+	        addTab("Simple", teleop);
+	        
+	        RulesOnlyPanel ro = new RulesOnlyPanel();
+	        addTab("Rules", ro);
+	        
+	        ComplexPanel all = new ComplexPanel();
+	        addTab("Goals and Rules", all);
+	    	
+	        envThread.start();
+	        frame.addWindowListener(this);
+	        frame.setContentPane(this);
+	    	frame.setJMenuBar(menuBar);
+	    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	frame.setSize(100, 100);
+	 
+	 
+	        //Display the window.
+	        frame.pack();
+	        frame.setVisible(true);
+	    }
+	 
+	    private class SimplePanel extends TabPanel {
+	    	public SimplePanel() {
+		    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		    	c.fill = GridBagConstraints.HORIZONTAL;
+
+		    	// A JPanel for Controls
+		    	ControlsPanel controls = new ControlsPanel();
+		    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
+		    	c.gridx = 0;
+		    	c.gridy = 1;
+		        c.gridwidth = 1;
+		    	add(controls, c);
+	    		
+		        // The Instructions Panel
+		        InstructionsPanel instructions = new InstructionsPanel(1, this);
+		        instructions.setBorder(BorderFactory.createTitledBorder(loweredetched, "Instructions"));
+		        c.gridx = 0;
+		        c.gridy = 2;
+		        c.gridwidth = 1;
+		    	c.fill = GridBagConstraints.BOTH;
+		        add(instructions, c);
+
+	    	}
+	    }
+	    
+	    /**
+	     * Constructs the User Interface.
+	     * @param layout
+	     */
+	    private class RulesOnlyPanel extends TabPanel implements ChangeListener {
+	    	
+			public RulesOnlyPanel() {
+	    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+	    	c.fill = GridBagConstraints.HORIZONTAL;
+	    		    		    	
+	    	// A JPanel for Controls
+	    	ControlsPanel controls = new ControlsPanel();
+	    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
+	    	c.gridx = 0;
+	    	c.gridy = 1;
+	        c.gridwidth = 2;
+	    	add(controls, c);
+	        
+	        // A JPanel for Beliefs
+	    	beliefpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Beliefs"));
+	    	c.gridx = 0;
+	    	c.gridy = 2;
+	        c.gridwidth = 2;
+	    	add(beliefpanel, c);
+	    	beliefpanel.setEnabled(false);
+	    	
+	        // A JPanel for Rules
+	    	rules.setBorder(BorderFactory.createTitledBorder(loweredetched, "Rules"));
+	    	c.gridx = 0;
+	    	c.gridy = 3;
+	        c.gridwidth = 2;
+	    	add(rules, c);
+	    	rules.setEnabled(false);
+	    	
+	    	// A Panel for the Sensor Streams
+	        // A Panel for the ultrasound sensor values
+	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
+	        c.gridx = 0;
+	        c.gridy = 5;
+	        c.gridwidth = 1;
+	        add(ultra, c);
+	        ultra.setEnabled(false);
+	        
+	        // The Instructions Panel
+	        InstructionsPanel instructions = new InstructionsPanel(5, this);
+	        instructions.setBorder(BorderFactory.createTitledBorder(loweredetched, "Instructions"));
+	        c.gridx = 1;
+	        c.gridy = 5;
+	        c.gridwidth = 1;
+	    	c.fill = GridBagConstraints.BOTH;
+	        add(instructions, c);
+	        addChangeListener(this);
+			}
+
+			boolean showing = false;
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				if (!showing) {
+					ultra.componentShown();
+					showing = true;
+				} else {
+					showing = false;
+				}
+			}
+	    }
+
 	
 	    /**
 	     * Constructs the User Interface.
 	     * @param layout
 	     */
-	    public void createPane(GridBagLayout layout) {
+	    private class ComplexPanel extends TabPanel implements ChangeListener {
 	    	
-			
-	    	setLayout(layout);
-	    	GridBagConstraints c = new GridBagConstraints();
+			public ComplexPanel() {
 	    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 	    	c.fill = GridBagConstraints.HORIZONTAL;
 	    		    		    	
 	    	// A JPanel for Controls
-	    	JPanel controls = new JPanel();
+	    	ControlsPanel controls = new ControlsPanel();
 	    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
-	    	controls.setLayout(new GridBagLayout());
 	    	c.gridx = 0;
 	    	c.gridy = 1;
 	        c.gridwidth = 2;
 	    	add(controls, c);
-	    	createControlsPanel(controls);
 	        
 	        // A JPanel for Beliefs
-	    	beliefpanel = new BeliefPanel();
 	    	beliefpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Beliefs"));
 	    	c.gridx = 0;
 	    	c.gridy = 2;
@@ -127,7 +272,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	beliefpanel.setEnabled(false);
 	    	
 	    	// A JPanel for Goals
-	    	goalpanel = new GoalsPanel();
 	    	goalpanel.setBorder(BorderFactory.createTitledBorder(loweredetched, "Goals"));
 	    	c.gridx = 1;
 	    	c.gridy = 2;
@@ -137,7 +281,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	
 
 	        // A JPanel for Rules
-	    	rules = new RulesPanel();
 	    	rules.setBorder(BorderFactory.createTitledBorder(loweredetched, "Rules"));
 	    	c.gridx = 0;
 	    	c.gridy = 3;
@@ -146,7 +289,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	rules.setEnabled(false);
 	    	
 	    	// A Panel for Goals
-	    	goals = new GoalPanel();
 	    	goals.setBorder(BorderFactory.createTitledBorder(loweredetched, "Goals"));
 	    	c.gridx = 0;
 	    	c.gridy = 4;
@@ -155,7 +297,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 
 	    	// A Panel for the Sensor Streams
 	        // A Panel for the ultrasound sensor values
-	    	ultra = new SensorPanel();
 	        ultra.setBorder(BorderFactory.createTitledBorder(loweredetched, "The Ultrasonic Sensor"));
 	        c.gridx = 0;
 	        c.gridy = 5;
@@ -163,17 +304,22 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        add(ultra, c);
 	        ultra.setEnabled(false);
 	        
-	        // The Instrucions Panel
-	        InstructionsPanel instructions = new InstructionsPanel();
+	        // The Instructions Panel
+	        InstructionsPanel instructions = new InstructionsPanel(6, this);
 	        instructions.setBorder(BorderFactory.createTitledBorder(loweredetched, "Instructions"));
 	        c.gridx = 1;
 	        c.gridy = 5;
 	        c.gridwidth = 1;
 	    	c.fill = GridBagConstraints.BOTH;
 	        add(instructions, c);
-		    			    	
-	    	
-	    	envThread.start();
+	        
+	        addChangeListener(this);
+			}
+
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				ultra.componentShown();
+			}
 	    }
 	    
 	    private class BeliefPanel extends DinoPanel {
@@ -241,6 +387,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
 	    	JTextArea textArea = new JTextArea(15, 30);
 	        JPanel output = new JPanel();
+		    protected TextAreaOutputStream uvalues;
 	        
 	        @Override
 	        public void setEnabled(boolean enabled) {
@@ -248,15 +395,15 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	        	vtext.setEnabled(enabled);
 	        	textArea.setEnabled(enabled);
 	        	output.setEnabled(enabled);
+	        	
 	        }
-	    	
+	    		        
 	    	public SensorPanel() {
 		        c.gridx = 0;
 		        c.gridy = 1;
 		        c.gridwidth = 1;
 		        add(vtext, c);
 		        uvalues = new TextAreaOutputStream(textArea, "Ultrasound Sensor Value");
-		        ((DinoEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
 		        output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
 		        c.gridx = 0;
 		        c.gridy = 2;
@@ -264,14 +411,23 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 		        add(output, c);
 	    		
 	    	}
+
+			public void componentShown() {
+				// TODO Auto-generated method stub
+		        ((DinoEnvironment) env).setUltraPrintStream(rName, new PrintStream(uvalues));
+			}
+				
 	    }
 	    
 	    private class InstructionsPanel extends DinoPanel {
 	    	ArrayList<String> instructions = new ArrayList<String>();
+	    	TabPanel panel;
 	    	int step = 0;
+	    	int limit = 6;
 	    	
-	    	public InstructionsPanel() {
+	    	public InstructionsPanel(int limit, TabPanel panel) {
 	    		super();
+	    		this.panel = panel;
 	    		setLayout(new BorderLayout());
 	    		String instructions1 = "Use the Forward, Reverse, Left, Right and Stop buttons in controls to steer your robot.";
 	    		String instructions2 = "The Ultrasonic Sensor detects the distance from the front of the Triceratops to an obstacle.\n\n  You can see the values it is returning on the left.";
@@ -296,6 +452,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 		    	step++;
 		    	add(info1, BorderLayout.NORTH);
 		    	
+		    	if (limit > 1) {
 		    	JPanel buttonpanel = new JPanel();
 		    	add(buttonpanel, BorderLayout.SOUTH);
 		    	buttonpanel.setLayout(new GridBagLayout());
@@ -304,7 +461,7 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (step == instructions.size() - 1) {
+						if (step == limit - 1) {
 							step = 0;
 						} else {
 							step++;
@@ -353,55 +510,56 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 		    	c.gridx = 2;
 		    	c.gridy = 0;
 		    	buttonpanel.add(resetbutton, c);
+		    	}
 	    		
 	    	}
 	    	
 	    	private void enablePanels(int step) {
 	    		switch (step) {
 	    			case 5:
-	    				beliefpanel.setEnabled(true);
-	    				ultra.setEnabled(true);
-	    				goals.setEnabled(true);
-	    				goalpanel.setEnabled(true);
-	    				rules.setEnabled(false);
-	    				rules.choiceEnabled(false);
+	    				panel.beliefpanel.setEnabled(true);
+	    				panel.ultra.setEnabled(true);
+	    				panel.goals.setEnabled(true);
+	    				panel.goalpanel.setEnabled(true);
+	    				panel.rules.setEnabled(false);
+	    				panel.rules.choiceEnabled(false);
 	    				break;
 	    			case 4:
-	    				beliefpanel.setEnabled(true);
-	    				ultra.setEnabled(true);
-	    				rules.setEnabled(true);
-	    				rules.choiceEnabled(true);
-	    				goals.setEnabled(false);
-	    				goalpanel.setEnabled(false);
+	    				panel.beliefpanel.setEnabled(true);
+	    				panel.ultra.setEnabled(true);
+	    				panel.rules.setEnabled(true);
+	    				panel.rules.choiceEnabled(true);
+	    				panel.goals.setEnabled(false);
+	    				panel.goalpanel.setEnabled(false);
 	    				break;
 	    			case 3:
-	    				beliefpanel.setEnabled(true);
-	    				ultra.setEnabled(true);
-	    				rules.setEnabled(true);
-	    				rules.choiceEnabled(false);
-	    				goals.setEnabled(false);
-	    				goalpanel.setEnabled(false);
+	    				panel.beliefpanel.setEnabled(true);
+	    				panel.ultra.setEnabled(true);
+	    				panel.rules.setEnabled(true);
+	    				panel.rules.choiceEnabled(false);
+	    				panel.goals.setEnabled(false);
+	    				panel.goalpanel.setEnabled(false);
 	    				break;	    			
 	    			case 2:
-	    				beliefpanel.setEnabled(true);
-	    				ultra.setEnabled(true);
-	    				rules.setEnabled(false);
-	    				goals.setEnabled(false);
-	    				goalpanel.setEnabled(false);
+	    				panel.beliefpanel.setEnabled(true);
+	    				panel.ultra.setEnabled(true);
+	    				panel.rules.setEnabled(false);
+	    				panel.goals.setEnabled(false);
+	    				panel.goalpanel.setEnabled(false);
 	    				break;
 	    			case 1:
-	    				beliefpanel.setEnabled(false);
-	    				ultra.setEnabled(true);
-	    				rules.setEnabled(false);
-	    				goals.setEnabled(false);
-	    				goalpanel.setEnabled(false);
+	    				panel.beliefpanel.setEnabled(false);
+	    				panel.ultra.setEnabled(true);
+	    				panel.rules.setEnabled(false);
+	    				panel.goals.setEnabled(false);
+	    				panel.goalpanel.setEnabled(false);
 	    				break;
 	    			default:
-	    				beliefpanel.setEnabled(false);
-	    				ultra.setEnabled(false);
-	    				rules.setEnabled(false);
-	    				goals.setEnabled(false);
-	    				goalpanel.setEnabled(false);
+	    				panel.beliefpanel.setEnabled(false);
+	    				panel.ultra.setEnabled(false);
+	    				panel.rules.setEnabled(false);
+	    				panel.goals.setEnabled(false);
+	    				panel.goalpanel.setEnabled(false);
 	    		}
 	    				
 	    	}
@@ -413,68 +571,80 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    		setLayout(new GridBagLayout());
 	    	}
 	    }
+	    
+	    public class TabPanel extends DinoPanel {
+	        SensorPanel ultra = new SensorPanel(); 
+	        BeliefPanel beliefpanel = new BeliefPanel();
+	        GoalsPanel goalpanel = new GoalsPanel();
+	    	RulesPanel rules = new RulesPanel();
+	    	GoalPanel goals = new GoalPanel();	    	
+	    }
 	    	    
-	    private void createControlsPanel(JPanel controls) {
-	    	GridBagConstraints c = new GridBagConstraints();
+	    private class ControlsPanel extends DinoPanel {
+		    protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton;
+	    	
+	    	public ControlsPanel() {
 	    	// Forward
 	    	fbutton = new JButton("Forward");
 	        fbutton.setMnemonic(KeyEvent.VK_F);
 	        fbutton.setActionCommand("forward");
-	        fbutton.addActionListener(this);
+	        fbutton.addActionListener(DinoUI.this);
 	        fbutton.setToolTipText("Click to move Forward");
 	        c.gridx = 0;
 	        c.gridy = 0;
 	        c.gridwidth = 1;
-	        controls.add(fbutton, c);
+	        c.fill = GridBagConstraints.BOTH;
+	        add(fbutton, c);
 	    	
 	        // Right
 	        rbutton = new JButton("Right");
 	        rbutton.setMnemonic(KeyEvent.VK_R);
 	        rbutton.setActionCommand("right");
-	        rbutton.addActionListener(this);
+	        rbutton.addActionListener(DinoUI.this);
 	        rbutton.setToolTipText("Click to turn Right");
 	        c.gridx = 1;
 	        c.gridy = 0;
-	        controls.add(rbutton, c);
+	        add(rbutton, c);
 
 	        // Left
 	        lbutton = new JButton("Left");
 	        lbutton.setMnemonic(KeyEvent.VK_L);
 	        lbutton.setActionCommand("left");
-	        lbutton.addActionListener(this);
+	        lbutton.addActionListener(DinoUI.this);
 	        lbutton.setToolTipText("Click to turn Left");
 	        c.gridx = 2;
 	        c.gridy = 0;
-	        controls.add(lbutton, c);
+	        add(lbutton, c);
 	        
 	        // Stop
 	        sbutton = new JButton("Stop");
 	        sbutton.setMnemonic(KeyEvent.VK_S);
 	        sbutton.setActionCommand("stop");
-	        sbutton.addActionListener(this);
+	        sbutton.addActionListener(DinoUI.this);
 	        sbutton.setToolTipText("Click to Stop");
 	        c.gridx = 3;
 	        c.gridy = 0;
-	        controls.add(sbutton, c);
+	        add(sbutton, c);
 	        
 	        // Reverse
 	        bbutton = new JButton("Reverse");
 	        bbutton.setMnemonic(KeyEvent.VK_S);
 	        bbutton.setActionCommand("backward");
-	        bbutton.addActionListener(this);
+	        bbutton.addActionListener(DinoUI.this);
 	        bbutton.setToolTipText("Click to Go Backwards");
 	        c.gridx = 4;
 	        c.gridy = 0;
-	        controls.add(bbutton, c);
+	        add(bbutton, c);
 
 	        
 	        // Reverse
 	        lfbutton = new JButton("Growl");
 	        lfbutton.setActionCommand("growl");
-	        lfbutton.addActionListener(this);
+	        lfbutton.addActionListener(DinoUI.this);
 	        c.gridx = 5;
 	        c.gridy = 0;
-	        controls.add(lfbutton, c);
+	        add(lfbutton, c);
+	    	}
 
 	    }
 	    
@@ -712,58 +882,6 @@ public class DinoUI extends JPanel implements ActionListener, WindowListener{
 	    	currentgoals.remove(p);
 	    	goallist.setText(currentgoals.toString());
 	    }
-	    /**
-	     * Create the GUI and show it.  For thread safety,
-	     * this method should be invoked from the
-	     * event-dispatching thread.
-	     */
-	    public void createAndShowGUI() {
-	    	JMenuBar menuBar = new JMenuBar();
-	    	JMenu file = new JMenu("Menu");
-	    	JMenuItem config = new JMenuItem("Settings");
-	    	config.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JFrame settings = new JFrame("Settings");
-					ConfigurationPanel config = new ConfigurationPanel(settings, env);
-					settings.setContentPane(config);
-					settings.pack();
-					settings.setVisible(true);
-				}
-	    		
-	    	});
-	    	file.add(config);
-	    	
-	    	JMenuItem quit = new JMenuItem("Quit");
-	    	quit.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mas.cleanup();
-					System.exit(0);
-				}
-	    		
-	    	});
-	    	file.add(quit);
-	    	menuBar.add(file);
-	    	
-	    	//Create and set up the window.
-	        JFrame frame = new JFrame("Triceratops Robot");
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        createPane(new GridBagLayout());
-	        frame.addWindowListener(this);
-	        frame.setContentPane(this);
-	    	frame.setJMenuBar(menuBar);
-	    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	frame.setSize(100, 100);
-	 
-	 
-	        //Display the window.
-	        frame.pack();
-	        frame.setVisible(true);
-	    }
-	 
 	
 	    
 	    /*
