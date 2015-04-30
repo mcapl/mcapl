@@ -17,39 +17,41 @@ public class RulesOnlyPanel extends TabPanel {
 		super(ui, i);
 		c.fill = GridBagConstraints.HORIZONTAL;
     		    		    	
-    	// A JPanel for Controls
+    	// A Panel for the Sensor Streams
+        // A Panel for the ultrasound sensor values
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight = 4;
+        SensorPanel ultra = new SensorPanel("Sensors", ui);
+        add(ultra, c);
+        ultra.setEnabled(false);
+        setSensorPanel(ultra);
+
+        // A JPanel for Controls
     	ControlsPanel controls = new ControlsPanel("Controls", ui);
-    	c.gridx = 0;
-    	c.gridy = 1;
-        c.gridwidth = 2;
+    	c.gridx = 1;
+    	c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
     	add(controls, c);
         
         // A JPanel for Beliefs
-    	c.gridx = 0;
-    	c.gridy = 2;
-        c.gridwidth = 2;
         BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
+    	c.gridx = 1;
+    	c.gridy = 1;
+        c.gridwidth = 1;
     	add(beliefpanel, c);
     	beliefpanel.setEnabled(false);
     	setBeliefPanel(beliefpanel);
     	
         // A JPanel for Rules
-    	c.gridx = 0;
-    	c.gridy = 3;
-        c.gridwidth = 2;
         rulespanel = new RulesPanel("Rules", ui);
+    	c.gridx = 1;
+    	c.gridy = 2;
+        c.gridwidth = 1;
     	add(rulespanel, c);
     	rulespanel.setEnabled(false);
     	
-    	// A Panel for the Sensor Streams
-        // A Panel for the ultrasound sensor values
-        c.gridx = 0;
-        c.gridy = 5;
-        c.gridwidth = 1;
-        SensorPanel ultra = new SensorPanel("Sensors", ui);
-        add(ultra, c);
-        ultra.setEnabled(false);
-        setSensorPanel(ultra);
         
         // The Instructions Panel
         ArrayList<String> ins = new ArrayList<String>();
@@ -60,10 +62,10 @@ public class RulesOnlyPanel extends TabPanel {
         ins.add(InstructionsPanel.context_ins);
         InstructionsPanel instructions = new InstructionsPanel(5, this, "Instructions", ins);
         c.gridx = 1;
-        c.gridy = 5;
+        c.gridy = 3;
         c.gridwidth = 1;
-    	c.fill = GridBagConstraints.BOTH;
-        add(instructions, c);
+		c.fill = GridBagConstraints.BOTH;
+       add(instructions, c);
         ui.addChangeListener(this);
 	}
 	

@@ -18,16 +18,26 @@ public class ComplexPanel extends TabPanel {
 		super(ui, i);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		    		    	
-		// A JPanel for Controls
+		// A Panel for the Sensor Streams
+	    // A Panel for the ultrasound sensor values
+	    c.gridx = 0;
+	    c.gridy = 0;
+	    c.gridheight = 6;
+	    SensorPanel ultra = new SensorPanel("Sensors", ui);
+	    setSensorPanel(ultra);
+	    add(ultra, c);
+	    ultra.setEnabled(false);
+
+	    // A JPanel for Controls
 		ControlsPanel controls = new ControlsPanel("Controls", ui);
-		c.gridx = 0;
-		c.gridy = 1;
-	    c.gridwidth = 2;
+		c.gridx = 1;
+		c.gridy = 0;
+	    c.gridheight = 1;
 		add(controls, c);
 	    
 	    // A JPanel for Beliefs
-		c.gridx = 0;
-		c.gridy = 2;
+		c.gridx = 1;
+		c.gridy = 1;
 	    c.gridwidth = 1;
         BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
 		add(beliefpanel, c);
@@ -44,29 +54,19 @@ public class ComplexPanel extends TabPanel {
 		
 	
 	    // A JPanel for Rules
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 3;
-	    c.gridwidth = 2;
 	    rulespanel = new RulesPanel("Rules", ui);
 		add(rulespanel, c);
 		rulespanel.setEnabled(false);
 		
 		// A Panel for Goals
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 4;
 		goals = new SetGoalPanel("Set Goals", ui);
 		add(goals, c);
 		goals.setEnabled(false);
 	
-		// A Panel for the Sensor Streams
-	    // A Panel for the ultrasound sensor values
-	     c.gridx = 0;
-	    c.gridy = 5;
-	    c.gridwidth = 1;
-	    SensorPanel ultra = new SensorPanel("Sensors", ui);
-	    setSensorPanel(ultra);
-	    add(ultra, c);
-	    ultra.setEnabled(false);
 	    
 	    // The Instructions Panel
 	    ArrayList<String> ins = new ArrayList<String>();

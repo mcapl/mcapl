@@ -41,18 +41,51 @@ public class InstructionsPanel extends DinoPanel {
     	add(info1, BorderLayout.NORTH);
     	
     	if (limit > 1) {
-    	JPanel buttonpanel = new JPanel();
-    	add(buttonpanel, BorderLayout.SOUTH);
-    	buttonpanel.setLayout(new GridBagLayout());
-    	JButton nextbutton = new JButton("Next");
+            JPanel buttonpanel = new JPanel();
+        	add(buttonpanel, BorderLayout.SOUTH);
+        	buttonpanel.setLayout(new GridBagLayout());
+
+        	JButton previousbutton = new JButton("Back");
+        	JButton nextbutton = new JButton("Next");
+
+        	previousbutton.addActionListener(new ActionListener() {
+
+    			@Override
+    			public void actionPerformed(ActionEvent e) {
+    				if (step != 0) {
+    					step--;
+    					nextbutton.setEnabled(true);
+    				}
+    				
+    				if (step == 0) {
+    					previousbutton.setEnabled(false);
+    				}
+
+    				panel.enablePanels(step);
+    				info1.setText(instructions.get(step));
+    			}
+        		
+        	});
+        	c.gridx = 0;
+        	c.gridy = 0;
+        	c.gridwidth = 1;
+        	buttonpanel.add(previousbutton, c);
+        	previousbutton.setEnabled(false);
+
     	nextbutton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (step == limit - 1) {
 					step = 0;
+					previousbutton.setEnabled(false);
 				} else {
 					step++;
+					previousbutton.setEnabled(true);
+				}
+				
+				if (step == limit - 1) {
+					nextbutton.setEnabled(false);
 				}
 
 				panel.enablePanels(step);
@@ -61,28 +94,10 @@ public class InstructionsPanel extends DinoPanel {
 			}
     		
     	});
-    	c.gridx = 0;
+    	c.gridx = 1;
     	c.gridy = 0;
     	buttonpanel.add(nextbutton, c);
 
-    	JButton previousbutton = new JButton("Back");
-    	previousbutton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (step != 0) {
-					step--;
-				}
-
-				panel.enablePanels(step);
-				info1.setText(instructions.get(step));
-			}
-    		
-    	});
-    	c.gridx = 1;
-    	c.gridy = 0;
-    	c.gridwidth = 1;
-    	buttonpanel.add(previousbutton, c);
 
     	JButton resetbutton = new JButton("Restart");
     	resetbutton.addActionListener(new ActionListener() {
@@ -92,6 +107,8 @@ public class InstructionsPanel extends DinoPanel {
 				step = 0;
 				panel.enablePanels(step);
 				info1.setText(instructions.get(step));	
+				nextbutton.setEnabled(true);
+				previousbutton.setEnabled(false);
 			}
     		
     	});

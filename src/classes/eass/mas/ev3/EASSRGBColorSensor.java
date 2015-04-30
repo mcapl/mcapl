@@ -41,7 +41,9 @@ import lejos.robotics.SampleProvider;
  *
  */
 public class EASSRGBColorSensor implements EASSSensor {
-	PrintStream out = System.out;
+	PrintStream blueout = System.out;
+	PrintStream redout = System.out;
+	PrintStream greenout = System.out;
 	RemoteRequestSampleProvider sensor;
 //	SampleProvider distances;
 	
@@ -65,18 +67,15 @@ public class EASSRGBColorSensor implements EASSSensor {
 			float red = sample[0];
 			float green = sample[1];
 			float blue = sample[2];
-			System.out.println("red light level is " + red);
-			out.println("red light level is " + red);
+			redout.println("red light level is " + red);
 			Literal r = new Literal("red");
 			r.addTerm(new NumberTermImpl(red));
 			env.addUniquePercept("red", r);
-			System.out.println("green light level is " + green);
-			out.println("red light level is " + green);
+			greenout.println("red light level is " + green);
 			Literal g = new Literal("green");
 			g.addTerm(new NumberTermImpl(green));
 			env.addUniquePercept("green", g);
-			System.out.println("blue light level is " + blue);
-			out.println("blue light level is " + blue);
+			blueout.println("blue light level is " + blue);
 			Literal b = new Literal("blue");
 			b.addTerm(new NumberTermImpl(blue));
 			env.addUniquePercept("blue", b);
@@ -89,15 +88,29 @@ public class EASSRGBColorSensor implements EASSSensor {
 	 * (non-Javadoc)
 	 * @see eass.mas.nxt.EASSSensor#setPrintStream(java.io.PrintStream)
 	 */
-	public void setPrintStream(PrintStream s) {
-		out = s;
+	public void setBluePrintStream(PrintStream s) {
+		blueout = s;
 	}
 	
+	public void setRedPrintStream(PrintStream s) {
+		redout = s;
+	}
+	public void setGreenPrintStream(PrintStream s) {
+		greenout = s;
+	}
 	public void close() {
 		try {
 			sensor.close();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+	}
+
+	@Override
+	public void setPrintStream(PrintStream o) {
+		// TODO Auto-generated method stub
+		setBluePrintStream(o);
+		setRedPrintStream(o);
+		setGreenPrintStream(o);
 	}
 }

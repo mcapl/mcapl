@@ -15,7 +15,9 @@ import eass.mas.ev3.EASSUltrasonicSensor;
 public class Dinor3x extends BasicRobot {
 		RemoteRequestPilot pilot;
 		RemoteRequestRegulatedMotor motor;
-		PrintStream uPrintStream = System.out;
+		//PrintStream uPrintStream = System.out;
+		//PrintStream bluePrintStream = System.out;
+		//PrintStream redPrintStream = System.out;
 		private boolean closed = false;
 		
 		/**
@@ -33,7 +35,7 @@ public class Dinor3x extends BasicRobot {
 				uSensor = new EASSUltrasonicSensor(brick, "S1");
 				System.err.println("Connected to Sensor");
 				setSensor(1, uSensor);
-				uSensor.setPrintStream(uPrintStream);
+			//	uSensor.setPrintStream(uPrintStream);
 			} catch (Exception e) {
 				brick.disConnect();
 				throw e;
@@ -88,13 +90,31 @@ public class Dinor3x extends BasicRobot {
 	 * @param s
 	 */
 	public void setUPrintStream(PrintStream s) {
-		uPrintStream = s;
+		//uPrintStream = s;
 		EASSSensor uSensor = getSensor(1);
 		if (uSensor != null) {
 			uSensor.setPrintStream(s);
 		}
 	}
 	
+	/**
+	 * Grab the print stream from the ultrasonic sensor.
+	 * @param s
+	 */
+	public void setRedPrintStream(PrintStream s) {
+		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+		if (rgbSensor != null) {
+			rgbSensor.setRedPrintStream(s);
+		}
+	}
+ 
+	public void setBluePrintStream(PrintStream s) {
+		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+		if (rgbSensor != null) {
+			rgbSensor.setBluePrintStream(s);
+		}
+	}
+
 	/**
 	 * Setter for the robot's travel speed.
 	 * @param speed

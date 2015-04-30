@@ -381,6 +381,21 @@ public class DinoEnvironment extends EASSEV3Environment {
 		}
 	}
 	
+	public void setRedPrintStream(String rname, PrintStream s)  {
+		Dinor3x robot = (Dinor3x) getRobot(rname);
+		if (robot != null) {
+			robot.setRedPrintStream(s);
+		}
+	}
+	
+	public void setBluePrintStream(String rname, PrintStream s)  {
+		Dinor3x robot = (Dinor3x) getRobot(rname);
+		if (robot != null) {
+			robot.setBluePrintStream(s);
+		}
+	}
+	
+
 	
 	public void cleanup(String rname) {
 		Dinor3x robot = (Dinor3x) getRobot(rname);
