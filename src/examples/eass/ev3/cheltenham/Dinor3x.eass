@@ -115,6 +115,7 @@ have_belief(no_water) :- ~ have_belief(water);
 +water : {True} <-
 	show_belief(water),
         +have_belief(water),
+        +stop_following_line,
  	-! water [achieve],
         -! path [achieve],
  	remove_goal(water),
@@ -139,6 +140,7 @@ have_belief(no_water) :- ~ have_belief(water);
 +goal(water) : {True} <-
 	     show_goal(water),
 	     +! water [achieve],
+	     stop,
              drop_goal,
              remove_goal(water);
 -goal(water) : {True} <-
@@ -147,14 +149,19 @@ have_belief(no_water) :- ~ have_belief(water);
 	     -! water [achieve],
              -! path [achieve];
 
++lfstopped: {True} <-
+	   +stop_following_line,
+	   remove_shared(lfstopped);
++random_stopped: {True} <-
+	   +stop_looking_for_path,
+	   remove_shared(random_stopped);
+
 +! water [achieve] : {True} <-
    +! path [achieve],
    remove_goal(path),
+   -stop_following_line,
    follow_line,
-   *water,
-   remove_belief(goal(water)),
-   stop,
-   drop_goal;
+   *stop_following_line;
 
 +! path [achieve] : {True} <-
    -stop_looking_for_path,
