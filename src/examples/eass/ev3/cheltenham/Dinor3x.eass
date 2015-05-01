@@ -67,6 +67,11 @@ path_threshold(0.04)
 
 +change_distance(D) : {B distance_threshold(D1)} <-
     -distance_threshold(D1), +distance_threshold(D);
++change_water(D1, D2): {B water_threshold_upper(W1), B water_threshold_lower(W2)} <-
+    -water_threshold_upper(W1), +water_threshold_upper(D1),
+    -water_threshold_lower(W2), +water_threshold_lower(D2);
++change_path(D) : {B path_threshold(D1)} <-
+    -path_threshold(D1), +path_threshold(D);
 
 :name: dinor3x
 

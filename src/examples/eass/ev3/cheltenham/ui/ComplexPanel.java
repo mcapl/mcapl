@@ -72,12 +72,13 @@ public class ComplexPanel extends TabPanel {
 	    // The Instructions Panel
 	    ArrayList<String> ins = new ArrayList<String>();
         ins.add(InstructionsPanel.controls_ins);
-        ins.add(InstructionsPanel.sensor_ins);
-        ins.add(InstructionsPanel.beliefs_ins);
+        ins.add(InstructionsPanel.both_sensor_ins);
+        ins.add(InstructionsPanel.both_beliefs_ins);
         ins.add(InstructionsPanel.rules_ins);
         ins.add(InstructionsPanel.context_ins);
         ins.add(InstructionsPanel.goals_ins);
-	    InstructionsPanel instructions = new InstructionsPanel(6, this, "Instructions", ins);
+        ins.add(InstructionsPanel.everything_ins);
+	    InstructionsPanel instructions = new InstructionsPanel(7, this, "Instructions", ins);
 	    setInstructionsPanel(instructions);
 	    c.gridx = 1;
 	    c.gridy = 5;
@@ -95,10 +96,18 @@ public class ComplexPanel extends TabPanel {
 	
 	public void enablePanels(int step) {
 		switch (step) {
+		case 6:
+			goals.setEnabled(true);
+			getGoalsPanel().setEnabled(true);
+			getBeliefPanel().setEnabled(true);
+			getSensorPanel().setEnabled(true);
+			rulespanel.setEnabled(true);
+			rulespanel.choiceEnabled(true);
+			break;
 		case 5:
 			goals.setEnabled(true);
 			getGoalsPanel().setEnabled(true);
-			getBeliefPanel().setEnabled(false);
+			getBeliefPanel().setEnabled(true);
 			getSensorPanel().setEnabled(true);
 			rulespanel.setEnabled(false);
 			rulespanel.choiceEnabled(false);

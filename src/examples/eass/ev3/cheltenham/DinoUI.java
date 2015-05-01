@@ -227,6 +227,17 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	}
 	    }
 	
+	    public void changeWaterThresholds(double d1, double d2) {
+	    	for (TabPanel p: panels) {
+	    		p.changeWaterThreshold(d1, d2);
+	    	}
+	    }
+	    
+	    public void changePathThreshold(double d) {
+	    	for (TabPanel p: panels) {
+	    		p.changePathThreshold(d);
+	    	}
+	    }
 	    
 	    /*
 	     * (non-Javadoc)
