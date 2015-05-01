@@ -298,6 +298,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		distance_threshold.addTerm(act.getTerm(0));
 		   		String abstraction_name = "abstraction_" + rname;
 		   		addPercept(abstraction_name, distance_threshold);
+		   		ui.changeDistanceThreshold(((NumberTerm) act.getTerm(0)).solve());
 		   	} else if (act.getFunctor().equals("show_belief")) {
 		   		Predicate belief = (Predicate) act.getTerm(0);
 		   		ui.addToBeliefList(belief.toString());

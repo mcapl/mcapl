@@ -1,6 +1,7 @@
 package eass.ev3.cheltenham.ui;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
@@ -12,7 +13,13 @@ public class ControlsPanel extends DinoPanel {
 	
 	public ControlsPanel(String title, DinoUI ui) {
 		super(title, ui);
-	// Forward
+		
+	setLayout(new GridLayout());
+	c.weightx = 10;
+	c.weighty = 10;
+    c.fill = GridBagConstraints.BOTH;
+
+    // Forward
 	fbutton = new JButton("Forward");
     fbutton.setMnemonic(KeyEvent.VK_F);
     fbutton.setActionCommand("forward");
@@ -21,7 +28,6 @@ public class ControlsPanel extends DinoPanel {
     c.gridx = 0;
     c.gridy = 0;
     c.gridwidth = 1;
-    c.fill = GridBagConstraints.BOTH;
     add(fbutton, c);
 	
     // Right

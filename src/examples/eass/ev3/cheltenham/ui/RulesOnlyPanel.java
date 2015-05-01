@@ -18,38 +18,38 @@ public class RulesOnlyPanel extends TabPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
     		    		    	
  
+       	// A Panel for the Sensor Streams
+        // A Panel for the ultrasound sensor values
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 4;
+        SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, false));
+        add(ultra, c);
+        ultra.setEnabled(false);
+        setSensorPanel(ultra);
+
         // A JPanel for Controls
     	ControlsPanel controls = new ControlsPanel("Controls", ui);
-    	c.gridx = 0;
+    	c.gridx = 1;
     	c.gridy = 0;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.gridheight = 1;
     	add(controls, c);
         
         // A JPanel for Beliefs
         BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
-    	c.gridx = 0;
-    	c.gridy = 1;
+     	c.gridy = 1;
     	add(beliefpanel, c);
     	beliefpanel.setEnabled(false);
     	setBeliefPanel(beliefpanel);
     	
         // A JPanel for Rules
         rulespanel = new RulesPanel("Rules", ui);
-    	c.gridx = 0;
     	c.gridy = 2;
      	add(rulespanel, c);
     	rulespanel.setEnabled(false);
     	
-       	// A Panel for the Sensor Streams
-        // A Panel for the ultrasound sensor values
-        c.gridx = 0;
-        c.gridy = 3;
-        c.gridwidth = 1;
-        SensorPanel ultra = new SensorPanel("Sensors", ui, false, true);
-        add(ultra, c);
-        ultra.setEnabled(false);
-        setSensorPanel(ultra);
         
         // The Instructions Panel
         ArrayList<String> ins = new ArrayList<String>();
@@ -59,6 +59,7 @@ public class RulesOnlyPanel extends TabPanel {
         ins.add(InstructionsPanel.rules_ins);
         ins.add(InstructionsPanel.context_ins);
         InstructionsPanel instructions = new InstructionsPanel(5, this, "Instructions", ins);
+	    setInstructionsPanel(instructions);
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 1;

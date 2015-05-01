@@ -23,7 +23,7 @@ public class ComplexPanel extends TabPanel {
 	    c.gridy = 0;
 	    c.gridheight = 6;
 	    c.gridwidth = 1;
-	    SensorPanel ultra = new SensorPanel("Sensors", ui, true, true);
+	    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, true));
 	    setSensorPanel(ultra);
 	    add(ultra, c);
 	    ultra.setEnabled(false);
@@ -78,6 +78,7 @@ public class ComplexPanel extends TabPanel {
         ins.add(InstructionsPanel.context_ins);
         ins.add(InstructionsPanel.goals_ins);
 	    InstructionsPanel instructions = new InstructionsPanel(6, this, "Instructions", ins);
+	    setInstructionsPanel(instructions);
 	    c.gridx = 1;
 	    c.gridy = 5;
 	    c.gridwidth = 1;

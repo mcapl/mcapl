@@ -23,7 +23,7 @@ public class GoalsOnlyPanel extends TabPanel {
 	    c.gridy = 0;
 	    c.gridheight = 5;
 	    c.gridwidth = 1;
-	    SensorPanel ultra = new SensorPanel("Sensors", ui, true, false);
+	    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(false, true, true));
 	    setSensorPanel(ultra);
 	    add(ultra, c);
 	    ultra.setEnabled(false);
@@ -69,6 +69,7 @@ public class GoalsOnlyPanel extends TabPanel {
         ins.add(InstructionsPanel.beliefs_ins);
         ins.add(InstructionsPanel.goals_ins);
 	    InstructionsPanel instructions = new InstructionsPanel(4, this, "Instructions", ins);
+	    setInstructionsPanel(instructions);
 	    c.gridx = 1;
 	    c.gridy = 4;
 	    c.gridwidth = 1;
