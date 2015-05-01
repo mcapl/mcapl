@@ -466,6 +466,11 @@ public class DinoEnvironment extends EASSEV3Environment {
     	
     	public void stopFollowing() {
     		isrunning = false;
+    		try {
+    			wait(5);
+    		} catch (Exception e) {
+    			System.err.println(e.getMessage());
+    		}
     		DinoEnvironment.this.addSharedBelief("dinor3x", new Literal("lfstopped"));
     	}
 	}
