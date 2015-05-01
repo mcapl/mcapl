@@ -18,7 +18,7 @@ public class SensorValues extends DinoPanel {
 	JTextArea textArea = new JTextArea(15, 30);
     JPanel output = new JPanel();
     protected TextAreaOutputStream values;
-    enum SensorType {
+    public enum SensorType {
     	ULTRASONIC, RED, BLUE
     }
     SensorType type = SensorType.ULTRASONIC;

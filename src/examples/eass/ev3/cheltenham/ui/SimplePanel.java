@@ -1,5 +1,6 @@
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class SimplePanel extends TabPanel {
     	instructions.add(InstructionsPanel.controls_ins);
     	
         InstructionsPanel ins = new InstructionsPanel(1, this, "Instructions", instructions);
+        ins.setDinoFont(new Font("Sans Serif", Font.PLAIN, 20));
+	    setInstructionsPanel(ins);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 2;

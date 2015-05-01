@@ -30,7 +30,7 @@ EASS
 distance_threshold(0.5)
 water_threshold_upper(0.15)
 water_threshold_lower(0.1)
-path_threshold(0.05)
+path_threshold(0.04)
 
 :Initial Goals:
 
@@ -108,46 +108,56 @@ have_belief(no_water) :- ~ have_belief(water);
     remove_belief(obstacle);
     
 +water : {True} <-
- 	-! water [perform],
+	show_belief(water),
+        +have_belief(water),
+ 	-! water [achieve],
+        -! path [achieve],
  	remove_goal(water),
  	remove_goal(path),
  	drop_goal,
- 	+stop_looking_for_path,
- 	+have_belief(water),
-	show_belief(water);
+ 	+stop_looking_for_path;
 -water : {True} <-
-	-have_belief(water),
-	remove_belief(water);
+	remove_belief(water),
+	-have_belief(water);
 
 +path : {True} <-
-	  +stop_looking_for_path,
+      +stop_looking_for_path,
       show_belief(path);
 -path : {True} <-
       remove_belief(path);
 
 +goal(scare) : {True} <-
-		 show_goal(scare),
+             show_goal(scare),
 	     scare,
 	     remove_goal(scare);
 
 +goal(water) : {True} <-
-		show_goal(water),
-	     +! water [perform];
+	     show_goal(water),
+	     +! water [achieve],
+             drop_goal,
+             remove_goal(water);
 -goal(water) : {True} <-
 		remove_goal(water),
-	     -! water [perform];
+                remove_goal(path),
+	     -! water [achieve],
+             -! path [achieve];
 
-+! water [perform] : {True} <-
-   -stop_looking_for_path,
-   show_goal(path),
-   random,
++! water [achieve] : {True} <-
+   +! path [achieve],
    remove_goal(path),
-   *stop_looking_for_path,
-   -stop_looking_for_path,
    follow_line,
    *water,
    remove_belief(goal(water)),
    stop,
    drop_goal;
+
++! path [achieve] : {True} <-
+   -stop_looking_for_path,
+   show_goal(path),
+   random,
+   *stop_looking_for_path,
+   -stop_looking_for_path;
+
+
 
 
