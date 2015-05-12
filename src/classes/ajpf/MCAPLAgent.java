@@ -210,6 +210,15 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 	return (agent.MCAPLhasGoal(phi));
 	}
 	
+	/**
+	 * Succeeds if the agent intends to perform some action.
+	 * @param phi
+	 * @return
+	 */
+	public boolean intendsToDo(MCAPLFormula phi) {
+		return agent.MCAPLintendsToDo(phi);
+	}
+	
 	// Miscellaneous other methods.
 	
 	/**

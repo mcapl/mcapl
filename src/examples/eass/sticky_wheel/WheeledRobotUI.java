@@ -316,7 +316,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
 		// Start the system.
 		mccontrol.begin(); 
-		mas.finalize();
+		mas.cleanup();
 		
     }
 

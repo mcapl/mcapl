@@ -382,7 +382,11 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		if (isVar()) {
 			return false;
 		} else {
-			return super.equals(p);
+			if (super.equals(p)) {
+				return true;
+			} else {
+				return super.unifies(p, new Unifier());
+			}
 		}
 	}
 	

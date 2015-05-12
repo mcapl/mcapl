@@ -38,4 +38,6 @@ ajpf.model.path = /Users/lad/Research/ajpf/Prism
 listener=ajpf.MCAPLProbListener
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
+
 # vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet

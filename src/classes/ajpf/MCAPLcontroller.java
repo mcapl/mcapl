@@ -68,6 +68,9 @@ public class MCAPLcontroller  {
 	private MCAPLScheduler scheduler;
 
 	Random random_numbers = new Random();
+	
+	// We make this a class variable for test sets which run AIL in a thread.
+	boolean checkend = false;
 		
 
 	/**
@@ -163,7 +166,7 @@ public class MCAPLcontroller  {
 		}
 		specification.createAutomaton();
 		specification.checkProperties();
-		boolean checkend = checkEnd();
+		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
 			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {			
@@ -171,7 +174,6 @@ public class MCAPLcontroller  {
 			}
 			checkend = checkEnd();
 		}
-		triggerendstate();
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
@@ -198,6 +200,7 @@ public class MCAPLcontroller  {
 		}
 		a.do_job();
 		specification.checkProperties();
+		force_transition();
 		return a;
 	}
 	
@@ -280,7 +283,7 @@ public class MCAPLcontroller  {
 	 * Dummy procedure for triggering the listener.
 	 * @return
 	 */
-	public boolean triggerendstate() {
+	public static boolean force_transition() {
 		return true;
 	}
 		
@@ -352,5 +355,12 @@ public class MCAPLcontroller  {
 	 */
 	public static String getAbsFilename(String filename) {
 		return System.getProperty("user.dir") + "/" + filename;
+	}
+	
+	/**
+	 * Stop the MAS.
+	 */
+	public void stop() {
+		checkend = false;
 	}
 }

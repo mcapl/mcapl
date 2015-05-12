@@ -78,9 +78,6 @@ At the moment the key point is the fact that it states \texttt{no errors detecte
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
 
-# this is a preemption boundary specifying the max number of instructions after which we
-# break the current transition if there are other runnable threads
-vm.max_transition_length = MAX
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
@@ -97,7 +94,6 @@ We explain each line of this below.
 \item The second argument is a file containing a list of properties in \ajpf's property specification language that can be checked.  In this example this file is \texttt{lifterandmedic.psl} in the directory for this tutorial.
 \item The last argument is the name of the property to be checked, \texttt{1} in this case.
 \end{enumerate}
-\item[vm.max\_transition\_length = MAX] \jpf\ allows the user to set a maximum number of \java\ instructions that can be executed before a transition is forced to occur in the model checker.  Because many \ail\ interpreters use significant numbers of bytecode instructions executing individual transitions in the operational semantics we set this to \texttt{MAX} to minimize the search space.  This doesn't over-ride transitions that occur because of search space branching, it just prevents extra states being created for property checking.  In general when using \ajpf\ it is best to set this to \texttt{MAX} tweaking this setting would be advanced usage.
 \end{description}
 \end{sloppypar}
 
@@ -106,17 +102,18 @@ We explain each line of this below.
 \paragraph{Syntax}
 The syntax for property formul\ae\ $\phi$ is as follows, where
 $\AILagent$ is an ``agent constant'' referring to a specific agent in
-the system, and $f$ is a ground first-order atomic formula:
+the system, and $f$ is a ground first-order atomic formula (although it may use $\_$, as in \prolog, to indicate variables which may match any value):
 %
 \begin{equation*}
 \begin{array}{rl}
 \phi ::= & \lbelief{\AILagent}{f} \mid \lgoal{\AILagent}{f} \mid
   \lactions{\AILagent}{f} \mid \lintention{\AILagent}{f} \mid
-  \lpercept{f}
+  \lintendtodo{\AILagent}{f} \mid
+  \lpercept{f} \mid \\ &
 %% \\
 %%    &
 %% \mid \phi \land \phi
-  \mid \phi \vee \phi \mid \phi \wedge \phi \mid \neg \phi
+  \phi \vee \phi \mid \phi \wedge \phi \mid \neg \phi
    \mid \phi \: \until \phi \mid \phi \release \phi \mid \sometime \phi \mid \always \phi
 \end{array}
 \end{equation*}
@@ -124,7 +121,7 @@ the system, and $f$ is a ground first-order atomic formula:
 Here, $\lbelief{\AILagent}{f}$ is true if $\AILagent$ believes
 $f$ to be true, $\lgoal{\AILagent}{f}$ is true if $\AILagent$ has a
 goal to make $f$ true, and so on (with $\lactionsfunc$ representing
-actions, $\lintentionfunc$ representing intentions, and $\lperceptfunc$
+actions, $\lintentionfunc$ representing intentions, $\lintendtodofunc$ representing the intention to take an action, and $\lperceptfunc$
 representing percepts, i.e., properties that are true in the environment).
 
 The following representation of this syntax is used in \ajpf's property specification files:
@@ -135,6 +132,7 @@ The following representation of this syntax is used in \ajpf's property specific
 \texttt{G(}\AILagent\texttt{, }f\texttt{)} \mid 
 \texttt{D(}\AILagent\texttt{, }f\texttt{)} \mid 
 \texttt{I(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{ItD(}\AILagent\texttt{, }f\texttt{)} \mid 
 \texttt{P(}f\texttt{)} \mid \sim \phi \\
 \phi' ::= & \phi \mid 
   \phi' \: \texttt{|\!|} \: \phi' \mid 
@@ -161,7 +159,7 @@ $$
 \AILagent \models  \lbelief{\AILagent}{f}
 $$
 where $\models$ is logical consequence as implemented by the agent
-programming language. The semantics of $\lgoal{\AILagent}{f}$ and $\lintention{\AILagent}{f}$ similarly refer to internal implementations of the language interpreter~\footnote{We briefly cover the \gwendolen\ implementation in appendix~\ref{s:impl_bdi}.}.  
+programming language. The semantics of $\lgoal{\AILagent}{f}$, $\lintention{\AILagent}{f}$ and $\lintendtodo{\AILagent}{f}$ similarly refer to internal implementations of the language interpreter~\footnote{We briefly cover the \gwendolen\ implementation in appendix~\ref{s:impl_bdi}.}.  
 The interpretation of $\lactions{\AILagent}{f}$ is:
 $$\MAS \models_{MC}
 \lactions{\AILagent}{f}$$ if, and only if, the last action changing
@@ -232,8 +230,13 @@ $$\sometime \lgoal{\texttt{medic}}{human(5, 5)}$$
 $$\sometime \lbelief{\texttt{lifter}}{human(3, 4)} \wedge \sometime \lbelief{\texttt{lifter}}{holding(rubble)}$$
 \item If the lifter has the intention to $goto55then34$ then eventually the medic will have the goal $assist\_human(5, 5)$. 
 $$\lintention{\texttt{lifter}}{goto55then34} \Rightarrow \lgoal{\texttt{medic}}{assist\_human(5, 5)}$$
-\item It is always the case that if the lifter does $move\_to(5, 5)$ then it $human(5, 5)$ becomes perceptible.  
+\item It is always the case that if the lifter does $move\_to(5, 5)$ then $human(5, 5)$ becomes perceptible.  
 $$\always (\lactions{\texttt{lifter}}{move\_to(5, 5)} \Rightarrow \lpercept{human(5, 5)}$$
+\item Eventually the lifter intends to move to (5, 5).
+$$\sometime \lintendtodo{\texttt{lifter}}{move\_to(5, 5)}$$
+\item Eventually the lifter intends to send the medic a perform request to assist the human in some square.
+$$\sometime \lintendtodo{\texttt{lifter}}{send(\texttt{medic}, 2, assist\_human(\_, \_))}$$
+For this you should consult the section on intending to send messages in appendix~\ref{s:impl_bdi}.
 \end{enumerate}
 
 \bibliographystyle{abbrv} %% {plain}
@@ -249,8 +252,16 @@ In \gwendolen\ the BDI modalities of the \ajpf\ property specification language 
 \item $\lbelief{\AILagent}{f}$.  An agent, $\AILagent$, believes the formula, $f$, if $f$ appears in its belief base or is deducible from its goal base using its reasoning rules.
 \item $\lgoal{\AILagent}{f}$.  An agent, $\AILagent$, has a goal $f$, if $f$ is a goal that appears in the agent's goal base.
 \item $\lintention{\AILagent}{f}$.  An agent, $\AILagent$, has an intention $f$, if $f$ is a goal in the goal base a plan has been selected to achieve or perform the goal.
+\item $\lintendtodo{\AILagent}{f}$.  An agent, $\AILagent$, intends to do $f$, if $f$ is an action that appears in the deed stack of some intention.
 \end{itemize}
 
-
+\subsection{Intending to Send a Message}
+\gwendolen\ uses a special syntax for send actions (\texttt{.send(ag, :tell, c)}) which is not recognised by the property specification language.  If you want to check that a \gwendolen\ agent intends to send a messsage then you need to use the syntax \texttt{send(agname, number, c)} where \texttt{agname} is the name of the recipient, \texttt{number} is
+\begin{description}
+\item[1] For \texttt{:tell},
+\item[2] For \texttt{:perform},
+\item[3] For \texttt{:achieve}
+\end{description}
+and \texttt{c} is the content of the message.
 
 \end{document}

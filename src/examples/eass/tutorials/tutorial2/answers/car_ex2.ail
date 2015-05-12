@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,17 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-@using = mcapl
+env=eass.tutorials.tutorial2.answers.CarOnMotorwayEnvironment_ex2
 
-target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/cruise_control/motorway_verification_singlelane.ail,src/examples/eass/cruise_control/motorway.psl,1
+mas.file = /src/examples/eass/tutorials/tutorial2/car_exercises.eass
+mas.builder = eass.EASSMASBuilder
 
-log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.MotorWayVerificationEnv,ajpf.MCAPLListener,
-#log.fine = ail.semantics.AILAgent
-listener+=,.listener.ExecTracker
-et.print_insn=false
-
-# this is a preemption boundary specifying the max number of instructions after which we
-# break the current transition if there are other runnable threads
-vm.max_transition_length = MAX
-
+log.warning = ajpf.MCAPLAgent
+log.format = brief

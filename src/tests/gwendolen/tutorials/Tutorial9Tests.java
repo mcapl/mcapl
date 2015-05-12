@@ -28,16 +28,10 @@ import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
 import ail.mas.AIL;
-import ajpf.MCAPLcontroller;
 import gov.nasa.jpf.util.test.TestJPF;
-import gwendolen.GwendolenAgentBuilder;
-import gwendolen.semantics.GwendolenAgent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
-import junit.framework.Assert;
-
 
 /**
  * Simple test that an auction example works.

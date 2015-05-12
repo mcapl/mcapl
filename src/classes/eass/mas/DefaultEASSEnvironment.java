@@ -116,10 +116,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	
 	public void do_job() {			
 		eachrun();
-		
-		// Really????
-		// notifyPerceptListeners();
-
 	}
 	
 	/*
@@ -136,12 +132,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 */
 	public void eachrun() {}
 	
-	/**
-	 * This method can be overriden during debugging to print out specific information.
-	 * @param pred
-	 */
-	// public void printvalues(Literal pred) {}
-
 	
 	/**
 	 * Add a percept to this environment that is supposed to be unique - i.e.,

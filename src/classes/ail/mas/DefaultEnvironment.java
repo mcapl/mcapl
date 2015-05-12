@@ -636,7 +636,7 @@ public class DefaultEnvironment implements AILEnv {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 
 	/*
 	 * (non-Javadoc)

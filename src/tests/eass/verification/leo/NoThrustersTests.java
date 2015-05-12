@@ -35,10 +35,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  *
  */
 public class NoThrustersTests extends TestJPF  {
-	 static final String[] PICKUP_ARGS = { "-show", 
-		 "+listener+=,.listener.ExecTracker",
-	     "+et.print_insn=false"
-	 };
+	 static final String[] PICKUP_ARGS = {};
 
 	 //--- driver to execute single test methods
 	  public static void main(String[] args) {
