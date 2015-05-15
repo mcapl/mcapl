@@ -1,5 +1,29 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -13,7 +37,14 @@ import javax.swing.SwingUtilities;
 import eass.ev3.cheltenham.DinoEnvironment;
 import eass.ev3.cheltenham.DinoUI;
 
+/**
+ * A Class for displaying the incoming values from some sensor stream in a text area.
+ * @author lad
+ *
+ */
 public class SensorValues extends DinoPanel {
+	private static final long serialVersionUID = 1L;
+	
 	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
 	JTextArea textArea = new JTextArea(15, 30);
     JPanel output = new JPanel();
@@ -23,15 +54,6 @@ public class SensorValues extends DinoPanel {
     }
     SensorType type = SensorType.ULTRASONIC;
     
-    @Override
-    public void setEnabled(boolean enabled) {
-    	super.setEnabled(enabled);
-    	vtext.setEnabled(enabled);
-    	textArea.setEnabled(enabled);
-    	output.setEnabled(enabled);
-    	
-    }
-		        
 	public SensorValues(String title, DinoUI ui, String textAreaTitle) {
 		super(title, ui);
 		vtext = new JLabel(textAreaTitle);
@@ -40,7 +62,10 @@ public class SensorValues extends DinoPanel {
         c.gridwidth = 1;
         add(vtext, c);
         values = new TextAreaOutputStream(textArea, textAreaTitle);
-        output.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        JScrollPane scrollpane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollpane.setBackground(Color.WHITE);
+        output.add(scrollpane);
+        output.setBackground(Color.WHITE);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -56,17 +81,32 @@ public class SensorValues extends DinoPanel {
 		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#setEnabled(boolean)
+	 */
+	@Override
+    public void setEnabled(boolean enabled) {
+    	super.setEnabled(enabled);
+    	vtext.setEnabled(enabled);
+    	textArea.setEnabled(enabled);
+    	output.setEnabled(enabled);
+    	
+    }
+		        
+	/**
+	 * If this component is shown (e.g., the tab containing it is selected) then grab the appropriate streams.
+	 */
 	public void componentShown() {
-		// TODO Auto-generated method stub
 		switch (type) {
 		case ULTRASONIC:
-			((DinoEnvironment) getDinoUI().env).setUltraPrintStream(getDinoUI().rName, new PrintStream(values));
+			((DinoEnvironment) getDinoUI().getEnv()).setUltraPrintStream(getDinoUI().getRName(), new PrintStream(values));
 			break;
 		case RED:
-			((DinoEnvironment) getDinoUI().env).setRedPrintStream(getDinoUI().rName, new PrintStream(values));
+			((DinoEnvironment) getDinoUI().getEnv()).setRedPrintStream(getDinoUI().getRName(), new PrintStream(values));
 			break;
 		default:
-			((DinoEnvironment) getDinoUI().env).setBluePrintStream(getDinoUI().rName, new PrintStream(values));
+			((DinoEnvironment) getDinoUI().getEnv()).setBluePrintStream(getDinoUI().getRName(), new PrintStream(values));
 			break;
 
 		}
@@ -86,6 +126,7 @@ public class SensorValues extends DinoPanel {
     	   public TextAreaOutputStream(final JTextArea textArea, String title) {
     	      this.textArea = textArea;
     	      this.title = title;
+    	      textArea.setBackground(Color.WHITE);
     	      sb.append(title + "> ");
     	   }
 

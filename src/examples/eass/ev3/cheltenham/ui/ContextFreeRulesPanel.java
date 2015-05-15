@@ -35,116 +35,74 @@ import ail.syntax.Action;
 import eass.ev3.cheltenham.DinoUI;
 
 /**
- * A panel containing an interface for selecting and customising event-based BDI rules for a Lego Robot Dinosaur.  Developed for Cheltenham Science Festival 2015.
+ * A panel for controlling a Lego Robot Dinosaur, designed for Cheltenham Science Festival 2015.  This 
+ * panel gives a simple interface for setting event-based rules.
  * @author lad
  *
  */
-public class RulesPanel extends DinoPanel {
+public class ContextFreeRulesPanel extends DinoPanel {
  	private static final long serialVersionUID = 1L;
- 	// The actions the dinosaur can take.
-	protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward", "scare"};
-	
-	// Beliefs that may be used as additional context for a rule.
-    protected String[] choices = {"anything", "there is water", "there is no water"};
 
-    // Interface components.
-    JCheckBox r1button = new JCheckBox("If you"), r2button = new JCheckBox("If you"), r3button = new JCheckBox("If you"), r4button = new JCheckBox("If you");
+	/*
+	 * The set of actions that the robot can perform.
+	 */
+	protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward", "scare"};
+
+	// Various interface components.
+    JCheckBox r1button = new JCheckBox("If you"), r2button = new JCheckBox("If you");
     ArrayList<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
     JComboBox<String> r1action1box = new JComboBox<String>(actions), r1action2box = new JComboBox<String>(actions), r1action3box = new JComboBox<String>(actions), 
-    	r2action1box = new JComboBox<String>(actions), r2action2box = new JComboBox<String>(actions), r2action3box = new JComboBox<String>(actions), 
-    	r3action1box = new JComboBox<String>(actions), r3action2box = new JComboBox<String>(actions), r3action3box = new JComboBox<String>(actions), 
-    	r4action1box = new JComboBox<String>(actions), r4action2box = new JComboBox<String>(actions), r4action3box = new JComboBox<String>(actions), 
-    	r1choicebox = new JComboBox<String>(choices), r2choicebox = new JComboBox<String>(choices), r3choicebox = new JComboBox<String>(choices), r4choicebox = new JComboBox<String>(choices);
+    	r2action1box = new JComboBox<String>(actions), r2action2box = new JComboBox<String>(actions), r2action3box = new JComboBox<String>(actions);
     ArrayList<JComboBox<String>> action1s = new ArrayList<JComboBox<String>>();
     ArrayList<JComboBox<String>> action2s = new ArrayList<JComboBox<String>>();
     ArrayList<JComboBox<String>> action3s = new ArrayList<JComboBox<String>>();
-    ArrayList<JComboBox<String>> contexts = new ArrayList<JComboBox<String>>();
     JLabel r1 = new JLabel("Believe an Obstacle has appeared "); 
     JLabel r2 = new JLabel("Believe an Obstacle has vanished "); 
-    JLabel r3 = new JLabel("Believe an Obstacle has appeared "); 
-    JLabel r4 = new JLabel("Believe an Obstacle has vanished "); 
     ArrayList<JLabel> triggers = new ArrayList<JLabel>();
     
     JLabel act1d1 = new JLabel("then 1.");
     JLabel act1d2 = new JLabel("then 1.");
-    JLabel act1d3 = new JLabel("then 1.");
-    JLabel act1d4 = new JLabel("then 1.");
     ArrayList<JLabel> act1d = new ArrayList<JLabel>();
 
     JLabel act2d1 = new JLabel("2.");
     JLabel act2d2 = new JLabel("2.");
-    JLabel act2d3 = new JLabel("2.");
-    JLabel act2d4 = new JLabel("2.");
     ArrayList<JLabel> act2d = new ArrayList<JLabel>();
 
     JLabel act3d1 = new JLabel("3.");
     JLabel act3d2 = new JLabel("3.");
-    JLabel act3d3 = new JLabel("3.");
-    JLabel act3d4 = new JLabel("3.");
     ArrayList<JLabel> act3d = new ArrayList<JLabel>();
-
-    JLabel and1 = new JLabel("and you believe");
-    JLabel and2 = new JLabel("and you believe");
-    JLabel and3 = new JLabel("and you believe");
-    JLabel and4 = new JLabel("and you believe");
-    ArrayList<JLabel> and = new ArrayList<JLabel>();
     
-    public RulesPanel(String title, DinoUI ui) {
+
+    public ContextFreeRulesPanel(String title, DinoUI ui) {
     	super(title, ui);
     	
     	triggers.add(r1);
     	triggers.add(r2);
-    	triggers.add(r3);
-    	triggers.add(r4);
     	
     	checkboxes.add(r1button);
     	checkboxes.add(r2button);
-    	checkboxes.add(r3button);
-    	checkboxes.add(r4button);
-    	
-    	and.add(and1);
-    	and.add(and2);
-    	and.add(and3);
-    	and.add(and4);
-    	
-    	contexts.add(r1choicebox);
-    	contexts.add(r2choicebox);
-    	contexts.add(r3choicebox);
-    	contexts.add(r4choicebox);
     	
     	act1d.add(act1d1);
     	act1d.add(act1d2);
-    	act1d.add(act1d3);
-    	act1d.add(act1d4);
 
     	act2d.add(act2d1);
     	act2d.add(act2d2);
-    	act2d.add(act2d3);
-    	act2d.add(act2d4);
 
     	act3d.add(act3d1);
     	act3d.add(act3d2);
-    	act3d.add(act3d3);
-    	act3d.add(act3d4);
     	
     	action1s.add(r1action1box);
     	action1s.add(r2action1box);
-    	action1s.add(r3action1box);
-    	action1s.add(r4action1box);
 
     	action2s.add(r1action2box);
     	action2s.add(r2action2box);
-    	action2s.add(r3action2box);
-    	action2s.add(r4action2box);
 
     	action3s.add(r1action3box);
     	action3s.add(r2action3box);
-    	action3s.add(r3action3box);
-    	action3s.add(r4action3box);
-    	
-    	for (int i = 0; i < 4; i++) {
+
+    	for (int i = 0; i < 2; i++) {
     		int printednumber = i + 1;
-    		int gridline = 2*i;
+    		int gridline = i;
 	    	triggers.get(i).setFont(new Font("Sans Serif", Font.BOLD, 12));
 	    	
 	    	String rulestring = "rule" + printednumber;
@@ -152,8 +110,6 @@ public class RulesPanel extends DinoPanel {
 	    	checkboxes.get(i).addActionListener(ui);
 	    	checkboxes.get(i).setToolTipText("Activate Rule " + printednumber);
 	    	
-	    	contexts.get(i).setActionCommand("r" + printednumber + "context");
-	    	contexts.get(i).addActionListener(ui);
 	    	ruleline1(gridline, c, i);
 	    	
 	    	action1s.get(i).setActionCommand("r" + printednumber + "action1");
@@ -162,7 +118,7 @@ public class RulesPanel extends DinoPanel {
 	    	action2s.get(i).addActionListener(ui);
 	    	action3s.get(i).setActionCommand("r" + printednumber + "action3");
 	    	action3s.get(i).addActionListener(ui);
-	    	ruleline2(gridline+1, c, i);
+	    	ruleline2(gridline, c, i);
     	}
 
 	}
@@ -192,43 +148,10 @@ public class RulesPanel extends DinoPanel {
     		act2d.get(i).setEnabled(enabled);
     		act3d.get(i).setEnabled(enabled);
     	}
-    	if (!enabled) {
-    		choiceEnabled(enabled);
-    	}
     }
     
     /**
-     * Sometimes, when this panel is displayed, the option to customise the rules further by adding context into the rule guards
-     * will be disabled.  This method controls this.
-     * @param enabled
-     */
-    public void choiceEnabled(boolean enabled) { 
-    	for (int i = 0; i < 4; i++) {
-    		contexts.get(i).setEnabled(enabled);
-    		and.get(i).setEnabled(enabled);
-    		if (i >= 2) {
-	    		checkboxes.get(i).setEnabled(enabled);
-	    		if (!enabled) {
-	    			if ( checkboxes.get(i).isSelected() ) {
-	    				checkboxes.get(i).setSelected(false);
-	    				int rulenum = i + 1;
-	    				String rulestring = "rule" + rulenum;
-	    				getDinoUI().envThread.latestAction(new Action(rulestring));
-	    			}
-	    		}
-	    		action1s.get(i).setEnabled(enabled);
-	    		action2s.get(i).setEnabled(enabled);
-	    		action3s.get(i).setEnabled(enabled);
-	    		triggers.get(i).setEnabled(enabled);
-	    		act1d.get(i).setEnabled(enabled);
-	    		act2d.get(i).setEnabled(enabled);
-	    		act3d.get(i).setEnabled(enabled);		    			
-    		}
-    	}
-    }
-    
-    /**
-     * Display the first part of the rule.
+     * A method for displaying the first part of a rule.
      * @param gridy
      * @param c
      * @param rulenumber
@@ -241,15 +164,11 @@ public class RulesPanel extends DinoPanel {
         c.gridx = 1;
         add(triggers.get(rulenumber), c);
         c.gridx = 2;
-        add(and.get(rulenumber), c);
-        c.gridx = 3;
-        c.anchor = GridBagConstraints.LINE_START;
-        add(contexts.get(rulenumber), c);
         c.anchor = GridBagConstraints.CENTER;
     }
     
     /**
-     * Display the second part of the rule.
+     * A method for displaying the second part of a rule.
      * @param gridy
      * @param c
      * @param rulenumber

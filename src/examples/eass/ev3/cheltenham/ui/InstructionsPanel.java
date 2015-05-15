@@ -1,6 +1,30 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,32 +35,34 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.BufferedOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static java.nio.file.StandardOpenOption.*;
-
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+/**
+ * A Panel that displays instructions to the user of a Lego Robot Dinosaur in the activity developed for Cheltenham Science Festival 2015.
+ * 
+ * The instructions change as the user presses the next button, this also enables different components in the enclosing panel.
+ * @author lad
+ *
+ */
 public class InstructionsPanel extends DinoPanel {
+	private static final long serialVersionUID = 1L;
 	ArrayList<String> instructions = new ArrayList<String>();
 	TabPanel panel;
 	int step = 0;
 	int limit = 6;
 	
+	// The default thresholds.  These really ought to be set by consulting the agent code!
 	double distancethreshold = 0.5;
 	double blueupper = 0.15;
 	double bluelower = 0.1;
 	double path = 0.04;
 	
+	// The set of instructions developed for the activity.
 	static String controls_ins = "  Use the Forward, Reverse, Left, Right and Stop buttons in controls to steer your dinosaur\n\n  You can can use Snap Jaws to make it chomp its teeth fearsomely.";
 	static String sensor_ins = "  The Triceratops robot has sensors to get information about its surroundings\n\n  The Ultrasonic Sensor detects the distance from the front of the Triceratops to an obstacle.\n\n  You can see the values the ultrasonic sensor is returning on the left at the top.\n\n  There is also a light sensor pointing downwards that can detect the colour of light reflected from the table.\n\n You can see the blue light values the colour sensor is returning on the left at the bottom.";
 	static String goal_sensor_ins = "  The Triceratops robot has sensors to get information about its surroundings\n\n  There is a light sensor pointing downwards that can detect the colour of light reflected from the table.\n\n You can see the blue light values the colour sensor is returning on the left at the top and the red light values on the left at the bottom\n\n  It also has an ultrasonic sensor at the front which can detect its distance from obstacles.";
@@ -76,6 +102,7 @@ public class InstructionsPanel extends DinoPanel {
             JPanel buttonpanel = new JPanel();
         	add(buttonpanel, BorderLayout.SOUTH);
         	buttonpanel.setLayout(new GridBagLayout());
+        	buttonpanel.setBackground(Color.WHITE);
 
         	JButton previousbutton = new JButton("Back");
         	JButton nextbutton = new JButton("Next");
@@ -170,10 +197,19 @@ public class InstructionsPanel extends DinoPanel {
     	}
 	}
 	
+	/**
+	 * Set the font for the actual instructions.
+	 * @param f
+	 */
 	public void setDinoFont(Font f) {
 		info.setFont(f);
 	}
 	
+	/**
+	 * Since the various control thresholds may have been changed - e.g., depending upon light levels in the DinoZone marquee, make sure the
+	 * instructions display the correct values.
+	 * @param step
+	 */
 	public void setInfo(int step) {
 		String instruction = instructions.get(step);
 		String i1 = instruction.replaceAll("DISTANCE", ((Double) distancethreshold).toString());
@@ -183,15 +219,28 @@ public class InstructionsPanel extends DinoPanel {
 		info.setText(i4);		
 	}
 	
+	/**
+	 * If the user changes the threshold update the relevant field.
+	 * @param distance
+	 */
 	public void changeDistanceThreshold(double distance) {
 		distancethreshold = distance;
 	}
 	
+	/**
+	 * If the user changes the threshold update the relevant field.
+	 * @param bu
+	 * @param bl
+	 */
 	public void changeBlueThresholds(double bu, double bl) {
 		blueupper = bu;
 		bluelower = bl;
 	}
 	
+	/**
+	 * If the user changes the threshold update the relevant field.
+	 * @param p
+	 */
 	public void changePathThreshold(double p) {
 		path = p;
 	}

@@ -25,46 +25,24 @@
 package eass.ev3.cheltenham;
 
 import javax.swing.*;   
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 
-import eass.ev3.cheltenham.ui.BeliefPanel;
 import eass.ev3.cheltenham.ui.ComplexPanel;
-import eass.ev3.cheltenham.ui.DinoPanel;
 import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
 import eass.ev3.cheltenham.ui.SimplePanel;
 import eass.ev3.cheltenham.ui.SimpleRulesPanel;
 import eass.ev3.cheltenham.ui.TabPanel;
-import eass.mas.ev3.EASSEV3Environment;
 import ail.syntax.Action;
 import ail.syntax.Literal;
-import ail.syntax.NumberTermImpl;
-import ail.util.AILConfig;
-import ail.mas.AIL;
 import ail.mas.MAS;
-import ajpf.MCAPLcontroller;
 
 /**
  * This sets up a user interface for the remote operation of Lego Rovers.  It is intended primarily for use with school children.
@@ -95,7 +73,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    public EnvironmentThread envThread = new EnvironmentThread();
 	    
 	    public DinoUI() {
-	    	
+	    	this.setBackground(Color.WHITE);	    	
 	    }
 	    
 	    /**
@@ -140,6 +118,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	//Create and set up the window.
 	        JFrame frame = new JFrame("Triceratops Robot");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setBackground(Color.WHITE);
 
 	    	belieflist.setText(beliefs.toString());
         	goallist.setText(currentgoals.toString());
@@ -308,6 +287,14 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     */
 	    public void windowOpened(WindowEvent e) {};
 	    
+	    public DinoEnvironment getEnv() {
+	    	return env;
+	    }
+	    
+	    public String getRName() {
+	    	return rName;
+	    }
+	    
 	    
 	    /**
 	     * We encapsulate the environment in a thread because small children like rapidly pressing buttons and the
@@ -382,6 +369,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	public void stopRunning() {
 	    		isrunning = false;
 	    	}
+	    	
 	    	
 	    }	    
 

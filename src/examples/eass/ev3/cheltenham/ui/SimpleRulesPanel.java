@@ -30,16 +30,18 @@ import eass.ev3.cheltenham.DinoUI;
 
 /**
  * A panel for controlling a Lego Robot Dinosaur, designed for Cheltenham Science Festival 2015.  This 
- * panel provides an interface for setting event-based rules but which also allows context to be taken
- * into account.
+ * panel gives a simple interface for setting event-based rules.
  * @author lad
  *
  */
-public class RulesOnlyPanel extends TabPanel {
+public class SimpleRulesPanel extends TabPanel {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	RulesPanel rulespanel;
+	ContextFreeRulesPanel rulespanel;
 
-	public RulesOnlyPanel(DinoUI ui, int i) {
+	public SimpleRulesPanel(DinoUI ui, int i) {
 		super(ui, i);
 		c.fill = GridBagConstraints.HORIZONTAL;
     		    		    	
@@ -71,11 +73,10 @@ public class RulesOnlyPanel extends TabPanel {
     	setBeliefPanel(beliefpanel);
     	
         // A JPanel for Rules
-        rulespanel = new RulesPanel("Rules", ui);
+        rulespanel = new ContextFreeRulesPanel("Rules", ui);
     	c.gridy = 2;
      	add(rulespanel, c);
     	rulespanel.setEnabled(false);
-    	
         
         // The Instructions Panel
         ArrayList<String> ins = new ArrayList<String>();
@@ -83,9 +84,7 @@ public class RulesOnlyPanel extends TabPanel {
         ins.add(InstructionsPanel.sensor_ins);
         ins.add(InstructionsPanel.beliefs_ins);
         ins.add(InstructionsPanel.rules_ins);
-        ins.add(InstructionsPanel.context_ins);
-        InstructionsPanel instructions = new InstructionsPanel(5, this, "Instructions", ins);
-	    setInstructionsPanel(instructions);
+        InstructionsPanel instructions = new InstructionsPanel(4, this, "Instructions", ins);
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 1;
@@ -114,13 +113,11 @@ public class RulesOnlyPanel extends TabPanel {
 			getBeliefPanel().setEnabled(true);
 			getSensorPanel().setEnabled(true);
 			rulespanel.setEnabled(true);
-			rulespanel.choiceEnabled(true);
 			break;
 		case 3:
 			getBeliefPanel().setEnabled(true);
 			getSensorPanel().setEnabled(true);
 			rulespanel.setEnabled(true);
-			rulespanel.choiceEnabled(false);
 			break;	    			
 		case 2:
 			getBeliefPanel().setEnabled(true);
