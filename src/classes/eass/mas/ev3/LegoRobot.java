@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Strategic Facilities Technology Council 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -25,14 +25,11 @@
 package eass.mas.ev3;
 
 import lejos.remote.ev3.RemoteRequestEV3;
-import lejos.remote.ev3.RemoteRequestPilot;
-import lejos.robotics.navigation.ArcRotateMoveController;
-import lejos.robotics.navigation.DifferentialPilot;
 
 import java.util.ArrayList;
 
 /**
- * An interface for a Lego Robot to be used in an EASS environment.
+ * An interface for a Lego EV3 Robot to be used in an EASS environment.
  * @author louiseadennis
  *
  */
@@ -42,25 +39,7 @@ public interface LegoRobot {
 	 * @return
 	 */
 	public RemoteRequestEV3 getBrick();
-	
-	/**
-	 * Does this robot have a pilot?
-	 * @return
-	 */
-	public boolean hasPilot();
-	
-	/**
-	 * Set the pilot for this robot.
-	 * @param pilot
-	 */
-	public void setPilot(RemoteRequestPilot pilot);
-	
-	/**
-	 * Get the pilot for this robot.
-	 * @return
-	 */
-	public RemoteRequestPilot getPilot();
-	
+		
 	/**
 	 * Attach a sensor to a port.
 	 * @param portnumber
@@ -80,6 +59,9 @@ public interface LegoRobot {
 	 */
 	public void addPercepts(EASSEV3Environment env);
 	
+	/**
+	 * Close sockets and clean up.
+	 */
 	public void close();
 	
 }

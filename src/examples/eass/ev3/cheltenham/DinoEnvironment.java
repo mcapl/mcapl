@@ -163,30 +163,20 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   
 			   // Teleoperation commands.
 			   	if (act.getFunctor().equals("forward")) {
-			   		if (robot.hasPilot()) {
-			   			line_follower.stopFollowing();
-			   			robot.getPilot().forward();
-			   		}
+			   		line_follower.stopFollowing();
+			   		robot.getPilot().forward();
 			   	} else if (act.getFunctor().equals("stop")) {
-			   		if (robot.hasPilot()) {
-			   			line_follower.stopFollowing();
-			   			robot.getPilot().stop();
-			   		}
+			   		line_follower.stopFollowing();
+			   		robot.getPilot().stop();
 			   	} else if (act.getFunctor().equals("right")) {
-			   		if (robot.hasPilot()) {
-			   			line_follower.stopFollowing();
-			   			robot.getPilot().steer(100);
-			   		}
+			   		line_follower.stopFollowing();
+			   		robot.getPilot().steer(100);
 			   	} else if (act.getFunctor().equals("left")) {
-			   		if (robot.hasPilot()) {
-			   			line_follower.stopFollowing();
-			   			robot.getPilot().steer(-100);
-			   		}
+			   		line_follower.stopFollowing();
+			   		robot.getPilot().steer(-100);
 			   	} else if (act.getFunctor().equals("backward")) {
-			   		if (robot.hasPilot()) {
-			   			line_follower.stopFollowing();
-			   			robot.getPilot().backward();
-			   		}
+			   		line_follower.stopFollowing();
+			   		robot.getPilot().backward();
 			   	} else if (act.getFunctor().equals("follow_line")) {
 			   		synchronized (line_follower) {
 			   			if (!line_follower.isAlive()) {

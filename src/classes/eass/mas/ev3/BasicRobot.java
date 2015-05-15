@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Strategic Facilities Technology Council 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -26,13 +26,14 @@ package eass.mas.ev3;
 
 import java.util.ArrayList;
 
-import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.remote.ev3.RemoteRequestPilot;
 
 /**
- * A class that encapsulates a basic Lego Robot that is running leJOS on the
- * hardward.
+ * A class that encapsulates a basic Lego EV3 Robot that is running leJOS on the
+ * hardware and is operating within a multi-agent system.  
+ * 
+ * The EV3 is run remotely from the computer where this class is executed. 
  * @author louiseadennis
  *
  */
@@ -56,31 +57,11 @@ public class BasicRobot implements LegoRobot {
 		brick = new RemoteRequestEV3(address);
 	}
 	
-	/**
-	 * Does the robot have a pilot?
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.ev3.LegoRobot#setSensor(int, eass.mas.ev3.EASSSensor)
 	 */
-	public boolean hasPilot() {
-		return haspilot;
-	}
-	
-	/**
-	 * Set a pilot for the robot.
-	 */
-	public void setPilot(RemoteRequestPilot npilot) {
-		pilot = npilot;
-		haspilot = true;
-	}
-	
-	/**
-	 * Get the robot's pilot.
-	 */
-	public RemoteRequestPilot getPilot() {
-		return pilot;
-	}
-
-	/**
-	 * Add a sensor to a particular port on the robot.
-	 */
+	@Override
 	public void setSensor(int portnumber, EASSSensor sensor) {
 		if (portnumber == 1) {
 			sensor1 = sensor;
@@ -119,9 +100,11 @@ public class BasicRobot implements LegoRobot {
 		return null;
 	}
 	
-	/**
-	 * Get all the sensors.
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.ev3.LegoRobot#getSensors()
 	 */
+	@Override
 	public ArrayList<EASSSensor> getSensors() {
 		ArrayList<EASSSensor> sensors = new ArrayList<EASSSensor>();
 		
@@ -140,9 +123,11 @@ public class BasicRobot implements LegoRobot {
 		return sensors;
 	}
 	
-	/**
-	 * Add a percept.
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.ev3.LegoRobot#addPercepts(eass.mas.ev3.EASSEV3Environment)
 	 */
+	@Override
 	public void addPercepts(EASSEV3Environment env) {
 		if (! disconnected ) {
 			for (EASSSensor sensor: getSensors()) {
@@ -151,13 +136,19 @@ public class BasicRobot implements LegoRobot {
 		}
 	}
 	
-	/**
-	 * Get the underlying NXT Brick.
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.ev3.LegoRobot#getBrick()
 	 */
+	@Override
 	public RemoteRequestEV3 getBrick() {
 		return brick;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.ev3.LegoRobot#close()
+	 */
 	@Override
 	public void close() {
 		disconnected = true;

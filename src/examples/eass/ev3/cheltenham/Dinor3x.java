@@ -103,15 +103,6 @@ public class Dinor3x extends BasicRobot {
 			}
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see eass.mas.ev3.BasicRobot#getPilot()
-		 */
-		@Override
-		public RemoteRequestPilot getPilot() {
-			return pilot;
-		}
-		
 		/**
 		 * Grab the print stream from the ultrasonic sensor.
 		 * @param s
@@ -173,5 +164,20 @@ public class Dinor3x extends BasicRobot {
 		public RegulatedMotor getMotor() {
 			return motor;
 		}
+				
+		/**
+		 * Set a pilot for the robot.
+		 */
+		public void setPilot(RemoteRequestPilot npilot) {
+			pilot = npilot;
+		}
+		
+		/**
+		 * Get the robot's pilot.
+		 */
+		public RemoteRequestPilot getPilot() {
+			return pilot;
+		}
+
 		
 }

@@ -42,7 +42,7 @@ import java.io.PrintStream;
 
 
 /**
- * A simple environment for an EV3 Robot with an Ultrsonic sensor.  Developed to illstrate a talk "How do I know my robot is safe"? presented
+ * A simple environment for an EV3 Robot with an Ultrasonic sensor.  Developed to illstrate a talk "How do I know my robot is safe"? presented
  * at Eastercon 2015.
  * 
  * @author louiseadennis
@@ -67,8 +67,8 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	/**
 	 * Create the relevant object for the robot.
 	 */
-	public LegoRobot createRobot(String agent) {
-		LegoRobot robot;
+	public Dysprosium createRobot(String agent) {
+		Dysprosium robot;
 		try {
 			System.err.println("Contacting Robot");
 			robot = new Dysprosium("10.0.1.1");
@@ -88,39 +88,23 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		   Unifier u = new Unifier();
 		   String rname = rationalName(agName);
-		   LegoRobot robot = getRobot(rname);
+		   Dysprosium robot = (Dysprosium) getRobot(rname);
 		  
 			     
 		   	if (act.getFunctor().equals("forward")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().backward();
-		   		}
+		   		robot.getPilot().backward();
 		   	} else if (act.getFunctor().equals("shutdown")) {
 		   		this.setDone(true);
 		   	} else if (act.getFunctor().equals("stop")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().stop();
-		   		}
+		   		robot.getPilot().stop();
 		   	} else if (act.getFunctor().equals("right")) {
-		   		if (robot.hasPilot()) {
-		   			((RemoteRequestPilot) robot.getPilot()).steer(100);
-		   		}
-		   	} else if (act.getFunctor().equals("left")) {
-		   		if (robot.hasPilot()) {
-		 //  			robot.getPilot().rotateLeft();
-		   		}
+		   		((RemoteRequestPilot) robot.getPilot()).steer(100);
 		   	} else if (act.getFunctor().equals("right90")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotate(-90);
-		   		}
+		   		robot.getPilot().rotate(-90);
 		   	} else if (act.getFunctor().equals("left90")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().rotate(90);
-		   		}
+		   		robot.getPilot().rotate(90);
 		   	} else if (act.getFunctor().equals("backward")) {
-		   		if (robot.hasPilot()) {
-		   			robot.getPilot().travel(-10);
-		   		}
+		   		robot.getPilot().travel(-10);
 		   	} else if (act.getFunctor().equals("rule1")) {
 		   		if (!rule1) {
 		   			addSharedBelief(rname, new Literal("rule1"));
@@ -251,6 +235,22 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 		public void setRotateSpeed(int speed) {
 			pilot.setRotateSpeed(speed);
 		}
+		
+		
+		/**
+		 * Set a pilot for the robot.
+		 */
+		public void setPilot(RemoteRequestPilot npilot) {
+			pilot = npilot;
+		}
+		
+		/**
+		 * Get the robot's pilot.
+		 */
+		public RemoteRequestPilot getPilot() {
+			return pilot;
+		}
+
 		
 		public void close() {
 			pilot.close();

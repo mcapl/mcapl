@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Strategic Facilities Technology Council 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -25,54 +25,33 @@
 package eass.mas.ev3;
 
 import ail.util.AILexception;
-import ail.util.AILConfig;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.Predicate;
-import ail.syntax.VarTerm;
 
 import java.util.HashMap;
 
 import eass.mas.DefaultEASSEnvironment;
 
 /**
- * Default environment class for an NXT robot.
+ * Default environment class for an EV3 robot.
  * @author louiseadennis
  *
  */
 public class EASSEV3Environment extends DefaultEASSEnvironment {
 	boolean connectingtobricks = true;
-	String holdingaddress;
-	HashMap<String, String> namesandaddresses = new HashMap<String, String>();;
+	String defaultaddress = "10.0.1.1";
 	HashMap<String, LegoRobot> robots = new HashMap<String, LegoRobot>();
+	// Used to signal if there have been connection errors in setting up the robot.
+	public boolean error = false;
 
 	/**
 	 * Constructor 
 	 *
 	 */
 	public EASSEV3Environment() {
-		// NB.  NOT connected to matlab
 		super();
 	}
-	
-	/**
-	 * Set the Bluetooth address of the robot.
-	 * @param name
-	 * @param address
-	 */
-	public void setAddress(String name, String address) {
-		namesandaddresses.put(name, address);
-	}
-	
-	/**
-	 * Get the Bluetooth address of the robot.
-	 * @param name
-	 * @return
-	 */
-	public String getAddress(String name) {
-		return namesandaddresses.get(name);
-	}
+		
 	
 	/**
 	 * Close the connection to the robot.
@@ -88,14 +67,12 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 		}
 	}
 	
-	public boolean error = false;
 	/**
 	 * Add and abstraction engine.
 	 * @param s
 	 */
 	public void addAbstractionEngine(String s, String foragent) {
 		super.addAbstractionEngine(s, foragent);
-		setAddress(foragent, holdingaddress);
 		try {
 			LegoRobot robot = createRobot(foragent);
 			robots.put(foragent, robot);
@@ -120,7 +97,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 */
 	public LegoRobot createRobot(String agent) throws Exception {
 		try {
-			BasicRobot robot = new BasicRobot(getAddress(agent));
+			BasicRobot robot = new BasicRobot(defaultaddress);
 			return robot;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -132,6 +109,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#eachrun()
 	 */
+	@Override
 	public void eachrun() {
 		for (LegoRobot r: robots.values()) {
 			synchronized(r) {
@@ -140,6 +118,10 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#cleanup()
+	 */
 	@Override
 	public void cleanup() {
 		for (LegoRobot r: robots.values()) {
@@ -163,6 +145,7 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
+	@Override
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 	   
 		Unifier u = new Unifier();
@@ -174,19 +157,13 @@ public class EASSEV3Environment extends DefaultEASSEnvironment {
 		
 		return u;
 	  }
+		
 	
 	/*
 	 * (non-Javadoc)
-	 * @see eass.mas.DefaultEASSEnvironment#configure(ail.util.AILConfig)
+	 * @see ail.mas.DefaultEnvironment#done()
 	 */
-	public void configure(AILConfig config) {
-		super.configure(config);
-		if (config.containsKey("nxt.robotAddress")) {
-			holdingaddress = config.getProperty("nxt.robotAddress");
-		}
-
-	}
-	
+	@Override
 	public boolean done() {
 		return super.done;
 	}
