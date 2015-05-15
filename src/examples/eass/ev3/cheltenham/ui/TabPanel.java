@@ -55,8 +55,7 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		
 		int index;
     	JLabel twitter = new JLabel("If you've enjoyed this activity why not tweet us your thoughts and photos: @legorovers #legodinos");
-    	JLabel cast = new JLabel("This activity was developed by the Centre for Autonomous Systems Technology, University of Liverpool,");;
-		JLabel stfc = new JLabel("and supported by the Strategic Technology Facilities Council.");
+    	JLabel cast = new JLabel("This activity was developed by the Centre for Autonomous Systems Technology, University of Liverpool and supported by the Strategic Technology Facilities Council.");
 		
 		BufferedImage cast_logo;
 		BufferedImage stfc_logo;
@@ -80,12 +79,9 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 			c.gridwidth = 2;
 			c.gridheight = 1;
 			c.fill = GridBagConstraints.NONE;
-			c.insets = new Insets(0, 0, 0, 0);
+			c.insets = new Insets(10, 0, 20, 0);
 			add(twitter, c);
-			c.gridy++;
-			add(cast, c);
-			c.gridy++;
-			add(stfc, c);
+			c.insets = new Insets(0, 0, 0, 0);
 			c.gridy++;
 			c.gridwidth = 1;
 			add(cast_logo_l, c);
@@ -94,6 +90,11 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 			c.insets = new Insets(0, 0, 0, 10);
 			add(stfc_logo_l, c);
 			c.insets = new Insets(0, 0, 0, 0);
+			c.gridwidth = 2;
+			c.gridy++;
+			c.gridx = 0;
+			c.anchor = GridBagConstraints.CENTER;
+			add(cast, c);
 		}
     	
 		/**

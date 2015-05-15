@@ -25,35 +25,25 @@
 package eass.ev3.eastercon;
 
 import ail.util.AILexception;
-import ail.mas.NActionScheduler;
 import ail.mas.RoundRobinScheduler;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Literal;
-import ail.syntax.NumberTerm;
 import eass.mas.ev3.EASSEV3Environment;
 import eass.mas.ev3.EASSTouchSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 import eass.mas.ev3.LegoRobot;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSSensor;
-import gov.nasa.jpf.annotation.FilterField;
-import lejos.hardware.device.NXTMMX;
-import lejos.hardware.motor.NXTRegulatedMotor;
-import lejos.hardware.port.SensorPort;
-import lejos.robotics.navigation.DifferentialPilot;
 import lejos.remote.ev3.RemoteRequestPilot;
-import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import lejos.remote.ev3.RemoteRequestEV3;
-import lejos.robotics.RegulatedMotor;
-import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.io.PrintStream;
 
 
 /**
- * A simple environment for NXT Robots including sub-classes for two robot builds.  We need a more generic way of representing different robots
- * and robot configurations.
+ * A simple environment for an EV3 Robot with an Ultrsonic sensor.  Developed to illstrate a talk "How do I know my robot is safe"? presented
+ * at Eastercon 2015.
  * 
  * @author louiseadennis
  *
@@ -227,8 +217,6 @@ public class LegoRoverEnvironment extends EASSEV3Environment {
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
 				}
-		//		RemoteRequestRegulatedMotor claudia_motorLeft = brick.createRegulatedMotor("B", 'L');
-		//		RemoteRequestRegulatedMotor  claudia_motorRight = brick.createRegulatedMotor("A", 'L');
 				pilot = (RemoteRequestPilot) brick.createPilot(5, 15, "B", "A");
 				pilot.setTravelSpeed(10);
 				pilot.setRotateSpeed(15);
