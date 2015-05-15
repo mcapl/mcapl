@@ -55,6 +55,7 @@ import eass.ev3.cheltenham.ui.DinoPanel;
 import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
 import eass.ev3.cheltenham.ui.SimplePanel;
+import eass.ev3.cheltenham.ui.SimpleRulesPanel;
 import eass.ev3.cheltenham.ui.TabPanel;
 import eass.mas.ev3.EASSEV3Environment;
 import ail.syntax.Action;
@@ -141,13 +142,16 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	SimplePanel teleop = new SimplePanel(this, 0);
 	        addTab("Simple", teleop);
 	        
-	        RulesOnlyPanel ro = new RulesOnlyPanel(this, 1);
+	        SimpleRulesPanel sro = new SimpleRulesPanel(this, 1);
+	        addTab("Simple Rules", sro);
+	        
+	        RulesOnlyPanel ro = new RulesOnlyPanel(this, 2);
 	        addTab("Rules", ro);
 	        
-	        GoalsOnlyPanel go = new GoalsOnlyPanel(this, 2);
+	        GoalsOnlyPanel go = new GoalsOnlyPanel(this, 3);
 	        addTab("Goals", go);
 	        
-	        ComplexPanel all = new ComplexPanel(this, 3);
+	        ComplexPanel all = new ComplexPanel(this, 4);
 	        addTab("Goals and Rules", all);
 	    	
 	        envThread.start();
