@@ -15,6 +15,8 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		SensorPanel sPanel;
 		BeliefPanel bPanel;
 		GoalsPanel gPanel;
+		InstructionsPanel iPanel;
+		
 		int index;
     	JLabel twitter = new JLabel("If you've enjoyed this activity why not tweet us your thoughts and photos: @legorovers #legodinos");
 		
@@ -79,6 +81,10 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     		return gPanel;
     	}
     	
+    	public InstructionsPanel getInstructionsPanel() {
+    		return iPanel;
+    	}
+    	
     	public void setSensorPanel(SensorPanel panel) {
     		sPanel = panel;
     	}
@@ -89,6 +95,22 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     	
     	public void setGoalPanel(GoalsPanel panel) {
     		gPanel = panel;
+    	}
+    	
+    	public void setInstructionsPanel(InstructionsPanel panel) {
+    		iPanel =  panel;
+    	}
+    	
+    	public void changeDistanceThreshold(double d) {
+    		iPanel.changeDistanceThreshold(d);
+    	}
+    	
+    	public void changeWaterThreshold(double d1, double d2) {
+    		iPanel.changeBlueThresholds(d1, d2);
+    	}
+    	
+    	public void changePathThreshold(double d) {
+    		iPanel.changePathThreshold(d);
     	}
     	
     	public abstract void enablePanels(int i);

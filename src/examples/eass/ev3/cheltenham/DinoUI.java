@@ -89,6 +89,8 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    public static String rName = "dinor3x";
 	    protected static String program = "/src/examples/eass/ev3/cheltenham/Dinor3x.ail";
 	    
+	    ArrayList<TabPanel> panels = new ArrayList<TabPanel>();
+	    
 	    // Wrapping the environment in a thread so events are handled faster.
 	    public EnvironmentThread envThread = new EnvironmentThread();
 	    
@@ -119,6 +121,9 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	});
 	    	file.add(config);
 	    	
+	    	JMenuItem tabshow = new JMenuItem("Hide Goal Tabs");
+	    	file.add(tabshow);
+	    	
 	    	JMenuItem quit = new JMenuItem("Quit");
 	    	quit.addActionListener(new ActionListener() {
 
@@ -141,18 +146,46 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
  
 	    	SimplePanel teleop = new SimplePanel(this, 0);
 	        addTab("Simple", teleop);
+	        panels.add(teleop);
 	        
 	        SimpleRulesPanel sro = new SimpleRulesPanel(this, 1);
 	        addTab("Simple Rules", sro);
 	        
 	        RulesOnlyPanel ro = new RulesOnlyPanel(this, 2);
 	        addTab("Rules", ro);
+	        panels.add(ro);
 	        
 	        GoalsOnlyPanel go = new GoalsOnlyPanel(this, 3);
 	        addTab("Goals", go);
+	        panels.add(go);
 	        
 	        ComplexPanel all = new ComplexPanel(this, 4);
 	        addTab("Goals and Rules", all);
+	        panels.add(all);
+	        
+	        
+	    	tabshow.addActionListener(new ActionListener() {
+	    		boolean hidden = false;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					if (hidden) {
+						DinoUI.this.addTab("Goals", go);
+						DinoUI.this.addTab("Goals and Rules", all);
+						tabshow.setText("Hide Goal Tabs");
+						hidden = false;
+					} else {
+						DinoUI.this.remove(go);
+						DinoUI.this.remove(all);
+						tabshow.setText("Show Goal Tabs");
+						hidden = true;
+					}
+					
+				}
+	    		
+	    	});
+
 	    	
 	        envThread.start();
 	        frame.addWindowListener(this);
@@ -191,7 +224,24 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	currentgoals.remove(p);
 	    	goallist.setText(currentgoals.toString());
 	    }
+	    
+	    public void changeDistanceThreshold(double d) {
+	    	for (TabPanel p: panels) {
+	    		p.changeDistanceThreshold(d);
+	    	}
+	    }
 	
+	    public void changeWaterThresholds(double d1, double d2) {
+	    	for (TabPanel p: panels) {
+	    		p.changeWaterThreshold(d1, d2);
+	    	}
+	    }
+	    
+	    public void changePathThreshold(double d) {
+	    	for (TabPanel p: panels) {
+	    		p.changePathThreshold(d);
+	    	}
+	    }
 	    
 	    /*
 	     * (non-Javadoc)

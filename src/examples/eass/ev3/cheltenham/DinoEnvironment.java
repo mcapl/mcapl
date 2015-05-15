@@ -68,6 +68,11 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean do_growl = false;
 	boolean achieve_water = false;
 	
+	public double path_threshold = 0.04;
+    public double dthreshold=0.5;
+    public double wuthreshold=0.15;
+    public double wlthreshold=0.1;
+	
 	static Literal activer1 = new Literal("active");
 	static {activer1.addTerm(new Literal("rule1"));};
 	
@@ -298,6 +303,24 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		distance_threshold.addTerm(act.getTerm(0));
 		   		String abstraction_name = "abstraction_" + rname;
 		   		addPercept(abstraction_name, distance_threshold);
+		   		dthreshold  = ((NumberTerm) act.getTerm(0)).solve();
+		   		ui.changeDistanceThreshold(((NumberTerm) act.getTerm(0)).solve());
+		   	} else if (act.getFunctor().equals("water_levels")) {
+		   		Literal water_threshold = new Literal("change_water");
+		   		water_threshold.addTerm(act.getTerm(0));
+		   		water_threshold.addTerm(act.getTerm(1));
+		   		String abstraction_name = "abstraction_" + rname;
+		   		addPercept(abstraction_name, water_threshold);
+		   		wuthreshold = ((NumberTerm) act.getTerm(0)).solve();
+		   		wlthreshold = ((NumberTerm) act.getTerm(0)).solve();
+		   		ui.changeWaterThresholds(((NumberTerm) act.getTerm(0)).solve(), ((NumberTerm) act.getTerm(1)).solve());
+		   	} else if (act.getFunctor().equals("path_threshold")) {
+		   		Literal path = new Literal("change_path");
+		   		path.addTerm(act.getTerm(0));
+		   		String abstraction_name = "abstraction_" + rname;
+		   		addPercept(abstraction_name, path);
+		   		path_threshold = ((NumberTerm) act.getTerm(0)).solve();
+		   		ui.changePathThreshold(((NumberTerm) act.getTerm(0)).solve());
 		   	} else if (act.getFunctor().equals("show_belief")) {
 		   		Predicate belief = (Predicate) act.getTerm(0);
 		   		ui.addToBeliefList(belief.toString());
@@ -420,7 +443,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 		   		if (DinoEnvironment.this.values.containsKey("light")) {
 		   			Predicate light = DinoEnvironment.this.values.get("light");
 		   			double value = ((NumberTerm) light.getTerm(0)).solve();
-		   			if (value > 0.5) {
+		   			if (value > path_threshold) {
 		   				if (!steering_right) {
 		   					robot.getPilot().steer(100);
 		   					steering_left = false;
@@ -443,6 +466,12 @@ public class DinoEnvironment extends EASSEV3Environment {
     	
     	public void stopFollowing() {
     		isrunning = false;
+    		try {
+    			wait(5);
+    		} catch (Exception e) {
+    			System.err.println(e.getMessage());
+    		}
+    		DinoEnvironment.this.addSharedBelief("dinor3x", new Literal("lfstopped"));
     	}
 	}
 

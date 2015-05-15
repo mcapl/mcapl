@@ -71,7 +71,7 @@ public class EASSRGBColorSensor implements EASSSensor {
 			Literal r = new Literal("red");
 			r.addTerm(new NumberTermImpl(red));
 			env.addUniquePercept("red", r);
-			greenout.println("red light level is " + green);
+			// greenout.println("green light level is " + green);
 			Literal g = new Literal("green");
 			g.addTerm(new NumberTermImpl(green));
 			env.addUniquePercept("green", g);
