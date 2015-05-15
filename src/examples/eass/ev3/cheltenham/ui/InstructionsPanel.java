@@ -131,69 +131,69 @@ public class InstructionsPanel extends DinoPanel {
         	buttonpanel.add(previousbutton, c);
         	previousbutton.setEnabled(false);
 
-    	nextbutton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (step == limit - 1) {
-					step = 0;
-					previousbutton.setEnabled(false);
-				} else {
-					step++;
-					previousbutton.setEnabled(true);
-				}
-				
-				if (step == limit - 1) {
-					nextbutton.setEnabled(false);
-				}
-
-				panel.enablePanels(step);
-				setInfo(step);
-				
-			}
-    		
-    	});
-    	c.gridx = 1;
-    	c.gridy = 0;
-    	buttonpanel.add(nextbutton, c);
-
-
-    	JButton resetbutton = new JButton("Restart");
-    	resetbutton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (step != 0) {
-					String s = "reset: ";
-					s += new Date();
-					s += "\n";
-					try {
-						FileWriter fileWriter = new FileWriter("./logfile.txt", true);
-	    				BufferedWriter bw = new BufferedWriter(fileWriter);
-	    				bw.write(s);
-	    				bw.close();
-	    				fileWriter.close();
-	    			} catch (IOException x) {
-	    				System.err.println(x);
+	    	nextbutton.addActionListener(new ActionListener() {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (step == limit - 1) {
+						step = 0;
+						previousbutton.setEnabled(false);
+					} else {
+						step++;
+						previousbutton.setEnabled(true);
 					}
 					
+					if (step == limit - 1) {
+						nextbutton.setEnabled(false);
+					}
+	
+					panel.enablePanels(step);
+					setInfo(step);
+					
 				}
-				step = 0;
-				panel.enablePanels(step);
-				info.setText(instructions.get(step));	
-				nextbutton.setEnabled(true);
-				previousbutton.setEnabled(false);
-			}
-    		
-    	});
-    	c.gridx = 2;
-    	c.gridy = 0;
-    	buttonpanel.add(resetbutton, c);
-    	
-    	c.gridx = 0;
-    	c.gridy = 1;
-    	c.gridwidth = 3;
-    	c.fill = GridBagConstraints.HORIZONTAL;
+	    		
+	    	});
+	    	c.gridx = 1;
+	    	c.gridy = 0;
+	    	buttonpanel.add(nextbutton, c);
+	
+	
+	    	JButton resetbutton = new JButton("Restart");
+	    	resetbutton.addActionListener(new ActionListener() {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (step != 0) {
+						String s = "reset: ";
+						s += new Date();
+						s += "\n";
+						try {
+							FileWriter fileWriter = new FileWriter("./logfile.txt", true);
+		    				BufferedWriter bw = new BufferedWriter(fileWriter);
+		    				bw.write(s);
+		    				bw.close();
+		    				fileWriter.close();
+		    			} catch (IOException x) {
+		    				System.err.println(x);
+						}
+						
+					}
+					step = 0;
+					panel.enablePanels(step);
+					info.setText(instructions.get(step));	
+					nextbutton.setEnabled(true);
+					previousbutton.setEnabled(false);
+				}
+	    		
+	    	});
+	    	c.gridx = 2;
+	    	c.gridy = 0;
+	    	buttonpanel.add(resetbutton, c);
+	    	
+	    	c.gridx = 0;
+	    	c.gridy = 1;
+	    	c.gridwidth = 3;
+	    	c.fill = GridBagConstraints.HORIZONTAL;
     	}
 	}
 	

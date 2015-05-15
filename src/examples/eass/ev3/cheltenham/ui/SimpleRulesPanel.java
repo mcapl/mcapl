@@ -89,7 +89,8 @@ public class SimpleRulesPanel extends TabPanel {
         c.gridy = 3;
         c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;
-       add(instructions, c);
+	    setInstructionsPanel(instructions);
+	    add(instructions, c);
         ui.addChangeListener(this);
 	}
 	

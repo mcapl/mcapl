@@ -25,7 +25,12 @@ package eass.ev3.cheltenham.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -52,10 +57,20 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     	JLabel twitter = new JLabel("If you've enjoyed this activity why not tweet us your thoughts and photos: @legorovers #legodinos");
     	JLabel cast = new JLabel("This activity was developed by the Centre for Autonomous Systems Technology, University of Liverpool,");;
 		JLabel stfc = new JLabel("and supported by the Strategic Technology Facilities Council.");
+		
+		BufferedImage cast_logo;
+
     	
 		public TabPanel(DinoUI ui, int tabindex) {
 			super(ui);
 			index = tabindex;
+			
+			try {
+				 cast_logo = ImageIO.read(new File("./src/examples/eass/ev3/cheltenham/resources/cast.png"));
+			} catch (IOException ex) {
+				System.err.println(ex.getMessage());
+			}
+			JLabel cast_logo_l = new JLabel(new ImageIcon(cast_logo));
 			
 			c.gridx = 0;
 			c.gridy = 8;
@@ -68,6 +83,8 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 			add(cast, c);
 			c.gridy++;
 			add(stfc, c);
+			c.gridy++;
+			add(cast_logo_l, c);
 			c.insets = new Insets(0, 0, 0, 0);
 		}
     	

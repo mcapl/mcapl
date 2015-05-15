@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2015 Strategic Facilities Technology Council 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -21,7 +21,6 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-
 package eass.ev3.cheltenham;
 
 import javax.swing.*;   
@@ -45,8 +44,8 @@ import ail.syntax.Literal;
 import ail.mas.MAS;
 
 /**
- * This sets up a user interface for the remote operation of Lego Rovers.  It is intended primarily for use with school children.
- * Further information can be found at: http://cgi.csc.liv.ac.uk/~lad/legorovers/
+ * This sets up a user interface for the remote operation of Lego Robot Dinosaurs.  It is intended for use in the DinoZone at 
+ * Cheltenham Science Festival 2015.
  * @author louiseadennis
  *
  */
@@ -60,13 +59,12 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    public ArrayList<String> beliefs = new ArrayList<String>();
 	    public ArrayList<String> currentgoals = new ArrayList<String>();
 	    
-	    // The delay before instructions reach the robot, the environment and the default robot name.
-	    protected int delay = 0;
 	    public static DinoEnvironment env;
 	    protected MAS mas;
 	    public static String rName = "dinor3x";
 	    protected static String program = "/src/examples/eass/ev3/cheltenham/Dinor3x.ail";
 	    
+	    // A list of all the different versions of the interface designed for different ability levels.
 	    ArrayList<TabPanel> panels = new ArrayList<TabPanel>();
 	    
 	    // Wrapping the environment in a thread so events are handled faster.
@@ -99,6 +97,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	});
 	    	file.add(config);
 	    	
+	    	// We may want to hide some of the options from attendees - especially if they are proving confusing.
 	    	JMenuItem tabshow = new JMenuItem("Hide Goal Tabs");
 	    	file.add(tabshow);
 	    	
@@ -123,12 +122,14 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	belieflist.setText(beliefs.toString());
         	goallist.setText(currentgoals.toString());
  
+        	// Set up the panels and add them to the panel list.
 	    	SimplePanel teleop = new SimplePanel(this, 0);
 	        addTab("Simple", teleop);
 	        panels.add(teleop);
 	        
 	        SimpleRulesPanel sro = new SimpleRulesPanel(this, 1);
 	        addTab("Simple Rules", sro);
+	        panels.add(sro);
 	        
 	        RulesOnlyPanel ro = new RulesOnlyPanel(this, 2);
 	        addTab("Rules", ro);
@@ -148,7 +149,6 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
 					if (hidden) {
 						DinoUI.this.addTab("Goals", go);
 						DinoUI.this.addTab("Goals and Rules", all);
@@ -173,49 +173,114 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	frame.setSize(100, 100);
 	 
-	 
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
 	    }
-		    	        
+		 
+	    /**
+	     * Add the multi-agent system that this UI controls.
+	     * @param mas
+	     */
 	    public void addMas(MAS mas) {
 	    	this.mas = mas;
-	    	((DinoEnvironment) env).setUI(this);
+	    	setEnv((DinoEnvironment) mas.getEnv());
 	    }
 	    
+	    /** 
+	     * Get the multi-agent environment associated with this UI.
+	     * @return
+	     */
+	    public DinoEnvironment getEnv() {
+	    	return env;
+	    }
+	    
+	    /**
+	     * Get the name of the agent program associated with this UI.
+	     * @return
+	     */
+	    public String getProgramFileName() {
+	    	return program;
+	    }
+	    
+	    /**
+	     * Set the multi-agent environment associated with this UI.
+	     * @param env
+	     */
+	    public void setEnv(DinoEnvironment env) {
+	    	DinoUI.env = env;
+	    	env.setUI(this);
+	    }
+	    
+	    /**
+	     * Get the name of the robot associated with this UI.
+	     * @return
+	     */
+	    public String getRName() {
+	    	return rName;
+	    }
+	    
+	    /**
+	     * Add something to the list of beliefs to be displayed by the UI.
+	     * @param p
+	     */
 	    public void addToBeliefList(String p) {
 	    	beliefs.add(p);
 	    	belieflist.setText(beliefs.toString());
 	    }
 
+	    /**
+	     * Remove something from the list of beliefs to be displayed by the UI.
+	     * @param p
+	     */
 	    public void removeFromBeliefList(String p) {
 	    	beliefs.remove(p);
 	    	belieflist.setText(beliefs.toString());
 	    }
 
+	    /**
+	     * Add something to the list of goals to be displayed by the UI.
+	     * @param p
+	     */
 	    public void addToGoalList(String p) {
 	    	currentgoals.add(p);
 	    	goallist.setText(currentgoals.toString());
 	    }
 
+	    /**
+	     * Remove something from the list of goals to be displayed by the UI.
+	     * @param p
+	     */
 	    public void removeFromGoalList(String p) {
 	    	currentgoals.remove(p);
 	    	goallist.setText(currentgoals.toString());
 	    }
 	    
+	    /**
+	     * Change the distance thresholds reported by the UI.
+	     * @param d
+	     */
 	    public void changeDistanceThreshold(double d) {
 	    	for (TabPanel p: panels) {
 	    		p.changeDistanceThreshold(d);
 	    	}
 	    }
 	
+	    /**
+	     * Change the water detection thresholds reported by the UI.
+	     * @param d1
+	     * @param d2
+	     */
 	    public void changeWaterThresholds(double d1, double d2) {
 	    	for (TabPanel p: panels) {
 	    		p.changeWaterThreshold(d1, d2);
 	    	}
 	    }
 	    
+	    /**
+	     * Change the path thresholds reported by the UI.
+	     * @param d
+	     */
 	    public void changePathThreshold(double d) {
 	    	for (TabPanel p: panels) {
 	    		p.changePathThreshold(d);
@@ -228,7 +293,6 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     */
 		public void actionPerformed(ActionEvent e) {
 	    	Action act = new Action(e.getActionCommand());
-	   // 	System.err.println(act);
 	    	
 	    	if (e.getActionCommand().equals("r1action1") || e.getActionCommand().equals("r1action2") || e.getActionCommand().equals("r1action3") ||
 	    			e.getActionCommand().equals("r2action1") || e.getActionCommand().equals("r2action2") || e.getActionCommand().equals("r2action3") ||
@@ -236,7 +300,8 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    			e.getActionCommand().equals("r4action1") || e.getActionCommand().equals("r4action2") || e.getActionCommand().equals("r4action3") ||
 	    			e.getActionCommand().equals("r1context") || e.getActionCommand().equals("r2context") || e.getActionCommand().equals("r3context") || e.getActionCommand().equals("r4context")
 	    			) {
-	    		JComboBox<String> cb = (JComboBox<String>)e.getSource();
+	    		@SuppressWarnings("unchecked")
+				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
 	    	} 
 	    	
@@ -286,16 +351,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
 	     */
 	    public void windowOpened(WindowEvent e) {};
-	    
-	    public DinoEnvironment getEnv() {
-	    	return env;
-	    }
-	    
-	    public String getRName() {
-	    	return rName;
-	    }
-	    
-	    
+	    	    
 	    /**
 	     * We encapsulate the environment in a thread because small children like rapidly pressing buttons and the
 	     * environments executeAction method takes too  long if they do this.
@@ -350,11 +406,6 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 		    		Action act = action;
 		    		// OK we've got the action so set it to null ready for the next one to arrive.
 		    		action = null;
-		    		try {
-		    			Thread.sleep(delay);
-		    		} catch (InterruptedException ie) {
-		    			System.out.println("catching interrupt");
-		    		}
 		    		env.executeAction(rName, act);
 		    	} catch (Exception ex){
 		    		System.err.println(ex.getMessage());

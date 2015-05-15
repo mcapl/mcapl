@@ -1,5 +1,5 @@
-// ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+/// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -40,16 +40,17 @@ path_threshold(0.04)
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
+/* React to information from sensors */
 +distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
 +distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
 +blue(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V} <- assert_shared(water);
 +blue(L) : {B water, B water_threshold_lower(V), L < V} <- remove_shared(water);
 +blue(L) : {B water, B water_threshold_upper(V), V < L} <- remove_shared(water);
-
 +red(L) : {~B path, B path_threshold(V), L < V} <- assert_shared(path);
 +red(L) : {B path, B path_threshold(V), V < L} <-
 	  remove_shared(path);
 
+/* React to command from Reasoning Engine */
 +! stop [perform] : {True} <-
 	stop;
 +! right [perform] : {True} <-
@@ -65,6 +66,7 @@ path_threshold(0.04)
 +! scare [perform] : {True} <-
 	scare;
 
+/* React to request from user to change thresholds */
 +change_distance(D) : {B distance_threshold(D1)} <-
     -distance_threshold(D1), +distance_threshold(D);
 +change_water(D1, D2): {B water_threshold_upper(W1), B water_threshold_lower(W2)} <-
@@ -73,6 +75,7 @@ path_threshold(0.04)
 +change_path(D) : {B path_threshold(D1)} <-
     -path_threshold(D1), +path_threshold(D);
 
+// REASONING ENGINE
 :name: dinor3x
 
 :Initial Beliefs:
@@ -86,6 +89,7 @@ have_belief(no_water) :- ~ have_belief(water);
 
 :Plans:
 
+/* Plans configurable in the interface by the user */
 +obstacle : {B active(rule1), B context(rule1, X), B have_belief(X), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
     show_belief(obstacle),
     perf(A),
@@ -107,17 +111,19 @@ have_belief(no_water) :- ~ have_belief(water);
     perf(B),
     perf(C);
 
+/* Display beliefs in UI when obstacles appear */
 +obstacle : {True} <-
     show_belief(obstacle);
 -obstacle : {True} <-
     remove_belief(obstacle);
-    
+
+/* Display beliefs and altering goals, and potentially cancelling behaviours when water appears */
 +water : {True} <-
 	show_belief(water),
-        +have_belief(water),
-        +stop_following_line,
+    +have_belief(water),
+    +stop_following_line,
  	-! water [achieve],
-        -! path [achieve],
+    -! path [achieve],
  	remove_goal(water),
  	remove_goal(path),
  	drop_goal,
@@ -126,29 +132,27 @@ have_belief(no_water) :- ~ have_belief(water);
 	remove_belief(water),
 	-have_belief(water);
 
+/* Displaying beliefs and changing behaviour if a path appears */
 +path : {True} <-
       +stop_looking_for_path,
       show_belief(path);
 -path : {True} <-
       remove_belief(path);
 
-+goal(scare) : {True} <-
-             show_goal(scare),
-	     scare,
-	     remove_goal(scare);
-
+/* If told to adopt or drop a goal to find water */
 +goal(water) : {True} <-
 	     show_goal(water),
 	     +! water [achieve],
 	     stop,
-             drop_goal,
-             remove_goal(water);
+         drop_goal,
+         remove_goal(water);
 -goal(water) : {True} <-
 		remove_goal(water),
-                remove_goal(path),
-	     -! water [achieve],
-             -! path [achieve];
+        remove_goal(path),
+	    -! water [achieve],
+        -! path [achieve];
 
+/* If the user starts clicking on teleop commands the robot will stop line following or random search.  Agent needs to update various beliefs.*/
 +lfstopped: {True} <-
 	   +stop_following_line,
 	   remove_shared(lfstopped);
@@ -156,6 +160,7 @@ have_belief(no_water) :- ~ have_belief(water);
 	   +stop_looking_for_path,
 	   remove_shared(random_stopped);
 
+/* Actual plans for finding water and paths */
 +! water [achieve] : {True} <-
    +! path [achieve],
    remove_goal(path),

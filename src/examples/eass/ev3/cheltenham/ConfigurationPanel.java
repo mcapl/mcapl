@@ -1,3 +1,26 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package eass.ev3.cheltenham;
 
 import java.awt.GridBagConstraints;
@@ -19,11 +42,17 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-import eass.mas.ev3.EASSEV3Environment;
 import ail.syntax.Action;
 import ail.syntax.NumberTermImpl;
 
-public class ConfigurationPanel extends JPanel implements ActionListener, WindowListener, PropertyChangeListener {
+/**
+ * A panel to allow restting of threshold values for obstacles, water and paths in the Lego Robot Dinosaur activity.  This is in case these
+ * values need changing on the fly during use.
+ * @author lad
+ *
+ */
+public class ConfigurationPanel extends JPanel implements WindowListener, PropertyChangeListener {
+	private static final long serialVersionUID = 1L;
 	JFormattedTextField distancebox, waterubox, waterlbox, pathbox;
     protected double dthreshold=0.5;
     private boolean dtinit  = false;
@@ -107,6 +136,7 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
 
     	tc.gridy++;
     	tc.gridx = 0;
+ 
     	// Path Setting
     	JLabel ptext = new JLabel("Path Light Value:");
     	thresholds.add(ptext, tc);
@@ -146,6 +176,10 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
       
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		Object source = evt.getSource();
@@ -161,13 +195,15 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
 		}
 	}
 	
+	/**
+	 * Set the new distance everywhere it is needed.
+	 */
 	private void setDistance() {
 		double new_distance = ((Number) distancebox.getValue()).doubleValue();
 		if (new_distance != dthreshold || !dtinit) {
 			dthreshold = new_distance;
 			dtinit = true;
-	
-		
+
 			Action act = new Action("obstacle_distance");
 			act.addTerm(new NumberTermImpl(dthreshold));
 			try {
@@ -179,6 +215,9 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
 		
 	}
 
+	/**
+	 * Set the new path thresholds everywhere they are needed.
+	 */
 	private void setPath() {
 		double new_path = ((Number) pathbox.getValue()).doubleValue();
 		if (new_path != pthreshold || !pinit) {
@@ -197,6 +236,9 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
 		
 	}
 
+	/**
+	 * Set the new water threshold everywhere it is needed.
+	 */
 	private void setWater() {
 		double new_water_u = ((Number) waterubox.getValue()).doubleValue();
 		double new_water_l = ((Number) waterlbox.getValue()).doubleValue();
@@ -221,49 +263,37 @@ public class ConfigurationPanel extends JPanel implements ActionListener, Window
 	
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

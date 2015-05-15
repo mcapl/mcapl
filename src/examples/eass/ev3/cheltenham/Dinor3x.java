@@ -1,3 +1,26 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package eass.ev3.cheltenham;
 
 import java.io.PrintStream;
@@ -8,16 +31,17 @@ import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import lejos.robotics.RegulatedMotor;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSRGBColorSensor;
-import eass.mas.ev3.EASSRedColorSensor;
 import eass.mas.ev3.EASSSensor;
 import eass.mas.ev3.EASSUltrasonicSensor;
 
+/**
+ * A class representing control of a lego robot dinosaur built to resemble the Dinor3x model.
+ * @author lad
+ *
+ */
 public class Dinor3x extends BasicRobot {
 		RemoteRequestPilot pilot;
 		RemoteRequestRegulatedMotor motor;
-		//PrintStream uPrintStream = System.out;
-		//PrintStream bluePrintStream = System.out;
-		//PrintStream redPrintStream = System.out;
 		private boolean closed = false;
 		
 		/**
@@ -28,14 +52,13 @@ public class Dinor3x extends BasicRobot {
 		public Dinor3x(String address) throws Exception {
 			super(address);
 			RemoteRequestEV3 brick = getBrick();
-			// System.err.println(brick.getName());
+
 			EASSUltrasonicSensor uSensor;
 			try {
 				System.err.println("Connecting to Ultrasonic Sensor");
 				uSensor = new EASSUltrasonicSensor(brick, "S1");
 				System.err.println("Connected to Sensor");
 				setSensor(1, uSensor);
-			//	uSensor.setPrintStream(uPrintStream);
 			} catch (Exception e) {
 				brick.disConnect();
 				throw e;
@@ -80,94 +103,75 @@ public class Dinor3x extends BasicRobot {
 			}
 		}
 		
-	@Override
-	public RemoteRequestPilot getPilot() {
-		return pilot;
-	}
-	
-	/**
-	 * Grab the print stream from the ultrasonic sensor.
-	 * @param s
-	 */
-	public void setUPrintStream(PrintStream s) {
-		//uPrintStream = s;
-		EASSSensor uSensor = getSensor(1);
-		if (uSensor != null) {
-			uSensor.setPrintStream(s);
+		/*
+		 * (non-Javadoc)
+		 * @see eass.mas.ev3.BasicRobot#getPilot()
+		 */
+		@Override
+		public RemoteRequestPilot getPilot() {
+			return pilot;
 		}
-	}
-	
-	/**
-	 * Grab the print stream from the ultrasonic sensor.
-	 * @param s
-	 */
-	public void setRedPrintStream(PrintStream s) {
-		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
-		if (rgbSensor != null) {
-			rgbSensor.setRedPrintStream(s);
-		}
-	}
- 
-	public void setBluePrintStream(PrintStream s) {
-		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
-		if (rgbSensor != null) {
-			rgbSensor.setBluePrintStream(s);
-		}
-	}
-
-	/**
-	 * Setter for the robot's travel speed.
-	 * @param speed
-	 */
-	public void setSpeed(int speed) {
-		pilot.setTravelSpeed(speed);
-	}
-	
-	/**
-	 * Setter for the robot's rotation speed.
-	 * @param speed
-	 */
-	public void setRotateSpeed(int speed) {
-		pilot.setRotateSpeed(speed);
-	}
-	
-	public void close() {
-		if (! closed) {
-			System.err.println("Closing Dinor3x");
-			try {
-				motor.stop();
-				motor.close();
-				pilot.stop();
-				pilot.close();
-			} catch (Exception e) {
-			
+		
+		/**
+		 * Grab the print stream from the ultrasonic sensor.
+		 * @param s
+		 */
+		public void setUPrintStream(PrintStream s) {
+			//uPrintStream = s;
+			EASSSensor uSensor = getSensor(1);
+			if (uSensor != null) {
+				uSensor.setPrintStream(s);
 			}
-			super.close();
 		}
-		closed = true;
-	}
+		
+		/**
+		 * Grab the red light print stream from the RGB sensor.
+		 * @param s
+		 */
+		public void setRedPrintStream(PrintStream s) {
+			EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+			if (rgbSensor != null) {
+				rgbSensor.setRedPrintStream(s);
+			}
+		}
+	 
+		/**
+		 * Grab the blue light print stream from the RGB sensor.
+		 * @param s
+		 */
+		public void setBluePrintStream(PrintStream s) {
+			EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+			if (rgbSensor != null) {
+				rgbSensor.setBluePrintStream(s);
+			}
+		}
 	
-	public RegulatedMotor getMotor() {
-		return motor;
-	}
-	
-	public void growl() {
-		try {
-			motor.resetTachoCount();
-			motor.forward();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+
+		/**
+		 * Close down all the hardware components and sockets.
+		 */
+		public void close() {
+			if (! closed) {
+				System.err.println("Closing Dinor3x");
+				try {
+					motor.stop();
+					motor.close();
+					pilot.stop();
+					pilot.close();
+				} catch (Exception e) {
+				
+				}
+				super.close();
+			}
+			closed = true;
 		}
-	}
-
-	public void stopGrowling() {
-		try {
-			motor.flt();
-//			motor.stop();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+		
+		/**
+		 * Get the medium motor that control the dinosaur's jaws.
+		 * @return
+		 */
+		public RegulatedMotor getMotor() {
+			return motor;
 		}
-	}
-
-
+		
 }
