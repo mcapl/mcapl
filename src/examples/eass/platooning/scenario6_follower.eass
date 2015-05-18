@@ -1,0 +1,31 @@
+
+:name: follower
+
+:Initial Beliefs:
+
+:Reasoning Rules:
+
+platoon_m(X, Y):- platoon_m, precedingPID(Y), platoon_id;
+
+:Initial Goals:
+
+:Plans:
+
++id(X): {X== 1}<- perf(join_ok(X)), print(join_ok_command_follower1);
+
++id(X): {X== 2}<- perf(join_ok(X)), print(join_ok_command_followe2);
+	
++!platoon_m(SENDER, FRONT) [achieve]: {B vehicle(SENDER), ~B platoon_m, B distance(FRONT)} <- 
+										.send(leader, :tell, message(SENDER, 1, FRONT)), *join_agreement(SENDER, FRONT);
+										
++!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement} <- perf(change_lane), print(perform_change_lane), *lane_1;
+
++!platoon_m(SENDER, FRONT) [achieve]: {B lane_1} <- perf(speed_controller(1)), +sp_contr, *initial_dis;
+
++!platoon_m(SENDER, FRONT) [achieve]: {B sp_contr, B initial_dis} <- perf(steering_controller(1)), -sp_contr, +steering_contr;
+
++!platoon_m(SENDER, FRONT) [achieve]: {B steering_contr}<- .send(leader, :tell, message(SENDER, 2)), +platoon_m;		
+
++!set_spacing(X) [achieve]: {B platoon_m} <- perf(set_spacing(X)), *joining_spacing;
+
++!set_spacing(X) [achieve]: {B joining_spacing, B vehicle(V)} <- .send(leader, :tell,set_spacing_from(V));

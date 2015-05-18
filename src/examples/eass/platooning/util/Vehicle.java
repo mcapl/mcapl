@@ -62,9 +62,8 @@ public class Vehicle {
 		commandList.add(new ExecutableAction("speed_controller", 1, 1));
 		commandList.add(new ExecutableAction("steering_controller", 2, 1));
 		commandList.add(new ExecutableAction("set_spacing", 3, 1));
-		commandList.add(new ExecutableAction(" ", 4, 1));
-//		commandList.add(new ExecutableAction("assign_platoon_id", 4, 1));
-		commandList.add(new ExecutableAction("send_message_too_close", 5, 0));
+		commandList.add(new ExecutableAction("stop", 4, 0));
+		commandList.add(new ExecutableAction("join_ok", 5, 0));
 		commandList.add(new ExecutableAction("send_message_too_far", 6, 0));
 		commandList.add(new ExecutableAction("breaking_platoon", 7, 0));
 		

@@ -1,0 +1,18 @@
+:abstraction: follower
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+	
+	/* Default plans for handling messages */
+	+.received(:tell, B): {True} <- +B;   
+	+.received(:perform, G): {True} <- +!G [perform];
+	+.received(:achieve, G): {True} <- +!G [achieve];
+
+
++id(X,Y): {True}<- assert_shared(name(X)), assert_shared(id(Y));
+
++!join_ok(X) [perform]: {B id(X)}<- run(pred(join_ok),args(0)), print(run_join_ok);
+

@@ -1,0 +1,48 @@
+
+:name: leader
+
+:Initial Beliefs:
+
+platoon_m(0, 1)
+platoon_m(1, 2)
+
+req(1) // i.e., request to join
+req(0) // request to leave
+req(2) // joined successfully
+
+:Reasoning Rules:
+last_vehicle(Y):- platoon_m(X,Y), ~platoon_m(Y,Z);
+no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X); 
+
+:Initial Goals:
+
+:Plans:
+
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
+// =================================== leader receives a joining request ================
++message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ} <- 
+						+!platoon_m(SENDER, FRONT) [achieve],
+						print(leader_received_req); 
+
+// ==== for trouble shooting ======
++message(SENDER, REQ, FRONT): {~B no_platoon_m(SENDER), B req(1), 1 == REQ} <- 
+						print(something_is_wrong_sender_already_in_platoon);
+
+// ============== SENDER request to join to platoon and leader sets a goal to have SENDER in platoon =================
++!platoon_m(SENDER, FRONT) [achieve]: {~B set_spacing(FRONT)}<-
+						.send(FRONT, :achieve, set_spacing(15)), *set_spacing(FRONT),
+						print(send_to_behind_vehicle_to_increase_space);
+						
++!platoon_m(SENDER, FRONT) [achieve]: {B set_spacing(FRONT)}<-
+						.send(SENDER, :tell, join_agreement(SENDER)),
+						print(send_to_joining_vehicle_agreement_to_join);
+						
++message(SENDER, REQ): {B req(2), 2== REQ, G platoon_m(SENDER, FRONT) [achieve], B platoon_m(X, FRONT)} <-
+						.send(SENDER,:tell, platoon_id), -platoon_m(X,FRONT), +platoon_m(X, SENDER), +platoon_m(SENDER, FRONT);
+
+
+								

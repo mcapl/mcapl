@@ -62,14 +62,17 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		
 		Literal id1 = new Literal("id");
 		id1.addTerm(new Literal("follower1"));	
+		id1.addTerm(new NumberTermImpl(1));	
 		addPercept("abstraction_follower"+ v1.getID(), id1);
 		
 		Literal id2 = new Literal("id");
-		id2.addTerm(new Literal("follower2"));	
+		id2.addTerm(new Literal("follower2"));
+		id2.addTerm(new NumberTermImpl(2));	
 		addPercept("abstraction_follower"+ v2.getID(), id2);
 		
 		Literal id3 = new Literal("id");
 		id3.addTerm(new Literal("follower3"));	
+		id3.addTerm(new NumberTermImpl(3));	
 		addPercept("abstraction_follower"+ v3.getID(), id3);
 
 		Literal platoon_member = new Literal("platoon_member");
