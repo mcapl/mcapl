@@ -70,6 +70,9 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    // Wrapping the environment in a thread so events are handled faster.
 	    public EnvironmentThread envThread = new EnvironmentThread();
 	    
+	    // Does this robot have wheels?
+	    private boolean wheeled = false;
+	    
 	    public DinoUI() {
 	    	this.setBackground(Color.WHITE);	    	
 	    }
@@ -100,6 +103,23 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	// We may want to hide some of the options from attendees - especially if they are proving confusing.
 	    	JMenuItem tabshow = new JMenuItem("Hide Goal Tabs");
 	    	file.add(tabshow);
+	    	
+	    	JMenuItem wheeled_item = new JMenuItem("Robot has Wheels");
+	    	file.add(wheeled_item);
+	    	wheeled_item.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (wheeled ) {
+						wheeled_item.setText("Robot has Wheels");
+						DinoUI.this.setWheeled(false);
+					} else {
+						wheeled_item.setText("Robot has Legs");
+						DinoUI.this.setWheeled(true);
+					}
+				}
+	    		
+	    	});
 	    	
 	    	JMenuItem quit = new JMenuItem("Quit");
 	    	quit.addActionListener(new ActionListener() {
@@ -284,6 +304,13 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    public void changePathThreshold(double d) {
 	    	for (TabPanel p: panels) {
 	    		p.changePathThreshold(d);
+	    	}
+	    }
+	    
+	    public void setWheeled(boolean w) {
+	    	wheeled = w;
+	    	if (mas != null) {
+	    		((Dinor3x) getEnv().getRobot(rName)).setWheeled(w);
 	    	}
 	    }
 	    

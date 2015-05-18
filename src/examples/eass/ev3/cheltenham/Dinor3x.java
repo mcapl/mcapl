@@ -26,11 +26,9 @@ package eass.ev3.cheltenham;
 import java.io.PrintStream;
 
 import lejos.remote.ev3.RemoteRequestEV3;
-import lejos.remote.ev3.RemoteRequestPilot;
 import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import lejos.remote.ev3.RemoteRequestSampleProvider;
 import lejos.robotics.RegulatedMotor;
-import lejos.robotics.filter.AbstractFilter;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSRGBColorSensor;
 import eass.mas.ev3.EASSSensor;
@@ -47,7 +45,13 @@ public class Dinor3x extends BasicRobot {
 	RemoteRequestRegulatedMotor motor;
 	SimpleTouch touch;
 	private boolean closed = false;
+	private boolean wheeled = false;
+	private boolean straight = false;
 		
+	int touchport = 1;
+	int ultra_port = 2;
+	int color_port = 3;
+
 	/**
 	 * Set up the configuration of the robot.
 	 * @param name
@@ -58,11 +62,15 @@ public class Dinor3x extends BasicRobot {
 		RemoteRequestEV3 brick = getBrick();
 		
 		EASSUltrasonicSensor uSensor;
+		String touchportstring = "S" + touchport;
+		String ultra_portstring = "S" + ultra_port;
+		String color_portstring = "S" + color_port;
+		
 		try {
 			System.err.println("Connecting to Ultrasonic Sensor");
-			uSensor = new EASSUltrasonicSensor(brick, "S2");
+			uSensor = new EASSUltrasonicSensor(brick, ultra_portstring);
 			System.err.println("Connected to Sensor");
-			setSensor(1, uSensor);
+			setSensor(ultra_port, uSensor);
 		} catch (Exception e) {
 			brick.disConnect();
 			throw e;
@@ -71,9 +79,9 @@ public class Dinor3x extends BasicRobot {
 		EASSRGBColorSensor cSensor;
 		try {
 			System.err.println("Connecting to Colour Sensor");
-			cSensor = new EASSRGBColorSensor(brick, "S3");
+			cSensor = new EASSRGBColorSensor(brick, color_portstring);
 			System.err.println("Connected to Sensor");
-			setSensor(2, cSensor);
+			setSensor(color_port, cSensor);
 		} catch (Exception e) {
 			uSensor.close();
 			brick.disConnect();
@@ -82,7 +90,7 @@ public class Dinor3x extends BasicRobot {
 		
 		try{
 			System.err.println("Connecting to Touch Sensor");
-			touch = new SimpleTouch(brick, "S1");
+			touch = new SimpleTouch(brick, touchportstring);
 			System.err.println("Connected to Sensor");
 		} catch (Exception e) {
 			uSensor.close();
@@ -117,8 +125,6 @@ public class Dinor3x extends BasicRobot {
 			brick.disConnect();
 			throw e;
 		}
-		
-		System.err.println(motorR.getSpeed());
 	}
 		
 	/**
@@ -127,7 +133,7 @@ public class Dinor3x extends BasicRobot {
 	 */
 	public void setUPrintStream(PrintStream s) {
 		//uPrintStream = s;
-		EASSSensor uSensor = getSensor(1);
+		EASSSensor uSensor = getSensor(ultra_port);
 		if (uSensor != null) {
 			uSensor.setPrintStream(s);
 		}
@@ -138,7 +144,7 @@ public class Dinor3x extends BasicRobot {
 	 * @param s
 	 */
 	public void setRedPrintStream(PrintStream s) {
-		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(color_port);
 		if (rgbSensor != null) {
 			rgbSensor.setRedPrintStream(s);
 		}
@@ -149,7 +155,7 @@ public class Dinor3x extends BasicRobot {
 	 * @param s
 	 */
 	public void setBluePrintStream(PrintStream s) {
-		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(2);
+		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(color_port);
 		if (rgbSensor != null) {
 			rgbSensor.setBluePrintStream(s);
 		}
@@ -187,32 +193,78 @@ public class Dinor3x extends BasicRobot {
 		return motor;
 	}
 		
+	/**
+	 * Move forward
+	 */
 	public void forward() {
+		if (!wheeled & !straight) {
+			calibrate();
+			straight = true;
+		}
 		motorR.backward();
 		motorL.backward();
 	}
 		
+	/**
+	 * Move backward
+	 */
 	public void backward() {
+		if (!wheeled & ! straight) {
+			calibrate();
+			straight = true;
+		}
 		motorR.forward();
 		motorL.forward();
 	}
 		
+	/**
+	 * Stop.
+	 */
 	public void stop() {
 		motorR.stop();
 		motorL.stop();
 	}
-		
+	
+	/**
+	 * Turn left on the spot.
+	 */
 	public void left() {
 		motorR.forward();
 		motorL.backward();
+		straight = false;
 	}
 		
+	/**
+	 * Move left around stopped wheel.
+	 */
+	public void forward_left() {
+		motorR.stop();
+		motorL.backward();
+		straight = false;
+	}
+
+	/**
+	 * Turn right on the spot.
+	 */
 	public void right() {
 		motorR.backward();
 		motorL.forward();
+		straight = false;
 	}
 		
-	public void calibrate() {
+	/**
+	 * Turn right around stopped left whell.
+	 */
+	public void forward_right() {
+		motorR.backward();
+		motorL.stop();
+		straight = false;
+	}
+
+	/**
+	 * If the robot is legged, calibrate the leg positions for motion.
+	 */
+	private void calibrate() {
 		motorL.setSpeed(50);
 		motorR.setSpeed(100);
 		motorR.forward();
@@ -240,6 +292,11 @@ public class Dinor3x extends BasicRobot {
 		
 	}
 	
+	/**
+	 * A class for the touch sensor used for calibration when the robot has legs.
+	 * @author louiseadennis
+	 *
+	 */
 	public class SimpleTouch {
 		  private float[] sample;
 		  RemoteRequestSampleProvider sensor;
@@ -260,6 +317,14 @@ public class Dinor3x extends BasicRobot {
 			  sensor.close();
 		  }
 
+	}
+	
+	/**
+	 * Set whether this robot has wheels.
+	 * @param w
+	 */
+	public void setWheeled(boolean w) {
+		wheeled = w;
 	}
 
 				

@@ -167,6 +167,11 @@ public class BasicRobot implements LegoRobot {
 		if (sensor4 != null) {
 			sensor4.close();
 		}
+		try {
+			wait(10);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		brick.disConnect();
 	}
 		

@@ -164,7 +164,6 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   // Teleoperation commands.
 			   	if (act.getFunctor().equals("forward")) {
 			   		line_follower.stopFollowing();
-			   		robot.calibrate();
 			   		robot.forward();
 			   	} else if (act.getFunctor().equals("stop")) {
 			   		line_follower.stopFollowing();
@@ -177,7 +176,6 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   		robot.left();
 			   	} else if (act.getFunctor().equals("backward")) {
 			   		line_follower.stopFollowing();
-			   		robot.calibrate();
 			   		robot.backward();
 			   	} else if (act.getFunctor().equals("follow_line")) {
 			   		synchronized (line_follower) {
@@ -493,13 +491,13 @@ public class DinoEnvironment extends EASSEV3Environment {
     					// Basic line following algorithm.
 			   			if (value > path_threshold) {
 			   				if (!steering_right) {
-			   					robot.right();
+			   					robot.forward_right();
 			   					steering_left = false;
 			   					steering_right = true;
 			   				}
 			   			} else {
 			   				if (!steering_left) {
-			   					robot.left();
+			   					robot.forward_left();
 			   					steering_left = true;
 			   					steering_right = false;
 			   				}
