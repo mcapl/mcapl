@@ -39,7 +39,7 @@ import lejos.remote.ev3.RemoteRequestSampleProvider;
  *
  */
 public class EASSUltrasonicSensor implements EASSSensor {
-	PrintStream out = System.out;
+	PrintStream out;
 	RemoteRequestSampleProvider sensor;
 	
 	public EASSUltrasonicSensor(RemoteRequestEV3 brick, String portName) throws RemoteException {

@@ -46,7 +46,7 @@ public class SensorValues extends DinoPanel {
 	private static final long serialVersionUID = 1L;
 	
 	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
-	JTextArea textArea = new JTextArea(15, 30);
+	JTextArea textArea = new JTextArea(10, 20);
     JPanel output = new JPanel();
     protected TextAreaOutputStream values;
     public enum SensorType {
@@ -127,7 +127,7 @@ public class SensorValues extends DinoPanel {
     	      this.textArea = textArea;
     	      this.title = title;
     	      textArea.setBackground(Color.WHITE);
-    	      sb.append(title + "> ");
+    	      sb.append("> ");
     	   }
 
     	   /*
@@ -161,7 +161,7 @@ public class SensorValues extends DinoPanel {
     	            }
     	         });
     	         sb.setLength(0);
-    	         sb.append(title + "> ");
+    	         sb.append("> ");
     	         return;
     	      }
 

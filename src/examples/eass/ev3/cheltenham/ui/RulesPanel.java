@@ -23,6 +23,8 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ail.syntax.Action;
 import eass.ev3.cheltenham.DinoUI;
@@ -154,7 +157,8 @@ public class RulesPanel extends DinoPanel {
 	    	
 	    	contexts.get(i).setActionCommand("r" + printednumber + "context");
 	    	contexts.get(i).addActionListener(ui);
-	    	ruleline1(gridline, c, i);
+	    	c.gridy = gridline;
+	    	add(ruleline1(gridline, i), c);
 	    	
 	    	action1s.get(i).setActionCommand("r" + printednumber + "action1");
 	    	action1s.get(i).addActionListener(ui);
@@ -162,7 +166,8 @@ public class RulesPanel extends DinoPanel {
 	    	action2s.get(i).addActionListener(ui);
 	    	action3s.get(i).setActionCommand("r" + printednumber + "action3");
 	    	action3s.get(i).addActionListener(ui);
-	    	ruleline2(gridline+1, c, i);
+	    	c.gridy = gridline+1;
+	    	add(ruleline2(gridline+1, i), c);
     	}
 
 	}
@@ -233,19 +238,15 @@ public class RulesPanel extends DinoPanel {
      * @param c
      * @param rulenumber
      */
-    private void ruleline1(int gridy, GridBagConstraints c, int rulenumber) {
-    	c.gridy = gridy;
-        c.gridx = 0;
-        c.gridwidth = 1;
-        add(checkboxes.get(rulenumber), c);
-        c.gridx = 1;
-        add(triggers.get(rulenumber), c);
-        c.gridx = 2;
-        add(and.get(rulenumber), c);
-        c.gridx = 3;
-        c.anchor = GridBagConstraints.LINE_START;
-        add(contexts.get(rulenumber), c);
-        c.anchor = GridBagConstraints.CENTER;
+    private JPanel ruleline1(int gridy, int rulenumber) {
+    	JPanel line1 = new JPanel();
+    	line1.setLayout(new FlowLayout());
+    	line1.setBackground(Color.WHITE);
+    	line1.add(checkboxes.get(rulenumber));
+    	line1.add(triggers.get(rulenumber));
+        line1.add(and.get(rulenumber));
+        line1.add(contexts.get(rulenumber));
+        return line1;
     }
     
     /**
@@ -254,22 +255,17 @@ public class RulesPanel extends DinoPanel {
      * @param c
      * @param rulenumber
      */
-    private void ruleline2(int gridy, GridBagConstraints c, int rulenumber) {
-        c.gridx = 2;
-        c.gridy = gridy;
-        c.anchor = GridBagConstraints.LINE_END;
-        add(act1d.get(rulenumber), c);
-        c.gridx = 3;
-        c.anchor = GridBagConstraints.CENTER;
-        add(action1s.get(rulenumber), c);	        
-        c.gridx = 4;
-        add(act2d.get(rulenumber), c);
-        c.gridx = 5;
-        add(action2s.get(rulenumber), c);	   
-        c.gridx = 6;
-        add(act3d.get(rulenumber), c);
-        c.gridx = 7;
-        add(action3s.get(rulenumber), c);	   
+    private JPanel ruleline2(int gridy, int rulenumber) {
+    	JPanel line2 = new JPanel();
+    	line2.setLayout(new FlowLayout());
+    	line2.setBackground(Color.WHITE);
+        line2.add(act1d.get(rulenumber));
+        line2.add(action1s.get(rulenumber));	        
+        line2.add(act2d.get(rulenumber));
+        line2.add(action2s.get(rulenumber));	   
+        line2.add(act3d.get(rulenumber));
+        line2.add(action3s.get(rulenumber));	  
+        return line2;
 
     }
 

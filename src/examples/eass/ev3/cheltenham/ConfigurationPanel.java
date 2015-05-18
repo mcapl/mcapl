@@ -54,7 +54,7 @@ import ail.syntax.NumberTermImpl;
 public class ConfigurationPanel extends JPanel implements WindowListener, PropertyChangeListener {
 	private static final long serialVersionUID = 1L;
 	JFormattedTextField distancebox, waterubox, waterlbox, pathbox;
-    protected double dthreshold=0.5;
+    protected double dthreshold=0.3;
     private boolean dtinit  = false;
     protected double pthreshold=0.04;
     private boolean pinit  = false;

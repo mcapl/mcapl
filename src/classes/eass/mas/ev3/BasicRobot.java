@@ -41,7 +41,7 @@ public class BasicRobot implements LegoRobot {
 	RemoteRequestEV3 brick;
 	RemoteRequestPilot pilot;
 	boolean haspilot = false;
-	boolean disconnected = false;
+	protected boolean disconnected = false;
 	
 	EASSSensor sensor1;
 	EASSSensor sensor2;

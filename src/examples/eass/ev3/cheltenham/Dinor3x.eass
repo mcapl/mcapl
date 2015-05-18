@@ -27,7 +27,7 @@ EASS
 
 :Initial Beliefs:
 
-distance_threshold(0.5)
+distance_threshold(0.3)
 water_threshold_upper(0.15)
 water_threshold_lower(0.1)
 path_threshold(0.04)

@@ -81,9 +81,10 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 			c.fill = GridBagConstraints.NONE;
 			c.insets = new Insets(10, 0, 20, 0);
 			add(twitter, c);
+			c.anchor = GridBagConstraints.LINE_START;
 			c.insets = new Insets(0, 0, 0, 0);
 			c.gridy++;
-			c.gridwidth = 1;
+			c.gridwidth = 2;
 			add(cast_logo_l, c);
 			c.gridx = 1;
 			c.anchor = GridBagConstraints.LINE_END;

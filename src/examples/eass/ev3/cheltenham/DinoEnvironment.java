@@ -58,7 +58,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean achieve_water = false;
 	
 	public double path_threshold = 0.04;
-    public double dthreshold=0.5;
+    public double dthreshold=0.3;
     public double wuthreshold=0.15;
     public double wlthreshold=0.1;
 	
@@ -164,19 +164,21 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   // Teleoperation commands.
 			   	if (act.getFunctor().equals("forward")) {
 			   		line_follower.stopFollowing();
-			   		robot.getPilot().forward();
+			   		robot.calibrate();
+			   		robot.forward();
 			   	} else if (act.getFunctor().equals("stop")) {
 			   		line_follower.stopFollowing();
-			   		robot.getPilot().stop();
+			   		robot.stop();
 			   	} else if (act.getFunctor().equals("right")) {
 			   		line_follower.stopFollowing();
-			   		robot.getPilot().steer(100);
+			   		robot.right();
 			   	} else if (act.getFunctor().equals("left")) {
 			   		line_follower.stopFollowing();
-			   		robot.getPilot().steer(-100);
+			   		robot.left();
 			   	} else if (act.getFunctor().equals("backward")) {
 			   		line_follower.stopFollowing();
-			   		robot.getPilot().backward();
+			   		robot.calibrate();
+			   		robot.backward();
 			   	} else if (act.getFunctor().equals("follow_line")) {
 			   		synchronized (line_follower) {
 			   			if (!line_follower.isAlive()) {
@@ -484,24 +486,26 @@ public class DinoEnvironment extends EASSEV3Environment {
     		boolean steering_right = false;
     		boolean steering_left = false;
     		while (isrunning) {
-		   		if (DinoEnvironment.this.values.containsKey("light")) {
-		   			Predicate light = DinoEnvironment.this.values.get("light");
-		   			double value = ((NumberTerm) light.getTerm(0)).solve();
-		   			// Basic line following algorithm.
-		   			if (value > path_threshold) {
-		   				if (!steering_right) {
-		   					robot.getPilot().steer(100);
-		   					steering_left = false;
-		   					steering_right = true;
-		   				}
-		   			} else {
-		   				if (!steering_left) {
-		   					robot.getPilot().steer(-100);
-		   					steering_left = true;
-		   					steering_right = false;
-		   				}
-		   			}
-		   		}
+    			synchronized(robot) {
+    				if (DinoEnvironment.this.values.containsKey("red")) {
+    					Predicate light = DinoEnvironment.this.values.get("red");
+    					double value = ((NumberTerm) light.getTerm(0)).solve();
+    					// Basic line following algorithm.
+			   			if (value > path_threshold) {
+			   				if (!steering_right) {
+			   					robot.right();
+			   					steering_left = false;
+			   					steering_right = true;
+			   				}
+			   			} else {
+			   				if (!steering_left) {
+			   					robot.left();
+			   					steering_left = true;
+			   					steering_right = false;
+			   				}
+			   			}
+			   		}
+    			}
     		}
     	}
     	
