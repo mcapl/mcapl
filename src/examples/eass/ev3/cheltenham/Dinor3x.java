@@ -260,6 +260,18 @@ public class Dinor3x extends BasicRobot {
 		motorL.stop();
 		straight = false;
 	}
+	
+	public void scare() {
+   		int pos = motor.getTachoCount();
+   		motor.rotateTo(pos + 10);
+   		motor.waitComplete();
+   		motor.rotateTo(pos);
+   		motor.waitComplete();
+   		motor.rotateTo(pos + 10);
+   		motor.waitComplete();
+   		motor.rotateTo(pos);
+   		motor.waitComplete();
+	}
 
 	/**
 	 * If the robot is legged, calibrate the leg positions for motion.

@@ -184,11 +184,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   			}
 			   		}
 			   	} else if (act.getFunctor().equals("scare")) {
-			   		RegulatedMotor motor = robot.getMotor();
-			   		int pos = motor.getTachoCount();
-			   		motor.rotateTo(pos + 10);
-			   		motor.waitComplete();
-			   		motor.rotateTo(pos);
+			   		robot.scare();
 			   	} 
 			   	
 			   	// Goal setting and dropping
