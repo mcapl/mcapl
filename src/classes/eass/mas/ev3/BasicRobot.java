@@ -153,25 +153,32 @@ public class BasicRobot implements LegoRobot {
 	public void close() {
 		disconnected = true;
 		if (sensor1 != null) {
+			System.err.println("   Closing Sensor 1");
 			sensor1.close();
 		}
 		
 		if (sensor2 != null) {
+			System.err.println("   Closing Sensor 2");
 			sensor2.close();
 		}
 		
 		if (sensor3 != null) {
+			System.err.println("   Closing Sensor 3");
 			sensor3.close();
 		}
 		
 		if (sensor4 != null) {
+			System.err.println("   Closing Sensor 4");
 			sensor4.close();
 		}
+		
 		try {
-			wait(10);
+			wait(500);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+		
+		System.err.println("   Disconnecting Brick");
 		brick.disConnect();
 	}
 		
