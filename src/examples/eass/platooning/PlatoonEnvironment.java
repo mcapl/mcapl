@@ -1,13 +1,8 @@
 package eass.platooning;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import ail.mas.NActionScheduler;
-import ail.mas.RoundRobinScheduler;
 import eass.platooning.util.Vehicle;
 import ail.syntax.Action;
 import ail.syntax.Literal;

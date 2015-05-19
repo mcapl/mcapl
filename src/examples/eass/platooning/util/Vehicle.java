@@ -3,12 +3,7 @@ package eass.platooning.util;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
-import javax.microedition.lcdui.Command;
-
-import ail.syntax.Unifier;
 import eass.platooning.util.AILSocketServer;
 
 public class Vehicle {
