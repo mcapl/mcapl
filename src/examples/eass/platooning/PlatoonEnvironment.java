@@ -75,16 +75,15 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		id3.addTerm(new NumberTermImpl(3));	
 		addPercept("abstraction_follower"+ v3.getID(), id3);
 
-		Literal platoon_member = new Literal("platoon_member");
+		Literal platoon_member2 = new Literal("platoon_m");
+		platoon_member2.addTerm(new Literal("leader"));
+		platoon_member2.addTerm(new Literal("follower1"));
+		addPercept("abstraction_leader", platoon_member2);
+
+		Literal platoon_member = new Literal("platoon_m");
 		platoon_member.addTerm(new Literal("follower1"));
 		platoon_member.addTerm(new Literal("follower2"));
-		addPercept("abstraction_leader", platoon_member);
-		
-		Literal platoon_member2 = new Literal("platoon_member");
-		platoon_member2.addTerm(new Literal("follower2"));
-		platoon_member2.addTerm(new Literal("follower3"));
-		addPercept("abstraction_leader", platoon_member2);
-		
+		addPercept("abstraction_leader", platoon_member);				
 		
 	}
 
@@ -135,6 +134,9 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 			timeStamp.addTerm(new NumberTermImpl(v.getTimeStamp()));
 			addUniquePercept("abstraction_follower"+ v.getID(), "timeStamp", timeStamp);
 
+			Literal lateral = new Literal("lateral");
+			lateral.addTerm(new NumberTermImpl(v.getLateralPosition()));
+			addUniquePercept("abstraction_follower"+ v.getID(), "lateral", lateral);
 			
 //			if(counter ==3){
 

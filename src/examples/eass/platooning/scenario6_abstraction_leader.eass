@@ -5,3 +5,5 @@
 :Initial Goals:
 
 :Plans:
+
++platoon_m(X, Y): {True}<- assert_shared(platoon_m(X,Y));

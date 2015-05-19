@@ -202,6 +202,12 @@ public class Vehicle {
 		return latency;
 	}
 	
+	public double getLateralPosition(){
+		double lateral = ego.lateralPosition;
+	//	System.out.println(Math.abs(lateral));
+		return Math.abs(lateral);
+	}
+	
 	// PRIVATE INNER CLASS 
 	private class ExecutableAction {
 		String actionName;
