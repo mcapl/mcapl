@@ -277,16 +277,16 @@ public class Dinor3x extends BasicRobot {
 	 * If the robot is legged, calibrate the leg positions for motion.
 	 */
 	private void calibrate() {
-		motorL.setSpeed(50);
-		motorR.setSpeed(100);
+		motorL.setSpeed(70);
+		motorR.setSpeed(140);
 		motorR.forward();
 		motorL.forward();
 		while(touch.isPressed()) {
 					
 		}
 		stop();
-		motorR.setSpeed(100);
-		motorL.setSpeed(100);
+		motorR.setSpeed(200);
+		motorL.setSpeed(200);
 		motorR.forward();
 		while(!touch.isPressed()) {
 			
