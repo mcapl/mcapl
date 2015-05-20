@@ -18,6 +18,8 @@ time_to_leave_from_middle(200)
 
 +id(X,Y): {True}<- assert_shared(name(X)), assert_shared(id(Y));
 
++j_pos(X,Y): {True}<- assert_shared(name_front(X)), assert_shared(id_front(Y));
+
 +timeStamp(X): {~B id(3), B set_up_time(Y), Y <X}<- assert_shared(platoon_set_up);
 
 +timeStamp(X): {B id(3), B time_to_join_in_middle(Y), Y < X}<- assert_shared(ready_to_join); 
@@ -32,10 +34,12 @@ time_to_leave_from_middle(200)
 
 +lateral(X): {B changing_lane, B id(3), X < 1} <- assert_shared(lane_1);  
 
-+!join_ok(X) [perform]: {B id(X)}<- run(pred(join_ok),args(0)), print(run_join_ok), assert_shared(changing_lane);
++!join_ok(X) [perform]: {True}<- run(pred(join_ok),args(X)), print(run_join_ok), assert_shared(changing_lane);
 
 +!speed_controller(X) [perform]: {True}<- run(pred(speed_controller),args(X)), print(speedControllerEnabled);
 
 +!steering_controller(X)[perform]: {True}<- run(pred(steering_controller), args(X)), print(steeringControllerEnabled);
 
 +!set_spacing(Y) [perform]: {True}<- run(pred(set_spacing),args(Y)), assert_shared(spacing(Y));
+
++!join_position(X) [perform]: {True}<- run(pred(join_position),args(X)), print(sent_join_position);

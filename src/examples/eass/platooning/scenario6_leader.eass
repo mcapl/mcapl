@@ -6,8 +6,6 @@
 req(1) // i.e., request to join
 req(0) // request to leave
 req(2) // joined successfully
-allowed_spot(follower1) // where in the platoon a vehicle is allowed to get in
-allowed_spot(0) //joint to platoon from behind is allowed
 
 :Reasoning Rules:
 last_vehicle(Y):- platoon_m(X,Y), ~platoon_m(Y,Z);
@@ -23,25 +21,25 @@ no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X);
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-//=================================== leader receives a joining request, the requested spot is allowed and front vehicle is part of platoon================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_spot(FRONT), ~B no_platoon_m(FRONT)} <- 
+//=================================== leader receives a joining request, the requested position is allowed and front vehicle is part of platoon================
++message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), ~B no_platoon_m(FRONT)} <- 
 						+!platoon_m(SENDER, FRONT) [achieve],
 						print(leader_vehicle_in_the_middle_successfuly_joined); 
 
 //=================================== leader receives a joining request, joining from behind ================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_spot(FRONT), FRONT== 0} <- 
++message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), FRONT== 0} <- 
 						+!platoon_m(SENDER, FRONT) [achieve],
 						print(leader_vehicle_from_behind_successfuly_joined); 
 
-//=================================== leader receives a joining request, the requested spot is allowed but front vehicle is not part of platoon================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_spot(FRONT), B no_platoon_m(FRONT), ~ FRONT == 0} <- 
+//=================================== leader receives a joining request, the requested position is allowed but front vehicle is not part of platoon================
++message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), B no_platoon_m(FRONT), ~ FRONT == 0} <- 
 						.send(SENDER, :tell, wrong_front),
 						print(leader_front_is_not_part_of_platoon); 
 
-//=================================== leader receives a joining request, the requested spot is not allowed ================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, ~B allowed_spot(FRONT)} <-
+//=================================== leader receives a joining request, the requested position is not allowed ================
++message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, ~B allowed_position(FRONT)} <-
 						.send(SENDER, :tell, wrong_front),
-						print(leader_joining_in_requested_spot_is_not_allowed); 
+						print(leader_joining_in_requested_position_is_not_allowed); 
 
 // ==== for trouble shooting ======
 +message(SENDER, REQ, FRONT): {~B no_platoon_m(SENDER), B req(1), 1 == REQ} <- 
