@@ -64,8 +64,4 @@ no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X);
 
 +!platoon_m(SENDER, FRONT) [achieve]: {B message(SENDER, REQ), B req(2), 2== REQ, FRONT == 0, B last_vehicle(Y)}<- 
 																.send(SENDER,:tell, platoon_m), 
-																+platoon_m(Y, SENDER), -!platoon_m(SENDER, FRONT) [achieve]// +update_last_v;
-																
-
-
-								
+																+platoon_m(Y, SENDER), -!platoon_m(SENDER, FRONT) [achieve];								
