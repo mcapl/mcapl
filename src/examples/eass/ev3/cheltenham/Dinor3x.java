@@ -109,7 +109,7 @@ public class Dinor3x extends BasicRobot {
 			motorL = (RemoteRequestRegulatedMotor) brick.createRegulatedMotor("C", 'L');
 			motorR.setSpeed(200);
 			motorL.setSpeed(200);
-			pilot = (RemoteRequestPilot) brick.createPilot(10, 15, "C", "B");
+			pilot = (RemoteRequestPilot) brick.createPilot(7, 20, "C", "B");
 			System.err.println("Created Pilot");
 		} catch (Exception e) {
 			uSensor.close();
@@ -223,12 +223,9 @@ public class Dinor3x extends BasicRobot {
 		}
 		if (! wheeled ) {
 			pilot.backward();
-			//motorR.backward();
-			//motorL.backward();
 		} else {
+			pilot.setTravelSpeed(10);
 			pilot.forward();
-			//motorR.forward();
-			//motorL.forward();
 		}
 	}
 	
@@ -243,12 +240,9 @@ public class Dinor3x extends BasicRobot {
 		}
 		if (!wheeled) {
 			pilot.forward();
-			//motorR.forward();
-			//motorL.forward();
 		} else {
+			pilot.setTravelSpeed(10);
 			pilot.backward();
-			//motorR.backward();
-			//motorL.backward();
 		}
 	}
 		
@@ -267,6 +261,8 @@ public class Dinor3x extends BasicRobot {
 			motorR.forward();
 			motorL.backward();
 		} else {
+			motorR.setSpeed(40);
+			motorL.setSpeed(40);
 			motorR.backward();
 			motorL.forward();
 		}
@@ -277,12 +273,13 @@ public class Dinor3x extends BasicRobot {
 	 * Move left around stopped wheel.
 	 */
 	public void forward_left() {
-		motorR.stop();
 		if (!wheeled) {
 			motorL.backward();
 		} else {
+			motorL.setSpeed(25);
 			motorL.forward();
 		}
+		motorR.stop();
 		straight = false;
 	}
 
@@ -294,6 +291,8 @@ public class Dinor3x extends BasicRobot {
 			motorR.backward();
 			motorL.forward();
 		} else {
+			motorR.setSpeed(40);
+			motorL.setSpeed(40);
 			motorR.forward();
 			motorL.backward();
 		}
@@ -307,12 +306,16 @@ public class Dinor3x extends BasicRobot {
 		if (!wheeled) {
 			motorR.backward();
 		} else {
+			motorR.setSpeed(25);
 			motorR.forward();
 		}
 		motorL.stop();
 		straight = false;
 	}
 	
+	/**
+	 * Snap jaws to scare something.
+	 */
 	public void scare() {
    		int pos = motor.getTachoCount();
    		motor.rotateTo(pos + 10);
@@ -323,6 +326,14 @@ public class Dinor3x extends BasicRobot {
    		motor.waitComplete();
    		motor.rotateTo(pos);
    		motor.waitComplete();
+	}
+	
+	/**
+	 * Rotate right motor some angle.
+	 * @param d
+	 */
+	public void turn(int d) {
+		motorR.rotate(d);
 	}
 
 	/**
@@ -389,9 +400,13 @@ public class Dinor3x extends BasicRobot {
 	 */
 	public void setWheeled(boolean w) {
 		wheeled = w;
-		motorL.setSpeed(100);
-		motorR.setSpeed(100);
 		pilot.setTravelSpeed(20);
+		motorL.setSpeed(25);
+		motorR.setSpeed(25);
+	}
+	
+	public EASSSensor getRGBSensor() {
+		return super.getSensor(color_port);
 	}
 
 				
