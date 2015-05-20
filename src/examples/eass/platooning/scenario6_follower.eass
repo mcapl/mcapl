@@ -25,12 +25,15 @@ platoon_m(X, Y):- steering_contr, platoon_m;
 //initialisation phase-- vehicle joins to platoon after 50 sec
 +platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
 
-+ready_to_join: {B name(follower3)} <- print(ready_to_join), +!platoon_m(follower3, follower1) [achieve], print(followe_3_successfully_joined_in_the_middle);
-	
++ready_to_join: {B name(follower3)} <- print(ready_to_join), +!platoon_m(follower3, follower1) [achieve], print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
+
++wrong_front: {G platoon_m(SENDER, FRONT) [achieve]}<- -!platoon_m(SENDER, FRONT) [achieve], print(belief_not_able_to_join_to_front_of_a_non_platoon_member);
+
 //+!platoon_m(SENDER, FRONT) [achieve]: {B id(SENDER), ~B platoon_m, B distance(FRONT)} <- 
 +!platoon_m(SENDER, FRONT) [achieve]: {B name(SENDER), ~B platoon_m, ~B join_agreement(SENDER, FRONT)} <- 
 										.send(leader, :tell, message(SENDER, 1, FRONT)), *join_agreement(SENDER, FRONT);
-										
+						
+
 +!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement(SENDER, FRONT), B name(SENDER), B id(Y), ~B lane_1} <- perf(join_ok(Y)), print(perform_change_lane), *lane_1;
 
 +!platoon_m(SENDER, FRONT) [achieve]: {B lane_1, ~B initial_distance} <- perf(speed_controller(1)), +sp_contr, *initial_distance;
