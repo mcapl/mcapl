@@ -6,6 +6,8 @@
 :Reasoning Rules:
 
 platoon_m(X, Y):- steering_contr, platoon_m;
+leave_platoon:- ~steering_contr, no_platoon_m;
+lane_0:- ~lane_1;
 
 :Initial Goals:
 
@@ -23,6 +25,9 @@ platoon_m(X, Y):- steering_contr, platoon_m;
 +id(X): {X== 2}<- perf(join_ok(1));
 
 +id_front(X): {B id(3)}<- perf(join_position(X));
+
++ready_to_leave: {B name(follower3)}<- print(ready_to_leave), +!leave_platoon [achieve], print(follower3_drop_leaving_goal_or_successfully_left);
+
 
 //initialisation phase-- vehicle joins to platoon after 50 sec
 +platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
@@ -46,6 +51,20 @@ platoon_m(X, Y):- steering_contr, platoon_m;
 
 +!platoon_m(SENDER, FRONT) [achieve]: {B steering_contr}<- .send(leader, :tell, message(SENDER, 2)), *platoon_m;		
 
-+!set_spacing(X) [achieve]: {~B spacing(X)} <- perf(set_spacing(X)), *joining_spacing;
++!steering_contr(X) [perform]: {B spacing}<-  perf(steering_controller(0)), -steering_contr;
 
-+!set_spacing(X) [achieve]: {B joining_spacing, B name(V)} <- .send(leader, :tell, set_spacing_from(V)), -!set_spacing(X) [achieve];
++!set_spacing(X) [achieve]: {~B spacing(X)} <- perf(set_spacing(X)), *spacing;
+
++!set_spacing(X) [achieve]: {B spacing, B name(V)} <- .send(leader, :tell, set_spacing_from(V)), -!set_spacing(X) [achieve];
+
+// ============ leaving
+//SHOULD COMPLETE LEAVE PLATOON GOAL
++!leave_platoon [achieve]: {~G platoon_m(X, Y) [achieve], B name(X), ~B agreement(X)} <- .send(leader, :tell, message(X, 0)), *agreement(X);
+
++!leave_platoon [achieve]: {B name(X), B agreement(X), ~B spacing(10)} <- +!set_spacing(10) [achieve];
+
++!leave_platoon [achieve]: {B name(X), B agreement(X), B steering_contr, B spacing(10)} <- perf(speed_controller(0)), +!steering_contr(X) [perform]; 
+
++!leave_platoon [achieve]: {B name(X), B agreement(X), ~B steering_contr} <- perf(join_ok(0)), print(change_lane_to_leave), *lane_0;
+
++!leave_platoon [achieve]: {B lane_0, B name(X)}<- .send(leader, :tell, message(X, 2)), *no_platoon_m;
