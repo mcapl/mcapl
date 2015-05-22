@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 
@@ -41,6 +42,7 @@ public class TabMain {
 	
 	public TabMain(TabPanel tb) {
 		panel = tb;
+		mainPanel.setBackground(Color.WHITE);
 	}
 	
 	/**

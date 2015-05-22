@@ -25,7 +25,6 @@ package eass.ev3.cheltenham.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -56,7 +55,6 @@ public class ComplexPanel extends TabPanel {
 	@Override
 	public void createTabMain(DinoUI ui) {
 		mainPanel = new ComplexTabMain(ui, this);
-		mainPanel.getPanel().setLayout(new GridLayout(1, 5));
 	    
 	    ui.addChangeListener(this);
 	}
@@ -69,12 +67,18 @@ public class ComplexPanel extends TabPanel {
 	public static class ComplexTabMain extends TabMain {
 		public ComplexTabMain(DinoUI ui, ComplexPanel tb) {
 			super(tb);
-			    		    	
+			getPanel().setLayout(new GridBagLayout()); 	
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weighty = 1.0;
+			gbc.weightx = 1.0;
+			
+			
 			// A Panel for the Sensor Streams
 		    // A Panel for the ultrasound sensor values
 		    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, true, false));
 		    setSensorPanel(ultra);
-		    add(ultra, c);
+		    add(ultra, gbc);
 		    ultra.setEnabled(false);
 	
 		    JPanel right = new JPanel();
@@ -84,6 +88,7 @@ public class ComplexPanel extends TabPanel {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 0;
+			c.weightx = 1;
 			right.add(controls, c);
 		    
 		    // A JPanel for Beliefs
@@ -130,7 +135,8 @@ public class ComplexPanel extends TabPanel {
 			c.weighty = 1.0;
 		    right.add(instructions, c);
 		    
-		    add(right);
+		    gbc.gridx = 1;
+		    add(right, gbc);
 		}
 	}
 	

@@ -26,7 +26,6 @@ package eass.ev3.cheltenham.ui;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -54,11 +53,16 @@ public class SimpleRulesPanel extends TabPanel {
 	public class SimpleRulesTab extends TabMain {
 		public SimpleRulesTab(DinoUI ui, SimpleRulesPanel srp) {
 			super(srp);
-	 
+			getPanel().setLayout(new GridBagLayout());
+			
 	       	// A Panel for the Sensor Streams
 	        // A Panel for the ultrasound sensor values
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weightx = 1.0;
+			gbc.weighty = 1.0;
 	        SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, false, false));
-	        add(ultra);
+	        add(ultra, gbc);
 	        ultra.setEnabled(false);
 	        setSensorPanel(ultra);
 	
@@ -99,7 +103,9 @@ public class SimpleRulesPanel extends TabPanel {
 		    setInstructionsPanel(instructions);
 		    left.add(instructions, c);
 		    
-		    add(left);
+		    gbc.gridx = 1;
+		    gbc.weightx = 0;
+		    add(left, gbc);
 		}
 	}
 	
@@ -155,7 +161,6 @@ public class SimpleRulesPanel extends TabPanel {
 	@Override
 	public void createTabMain(DinoUI ui) {
 			mainPanel = new SimpleRulesTab(ui, this);
-			mainPanel.getPanel().setLayout(new GridLayout(1, 2));
 	}
 
 }

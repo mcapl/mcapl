@@ -23,9 +23,9 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -53,7 +53,7 @@ public class GoalsOnlyPanel extends TabPanel {
 	@Override
 	public void createTabMain(DinoUI ui) {
 		mainPanel = new GoalsOnlyTab(ui, this);
-		mainPanel.getPanel().setLayout(new GridLayout(1, 2));
+		mainPanel.getPanel().setBackground(Color.WHITE);
 		ui.addChangeListener(this);
 	}
 	
@@ -65,13 +65,18 @@ public class GoalsOnlyPanel extends TabPanel {
 	public static class GoalsOnlyTab extends TabMain {
 		public GoalsOnlyTab(DinoUI ui, GoalsOnlyPanel gop) {
 			super(gop);
-			c.fill = GridBagConstraints.HORIZONTAL;
+			getPanel().setLayout(new GridBagLayout());
+			getPanel().setBackground(Color.WHITE);
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weighty = 1.0;
+			gbc.weightx = 1.0;
 			    		    	
 			// A Panel for the Sensor Streams
 		    // A Panel for the ultrasound sensor values
 		    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(false, true, true, false));
 		    setSensorPanel(ultra);
-		    add(ultra, c);
+		    add(ultra, gbc);
 		    ultra.setEnabled(false);
 	
 		    JPanel right = new JPanel();
@@ -79,6 +84,7 @@ public class GoalsOnlyPanel extends TabPanel {
 		    // A JPanel for Controls
 			ControlsPanel controls = new ControlsPanel("Controls", ui);
 			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
 			c.gridx = 0;
 			c.gridy = 0;
 			right.add(controls, c);
@@ -118,7 +124,10 @@ public class GoalsOnlyPanel extends TabPanel {
 			c.weighty = 1.0;
 		    right.add(instructions, c);
 		    
-		    add(right);
+		    gbc.gridx = 1;
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weighty = 1.0;
+			add(right, gbc);
 		}
 	}
 	

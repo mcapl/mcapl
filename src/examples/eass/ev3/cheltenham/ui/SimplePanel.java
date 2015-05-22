@@ -23,9 +23,10 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -47,14 +48,15 @@ public class SimplePanel extends TabPanel {
 	public static class SimpleTab extends TabMain {
 		public SimpleTab(DinoUI ui, SimplePanel sp) {
 			super(sp);
-	    	c.fill = GridBagConstraints.HORIZONTAL;
+			getPanel().setLayout(new GridBagLayout());
+			getPanel().setBackground(Color.WHITE);
+			c.fill = GridBagConstraints.HORIZONTAL;
 	
 	    	// A JPanel for Controls
 	    	ControlsPanel controls = new BigControlsPanel("Controls", ui);
 	    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
 	    	c.gridx = 0;
-	    	c.gridy = 1;
-	        c.gridwidth = 2;
+	    	c.gridy = 0;
 	    	add(controls, c);
 			
 	        // The Instructions Panel
@@ -64,9 +66,8 @@ public class SimplePanel extends TabPanel {
 	        InstructionsPanel ins = new InstructionsPanel(1, sp, "Instructions", instructions);
 	        ins.setDinoFont(new Font("Sans Serif", Font.PLAIN, 20));
 		    setInstructionsPanel(ins);
-	        c.gridx = 0;
-	        c.gridy = 2;
-	        c.gridwidth = 2;
+	        c.gridy = 1;
+	        c.weighty = 1.0;
 	    	c.fill = GridBagConstraints.BOTH;
 	        add(ins, c);
 			}
@@ -87,7 +88,6 @@ public class SimplePanel extends TabPanel {
 	@Override
 	public void createTabMain(DinoUI ui) {
 		mainPanel = new SimpleTab(ui, this);
-		mainPanel.getPanel().setLayout(new GridLayout(2, 1));
 		ui.addChangeListener(this);
 	};
 
