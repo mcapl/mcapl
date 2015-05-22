@@ -36,6 +36,7 @@ import eass.mas.ev3.EASSEV3Environment;
 import eass.mas.ev3.LegoRobot;
 
 import java.io.PrintStream;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -56,7 +57,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean do_growl = false;
 	boolean achieve_water = false;
 	
-	public double path_threshold = 0.04;
+	public double path_threshold = 0.1;
     public double dthreshold=0.3;
     public double wuthreshold=0.15;
     public double wlthreshold=0.1;
@@ -80,6 +81,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 	static {watergoal.addTerm(new Literal("water"));};
 	
 	private LineFollowingThread line_follower;
+	private RandomMotionThread random;
 	
 	DinoUI ui;
 	
@@ -112,7 +114,6 @@ public class DinoEnvironment extends EASSEV3Environment {
 			robot = new Dinor3x("10.0.1.1");
 			System.err.println("Connection Established");
 			addRobot(agent, robot);
-			line_follower = new LineFollowingThread(robot);
 			addSharedBelief(agent, create_rule_action("rule1", "act1", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule1", "act2", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule1", "act3", new Predicate("do_nothing")));
@@ -162,29 +163,52 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   
 			   // Teleoperation commands.
 			   	if (act.getFunctor().equals("forward")) {
-			   		line_follower.stopFollowing();
+			   		stopLineFollowing();
+			   		stopRandom();
 			   		robot.forward();
 			   	} else if (act.getFunctor().equals("stop")) {
-			   		line_follower.stopFollowing();
+			   		stopLineFollowing();
+			   		stopRandom();
 			   		robot.stop();
 			   	} else if (act.getFunctor().equals("right")) {
-			   		line_follower.stopFollowing();
+			   		stopLineFollowing();
+			   		stopRandom();
 			   		robot.right();
 			   	} else if (act.getFunctor().equals("left")) {
-			   		line_follower.stopFollowing();
+			   		stopLineFollowing();
+			   		stopRandom();
 			   		robot.left();
 			   	} else if (act.getFunctor().equals("backward")) {
-			   		line_follower.stopFollowing();
+			   		stopLineFollowing();
+			   		stopRandom();
 			   		robot.backward();
 			   	} else if (act.getFunctor().equals("follow_line")) {
-			   		synchronized (line_follower) {
-			   			if (!line_follower.isAlive()) {
-			   				line_follower.start();
+			   		stopRandom();
+			   		if (line_follower == null) {
+			   			line_follower = new LineFollowingThread(robot);
+			   			synchronized (line_follower) {
+			   				if (!line_follower.isAlive()) {
+			   					line_follower.start();
+			   				}
 			   			}
+			   		}
+			   	} else if (act.getFunctor().equals("random")) {
+			   		stopLineFollowing();
+			   		if (random == null) {
+			   			random = new RandomMotionThread(robot);
+				   		synchronized (random) {
+				   			if (!random.isAlive()) {
+				   				random.start();
+				   			}
+				   		}
 			   		}
 			   	} else if (act.getFunctor().equals("scare")) {
 			   		robot.scare();
-			   	} 
+			   	} else if (act.getFunctor().equals("stop_line")) {
+			   		stopLineFollowing();
+			   	} else if (act.getFunctor().equals("stop_random")) {
+			   		stopRandom();
+			   	}
 			   	
 			   	// Goal setting and dropping
 			   	else if (act.getFunctor().equals("achieve_water")) {
@@ -194,6 +218,8 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   		} 
 			   	} else if (act.getFunctor().equals("drop_goal")) {
 			   		if (achieve_water) {
+			   			stopLineFollowing();
+			   			stopRandom();
 			   			removeSharedBelief(rname, watergoal);
 			   			achieve_water = false;
 			   		}
@@ -445,6 +471,21 @@ public class DinoEnvironment extends EASSEV3Environment {
 		}
 	}
 	
+	public void stopRandom() {
+		if (random != null) {
+			random.stopRandomBehaviour();
+			random = null;
+		}
+	}
+
+	
+	public void stopLineFollowing() {
+		if (line_follower != null) {
+			line_follower.stopFollowingBehaviour();
+			line_follower = null;
+		}
+	}
+	
 	/**
 	 * Close sockets on program exit.
 	 * @param rname
@@ -454,6 +495,76 @@ public class DinoEnvironment extends EASSEV3Environment {
 		synchronized(robot) {
 			robot.close();
 		}
+	}
+	
+	/**
+	 * A Thread allowing random-ish motion around the table.
+	 * @author lad
+	 *
+	 */
+	public class RandomMotionThread extends Thread {
+		boolean isrunning = false;
+		Dinor3x robot;
+		Random r = new Random();
+		
+		public RandomMotionThread(Dinor3x dino) {
+			robot = dino;
+		}
+		
+		public void run() {
+			isrunning = true;
+			boolean turning = false;
+			boolean moving = false;
+			boolean randomturn = false;
+			while (isrunning) {
+				synchronized (robot) {
+					if (DinoEnvironment.this.values.containsKey("distance")) {
+						Predicate distance = DinoEnvironment.this.values.get("distance");
+						double value = ((NumberTerm) distance.getTerm(0)).solve();
+						if (value < dthreshold) {
+							if (!turning) {
+								robot.right();
+								moving = false;
+								randomturn = false;
+								turning = true;
+							}
+						} else {
+							if (!moving && !randomturn) {
+								int angle = r.nextInt(180);
+								robot.turn(angle);
+								turning = false;
+								moving = false;
+								randomturn = true;
+							} else {
+								if (randomturn) {
+									robot.forward();
+									randomturn = false;
+									turning = false;
+									moving = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public boolean isRunning() {
+    		return isrunning;
+    	}
+    	
+    	/**
+    	 * Stop following the line.
+    	 */
+    	public void stopRandomBehaviour() {
+    		isrunning = false;
+    		try {
+    			wait(5);
+    		} catch (Exception e) {
+    			System.err.println(e.getMessage());
+    		}
+    		DinoEnvironment.this.addSharedBelief("dinor3x", new Literal("rstopped"));
+    	}
 	}
 	
 	/**
@@ -480,6 +591,7 @@ public class DinoEnvironment extends EASSEV3Environment {
     		boolean steering_left = false;
     		while (isrunning) {
     			synchronized(robot) {
+    			//	robot.getRGBSensor().addPercept(DinoEnvironment.this);
     				if (DinoEnvironment.this.values.containsKey("red")) {
     					Predicate light = DinoEnvironment.this.values.get("red");
     					double value = ((NumberTerm) light.getTerm(0)).solve();
@@ -509,7 +621,7 @@ public class DinoEnvironment extends EASSEV3Environment {
     	/**
     	 * Stop following the line.
     	 */
-    	public void stopFollowing() {
+    	public void stopFollowingBehaviour() {
     		isrunning = false;
     		try {
     			wait(5);
@@ -518,6 +630,7 @@ public class DinoEnvironment extends EASSEV3Environment {
     		}
     		DinoEnvironment.this.addSharedBelief("dinor3x", new Literal("lfstopped"));
     	}
+    	
 	}
 
 

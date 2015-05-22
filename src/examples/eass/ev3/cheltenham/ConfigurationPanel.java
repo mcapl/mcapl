@@ -56,7 +56,7 @@ public class ConfigurationPanel extends JPanel implements WindowListener, Proper
 	JFormattedTextField distancebox, waterubox, waterlbox, pathbox;
     protected double dthreshold=0.3;
     private boolean dtinit  = false;
-    protected double pthreshold=0.04;
+    protected double pthreshold=0.1;
     private boolean pinit  = false;
     protected double wuthreshold=0.15;
     protected double wlthreshold=0.1;

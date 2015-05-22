@@ -45,6 +45,7 @@ public class BigControlsPanel extends ControlsPanel {
 		lbutton.setFont(new Font("Sans Serif", Font.PLAIN, 20));
 		sbutton.setFont(new Font("Sans Serif", Font.PLAIN, 20));
 		lfbutton.setFont(new Font("Sans Serif", Font.PLAIN, 20));
+		flbutton.setFont(new Font("Sans Serif", Font.PLAIN, 20));
 		Insets buttonpadding = new Insets(20, 10, 20, 10);
 		fbutton.setMargin(buttonpadding);
 		rbutton.setMargin(buttonpadding);
@@ -52,6 +53,7 @@ public class BigControlsPanel extends ControlsPanel {
 		lbutton.setMargin(buttonpadding);
 		sbutton.setMargin(buttonpadding);
 		lfbutton.setMargin(buttonpadding);
+		flbutton.setMargin(buttonpadding);
 		
 	}
 

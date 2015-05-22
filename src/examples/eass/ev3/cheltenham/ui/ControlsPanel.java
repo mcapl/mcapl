@@ -40,7 +40,7 @@ import eass.ev3.cheltenham.DinoUI;
 public class ControlsPanel extends DinoPanel {
  	private static final long serialVersionUID = 1L;
  	
-	protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton, flbutton;
+	protected JButton fbutton, rbutton, lbutton, sbutton, bbutton, lfbutton, flbutton, rabutton;
 	
 	public ControlsPanel(String title, DinoUI ui) {
 		super(title, ui);
@@ -110,12 +110,20 @@ public class ControlsPanel extends DinoPanel {
 	    add(lfbutton, c);
 	    
 	    // Follow Line
-	  /*  flbutton = new JButton("Follow Line");
+	    flbutton = new JButton("Follow Line");
 	    flbutton.setActionCommand("follow_line");
 	    flbutton.addActionListener(ui);
 	    c.gridx = 6;
 	    c.gridy = 0;
-	    add(flbutton, c); */
+	    add(flbutton, c); 
+
+	    // Random
+	    /*rabutton = new JButton("Random");
+	    rabutton.setActionCommand("random");
+	    rabutton.addActionListener(ui);
+	    c.gridx = 6;
+	    c.gridy = 0;
+	    add(rabutton, c); */
 	}
 
 

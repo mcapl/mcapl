@@ -30,7 +30,7 @@ EASS
 distance_threshold(0.3)
 water_threshold_upper(0.15)
 water_threshold_lower(0.1)
-path_threshold(0.04)
+path_threshold(0.1)
 
 :Initial Goals:
 
@@ -156,9 +156,13 @@ have_belief(no_water) :- ~ have_belief(water);
 +lfstopped: {True} <-
 	   +stop_following_line,
 	   remove_shared(lfstopped);
-+random_stopped: {True} <-
++rstopped: {True} <-
 	   +stop_looking_for_path,
-	   remove_shared(random_stopped);
+	   remove_shared(rstopped);
++stop_following_line: {True} <-
+		stop_line;
++stop_looking_for_path: {True} <-
+        stop_random;
 
 /* Actual plans for finding water and paths */
 +! water [achieve] : {True} <-
