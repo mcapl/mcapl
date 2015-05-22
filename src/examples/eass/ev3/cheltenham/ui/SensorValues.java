@@ -46,7 +46,7 @@ public class SensorValues extends DinoPanel {
 	private static final long serialVersionUID = 1L;
 	
 	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
-	JTextArea textArea = new JTextArea(10, 20);
+	JTextArea textArea = new JTextArea(10, 30);
     JPanel output = new JPanel();
     protected TextAreaOutputStream values;
     public enum SensorType {
@@ -54,14 +54,17 @@ public class SensorValues extends DinoPanel {
     }
     SensorType type = SensorType.ULTRASONIC;
     
-	public SensorValues(String title, DinoUI ui, String textAreaTitle) {
+	public SensorValues(String title, DinoUI ui, String textAreaTitle, boolean longpanes) {
 		super(title, ui);
+		if (longpanes) {
+			textArea = new JTextArea(17, 30);
+		}
 		vtext = new JLabel(textAreaTitle);
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         add(vtext, c);
-        values = new TextAreaOutputStream(textArea, textAreaTitle);
+        values = new TextAreaOutputStream(textArea);
         JScrollPane scrollpane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollpane.setBackground(Color.WHITE);
         output.add(scrollpane);
@@ -121,12 +124,10 @@ public class SensorValues extends DinoPanel {
 
     	   private final JTextArea textArea;
     	   private final StringBuilder sb = new StringBuilder();
-    	   private String title;
 
-    	   public TextAreaOutputStream(final JTextArea textArea, String title) {
+    	   public TextAreaOutputStream(final JTextArea textArea) {
     	      this.textArea = textArea;
-    	      this.title = title;
-    	      textArea.setBackground(Color.WHITE);
+     	      textArea.setBackground(Color.WHITE);
     	      sb.append("> ");
     	   }
 

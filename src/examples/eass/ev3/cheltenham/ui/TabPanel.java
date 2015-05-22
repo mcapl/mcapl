@@ -52,6 +52,7 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		BeliefPanel bPanel;
 		GoalsPanel gPanel;
 		InstructionsPanel iPanel;
+		TabMain mainPanel;
 		
 		int index;
     	JLabel twitter = new JLabel("If you've enjoyed this activity why not tweet us your thoughts and photos: @legorovers #legodinos");
@@ -64,6 +65,7 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 		public TabPanel(DinoUI ui, int tabindex) {
 			super(ui);
 			index = tabindex;
+			createTabMain(ui);
 			
 			try {
 				 cast_logo = ImageIO.read(new File("./src/examples/eass/ev3/cheltenham/resources/cast.png"));
@@ -75,8 +77,12 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
 			JLabel stfc_logo_l = new JLabel(new ImageIcon(stfc_logo));
 			
 			c.gridx = 0;
-			c.gridy = 8;
-			c.gridwidth = 2;
+			c.gridy = 0;
+			c.gridwidth = 3;
+			add(mainPanel.getPanel(), c);
+			
+			c.gridx = 0;
+			c.gridy = 2;
 			c.gridheight = 1;
 			c.fill = GridBagConstraints.NONE;
 			c.insets = new Insets(10, 0, 20, 0);
@@ -243,5 +249,10 @@ public abstract class TabPanel extends DinoPanel implements ChangeListener {
     	 * @param i
     	 */
     	public abstract void enablePanels(int i);
+    	
+    	/**
+    	 * Create the main panel for this tab.
+    	 */
+    	public abstract void createTabMain(DinoUI ui);
 
 }

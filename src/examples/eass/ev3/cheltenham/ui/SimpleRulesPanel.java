@@ -23,8 +23,13 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 import eass.ev3.cheltenham.DinoUI;
 
@@ -43,55 +48,59 @@ public class SimpleRulesPanel extends TabPanel {
 
 	public SimpleRulesPanel(DinoUI ui, int i) {
 		super(ui, i);
-		c.fill = GridBagConstraints.HORIZONTAL;
-    		    		    	
- 
-       	// A Panel for the Sensor Streams
-        // A Panel for the ultrasound sensor values
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 4;
-        SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, false));
-        add(ultra, c);
-        ultra.setEnabled(false);
-        setSensorPanel(ultra);
-
-        // A JPanel for Controls
-    	ControlsPanel controls = new ControlsPanel("Controls", ui);
-    	c.gridx = 1;
-    	c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-    	add(controls, c);
-        
-        // A JPanel for Beliefs
-        BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
-     	c.gridy = 1;
-    	add(beliefpanel, c);
-    	beliefpanel.setEnabled(false);
-    	setBeliefPanel(beliefpanel);
-    	
-        // A JPanel for Rules
-        rulespanel = new ContextFreeRulesPanel("Rules", ui);
-    	c.gridy = 2;
-     	add(rulespanel, c);
-    	rulespanel.setEnabled(false);
-        
-        // The Instructions Panel
-        ArrayList<String> ins = new ArrayList<String>();
-        ins.add(InstructionsPanel.controls_ins);
-        ins.add(InstructionsPanel.sensor_ins);
-        ins.add(InstructionsPanel.beliefs_ins);
-        ins.add(InstructionsPanel.rules_ins);
-        InstructionsPanel instructions = new InstructionsPanel(4, this, "Instructions", ins);
-        c.gridx = 1;
-        c.gridy = 3;
-        c.gridwidth = 1;
-		c.fill = GridBagConstraints.BOTH;
-	    setInstructionsPanel(instructions);
-	    add(instructions, c);
-        ui.addChangeListener(this);
+		ui.addChangeListener(this);
+	}
+	
+	public class SimpleRulesTab extends TabMain {
+		public SimpleRulesTab(DinoUI ui, SimpleRulesPanel srp) {
+			super(srp);
+	 
+	       	// A Panel for the Sensor Streams
+	        // A Panel for the ultrasound sensor values
+	        SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, false, false));
+	        add(ultra);
+	        ultra.setEnabled(false);
+	        setSensorPanel(ultra);
+	
+	        JPanel left = new JPanel();
+	        left.setBackground(Color.WHITE);
+	        left.setLayout(new GridBagLayout());
+	        // A JPanel for Controls
+	    	ControlsPanel controls = new ControlsPanel("Controls", ui);
+	    	c.fill = GridBagConstraints.HORIZONTAL;
+	    	c.gridx = 0;
+	    	c.gridy = 0;
+	    	left.add(controls, c);
+	        
+	        // A JPanel for Beliefs
+	    	c.gridy++;
+	        BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
+	    	left.add(beliefpanel, c);
+	    	beliefpanel.setEnabled(false);
+	    	setBeliefPanel(beliefpanel);
+	    	
+	        // A JPanel for Rules
+	    	c.gridy++;
+	        rulespanel = new ContextFreeRulesPanel("Rules", ui);
+	     	left.add(rulespanel, c);
+	    	rulespanel.setEnabled(false);
+	        
+	        // The Instructions Panel
+	    	c.gridy++;
+	    	c.anchor = GridBagConstraints.PAGE_END;
+	    	c.weighty = 1.0;
+			c.fill = GridBagConstraints.BOTH;
+	        ArrayList<String> ins = new ArrayList<String>();
+	        ins.add(InstructionsPanel.controls_ins);
+	        ins.add(InstructionsPanel.sensor_ins);
+	        ins.add(InstructionsPanel.beliefs_ins);
+	        ins.add(InstructionsPanel.rules_ins);
+	        InstructionsPanel instructions = new InstructionsPanel(4, srp, "Instructions", ins);
+		    setInstructionsPanel(instructions);
+		    left.add(instructions, c);
+		    
+		    add(left);
+		}
 	}
 	
 	/*
@@ -137,6 +146,16 @@ public class SimpleRulesPanel extends TabPanel {
 	}
 			
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see eass.ev3.cheltenham.ui.TabPanel#createTabMain(eass.ev3.cheltenham.DinoUI)
+	 */
+	@Override
+	public void createTabMain(DinoUI ui) {
+			mainPanel = new SimpleRulesTab(ui, this);
+			mainPanel.getPanel().setLayout(new GridLayout(1, 2));
 	}
 
 }

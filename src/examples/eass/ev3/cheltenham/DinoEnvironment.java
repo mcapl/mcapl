@@ -34,7 +34,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.VarTerm;
 import eass.mas.ev3.EASSEV3Environment;
 import eass.mas.ev3.LegoRobot;
-import lejos.robotics.RegulatedMotor;
 
 import java.io.PrintStream;
 import java.util.Set;

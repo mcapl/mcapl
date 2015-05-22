@@ -38,7 +38,7 @@ public class SensorPanel extends DinoPanel {
     SensorValues red;
     
     // The configuration specifying which sensor outputs to show.
-    SensorConfiguration config = new SensorConfiguration(true, true, true);
+    SensorConfiguration config = new SensorConfiguration(true, true, true, false);
     
     
 	public SensorPanel(String title, DinoUI ui, SensorConfiguration config) {
@@ -50,19 +50,19 @@ public class SensorPanel extends DinoPanel {
 		c.gridwidth = 1;
 		
 		if (config.showUltra()) {
-			ultrasonic = new SensorValues("Ultrasonic Sensor", ui, "Ultrasonic Sensor Values");
+			ultrasonic = new SensorValues("Ultrasonic Sensor", ui, "Ultrasonic Sensor Values", config.getLong());
 			add(ultrasonic, c);
 			c.gridy++;
 		}
 
 		if (config.showBlue()) {
-			blue = new SensorValues("Blue Light", ui, "Blue Light Values");
+			blue = new SensorValues("Blue Light", ui, "Blue Light Values", config.getLong());
 			add(blue, c);
 			c.gridy++;
 		}
 		
 		if (config.showRed()) {
-			red = new SensorValues("Red Light", ui, "Red Light Values");
+			red = new SensorValues("Red Light", ui, "Red Light Values", config.getLong());
 			add(red, c);
 		}
 	}
@@ -114,11 +114,13 @@ public class SensorPanel extends DinoPanel {
 		boolean ultrasonic = false;
 		boolean blue = false;
 		boolean red = false;
+		boolean longpanels = false;
 		
-		public SensorConfiguration(boolean u, boolean b, boolean r) {
+		public SensorConfiguration(boolean u, boolean b, boolean r, boolean longpanels) {
 			ultrasonic = u;
 			blue = b;
 			red = r;
+			this.longpanels = longpanels;
 		}
 		
 		public boolean showUltra() {
@@ -131,6 +133,10 @@ public class SensorPanel extends DinoPanel {
 		
 		public boolean showRed() {
 			return red;
+		}
+		
+		public boolean getLong() {
+			return longpanels;
 		}
 	}
 	

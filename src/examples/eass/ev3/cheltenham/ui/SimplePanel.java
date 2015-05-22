@@ -25,6 +25,7 @@ package eass.ev3.cheltenham.ui;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -41,28 +42,34 @@ public class SimplePanel extends TabPanel {
 
 	public SimplePanel(DinoUI ui, int i) {
 		super(ui, i);
-    	c.fill = GridBagConstraints.HORIZONTAL;
-
-    	// A JPanel for Controls
-    	ControlsPanel controls = new BigControlsPanel("Controls", ui);
-    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
-    	c.gridx = 0;
-    	c.gridy = 1;
-        c.gridwidth = 2;
-    	add(controls, c);
-		
-        // The Instructions Panel
-    	ArrayList<String> instructions = new ArrayList<String>();
-    	instructions.add(InstructionsPanel.controls_ins);
-    	
-        InstructionsPanel ins = new InstructionsPanel(1, this, "Instructions", instructions);
-        ins.setDinoFont(new Font("Sans Serif", Font.PLAIN, 20));
-	    setInstructionsPanel(ins);
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-    	c.fill = GridBagConstraints.BOTH;
-        add(ins, c);
+	}
+	
+	public static class SimpleTab extends TabMain {
+		public SimpleTab(DinoUI ui, SimplePanel sp) {
+			super(sp);
+	    	c.fill = GridBagConstraints.HORIZONTAL;
+	
+	    	// A JPanel for Controls
+	    	ControlsPanel controls = new BigControlsPanel("Controls", ui);
+	    	controls.setBorder(BorderFactory.createTitledBorder(loweredetched, "Controls"));
+	    	c.gridx = 0;
+	    	c.gridy = 1;
+	        c.gridwidth = 2;
+	    	add(controls, c);
+			
+	        // The Instructions Panel
+	    	ArrayList<String> instructions = new ArrayList<String>();
+	    	instructions.add(InstructionsPanel.controls_ins);
+	    	
+	        InstructionsPanel ins = new InstructionsPanel(1, sp, "Instructions", instructions);
+	        ins.setDinoFont(new Font("Sans Serif", Font.PLAIN, 20));
+		    setInstructionsPanel(ins);
+	        c.gridx = 0;
+	        c.gridy = 2;
+	        c.gridwidth = 2;
+	    	c.fill = GridBagConstraints.BOTH;
+	        add(ins, c);
+			}
 
 	}
 	
@@ -71,6 +78,17 @@ public class SimplePanel extends TabPanel {
 	 * @see eass.ev3.cheltenham.ui.TabPanel#enablePanels(int)
 	 */
 	@Override
-	public void enablePanels(int step) {};
+	public void enablePanels(int step) {}
+
+	/*
+	 * (non-Javadoc)
+	 * @see eass.ev3.cheltenham.ui.TabPanel#createTabMain(eass.ev3.cheltenham.DinoUI)
+	 */
+	@Override
+	public void createTabMain(DinoUI ui) {
+		mainPanel = new SimpleTab(ui, this);
+		mainPanel.getPanel().setLayout(new GridLayout(2, 1));
+		ui.addChangeListener(this);
+	};
 
 }

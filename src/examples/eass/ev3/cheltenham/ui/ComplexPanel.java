@@ -24,7 +24,11 @@
 package eass.ev3.cheltenham.ui;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 import eass.ev3.cheltenham.DinoUI;
 
@@ -40,81 +44,94 @@ public class ComplexPanel extends TabPanel {
 	private static final long serialVersionUID = 1L;
 	RulesPanel rulespanel;
 	SetGoalPanel goals;
-
+	
 	public ComplexPanel(DinoUI ui, int i) {
 		super(ui, i);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		    		    	
-		// A Panel for the Sensor Streams
-	    // A Panel for the ultrasound sensor values
-	    c.gridx = 0;
-	    c.gridy = 0;
-	    c.gridheight = 6;
-	    c.gridwidth = 1;
-	    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, true));
-	    setSensorPanel(ultra);
-	    add(ultra, c);
-	    ultra.setEnabled(false);
-
-	    // A JPanel for Controls
-		ControlsPanel controls = new ControlsPanel("Controls", ui);
-		c.gridx = 1;
-		c.gridy = 0;
-	    c.gridheight = 1;
-		add(controls, c);
-	    
-	    // A JPanel for Beliefs
-		c.gridx = 1;
-		c.gridy = 1;
-	    c.gridwidth = 1;
-        BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
-		add(beliefpanel, c);
-		beliefpanel.setEnabled(false);
-		setBeliefPanel(beliefpanel);
-		
-		// A JPanel for Goals
-		c.gridx = 1;
-		c.gridy = 2;
-	    c.gridwidth = 1;
-	    GoalsPanel goalpanel = new GoalsPanel("Goals", ui);
-		add(goalpanel, c);
-		goalpanel.setEnabled(false);
-		setGoalPanel(goalpanel);
-		
+	}
 	
-	    // A JPanel for Rules
-		c.gridx = 1;
-		c.gridy = 3;
-	    rulespanel = new RulesPanel("Rules", ui);
-		add(rulespanel, c);
-		rulespanel.setEnabled(false);
-		
-		// A Panel for Goals
-		c.gridx = 1;
-		c.gridy = 4;
-		goals = new SetGoalPanel("Set Goals", ui);
-		add(goals, c);
-		goals.setEnabled(false);
-	
-	    
-	    // The Instructions Panel
-	    ArrayList<String> ins = new ArrayList<String>();
-        ins.add(InstructionsPanel.controls_ins);
-        ins.add(InstructionsPanel.both_sensor_ins);
-        ins.add(InstructionsPanel.both_beliefs_ins);
-        ins.add(InstructionsPanel.rules_ins);
-        ins.add(InstructionsPanel.context_ins);
-        ins.add(InstructionsPanel.goals_ins);
-        ins.add(InstructionsPanel.everything_ins);
-	    InstructionsPanel instructions = new InstructionsPanel(7, this, "Instructions", ins);
-	    setInstructionsPanel(instructions);
-	    c.gridx = 1;
-	    c.gridy = 5;
-	    c.gridwidth = 1;
-		c.fill = GridBagConstraints.BOTH;
-	    add(instructions, c);
+	/*
+	 * (non-Javadoc)
+	 * @see eass.ev3.cheltenham.ui.TabPanel#createTabMain(eass.ev3.cheltenham.DinoUI)
+	 */
+	@Override
+	public void createTabMain(DinoUI ui) {
+		mainPanel = new ComplexTabMain(ui, this);
+		mainPanel.getPanel().setLayout(new GridLayout(1, 5));
 	    
 	    ui.addChangeListener(this);
+	}
+
+	/**
+	 * Create the main panel
+	 * @author louiseadennis
+	 *
+	 */
+	public static class ComplexTabMain extends TabMain {
+		public ComplexTabMain(DinoUI ui, ComplexPanel tb) {
+			super(tb);
+			    		    	
+			// A Panel for the Sensor Streams
+		    // A Panel for the ultrasound sensor values
+		    SensorPanel ultra = new SensorPanel("Sensors", ui, new SensorPanel.SensorConfiguration(true, true, true, false));
+		    setSensorPanel(ultra);
+		    add(ultra, c);
+		    ultra.setEnabled(false);
+	
+		    JPanel right = new JPanel();
+		    right.setLayout(new GridBagLayout());
+		    // A JPanel for Controls
+			ControlsPanel controls = new ControlsPanel("Controls", ui);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = 0;
+			right.add(controls, c);
+		    
+		    // A JPanel for Beliefs
+			c.gridy = 1;
+	        BeliefPanel beliefpanel = new BeliefPanel("Beliefs", ui);
+			right.add(beliefpanel, c);
+			beliefpanel.setEnabled(false);
+			setBeliefPanel(beliefpanel);
+			
+			// A JPanel for Goals
+			c.gridy = 2;
+		    GoalsPanel goalpanel = new GoalsPanel("Goals", ui);
+			right.add(goalpanel, c);
+			goalpanel.setEnabled(false);
+			setGoalPanel(goalpanel);
+			
+		
+		    // A JPanel for Rules
+			c.gridy = 3;
+		    tb.rulespanel = new RulesPanel("Rules", ui);
+			right.add(tb.rulespanel, c);
+			tb.rulespanel.setEnabled(false);
+			
+			// A Panel for Goals
+			c.gridy = 4;
+			tb.goals = new SetGoalPanel("Set Goals", ui);
+			right.add(tb.goals, c);
+			tb.goals.setEnabled(false);
+		
+		    
+		    // The Instructions Panel
+		    ArrayList<String> ins = new ArrayList<String>();
+	        ins.add(InstructionsPanel.controls_ins);
+	        ins.add(InstructionsPanel.both_sensor_ins);
+	        ins.add(InstructionsPanel.both_beliefs_ins);
+	        ins.add(InstructionsPanel.rules_ins);
+	        ins.add(InstructionsPanel.context_ins);
+	        ins.add(InstructionsPanel.goals_ins);
+	        ins.add(InstructionsPanel.everything_ins);
+		    InstructionsPanel instructions = new InstructionsPanel(7, tb, "Instructions", ins);
+		    setInstructionsPanel(instructions);
+		    c.gridy = 5;
+			c.fill = GridBagConstraints.BOTH;
+			c.weighty = 1.0;
+		    right.add(instructions, c);
+		    
+		    add(right);
+		}
 	}
 	
 	/*

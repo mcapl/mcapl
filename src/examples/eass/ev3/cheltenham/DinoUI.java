@@ -26,6 +26,7 @@ package eass.ev3.cheltenham;
 import javax.swing.*;   
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
@@ -189,6 +190,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	        envThread.start();
 	        frame.addWindowListener(this);
 	        frame.setContentPane(this);
+	        this.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 	    	frame.setJMenuBar(menuBar);
 	    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	frame.setSize(100, 100);

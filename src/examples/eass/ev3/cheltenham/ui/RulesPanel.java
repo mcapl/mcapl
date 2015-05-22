@@ -26,7 +26,6 @@ package eass.ev3.cheltenham.ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
