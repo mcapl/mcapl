@@ -7,7 +7,8 @@
 
 platoon_m(X, Y):- steering_contr, platoon_m;
 leave_platoon:- ~steering_contr, no_platoon_m;
-lane_0:- ~lane_1;
+steering_cont(1):- steering_contr;
+steering_cont(0):- ~ steering_contr;
 
 :Initial Goals:
 
@@ -41,17 +42,19 @@ lane_0:- ~lane_1;
 										.send(leader, :tell, message(SENDER, 1, FRONT)), *join_agreement(SENDER, FRONT);
 						
 
-+!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement(SENDER, FRONT), B name(SENDER), B id(Y), ~B lane_1} <- perf(join_ok(1)), print(perform_change_lane), *lane_1;
++!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement(SENDER, FRONT), B name(SENDER), B id(Y), ~B changed_lane} <- perf(join_ok(1)), print(perform_change_lane), *changed_lane;
 
-+!platoon_m(SENDER, FRONT) [achieve]: {B lane_1, ~B initial_distance} <- perf(speed_controller(1)), +sp_contr, *initial_distance;
++!platoon_m(SENDER, FRONT) [achieve]: {B changed_lane, ~B initial_distance} <- perf(speed_controller(1)), +sp_contr, *initial_distance;
 
-+!platoon_m(SENDER, FRONT) [achieve]: {B lane_1, B initial_distance, ~B steering_contr, ~B sp_contr } <- perf(speed_controller(1)), perf(steering_controller(1)), +steering_contr;
++!platoon_m(SENDER, FRONT) [achieve]: {B changed_lane, B initial_distance, ~B steering_contr, ~B sp_contr } <- perf(speed_controller(1)), perf(steering_controller(1)), +steering_contr;
 
 +!platoon_m(SENDER, FRONT) [achieve]: {B sp_contr, B initial_distance} <- perf(steering_controller(1)), -sp_contr, +steering_contr;
 
 +!platoon_m(SENDER, FRONT) [achieve]: {B steering_contr}<- .send(leader, :tell, message(SENDER, 2)), *platoon_m;		
 
-+!steering_contr(X) [perform]: {B spacing}<-  perf(steering_controller(0)), -steering_contr;
++!steering_contr(X) [perform]: {B steering_contr, X==0}<-  perf(steering_controller(X)), -steering_contr;
+
++!steering_contr(X) [perform]: {~B steering_contr, X==1}<-  perf(steering_controller(X)), +steering_contr;
 
 +!set_spacing(X) [achieve]: {~B spacing(X)} <- perf(set_spacing(X)), *spacing;
 
@@ -61,10 +64,10 @@ lane_0:- ~lane_1;
 //SHOULD COMPLETE LEAVE PLATOON GOAL
 +!leave_platoon [achieve]: {~G platoon_m(X, Y) [achieve], B name(X), ~B agreement(X)} <- .send(leader, :tell, message(X, 0)), *agreement(X);
 
-+!leave_platoon [achieve]: {B name(X), B agreement(X), ~B spacing(10)} <- +!set_spacing(10) [achieve];
+//+!leave_platoon [achieve]: {B name(X), B agreement(X), ~B spacing(15)} <- +!set_spacing(15) [achieve];
 
-+!leave_platoon [achieve]: {B name(X), B agreement(X), B steering_contr, B spacing(10)} <- perf(speed_controller(0)), +!steering_contr(X) [perform]; 
++!leave_platoon [achieve]: {B name(X), B agreement(X), B steering_contr, B spacing} <- perf(speed_controller(0)), +!steering_contr(0) [perform]; 
 
-+!leave_platoon [achieve]: {B name(X), B agreement(X), ~B steering_contr} <- perf(join_ok(0)), print(change_lane_to_leave), *lane_0;
++!leave_platoon [achieve]: {B name(X), B agreement(X), ~B steering_contr, ~B changed_lane} <- perf(join_ok(0)), print(change_lane_to_leave), *changed_lane;
 
-+!leave_platoon [achieve]: {B lane_0, B name(X)}<- .send(leader, :tell, message(X, 2)), *no_platoon_m;
++!leave_platoon [achieve]: {B changed_lane, B name(X)}<- .send(leader, :tell, message(X, 2)), *no_platoon_m;

@@ -72,10 +72,10 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 
 		// in front of which vehicle follower3 wants to join to platoon, e.g., here follower2
 		Literal j_pos = new Literal("j_pos");
-/*		j_pos.addTerm(new Literal("followe1"));
-		j_pos.addTerm(new NumberTermImpl(1));   */
-		j_pos.addTerm(new Literal("follower2"));
-		j_pos.addTerm(new NumberTermImpl(2));
+		j_pos.addTerm(new Literal("follower1"));
+		j_pos.addTerm(new NumberTermImpl(1));   
+/*		j_pos.addTerm(new Literal("follower2"));
+		j_pos.addTerm(new NumberTermImpl(2));   */
 		// join from behind, j_pos == 0
 /*		j_pos.addTerm(new Literal("0"));
 		j_pos.addTerm(new NumberTermImpl(0)); */
@@ -83,8 +83,8 @@ public class PlatoonEnvironment extends DefaultEASSEnvironment{
 		
 		// according to j_pos value, leader add a percept about allowed_position
 		Literal allowed_p = new Literal("allowed_position");
-/*		allowed_p.addTerm(new Literal("follower1")); */
-		allowed_p.addTerm(new Literal("follower2"));
+		allowed_p.addTerm(new Literal("follower1")); 
+/*		allowed_p.addTerm(new Literal("follower2")); */
 		// join from behind, allowed_position is 0
 /*		allowed_p.addTerm(new NumberTermImpl(0)); */
 		addPercept("abstraction_leader", allowed_p);

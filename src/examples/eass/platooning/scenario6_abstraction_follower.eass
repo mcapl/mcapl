@@ -24,25 +24,23 @@ time_to_leave(150)
 
 +timeStamp(X): {B id(3), B time_to_join(Y), Y < X, ~B ready_to_join}<- assert_shared(ready_to_join); 
 
-+timeStamp(X): {B time_to_leave(Y), Y-10 < X, ~B reset_spacing, B spacing(K), B spacing}<- remove_shared(spacing(K)), remove_shared(spacing),
-																	print(remove_spacing_beliefs), print(K); 
++timeStamp(X): {B time_to_leave(Y), Y-10 < X, ~B reset_spacing, B spacing(K), B spacing}<- remove_shared(spacing(K)), remove_shared(spacing);
 
-+timeStamp(X): {B time_to_leave(Y), Y-10 < X, ~B reset_spacing, ~B spacing(K), ~B spacing}<- assert_shared(reset_spacing),
-																	print(remove_all_spacing_beliefs); 
++timeStamp(X): {B time_to_leave(Y), Y-10 < X, ~B reset_spacing, ~B spacing(K), ~B spacing}<- assert_shared(reset_spacing);																
 
 +timeStamp(X): {B id(3), B time_to_leave(Y), Y < X, ~B ready_to_leave}<-  remove_shared(spacing(K)), remove_shared(spacing), assert_shared(ready_to_leave); 
 
 +distance(X): {B spacing(Y), Y-1 < X, X < Y+1}<- assert_shared(spacing);
 
-+distance(X): {B lane_1, B ready_to_join, B initial_distance, B init_max_dist(Y), Y < X }<- remove_shared(initial_distance); // if vehicle's distance is less than maximum initial distance, we add "initial_distance" belief
++distance(X): {B changed_lane, B ready_to_join, B initial_distance, B init_max_dist(Y), Y < X }<- remove_shared(initial_distance); // if vehicle's distance is less than maximum initial distance, we add "initial_distance" belief
 
-+distance(X): {B lane_1, B ready_to_join, ~B initial_distance, B init_max_dist(Y), X < Y }<- assert_shared(initial_distance); // if vehicle's distance is greater than maximum initial distance, we remove "initial_distance" belief
++distance(X): {B changed_lane, B ready_to_join, ~B initial_distance, B init_max_dist(Y), X < Y }<- assert_shared(initial_distance); // if vehicle's distance is greater than maximum initial distance, we remove "initial_distance" belief
 
-+lateral(X): {B changing_lane, B id(3), X < 1} <- assert_shared(lane_1);  
++lateral(X): {B changing_lane, B id(3), X < 1} <- assert_shared(changed_lane);  
 
-+lateral(X): {B changing_lane, B id(3), 1 < X} <- remove_shared(lane_1);  
++lateral(X): {B changing_lane, B id(3), 1 < X} <- remove_shared(changed_lane);  
 
-+!join_ok(X) [perform]: {True}<- run(pred(join_ok),args(X)), print(run_join_ok), assert_shared(changing_lane);
++!join_ok(X) [perform]: {True}<- run(pred(join_ok),args(X)), assert_shared(changing_lane);
 
 +!speed_controller(X) [perform]: {True}<- run(pred(speed_controller),args(X)), print(speedControllerSwitched);
 
