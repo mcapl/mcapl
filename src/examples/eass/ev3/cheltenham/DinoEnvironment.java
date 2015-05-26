@@ -57,10 +57,10 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean do_growl = false;
 	boolean achieve_water = false;
 	
-	public double path_threshold = 0.1;
+	public double path_threshold = 0.03;
     public double dthreshold=0.4;
     public double wuthreshold=0.09;
-    public double wlthreshold=0.05;
+    public double wlthreshold=0.06;
 	
 	static Literal activer1 = new Literal("active");
 	static {activer1.addTerm(new Literal("rule1"));};
@@ -470,10 +470,10 @@ public class DinoEnvironment extends EASSEV3Environment {
 	 * @param rname
 	 * @param s
 	 */
-	public void setBluePrintStream(String rname, PrintStream s)  {
+	public void setGreenPrintStream(String rname, PrintStream s)  {
 		Dinor3x robot = (Dinor3x) getRobot(rname);
 		if (robot != null) {
-			robot.setBluePrintStream(s);
+			robot.setGreenPrintStream(s);
 		}
 	}
 	

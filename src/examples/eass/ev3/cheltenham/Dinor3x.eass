@@ -29,8 +29,8 @@ EASS
 
 distance_threshold(0.4)
 water_threshold_upper(0.09)
-water_threshold_lower(0.05)
-path_threshold(0.1)
+water_threshold_lower(0.06)
+path_threshold(0.03)
 
 :Initial Goals:
 
@@ -43,9 +43,11 @@ path_threshold(0.1)
 /* React to information from sensors */
 +distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
 +distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
-+blue(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V} <- assert_shared(water);
-+blue(L) : {B water, B water_threshold_lower(V), L < V} <- remove_shared(water);
-+blue(L) : {B water, B water_threshold_upper(V), V < L} <- remove_shared(water);
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, B really_maybe_water} <- assert_shared(water);
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, B maybe_water, ~B really_maybe_water} <- +really_maybe_water;
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, ~B maybe_water} <- +maybe_water;
++green(L) : {B water, B water_threshold_lower(V), L < V} <- -maybe_water, -really_maybe_water, remove_shared(water);
++green(L) : {B water, B water_threshold_upper(V), V < L} <- -maybe_water, -really_maybe_water, remove_shared(water);
 +red(L) : {~B path, B path_threshold(V), L < V} <- assert_shared(path);
 +red(L) : {B path, B path_threshold(V), V < L} <-
 	  remove_shared(path);

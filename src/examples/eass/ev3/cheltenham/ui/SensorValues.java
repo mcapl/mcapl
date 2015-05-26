@@ -50,7 +50,7 @@ public class SensorValues extends DinoPanel {
     JPanel output = new JPanel();
     protected TextAreaOutputStream values;
     public enum SensorType {
-    	ULTRASONIC, RED, BLUE
+    	ULTRASONIC, RED, GREEN
     }
     SensorType type = SensorType.ULTRASONIC;
     
@@ -78,7 +78,7 @@ public class SensorValues extends DinoPanel {
 		} else if (title.equals("Red Light")) {
 			type = SensorType.RED;
 		} else {
-			type = SensorType.BLUE;
+			type = SensorType.GREEN;
 		}
 
 		
@@ -109,7 +109,7 @@ public class SensorValues extends DinoPanel {
 			((DinoEnvironment) getDinoUI().getEnv()).setRedPrintStream(getDinoUI().getRName(), new PrintStream(values));
 			break;
 		default:
-			((DinoEnvironment) getDinoUI().getEnv()).setBluePrintStream(getDinoUI().getRName(), new PrintStream(values));
+			((DinoEnvironment) getDinoUI().getEnv()).setGreenPrintStream(getDinoUI().getRName(), new PrintStream(values));
 			break;
 
 		}

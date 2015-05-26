@@ -60,7 +60,7 @@ public class SensorPanel extends DinoPanel {
 		}
 
 		if (config.showBlue()) {
-			blue = new SensorValues("Blue Light", ui, "Blue Light Values", config.getLong());
+			blue = new SensorValues("Green Light", ui, "Green Light Values", config.getLong());
 			add(blue, c);
 			c.gridy++;
 		}

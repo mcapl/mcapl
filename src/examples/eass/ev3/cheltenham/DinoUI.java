@@ -102,7 +102,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	file.add(config);
 	    	
 	    	// We may want to hide some of the options from attendees - especially if they are proving confusing.
-	    	JMenuItem tabshow = new JMenuItem("Hide Goal Tabs");
+	    	JMenuItem tabshow = new JMenuItem("Show Goal Tab");
 	    	file.add(tabshow);
 	    	
 	    	JMenuItem wheeled_item = new JMenuItem("Robot has Wheels");
@@ -157,28 +157,28 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	        panels.add(ro);
 	        
 	        GoalsOnlyPanel go = new GoalsOnlyPanel(this, 3);
-	        addTab("Goals", go);
+	       // addTab("Goals", go);
 	        panels.add(go);
 	        
-	        ComplexPanel all = new ComplexPanel(this, 4);
+	        /* ComplexPanel all = new ComplexPanel(this, 4);
 	        addTab("Goals and Rules", all);
-	        panels.add(all);
+	        panels.add(all); */
 	        
 	        
 	    	tabshow.addActionListener(new ActionListener() {
-	    		boolean hidden = false;
+	    		boolean hidden = true;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (hidden) {
 						DinoUI.this.addTab("Goals", go);
-						DinoUI.this.addTab("Goals and Rules", all);
-						tabshow.setText("Hide Goal Tabs");
+					//	DinoUI.this.addTab("Goals and Rules", all);
+						tabshow.setText("Hide Goal Tab");
 						hidden = false;
 					} else {
 						DinoUI.this.remove(go);
-						DinoUI.this.remove(all);
-						tabshow.setText("Show Goal Tabs");
+					//	DinoUI.this.remove(all);
+						tabshow.setText("Show Goal Tab");
 						hidden = true;
 					}
 					

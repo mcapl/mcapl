@@ -161,10 +161,10 @@ public class Dinor3x extends BasicRobot {
 	 * Grab the blue light print stream from the RGB sensor.
 	 * @param s
 	 */
-	public void setBluePrintStream(PrintStream s) {
+	public void setGreenPrintStream(PrintStream s) {
 		EASSRGBColorSensor rgbSensor = (EASSRGBColorSensor) getSensor(color_port);
 		if (rgbSensor != null) {
-			rgbSensor.setBluePrintStream(s);
+			rgbSensor.setGreenPrintStream(s);
 		}
 	}
 	
