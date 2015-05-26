@@ -23,6 +23,8 @@
 //----------------------------------------------------------------------------
 package eass.ev3.cheltenham.ui;
 
+import java.awt.GridBagConstraints;
+
 import eass.ev3.cheltenham.DinoUI;
 
 /**
@@ -46,8 +48,10 @@ public class SensorPanel extends DinoPanel {
 		this.config = config;
 		
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		c.gridwidth = 1;
+		c.weighty = 1.0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		
 		if (config.showUltra()) {
 			ultrasonic = new SensorValues("Ultrasonic Sensor", ui, "Ultrasonic Sensor Values", config.getLong());

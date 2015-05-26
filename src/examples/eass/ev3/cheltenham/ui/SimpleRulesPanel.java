@@ -93,6 +93,7 @@ public class SimpleRulesPanel extends TabPanel {
 	    	c.gridy++;
 	    	c.anchor = GridBagConstraints.PAGE_END;
 	    	c.weighty = 1.0;
+	    	c.weightx = 1.0;
 			c.fill = GridBagConstraints.BOTH;
 	        ArrayList<String> ins = new ArrayList<String>();
 	        ins.add(InstructionsPanel.controls_ins);
@@ -104,7 +105,7 @@ public class SimpleRulesPanel extends TabPanel {
 		    left.add(instructions, c);
 		    
 		    gbc.gridx = 1;
-		    gbc.weightx = 0;
+		    gbc.weightx = 1.0;
 		    add(left, gbc);
 		}
 	}

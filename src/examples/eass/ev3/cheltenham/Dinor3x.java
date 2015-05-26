@@ -276,7 +276,7 @@ public class Dinor3x extends BasicRobot {
 		if (!wheeled) {
 			motorL.backward();
 		} else {
-			motorL.setSpeed(25);
+			motorL.setSpeed(35);
 			motorL.forward();
 		}
 		motorR.stop();
@@ -306,7 +306,7 @@ public class Dinor3x extends BasicRobot {
 		if (!wheeled) {
 			motorR.backward();
 		} else {
-			motorR.setSpeed(25);
+			motorR.setSpeed(35);
 			motorR.forward();
 		}
 		motorL.stop();

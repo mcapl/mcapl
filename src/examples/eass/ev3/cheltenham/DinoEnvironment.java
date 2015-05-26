@@ -58,9 +58,9 @@ public class DinoEnvironment extends EASSEV3Environment {
 	boolean achieve_water = false;
 	
 	public double path_threshold = 0.1;
-    public double dthreshold=0.3;
-    public double wuthreshold=0.15;
-    public double wlthreshold=0.1;
+    public double dthreshold=0.4;
+    public double wuthreshold=0.09;
+    public double wlthreshold=0.05;
 	
 	static Literal activer1 = new Literal("active");
 	static {activer1.addTerm(new Literal("rule1"));};
@@ -120,6 +120,12 @@ public class DinoEnvironment extends EASSEV3Environment {
 			addSharedBelief(agent, create_rule_action("rule2", "act1", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule2", "act2", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_action("rule2", "act3", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule3", "act1", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule3", "act2", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule3", "act3", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule4", "act1", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule4", "act2", new Predicate("do_nothing")));
+			addSharedBelief(agent, create_rule_action("rule4", "act3", new Predicate("do_nothing")));
 			addSharedBelief(agent, create_rule_context("rule1", new Predicate("anything")));
 			addSharedBelief(agent, create_rule_context("rule2", new Predicate("anything")));
 			addSharedBelief(agent, create_rule_context("rule3", new Predicate("anything")));
@@ -327,7 +333,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   		String abstraction_name = "abstraction_" + rname;
 			   		addPercept(abstraction_name, water_threshold);
 			   		wuthreshold = ((NumberTerm) act.getTerm(0)).solve();
-			   		wlthreshold = ((NumberTerm) act.getTerm(0)).solve();
+			   		wlthreshold = ((NumberTerm) act.getTerm(1)).solve();
 			   		ui.changeWaterThresholds(((NumberTerm) act.getTerm(0)).solve(), ((NumberTerm) act.getTerm(1)).solve());
 			   	} else if (act.getFunctor().equals("path_threshold")) {
 			   		Literal path = new Literal("change_path");
