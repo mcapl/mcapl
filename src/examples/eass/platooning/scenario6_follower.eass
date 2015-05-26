@@ -30,7 +30,7 @@ steering_cont(0):- ~ steering_contr;
 +ready_to_leave: {B name(follower3)}<- print(ready_to_leave), +!leave_platoon [achieve], print(follower3_drop_leaving_goal_or_successfully_left);
 
 
-//initialisation phase-- vehicle joins to platoon after 50 sec
+//===========initialisation phase-- vehicle joins to platoon after 50 sec
 +platoon_set_up: {True}<- perf(speed_controller(1)), perf(steering_controller(1));
 
 +ready_to_join: {B name(follower3), B name_front(FRONT)} <- print(ready_to_join), +!platoon_m(follower3, FRONT) [achieve], print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
@@ -61,7 +61,6 @@ steering_cont(0):- ~ steering_contr;
 +!set_spacing(X) [achieve]: {B spacing, B name(V)} <- .send(leader, :tell, set_spacing_from(V)), -!set_spacing(X) [achieve];
 
 // ============ leaving
-//SHOULD COMPLETE LEAVE PLATOON GOAL
 +!leave_platoon [achieve]: {~G platoon_m(X, Y) [achieve], B name(X), ~B agreement(X)} <- .send(leader, :tell, message(X, 0)), *agreement(X);
 
 //+!leave_platoon [achieve]: {B name(X), B agreement(X), ~B spacing(15)} <- +!set_spacing(15) [achieve];
