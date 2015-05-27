@@ -65,8 +65,16 @@ path_threshold(0.03)
     forward;
 +! do_nothing [perform] : {True} <-
     do_nothing;
-+! scare [perform] : {True} <-
++! snap_jaws [perform] : {True} <-
 	scare;
++! forward_a_bit [perform] : {True} <-
+   forward_a_bit;
++! backward_a_bit [perform] : {True} <-
+   backward_a_bit;
++! right_a_bit [perform] : {True} <-
+   right_a_bit;
++! left_a_bit [perform] : {True} <-
+   left_a_bit;
 
 /* React to request from user to change thresholds */
 +change_distance(D) : {B distance_threshold(D1)} <-

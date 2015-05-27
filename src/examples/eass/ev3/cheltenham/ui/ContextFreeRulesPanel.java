@@ -46,7 +46,7 @@ public class ContextFreeRulesPanel extends DinoPanel {
 	/*
 	 * The set of actions that the robot can perform.
 	 */
-	protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward", "scare"};
+	protected String[] actions = {"do_nothing", "stop", "forward", "forward_a_bit", "backward", "backward_a_bit", "right", "right_a_bit", "left", "left_a_bit", "snap_jaws"};
 
 	// Various interface components.
     JCheckBox r1button = new JCheckBox("If you"), r2button = new JCheckBox("If you");

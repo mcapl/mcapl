@@ -34,7 +34,6 @@ import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import eass.ev3.cheltenham.ui.ComplexPanel;
 import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
 import eass.ev3.cheltenham.ui.SimplePanel;
@@ -257,6 +256,9 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     */
 	    public void removeFromBeliefList(String p) {
 	    	beliefs.remove(p);
+	    	while (beliefs.contains(p)) {
+	    		beliefs.remove(p);
+	    	}
 	    	belieflist.setText(beliefs.toString());
 	    }
 

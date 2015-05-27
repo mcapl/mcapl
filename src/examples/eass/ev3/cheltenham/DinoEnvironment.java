@@ -172,7 +172,11 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   		stopLineFollowing();
 			   		stopRandom();
 			   		robot.forward();
-			   	} else if (act.getFunctor().equals("stop")) {
+			   	} else if (act.getFunctor().equals("forward_a_bit")) {
+			   		stopLineFollowing();
+			   		stopRandom();
+			   		robot.short_forward();
+			   	}else if (act.getFunctor().equals("stop")) {
 			   		stopLineFollowing();
 			   		stopRandom();
 			   		robot.stop();
@@ -180,14 +184,26 @@ public class DinoEnvironment extends EASSEV3Environment {
 			   		stopLineFollowing();
 			   		stopRandom();
 			   		robot.right();
+			   	} else if (act.getFunctor().equals("right_a_bit")) {
+			   		stopLineFollowing();
+			   		stopRandom();
+			   		robot.short_right();
 			   	} else if (act.getFunctor().equals("left")) {
 			   		stopLineFollowing();
 			   		stopRandom();
 			   		robot.left();
+			   	} else if (act.getFunctor().equals("left_a_bit")) {
+			   		stopLineFollowing();
+			   		stopRandom();
+			   		robot.short_left();
 			   	} else if (act.getFunctor().equals("backward")) {
 			   		stopLineFollowing();
 			   		stopRandom();
 			   		robot.backward();
+			   	} else if (act.getFunctor().equals("backward_a_bit")) {
+			   		stopLineFollowing();
+			   		stopRandom();
+			   		robot.short_backward();
 			   	} else if (act.getFunctor().equals("follow_line")) {
 			   		stopRandom();
 			   		if (line_follower == null) {

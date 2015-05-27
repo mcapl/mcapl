@@ -44,7 +44,7 @@ import eass.ev3.cheltenham.DinoUI;
 public class RulesPanel extends DinoPanel {
  	private static final long serialVersionUID = 1L;
  	// The actions the dinosaur can take.
-	protected String[] actions = {"do_nothing", "stop", "backward", "right", "left", "forward", "scare"};
+	protected String[] actions = {"do_nothing", "stop", "forward", "forward_a_bit", "backward", "backward_a_bit", "right", "right_a_bit", "left", "left_a_bit", "snap_jaws"};
 	
 	// Beliefs that may be used as additional context for a rule.
     protected String[] choices = {"anything", "there is water", "there is no water"};

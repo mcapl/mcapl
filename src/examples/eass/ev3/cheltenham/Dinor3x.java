@@ -30,7 +30,6 @@ import lejos.remote.ev3.RemoteRequestPilot;
 import lejos.remote.ev3.RemoteRequestRegulatedMotor;
 import lejos.remote.ev3.RemoteRequestSampleProvider;
 import lejos.robotics.RegulatedMotor;
-import lejos.robotics.navigation.ArcMoveController;
 import eass.mas.ev3.BasicRobot;
 import eass.mas.ev3.EASSRGBColorSensor;
 import eass.mas.ev3.EASSSensor;
@@ -229,6 +228,22 @@ public class Dinor3x extends BasicRobot {
 		}
 	}
 	
+	/**
+	 * Move forward a short distance.
+	 */
+	public void short_forward() {
+		if (!wheeled & !straight) {
+			calibrate();
+			straight = true;
+		}
+		if (! wheeled) {
+			pilot.travel(-10);
+		} else {
+			pilot.setTravelSpeed(10);
+			pilot.travel(10);
+		}
+	}
+	
 		
 	/**
 	 * Move backward
@@ -246,6 +261,22 @@ public class Dinor3x extends BasicRobot {
 		}
 	}
 		
+	/**
+	 * Move backward a short distance.
+	 */
+	public void short_backward() {
+		if (!wheeled & !straight) {
+			calibrate();
+			straight = true;
+		}
+		if (! wheeled) {
+			pilot.travel(10);
+		} else {
+			pilot.setTravelSpeed(10);
+			pilot.travel(-10);
+		}
+	}
+
 	/**
 	 * Stop.
 	 */
@@ -265,6 +296,18 @@ public class Dinor3x extends BasicRobot {
 			motorL.setSpeed(40);
 			motorR.backward();
 			motorL.forward();
+		}
+		straight = false;
+	}
+	
+	/**
+	 * Turn left through an angle (approx 90 on the wheeled robots).
+	 */
+	public void short_left() {
+		if (!wheeled) {
+			pilot.rotate(90);
+		} else {
+			pilot.rotate(-90);
 		}
 		straight = false;
 	}
@@ -298,6 +341,19 @@ public class Dinor3x extends BasicRobot {
 		}
 		straight = false;
 	}
+	
+	/**
+	 * Turn a short distance right (approx 90 on a wheeled robot)
+	 */
+	public void short_right() {
+		if (!wheeled) {
+			pilot.rotate(-90);
+		} else {
+			pilot.rotate(90);
+		}
+		straight = false;
+	}
+
 		
 	/**
 	 * Turn right around stopped left whell.
