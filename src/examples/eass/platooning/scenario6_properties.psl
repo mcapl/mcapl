@@ -1,0 +1,27 @@
+1: []( D(follower3, perf(join_ok(1)))
+		 -> 
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)))
+	)
+
+2:	([]~B (follower3, join_agreement(follower3, follower1))) -> 
+		[](~D(follower3, perf(join_ok(1))))
+
+3: [] (
+		G(follower3, platoon_m(follower3, follower1)) -> 
+		<> B(follower3, join_agreement(follower3, follower1))
+	)
+
+4: [] (
+		B(follower3, join_agreement(follower3, follower1)) -> 
+		<> B(follower3, change_signal)
+	)
+
+5: [] (
+		D(follower3, perf(join_ok(1))) ->
+		(<> D(follower3, perf(speed_controller(1))) || []~ B(follower3, changed_lane))
+	)
+
+6: [] (
+		D(follower3, perf(join_ok(1))) ->
+		<> D(follower3, perf(speed_controller(1)))
+	)	

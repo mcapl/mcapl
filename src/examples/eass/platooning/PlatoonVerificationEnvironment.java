@@ -23,6 +23,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	 */
 	public Set<Predicate> generate_sharedbeliefs() {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
+
 		Predicate id = new Predicate("id");
 		id.addTerm(new NumberTermImpl(3));
 		percepts.add(id);
@@ -33,51 +34,41 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		percepts.add(name);
 		AJPFLogger.info(logname, "vehicle_name");
 
+		Predicate name_front = new Predicate("name_front");
+		name_front.addTerm(new Literal("follower1"));
+		percepts.add(name_front);
+		AJPFLogger.info(logname, "name_front_follower1");
 		
-		percepts.add(new Predicate("preceding_vehicle_platoon_member"));
-//		percepts.add(new Predicate("no_platoon_member"));
-		
-		boolean assert_no_platoon_member = random_generator.nextBoolean();
-		if (assert_no_platoon_member) {
-			percepts.add(new Predicate("no_platoon_member"));
-			AJPFLogger.info(logname, "no_platoon_member");
-		} else {
-			AJPFLogger.info(logname, "Not no_platoon_member");
-		}
-		
+		percepts.add(new Predicate("ready_to_join"));
+		AJPFLogger.info(logname, "ready_to_join");
 
-		boolean assert_initial_speed = random_generator.nextBoolean();
-		if (assert_initial_speed) {
-			percepts.add(new Predicate("initial_speed"));
-			AJPFLogger.info(logname, "Asserting initial_speed");
-		} else {
-			AJPFLogger.info(logname, "Not initial_speed");
+		
+		boolean assert_change_lane = random_generator.nextBoolean();
+		if(assert_change_lane){
+			percepts.add(new Literal("changed_lane"));
+			AJPFLogger.info(logname, "assert_changed_lane");
+		}else{
+			AJPFLogger.info(logname, "No assert_changed_lane");
 		}
-		
-		boolean assert_initial_distance = random_generator.nextBoolean();
-		if (assert_initial_distance) {
-			percepts.add(new Predicate("initial_distance"));
-			AJPFLogger.info(logname, "Asserting initial_distance");
-		} else {
-			AJPFLogger.info(logname, "Not initial_distance");
+
+		boolean assert_init_dis = random_generator.nextBoolean();
+		if(assert_init_dis){
+			percepts.add(new Literal("initial_distance"));
+			AJPFLogger.info(logname, "assert_initial_distance");
+		}else{
+			AJPFLogger.info(logname, "No assert_initial_distance");
 		}
+
+		boolean assert_spacing = random_generator.nextBoolean();
+		if(assert_spacing){
+			percepts.add(new Literal("spacing"));
+			AJPFLogger.info(logname, "assert_spacing");
+		}else{
+			AJPFLogger.info(logname, "No assert_spacing");
+		}
+
 		
-//		boolean assert_leave_distance = random_generator.nextBoolean();
-//		if (assert_leave_distance) {
-//			percepts.add(new Predicate("leave_distance"));
-//			AJPFLogger.info(logname, "Asserting leave_distance");
-//		} else {
-//			AJPFLogger.info(logname, "Not leave_distance");
-//		}
 		
-//		boolean assert_ready_to_leave = random_generator.nextBoolean();
-//		if (assert_ready_to_leave) {
-//			percepts.add(new Predicate("ready_to_leave"));
-//			AJPFLogger.info(logname, "Asserting ready_to_leave");
-//		} else {
-//			AJPFLogger.info(logname, "Not ready_to_leave");
-//		}
-				
 		return percepts;
 	}
 	
@@ -88,13 +79,22 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	public Set<Message> generate_messages() {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		
-		boolean assert_join_agreement = random_generator.nextBoolean();
-		if (assert_join_agreement) {
+//		boolean assert_join_agreement = random_generator.nextBoolean();
+//		if (assert_join_agreement) {
 			Predicate join_agreement = new Predicate("join_agreement");
 			join_agreement.addTerm(new Literal("follower3"));
 			join_agreement.addTerm(new Literal("follower1"));
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", join_agreement));
 			assert_join= false;
+			AJPFLogger.info(logname, "assert_join_agreement");
+//		} else {
+//			AJPFLogger.info(logname, "Not assert_join_agreement");
+//		}
+
+		
+		boolean assert_platoon_m = random_generator.nextBoolean();
+		if (assert_platoon_m) {
+			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("platoon_m")));
 			AJPFLogger.info(logname, "assert_join_agreement");
 		} else {
 			AJPFLogger.info(logname, "Not assert_join_agreement");

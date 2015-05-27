@@ -96,7 +96,7 @@ no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X);
 
 
 +!platoon_m(X, Y) [achieve]: {B steering_contr_disabled(Y), ~B no_platoon_m(X), B platoon_m(X, SENDER), ~B message(SENDER, 2)}<-
-						.send(SENDER, :tell, agreement(SENDER)), *message(SENDER, 2);
+						.send(SENDER, :tell, leave_agreement(SENDER)), *message(SENDER, 2);
 
 +!platoon_m(X, Y) [achieve]: {B platoon_m(X, SENDER), B message(SENDER, REQ), B req(2), 2== REQ, B platoon_m(X, SENDER)}<- 
 						.send(SENDER, :tell, no_platoon_m),
