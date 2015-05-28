@@ -46,7 +46,7 @@ public class SensorValues extends DinoPanel {
 	private static final long serialVersionUID = 1L;
 	
 	JLabel vtext = new JLabel("Ultrasonic Sensor Values:");
-	JTextArea textArea = new JTextArea(8, 20);
+	JTextArea textArea = new JTextArea(8, 30);
     JPanel output = new JPanel();
     protected TextAreaOutputStream values;
     public enum SensorType {
