@@ -180,14 +180,17 @@ public class ContextFreeRulesPanel extends DinoPanel {
         add(act1d.get(rulenumber), c);
         c.gridx = 3;
         c.anchor = GridBagConstraints.CENTER;
+        action1s.get(rulenumber).setMaximumRowCount(actions.length);
         add(action1s.get(rulenumber), c);	        
         c.gridx = 4;
         add(act2d.get(rulenumber), c);
         c.gridx = 5;
+        action2s.get(rulenumber).setMaximumRowCount(actions.length);
         add(action2s.get(rulenumber), c);	   
         c.gridx = 6;
         add(act3d.get(rulenumber), c);
         c.gridx = 7;
+        action3s.get(rulenumber).setMaximumRowCount(actions.length);
         add(action3s.get(rulenumber), c);	   
 
     }

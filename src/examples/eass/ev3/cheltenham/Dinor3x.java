@@ -305,7 +305,7 @@ public class Dinor3x extends BasicRobot {
 	 */
 	public void short_left() {
 		if (!wheeled) {
-			pilot.rotate(90);
+			pilot.rotate(720);
 		} else {
 			pilot.rotate(-90);
 		}
@@ -347,7 +347,7 @@ public class Dinor3x extends BasicRobot {
 	 */
 	public void short_right() {
 		if (!wheeled) {
-			pilot.rotate(-90);
+			pilot.rotate(-720);
 		} else {
 			pilot.rotate(90);
 		}

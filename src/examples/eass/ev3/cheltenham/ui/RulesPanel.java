@@ -259,10 +259,13 @@ public class RulesPanel extends DinoPanel {
     	line2.setLayout(new FlowLayout());
     	line2.setBackground(Color.WHITE);
         line2.add(act1d.get(rulenumber));
+        action1s.get(rulenumber).setMaximumRowCount(actions.length);
         line2.add(action1s.get(rulenumber));	        
         line2.add(act2d.get(rulenumber));
+        action2s.get(rulenumber).setMaximumRowCount(actions.length);
         line2.add(action2s.get(rulenumber));	   
         line2.add(act3d.get(rulenumber));
+        action3s.get(rulenumber).setMaximumRowCount(actions.length);
         line2.add(action3s.get(rulenumber));	  
         return line2;
 
