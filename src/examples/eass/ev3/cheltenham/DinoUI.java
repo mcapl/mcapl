@@ -33,6 +33,7 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
@@ -71,7 +72,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    public EnvironmentThread envThread = new EnvironmentThread();
 	    
 	    // Does this robot have wheels?
-	    private boolean wheeled = false;
+	    private boolean wheeled = true;
 	    
 	    public DinoUI() {
 	    	this.setBackground(Color.WHITE);	    	
@@ -104,7 +105,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	JMenuItem tabshow = new JMenuItem("Show Goal Tab");
 	    	file.add(tabshow);
 	    	
-	    	JMenuItem wheeled_item = new JMenuItem("Robot has Wheels");
+	    	JMenuItem wheeled_item = new JMenuItem("Robot has Legs");
 	    	file.add(wheeled_item);
 	    	wheeled_item.addActionListener(new ActionListener() {
 
@@ -324,6 +325,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     */
 		public void actionPerformed(ActionEvent e) {
 	    	Action act = new Action(e.getActionCommand());
+	    	boolean mustbeprocessed = false;
 	    	
 	    	if (e.getActionCommand().equals("r1action1") || e.getActionCommand().equals("r1action2") || e.getActionCommand().equals("r1action3") ||
 	    			e.getActionCommand().equals("r2action1") || e.getActionCommand().equals("r2action2") || e.getActionCommand().equals("r2action3") ||
@@ -334,9 +336,13 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    		@SuppressWarnings("unchecked")
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 	    		act.addTerm(new Literal((String)cb.getSelectedItem()));
-	    	} 
+	    		mustbeprocessed = true;
+	    	} else if (e.getActionCommand().equals("rule1") || e.getActionCommand().equals("rule2") ||
+	    			e.getActionCommand().equals("rule3") || e.getActionCommand().equals("rule4") ) {
+	    		mustbeprocessed = true;
+	    	}
 	    	
-	    	envThread.latestAction(act);
+	    	envThread.latestAction(act, mustbeprocessed);
 		}
 				
 		/*
@@ -391,6 +397,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	     */
 	    public class EnvironmentThread extends Thread {
 	    	// This stores the most recent action.  We assume children have no interest in queueing actions.
+	    	LinkedList<Action> actionlist = new LinkedList<Action>();
 	    	Action action = null;
 	    	// A flag to control the while loop in the run method.
 	    	boolean isrunning = true;
@@ -400,9 +407,13 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    	 * @param name
 	    	 * @param act
 	    	 */
-	    	public void latestAction(Action act) {
+	    	public void latestAction(Action act, boolean mustbeprocessed) {
 	    		synchronized(this) {
-	    			action = act;
+	    			if (action == null) {
+	    				action = act;
+	    			} else if (mustbeprocessed) {
+	    				actionlist.offer(act);
+	    			}
 	    			notify();
 	    		}
 	    	}
@@ -415,12 +426,14 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	    		while (isrunning) {
 	    			synchronized(this) {
 	    				// If there is no recent action we wait for one to arrive.
-	    				if (action == null) {
+	    				if (action == null && actionlist.isEmpty()) {
 	    					try {
 	    						wait();
 	    					} catch (InterruptedException ie) {
 	    						System.err.println("catching an interrupt");
 	    					}
+	    				} else if (action == null) {
+	    					action = actionlist.poll();
 	    				}
 	    			}
 	    			

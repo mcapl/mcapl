@@ -62,7 +62,7 @@ public class SetGoalPanel extends DinoPanel {
 		find_water.setEnabled(enabled);
 		drop_goal.setEnabled(enabled);
 		if (!enabled) {
-			getDinoUI().envThread.latestAction(new Action("drop_goal"));
+			getDinoUI().envThread.latestAction(new Action("drop_goal"), true);
 		}
 
 	}

@@ -185,7 +185,7 @@ public class RulesPanel extends DinoPanel {
     				checkboxes.get(i).setSelected(false);
     				int rulenum = i + 1;
     				String rulestring = "rule" + rulenum;
-    				getDinoUI().envThread.latestAction(new Action(rulestring));
+    				getDinoUI().envThread.latestAction(new Action(rulestring), true);
     			}
     		}
     		action1s.get(i).setEnabled(enabled);
@@ -217,7 +217,7 @@ public class RulesPanel extends DinoPanel {
 	    				checkboxes.get(i).setSelected(false);
 	    				int rulenum = i + 1;
 	    				String rulestring = "rule" + rulenum;
-	    				getDinoUI().envThread.latestAction(new Action(rulestring));
+	    				getDinoUI().envThread.latestAction(new Action(rulestring), true);
 	    			}
 	    		}
 	    		action1s.get(i).setEnabled(enabled);

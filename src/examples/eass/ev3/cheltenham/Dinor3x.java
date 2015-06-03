@@ -47,7 +47,7 @@ public class Dinor3x extends BasicRobot {
 	RemoteRequestPilot pilot;
 	SimpleTouch touch;
 	private boolean closed = false;
-	private boolean wheeled = false;
+	private boolean wheeled = true;
 	private boolean straight = false;
 		
 	int touchport = 1;
@@ -310,7 +310,7 @@ public class Dinor3x extends BasicRobot {
 	 * Turn left through an angle (approx 90 on the wheeled robots).
 	 */
 	public void short_left() {
-		pilot.setTravelSpeed(travel_speed);
+		pilot.setRotateSpeed(travel_speed);
 		if (!wheeled) {
 			pilot.rotate(720);
 		} else {
@@ -354,7 +354,7 @@ public class Dinor3x extends BasicRobot {
 	 * Turn a short distance right (approx 90 on a wheeled robot)
 	 */
 	public void short_right() {
-		pilot.setTravelSpeed(travel_speed);
+		pilot.setRotateSpeed(travel_speed);
 		if (!wheeled) {
 			pilot.rotate(-720);
 		} else {
