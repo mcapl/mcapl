@@ -123,7 +123,7 @@ public class SensorValues extends DinoPanel {
     public class TextAreaOutputStream extends OutputStream {
 
     	   private final JTextArea textArea;
-    	   private final StringBuilder sb = new StringBuilder();
+    	   private StringBuilder sb = new StringBuilder();
 
     	   public TextAreaOutputStream(final JTextArea textArea) {
     	      this.textArea = textArea;
@@ -158,11 +158,19 @@ public class SensorValues extends DinoPanel {
     	         final String text = sb.toString() + "\n";
     	         SwingUtilities.invokeLater(new Runnable() {
     	            public void run() {
-    	               textArea.append(text);
+    	            	if (textArea.getText().length() < 500) {
+    	            		textArea.append(text);
+    	            	} else {
+    	            		textArea.replaceRange("", 1, 300);
+    	            		textArea.append(text);
+    	            	}
     	            }
     	         });
     	         sb.setLength(0);
     	         sb.append("> ");
+    	         if (sb.length() > 200) {
+    	        	 sb = new StringBuilder(sb.substring(100, sb.length()));
+    	         }
     	         return;
     	      }
 

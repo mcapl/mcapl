@@ -597,6 +597,7 @@ public class DinoEnvironment extends EASSEV3Environment {
 	 */
 	public class LineFollowingThread extends Thread {
     	boolean isrunning = false;
+    	boolean initialised = false;
     	Dinor3x robot;
     	
     	public LineFollowingThread(Dinor3x dino) {
@@ -613,8 +614,13 @@ public class DinoEnvironment extends EASSEV3Environment {
     		boolean steering_left = false;
     		while (isrunning) {
     			synchronized(robot) {
+    				if (! initialised) {
+    					if (DinoEnvironment.this.values.containsKey("red")) {
+    						initialised = true;
+    					}
+    				}
     			//	robot.getRGBSensor().addPercept(DinoEnvironment.this);
-    				if (DinoEnvironment.this.values.containsKey("red")) {
+    				if (initialised) {
     					Predicate light = DinoEnvironment.this.values.get("red");
     					double value = ((NumberTerm) light.getTerm(0)).solve();
     					// Basic line following algorithm.

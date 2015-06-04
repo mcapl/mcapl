@@ -56,7 +56,11 @@ public class SensorPanel extends DinoPanel {
 		if (config.showUltra()) {
 			ultrasonic = new SensorValues("Ultrasonic Sensor", ui, "Ultrasonic Sensor Values", config.getLong());
 			add(ultrasonic, c);
-			c.gridy++;
+			if (config.isHorizontal()) {
+				c.gridx++;
+			} else {
+				c.gridy++;
+			}
 		}
 
 		if (config.showBlue()) {
@@ -119,6 +123,7 @@ public class SensorPanel extends DinoPanel {
 		boolean blue = false;
 		boolean red = false;
 		boolean longpanels = false;
+		boolean horizontal = false;
 		
 		public SensorConfiguration(boolean u, boolean b, boolean r, boolean longpanels) {
 			ultrasonic = u;
@@ -127,6 +132,14 @@ public class SensorPanel extends DinoPanel {
 			this.longpanels = longpanels;
 		}
 		
+		public SensorConfiguration(boolean u, boolean b, boolean r, boolean longpanels, boolean layout) {
+			ultrasonic = u;
+			blue = b;
+			red = r;
+			this.longpanels = longpanels;
+			horizontal = layout;
+		}
+
 		public boolean showUltra() {
 			return ultrasonic;
 		}
@@ -141,6 +154,10 @@ public class SensorPanel extends DinoPanel {
 		
 		public boolean getLong() {
 			return longpanels;
+		}
+		
+		public boolean isHorizontal() {
+			return horizontal;
 		}
 	}
 	

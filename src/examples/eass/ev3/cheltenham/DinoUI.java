@@ -39,6 +39,7 @@ import eass.ev3.cheltenham.ui.GoalsOnlyPanel;
 import eass.ev3.cheltenham.ui.RulesOnlyPanel;
 import eass.ev3.cheltenham.ui.SimplePanel;
 import eass.ev3.cheltenham.ui.SimpleRulesPanel;
+import eass.ev3.cheltenham.ui.SimpleRulesPanelnoIns;
 import eass.ev3.cheltenham.ui.TabPanel;
 import ail.syntax.Action;
 import ail.syntax.Literal;
@@ -148,7 +149,7 @@ public class DinoUI extends JTabbedPane implements ActionListener, WindowListene
 	        addTab("Simple", teleop);
 	        panels.add(teleop);
 	        
-	        SimpleRulesPanel sro = new SimpleRulesPanel(this, 1);
+	        SimpleRulesPanelnoIns sro = new SimpleRulesPanelnoIns(this, 1);
 	        addTab("Simple Rules", sro);
 	        panels.add(sro);
 	        
