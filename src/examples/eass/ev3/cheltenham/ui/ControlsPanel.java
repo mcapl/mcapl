@@ -92,7 +92,7 @@ public class ControlsPanel extends DinoPanel {
 	    add(sbutton, c);
 	    
 	    // Reverse
-	    bbutton = new JButton("Reverse");
+	    bbutton = new JButton("Back");
 	    bbutton.setMnemonic(KeyEvent.VK_S);
 	    bbutton.setActionCommand("backward");
 	    bbutton.addActionListener(ui);
