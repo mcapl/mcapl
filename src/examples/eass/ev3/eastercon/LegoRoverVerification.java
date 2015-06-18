@@ -57,13 +57,11 @@ public class LegoRoverVerification extends EASSVerificationEnvironment {
 		}
 		
 		
-		// TODO Auto-generated method stub
 		return shared_beliefs;
 	}
 
 	@Override
 	public Set<Message> generate_messages() {
-		// TODO Auto-generated method stub
 		return new HashSet<Message>();
 	}
 
