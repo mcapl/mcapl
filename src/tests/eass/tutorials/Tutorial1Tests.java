@@ -163,7 +163,7 @@ public class Tutorial1Tests {
 				MAS mas = AIL.AILSetup(config);
 				
 				// Set up a controller
-				mccontrol = new MCAPLcontroller(mas, "", 1);
+				mccontrol = new MCAPLcontroller(mas, "", config);
 				
 				// Begin!
 				mccontrol.begin(); 

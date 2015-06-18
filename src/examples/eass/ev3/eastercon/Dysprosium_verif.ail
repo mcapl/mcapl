@@ -27,3 +27,4 @@ mas.file = /src/examples/eass/ev3/eastercon/dysprosium.eass
 mas.builder = eass.EASSMASBuilder
 
 log.warning = ajpf.MCAPLAgent
+ajpf.transition_every_reasoning_cycle = false

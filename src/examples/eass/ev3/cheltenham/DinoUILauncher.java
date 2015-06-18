@@ -73,7 +73,7 @@ public class DinoUILauncher {
 			);
 
 			// Lastly we construct a controller.
-			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
+			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", config);
 			// Start the system.
 			mccontrol.begin(); 
 		}
