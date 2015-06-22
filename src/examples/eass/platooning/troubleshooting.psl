@@ -1,0 +1,24 @@
+test: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) & B(follower3, steering_contr) )
+		->
+		<> B(follower3, success_ack)
+		
+		)
+
+		
+5: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) )
+		->
+		(  (<> B(follower3, sp_contr)) || ([]~ B(follower3, changed_lane))   )
+	)
+		
+		
+3: [] (
+		B(follower3, join_agreement(follower3, follower1)) 
+		->
+		(  (<> B(follower3, sp_contr)) || ([]~ B(follower3, changed_lane))   )
+		)
+
+
+		
+		
