@@ -31,6 +31,7 @@ log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
 
 #====================================================== results
 #no errors detected

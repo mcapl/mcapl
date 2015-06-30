@@ -49,7 +49,7 @@ import ail.semantics.AILAgent;
  * @author louiseadennis
  *
  */
-public interface AILEnv {//  extends EnvironmentInterfaceStandard { 
+public interface AILEnv {
 	/**
 	 * This is the effect of execution of an action on the environment from
 	 * the perspective of the environment.
@@ -147,7 +147,7 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
    /**
     * Perform any final cleanup needed after the system stops.
     */
-   public void finalize();
+   public void cleanup();
    
    /**
     * Perform any iniatilisation of the environment.  If the set up of the environment object depends

@@ -62,7 +62,7 @@ public class EASSNode extends AbstractNodeMain {
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
 		// Start the system.
 		mccontrol.begin(); 
-		mas.finalize();
+		mas.cleanup();
 		
 	}
 	

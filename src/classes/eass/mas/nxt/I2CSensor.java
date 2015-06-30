@@ -2,10 +2,13 @@ package eass.mas.nxt;
 
 import java.io.IOException;
 import lejos.nxt.remote.*;
-import lejos.pc.comm.*;
 import lejos.nxt.SensorConstants;
 import lejos.nxt.I2CPort;
 
+/**
+ * Minor tweaks to the leJOS I2CSensor calss to get around a hardware fault
+ * in one of our robots.
+ */
 /**
  * A sensor wrapper to allow easy access to I2C sensors, like the ultrasonic sensor.
  * 
@@ -16,8 +19,8 @@ import lejos.nxt.I2CPort;
 public class I2CSensor implements SensorConstants {
 	private final NXTCommand nxtCommand; // = NXTCommandConnector.getSingletonOpen();
 		
-	private static byte STOP = 0x00; // Commands don't seem to use this?
-	private static String BLANK = "       ";
+	// private static byte STOP = 0x00; // Commands don't seem to use this?
+	// private static String BLANK = "       ";
 	
     /**
      * Register number of sensor version string, as defined by standard Lego I2C register layout.

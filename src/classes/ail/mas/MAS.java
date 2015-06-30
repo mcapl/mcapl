@@ -30,6 +30,7 @@ package ail.mas;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
@@ -233,9 +234,12 @@ public class MAS implements MCAPLmas {
      */
     public boolean hasPercept(MCAPLFormula fmla) {
     	for (AILAgent ag: fAgents.values()) {
-    		for (Predicate s: fEnv.getPercepts(ag.getAgName(), false)) {
-    			if (s.equals(new Predicate((MCAPLPredicate) fmla))) {
-    				return true;
+     		Set<Predicate> set = fEnv.getPercepts(ag.getAgName(), false);
+    		if (set != null) {
+    			for (Predicate s: set) {
+    				if (s.equals(new Predicate((MCAPLPredicate) fmla))) {
+    					return true;
+    				}
     			}
     		}
     	}
@@ -266,8 +270,8 @@ public class MAS implements MCAPLmas {
      /**
       * Perform any application specific finalisation.
       */
-     public void finalize() {
-    	 fEnv.finalize();
+     public void cleanup() {
+    	 fEnv.cleanup();
      }
      
      /*
@@ -278,6 +282,10 @@ public class MAS implements MCAPLmas {
     	 return controller;
      }
      
+     /*
+      * (non-Javadoc)
+      * @see ajpf.MCAPLmas#setController(ajpf.MCAPLcontroller)
+      */
      public void setController(MCAPLcontroller mc) {
     	 controller = mc;
      }

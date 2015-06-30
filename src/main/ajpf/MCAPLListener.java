@@ -38,6 +38,7 @@ import gov.nasa.jpf.Config;
 
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -46,6 +47,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import ajpf.product.Product;
+import ajpf.product.Product.ProductState;
 import ajpf.psl.ast.Property_AST;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.ast.Native_Proposition;
@@ -152,7 +154,11 @@ public class MCAPLListener extends PropertyListenerAdapter {
     		}
     		
     		// Negate the property and initialise the product automataon
-     		product_automata = new Product(prop.negate(), props, getAutomataType(), model_only);
+     		MCAPLProperty negprop = prop;
+     		if (!model_only) {
+     			negprop = prop.negate();
+     		} 
+     		product_automata = new Product(negprop, props, getAutomataType(), model_only);
     		automata_initialised = true;
        	} 
 	}
@@ -274,7 +280,20 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  * Reporting of the nature of the error by JPF.
 	  */
 	 public String getErrorMessage() {
-		 String s = "An Accepting Path has been found: " + product_automata.getAcceptingPath();
+		 List<ProductState> product_states = product_automata.getAcceptingPath();
+		 int counter = 0;
+		 String pathstring = "";
+		 for (ProductState ps: product_states) {
+			 pathstring += ps.toPrettyString();
+			 counter++;
+			 if (counter == 5) {
+				 pathstring += ",\n";
+				 counter = 0;
+			 } else {
+				 pathstring += ", ";
+			 }
+		 }
+		 String s = "An Accepting Path has been found: \n" + pathstring;
 		 return s;
 	 }
 	 

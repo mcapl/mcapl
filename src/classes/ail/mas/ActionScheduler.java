@@ -31,6 +31,7 @@ import ajpf.util.VerifyList;
 import ajpf.PerceptListener;
 import ajpf.MCAPLScheduler;
 import ajpf.MCAPLJobber;
+import ajpf.util.AJPFLogger;
 
 
 /**
@@ -49,6 +50,8 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	/* We use VerifyLists to reduce the state space during verification */
 	private VerifyList<String> activeAgents = new VerifyList<String>();
 	private VerifyList<String> inactiveAgents = new VerifyList<String>();
+	
+	private String logname = "ail.mas.ActionScheduler";
 	
 	/* Flag that indicates a change in the  system somewhere indicating a new choice of 
 	 * agent is wanted

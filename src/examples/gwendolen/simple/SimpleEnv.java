@@ -29,6 +29,7 @@ import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ajpf.util.AJPFLogger;
 
 import java.util.Random;
 
@@ -39,6 +40,8 @@ import java.util.Random;
  *
  */
 public class SimpleEnv extends DefaultEnvironment {
+	static String logname = "gwendolen.simple.SimpleEnv";
+	
 	Random r = new Random();
 	
 	public SimpleEnv() {
@@ -77,10 +80,16 @@ public class SimpleEnv extends DefaultEnvironment {
         	}
         } else if (act.getFunctor().equals("random")) {
         	if (r.nextBoolean()) {
+        		AJPFLogger.info(logname, "Block 1 is visible");
         		addPercept(new Predicate("block1"));
+        	} else {
+        		AJPFLogger.info(logname, "Block 1 is not visible");
         	}
         	if (r.nextBoolean()) {
+        		AJPFLogger.info(logname, "Block 2 is visible");
         		addPercept(new Predicate("block2"));
+        	} else {
+        		AJPFLogger.info(logname, "Block 2 is not visible");
         	}
        }
 	   	

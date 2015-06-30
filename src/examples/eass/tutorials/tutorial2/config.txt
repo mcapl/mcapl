@@ -1,0 +1,2 @@
+car1.control = agent
+data.include_total_distance = true

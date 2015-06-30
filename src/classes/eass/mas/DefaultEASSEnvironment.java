@@ -37,11 +37,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.LinkedList;
 import java.lang.Thread;
 
-//import gov.nasa.jpf.jvm.Verify;
-
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
+import ail.mas.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -56,14 +55,12 @@ import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
-import ail.syntax.SendAction;
 import eass.semantics.EASSAgent;
 
 import ajpf.MCAPLJobber;
-import ajpf.PerceptListener;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
-import ajpf.util.VerifySet;
+import ajpf.MCAPLScheduler;
 
 /**
  * Default environment class for EASS project.  Sets up socket servers and generic actions.
@@ -74,7 +71,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Literal> values = new HashMap<String, Literal>();
+	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
@@ -90,7 +87,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	protected List<String> abstractionenginelist = new ArrayList<String>();
 	protected Map<String, String> abstractionengines = new HashMap<String, String>();
 	private String name = "Default EASS Environment";
-	private String logname = "eass.mas.DefaultEASSEnvironment";
+	private static String logname = "eass.mas.DefaultEASSEnvironment";
 	
 	protected int control = 0;
 	int misccounter = 0;
@@ -105,64 +102,68 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		super();
 	}
 	
-/*	public void setVersion(int v) {
-		version = v;
+	public static void scheduler_setup(EASSEnv env, MCAPLScheduler s) {
+		s.addJobber(env);
+		env.setScheduler(s);
+		env.addPerceptListener(s);
 	}
-	
-	public int getVersion() {
-		return version;
-	} */
-		
-	
 	
 	
 	
 	public void do_job() {			
 		eachrun();
-		
-		// Really????
-		// notifyPerceptListeners();
-
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#getName()
+	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * Overridable function.
-	 *
+	 * This method is intended to be overriden by sub-classes which want something
+	 * specific to happen in each cycle of the environment.
 	 */
-	public void eachrun() {
-		AJPFLogger.finer(logname, this.toString());
-	}
+	public void eachrun() {}
 	
-	public void printvalues(Literal pred) {
 	
-	}
-
-	
-	public void addUniquePercept(String s, Literal  pred) {
+	/**
+	 * Add a percept to this environment that is supposed to be unique - i.e.,
+	 * the predicate functor is unique.
+	 * @param s
+	 * @param pred
+	 */
+	public void addUniquePercept(String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(values.get(s.toLowerCase()));
-			// System.err.println("removed old value");
 		}
 
 		values.put(s.toLowerCase(), pred);
 		addPercept(pred);		
 	}
 	
-
-	public void addUniquePercept(String agName, String s, Literal  pred) {
+	/**
+	 * Add a percept to this environment that is supposed to be unique - i.e.,
+	 * the predicate functor is unique.
+	 * @param agName
+	 * @param s
+	 * @param pred
+	 */
+	public void addUniquePercept(String agName, String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(agName, values.get(s.toLowerCase()));
-			// System.err.println("removed old value");
 		}
 
 		values.put(s.toLowerCase(), pred);
 		addPercept(agName, pred);		
 	}
 	
+	/**
+	 * This environment has finished.
+	 * @param b
+	 */
 	public void setDone(boolean b) {
 		done = b;
 	}
@@ -230,34 +231,28 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @see ail.others.DefaultEnvironment#addPercept(ail.syntax.Literal)
 	 */
 	public void addPercept(Literal per) {
-		AJPFLogger.finer(logname, "adding + " + per.toString());
-			// System.err.println("adding got flag");
-			if (per != null) {
-				if (! percepts.contains(per)) {
-					percepts.add(per);
-					//Collections.sort(percepts);
-					uptodateAgs.clear();
-					notifyPerceptListeners();
-				}
+		if (AJPFLogger.ltFiner(logname)) {
+			AJPFLogger.finer(logname, "adding + " + per.toString());
+		}
+		if (per != null) {
+			if (! percepts.contains(per)) {
+				percepts.add(per);
+				uptodateAgs.clear();
 			}
-		// AJPFLogger.finer(logname, this.toString());
+		}
+		notifyPerceptListeners();
 	}
 		
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#removePercept(ail.syntax.Literal)
 	 */
-	public boolean removePercept(Predicate per) {
-		// System.err.println("removing + " + per);
+	public boolean removePercept(Literal per) {
 		boolean b = false;
-			// System.err.println("removing got flag");
-			if (per != null) {
-				uptodateAgs.clear();
-				b =  percepts.remove(per);
-				// System.err.println("a");
-				// System.err.println("d");
-				// return b;
-			} 
+		if (per != null) {
+			uptodateAgs.clear();
+			b =  percepts.remove(per);
+		} 
 				
 		notifyPerceptListeners();
 
@@ -292,33 +287,22 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * Complicated by the separation of abstraction and reasoning engines.
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
-		// check whether this agent needs the current version of perception
-//		System.err.println(agName + " getting percepts ");
 		Set<Predicate> p = new TreeSet<Predicate>();
-//			System.err.println(agName + " has flag");
-//			int size = 0;
-			List<Literal> agl = agSharedBeliefs.get(agName);
-//			if (agl != null) {
-//				size += agl.size();
-//			}
-//			List<Literal> p = new ArrayList<Literal>(size);
-			// System.err.println(agName + "accessed shared beliefs");
-			//If this is to update an agent rather than looking for model checking purposes
+		List<Literal> agl = agSharedBeliefs.get(agName);
+		//If this is to update an agent rather than looking for model checking purposes
 			if (update) {
 				if (uptodateAgs.contains(agName)) {
-//					System.err.println("returning null");
-					AJPFLogger.finer("eass.mas.DefaultEASSEnvironment", "Shared beliefs returning null to " + agName);
+					if (AJPFLogger.ltFiner(logname)) {
+						AJPFLogger.finer("eass.mas.DefaultEASSEnvironment", "Shared beliefs returning null to " + agName);
+					}
 					return null;
 				}
 				
 				// if its the abstraction engine (NB.  this will add agName to up-to-date ags
 				if (abstractionenginelist.contains(agName)) {
-					//System.err.println("about to super get percepts");
 					Set<Predicate> ps = super.getPercepts(agName, update);
-					// System.err.println("super successful");
 					if (ps != null) {
 						p.addAll(ps);
-					//	System.err.println(ps);
 					}
 				} else {
 
@@ -331,18 +315,12 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				p.addAll(agl);
 			}
 	    			
-			//return p;
-		 		
-			// System.err.println(p);
-//		System.err.println(agName + " releasing flag");
 		return p;
 				
 	}
 		   
 	/** Adds a perception for a specific agent */
 	public void addSharedBelief(String agName, Literal per) {
-		// System.err.println(agName + " going for flag with " + per);
-			// System.err.println(agName + " has flag");
 			if (per != null && agName != null) {
 				ArrayList<Literal> agl = agSharedBeliefs.get(agName);
 				if (agl == null) {
@@ -377,9 +355,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				}
 				}
 		}
-		// System.err.println(this);
-		//System.err.println(agName + " releasing flag");
-		
 					
 		notifySharedListeners(agName);
 	}
@@ -387,54 +362,43 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/** Removes a perception for one agent */
 	public boolean removeSharedBelief(String agName, Literal per) {
 		boolean result = true;
-		// System.err.println(agName + " removing " + per);
 		boolean resulttoreturn = false;
-		// ArrayList<String> tonotify = new ArrayList<String>();
-			// System.err.println(agName + " has flag");
-			if (per != null && agName != null) {
-				ArrayList<Literal> agl = agSharedBeliefs.get(agName);
-				ArrayList<Literal> aglr = new ArrayList<Literal>();
-				if (agl != null && ! agl.isEmpty()) {
-					uptodateAgs.remove(agName);
-					try {
-						for (Literal l: agl) {
-							if (l.equals(per)) {
-								// notifyListeners(agName);
-								//result = agl.remove(l);
-								aglr.add(l);
-							}
-						}
-						result = agl.removeAll(aglr);
-					} catch (Exception e) {
-						System.out.println("PROBLEM" + agl);
-					}
-				}
-			
-				String partneragent = abstractionengines.get(agName);
-				List<Literal> agl2 = agSharedBeliefs.get(partneragent);
-				if (agl2 != null && !agl2.isEmpty()) {
-					uptodateAgs.remove(partneragent);
-					for (Literal l: agl2) {
+		if (per != null && agName != null) {
+			ArrayList<Literal> agl = agSharedBeliefs.get(agName);
+			ArrayList<Literal> aglr = new ArrayList<Literal>();
+			if (agl != null && ! agl.isEmpty()) {
+				uptodateAgs.remove(agName);
+				try {
+					for (Literal l: agl) {
 						if (l.equals(per)) {
-							// System.err.println("i");
-							if (result) {
-								// System.err.println(agName + "agl2 remove");
-								resulttoreturn = agl2.remove(l);
-								break;
-							} else {
-								// System.err.println("g");
-								agl2.remove(l);
-								// System.err.println(agName + "return false 1");
-								resulttoreturn = false;
-								break;
-							}
+							aglr.add(l);
+						}
+					}
+					result = agl.removeAll(aglr);
+				} catch (Exception e) {
+					System.out.println("PROBLEM" + agl);
+				}
+			}
+			
+			String partneragent = abstractionengines.get(agName);
+			List<Literal> agl2 = agSharedBeliefs.get(partneragent);
+			if (agl2 != null && !agl2.isEmpty()) {
+				uptodateAgs.remove(partneragent);
+				for (Literal l: agl2) {
+					if (l.equals(per)) {
+						if (result) {
+							resulttoreturn = agl2.remove(l);
+							break;
+						} else {
+							agl2.remove(l);
+							resulttoreturn = false;
+							break;
 						}
 					}
 				}
+			}
 		}
-		// System.err.println("d");
 		notifySharedListeners(agName);
-		// System.err.println(agName + " return " + resulttoreturn);
 		return resulttoreturn;
 	}
 
@@ -469,58 +433,59 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 */
 	public boolean removeUnifiesShared(String agName, Literal per) {
 		boolean b = false;
-		// System.err.println(agName + " removing shared");
-			Literal rper = null;
-			if (per != null) {
-				uptodateAgs.remove(agName);
-				List<Literal> sharedbeliefs = agSharedBeliefs.get(agName);
-				if (sharedbeliefs != null) {
-					for (Literal p: sharedbeliefs) {
-						if (p.unifies(per, new Unifier())) {
-							rper = p;
-						}
+		Literal rper = null;
+		if (per != null) {
+			uptodateAgs.remove(agName);
+			List<Literal> sharedbeliefs = agSharedBeliefs.get(agName);
+			if (sharedbeliefs != null) {
+				for (Literal p: sharedbeliefs) {
+					if (p.unifies(per, new Unifier())) {
+						rper = p;
 					}
-				
-						
-					if (rper != null) {
-						b = sharedbeliefs.remove(rper);
-					}
-
-					Collections.sort(sharedbeliefs);
-				
-					String partneragent = abstractionengines.get(agName);
-					uptodateAgs.remove(partneragent);
-					List<Literal> psharedbeliefs = agSharedBeliefs.get(agName);
-					for (Literal p: psharedbeliefs) {
-						if (p.unifies(per, new Unifier())) {
-							rper = p;
-						}
-					}
-						
-					if (rper != null) {
-						b = psharedbeliefs.remove(rper);
-					}
-
-					Collections.sort(psharedbeliefs);
-				
-				// notifySharedListeners(agName);
-					return b;
 				}
-			} 
+				
+						
+				if (rper != null) {
+					b = sharedbeliefs.remove(rper);
+				}
+
+				Collections.sort(sharedbeliefs);
+				
+				String partneragent = abstractionengines.get(agName);
+				uptodateAgs.remove(partneragent);
+				List<Literal> psharedbeliefs = agSharedBeliefs.get(agName);
+				for (Literal p: psharedbeliefs) {
+					if (p.unifies(per, new Unifier())) {
+						rper = p;
+					}
+				}
+						
+				if (rper != null) {
+					b = psharedbeliefs.remove(rper);
+				}
+
+				Collections.sort(psharedbeliefs);
 					
-		// System.err.println(agName + " releasing flag");
+				return b;
+			}
+		} 
+
 		notifySharedListeners(agName);
 		return b;
 	}
 		
 	
+	/**
+	 * Stop the environment running.
+	 */
 	public void stopRunning() {
 		running = false;
 	}
 	
-	public void setVersion(int i) {
-		version = i;
-	}
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo(MCAPLJobber j) {
 		return j.getName().compareTo(getName());
 	}	

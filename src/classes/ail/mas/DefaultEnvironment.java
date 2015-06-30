@@ -148,7 +148,6 @@ public class DefaultEnvironment implements AILEnv {
 	 * @param l
 	 */
 	public void addPerceptListener(PerceptListener l) {
-		System.err.println("adding percept listener " + l);
 		if (perceptListeners == null) {
 			perceptListeners = new ArrayList<PerceptListener>();
 		}
@@ -220,6 +219,14 @@ public class DefaultEnvironment implements AILEnv {
     		NumberTermImpl z = new NumberTermImpl(d);
     		u.unifies(sum, z);
     	}
+    	if (act.getFunctor().equals("times")) {
+    		NumberTerm x = (NumberTerm) act.getTerm(0);
+    		NumberTerm y = (NumberTerm) act.getTerm(1);
+    		VarTerm sum = (VarTerm) act.getTerm(2);
+    		double d = x.solve()*y.solve();
+    		NumberTermImpl z = new NumberTermImpl(d);
+    		u.unifies(sum, z);
+    	}
    	
     	if (act.getFunctor().equals("append")) {
     		StringTerm x = (StringTerm) act.getTerm(0);
@@ -228,6 +235,15 @@ public class DefaultEnvironment implements AILEnv {
     		VarTerm result = (VarTerm) act.getTerm(2);
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
+    	}
+    	
+    	if (act.getFunctor().equals("toString")) {
+    		Term x = act.getTerm(0);
+    		
+    		String s = x.toString();
+    		VarTerm result = (VarTerm) act.getTerm(1);
+    		
+    		u.unifies(result, new StringTermImpl(s));
     	}
     	
     	if (act.getFunctor().equals("printagentstate")) {
@@ -244,7 +260,9 @@ public class DefaultEnvironment implements AILEnv {
 	   		System.out.println(agentmap.get(agName).toString());
 	   	} 
  
-	   	AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
+	   	if (AJPFLogger.ltInfo(logname)) {
+	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   	}
 	   	
 	   	return (u);
     }
@@ -274,7 +292,7 @@ public class DefaultEnvironment implements AILEnv {
      * @param ilf
      * @return
      */
-    protected String ilfString(int ilf) {
+    protected  String ilfString(int ilf) {
     	String s = ilf + ":";
     	return s;
     }
@@ -296,7 +314,6 @@ public class DefaultEnvironment implements AILEnv {
     		uptodateAgs.add(agName);
     	}
     		
- 		
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
     		
@@ -313,8 +330,7 @@ public class DefaultEnvironment implements AILEnv {
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
     	}
-    				
-    	return p;
+     	return p;
      }
     
     
@@ -405,7 +421,6 @@ public class DefaultEnvironment implements AILEnv {
   	 * @return
   	 */
   	public boolean removePercept(Predicate per) {
-  		System.err.println("test");
   		if (per != null) {
   			uptodateAgs.clear();
   			boolean b =  percepts.remove(per);
@@ -648,7 +663,7 @@ public class DefaultEnvironment implements AILEnv {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 
 	/*
 	 * (non-Javadoc)

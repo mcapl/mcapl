@@ -138,7 +138,9 @@ public class MCAPLmodel {
 	 */
 	public int prune (int statenum) {
 		// We assume statenum is in path
-		log.fine("pruning 1 state from " + current_path);
+		if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+			log.fine("pruning 1 state from " + current_path);
+		}
 		int index = current_path_size - 1;
 		// We remove the head of the path because a prune has been triggered by it.
 		if (!current_path.isEmpty()) {
@@ -194,7 +196,9 @@ public class MCAPLmodel {
 	public void addToPath(ModelState s) {
 		current_path.add(s.getNum()); 
 		current_path_size++;
-		log.info("Current Path: " + current_path.toString());
+		if (log.getLevel().intValue() <= java.util.logging.Level.INFO.intValue()) {
+			log.info("Current Path: " + current_path.toString());
+		}
 	}
 
 	/**
@@ -337,6 +341,7 @@ public class MCAPLmodel {
 			case Promela:
 				 // We need to declare all the properties as booleans at the top of the
 				 // Spin model.
+				HashMap<Proposition, String> propstringhash = new HashMap<Proposition, String>();
 				if (!props.isEmpty()) {
 					s+="bool ";
 					int i = 1;
@@ -347,6 +352,7 @@ public class MCAPLmodel {
 							s += ", ";
 							i++;
 						}
+						propstringhash.put(p, pstring);
 					}
 					s += "\n\n";
 				}
@@ -360,7 +366,8 @@ public class MCAPLmodel {
 					s += ":\n";
 					Set<Integer> edges = model_edges.get(num);
 					for (Proposition p: props) {
-						String pstring = convertPropForSpin(p.toString());
+						// String pstring = convertPropForSpin(p.toString());
+						String pstring = propstringhash.get(p);
 						s+="\t" + pstring + " = ";
 						if (state.getProps().contains(p)) {
 							s += "true;\n";

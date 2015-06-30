@@ -1,0 +1,72 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+EASS
+
+:abstraction: car
+
+:Initial Beliefs:
+
+speed_limit(5)
+													
+:Initial Goals:
+		
+
+:Plans: 
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++started : {True} <-
+	assert_shared(start);
+
++yspeed(X) : {B speed_limit(SL), SL < X} <-
+	assert_shared(at_speed_limit);
++yspeed(X) : {B speed_limit(SL), X < SL} <-
+	remove_shared(at_speed_limit);
+	
++! accelerate [perform] : {B yspeed(X)} <- accelerate;
++! accelerate [perform] : {~B yspeed(X)} <- print("Waiting for Simulator to Start");
++! maintain_speed [perform] : {True} <- maintain_speed;
++! finished [perform] : {True} <- finished;
+
+:name: car
+			
+:Initial Beliefs:
+													
+:Initial Goals:
+		
+:Plans: 
+
++start: {True} <-
+	+!at_speed_limit[achieve];
+
++! at_speed_limit [achieve] : {True} <-
+	perf(accelerate),
+	*at_speed_limit;
+
++at_speed_limit: {True} <-
+	perf(maintain_speed),
+	perf(finished);

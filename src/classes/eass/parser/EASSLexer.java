@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2014-06-23 12:25:59
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2015-06-30 15:06:24
 
 package eass.parser;
 
@@ -11,61 +11,68 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class EASSLexer extends Lexer {
 	public static final int EOF=-1;
-	public static final int T__58=58;
+	public static final int T__65=65;
 	public static final int ABSTRACTION=4;
 	public static final int ACHIEVE=5;
 	public static final int ACHIEVEGOAL=6;
-	public static final int BELIEFRULES=7;
-	public static final int BELIEFS=8;
-	public static final int BELIEVE=9;
-	public static final int BRULEARROW=10;
-	public static final int CALCULATE=11;
-	public static final int CLOSE=12;
-	public static final int COLON=13;
-	public static final int COMMA=14;
-	public static final int COMMENT=15;
-	public static final int CONST=16;
-	public static final int CURLYCLOSE=17;
-	public static final int CURLYOPEN=18;
-	public static final int DIV=19;
-	public static final int DOUBLEQUOTE=20;
-	public static final int EASS=21;
-	public static final int EQ=22;
-	public static final int EQ_ASSGN=23;
-	public static final int GOAL=24;
-	public static final int GOALS=25;
-	public static final int LESS=26;
-	public static final int LINE_COMMENT=27;
-	public static final int LOCK=28;
-	public static final int MINUS=29;
-	public static final int MOD=30;
-	public static final int MULT=31;
-	public static final int NAME=32;
-	public static final int NEWLINE=33;
-	public static final int NOT=34;
-	public static final int NUMBER=35;
-	public static final int OPEN=36;
-	public static final int PERFORM=37;
-	public static final int PERFORMGOAL=38;
-	public static final int PLANS=39;
-	public static final int PLUS=40;
-	public static final int POINT=41;
-	public static final int QUERYCOM=42;
-	public static final int RECEIVED=43;
-	public static final int RULEARROW=44;
-	public static final int SEMI=45;
-	public static final int SEND=46;
-	public static final int SENT=47;
-	public static final int SHRIEK=48;
-	public static final int SQCLOSE=49;
-	public static final int SQOPEN=50;
-	public static final int STRING=51;
-	public static final int TELL=52;
-	public static final int TRUE=53;
-	public static final int UPDATE=54;
-	public static final int VAR=55;
-	public static final int WAIT=56;
-	public static final int WS=57;
+	public static final int ARROW=7;
+	public static final int BELIEFRULES=8;
+	public static final int BELIEFS=9;
+	public static final int BELIEVE=10;
+	public static final int BRULEARROW=11;
+	public static final int CALCULATE=12;
+	public static final int CAPABILITIES=13;
+	public static final int CAPABILITY=14;
+	public static final int CLOSE=15;
+	public static final int COLON=16;
+	public static final int COMMA=17;
+	public static final int COMMENT=18;
+	public static final int CONST=19;
+	public static final int CURLYCLOSE=20;
+	public static final int CURLYOPEN=21;
+	public static final int DIV=22;
+	public static final int DOUBLEQUOTE=23;
+	public static final int EASS=24;
+	public static final int EQ=25;
+	public static final int EQ_ASSGN=26;
+	public static final int GOAL=27;
+	public static final int GOALS=28;
+	public static final int IMPLICATION=29;
+	public static final int LESS=30;
+	public static final int LINE_COMMENT=31;
+	public static final int LOCK=32;
+	public static final int MINUS=33;
+	public static final int MOD=34;
+	public static final int MULT=35;
+	public static final int NAME=36;
+	public static final int NEWLINE=37;
+	public static final int NOT=38;
+	public static final int NUMBER=39;
+	public static final int OPEN=40;
+	public static final int PERFORM=41;
+	public static final int PERFORMGOAL=42;
+	public static final int PLAN=43;
+	public static final int PLANS=44;
+	public static final int PLUS=45;
+	public static final int POINT=46;
+	public static final int QUERY=47;
+	public static final int QUERYCOM=48;
+	public static final int RECEIVED=49;
+	public static final int RULEARROW=50;
+	public static final int SEMI=51;
+	public static final int SEND=52;
+	public static final int SENT=53;
+	public static final int SHRIEK=54;
+	public static final int SQCLOSE=55;
+	public static final int SQOPEN=56;
+	public static final int STRING=57;
+	public static final int SUBSTITUTE=58;
+	public static final int TELL=59;
+	public static final int TRUE=60;
+	public static final int UPDATE=61;
+	public static final int VAR=62;
+	public static final int WAIT=63;
+	public static final int WS=64;
 
 	    public int plain_nesting = 0;
 	    public int sq_nesting = 0;
@@ -89,10 +96,10 @@ public class EASSLexer extends Lexer {
 	}
 	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
 
-	// $ANTLR start "T__58"
-	public final void mT__58() throws RecognitionException {
+	// $ANTLR start "T__65"
+	public final void mT__65() throws RecognitionException {
 		try {
-			int _type = T__58;
+			int _type = T__65;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
 			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:13:7: ( '|' )
 			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:13:9: '|'
@@ -107,15 +114,15 @@ public class EASSLexer extends Lexer {
 			// do for sure before leaving
 		}
 	}
-	// $ANTLR end "T__58"
+	// $ANTLR end "T__65"
 
 	// $ANTLR start "UPDATE"
 	public final void mUPDATE() throws RecognitionException {
 		try {
 			int _type = UPDATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:9: ( '>' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:156:11: '>'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:9: ( '>' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:11: '>'
 			{
 			match('>'); 
 			}
@@ -134,8 +141,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = TELL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:6: ( ':tell' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:8: ':tell'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:6: ( ':tell' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:8: ':tell'
 			{
 			match(":tell"); 
 
@@ -155,8 +162,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PERFORM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:9: ( ':perform' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:11: ':perform'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:9: ( ':perform' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:11: ':perform'
 			{
 			match(":perform"); 
 
@@ -176,8 +183,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ACHIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:159:9: ( ':achieve' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:159:11: ':achieve'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:9: ( ':achieve' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:11: ':achieve'
 			{
 			match(":achieve"); 
 
@@ -197,8 +204,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SEND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:6: ( '.send' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:8: '.send'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:6: ( '.send' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:8: '.send'
 			{
 			match(".send"); 
 
@@ -218,8 +225,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = RECEIVED;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:9: ( '.received' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:11: '.received'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:9: ( '.received' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:187:11: '.received'
 			{
 			match(".received"); 
 
@@ -239,8 +246,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CALCULATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:2: ( '.calculate' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:4: '.calculate'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:2: ( '.calculate' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:4: '.calculate'
 			{
 			match(".calculate"); 
 
@@ -260,8 +267,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = QUERYCOM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:10: ( '.query' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:12: '.query'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:10: ( '.query' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:12: '.query'
 			{
 			match(".query"); 
 
@@ -281,8 +288,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = WAIT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:6: ( '.wait' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:165:8: '.wait'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:6: ( '.wait' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:8: '.wait'
 			{
 			match(".wait"); 
 
@@ -297,18 +304,102 @@ public class EASSLexer extends Lexer {
 	}
 	// $ANTLR end "WAIT"
 
+	// $ANTLR start "CAPABILITY"
+	public final void mCAPABILITY() throws RecognitionException {
+		try {
+			int _type = CAPABILITY;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:12: ( '.cap' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:14: '.cap'
+			{
+			match(".cap"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "CAPABILITY"
+
+	// $ANTLR start "PLAN"
+	public final void mPLAN() throws RecognitionException {
+		try {
+			int _type = PLAN;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:6: ( '.plan' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:8: '.plan'
+			{
+			match(".plan"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "PLAN"
+
+	// $ANTLR start "IMPLICATION"
+	public final void mIMPLICATION() throws RecognitionException {
+		try {
+			int _type = IMPLICATION;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:194:13: ( '.imp' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:194:15: '.imp'
+			{
+			match(".imp"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "IMPLICATION"
+
+	// $ANTLR start "SUBSTITUTE"
+	public final void mSUBSTITUTE() throws RecognitionException {
+		try {
+			int _type = SUBSTITUTE;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:2: ( '.substitute' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:4: '.substitute'
+			{
+			match(".substitute"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "SUBSTITUTE"
+
 	// $ANTLR start "BELIEVE"
 	public final void mBELIEVE() throws RecognitionException {
 		try {
 			int _type = BELIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:11: {...}? => ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:9: ({...}? => ( 'B' | '.B' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:11: {...}? => ( 'B' | '.B' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
 			}
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:75: ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:75: ( 'B' | '.B' )
 			int alt1=2;
 			int LA1_0 = input.LA(1);
 			if ( (LA1_0=='B') ) {
@@ -326,13 +417,13 @@ public class EASSLexer extends Lexer {
 
 			switch (alt1) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:76: 'B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:76: 'B'
 					{
 					match('B'); 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:82: '.B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:82: '.B'
 					{
 					match(".B"); 
 
@@ -357,13 +448,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = GOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:6: ({...}? => ( 'G' | '.G' ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:8: {...}? => ( 'G' | '.G' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:6: ({...}? => ( 'G' | '.G' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:8: {...}? => ( 'G' | '.G' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
 			}
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:71: ( 'G' | '.G' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:71: ( 'G' | '.G' )
 			int alt2=2;
 			int LA2_0 = input.LA(1);
 			if ( (LA2_0=='G') ) {
@@ -381,13 +472,13 @@ public class EASSLexer extends Lexer {
 
 			switch (alt2) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:72: 'G'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:72: 'G'
 					{
 					match('G'); 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:78: '.G'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:78: '.G'
 					{
 					match(".G"); 
 
@@ -412,8 +503,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:168:6: ({...}? => '.sent' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:168:8: {...}? => '.sent'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:6: ({...}? => '.sent' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:8: {...}? => '.sent'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
@@ -436,8 +527,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LOCK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:6: ( '.lock' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:8: '.lock'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:6: ( '.lock' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:8: '.lock'
 			{
 			match(".lock"); 
 
@@ -457,8 +548,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = GOALS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:7: ( ':Initial Goals:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:170:9: ':Initial Goals:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:7: ( ':Initial Goals:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:9: ':Initial Goals:'
 			{
 			match(":Initial Goals:"); 
 
@@ -479,8 +570,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BELIEFS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:9: ( ':Initial Beliefs:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:171:11: ':Initial Beliefs:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:9: ( ':Initial Beliefs:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:202:11: ':Initial Beliefs:'
 			{
 			match(":Initial Beliefs:"); 
 
@@ -500,8 +591,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BELIEFRULES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:173:2: ( ':Reasoning Rules:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:173:4: ':Reasoning Rules:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:2: ( ':Reasoning Rules:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:4: ':Reasoning Rules:'
 			{
 			match(":Reasoning Rules:"); 
 
@@ -517,13 +608,34 @@ public class EASSLexer extends Lexer {
 	}
 	// $ANTLR end "BELIEFRULES"
 
+	// $ANTLR start "CAPABILITIES"
+	public final void mCAPABILITIES() throws RecognitionException {
+		try {
+			int _type = CAPABILITIES;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:13: ( ':Capabilities:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:15: ':Capabilities:'
+			{
+			match(":Capabilities:"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "CAPABILITIES"
+
 	// $ANTLR start "PLANS"
 	public final void mPLANS() throws RecognitionException {
 		try {
 			int _type = PLANS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:7: ( ':Plans:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:9: ':Plans:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:7: ( ':Plans:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:9: ':Plans:'
 			{
 			match(":Plans:"); 
 
@@ -543,8 +655,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EASS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:6: ({...}? => 'EASS' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:8: {...}? => 'EASS'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:6: ({...}? => 'EASS' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:8: {...}? => 'EASS'
 			{
 			if ( !((curly_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "EASS", "curly_nesting == 0");
@@ -567,8 +679,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:6: ( ':name:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:8: ':name:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:208:6: ( ':name:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:208:8: ':name:'
 			{
 			match(":name:"); 
 
@@ -588,8 +700,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ABSTRACTION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:178:2: ( ':abstraction:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:178:4: ':abstraction:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:2: ( ':abstraction:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:4: ':abstraction:'
 			{
 			match(":abstraction:"); 
 
@@ -609,8 +721,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = TRUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:6: ({...}? => 'True' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:8: {...}? => 'True'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:6: ({...}? => 'True' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:8: {...}? => 'True'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -633,8 +745,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ACHIEVEGOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:180:13: ({...}? => 'achieve' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:180:15: {...}? => 'achieve'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:13: ({...}? => 'achieve' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:15: {...}? => 'achieve'
 			{
 			if ( !((sq_nesting > 0)) ) {
 				throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
@@ -657,8 +769,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PERFORMGOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:13: ({...}? => 'perform' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:15: {...}? => 'perform'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:213:13: ({...}? => 'perform' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:213:15: {...}? => 'perform'
 			{
 			if ( !((sq_nesting > 0)) ) {
 				throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
@@ -681,8 +793,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BRULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:2: ( ':-' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:4: ':-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:2: ( ':-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:4: ':-'
 			{
 			match(":-"); 
 
@@ -702,8 +814,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = RULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:11: ( '<-' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:13: '<-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:11: ( '<-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:13: '<-'
 			{
 			match("<-"); 
 
@@ -723,8 +835,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EQ_ASSGN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:10: ( '=' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:12: '='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:10: ( '=' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:12: '='
 			{
 			match('='); 
 			}
@@ -738,17 +850,38 @@ public class EASSLexer extends Lexer {
 	}
 	// $ANTLR end "EQ_ASSGN"
 
+	// $ANTLR start "ARROW"
+	public final void mARROW() throws RecognitionException {
+		try {
+			int _type = ARROW;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:219:7: ( '->' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:219:9: '->'
+			{
+			match("->"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "ARROW"
+
 	// $ANTLR start "COMMENT"
 	public final void mCOMMENT() throws RecognitionException {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:5: ( '/*' ( . )* '*/' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:7: '/*' ( . )* '*/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:5: ( '/*' ( . )* '*/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:7: '/*' ( . )* '*/'
 			{
 			match("/*"); 
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:12: ( . )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:12: ( . )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -769,7 +902,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt3) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:240:12: .
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:12: .
 					{
 					matchAny(); 
 					}
@@ -799,12 +932,12 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
 			match("//"); 
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:12: (~ ( '\\n' | '\\r' ) )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:12: (~ ( '\\n' | '\\r' ) )*
 			loop4:
 			while (true) {
 				int alt4=2;
@@ -833,7 +966,7 @@ public class EASSLexer extends Lexer {
 				}
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:26: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:26: ( '\\r' )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0=='\r') ) {
@@ -841,7 +974,7 @@ public class EASSLexer extends Lexer {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:26: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:26: '\\r'
 					{
 					match('\r'); 
 					}
@@ -867,10 +1000,10 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:8: ( ( '\\r' )? '\\n' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:9: ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:8: ( ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:9: ( '\\r' )? '\\n'
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:9: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:9: ( '\\r' )?
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0=='\r') ) {
@@ -878,7 +1011,7 @@ public class EASSLexer extends Lexer {
 			}
 			switch (alt6) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:9: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:9: '\\r'
 					{
 					match('\r'); 
 					}
@@ -904,10 +1037,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:5: ( ( ' ' | '\\t' )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:9: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:279:5: ({...}? => ( ' ' | '\\t' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:279:8: {...}? => ( ' ' | '\\t' )+
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:246:9: ( ' ' | '\\t' )+
+			if ( !((!stringterm)) ) {
+				throw new FailedPredicateException(input, "WS", "!stringterm");
+			}
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:279:24: ( ' ' | '\\t' )+
 			int cnt7=0;
 			loop7:
 			while (true) {
@@ -957,8 +1093,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = OPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:6: ( '(' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:249:9: '('
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:282:6: ( '(' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:282:9: '('
 			{
 			match('('); 
 			plain_nesting++;
@@ -978,8 +1114,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:7: ( ')' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:9: ')'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:283:7: ( ')' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:283:9: ')'
 			{
 			match(')'); 
 			plain_nesting--;
@@ -999,8 +1135,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SQOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:251:8: ( '[' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:251:10: '['
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:8: ( '[' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:10: '['
 			{
 			match('['); 
 			sq_nesting++;
@@ -1020,8 +1156,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SQCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:252:9: ( ']' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:252:11: ']'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:285:9: ( ']' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:285:11: ']'
 			{
 			match(']'); 
 			sq_nesting--;
@@ -1041,8 +1177,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CURLYOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:11: ( '{' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:13: '{'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:11: ( '{' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:13: '{'
 			{
 			match('{'); 
 			curly_nesting++;
@@ -1062,8 +1198,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CURLYCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:254:12: ( '}' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:254:14: '}'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:12: ( '}' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:14: '}'
 			{
 			match('}'); 
 			curly_nesting--;
@@ -1083,8 +1219,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = DOUBLEQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:2: ( '\"' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:256:4: '\"'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:289:2: ( '\"' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:289:4: '\"'
 			{
 			match('\"'); 
 			if (stringterm) {stringterm = false;} else {stringterm = true;}
@@ -1104,8 +1240,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:5: ( '~' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:7: '~'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:5: ( '~' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:7: '~'
 			{
 			match('~'); 
 			}
@@ -1124,19 +1260,19 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:260:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:260:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
 			{
 			if ( !((stringterm)) ) {
 				throw new FailedPredicateException(input, "STRING", "stringterm");
 			}
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:260:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
 			int cnt8=0;
 			loop8:
 			while (true) {
 				int alt8=2;
 				int LA8_0 = input.LA(1);
-				if ( ((LA8_0 >= '0' && LA8_0 <= '9')||(LA8_0 >= 'A' && LA8_0 <= 'Z')||LA8_0=='_'||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {
+				if ( (LA8_0==' '||LA8_0=='.'||(LA8_0 >= '0' && LA8_0 <= '9')||(LA8_0 >= 'A' && LA8_0 <= 'Z')||LA8_0=='_'||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {
 					alt8=1;
 				}
 
@@ -1144,7 +1280,7 @@ public class EASSLexer extends Lexer {
 				case 1 :
 					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
+					if ( input.LA(1)==' '||input.LA(1)=='.'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
 					}
 					else {
@@ -1179,14 +1315,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CONST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:261:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:261:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "CONST", "!stringterm");
 			}
 			matchRange('a','z'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:261:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -1231,14 +1367,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = VAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "VAR", "!stringterm");
 			}
 			matchRange('A','Z'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:262:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -1283,14 +1419,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:296:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:296:10: {...}? => '0' .. '9' ( '0' .. '9' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
 			}
 			matchRange('0','9'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:263:35: ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:296:35: ( '0' .. '9' )*
 			loop11:
 			while (true) {
 				int alt11=2;
@@ -1335,8 +1471,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LESS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:6: ( '<' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:266:8: '<'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:6: ( '<' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:8: '<'
 			{
 			match('<'); 
 			}
@@ -1355,8 +1491,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EQ;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:4: ( '==' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:7: '=='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:300:4: ( '==' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:300:7: '=='
 			{
 			match("=="); 
 
@@ -1376,8 +1512,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = POINT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:7: ( '.' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:9: '.'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:7: ( '.' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:9: '.'
 			{
 			match('.'); 
 			}
@@ -1396,8 +1532,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MULT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:6: ( '*' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:8: '*'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:6: ( '*' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:8: '*'
 			{
 			match('*'); 
 			}
@@ -1416,8 +1552,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:6: ( '+' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:8: '+'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:6: ( '+' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:8: '+'
 			{
 			match('+'); 
 			}
@@ -1436,8 +1572,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:7: ( '-' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:271:9: '-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:7: ( '-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:9: '-'
 			{
 			match('-'); 
 			}
@@ -1456,8 +1592,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = DIV;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:5: ( '/' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:7: '/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:305:5: ( '/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:305:7: '/'
 			{
 			match('/'); 
 			}
@@ -1476,8 +1612,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MOD;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:5: ( '%' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:7: '%'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:5: ( '%' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:7: '%'
 			{
 			match('%'); 
 			}
@@ -1496,8 +1632,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SHRIEK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:8: ( '!' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:10: '!'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:308:8: ( '!' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:308:10: '!'
 			{
 			match('!'); 
 			}
@@ -1516,8 +1652,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:7: ( ',' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:9: ','
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:7: ( ',' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:9: ','
 			{
 			match(','); 
 			}
@@ -1536,8 +1672,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:277:6: ( ';' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:277:8: ';'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:6: ( ';' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:8: ';'
 			{
 			match(';'); 
 			}
@@ -1556,8 +1692,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:7: ( ':' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:278:9: ':'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:7: ( ':' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:9: ':'
 			{
 			match(':'); 
 			}
@@ -1571,16 +1707,36 @@ public class EASSLexer extends Lexer {
 	}
 	// $ANTLR end "COLON"
 
+	// $ANTLR start "QUERY"
+	public final void mQUERY() throws RecognitionException {
+		try {
+			int _type = QUERY;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:7: ( '?' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:9: '?'
+			{
+			match('?'); 
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "QUERY"
+
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( T__58 | UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON )
-		int alt12=55;
+		// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( T__65 | UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | CAPABILITY | PLAN | IMPLICATION | SUBSTITUTE | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | CAPABILITIES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | ARROW | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
+		int alt12=62;
 		alt12 = dfa12.predict(input);
 		switch (alt12) {
 			case 1 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: T__58
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: T__65
 				{
-				mT__58(); 
+				mT__65(); 
 
 				}
 				break;
@@ -1648,317 +1804,366 @@ public class EASSLexer extends Lexer {
 				}
 				break;
 			case 11 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:82: BELIEVE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:82: CAPABILITY
+				{
+				mCAPABILITY(); 
+
+				}
+				break;
+			case 12 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:93: PLAN
+				{
+				mPLAN(); 
+
+				}
+				break;
+			case 13 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:98: IMPLICATION
+				{
+				mIMPLICATION(); 
+
+				}
+				break;
+			case 14 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:110: SUBSTITUTE
+				{
+				mSUBSTITUTE(); 
+
+				}
+				break;
+			case 15 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:121: BELIEVE
 				{
 				mBELIEVE(); 
 
 				}
 				break;
-			case 12 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:90: GOAL
+			case 16 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:129: GOAL
 				{
 				mGOAL(); 
 
 				}
 				break;
-			case 13 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:95: SENT
+			case 17 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:134: SENT
 				{
 				mSENT(); 
 
 				}
 				break;
-			case 14 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:100: LOCK
+			case 18 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:139: LOCK
 				{
 				mLOCK(); 
 
 				}
 				break;
-			case 15 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:105: GOALS
+			case 19 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:144: GOALS
 				{
 				mGOALS(); 
 
 				}
 				break;
-			case 16 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:111: BELIEFS
+			case 20 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:150: BELIEFS
 				{
 				mBELIEFS(); 
 
 				}
 				break;
-			case 17 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:119: BELIEFRULES
+			case 21 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:158: BELIEFRULES
 				{
 				mBELIEFRULES(); 
 
 				}
 				break;
-			case 18 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:131: PLANS
+			case 22 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:170: CAPABILITIES
+				{
+				mCAPABILITIES(); 
+
+				}
+				break;
+			case 23 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:183: PLANS
 				{
 				mPLANS(); 
 
 				}
 				break;
-			case 19 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:137: EASS
+			case 24 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:189: EASS
 				{
 				mEASS(); 
 
 				}
 				break;
-			case 20 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:142: NAME
+			case 25 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:194: NAME
 				{
 				mNAME(); 
 
 				}
 				break;
-			case 21 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:147: ABSTRACTION
+			case 26 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:199: ABSTRACTION
 				{
 				mABSTRACTION(); 
 
 				}
 				break;
-			case 22 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:159: TRUE
+			case 27 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:211: TRUE
 				{
 				mTRUE(); 
 
 				}
 				break;
-			case 23 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:164: ACHIEVEGOAL
+			case 28 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:216: ACHIEVEGOAL
 				{
 				mACHIEVEGOAL(); 
 
 				}
 				break;
-			case 24 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:176: PERFORMGOAL
+			case 29 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:228: PERFORMGOAL
 				{
 				mPERFORMGOAL(); 
 
 				}
 				break;
-			case 25 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:188: BRULEARROW
+			case 30 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:240: BRULEARROW
 				{
 				mBRULEARROW(); 
 
 				}
 				break;
-			case 26 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:199: RULEARROW
+			case 31 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:251: RULEARROW
 				{
 				mRULEARROW(); 
 
 				}
 				break;
-			case 27 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:209: EQ_ASSGN
+			case 32 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:261: EQ_ASSGN
 				{
 				mEQ_ASSGN(); 
 
 				}
 				break;
-			case 28 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:218: COMMENT
+			case 33 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:270: ARROW
+				{
+				mARROW(); 
+
+				}
+				break;
+			case 34 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:276: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
-			case 29 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:226: LINE_COMMENT
+			case 35 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:284: LINE_COMMENT
 				{
 				mLINE_COMMENT(); 
 
 				}
 				break;
-			case 30 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:239: NEWLINE
+			case 36 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:297: NEWLINE
 				{
 				mNEWLINE(); 
 
 				}
 				break;
-			case 31 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:247: WS
+			case 37 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:305: WS
 				{
 				mWS(); 
 
 				}
 				break;
-			case 32 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:250: OPEN
+			case 38 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:308: OPEN
 				{
 				mOPEN(); 
 
 				}
 				break;
-			case 33 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:255: CLOSE
+			case 39 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:313: CLOSE
 				{
 				mCLOSE(); 
 
 				}
 				break;
-			case 34 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:261: SQOPEN
+			case 40 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:319: SQOPEN
 				{
 				mSQOPEN(); 
 
 				}
 				break;
-			case 35 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:268: SQCLOSE
+			case 41 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:326: SQCLOSE
 				{
 				mSQCLOSE(); 
 
 				}
 				break;
-			case 36 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:276: CURLYOPEN
+			case 42 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:334: CURLYOPEN
 				{
 				mCURLYOPEN(); 
 
 				}
 				break;
-			case 37 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:286: CURLYCLOSE
+			case 43 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:344: CURLYCLOSE
 				{
 				mCURLYCLOSE(); 
 
 				}
 				break;
-			case 38 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:297: DOUBLEQUOTE
+			case 44 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:355: DOUBLEQUOTE
 				{
 				mDOUBLEQUOTE(); 
 
 				}
 				break;
-			case 39 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:309: NOT
+			case 45 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:367: NOT
 				{
 				mNOT(); 
 
 				}
 				break;
-			case 40 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:313: STRING
+			case 46 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:371: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
-			case 41 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:320: CONST
+			case 47 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:378: CONST
 				{
 				mCONST(); 
 
 				}
 				break;
-			case 42 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:326: VAR
+			case 48 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:384: VAR
 				{
 				mVAR(); 
 
 				}
 				break;
-			case 43 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:330: NUMBER
+			case 49 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:388: NUMBER
 				{
 				mNUMBER(); 
 
 				}
 				break;
-			case 44 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:337: LESS
+			case 50 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:395: LESS
 				{
 				mLESS(); 
 
 				}
 				break;
-			case 45 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:342: EQ
+			case 51 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:400: EQ
 				{
 				mEQ(); 
 
 				}
 				break;
-			case 46 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:345: POINT
+			case 52 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:403: POINT
 				{
 				mPOINT(); 
 
 				}
 				break;
-			case 47 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:351: MULT
+			case 53 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:409: MULT
 				{
 				mMULT(); 
 
 				}
 				break;
-			case 48 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:356: PLUS
+			case 54 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:414: PLUS
 				{
 				mPLUS(); 
 
 				}
 				break;
-			case 49 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:361: MINUS
+			case 55 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:419: MINUS
 				{
 				mMINUS(); 
 
 				}
 				break;
-			case 50 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:367: DIV
+			case 56 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:425: DIV
 				{
 				mDIV(); 
 
 				}
 				break;
-			case 51 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:371: MOD
+			case 57 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:429: MOD
 				{
 				mMOD(); 
 
 				}
 				break;
-			case 52 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:375: SHRIEK
+			case 58 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:433: SHRIEK
 				{
 				mSHRIEK(); 
 
 				}
 				break;
-			case 53 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:382: COMMA
+			case 59 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:440: COMMA
 				{
 				mCOMMA(); 
 
 				}
 				break;
-			case 54 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:388: SEMI
+			case 60 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:446: SEMI
 				{
 				mSEMI(); 
 
 				}
 				break;
-			case 55 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:393: COLON
+			case 61 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:451: COLON
 				{
 				mCOLON(); 
+
+				}
+				break;
+			case 62 :
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:457: QUERY
+				{
+				mQUERY(); 
 
 				}
 				break;
@@ -1969,71 +2174,90 @@ public class EASSLexer extends Lexer {
 
 	protected DFA12 dfa12 = new DFA12(this);
 	static final String DFA12_eotS =
-		"\3\uffff\1\53\1\64\1\65\1\67\2\71\2\74\1\100\1\102\1\105\12\uffff\1\74"+
-		"\1\71\1\106\33\uffff\1\71\1\uffff\1\71\1\uffff\1\71\1\74\1\uffff\2\74"+
-		"\10\uffff\1\106\5\uffff\2\71\1\74\1\uffff\1\74\3\uffff\1\134\1\135\2\74"+
-		"\5\uffff\2\74\3\uffff\2\74\1\uffff\1\151\1\152\10\uffff";
+		"\3\uffff\1\56\1\71\1\72\1\74\2\76\2\101\1\105\1\107\1\111\1\114\1\uffff"+
+		"\1\115\11\uffff\1\101\1\76\1\116\22\uffff\7\35\1\133\1\134\1\35\2\uffff"+
+		"\1\76\1\uffff\1\76\1\uffff\1\76\1\101\1\uffff\2\101\13\uffff\1\116\3\uffff"+
+		"\10\35\2\uffff\1\35\4\uffff\2\76\1\101\1\uffff\1\101\2\uffff\4\35\1\175"+
+		"\3\35\1\u0081\1\35\1\u0083\1\u0084\2\101\1\uffff\1\u0088\1\u0089\3\35"+
+		"\1\uffff\1\35\1\u008f\1\u0090\1\uffff\1\u0092\2\uffff\2\101\3\uffff\3"+
+		"\35\1\uffff\1\u009d\6\uffff\2\101\3\uffff\3\35\4\uffff\1\u00a8\1\u00a9"+
+		"\1\uffff\3\35\4\uffff\1\35\1\u00b3\1\35\4\uffff\1\35\1\uffff\1\u00b7\1"+
+		"\u00b8\5\uffff";
 	static final String DFA12_eofS =
-		"\160\uffff";
+		"\u00bb\uffff";
 	static final String DFA12_minS =
-		"\1\11\2\uffff\1\55\1\102\6\60\1\55\1\75\1\52\12\uffff\3\60\12\uffff\1"+
-		"\142\1\156\5\uffff\1\145\10\uffff\1\0\1\60\1\0\1\60\1\0\2\60\1\0\2\60"+
-		"\7\uffff\1\0\1\60\2\uffff\1\151\1\156\1\uffff\3\60\1\uffff\1\60\1\uffff"+
-		"\1\164\1\144\4\60\1\151\2\uffff\2\0\2\60\1\141\2\uffff\2\60\1\154\2\60"+
-		"\1\40\2\0\1\102\4\uffff";
+		"\1\11\2\uffff\1\55\7\40\1\55\1\75\1\76\1\52\1\uffff\1\11\11\uffff\3\40"+
+		"\12\uffff\1\142\1\156\6\uffff\2\145\1\141\1\165\1\141\1\154\1\155\2\40"+
+		"\1\157\2\0\1\40\1\0\1\40\1\0\2\40\1\0\2\40\11\uffff\2\0\1\40\2\uffff\1"+
+		"\151\1\156\1\142\1\143\1\154\1\145\1\151\1\141\1\160\2\0\1\143\4\uffff"+
+		"\3\40\1\uffff\1\40\1\uffff\1\164\1\144\1\163\1\145\1\143\1\40\1\162\1"+
+		"\164\1\156\1\40\1\153\4\40\1\151\2\40\1\164\1\151\1\165\1\0\1\171\2\40"+
+		"\1\0\1\40\2\0\2\40\1\141\2\0\1\151\1\166\1\154\1\uffff\1\40\2\0\1\uffff"+
+		"\1\0\2\uffff\2\40\1\154\2\uffff\1\164\1\145\1\141\1\0\3\uffff\3\40\1\165"+
+		"\1\144\1\164\1\uffff\2\0\1\102\1\164\1\40\1\145\4\uffff\1\145\1\0\2\40"+
+		"\1\uffff\2\0\2\uffff";
 	static final String DFA12_maxS =
-		"\1\176\2\uffff\1\164\1\167\6\172\1\55\1\75\1\57\12\uffff\3\172\12\uffff"+
-		"\1\143\1\156\5\uffff\1\145\10\uffff\1\0\1\172\1\0\1\172\1\0\2\172\1\0"+
-		"\2\172\7\uffff\1\0\1\172\2\uffff\1\151\1\156\1\uffff\3\172\1\uffff\1\172"+
-		"\1\uffff\2\164\4\172\1\151\2\uffff\2\0\2\172\1\141\2\uffff\2\172\1\154"+
-		"\2\172\1\40\2\0\1\107\4\uffff";
+		"\1\176\2\uffff\1\164\7\172\1\55\1\75\1\76\1\57\1\uffff\1\172\11\uffff"+
+		"\3\172\12\uffff\1\143\1\156\6\uffff\1\165\1\145\1\141\1\165\1\141\1\154"+
+		"\1\155\2\172\1\157\2\0\1\172\1\0\1\172\1\0\2\172\1\0\2\172\11\uffff\2"+
+		"\0\1\172\2\uffff\1\151\1\156\1\142\1\143\1\160\1\145\1\151\1\141\1\160"+
+		"\2\0\1\143\4\uffff\3\172\1\uffff\1\172\1\uffff\2\164\1\163\1\145\1\143"+
+		"\1\172\1\162\1\164\1\156\1\172\1\153\4\172\1\151\2\172\1\164\1\151\1\165"+
+		"\1\0\1\171\2\172\1\0\1\172\2\0\2\172\1\141\2\0\1\151\1\166\1\154\1\uffff"+
+		"\1\172\2\0\1\uffff\1\0\2\uffff\2\172\1\154\2\uffff\1\164\1\145\1\141\1"+
+		"\0\3\uffff\2\172\1\40\1\165\1\144\1\164\1\uffff\2\0\1\107\1\164\1\172"+
+		"\1\145\4\uffff\1\145\1\0\2\172\1\uffff\2\0\2\uffff";
 	static final String DFA12_acceptS =
-		"\1\uffff\1\1\1\2\13\uffff\1\36\1\37\1\40\1\41\1\42\1\43\1\44\1\45\1\46"+
-		"\1\47\3\uffff\1\50\1\57\1\60\1\61\1\63\1\64\1\65\1\66\1\3\1\4\2\uffff"+
-		"\1\21\1\22\1\24\1\31\1\67\1\uffff\1\7\1\10\1\11\1\12\1\13\1\14\1\16\1"+
-		"\56\12\uffff\1\32\1\54\1\55\1\33\1\34\1\35\1\62\2\uffff\1\5\1\25\2\uffff"+
-		"\1\52\3\uffff\1\51\1\uffff\1\53\7\uffff\1\6\1\15\5\uffff\1\23\1\26\11"+
-		"\uffff\1\27\1\30\1\17\1\20";
+		"\1\uffff\1\1\1\2\14\uffff\1\44\1\uffff\1\46\1\47\1\50\1\51\1\52\1\53\1"+
+		"\54\1\55\1\45\3\uffff\1\56\1\65\1\66\1\71\1\72\1\73\1\74\1\76\1\3\1\4"+
+		"\2\uffff\1\25\1\26\1\27\1\31\1\36\1\75\25\uffff\1\37\1\62\1\63\1\40\1"+
+		"\41\1\67\1\42\1\43\1\70\3\uffff\1\5\1\32\14\uffff\1\64\1\17\1\60\1\20"+
+		"\3\uffff\1\57\1\uffff\1\61\45\uffff\1\13\3\uffff\1\15\1\uffff\1\30\1\33"+
+		"\3\uffff\1\6\1\21\4\uffff\1\12\1\14\1\22\6\uffff\1\11\6\uffff\1\34\1\35"+
+		"\1\23\1\24\4\uffff\1\7\2\uffff\1\10\1\16";
 	static final String DFA12_specialS =
-		"\1\46\3\uffff\1\14\1\43\1\44\1\11\1\7\1\15\1\17\15\uffff\1\34\1\23\1\16"+
-		"\32\uffff\1\25\1\10\1\26\1\37\1\5\1\51\1\4\1\12\1\13\1\45\7\uffff\1\6"+
-		"\1\47\5\uffff\1\35\1\50\1\1\1\uffff\1\40\2\uffff\1\21\1\33\1\20\1\0\1"+
-		"\36\3\uffff\1\32\1\31\1\3\1\42\3\uffff\1\2\1\41\1\uffff\1\24\1\22\1\uffff"+
-		"\1\30\1\27\5\uffff}>";
+		"\1\76\3\uffff\1\60\1\77\1\106\1\0\1\25\1\110\1\122\5\uffff\1\36\11\uffff"+
+		"\1\34\1\65\1\105\22\uffff\1\111\1\112\1\101\1\152\1\1\1\10\1\17\1\57\1"+
+		"\66\1\45\1\16\1\63\1\104\1\64\1\46\1\13\1\61\1\37\1\11\1\74\1\44\11\uffff"+
+		"\1\6\1\15\1\5\3\uffff\1\137\1\22\1\113\1\102\1\153\1\2\1\12\1\20\1\142"+
+		"\1\144\1\50\4\uffff\1\51\1\62\1\40\1\uffff\1\47\2\uffff\1\145\1\23\1\115"+
+		"\1\131\1\21\1\154\1\3\1\14\1\35\1\53\1\103\1\4\1\41\1\52\1\uffff\1\100"+
+		"\1\73\1\24\1\116\1\133\1\132\1\155\1\7\1\33\1\135\1\75\1\67\1\70\1\42"+
+		"\1\54\1\uffff\1\123\1\147\1\26\1\117\1\136\1\uffff\1\156\1\127\1\134\1"+
+		"\uffff\1\150\2\uffff\1\43\1\56\3\uffff\1\27\1\120\1\140\1\126\3\uffff"+
+		"\1\114\1\151\1\uffff\1\30\1\121\1\143\1\uffff\1\71\1\72\1\uffff\1\31\1"+
+		"\107\1\146\4\uffff\1\32\1\124\1\130\1\55\1\uffff\1\125\1\141\2\uffff}>";
 	static final String[] DFA12_transitionS = {
-			"\1\17\1\16\2\uffff\1\16\22\uffff\1\17\1\40\1\26\2\uffff\1\37\2\uffff"+
-			"\1\20\1\21\1\34\1\35\1\41\1\36\1\4\1\15\12\32\1\3\1\42\1\13\1\14\1\2"+
-			"\2\uffff\1\31\1\5\2\31\1\7\1\31\1\6\14\31\1\10\6\31\1\22\1\uffff\1\23"+
-			"\1\uffff\1\33\1\uffff\1\11\16\30\1\12\12\30\1\24\1\1\1\25\1\27",
+			"\1\31\1\17\2\uffff\1\17\22\uffff\1\20\1\41\1\27\2\uffff\1\40\2\uffff"+
+			"\1\21\1\22\1\36\1\37\1\42\1\15\1\4\1\16\12\34\1\3\1\43\1\13\1\14\1\2"+
+			"\1\44\1\uffff\1\33\1\5\2\33\1\7\1\33\1\6\14\33\1\10\6\33\1\23\1\uffff"+
+			"\1\24\1\uffff\1\35\1\uffff\1\11\16\32\1\12\12\32\1\25\1\1\1\26\1\30",
 			"",
 			"",
-			"\1\52\33\uffff\1\46\6\uffff\1\50\1\uffff\1\47\16\uffff\1\45\14\uffff"+
-			"\1\51\1\uffff\1\44\3\uffff\1\43",
-			"\1\61\4\uffff\1\62\33\uffff\1\56\10\uffff\1\63\4\uffff\1\57\1\55\1\54"+
-			"\3\uffff\1\60",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\66\7\uffff\1\70\31\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\21\66\1\72\10\66",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\2\75\1\73\27\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\4\75\1\76\25\75",
-			"\1\77",
-			"\1\101",
-			"\1\103\4\uffff\1\104",
+			"\1\55\25\uffff\1\52\5\uffff\1\50\6\uffff\1\53\1\uffff\1\51\16\uffff"+
+			"\1\47\14\uffff\1\54\1\uffff\1\46\3\uffff\1\45",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\1\35\1\66\4\35\1\67\23\35"+
+			"\4\uffff\1\35\1\uffff\2\35\1\61\5\35\1\65\2\35\1\70\3\35\1\64\1\62\1"+
+			"\60\1\57\3\35\1\63\3\35",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\1\75\31\73\4\uffff\1\73\1"+
+			"\uffff\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\21\73\1\77\10\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\2\102\1\100\27\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\4\102\1\103\25\102",
+			"\1\104",
+			"\1\106",
+			"\1\110",
+			"\1\112\4\uffff\1\113",
 			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\107\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
-			"",
+			"\1\31\26\uffff\1\20\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff"+
+			"\1\35\1\uffff\32\35",
 			"",
 			"",
 			"",
@@ -2043,32 +2267,12 @@ public class EASSLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\1\111\1\110",
-			"\1\112",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\113",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\uffff",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\1\uffff",
-			"\12\66\7\uffff\22\66\1\115\7\66\4\uffff\1\66\1\uffff\32\66",
-			"\1\uffff",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\24\66\1\116\5\66",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\7\75\1\117\22\75",
-			"\1\uffff",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\21\75\1\121\10\75",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\32\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\117\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
 			"",
 			"",
 			"",
@@ -2076,46 +2280,189 @@ public class EASSLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\1\uffff",
-			"\12\107\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
 			"",
 			"",
-			"\1\123",
-			"\1\124",
 			"",
-			"\12\66\7\uffff\22\66\1\125\7\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\4\66\1\126\25\66",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\10\75\1\127\21\75",
+			"\1\121\1\120",
+			"\1\122",
 			"",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\5\75\1\130\24\75",
 			"",
+			"",
+			"",
+			"",
+			"",
+			"\1\123\17\uffff\1\124",
+			"\1\125",
+			"\1\126",
+			"\1\127",
+			"\1\130",
 			"\1\131",
-			"\1\132\17\uffff\1\133",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\66\7\uffff\32\66\4\uffff\1\66\1\uffff\32\66",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\4\75\1\136\25\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\16\75\1\137\13\75",
-			"\1\140",
+			"\1\132",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\135",
+			"\1\uffff",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\22\73\1\142\7\73\4\uffff\1"+
+			"\73\1\uffff\32\73",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\24\73\1\143\5\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\7\102\1\144\22\102",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\32\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\21\102\1\146\10\102",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
 			"",
 			"",
 			"\1\uffff",
 			"\1\uffff",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\25\75\1\143\4\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\21\75\1\144\10\75",
-			"\1\145",
+			"\1\35\15\uffff\1\35\1\uffff\12\117\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
 			"",
 			"",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\4\75\1\146\25\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\14\75\1\147\15\75",
 			"\1\150",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
-			"\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+			"\1\151",
+			"\1\152",
 			"\1\153",
+			"\1\154\3\uffff\1\155",
+			"\1\156",
+			"\1\157",
+			"\1\160",
+			"\1\161",
 			"\1\uffff",
 			"\1\uffff",
-			"\1\157\4\uffff\1\156",
+			"\1\162",
 			"",
 			"",
+			"",
+			"",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\22\73\1\163\7\73\4\uffff\1"+
+			"\73\1\uffff\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\4\73\1\164\25\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\10\102\1\165\21\102",
+			"",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\5\102\1\166\24\102",
+			"",
+			"\1\167",
+			"\1\170\17\uffff\1\171",
+			"\1\172",
+			"\1\173",
+			"\1\174",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\176",
+			"\1\177",
+			"\1\u0080",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\u0082",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\73\7\uffff\32\73\4\uffff\1\73\1\uffff"+
+			"\32\73",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\4\102\1\u0085\25\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\16\102\1\u0086\13\102",
+			"\1\u0087",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\u008a",
+			"\1\u008b",
+			"\1\u008c",
+			"\1\uffff",
+			"\1\u008e",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\uffff",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\25\102\1\u0095\4\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\21\102\1\u0096\10\102",
+			"\1\u0097",
+			"\1\uffff",
+			"\1\uffff",
+			"\1\u009a",
+			"\1\u009b",
+			"\1\u009c",
+			"",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\uffff",
+			"\1\uffff",
+			"",
+			"\1\uffff",
+			"",
+			"",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\4\102\1\u00a1\25\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\14\102\1\u00a2\15\102",
+			"\1\u00a3",
+			"",
+			"",
+			"\1\u00a4",
+			"\1\u00a5",
+			"\1\u00a6",
+			"\1\uffff",
+			"",
+			"",
+			"",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\32\102",
+			"\1\35\15\uffff\1\35\1\uffff\12\102\7\uffff\32\102\4\uffff\1\102\1\uffff"+
+			"\32\102",
+			"\1\u00aa",
+			"\1\u00ab",
+			"\1\u00ac",
+			"\1\u00ad",
+			"",
+			"\1\uffff",
+			"\1\uffff",
+			"\1\u00b1\4\uffff\1\u00b0",
+			"\1\u00b2",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\u00b4",
+			"",
+			"",
+			"",
+			"",
+			"\1\u00b5",
+			"\1\uffff",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"\1\35\15\uffff\1\35\1\uffff\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff"+
+			"\32\35",
+			"",
+			"\1\uffff",
+			"\1\uffff",
 			"",
 			""
 	};
@@ -2151,7 +2498,7 @@ public class EASSLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( T__58 | UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON );";
+			return "1:1: Tokens : ( T__65 | UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | CAPABILITY | PLAN | IMPLICATION | SUBSTITUTE | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | CAPABILITIES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | ARROW | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY );";
 		}
 		@Override
 		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
@@ -2159,530 +2506,867 @@ public class EASSLexer extends Lexer {
 			int _s = s;
 			switch ( s ) {
 					case 0 : 
-						int LA12_87 = input.LA(1);
-						 
-						int index12_87 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_87=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 94;}
-						else if ( ((LA12_87 >= '0' && LA12_87 <= '9')||(LA12_87 >= 'A' && LA12_87 <= 'Z')||LA12_87=='_'||(LA12_87 >= 'a' && LA12_87 <= 'd')||(LA12_87 >= 'f' && LA12_87 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_87);
-						if ( s>=0 ) return s;
-						break;
-
-					case 1 : 
-						int LA12_79 = input.LA(1);
-						 
-						int index12_79 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_79=='i') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 87;}
-						else if ( ((LA12_79 >= '0' && LA12_79 <= '9')||(LA12_79 >= 'A' && LA12_79 <= 'Z')||LA12_79=='_'||(LA12_79 >= 'a' && LA12_79 <= 'h')||(LA12_79 >= 'j' && LA12_79 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_79);
-						if ( s>=0 ) return s;
-						break;
-
-					case 2 : 
-						int LA12_99 = input.LA(1);
-						 
-						int index12_99 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_99=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 102;}
-						else if ( ((LA12_99 >= '0' && LA12_99 <= '9')||(LA12_99 >= 'A' && LA12_99 <= 'Z')||LA12_99=='_'||(LA12_99 >= 'a' && LA12_99 <= 'd')||(LA12_99 >= 'f' && LA12_99 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_99);
-						if ( s>=0 ) return s;
-						break;
-
-					case 3 : 
-						int LA12_94 = input.LA(1);
-						 
-						int index12_94 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_94=='v') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 99;}
-						else if ( ((LA12_94 >= '0' && LA12_94 <= '9')||(LA12_94 >= 'A' && LA12_94 <= 'Z')||LA12_94=='_'||(LA12_94 >= 'a' && LA12_94 <= 'u')||(LA12_94 >= 'w' && LA12_94 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_94);
-						if ( s>=0 ) return s;
-						break;
-
-					case 4 : 
-						int LA12_59 = input.LA(1);
-						 
-						int index12_59 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_59=='h') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 79;}
-						else if ( ((LA12_59 >= '0' && LA12_59 <= '9')||(LA12_59 >= 'A' && LA12_59 <= 'Z')||LA12_59=='_'||(LA12_59 >= 'a' && LA12_59 <= 'g')||(LA12_59 >= 'i' && LA12_59 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_59);
-						if ( s>=0 ) return s;
-						break;
-
-					case 5 : 
-						int LA12_57 = input.LA(1);
-						 
-						int index12_57 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 76;}
-						 
-						input.seek(index12_57);
-						if ( s>=0 ) return s;
-						break;
-
-					case 6 : 
-						int LA12_70 = input.LA(1);
-						 
-						int index12_70 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 82;}
-						 
-						input.seek(index12_70);
-						if ( s>=0 ) return s;
-						break;
-
-					case 7 : 
-						int LA12_8 = input.LA(1);
-						 
-						int index12_8 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_8=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 58;}
-						else if ( ((LA12_8 >= '0' && LA12_8 <= '9')||(LA12_8 >= 'A' && LA12_8 <= 'Z')||LA12_8=='_'||(LA12_8 >= 'a' && LA12_8 <= 'q')||(LA12_8 >= 's' && LA12_8 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
-						 
-						input.seek(index12_8);
-						if ( s>=0 ) return s;
-						break;
-
-					case 8 : 
-						int LA12_54 = input.LA(1);
-						 
-						int index12_54 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_54 >= '0' && LA12_54 <= '9')||(LA12_54 >= 'A' && LA12_54 <= 'Z')||LA12_54=='_'||(LA12_54 >= 'a' && LA12_54 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
-						 
-						input.seek(index12_54);
-						if ( s>=0 ) return s;
-						break;
-
-					case 9 : 
 						int LA12_7 = input.LA(1);
 						 
 						int index12_7 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_7=='A') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 56;}
-						else if ( ((LA12_7 >= '0' && LA12_7 <= '9')||(LA12_7 >= 'B' && LA12_7 <= 'Z')||LA12_7=='_'||(LA12_7 >= 'a' && LA12_7 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
+						if ( (LA12_7=='A') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 61;}
+						else if ( ((LA12_7 >= '0' && LA12_7 <= '9')||(LA12_7 >= 'B' && LA12_7 <= 'Z')||LA12_7=='_'||(LA12_7 >= 'a' && LA12_7 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_7==' '||LA12_7=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
 						 
 						input.seek(index12_7);
 						if ( s>=0 ) return s;
 						break;
 
-					case 10 : 
-						int LA12_60 = input.LA(1);
+					case 1 : 
+						int LA12_51 = input.LA(1);
 						 
-						int index12_60 = input.index();
+						int index12_51 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 80;}
+						if ( (LA12_51=='a') ) {s = 88;}
+						else s = 29;
 						 
-						input.seek(index12_60);
+						input.seek(index12_51);
 						if ( s>=0 ) return s;
 						break;
 
-					case 11 : 
-						int LA12_61 = input.LA(1);
-						 
-						int index12_61 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_61 >= '0' && LA12_61 <= '9')||(LA12_61 >= 'A' && LA12_61 <= 'Z')||LA12_61=='_'||(LA12_61 >= 'a' && LA12_61 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_61);
-						if ( s>=0 ) return s;
-						break;
-
-					case 12 : 
-						int LA12_4 = input.LA(1);
-						 
-						int index12_4 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_4=='s') ) {s = 44;}
-						else if ( (LA12_4=='r') ) {s = 45;}
-						else if ( (LA12_4=='c') ) {s = 46;}
-						else if ( (LA12_4=='q') ) {s = 47;}
-						else if ( (LA12_4=='w') ) {s = 48;}
-						else if ( (LA12_4=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 49;}
-						else if ( (LA12_4=='G') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 50;}
-						else if ( (LA12_4=='l') ) {s = 51;}
-						else s = 52;
-						 
-						input.seek(index12_4);
-						if ( s>=0 ) return s;
-						break;
-
-					case 13 : 
-						int LA12_9 = input.LA(1);
-						 
-						int index12_9 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_9=='c') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 59;}
-						else if ( ((LA12_9 >= '0' && LA12_9 <= '9')||(LA12_9 >= 'A' && LA12_9 <= 'Z')||LA12_9=='_'||(LA12_9 >= 'a' && LA12_9 <= 'b')||(LA12_9 >= 'd' && LA12_9 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_9);
-						if ( s>=0 ) return s;
-						break;
-
-					case 14 : 
-						int LA12_26 = input.LA(1);
-						 
-						int index12_26 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_26 >= '0' && LA12_26 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
-						else if ( ((LA12_26 >= 'A' && LA12_26 <= 'Z')||LA12_26=='_'||(LA12_26 >= 'a' && LA12_26 <= 'z')) && ((stringterm))) {s = 27;}
-						else s = 70;
-						 
-						input.seek(index12_26);
-						if ( s>=0 ) return s;
-						break;
-
-					case 15 : 
-						int LA12_10 = input.LA(1);
-						 
-						int index12_10 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_10=='e') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 62;}
-						else if ( ((LA12_10 >= '0' && LA12_10 <= '9')||(LA12_10 >= 'A' && LA12_10 <= 'Z')||LA12_10=='_'||(LA12_10 >= 'a' && LA12_10 <= 'd')||(LA12_10 >= 'f' && LA12_10 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_10);
-						if ( s>=0 ) return s;
-						break;
-
-					case 16 : 
-						int LA12_86 = input.LA(1);
-						 
-						int index12_86 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_86 >= '0' && LA12_86 <= '9')||(LA12_86 >= 'A' && LA12_86 <= 'Z')||LA12_86=='_'||(LA12_86 >= 'a' && LA12_86 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 93;
-						 
-						input.seek(index12_86);
-						if ( s>=0 ) return s;
-						break;
-
-					case 17 : 
-						int LA12_84 = input.LA(1);
-						 
-						int index12_84 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_84=='d') ) {s = 90;}
-						else if ( (LA12_84=='t') && ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1))) {s = 91;}
-						 
-						input.seek(index12_84);
-						if ( s>=0 ) return s;
-						break;
-
-					case 18 : 
-						int LA12_103 = input.LA(1);
-						 
-						int index12_103 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_103 >= '0' && LA12_103 <= '9')||(LA12_103 >= 'A' && LA12_103 <= 'Z')||LA12_103=='_'||(LA12_103 >= 'a' && LA12_103 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 106;
-						 
-						input.seek(index12_103);
-						if ( s>=0 ) return s;
-						break;
-
-					case 19 : 
-						int LA12_25 = input.LA(1);
-						 
-						int index12_25 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_25 >= '0' && LA12_25 <= '9')||(LA12_25 >= 'A' && LA12_25 <= 'Z')||LA12_25=='_'||(LA12_25 >= 'a' && LA12_25 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
-						 
-						input.seek(index12_25);
-						if ( s>=0 ) return s;
-						break;
-
-					case 20 : 
-						int LA12_102 = input.LA(1);
-						 
-						int index12_102 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_102 >= '0' && LA12_102 <= '9')||(LA12_102 >= 'A' && LA12_102 <= 'Z')||LA12_102=='_'||(LA12_102 >= 'a' && LA12_102 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 105;
-						 
-						input.seek(index12_102);
-						if ( s>=0 ) return s;
-						break;
-
-					case 21 : 
-						int LA12_53 = input.LA(1);
-						 
-						int index12_53 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 49;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 76;}
-						 
-						input.seek(index12_53);
-						if ( s>=0 ) return s;
-						break;
-
-					case 22 : 
-						int LA12_55 = input.LA(1);
-						 
-						int index12_55 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 50;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 76;}
-						 
-						input.seek(index12_55);
-						if ( s>=0 ) return s;
-						break;
-
-					case 23 : 
-						int LA12_106 = input.LA(1);
-						 
-						int index12_106 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((sq_nesting > 0)) ) {s = 109;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 80;}
-						 
-						input.seek(index12_106);
-						if ( s>=0 ) return s;
-						break;
-
-					case 24 : 
-						int LA12_105 = input.LA(1);
-						 
-						int index12_105 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((sq_nesting > 0)) ) {s = 108;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 80;}
-						 
-						input.seek(index12_105);
-						if ( s>=0 ) return s;
-						break;
-
-					case 25 : 
-						int LA12_93 = input.LA(1);
-						 
-						int index12_93 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 98;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 76;}
-						 
-						input.seek(index12_93);
-						if ( s>=0 ) return s;
-						break;
-
-					case 26 : 
-						int LA12_92 = input.LA(1);
-						 
-						int index12_92 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting == 0)) ) {s = 97;}
-						else if ( ((stringterm)) ) {s = 27;}
-						else if ( ((!stringterm)) ) {s = 76;}
-						 
-						input.seek(index12_92);
-						if ( s>=0 ) return s;
-						break;
-
-					case 27 : 
-						int LA12_85 = input.LA(1);
-						 
-						int index12_85 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_85 >= '0' && LA12_85 <= '9')||(LA12_85 >= 'A' && LA12_85 <= 'Z')||LA12_85=='_'||(LA12_85 >= 'a' && LA12_85 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 92;
-						 
-						input.seek(index12_85);
-						if ( s>=0 ) return s;
-						break;
-
-					case 28 : 
-						int LA12_24 = input.LA(1);
-						 
-						int index12_24 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA12_24 >= '0' && LA12_24 <= '9')||(LA12_24 >= 'A' && LA12_24 <= 'Z')||LA12_24=='_'||(LA12_24 >= 'a' && LA12_24 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
-						 
-						input.seek(index12_24);
-						if ( s>=0 ) return s;
-						break;
-
-					case 29 : 
-						int LA12_77 = input.LA(1);
-						 
-						int index12_77 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA12_77=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 85;}
-						else if ( ((LA12_77 >= '0' && LA12_77 <= '9')||(LA12_77 >= 'A' && LA12_77 <= 'R')||(LA12_77 >= 'T' && LA12_77 <= 'Z')||LA12_77=='_'||(LA12_77 >= 'a' && LA12_77 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
-						 
-						input.seek(index12_77);
-						if ( s>=0 ) return s;
-						break;
-
-					case 30 : 
+					case 2 : 
 						int LA12_88 = input.LA(1);
 						 
 						int index12_88 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_88=='o') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 95;}
-						else if ( ((LA12_88 >= '0' && LA12_88 <= '9')||(LA12_88 >= 'A' && LA12_88 <= 'Z')||LA12_88=='_'||(LA12_88 >= 'a' && LA12_88 <= 'n')||(LA12_88 >= 'p' && LA12_88 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
+						if ( (LA12_88=='i') ) {s = 111;}
+						else s = 29;
 						 
 						input.seek(index12_88);
 						if ( s>=0 ) return s;
 						break;
 
-					case 31 : 
-						int LA12_56 = input.LA(1);
+					case 3 : 
+						int LA12_111 = input.LA(1);
 						 
-						int index12_56 = input.index();
+						int index12_111 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_56=='S') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 77;}
-						else if ( ((LA12_56 >= '0' && LA12_56 <= '9')||(LA12_56 >= 'A' && LA12_56 <= 'R')||(LA12_56 >= 'T' && LA12_56 <= 'Z')||LA12_56=='_'||(LA12_56 >= 'a' && LA12_56 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
+						if ( (LA12_111=='t') ) {s = 127;}
+						else s = 29;
 						 
-						input.seek(index12_56);
+						input.seek(index12_111);
 						if ( s>=0 ) return s;
 						break;
 
-					case 32 : 
-						int LA12_81 = input.LA(1);
+					case 4 : 
+						int LA12_116 = input.LA(1);
 						 
-						int index12_81 = input.index();
+						int index12_116 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_81=='f') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 88;}
-						else if ( ((LA12_81 >= '0' && LA12_81 <= '9')||(LA12_81 >= 'A' && LA12_81 <= 'Z')||LA12_81=='_'||(LA12_81 >= 'a' && LA12_81 <= 'e')||(LA12_81 >= 'g' && LA12_81 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
+						if ( ((LA12_116 >= '0' && LA12_116 <= '9')||(LA12_116 >= 'A' && LA12_116 <= 'Z')||LA12_116=='_'||(LA12_116 >= 'a' && LA12_116 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_116==' '||LA12_116=='.') && ((stringterm))) {s = 29;}
+						else s = 132;
 						 
-						input.seek(index12_81);
+						input.seek(index12_116);
 						if ( s>=0 ) return s;
 						break;
 
-					case 33 : 
-						int LA12_100 = input.LA(1);
+					case 5 : 
+						int LA12_79 = input.LA(1);
 						 
-						int index12_100 = input.index();
+						int index12_79 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_100=='m') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 103;}
-						else if ( ((LA12_100 >= '0' && LA12_100 <= '9')||(LA12_100 >= 'A' && LA12_100 <= 'Z')||LA12_100=='_'||(LA12_100 >= 'a' && LA12_100 <= 'l')||(LA12_100 >= 'n' && LA12_100 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
+						if ( ((LA12_79 >= '0' && LA12_79 <= '9')) && (((stringterm)||(!stringterm)))) {s = 79;}
+						else if ( (LA12_79==' '||LA12_79=='.'||(LA12_79 >= 'A' && LA12_79 <= 'Z')||LA12_79=='_'||(LA12_79 >= 'a' && LA12_79 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 78;
 						 
-						input.seek(index12_100);
+						input.seek(index12_79);
 						if ( s>=0 ) return s;
 						break;
 
-					case 34 : 
-						int LA12_95 = input.LA(1);
+					case 6 : 
+						int LA12_77 = input.LA(1);
 						 
-						int index12_95 = input.index();
+						int index12_77 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_95=='r') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 100;}
-						else if ( ((LA12_95 >= '0' && LA12_95 <= '9')||(LA12_95 >= 'A' && LA12_95 <= 'Z')||LA12_95=='_'||(LA12_95 >= 'a' && LA12_95 <= 'q')||(LA12_95 >= 's' && LA12_95 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
+						if ( ((!stringterm)) ) {s = 25;}
+						else if ( ((stringterm)) ) {s = 29;}
 						 
-						input.seek(index12_95);
+						input.seek(index12_77);
 						if ( s>=0 ) return s;
 						break;
 
-					case 35 : 
-						int LA12_5 = input.LA(1);
+					case 7 : 
+						int LA12_127 = input.LA(1);
 						 
-						int index12_5 = input.index();
+						int index12_127 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA12_5 >= '0' && LA12_5 <= '9')||(LA12_5 >= 'A' && LA12_5 <= 'Z')||LA12_5=='_'||(LA12_5 >= 'a' && LA12_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 53;
+						if ( (LA12_127==' '||LA12_127=='.'||(LA12_127 >= '0' && LA12_127 <= '9')||(LA12_127 >= 'A' && LA12_127 <= 'Z')||LA12_127=='_'||(LA12_127 >= 'a' && LA12_127 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 143;
 						 
-						input.seek(index12_5);
+						input.seek(index12_127);
 						if ( s>=0 ) return s;
 						break;
 
-					case 36 : 
-						int LA12_6 = input.LA(1);
+					case 8 : 
+						int LA12_52 = input.LA(1);
 						 
-						int index12_6 = input.index();
+						int index12_52 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA12_6 >= '0' && LA12_6 <= '9')||(LA12_6 >= 'A' && LA12_6 <= 'Z')||LA12_6=='_'||(LA12_6 >= 'a' && LA12_6 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 55;
+						if ( (LA12_52=='l') ) {s = 89;}
+						else s = 29;
 						 
-						input.seek(index12_6);
+						input.seek(index12_52);
 						if ( s>=0 ) return s;
 						break;
 
-					case 37 : 
+					case 9 : 
+						int LA12_65 = input.LA(1);
+						 
+						int index12_65 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 101;}
+						 
+						input.seek(index12_65);
+						if ( s>=0 ) return s;
+						break;
+
+					case 10 : 
+						int LA12_89 = input.LA(1);
+						 
+						int index12_89 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_89=='a') ) {s = 112;}
+						else s = 29;
+						 
+						input.seek(index12_89);
+						if ( s>=0 ) return s;
+						break;
+
+					case 11 : 
 						int LA12_62 = input.LA(1);
 						 
 						int index12_62 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_62=='r') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 81;}
-						else if ( ((LA12_62 >= '0' && LA12_62 <= '9')||(LA12_62 >= 'A' && LA12_62 <= 'Z')||LA12_62=='_'||(LA12_62 >= 'a' && LA12_62 <= 'q')||(LA12_62 >= 's' && LA12_62 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 61;}
-						else s = 60;
+						if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 96;}
 						 
 						input.seek(index12_62);
 						if ( s>=0 ) return s;
 						break;
 
+					case 12 : 
+						int LA12_112 = input.LA(1);
+						 
+						int index12_112 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_112=='n') ) {s = 128;}
+						else s = 29;
+						 
+						input.seek(index12_112);
+						if ( s>=0 ) return s;
+						break;
+
+					case 13 : 
+						int LA12_78 = input.LA(1);
+						 
+						int index12_78 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 103;}
+						 
+						input.seek(index12_78);
+						if ( s>=0 ) return s;
+						break;
+
+					case 14 : 
+						int LA12_57 = input.LA(1);
+						 
+						int index12_57 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 29;}
+						else if ( (true) ) {s = 94;}
+						 
+						input.seek(index12_57);
+						if ( s>=0 ) return s;
+						break;
+
+					case 15 : 
+						int LA12_53 = input.LA(1);
+						 
+						int index12_53 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_53=='m') ) {s = 90;}
+						else s = 29;
+						 
+						input.seek(index12_53);
+						if ( s>=0 ) return s;
+						break;
+
+					case 16 : 
+						int LA12_90 = input.LA(1);
+						 
+						int index12_90 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_90=='p') ) {s = 113;}
+						else s = 29;
+						 
+						input.seek(index12_90);
+						if ( s>=0 ) return s;
+						break;
+
+					case 17 : 
+						int LA12_109 = input.LA(1);
+						 
+						int index12_109 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_109==' '||LA12_109=='.'||(LA12_109 >= '0' && LA12_109 <= '9')||(LA12_109 >= 'A' && LA12_109 <= 'Z')||LA12_109=='_'||(LA12_109 >= 'a' && LA12_109 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 125;
+						 
+						input.seek(index12_109);
+						if ( s>=0 ) return s;
+						break;
+
+					case 18 : 
+						int LA12_84 = input.LA(1);
+						 
+						int index12_84 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_84=='b') ) {s = 106;}
+						else s = 29;
+						 
+						input.seek(index12_84);
+						if ( s>=0 ) return s;
+						break;
+
+					case 19 : 
+						int LA12_106 = input.LA(1);
+						 
+						int index12_106 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_106=='s') ) {s = 122;}
+						else s = 29;
+						 
+						input.seek(index12_106);
+						if ( s>=0 ) return s;
+						break;
+
+					case 20 : 
+						int LA12_122 = input.LA(1);
+						 
+						int index12_122 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_122=='t') ) {s = 138;}
+						else s = 29;
+						 
+						input.seek(index12_122);
+						if ( s>=0 ) return s;
+						break;
+
+					case 21 : 
+						int LA12_8 = input.LA(1);
+						 
+						int index12_8 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_8=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 63;}
+						else if ( ((LA12_8 >= '0' && LA12_8 <= '9')||(LA12_8 >= 'A' && LA12_8 <= 'Z')||LA12_8=='_'||(LA12_8 >= 'a' && LA12_8 <= 'q')||(LA12_8 >= 's' && LA12_8 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_8==' '||LA12_8=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_8);
+						if ( s>=0 ) return s;
+						break;
+
+					case 22 : 
+						int LA12_138 = input.LA(1);
+						 
+						int index12_138 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_138=='i') ) {s = 154;}
+						else s = 29;
+						 
+						input.seek(index12_138);
+						if ( s>=0 ) return s;
+						break;
+
+					case 23 : 
+						int LA12_154 = input.LA(1);
+						 
+						int index12_154 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_154=='t') ) {s = 164;}
+						else s = 29;
+						 
+						input.seek(index12_154);
+						if ( s>=0 ) return s;
+						break;
+
+					case 24 : 
+						int LA12_164 = input.LA(1);
+						 
+						int index12_164 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_164=='u') ) {s = 171;}
+						else s = 29;
+						 
+						input.seek(index12_164);
+						if ( s>=0 ) return s;
+						break;
+
+					case 25 : 
+						int LA12_171 = input.LA(1);
+						 
+						int index12_171 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_171=='t') ) {s = 178;}
+						else s = 29;
+						 
+						input.seek(index12_171);
+						if ( s>=0 ) return s;
+						break;
+
+					case 26 : 
+						int LA12_178 = input.LA(1);
+						 
+						int index12_178 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_178=='e') ) {s = 181;}
+						else s = 29;
+						 
+						input.seek(index12_178);
+						if ( s>=0 ) return s;
+						break;
+
+					case 27 : 
+						int LA12_128 = input.LA(1);
+						 
+						int index12_128 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_128==' '||LA12_128=='.'||(LA12_128 >= '0' && LA12_128 <= '9')||(LA12_128 >= 'A' && LA12_128 <= 'Z')||LA12_128=='_'||(LA12_128 >= 'a' && LA12_128 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 144;
+						 
+						input.seek(index12_128);
+						if ( s>=0 ) return s;
+						break;
+
+					case 28 : 
+						int LA12_26 = input.LA(1);
+						 
+						int index12_26 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_26 >= '0' && LA12_26 <= '9')||(LA12_26 >= 'A' && LA12_26 <= 'Z')||LA12_26=='_'||(LA12_26 >= 'a' && LA12_26 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_26==' '||LA12_26=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_26);
+						if ( s>=0 ) return s;
+						break;
+
+					case 29 : 
+						int LA12_113 = input.LA(1);
+						 
+						int index12_113 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_113==' '||LA12_113=='.'||(LA12_113 >= '0' && LA12_113 <= '9')||(LA12_113 >= 'A' && LA12_113 <= 'Z')||LA12_113=='_'||(LA12_113 >= 'a' && LA12_113 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 129;
+						 
+						input.seek(index12_113);
+						if ( s>=0 ) return s;
+						break;
+
+					case 30 : 
+						int LA12_16 = input.LA(1);
+						 
+						int index12_16 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_16==' ') && (((stringterm)||(!stringterm)))) {s = 16;}
+						else if ( (LA12_16=='\t') && ((!stringterm))) {s = 25;}
+						else if ( (LA12_16=='.'||(LA12_16 >= '0' && LA12_16 <= '9')||(LA12_16 >= 'A' && LA12_16 <= 'Z')||LA12_16=='_'||(LA12_16 >= 'a' && LA12_16 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 77;
+						 
+						input.seek(index12_16);
+						if ( s>=0 ) return s;
+						break;
+
+					case 31 : 
+						int LA12_64 = input.LA(1);
+						 
+						int index12_64 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_64=='h') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 100;}
+						else if ( ((LA12_64 >= '0' && LA12_64 <= '9')||(LA12_64 >= 'A' && LA12_64 <= 'Z')||LA12_64=='_'||(LA12_64 >= 'a' && LA12_64 <= 'g')||(LA12_64 >= 'i' && LA12_64 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_64==' '||LA12_64=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_64);
+						if ( s>=0 ) return s;
+						break;
+
+					case 32 : 
+						int LA12_100 = input.LA(1);
+						 
+						int index12_100 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_100=='i') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 117;}
+						else if ( ((LA12_100 >= '0' && LA12_100 <= '9')||(LA12_100 >= 'A' && LA12_100 <= 'Z')||LA12_100=='_'||(LA12_100 >= 'a' && LA12_100 <= 'h')||(LA12_100 >= 'j' && LA12_100 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_100==' '||LA12_100=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_100);
+						if ( s>=0 ) return s;
+						break;
+
+					case 33 : 
+						int LA12_117 = input.LA(1);
+						 
+						int index12_117 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_117=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 133;}
+						else if ( ((LA12_117 >= '0' && LA12_117 <= '9')||(LA12_117 >= 'A' && LA12_117 <= 'Z')||LA12_117=='_'||(LA12_117 >= 'a' && LA12_117 <= 'd')||(LA12_117 >= 'f' && LA12_117 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_117==' '||LA12_117=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_117);
+						if ( s>=0 ) return s;
+						break;
+
+					case 34 : 
+						int LA12_133 = input.LA(1);
+						 
+						int index12_133 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_133=='v') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 149;}
+						else if ( ((LA12_133 >= '0' && LA12_133 <= '9')||(LA12_133 >= 'A' && LA12_133 <= 'Z')||LA12_133=='_'||(LA12_133 >= 'a' && LA12_133 <= 'u')||(LA12_133 >= 'w' && LA12_133 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_133==' '||LA12_133=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_133);
+						if ( s>=0 ) return s;
+						break;
+
+					case 35 : 
+						int LA12_149 = input.LA(1);
+						 
+						int index12_149 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_149=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 161;}
+						else if ( ((LA12_149 >= '0' && LA12_149 <= '9')||(LA12_149 >= 'A' && LA12_149 <= 'Z')||LA12_149=='_'||(LA12_149 >= 'a' && LA12_149 <= 'd')||(LA12_149 >= 'f' && LA12_149 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_149==' '||LA12_149=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_149);
+						if ( s>=0 ) return s;
+						break;
+
+					case 36 : 
+						int LA12_67 = input.LA(1);
+						 
+						int index12_67 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_67=='r') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 102;}
+						else if ( ((LA12_67 >= '0' && LA12_67 <= '9')||(LA12_67 >= 'A' && LA12_67 <= 'Z')||LA12_67=='_'||(LA12_67 >= 'a' && LA12_67 <= 'q')||(LA12_67 >= 's' && LA12_67 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_67==' '||LA12_67=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_67);
+						if ( s>=0 ) return s;
+						break;
+
+					case 37 : 
+						int LA12_56 = input.LA(1);
+						 
+						int index12_56 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_56=='o') ) {s = 93;}
+						else s = 29;
+						 
+						input.seek(index12_56);
+						if ( s>=0 ) return s;
+						break;
+
 					case 38 : 
+						int LA12_61 = input.LA(1);
+						 
+						int index12_61 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_61=='S') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 98;}
+						else if ( ((LA12_61 >= '0' && LA12_61 <= '9')||(LA12_61 >= 'A' && LA12_61 <= 'R')||(LA12_61 >= 'T' && LA12_61 <= 'Z')||LA12_61=='_'||(LA12_61 >= 'a' && LA12_61 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_61==' '||LA12_61=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_61);
+						if ( s>=0 ) return s;
+						break;
+
+					case 39 : 
+						int LA12_102 = input.LA(1);
+						 
+						int index12_102 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_102=='f') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 118;}
+						else if ( ((LA12_102 >= '0' && LA12_102 <= '9')||(LA12_102 >= 'A' && LA12_102 <= 'Z')||LA12_102=='_'||(LA12_102 >= 'a' && LA12_102 <= 'e')||(LA12_102 >= 'g' && LA12_102 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_102==' '||LA12_102=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_102);
+						if ( s>=0 ) return s;
+						break;
+
+					case 40 : 
+						int LA12_93 = input.LA(1);
+						 
+						int index12_93 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_93=='c') ) {s = 114;}
+						else s = 29;
+						 
+						input.seek(index12_93);
+						if ( s>=0 ) return s;
+						break;
+
+					case 41 : 
+						int LA12_98 = input.LA(1);
+						 
+						int index12_98 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_98=='S') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 115;}
+						else if ( ((LA12_98 >= '0' && LA12_98 <= '9')||(LA12_98 >= 'A' && LA12_98 <= 'R')||(LA12_98 >= 'T' && LA12_98 <= 'Z')||LA12_98=='_'||(LA12_98 >= 'a' && LA12_98 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_98==' '||LA12_98=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_98);
+						if ( s>=0 ) return s;
+						break;
+
+					case 42 : 
+						int LA12_118 = input.LA(1);
+						 
+						int index12_118 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_118=='o') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 134;}
+						else if ( ((LA12_118 >= '0' && LA12_118 <= '9')||(LA12_118 >= 'A' && LA12_118 <= 'Z')||LA12_118=='_'||(LA12_118 >= 'a' && LA12_118 <= 'n')||(LA12_118 >= 'p' && LA12_118 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_118==' '||LA12_118=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_118);
+						if ( s>=0 ) return s;
+						break;
+
+					case 43 : 
+						int LA12_114 = input.LA(1);
+						 
+						int index12_114 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_114=='k') ) {s = 130;}
+						else s = 29;
+						 
+						input.seek(index12_114);
+						if ( s>=0 ) return s;
+						break;
+
+					case 44 : 
+						int LA12_134 = input.LA(1);
+						 
+						int index12_134 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_134=='r') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 150;}
+						else if ( ((LA12_134 >= '0' && LA12_134 <= '9')||(LA12_134 >= 'A' && LA12_134 <= 'Z')||LA12_134=='_'||(LA12_134 >= 'a' && LA12_134 <= 'q')||(LA12_134 >= 's' && LA12_134 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_134==' '||LA12_134=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_134);
+						if ( s>=0 ) return s;
+						break;
+
+					case 45 : 
+						int LA12_181 = input.LA(1);
+						 
+						int index12_181 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_181==' '||LA12_181=='.'||(LA12_181 >= '0' && LA12_181 <= '9')||(LA12_181 >= 'A' && LA12_181 <= 'Z')||LA12_181=='_'||(LA12_181 >= 'a' && LA12_181 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 184;
+						 
+						input.seek(index12_181);
+						if ( s>=0 ) return s;
+						break;
+
+					case 46 : 
+						int LA12_150 = input.LA(1);
+						 
+						int index12_150 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_150=='m') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 162;}
+						else if ( ((LA12_150 >= '0' && LA12_150 <= '9')||(LA12_150 >= 'A' && LA12_150 <= 'Z')||LA12_150=='_'||(LA12_150 >= 'a' && LA12_150 <= 'l')||(LA12_150 >= 'n' && LA12_150 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_150==' '||LA12_150=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_150);
+						if ( s>=0 ) return s;
+						break;
+
+					case 47 : 
+						int LA12_54 = input.LA(1);
+						 
+						int index12_54 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_54==' '||LA12_54=='.'||(LA12_54 >= '0' && LA12_54 <= '9')||(LA12_54 >= 'A' && LA12_54 <= 'Z')||LA12_54=='_'||(LA12_54 >= 'a' && LA12_54 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 91;
+						 
+						input.seek(index12_54);
+						if ( s>=0 ) return s;
+						break;
+
+					case 48 : 
+						int LA12_4 = input.LA(1);
+						 
+						int index12_4 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_4=='s') ) {s = 47;}
+						else if ( (LA12_4=='r') ) {s = 48;}
+						else if ( (LA12_4=='c') ) {s = 49;}
+						else if ( (LA12_4=='q') ) {s = 50;}
+						else if ( (LA12_4=='w') ) {s = 51;}
+						else if ( (LA12_4=='p') ) {s = 52;}
+						else if ( (LA12_4=='i') ) {s = 53;}
+						else if ( (LA12_4=='B') && (((stringterm)||(curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)))) {s = 54;}
+						else if ( (LA12_4=='G') && (((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)||(stringterm)))) {s = 55;}
+						else if ( (LA12_4=='l') ) {s = 56;}
+						else if ( (LA12_4==' '||LA12_4=='.'||(LA12_4 >= '0' && LA12_4 <= '9')||LA12_4=='A'||(LA12_4 >= 'C' && LA12_4 <= 'F')||(LA12_4 >= 'H' && LA12_4 <= 'Z')||LA12_4=='_'||(LA12_4 >= 'a' && LA12_4 <= 'b')||(LA12_4 >= 'd' && LA12_4 <= 'h')||(LA12_4 >= 'j' && LA12_4 <= 'k')||(LA12_4 >= 'm' && LA12_4 <= 'o')||(LA12_4 >= 't' && LA12_4 <= 'v')||(LA12_4 >= 'x' && LA12_4 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 57;
+						 
+						input.seek(index12_4);
+						if ( s>=0 ) return s;
+						break;
+
+					case 49 : 
+						int LA12_63 = input.LA(1);
+						 
+						int index12_63 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_63=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 99;}
+						else if ( ((LA12_63 >= '0' && LA12_63 <= '9')||(LA12_63 >= 'A' && LA12_63 <= 'Z')||LA12_63=='_'||(LA12_63 >= 'a' && LA12_63 <= 't')||(LA12_63 >= 'v' && LA12_63 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_63==' '||LA12_63=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_63);
+						if ( s>=0 ) return s;
+						break;
+
+					case 50 : 
+						int LA12_99 = input.LA(1);
+						 
+						int index12_99 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_99=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 116;}
+						else if ( ((LA12_99 >= '0' && LA12_99 <= '9')||(LA12_99 >= 'A' && LA12_99 <= 'Z')||LA12_99=='_'||(LA12_99 >= 'a' && LA12_99 <= 'd')||(LA12_99 >= 'f' && LA12_99 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_99==' '||LA12_99=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_99);
+						if ( s>=0 ) return s;
+						break;
+
+					case 51 : 
+						int LA12_58 = input.LA(1);
+						 
+						int index12_58 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 95;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 96;}
+						 
+						input.seek(index12_58);
+						if ( s>=0 ) return s;
+						break;
+
+					case 52 : 
+						int LA12_60 = input.LA(1);
+						 
+						int index12_60 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 97;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 96;}
+						 
+						input.seek(index12_60);
+						if ( s>=0 ) return s;
+						break;
+
+					case 53 : 
+						int LA12_27 = input.LA(1);
+						 
+						int index12_27 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_27 >= '0' && LA12_27 <= '9')||(LA12_27 >= 'A' && LA12_27 <= 'Z')||LA12_27=='_'||(LA12_27 >= 'a' && LA12_27 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_27==' '||LA12_27=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_27);
+						if ( s>=0 ) return s;
+						break;
+
+					case 54 : 
+						int LA12_55 = input.LA(1);
+						 
+						int index12_55 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_55==' '||LA12_55=='.'||(LA12_55 >= '0' && LA12_55 <= '9')||(LA12_55 >= 'A' && LA12_55 <= 'Z')||LA12_55=='_'||(LA12_55 >= 'a' && LA12_55 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 92;
+						 
+						input.seek(index12_55);
+						if ( s>=0 ) return s;
+						break;
+
+					case 55 : 
+						int LA12_131 = input.LA(1);
+						 
+						int index12_131 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting == 0)) ) {s = 147;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 96;}
+						 
+						input.seek(index12_131);
+						if ( s>=0 ) return s;
+						break;
+
+					case 56 : 
+						int LA12_132 = input.LA(1);
+						 
+						int index12_132 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 148;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 96;}
+						 
+						input.seek(index12_132);
+						if ( s>=0 ) return s;
+						break;
+
+					case 57 : 
+						int LA12_168 = input.LA(1);
+						 
+						int index12_168 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((sq_nesting > 0)) ) {s = 174;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 101;}
+						 
+						input.seek(index12_168);
+						if ( s>=0 ) return s;
+						break;
+
+					case 58 : 
+						int LA12_169 = input.LA(1);
+						 
+						int index12_169 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((sq_nesting > 0)) ) {s = 175;}
+						else if ( ((stringterm)) ) {s = 29;}
+						else if ( ((!stringterm)) ) {s = 101;}
+						 
+						input.seek(index12_169);
+						if ( s>=0 ) return s;
+						break;
+
+					case 59 : 
+						int LA12_121 = input.LA(1);
+						 
+						int index12_121 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_121==' '||LA12_121=='.'||(LA12_121 >= '0' && LA12_121 <= '9')||(LA12_121 >= 'A' && LA12_121 <= 'Z')||LA12_121=='_'||(LA12_121 >= 'a' && LA12_121 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 137;
+						 
+						input.seek(index12_121);
+						if ( s>=0 ) return s;
+						break;
+
+					case 60 : 
+						int LA12_66 = input.LA(1);
+						 
+						int index12_66 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_66 >= '0' && LA12_66 <= '9')||(LA12_66 >= 'A' && LA12_66 <= 'Z')||LA12_66=='_'||(LA12_66 >= 'a' && LA12_66 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_66==' '||LA12_66=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_66);
+						if ( s>=0 ) return s;
+						break;
+
+					case 61 : 
+						int LA12_130 = input.LA(1);
+						 
+						int index12_130 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_130==' '||LA12_130=='.'||(LA12_130 >= '0' && LA12_130 <= '9')||(LA12_130 >= 'A' && LA12_130 <= 'Z')||LA12_130=='_'||(LA12_130 >= 'a' && LA12_130 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 146;
+						 
+						input.seek(index12_130);
+						if ( s>=0 ) return s;
+						break;
+
+					case 62 : 
 						int LA12_0 = input.LA(1);
 						 
 						int index12_0 = input.index();
@@ -2693,79 +3377,677 @@ public class EASSLexer extends Lexer {
 						else if ( (LA12_0==':') ) {s = 3;}
 						else if ( (LA12_0=='.') ) {s = 4;}
 						else if ( (LA12_0=='B') && (((stringterm)||(!stringterm)||(curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)))) {s = 5;}
-						else if ( (LA12_0=='G') && (((stringterm)||(!stringterm)||(curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)))) {s = 6;}
-						else if ( (LA12_0=='E') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 7;}
-						else if ( (LA12_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 8;}
-						else if ( (LA12_0=='a') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 9;}
-						else if ( (LA12_0=='p') && (((!stringterm)||(stringterm)||(sq_nesting > 0)))) {s = 10;}
+						else if ( (LA12_0=='G') && (((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)||(stringterm)||(!stringterm)))) {s = 6;}
+						else if ( (LA12_0=='E') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 7;}
+						else if ( (LA12_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 8;}
+						else if ( (LA12_0=='a') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 9;}
+						else if ( (LA12_0=='p') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 10;}
 						else if ( (LA12_0=='<') ) {s = 11;}
 						else if ( (LA12_0=='=') ) {s = 12;}
-						else if ( (LA12_0=='/') ) {s = 13;}
-						else if ( (LA12_0=='\n'||LA12_0=='\r') ) {s = 14;}
-						else if ( (LA12_0=='\t'||LA12_0==' ') ) {s = 15;}
-						else if ( (LA12_0=='(') ) {s = 16;}
-						else if ( (LA12_0==')') ) {s = 17;}
-						else if ( (LA12_0=='[') ) {s = 18;}
-						else if ( (LA12_0==']') ) {s = 19;}
-						else if ( (LA12_0=='{') ) {s = 20;}
-						else if ( (LA12_0=='}') ) {s = 21;}
-						else if ( (LA12_0=='\"') ) {s = 22;}
-						else if ( (LA12_0=='~') ) {s = 23;}
-						else if ( ((LA12_0 >= 'b' && LA12_0 <= 'o')||(LA12_0 >= 'q' && LA12_0 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 24;}
-						else if ( (LA12_0=='A'||(LA12_0 >= 'C' && LA12_0 <= 'D')||LA12_0=='F'||(LA12_0 >= 'H' && LA12_0 <= 'S')||(LA12_0 >= 'U' && LA12_0 <= 'Z')) && (((!stringterm)||(stringterm)))) {s = 25;}
-						else if ( ((LA12_0 >= '0' && LA12_0 <= '9')) && (((!stringterm)||(stringterm)))) {s = 26;}
-						else if ( (LA12_0=='_') && ((stringterm))) {s = 27;}
-						else if ( (LA12_0=='*') ) {s = 28;}
-						else if ( (LA12_0=='+') ) {s = 29;}
-						else if ( (LA12_0=='-') ) {s = 30;}
-						else if ( (LA12_0=='%') ) {s = 31;}
-						else if ( (LA12_0=='!') ) {s = 32;}
-						else if ( (LA12_0==',') ) {s = 33;}
-						else if ( (LA12_0==';') ) {s = 34;}
+						else if ( (LA12_0=='-') ) {s = 13;}
+						else if ( (LA12_0=='/') ) {s = 14;}
+						else if ( (LA12_0=='\n'||LA12_0=='\r') ) {s = 15;}
+						else if ( (LA12_0==' ') && (((stringterm)||(!stringterm)))) {s = 16;}
+						else if ( (LA12_0=='(') ) {s = 17;}
+						else if ( (LA12_0==')') ) {s = 18;}
+						else if ( (LA12_0=='[') ) {s = 19;}
+						else if ( (LA12_0==']') ) {s = 20;}
+						else if ( (LA12_0=='{') ) {s = 21;}
+						else if ( (LA12_0=='}') ) {s = 22;}
+						else if ( (LA12_0=='\"') ) {s = 23;}
+						else if ( (LA12_0=='~') ) {s = 24;}
+						else if ( (LA12_0=='\t') && ((!stringterm))) {s = 25;}
+						else if ( ((LA12_0 >= 'b' && LA12_0 <= 'o')||(LA12_0 >= 'q' && LA12_0 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 26;}
+						else if ( (LA12_0=='A'||(LA12_0 >= 'C' && LA12_0 <= 'D')||LA12_0=='F'||(LA12_0 >= 'H' && LA12_0 <= 'S')||(LA12_0 >= 'U' && LA12_0 <= 'Z')) && (((stringterm)||(!stringterm)))) {s = 27;}
+						else if ( ((LA12_0 >= '0' && LA12_0 <= '9')) && (((stringterm)||(!stringterm)))) {s = 28;}
+						else if ( (LA12_0=='_') && ((stringterm))) {s = 29;}
+						else if ( (LA12_0=='*') ) {s = 30;}
+						else if ( (LA12_0=='+') ) {s = 31;}
+						else if ( (LA12_0=='%') ) {s = 32;}
+						else if ( (LA12_0=='!') ) {s = 33;}
+						else if ( (LA12_0==',') ) {s = 34;}
+						else if ( (LA12_0==';') ) {s = 35;}
+						else if ( (LA12_0=='?') ) {s = 36;}
 						 
 						input.seek(index12_0);
 						if ( s>=0 ) return s;
 						break;
 
-					case 39 : 
-						int LA12_71 = input.LA(1);
+					case 63 : 
+						int LA12_5 = input.LA(1);
 						 
-						int index12_71 = input.index();
+						int index12_5 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA12_71 >= '0' && LA12_71 <= '9')) && (((!stringterm)||(stringterm)))) {s = 71;}
-						else if ( ((LA12_71 >= 'A' && LA12_71 <= 'Z')||LA12_71=='_'||(LA12_71 >= 'a' && LA12_71 <= 'z')) && ((stringterm))) {s = 27;}
-						else s = 70;
+						if ( ((LA12_5 >= '0' && LA12_5 <= '9')||(LA12_5 >= 'A' && LA12_5 <= 'Z')||LA12_5=='_'||(LA12_5 >= 'a' && LA12_5 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_5==' '||LA12_5=='.') && ((stringterm))) {s = 29;}
+						else s = 58;
 						 
-						input.seek(index12_71);
+						input.seek(index12_5);
 						if ( s>=0 ) return s;
 						break;
 
-					case 40 : 
-						int LA12_78 = input.LA(1);
+					case 64 : 
+						int LA12_120 = input.LA(1);
 						 
-						int index12_78 = input.index();
+						int index12_120 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_78=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 86;}
-						else if ( ((LA12_78 >= '0' && LA12_78 <= '9')||(LA12_78 >= 'A' && LA12_78 <= 'Z')||LA12_78=='_'||(LA12_78 >= 'a' && LA12_78 <= 'd')||(LA12_78 >= 'f' && LA12_78 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
+						if ( (LA12_120==' '||LA12_120=='.'||(LA12_120 >= '0' && LA12_120 <= '9')||(LA12_120 >= 'A' && LA12_120 <= 'Z')||LA12_120=='_'||(LA12_120 >= 'a' && LA12_120 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 136;
 						 
-						input.seek(index12_78);
+						input.seek(index12_120);
 						if ( s>=0 ) return s;
 						break;
 
-					case 41 : 
-						int LA12_58 = input.LA(1);
+					case 65 : 
+						int LA12_49 = input.LA(1);
 						 
-						int index12_58 = input.index();
+						int index12_49 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA12_58=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 78;}
-						else if ( ((LA12_58 >= '0' && LA12_58 <= '9')||(LA12_58 >= 'A' && LA12_58 <= 'Z')||LA12_58=='_'||(LA12_58 >= 'a' && LA12_58 <= 't')||(LA12_58 >= 'v' && LA12_58 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 54;}
-						else s = 57;
+						if ( (LA12_49=='a') ) {s = 86;}
+						else s = 29;
 						 
-						input.seek(index12_58);
+						input.seek(index12_49);
+						if ( s>=0 ) return s;
+						break;
+
+					case 66 : 
+						int LA12_86 = input.LA(1);
+						 
+						int index12_86 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_86=='l') ) {s = 108;}
+						else if ( (LA12_86=='p') ) {s = 109;}
+						else s = 29;
+						 
+						input.seek(index12_86);
+						if ( s>=0 ) return s;
+						break;
+
+					case 67 : 
+						int LA12_115 = input.LA(1);
+						 
+						int index12_115 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_115 >= '0' && LA12_115 <= '9')||(LA12_115 >= 'A' && LA12_115 <= 'Z')||LA12_115=='_'||(LA12_115 >= 'a' && LA12_115 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_115==' '||LA12_115=='.') && ((stringterm))) {s = 29;}
+						else s = 131;
+						 
+						input.seek(index12_115);
+						if ( s>=0 ) return s;
+						break;
+
+					case 68 : 
+						int LA12_59 = input.LA(1);
+						 
+						int index12_59 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_59 >= '0' && LA12_59 <= '9')||(LA12_59 >= 'A' && LA12_59 <= 'Z')||LA12_59=='_'||(LA12_59 >= 'a' && LA12_59 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_59==' '||LA12_59=='.') && ((stringterm))) {s = 29;}
+						else s = 62;
+						 
+						input.seek(index12_59);
+						if ( s>=0 ) return s;
+						break;
+
+					case 69 : 
+						int LA12_28 = input.LA(1);
+						 
+						int index12_28 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_28 >= '0' && LA12_28 <= '9')) && (((stringterm)||(!stringterm)))) {s = 79;}
+						else if ( (LA12_28==' '||LA12_28=='.'||(LA12_28 >= 'A' && LA12_28 <= 'Z')||LA12_28=='_'||(LA12_28 >= 'a' && LA12_28 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 78;
+						 
+						input.seek(index12_28);
+						if ( s>=0 ) return s;
+						break;
+
+					case 70 : 
+						int LA12_6 = input.LA(1);
+						 
+						int index12_6 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_6 >= '0' && LA12_6 <= '9')||(LA12_6 >= 'A' && LA12_6 <= 'Z')||LA12_6=='_'||(LA12_6 >= 'a' && LA12_6 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 59;}
+						else if ( (LA12_6==' '||LA12_6=='.') && ((stringterm))) {s = 29;}
+						else s = 60;
+						 
+						input.seek(index12_6);
+						if ( s>=0 ) return s;
+						break;
+
+					case 71 : 
+						int LA12_172 = input.LA(1);
+						 
+						int index12_172 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_172==' '||LA12_172=='.'||(LA12_172 >= '0' && LA12_172 <= '9')||(LA12_172 >= 'A' && LA12_172 <= 'Z')||LA12_172=='_'||(LA12_172 >= 'a' && LA12_172 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 179;
+						 
+						input.seek(index12_172);
+						if ( s>=0 ) return s;
+						break;
+
+					case 72 : 
+						int LA12_9 = input.LA(1);
+						 
+						int index12_9 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_9=='c') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 64;}
+						else if ( ((LA12_9 >= '0' && LA12_9 <= '9')||(LA12_9 >= 'A' && LA12_9 <= 'Z')||LA12_9=='_'||(LA12_9 >= 'a' && LA12_9 <= 'b')||(LA12_9 >= 'd' && LA12_9 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_9==' '||LA12_9=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_9);
+						if ( s>=0 ) return s;
+						break;
+
+					case 73 : 
+						int LA12_47 = input.LA(1);
+						 
+						int index12_47 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_47=='e') ) {s = 83;}
+						else if ( (LA12_47=='u') ) {s = 84;}
+						else s = 29;
+						 
+						input.seek(index12_47);
+						if ( s>=0 ) return s;
+						break;
+
+					case 74 : 
+						int LA12_48 = input.LA(1);
+						 
+						int index12_48 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_48=='e') ) {s = 85;}
+						else s = 29;
+						 
+						input.seek(index12_48);
+						if ( s>=0 ) return s;
+						break;
+
+					case 75 : 
+						int LA12_85 = input.LA(1);
+						 
+						int index12_85 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_85=='c') ) {s = 107;}
+						else s = 29;
+						 
+						input.seek(index12_85);
+						if ( s>=0 ) return s;
+						break;
+
+					case 76 : 
+						int LA12_161 = input.LA(1);
+						 
+						int index12_161 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_161 >= '0' && LA12_161 <= '9')||(LA12_161 >= 'A' && LA12_161 <= 'Z')||LA12_161=='_'||(LA12_161 >= 'a' && LA12_161 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_161==' '||LA12_161=='.') && ((stringterm))) {s = 29;}
+						else s = 168;
+						 
+						input.seek(index12_161);
+						if ( s>=0 ) return s;
+						break;
+
+					case 77 : 
+						int LA12_107 = input.LA(1);
+						 
+						int index12_107 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_107=='e') ) {s = 123;}
+						else s = 29;
+						 
+						input.seek(index12_107);
+						if ( s>=0 ) return s;
+						break;
+
+					case 78 : 
+						int LA12_123 = input.LA(1);
+						 
+						int index12_123 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_123=='i') ) {s = 139;}
+						else s = 29;
+						 
+						input.seek(index12_123);
+						if ( s>=0 ) return s;
+						break;
+
+					case 79 : 
+						int LA12_139 = input.LA(1);
+						 
+						int index12_139 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_139=='v') ) {s = 155;}
+						else s = 29;
+						 
+						input.seek(index12_139);
+						if ( s>=0 ) return s;
+						break;
+
+					case 80 : 
+						int LA12_155 = input.LA(1);
+						 
+						int index12_155 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_155=='e') ) {s = 165;}
+						else s = 29;
+						 
+						input.seek(index12_155);
+						if ( s>=0 ) return s;
+						break;
+
+					case 81 : 
+						int LA12_165 = input.LA(1);
+						 
+						int index12_165 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_165=='d') ) {s = 172;}
+						else s = 29;
+						 
+						input.seek(index12_165);
+						if ( s>=0 ) return s;
+						break;
+
+					case 82 : 
+						int LA12_10 = input.LA(1);
+						 
+						int index12_10 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_10=='e') && (((sq_nesting > 0)||(stringterm)||(!stringterm)))) {s = 67;}
+						else if ( ((LA12_10 >= '0' && LA12_10 <= '9')||(LA12_10 >= 'A' && LA12_10 <= 'Z')||LA12_10=='_'||(LA12_10 >= 'a' && LA12_10 <= 'd')||(LA12_10 >= 'f' && LA12_10 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_10==' '||LA12_10=='.') && ((stringterm))) {s = 29;}
+						else s = 65;
+						 
+						input.seek(index12_10);
+						if ( s>=0 ) return s;
+						break;
+
+					case 83 : 
+						int LA12_136 = input.LA(1);
+						 
+						int index12_136 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 152;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_136);
+						if ( s>=0 ) return s;
+						break;
+
+					case 84 : 
+						int LA12_179 = input.LA(1);
+						 
+						int index12_179 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 182;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_179);
+						if ( s>=0 ) return s;
+						break;
+
+					case 85 : 
+						int LA12_183 = input.LA(1);
+						 
+						int index12_183 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 185;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_183);
+						if ( s>=0 ) return s;
+						break;
+
+					case 86 : 
+						int LA12_157 = input.LA(1);
+						 
+						int index12_157 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 167;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_157);
+						if ( s>=0 ) return s;
+						break;
+
+					case 87 : 
+						int LA12_143 = input.LA(1);
+						 
+						int index12_143 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 158;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_143);
+						if ( s>=0 ) return s;
+						break;
+
+					case 88 : 
+						int LA12_180 = input.LA(1);
+						 
+						int index12_180 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_180==' '||LA12_180=='.'||(LA12_180 >= '0' && LA12_180 <= '9')||(LA12_180 >= 'A' && LA12_180 <= 'Z')||LA12_180=='_'||(LA12_180 >= 'a' && LA12_180 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 183;
+						 
+						input.seek(index12_180);
+						if ( s>=0 ) return s;
+						break;
+
+					case 89 : 
+						int LA12_108 = input.LA(1);
+						 
+						int index12_108 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_108=='c') ) {s = 124;}
+						else s = 29;
+						 
+						input.seek(index12_108);
+						if ( s>=0 ) return s;
+						break;
+
+					case 90 : 
+						int LA12_125 = input.LA(1);
+						 
+						int index12_125 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 141;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_125);
+						if ( s>=0 ) return s;
+						break;
+
+					case 91 : 
+						int LA12_124 = input.LA(1);
+						 
+						int index12_124 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_124=='u') ) {s = 140;}
+						else s = 29;
+						 
+						input.seek(index12_124);
+						if ( s>=0 ) return s;
+						break;
+
+					case 92 : 
+						int LA12_144 = input.LA(1);
+						 
+						int index12_144 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 159;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_144);
+						if ( s>=0 ) return s;
+						break;
+
+					case 93 : 
+						int LA12_129 = input.LA(1);
+						 
+						int index12_129 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 145;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_129);
+						if ( s>=0 ) return s;
+						break;
+
+					case 94 : 
+						int LA12_140 = input.LA(1);
+						 
+						int index12_140 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_140=='l') ) {s = 156;}
+						else s = 29;
+						 
+						input.seek(index12_140);
+						if ( s>=0 ) return s;
+						break;
+
+					case 95 : 
+						int LA12_83 = input.LA(1);
+						 
+						int index12_83 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_83=='n') ) {s = 105;}
+						else s = 29;
+						 
+						input.seek(index12_83);
+						if ( s>=0 ) return s;
+						break;
+
+					case 96 : 
+						int LA12_156 = input.LA(1);
+						 
+						int index12_156 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_156=='a') ) {s = 166;}
+						else s = 29;
+						 
+						input.seek(index12_156);
+						if ( s>=0 ) return s;
+						break;
+
+					case 97 : 
+						int LA12_184 = input.LA(1);
+						 
+						int index12_184 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 186;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_184);
+						if ( s>=0 ) return s;
+						break;
+
+					case 98 : 
+						int LA12_91 = input.LA(1);
+						 
+						int index12_91 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 95;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_91);
+						if ( s>=0 ) return s;
+						break;
+
+					case 99 : 
+						int LA12_166 = input.LA(1);
+						 
+						int index12_166 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_166=='t') ) {s = 173;}
+						else s = 29;
+						 
+						input.seek(index12_166);
+						if ( s>=0 ) return s;
+						break;
+
+					case 100 : 
+						int LA12_92 = input.LA(1);
+						 
+						int index12_92 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 97;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_92);
+						if ( s>=0 ) return s;
+						break;
+
+					case 101 : 
+						int LA12_105 = input.LA(1);
+						 
+						int index12_105 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_105=='d') ) {s = 120;}
+						else if ( (LA12_105=='t') && (((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)||(stringterm)))) {s = 121;}
+						else s = 29;
+						 
+						input.seek(index12_105);
+						if ( s>=0 ) return s;
+						break;
+
+					case 102 : 
+						int LA12_173 = input.LA(1);
+						 
+						int index12_173 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_173=='e') ) {s = 180;}
+						else s = 29;
+						 
+						input.seek(index12_173);
+						if ( s>=0 ) return s;
+						break;
+
+					case 103 : 
+						int LA12_137 = input.LA(1);
+						 
+						int index12_137 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {s = 153;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_137);
+						if ( s>=0 ) return s;
+						break;
+
+					case 104 : 
+						int LA12_146 = input.LA(1);
+						 
+						int index12_146 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (!(((stringterm)))) ) {s = 160;}
+						else if ( ((stringterm)) ) {s = 29;}
+						 
+						input.seek(index12_146);
+						if ( s>=0 ) return s;
+						break;
+
+					case 105 : 
+						int LA12_162 = input.LA(1);
+						 
+						int index12_162 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA12_162 >= '0' && LA12_162 <= '9')||(LA12_162 >= 'A' && LA12_162 <= 'Z')||LA12_162=='_'||(LA12_162 >= 'a' && LA12_162 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 66;}
+						else if ( (LA12_162==' '||LA12_162=='.') && ((stringterm))) {s = 29;}
+						else s = 169;
+						 
+						input.seek(index12_162);
+						if ( s>=0 ) return s;
+						break;
+
+					case 106 : 
+						int LA12_50 = input.LA(1);
+						 
+						int index12_50 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_50=='u') ) {s = 87;}
+						else s = 29;
+						 
+						input.seek(index12_50);
+						if ( s>=0 ) return s;
+						break;
+
+					case 107 : 
+						int LA12_87 = input.LA(1);
+						 
+						int index12_87 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_87=='e') ) {s = 110;}
+						else s = 29;
+						 
+						input.seek(index12_87);
+						if ( s>=0 ) return s;
+						break;
+
+					case 108 : 
+						int LA12_110 = input.LA(1);
+						 
+						int index12_110 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_110=='r') ) {s = 126;}
+						else s = 29;
+						 
+						input.seek(index12_110);
+						if ( s>=0 ) return s;
+						break;
+
+					case 109 : 
+						int LA12_126 = input.LA(1);
+						 
+						int index12_126 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_126=='y') ) {s = 142;}
+						else s = 29;
+						 
+						input.seek(index12_126);
+						if ( s>=0 ) return s;
+						break;
+
+					case 110 : 
+						int LA12_142 = input.LA(1);
+						 
+						int index12_142 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA12_142==' '||LA12_142=='.'||(LA12_142 >= '0' && LA12_142 <= '9')||(LA12_142 >= 'A' && LA12_142 <= 'Z')||LA12_142=='_'||(LA12_142 >= 'a' && LA12_142 <= 'z')) && ((stringterm))) {s = 29;}
+						else s = 157;
+						 
+						input.seek(index12_142);
 						if ( s>=0 ) return s;
 						break;
 			}

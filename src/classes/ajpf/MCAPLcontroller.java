@@ -69,17 +69,11 @@ public class MCAPLcontroller  {
 	 * The controller uses a scheduler to nominate agents and environments to do tasks.
 	 */
 	private MCAPLScheduler scheduler;
-	
-	/**
-	 * Where a scheduler  nominates several entities to do a job, these will be selected
-	 * randomly.
-	 */
+
 	Random random_numbers = new Random();
 	
-	/**
-	 * The logname.
-	 */
-	String logname = "ajpf.MCAPLcontroller";
+	// We make this a class variable for test sets which run AIL in a thread.
+	boolean checkend = false;
 		
 
 	/**
@@ -104,8 +98,8 @@ public class MCAPLcontroller  {
 	 *            The specification against which the system is to be checked.
 	 */
 	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s, int mc) {
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "Creating controller");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "Creating controller");
 		}
 		mas = m;
 		scheduler = mas.getScheduler();
@@ -113,8 +107,8 @@ public class MCAPLcontroller  {
 		for (MCAPLLanguageAgent a : lagents) {
 			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
 			agents.put(magent.getAgName(), magent);
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "adding " + magent.getAgName() + " as a percept listener");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "adding " + magent.getAgName() + " as a percept listener");
 			}
 			m.addPerceptListener(magent);
 		}
@@ -128,8 +122,8 @@ public class MCAPLcontroller  {
 	 * @param mc
 	 */
 	public MCAPLcontroller(MCAPLmas m, int mc) {
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "Creating controller");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "Creating controller");
 		}
 		mas = m;
 		scheduler = mas.getScheduler();
@@ -139,9 +133,6 @@ public class MCAPLcontroller  {
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "adding " + magent.getAgName() + " as a percept listener");
-			}
 		}
 		mas.setController(this);
 	}
@@ -164,7 +155,7 @@ public class MCAPLcontroller  {
 	public MCAPLSpec getSpecification() {
 		return (specification);
 	}
-	
+		
 	/**
 	 * Getter method for the multi-agent system.
 	 * @return
@@ -182,22 +173,21 @@ public class MCAPLcontroller  {
 	public void begin() {
 		// We assume it makes no difference the exact order the agents and the 
 		// environment (if relevant) start in so make this atomic.
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "entered begin");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
 		}
 		specification.createAutomaton();
 		specification.checkProperties();
-		boolean checkend = checkEnd();
+		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "before checkend");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {			
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
 			}
 			checkend = checkEnd();
 		}
-		triggerendstate();
-		if (AJPFLogger.ltInfo(logname)) {
-			AJPFLogger.info(logname, "Leaving Controller");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
 		
 		
@@ -205,38 +195,37 @@ public class MCAPLcontroller  {
 	}
 	
 	/**
-	 * Control of scheduling.
+	 * Use scheduler to pick a Jobber, do a Jobber, and return the Jobber.
 	 * @return
 	 */
 	public MCAPLJobber scheduling() {
 		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
+
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
-			if (AJPFLogger.ltInfo(logname)) {
-				AJPFLogger.info(logname, "(Choice) Picked jobber " + a.getName() + " from " + activeJobs);
-			}
-		}
-		
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "Picked jobber " + a.getName() + " from " + activeJobs);
+		} 
+
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
 		}
 		a.do_job();
 		specification.checkProperties();
+		force_transition();
 		return a;
 	}
 	
 	/**
-	 * Picking a job is separated out in order that we can intercept it from the
-	 * Native Virtual Machine when model checking.
+	 * Pick a jobber.  This method is intercepted by a native peer when executing in JPF.
+	 * Hence why it returns an int.
 	 * @param limit
 	 * @return
 	 */
 	private int pickJob(int limit) {
-		if (AJPFLogger.ltFine(logname)) {
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
 		}
 		int choice = random_numbers.nextInt(limit);
@@ -254,15 +243,15 @@ public class MCAPLcontroller  {
 	}
 		
 	/**
-	 * Inform the scheduler that this agent has gone to sleep.
+	 * This Jobber is asleep.
 	 * @param agname
 	 */
 	public void addAsleep(String agname) {
 		scheduler.notActive(agname);
 	}
-
+	
 	/**
-	 * Inform the scheduler that this agent has woken.
+	 * This Jobber is now awake.
 	 * @param agname
 	 */
 	public void addAwake(String agname) {
@@ -277,11 +266,13 @@ public class MCAPLcontroller  {
 	 */
 	public boolean checkEnd() {
 		// Check all agents are sleeping and without notifications.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		}
 		for (MCAPLAgent ag : agents.values()) {
 			if (scheduler.getActiveJobberNames().contains(ag.getAgName())) {
-				if (AJPFLogger.ltFine(logname)) {
-					AJPFLogger.fine(logname, "checkEnd: returning false");
+				if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+					AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
 				}
 				return false;
 			}
@@ -290,31 +281,28 @@ public class MCAPLcontroller  {
 		// If the MAS also reckons it's done.
 		if (getMAS().alldone()) {
 			getMAS().stopAgs();
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "checkEnd: returning true");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
 			}
 			return true;
 		}
-		
-		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "checkEnd: returning false by default");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
 		}
-		
 		return false;
 		
-
 	} 
 	
 	/**
 	 * Dummy procedure for triggering the listener.
 	 * @return
 	 */
-	public boolean triggerendstate() {
+	public static boolean force_transition() {
 		return true;
 	}
 		
 	/**
-	 * Getter for the scheduler
+	 * Return the current scheduler.
 	 * @return
 	 */
 	public MCAPLScheduler getScheduler() {
@@ -322,7 +310,7 @@ public class MCAPLcontroller  {
 	}
 
 	/**
-	 * Make a guess at the path to the application.
+	 * Return the current path being used to store config files etc.
 	 * @return
 	 */
 	public static String getPath() {
@@ -335,7 +323,7 @@ public class MCAPLcontroller  {
 	}
 	
 	/**
-	 * Try to work out a files full pathname.
+	 * Given a filename, try to find the file.
 	 * @param filename
 	 * @return
 	 * @throws AJPFException
@@ -374,7 +362,19 @@ public class MCAPLcontroller  {
 		throw (new AJPFException(msg));
 	}
 	
+	/**
+	 * Get the absolute file name of a file in the current user.dir.
+	 * @param filename
+	 * @return
+	 */
 	public static String getAbsFilename(String filename) {
 		return System.getProperty("user.dir") + "/" + filename;
+	}
+	
+	/**
+	 * Stop the MAS.
+	 */
+	public void stop() {
+		checkend = false;
 	}
 }

@@ -24,10 +24,6 @@
 
 package ajpf.psl;
 
-import gov.nasa.jpf.JPF;
-
-import java.util.logging.Logger;
-
 import ajpf.MCAPLAgent;
 import ajpf.MCAPLcontroller;
 
@@ -38,8 +34,6 @@ import ajpf.MCAPLcontroller;
  * 
  */
 public class MCAPLAgBelief extends Proposition {
-//	 protected static Logger log = JPF.getLogger("ajpf.psl.MCAPLAgBelief");
-	
 	/**
 	 * The agent which is required to believe the formula.
 	 */
@@ -81,9 +75,7 @@ public class MCAPLAgBelief extends Proposition {
 	 * @return the truth of the formula.
 	 */
 	public boolean check() {
-	//	System.err.println("Checking " + fmla);
 		boolean result = agent.believes(fmla);
-	//	System.err.println("result is: " + result);
 		return (result);
 	}
 	
@@ -98,6 +90,11 @@ public class MCAPLAgBelief extends Proposition {
 		
 		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return hashcode;
 	}
@@ -136,9 +133,12 @@ public class MCAPLAgBelief extends Proposition {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 6;
 	}
-
 	    
 }

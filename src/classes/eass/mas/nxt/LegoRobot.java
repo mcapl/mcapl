@@ -28,19 +28,63 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 import java.util.ArrayList;
 
+/**
+ * An interface for a Lego Robot to be used in an EASS environment.
+ * @author louiseadennis
+ *
+ */
 public interface LegoRobot {
+	/**
+	 * Get the brick associated with this robot.
+	 * @return
+	 */
 	public NXTBrick getBrick();
 	
+	/**
+	 * Does this robot have a pilot?
+	 * @return
+	 */
 	public boolean hasPilot();
+	
+	/**
+	 * Set the pilot for this robot.
+	 * @param pilot
+	 */
 	public void setPilot(DifferentialPilot pilot);
+	
+	/**
+	 * Get the pilot for this robot.
+	 * @return
+	 */
 	public DifferentialPilot getPilot();
 	
+	/**
+	 * Attach a sensor to a port.
+	 * @param portnumber
+	 * @param sensor
+	 */
 	public void setSensor(int portnumber, EASSSensor sensor);
+	
+	/**
+	 * Get this robot's sensors.
+	 * @return
+	 */
 	public ArrayList<EASSSensor> getSensors();
 	
+	/**
+	 * Add percepts from an EASS environement.
+	 * @param env
+	 */
 	public void addPercepts(EASSNXTEnvironment env);
 	
+	/**
+	 * Is this class connected to an actual robot?
+	 * @return
+	 */
 	public boolean isConnected();
 	
+	/**
+	 * Close the connection to the physical robot.
+	 */
 	public void close();
 }

@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import eass.EASSMASBuilder;
-import eass.verification.leo.LEOVerificationEnvironment;
+import eass.verification.leo.LEOVerificationEnvironmentASEPaper;
 
 import mcaplantlr.runtime.*;
 
@@ -47,7 +47,11 @@ import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
 
-
+/**
+ * Regression tests for parsing properties.
+ * @author louiseadennis
+ *
+ */
 public class PSLParserTests {
 	
 	/*
@@ -132,7 +136,7 @@ public class PSLParserTests {
     	String abs_filename = MCAPLcontroller.getAbsFilename(filename);
 
 		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
-		LEOVerificationEnvironment env = new LEOVerificationEnvironment();
+		LEOVerificationEnvironmentASEPaper env = new LEOVerificationEnvironmentASEPaper();
 		mas.setEnv(env);
 		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
 		a.toMCAPL(mas, mccontrol);

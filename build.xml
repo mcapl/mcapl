@@ -33,7 +33,7 @@
 
 
   <!-- compiler settings -->
-  <property name="src_level"     value="7"/>
+  <property name="src_level"     value="8"/>
   <property name="debug"         value="on"/>
   <property name="deprecation"   value="on"/>
 
@@ -56,9 +56,9 @@
     <fileset dir=".">
   	    <include name="lib/3rdparty/pccomm.jar"/>
   	    <include name="lib/3rdparty/bluecove.jar"/>
-  		<include name="lib/3rdparty/jpf.jar"/> 
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
-     </fileset>
+    	<include name="lib/3rdparty/jpf.jar"/>
+   </fileset>
 
     <fileset dir="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/">
         <include name="rosjava_core/rosjava/0.2.0/rosjava-0.2.0.jar"/>

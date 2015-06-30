@@ -1,0 +1,160 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+\author{Louise A. Dennis}
+
+\title{Gwendolen Tutorial 9 -- Default built-in actions: Strings and Arithmetic}
+
+\begin{document}
+\maketitle
+This is the ninth in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers a few final elements of \gwendolen\ and the actions that come with the Default Environment.  It is important to note that if a \gwendolen\ agent \emph{isn't} operating in some environment sub-classed from \texttt{DefaultEnvironment} then there is no guarantee that this actions will be available.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/tutorials/tutorial9}.
+
+\section{String Handling}
+
+You may recall, from tutorial 1, that you were not able to use spaces in print statements.  You can actually do this if you use a double quotation to mark the contents as  string.  In the tutorial directory you will find a program called \texttt{strings.gwen}.  It's contents should look like Listing~\ref{code:strings}
+\begin{lstlisting}[float,caption=String Printing Program,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:strings]
+GWENDOLEN
+
+:name: strings
+
+:Initial Beliefs:
+
+string1("hello")
+string2(" ")
+string3("world")
+
+:Initial Goals:
+
+compose_strings [perform]
+
+:Plans:
+
++! compose_strings [perform] : {True} <-
+	print("hello world");
+\end{lstlisting}
+If you run this program you will see that it prints out \texttt{hello world} including the space without any problem.
+
+\subsection{Built-in String Actions}
+If you look at \texttt{strings.ail} you will see that you are using \ail's \texttt{DefaultEnvironment} class.  Most \gwendolen\ environments are based on the default environment and this means they all support a set of standard actions that come with the Default Environment.  The built-in actions for strings are:
+\begin{description}
+\item[toString(T, S)] This will take any term, \lstinline{T}, that you are passing around your program and unify the variable, \lstinline{S}, to that term.
+\item[append(S1, S2, S3)]  This takes two strings, \lstinline{S1} and \lstinline{S2} and unifies, \lstinline{S3}, to the concatenation of those two strings.  So, for instance, \lstinline{append(``gwen",``dolen",S)} will unify \lstinline{S} to \lstinline{gwendolen}.
+\end{description}
+
+\subsection{Exercise}
+You will notice that \texttt{strings.gwen} contains three beliefs about strings.  Adapt the program so that instead of printing out \texttt{hello world} directly, it instead uses \lstinline{append} to join the three strings together to print out the message.
+
+\paragraph{Hint.} You will need to use \lstinline{append} twice.
+
+As usual you can find sample solutions in the \texttt{answers} directory.
+
+\section{Arithmetic}
+
+\gwendolen\ can use numbers as terms but it is both fiddly and inefficient to program up arithmetic operations using Reasoning Rules.  As a result the Default environment has four simple actions for manipulating numbers.
+
+\begin{description}
+\item[sum(X, Y, Z)] This unifies \lstinline{Z} to the sum of \lstinline{X} and \lstinline{Y}.
+\item[minus(X, Y, Z)] This takes \lstinline{Y} away from \lstinline{X} and unifies \lstinline{Z} to the result.
+\item[div(X, Y, Z)] This divides \lstinline{X} by \lstinline{Y} and unifies \lstinline{Z} to the result.
+\item[times(X, Y, Z)] This multiplies \lstinline{X} by \lstinline{Y} and unifies \lstinline{Z} to the result.
+\end{description}
+
+\subsection{Exercise}
+In the tutorial directory you will find a partial program, \texttt{arithmetic\_shell.gwen}.  This is shown in Listing~\ref{code:arithmetic}
+
+\begin{lstlisting}[float,caption=Arithmetic Program,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:arithmetic]
+GWENDOLEN
+
+:name: arithmetic
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+do_maths [perform]
+
+:Plans:
+	
++! do_maths[perform] : {True} <-
+	+! do_sum [perform],
+	+! do_minus [perform],
+	+! do_div [perform],
+	+! do_mult [perform];
+\end{lstlisting}
+
+Implement the four missing plans so that
+\begin{itemize}
+\item \lstinline{do_sum} adds two numbers and prints out the result as, for instance, \texttt{The Sum of 1 and 5 is 6}.  You will need to use \texttt{toString} and \texttt{append} to generate the string you want.
+\item \lstinline{do_minus} subtracts two numbers and prints out the result as, for instance, \texttt{5.5. take 3.2. is 2.3}.
+\item \lstinline{do_div} divides one number by another and prints out the result as, for instance, \texttt{7 divided by 2 is 3.5}
+\item \lstinline{do_mult} multiplies two numbers and prints out the result as, for instance, \texttt{100 times 2.5 is 250}.
+\end{itemize}
+
+\section{Using Equations in Plan Guards}
+Once you are using numbers in your program you quickly get to situations where you want to use equations, in plan guards.  \gwendolen\ has some limited support for this.  It can't perform arithmetic in the guards of plans, but it can compare numbers using \texttt{<} (less than) and \texttt{==} (equals).
+
+\subsection{Exercise}
+In the tutorial directory you will find a partial program, \texttt{equation\_shell.gwen}.  This is shown in Listing~\ref{code:equation}
+
+\begin{lstlisting}[float,caption=Number Comparison Program,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:equation]
+GWENDOLEN
+
+:name: equation
+
+:Initial Beliefs:
+
+number1(3)
+number2(5)
+number3(4.8)
+number4(3)
+
+:Initial Goals:
+
+compare_numbers [perform]
+
+:Plans:
+
++! compare_numbers [perform] : {B number1(N1), B number2(N2), B number3(N3), B number4(N4)} <-
+	+!compare(N1, N2) [perform],
+	+!compare(N1, N3) [perform],
+	+!compare(N1, N4) [perform],
+	+!compare(N2, N3) [perform],
+	+!compare(N2, N4) [perform],
+	+!compare(N3, N4) [perform];
+\end{lstlisting}
+
+Complete this program by implementing plans for the goal, \lstinline{compare(N1, N2)}, so that the program prints out the following output.
+
+\begin{verbatim}
+3 is less than 5
+3 is less than 4.8
+3 is equal to 3
+4.8 is less than 5
+3 is less than 5
+3 is less than 4.8
+\end{verbatim}
+
+\section{Print Actions}
+
+\gwendolen's default environment has three print actions.
+\begin{description}
+\item[print(X)] you have already encountered and prints out the term, \lstinline{X}.
+\item[printagentstate] prints the current state of the agent to standard error.
+\item[printstate] prints the current state of the agent to standard out.
+\end{description}
+Clearly \lstinline{printagentstate} and \lstinline{printstate} are virtually identical.  They are mostly of use when debugging and generally either can be used, but in certain situations you may have a preference about which output channel you want to use.
+
+\subsection{Exercise}
+Experiment inserting \lstinline{printagentstate} and \lstinline{printstate} into one of your existing programs.
+
+
+\end{document}

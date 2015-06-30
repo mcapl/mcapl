@@ -32,7 +32,6 @@ import ajpf.util.VerifyList;
 import ajpf.MCAPLScheduler;
 import ajpf.PerceptListener;
 
-import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
@@ -47,7 +46,7 @@ import ail.util.AILexception;
  * @author louiseadennis
  *
  */
-public class Vehicle implements AILEnv, Comparable<Vehicle> {
+public class Vehicle implements VehicleInterface {
 	/**
 	 * The agent that controls the vehicle.
 	 */
@@ -59,7 +58,7 @@ public class Vehicle implements AILEnv, Comparable<Vehicle> {
 	/**
 	 * The environment the vehicle operates in.
 	 */
-	VehicleEnvironment env;
+	VehicleEnv env;
 	/**
 	 * The vehicle's inbox.
 	 */
@@ -186,7 +185,7 @@ public class Vehicle implements AILEnv, Comparable<Vehicle> {
 	 * Add a message to the inbox.
 	 * @param m
 	 */
-	public void addMessage(Message m) {
+	public void addMessage(String agName, Message m) {
 		inbox.add(m);
 	}
 	
@@ -219,10 +218,12 @@ public class Vehicle implements AILEnv, Comparable<Vehicle> {
 	 * Remove a percept from the sensors.
 	 * @param l
 	 */
-	public void removePercept(Predicate l) {
+	public boolean removePercept(Predicate l) {
 		for (Sensor s: sensors) {
 			s.removePercept(l);
 		}
+		
+		return true;
 	}
 	
 	/**
@@ -246,7 +247,7 @@ public class Vehicle implements AILEnv, Comparable<Vehicle> {
 	 * Set the vehicle's environment.
 	 * @param e
 	 */
-	public void setEnv(VehicleEnvironment e) {
+	public void setEnv(VehicleEnv e) {
 		env = e;
 	}
 	
@@ -254,7 +255,7 @@ public class Vehicle implements AILEnv, Comparable<Vehicle> {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 
 	/*
 	 * (non-Javadoc)
