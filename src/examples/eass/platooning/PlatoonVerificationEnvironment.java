@@ -48,7 +48,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "No assert_ready_to_join");
 		}
 
-/*		if(assert_leave & !assert_join){
+		if(assert_leave & !assert_join){
 			percepts.add(new Predicate("ready_to_leave"));
 			AJPFLogger.info(logname, "assert ready_to_leave");
 		}else{
@@ -72,7 +72,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "No assert_initial_distance");
 		}
 
-*/		
+		
 		boolean assert_spacing_x = random_generator.nextBoolean();
 		boolean assert_spacing = random_generator.nextBoolean();
 
@@ -118,37 +118,43 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		
 
 		boolean assert_join_agreement = random_generator.nextBoolean();
-		boolean assert_leave_agreement = random_generator.nextBoolean();
-		if (assert_join_agreement & !assert_leave_agreement) {
+//		boolean assert_leave_agreement = random_generator.nextBoolean();
+		if (assert_join_agreement) {
 			Predicate join_agreement = new Predicate("join_agreement");
 			join_agreement.addTerm(new Literal("follower3"));
 			join_agreement.addTerm(new Literal("follower1"));
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", join_agreement));
 			AJPFLogger.info(logname, "assert_join_agreement");
 		} else {
-			AJPFLogger.info(logname, "Not assert_join_agreement");
-		}
-
-/*		if (assert_leave_agreement & !assert_join_agreement) {
 			Predicate leave_agreement = new Predicate("leave_agreement");
-			leave_agreement.addTerm(new NumberTermImpl(3));
+			leave_agreement.addTerm(new Literal("follower3"));
+			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", leave_agreement));
+			AJPFLogger.info(logname, "assert_leave_agreement");
+		}
+/*
+		if (assert_leave_agreement & !assert_join_agreement) {
+			Predicate leave_agreement = new Predicate("leave_agreement");
+			leave_agreement.addTerm(new Literal("follower3"));
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", leave_agreement));
 			AJPFLogger.info(logname, "assert_leave_agreement");
 		} else {
 			AJPFLogger.info(logname, "Not assert_leave_agreement");
 		}
-
+*/
 		
 		boolean assert_platoon_m = random_generator.nextBoolean();
-		boolean assert_no_platoon_m = random_generator.nextBoolean();
-		if (assert_platoon_m & !assert_no_platoon_m) {
+//		boolean assert_no_platoon_m = random_generator.nextBoolean();
+		if (assert_platoon_m) {
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("platoon_m")));
 			AJPFLogger.info(logname, "assert_platoon_m");
 		} else {
-			AJPFLogger.info(logname, "Not assert_platoon_m");
+			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("no_platoon_m")));
+			AJPFLogger.info(logname, "assert_no_platoon_m");
+
+			//			AJPFLogger.info(logname, "Not assert_platoon_m");
 		}
 		
-		if (assert_no_platoon_m & !assert_platoon_m) {
+/*		if (assert_no_platoon_m & !assert_platoon_m) {
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("no_platoon_m")));
 			AJPFLogger.info(logname, "assert_no_platoon_m");
 		} else {
