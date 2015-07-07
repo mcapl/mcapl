@@ -15,7 +15,7 @@ steering_cont(1):- steering_contr;
 
 steering_cont(0):- ~ steering_contr;
 
-set_spacing(X):- ack_spacing;
+set_spacing(X):- ack_spacing(X);
 // set_spacing(X):- spacing(X), sapcing, ack_spacing;
 
 
@@ -171,10 +171,10 @@ set_spacing(X):- ack_spacing;
 				+success_ack, 
 				*platoon_m;		
 
-+!speed_contr(X1) [perform]: { X1==0}<- +.lock, perf(speed_controller(X1)), -sp_contr, -.lock;
-+!speed_contr(X2) [perform]: { X2==1}<- +.lock, perf(speed_controller(X2)), +sp_contr, -.lock;
++!speed_contr(X1) [perform]: {X1==0}<- +.lock, perf(speed_controller(X1)), -sp_contr, -.lock;
++!speed_contr(X2) [perform]: {X2==1}<- +.lock, perf(speed_controller(X2)), +sp_contr, -.lock;
 
-+!steering_contr(X1) [perform]: {X1==0}<-  +.lock, perf(steering_controller(X1)), -steering_contr, -.lock;
++!steering_contr(X1) [perform]: {X1==0} <-  +.lock, perf(steering_controller(X1)), -steering_contr, -.lock;
 +!steering_contr(X2) [perform]: {X2==1, B sp_contr}<-  +.lock, perf(steering_controller(X2)), +steering_contr, -.lock;
 
 // when there is a joining goal, wait until speed controller switches to automatic
@@ -348,7 +348,9 @@ set_spacing(X):- ack_spacing;
 							*leave_agreement(X);
 
 +!leave_platoon [achieve]: {B name(X), 
-							B leave_agreement(X)} <- 
+							B leave_agreement(X),
+							B sp_contr}
+							<- 
 							+!speed_contr(0) [perform], 
 							+!steering_contr(0) [perform]; 
 
