@@ -3,7 +3,7 @@ env = eass.platooning.PlatoonVerificationEnvironment
 
 
 //mas.agent.1.file= /src/examples/eass/Platooning/Platoon_follower.eass
-mas.agent.1.file= /src/examples/eass/Platooning/scenario6_follower_verified.eass
+mas.agent.1.file= /src/examples/eass/Platooning/scenario6_follower.eass
 mas.agent.1.builder= eass.EASSAgentBuilder
 mas.agent.1.name= follower3
 

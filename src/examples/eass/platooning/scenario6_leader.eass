@@ -6,11 +6,30 @@
 req(1) // i.e., request to join
 req(0) // request to leave
 req(2) // acknowledge to joining and leaving
+max_length(2) //maximum platoon length
 
 :Reasoning Rules:
 last_vehicle(Y):- platoon_m(X,Y), ~platoon_m(Y,Z);
 no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X); 
 //platoon_m(Y, 0):- update_last_v, last_vehicle(Y);
+platoon_full(X):- max_length(X), X==2, 
+				  platoon_m(I,J),
+				  platoon_m(J,K),
+				  last_vehicle(K);
+				  
+platoon_full(X):- max_length(X), X==3, 
+				  platoon_m(I,J),
+				  platoon_m(J,K),
+				  platoon_m(K,L),
+				  last_vehicle(L);
+
+platoon_full(X):- max_length(X), X==4, 
+				  platoon_m(I,J),
+				  platoon_m(J,K),
+				  platoon_m(K,L),
+				  platoon_m(L,M),
+				  last_vehicle(M);
+
 
 :Initial Goals:
 
@@ -21,92 +40,228 @@ no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X);
 +.received(:perform, G): {True} <- +!G [perform];
 +.received(:achieve, G): {True} <- +!G [achieve];
 
-
+//============================== leaving ignores if there are a goal of joining ===================
 //=================================== leader receives a leaving request from behind================
-+message(SENDER, REQ): {B req(0), 0 == REQ, ~G platoon_m(X, Y) [achieve], B last_vehicle(SENDER), B platoon_m(J, SENDER), 
-										B set_spacing_from(K), ~G last_vehicle(J) [achieve]} <-
-										-set_spacing_from(K), -message(SENDER, S), +!last_vehicle(J) [achieve],
-										print(leader_last_vehicle_in_the_platoon_successfuly_left);
++message(SENDER, REQ): {B req(0), 0 == REQ, 
+						~G platoon_m(X, Y) [achieve], 
+						B last_vehicle(SENDER), 
+						B platoon_m(J, SENDER), 
+						B set_spacing_from(K), 
+						~G last_vehicle(J) [achieve]} 
+						<-
+						-set_spacing_from(K), 
+						-message(SENDER, S), 
+						+!last_vehicle(J) [achieve],
+						print(leader_last_vehicle_in_the_platoon_successfuly_left);
 
-+message(SENDER, REQ): {B req(0), 0 == REQ, ~G platoon_m(X, Y) [achieve], B last_vehicle(SENDER), B platoon_m(J, SENDER), 
-										~B set_spacing_from(K), ~G last_vehicle(J) [achieve]} <-
-										 -message(SENDER, S),+!last_vehicle(J) [achieve],
-										 print(leader_last_vehicle_in_the_platoon_successfuly_left);
++message(SENDER, REQ): {B req(0), 0 == REQ,
+						~G platoon_m(X, Y) [achieve], 
+						B last_vehicle(SENDER), 
+						B platoon_m(J, SENDER), 
+						~B set_spacing_from(K), 
+						~G last_vehicle(J) [achieve]} <-
+						-message(SENDER, S),
+						+!last_vehicle(J) [achieve],
+						print(leader_last_vehicle_in_the_platoon_successfuly_left);
 
-+message(SENDER, REQ): {B req(0), 0 == REQ, ~G platoon_m(X, Y) [achieve], ~B last_vehicle(SENDER), B platoon_m(J, SENDER), 
-										B platoon_m(SENDER, I), B set_spacing_from(K), ~G platoon_m(J, I) [achieve]} <-
-										 -message(SENDER, S), -set_spacing_from(K), +!platoon_m(J, I) [achieve],
-										 print(leader_vehicle_in_the_middle_successfuly_left);
++message(SENDER, REQ): {B req(0), 0 == REQ, 
+						~G platoon_m(X, Y) [achieve], 
+						~B last_vehicle(SENDER), 
+						B platoon_m(J, SENDER), 
+						B platoon_m(SENDER, I), 
+						B set_spacing_from(K), 
+						~G platoon_m(J, I) [achieve]} 
+						<-
+						-message(SENDER, S), 
+						-set_spacing_from(K), 
+						+!platoon_m(J, I) [achieve],
+						print(leader_vehicle_in_the_middle_successfuly_left);
 
-+message(SENDER, REQ): {B req(0), 0 == REQ, ~G platoon_m(X, Y) [achieve], ~B last_vehicle(SENDER), B platoon_m(J, SENDER), 
-										B platoon_m(SENDER, I),~B set_spacing_from(K), ~G platoon_m(J, I) [achieve]} <-
-										 -message(SENDER, S), +!platoon_m(J, I) [achieve],
-										 print(leader_vehicle_in_the_middle_successfuly_left);
++message(SENDER, REQ): {B req(0), 0 == REQ, 
+						~G platoon_m(X, Y) [achieve], 
+						~B last_vehicle(SENDER), 
+						B platoon_m(J, SENDER), 
+						B platoon_m(SENDER, I), 
+						~B set_spacing_from(K), 
+						~G platoon_m(J, I) [achieve]} 
+						<-
+						-message(SENDER, S), 
+						+!platoon_m(J, I) [achieve],
+						print(leader_vehicle_in_the_middle_successfuly_left);
 
 
 
-//=================================== leader receives a joining request, the requested position is allowed and front vehicle is part of platoon================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), ~B no_platoon_m(FRONT)} <- 
-						+!platoon_m(SENDER, FRONT) [achieve],
-						print(leader_vehicle_in_the_middle_successfuly_joined); 
+//=================================== leader receives a joining request, the requested position is allowed and front vehicle is part of platoon ================
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ,
+							  B max_length(X),
+							  ~B platoon_full(X),
+							  B no_platoon_m(SENDER), 
+							  ~B request_to_join(SENDER),  
+							  B allowed_position(FRONT), 
+							  ~B no_platoon_m(FRONT)} 
+							  <- 
+							  +!platoon_m(SENDER, FRONT) [achieve],
+							  -message(SENDER, REQ, FRONT),
+							  print(leader_vehicle_in_the_middle_successfuly_joined); 
 
 //=================================== leader receives a joining request, joining from behind ================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), FRONT== 0} <- 
-						+!platoon_m(SENDER, FRONT) [achieve],
-						print(leader_vehicle_from_behind_successfuly_joined); 
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ,
+							  B max_length(X),
+							  ~B platoon_full(X),
+							  B no_platoon_m(SENDER), 
+							  ~B request_to_join(SENDER),  
+							  B allowed_position(FRONT), 
+							  FRONT== 0} 
+							  <- 
+							  +!platoon_m(SENDER, FRONT) [achieve],
+							  -message(SENDER, REQ, FRONT),
+							  print(leader_vehicle_from_behind_successfuly_joined); 
 
-//=================================== leader receives a joining request, the requested position is allowed but front vehicle is not part of platoon================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, B allowed_position(FRONT), B no_platoon_m(FRONT), ~ FRONT == 0} <- 
-						.send(SENDER, :tell, wrong_front),
-						print(leader_front_is_not_part_of_platoon); 
+
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ,
+							  B max_length(X),
+							  B platoon_full(X)}
+							  <-
+							  .send(SENDER, :tell, full_platoon),
+							  -message(SENDER, REQ, FRONT),
+							  print(leader_platoon_full);
+
+
+//=================================== leader receives a joining request, the requested position is allowed but front vehicle is not part of platoon ================
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ, 
+							  B no_platoon_m(SENDER), 
+							  ~B request_to_join(SENDER), 
+							  B allowed_position(FRONT), 
+							  B no_platoon_m(FRONT), 
+							  ~ FRONT == 0} 
+							  <- 
+							 .send(SENDER, :tell, wrong_front),
+							 -message(SENDER, REQ, FRONT),
+							 print(leader_front_is_not_part_of_platoon); 
 
 //=================================== leader receives a joining request, the requested position is not allowed ================
-+message(SENDER, REQ, FRONT): {B no_platoon_m(SENDER), ~B request_to_join(SENDER), B req(1), 1 == REQ, ~B allowed_position(FRONT)} <-
-						.send(SENDER, :tell, wrong_front),
-						print(leader_joining_in_requested_position_is_not_allowed); 
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ, 
+							  B no_platoon_m(SENDER), 
+							  ~B request_to_join(SENDER), 
+							  ~B allowed_position(FRONT)} 
+							  <-
+							  .send(SENDER, :tell, wrong_front),
+							  -message(SENDER, REQ, FRONT),
+							  print(leader_joining_in_requested_position_is_not_allowed); 
 
 // ==== for trouble shooting ======
-+message(SENDER, REQ, FRONT): {~B no_platoon_m(SENDER), B req(1), 1 == REQ} <- 
-						print(something_is_wrong_sender_already_in_platoon);
++message(SENDER, REQ, FRONT): {B req(1), 1 == REQ,
+							  ~B no_platoon_m(SENDER)} 
+							  <- 
+							  print(something_is_wrong_sender_already_in_platoon);
 
 // ============== SENDER request to join to platoon and leader sets a goal to have SENDER in platoon =================
 // set spacing for joining, FRONT vehicle should increase space
-+!platoon_m(SENDER, FRONT) [achieve]: {~B set_spacing_from(FRONT), ~ FRONT == 0, B no_platoon_m(SENDER)}<-
-						.send(FRONT, :achieve, set_spacing(17)), *set_spacing_from(FRONT);
++!platoon_m(SENDER, FRONT) [achieve]: {~B set_spacing_from(FRONT), 
+									  ~ FRONT == 0, 
+									  B no_platoon_m(SENDER)}
+									  <-
+									  .send(FRONT, :achieve, set_spacing(17)), 
+									  *set_spacing_from(FRONT);
 
 // set spacing for leaving, leaving vehicle should increase space
-+!platoon_m(X, Y) [achieve]: {~B set_spacing_from(FRONT), ~ FRONT == 0, ~B no_platoon_m(X), B platoon_m(X, SENDER)}<-
-						.send(SENDER, :achieve, set_spacing(17)), *set_spacing_from(SENDER);
++!platoon_m(X, Y) [achieve]: {~B set_spacing_from(FRONT), 
+							 ~ FRONT == 0, 
+							 ~B no_platoon_m(X), 
+							 B platoon_m(X, SENDER)}
+							 <-
+							.send(SENDER, :achieve, set_spacing(17)), 
+							*set_spacing_from(SENDER);
 
-+!platoon_m(SENDER, FRONT) [achieve]: {FRONT == 0, ~B message(SENDER, 2)}<-
-						.send(SENDER, :tell, join_agreement(SENDER, FRONT)), *message(SENDER, 2);
++!platoon_m(SENDER, FRONT) [achieve]: {FRONT == 0, 
+									  ~B message(SENDER, 2)}
+									  <-
+									  .send(SENDER, :tell, join_agreement(SENDER, FRONT)), 
+									  *message(SENDER, 2);
 // === for joining							
-+!platoon_m(SENDER, FRONT) [achieve]: {B set_spacing_from(FRONT), ~B message(SENDER, 2), B no_platoon_m(SENDER)}<-
-						.send(SENDER, :tell, join_agreement(SENDER, FRONT)), *message(SENDER, 2);
++!platoon_m(SENDER, FRONT) [achieve]: {B set_spacing_from(FRONT), 
+									  ~B message(SENDER, 2), 
+									  B no_platoon_m(SENDER)}
+									  <-
+									  .send(SENDER, :tell, join_agreement(SENDER, FRONT)), 
+									  *message(SENDER, 2);
 
-+!platoon_m(SENDER, FRONT) [achieve]: {B message(SENDER, REQ), B req(2), 2== REQ, B platoon_m(X, FRONT)}<- 
-						.send(SENDER,:tell, platoon_m), 
-						.send(FRONT, :achieve, set_spacing(6)),
-						-platoon_m(X, FRONT), +platoon_m(X, SENDER), +platoon_m(SENDER, FRONT);
++!platoon_m(SENDER, FRONT) [achieve]: {B message(SENDER, REQ), 
+									  B req(2), 2== REQ, 
+									  B platoon_m(X, FRONT)}
+									  <- 
+									 .send(SENDER,:tell, platoon_m), 
+									 .send(FRONT, :achieve, set_spacing(6)),
+									 -platoon_m(X, FRONT), 
+									 +platoon_m(X, SENDER), 
+									 +platoon_m(SENDER, FRONT);
 
 
 // === particularly for leaving
-+!platoon_m(X, Y) [achieve]: { B platoon_m(X, SENDER), B set_spacing_from(SENDER), ~B no_platoon_m(X), ~B steering_contr_disabled(Y)} <-
-						.send(Y, :perform, steering_contr(0)), +steering_contr_disabled(Y);
++!platoon_m(X, Y) [achieve]: {B platoon_m(X, SENDER), 
+							 B set_spacing_from(SENDER), 
+							 ~B no_platoon_m(X), 
+							 ~B steering_contr_disabled(Y)} 
+							 <-
+						     .send(Y, :perform, steering_contr(0)), 
+						     +steering_contr_disabled(Y);
 
 
-+!platoon_m(X, Y) [achieve]: {B steering_contr_disabled(Y), ~B no_platoon_m(X), B platoon_m(X, SENDER), ~B message(SENDER, 2)}<-
-						.send(SENDER, :tell, leave_agreement(SENDER)), *message(SENDER, 2);
++!platoon_m(X, Y) [achieve]: {B steering_contr_disabled(Y), 
+							 ~B no_platoon_m(X), 
+							 B platoon_m(X, SENDER), 
+							 ~B message(SENDER, 2)}
+							 <-
+							.send(SENDER, :tell, leave_agreement(SENDER)), 
+							*message(SENDER, 2);
 
-+!platoon_m(X, Y) [achieve]: {B platoon_m(X, SENDER), B message(SENDER, REQ), B req(2), 2== REQ, B platoon_m(X, SENDER)}<- 
-						.send(SENDER, :tell, no_platoon_m),
-						.send(Y, :perform, steering_contr(1)), -steering_contr_disabled(Y),
-						-platoon_m(X, SENDER), -platoon_m(SENDER, Y), +platoon_m(X, Y), -set_spacing_from(SENDER);
++!platoon_m(X, Y) [achieve]: {B platoon_m(X, SENDER), 
+							 B message(SENDER, REQ), 
+							 B req(2), 2== REQ, 
+							 B platoon_m(X, SENDER)}
+							 <- 
+							.send(SENDER, :tell, no_platoon_m),
+							.send(Y, :perform, steering_contr(1)), 
+							-steering_contr_disabled(Y),
+							-platoon_m(X, SENDER), 
+							-platoon_m(SENDER, Y), 
+							+platoon_m(X, Y), 
+							-set_spacing_from(SENDER);
 
 // ============== particularly end leaving
 
 
 
-+!platoon_m(SENDER, FRONT) [achieve]: {B message(SENDER, REQ), B req(2), 2== REQ, FRONT == 0, B last_vehicle(Y)}<- 
-																.send(SENDER,:tell, platoon_m), 
-																+platoon_m(Y, SENDER), -!platoon_m(SENDER, FRONT) [achieve];								
++!platoon_m(SENDER, FRONT) [achieve]: {B message(SENDER, REQ), 
+									  B req(2), 2== REQ, FRONT == 0, 
+									  B last_vehicle(Y)}
+									  <- 
+									 .send(SENDER,:tell, platoon_m), 
+									 +platoon_m(Y, SENDER), 
+									 -!platoon_m(SENDER, FRONT) [achieve];		
+									 
+																		 
+// ================== leaving from the behind
++!last_vehicle(J) [achieve]: {B platoon_m(J, SENDER), 
+							 B last_vehicle(SENDER), 
+							 ~B set_spacing_from(SENDER)}
+							 <-
+							 .send(SENDER, :achieve, set_spacing(17)), 
+							 *set_spacing_from(SENDER);
+
++!last_vehicle(J) [achieve]: {B platoon_m(J, SENDER), 
+							 B last_vehicle(SENDER),
+							 B set_spacing_from(SENDER),
+							 ~B message(SENDER, 2)}
+							 <-
+							 .send(SENDER, :tell, leave_agreement(SENDER)), 
+							*message(SENDER, 2);
+							
++!last_vehicle(J) [achieve]: {B platoon_m(J, SENDER), 
+							 B last_vehicle(SENDER),
+							 B set_spacing_from(SENDER),
+							 B message(SENDER, 2)}
+							 <-
+							 .send(SENDER, :tell, no_platoon_m),
+							 -platoon_m(J, SENDER);
+		 						
