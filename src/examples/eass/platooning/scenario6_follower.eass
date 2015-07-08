@@ -16,7 +16,7 @@ steering_cont(1):- steering_contr;
 steering_cont(0):- ~ steering_contr;
 
 set_spacing(X):- ack_spacing(X);
-// set_spacing(X):- spacing(X), sapcing, ack_spacing;
+// set_spacing(X):- spacing(X), spacing, ack_spacing;
 
 
 :Initial Goals:
