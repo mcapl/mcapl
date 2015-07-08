@@ -1,27 +1,84 @@
-1: []( D(follower3, perf(join_ok(1)))
-		 -> 
-		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)))
-	)
+verified15:3016062015: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & ~B(follower3, join_agreement(follower3, follower1)))
+		->
+		~B(follower3, sp_contr)
+		)
 
-2:	([]~B (follower3, join_agreement(follower3, follower1))) -> 
-		[](~D(follower3, perf(join_ok(1))))
+
+1: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) & B(follower3, steering_contr) )
+		->
+		<> B(follower3, success_ack)
+		
+		)
+
+2: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) & B(follower3, initial_distance)  )
+		->
+		<> B(follower3, steering_contr)
+		)
+
 
 3: [] (
-		G(follower3, platoon_m(follower3, follower1)) -> 
-		<> B(follower3, join_agreement(follower3, follower1))
-	)
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) & B(follower3, steering_contr) )
+		->
+		<> B(follower3, success_ack)
+		
+		)
 
 4: [] (
-		B(follower3, join_agreement(follower3, follower1)) -> 
-		<> B(follower3, change_signal)
-	)
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) )
+		->
+		<> B(follower3, sp_contr)
+		)
 
 5: [] (
-		D(follower3, perf(join_ok(1))) ->
+		(G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1)) )
+		->
+		(  (<> B(follower3, sp_contr)) || ([]~ B(follower3, changed_lane))   )
+		)
+
+
+	
+6:	([]~B (follower3, join_agreement(follower3, follower1))) -> 
+		[](~D(follower3, perf(join_ok(1))))
+
+7: [] (
+		G(follower3, platoon_m(follower3, follower1)) & B(follower3, join_agreement(follower3, follower1))
+		->
+		<> D(follower3, perf(join_ok(1))) || B(follower3, changed_lane)
+	)
+
+8: [] (
+		D(follower3, perf(join_ok(1))) & B(follower3, join_agreement(follower3, follower1))->
 		(<> D(follower3, perf(speed_controller(1))) || []~ B(follower3, changed_lane))
 	)
 
-6: [] (
-		D(follower3, perf(join_ok(1))) ->
+9: [] ( 
+		G(follower3, platoon_m(follower3, follower1)) ->
+			~G(follower3, leave_platoon)
+	)
+	
+
+10: ([]~ B(follower3, initial_distance)) ->
+		[]~ D(follower3, perf(steering_controller(1)))
+
+		
+test: [] ( 
+		(B(follower3, join_agreement(follower3, follower1)) & D(follower3, perf(speed_controller(1))) & B(follower3, changed_lane) ) ->
+		(<> B(follower3, steering_contr)) || []~ B(follower3, initial_distance))
+	)
+
+11_failed: [] ( 
+		(B(follower3, join_agreement(follower3, follower1)) & D(follower3, perf(speed_controller(1))) & B(follower3, changed_lane) ) ->
+		(<> D(follower3, perf(steering_controller(1))) || []~ B(follower3, initial_distance))
+	)
+
+	
+12: [] ( (B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) )->
+		<> B(follower3, sp_contr))
+	)
+	
+12_failed: [] ( (B(follower3, join_agreement(follower3, follower1)) & B(follower3, changed_lane) )->
 		<> D(follower3, perf(speed_controller(1)))
-	)	
+	)
