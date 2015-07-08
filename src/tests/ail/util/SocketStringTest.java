@@ -8,14 +8,14 @@ import org.junit.Test;
 
 public class SocketStringTest extends Thread {
 	
-	AILSocketServer server;
+	AILSocketChannelServer server;
 	String message;
 	/*
 	 * Despatch a separate thread for the server so we don't block the test
 	 * Wait for connection, then wait for a message, then end the thread
 	 */
 	public void run() {
-		 server = new AILSocketServer();
+		 server = new AILSocketChannelServer();
 		 message = server.readLine();
 		 server.close();
 	}
@@ -28,7 +28,7 @@ public class SocketStringTest extends Thread {
 
 		SocketStringTest server = new SocketStringTest();
 		server.start();
-		AILSocketClient client = new AILSocketClient();
+		AILSocketChannelClient client = new AILSocketChannelClient();
 		
 		
 		String message = "Is there anybody out there?";

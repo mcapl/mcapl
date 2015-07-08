@@ -53,7 +53,7 @@ public class AILSocket {
 	/**
 	 * logname
 	 */
-	String logname = "ail.util.AILSocketClient";
+	String logname = "ail.util.AILSocket";
 	
 	/**
 	 * Constructor. 

@@ -9,14 +9,14 @@ import org.junit.Test;
 
 public class SocketBinaryTest extends Thread {
 	
-	AILSocketServer server;
+	AILSocketChannelServer server;
 	ByteBuffer data;
 	/*
 	 * Despatch a separate thread for the server so we don't block the test
 	 * Wait for connection, then wait for some data, then end the thread
 	 */
 	public void run() {
-		 server = new AILSocketServer();
+		 server = new AILSocketChannelServer();
 		 data = ByteBuffer.allocate(16);
 		 server.read(data);
 		 data.order(ByteOrder.LITTLE_ENDIAN);
@@ -28,7 +28,7 @@ public class SocketBinaryTest extends Thread {
 	public void TransmitBinaryTest() {
 		SocketBinaryTest server = new SocketBinaryTest();
 		server.start();
-		AILSocketClient client = new AILSocketClient();
+		AILSocketChannelClient client = new AILSocketChannelClient();
 		
 		
 		ByteBuffer data = ByteBuffer.allocate(16);

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 
-import eass.platooning.util.AILSocketServer;
+import ail.util.AILSocketChannelServer;
 
 public class Vehicle {
 	/* Base port numbers - vehicle ID will be added to these */
@@ -12,8 +12,8 @@ public class Vehicle {
 	private int BASE_OUTBOUND_PORT = 18000;
 	
 	/* Inbound and outbound sockets, both are needed as Simulink can't handle bidirectional communication on a single socket */
-	private AILSocketServer inbound;
-	private AILSocketServer outbound;
+	private AILSocketChannelServer inbound;
+	private AILSocketChannelServer outbound;
 	
 	/* Data containers for ego (own vehicle), leader (via V2V) and preceding (via V2V) */
 	public VehicleData ego = new VehicleData();
@@ -48,10 +48,10 @@ public class Vehicle {
 		 * sorted execution order
 		 */
 		System.out.print("Vehicle " + id + " waiting for connection on port " + (BASE_INBOUND_PORT + id) + "... ");
-		inbound = new AILSocketServer(BASE_INBOUND_PORT + id);
+		inbound = new AILSocketChannelServer(BASE_INBOUND_PORT + id);
 		System.out.println("Connected!");
 		System.out.print("Vehicle " + id + " waiting for connection on port " + (BASE_OUTBOUND_PORT + id) + "... ");
-		outbound = new AILSocketServer(BASE_OUTBOUND_PORT + id);
+		outbound = new AILSocketChannelServer(BASE_OUTBOUND_PORT + id);
 		System.out.println("Connected!");
 
 		commandList.add(new ExecutableAction("speed_controller", 1, 1));
