@@ -26,6 +26,7 @@ package ajpf;
 
 import gov.nasa.jpf.annotation.FilterField;
 
+import java.util.Properties;
 import java.util.Random;
 import java.util.List;
 import java.io.File;
@@ -71,7 +72,9 @@ public class MCAPLcontroller  {
 	
 	// We make this a class variable for test sets which run AIL in a thread.
 	boolean checkend = false;
-		
+	
+	// Store any application specific configurations.
+	Properties config;
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -79,8 +82,9 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public MCAPLcontroller(MCAPLmas mas, String pstring, int outputlevel) {
-		this(mas, outputlevel);
+	public MCAPLcontroller(MCAPLmas mas, String pstring, Properties properties) {
+		this(mas);
+		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
@@ -94,12 +98,12 @@ public class MCAPLcontroller  {
 	 * @param s
 	 *            The specification against which the system is to be checked.
 	 */
-	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s, int mc) {
+	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
+			MCAPLAgent magent = new MCAPLAgent(a, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 		}
@@ -112,12 +116,12 @@ public class MCAPLcontroller  {
 	 * @param m
 	 * @param mc
 	 */
-	public MCAPLcontroller(MCAPLmas m, int mc) {
+	public MCAPLcontroller(MCAPLmas m) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
+			MCAPLAgent magent = new MCAPLAgent(a, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
@@ -174,6 +178,9 @@ public class MCAPLcontroller  {
 			}
 			checkend = checkEnd();
 		}
+		if (! transitionEveryReasoningCycle()) {
+			force_transition();
+		}
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
@@ -200,7 +207,9 @@ public class MCAPLcontroller  {
 		}
 		a.do_job();
 		specification.checkProperties();
-		// force_transition();
+		if (transitionEveryReasoningCycle()) {
+			force_transition();
+		}
 		return a;
 	}
 	
@@ -285,7 +294,7 @@ public class MCAPLcontroller  {
 	 */
 	public static boolean force_transition() {
 		return true;
-	}
+	} 
 		
 	/**
 	 * Return the current scheduler.
@@ -362,5 +371,17 @@ public class MCAPLcontroller  {
 	 */
 	public void stop() {
 		checkend = false;
+	}
+	
+	/**
+	 * Should there be a transition every reasoning cycle.  Needed for the "Intend to Do" property to work properly but does generate extra states.
+	 * @return
+	 */
+	public boolean transitionEveryReasoningCycle() {
+		if (config.containsKey("ajpf.transition_every_reasoning_cycle")) {
+			String result = config.getProperty("ajpf.transition_every_reasoning_cycle");
+			return (result.equals("true"));
+		}
+		return true;
 	}
 }

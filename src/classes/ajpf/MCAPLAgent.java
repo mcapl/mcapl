@@ -41,12 +41,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 */
 	@FilterField
 	private MCAPLLanguageAgent agent;
-	/**
-	 * A flag indicating whether or not this is a model checking run.  Currently
-	 * unused but I anticipate it may be handy.
-	 */
-	@FilterField
-	private int outputlevel = 0;
+
 	/**
 	 * The controller within which the agent runs.
 	 */
@@ -66,9 +61,8 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 *            This is currently unused but I anticipate it may be handy.
 	 * @param c   The controller in which this agent runs.
 	 */
-	public MCAPLAgent(MCAPLLanguageAgent a, int mc, MCAPLcontroller c) {
+	public MCAPLAgent(MCAPLLanguageAgent a, MCAPLcontroller c) {
 		agent = a;
-		outputlevel = mc;
 		controller = c;
 		name = a.getMCAPLAgName();
  	}
@@ -100,7 +94,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 public void reason() {
 		 AJPFLogger.fine("ajpf.MCAPLAgent", "Entering reason");
 			 // This is the actual program and should ideally be run in full.
-			 agent.MCAPLreason(outputlevel);
+			 agent.MCAPLreason();
 			 // On the other hand the specification is not being checked and should be
 			 // treated as a single transition except where it branches (see BuchiAutomaton class).
 			 // We also keep as much of the sleeping behaviour within the atomic transition

@@ -54,8 +54,8 @@
     <!-- <pathelement location="build/annotations"/> -->
 
     <fileset dir=".">
-  	    <include name="lib/3rdparty/pccomm.jar"/>
-  	    <include name="lib/3rdparty/bluecove.jar"/>
+  	    <include name="lib/3rdparty/ev3classes.jar"/>
+ 	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
     	<include name="lib/3rdparty/jpf.jar"/>
    </fileset>

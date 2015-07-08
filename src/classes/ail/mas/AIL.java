@@ -61,7 +61,7 @@ public class AIL {
 		MAS mas = AILSetup(config);
 		
 		// Set up a controller
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
+		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", config);
 		
 		// Begin!
 		mccontrol.begin(); 

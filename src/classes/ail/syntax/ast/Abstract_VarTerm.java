@@ -24,10 +24,11 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
-
 import ail.syntax.Literal;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.VarTerm;
@@ -102,6 +103,14 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
      */
     public Abstract_ListTerm append(Abstract_Term t) {
     	return null;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_ListTerm#addAll(java.util.ArrayList)
+     */
+    public void addAll(ArrayList<Abstract_Term> tl) {
+    	
     }
     
     /*

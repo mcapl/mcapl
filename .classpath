@@ -6,10 +6,9 @@
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/peers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/3rdparty/pccomm.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/bluecove.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/classes.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/ev3classes.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/ev3tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

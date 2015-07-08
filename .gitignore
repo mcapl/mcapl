@@ -13,3 +13,4 @@ tmp/*
 *.orig
 *~
 /bin/
+/bin/

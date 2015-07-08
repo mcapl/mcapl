@@ -71,7 +71,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Tracking of input predicates.
 	 */
@@ -306,16 +306,17 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					}
 					return null;
 				}
+			}
 				
-				// if its the abstraction engine (NB.  this will add agName to up-to-date ags
-				if (abstractionenginelist.contains(agName)) {
-					Set<Predicate> ps = super.getPercepts(agName, update);
-					if (ps != null) {
-						p.addAll(ps);
-					}
-				} else {
-
-				uptodateAgs.add(agName);
+			// if its the abstraction engine (NB.  this will add agName to up-to-date ags
+			if (abstractionenginelist.contains(agName)) {
+				Set<Predicate> ps = super.getPercepts(agName, update);
+				if (ps != null) {
+					p.addAll(ps);
+				}
+			} else {
+				if (update) {
+					uptodateAgs.add(agName);
 				}
 			}
 						
