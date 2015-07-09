@@ -215,7 +215,7 @@ public class AIL {
 		if (config.containsKey("log.format")) {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
-				AJPFLogger.setConsoleHandlerFormatBrief();
+				AJPFLogger.setHandlerFormatBrief();
 			}
 		}
 	}
