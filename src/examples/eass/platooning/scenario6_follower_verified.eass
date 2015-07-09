@@ -192,7 +192,7 @@ set_spacing(X):- ack_spacing(X);
 
 +!set_spacing(X1) [achieve]: {B name(K), ~B platoon_m(K, F)}
 							<- 
-							.send(leader, :tell, set_spacing_from_failed_due_to_no_pl(X1, K)),
+							.send(leader, :tell, set_spacing_from_failed(X1, K)),
 							-!set_spacing(X1) [achieve];
 	
 +!set_spacing(X2) [achieve]: {B platoon_m(K, F),
@@ -304,7 +304,7 @@ set_spacing(X):- ack_spacing(X);
 //							+ack_spacing(X17), 
 //							-.lock;
 							
-+!set_spacing(X20) [achieve]: {True}<- print(good);
+//+!set_spacing(X20) [achieve]: {True}<- print(good);
 
 // ============ leaving
 
@@ -319,7 +319,7 @@ set_spacing(X):- ack_spacing(X);
 							G set_spacing(Y) [achieve]} 
 							<- 
 							-!set_spacing(Y) [achieve],
-							.send(leader, :tell, set_spacing_from_failed_in_mid_leave(Y, X));
+							.send(leader, :tell, set_spacing_from_failed(Y, X));
 
 
 +!leave_platoon [achieve]: {B name(X), 
