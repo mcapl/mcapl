@@ -72,6 +72,7 @@ public class MCAPLcontroller  {
 	
 	// We make this a class variable for test sets which run AIL in a thread.
 	boolean checkend = false;
+	boolean stop = false;
 	
 	// Store any application specific configurations.
 	Properties config;
@@ -260,6 +261,9 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean checkEnd() {
+		if (stop) {
+			return true;
+		}
 		// Check all agents are sleeping and without notifications.
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
@@ -370,7 +374,7 @@ public class MCAPLcontroller  {
 	 * Stop the MAS.
 	 */
 	public void stop() {
-		checkend = false;
+		stop = true;
 	}
 	
 	/**

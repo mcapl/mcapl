@@ -31,6 +31,7 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.VarTerm;
+import ail.util.AILSocketClient;
 import ail.util.AILexception;
 import ajpf.util.AJPFLogger;
 
@@ -66,62 +67,63 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 		}
 				
 		try {
+			AILSocketClient socket = getSocket();
 			if ( socket.pendingInput()) {
 
-		double x = socket.readDouble();
-		double y = socket.readDouble();
-		double xdot = socket.readDouble();
-		double ydot = socket.readDouble();
-		int started = socket.readInt();
-		// System.err.println(ydot);
-		
-		if (y >= prevy) {
-			totalydistance += (y - prevy);
-		}  else {
-			double ylost = 550 - prevy;
-			totalydistance += ylost;
-			totalydistance += y;
-		}
-		// System.err.println(totalydistance);
-		prevy = y;
-		
-		try {
-			while (socket.pendingInput()) {
-				x = socket.readDouble();
-				y = socket.readDouble();
-				xdot = socket.readDouble();
-				ydot = socket.readDouble();
-				started = socket.readInt();			
-			}
+				double x = socket.readDouble();
+				double y = socket.readDouble();
+				double xdot = socket.readDouble();
+				double ydot = socket.readDouble();
+				int started = socket.readInt();
+				// System.err.println(ydot);
+				
+				if (y >= prevy) {
+					totalydistance += (y - prevy);
+				}  else {
+					double ylost = 550 - prevy;
+					totalydistance += ylost;
+					totalydistance += y;
+				}
+				// System.err.println(totalydistance);
+				prevy = y;
+				
+				try {
+					while (socket.pendingInput()) {
+						x = socket.readDouble();
+						y = socket.readDouble();
+						xdot = socket.readDouble();
+						ydot = socket.readDouble();
+						started = socket.readInt();			
+					}
+				} catch (Exception e) {
+					AJPFLogger.warning(logname, e.getMessage());
+				} 
+				
+				
+				Literal xpos = new Literal("xpos");
+				xpos.addTerm(new NumberTermImpl(x));
+				
+				Literal ypos = new Literal("ypos");
+				ypos.addTerm(new NumberTermImpl(y));
+				
+				Literal xspeed = new Literal("xspeed");
+				xspeed.addTerm(new NumberTermImpl(xdot));
+				
+				Literal yspeed = new Literal("yspeed");
+				yspeed.addTerm(new NumberTermImpl(ydot));
+				
+				if (started > 0) {
+					addPercept(new Literal("started"));
+				}
+				
+				addUniquePercept("xpos", xpos);
+				addUniquePercept("ypos", ypos);
+				addUniquePercept("xspeed", xspeed);
+				addUniquePercept("yspeed", yspeed);
+				} 			
 		} catch (Exception e) {
 			AJPFLogger.warning(logname, e.getMessage());
 		} 
-		
-		
-		Literal xpos = new Literal("xpos");
-		xpos.addTerm(new NumberTermImpl(x));
-		
-		Literal ypos = new Literal("ypos");
-		ypos.addTerm(new NumberTermImpl(y));
-		
-		Literal xspeed = new Literal("xspeed");
-		xspeed.addTerm(new NumberTermImpl(xdot));
-		
-		Literal yspeed = new Literal("yspeed");
-		yspeed.addTerm(new NumberTermImpl(ydot));
-		
-		if (started > 0) {
-			addPercept(new Literal("started"));
-		}
-		
-		addUniquePercept("xpos", xpos);
-		addUniquePercept("ypos", ypos);
-		addUniquePercept("xspeed", xspeed);
-		addUniquePercept("yspeed", yspeed);
-			} 			
-	} catch (Exception e) {
-		AJPFLogger.warning(logname, e.getMessage());
-	} 
 
 	}
 	
@@ -131,6 +133,7 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
+		AILSocketClient socket = getSocket();
 		
 		if (act.getFunctor().equals("accelerate")) {
 			socket.writeDouble(0.0);
