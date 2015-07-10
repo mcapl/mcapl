@@ -53,6 +53,11 @@ public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment
 	private String name = "Default EASS Socket Environment";
 	
 	/**
+	 * The port number for the socket  (Default 6253)
+	 */
+	protected int portnumber = 6253;
+	
+	/**
 	 * Constructor - creates sockets.
 	 *
 	 */
@@ -60,6 +65,15 @@ public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment
 		super();
 	}
 	
+	/**
+	 * Constructor - creates sockets.
+	 *
+	 */
+	public EASSSocketClientEnvironment(int portnumber) {
+		super();
+		this.portnumber = portnumber;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#initialise()
@@ -68,7 +82,7 @@ public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment
 	public void initialise() {
 		if (connectedtosocket) {
 			AJPFLogger.info("eass.mas", "Waiting Connection");
-			socket = new AILSocketClient();
+			socket = new AILSocketClient(portnumber);
 			AJPFLogger.info("eass.mas", "Connected to Socket");
 		}		
 	}

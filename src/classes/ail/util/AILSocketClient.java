@@ -53,7 +53,7 @@ public class AILSocketClient extends AILSocket {
 	 * Constructor that takes a port number as input.
 	 * @param portnumber
 	 */
-	public AILSocketClient(int portnumber) throws IOException{
+	public AILSocketClient(int portnumber) {
 		super();
 		try {
 			initialise(new Socket("localhost", portnumber));
