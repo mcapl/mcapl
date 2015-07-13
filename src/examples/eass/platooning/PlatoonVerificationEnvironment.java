@@ -24,7 +24,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	public Set<Predicate> generate_sharedbeliefs() {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
   		
-		Predicate id = new Predicate("id");
+/*		Predicate id = new Predicate("id");
 		id.addTerm(new NumberTermImpl(3));
 		percepts.add(id);
 		AJPFLogger.info(logname, "vehicle_id");
@@ -38,7 +38,8 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		name_front.addTerm(new Literal("follower1"));
 		percepts.add(name_front);
 		AJPFLogger.info(logname, "name_front_follower1");
-
+*/
+		
 		boolean assert_join = random_generator.nextBoolean();
 		boolean assert_leave = random_generator.nextBoolean();
 		if(assert_join && !assert_leave){
@@ -104,9 +105,9 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	public Set<Message> generate_messages() {
 		TreeSet<Message> messages = new TreeSet<Message>();
 
-//		boolean assert_set_spacing_goal = random_generator.nextBoolean();
-//		if(assert_set_spacing_goal){
-		if(assert_set_spacing_goal_once){
+		boolean assert_set_spacing_goal = random_generator.nextBoolean();
+		if(assert_set_spacing_goal){
+//		if(assert_set_spacing_goal_once){
 			Predicate set_spacing_goal = new Predicate("set_spacing");
 			set_spacing_goal.addTerm(new NumberTermImpl(17));
 			messages.add(new Message(EASSAgent.ACHIEVE, "leader", "follower3", set_spacing_goal));

@@ -4,6 +4,10 @@
 
 :Initial Beliefs:
 
+id(3)
+name(follower3)
+name_front(follower1)
+
 :Reasoning Rules:
 
 platoon_m(X, Y):- name(X), platoon_ok;
@@ -11,9 +15,9 @@ platoon_m(X, Y):- name(X), platoon_ok;
 
 leave_platoon:- leave_ok;
 
-steering_cont(1):- steering_contr;
+steering_contr(1):- steering_contr;
 
-steering_cont(0):- ~ steering_contr;
+steering_contr(0):- ~ steering_contr;
 
 set_spacing(X):- ack_spacing(X);
 // set_spacing(X):- spacing(X), spacing, ack_spacing(X);
@@ -177,9 +181,11 @@ set_spacing(X):- ack_spacing(X);
 				~B platoon_ok,
 				~G set_spacing(X) [achieve]}
 				<- 
+				+.lock,
 				.send(leader, :tell, message(SENDER6, 2)), 
 				-leave_ok,
-				+platoon_ok, 
+				+platoon_ok,
+				-.lock, 
 				*platoon_m;		
 
 +!speed_contr(X1) [perform]: {X1==0}<- +.lock, perf(speed_controller(X1)), -sp_contr, -.lock;
@@ -190,9 +196,15 @@ set_spacing(X):- ack_spacing(X);
 
 // when there is a joining goal, wait until speed controller switches to automatic
 
-+!set_spacing(X1) [achieve]: {B name(K), ~B platoon_m(K, F)}
++!set_spacing(X1) [achieve]: {B name(K), ~B platoon_m(K, F),
+							G platoon_m(K, F) [achieve]}
 							<- 
-							.send(leader, :tell, set_spacing_from_failed(X1, K)),
+							*platoon_m(K, F);
+
++!set_spacing(X1) [achieve]: {B name(K), ~B platoon_m(K, F),
+							~G platoon_m(K, F) [achieve]}
+							<- 
+//							.send(leader, :tell, set_spacing_from_failed(X1, K)),
 							-!set_spacing(X1) [achieve];
 	
 +!set_spacing(X2) [achieve]: {B platoon_m(K, F),
