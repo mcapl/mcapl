@@ -34,6 +34,7 @@ import java.io.File;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFException;
+import ajpf.util.choice.UniformIntChoice;
 
 /**
  * Top level class for controlling the model checking of multi-agent
@@ -68,7 +69,7 @@ public class MCAPLcontroller  {
 	
 	private MCAPLScheduler scheduler;
 
-	Random random_numbers = new Random();
+	UniformIntChoice schedulerchoice = new UniformIntChoice();
 	
 	// We make this a class variable for test sets which run AIL in a thread.
 	boolean checkend = false;
@@ -223,7 +224,7 @@ public class MCAPLcontroller  {
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
 		}
-		int choice = random_numbers.nextInt(limit);
+		int choice = schedulerchoice.nextInt(limit);
 		return choice;
 	}
 	

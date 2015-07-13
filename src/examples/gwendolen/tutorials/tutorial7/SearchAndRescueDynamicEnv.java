@@ -24,7 +24,7 @@
 package gwendolen.tutorials.tutorial7;
 
 import ail.mas.DefaultEnvironment;
-import ail.mas.RoundRobinScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;

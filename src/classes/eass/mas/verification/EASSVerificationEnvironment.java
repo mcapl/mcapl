@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ail.mas.SingleAgentScheduler;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.Message;
@@ -35,6 +34,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
+import ail.mas.scheduling.SingleAgentScheduler;
 import ajpf.util.AJPFLogger;
 
 /**

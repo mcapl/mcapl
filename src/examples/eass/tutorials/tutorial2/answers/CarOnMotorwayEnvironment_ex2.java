@@ -25,7 +25,7 @@
 package eass.tutorials.tutorial2.answers;
 
 import eass.mas.DefaultEASSEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;

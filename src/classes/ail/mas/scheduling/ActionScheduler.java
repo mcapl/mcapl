@@ -22,38 +22,42 @@
 //
 //----------------------------------------------------------------------------
 
-package ail.mas;
+package ail.mas.scheduling;
 
 import java.util.TreeMap;
 import java.util.List;
 
-import ajpf.MCAPLJobber;
-import ajpf.MCAPLScheduler;
-import ajpf.PerceptListener;
 import ajpf.util.VerifyList;
+import ajpf.PerceptListener;
+import ajpf.MCAPLScheduler;
+import ajpf.MCAPLJobber;
+import ajpf.util.AJPFLogger;
+
 
 /**
- * This is a scheduler that executes each Jobber (typically the agents and the
- * Environment) in turn (and switches between them when something changes).  
- * Since there is no random element using a Round Robin
- * Scheduler with model checking does not create branch points whenever control
- * changes between jobbers.  This will reduce state space but may reduce the
- * fidelity to the system of interest.
+ * A Scheduler for agent reasoning which picks and agent (or environment) "at random" and executes it until perceptions
+ * change somewhere in the system or the agent goes to sleep.
  * 
+ * Note this means that if some part of the system is intended to be continuously operational -
+ * e.g. the Environment persistently inserts new perceptions into the system - then this will
+ * only happen when agents take actions.  It is better to use the default scheduler for these systems.
+ *  
  * @author louiseadennis
  *
  */
-public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
+public class ActionScheduler implements MCAPLScheduler, PerceptListener { 
 	private TreeMap<String, MCAPLJobber> agnames = new TreeMap<String, MCAPLJobber>();
 	/* We use VerifyLists to reduce the state space during verification */
-	private VerifyList<String> agents = new VerifyList<String>();
-	private int turn = 0;
-
-	/*Flag that indicates a change in the  system somewhere indicating a new choice of 
+	private VerifyList<String> activeAgents = new VerifyList<String>();
+	private VerifyList<String> inactiveAgents = new VerifyList<String>();
+	
+	private String logname = "ail.mas.ActionScheduler";
+	
+	/* Flag that indicates a change in the  system somewhere indicating a new choice of 
 	 * agent is wanted
 	 */
 	private boolean somethinghaschanged = true;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#getActiveAgents()
@@ -61,33 +65,41 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
-			String name = agents.get(turn);
-			ags.add(agnames.get(name));
-			turn++;
-			if (turn == agents.size()) {
-				turn = 0;
+			// Got a Concurrent Modification Error here in the Sticky Wheel example.
+			try {
+				for (String s: activeAgents) {
+					ags.add(agnames.get(s));
+				}
+			} catch (Exception e) {
+				AJPFLogger.warning(logname, e.getMessage());
 			}
 		}
 		somethinghaschanged = false;
 		return ags;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#getActiveJobberNames()
 	 */
 	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
-		String name = agents.get(turn);
-		ags.add(name);
+		for (String s: activeAgents) {
+			ags.add(s);
+		}
 		return ags;
 	}
 
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#notActive(java.lang.String)
 	 */
 	public void notActive(String agName) {
+		activeAgents.remove(agName);
+		if (!inactiveAgents.contains(agName)) {
+			inactiveAgents.put(agName);
+		}
 		somethinghaschanged = true;
 	}
 	
@@ -96,6 +108,10 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 * @see ajpf.MCAPLScheduler#isActive(ajpf.MCAPLAgent)
 	 */
 	public void isActive(String a) {
+		if (!activeAgents.contains(a)) {
+			activeAgents.put(a);
+		}
+		inactiveAgents.remove(a);
 		somethinghaschanged = true;
 	}
 	
@@ -105,9 +121,9 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public void addJobber(MCAPLJobber a) {
 		agnames.put(a.getName(), a);
-		agents.put(a.getName());
+		activeAgents.put(a.getName());
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.PerceptListener#perceptChanged()
@@ -123,7 +139,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	public void perceptChanged(String s) {
 		somethinghaschanged = true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.PerceptListener#getListenerName()
@@ -131,14 +147,4 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	public String getListenerName() {
 		return "scheduler";
 	}
-	
-	/**
-	 * Find out which agent's turn it is.
-	 * @return
-	 */
-	public int getTurn() {
-		return turn;
-	}
-
-
 }

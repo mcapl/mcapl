@@ -24,7 +24,7 @@
 package eass.ev3.cheltenham;
 
 import ail.util.AILexception;
-import ail.mas.RoundRobinScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;

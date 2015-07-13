@@ -27,10 +27,9 @@ package ail.mas.vehicle;
 import java.util.List;
 import java.util.ArrayList;
 
-import ajpf.util.Choice;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
-
+import ajpf.util.choice.Choice;
 import ail.syntax.Predicate;
 
 /**

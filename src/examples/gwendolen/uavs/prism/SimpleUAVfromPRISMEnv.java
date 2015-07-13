@@ -24,11 +24,10 @@
 
 package gwendolen.uavs.prism;
 
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.mas.vehicle.VehicleEnvironment;
 import ajpf.MCAPLJobber;
-
-import ail.mas.RoundRobinScheduler;
-import ajpf.util.Choice;
+import ajpf.util.choice.Choice;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;

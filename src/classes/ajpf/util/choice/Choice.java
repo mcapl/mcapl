@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package ajpf.util;
+package ajpf.util.choice;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -95,6 +95,10 @@ public class Choice<O extends Object> {
 		int i = choose();
 		O choice = choicelist.get(i).getObj();
 		return choice;
+	}
+	
+	public void clearChoices() {
+		choicelist = new ArrayList<Option<O>>();
 	}
 		
 	/*

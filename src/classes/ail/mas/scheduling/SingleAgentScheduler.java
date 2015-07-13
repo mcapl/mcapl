@@ -1,4 +1,4 @@
-package ail.mas;
+package ail.mas.scheduling;
 
 import java.util.List;
 

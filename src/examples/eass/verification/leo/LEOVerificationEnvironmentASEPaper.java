@@ -31,7 +31,7 @@ import java.util.Random;
 
 import ail.util.AILConfig;
 import ail.util.AILexception;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;

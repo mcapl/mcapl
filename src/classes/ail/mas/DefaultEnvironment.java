@@ -34,9 +34,9 @@ import java.util.Map;
 import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
-
 import ail.util.AILexception;
 import ail.util.AILConfig;
+import ail.mas.scheduling.ActionScheduler;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
 import ail.syntax.Message;
@@ -50,7 +50,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
-
 import ajpf.util.VerifySet;
 import ajpf.util.VerifyMap;
 import ajpf.PerceptListener;

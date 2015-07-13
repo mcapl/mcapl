@@ -40,7 +40,7 @@ import java.lang.Thread;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -56,7 +56,6 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
 import eass.semantics.EASSAgent;
-
 import ajpf.MCAPLJobber;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;

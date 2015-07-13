@@ -24,7 +24,7 @@
 
 package eass.cruise_control;
 
-import ail.mas.RoundRobinScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
@@ -33,7 +33,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import eass.mas.DefaultEASSEnvironment;
-
 import ajpf.util.AJPFLogger;
 
 import java.util.Collections;
