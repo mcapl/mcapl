@@ -1,7 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
-// Lisitsa and Sandor M. Veres
-//
+// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher
+// 
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
 // The EASS Library is free software; you can redistribute it and/or
@@ -23,7 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (~ B (ag1, bad))
+env = eass.simple.SimpleEnv
 
-2: [] (~ B(ag1, after_subgoal) || ~ G(ag1, sub_goal))
+mas.file = /src/examples/eass/simple/DroppingGoals/DroppingGoalsWEmptyPlans.eass
+mas.builder = eass.EASSMASBuilder
 
+log.info = ail.semantics.AILAgent

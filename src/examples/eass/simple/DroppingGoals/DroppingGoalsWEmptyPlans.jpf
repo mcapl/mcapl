@@ -1,7 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
-// Lisitsa and Sandor M. Veres
-//
+// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher
+// 
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
 // The EASS Library is free software; you can redistribute it and/or
@@ -23,7 +22,15 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (~ B (ag1, bad))
+@using = mcapl
 
-2: [] (~ B(ag1, after_subgoal) || ~ G(ag1, sub_goal))
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/simple/DroppingGoals/DroppingGoalsWEmptyPlans.ail,src/examples/eass/simple/DroppingGoals/simple.psl,2
+
+log.info = ajpf.product.Product,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment
+//log.fine = ail.semantics.AILAgent
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
 
