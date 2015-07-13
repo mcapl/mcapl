@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of Gwendolen
@@ -22,8 +22,40 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-1: <>(B(ag1, empty))
+GWENDOLEN
+:name: ag1 
 
-2: [] ~B (ag2, also_happy)
+:Initial Beliefs: 
+			
+hold(block)
+			
+:Initial Goals: 
+			
+empty [achieve] 
 
-3: <>(B(ag2, also_happy))
+:Plans: 
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+			
++!empty [achieve] : {B hold(block)} <- .send(ag2, :perform, take(ag1, block)), *take(ag2, block);
++take(Ag, block) : {True} <- +empty, .send(ag2, :tell, happy);
+
+			
+:name: ag2 
+			
+:Initial Beliefs: 
+
+			
+:Initial Goals:
+
+			
+:Plans: 
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+			
++!take(Ag, block) [perform] : {True} <- .send(Ag, :tell, take(ag2, block));
+
++happy: {.sent(ag1, ag2,:tell, take(ag2, block))} <- +also_happy;
+			

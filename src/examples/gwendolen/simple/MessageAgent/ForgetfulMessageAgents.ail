@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of Gwendolen
@@ -22,8 +22,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-1: <>(B(ag1, empty))
+env = gwendolen.simple.SimpleEnv
 
-2: [] ~B (ag2, also_happy)
+log.info = ail.mas.DefaultEnvironment,ail.semantics.AILAgent
 
-3: <>(B(ag2, also_happy))
+ail.store_sent_messages = false;
+
+mas.file = /src/examples/gwendolen/simple/MessageAgent/ForgetfulMessageAgents.gwen
+mas.builder = gwendolen.GwendolenMASBuilder

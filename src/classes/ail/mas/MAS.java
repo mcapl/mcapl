@@ -152,8 +152,10 @@ public class MAS implements MCAPLmas {
      * if desired.
      * @param configuration
      */
-     public void configure(AILConfig config) {
-    	getEnv().configure(config);
+    public void configure(AILConfig config) {
+    	for (AILAgent ag: fAgents.values()) {
+    		ag.configure(config);
+    	}
     }
 
   

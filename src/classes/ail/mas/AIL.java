@@ -91,6 +91,7 @@ public class AIL {
 				System.exit(1);
 			}
 		}
+		mas.configure(config);
 		return mas;
 	}
 	
@@ -165,7 +166,7 @@ public class AIL {
 	private static String agentNumKey(int i) {
 		return "mas.agent." + i;
 	}
-	
+		
 	/**
 	 * Set up the loggers appropriately.
 	 */

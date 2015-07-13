@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.Collections;
 
 import ail.mas.AILEnv;
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.syntax.BeliefBase;
@@ -275,6 +276,9 @@ public class AILAgent implements MCAPLLanguageAgent {
     
     /* The default log name for this class */
     protected String logname = "ail.semantics.AILAgent";
+    
+    /* Should a record be kept of sent messages */
+    public boolean store_sent_messages = true;
     
     
      //-----------------CONSTRUCTORS---------------//
@@ -1034,31 +1038,49 @@ public class AILAgent implements MCAPLLanguageAgent {
 	}
 	
 	/**
+	 * Setter  for the storing of sent messages.
+	 * @param value
+	 */
+	public void setStoreSentMessages(boolean value) {
+		store_sent_messages = value;
+	}
+	
+	/**
+	 * Are we storing sent messages in an outbox?
+	 * @return
+	 */
+	public boolean getStoreSentMessages() {
+		return store_sent_messages;
+	}
+
+	/**
 	 * Add a new sent message to the agent's outbox.
 	 * 
 	 * @param msg The new sent message.
 	 */
 	public void newSentMessage(Message msg) {
-		List<Message> msgl = getOutbox();
-		boolean done = false;
-		int i = 0;
-		while (i < msgl.size()) {
-			if (msg.compareTo(msgl.get(i)) == 0) {
-				done = true;
-				break;
-			} else if (msg.compareTo(msgl.get(i)) < 0) {
-				msgl.add(i, msg);
-				done = true;
-				break;
+		if (store_sent_messages) {
+			List<Message> msgl = getOutbox();
+			boolean done = false;
+			int i = 0;
+			while (i < msgl.size()) {
+				if (msg.compareTo(msgl.get(i)) == 0) {
+					done = true;
+					break;
+				} else if (msg.compareTo(msgl.get(i)) < 0) {
+					msgl.add(i, msg);
+					done = true;
+					break;
+				}
+				i++;
 			}
-			i++;
+			
+			if (! done) {
+				msgl.add(i, msg);
+			}
+			
+			setOutbox(msgl);
 		}
-		
-		if (! done) {
-			msgl.add(i, msg);
-		}
-		
-		setOutbox(msgl);
 	}
     
 	//--- Reasoning Cycle
@@ -1995,6 +2017,12 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void MCAPLtellawake() {
 		tellawake();
 	}	
+	
+	/**
+	 * Configure the agent.
+	 * @param c
+	 */
+	public void configure(AILConfig c) {};
 
 
   
