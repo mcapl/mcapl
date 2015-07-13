@@ -24,6 +24,7 @@
 
 package ajpf.util;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Set;
@@ -40,6 +41,10 @@ import java.util.Collection;
  */
 public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> {
 	ArrayList<Tuple<K, V>> tuplearray = new ArrayList<Tuple<K, V>>();
+	 
+	public VerifyMap() {
+		tuplearray.trimToSize();
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -114,6 +119,7 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 			for (Tuple<K, V> tuple: tuplearray) {
 				if (tuple.getKey().equals(key)) {
 					tuplearray.remove(tuple);
+					tuplearray.trimToSize();
 					return tuple.getValue();
 				}
 			}
@@ -138,6 +144,7 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 	 */
 	public void clear() {
 		tuplearray.clear();
+		tuplearray.trimToSize();
 	}
 	
 	/*
@@ -199,16 +206,19 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 			int comparison = t.getKey().compareTo(t1.getKey());
 			if (comparison < 0) {
 				tuplearray.add(i, t);
+				tuplearray.trimToSize();
 				return null;
 			} else if (comparison == 0) {
 				V returnvalue = t1.getValue();
 				tuplearray.remove(i);
+				tuplearray.trimToSize();
 				tuplearray.add(i, t);
 				return returnvalue;
 			}
 		}
 		
 		tuplearray.add(t);
+		tuplearray.trimToSize();
 		return null;
 	}
 	
