@@ -134,9 +134,45 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 			}
 		}
 		
+	   	final_turn = 0;
 		return super.executeAction(agName, act);
 		
 	}
+	
+	int final_turn = 0;
+	
+//	@Override
+public boolean done() {
+		try {
+			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
+				if (final_turn == 1) {
+					Set<Predicate> percepts = generate_sharedbeliefs();
+					Set<Message> messages = generate_messages();
+					clearPercepts();
+					
+					for (Predicate p: percepts) {
+						addPercept(p);
+					}
+					
+					for (String agName: agentmap.keySet()) {
+						for (Message m: messages) {
+							addMessage(agName, m);
+						}
+					}
+					final_turn = 2;
+					return false;
+				} else if (final_turn == 0){
+					final_turn++;
+					return false;
+				} else {
+					return true;
+				} 
+			}
+			return true;
+		} catch (Exception e) {
+			return true;
+		}
+	} 
 
 
 

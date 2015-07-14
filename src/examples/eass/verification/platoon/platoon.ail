@@ -8,6 +8,7 @@ mas.agent.1.name= follower3
 ajpf.transition_every_reasoning_cycle = false
 ail.store_sent_messages = false
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment
+log.warning = ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,ajpf.MCAPLAgent,
+log.fine = ail.semantics.AILAgent
 log.format = brief

@@ -48,11 +48,11 @@ set_spacing(X):- ack_spacing(X);
 +ready_to_join: {B name(follower3), B name_front(FRONT), ~B platoon_m,
 		~G leave_platoon [achieve], ~G platoon_m(follower3, FRONT) [achieve]} <- 
                                 // get rid of any beliefs related to prevoius join platoon maneuvers
-                                +.lock,
+                +.lock,
 				-join_agreement(follower3, FRONT), -platoon_m,
-                                -.lock,
+                -.lock,
 				+!platoon_m(follower3, FRONT) [achieve], 
-				do_something, // random action to give set_spacing a chance to fire (LOUISE TO FIX THIS)
+				//do_something, // random action to give set_spacing a chance to fire (LOUISE TO FIX THIS)
 				print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
 +ready_to_join: {True} <- -ready_to_join;
 
@@ -71,15 +71,15 @@ set_spacing(X):- ack_spacing(X);
 				perf(join_ok(1)), 
 				*changed_lane,
 				+! speed_contr(1) [perform],
-				+! steering_contr(1) [perform],
 				*initial_distance,
+				+! steering_contr(1) [perform],
 				.send(leader, :tell, message(SENDER1, 2)),
 				*platoon_m,
-                                +.lock,
-                                // Clean up beliefs from messsages
+                +.lock,
+                // Clean up beliefs from messsages
 				-no_platoon_m, -platoon_m,
-                                +platoon_ok,
-                                -.lock;		
+                +platoon_ok,
+                -.lock;		
 
 +!speed_contr(0) [perform]: {B speed_controller(1) }<- +.lock, perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
 +!speed_contr(1) [perform]: {B speed_controller(0)}<- +.lock, perf(speed_controller(1)), +speed_controller(1), -speed_controller(0), -.lock;
@@ -142,8 +142,8 @@ set_spacing(X):- ack_spacing(X);
                                 +.lock,
 				-leave_agreement(follower3), -no_platoon_m,
                                 -.lock,
-		 		+!leave_platoon [achieve],
-				do_something; // random action to give set_spacing a chance to fire (LOUISE TO FIX THIS)
+		 		+!leave_platoon [achieve];
+				//do_something; // random action to give set_spacing a chance to fire (LOUISE TO FIX THIS)
 
 +ready_to_leave: {True} <- -ready_to_leave;
 
