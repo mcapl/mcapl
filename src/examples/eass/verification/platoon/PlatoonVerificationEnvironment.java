@@ -7,6 +7,7 @@ import java.util.logging.FileHandler;
 
 import eass.mas.verification.EASSVerificationEnvironment;
 import eass.semantics.EASSAgent;
+import gov.nasa.jpf.annotation.FilterField;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
@@ -16,6 +17,7 @@ import ail.syntax.Message;
 public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment {
 			
 	public String logname = "eass.platooning.PlatoonVerificationEnvironment";
+	@FilterField
 	boolean assert_set_spacing_goal_once= true;
 	/*
 	 * (non-Javadoc)
@@ -108,13 +110,13 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 				messages.add(new Message(EASSAgent.ACHIEVE, "leader", "follower3", set_spacing_goal));
 				AJPFLogger.info(logname, "assert_set_spacing_goal");
 				assert_set_spacing_goal_once=false;
+			} else {
+				AJPFLogger.info(logname, "Not assert_set_spacing_goal");				
 			}
-		}else{
-			AJPFLogger.info(logname, "Not assert_set_spacing_goal");
 		}
 		
 
-		int assert_join_agreement = random_generator.nextInt(3);
+		/*int assert_join_agreement = random_generator.nextInt(3);
 		if (assert_join_agreement == 0) {
 			Predicate join_agreement = new Predicate("join_agreement");
 			join_agreement.addTerm(new Literal("follower3"));
@@ -128,7 +130,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "assert_leave_agreement");
 		} else {
 			AJPFLogger.info(logname, "Not assert join_agreement or leave_agreement");
-		}
+		} */
 		
 		int assert_platoon_m = random_generator.nextInt(3);
 		if (assert_platoon_m == 0) {
