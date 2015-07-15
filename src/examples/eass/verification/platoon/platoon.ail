@@ -10,5 +10,5 @@ ail.store_sent_messages = false
 
 log.warning = ajpf.MCAPLcontroller
 log.info = eass.mas.DefaultEnvironment,ajpf.MCAPLAgent,
-log.fine = ail.semantics.AILAgent
+//log.fine = ail.semantics.AILAgent
 log.format = brief

@@ -168,9 +168,9 @@ public boolean done() {
 					return true;
 				} 
 			}
-			return true;
+			return false;
 		} catch (Exception e) {
-			return true;
+			return false;
 		}
 	} 
 

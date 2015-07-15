@@ -5,7 +5,7 @@ target = ail.util.AJPF_w_AIL
 target.args =src/examples/eass/verification/platoon/platoon.ail,src/examples/eass/verification/platoon/troubleshooting.psl,full_model
 
 log.info = ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment,eass.platooning.PlatoonVerificationEnvironment,ajpf.product.Product
-log.fine = ail.semantics.AILAgent
+//log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

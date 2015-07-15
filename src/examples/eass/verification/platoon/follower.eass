@@ -46,7 +46,7 @@ set_spacing(X):- ack_spacing(X);
 
 //====Joining
 +ready_to_join: {B name(follower3), B name_front(FRONT), ~B platoon_m,
-		~G leave_platoon [achieve], ~G platoon_m(follower3, FRONT) [achieve]} <- 
+		~G leave_platoon [achieve], ~G platoon_m(follower3, FRONT) [achieve], ~G set_spacing(S) [achieve]} <- 
                                 // get rid of any beliefs related to prevoius join platoon maneuvers
                 +.lock,
 				-join_agreement(follower3, FRONT), -platoon_m,
@@ -79,9 +79,11 @@ set_spacing(X):- ack_spacing(X);
                 // Clean up beliefs from messsages
 				-no_platoon_m, -platoon_m,
                 +platoon_ok,
-                -.lock;		
+                -.lock;
 
-+!speed_contr(0) [perform]: {B speed_controller(1) }<- +.lock, perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
+
++!speed_contr(0) [perform]: {B speed_controller(1), ~B ack_spacing(X) }<- +.lock, perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
++!speed_contr(0) [perform]: {B speed_controller(1), B ack_spacing(X) }<- +.lock, -ack_spacking(X), perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
 +!speed_contr(1) [perform]: {B speed_controller(0)}<- +.lock, perf(speed_controller(1)), +speed_controller(1), -speed_controller(0), -.lock;
 +!speed_contr(X2) [perform]: {True};
 
@@ -94,7 +96,9 @@ set_spacing(X):- ack_spacing(X);
 +join_agreement(X, Y): {~ G platoon_m(X, Y) [achieve]} <- -join_agreement(X, Y);
 +leave_agreement(Y): {~ G leave_platoon [achieve]} <- -leave_agreement(Y);
 +platoon_m: {~ G platoon_m(X, Y) [achieve]} <- -platoon_m;
++platoon_m: {~B steering_controller(1)} <- -platoon_m;		
 +no_platoon_m: {~ G leave_platoon [achieve]} <- -no_platoon_m;
++no_platoon_m: {~B changed_lane, ~B steering_controller(0), ~B leave_agreement(X)} <- -no_platoon_m;
 
 // Situations when set spacing should be ignored or dropped.
 
@@ -150,7 +154,7 @@ set_spacing(X):- ack_spacing(X);
 +!leave_platoon [achieve]: {B name(X)} 	<- 
                                 // Clear out any beliefs from previous join platoon maneuvers.  Delayed to prevent another join platoon goal being established until the leave platoon goal is established.
                                 +.lock,
-				-platoon_ok, -platoon_m, -ready_to_leave,
+				-platoon_ok, -platoon_m, -ready_to_leave, 
                                 -.lock,
 				.send(leader, :tell, message(X, 0)), 
 				*leave_agreement(X),
@@ -165,3 +169,4 @@ set_spacing(X):- ack_spacing(X);
 				-platoon_m, -no_platoon_m,
                                 +leave_ok,
                                 -.lock;
+

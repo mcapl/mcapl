@@ -27,3 +27,4 @@ target = ail.util.AJPF_w_AIL
 target.args =src/examples/eass/ev3/eastercon/Dysprosium_verif.ail,src/examples/eass/ev3/eastercon/dysprosium.psl,1
 
 log.info=eass.mas.verification.EASSVerificationEnvironment,ajpf.product.Product,ajpf.MCAPLListener
+//log.fine=ail.semantics.AILAgent
