@@ -61,7 +61,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "No assert_changed_lane");			
 		}
 
-		boolean assert_init_dis = true;
+		boolean assert_init_dis = random_generator.nextBoolean();
 		if(assert_init_dis){
 			percepts.add(new Literal("initial_distance"));
 			AJPFLogger.info(logname, "assert_initial_distance");
