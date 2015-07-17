@@ -15,8 +15,8 @@ public class LTLVerificationEnvironment extends EASSVerificationEnvironment {
 			
 	public String logname = "eass.platooning.LTLVerificationEnvironment";
 	boolean joining_cycle= false;
-	int j_cyc_change_lane= 0;
-	int j_cyc_initial_dis= 0;
+	boolean j_cyc_change_lane= false;
+	boolean j_cyc_initial_dis= false;
 	int j_cyc_pl_m= 0;
 	boolean leaving_cycle= false;
 	int l_cyc_no_pl_m = 0;
@@ -60,24 +60,40 @@ public class LTLVerificationEnvironment extends EASSVerificationEnvironment {
 			AJPFLogger.info(logname, "No assert ready_to_leave");
 		}
 		
+
 		if( joining_cycle || leaving_cycle){
-			percepts.add(new Literal("changed_lane"));
-			AJPFLogger.info(logname, "assert_changed_lane"+j_cyc_change_lane);
-			j_cyc_change_lane= j_cyc_change_lane+1;
+			boolean assert_change_lane = random_generator.nextBoolean();
+			if(assert_change_lane && !j_cyc_change_lane){
+				j_cyc_change_lane=true;
+			}
+			if(j_cyc_change_lane){
+				percepts.add(new Literal("changed_lane"));
+				AJPFLogger.info(logname, "assert_changed_lane");
+			}else{
+				AJPFLogger.info(logname, "No assert_changed_lane");	
+			}
 		}else{
 			boolean assert_change_lane = random_generator.nextBoolean();
 			if(assert_change_lane){
 				percepts.add(new Literal("changed_lane"));
-				AJPFLogger.info(logname, "assert_changed_lane");				
+				AJPFLogger.info(logname, "assert_changed_lane");	
 			}else{
 				AJPFLogger.info(logname, "No assert_changed_lane");	
 			}
-		}
+		}	
+			
 
-		if(joining_cycle && j_cyc_change_lane>4){
-			percepts.add(new Literal("initial_distance"));
-			AJPFLogger.info(logname, "assert_initial_distance"+j_cyc_initial_dis);
-			j_cyc_initial_dis = j_cyc_initial_dis +1;
+		if(joining_cycle && j_cyc_change_lane){
+			boolean assert_init_dis = random_generator.nextBoolean();			
+			if(assert_init_dis && !j_cyc_initial_dis){
+				j_cyc_initial_dis = true;
+			}
+			if(j_cyc_initial_dis){
+				percepts.add(new Literal("initial_distance"));
+				AJPFLogger.info(logname, "assert_initial_distance"+j_cyc_initial_dis);
+			}else{
+				AJPFLogger.info(logname, "No assert_changed_lane");	
+			}
 		}else{
 			boolean assert_init_dis = random_generator.nextBoolean();			
 			if(assert_init_dis){
@@ -134,8 +150,10 @@ public class LTLVerificationEnvironment extends EASSVerificationEnvironment {
 			boolean assert_join_leave_agreement = random_generator.nextBoolean();
 			if(assert_join_leave_agreement){
 				joining_cycle= true;
+				AJPFLogger.info(logname, "joining cycle started");
 			}else{
 				leaving_cycle= true;
+				AJPFLogger.info(logname, "leaving cycle started");
 			}
 		}
 		
@@ -167,28 +185,40 @@ public class LTLVerificationEnvironment extends EASSVerificationEnvironment {
 		
 //		boolean assert_platoon_m = random_generator.nextBoolean();
 //		boolean assert_no_platoon_m = random_generator.nextBoolean();
-		if (joining_cycle && j_cyc_change_lane>4 && j_cyc_initial_dis>4 && j_cyc_pl_m< 4) {
-			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("platoon_m")));
-			AJPFLogger.info(logname, "assert_platoon_m");
-			j_cyc_pl_m= j_cyc_pl_m+1;
-		} else {
+		if (joining_cycle && j_cyc_change_lane && j_cyc_initial_dis && j_cyc_pl_m<4) {
+			boolean assert_platoon_m = random_generator.nextBoolean();
+			if(assert_platoon_m && j_cyc_pl_m==0){
+				j_cyc_pl_m= j_cyc_pl_m+1;
+				AJPFLogger.info(logname, "set platoon_m cyc");
+			}
+			if(j_cyc_pl_m> 0) {
+				messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("platoon_m")));
+				AJPFLogger.info(logname, "assert_platoon_m"+j_cyc_pl_m);
+				j_cyc_pl_m= j_cyc_pl_m+1;
+			}else{
+				AJPFLogger.info(logname, "Not assert_platoon_m");
+			}
+		}
+		else {
 			if (j_cyc_pl_m ==4){
 				joining_cycle = false;
-				j_cyc_change_lane = 0;
-				j_cyc_initial_dis = 0;
+				j_cyc_change_lane = false;
+				j_cyc_initial_dis = false;
 				j_cyc_pl_m= 0;
+				AJPFLogger.info(logname, "reset joining cycle");
 			}
-			AJPFLogger.info(logname, "Not assert_platoon_m"+ j_cyc_change_lane + j_cyc_initial_dis);
+			AJPFLogger.info(logname, "Not assert_platoon_m"+ j_cyc_change_lane + j_cyc_initial_dis+j_cyc_pl_m);
 		}
 		
-		if (leaving_cycle && j_cyc_change_lane== 4 && l_cyc_no_pl_m< 4) {
+		// UP TO HERE CHECKED
+		if (leaving_cycle && j_cyc_change_lane && l_cyc_no_pl_m< 4) {
 			messages.add(new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("no_platoon_m")));
 			AJPFLogger.info(logname, "assert_no_platoon_m");
 			l_cyc_no_pl_m= l_cyc_no_pl_m+1;
 		} else {
 			if(l_cyc_no_pl_m==4){
 				leaving_cycle= false;
-				j_cyc_change_lane = 0;
+				j_cyc_change_lane = false;
 				l_cyc_no_pl_m= 0;
 			}
 			AJPFLogger.info(logname, "Not assert_no_platoon_m");
