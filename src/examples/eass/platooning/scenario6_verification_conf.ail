@@ -1,5 +1,5 @@
 
-env = eass.platooning.PlatoonVerificationEnvironment
+env = eass.platooning.LTLVerificationEnvironment
 
 
 //mas.agent.1.file= /src/examples/eass/Platooning/Platoon_follower.eass

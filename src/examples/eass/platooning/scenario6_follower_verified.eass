@@ -8,16 +8,17 @@ id(3)
 name(follower3)
 name_front(follower1)
 
+// Agent starts believing it is not in a  platoon
+speed_controller(0)
+steering_controller(0)
+leave_ok
+
 :Reasoning Rules:
 
 platoon_m(X, Y):- name(X), platoon_ok;
 //platoon_m(X, Y):- sp_contr, steering_contr, platoon_m, platoon_ok;
 
 leave_platoon:- leave_ok;
-
-steering_contr(1):- steering_contr;
-
-steering_contr(0):- ~ steering_contr;
 
 set_spacing(X):- ack_spacing(X);
 // set_spacing(X):- spacing(X), spacing, ack_spacing(X);
@@ -41,10 +42,15 @@ set_spacing(X):- ack_spacing(X);
 +ready_to_leave: {B name(follower3), 
 				 ~G platoon_m(follower3, FRONT) [achieve],
 				 ~G leave_platoon [achieve],
-				 ~G set_spacing(X) [achieve]}
+				 ~G set_spacing(X) [achieve],
+				 ~B leave_platoon}
 				 <- 
+				 +.lock,
 				-leave_agreement(follower3),
 				-leave_ok,
+				-no_platoon_m,
+				-platoon_m,
+				-.lock,
 		 		+!leave_platoon [achieve];
 
 +ready_to_leave: {B name(follower3), 
@@ -69,19 +75,20 @@ set_spacing(X):- ack_spacing(X);
 +ready_to_join: {B name(follower3), 
 				B name_front(FRONT), 
 				~G leave_platoon [achieve], 
-				~B steering_contr, 
-				~B platoon_m, 
+				B steering_controller(0), 
+				~B platoon_m(follower3, FRONT), 
 				~G platoon_m(follower3, FRONT) [achieve]} 
 				<- 
-				-join_agreement(follower3, FRONT),
-				-platoon_ok, 
+				+.lock,
+				-join_agreement(follower3, FRONT), -platoon_m,
+                -.lock,
 				+!platoon_m(follower3, FRONT) [achieve], 
 				print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
 
 +ready_to_join: {B name(follower3), 
 				B name_front(FRONT1), 
 				~G leave_platoon [achieve], 
-				B steering_contr, B platoon_m} 
+				B steering_controller(1), B platoon_m} 
 				<- 
 				-ready_to_join;
 
@@ -141,8 +148,8 @@ set_spacing(X):- ack_spacing(X);
 				{B name(SENDER3), 
 				B join_agreement(SENDER3, FRONT6), 
 				B changed_lane, 
-				~B steering_contr, 
-				~B sp_contr, 
+				B steering_controller(0), 
+				B speed_controller(0), 
 				B initial_distance,
 				~G set_spacing(X) [achieve]} 
 				<- 
@@ -153,8 +160,8 @@ set_spacing(X):- ack_spacing(X);
 				{B name(SENDER4), 
 				B join_agreement(SENDER4, FRONT7), 
 				B changed_lane, 
-				~B steering_contr, 
-				~B sp_contr,
+				B steering_controller(0), 
+				B speed_controller(0),
 				~B initial_distance,
 				~G set_spacing(X) [achieve]} 
 				<- 
@@ -165,8 +172,8 @@ set_spacing(X):- ack_spacing(X);
 				{B name(SENDER5), 
 				B join_agreement(SENDER5, FRONT8), 
 				B changed_lane, 
-				~B steering_contr, 
-				B sp_contr, 
+				B steering_controller(0), 
+				B speed_controller(1), 
 				B initial_distance,
 				~G set_spacing(X) [achieve]}
 				<- 
@@ -177,7 +184,7 @@ set_spacing(X):- ack_spacing(X);
 				{B name(SENDER6), 
 				B join_agreement(SENDER6, FRONT9), 
 				B changed_lane, 
-				B steering_contr,
+				B steering_controller(1),
 				~B platoon_ok,
 				~G set_spacing(X) [achieve]}
 				<- 
@@ -185,14 +192,31 @@ set_spacing(X):- ack_spacing(X);
 				.send(leader, :tell, message(SENDER6, 2)), 
 				-leave_ok,
 				+platoon_ok,
+				
 				-.lock, 
 				*platoon_m;		
 
-+!speed_contr(X1) [perform]: {X1==0}<- +.lock, perf(speed_controller(X1)), -sp_contr, -.lock;
-+!speed_contr(X2) [perform]: {X2==1}<- +.lock, perf(speed_controller(X2)), +sp_contr, -.lock;
++!speed_contr(0) [perform]: {B speed_controller(1) }<- +.lock, perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
++!speed_contr(1) [perform]: {B speed_controller(0)}<- +.lock, perf(speed_controller(1)), +speed_controller(1), -speed_controller(0), -.lock;
++!speed_contr(X2) [perform]: {True};
 
-+!steering_contr(X1) [perform]: {X1==0} <-  +.lock, perf(steering_controller(X1)), -steering_contr, -.lock;
-+!steering_contr(X2) [perform]: {X2==1, B sp_contr}<-  +.lock, perf(steering_controller(X2)), +steering_contr, -.lock;
++!steering_contr(0) [perform]: {B steering_controller(1)} <-  +.lock, perf(steering_controller(0)), -steering_controller(1), +steering_controller(0), -.lock;
++!steering_contr(1) [perform]: {B speed_controller(1), B steering_controller(0)}<-  +.lock, perf(steering_controller(1)), +steering_controller(1), -steering_controller(0), -.lock;
++!steering_contr(1) [perform]: {B speed_controller(0), B steering_controller(0)}<-  +!speed_contr(1) [perform], +.lock, perf(steering_controller(1)), +steering_controller(1), -steering_controller(0), -.lock;
++!steering_contr(X2) [perform]: {True};
+
+
+
+
+
+// Clearing out unwanted message beliefs
++join_agreement(X, Y): {~ G platoon_m(X, Y) [achieve]} <- -join_agreement(X, Y);
++leave_agreement(Y): {~ G leave_platoon [achieve]} <- -leave_agreement(Y);
++platoon_m: {~ G platoon_m(X, Y) [achieve]} <- -platoon_m;
++no_platoon_m: {~ G leave_platoon [achieve]} <- -no_platoon_m;
+
+
+
 
 // when there is a joining goal, wait until speed controller switches to automatic
 
@@ -336,7 +360,7 @@ set_spacing(X):- ack_spacing(X);
 
 +!leave_platoon [achieve]: {B name(X), 
 							B leave_agreement(X),
-							B sp_contr,
+							B speed_controller(1),
 							~ G set_spacing(Y) [achieve]}
 							<- 
 							+!speed_contr(0) [perform], 
@@ -344,13 +368,13 @@ set_spacing(X):- ack_spacing(X);
 
 
 //+!leave_platoon [achieve]: {B name(X), B leave_agreement(X), 
-//							B sp_contr, B steering_contr, B spacing, ~G set_spacing(Y) [achieve]} <- 
-//							perf(speed_controller(0)), -sp_contr, +!steering_contr(0) [perform]; 
+//							B speed_controller(1), B steering_controller(1), B spacing, ~G set_spacing(Y) [achieve]} <- 
+//							perf(speed_controller(0)), +!steering_contr(0) [perform]; 
 
 +!leave_platoon [achieve]: {B name(X), 
 							B leave_agreement(X),
-							~B sp_contr, 
-							~B steering_contr, 
+							B speed_controller(0), 
+							B steering_controller(0), 
 							~B changed_lane,
 							~ G set_spacing(Y) [achieve]} 
 							<- 
@@ -359,8 +383,8 @@ set_spacing(X):- ack_spacing(X);
 
 +!leave_platoon [achieve]: {B changed_lane,
 						   B name(X), 
-						   ~B sp_contr, 
-						   ~B steering_contr,
+						   B speed_controller(0), 
+						   B steering_controller(0),
 						   ~ G set_spacing(Y) [achieve]}
 						   <- 
 						   .send(leader, :tell, message(X, 2)),
