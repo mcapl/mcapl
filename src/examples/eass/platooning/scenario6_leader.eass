@@ -6,24 +6,24 @@
 req(1) // i.e., request to join
 req(0) // request to leave
 req(2) // acknowledge to joining and leaving
-max_length(2) //maximum platoon length
+max_length(4) //maximum platoon length
 
 :Reasoning Rules:
 last_vehicle(Y):- platoon_m(X,Y), ~platoon_m(Y,Z);
 no_platoon_m(X):- ~platoon_m(X, Y), ~platoon_m(Z, X); 
 //platoon_m(Y, 0):- update_last_v, last_vehicle(Y);
-platoon_full(X):- max_length(X), X==2, 
+platoon_full(X):- max_length(X), max_length(2), 
 				  platoon_m(I,J),
 				  platoon_m(J,K),
 				  last_vehicle(K);
 				  
-platoon_full(X):- max_length(X), X==3, 
+platoon_full(X):- max_length(X), max_length(3), 
 				  platoon_m(I,J),
 				  platoon_m(J,K),
 				  platoon_m(K,L),
 				  last_vehicle(L);
 
-platoon_full(X):- max_length(X), X==4, 
+platoon_full(X):- max_length(X), max_length(4), 
 				  platoon_m(I,J),
 				  platoon_m(J,K),
 				  platoon_m(K,L),

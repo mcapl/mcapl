@@ -1,0 +1,408 @@
+source(leader):: 
+   *  +<mid,thid,leader,1,follower3,join_agreement(follower3,follower1)>||True||npy()||[B-join_agreement(follower3,follower1), From-leader, To-follower3]
+
+[SUSPENDED
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(leader):: 
+   *  +message(mid,thid,From0,To0,1,B0)||True||+B0()||[B-join_agreement(follower3,follower1), B0-join_agreement(follower3,follower1), From-leader, From0-leader, To-follower3, To0-follower3]
+
+[SUSPENDED
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle Add Belief with Event 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(leader):: 
+
+[source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+, source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Drop Intention If Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans If Non-Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||+*...join_agreement(follower3,follower1)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle Wait For Direct 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Select Intention not Unplanned Problem Goal 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[]
+
+[source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans If Non-Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(follower3,follower1)||True||npy()||[X-follower3, Y-follower1]
+
+[source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(X0,Y0)||True||print(removed_join_agr)()||[X-follower3, X0-follower3, Y-follower1, Y0-follower1]
+      +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X-follower3, X0-follower3, Y-follower1, Y0-follower1]
+
+[source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+removed_join_agr
+ail.mas.DefaultEnvironment[INFO|main|11:11:09]: follower3 done print(removed_join_agr) 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle General Action 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+
+[source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Select Intention not Unplanned Problem Goal 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans If Non-Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle Add Achieve Test Goal with Event 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Select Intention not Unplanned Problem Goal 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+
+[source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans If Non-Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+
+[source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , join_agreement/2-join_agreement(follower3,follower1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +join_agreement(X0,Y0)||True||-join_agreement(X0,Y0)()||[X0-follower3, Y0-follower1]
+
+[source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle Drop Belief with Event 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+
+[source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+, source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Drop Intention If Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans If Non-Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(follower3,follower1)()||True||npy()||[FRONT-follower1, FRONT4-follower1, SENDER1-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_pspeed_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_psteering_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||send(message(SENDER10,1,FRONT40),leader)1()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||-lock()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+*...join_agreement(SENDER10,FRONT40)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Handle Add Perform Goal with Event 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageD :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  +!_pspeed_contr(0)()||True||npy()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||null()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_psteering_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||send(message(SENDER10,1,FRONT40),leader)1()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||-lock()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+*...join_agreement(SENDER10,FRONT40)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+
+[source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Select Intention not Unplanned Problem Goal 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageA :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+
+[source(self):: 
+   *  +!_pspeed_contr(0)()||True||npy()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||null()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_psteering_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||send(message(SENDER10,1,FRONT40),leader)1()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||-lock()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+*...join_agreement(SENDER10,FRONT40)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Generate Applicable Plans Empty with Problem Goal 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageB :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+   *  xjoin_agreement(follower3,follower1)||True||npy()||[]
+
+[source(self):: 
+   *  +!_pspeed_contr(0)()||True||npy()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||null()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_psteering_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||send(message(SENDER10,1,FRONT40),leader)1()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||-lock()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+*...join_agreement(SENDER10,FRONT40)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying ApplyApplicablePlans 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
+After Stage StageC :
+[id/1-id(3), , id_front/1-id_front(1), , leave_ok/0-leave_ok, , name/1-name(follower3), , name_front/1-name_front(follower1), , ready_to_join/0-ready_to_join, , speed_controller/1-speed_controller(0), , steering_controller/1-steering_controller(0), ]
+[platoon_m/2-[_aplatoon_m(follower3,follower1)()], speed_contr/1-[_pspeed_contr(0)()], steering_contr/1-[_psteering_contr(0)()]]
+[<mid,thid,follower3,1,leader,message(follower3,1,follower1)>]
+source(self):: 
+
+[source(self):: 
+   *  +!_pspeed_contr(0)()||True||npy()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||null()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +!_aplatoon_m(SENDER10,FRONT40)()||True||+!_psteering_contr(0)()()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||send(message(SENDER10,1,FRONT40),leader)1()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||-lock()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+      +!_aplatoon_m(SENDER10,FRONT40)()||True||+*...join_agreement(SENDER10,FRONT40)()||[FRONT-follower1, FRONT4-follower1, FRONT40-follower1, SENDER1-follower3, SENDER10-follower3]
+   *  +ready_to_join||True||+!_aplatoon_m(follower3,FRONT)()()||[FRONT-follower1]
+   *  +ready_to_join||True||print(follower_3_drop_goal_or_successfully_joined_in_the_middle)()||[FRONT-follower1]
+] 
+ail.semantics.AILAgent[FINE|main|11:11:09]: Applying Drop Intention If Empty 
+ail.semantics.AILAgent[FINE|main|11:11:09]: follower3
+=============
