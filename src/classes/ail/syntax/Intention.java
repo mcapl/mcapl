@@ -99,6 +99,7 @@ public class Intention implements Comparable<Intention>{
     	
     	this.iConcat(e, ds, gu, theta);
     	this.setSource(s);
+    	trimUnifiers();
     }
     
     /**
@@ -124,6 +125,7 @@ public class Intention implements Comparable<Intention>{
     public Intention(Event e, Unifier u, SourceAnnotation s) {
     	this(e, s);
     	compose(u);
+    	trimUnifiers();
     }
     
     /**
@@ -626,6 +628,7 @@ public class Intention implements Comparable<Intention>{
 		}
 	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
+		trimUnifiers();
 		
 		intentionRows.add(ir);
 	}
@@ -654,12 +657,9 @@ public class Intention implements Comparable<Intention>{
 			
 			lastcount = counter;
 		}
-		
-		/* if (empty()) {
-			source = new Atom("empty");
-		} */
-		
+				
 		intentionRows.trimToSize();
+		trimUnifiers();
 		
 	}
 	
@@ -767,6 +767,7 @@ public class Intention implements Comparable<Intention>{
 		
 		IntentionRow ir = new IntentionRow (e, gs, ds, theta);
 		push(ir);
+		trimUnifiers();
 	}
 	
 	/**
@@ -785,6 +786,7 @@ public class Intention implements Comparable<Intention>{
 			thetaHD.pruneRedundantNames(getVarNames());
 			dropP(1);
 			iCons(e, d, g, thetaHD);
+			trimUnifiers();
 		}
 	}
 	
@@ -908,5 +910,12 @@ public class Intention implements Comparable<Intention>{
 		return result;
 	}
 	
+	public void trimUnifiers() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		for (int i = size(); i > 0; i--) {
+			IntentionRow ir = intentionRows.get(i - 1);
+			ir.trimUnifiers(varnames);
+		}
+	}
 
 }

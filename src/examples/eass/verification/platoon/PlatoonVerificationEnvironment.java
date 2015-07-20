@@ -18,7 +18,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			
 	public String logname = "eass.platooning.PlatoonVerificationEnvironment";
 	@FilterField
-	boolean assert_set_spacing_goal_once= true;
+	boolean assert_set_spacing_goal_once= false;
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
@@ -71,7 +71,6 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 
 		
 		//boolean assert_spacing_x = random_generator.nextBoolean();
-		boolean assert_spacing = random_generator.nextBoolean();
 
 		// Having both spacing and spacing(17) seems redundant.  Keeping just spacing.
 		/* if(assert_spacing_x){
@@ -83,12 +82,15 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "Not assert_spacing_x");
 		} */
 		
+		/*
+		boolean assert_spacing = random_generator.nextBoolean();
 		if(assert_spacing){
 			percepts.add(new Literal("spacing"));
 			AJPFLogger.info(logname, "assert_spacing");
 		}else{
 			AJPFLogger.info(logname, "No assert_spacing");
 		}
+		*/
 
 		
 		

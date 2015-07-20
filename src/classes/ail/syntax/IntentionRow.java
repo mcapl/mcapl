@@ -342,5 +342,16 @@ public class IntentionRow {
      	}
     	return varnames;
 	}
+	
+	public void trimUnifiers(ArrayList<String> varnames) {
+		varnames.addAll(trigger.getVarNames());
+		for (int i = body.size(); i > 0; i--) {
+			varnames.addAll(body.get(i - 1).getVarNames());
+			varnames.addAll(guardstack.get(i - 1).getVarNames());
+			Unifier u = unif.get(i - 1);
+			u.pruneRedundantNames(varnames);
+		}
+
+	}
 
 }
