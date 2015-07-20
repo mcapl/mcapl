@@ -304,6 +304,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public AILAgent(String name) {
     	this();
     	fAgName = name;
+    	fAgName.hashCode();
      }
     
 
@@ -315,7 +316,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      */
     public AILAgent(MAS mas, String name) {
     	this(name);
-    	fEnv = mas.getEnv();
+     	fEnv = mas.getEnv();
     	fMAS = mas; 
  	}
       
@@ -386,6 +387,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void setAgName(String name) {
 		fAgName = name;
+		fAgName.hashCode();
 	}
 	
 	/**

@@ -32,6 +32,7 @@ import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
+import ail.syntax.SendAction;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
@@ -135,7 +136,22 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 		}
 		
 	   	final_turn = 0;
-		return super.executeAction(agName, act);
+	   	if (! (act instanceof SendAction)) {
+	   		return super.executeAction(agName, act);
+	   	} else {
+	   	   	decidetostop(agName, act);
+	    	if (!act.getFunctor().equals("print")) {
+	    		lastAgent = agName;
+	    		lastAction = act;
+	    	}
+	    	Unifier u = new Unifier();
+		   	if (AJPFLogger.ltInfo("ail.mas.DefaultEnvironment")) {
+		   		AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
+		   	}
+		   	
+		   	return (u);
+
+	   	}
 		
 	}
 	
