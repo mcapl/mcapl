@@ -53,7 +53,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		}
 
 		
-		boolean assert_change_lane = true;
+		boolean assert_change_lane = random_generator.nextBoolean();
 		if(assert_change_lane){
 			percepts.add(new Literal("changed_lane"));
 			AJPFLogger.info(logname, "assert_changed_lane");

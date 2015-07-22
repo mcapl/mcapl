@@ -912,8 +912,9 @@ public class Intention implements Comparable<Intention>{
 	
 	public void trimUnifiers() {
 		ArrayList<String> varnames = new ArrayList<String>();
-		for (int i = size(); i > 0; i--) {
-			IntentionRow ir = intentionRows.get(i - 1);
+		for (int i = 0; i < size(); i++) {
+			IntentionRow ir = intentionRows.get(i);
+			varnames.addAll(ir.getVarNames());
 			ir.trimUnifiers(varnames);
 		}
 	}

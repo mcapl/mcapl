@@ -133,6 +133,9 @@ public class DefaultEnvironment implements AILEnv {
 		VerifySet<Message> msgl = new VerifySet<Message>();
 		if (agMessages.get(a.getAgName()) == null) {
 			agMessages.put(a.getAgName(), msgl);
+			// Random dummy message added and removed to assist state matching during verification.
+			addMessage(a.getAgName(), new Message());
+			clearMessages(a.getAgName());
 		}
 		if (agPercepts.get(a.getAgName()) == null) {
 			VerifySet<Predicate> agl = new VerifySet<Predicate>();
