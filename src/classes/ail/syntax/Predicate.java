@@ -86,7 +86,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 */
     public Predicate(Predicate t) {
     	if (t.getFunctor() != null) {
-    		this.functor = t.getFunctor();
+    		// Shenanigans to attempt to help state matching during verification by
+    		// ensuring this is a new string object.
+    		String s = " " + t.getFunctor();
+     		this.functor = s.substring(1);
     	}
         List<Term> l = new ArrayList<Term>();
         List<Term> tl = t.getTerms();

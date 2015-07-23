@@ -2,6 +2,8 @@
 
 :Initial Beliefs:
 // Agent starts believing it is not in a  platoon
+speed_controller(0)
+steering_controller(0)
 leave_ok
 
 :Reasoning Rules:
@@ -49,7 +51,7 @@ set_spacing(X):- ack_spacing(X);
 		~G do_leave [perform], ~G platoon_m(Name, FRONT) [achieve]} <-
                                 // get rid of any beliefs related to prevoius join platoon maneuvers
                 +.lock,
-		-join_agreement(Name, FRONT), -platoon_m,
+		-join_agreement(Name, FRONT), -platoon_m, -ready_to_join,
                 -.lock,
 		+!platoon_m(Name, FRONT) [achieve], 
 		print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
@@ -64,18 +66,27 @@ set_spacing(X):- ack_spacing(X);
 		-no_platoon_m, -leave_ok, -ready_to_join, -ack_spacing(17), -platoon_m,
                 -.lock,
 		+! speed_contr(0) [perform],
-		+! steering_contr(0) [perform], -platoon_m,]
+		+! steering_contr(0) [perform], -platoon_m,
 	//	.send(leader, :tell, message(SENDER1, 1, FRONT4)), 
 	//	*join_agreement(SENDER1, FRONT4),
 		perf(join_ok(1)), 
 		*changed_lane;
 +!platoon_m(SENDER1, FRONT4) [achieve]: {B name(SENDER1), B changed_lane, ~B initial_distance} <-
+                +.lock,
+		-no_platoon_m, -leave_ok, -ready_to_join, -ack_spacing(17), -platoon_m,
+                -.lock,
 		+! steering_contr(0) [perform], -platoon_m,
 		+! speed_contr(1) [perform],
 		*initial_distance;
 +!platoon_m(SENDER1, FRONT4) [achieve]: {B name(SENDER1), B changed_lane, B initial_distance, ~B steering_controller(1)} <-
+                +.lock,
+		-no_platoon_m, -leave_ok, -ready_to_join, -ack_spacing(17), -platoon_m,
+                -.lock,
 		+! steering_contr(1) [perform], -platoon_m;
 +!platoon_m(SENDER1, FRONT4) [achieve]: {B name(SENDER1), ~B platoon_m, B changed_lane, B initial_distance, B steering_controller(1)} <-
+                +.lock,
+		-no_platoon_m, -leave_ok, -ready_to_join, -ack_spacing(17), -platoon_m,
+                -.lock,
 		.send(leader, :tell, message(SENDER1, 2)),
 		*platoon_m;
 +!platoon_m(SENDER1, FRONT4) [achieve]: {B name(SENDER1), B platoon_m, B changed_lane, B initial_distance, B steering_controller(1)} <-
@@ -155,7 +166,7 @@ set_spacing(X):- ack_spacing(X);
 				 <- 
                                 // Clear out any beliefs from previous leave platoon maneuvers
                                 +.lock,
-				-leave_agreement(Name), -no_platoon_m,
+				-leave_agreement(Name), -no_platoon_m, -ready_to_leave,
                                 -.lock,
 		 		+!leave_platoon [achieve];
 

@@ -117,7 +117,7 @@ public class HandleWaitForDirect extends DirectPerception {
 			i.hdE().apply(thetahd);
 			if (a.allintentionssuspended()) {
 				a.getIntentions().add(i);
-				a.sleep();
+				//a.sleep();
 				a.setIntention(new Intention());
 			} else {
 				a.setIntention(i);

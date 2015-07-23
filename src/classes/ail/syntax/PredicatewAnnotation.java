@@ -185,7 +185,11 @@ public class PredicatewAnnotation extends Predicate {
      */
     public void copyAnnot(PredicatewAnnotation p) {
         if (p.getAnnot() != null) {
-            annotation = p.getAnnot().clone();
+        	if (p.getAnnot().equals(BeliefBase.TPercept)) {
+        		annotation = BeliefBase.TPercept;
+        	} else {
+        		annotation = p.getAnnot().clone();
+        	}
        } else {
             annotation = null;
         }
