@@ -629,7 +629,7 @@ public class Product {
 			
 			acceptinginuntils.addAll(acceptingin);
 			
-			// Note that this state has not yet been fully explored in the DFS seearchs
+			// Note that this state has not yet been fully explored in the DFS searches
 			M1.put(statenum, false);
 			M1it.put(statenum, unvisitedSuccessors(M1));
 			M2.put(statenum, false);
