@@ -25,8 +25,8 @@
 1: [](~B(car, crash))
 
 2: [](D(car, perf(accelerate)) -> ( 
-             <>(D(car, perf(maintain_speed))) ||
-             [](~B(car, at_speed_limit)) ) )
+             <>(D(car, perf(maintain_speed)) ||
+             [](~B(car, at_speed_limit)) ) ))
              
 3: []( B(car, at_speed_limit) -> 
        <>(D(car, perf(maintain_speed)))

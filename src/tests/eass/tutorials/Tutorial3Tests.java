@@ -50,7 +50,7 @@ public class Tutorial3Tests extends TestJPF {
  
   @Test //----------------------------------------------------------------------
   public void first_property () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
+ /*   if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
     	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
     	String[] args = new String[3];
@@ -58,10 +58,10 @@ public class Tutorial3Tests extends TestJPF {
     	args[1] = prop_filename;
     	args[2] = "1";
     	AJPF_w_AIL.run(args);
- 	 }
+ 	 } */
   }
 
-  @Test //----------------------------------------------------------------------
+/*  @Test //----------------------------------------------------------------------
   public void second_property () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
@@ -124,6 +124,6 @@ public class Tutorial3Tests extends TestJPF {
     	args[2] = "3";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } */
 
 }
