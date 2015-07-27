@@ -179,6 +179,7 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
      * (non-Javadoc)
      * @see ajpf.psl.ast.Abstract_MCAPLTerm#toMCAPL()
      */
+    @Override
 	public Predicate toMCAPL() {
 		Predicate s = new Predicate(functor);
 		for (Abstract_Term t: terms) {

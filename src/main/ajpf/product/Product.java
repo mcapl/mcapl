@@ -68,7 +68,7 @@ public class Product {
 	 protected static Logger log = JPF.getLogger("ajpf.product.Product");
 	 
 	 /* The number of states in this automaton */
-	 static int number_of_states = 0;
+	 int number_of_states = 0;
 
 	 /* The program model */
 	MCAPLmodel m;

@@ -85,7 +85,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 * @param t
 	 */
     public Predicate(Predicate t) {
-    	if (t.getFunctor() != null) {
+    	
+     	if (t.getFunctor() != null) {
     		// Shenanigans to attempt to help state matching during verification by
     		// ensuring this is a new string object.
     		String s = " " + t.getFunctor();

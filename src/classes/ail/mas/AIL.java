@@ -29,6 +29,7 @@ import ail.semantics.AILAgent;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
+import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.logging.Level;
 
@@ -39,6 +40,7 @@ import java.util.logging.Level;
  *
  */
 public class AIL {
+	@FilterField
 	static String logname = "ail.mas.AIL";
 
 	/**

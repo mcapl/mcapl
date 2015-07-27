@@ -242,7 +242,8 @@ public class Intention implements Comparable<Intention>{
      * @param beliefcondition
      */
     public void unsuspendFor(Predicate beliefcondition) {
-    	if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
+    	//if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
+        if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
     		suspendedfor = null;
     		unsuspend();
     	}
