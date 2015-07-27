@@ -24,6 +24,8 @@
 
 package eass.tutorials.tutorial2.answers;
 
+import java.io.IOException;
+
 import eass.mas.DefaultEASSEnvironment;
 import ail.mas.NActionScheduler;
 import ail.syntax.Literal;
@@ -59,7 +61,12 @@ public class CarOnMotorwayEnvironment_ex2 extends DefaultEASSEnvironment {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
 		AJPFLogger.info("eass.mas", "Waiting Connection");
-		socket = new AILSocketClient();
+		try {
+			socket = new AILSocketClient();
+		} catch (IOException e) {
+			AJPFLogger.severe(logname, e.getMessage());
+			System.exit(0);
+		}
 		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	

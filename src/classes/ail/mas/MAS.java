@@ -35,8 +35,8 @@ import java.util.Set;
 import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
+import ail.syntax.ast.GroundPredSets;
 import ail.util.AILConfig;
-
 import ajpf.MCAPLmas;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.PerceptListener;
@@ -265,6 +265,7 @@ public class MAS implements MCAPLmas {
       */
      public void cleanup() {
     	 fEnv.cleanup();
+    	 GroundPredSets.clear();
      }
      
      /*

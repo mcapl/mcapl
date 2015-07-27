@@ -40,26 +40,18 @@ public class AILSocketClient extends AILSocket {
 	 * Constructor.  Sets a default Socket number for use by the project.
 	 *
 	 */
-	public AILSocketClient() {
+	public AILSocketClient() throws IOException {
 		super();
-		try {
-			initialise(new Socket("localhost", 6253));
-		} catch  (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
-		}	
+		initialise(new Socket("localhost", 6253));
 	}
 	
 	/**
 	 * Constructor that takes a port number as input.
 	 * @param portnumber
 	 */
-	public AILSocketClient(int portnumber) {
+	public AILSocketClient(int portnumber) throws IOException {
 		super();
-		try {
-			initialise(new Socket("localhost", portnumber));
-		} catch  (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
-		}				
+		initialise(new Socket("localhost", portnumber));
 	}
 
 }

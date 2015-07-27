@@ -184,6 +184,10 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
 		for (Abstract_Term t: terms) {
 			s.addTerm((Term) t.toMCAPL());
 		}
+		
+		if (s.isGround()) {
+			return GroundPredSets.check_add(s);
+		}
 		return s;
 	}
 	

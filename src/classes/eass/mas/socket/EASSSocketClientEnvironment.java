@@ -24,10 +24,11 @@
 
 package eass.mas.socket;
 
+import java.io.IOException;
+
 import ail.util.AILConfig;
 import ail.util.AILSocketClient;
 import eass.mas.DefaultEASSEnvironment;
-
 import ajpf.util.AJPFLogger;
 
 /**
@@ -82,7 +83,12 @@ public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment
 	public void initialise() {
 		if (connectedtosocket) {
 			AJPFLogger.info("eass.mas", "Waiting Connection");
-			socket = new AILSocketClient(portnumber);
+			try {
+				socket = new AILSocketClient(portnumber);
+			} catch (IOException e) {
+				AJPFLogger.severe("eass.mas", e.getMessage());
+				System.exit(0);
+			}
 			AJPFLogger.info("eass.mas", "Connected to Socket");
 		}		
 	}

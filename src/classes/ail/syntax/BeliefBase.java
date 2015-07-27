@@ -155,11 +155,11 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
         if (l.equals(Predicate.PTrue) || l.equals(Predicate.PFalse)) {
             return false;
         }
-        if (l.isGround()) {
+        /* if (l.isGround()) {
         	// Cloning to help with state matching.
         	Literal tmp = l.clone();
         	l = tmp;
-        }
+        } */
          
         Literal bl = contains(l);
         if (bl != null) {

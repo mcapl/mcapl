@@ -9,9 +9,9 @@ import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 
 public class GroundPredSets {
-	public Map<String, Predicate> ground_preds = new HashMap<String, Predicate>();
-	public Map<String, PredicatewAnnotation> ground_annot_preds = new HashMap<String, PredicatewAnnotation>();
-	public Map<String, Literal> ground_literals = new HashMap<String, Literal>();
+	public static Map<String, Predicate> ground_preds = new HashMap<String, Predicate>();
+	public static Map<String, PredicatewAnnotation> ground_annot_preds = new HashMap<String, PredicatewAnnotation>();
+	public static Map<String, Literal> ground_literals = new HashMap<String, Literal>();
 	
 	private static GroundPredSets gps = new GroundPredSets();
 	
@@ -23,11 +23,13 @@ public class GroundPredSets {
 		return gps;
 	}
 	
-	public void clear() {
+	public static void clear() {
 		ground_preds.clear();
+		ground_annot_preds.clear();
+		ground_literals.clear();
 	}
 	
-	public Predicate check_add(Predicate p) {
+	public static Predicate check_add(Predicate p) {
 		if (ground_preds.containsKey(p.toString())) {
 			return ground_preds.get(p.toString());
 		} else {
@@ -36,7 +38,7 @@ public class GroundPredSets {
 		}
 	}
 	
-	public PredicatewAnnotation check_add(PredicatewAnnotation p) {
+	public static PredicatewAnnotation check_add(PredicatewAnnotation p) {
 		if (ground_annot_preds.containsKey(p.toString())) {
 			return ground_annot_preds.get(p.toString());
 		} else {
@@ -45,7 +47,7 @@ public class GroundPredSets {
 		}
 	}
 
-	public Literal check_add(Literal p) {
+	public static Literal check_add(Literal p) {
 		if (ground_literals.containsKey(p.toString())) {
 			return ground_literals.get(p.toString());
 		} else {
