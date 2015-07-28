@@ -240,7 +240,7 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 	 * @param <K1>
 	 * @param <V1>
 	 */
-	class Tuple<K1 extends Comparable<? super K1>, V1> implements Comparable<Tuple<K1, V1>>, Map.Entry<K1, V1> {
+	private class Tuple<K1 extends Comparable<? super K1>, V1> implements Comparable<Tuple<K1, V1>>, Map.Entry<K1, V1> {
 		K1 key;
 		V1 value;
 		

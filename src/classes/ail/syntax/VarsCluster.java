@@ -194,6 +194,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		return "_VC" + id;
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Term#strip_varterm()

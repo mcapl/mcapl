@@ -186,6 +186,16 @@ public class Literal extends PredicatewAnnotation {
 		}
 	}
 	
+	public String fullstring() {
+		if (type == LPos)
+			return "Lit" + super.fullstring();
+		else {
+			StringBuilder s1 = new StringBuilder("~");
+			s1.append(super.fullstring());
+			return s1.toString();
+		}
+		
+	}
 
     
 }

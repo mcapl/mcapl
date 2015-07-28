@@ -27,10 +27,13 @@
 
 package ail.syntax;
 
+import gov.nasa.jpf.annotation.FilterField;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
 
@@ -44,6 +47,7 @@ import ajpf.util.AJPFLogger;
  *
  */
 public class Unifier implements Cloneable, Comparable<Unifier> {
+	@FilterField
 	String logname = "ail.syntax.Unifier";
 
 	/**
@@ -537,18 +541,32 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
 
     private boolean setVarValue(VarTerm vt, Term value) {
         // if the var has a cluster, set value for all cluster
-        Term currentVl = function.get(vt);
+    	        Term currentVl = function.get(vt);
         if (currentVl != null && currentVl instanceof VarsCluster) {
             VarsCluster cluster = (VarsCluster) currentVl;
             for (VarTerm cvt : cluster) {
-                function.put(cvt, (Term) value.clone());
+            	if (value.isGround()) {
+            		Term t = GroundPredSets.check_add(value);
+            		value = t;
+            	} else {
+            		Term t = (Term) value.clone();
+            		value = t;
+            	}
+                function.put(cvt, value);
             }
         } else {
             // no value in cluster
         	if (value instanceof VarsCluster) {
         		((VarsCluster) value).add(vt);
         	}
-            function.put((VarTerm) vt.clone(), (Term) value.clone());
+        	if (value.isGround()) {
+        		Term t = GroundPredSets.check_add(value);
+        		value = t;
+        	} else {
+        		Term t = (Term) value.clone();
+        		value = t;
+        	}
+            function.put((VarTerm) vt.clone(), value);
         }
         return true;
     }

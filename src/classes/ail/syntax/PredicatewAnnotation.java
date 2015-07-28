@@ -175,7 +175,13 @@ public class PredicatewAnnotation extends Predicate {
 
     /** returns true if the pred has at least one annot */
     public boolean hasAnnot() {
-        return annotation != null && !annotation.isEmpty();
+    	boolean b = annotation != null;
+    	boolean c = false;
+    	if (b) {
+    		c = !annotation.isEmpty();
+    	}
+    	boolean result = b && c;
+        return result;
     } 
 
 
@@ -205,16 +211,19 @@ public class PredicatewAnnotation extends Predicate {
         if (o instanceof PredicatewAnnotation) {
         	PredicatewAnnotation p = (PredicatewAnnotation) o;
         	if (super.equals(o)) {
-        		if (hasAnnot() && p.hasAnnot()) {
-        			return getAnnot().equals(p.getAnnot());
-        		}
-        		if (!hasAnnot() && !p.hasAnnot()) {
-        			return true;
-        		}
-        		return false;
+        		// Ignore annotations during unification until we have a use for them
+        		//if (hasAnnot() && p.hasAnnot()) {
+        		//	return getAnnot().equals(p.getAnnot());
+        		//}
+        		//if (!hasAnnot() && !p.hasAnnot()) {
+        		//	return true;
+        		//}
+        		// If one has an annotation and one doesn't they still unify?
+        		return true;
         	}
         } else if (o instanceof Predicate) {
-            return !hasAnnot() && super.equals(o);
+          //  return !hasAnnot() && super.equals(o);
+        	return super.equals(o);
         }
         return false;
     }
@@ -246,6 +255,17 @@ public class PredicatewAnnotation extends Predicate {
             s.append(annotation.toString());
         }
         return s.toString();
+    }
+    
+    public String fullstring() {
+        StringBuilder s = new StringBuilder(super.toString());
+        if (hasAnnot()) {
+        	s.append(annotation.toString());
+        } else {
+        	s.append("(null annotation)");
+        }
+        return s.toString();
+    	
     }
     
 	/*

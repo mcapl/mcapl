@@ -168,6 +168,10 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 			return String.valueOf(fValue);
 		}
 	}
+	
+	public String fullstring() {
+		return "NTI:" + toString();
+	}
      
     /*
      * (non-Javadoc)

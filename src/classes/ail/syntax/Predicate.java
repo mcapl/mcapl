@@ -454,6 +454,11 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         }
         return s.toString();
     }
+    
+    public String fullstring() {
+    	String s = toString();
+    	return "Predicate-" + s;
+    }
         
     /*
      * (non-Javadoc)

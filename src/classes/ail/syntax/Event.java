@@ -180,6 +180,10 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		return s.toString();
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#isEvent()

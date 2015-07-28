@@ -126,6 +126,10 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
 	//	return "\""+fValue+"\"";
 		return fValue;
 	}
+	
+	public String fullstring() {
+		return "STI:" + toString();
+	}
 
     /*
      * (non-Javadoc)

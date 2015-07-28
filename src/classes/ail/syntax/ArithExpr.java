@@ -404,6 +404,10 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
         }
     }
     
+    public String fullstring() {
+    	return toString();
+    }
+    
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
