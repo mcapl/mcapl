@@ -104,12 +104,14 @@ set_spacing(X):- ack_spacing(X);
 		+! steering_controller(0) [achieve], -platoon_m,
 		+! speed_controller(1) [achieve],
 		*initial_distance;
-+!platoon_m(SENDER, FRONT) [achieve]: {~B steering_controller(1), B join_agreement(SENDER, FRONT), B changed_lane, B initial_distance} <-
++!platoon_m(SENDER, FRONT) [achieve]: {~B speed_controller(1), B join_agreement(SENDER, FRONT), B changed_lane, B initial_distance} <-
+		+! speed_controller(1) [achieve];
++!platoon_m(SENDER, FRONT) [achieve]: {~B steering_controller(1), B speed_controller(1), B join_agreement(SENDER, FRONT), B changed_lane, B initial_distance} <-
 		+! steering_controller(1) [achieve], -platoon_m;
-+!platoon_m(SENDER, FRONT) [achieve]: {~B platoon_m, B join_agreement(SENDER, FRONT), B changed_lane, B initial_distance, B steering_controller(1)} <-
++!platoon_m(SENDER, FRONT) [achieve]: {~B platoon_m, B join_agreement(SENDER, FRONT), B changed_lane, B initial_distance, B speed_controller(1), B steering_controller(1)} <-
 		.send(leader, :tell, message(SENDER, 2)),
 		*platoon_m;
-+!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement(SENDER, FRONT), B platoon_m, B changed_lane, B initial_distance, B steering_controller(1)} <-
++!platoon_m(SENDER, FRONT) [achieve]: {B join_agreement(SENDER, FRONT), B platoon_m, B changed_lane, B initial_distance, B speed_controller(1), B steering_controller(1)} <-
 		+.lock,
 		// Clean up beliefs from messsages
 		-no_platoon_m, -platoon_m,

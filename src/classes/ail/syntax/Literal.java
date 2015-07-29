@@ -27,6 +27,7 @@
 
 package ail.syntax;
 
+import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -157,7 +158,11 @@ public class Literal extends PredicatewAnnotation {
      * @see ail.syntax.Pred#clone()
      */
 	public Literal clone() {
-        Literal c = new Literal(this);
+    	if (isGround()) {
+    		return GroundPredSets.check(this);
+    	}
+
+    	Literal c = new Literal(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;
         return c;

@@ -27,8 +27,8 @@
 
 package ail.syntax;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLPredicate;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -146,7 +146,12 @@ public class PredicatewAnnotation extends Predicate {
      */
     public boolean addAnnotFrom(PredicatewAnnotation p) {
     	if (p.hasAnnot()) {
-    		return annotation.addAnnot(p.getAnnot());
+    		if (hasAnnot()) {
+    			return annotation.addAnnot(p.getAnnot());
+    		} else {
+    			annotation = p.getAnnot();
+    			return true;
+    		}
     	}
     	
     	return false;
@@ -242,7 +247,11 @@ public class PredicatewAnnotation extends Predicate {
      * @see ail.syntax.Predicate#clone()
      */
     public PredicatewAnnotation clone() {
-        return new PredicatewAnnotation(this);
+    	if (isGround()) {
+    		return GroundPredSets.check(this);
+    	}
+
+    	return new PredicatewAnnotation(this);
     }
 
     /*

@@ -546,7 +546,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             VarsCluster cluster = (VarsCluster) currentVl;
             for (VarTerm cvt : cluster) {
             	if (value.isGround()) {
-            		Term t = GroundPredSets.check_add(value);
+            		Term t = GroundPredSets.check(value);
             		value = t;
             	} else {
             		Term t = (Term) value.clone();
@@ -560,7 +560,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
         		((VarsCluster) value).add(vt);
         	}
         	if (value.isGround()) {
-        		Term t = GroundPredSets.check_add(value);
+        		Term t = GroundPredSets.check(value);
         		value = t;
         	} else {
         		Term t = (Term) value.clone();

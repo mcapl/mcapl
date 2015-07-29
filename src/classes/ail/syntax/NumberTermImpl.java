@@ -29,6 +29,7 @@ package ail.syntax;
 
 import java.util.ArrayList;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
 
@@ -99,7 +100,11 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
 	public NumberTerm clone() {
-		return new NumberTermImpl(solve());
+    	if (isGround()) {
+    		return GroundPredSets.check(this);
+    	}
+
+    	return new NumberTermImpl(solve());
 	}
 	
 	/*

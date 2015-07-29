@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -230,6 +231,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 
     /** make a deep copy of the terms */
     public Predicate clone() {
+    	if (isGround()) {
+    		return GroundPredSets.check(this);
+    	}
+    	
         Predicate c = new Predicate(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;

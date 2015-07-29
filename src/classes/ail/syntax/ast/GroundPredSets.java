@@ -44,11 +44,27 @@ public class GroundPredSets {
 		}
 	}
 	
+	public static Predicate check(Predicate p) {
+		if (ground_preds.containsKey(p.fullstring())) {
+			return ground_preds.get(p.fullstring());
+		} else {
+			return p;
+		}
+	}
+
 	public static PredicatewAnnotation check_add(PredicatewAnnotation p) {
 		if (ground_annot_preds.containsKey(p.fullstring())) {
 			return ground_annot_preds.get(p.fullstring());
 		} else {
 			ground_annot_preds.put(p.fullstring(), p);
+			return p;
+		}
+	}
+
+	public static PredicatewAnnotation check(PredicatewAnnotation p) {
+		if (ground_annot_preds.containsKey(p.fullstring())) {
+			return ground_annot_preds.get(p.fullstring());
+		} else {
 			return p;
 		}
 	}
@@ -62,7 +78,25 @@ public class GroundPredSets {
 		}
 	}
 
+	public static Literal check(Literal p) {
+		if (ground_literals.containsKey(p.fullstring())) {
+			return ground_literals.get(p.fullstring());
+		} else {
+			ground_literals.put(p.fullstring(), p);
+			return p;
+		}
+	}
+
 	public static NumberTermImpl check_add(NumberTermImpl p) {
+		if (ground_numbers.containsKey(p.fullstring())) {
+			return ground_numbers.get(p.fullstring());
+		} else {
+			ground_numbers.put(p.fullstring(), p);
+			return p;
+		}
+	}
+
+	public static NumberTermImpl check(NumberTermImpl p) {
 		if (ground_numbers.containsKey(p.fullstring())) {
 			return ground_numbers.get(p.fullstring());
 		} else {
@@ -88,4 +122,22 @@ public class GroundPredSets {
 			return p;
 		}
 	}
+	
+	public static Term check(Term p) {
+		if (p instanceof Literal) {
+			return check((Literal) p);
+		} else if (p instanceof PredicatewAnnotation) {
+			return check((PredicatewAnnotation) p);
+		} else if (p instanceof Predicate) {
+			return check((Predicate) p);
+		} else if (p instanceof NumberTermImpl) {
+			return check((NumberTermImpl) p);
+		}
+		if (grounds.containsKey(p.fullstring())) {
+			return grounds.get(p.fullstring());
+		} else {
+			return p;
+		}
+	}
+
 }
