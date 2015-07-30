@@ -28,6 +28,7 @@ import java.io.IOException;
 
 import ail.mas.AIL;
 import ail.mas.MAS;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
@@ -51,6 +52,7 @@ public class AJPF_w_AIL {
 			  AJPFLogger.fine(logname, "Entering Main in AJPF_w_AIL");
 		  }
 
+		GroundPredSets.clear();
 		run(args);
 	}
 	

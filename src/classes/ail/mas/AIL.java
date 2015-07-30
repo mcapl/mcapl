@@ -26,6 +26,7 @@ package ail.mas;
 
 import ail.util.AILConfig;
 import ail.semantics.AILAgent;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
@@ -56,6 +57,7 @@ public class AIL {
 	 * @param configfile
 	 */
 	public static void runAIL(String configfile) {
+		GroundPredSets.clear();
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
 	

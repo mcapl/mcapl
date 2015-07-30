@@ -101,7 +101,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 */
 	public NumberTerm clone() {
     	if (isGround()) {
-    		return GroundPredSets.check(this);
+    		return this;
     	}
 
     	return new NumberTermImpl(solve());

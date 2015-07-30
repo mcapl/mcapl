@@ -158,7 +158,7 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
        // if (l.isGround() && ! l.hasAnnot(TPercept)) {
         if (l.isGround()) {
         	// Shenanigans to attempt to reduce memory footprint during verification
-        	Literal tmp = GroundPredSets.check_add(l);
+        	Literal tmp = GroundPredSets.check(l);
         	l = tmp;
         } 
          

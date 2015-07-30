@@ -232,7 +232,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     /** make a deep copy of the terms */
     public Predicate clone() {
     	if (isGround()) {
-    		return GroundPredSets.check(this);
+    		return this;
     	}
     	
         Predicate c = new Predicate(this);
@@ -257,7 +257,11 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     		return;
         if (terms == null)
             terms = new ArrayList<Term>();
-        terms.add(t);
+   //     if (t.isGround()) {
+   //     	terms.add(GroundPredSets.check(t));
+   //     } else {
+        	terms.add(t);
+   //     }
         predicateIndicatorCache = null;
         hashCodeCache = null;
       }
@@ -445,9 +449,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
             while (i.hasNext()) {
             	try {
             		Term it = (Term) i.next();
-            		Term it2 = (Term) it.clone();
-            		String is = it2.toString();
-            		s.append(is);
+            		if (!it.isGround()) {
+            			Term it2 = (Term) it.clone();
+            			String is = it2.toString();
+                		s.append(is);
+            		} else {
+            			s.append(it.toString());
+            		}
             	} catch (Exception e) {
             		s.append(terms);
             		break;
@@ -464,11 +472,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     	String s = toString();
     	return "Predicate-" + s;
     }
+      
         
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#calcHashCode()
      */
+    @Override
     protected int calcHashCode() {
         final int PRIME = 7;
         int result = 1;

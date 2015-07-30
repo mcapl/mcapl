@@ -159,7 +159,7 @@ public class Literal extends PredicatewAnnotation {
      */
 	public Literal clone() {
     	if (isGround()) {
-    		return GroundPredSets.check(this);
+    		return this;
     	}
 
     	Literal c = new Literal(this);

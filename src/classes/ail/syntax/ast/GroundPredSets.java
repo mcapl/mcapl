@@ -33,6 +33,7 @@ public class GroundPredSets {
 		ground_annot_preds.clear();
 		ground_literals.clear();
 		ground_numbers.clear();
+		grounds.clear();
 	}
 	
 	public static Predicate check_add(Predicate p) {

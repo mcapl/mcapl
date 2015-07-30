@@ -248,7 +248,7 @@ public class PredicatewAnnotation extends Predicate {
      */
     public PredicatewAnnotation clone() {
     	if (isGround()) {
-    		return GroundPredSets.check(this);
+    		return this;
     	}
 
     	return new PredicatewAnnotation(this);
