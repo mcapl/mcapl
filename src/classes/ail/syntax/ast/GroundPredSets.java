@@ -83,7 +83,6 @@ public class GroundPredSets {
 		if (ground_literals.containsKey(p.fullstring())) {
 			return ground_literals.get(p.fullstring());
 		} else {
-			ground_literals.put(p.fullstring(), p);
 			return p;
 		}
 	}
@@ -101,7 +100,6 @@ public class GroundPredSets {
 		if (ground_numbers.containsKey(p.fullstring())) {
 			return ground_numbers.get(p.fullstring());
 		} else {
-			ground_numbers.put(p.fullstring(), p);
 			return p;
 		}
 	}
