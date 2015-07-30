@@ -52,13 +52,13 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	
 	// Predefining messages and percepts in order to reduce the number of objects
 	static Predicate id_pred = new Predicate("id");
-	static{ GroundPredSets.check_add(new NumberTermImpl(3)); id_pred.addTerm(new NumberTermImpl(3)); GroundPredSets.check_add(id_pred);}
+	static{ GroundPredSets.check_add(new NumberTermImpl(3)); id_pred.addTerm(new NumberTermImpl(3)); GroundPredSets.check_add_percept(id_pred);}
 	
 	static Predicate name = new Predicate("name");
-	static{ GroundPredSets.check_add(new Predicate("follower3")); name.addTerm(new Predicate("follower3")); GroundPredSets.check_add(name); }
+	static{ GroundPredSets.check_add(new Predicate("follower3")); GroundPredSets.check_add(new Literal("follower3")); name.addTerm(new Predicate("follower3")); GroundPredSets.check_add_percept(name); }
 	
 	static Predicate name_front = new Predicate("name_front");
-	static {GroundPredSets.check_add(new Predicate("follower1")); name_front.addTerm(new Literal("follower1")); GroundPredSets.check_add(name_front); }
+	static {GroundPredSets.check_add(new Predicate("follower1")); GroundPredSets.check_add(new Literal("follower1")); name_front.addTerm(new Literal("follower1")); GroundPredSets.check_add_percept(name_front); }
 	
 	static Predicate ready_to_join = new Predicate("ready_to_join");
 	static Predicate ready_to_leave = new Predicate("ready_to_leave");
@@ -67,13 +67,13 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	static Predicate initial_distance = new Predicate("initial_distance");
 	static Predicate spacing = new Predicate("spacing");
 	
-	static {GroundPredSets.check_add(ready_to_join); GroundPredSets.check_add(ready_to_leave); GroundPredSets.check_add(changed_lane); GroundPredSets.check_add(initial_distance); GroundPredSets.check_add(spacing);}
+	static {GroundPredSets.check_add_percept(ready_to_join); GroundPredSets.check_add_percept(ready_to_leave); GroundPredSets.check_add_percept(changed_lane); GroundPredSets.check_add_percept(initial_distance); GroundPredSets.check_add_percept(spacing);}
 	
 	static Predicate set_spacing_goal = new Predicate("set_spacing");
-	static{GroundPredSets.check_add(new NumberTermImpl(17)); set_spacing_goal.addTerm(new NumberTermImpl(17)); GroundPredSets.check_add(set_spacing_goal);}
+	static{GroundPredSets.check_add(new NumberTermImpl(17)); set_spacing_goal.addTerm(new NumberTermImpl(17)); GroundPredSets.check_add_percept(set_spacing_goal);}
 
 	static Message set_spacing_message = new Message(EASSAgent.ACHIEVE, "leader", "follower3", set_spacing_goal);
-	static{GroundPredSets.check_add(new Predicate("leader"));}
+	static{GroundPredSets.check_add(new Predicate("leader")); GroundPredSets.check_add(new Literal("leader"));}
 	
 	static Predicate join_agreement = new Predicate("join_agreement");
 	static{join_agreement.addTerm(new Predicate("follower3"));

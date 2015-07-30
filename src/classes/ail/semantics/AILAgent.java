@@ -65,6 +65,7 @@ import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.MCAPLcontroller;
@@ -1270,7 +1271,9 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param b the new belief.
      */
     public void addInitialBel(Literal b) {
-    	addBel(b, refertoself());
+    	b.addAnnot(refertoself());
+    	GroundPredSets.check_add(b);
+    	getBB().add(b);
     }
 
     /**
@@ -1279,7 +1282,9 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param s
      */
     public void addInitialBel(Literal b, String s) {
-    	addBel(b, refertoself(), s);
+    	b.addAnnot(refertoself());
+    	GroundPredSets.check_add(b);
+    	getBB().add(b);
     }
     
     

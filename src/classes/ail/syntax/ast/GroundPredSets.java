@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
@@ -36,13 +37,36 @@ public class GroundPredSets {
 		grounds.clear();
 	}
 	
-	public static Predicate check_add(Predicate p) {
+	public static Predicate check_add_pred(Predicate p) {
 		if (ground_preds.containsKey(p.fullstring())) {
 			return ground_preds.get(p.fullstring());
 		} else {
 			ground_preds.put(p.fullstring(), p);
 			return p;
 		}
+	}
+	
+	public static Predicate check_add(Predicate p) {
+		Predicate p1 = check_add_pred(p);
+		
+		PredicatewAnnotation pna = new PredicatewAnnotation(p);
+		check_add(pna);
+		
+		PredicatewAnnotation p_p = new PredicatewAnnotation(p);
+		p_p.addAnnot(BeliefBase.TPercept);
+		check_add(p_p);
+		Literal pplit = new Literal(true, p_p);
+		check_add(pplit);
+		
+		
+		PredicatewAnnotation p_s = new PredicatewAnnotation(p);
+		p_s.addAnnot(BeliefBase.TSelf);
+		check_add(p_s);
+		Literal pslit = new Literal(true, p_s);
+		check_add(pslit); 
+
+		return p1;
+		
 	}
 	
 	public static Predicate check(Predicate p) {
@@ -140,6 +164,10 @@ public class GroundPredSets {
 		} else {
 			return p;
 		}
+	}
+	
+	public static Predicate check_add_percept(Predicate p) {
+		return check_add(p);
 	}
 
 }
