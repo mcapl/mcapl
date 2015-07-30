@@ -158,10 +158,6 @@ public class Literal extends PredicatewAnnotation {
      * @see ail.syntax.Pred#clone()
      */
 	public Literal clone() {
-    	if (isGround()) {
-    		return this;
-    	}
-
     	Literal c = new Literal(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;

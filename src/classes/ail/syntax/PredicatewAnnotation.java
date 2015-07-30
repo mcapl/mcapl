@@ -247,9 +247,9 @@ public class PredicatewAnnotation extends Predicate {
      * @see ail.syntax.Predicate#clone()
      */
     public PredicatewAnnotation clone() {
-    	if (isGround()) {
-    		return this;
-    	}
+    	//if (isGround()) {
+    	//	return this;
+    	//}
 
     	return new PredicatewAnnotation(this);
     }

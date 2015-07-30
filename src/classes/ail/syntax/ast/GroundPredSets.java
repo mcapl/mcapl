@@ -72,8 +72,10 @@ public class GroundPredSets {
 
 	public static Literal check_add(Literal p) {
 		if (ground_literals.containsKey(p.fullstring())) {
+			System.err.println("returning " + p.fullstring());
 			return ground_literals.get(p.fullstring());
 		} else {
+			System.err.println("addin " + p.fullstring());
 			ground_literals.put(p.fullstring(), p);
 			return p;
 		}
@@ -83,6 +85,7 @@ public class GroundPredSets {
 		if (ground_literals.containsKey(p.fullstring())) {
 			return ground_literals.get(p.fullstring());
 		} else {
+			System.err.println("No " + p.fullstring());
 			return p;
 		}
 	}
