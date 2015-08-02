@@ -79,7 +79,7 @@ set_spacing(X):- ack_spacing(X);
 		~G do_leave [perform], ~G platoon_m(Name, FRONT) [achieve]} <-
                                 // get rid of any beliefs related to prevoius join platoon maneuvers
 		+.lock,
-		-join_agreement(Name, FRONT), -platoon_m, -ready_to_join,
+		-join_agreement(Name, FRONT), -platoon_m, -ready_to_join, -leave_agreement(Name),
 		-.lock,
 		+!platoon_m(Name, FRONT) [achieve], 
 		print(follower_3_drop_goal_or_successfully_joined_in_the_middle);
@@ -169,10 +169,10 @@ set_spacing(X):- ack_spacing(X);
 		+! do_leave [perform];
 +ready_to_leave: {True} <- -ready_to_leave;
 
-+!do_leave [perform] : {B name(Name), ~G do_join[perform], ~G leave_platoon [achieve], ~B leave_platoon, ~G set_spacing(X) [achieve]} <-
++!do_leave [perform] : {B name(Name), B name_front(Front), ~G do_join[perform], ~G leave_platoon [achieve], ~B leave_platoon, ~G set_spacing(X) [achieve]} <-
 		// Clear out any beliefs from previous leave platoon maneuvers
 		+.lock,
-		-leave_agreement(Name), -no_platoon_m, -ready_to_leave,
+		-leave_agreement(Name), -no_platoon_m, -ready_to_leave, -join_agreement(Name, Front),
 		-.lock,
 		+!leave_platoon [achieve],
 		print(follower_3_drop_goal_or_successfully_left_platoon);
@@ -188,10 +188,13 @@ set_spacing(X):- ack_spacing(X);
 		+!steering_controller(0) [achieve], -no_platoon_m, 
 		perf(join_ok(0)), -no_platoon_m, 
 		*changed_lane;
-+!leave_platoon [achieve]: {~B no_platoon_m, B name(X), B leave_agreement(X), B changed_lane} 	<- 
++!leave_platoon [achieve]: {~B steering_controller(0), B name(X), B leave_agreement(X), B changed_lane} 	<- 
+		+!speed_controller(0) [achieve], -no_platoon_m, 
+		+!steering_controller(0) [achieve], -no_platoon_m;
++!leave_platoon [achieve]: {~B no_platoon_m, B name(X), B leave_agreement(X), B changed_lane, B steering_controller(0), B speed_controller(0)} 	<- 
 		.send(leader, :tell, message(X, 2)),
 	   	*no_platoon_m;
-+!leave_platoon [achieve]: {B name(X), B leave_agreement(X), B changed_lane, B no_platoon_m} 	<- 
++!leave_platoon [achieve]: {B name(X), B leave_agreement(X), B changed_lane, B no_platoon_m, B steering_controller(0), B speed_controller(0)} 	<- 
 		+.lock,
 		-platoon_m, -no_platoon_m,
 		+leave_ok,

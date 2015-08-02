@@ -2,7 +2,9 @@ package ail.syntax.ast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
@@ -12,12 +14,13 @@ import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Term;
 
 public class GroundPredSets {
-	public static Map<String, Predicate> ground_preds = new HashMap<String, Predicate>();
-	public static Map<String, PredicatewAnnotation> ground_annot_preds = new HashMap<String, PredicatewAnnotation>();
-	public static Map<String, Literal> ground_literals = new HashMap<String, Literal>();
-	public static Map<String, NumberTermImpl> ground_numbers = new HashMap<String, NumberTermImpl>();
+	/* public static Map<String, Predicate> ground_preds = new HashMap<String, Predicate>(); */
+	public static Set<PredicatewAnnotation> ground_annot_preds = new HashSet<PredicatewAnnotation>(); 
+	public static Set<Literal> ground_literals = new HashSet<Literal>();
+	public static Set<NumberTermImpl> ground_numbers = new HashSet<NumberTermImpl>();
 	
-	public static Map<String, Term> grounds = new  HashMap<String, Term>();
+	public static Set<Term> grounds = new  HashSet<Term>(); 
+	public static Set<Predicate> ground_preds = new HashSet<Predicate>();
 	
 	private static GroundPredSets gps = new GroundPredSets();
 	
@@ -38,30 +41,35 @@ public class GroundPredSets {
 	}
 	
 	public static Predicate check_add_pred(Predicate p) {
-		if (ground_preds.containsKey(p.fullstring())) {
-			return ground_preds.get(p.fullstring());
-		} else {
-			ground_preds.put(p.fullstring(), p);
+		if (ground_preds.contains(p)) {
+			for (Predicate p1: ground_preds) {
+				if (p1.equals(p)) {
+					return p1;
+				}
+			}
 			return p;
-		}
+		} else {
+			ground_preds.add(p);
+			return p;
+		} 
 	}
 	
 	public static Predicate check_add(Predicate p) {
 		Predicate p1 = check_add_pred(p);
 		
-		PredicatewAnnotation pna = new PredicatewAnnotation(p);
-		check_add(pna);
+		//PredicatewAnnotation pna = new PredicatewAnnotation(p);
+		//check_add(pna);
 		
 		PredicatewAnnotation p_p = new PredicatewAnnotation(p);
 		p_p.addAnnot(BeliefBase.TPercept);
-		check_add(p_p);
+		//check_add(p_p);
 		Literal pplit = new Literal(true, p_p);
 		check_add(pplit);
 		
 		
 		PredicatewAnnotation p_s = new PredicatewAnnotation(p);
 		p_s.addAnnot(BeliefBase.TSelf);
-		check_add(p_s);
+		//check_add(p_s);
 		Literal pslit = new Literal(true, p_s);
 		check_add(pslit); 
 
@@ -70,65 +78,76 @@ public class GroundPredSets {
 	}
 	
 	public static Predicate check(Predicate p) {
-		if (ground_preds.containsKey(p.fullstring())) {
-			return ground_preds.get(p.fullstring());
-		} else {
-			return p;
+		for (Predicate p1: ground_preds) {
+			if (p1.equals(p)) {
+				return p1;
+			}
 		}
+		
+		return p;
 	}
 
 	public static PredicatewAnnotation check_add(PredicatewAnnotation p) {
-		if (ground_annot_preds.containsKey(p.fullstring())) {
-			return ground_annot_preds.get(p.fullstring());
-		} else {
-			ground_annot_preds.put(p.fullstring(), p);
-			return p;
+		for (PredicatewAnnotation p1: ground_annot_preds) {
+			if (p1.equalsInclAnnots(p)) {
+				return p1;
+			}
 		}
+		
+		ground_annot_preds.add(p);
+		return p;
 	}
 
 	public static PredicatewAnnotation check(PredicatewAnnotation p) {
-		if (ground_annot_preds.containsKey(p.fullstring())) {
-			return ground_annot_preds.get(p.fullstring());
-		} else {
-			return p;
+		for (PredicatewAnnotation p1: ground_annot_preds) {
+			if (p1.equalsInclAnnots(p)) {
+				return p1;
+			}
 		}
+
+		return p;
 	}
 
 	public static Literal check_add(Literal p) {
-		if (ground_literals.containsKey(p.fullstring())) {
-			System.err.println("returning " + p.fullstring());
-			return ground_literals.get(p.fullstring());
-		} else {
-			System.err.println("addin " + p.fullstring());
-			ground_literals.put(p.fullstring(), p);
-			return p;
+		for (Literal l: ground_literals) {
+			if (l.equalsInclAnnots(p)) {
+				return l;
+			}
 		}
+
+		ground_literals.add(p);
+		return p;
 	}
 
 	public static Literal check(Literal p) {
-		if (ground_literals.containsKey(p.fullstring())) {
-			return ground_literals.get(p.fullstring());
-		} else {
-			System.err.println("No " + p.fullstring());
-			return p;
+		for (Literal l: ground_literals) {
+			if (l.equalsInclAnnots(p)) {
+				return l;
+			}
 		}
+
+		return p;
 	}
 
 	public static NumberTermImpl check_add(NumberTermImpl p) {
-		if (ground_numbers.containsKey(p.fullstring())) {
-			return ground_numbers.get(p.fullstring());
-		} else {
-			ground_numbers.put(p.fullstring(), p);
-			return p;
+		for (NumberTermImpl n: ground_numbers) {
+			if (n.equals(p)) {
+				return n;
+			}
 		}
+
+		ground_numbers.add(p);
+		return p;
 	}
 
 	public static NumberTermImpl check(NumberTermImpl p) {
-		if (ground_numbers.containsKey(p.fullstring())) {
-			return ground_numbers.get(p.fullstring());
-		} else {
-			return p;
+		for (NumberTermImpl n: ground_numbers) {
+			if (n.equals(p)) {
+				return n;
+			}
 		}
+
+		return p;
 	}
 
 	public static Term check_add(Term p) {
@@ -141,12 +160,15 @@ public class GroundPredSets {
 		} else if (p instanceof NumberTermImpl) {
 			return check_add((NumberTermImpl) p);
 		}
-		if (grounds.containsKey(p.fullstring())) {
-			return grounds.get(p.fullstring());
-		} else {
-			grounds.put(p.fullstring(), p);
-			return p;
+		
+		for (Term t: grounds) {
+			if (t.equals(p)) {
+				return t;
+			}
 		}
+
+		grounds.add(p);
+		return p;
 	}
 	
 	public static Term check(Term p) {
@@ -159,11 +181,13 @@ public class GroundPredSets {
 		} else if (p instanceof NumberTermImpl) {
 			return check((NumberTermImpl) p);
 		}
-		if (grounds.containsKey(p.fullstring())) {
-			return grounds.get(p.fullstring());
-		} else {
-			return p;
+		for (Term t: grounds) {
+			if (t.equals(p)) {
+				return t;
+			}
 		}
+
+		return p;
 	}
 	
 	public static Predicate check_add_percept(Predicate p) {

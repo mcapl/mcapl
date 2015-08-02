@@ -233,6 +233,28 @@ public class PredicatewAnnotation extends Predicate {
         return false;
     }
 
+    public boolean equalsInclAnnots(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        if (o instanceof PredicatewAnnotation) {
+        	PredicatewAnnotation p = (PredicatewAnnotation) o;
+        	if (super.equals(o)) {
+        		if (hasAnnot() && p.hasAnnot()) {
+        			return getAnnot().equals(p.getAnnot());
+        		}
+        		if (!hasAnnot() && !p.hasAnnot()) {
+        			return true;
+        		}
+        		// If one has an annotation and one doesn't they still unify?
+        		return false;
+        	}
+        } else if (o instanceof Predicate) {
+          //  return !hasAnnot() && super.equals(o);
+        	return super.equals(o);
+        }
+        return false;
+    }
+
     /**
      * Is this equal as a term.
      * @param p

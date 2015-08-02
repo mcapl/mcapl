@@ -134,6 +134,19 @@ public class Literal extends PredicatewAnnotation {
         return false;
 	}
     
+    public boolean equalsInclAnnots(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+
+        if (o instanceof Literal) {
+			final Literal l = (Literal) o;
+			return type == l.type 
+			&& super.equalsInclAnnots(l);
+		} else if (o instanceof Predicate) {
+			return !negated() && super.equalsInclAnnots(o);
+		}
+        return false;
+	}
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#compareTo(ail.syntax.Term)
