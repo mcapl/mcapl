@@ -29,18 +29,19 @@
 speed_controller(0)
 steering_controller(0)
 leave_ok
+not_stopped
 
 :Reasoning Rules:
 
-platoon_m(X, Y):- name(X), platoon_ok;
+platoon_m(X, Y):- platoon_ok, name(X);
 leave_platoon:- leave_ok;
 set_spacing(X):- ack_spacing(X);
 
 
 :Initial Goals:
 
-
 :Plans:
+
 //======= Specialised messaging plans to improve efficiency.
 +.received(:tell, join_agreement(X, Y)): {G do_join[perform], ~B join_agreement(X, Y)} <- +join_agreement(X, Y);   
 +.received(:tell, leave_agreement(Y)): {G do_leave[perform], ~B leave_agreement(Y)} <- +leave_agreement(Y);   
@@ -96,11 +97,13 @@ set_spacing(X):- ack_spacing(X);
 		.send(leader, :tell, message(SENDER, 1, FRONT)), 
 		*join_agreement(SENDER, FRONT);
 +!platoon_m(SENDER, FRONT) [achieve]: {~B changed_lane, B join_agreement(SENDER, FRONT)} <-
+		+! clean_up_beliefs_on_joining [perform],
 		+! speed_controller(0) [achieve],
 		+! steering_controller(0) [achieve], -platoon_m,
 		perf(join_ok(1)), 
 		*changed_lane;
 +!platoon_m(SENDER, FRONT) [achieve]: {~B initial_distance, B join_agreement(SENDER, FRONT), B changed_lane} <-
+		+! clean_up_beliefs_on_joining [perform],
 		+! steering_controller(0) [achieve], -platoon_m,
 		+! speed_controller(1) [achieve],
 		*initial_distance;
@@ -131,7 +134,7 @@ set_spacing(X):- ack_spacing(X);
 +!speed_controller(0) [achieve]: {~B ack_spacing(X) } <- 
                 +.lock, perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
 +!speed_controller(0) [achieve]: {B ack_spacing(X) } <- 
-                +.lock, -ack_spacking(X), perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
+                +.lock, -ack_spacing(X), perf(speed_controller(0)), -speed_controller(1), +speed_controller(0), -.lock;
 +!speed_controller(1) [achieve]: {True} <- 
                 +.lock, perf(speed_controller(1)), -speed_controller(0), +speed_controller(1), -.lock;
 
@@ -184,6 +187,7 @@ set_spacing(X):- ack_spacing(X);
 		.send(leader, :tell, message(X, 0)), 
 		*leave_agreement(X);
 +!leave_platoon [achieve]: {~B changed_lane, B name(X), B leave_agreement(X)} 	<- 
+		+!clean_up_beliefs_on_leaving [perform],
 		+!speed_controller(0) [achieve], -no_platoon_m, 
 		+!steering_controller(0) [achieve], -no_platoon_m, 
 		perf(join_ok(0)), -no_platoon_m, 

@@ -24,3 +24,5 @@
 //----------------------------------------------------------------------------
 
 full_model: [] ~B(follower3, bad)
+
+test: <> B (follower3, join_agreement(follower3, follower1)) || [] ~B(follower3, join_agreement(follower3, follower1))
