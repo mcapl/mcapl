@@ -92,6 +92,7 @@ public class MAS implements MCAPLmas {
 	 */
 	public void setEnv(AILEnv env) {
     	fEnv = env;
+    	env.setMAS(this);
     	for (AILAgent a: getAgs().values()) {
     		a.setEnv(env);
     		fEnv.addAgent(a);

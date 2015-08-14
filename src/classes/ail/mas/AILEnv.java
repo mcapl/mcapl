@@ -186,4 +186,10 @@ public interface AILEnv {
      * @return
      */
     public boolean agentIsUpToDate(String agName);
+    
+    /**
+     * Set the mas that this environment is part of.
+     * @param m
+     */
+    public void setMAS(MAS m);
 }

@@ -112,6 +112,15 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	protected MCAPLScheduler scheduler;
 	
+	/**
+	 * The multi-agent system this environment is part of.
+	 */
+	protected MAS mas;
+	
+	/**
+	 * Name for logging.
+	 */
+	@FilterField
 	String logname = "ail.mas.DefaultEnvironment";
 	
 	/**
@@ -669,6 +678,15 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	public Unifier actionResult(String agName, Action act) {
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		mas = m;
 	}
 
 }

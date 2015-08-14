@@ -28,3 +28,5 @@ log.info = ail.mas.DefaultEnvironment,ail.semantics.AILAgent
 
 mas.file = /src/examples/gwendolen/simple/MessageAgent/MessageAgents.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+ajpf.replay = true

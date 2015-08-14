@@ -27,6 +27,8 @@ package ajpf.util.choice;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ajpf.MCAPLcontroller;
+
 /**
  * A class that represents a probablistic choice among a finite set of options.
  * This is important for representing probabilities in AJPF since methods can be
@@ -43,6 +45,12 @@ public class Choice<O extends Object> {
 	
 	public Random r = new Random();
 	
+	public MCAPLcontroller control;
+	
+	public Choice(MCAPLcontroller control) {
+		this.control = control;
+	}
+	
 	/**
 	 * Add an option to this choice, with probability d.
 	 * @param d
@@ -57,9 +65,16 @@ public class Choice<O extends Object> {
 	 * @return
 	 */
 	public int choose() {
-		int i = pickChoice(choicelist.size() - 1);
-		thischoice = choicelist.get(i).getProb();
-		return i;
+		if (! control.replayMode()) {
+			int i = pickChoice(choicelist.size() - 1);
+			thischoice = choicelist.get(i).getProb();
+			if (control.recordMode()) {
+				control.getRecord().add(i);
+			}
+			return i;
+		} else {
+			return control.getRecord().next();
+		}
 	}
 
 	/**

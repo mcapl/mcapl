@@ -27,31 +27,29 @@ package ajpf.util.choice;
 import ajpf.MCAPLcontroller;
 
 /**
- * A choice representing a uniform distribution over integers between 0 and some limit.
+ * A Choice class representing a 50/50 choice between true and false.
  * @author louiseadennis
  *
  */
-public class UniformIntChoice extends Choice<Integer> {
-		
+public class UniformBoolChoice extends Choice<Boolean> {
+	
 	/**
 	 * Constructor.
 	 * @param control
 	 */
-	public UniformIntChoice(MCAPLcontroller control) {
+	public UniformBoolChoice(MCAPLcontroller control) {
 		super(control);
 	}
-
+		
 	/**
-	 * Get the next integer.
-	 * @param limit
+	 * Is it to be true or false?
 	 * @return
 	 */
-	public int nextInt(int limit) {
+	public boolean nextBoolean() {
 		this.clearChoices();
-		for (int i = 0; i < limit; i++) {
-			addChoice(1/limit, i);
-		}
-		int i = get_choice();
+		addChoice(0.5, true);
+		addChoice(0.5, false);
+		boolean i = get_choice();
 		return i;
 	}
 
