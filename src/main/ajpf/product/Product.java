@@ -68,7 +68,7 @@ public class Product {
 	 protected static Logger log = JPF.getLogger("ajpf.product.Product");
 	 
 	 /* The number of states in this automaton */
-	 static int number_of_states = 0;
+	 int number_of_states = 0;
 
 	 /* The program model */
 	MCAPLmodel m;
@@ -275,10 +275,11 @@ public class Product {
 		boolean has_succs = false;
 		for (ProductState p: ps) {
 			if (m.currentPathContains(newModelState)) {
+				log.fine("Current path contains this model state");
 				// The model is looping - we want to generate the path(s) of successors in the product
 				// that we get by following the loop in the model - there may be more than one of these
 				// since loops in the product may involve several passes of the loop in the model.
-				has_succs = p.calculateSuccessors(p.getModelState(), false);
+				has_succs = p.calculateSuccessors(newModelState.getNum(), false);
 			} else {
 				// We calculate the successors for the product states now we know there is a (non-looping) new edge in the model state.
 				has_succs = p.calculateSuccessors(newModelState.getNum(), false);
@@ -629,7 +630,7 @@ public class Product {
 			
 			acceptinginuntils.addAll(acceptingin);
 			
-			// Note that this state has not yet been fully explored in the DFS seearchs
+			// Note that this state has not yet been fully explored in the DFS searches
 			M1.put(statenum, false);
 			M1it.put(statenum, unvisitedSuccessors(M1));
 			M2.put(statenum, false);

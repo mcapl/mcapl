@@ -39,6 +39,7 @@ import ail.semantics.operationalrules.HandleAddAchieveTestGoal;
 public class GoalAchievedTests {
 	@Test public void goalAchievedTest() {
 		Literal empty = new Literal("empty");
+		// empty.addAnnot(BeliefBase.TSelf);
 		
 		AILAgent ag = new AILAgent();
 		ag.addBel(new GBelief(empty), BeliefBase.TSelf);

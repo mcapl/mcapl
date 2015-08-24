@@ -84,8 +84,8 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
-		for (String s: activeAgents) {
-			ags.add(s);
+		for (int i = 0; i < activeAgents.size(); i++) {
+			ags.add(activeAgents.get(i));
 		}
 		return ags;
 	}

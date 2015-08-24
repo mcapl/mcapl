@@ -25,6 +25,7 @@
 package gwendolen.semantics;
 
 
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
@@ -89,6 +90,23 @@ public class GwendolenAgent extends AILAgent {
 		setReasoningCycle(new GwendolenRC());
 
 
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.AILAgent#configure(ail.util.AILConfig)
+	 */
+	@Override
+	public void configure(AILConfig config) {
+		if (config.containsKey("ail.store_sent_messages")) {
+			String store_sent_messages = config.getProperty("ail.store_sent_messages");
+			if (store_sent_messages.equals("true")) {
+				setStoreSentMessages(true);
+			} else {
+				setStoreSentMessages(false);
+			}
+		}
 		
 	}
 	

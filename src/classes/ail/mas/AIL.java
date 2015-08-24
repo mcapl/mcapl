@@ -26,9 +26,11 @@ package ail.mas;
 
 import ail.util.AILConfig;
 import ail.semantics.AILAgent;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
+import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.logging.Level;
 
@@ -39,6 +41,7 @@ import java.util.logging.Level;
  *
  */
 public class AIL {
+	@FilterField
 	static String logname = "ail.mas.AIL";
 
 	/**
@@ -54,6 +57,7 @@ public class AIL {
 	 * @param configfile
 	 */
 	public static void runAIL(String configfile) {
+		GroundPredSets.clear();
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
 		
@@ -95,6 +99,7 @@ public class AIL {
 				System.exit(1);
 			}
 		}
+		mas.configure(config);
 		return mas;
 	}
 	
@@ -169,7 +174,7 @@ public class AIL {
 	private static String agentNumKey(int i) {
 		return "mas.agent." + i;
 	}
-	
+		
 	/**
 	 * Set up the loggers appropriately.
 	 */

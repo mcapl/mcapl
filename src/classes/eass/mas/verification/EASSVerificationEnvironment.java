@@ -31,6 +31,7 @@ import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
+import ail.syntax.SendAction;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
@@ -136,9 +137,60 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 			}
 		}
 		
-		return super.executeAction(agName, act);
+	   	final_turn = 0;
+	   	if (! (act instanceof SendAction)) {
+	   		return super.executeAction(agName, act);
+	   	} else {
+	   	   	decidetostop(agName, act);
+	    	if (!act.getFunctor().equals("print")) {
+	    		lastAgent = agName;
+	    		lastAction = act;
+	    	}
+	    	Unifier u = new Unifier();
+		   	if (AJPFLogger.ltInfo("ail.mas.DefaultEnvironment")) {
+		   		AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
+		   	}
+		   	
+		   	return (u);
+
+	   	}
 		
 	}
+	
+	int final_turn = 0;
+	
+//	@Override
+public boolean done() {
+		try {
+			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
+				if (final_turn == 1) {
+					Set<Predicate> percepts = generate_sharedbeliefs();
+					Set<Message> messages = generate_messages();
+					clearPercepts();
+					
+					for (Predicate p: percepts) {
+						addPercept(p);
+					}
+					
+					for (String agName: agentmap.keySet()) {
+						for (Message m: messages) {
+							addMessage(agName, m);
+						}
+					}
+					final_turn = 2;
+					return false;
+				} else if (final_turn == 0){
+					final_turn++;
+					return false;
+				} else {
+					return true;
+				} 
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	} 
 	
 	/*
 	 * (non-Javadoc)

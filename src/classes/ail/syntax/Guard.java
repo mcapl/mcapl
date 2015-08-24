@@ -48,7 +48,7 @@ public class Guard implements GLogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum GLogicalOp { 
+	public static enum GLogicalOp { 
 		none   { public String toString() { return ""; } }, 
 		not    { public String toString() { return "not "; } }, 
 		and    { public String toString() { return " & "; } },

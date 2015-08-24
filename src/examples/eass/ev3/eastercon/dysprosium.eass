@@ -64,15 +64,18 @@ distance_threshold(0.5)
        +waiting_for_second_click;
 +click : {B waiting_for_second_click, ~B shutting_down} <-
        +shutting_down,
+       -turning_right,
        perf(stop),
        shutdown;
 
 +! keep_moving [perform] : {~B obstacle} <-
+   -turning_right,
    perf(forward),
    *waiting_for_second_click,
    *click,
    print("Goal performed");
 +! keep_moving [perform] : {B obstacle} <-
+   +turning_right,
    perf(right),
    *waiting_for_second_click,
    *click,
@@ -81,8 +84,10 @@ distance_threshold(0.5)
 +obstacle : {G keep_moving [perform], ~B shutting_down} <- 
     print("Believe there is an obstacle"),
     print("Turning right"),
+    +turning_right,
     perf(right);
 -obstacle : {G keep_moving [perform], ~B shutting_down} <-
+    -turning_right,
     print("Believe there is no obstacle"),
     print("Going forward"),
     perf(forward);

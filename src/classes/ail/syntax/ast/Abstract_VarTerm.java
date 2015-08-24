@@ -137,9 +137,9 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
      * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_Literal#toMCAPL()
      */
-	public Literal toMCAPL() {
-		PredicatewAnnotation s = super.toMCAPL();
-		return new VarTerm(s.getFunctor());
+	public VarTerm toMCAPL() {
+		// PredicatewAnnotation s = super.toMCAPL();
+		return new VarTerm(getFunctor());
 	}
  
 	/*

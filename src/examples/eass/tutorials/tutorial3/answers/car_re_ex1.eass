@@ -40,8 +40,10 @@ EASS
 	*at_speed_limit;
 
 +at_speed_limit: {True} <-
+	+.lock,
 	perf(maintain_speed),
-	perf(alert_at(2000));
+	perf(alert_at(2000)),
+	-.lock;
 	
 +alert: {True} <-
 	perf(stop);

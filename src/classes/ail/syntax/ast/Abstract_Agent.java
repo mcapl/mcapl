@@ -24,10 +24,12 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
-
+import ail.syntax.Predicate;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -85,7 +87,7 @@ public class Abstract_Agent {
 	 * An initial goal.
 	 */
 	public Abstract_Goal[] goals = new Abstract_Goal[0];
-	  	   
+		  	   
     /**
      * Constructor.
      * 
@@ -272,5 +274,4 @@ public class Abstract_Agent {
       	return objref;
    	
     }
-		
 }
