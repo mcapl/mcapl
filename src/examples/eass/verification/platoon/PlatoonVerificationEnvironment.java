@@ -116,7 +116,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "No assert_initial_distance");
 			AJPFLogger.info(logname, "No assert_spacing");
 		} else if (assertP == 2){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			AJPFLogger.info(logname, "No assert_changed_lane");			
 			AJPFLogger.info(logname, "No assert_initial_distance");
 			AJPFLogger.info(logname, "No assert_spacing");
@@ -135,7 +135,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "No assert_initial_distance");
 			AJPFLogger.info(logname, "No assert_spacing");
 		} else if (assertP == 5){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			percepts.add(changed_lane);
 			AJPFLogger.info(logname, "assert_changed_lane");			
 			AJPFLogger.info(logname, "No assert_initial_distance");
@@ -155,7 +155,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "assert_initial_distance");
 			AJPFLogger.info(logname, "No assert_spacing");
 		} else if (assertP == 8){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			AJPFLogger.info(logname, "No assert_changed_lane");			
 			percepts.add(initial_distance);
 			AJPFLogger.info(logname, "assert_initial_distance");
@@ -177,7 +177,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			AJPFLogger.info(logname, "assert_initial_distance");
 			AJPFLogger.info(logname, "No assert_spacing");
 		} else if (assertP == 11){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			percepts.add(changed_lane);
 			AJPFLogger.info(logname, "assert_changed_lane");			
 			percepts.add(initial_distance);
@@ -198,7 +198,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			percepts.add(spacing);
 			AJPFLogger.info(logname, "assert_spacing");
 		} else if (assertP == 14){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			AJPFLogger.info(logname, "No assert_changed_lane");			
 			AJPFLogger.info(logname, "No assert_initial_distance");
 			percepts.add(spacing);
@@ -220,7 +220,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			percepts.add(spacing);
 			AJPFLogger.info(logname, "assert_spacing");
 		} else if (assertP == 17){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			percepts.add(changed_lane);
 			AJPFLogger.info(logname, "assert_changed_lane");			
 			AJPFLogger.info(logname, "No assert_initial_distance");
@@ -243,7 +243,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			percepts.add(spacing);
 			AJPFLogger.info(logname, "assert_spacing");
 		} else if (assertP == 20){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			AJPFLogger.info(logname, "No assert_changed_lane");			
 			percepts.add(initial_distance);
 			AJPFLogger.info(logname, "assert_initial_distance");
@@ -268,7 +268,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 			percepts.add(spacing);
 			AJPFLogger.info(logname, "assert_spacing");
 		} else if (assertP == 23){
-			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_jion");
+			AJPFLogger.info(logname, "No assert ready_to_leave or ready_to_join");
 			percepts.add(changed_lane);
 			AJPFLogger.info(logname, "assert_changed_lane");			
 			percepts.add(initial_distance);
