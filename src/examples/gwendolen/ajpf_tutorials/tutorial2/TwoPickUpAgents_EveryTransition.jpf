@@ -22,10 +22,13 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-env = gwendolen.simple.SimpleEnv
-mas.file = src/examples/gwendolen/ajpf_tutorials/tutorial2/twopickupagents.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+@using = mcapl
 
-ajpf.transition_every_reasoning_cycle = false
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgentsEveryTransition.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl,1
 
-log.info = ail.mas.DefaultEnvironment
+log.info = ajpf.MCAPLAgent,ajpf.product.Product,ail.mas.DefaultEnvironment,gwendolen.simple.SimpleEnv
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
