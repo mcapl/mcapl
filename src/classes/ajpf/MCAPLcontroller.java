@@ -25,6 +25,7 @@
 package ajpf;
 
 import gov.nasa.jpf.annotation.FilterField;
+import gov.nasa.jpf.vm.Verify;
 
 import java.util.Properties;
 import java.util.Random;
@@ -233,6 +234,9 @@ public class MCAPLcontroller  {
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
+			if (Verify.isRunningInJPF() && recordMode()) {
+				getRecord().add(job_num);
+			}
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
@@ -448,7 +452,7 @@ public class MCAPLcontroller  {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 	

@@ -34,6 +34,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ajpf.util.AJPFLogger;
 
@@ -51,7 +54,7 @@ public class ChoiceRecord {
 	public int currentchoice = 0;
 	
 	@FilterField
-	String logname = "ajpf.choice.ChoiceRecord";
+	String logname = "ajpf.util.choice.ChoiceRecord";
 	
 	static String recordseparator = ":";
 	
@@ -65,10 +68,16 @@ public class ChoiceRecord {
 		        	if (AJPFLogger.ltFine(logname)) {
 		        		AJPFLogger.fine(logname, "loading record file: " + fileName);
 		        	}
-		          String line;
+		          String line = f.readLine();
 		          
-		          while ((line = f.readLine()) != null) {
-		              choicelist.add(Integer.parseInt(line));
+		          String regexpStr = "(([0-9]+)((,\\s)||\\]))";
+		          Pattern regexp = Pattern.compile(regexpStr);
+		          Matcher matcher = regexp.matcher(line);
+		          
+		          while (matcher.find()) {
+		        	  MatchResult result = matcher.toMatchResult();
+		        	  String intString = result.group(2);
+		              choicelist.add(Integer.parseInt(intString));
 		          }
 		          
 		          f.close();
@@ -89,7 +98,6 @@ public class ChoiceRecord {
 	 */
 	public void add(int i) {
 		choicelist.add(i);
-		System.err.println("here");
 		if (AJPFLogger.ltInfo(logname)) {
 			AJPFLogger.info(logname, "Record: " + this.toString());
 		}
@@ -113,12 +121,18 @@ public class ChoiceRecord {
 	public void printRecord(String filename) throws IOException {
 		try {
 			BufferedWriter f = new BufferedWriter( new FileWriter(filename));
+			f.write("[");
 			
+			boolean start = true;
 			for (int i : choicelist) {
+				if (!start) {
+					f.write(", ");
+				}
 				f.write("" + i);
-				f.write("\n");
+				start = false;
 			}
 			
+			f.write("]");
 			f.close();
 		} catch (IOException iex) {
 	        throw iex;
