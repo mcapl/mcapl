@@ -22,34 +22,37 @@
 //
 //----------------------------------------------------------------------------
 
-package ajpf.util.choice;
+package ajpf.util;
 
-import ajpf.MCAPLcontroller;
-
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+ 
 /**
- * A Choice class representing a 50/50 choice between true and false.
- * @author louiseadennis
+ * Stolen shamelessly from www.javalobby.org/java/formums/t18515.html
+ * Adapted to prevent showing of dates.
+ * 
+ * by R. J. Lorrimer
+ * @author lad
  *
  */
-public class UniformBoolChoice extends Choice<Boolean> {
-	
-	/**
-	 * Constructor.
-	 * @param control
-	 */
-	public UniformBoolChoice(MCAPLcontroller control) {
-		super(control);
-		addChoice(0.5, true);
-		addChoice(0.5, false);
-	}
-		
-	/**
-	 * Is it to be true or false?
-	 * @return
-	 */
-	public boolean nextBoolean() {
-		boolean i = get_choice();
-		return i;
-	}
+public class TimeFreeBriefLogFormatter extends Formatter {
+	 
+	private static final String lineSep = System.getProperty("line.separator");
 
+	/**
+	 * A Custom format implementation that is designed for brevity.
+	 */
+	public String format(LogRecord record) {
+		String loggerName = record.getLoggerName();
+		if(loggerName == null) {
+			loggerName = "root";
+		}
+		StringBuilder output = new StringBuilder()
+		.append(loggerName)
+		.append("[")
+		.append(record.getLevel()).append("]: ")
+		.append(record.getMessage()).append(' ')
+		.append(lineSep);
+		return output.toString();		
+	}
 }

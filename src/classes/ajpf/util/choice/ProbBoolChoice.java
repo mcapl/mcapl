@@ -31,16 +31,16 @@ import ajpf.MCAPLcontroller;
  * @author louiseadennis
  *
  */
-public class UniformBoolChoice extends Choice<Boolean> {
+public class ProbBoolChoice extends Choice<Boolean> {
 	
 	/**
 	 * Constructor.
 	 * @param control
 	 */
-	public UniformBoolChoice(MCAPLcontroller control) {
+	public ProbBoolChoice(MCAPLcontroller control, Double probability_true) {
 		super(control);
-		addChoice(0.5, true);
-		addChoice(0.5, false);
+		addChoice(probability_true, true);
+		addChoice(1 - probability_true, false);
 	}
 		
 	/**

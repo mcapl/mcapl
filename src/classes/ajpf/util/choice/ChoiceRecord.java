@@ -65,8 +65,8 @@ public class ChoiceRecord {
 		      try {
 		        BufferedReader f = new BufferedReader( new FileReader(fileName));
 		        if (f.ready()) {
-		        	if (AJPFLogger.ltFine(logname)) {
-		        		AJPFLogger.fine(logname, "loading record file: " + fileName);
+		        	if (AJPFLogger.ltFiner(logname)) {
+		        		AJPFLogger.finer(logname, "loading record file: " + fileName);
 		        	}
 		          String line = f.readLine();
 		          
@@ -82,8 +82,8 @@ public class ChoiceRecord {
 		          
 		          f.close();
 		        } else {
-		        	if (AJPFLogger.ltFine(logname)) {
-		        		AJPFLogger.fine(logname, "record file is empty: " + fileName);
+		        	if (AJPFLogger.ltFiner(logname)) {
+		        		AJPFLogger.finer(logname, "record file is empty: " + fileName);
 		        	}
 		        }
 		      } catch (IOException iex) {
@@ -98,8 +98,8 @@ public class ChoiceRecord {
 	 */
 	public void add(int i) {
 		choicelist.add(i);
-		if (AJPFLogger.ltInfo(logname)) {
-			AJPFLogger.info(logname, "Record: " + this.toString());
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "Record: " + this.toString());
 		}
 	}
 	

@@ -113,6 +113,25 @@ Humans exhibit the following behaviour:
 \item Humans which are not {\bf injured}, {\bf directed} or {\bf in a building} will move at random around the grid.
 \end{itemize}
 
+\subsection{Recording and Replaying \ail\ Programs}
+We will cover recording and replaying \ail\ programs in more detail in a later tutorial.  However some of the challenges from this tutorial will arise because of the difficultly in reproducing a specific sequence of events in the environment.  In the \ail\ configuration file you can put the line
+
+\begin{verbatim}
+ajpf.record = true
+\end{verbatim}
+
+This will record the sequence of events that occur in the environment (and store them in a file called \texttt{record.txt} in the folder \texttt{records}).  If you want to \emph{replay} the last recorded run of the problem then replace
+
+\begin{verbatim}
+ajpf.record = true
+\end{verbatim}
+
+with 
+
+\begin{verbatim}
+ajpf.replay = true
+\end{verbatim}
+
 \subsection{Exercise}
 Write a \gwendolen\ program that will get the robot to search the grid until all humans have been found, assisted if injured, and directed to leave.
 

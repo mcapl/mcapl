@@ -92,8 +92,6 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	static Message platoon_m = new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("platoon_m"));
 	static Message no_platoon_m = new Message(EASSAgent.TELL, "leader", "follower3", new Predicate("no_platoon_m"));
 	
-	protected UniformIntChoice int_generator;
-
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
@@ -107,7 +105,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 
 		percepts.add(name_front);
 
-		int assertP = int_generator.nextInt(24);
+		int assertP = random_int_generator.nextInt(24);
 		if (assertP == 0){
 			percepts.add(ready_to_join);
 			AJPFLogger.info(logname, "assert ready_to_join");
@@ -333,7 +331,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		TreeSet<Message> messages = new TreeSet<Message>();
 
 		if(assert_set_spacing_goal_once){ 
-			boolean assert_set_spacing_goal = random_generator.nextBoolean();
+			boolean assert_set_spacing_goal = random_bool_generator.nextBoolean();
 			if(assert_set_spacing_goal){
 				messages.add(set_spacing_message);
 				AJPFLogger.info(logname, "assert_set_spacing_goal");
@@ -344,7 +342,7 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		}
 		
 
-		int assertM = int_generator.nextInt(9);
+		int assertM = random_int_generator.nextInt(9);
 		if (assertM == 0) {
 			messages.add(join_message);
 			AJPFLogger.info(logname, "assert_join_agreement");
@@ -401,20 +399,6 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 		return messages;
 	};
 	
-/*	@Override
-	public Unifier executeAction(String AgName, Action act) throws AILexception {
-		MCAPLcontroller.force_transition();
-		return super.executeAction(AgName, act);
-	} */
-
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
-	public void setMAS(MAS m) {
-		super.setMAS(m);
-		int_generator = new UniformIntChoice(m.getController());
-	}
 
 	
 }

@@ -24,6 +24,7 @@
 package gwendolen.tutorials.tutorial7;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
@@ -31,6 +32,11 @@ import ail.syntax.Unifier;
 import ail.syntax.NumberTermImpl;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
+import ajpf.MCAPLcontroller;
+import ajpf.util.choice.Choice;
+import ajpf.util.choice.ProbBoolChoice;
+import ajpf.util.choice.UniformBoolChoice;
+import ajpf.util.choice.UniformIntChoice;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,7 +66,9 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public ArrayList<Human> cleanup = new ArrayList<Human>();
 	public ArrayList<Square> free_squares = new ArrayList<Square>();
 	
-	Random r = new Random();
+	UniformIntChoice r;
+	ProbBoolChoice building_collapse;
+	ProbBoolChoice human_move;
 	
 	double max_x = 4;
 	double max_y = 4;
@@ -474,7 +482,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		ArrayList<Integer> collapses = new ArrayList<Integer>();
 		int i = 0;
 		for (Building b: buildings) {
-			if (r.nextDouble() < building_collapse_chance) {
+			if (building_collapse.nextBoolean()) {
 				Rubble r = new Rubble(b.getX(), b.getY());
 				rubble.add(r);
 				collapses.add(i);
@@ -501,13 +509,8 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public void movehumans() {
 		for (Human h: humans) {
 			if (! h.injured() && ! h.inBuilding() && ! h.directed() && h.onGrid()) {
-				double prob = r.nextDouble();
-				if (prob < human_move_chance * 8) {
-					int option = 1;
-					while (prob >= human_move_chance) {
-						prob = prob - human_move_chance;
-						option++;
-					}
+				if (human_move.nextBoolean()) {
+					int option = r.nextInt(8);
 					double x = h.getX();
 					double y = h.getY();
 					if (option == 1) {
@@ -877,6 +880,14 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		return s;
 		
+	}
+	
+	@Override
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformIntChoice(m.getController());
+		building_collapse = new ProbBoolChoice(m.getController(), building_collapse_chance);
+		human_move = new ProbBoolChoice(m.getController(), human_move_chance * 8);
 	}
 
 

@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher.
 // 
 // This file is part of Gwendolen
 //
@@ -22,9 +21,12 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-env = gwendolen.simple.SimpleEnv
-
-log.info = ail.mas.DefaultEnvironment,ail.semantics.AILAgent
-
-mas.file = /src/examples/gwendolen/simple/MessageAgent/MessageAgents.gwen
+mas.file = /src/examples/gwendolen/tutorials/tutorial8/simple_mas.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.tutorials.SearchAndRescueMASEnv
+
+ajpf.record = true
+ajpf.replay.file = /records/tutorial7.txt
+
+log.info = ail.mas.DefaultEnvironment

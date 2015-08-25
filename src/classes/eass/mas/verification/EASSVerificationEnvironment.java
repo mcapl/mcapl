@@ -39,6 +39,7 @@ import ail.mas.MAS;
 import ail.mas.scheduling.SingleAgentScheduler;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
+import ajpf.util.choice.UniformIntChoice;
 
 /**
  * An environment for verifying a single EASS Reasoning engine.
@@ -48,7 +49,8 @@ import ajpf.util.choice.UniformBoolChoice;
 public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	String logname = "eass.mas.verification.EASSVerificationEnvironment";
 
-	protected UniformBoolChoice random_generator;
+	protected UniformBoolChoice random_bool_generator;
+	protected UniformIntChoice random_int_generator;
 	
 	// We generate a random set of perceptions at the start.  After that perceptions are only generated
 	// when actions are taken.
@@ -198,7 +200,8 @@ public boolean done() {
 	 */
 	public void setMAS(MAS m) {
 		super.setMAS(m);
-		random_generator = new UniformBoolChoice(m.getController());
+		random_bool_generator = new UniformBoolChoice(m.getController());
+		random_int_generator = new UniformIntChoice(m.getController());
 	}
 
 
