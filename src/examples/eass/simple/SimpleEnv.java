@@ -26,11 +26,11 @@ package eass.simple;
 
 import eass.mas.DefaultEASSEnvironment;
 import ail.util.AILexception;
+import ail.mas.MAS;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
-
-import java.util.Random;
+import ajpf.util.choice.UniformBoolChoice;
 
 /**
  * A Simple Environment, mostly for use in testing simple EASS programs.
@@ -40,7 +40,7 @@ import java.util.Random;
  *
  */
 public class SimpleEnv extends DefaultEASSEnvironment {
-	Random r = new Random();
+	UniformBoolChoice r;
 	
 	/**
 	 * Constructor.
@@ -118,6 +118,15 @@ public class SimpleEnv extends DefaultEASSEnvironment {
 	public boolean done() {
 		setDone(true);
 		return super.done();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformBoolChoice(m.getController());
 	}
 
  

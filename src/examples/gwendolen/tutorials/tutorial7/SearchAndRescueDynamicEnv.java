@@ -39,7 +39,6 @@ import ajpf.util.choice.UniformBoolChoice;
 import ajpf.util.choice.UniformIntChoice;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class represents a dynamic environment (as a 5x5 grid) in which an agent may attempt search and rescue action.

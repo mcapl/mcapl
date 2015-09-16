@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.ArrayList;
 
+/* WARNING: This environment can not be replayed */
 public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();

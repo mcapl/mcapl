@@ -25,6 +25,7 @@
 package gwendolen.ail_tutorials.tutorial3.answers;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
@@ -33,6 +34,7 @@ import ail.syntax.SendAction;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.Random;
 import java.util.Set;
@@ -50,7 +52,7 @@ import gov.nasa.jpf.annotation.FilterField;
 public class RobotEnvEx2 extends DefaultEnvironment {
 	boolean change = false;
 	@FilterField
-	Random random = new Random();
+	UniformBoolChoice random;
 	boolean canseehumanr = false;
 	boolean always_human = false;
 	
@@ -105,6 +107,16 @@ public class RobotEnvEx2 extends DefaultEnvironment {
 		   always_human = Boolean.valueOf((String) config.get("always_human"));
 	   }
    }
+   
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random = new UniformBoolChoice(m.getController());
+	}
+
       
 }
 

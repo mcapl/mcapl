@@ -44,6 +44,8 @@ import ajpf.util.AJPFLogger;
 
 /**
  * Specialised environement for the LEO Control example.
+ * 
+ * WARNING: Can not be used with record and replay because of use of Random.
  * @author louiseadennis
  *
  */
