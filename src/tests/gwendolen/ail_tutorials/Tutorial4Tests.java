@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
-// 
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+//
 // This file is part of Gwendolen
 // 
 // Gwendolen is free software; you can redistribute it and/or
@@ -21,10 +21,38 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package gwendolen.ail_tutorials;
 
-env = gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx2
+import org.junit.Test;
 
-mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.test.TestJPF;
 
-always_human = true
+public class Tutorial4Tests extends TestJPF {
+	 static final String[] JPF_ARGS = {  "-show" 
+	  };
+
+
+
+	  //--- driver to execute single test methods
+	  public static void main(String[] args) {
+	    runTestsOfThisClass(args);
+	  }
+
+	  //--- test methods
+
+	  @Test //----------------------------------------------------------------------
+	  public void ex1 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial4/answers/searcher_ex2.ail";
+	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "12";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
+	  
+
+}

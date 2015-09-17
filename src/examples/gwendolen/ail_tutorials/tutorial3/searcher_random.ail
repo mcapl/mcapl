@@ -22,42 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-GWENDOLEN
+env = gwendolen.ail_tutorials.tutorial3.RandomRobotEnv
 
-:name: searcher
-
-:Initial Beliefs:
-
-square(0, 0)
-square(0, 1)
-square(0, 2)
-square(1, 0)
-square(1, 1)
-square(1, 2)
-square(2, 0)
-square(2, 1)
-square(2, 2)
-
-:Reasoning Rules: 
-			
-area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
-unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
-
-:Initial Goals:
-				
-leave [achieve]
-
-:Plans:
-
-+! leave [achieve]: {~ B at(X1, Y1), B unchecked(X, Y)} <- move_to(X, Y);
-+! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, B unchecked(X1, Y1) } <- 
-   +empty(X, Y), move_to(X1, Y1);
-+! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, ~B unchecked(X1, Y1) } <- 
-   +empty(X, Y); 
-+! leave [achieve]: {B at(X, Y), B human } <- 
-   +found; 
-+! leave [achieve]: {B area_empty} <- 
-   -empty(0, 0), -empty(0, 1), -empty(0,2), -empty(1, 0), -empty(1, 1), -empty(1, 2), -empty(2, 0), -empty(2, 1), -empty(2, 2) ; 
-
-+found : {B at(X, Y)} <- rescue_human, +leave;
-
+mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
+mas.builder = gwendolen.GwendolenMASBuilder

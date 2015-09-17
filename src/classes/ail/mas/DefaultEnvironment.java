@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
 
+import eass.mas.EASSEnv;
 import gov.nasa.jpf.annotation.FilterField;
 import ail.util.AILexception;
 import ail.util.AILConfig;
@@ -691,5 +692,11 @@ public class DefaultEnvironment implements AILEnv {
 	public void setMAS(MAS m) {
 		mas = m;
 	}
+	
+	public static void setup_scheduler(AILEnv env, MCAPLScheduler s) {
+		env.setScheduler(s);
+		env.addPerceptListener(s);
+	}
+
 
 }

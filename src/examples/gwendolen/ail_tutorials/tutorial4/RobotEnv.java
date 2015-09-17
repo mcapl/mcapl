@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.ail_tutorials.tutorial3.answers;
+package gwendolen.ail_tutorials.tutorial4;
 
 import ail.mas.DefaultEnvironment;
 import ail.mas.MAS;
@@ -36,7 +36,6 @@ import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -49,18 +48,16 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class RobotEnvEx1 extends DefaultEnvironment {
+public class RobotEnv extends DefaultEnvironment {
 	boolean change = false;
 	@FilterField
 	UniformBoolChoice random;
 	boolean canseehumanr = false;
 	
-	String logname = "gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx1";
-	
 	/**
 	 * Constructor.
 	 */
-	public RobotEnvEx1() {
+	public RobotEnv() {
 		super();
 	}
 	
@@ -69,20 +66,12 @@ public class RobotEnvEx1 extends DefaultEnvironment {
 	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
-		if (AJPFLogger.ltFine(logname)) {
-			String s = agName + " checking percepts";
-			AJPFLogger.finer(logname, s);
-		}
 		Set<Predicate> percepts = new HashSet<Predicate>();
 		if (agName.equals("searcher")) {
 			if (change) {
 				canseehumanr = random.nextBoolean();
-				if (canseehumanr) {
-					AJPFLogger.info(logname, "A human appears");
-				}
 			}
 			if (canseehumanr) {
-				AJPFLogger.fine(logname, "Agent can see a human");
 				percepts.add(new Literal("human"));
 			}
 			change = false;

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -24,13 +24,17 @@
 
 package gwendolen.ail_tutorials.tutorial3;
 
-import ail.mas.DefaultEnvironment;
+import ail.mas.DefaultEnvironmentwRandomness;
+import ail.mas.MAS;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.syntax.NumberTerm;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
+import ajpf.util.choice.Choice;
+import ajpf.util.choice.UniformBoolChoice;
 
 /**
  * Environment for a Search and Rescue Robot Scenario.
@@ -38,43 +42,11 @@ import ajpf.MCAPLJobber;
  * @author louiseadennis
  *
  */
-public class RobotEnv extends DefaultEnvironment implements MCAPLJobber {
+public class RandomRobotEnv2 extends DefaultEnvironmentwRandomness {
+	int human_x = 1;
+	int human_y = 1;
+	Choice<Integer> human_location;
 	
-	/**
-	 * Constructor.
-	 */
-	public RobotEnv() {
-		super();
-		getScheduler().addJobber(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
-	public int compareTo(MCAPLJobber o) {
-		return o.getName().compareTo(getName());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ajpf.MCAPLJobber#do_job()
-	 */
-	@Override
-	public void do_job() {
-		addPercept(new Predicate("human"));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ajpf.MCAPLJobber#getName()
-	 */
-	@Override
-	public String getName() {
-		return "gwendolen.ail_tutorials.tutorial3.RobotEnv";
-	}   
-
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
@@ -90,10 +62,22 @@ public class RobotEnv extends DefaultEnvironment implements MCAPLJobber {
 			old_position.addTerm(new VarTerm("Y"));
 			removeUnifiesPercept(old_position);
 			addPercept(robot_position);
+			human_x = human_location.get_choice();
+			if (((NumberTerm) act.getTerm(0)).solve() == human_x && ((NumberTerm) act.getTerm(1)).solve() == human_y ) {
+				addPercept(new Predicate("human"));
+			}
 		}
 		return super.executeAction(agName, act);
 	}
-      
+	
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		human_location = new Choice<Integer>(m.getController());
+		human_location.addChoice(0.5, 1);
+		human_location.addChoice(0.3, 2);
+		human_location.addChoice(0.2, 0);
+	}
+	      
 }
 
 
