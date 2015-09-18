@@ -33,7 +33,6 @@ import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
 
-import eass.mas.EASSEnv;
 import gov.nasa.jpf.annotation.FilterField;
 import ail.util.AILexception;
 import ail.util.AILConfig;
