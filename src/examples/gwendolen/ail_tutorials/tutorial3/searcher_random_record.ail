@@ -22,7 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.ail_tutorials.tutorial3.RobotEnv
+env = gwendolen.ail_tutorials.tutorial3.RandomRobotEnv
+
+ajpf.record = true
 
 mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder

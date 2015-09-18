@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.ail_tutorials.tutorial3.RobotEnv
+env = gwendolen.ail_tutorials.tutorial3.answers.RobotEnv
 
 mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
