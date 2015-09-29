@@ -34,6 +34,7 @@ import java.util.Random;
 
 /**
  * Environment for a simple example involving picking up blocks.
+ * WARNING: This environment can not be used with record and replay because of the use of Random.
  * 
  * @author louiseadennis
  *

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -25,72 +25,74 @@
 package gwendolen.ail_tutorials.tutorial3;
 
 import ail.mas.DefaultEnvironment;
-import ail.util.AILConfig;
-import ail.util.AILexception;
-import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.SendAction;
-import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import ajpf.util.AJPFLogger;
-
-import java.util.Random;
-import java.util.Set;
-import java.util.HashSet;
-
-import gov.nasa.jpf.annotation.FilterField;
+import ail.syntax.Unifier;
+import ail.syntax.VarTerm;
+import ail.util.AILexception;
+import ajpf.MCAPLJobber;
 
 /**
- * Environment for a Trash Robot Scenario.  Tailored for verification so that
- * the percepts are decided at random.
+ * Environment for a Search and Rescue Robot Scenario.
  * 
  * @author louiseadennis
  *
  */
-public class RobotEnv extends DefaultEnvironment {
-	boolean change = false;
-	@FilterField
-	Random random = new Random();
-	boolean canseehumanr = false;
+public class RobotEnv extends DefaultEnvironment implements MCAPLJobber {
 	
 	/**
 	 * Constructor.
 	 */
 	public RobotEnv() {
 		super();
+		getScheduler().addJobber(this);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public Set<Predicate> getPercepts(String agName, boolean update) {
-		Set<Predicate> percepts = new HashSet<Predicate>();
-		if (agName.equals("searcher")) {
-			if (change) {
-				canseehumanr = random.nextBoolean();
-			}
-			if (canseehumanr) {
-				percepts.add(new Literal("human"));
-			}
-			change = false;
-		
-		} 
-		return percepts;
+	@Override
+	public int compareTo(MCAPLJobber o) {
+		return o.getName().compareTo(getName());
 	}
-	
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#do_job()
+	 */
+	@Override
+	public void do_job() {
+		addPercept(new Predicate("human"));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#getName()
+	 */
+	@Override
+	public String getName() {
+		return "gwendolen.ail_tutorials.tutorial3.RobotEnv";
+	}   
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
-   public Unifier executeAction(String agName, Action act) throws AILexception {
-	   	Unifier theta = new Unifier();	   	
-	   	change = true;
-	   	super.executeAction(agName, act);
-	   	 
-    	return theta;
-    }
+	@Override
+	public Unifier executeAction(String agName, Action act) throws AILexception {
+		if (act.getFunctor().equals("move_to")) {
+			Predicate robot_position = new Predicate("at");
+			Predicate old_position = new Predicate("at");
+			robot_position.addTerm(act.getTerm(0));
+			robot_position.addTerm(act.getTerm(1));
+			old_position.addTerm(new VarTerm("X"));
+			old_position.addTerm(new VarTerm("Y"));
+			removeUnifiesPercept(old_position);
+			addPercept(robot_position);
+		}
+		return super.executeAction(agName, act);
+	}
       
 }
 

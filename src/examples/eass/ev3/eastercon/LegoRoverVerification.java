@@ -40,7 +40,7 @@ public class LegoRoverVerification extends EASSVerificationEnvironment {
 	@Override
 	public Set<Predicate> generate_sharedbeliefs() {
 		Set<Predicate> shared_beliefs = new HashSet<Predicate>();
-		boolean click = random_generator.nextBoolean();
+		boolean click = random_bool_generator.nextBoolean();
 		if (click) {
 			System.err.println("click");
 			shared_beliefs.add(new Predicate("click"));
@@ -48,7 +48,7 @@ public class LegoRoverVerification extends EASSVerificationEnvironment {
 			System.err.println("no click");
 		}
 		
-		boolean obstacle = random_generator.nextBoolean();
+		boolean obstacle = random_bool_generator.nextBoolean();
 		if (obstacle) {
 			System.err.println("obstacle");
 			shared_beliefs.add(new Predicate("obstacle"));

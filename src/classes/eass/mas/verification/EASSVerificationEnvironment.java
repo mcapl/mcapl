@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ail.mas.SingleAgentScheduler;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.Message;
@@ -36,7 +35,11 @@ import ail.syntax.SendAction;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
+import ail.mas.scheduling.SingleAgentScheduler;
 import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformBoolChoice;
+import ajpf.util.choice.UniformIntChoice;
 
 /**
  * An environment for verifying a single EASS Reasoning engine.
@@ -46,7 +49,8 @@ import ajpf.util.AJPFLogger;
 public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	String logname = "eass.mas.verification.EASSVerificationEnvironment";
 
-	protected Random random_generator = new Random();
+	protected UniformBoolChoice random_bool_generator;
+	protected UniformIntChoice random_int_generator;
 	
 	// We generate a random set of perceptions at the start.  After that perceptions are only generated
 	// when actions are taken.
@@ -189,6 +193,16 @@ public boolean done() {
 			return false;
 		}
 	} 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random_bool_generator = new UniformBoolChoice(m.getController());
+		random_int_generator = new UniformIntChoice(m.getController());
+	}
 
 
 

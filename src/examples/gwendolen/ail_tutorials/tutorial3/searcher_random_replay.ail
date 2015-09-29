@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -22,9 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx2
+env = gwendolen.ail_tutorials.tutorial3.RandomRobotEnv
+
+ajpf.replay = true
 
 mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
-
-always_human = true

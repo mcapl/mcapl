@@ -25,6 +25,7 @@
 package ajpf;
 
 import gov.nasa.jpf.annotation.FilterField;
+import gov.nasa.jpf.vm.Verify;
 
 import java.util.Properties;
 import java.util.Random;
@@ -34,6 +35,8 @@ import java.io.File;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFException;
+import ajpf.util.choice.ChoiceRecord;
+import ajpf.util.choice.UniformIntChoice;
 
 /**
  * Top level class for controlling the model checking of multi-agent
@@ -66,9 +69,23 @@ public class MCAPLcontroller  {
 	@FilterField
 	private boolean mainconcluded = false;
 	
+	/**
+	 * The scheduler being used by the multi-agent system.
+	 */
+	@FilterField
 	private MCAPLScheduler scheduler;
 
-	Random random_numbers = new Random();
+	/**
+	 * Choice of which agent goes next follows a uniform distribution over integers.
+	 */
+	@FilterField
+	UniformIntChoice schedulerchoice = new UniformIntChoice(this);
+	
+	/**
+	 * If we are recording, or playing back a run, this is the record.
+	 */
+	@FilterField
+	ChoiceRecord record = new ChoiceRecord();
 	
 	// We make this a class variable for test sets which run AIL in a thread.
 	boolean checkend = false;
@@ -83,8 +100,8 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public MCAPLcontroller(MCAPLmas mas, String pstring, Properties properties) {
-		this(mas);
+	public void setMAS(MCAPLmas mas, String pstring, Properties properties) {
+		setMAS(mas);
 		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
@@ -99,7 +116,7 @@ public class MCAPLcontroller  {
 	 * @param s
 	 *            The specification against which the system is to be checked.
 	 */
-	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s) {
+	public void setMAS(MCAPLmas m, MCAPLSpec s) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
@@ -109,7 +126,6 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 		}
 		specification = s;
-		mas.setController(this);
 	}
 	
 	/**
@@ -117,7 +133,7 @@ public class MCAPLcontroller  {
 	 * @param m
 	 * @param mc
 	 */
-	public MCAPLcontroller(MCAPLmas m) {
+	public void setMAS(MCAPLmas m) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
@@ -127,7 +143,6 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
 		}
-		mas.setController(this);
 	}
 
 	/**
@@ -169,6 +184,16 @@ public class MCAPLcontroller  {
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
 		}
+		
+		if (replayMode()) {
+			try {
+				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
+				record = new ChoiceRecord(filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
+			}
+		}
+		
 		specification.createAutomaton();
 		specification.checkProperties();
 		checkend = checkEnd();
@@ -182,6 +207,16 @@ public class MCAPLcontroller  {
 		if (! transitionEveryReasoningCycle()) {
 			force_transition();
 		}
+		
+		if (recordMode()) {
+			try {
+				String rel_filename = System.getProperty("user.dir") + config.getProperty("ajpf.replay.file", "/records/record.txt");
+				record.printRecord(rel_filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem writing record file: " + e.getMessage());
+			}
+		}
+		
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
 		}
@@ -199,6 +234,9 @@ public class MCAPLcontroller  {
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
+			if (Verify.isRunningInJPF() && recordMode()) {
+				getRecord().add(job_num);
+			}
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
@@ -225,7 +263,7 @@ public class MCAPLcontroller  {
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
 		}
-		int choice = random_numbers.nextInt(limit);
+		int choice = schedulerchoice.nextInt(limit);
 		return choice;
 	}
 	
@@ -389,4 +427,41 @@ public class MCAPLcontroller  {
 		}
 		return true;
 	}
+	
+	/**
+	 * Are we replaying a specific run through the multi-agent system?
+	 * @return
+	 */
+	public boolean replayMode() {
+		if (config != null && config.containsKey("ajpf.replay")) {
+			if (config.getProperty("ajpf.replay").equals("true")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Are we recording this run through the multi-agent system?
+	 * @return
+	 */
+	public boolean recordMode() {
+		if (config != null && config.containsKey("ajpf.record")) {
+			if (config.getProperty("ajpf.record").equals("true")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Return the current record for this run.
+	 * @return
+	 */
+	public ChoiceRecord getRecord() {
+		return record;
+	}
+
 }

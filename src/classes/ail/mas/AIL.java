@@ -60,12 +60,15 @@ public class AIL {
 		GroundPredSets.clear();
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
+		
+		// Create a controller
+		MCAPLcontroller mccontrol = new MCAPLcontroller();
 	
 		// Create the initial state of the multi-agent program.
-		MAS mas = AILSetup(config);
+		MAS mas = AILSetup(config, mccontrol);
 		
 		// Set up a controller
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", config);
+		mccontrol.setMAS(mas, "", config);
 		
 		// Begin!
 		mccontrol.begin(); 
@@ -78,10 +81,11 @@ public class AIL {
 	 * @param config
 	 * @return
 	 */
-	public static MAS AILSetup(AILConfig config) {
+	public static MAS AILSetup(AILConfig config, MCAPLcontroller control) {
 		
 		// First we need to build the multi-agent system
 		MAS mas = buildMAS(config);
+		mas.setController(control);
 		
 		// Then, if necessary, we attach an environment
 		if (config.containsKey("env")) {
@@ -220,7 +224,7 @@ public class AIL {
 		if (config.containsKey("log.format")) {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
-				AJPFLogger.setConsoleHandlerFormatBrief();
+				AJPFLogger.setHandlerFormatBrief();
 			}
 		}
 	}

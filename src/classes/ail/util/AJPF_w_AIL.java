@@ -64,12 +64,13 @@ public class AJPF_w_AIL {
 		// Create the configuration.
 		AILConfig config = new AILConfig(args[0]);
 		// Configure an AIL based MAS accordingly
-		MAS mas = AIL.AILSetup(config);
+		MCAPLcontroller mccontrol = new MCAPLcontroller();
+		MAS mas = AIL.AILSetup(config, mccontrol);
 		// Get the property to be checked.
 		String propertystring = getProperty(args[1],args[2]);
 		
 		// Run the system.
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, config);
+		mccontrol.setMAS(mas, propertystring, config);
 		mccontrol.begin(); 		
 	}
 	

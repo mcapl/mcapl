@@ -25,13 +25,13 @@
 package gwendolen.simple;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
-
-import java.util.Random;
+import ajpf.util.choice.UniformBoolChoice;
 
 /**
  * A Simple Blocks' World Environment.
@@ -42,7 +42,7 @@ import java.util.Random;
 public class SimpleEnv extends DefaultEnvironment {
 	static String logname = "gwendolen.simple.SimpleEnv";
 	
-	Random r = new Random();
+	UniformBoolChoice r;
 	
 	public SimpleEnv() {
 		super();
@@ -102,6 +102,14 @@ public class SimpleEnv extends DefaultEnvironment {
     	return theta;
    }
    
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformBoolChoice(m.getController());
+	}
 
  
 }

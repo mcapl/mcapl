@@ -24,9 +24,19 @@
 
 package gwendolen.tutorials;
 
+import java.io.ByteArrayOutputStream;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 
+import ail.mas.AIL;
 import ail.util.AJPF_w_AIL;
+import ajpf.util.TimeFreeBriefLogFormatter;
 import gov.nasa.jpf.util.test.TestJPF;
 
 
@@ -85,6 +95,34 @@ public class Tutorial8Tests extends TestJPF {
     	args[2] = "8";
     	AJPF_w_AIL.run(args);
  	 }
+  }
+  
+  @Test
+  public void recordAndReplaytest() {
+	  Logger logger = Logger.getLogger("ail.mas.DefaultEnvironment");
+	  Formatter formatter = new TimeFreeBriefLogFormatter();
+	  ByteArrayOutputStream out = new ByteArrayOutputStream();
+	  Handler handler = new StreamHandler(out, formatter);
+	  logger.addHandler(handler);
+
+	  String recordfilename = "/src/examples/gwendolen/tutorials/tutorial8/simple_mas_record.ail";
+	  AIL.runAIL(recordfilename);
+	  
+	  handler.flush();
+	  String recordout = out.toString();
+	  handler.close();
+	  Handler handler2 = new StreamHandler(out, formatter);
+	  
+	  String replayfilename = "/src/examples/gwendolen/tutorials/tutorial8/simple_mas_replay.ail";
+	  AIL.runAIL(replayfilename);
+
+	  handler2.flush();
+	  String replayout = out.toString();
+
+	  
+	  Assert.assertEquals(recordout, replayout);
+	  
+	 
   }
 
 }

@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package ail.mas;
+package ail.mas.scheduling;
 
 import java.util.TreeMap;
 import java.util.List;

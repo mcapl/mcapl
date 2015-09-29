@@ -22,9 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.ail_tutorials.tutorial3.answers;
+package gwendolen.ail_tutorials.tutorial4.answers;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
@@ -33,6 +34,7 @@ import ail.syntax.SendAction;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.Random;
 import java.util.Set;
@@ -47,19 +49,18 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class RobotEnvEx2 extends DefaultEnvironment {
+public class RobotEnvEx1 extends DefaultEnvironment {
 	boolean change = false;
 	@FilterField
-	Random random = new Random();
+	UniformBoolChoice random;
 	boolean canseehumanr = false;
-	boolean always_human = false;
 	
 	String logname = "gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx1";
 	
 	/**
 	 * Constructor.
 	 */
-	public RobotEnvEx2() {
+	public RobotEnvEx1() {
 		super();
 	}
 	
@@ -68,12 +69,20 @@ public class RobotEnvEx2 extends DefaultEnvironment {
 	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
+		if (AJPFLogger.ltFine(logname)) {
+			String s = agName + " checking percepts";
+			AJPFLogger.finer(logname, s);
+		}
 		Set<Predicate> percepts = new HashSet<Predicate>();
 		if (agName.equals("searcher")) {
-			if (change & !always_human) {
+			if (change) {
 				canseehumanr = random.nextBoolean();
+				if (canseehumanr) {
+					AJPFLogger.info(logname, "A human appears");
+				}
 			}
-			if (canseehumanr || always_human) {
+			if (canseehumanr) {
+				AJPFLogger.fine(logname, "Agent can see a human");
 				percepts.add(new Literal("human"));
 			}
 			change = false;
@@ -95,16 +104,15 @@ public class RobotEnvEx2 extends DefaultEnvironment {
     	return theta;
     }
    
-   /*
-    * (non-Javadoc)
-    * @see ail.mas.DefaultEnvironment#configure(ail.util.AILConfig)
-    */
-   @Override
-   public void configure(AILConfig config) {
-	   if (config.containsKey("always_human")) {
-		   always_human = Boolean.valueOf((String) config.get("always_human"));
-	   }
-   }
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random = new UniformBoolChoice(m.getController());
+	}
+
       
 }
 

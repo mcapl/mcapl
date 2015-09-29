@@ -121,14 +121,12 @@ public final class AJPFLogger {
 	  /**
 	   * Set the logging report format to Brief.
 	   */
-	  public static void setConsoleHandlerFormatBrief() {
+	  public static void setHandlerFormatBrief() {
 		for (Handler h: Logger.getLogger("").getHandlers()){
-			if (h instanceof ConsoleHandler) {
 				h.setFormatter(new BriefLogFormatter());
-			}
 		}
 	  }
-	
+	  	
 	  /**
 	   * Get the level of this logging class.
 	   * @param logname

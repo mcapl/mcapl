@@ -26,4 +26,6 @@ env = gwendolen.simple.SimpleEnv
 mas.file = /src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
+ajpf.record = true
+
 log.fine = ail.semantics.AILAgent

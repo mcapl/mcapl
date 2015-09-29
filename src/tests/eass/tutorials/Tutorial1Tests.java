@@ -54,13 +54,13 @@ public class Tutorial1Tests {
 			}
 		}
 		motorway.stop();
-		Assert.assertTrue(car.getY() >= 10);
+		Assert.assertTrue(car.getY() >= 10); 
 
 	  }
 
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialexample () {
-		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
+		  final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
 		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/car.ail");
@@ -95,13 +95,13 @@ public class Tutorial1Tests {
 		}
 		ailThread.stopAIL();
 		motorway.stop();
-		Assert.assertTrue(car.getYDot() >= 5);
+		Assert.assertTrue(car.getYDot() >= 5); 
 
 	  }
 	  
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialex2 () {
-		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
+	 	final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
 		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/answers/car_ex2.ail");
@@ -143,7 +143,7 @@ public class Tutorial1Tests {
 			}
 		}
 		ailThread.stopAIL();
-		motorway.stop();
+		motorway.stop(); 
 	  }
 
 	  
@@ -159,11 +159,13 @@ public class Tutorial1Tests {
 				AILConfig config = new AILConfig(filename);
 				AIL.configureLogging(config);
 			
+				mccontrol = new MCAPLcontroller();
+
 				// Create the initial state of the multi-agent program.
-				MAS mas = AIL.AILSetup(config);
+				MAS mas = AIL.AILSetup(config, mccontrol);
 				
 				// Set up a controller
-				mccontrol = new MCAPLcontroller(mas, "", config);
+				mccontrol.setMAS(mas, "", config);
 				
 				// Begin!
 				mccontrol.begin(); 

@@ -26,8 +26,8 @@
 package eass.leo;
 
 import ail.util.AILexception;
-import ail.mas.NActionScheduler;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.Action;

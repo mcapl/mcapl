@@ -22,9 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx1
+env = gwendolen.ail_tutorials.tutorial4.answers.RobotEnvEx2
 
-mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
+mas.file = /src/examples/gwendolen/ail_tutorials/tutorial4/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
-log.finer = gwendolen.ail_tutorials.tutorial3.answers.RobotEnvEx1
+always_human = true

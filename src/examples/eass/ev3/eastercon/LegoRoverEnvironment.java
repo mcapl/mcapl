@@ -25,7 +25,7 @@
 package eass.ev3.eastercon;
 
 import ail.util.AILexception;
-import ail.mas.RoundRobinScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Literal;
