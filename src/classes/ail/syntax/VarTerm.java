@@ -27,6 +27,8 @@
 
 package ail.syntax;
 
+import gov.nasa.jpf.annotation.FilterField;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +50,7 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 */
 	private Term value  = null;
 	
+	@FilterField
 	private static final String logname = "ail.syntax.VarTerm";
     
     /**

@@ -143,7 +143,11 @@ public class Abstract_Literal extends Abstract_Pred {
 	 */
 	public Literal toMCAPL() {
 		PredicatewAnnotation s = super.toMCAPL();
-		return new Literal(type, s);
+		Literal l = new Literal(type, s);
+		if (l.isGround()) {
+			return GroundPredSets.check_add(l);
+		}
+		return l;
 	}
 
 	/*

@@ -29,9 +29,7 @@ import org.junit.Assert;
 
 import eass.EASSMASBuilder;
 import eass.verification.leo.LEOVerificationEnvironmentASEPaper;
-
 import mcaplantlr.runtime.*;
-
 import ajpf.MCAPLcontroller;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ail.mas.MAS;
@@ -41,6 +39,7 @@ import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.ListTermImpl;
 import ail.syntax.BeliefBase;
+import ail.util.AILConfig;
 import ajpf.psl.ast.Abstract_AgBelief;
 import ajpf.psl.ast.Abstract_LastAction;
 import ajpf.psl.ast.Abstract_Property;
@@ -112,7 +111,8 @@ public class PSLParserTests {
 			executive.addBel(better, BeliefBase.TSelf);
 			
 			mas.addAg(new AILAgent("executive"));
-			MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
+			MCAPLcontroller mccontrol = new MCAPLcontroller();
+			mccontrol.setMAS(mas, propertystring, new AILConfig());
 			MCAPLAgBelief cb = (MCAPLAgBelief) b.toMCAPL(mas, mccontrol);
 			Assert.assertTrue(executive.MCAPLbelieves(cb.getBel()));
 		} catch (Exception e) {
@@ -138,7 +138,8 @@ public class PSLParserTests {
 		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
 		LEOVerificationEnvironmentASEPaper env = new LEOVerificationEnvironmentASEPaper();
 		mas.setEnv(env);
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
+		MCAPLcontroller mccontrol = new MCAPLcontroller();
+		mccontrol.setMAS(mas, propertystring, new AILConfig());
 		a.toMCAPL(mas, mccontrol);
 		
 	} 

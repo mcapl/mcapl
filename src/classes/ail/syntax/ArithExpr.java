@@ -45,7 +45,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 	 * @author lad
 	 *
 	 */
-	public enum ArithmeticOp {
+	public static enum ArithmeticOp {
         none {
             double eval(double x, double y) {
                 return 0;
@@ -402,6 +402,10 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
                 return "(" + lhs + op + rhs + ")";
             }
         }
+    }
+    
+    public String fullstring() {
+    	return toString();
     }
     
     /*

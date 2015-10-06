@@ -176,7 +176,10 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 // If we've backtracked right past the beginning and, no, I'm not really clear what's going on
 				 // internally in AJPF here.  Anyway we're done and we need to fully run the DFS and check for accepting paths.
 				 product_automata.done(0);
-				 return product_automata.DFS().isEmpty();
+				// System.err.println("a");
+				 List<ProductState> list = product_automata.DFS();
+			//	 System.err.println(list);
+				 return product_automata.getAcceptingPath().isEmpty();
 			 } else {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
@@ -188,7 +191,6 @@ public class MCAPLListener extends PropertyListenerAdapter {
 					 // Check state returns true if an acccepting path hasn't been found in the product
 					 return checkstate(search);
 				 }
-
 				 return true;
 			 }
 	 }
@@ -207,6 +209,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 // Don't generate a new product state because of trivial truths but do add the state to the program model
 			 // so pruning will work properly when backtracking occurs.
 			 if (search.isEndState()) {
+				 log.info("Adding END STATE " + newstate + " to model");
 				 log.fine("is end");
 				 // Adding new state for pruning
 				 //product_automata.justAddModelState(newstate);

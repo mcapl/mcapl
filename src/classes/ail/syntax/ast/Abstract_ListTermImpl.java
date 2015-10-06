@@ -87,6 +87,17 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 			return getNext().append(t);
 		}
 	}
+	
+	/**
+	 * Add a list of terms to the head of this list.
+	 * @param tl
+	 */
+	@Override
+	public void addAll(ArrayList<Abstract_Term> tl) {
+		for (int i = tl.size() -1 ; i > -1; i--) {
+			addHead(tl.get(i));
+		}
+	}
 
 	/**
 	 * Is this the empty list.
@@ -140,7 +151,15 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	 * @see ail.syntax.ast.Abstract_ListTerm#addHead(ail.syntax.ast.Abstract_Term)
 	 */
 	public void addHead(Abstract_Term h) {
-		term = h;
+		if (isEmpty()) {
+			term = h;
+			next = new Abstract_ListTermImpl();
+		} else if (isTail()) {
+			// What to do?
+		} else {
+			next = this.clone();
+			term = h;
+		}
 	}
 	
 	/*
@@ -148,7 +167,12 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	 * @see ail.syntax.ast.Abstract_ListTerm#addTail(ail.syntax.ast.Abstract_ListTerm)
 	 */
 	public void addTail(Abstract_ListTerm t) {
-		next = t;
+		Abstract_ListTermImpl tl = (Abstract_ListTermImpl) getNext();
+		if (tl.isEmpty()) {
+			next = t;
+		} else {
+			tl.addTail(t);
+		}
 	}
 
 	@Override

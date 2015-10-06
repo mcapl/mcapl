@@ -48,7 +48,7 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 	 */
 	public Set<Predicate> generate_sharedbeliefs() {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
-		boolean assert_at_speed_limit = random_generator.nextBoolean();
+		boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
 		if (assert_at_speed_limit) {
 			percepts.add(new Predicate("at_speed_limit"));
 			AJPFLogger.info(logname, "At the Speed Limit");
@@ -66,7 +66,7 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 	public Set<Message> generate_messages() {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		
-		boolean assert_start = random_generator.nextBoolean();
+		boolean assert_start = random_bool_generator.nextBoolean();
 		if (assert_start) {
 			messages.add(new Message(EASSAgent.TELL, "simulator", "car", new Predicate("start")));
 			AJPFLogger.info(logname, "Asserting start");

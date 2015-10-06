@@ -40,7 +40,7 @@ import java.lang.Thread;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -56,7 +56,6 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
 import eass.semantics.EASSAgent;
-
 import ajpf.MCAPLJobber;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
@@ -71,7 +70,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
@@ -297,16 +296,17 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					}
 					return null;
 				}
+			}
 				
-				// if its the abstraction engine (NB.  this will add agName to up-to-date ags
-				if (abstractionenginelist.contains(agName)) {
-					Set<Predicate> ps = super.getPercepts(agName, update);
-					if (ps != null) {
-						p.addAll(ps);
-					}
-				} else {
-
-				uptodateAgs.add(agName);
+			// if its the abstraction engine (NB.  this will add agName to up-to-date ags
+			if (abstractionenginelist.contains(agName)) {
+				Set<Predicate> ps = super.getPercepts(agName, update);
+				if (ps != null) {
+					p.addAll(ps);
+				}
+			} else {
+				if (update) {
+					uptodateAgs.add(agName);
 				}
 			}
 						

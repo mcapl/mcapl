@@ -27,8 +27,8 @@
 
 package ail.syntax;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLPredicate;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -156,7 +156,12 @@ public class PredicatewAnnotation extends Predicate {
      */
     public boolean addAnnotFrom(PredicatewAnnotation p) {
     	if (p.hasAnnot()) {
-    		return annotation.addAnnot(p.getAnnot());
+    		if (hasAnnot()) {
+    			return annotation.addAnnot(p.getAnnot());
+    		} else {
+    			annotation = p.getAnnot();
+    			return true;
+    		}
     	}
     	
     	return false;
@@ -185,7 +190,13 @@ public class PredicatewAnnotation extends Predicate {
 
     /** returns true if the pred has at least one annot */
     public boolean hasAnnot() {
-        return annotation != null && !annotation.isEmpty();
+    	boolean b = annotation != null;
+    	boolean c = false;
+    	if (b) {
+    		c = !annotation.isEmpty();
+    	}
+    	boolean result = b && c;
+        return result;
     } 
 
 
@@ -195,7 +206,11 @@ public class PredicatewAnnotation extends Predicate {
      */
     public void copyAnnot(PredicatewAnnotation p) {
         if (p.getAnnot() != null) {
-            annotation = p.getAnnot().clone();
+        	if (p.getAnnot().equals(BeliefBase.TPercept)) {
+        		annotation = BeliefBase.TPercept;
+        	} else {
+        		annotation = p.getAnnot().clone();
+        	}
        } else {
             annotation = null;
         }
@@ -211,16 +226,41 @@ public class PredicatewAnnotation extends Predicate {
         if (o instanceof PredicatewAnnotation) {
         	PredicatewAnnotation p = (PredicatewAnnotation) o;
         	if (super.equals(o)) {
+        		// Ignore annotations during unification until we have a use for them
+        		//if (hasAnnot() && p.hasAnnot()) {
+        		//	return getAnnot().equals(p.getAnnot());
+        		//}
+        		//if (!hasAnnot() && !p.hasAnnot()) {
+        		//	return true;
+        		//}
+        		// If one has an annotation and one doesn't they still unify?
+        		return true;
+        	}
+        } else if (o instanceof Predicate) {
+          //  return !hasAnnot() && super.equals(o);
+        	return super.equals(o);
+        }
+        return false;
+    }
+
+    public boolean equalsInclAnnots(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        if (o instanceof PredicatewAnnotation) {
+        	PredicatewAnnotation p = (PredicatewAnnotation) o;
+        	if (super.equals(o)) {
         		if (hasAnnot() && p.hasAnnot()) {
         			return getAnnot().equals(p.getAnnot());
         		}
         		if (!hasAnnot() && !p.hasAnnot()) {
         			return true;
         		}
+        		// If one has an annotation and one doesn't they still unify?
         		return false;
         	}
         } else if (o instanceof Predicate) {
-            return !hasAnnot() && super.equals(o);
+          //  return !hasAnnot() && super.equals(o);
+        	return super.equals(o);
         }
         return false;
     }
@@ -239,7 +279,11 @@ public class PredicatewAnnotation extends Predicate {
      * @see ail.syntax.Predicate#clone()
      */
     public PredicatewAnnotation clone() {
-        return new PredicatewAnnotation(this);
+    	//if (isGround()) {
+    	//	return this;
+    	//}
+
+    	return new PredicatewAnnotation(this);
     }
 
     /*
@@ -252,6 +296,17 @@ public class PredicatewAnnotation extends Predicate {
             s.append(annotation.toString());
         }
         return s.toString();
+    }
+    
+    public String fullstring() {
+        StringBuilder s = new StringBuilder(super.toString());
+        if (hasAnnot()) {
+        	s.append(annotation.toString());
+        } else {
+        	s.append("(null annotation)");
+        }
+        return s.toString();
+    	
     }
     
 	/*

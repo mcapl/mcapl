@@ -186,6 +186,10 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return (s);
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/**
 	 * Generate a string for the goal type.
 	 * @return a string representing the goal type.
@@ -206,10 +210,11 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#calcHashCode()
      */
+	@Override
     protected int calcHashCode() {
         final int PRIME = 11;
         int result = getGoalType();
-        result = PRIME * result + super.hashCode();
+        result = PRIME * result + super.calcHashCode();
         final int ts = getTermsSize();
         if (ts > 0) {
             result = PRIME * result + getTermsSize();
@@ -394,7 +399,11 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		if (isVar()) {
 			return false;
 		} else {
-			return super.equals(p);
+			if (super.equals(p)) {
+				return true;
+			} else {
+				return super.unifies(p, new Unifier());
+			}
 		}
 	}
 	

@@ -1,0 +1,95 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+EASS
+
+:abstraction: dysprosium
+
+:Initial Beliefs:
+
+distance_threshold(0.5)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
++distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
++bump: {True} <- assert_shared(click);
+-bump: {True} <- remove_shared(click);
+
++! right [perform] : {True} <-
+    right;
++! forward [perform] : {True} <-
+    forward;
++! stop [perform] : {True} <-
+    stop;
+
+:name: dysprosium
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++click : {~G keep_moving [perform], ~B shutting_down} <-
+      print("Adopting Goal Keep Moving"),
+      +! keep_moving [perform];
+-click: {True} <-
+       +waiting_for_second_click;
++click : {B waiting_for_second_click, ~B shutting_down} <-
+       +shutting_down,
+       -turning_right,
+       perf(stop),
+       shutdown;
+
++! keep_moving [perform] : {~B obstacle} <-
+   -turning_right,
+   perf(forward),
+   *waiting_for_second_click,
+   *click,
+   print("Goal performed");
++! keep_moving [perform] : {B obstacle} <-
+   +turning_right,
+   perf(right),
+   *waiting_for_second_click,
+   *click,
+   print("Goal performed");
+
++obstacle : {G keep_moving [perform], ~B shutting_down} <- 
+    print("Believe there is an obstacle"),
+    print("Turning right"),
+    +turning_right,
+    perf(right);
+-obstacle : {G keep_moving [perform], ~B shutting_down} <-
+    -turning_right,
+    print("Believe there is no obstacle"),
+    print("Going forward"),
+    perf(forward);
+
+    

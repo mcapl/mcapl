@@ -38,7 +38,8 @@ public class GoalDropATests extends TestJPF {
 	static final String[] JPF_ARGS = { "-show", 
 		 "+listener+=,.listener.ExecTracker",
 	     "+et.print_insn=false",
-	     "+vm.max_transition_length=MAX"
+	     "+vm.max_transition_length=MAX",
+	     "+et.show_shared=false"
 
 	};
 
@@ -57,5 +58,19 @@ public class GoalDropATests extends TestJPF {
 	    }
 	 }
 
+	  @Test //----------------------------------------------------------------------
+	 public void testDroppingGoalwEmptyPlan () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)){
+	   	String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingGoalsWEmptyPlans.ail";
+	   	String prop_filename =  "/src/examples/eass/simple/DroppingGoals/simple.psl";
+	   	String[] args = new String[3];
+	   	args[0] = filename;
+	   	args[1] = prop_filename;
+	   	args[2] = "2";
+	   	AJPF_w_AIL.run(args);
+	    } else {
+	   	 
+	    }
+	 }
 
 }

@@ -24,10 +24,11 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
-
 import ail.syntax.Literal;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Term;
@@ -110,6 +111,14 @@ public class Abstract_VarTerm extends Abstract_Literal
     
     /*
      * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_ListTerm#addAll(java.util.ArrayList)
+     */
+    public void addAll(ArrayList<Abstract_Term> tl) {
+    	
+    }
+    
+    /*
+     * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_ListTerm#addHead(ail.syntax.ast.Abstract_Term)
      */
     public void addHead(Abstract_Term h) {
@@ -132,9 +141,9 @@ public class Abstract_VarTerm extends Abstract_Literal
      * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_Literal#toMCAPL()
      */
-	public Literal toMCAPL() {
-		PredicatewAnnotation s = super.toMCAPL();
-		return new VarTerm(s.getFunctor());
+	public VarTerm toMCAPL() {
+		// PredicatewAnnotation s = super.toMCAPL();
+		return new VarTerm(getFunctor());
 	}
  
 	/*

@@ -69,6 +69,13 @@ public class AILConfig extends Properties {
 			  System.exit(0);
 		  }
 	  }
+	
+	/**
+	 * Constructor for empty configurations.
+	 */
+	public AILConfig() {
+		
+	}
 
 	/**
 	 * Load the properties from the file.

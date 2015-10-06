@@ -27,6 +27,7 @@
 
 package ail.syntax;
 
+import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -141,6 +142,19 @@ public class Literal extends PredicatewAnnotation {
         return false;
 	}
     
+    public boolean equalsInclAnnots(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+
+        if (o instanceof Literal) {
+			final Literal l = (Literal) o;
+			return type == l.type 
+			&& super.equalsInclAnnots(l);
+		} else if (o instanceof Predicate) {
+			return !negated() && super.equalsInclAnnots(o);
+		}
+        return false;
+	}
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#compareTo(ail.syntax.Term)
@@ -165,7 +179,7 @@ public class Literal extends PredicatewAnnotation {
      * @see ail.syntax.Pred#clone()
      */
 	public Literal clone() {
-        Literal c = new Literal(this);
+    	Literal c = new Literal(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;
         return c;
@@ -194,6 +208,16 @@ public class Literal extends PredicatewAnnotation {
 		}
 	}
 	
+	public String fullstring() {
+		if (type == LPos)
+			return "Lit" + super.fullstring();
+		else {
+			StringBuilder s1 = new StringBuilder("~");
+			s1.append(super.fullstring());
+			return s1.toString();
+		}
+		
+	}
 
     
 }

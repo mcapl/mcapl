@@ -35,8 +35,8 @@ import java.util.Set;
 import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
+import ail.syntax.ast.GroundPredSets;
 import ail.util.AILConfig;
-
 import ajpf.MCAPLmas;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.PerceptListener;
@@ -92,6 +92,7 @@ public class MAS implements MCAPLmas {
 	 */
 	public void setEnv(AILEnv env) {
     	fEnv = env;
+    	env.setMAS(this);
     	for (AILAgent a: getAgs().values()) {
     		a.setEnv(env);
     		fEnv.addAgent(a);
@@ -152,8 +153,10 @@ public class MAS implements MCAPLmas {
      * if desired.
      * @param configuration
      */
-     public void configure(AILConfig config) {
-    	getEnv().configure(config);
+    public void configure(AILConfig config) {
+    	for (AILAgent ag: fAgents.values()) {
+    		ag.configure(config);
+    	}
     }
 
   
@@ -263,6 +266,7 @@ public class MAS implements MCAPLmas {
       */
      public void cleanup() {
     	 fEnv.cleanup();
+    	 GroundPredSets.clear();
      }
      
      /*

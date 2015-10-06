@@ -46,12 +46,13 @@ import gov.nasa.jpf.vm.MJIEnv;
  * Rafael H. Bordini, Jomi F. Hubner, et. al.
  */
 public abstract class DefaultTerm implements Term {
+	@FilterField
 	static String logname = "ail.syntax.DefaultTerm";
 	
 	/**
 	 * Most terms, but not all (see ListTerms) have a functor string;
 	 */
-	String functor;
+	//String functor;
 
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
@@ -162,8 +163,9 @@ public abstract class DefaultTerm implements Term {
       * (non-Javadoc)
       * @see ajpf.psl.MCAPLTerm#getFunctor()
       */
+     @Override
      public String getFunctor() {
-  	   return functor;
+  	   return null;
      }
     
      /*

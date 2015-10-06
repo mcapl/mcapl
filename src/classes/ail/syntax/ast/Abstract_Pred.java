@@ -25,7 +25,6 @@
 package ail.syntax.ast;
 
 import gov.nasa.jpf.vm.MJIEnv;
-
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Predicate;
 
@@ -96,7 +95,11 @@ public class Abstract_Pred extends Abstract_Predicate {
 	 */
 	public PredicatewAnnotation toMCAPL() {
 		Predicate s = super.toMCAPL();
-		return new PredicatewAnnotation(s, null);
+		PredicatewAnnotation s1 = new PredicatewAnnotation(s);
+		if (s1.isGround()) {
+			return GroundPredSets.check_add(s1);
+		}
+		return s1;
 	}
 	
 	/*

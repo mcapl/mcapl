@@ -108,7 +108,7 @@ public class BeliefBaseAnnotation implements AILAnnotation {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return beliefbase.toString();
+		return "[" + beliefbase.toString() + "]";
 	}
 	
 	/*

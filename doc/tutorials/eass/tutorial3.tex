@@ -91,7 +91,7 @@ public class VerificationEnvironment extends
 	
   public Set<Predicate> generate_sharedbeliefs() {
     TreeSet<Predicate> percepts = new TreeSet<Predicate>();
-    boolean assert_at_speed_limit = random_generator.nextBoolean();
+    boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
     if (assert_at_speed_limit) {
       percepts.add(new Predicate("at_speed_limit"));
       AJPFLogger.info(logname, "At the Speed Limit");
@@ -99,7 +99,7 @@ public class VerificationEnvironment extends
       AJPFLogger.info(logname, "Not At Speed Limit");
     }
 		
-    boolean assert_start = random_generator.nextBoolean();
+    boolean assert_start = random_bool_generator.nextBoolean();
     if (assert_start) {
       percepts.add(new Predicate("start"));
       AJPFLogger.info(logname, "Asserting start");
@@ -119,7 +119,7 @@ public class VerificationEnvironment extends
 The environment for verifying the car reasoning engine is shown in listing~\ref{code:environment}.  This subclasses \texttt{eass.mas.verification.EASSVerificationEnvironment} which sets up a basic environment for handling verification of single reasoning engines.  In order to use this environment you have to implement two methods, \texttt{generate\_sharedbeliefs()} and \texttt{generate\_messages()}.  It is assumed that these methods will randomly generate the shared beliefs and messages of interest to your application.  \texttt{EASSVerificationEnvironment} handles the calling of these methods each time the reasoning engine takes an action.  It should be noted that \texttt{EASSVerificationEnvironment} ignores \lstinline{assert_shared} and \lstinline{remove_shared} actions, assuming these take negligible time to execute -- this is largely in order to keep search spaces as small as possible.
 \end{sloppypar}
 
-In the example verification environment, \texttt{generate\_messages} returns an empty set of messages because we didn't identify any messages in the program.  \texttt{generate\_sharedbeliefs} is responsible for asserting \lstinline{at_speed_limit} and \lstinline{start}.  \texttt{EASSVerificationEnvironment} provides \texttt{random\_generator} which is a member of the \java\ \texttt{Random} class.  In this case it is being used to generate two booleans, \texttt{assert\_at\_speed\_limit} and \texttt{assert\_start}.  If these booleans are true then the relevant predicate is added to the set returned by the method while, if it is false, nothing is added to the set.  An \texttt{AJPFLogger} is used to print out whether the shared belief was generated or not -- this can be useful when debugging failed model checking runs.
+In the example verification environment, \texttt{generate\_messages} returns an empty set of messages because we didn't identify any messages in the program.  \texttt{generate\_sharedbeliefs} is responsible for asserting \lstinline{at_speed_limit} and \lstinline{start}.  \texttt{EASSVerificationEnvironment} provides \texttt{random\_bool\_generator} which is a member of the \texttt{ajpf.util.choice.UniformBoolChoice} class and \texttt{random\_int\_generator} which is a member of the \texttt{ajpf.util.choice.UniformIntChoice} class.  These can be used to generate random boolean and integer values.  In this case \texttt{random\_bool\_generator} is being used to generate two booleans, \texttt{assert\_at\_speed\_limit} and \texttt{assert\_start}.  If these booleans are true then the relevant predicate is added to the set returned by the method while, if it is false, nothing is added to the set.  An \texttt{AJPFLogger} is used to print out whether the shared belief was generated or not -- this can be useful when debugging failed model checking runs.
 
 There are four properties in the property specification file:
 \begin{description}

@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g 2013-01-17 11:58:27
+// $ANTLR 3.4 /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g 2015-03-24 14:16:30
 
 package ajpf.psl.parser;
 
@@ -23,20 +23,21 @@ public class A_PSLLexer extends Lexer {
     public static final int FINALLY=13;
     public static final int GOAL=14;
     public static final int IMP=15;
-    public static final int INTENTION=16;
-    public static final int NEWLINE=17;
-    public static final int NOT=18;
-    public static final int NUMBER=19;
-    public static final int OPENBRACKET=20;
-    public static final int OR=21;
-    public static final int PERCEPT=22;
-    public static final int RELEASE=23;
-    public static final int SQCLOSEBRACKET=24;
-    public static final int SQOPENBRACKET=25;
-    public static final int TRUE=26;
-    public static final int UNNAMED_VAR=27;
-    public static final int UNTIL=28;
-    public static final int WS=29;
+    public static final int INTENDTODO=16;
+    public static final int INTENTION=17;
+    public static final int NEWLINE=18;
+    public static final int NOT=19;
+    public static final int NUMBER=20;
+    public static final int OPENBRACKET=21;
+    public static final int OR=22;
+    public static final int PERCEPT=23;
+    public static final int RELEASE=24;
+    public static final int SQCLOSEBRACKET=25;
+    public static final int SQOPENBRACKET=26;
+    public static final int TRUE=27;
+    public static final int UNNAMED_VAR=28;
+    public static final int UNTIL=29;
+    public static final int WS=30;
 
     	int nesting = 0;
     	boolean informula = false;
@@ -55,21 +56,21 @@ public class A_PSLLexer extends Lexer {
     public A_PSLLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g"; }
+    public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g"; }
 
     // $ANTLR start "ALWAYS"
     public final void mALWAYS() throws RecognitionException {
         try {
             int _type = ALWAYS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:121:9: ({...}? => ( 'A' | '[]' ) )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:121:11: {...}? => ( 'A' | '[]' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:125:9: ({...}? => ( 'A' | '[]' ) )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:125:11: {...}? => ( 'A' | '[]' )
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "ALWAYS", "!informula ");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:121:28: ( 'A' | '[]' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:125:28: ( 'A' | '[]' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -88,14 +89,14 @@ public class A_PSLLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:121:29: 'A'
+                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:125:29: 'A'
                     {
                     match('A'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:121:35: '[]'
+                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:125:35: '[]'
                     {
                     match("[]"); 
 
@@ -123,14 +124,14 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = FINALLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:122:9: ({...}? => ( 'E' | '<>' ) )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:122:11: {...}? => ( 'E' | '<>' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:126:9: ({...}? => ( 'E' | '<>' ) )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:126:11: {...}? => ( 'E' | '<>' )
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "FINALLY", "!informula ");
             }
 
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:122:28: ( 'E' | '<>' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:126:28: ( 'E' | '<>' )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -149,14 +150,14 @@ public class A_PSLLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:122:29: 'E'
+                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:126:29: 'E'
                     {
                     match('E'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:122:35: '<>'
+                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:126:35: '<>'
                     {
                     match("<>"); 
 
@@ -184,8 +185,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = UNTIL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:123:7: ({...}? => 'U' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:123:9: {...}? => 'U'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:127:7: ({...}? => 'U' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:127:9: {...}? => 'U'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "UNTIL", "!informula ");
@@ -209,8 +210,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = RELEASE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:124:9: ({...}? => 'R' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:124:11: {...}? => 'R'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:128:9: ({...}? => 'R' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:128:11: {...}? => 'R'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "RELEASE", "!informula ");
@@ -234,8 +235,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = AND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:125:6: ({...}? => '&' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:125:8: {...}? => '&'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:129:6: ({...}? => '&' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:129:8: {...}? => '&'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "AND", "!informula ");
@@ -259,8 +260,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = OR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:126:4: ({...}? => '||' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:126:6: {...}? => '||'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:130:4: ({...}? => '||' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:130:6: {...}? => '||'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "OR", "!informula ");
@@ -286,8 +287,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:127:5: ({...}? => '~' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:127:7: {...}? => '~'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:131:5: ({...}? => '~' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:131:7: {...}? => '~'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "NOT", "!informula ");
@@ -311,8 +312,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = IMP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:128:5: ({...}? => '->' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:128:7: {...}? => '->'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:132:5: ({...}? => '->' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:132:7: {...}? => '->'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "IMP", "!informula ");
@@ -338,8 +339,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = BELIEVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:130:2: ({...}? => 'B' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:130:5: {...}? => 'B'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:134:2: ({...}? => 'B' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:134:5: {...}? => 'B'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "BELIEVE", "!informula ");
@@ -365,8 +366,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = GOAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:131:7: ({...}? => 'G' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:131:9: {...}? => 'G'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:135:7: ({...}? => 'G' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:135:9: {...}? => 'G'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "GOAL", "!informula ");
@@ -392,8 +393,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = FALSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:132:7: ({...}? => 'F' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:132:10: {...}? => 'F'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:136:7: ({...}? => 'F' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:136:10: {...}? => 'F'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "FALSE", "!informula ");
@@ -417,8 +418,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = INTENTION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:134:2: ({...}? => 'I' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:134:4: {...}? => 'I'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:138:2: ({...}? => 'I' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:138:4: {...}? => 'I'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "INTENTION", "!informula ");
@@ -444,8 +445,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = ACTION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:135:8: ({...}? => 'D' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:135:10: {...}? => 'D'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:139:8: ({...}? => 'D' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:139:10: {...}? => 'D'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "ACTION", "!informula ");
@@ -471,8 +472,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = PERCEPT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:136:9: ({...}? => 'P' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:136:11: {...}? => 'P'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:140:9: ({...}? => 'P' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:140:11: {...}? => 'P'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "PERCEPT", "!informula ");
@@ -498,8 +499,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:137:6: ({...}? => 'T' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:137:8: {...}? => 'T'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:141:6: ({...}? => 'T' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:141:8: {...}? => 'T'
             {
             if ( !((!informula )) ) {
                 throw new FailedPredicateException(input, "TRUE", "!informula ");
@@ -518,17 +519,44 @@ public class A_PSLLexer extends Lexer {
     }
     // $ANTLR end "TRUE"
 
+    // $ANTLR start "INTENDTODO"
+    public final void mINTENDTODO() throws RecognitionException {
+        try {
+            int _type = INTENDTODO;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:143:2: ({...}? => 'ItD' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:143:4: {...}? => 'ItD'
+            {
+            if ( !((!informula)) ) {
+                throw new FailedPredicateException(input, "INTENDTODO", "!informula");
+            }
+
+            match("ItD"); 
+
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        	// do for sure before leaving
+        }
+    }
+    // $ANTLR end "INTENDTODO"
+
     // $ANTLR start "CONST"
     public final void mCONST() throws RecognitionException {
         try {
             int _type = CONST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:139:7: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:139:9: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:145:7: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:145:9: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             matchRange('a','z'); 
 
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:139:18: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:145:18: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop3:
             do {
                 int alt3=2;
@@ -541,7 +569,7 @@ public class A_PSLLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -578,8 +606,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = UNNAMED_VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:140:13: ( '_' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:140:15: '_'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:146:13: ( '_' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:146:15: '_'
             {
             match('_'); 
 
@@ -599,12 +627,12 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:141:8: ( '0' .. '9' ( '0' .. '9' )* )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:141:10: '0' .. '9' ( '0' .. '9' )*
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:147:8: ( '0' .. '9' ( '0' .. '9' )* )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:147:10: '0' .. '9' ( '0' .. '9' )*
             {
             matchRange('0','9'); 
 
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:141:19: ( '0' .. '9' )*
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:147:19: ( '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -617,7 +645,7 @@ public class A_PSLLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -654,8 +682,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = OPENBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:143:13: ( '(' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:143:16: '('
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:149:13: ( '(' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:149:16: '('
             {
             match('('); 
 
@@ -677,8 +705,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = CLOSEBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:144:14: ( ')' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:144:16: ')'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:150:14: ( ')' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:150:16: ')'
             {
             match(')'); 
 
@@ -700,8 +728,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = SQOPENBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:145:15: ( '[' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:145:18: '['
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:151:15: ( '[' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:151:18: '['
             {
             match('['); 
 
@@ -723,8 +751,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = SQCLOSEBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:146:16: ( ']' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:146:18: ']'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:152:16: ( ']' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:152:18: ']'
             {
             match(']'); 
 
@@ -746,8 +774,8 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = COMMASEP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:147:10: ( ',' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:147:12: ','
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:153:10: ( ',' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:153:12: ','
             {
             match(','); 
 
@@ -767,10 +795,10 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:148:8: ( ( '\\r' )? '\\n' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:148:9: ( '\\r' )? '\\n'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:154:8: ( ( '\\r' )? '\\n' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:154:9: ( '\\r' )? '\\n'
             {
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:148:9: ( '\\r' )?
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:154:9: ( '\\r' )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -779,7 +807,7 @@ public class A_PSLLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:148:9: '\\r'
+                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:154:9: '\\r'
                     {
                     match('\r'); 
 
@@ -809,10 +837,10 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:149:5: ( ( ' ' | '\\t' )+ )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:149:9: ( ' ' | '\\t' )+
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:155:5: ( ( ' ' | '\\t' )+ )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:155:9: ( ' ' | '\\t' )+
             {
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:149:9: ( ' ' | '\\t' )+
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:155:9: ( ' ' | '\\t' )+
             int cnt6=0;
             loop6:
             do {
@@ -826,7 +854,7 @@ public class A_PSLLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:
+            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:
             	    {
             	    if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -869,14 +897,14 @@ public class A_PSLLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:152:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:152:4: '/*' ( options {greedy=false; } : . )* '*/'
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:158:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:158:4: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
 
 
-            // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:152:9: ( options {greedy=false; } : . )*
+            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:158:9: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -901,7 +929,7 @@ public class A_PSLLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:152:36: .
+            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:158:36: .
             	    {
             	    matchAny(); 
 
@@ -932,8 +960,8 @@ public class A_PSLLexer extends Lexer {
     // $ANTLR end "COMMENT"
 
     public void mTokens() throws RecognitionException {
-        // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:8: ( ALWAYS | FINALLY | UNTIL | RELEASE | AND | OR | NOT | IMP | BELIEVE | GOAL | FALSE | INTENTION | ACTION | PERCEPT | TRUE | CONST | UNNAMED_VAR | NUMBER | OPENBRACKET | CLOSEBRACKET | SQOPENBRACKET | SQCLOSEBRACKET | COMMASEP | NEWLINE | WS | COMMENT )
-        int alt8=26;
+        // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:8: ( ALWAYS | FINALLY | UNTIL | RELEASE | AND | OR | NOT | IMP | BELIEVE | GOAL | FALSE | INTENTION | ACTION | PERCEPT | TRUE | INTENDTODO | CONST | UNNAMED_VAR | NUMBER | OPENBRACKET | CLOSEBRACKET | SQOPENBRACKET | SQCLOSEBRACKET | COMMASEP | NEWLINE | WS | COMMENT )
+        int alt8=27;
         int LA8_0 = input.LA(1);
 
         if ( (LA8_0=='A') && ((!informula ))) {
@@ -946,7 +974,7 @@ public class A_PSLLexer extends Lexer {
                 alt8=1;
             }
             else {
-                alt8=21;
+                alt8=22;
             }
         }
         else if ( (LA8_0=='<'||LA8_0=='E') && ((!informula ))) {
@@ -979,8 +1007,15 @@ public class A_PSLLexer extends Lexer {
         else if ( (LA8_0=='F') && ((!informula ))) {
             alt8=11;
         }
-        else if ( (LA8_0=='I') && ((!informula ))) {
-            alt8=12;
+        else if ( (LA8_0=='I') && (((!informula)||(!informula )))) {
+            int LA8_13 = input.LA(2);
+
+            if ( (LA8_13=='t') && ((!informula))) {
+                alt8=16;
+            }
+            else {
+                alt8=12;
+            }
         }
         else if ( (LA8_0=='D') && ((!informula ))) {
             alt8=13;
@@ -992,34 +1027,34 @@ public class A_PSLLexer extends Lexer {
             alt8=15;
         }
         else if ( ((LA8_0 >= 'a' && LA8_0 <= 'z')) ) {
-            alt8=16;
-        }
-        else if ( (LA8_0=='_') ) {
             alt8=17;
         }
-        else if ( ((LA8_0 >= '0' && LA8_0 <= '9')) ) {
+        else if ( (LA8_0=='_') ) {
             alt8=18;
         }
-        else if ( (LA8_0=='(') ) {
+        else if ( ((LA8_0 >= '0' && LA8_0 <= '9')) ) {
             alt8=19;
         }
-        else if ( (LA8_0==')') ) {
+        else if ( (LA8_0=='(') ) {
             alt8=20;
         }
-        else if ( (LA8_0==']') ) {
-            alt8=22;
+        else if ( (LA8_0==')') ) {
+            alt8=21;
         }
-        else if ( (LA8_0==',') ) {
+        else if ( (LA8_0==']') ) {
             alt8=23;
         }
-        else if ( (LA8_0=='\n'||LA8_0=='\r') ) {
+        else if ( (LA8_0==',') ) {
             alt8=24;
         }
-        else if ( (LA8_0=='\t'||LA8_0==' ') ) {
+        else if ( (LA8_0=='\n'||LA8_0=='\r') ) {
             alt8=25;
         }
-        else if ( (LA8_0=='/') ) {
+        else if ( (LA8_0=='\t'||LA8_0==' ') ) {
             alt8=26;
+        }
+        else if ( (LA8_0=='/') ) {
+            alt8=27;
         }
         else {
             NoViableAltException nvae =
@@ -1030,7 +1065,7 @@ public class A_PSLLexer extends Lexer {
         }
         switch (alt8) {
             case 1 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:10: ALWAYS
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:10: ALWAYS
                 {
                 mALWAYS(); 
 
@@ -1038,7 +1073,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:17: FINALLY
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:17: FINALLY
                 {
                 mFINALLY(); 
 
@@ -1046,7 +1081,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:25: UNTIL
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:25: UNTIL
                 {
                 mUNTIL(); 
 
@@ -1054,7 +1089,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:31: RELEASE
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:31: RELEASE
                 {
                 mRELEASE(); 
 
@@ -1062,7 +1097,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:39: AND
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:39: AND
                 {
                 mAND(); 
 
@@ -1070,7 +1105,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:43: OR
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:43: OR
                 {
                 mOR(); 
 
@@ -1078,7 +1113,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:46: NOT
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:46: NOT
                 {
                 mNOT(); 
 
@@ -1086,7 +1121,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:50: IMP
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:50: IMP
                 {
                 mIMP(); 
 
@@ -1094,7 +1129,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:54: BELIEVE
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:54: BELIEVE
                 {
                 mBELIEVE(); 
 
@@ -1102,7 +1137,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:62: GOAL
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:62: GOAL
                 {
                 mGOAL(); 
 
@@ -1110,7 +1145,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:67: FALSE
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:67: FALSE
                 {
                 mFALSE(); 
 
@@ -1118,7 +1153,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:73: INTENTION
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:73: INTENTION
                 {
                 mINTENTION(); 
 
@@ -1126,7 +1161,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:83: ACTION
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:83: ACTION
                 {
                 mACTION(); 
 
@@ -1134,7 +1169,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:90: PERCEPT
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:90: PERCEPT
                 {
                 mPERCEPT(); 
 
@@ -1142,7 +1177,7 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:98: TRUE
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:98: TRUE
                 {
                 mTRUE(); 
 
@@ -1150,87 +1185,95 @@ public class A_PSLLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:103: CONST
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:103: INTENDTODO
+                {
+                mINTENDTODO(); 
+
+
+                }
+                break;
+            case 17 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:114: CONST
                 {
                 mCONST(); 
 
 
                 }
                 break;
-            case 17 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:109: UNNAMED_VAR
+            case 18 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:120: UNNAMED_VAR
                 {
                 mUNNAMED_VAR(); 
 
 
                 }
                 break;
-            case 18 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:121: NUMBER
+            case 19 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:132: NUMBER
                 {
                 mNUMBER(); 
 
 
                 }
                 break;
-            case 19 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:128: OPENBRACKET
+            case 20 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:139: OPENBRACKET
                 {
                 mOPENBRACKET(); 
 
 
                 }
                 break;
-            case 20 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:140: CLOSEBRACKET
+            case 21 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:151: CLOSEBRACKET
                 {
                 mCLOSEBRACKET(); 
 
 
                 }
                 break;
-            case 21 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:153: SQOPENBRACKET
+            case 22 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:164: SQOPENBRACKET
                 {
                 mSQOPENBRACKET(); 
 
 
                 }
                 break;
-            case 22 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:167: SQCLOSEBRACKET
+            case 23 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:178: SQCLOSEBRACKET
                 {
                 mSQCLOSEBRACKET(); 
 
 
                 }
                 break;
-            case 23 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:182: COMMASEP
+            case 24 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:193: COMMASEP
                 {
                 mCOMMASEP(); 
 
 
                 }
                 break;
-            case 24 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:191: NEWLINE
+            case 25 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:202: NEWLINE
                 {
                 mNEWLINE(); 
 
 
                 }
                 break;
-            case 25 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:199: WS
+            case 26 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:210: WS
                 {
                 mWS(); 
 
 
                 }
                 break;
-            case 26 :
-                // /Users/lad/Eclipse/ajpf/src/main/ajpf/psl/parser/A_PSL.g:1:202: COMMENT
+            case 27 :
+                // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:1:213: COMMENT
                 {
                 mCOMMENT(); 
 

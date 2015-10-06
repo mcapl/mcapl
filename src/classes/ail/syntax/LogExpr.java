@@ -46,7 +46,7 @@ public class LogExpr implements LogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum LogicalOp { 
+	public static enum LogicalOp { 
 		none   { public String toString() { return ""; } }, 
 		not    { public String toString() { return "not "; } }, 
 		and    { public String toString() { return " & "; } },

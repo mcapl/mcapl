@@ -118,7 +118,8 @@ public final class Abstract_NumberTermImpl implements Abstract_NumberTerm {
 	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#toMCAPL()
 	 */
 	public NumberTermImpl toMCAPL() {
-		return new NumberTermImpl(fValue);
+		NumberTermImpl n = (NumberTermImpl) GroundPredSets.check_add(new NumberTermImpl(fValue));
+		return n;
 	}
 	
 	/*

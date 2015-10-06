@@ -288,6 +288,10 @@ public class Deed extends DefaultAILStructure {
 		return s.toString();
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/**
 	 * Apply a unifier to the deed.
 	 */

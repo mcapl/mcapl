@@ -46,7 +46,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum NumericOp { 
+	public static enum NumericOp { 
 		none   { public String toString() { return ""; } }, 
 		less   { public String toString() { return "<"; } }, 
 		equal    { public String toString() { return "="; } }, 
