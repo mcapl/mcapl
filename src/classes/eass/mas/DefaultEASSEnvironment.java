@@ -72,6 +72,10 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 */
 	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
+	 * Tracking of input predicates.
+	 */
+	HashMap<String, HashMap<String, Predicate>> agvalues = new HashMap<String,HashMap<String, Predicate>>();
+	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
 	protected boolean done = false;
@@ -151,12 +155,15 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param pred
 	 */
 	public void addUniquePercept(String agName, String s, Predicate pred) {
+		HashMap<String, Predicate> values = agvalues.get(agName);
+		if (values != null) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(agName, values.get(s.toLowerCase()));
 		}
 
 		values.put(s.toLowerCase(), pred);
-		addPercept(agName, pred);		
+		addPercept(agName, pred);
+		}
 	}
 	
 	/**
@@ -278,6 +285,8 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		EASSAgent ea = (EASSAgent) a;
 		if (ea.isAbstractionEngine()) {
 			addAbstractionEngine(ea.getAgName(), ea.getEngineFor());
+			HashMap<String, Predicate> input_values = new HashMap<String, Predicate>();
+			agvalues.put(ea.getAgName(), input_values);
 		}
 	}
 

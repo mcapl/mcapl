@@ -37,6 +37,7 @@ We note here some of the more useful methods made available by the Default Envir
 \item[public synchronized void clearPercepts()] Removes all percepts.
 \item[public void clearPercepts(String agName)] Removes all percepts perceivable only by \texttt{agName}.
 \item[public void clearMessages(String agName)] Removes all messages available for \texttt{agName}.
+\item[public void addMessage(String agName, Message m)] This adds a message to an agent's inbox.  In general this should only be used by agent's invoking \texttt{SendAction}'s but their may be circumstances when a system requires messages to be added at other times.
 \end{description}
 
 \section{Classes for Logical Formulae}
@@ -115,6 +116,19 @@ So, for instance, suppose \texttt{u} is $[A-box]$, \texttt{p1} is $red(A)$ and p
 \item You can combine to unifiers using the \texttt{compose()} method (e.g., \texttt{u1.compose(u2)}.  However you should be very careful about doing this unless you are certain that there is no variable unified with one term in the first unifier and a different term in the second.
 \end{sloppypar}
 \end{itemize}
+
+\section{The Message Class}
+This should only be relevant if you want to change the default handling of messages.  This should only rarely be needed.
+
+The message class is \texttt{ail.syntax.Message}.  It has a number of fields which allow a message to specify the sender (a String), receiver (a String), propositional content (a Term), an \emph{illocutionary force} or \emph{performative} (an int), a message identifier (a StringTerm) and a thread identifier (a StringTerm).
+
+It isn't necessary to use all these fields when creating a message and the simpliest constructor takes for arguments, the illocutionary force, sender, reciever and content, in that order.  So for instance, \texttt{Message m = new Message(1, "ag1", "ag2", new Predicate("red"))} sends the message ``red'' from \texttt{ag1} to \texttt{ag2} with illocutionary force 1.
+
+Each language implemented in the \ail\ specifies its own meanings for illocutionary force.  For instance the \gwendolen\ language (and its \eass\ variant) define 1 as \emph{tell}, 2 as \emph{perform} and 3 as \emph{achieve}.  So a \gwendolen\ agent would interpret the above example message as a \emph{tell} message.
+
+Messages come with a set of getter methods, \texttt{getIlForce()}, \texttt{getPropCont()}, \texttt{getReceiver()}, \texttt{getSender()} etc., for accessing the messages field.
+
+Message objects also have a method \texttt{toTerm()} which will convert the message to a \texttt{Predicate} object of the form: \texttt{message(msgId, threadID, sender, receiever, ilFroce, propCont)}.  Note that sender, receiver and ilforce are all converted to predicates (not to StringTerms and a NumberTerm) in this representation.
 
 \section{Extending executeAction}
 \texttt{ail.mas.DefaultEnvironment} implements a method called \texttt{executeAction}

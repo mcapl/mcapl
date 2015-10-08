@@ -24,28 +24,31 @@
 //----------------------------------------------------------------------------
 package ail.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.io.IOException;
-import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import ajpf.util.AJPFLogger;
 
-public class AILSocket {
+public class AILSocketChannel {
 	/**
 	 * The socket.
 	 */
-	Socket socket = null;
+	SocketChannel socket = null;
 	/**
 	 * A Reader for input.
 	 */
-	DataInputStream input = null;
+	BufferedReader input = null;
 	/**
 	 * A reader for output.
 	 */
-	DataOutputStream output = null;
+	BufferedWriter output = null;
 	/**
 	 * An attempt at OS independance!!
 	 */
@@ -53,23 +56,23 @@ public class AILSocket {
 	/**
 	 * logname
 	 */
-	String logname = "ail.util.AILSocket";
+	String logname = "ail.util.AILSocketChannel";
 	
 	/**
 	 * Constructor. 
 	 *
 	 */
-	public AILSocket() {}
+	public AILSocketChannel() {}
 	
 	/**
 	 * Separated out from the constructor to allow error handling in the constructors of subclasses.
 	 * @param sock
 	 */
-	public void initialise(Socket sock) {
+	public void initialise(SocketChannel sock) {
 		try {
 			socket = sock;
-			input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-			output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			input = new BufferedReader(new InputStreamReader(socket.socket().getInputStream()));
+			output = new BufferedWriter(new OutputStreamWriter(socket.socket().getOutputStream()));
 		} catch (IOException e) {
 			AJPFLogger.warning(logname, e.getMessage());
 		}		
@@ -84,20 +87,28 @@ public class AILSocket {
 	}
 	
 	/**
-	 * Write a string to the socket.
+	 * Write to the socekt.
 	 * @param s
 	 */
 	public void write(String s) {
-		if (!socket.isClosed() && socket.isConnected()) {
-			try {
-				output.write(s.getBytes());
-				output.write(linefeed.getBytes());
-				output.flush();
-			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
+		try {
+			output.write(s);
+			output.write(linefeed);
+			output.flush();
+		} catch (IOException e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}
+	}
+	
+	public void write(ByteBuffer buf) {
+		try {
+			buf.rewind();
+			while (buf.hasRemaining()) {
+				socket.write(buf);
 			}
-		} else {
-			write ("error");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 		
@@ -106,9 +117,9 @@ public class AILSocket {
 	 * @param i
 	 */
 	public void writeInt(int i) {
-		if (!socket.isClosed() && socket.isConnected()) {
+		if (socket.isConnected()) {
 			try {
-				output.writeInt(i);
+				output.write(i);
 				output.flush();
 			} catch (Exception e) {
 				AJPFLogger.warning(logname, e.getMessage());
@@ -118,70 +129,27 @@ public class AILSocket {
 		}
 	}
 
-	/**
-	 * Write a double to the socket.
-	 * @param d
-	 */
-	public void writeDouble(double d) {
-		if (!socket.isClosed() && socket.isConnected()) {
-			try {
-				output.writeDouble(d);
-				output.flush();
-			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
-			}
-		} else {
-			write ("error");
-		}
-	}
-
-	/**
-	 * Read a line from the socket.
-	 * @return
-	 */
 	public String readLine() {
 		try{
-			return input.readUTF();
+			return input.readLine();
 		} catch (IOException e) {
-			AJPFLogger.warning(logname, e.getMessage());
+			AJPFLogger.severe(logname, e.getMessage());
 			return "failed read";
 		}
 	}
 	
-	/**
-	 * Read an int from the socket.
-	 * @return
-	 */
-	public int readInt() {
-		try{
-			return input.readInt();
+	public int read(ByteBuffer buf) {
+		try {
+			int len = socket.read(buf);
+			buf.flip();
+			return len;
 		} catch (IOException e) {
-			AJPFLogger.warning(logname, "readInt:" + e.getMessage());
-			return 0;
+			AJPFLogger.severe(logname, e.getMessage());
 		}
+		return -1;
 	}
+	
 
-	/**
-	 * Read a double from the socket.
-	 * @return
-	 */
-	public double readDouble() {
-		try{
-			return input.readDouble();
-		} catch (IOException e) {
-			AJPFLogger.warning(logname, "readDouble:" + e.getMessage());
-			return 0;
-		}
-	}
-
-	/**
-	 * Are there any bytes left on the socket.
-	 * @return
-	 * @throws IOException
-	 */
-	public boolean pendingInput() throws IOException {
-		return (input.available() > 0);
-	}
 	
 	/**
 	 * Close the socket.
@@ -209,7 +177,7 @@ public class AILSocket {
 	 */
 	public boolean isClosed() {
 		if (socket != null) {
-			return socket.isClosed();
+			return socket.socket().isClosed();
 		} else {
 			return false;
 		}
