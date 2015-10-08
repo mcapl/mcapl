@@ -56,7 +56,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import ail.mas.AILEnv;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.mas.DefaultEnvironment;
 
 /**

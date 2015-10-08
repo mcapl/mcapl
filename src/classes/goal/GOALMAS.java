@@ -27,7 +27,7 @@ package goal;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.mas.MAS;
 import goal.mas.GoalEnvironment;
 
@@ -64,7 +64,9 @@ public abstract class GOALMAS {
 		mas.setEnv(env);
 			
 			// Set up a MCAPL controller and specification.
-		mccontrol = new MCAPLcontroller(mas, propertystring, 1);
+		mccontrol = new MCAPLcontroller();
+		mas.setController(mccontrol);
+		//mccontrol.setMAS(mas, propertystring)
 			// Start the system.
 		
 	}
