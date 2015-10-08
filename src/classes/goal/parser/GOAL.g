@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher
 //
 // This file is part of GOAL (AIL version) - GOAL-AIL
 //
@@ -60,7 +60,7 @@ mas returns [Abstract_MAS mas]
 	;
 
 moduleImport
-	: '#import' MODULEFILE '.'
+	: '#import' MODULEFILE STOP
 	;
 
 module returns [Abstract_GOALModule gl]
@@ -79,22 +79,22 @@ moduleDef returns [int i]
 
 
 moduleOption [Abstract_GOALModule gl]
-	: key= 'exit' '=' value = ('always' {gl.setExitCondition(Abstract_GOALModule.always);} 
+	: key= 'exit' EQUALS value = ('always' {gl.setExitCondition(Abstract_GOALModule.always);} 
 			| 'never' {gl.setExitCondition(Abstract_GOALModule.never);} 
 			| 'nogoals' {gl.setExitCondition(Abstract_GOALModule.nogoals);} 
 			 | 'noaction' {gl.setExitCondition(Abstract_GOALModule.noaction);} ) 
-	| key = 'focus' '=' value = ('none' | 'new' | 'select' | 'filter')
+	| key = 'focus' EQUALS value = ('none' | 'new' | 'select' | 'filter')
 	;
 
 krImport
-	: '#import' (stringLiteral | singleQuotedStringLiteral) '.'
+	: '#import' (stringLiteral | singleQuotedStringLiteral) STOP
 	;
 
 knowledge [Abstract_GOALModule gl]
 	: KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE;
 
 
-krspec[Abstract_GOALModule gl]: (hd=atom
+krspec[Abstract_GOALModule gl]: (hd=declarationOrCallWithTerms
 	(STOP {$gl.addFact((Abstract_Predicate) hd);} |
 	PROLOGARROW body=no_bracket_literals STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
 
@@ -102,7 +102,7 @@ beliefs [Abstract_GOALModule gl]
 	: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE;
 
 
-brspec[Abstract_GOALModule gl]: (hd=atom
+brspec[Abstract_GOALModule gl]: (hd=declarationOrCallWithTerms
 	(STOP {$gl.addBel((Abstract_Predicate) hd);} |
 	PROLOGARROW body=no_bracket_literals STOP {$gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
 
@@ -123,12 +123,12 @@ program[Abstract_GOALModule gl]
 
 
 ruleEvaluationOrder returns [int i] 
-	: SQOPEN ORDER EQUALS ( LINEAR {$i=Abstract_GOALModule.linear;} |
+	: ORDER EQUALS ( LINEAR {$i=Abstract_GOALModule.linear;} |
 	LINEARALL {$i=Abstract_GOALModule.linearall;}|
 	RANDOM {$i=Abstract_GOALModule.random;}|
 	RANDOMALL {$i=Abstract_GOALModule.randomall;} |
 	ADAPTIVE {$i = Abstract_GOALModule.adaptive;})
-	SQCLOSE;
+	;
 
 macroDef
 	: HASH DEFINE p=declarationOrCallWithTerms
@@ -346,11 +346,6 @@ GOALA 	: 'goal-a';
 PRE 	: 'pre';
 POST 	: 'post';
 PLUS 	: '+';
-INSERT 	: 'insert';
-DELETE 	: 'delete';
-ADOPT 	: 'adopt';
-DROP 	: 'drop';
-SEND 	: 'send';
 INTERNAL 	: '@int';
 EXTERNAL  : '@ext';
 
