@@ -24,6 +24,7 @@
 
 package goal.semantics.operationalrules;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +76,9 @@ public class GOALSleepRule implements OSRule {
 		AILEnv env = a.getEnv();
 		Set<Message> messages = env.getMessages(a.getAgName());
 		Set<Predicate> percepts = env.getPercepts(a.getAgName(), true);
+		if (percepts == null) {
+			percepts = new HashSet<Predicate>();
+		}
 		scs.setMessages(messages);
 		scs.setPercepts(percepts);
 		

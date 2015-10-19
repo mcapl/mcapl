@@ -364,13 +364,13 @@ function_term returns [Abstract_Term t]
 
 
 var returns [Abstract_VarTerm v] 
-	: VAR {if (variables.containsKey($VAR.getText())) {
+	: (VAR {if (variables.containsKey($VAR.getText())) {
 		$v = variables.get($VAR.getText());
 	            } else {
 		$v = new Abstract_VarTerm($VAR.getText());
                                                      variables.put($VAR.getText(), $v);
 	           }
-	};
+	} | UNNAMEDVAR {$v=new Abstract_UnnamedVar();});
 
 stringLiteral returns [Abstract_StringTerm s]
 	: st=stringterm {$s = st;};
@@ -434,7 +434,9 @@ BAR 	: '|';
 
 IS	:	 'is';
 CONST : 'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-VAR : ('A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+VAR : 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+UNNAMEDVAR
+	:	'_';
 STRING	:	'"'('a'..'z'|'A'..'Z'|','|' '|'!')+'"';
 NUMBER : '0'..'9' ('0'..'9')*;
 
