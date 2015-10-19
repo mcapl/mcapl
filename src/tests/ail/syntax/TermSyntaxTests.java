@@ -251,4 +251,25 @@ public class TermSyntaxTests {
 		gv.apply(u);
 		gv.strip_varterm();
 	}
+	
+	@Test public void unnamedvarTest() {
+		Predicate p1 = new Predicate("on");
+		Predicate p2 = new Predicate("under");
+		p1.addTerm(new Predicate("b3"));
+		p1.addTerm(new Predicate("b4"));
+		p2.addTerm(new Predicate("b3"));
+		p2.addTerm(new Predicate("b2"));
+		
+		Predicate p1u = new Predicate("on");
+		p1u.addTerm(new Predicate("b3"));
+		p1u.addTerm(new UnnamedVar());
+		Predicate p2u = new Predicate("under");
+		p2u.addTerm(new Predicate("b3"));
+		p2u.addTerm(new UnnamedVar());
+		
+		Unifier u = new Unifier();
+		Assert.assertTrue(u.unifies(p1, p1u));
+		Assert.assertTrue(u.unifies(p2, p2u));
+		
+	}
 }
