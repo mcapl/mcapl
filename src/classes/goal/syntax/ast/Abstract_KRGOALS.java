@@ -9,5 +9,5 @@ public interface Abstract_KRGOALS {
 	
 	public void addKRule(Abstract_Rule r);
 	
-	public void addGoal(Abstract_Predicate g);
+	public void addGoal(Abstract_ConjGoal g);
 }

@@ -49,6 +49,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 import goal.semantics.GOALAgent;
 import goal.syntax.ActionRule;
 import goal.syntax.GOALModule;
+import goal.syntax.ConjGoal;
 
 
 /**
@@ -84,7 +85,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 	
-	Abstract_Predicate[] goals = new Abstract_Predicate[0];
+	Abstract_ConjGoal[] goals = new Abstract_ConjGoal[0];
 
 
 	public Abstract_ActionSpec[] actionspecs = new Abstract_ActionSpec[0];
@@ -200,9 +201,9 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	 }  
     }
    
-   public void addGoal(Abstract_Predicate p) {
+   public void addGoal(Abstract_ConjGoal p) {
 	   int newsize = goals.length + 1;
-	   Abstract_Predicate[] newgoals = new Abstract_Predicate[newsize];
+	   Abstract_ConjGoal[] newgoals = new Abstract_ConjGoal[newsize];
 	   for (int i = 0; i < goals.length; i++) {
 		   newgoals[i] = goals[i];
 	   }
@@ -210,9 +211,9 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	   goals = newgoals;
    }
    
-   public void addGoal(ArrayList<Abstract_Term> le) {
-	   for (Abstract_Term t: le) {
-		   addGoal((Abstract_Predicate) t);
+   public void addGoal(ArrayList<ArrayList<Abstract_Term>> le) {
+	   for (ArrayList<Abstract_Term> t: le) {
+		   addGoal(new Abstract_ConjGoal(t));
 	   }
    }
 
@@ -231,7 +232,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		mtype = GOALModule.ModuleType.INIT;
     	}
     	GOALModule m = new GOALModule(mtype);
-    	for (Abstract_Predicate g: goals) {
+    	for (Abstract_ConjGoal g: goals) {
     		m.addGoal(g.toMCAPL());
     	}
     	for (Abstract_Rule r: knowledge_rules) {
@@ -287,7 +288,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	env.setIntField(objref, "optionorder", optionorder);
     	env.setIntField(objref, "exitcondition", exitcondition);
      	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
-     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
+     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_ConjGoal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionRule", actionrules.length);
       	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionSpec", actionspecs.length);

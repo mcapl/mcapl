@@ -149,8 +149,8 @@ public class GOALModule {
 		}
 	}
 	
-	public void addGoal(Predicate p) {
-		gb.add(new Goal(p, Goal.achieveGoal));
+	public void addGoal(ConjGoal p) {
+		gb.add(p);
 	};
 	
 	public void addRule(Rule r) {

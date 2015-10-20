@@ -230,17 +230,19 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
      * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
      */
     public boolean unifies(Unifiable g, Unifier u) {
-		Goal g1 = (Goal) g;
-   		
-		if (g1.getGoalType() == getGoalType()) {
-			if (getGoalBase().unifies(g1.getGoalBase(), u)) {
-				if (Character.isUpperCase(getFunctor().charAt(0))) {
-		    		VarTerm v = new VarTerm(getFunctor());
-		    		Literal l = new Literal(g1.getFunctor());
-		    		l.setTerms(g1.getTerms());
-		    		return v.unifies(l, u);
-				} else {
-					return super.unifies(g1, u);
+    	if (g instanceof Goal) {
+			Goal g1 = (Goal) g;
+	   		
+			if (g1.getGoalType() == getGoalType()) {
+				if (getGoalBase().unifies(g1.getGoalBase(), u)) {
+					if (Character.isUpperCase(getFunctor().charAt(0))) {
+			    		VarTerm v = new VarTerm(getFunctor());
+			    		Literal l = new Literal(g1.getFunctor());
+			    		l.setTerms(g1.getTerms());
+			    		return v.unifies(l, u);
+					} else {
+						return super.unifies(g1, u);
+					}
 				}
 			}
 			return false;
@@ -437,10 +439,20 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		VarTerm ebv = (VarTerm) ebname;
     		if (ebv.hasValue()) {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
+    	     	// Temporary fix for need to evaluate against Belief Base as well.
+    			if (ag.getBB(getEB())!= null) {
+	    			EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
+	    			eb = new MergeEvaluationBase<PredicateTerm>(bb, eb);
+    			}
     		} else {
     			for (String ebnames: ag.getGBList()) {
     				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(new StringTermImpl(ebnames)), ebnames);
-    				if (eb instanceof TrivialEvaluationBase) {
+        	     	// Temporary fix for need to evaluate against Belief Base as well.
+    				if (ag.getBB(new StringTermImpl(ebnames)) != null) {
+	        			EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(new StringTermImpl(ebnames)), ebnames);
+	        			new_eb = new MergeEvaluationBase<PredicateTerm>(bb, new_eb);
+        			}
+   				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
     					eb = new MergeEvaluationBase<PredicateTerm>(new_eb, eb);
@@ -449,6 +461,11 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		}
     	} else {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
+	     	// Temporary fix for need to evaluate against Belief Base as well.
+    		if (ag.getBB(getEB())!=null) {
+				EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ebname.getString());
+				eb = new MergeEvaluationBase<PredicateTerm>(bb, eb);
+    		}
     	}
     	
     	return logicalConsequence(eb, ag.getRuleBase(), un, varnames, so);

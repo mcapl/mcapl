@@ -303,10 +303,11 @@ no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts]
 	;
 
 
-goal_list returns [ArrayList<Abstract_Term>ts] 
-	: t=term  {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
-	(COMMA t1=term {tl.add(t1);})*  STOP
-	 { $ts = tl;}
+goal_list returns [ArrayList<ArrayList<Abstract_Term>>ts] 
+	: {ArrayList<ArrayList<Abstract_Term>> tll = new ArrayList<ArrayList<Abstract_Term>>();}
+	(t=term  {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
+	(COMMA t1=term {tl.add(t1);})*  STOP {tll.add(tl);})+
+	 { $ts = tll;}
 	;
 
 

@@ -121,8 +121,8 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    	knowledge_rules = newrules;
   }
    
-   public void addGoal(Abstract_Predicate p) {
-	   super.addGoal(new Abstract_Goal(p, Abstract_Goal.achieveGoal));
+   public void addGoal(Abstract_ConjGoal p) {
+	   super.addGoal(p);
    }
    
    public void addGoal(Abstract_LogExpr le) {

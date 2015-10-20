@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2015-10-19 16:31:03
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2015-10-20 15:14:04
 
 package goal.parser;
 
@@ -118,15 +118,15 @@ public class GOALLexer extends Lexer {
 	public GOALLexer(CharStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
-	@Override public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g"; }
+	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g"; }
 
 	// $ANTLR start "T__64"
 	public final void mT__64() throws RecognitionException {
 		try {
 			int _type = T__64;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:9:7: ( '#import' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:9:9: '#import'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:9:7: ( '#import' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:9:9: '#import'
 			{
 			match("#import"); 
 
@@ -146,8 +146,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__65;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:10:7: ( '->' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:10:9: '->'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:10:7: ( '->' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:10:9: '->'
 			{
 			match("->"); 
 
@@ -167,8 +167,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__66;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:11:7: ( '<-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:11:9: '<-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:11:7: ( '<-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:11:9: '<-'
 			{
 			match("<-"); 
 
@@ -188,8 +188,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__67;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:12:7: ( 'adopt' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:12:9: 'adopt'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:12:7: ( 'adopt' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:12:9: 'adopt'
 			{
 			match("adopt"); 
 
@@ -209,8 +209,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__68;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:13:7: ( 'all' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:13:9: 'all'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:13:7: ( 'all' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:13:9: 'all'
 			{
 			match("all"); 
 
@@ -230,8 +230,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__69;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:14:7: ( 'allother' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:14:9: 'allother'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:14:7: ( 'allother' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:14:9: 'allother'
 			{
 			match("allother"); 
 
@@ -251,8 +251,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__70;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:15:7: ( 'always' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:15:9: 'always'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:15:7: ( 'always' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:15:9: 'always'
 			{
 			match("always"); 
 
@@ -272,8 +272,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__71;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:16:7: ( 'delete' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:16:9: 'delete'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:16:7: ( 'delete' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:16:9: 'delete'
 			{
 			match("delete"); 
 
@@ -293,8 +293,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__72;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:17:7: ( 'drop' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:17:9: 'drop'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:17:7: ( 'drop' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:17:9: 'drop'
 			{
 			match("drop"); 
 
@@ -314,8 +314,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__73;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:18:7: ( 'exit' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:18:9: 'exit'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:18:7: ( 'exit' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:18:9: 'exit'
 			{
 			match("exit"); 
 
@@ -335,8 +335,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__74;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:19:7: ( 'exit-module' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:19:9: 'exit-module'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:19:7: ( 'exit-module' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:19:9: 'exit-module'
 			{
 			match("exit-module"); 
 
@@ -356,8 +356,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__75;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:20:7: ( 'filter' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:20:9: 'filter'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:20:7: ( 'filter' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:20:9: 'filter'
 			{
 			match("filter"); 
 
@@ -377,8 +377,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__76;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:21:7: ( 'focus' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:21:9: 'focus'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:21:7: ( 'focus' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:21:9: 'focus'
 			{
 			match("focus"); 
 
@@ -398,8 +398,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__77;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:22:7: ( 'forall' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:22:9: 'forall'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:22:7: ( 'forall' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:22:9: 'forall'
 			{
 			match("forall"); 
 
@@ -419,8 +419,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__78;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:23:7: ( 'insert' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:23:9: 'insert'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:23:7: ( 'insert' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:23:9: 'insert'
 			{
 			match("insert"); 
 
@@ -440,8 +440,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__79;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:24:7: ( 'listall' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:24:9: 'listall'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:24:7: ( 'listall' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:24:9: 'listall'
 			{
 			match("listall"); 
 
@@ -461,8 +461,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__80;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:25:7: ( 'log' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:25:9: 'log'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:25:7: ( 'log' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:25:9: 'log'
 			{
 			match("log"); 
 
@@ -482,8 +482,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__81;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:26:7: ( 'never' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:26:9: 'never'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:26:7: ( 'never' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:26:9: 'never'
 			{
 			match("never"); 
 
@@ -503,8 +503,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__82;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:27:7: ( 'new' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:27:9: 'new'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:27:7: ( 'new' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:27:9: 'new'
 			{
 			match("new"); 
 
@@ -524,8 +524,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__83;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:28:7: ( 'noaction' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:28:9: 'noaction'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:28:7: ( 'noaction' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:28:9: 'noaction'
 			{
 			match("noaction"); 
 
@@ -545,8 +545,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__84;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:29:7: ( 'nogoals' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:29:9: 'nogoals'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:29:7: ( 'nogoals' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:29:9: 'nogoals'
 			{
 			match("nogoals"); 
 
@@ -566,8 +566,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__85;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:30:7: ( 'none' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:30:9: 'none'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:30:7: ( 'none' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:30:9: 'none'
 			{
 			match("none"); 
 
@@ -587,8 +587,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__86;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:31:7: ( 'print' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:31:9: 'print'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:31:7: ( 'print' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:31:9: 'print'
 			{
 			match("print"); 
 
@@ -608,8 +608,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__87;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:32:7: ( 'select' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:32:9: 'select'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:32:7: ( 'select' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:32:9: 'select'
 			{
 			match("select"); 
 
@@ -629,8 +629,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__88;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:33:7: ( 'self' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:33:9: 'self'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:33:7: ( 'self' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:33:9: 'self'
 			{
 			match("self"); 
 
@@ -650,8 +650,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__89;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:34:7: ( 'send' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:34:9: 'send'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:34:7: ( 'send' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:34:9: 'send'
 			{
 			match("send"); 
 
@@ -671,8 +671,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__90;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:35:7: ( 'sendonce' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:35:9: 'sendonce'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:35:7: ( 'sendonce' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:35:9: 'sendonce'
 			{
 			match("sendonce"); 
 
@@ -692,8 +692,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__91;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:36:7: ( 'some' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:36:9: 'some'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:36:7: ( 'some' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:36:9: 'some'
 			{
 			match("some"); 
 
@@ -713,8 +713,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__92;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:37:7: ( 'someother' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:37:9: 'someother'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:37:7: ( 'someother' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:37:9: 'someother'
 			{
 			match("someother"); 
 
@@ -734,8 +734,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = T__93;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:38:7: ( 'this' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:38:9: 'this'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:38:7: ( 'this' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:38:9: 'this'
 			{
 			match("this"); 
 
@@ -755,8 +755,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = MAIN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:314:6: ( 'main' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:314:8: 'main'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:315:6: ( 'main' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:315:8: 'main'
 			{
 			match("main"); 
 
@@ -776,8 +776,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = MODULEFILE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:315:12: ( '.mod2g' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:315:15: '.mod2g'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:316:12: ( '.mod2g' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:316:15: '.mod2g'
 			{
 			match(".mod2g"); 
 
@@ -797,8 +797,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = KNOWLEDGE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:316:11: ( 'knowledge' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:316:13: 'knowledge'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:11: ( 'knowledge' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:13: 'knowledge'
 			{
 			match("knowledge"); 
 
@@ -818,8 +818,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = BELIEFS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:9: ( 'beliefs' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:11: 'beliefs'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:9: ( 'beliefs' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:11: 'beliefs'
 			{
 			match("beliefs"); 
 
@@ -839,8 +839,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = GOALS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:8: ( 'goals' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:10: 'goals'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:8: ( 'goals' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:10: 'goals'
 			{
 			match("goals"); 
 
@@ -860,8 +860,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = EVENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:8: ( 'event' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:10: 'event'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:8: ( 'event' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:10: 'event'
 			{
 			match("event"); 
 
@@ -881,8 +881,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = INIT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:7: ( 'init' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:9: 'init'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:321:7: ( 'init' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:321:9: 'init'
 			{
 			match("init"); 
 
@@ -902,8 +902,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = ACTIONSPEC;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:322:2: ( 'actionspec' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:322:4: 'actionspec'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:323:2: ( 'actionspec' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:323:4: 'actionspec'
 			{
 			match("actionspec"); 
 
@@ -923,8 +923,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = MODULE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:323:9: ( 'module' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:323:11: 'module'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:324:9: ( 'module' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:324:11: 'module'
 			{
 			match("module"); 
 
@@ -944,8 +944,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = PROGRAM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:324:9: ( 'program' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:324:11: 'program'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:325:9: ( 'program' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:325:11: 'program'
 			{
 			match("program"); 
 
@@ -965,8 +965,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = PROLOGARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:326:2: ( ':-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:326:4: ':-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:327:2: ( ':-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:327:4: ':-'
 			{
 			match(":-"); 
 
@@ -986,8 +986,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:327:6: ( 'not' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:327:8: 'not'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:328:6: ( 'not' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:328:8: 'not'
 			{
 			match("not"); 
 
@@ -1007,8 +1007,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = ORDER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:328:8: ( 'order' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:328:9: 'order'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:329:8: ( 'order' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:329:9: 'order'
 			{
 			match("order"); 
 
@@ -1028,8 +1028,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = EQUALS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:329:9: ( '=' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:329:11: '='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:330:9: ( '=' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:330:11: '='
 			{
 			match('='); 
 			}
@@ -1048,8 +1048,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = LINEAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:330:9: ( 'linear' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:330:11: 'linear'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:331:9: ( 'linear' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:331:11: 'linear'
 			{
 			match("linear"); 
 
@@ -1069,8 +1069,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = LINEARALL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:332:2: ( 'linearall' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:332:4: 'linearall'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:333:2: ( 'linearall' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:333:4: 'linearall'
 			{
 			match("linearall"); 
 
@@ -1090,8 +1090,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = RANDOM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:333:10: ( 'random' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:333:12: 'random'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:334:10: ( 'random' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:334:12: 'random'
 			{
 			match("random"); 
 
@@ -1111,8 +1111,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = RANDOMALL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:335:2: ( 'randomall' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:335:4: 'randomall'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:336:2: ( 'randomall' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:336:4: 'randomall'
 			{
 			match("randomall"); 
 
@@ -1132,8 +1132,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = ADAPTIVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:336:10: ( 'adaptive' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:336:12: 'adaptive'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:337:10: ( 'adaptive' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:337:12: 'adaptive'
 			{
 			match("adaptive"); 
 
@@ -1153,8 +1153,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = DEFINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:337:9: ( 'define' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:337:11: 'define'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:338:9: ( 'define' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:338:11: 'define'
 			{
 			match("define"); 
 
@@ -1174,8 +1174,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = IF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:338:5: ( 'if' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:338:7: 'if'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:339:5: ( 'if' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:339:7: 'if'
 			{
 			match("if"); 
 
@@ -1195,8 +1195,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = DO;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:339:5: ( 'do' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:339:7: 'do'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:340:5: ( 'do' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:340:7: 'do'
 			{
 			match("do"); 
 
@@ -1216,8 +1216,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = THEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:340:7: ( 'then' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:340:9: 'then'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:341:7: ( 'then' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:341:9: 'then'
 			{
 			match("then"); 
 
@@ -1237,8 +1237,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = TRUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:341:7: ( 'true' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:341:9: 'true'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:342:7: ( 'true' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:342:9: 'true'
 			{
 			match("true"); 
 
@@ -1258,8 +1258,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = BEL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:342:6: ( 'bel' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:342:8: 'bel'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:343:6: ( 'bel' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:343:8: 'bel'
 			{
 			match("bel"); 
 
@@ -1279,8 +1279,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = GOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:343:7: ( 'goal' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:343:9: 'goal'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:344:7: ( 'goal' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:344:9: 'goal'
 			{
 			match("goal"); 
 
@@ -1300,8 +1300,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = AGOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:344:8: ( 'a-goal' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:344:10: 'a-goal'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:345:8: ( 'a-goal' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:345:10: 'a-goal'
 			{
 			match("a-goal"); 
 
@@ -1321,8 +1321,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = GOALA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:345:8: ( 'goal-a' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:345:10: 'goal-a'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:346:8: ( 'goal-a' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:346:10: 'goal-a'
 			{
 			match("goal-a"); 
 
@@ -1342,8 +1342,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = PRE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:346:6: ( 'pre' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:346:8: 'pre'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:347:6: ( 'pre' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:347:8: 'pre'
 			{
 			match("pre"); 
 
@@ -1363,8 +1363,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = POST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:347:7: ( 'post' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:347:9: 'post'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:348:7: ( 'post' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:348:9: 'post'
 			{
 			match("post"); 
 
@@ -1384,8 +1384,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:348:7: ( '+' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:348:9: '+'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:349:7: ( '+' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:349:9: '+'
 			{
 			match('+'); 
 			}
@@ -1404,8 +1404,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = INTERNAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:349:11: ( '@int' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:349:13: '@int'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:350:11: ( '@int' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:350:13: '@int'
 			{
 			match("@int"); 
 
@@ -1425,8 +1425,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = EXTERNAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:350:11: ( '@ext' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:350:13: '@ext'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:351:11: ( '@ext' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:351:13: '@ext'
 			{
 			match("@ext"); 
 
@@ -1446,8 +1446,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:419:8: ( ':' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:419:10: ':'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:8: ( ':' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:10: ':'
 			{
 			match(':'); 
 			}
@@ -1466,8 +1466,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = CURLYOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:11: ( '{' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:13: '{'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:421:11: ( '{' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:421:13: '{'
 			{
 			match('{'); 
 			}
@@ -1486,8 +1486,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = CURLYCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:422:2: ( '}' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:422:3: '}'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:2: ( '}' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:3: '}'
 			{
 			match('}'); 
 			}
@@ -1506,8 +1506,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = STOP;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:7: ( '.' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:9: '.'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:7: ( '.' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:9: '.'
 			{
 			match('.'); 
 			}
@@ -1526,8 +1526,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:8: ( ',' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:10: ','
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:425:8: ( ',' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:425:10: ','
 			{
 			match(','); 
 			}
@@ -1546,8 +1546,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:425:6: ( ';' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:425:7: ';'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:6: ( ';' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:7: ';'
 			{
 			match(';'); 
 			}
@@ -1566,8 +1566,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = OPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:7: ( '(' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:9: '('
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:7: ( '(' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:9: '('
 			{
 			match('('); 
 			}
@@ -1586,8 +1586,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = CLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:8: ( ')' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:10: ')'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:428:8: ( ')' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:428:10: ')'
 			{
 			match(')'); 
 			}
@@ -1606,8 +1606,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = SQOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:428:9: ( '[' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:428:11: '['
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:9: ( '[' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:11: '['
 			{
 			match('['); 
 			}
@@ -1626,8 +1626,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = SQCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:10: ( ']' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:12: ']'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:10: ( ']' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:12: ']'
 			{
 			match(']'); 
 			}
@@ -1646,8 +1646,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = HASH;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:6: ( '#' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:8: '#'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:431:6: ( '#' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:431:8: '#'
 			{
 			match('#'); 
 			}
@@ -1666,8 +1666,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = SINGLEQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:432:2: ( '\\'' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:432:4: '\\''
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:433:2: ( '\\'' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:433:4: '\\''
 			{
 			match('\''); 
 			}
@@ -1686,8 +1686,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = BAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:433:6: ( '|' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:433:8: '|'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:434:6: ( '|' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:434:8: '|'
 			{
 			match('|'); 
 			}
@@ -1706,8 +1706,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = IS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:435:4: ( 'is' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:435:7: 'is'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:436:4: ( 'is' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:436:7: 'is'
 			{
 			match("is"); 
 
@@ -1727,11 +1727,11 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = CONST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:436:7: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:436:9: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:7: ( 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:9: 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			matchRange('a','z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:436:18: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:18: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop1:
 			while (true) {
 				int alt1=2;
@@ -1742,7 +1742,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt1) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1776,11 +1776,11 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = VAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:5: ( 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:7: 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:438:5: ( 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:438:7: 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			matchRange('A','Z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:437:16: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:438:16: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -1791,7 +1791,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt2) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1825,8 +1825,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = UNNAMEDVAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:439:2: ( '_' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:439:4: '_'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:440:2: ( '_' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:440:4: '_'
 			{
 			match('_'); 
 			}
@@ -1845,11 +1845,11 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:440:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+ '\"' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:440:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+ '\"'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:8: ( '\"' ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+ '\"' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:10: '\"' ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+ '\"'
 			{
 			match('\"'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:440:13: ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:13: ( 'a' .. 'z' | 'A' .. 'Z' | ',' | ' ' | '!' )+
 			int cnt3=0;
 			loop3:
 			while (true) {
@@ -1861,7 +1861,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt3) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( (input.LA(1) >= ' ' && input.LA(1) <= '!')||input.LA(1)==','||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1899,11 +1899,11 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:8: ( '0' .. '9' ( '0' .. '9' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:10: '0' .. '9' ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:442:8: ( '0' .. '9' ( '0' .. '9' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:442:10: '0' .. '9' ( '0' .. '9' )*
 			{
 			matchRange('0','9'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:441:19: ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:442:19: ( '0' .. '9' )*
 			loop4:
 			while (true) {
 				int alt4=2;
@@ -1914,7 +1914,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt4) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 						input.consume();
@@ -1948,8 +1948,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:443:7: ( '-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:443:9: '-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:444:7: ( '-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:444:9: '-'
 			{
 			match('-'); 
 			}
@@ -1968,8 +1968,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = MULT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:444:6: ( '*' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:444:8: '*'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:445:6: ( '*' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:445:8: '*'
 			{
 			match('*'); 
 			}
@@ -1988,8 +1988,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = DIV;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:445:5: ( '/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:445:7: '/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:446:5: ( '/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:446:7: '/'
 			{
 			match('/'); 
 			}
@@ -2008,8 +2008,8 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = LESS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:446:6: ( '<' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:446:8: '<'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:447:6: ( '<' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:447:8: '<'
 			{
 			match('<'); 
 			}
@@ -2028,12 +2028,12 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:449:3: ( '/*' ( . )* '*/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:449:3: '/*' ( . )* '*/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:450:3: ( '/*' ( . )* '*/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:450:3: '/*' ( . )* '*/'
 			{
 			match("/*"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:449:8: ( . )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:450:8: ( . )*
 			loop5:
 			while (true) {
 				int alt5=2;
@@ -2054,7 +2054,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt5) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:449:8: .
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:450:8: .
 					{
 					matchAny(); 
 					}
@@ -2084,10 +2084,10 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:3: ( ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:3: ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:3: ( ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:3: ( '//' | '%' ) (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:3: ( '//' | '%' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:3: ( '//' | '%' )
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0=='/') ) {
@@ -2105,14 +2105,14 @@ public class GOALLexer extends Lexer {
 
 			switch (alt6) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:4: '//'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:4: '//'
 					{
 					match("//"); 
 
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:9: '%'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:9: '%'
 					{
 					match('%'); 
 					}
@@ -2120,7 +2120,7 @@ public class GOALLexer extends Lexer {
 
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:14: (~ ( '\\n' | '\\r' ) )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:14: (~ ( '\\n' | '\\r' ) )*
 			loop7:
 			while (true) {
 				int alt7=2;
@@ -2131,7 +2131,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt7) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -2149,7 +2149,7 @@ public class GOALLexer extends Lexer {
 				}
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:28: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:28: ( '\\r' )?
 			int alt8=2;
 			int LA8_0 = input.LA(1);
 			if ( (LA8_0=='\r') ) {
@@ -2157,7 +2157,7 @@ public class GOALLexer extends Lexer {
 			}
 			switch (alt8) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:452:28: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:453:28: '\\r'
 					{
 					match('\r'); 
 					}
@@ -2183,10 +2183,10 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:454:8: ( ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:454:9: ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:8: ( ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:9: ( '\\r' )? '\\n'
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:454:9: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:9: ( '\\r' )?
 			int alt9=2;
 			int LA9_0 = input.LA(1);
 			if ( (LA9_0=='\r') ) {
@@ -2194,7 +2194,7 @@ public class GOALLexer extends Lexer {
 			}
 			switch (alt9) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:454:9: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:9: '\\r'
 					{
 					match('\r'); 
 					}
@@ -2220,10 +2220,10 @@ public class GOALLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:4: ( ( ' ' | '\\t' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:6: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:456:4: ( ( ' ' | '\\t' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:456:6: ( ' ' | '\\t' )+
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:455:6: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:456:6: ( ' ' | '\\t' )+
 			int cnt10=0;
 			loop10:
 			while (true) {
@@ -2235,7 +2235,7 @@ public class GOALLexer extends Lexer {
 
 				switch (alt10) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:
 					{
 					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
 						input.consume();
@@ -2270,635 +2270,635 @@ public class GOALLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:8: ( T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | MAIN | MODULEFILE | KNOWLEDGE | BELIEFS | GOALS | EVENT | INIT | ACTIONSPEC | MODULE | PROGRAM | PROLOGARROW | NOT | ORDER | EQUALS | LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE | DEFINE | IF | DO | THEN | TRUE | BEL | GOAL | AGOAL | GOALA | PRE | POST | PLUS | INTERNAL | EXTERNAL | COLON | CURLYOPEN | CURLYCLOSE | STOP | COMMA | SEMI | OPEN | CLOSE | SQOPEN | SQCLOSE | HASH | SINGLEQUOTE | BAR | IS | CONST | VAR | UNNAMEDVAR | STRING | NUMBER | MINUS | MULT | DIV | LESS | COMMENT | LINE_COMMENT | NEWLINE | WS )
+		// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:8: ( T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | MAIN | MODULEFILE | KNOWLEDGE | BELIEFS | GOALS | EVENT | INIT | ACTIONSPEC | MODULE | PROGRAM | PROLOGARROW | NOT | ORDER | EQUALS | LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE | DEFINE | IF | DO | THEN | TRUE | BEL | GOAL | AGOAL | GOALA | PRE | POST | PLUS | INTERNAL | EXTERNAL | COLON | CURLYOPEN | CURLYCLOSE | STOP | COMMA | SEMI | OPEN | CLOSE | SQOPEN | SQCLOSE | HASH | SINGLEQUOTE | BAR | IS | CONST | VAR | UNNAMEDVAR | STRING | NUMBER | MINUS | MULT | DIV | LESS | COMMENT | LINE_COMMENT | NEWLINE | WS )
 		int alt11=90;
 		alt11 = dfa11.predict(input);
 		switch (alt11) {
 			case 1 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:10: T__64
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:10: T__64
 				{
 				mT__64(); 
 
 				}
 				break;
 			case 2 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:16: T__65
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:16: T__65
 				{
 				mT__65(); 
 
 				}
 				break;
 			case 3 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:22: T__66
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:22: T__66
 				{
 				mT__66(); 
 
 				}
 				break;
 			case 4 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:28: T__67
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:28: T__67
 				{
 				mT__67(); 
 
 				}
 				break;
 			case 5 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:34: T__68
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:34: T__68
 				{
 				mT__68(); 
 
 				}
 				break;
 			case 6 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:40: T__69
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:40: T__69
 				{
 				mT__69(); 
 
 				}
 				break;
 			case 7 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:46: T__70
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:46: T__70
 				{
 				mT__70(); 
 
 				}
 				break;
 			case 8 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:52: T__71
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:52: T__71
 				{
 				mT__71(); 
 
 				}
 				break;
 			case 9 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:58: T__72
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:58: T__72
 				{
 				mT__72(); 
 
 				}
 				break;
 			case 10 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:64: T__73
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:64: T__73
 				{
 				mT__73(); 
 
 				}
 				break;
 			case 11 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:70: T__74
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:70: T__74
 				{
 				mT__74(); 
 
 				}
 				break;
 			case 12 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:76: T__75
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:76: T__75
 				{
 				mT__75(); 
 
 				}
 				break;
 			case 13 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:82: T__76
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:82: T__76
 				{
 				mT__76(); 
 
 				}
 				break;
 			case 14 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:88: T__77
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:88: T__77
 				{
 				mT__77(); 
 
 				}
 				break;
 			case 15 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:94: T__78
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:94: T__78
 				{
 				mT__78(); 
 
 				}
 				break;
 			case 16 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:100: T__79
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:100: T__79
 				{
 				mT__79(); 
 
 				}
 				break;
 			case 17 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:106: T__80
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:106: T__80
 				{
 				mT__80(); 
 
 				}
 				break;
 			case 18 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:112: T__81
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:112: T__81
 				{
 				mT__81(); 
 
 				}
 				break;
 			case 19 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:118: T__82
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:118: T__82
 				{
 				mT__82(); 
 
 				}
 				break;
 			case 20 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:124: T__83
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:124: T__83
 				{
 				mT__83(); 
 
 				}
 				break;
 			case 21 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:130: T__84
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:130: T__84
 				{
 				mT__84(); 
 
 				}
 				break;
 			case 22 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:136: T__85
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:136: T__85
 				{
 				mT__85(); 
 
 				}
 				break;
 			case 23 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:142: T__86
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:142: T__86
 				{
 				mT__86(); 
 
 				}
 				break;
 			case 24 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:148: T__87
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:148: T__87
 				{
 				mT__87(); 
 
 				}
 				break;
 			case 25 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:154: T__88
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:154: T__88
 				{
 				mT__88(); 
 
 				}
 				break;
 			case 26 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:160: T__89
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:160: T__89
 				{
 				mT__89(); 
 
 				}
 				break;
 			case 27 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:166: T__90
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:166: T__90
 				{
 				mT__90(); 
 
 				}
 				break;
 			case 28 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:172: T__91
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:172: T__91
 				{
 				mT__91(); 
 
 				}
 				break;
 			case 29 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:178: T__92
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:178: T__92
 				{
 				mT__92(); 
 
 				}
 				break;
 			case 30 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:184: T__93
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:184: T__93
 				{
 				mT__93(); 
 
 				}
 				break;
 			case 31 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:190: MAIN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:190: MAIN
 				{
 				mMAIN(); 
 
 				}
 				break;
 			case 32 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:195: MODULEFILE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:195: MODULEFILE
 				{
 				mMODULEFILE(); 
 
 				}
 				break;
 			case 33 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:206: KNOWLEDGE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:206: KNOWLEDGE
 				{
 				mKNOWLEDGE(); 
 
 				}
 				break;
 			case 34 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:216: BELIEFS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:216: BELIEFS
 				{
 				mBELIEFS(); 
 
 				}
 				break;
 			case 35 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:224: GOALS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:224: GOALS
 				{
 				mGOALS(); 
 
 				}
 				break;
 			case 36 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:230: EVENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:230: EVENT
 				{
 				mEVENT(); 
 
 				}
 				break;
 			case 37 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:236: INIT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:236: INIT
 				{
 				mINIT(); 
 
 				}
 				break;
 			case 38 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:241: ACTIONSPEC
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:241: ACTIONSPEC
 				{
 				mACTIONSPEC(); 
 
 				}
 				break;
 			case 39 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:252: MODULE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:252: MODULE
 				{
 				mMODULE(); 
 
 				}
 				break;
 			case 40 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:259: PROGRAM
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:259: PROGRAM
 				{
 				mPROGRAM(); 
 
 				}
 				break;
 			case 41 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:267: PROLOGARROW
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:267: PROLOGARROW
 				{
 				mPROLOGARROW(); 
 
 				}
 				break;
 			case 42 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:279: NOT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:279: NOT
 				{
 				mNOT(); 
 
 				}
 				break;
 			case 43 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:283: ORDER
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:283: ORDER
 				{
 				mORDER(); 
 
 				}
 				break;
 			case 44 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:289: EQUALS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:289: EQUALS
 				{
 				mEQUALS(); 
 
 				}
 				break;
 			case 45 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:296: LINEAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:296: LINEAR
 				{
 				mLINEAR(); 
 
 				}
 				break;
 			case 46 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:303: LINEARALL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:303: LINEARALL
 				{
 				mLINEARALL(); 
 
 				}
 				break;
 			case 47 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:313: RANDOM
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:313: RANDOM
 				{
 				mRANDOM(); 
 
 				}
 				break;
 			case 48 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:320: RANDOMALL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:320: RANDOMALL
 				{
 				mRANDOMALL(); 
 
 				}
 				break;
 			case 49 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:330: ADAPTIVE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:330: ADAPTIVE
 				{
 				mADAPTIVE(); 
 
 				}
 				break;
 			case 50 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:339: DEFINE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:339: DEFINE
 				{
 				mDEFINE(); 
 
 				}
 				break;
 			case 51 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:346: IF
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:346: IF
 				{
 				mIF(); 
 
 				}
 				break;
 			case 52 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:349: DO
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:349: DO
 				{
 				mDO(); 
 
 				}
 				break;
 			case 53 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:352: THEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:352: THEN
 				{
 				mTHEN(); 
 
 				}
 				break;
 			case 54 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:357: TRUE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:357: TRUE
 				{
 				mTRUE(); 
 
 				}
 				break;
 			case 55 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:362: BEL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:362: BEL
 				{
 				mBEL(); 
 
 				}
 				break;
 			case 56 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:366: GOAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:366: GOAL
 				{
 				mGOAL(); 
 
 				}
 				break;
 			case 57 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:371: AGOAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:371: AGOAL
 				{
 				mAGOAL(); 
 
 				}
 				break;
 			case 58 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:377: GOALA
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:377: GOALA
 				{
 				mGOALA(); 
 
 				}
 				break;
 			case 59 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:383: PRE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:383: PRE
 				{
 				mPRE(); 
 
 				}
 				break;
 			case 60 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:387: POST
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:387: POST
 				{
 				mPOST(); 
 
 				}
 				break;
 			case 61 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:392: PLUS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:392: PLUS
 				{
 				mPLUS(); 
 
 				}
 				break;
 			case 62 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:397: INTERNAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:397: INTERNAL
 				{
 				mINTERNAL(); 
 
 				}
 				break;
 			case 63 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:406: EXTERNAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:406: EXTERNAL
 				{
 				mEXTERNAL(); 
 
 				}
 				break;
 			case 64 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:415: COLON
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:415: COLON
 				{
 				mCOLON(); 
 
 				}
 				break;
 			case 65 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:421: CURLYOPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:421: CURLYOPEN
 				{
 				mCURLYOPEN(); 
 
 				}
 				break;
 			case 66 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:431: CURLYCLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:431: CURLYCLOSE
 				{
 				mCURLYCLOSE(); 
 
 				}
 				break;
 			case 67 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:442: STOP
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:442: STOP
 				{
 				mSTOP(); 
 
 				}
 				break;
 			case 68 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:447: COMMA
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:447: COMMA
 				{
 				mCOMMA(); 
 
 				}
 				break;
 			case 69 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:453: SEMI
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:453: SEMI
 				{
 				mSEMI(); 
 
 				}
 				break;
 			case 70 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:458: OPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:458: OPEN
 				{
 				mOPEN(); 
 
 				}
 				break;
 			case 71 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:463: CLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:463: CLOSE
 				{
 				mCLOSE(); 
 
 				}
 				break;
 			case 72 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:469: SQOPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:469: SQOPEN
 				{
 				mSQOPEN(); 
 
 				}
 				break;
 			case 73 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:476: SQCLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:476: SQCLOSE
 				{
 				mSQCLOSE(); 
 
 				}
 				break;
 			case 74 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:484: HASH
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:484: HASH
 				{
 				mHASH(); 
 
 				}
 				break;
 			case 75 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:489: SINGLEQUOTE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:489: SINGLEQUOTE
 				{
 				mSINGLEQUOTE(); 
 
 				}
 				break;
 			case 76 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:501: BAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:501: BAR
 				{
 				mBAR(); 
 
 				}
 				break;
 			case 77 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:505: IS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:505: IS
 				{
 				mIS(); 
 
 				}
 				break;
 			case 78 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:508: CONST
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:508: CONST
 				{
 				mCONST(); 
 
 				}
 				break;
 			case 79 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:514: VAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:514: VAR
 				{
 				mVAR(); 
 
 				}
 				break;
 			case 80 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:518: UNNAMEDVAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:518: UNNAMEDVAR
 				{
 				mUNNAMEDVAR(); 
 
 				}
 				break;
 			case 81 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:529: STRING
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:529: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
 			case 82 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:536: NUMBER
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:536: NUMBER
 				{
 				mNUMBER(); 
 
 				}
 				break;
 			case 83 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:543: MINUS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:543: MINUS
 				{
 				mMINUS(); 
 
 				}
 				break;
 			case 84 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:549: MULT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:549: MULT
 				{
 				mMULT(); 
 
 				}
 				break;
 			case 85 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:554: DIV
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:554: DIV
 				{
 				mDIV(); 
 
 				}
 				break;
 			case 86 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:558: LESS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:558: LESS
 				{
 				mLESS(); 
 
 				}
 				break;
 			case 87 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:563: COMMENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:563: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
 			case 88 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:571: LINE_COMMENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:571: LINE_COMMENT
 				{
 				mLINE_COMMENT(); 
 
 				}
 				break;
 			case 89 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:584: NEWLINE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:584: NEWLINE
 				{
 				mNEWLINE(); 
 
 				}
 				break;
 			case 90 :
-				// /Users/lad/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:592: WS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:1:592: WS
 				{
 				mWS(); 
 
