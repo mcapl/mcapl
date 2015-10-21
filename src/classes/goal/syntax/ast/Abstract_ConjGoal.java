@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import goal.syntax.ConjGoal;
 import gov.nasa.jpf.vm.MJIEnv;
+import ail.syntax.Goal;
+import ail.syntax.StringTerm;
 import ail.syntax.ast.Abstract_BaseAILStructure;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Predicate;
@@ -31,6 +33,12 @@ public class Abstract_ConjGoal extends Abstract_Goal {
 	}
 
 	public ConjGoal toMCAPL() {
+		ConjGoal g = new ConjGoal();
+		for (Abstract_Predicate gl: goals) {
+			g.addConj(gl.toMCAPL());
+		}
+		g.setGoalBase((StringTerm) getGoalBase().toMCAPL());
+		return g;
 		
 	}
 	
@@ -41,6 +49,11 @@ public class Abstract_ConjGoal extends Abstract_Goal {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "goals", gRef);
+		env.setReferenceField(objref, "functor", env.newString(getFunctor()));
+		env.setReferenceField(objref, "terms", newJPFTermArray(env));
+		env.setIntField(objref, "goaltype", getGoalType());
+		env.setReferenceField(objref, "goalbase", goalbase.newJPFObject(env));
+		env.setBooleanField(objref, "isVariable", isVariable());
       	return objref;
    }
 

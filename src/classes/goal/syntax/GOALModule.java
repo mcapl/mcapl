@@ -40,7 +40,7 @@ import java.util.List;
 
 public class GOALModule {
 	
-	GoalBase gb = new GoalBase();
+	ConjGoalBase gb = new ConjGoalBase();
 	RuleBase rb = new RuleBase();
 	PlanLibrary pl = new PlanLibrary();
 	BeliefBase bb = new BeliefBase();
@@ -193,7 +193,7 @@ public class GOALModule {
 		return bb;
 	}
 	
-	public GoalBase getGB() {
+	public ConjGoalBase getGB() {
 		return gb;
 	}
 	

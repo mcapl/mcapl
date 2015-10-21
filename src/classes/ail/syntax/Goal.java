@@ -440,18 +440,18 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		if (ebv.hasValue()) {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     	     	// Temporary fix for need to evaluate against Belief Base as well.
-    			if (ag.getBB(getEB())!= null) {
+    			/*if (ag.getBB(getEB())!= null) {
 	    			EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
 	    			eb = new MergeEvaluationBase<PredicateTerm>(bb, eb);
-    			}
+    			} */
     		} else {
     			for (String ebnames: ag.getGBList()) {
     				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(new StringTermImpl(ebnames)), ebnames);
         	     	// Temporary fix for need to evaluate against Belief Base as well.
-    				if (ag.getBB(new StringTermImpl(ebnames)) != null) {
+    				/* if (ag.getBB(new StringTermImpl(ebnames)) != null) {
 	        			EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(new StringTermImpl(ebnames)), ebnames);
 	        			new_eb = new MergeEvaluationBase<PredicateTerm>(bb, new_eb);
-        			}
+        			} */
    				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
@@ -462,10 +462,10 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     	} else {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
 	     	// Temporary fix for need to evaluate against Belief Base as well.
-    		if (ag.getBB(getEB())!=null) {
+    		/* if (ag.getBB(getEB())!=null) {
 				EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ebname.getString());
 				eb = new MergeEvaluationBase<PredicateTerm>(bb, eb);
-    		}
+    		} */
     	}
     	
     	return logicalConsequence(eb, ag.getRuleBase(), un, varnames, so);

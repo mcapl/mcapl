@@ -24,10 +24,14 @@
 package goal.semantics;
 
 import goal.syntax.ActionRule;
+import goal.syntax.ConjGoal;
+import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
 import goal.syntax.MentalState;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+
+
 
 import java.util.LinkedList;
 import java.util.Iterator;
@@ -110,6 +114,7 @@ public class GOALAgent extends AILAgent {
 		super(mas, name);
 	    setReasoningCycle(new GOALRC(this));
 	    setTrackPlanUsage(true);
+	    setGoalBase(new ConjGoalBase());
 //	    lastplanstate = this.toString();
 	}
 	
@@ -121,7 +126,7 @@ public class GOALAgent extends AILAgent {
 	public void initAg() {
 		super.initAg();
 		ms.addBB(getBB());
-		ms.addGB(getGoalBase());
+		ms.addGB((ConjGoalBase) getGoalBase());
 		ms.addRB(getRuleBase());
 		((GOALRC) getReasoningCycle()).init(this);
 	}
@@ -241,8 +246,8 @@ public class GOALAgent extends AILAgent {
     	//actionPerformed();
     }
     
-    public void adopt(Goal g) {
-     ms.adopt(g);
+    public void adopt(ConjGoal g) {
+    	ms.adopt(g);
     	// actionPerformed();
     }
  

@@ -29,7 +29,7 @@ import java.util.Stack;
 
 public class MentalModel implements AgentMentalState {
 	BeliefBase bb;
-	public Stack<GoalBase> goalbases = new Stack<>();
+	public Stack<ConjGoalBase> goalbases = new Stack<>();
 	RuleBase rb;
 
 	
@@ -37,7 +37,7 @@ public class MentalModel implements AgentMentalState {
 		bb = b;
 	}
 	
-	public void addGB(GoalBase g) {
+	public void addGB(ConjGoalBase g) {
 		goalbases.push(g);
 	}
 	
@@ -54,24 +54,23 @@ public class MentalModel implements AgentMentalState {
 			return;
 		}
 		
-        List<Goal> goals = getAttentionSet(true).getAll();
-        List<Goal> goalsToBeRemoved = new LinkedList<>();
-        for (Goal goal : goals) {
-        		Predicate gterm = goal.getLogicalContent();
-        		GBelief gb = new GBelief(gterm);
+        List<ConjGoal> goals = getAttentionSet(true).getAllConjGoals();
+        List<ConjGoal> goalsToBeRemoved = new LinkedList<>();
+        for (ConjGoal goal : goals) {
+        	Guard gb = goal.getAsGuard();
         		
-                if (gb.logicalConsequence(new NamedEvaluationBase<PredicateTerm>(bb, "self"), rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
-                        goalsToBeRemoved.add(goal);
-                }
+        	if (gb.logicalConsequence(this, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
+        		goalsToBeRemoved.add(goal);
+        	}
         }
 
-        for (Goal goal : goalsToBeRemoved) {
+        for (ConjGoal goal : goalsToBeRemoved) {
         	getAttentionSet(true).remove(goal);
         }
         
 	}
 	
-    protected GoalBase getAttentionSet(boolean use) {
+    protected ConjGoalBase getAttentionSet(boolean use) {
     	return goalbases.peek();
     }
     
@@ -79,7 +78,7 @@ public class MentalModel implements AgentMentalState {
     	return getBB(new StringTermImpl(""));
     }
     
-    public void adopt(Goal g) {
+    public void adopt(ConjGoal g) {
     	getAttentionSet(true).add(g);
     }
 

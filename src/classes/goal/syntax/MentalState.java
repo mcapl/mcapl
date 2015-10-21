@@ -43,7 +43,7 @@ public class MentalState {
 		ownModel.addBB(b);
 	}
 	
-	public void addGB(GoalBase g) {
+	public void addGB(ConjGoalBase g) {
 		ownModel.addGB(g);
 	}
 	
@@ -51,8 +51,8 @@ public class MentalState {
 		ownModel.addRB(r);
 	}
 	
-	public void adopt(Goal g) {
-		if (! g.logicalConsequence(ownModel, new Unifier(), g.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
+	public void adopt(ConjGoal g) {
+		if (! g.getAsGuard().logicalConsequence(ownModel, new Unifier(), g.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
 			ownModel.adopt(g);
 		}
 	}

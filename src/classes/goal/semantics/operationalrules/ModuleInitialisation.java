@@ -5,6 +5,7 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import goal.semantics.executorStages.ModuleExecutorStage;
+import goal.syntax.ConjGoal;
 import goal.syntax.GOALModule;
 import goal.semantics.GOALAgent;
 import ail.syntax.BeliefBase;
@@ -38,7 +39,7 @@ public class ModuleInitialisation implements OSRule {
 			a.addRule(r);
 		}
 		
-		for (Goal g: m.getGB().getAll()) {
+		for (ConjGoal g: m.getGB().getAllConjGoals()) {
 			((GOALAgent) a).adopt(g);
 		}
 		

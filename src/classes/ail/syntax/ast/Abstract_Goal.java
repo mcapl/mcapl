@@ -82,7 +82,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * By default there is only one goal base.
 	 * 
 	 */
-	private Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
+	protected Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
 	
 	/**
 	 * This goal is a variable.
