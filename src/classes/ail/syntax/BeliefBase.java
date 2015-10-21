@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import ajpf.util.VerifyMap;
@@ -347,9 +348,39 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
                 List<PredicateTerm> entrylist = new ArrayList<PredicateTerm>();
                 entrylist.addAll(entry.list);
                 if (so == AILAgent.SelectionOrder.RANDOM) {
-                	Collections.shuffle(entrylist);
+                /*	return new Iterator<PredicateTerm>() {
+                		int size = entrylist.size();
+                		ArrayList<Integer> tried = new ArrayList<Integer>();
+
+						@Override
+						public boolean hasNext() {
+							// TODO Auto-generated method stub
+							return size != tried.size();
+						}
+
+						@Override
+						public PredicateTerm next() {
+							// TODO Auto-generated method stub
+							Random r = new Random();
+							int next = r.nextInt(size - tried.size());
+							for (Integer i: tried) {
+								if (i <= next) {
+									next++;
+								} else {
+									tried.add(next);
+									Collections.sort(tried);
+									return entrylist.get(next);
+								}
+							}
+							tried.add(next);
+							return entrylist.get(next);
+						}
+                		
+                	}; */
+                	return entrylist.iterator();
+                } else {
+                	return entrylist.iterator();
                 }
-                return entrylist.iterator();
            } else {
                 return Collections.<PredicateTerm>emptyList().iterator();
             }

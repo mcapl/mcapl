@@ -24,6 +24,8 @@ package ail.syntax;
 
 import gov.nasa.jpf.annotation.FilterField;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,6 +66,8 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 */
  	@FilterField
 	Unifier current = null;
+ 	ArrayList<Unifier> currents = new ArrayList<Unifier>();
+ 	Iterator<Unifier> cit = null;
  	/**
  	 * A helper field when processing prolog like rules.
  	 */
@@ -152,32 +156,71 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
                       		
 
 		// il is all possible Beliefs/messages/whatever that potentially unify with this GBelief
-		if (il != null) {
-			while (il.hasNext()) {
-				Unifier unC = (Unifier) un.clone();
-				Tuple<PredicateTerm, String> t = il.next();
-				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-					AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
-				}		        					
-				PredicateTerm u = (PredicateTerm) t.getLeft();
-				Unifiable h2 = logical_term.clone();
-				if (h2 instanceof EBCompare<?>) {
-					if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
-						current = unC;
-						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
-						}		        					
-						return;
-					}
-				} 
-					
-				if (h2.unifies(u, unC)) {
-						current = unC;
-						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
-						}		        					
-						return;
-				 }
+		if (so == AILAgent.SelectionOrder.RANDOM) {
+			if (currents.isEmpty() && il != null) {
+				while (il.hasNext()) {
+					boolean incurrents = false;
+					Unifier unC = (Unifier) un.clone();
+					Tuple<PredicateTerm, String> t = il.next();
+					if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
+					}		        					
+					PredicateTerm u = (PredicateTerm) t.getLeft();
+					Unifiable h2 = logical_term.clone();
+					if (h2 instanceof EBCompare<?>) {
+						if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
+							currents.add(unC);
+							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+							}		        					
+							incurrents = true;
+						}
+					} 
+						
+					if (!incurrents & h2.unifies(u, unC)) {
+							currents.add(unC);
+							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+							}		        					
+					 }					
+				}
+				Collections.shuffle(currents);
+				cit = currents.iterator();
+			}
+			
+			if (cit.hasNext()) {
+				current = cit.next();
+				return;
+			}
+			
+		} else {
+			if (il != null) {
+				while (il.hasNext()) {
+					Unifier unC = (Unifier) un.clone();
+					Tuple<PredicateTerm, String> t = il.next();
+					if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
+					}		        					
+					PredicateTerm u = (PredicateTerm) t.getLeft();
+					Unifiable h2 = logical_term.clone();
+					if (h2 instanceof EBCompare<?>) {
+						if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
+							current = unC;
+							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+							}		        					
+							return;
+						}
+					} 
+						
+					if (h2.unifies(u, unC)) {
+							current = unC;
+							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+							}		        					
+							return;
+					 }
+				}
 			}
 		}
     		       		

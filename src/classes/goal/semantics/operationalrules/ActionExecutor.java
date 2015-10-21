@@ -22,6 +22,7 @@ public abstract class ActionExecutor implements OSRule {
 		module.setRule(null);
 
 	}
+	
     public void setModule(GOALModule m) {
     	this.module = m;
     }
@@ -30,7 +31,7 @@ public abstract class ActionExecutor implements OSRule {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Action Executor";
 	}
 
 }
