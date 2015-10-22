@@ -68,6 +68,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	Unifier current = null;
  	ArrayList<Unifier> currents = new ArrayList<Unifier>();
  	Iterator<Unifier> cit = null;
+ 	int random_depth=1;
  	/**
  	 * A helper field when processing prolog like rules.
  	 */
@@ -102,7 +103,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 		rb = r;
 		un = u;
 		logical_term = t;
-		il = eb.getRelevantTuple(logical_term, so);
+		il = eb.getRelevantTuple(logical_term, AILAgent.SelectionOrder.LINEAR);
 		rl = rb.getRelevant((Predicate) logical_term);
 		varnames = vars;
 		this.so = so;
@@ -142,58 +143,105 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 		}		        					
 		current = null;
     		
-		// try rule iterator, if it has been created I've worked through all of il
-		// and am now chaining through rules.
-		while (ruleIt != null && ruleIt.hasNext()) {
-			// unifies the rule head with the result of rule evaluation
-			Unifier ruleUn = ruleIt.next(); // evaluation result
-			current = ruleUn;
-			if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-				AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", logical_term + " matches the head of a rule.");
-			}		        					
-			return;
-		}
-                      		
-
 		// il is all possible Beliefs/messages/whatever that potentially unify with this GBelief
 		if (so == AILAgent.SelectionOrder.RANDOM) {
-			if (currents.isEmpty() && il != null) {
-				while (il.hasNext()) {
-					boolean incurrents = false;
-					Unifier unC = (Unifier) un.clone();
-					Tuple<PredicateTerm, String> t = il.next();
+			if (random_depth > 0) {
+				// try rule iterator, if it has been created I've worked through all of il
+				// and am now chaining through rules.
+				while (ruleIt != null && ruleIt.hasNext()) {
+					// unifies the rule head with the result of rule evaluation
+					Unifier ruleUn = ruleIt.next(); // evaluation result
+					currents.add(ruleUn);
 					if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
+						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", logical_term + " matches the head of a rule.");
 					}		        					
-					PredicateTerm u = (PredicateTerm) t.getLeft();
-					Unifiable h2 = logical_term.clone();
-					if (h2 instanceof EBCompare<?>) {
-						if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
-							currents.add(unC);
-							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
-							}		        					
-							incurrents = true;
-						}
-					} 
-						
-					if (!incurrents & h2.unifies(u, unC)) {
-							currents.add(unC);
-							if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-								AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
-							}		        					
-					 }					
 				}
-				Collections.shuffle(currents);
-				cit = currents.iterator();
+		                      		
+				if (il != null) {
+					while (il.hasNext()) {
+						boolean incurrents = false;
+						Unifier unC = (Unifier) un.clone();
+						Tuple<PredicateTerm, String> t = il.next();
+						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
+						}		        					
+						PredicateTerm u = (PredicateTerm) t.getLeft();
+						Unifiable h2 = logical_term.clone();
+						if (h2 instanceof EBCompare<?>) {
+							if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
+								currents.add(unC);
+								if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+									AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+								}		        					
+								incurrents = true;
+							}
+						} 
+							
+						if (!incurrents & h2.unifies(u, unC)) {
+								currents.add(unC);
+								if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+									AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+								}		        					
+						 }					
+					}
+				}
+				
+				if (rl != null) {
+					while (rl.hasNext()) {
+						Unifier unC = (Unifier) un.clone();
+						rule = rl.next();
+						Rule ruleC = rule.clone();
+						Unifiable h = logical_term.clone();
+						ruleC.standardise_apart(h, unC, varnames);
+						// This this will just unify the head!!
+						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Looking for a rule match for " + ruleC + " and " + h);
+						}		        					
+						if (ruleC.unifies(h, unC)) {
+							// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
+							// This GBelief should be ground? so only one possibility (?)
+							ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames, AILAgent.SelectionOrder.LINEAR);
+							// ruleIt is an iterator over all possible unifiers for the rule body.
+							random_depth++;
+							get();
+							random_depth--;
+							if (current != null) {
+								if (AJPFLogger.ltFine(logname)) {
+									AJPFLogger.fine(logname, "Rule instantiated with " + current);
+								}
+							}
+						}
+					}
+				}
+
+				if (random_depth == 1) {
+					if (currents.size() > 1) {
+						System.err.println("Evaluating " + logical_term + " with " + currents);
+						Collections.shuffle(currents);
+					}
+					cit = currents.iterator();
+					random_depth = 0;
+				}
 			}
 			
-			if (cit.hasNext()) {
+			if (cit!=null && cit.hasNext()) {
 				current = cit.next();
 				return;
 			}
 			
 		} else {
+			// try rule iterator, if it has been created I've worked through all of il
+			// and am now chaining through rules.
+			while (ruleIt != null && ruleIt.hasNext()) {
+				// unifies the rule head with the result of rule evaluation
+				Unifier ruleUn = ruleIt.next(); // evaluation result
+				current = ruleUn;
+				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+					AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", logical_term + " matches the head of a rule.");
+				}		        					
+				return;
+			}
+	                      		
 			if (il != null) {
 				while (il.hasNext()) {
 					Unifier unC = (Unifier) un.clone();
@@ -222,34 +270,36 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 					 }
 				}
 			}
-		}
-    		       		
-		if (rl != null) {
-			while (rl.hasNext()) {
-				Unifier unC = (Unifier) un.clone();
-				rule = rl.next();
-				Rule ruleC = rule.clone();
-				Unifiable h = logical_term.clone();
-				ruleC.standardise_apart(h, unC, varnames);
-				// This this will just unify the head!!
-				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-					AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Looking for a rule match for " + ruleC + " and " + h);
-				}		        					
-				if (ruleC.unifies(h, unC)) {
-					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
-					// This GBelief should be ground? so only one possibility (?)
-					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames, so);
-					// ruleIt is an iterator over all possible unifiers for the rule body.
-					get();
-					if (current != null) {
-						if (AJPFLogger.ltFine(logname)) {
-							AJPFLogger.fine(logname, "Rule instantiated with " + current);
+			
+			if (rl != null) {
+				while (rl.hasNext()) {
+					Unifier unC = (Unifier) un.clone();
+					rule = rl.next();
+					Rule ruleC = rule.clone();
+					Unifiable h = logical_term.clone();
+					ruleC.standardise_apart(h, unC, varnames);
+					// This this will just unify the head!!
+					if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Looking for a rule match for " + ruleC + " and " + h);
+					}		        					
+					if (ruleC.unifies(h, unC)) {
+						// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
+						// This GBelief should be ground? so only one possibility (?)
+						ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames, so);
+						// ruleIt is an iterator over all possible unifiers for the rule body.
+						get();
+						if (current != null) {
+							if (AJPFLogger.ltFine(logname)) {
+								AJPFLogger.fine(logname, "Rule instantiated with " + current);
+							}
+							return;
 						}
-						return;
 					}
 				}
 			}
+
 		}
+    		       		
 
 	}
 

@@ -348,7 +348,7 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
                 List<PredicateTerm> entrylist = new ArrayList<PredicateTerm>();
                 entrylist.addAll(entry.list);
                 if (so == AILAgent.SelectionOrder.RANDOM) {
-                /*	return new Iterator<PredicateTerm>() {
+                	return new Iterator<PredicateTerm>() {
                 		int size = entrylist.size();
                 		ArrayList<Integer> tried = new ArrayList<Integer>();
 
@@ -376,8 +376,8 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
 							return entrylist.get(next);
 						}
                 		
-                	}; */
-                	return entrylist.iterator();
+                	}; 
+                	//return entrylist.iterator();
                 } else {
                 	return entrylist.iterator();
                 }

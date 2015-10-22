@@ -28,6 +28,7 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -472,7 +473,7 @@ public class Guard implements GLogicalFormula {
 		        switch (op) {
 		        
 		        	case not:
-		        		if (!rhs.logicalConsequence(ag,un, varnames, so).hasNext()) {
+		        		if (!rhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR).hasNext()) {
 		        			return createUnifIterator(un);
 		        		}
 		        		break;
@@ -484,10 +485,12 @@ public class Guard implements GLogicalFormula {
 		        		}
 		        
 		        	case and:
-		        		ileft = lhs.logicalConsequence(ag,un, varnames, so);
+		        		ileft = lhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR);
+	        			List<Unifier> currents = new ArrayList<Unifier>();
 		        		return new Iterator<Unifier>() {
 		        			Unifier current = null;
 		        			Iterator<Unifier> iright = null;
+		        			Iterator<Unifier> cit = null;
 		        			public boolean hasNext() {
 		        				if (current == null) get();
 		        				return current != null;
@@ -505,29 +508,49 @@ public class Guard implements GLogicalFormula {
 		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
 		        				}
 		        				
-		        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
-		        					Unifier ul = ileft.next();
-		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
-			        				}		        					
-		        					iright = rhs.logicalConsequence(ag, ul, varnames, so);
-			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
-			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+		        				if (so == AILAgent.SelectionOrder.RANDOM) {
+		        					if (currents.isEmpty()) {
+		        						while (ileft.hasNext()) {
+		        							Unifier ul = ileft.next();
+				        					iright = rhs.logicalConsequence(ag, ul, varnames, AILAgent.SelectionOrder.LINEAR);
+				        					while (iright.hasNext()) {
+				        						currents.add(iright.next());
+				        					}
+		        						}
+			        					Collections.shuffle(currents);
+			        					cit = currents.iterator();
+		        					}
+		        					
+		        					if (cit != null && cit.hasNext()) {
+		        						current = cit.next();
+		        					}
+		        					
+		        					
+		        				} else {
+			        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
+			        					Unifier ul = ileft.next();
+			        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
+				        				}		        					
+			        					iright = rhs.logicalConsequence(ag, ul, varnames, AILAgent.SelectionOrder.LINEAR);
+				        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+				        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+				        				}
 			        				}
-		        				}
-		        				
-		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-		        					AJPFLogger.fine("ail.syntax.Guard", "Either ileft has no next or iright does have next");
-		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright has next: " + rhs);
-		        				}
-
-		        				
-		        				if (iright != null && iright.hasNext()) {
-		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
-			        				}		        					
-		        					current = iright.next();	 
+			        				
+			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Either ileft has no next or iright does have next");
+			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright has next: " + rhs);
+			        				}
+	
+			        				
+			        				if (iright != null && iright.hasNext()) {
+			        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
+				        				}		        					
+			        					current = iright.next();	 
+			        				}
 		        				}
 		        			}
 		        			public void remove() {}

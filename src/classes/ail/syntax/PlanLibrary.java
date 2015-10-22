@@ -83,6 +83,12 @@ public class PlanLibrary implements EvaluationBase<Plan> {
 	
 	public void shuffle() {
 		plans.shuffle();
+		varPlans = new PlanList();
+		for (Plan p: plans) {
+			if (p.getTriggerEvent().isVar()) {
+				varPlans.add(p);
+			}
+		}
 	}
 	
 	

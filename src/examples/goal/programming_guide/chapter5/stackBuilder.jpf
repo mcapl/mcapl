@@ -1,7 +1,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/goal/programming_guide/chapter5/stackBuilder.ail,${mcapl}/src/examples/goal/programming_guide/chapter5/stack.psl,1
+target.args = ${mcapl}/src/examples/goal/programming_guide/chapter5/stackBuilder.ail,${mcapl}/src/examples/goal/programming_guide/chapter5/stack.psl,2
 
 log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
 
