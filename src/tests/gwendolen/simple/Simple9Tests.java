@@ -62,6 +62,37 @@ public class Simple9Tests extends TestJPF {
 		    	 
 	  }
   }
+  
+  @Test //----------------------------------------------------------------------
+  public void testForgetfulMessaging () {
+	  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/MessageAgent/ForgetfulMessageAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/MessageAgent/MessageAgent.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "2";
+	    	AJPF_w_AIL.run(args);
+	  } else {
+		    	 
+	  }
+  }
+
+  @Test //----------------------------------------------------------------------
+  public void testNotForgetfulMessaging () {
+	  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/MessageAgent/NotSoForgetfulMessageAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/MessageAgent/MessageAgent.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "3";
+	    	AJPF_w_AIL.run(args);
+	  } else {
+		    	 
+	  }
+  }
+
 
 
 }

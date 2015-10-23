@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.swing.JPanel;
 
 import eass.mas.EASSEnv;
-
 import ail.mas.vehicle.Sensor;
 import ail.mas.vehicle.Vehicle;
 import ail.mas.vehicle.VehicleEnv;
 import ail.mas.vehicle.VehicleInterface;
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import eass.semantics.EASSAgent;
 import gov.nasa.jpf.annotation.FilterField;
@@ -78,6 +79,11 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 * List of agents who have already "collected" the current set of percepts.
 	 */
 	protected VerifySet<String> uptodateAgs = new VerifySet<String>();
+	
+	/**
+	 * The multi-agent system.
+	 */
+	protected MAS mas;
 	
 
 
@@ -597,6 +603,16 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	
 	public AILAgent getAgent() {
 		return agent;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		mas = m;
 	}
 
 

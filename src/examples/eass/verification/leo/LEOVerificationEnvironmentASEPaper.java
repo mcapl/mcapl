@@ -31,7 +31,7 @@ import java.util.Random;
 
 import ail.util.AILConfig;
 import ail.util.AILexception;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
@@ -44,6 +44,8 @@ import ajpf.util.AJPFLogger;
 
 /**
  * Specialised environement for the LEO Control example.
+ * 
+ * WARNING: Can not be used with record and replay because of use of Random.
  * @author louiseadennis
  *
  */

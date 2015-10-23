@@ -36,7 +36,7 @@ public class Tutorial2Tests {
 
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialexample () {
-			final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
+		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
 		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial2/answers/car_ex1.ail");
@@ -70,7 +70,7 @@ public class Tutorial2Tests {
 			}
 		}
 		motorway.stop();
-		Assert.assertTrue(car.getX() <= 100);
+		Assert.assertTrue(car.getX() <= 100); 
 
 	  }
 	  
@@ -110,7 +110,7 @@ public class Tutorial2Tests {
 			}
 		}
 		Assert.assertTrue(car.getX() > 0);
-		motorway.stop();
+		motorway.stop(); 
 	  }
 
 	  

@@ -121,7 +121,7 @@ holding(rubble) [achieve]
 +holding(rubble): {True} <- print(done);
 \end{lstlisting}
 
-The first changes in lines 7-9.  Here we have a list if initial beliefs.  The agent believes there may be rubble in one of three squares (1, 1), (3, 3) and (5, 5).  As we know, in the environment, there is only rubble in (5, 5).
+The first changes in lines 7-9.  Here we have a list of initial beliefs.  The agent believes there may be rubble in one of three squares (1, 1), (3, 3) and (5, 5).  As we know, in the environment, there is only rubble in (5, 5).
 
 The next change is in line 13.  Here instead of a \emph{perform} goal, \lstinline{goto55 [perform]} there is an \emph{achieve} goal, \lstinline{holding(rubble) [achieve]}.  The difference between perform goals and achieve goals is as follows:  
 \begin{itemize}

@@ -24,11 +24,10 @@
 
 package gwendolen.uavs.prism;
 
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.mas.vehicle.VehicleEnvironment;
 import ajpf.MCAPLJobber;
-
-import ail.mas.RoundRobinScheduler;
-import ajpf.util.Choice;
+import ajpf.util.choice.Choice;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
@@ -43,9 +42,9 @@ import ail.util.AILexception;
 public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJobber{
 	String name;
 	// The choice over whether there will be a collision
-	Choice<Boolean> objectSet = new Choice<Boolean>();
+	Choice<Boolean> objectSet; 
 	// The choice of actions returned by the navigation manager.
-	Choice<Integer> navMan = new Choice<Integer>();
+	Choice<Integer> navMan;
 	
 	// Tracking state.
 	public boolean colliding = false;
@@ -58,11 +57,16 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
+	}
+	
+	public void initialise() {
+		objectSet = new Choice<Boolean>(mas.getController());
 		objectSet.addChoice(0.1, new Boolean(false));
 		objectSet.addChoice(0.9, new Boolean(true));
+		navMan = new Choice<Integer>(mas.getController());
 		navMan.addChoice(0.3, new Integer(1));
 		navMan.addChoice(0.4, new Integer(2));
-		navMan.addChoice(0.3, new Integer(3));
+		navMan.addChoice(0.3, new Integer(3));		
 	}
 	
 	/*

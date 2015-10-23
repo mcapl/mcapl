@@ -44,3 +44,5 @@
 11: <>(B(ag1, holding(toy)))
 
 12: <>(B(searcher, found) & B(searcher, at(0, 0)))
+
+13: [](B(searcher, human) -> <> B(searcher, leave))

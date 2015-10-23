@@ -1,0 +1,47 @@
+\documentclass[a4]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+\author{Louise A. Dennis}
+
+\title{AJPF Tutorial 3 -- Using AJPF to create models for other Model-Checkers}
+
+\begin{document}
+\maketitle
+This is the third a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ and \prism.  \ajpf\ is used to create a model of the program which is then verified by another tool.  The main purpose of this is to enable model-checking with more expressive logics (as can be done with the \prism\) implementation, but there may also be efficiency gains in outsourcing property checking to another tool
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial3}.
+
+The tutorial assumes some familiarity with the basics of running Java programs either at the command line or in Eclipse and familiarity with the theory of model-checking.  Unlike most tutorials, this one is not standalone and assumes the user has access to both \spin\ and \prism.
+
+This tutorial explains how to use the tools described in~\cite{dennis15:two}.
+
+\section{Using \ajpf\ with \spin}
+
+\spin{}~\cite{holzmann04spin} is a popular model-checking tool
+originally developed by Bell Laboratories in the 1980s.  It has been
+in continuous development for over thirty years and is widely used in
+both industry and academia
+(e.g.,~\cite{havelund00formal,kars96application,kirsch11technical}).
+\spin{} uses an input language called \promela{}.  Typically a model
+of a program and the property (as a ``never claim'' --- an automaton
+describing executions that violate the property) are both provided in
+\promela{}, but \spin{} also provides tools to convert formulae
+written in LTL into never claims for use with the
+model-checker. \spin{} works by automatically generating programs
+written in C which carry out the exploration of the model relative to
+an LTL property. \spin{}'s use of compiled C code makes it very quick
+in terms of execution time, and this is further enhanced through other
+techniques such as partial order reduction. The examples in this tutorial were checked using \spin{} version 6.2.3 (24 October 2012).
+
+\bibliographystyle{abbrv} %% {plain}
+\bibliography{../../manual/manual}
+
+
+\end{document}

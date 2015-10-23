@@ -46,7 +46,7 @@ public class RescueTests extends TestJPF {
  
  @Test //----------------------------------------------------------------------
  public void testProblemNoCheckingAutomataWhenDone () {
-   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
+   if (verifyNoPropertyViolation(RESCUE_ARGS)){
    	String filename =  "/src/examples/gwendolen/rescue/searchersmall.ail";
    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
    	String[] args = new String[3];

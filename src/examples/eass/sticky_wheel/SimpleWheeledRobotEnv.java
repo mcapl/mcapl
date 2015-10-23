@@ -23,7 +23,7 @@
 //----------------------------------------------------------------------------
 package eass.sticky_wheel;
 
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import eass.mas.vehicle.EASSVehicleEnvironment;
 import eass.semantics.EASSAgent;
 import ail.semantics.AILAgent;

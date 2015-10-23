@@ -24,29 +24,39 @@
 
 package eass.mas.socket;
 
+import java.io.IOException;
+
 import ail.util.AILConfig;
 import ail.util.AILSocketClient;
 import eass.mas.DefaultEASSEnvironment;
-
 import ajpf.util.AJPFLogger;
 
 /**
- * Default environment class for EASS project.  Sets up socket servers and generic actions.  As originally developed for EASS Project.
+ * An basic class providing functionality for EASS environments which are client's for some socket.
  * @author louiseadennis
  *
  */
-public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
+public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	/**
 	 * Socket that connects to the Physical Engine.
 	 */
 	protected AILSocketClient socket;
 
 	/**
-	 * Are we actually connected to a socket?  Useful for debugging.
+	 * Are we actually connected to a socket?  Useful for debugging where it can be set to false,
+	 * and this classes methods overridden as appropriate for testing behaviour.
 	 */
 	protected boolean connectedtosocket = true;
 
+	/**
+	 * Name for the environment.
+	 */
 	private String name = "Default EASS Socket Environment";
+	
+	/**
+	 * The port number for the socket  (Default 6253)
+	 */
+	protected int portnumber = 6253;
 	
 	/**
 	 * Constructor - creates sockets.
@@ -56,11 +66,29 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		super();
 	}
 	
-	
+	/**
+	 * Constructor - creates sockets.
+	 *
+	 */
+	public EASSSocketClientEnvironment(int portnumber) {
+		super();
+		this.portnumber = portnumber;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#initialise()
+	 */
+	@Override
 	public void initialise() {
 		if (connectedtosocket) {
 			AJPFLogger.info("eass.mas", "Waiting Connection");
-			socket = new AILSocketClient();
+			try {
+				socket = new AILSocketClient(portnumber);
+			} catch (IOException e) {
+				AJPFLogger.severe("eass.mas", e.getMessage());
+				System.exit(0);
+			}
 			AJPFLogger.info("eass.mas", "Connected to Socket");
 		}		
 	}
@@ -77,13 +105,20 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 			}	else {
 				System.err.println("something wrong with socket");
 			}
+		} else {
+			debuggingPredicates();
 		}
 	}
 	
 	/**
-	 * Can be overridden.
+	 * To be overridden.  This method dictates how information from the socket should be converted to predicates.
 	 */
-	public void readPredicatesfromSocket() {}
+	public abstract void readPredicatesfromSocket();
+	
+	/**
+	 * Can be overridden.  This method dictates how predicates should be generated when the environment is not connected to a socket.
+	 */
+	public void debuggingPredicates() {};
 
 	/*
 	 * (non-Javadoc)
@@ -92,13 +127,17 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	@Override
 	public void cleanup() {
 		done = true;
-		socket.close();
+		if (connectedtosocket) {
+			socket.close();
+		}
 	}
-				
+			
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#done()
 	 */
+	@Override
 	public boolean done() {
 		if (done) {
 			return true;
@@ -110,6 +149,7 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#configure(ail.util.AILConfig)
 	 */
+	@Override
 	public void configure(AILConfig config) {
 		if (config.containsKey("connectedtosocket")) {
 			if (config.getProperty("connectedtosocket").equals("false")) {
@@ -121,18 +161,26 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	}
 	
 	/**
-	 * We are not to connect to a socket.  Can be useful for debugging.
+	 * Indicate that the environment is not connected to a socket.
 	 */
 	public void notConnectedToSocket() {
 		connectedtosocket = false;
 	}
 	
 	/**
-	 * Are we supposed to connect to a socket?
+	 * Return whether the environment is connected to a socket.
 	 * @return
 	 */
 	public boolean connectedToSocket() {
 		return connectedtosocket;
+	}
+	
+	/**
+	 * Getter for the socket.
+	 * @return
+	 */
+	public AILSocketClient getSocket() {
+		return socket;
 	}
 	
 }

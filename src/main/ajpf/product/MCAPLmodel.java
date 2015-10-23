@@ -84,7 +84,7 @@ public class MCAPLmodel {
 	 /*
 	  * For printing.  An enuemration of the possible output formats.
 	  */
-	 protected enum OutputFormat {
+	 protected static enum OutputFormat {
 		 Promela, Default, Prism
 	 }
 	

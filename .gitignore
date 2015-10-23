@@ -9,7 +9,11 @@ bin/TEST*
 # Debugging Files #
 tmp/*
 
+# Replay Records #
+records/*
+
 # Version Control Files #
 *.orig
 *~
+/bin/
 /bin/

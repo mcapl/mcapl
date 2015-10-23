@@ -75,7 +75,7 @@ public class Abstract_UnnamedVar extends Abstract_VarTerm {
      * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_Literal#toMCAPL()
      */
-	public Literal toMCAPL() {
+	public UnnamedVar toMCAPL() {
 		return new UnnamedVar();
 	}
  

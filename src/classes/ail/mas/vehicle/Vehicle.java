@@ -31,7 +31,7 @@ import ajpf.util.VerifySet;
 import ajpf.util.VerifyList;
 import ajpf.MCAPLScheduler;
 import ajpf.PerceptListener;
-
+import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
@@ -63,6 +63,11 @@ public class Vehicle implements VehicleInterface {
 	 * The vehicle's inbox.
 	 */
 	VerifySet<Message> inbox = new VerifySet<Message>();
+	
+	/**
+	 * The multi-agent system.
+	 */
+	MAS mas;
 	
 	/*
 	 * (non-Javadoc)
@@ -285,6 +290,15 @@ public class Vehicle implements VehicleInterface {
 	 */
 	public boolean agentIsUpToDate(String agName) {
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		mas = m;
 	}
 
 }

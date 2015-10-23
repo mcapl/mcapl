@@ -58,7 +58,7 @@ public class Tutorial3Tests extends TestJPF {
     	args[1] = prop_filename;
     	args[2] = "1";
     	AJPF_w_AIL.run(args);
- 	 }
+ 	 } 
   }
 
   @Test //----------------------------------------------------------------------
@@ -124,6 +124,6 @@ public class Tutorial3Tests extends TestJPF {
     	args[2] = "3";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } 
 
 }

@@ -56,7 +56,7 @@ public class SourceAnnotation implements AILAnnotation {
 
 	@Override
 	public boolean isEmpty() {
-		return source != null;
+		return source == null;
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class SourceAnnotation implements AILAnnotation {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return source.toString();
+		return "[" + source.toString() + "]";
 	}
 	
 }
