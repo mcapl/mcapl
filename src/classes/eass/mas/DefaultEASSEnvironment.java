@@ -40,6 +40,7 @@ import java.lang.Thread;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
+import ail.mas.scheduling.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -55,45 +56,25 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
 import eass.semantics.EASSAgent;
-
 import ajpf.MCAPLJobber;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
+import ajpf.MCAPLScheduler;
 
 /**
  * Default environment class for EASS project.  Sets up socket servers and generic actions.
  * @author louiseadennis
  *
  */
-public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJobber {
-	/**
-	 * Socket that connects to the Physical Engine.
-	 */
-	protected AILSocketServer socketserver;
-	/**
-	 * Socket that connects to the Continuous Engine.
-	 */
-	protected AILSocketServer socketserver2;
+public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEnv {
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Literal> values = new HashMap<String, Literal>();
-	/**
-	 * Are we actually connected to MatLab?  Useful for debugging.
-	 */
-	protected boolean connectedtomatlab = true;
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
 	protected boolean done = false;
-	/**
-	 * A separate thread for processing calculations and waiting on their answers.
-	 */
-	protected CalculationThread calculator = new CalculationThread();
-	/**
-	 * A separate thread for processing waiting.
-	 */
-	protected WaitingThread waiter = new WaitingThread();
 
 	/**
 	 * Beliefs shared by all agents.  May need to be modifed for multi-agent setting.
@@ -119,68 +100,17 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	public DefaultEASSEnvironment() {
 		super();
 	}
-			
-	/**
-	 * Initialise the environment - e.g., get connections to other systems.
-	 */
-	public void initialise() {
-		if (connectedtomatlab) {
-			AJPFLogger.info("eass.mas", "Waiting Connections");
-			socketserver = new AILSocketServer();
-			AJPFLogger.info("eass.mas", "Connected to Physical Engine");
-			AJPFLogger.info("eass.mas", "Waiting Connection to Continuous Engine");
-			socketserver2 = new AILSocketServer(6254);
-			AJPFLogger.info("eass.mas", "Connected to Continuous Engine");
-		}
-		
-		if (mThreads()) {
-			startcalculator();
-			waiter.start();
-		}
-		
-	}
 	
-	/**
-	 * Are we connecting to  a matlab environment? and do we need various
-	 * extra threads to manage this?
-	 * @return
-	 */
-	public boolean mThreads() {
-		return true;
+	public static void scheduler_setup(EASSEnv env, MCAPLScheduler s) {
+		s.addJobber(env);
+		env.setScheduler(s);
+		env.addPerceptListener(s);
 	}
 	
 	
-	/**
-	 * Starts calculator thread.
-	 *
-	 */
-	public void startcalculator() {
-		calculator.start();
-	}
 	
-	/**
-	 * Stops calculator thread.
-	 *
-	 */
-	public void stopcalculator() {
-		calculator.terminate();
-	}
-	
-	
-	public void do_job() {
-		if (connectedtomatlab) {
-			if (socketserver.allok()) {
-				readin_predicates();
-			}	else {
-				AJPFLogger.warning(logname, "something wrong with socket server");
-			}
-		}
-			
+	public void do_job() {			
 		eachrun();
-		
-		// Really????
-		notifyPerceptListeners();
-
 	}
 	
 	/*
@@ -190,18 +120,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	public String getName() {
 		return name;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#finalize()
-	 */
-	public void finalize() {
-		done = true;
-		calculator.terminate();
-		waiter.terminate();
-		calculator.calculate("env", new Action("done"));
-		waiter.wait("env", new Action("done"));
-	}
 	
 	/**
 	 * This method is intended to be overriden by sub-classes which want something
@@ -209,87 +127,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	 */
 	public void eachrun() {}
 	
-	/**
-	 * This method can be overriden during debugging to print out specific information.
-	 * @param pred
-	 */
-	public void printvalues(Literal pred) {}
-	
-	/**
-	 * What to do if execution a run command and not connected to MatLab.
-	 * @param agname
-	 * @param act
-	 */
-	public void noconnection_run(String agname, Action act) {
-		System.err.println("No Matlab Connection: " + act.toString());
-	}
-	
-	/**
-	 * What to do if executing a calculate command and not connect to MatLab.
-	 * @param predicate
-	 * @param val
-	 * @param u
-	 * @return
-	 */
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		try {
-			System.err.println("calculated");
-		} catch (Exception e) {
-			System.err.println("didn't sleep");
-		}
-		Literal result = new Literal("result");
-		result.addTerm(predicate);
-		result.addTerm(new Predicate("result"));
-		return result;
-	}
-
-	/**
-	 * Read in data from Matlab and convert to predicates.
-	 * @param s
-	 */
-	private void readin_predicates() {
-		String s = socketserver.readLine();
-		while (!s.equals("ENDDATA")) {
-			s = socketserver.readLine();
-			
-			if (!s.equals("ENDDATA")) {
-				// Convert everything to lower case otherwise AIL will get confused 
-				// and start treating things as variables.
-				Literal pred = new Literal(s.toLowerCase());
-			
-				Integer size = Integer.parseInt(socketserver.readLine());
-				
-				ArrayList<Term> terms = new ArrayList<Term>();
-					
-				for (int i= 0; i < size; i++) {
-					String s1 = socketserver.readLine();
-					try {
-						NumberTermImpl n = new NumberTermImpl(s1);
-						terms.add(n);
-					} catch (NumberFormatException ne) {
-						terms.add(new Predicate(s1));
-					}
-				}
-				
-				pred.addTerms(terms);
-				if (AJPFLogger.ltFiner(logname)) {
-					AJPFLogger.finer(logname, pred.toString());
-				}
-
-				printvalues(pred);
-				
-				if (control == 0) {
-					addUniquePercept(s, pred);
-				} else {
-					if (AJPFLogger.ltFiner(logname)) {
-						AJPFLogger.finer(logname, "not adding percepts");
-					}
-				}
-				s = socketserver.readLine();
-			} else {
-			}
-		}
-	}
 	
 	/**
 	 * Add a percept to this environment that is supposed to be unique - i.e.,
@@ -297,7 +134,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	 * @param s
 	 * @param pred
 	 */
-	public void addUniquePercept(String s, Literal  pred) {
+	public void addUniquePercept(String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(values.get(s.toLowerCase()));
 		}
@@ -313,26 +150,13 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	 * @param s
 	 * @param pred
 	 */
-	public void addUniquePercept(String agName, String s, Literal  pred) {
+	public void addUniquePercept(String agName, String s, Predicate pred) {
 		if (values.containsKey(s.toLowerCase())) {
 			removePercept(agName, values.get(s.toLowerCase()));
 		}
 
 		values.put(s.toLowerCase(), pred);
 		addPercept(agName, pred);		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ail.others.DefaultEnvironment#done()
-	 */
-	public boolean done() {
-		if (done) {
-			calculator.terminate();
-			waiter.terminate();
-			return true;
-		}
-		return false;
 	}
 	
 	/**
@@ -355,139 +179,25 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 	   if (act.getFunctor().equals("assert_shared")) {
 		   addSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared")) {
 		   removeSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared_unifies")) {
 		   removeUnifiesShared(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
-	   } else if (act.getFunctor().equals("calculate")) {
-		   calculator.calculate(agName, act);
-	   } else if (act.getFunctor().equals("wait")) {
-		   waiter.wait(agName, act);
-	   } else if (act.getFunctor().equals("run")) {
-		   if (connectedtomatlab) {
-			   int agentnum = Integer.parseInt(((String) agName).substring(14));
-			   Predicate predlist = (Predicate) act.getTerm(0);
-			   Predicate predargs = (Predicate) act.getTerm(1);
-			   int num_args = predargs.getTermsSize();
-			   String num_arg_s = "" + num_args;
-			   int num_name_comps = predlist.getTermsSize();
-			   String predname = "";
-			   for (int i=0; i<num_name_comps; i++) {
-				   // Lots of extra work to get the string correct.
-				   Term nb = predlist.getTerm(i);
-				   String s = nb.toString();
-				   if (nb instanceof VarTerm) {
-					   VarTerm v = (VarTerm) nb;
-					   nb = v.getValue();
-				   }
-				   if (nb instanceof NumberTerm) {
-					   NumberTerm num = (NumberTerm) nb;
-					   Double number = num.solve();
-					   int num_as_int = number.intValue();
-					   s = ((Integer) num_as_int).toString();
-				   }
-				   if (nb instanceof StringTermImpl) {
-					   StringTermImpl string = (StringTermImpl) nb;
-					   s = string.getString();
-				   }
-				   predname += s;
-			   }
-
-			   	socketserver.write("RUNTASK");
-			   	if (version == 2) {
-			   		socketserver.write(((Integer) agentnum).toString());
-			   	}
-			   	socketserver.write(predname);
-			   	socketserver.write(num_arg_s);
-			   	for (int i=0; i < num_args; i++) {
-			   		Term arg = predargs.getTerm(i);
-			   		String s = arg.toString();
-			   		if (arg instanceof VarTerm) {
-			   			VarTerm v = (VarTerm) arg;
-			   			arg = v.getValue();
-			   		}
-			   		if (arg instanceof NumberTerm) {
-			   			NumberTerm num = (NumberTerm) arg;
-			   			Double number = num.solve();
-			   			int num_as_int = number.intValue();
-			   			s = ((Integer) num_as_int).toString();
-			   		}
-			   		if (arg instanceof StringTermImpl) {
-			   			StringTermImpl string = (StringTermImpl) arg;
-			   			s = string.getString();
-			   		}
-				   socketserver.write(s);	
-			   	}
-			   socketserver.write("0");
-		   } else {
-			   noconnection_run(agName, act);
-		   }
-	   } else if (act.getFunctor().equals("run_as_is")) {
-		   if (connectedtomatlab) {
-			   double anum = ((NumberTermImpl) act.getTerm(0)).solve();
-			   int agentnum = ((Double) anum).intValue();
-			   Predicate predlist = (Predicate) act.getTerm(1);
-			   Predicate predargs = (Predicate) act.getTerm(2);
-			   int num_args = predargs.getTermsSize();
-			   String num_arg_s = "" + num_args;
-			   int num_name_comps = predlist.getTermsSize();
-			   String predname = "";
-			   for (int i=0; i<num_name_comps; i++) {
-				   // Lots of extra work to get the string correct.
-				   Term nb = predlist.getTerm(i);
-				   String s = nb.toString();
-				   if (nb instanceof VarTerm) {
-					   VarTerm v = (VarTerm) nb;
-					   nb = v.getValue();
-				   }
-				   if (nb instanceof NumberTerm) {
-					   NumberTerm num = (NumberTerm) nb;
-					   Double number = num.solve();
-					   int num_as_int = number.intValue();
-					   s = ((Integer) num_as_int).toString();
-				   }
-				   if (nb instanceof StringTermImpl) {
-					   StringTermImpl string = (StringTermImpl) nb;
-					   s = string.getString();
-				   }
-				   predname += s;
-			   }
-
-			   	socketserver.write("RUNTASK");
-			   	if (version == 2) {
-			   		socketserver.write(((Integer) agentnum).toString());
-			   	}
-			   	socketserver.write(predname);
-			   	socketserver.write(num_arg_s);
-			   	for (int i=0; i < num_args; i++) {
-			   		Term arg = predargs.getTerm(i);
-			   		String s = arg.toString();
-			   		if (arg instanceof VarTerm) {
-			   			VarTerm v = (VarTerm) arg;
-			   			arg = v.getValue();
-			   		}
-			   		if (arg instanceof NumberTerm) {
-			   			NumberTerm num = (NumberTerm) arg;
-			   			Double number = num.solve();
-			   			int num_as_int = number.intValue();
-			   			s = ((Integer) num_as_int).toString();
-			   		}
-			   		if (arg instanceof StringTermImpl) {
-			   			StringTermImpl string = (StringTermImpl) arg;
-			   			s = string.getString();
-			   		}
-				   socketserver.write(s);	
-			   	}
-			   socketserver.write("0");
-		   } else {
-			   noconnection_run(agName, act);
-		   }
 	   } else if (act.getFunctor().equals("perf")) {
 		   Predicate run = (Predicate) act.getTerm(0);
 		   Message m = new Message(2, agName, "abstraction", run);
 		   String abs = abstractionengines.get(agName);
 		   addMessage(abs, m);
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done PERF " + act);
+		   }
 	   } else if (act.getFunctor().equals("query")) {
 		   Predicate query = (Predicate) act.getTerm(0);
 		   Message m = new Message(2, agName, "abstraction", query);
@@ -507,7 +217,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
     	}
 	   
 	   if (!printed) {
-		   AJPFLogger.info("eass.mas.DefaultEASSEnvironment", agName + " done " + printAction(act));
+		   AJPFLogger.info(logname, agName + " done " + printAction(act));
 	   }
 
 	     
@@ -586,16 +296,17 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 					}
 					return null;
 				}
+			}
 				
-				// if its the abstraction engine (NB.  this will add agName to up-to-date ags
-				if (abstractionenginelist.contains(agName)) {
-					Set<Predicate> ps = super.getPercepts(agName, update);
-					if (ps != null) {
-						p.addAll(ps);
-					}
-				} else {
-
-				uptodateAgs.add(agName);
+			// if its the abstraction engine (NB.  this will add agName to up-to-date ags
+			if (abstractionenginelist.contains(agName)) {
+				Set<Predicate> ps = super.getPercepts(agName, update);
+				if (ps != null) {
+					p.addAll(ps);
+				}
+			} else {
+				if (update) {
+					uptodateAgs.add(agName);
 				}
 			}
 						
@@ -762,215 +473,6 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 		return b;
 	}
 		
-	/**
-	 * Setter for connected to matlab.
-	 * @param b
-	 */
-	protected void setConnected(boolean b) {
-		connectedtomatlab = b;
-	}
-			
-	/**
-	 * A separate thread for managing calculations.  Uses a blocking queue so it only calls calculate when it 
-	 * has a request for processing.
-	 * @author louiseadennis
-	 *
-	 */
-	private class CalculationThread extends Thread {
-		private BlockingQueue<AgAct> pendingCalculations = new LinkedBlockingQueue<AgAct>();
-		public boolean terminate = false;
-				
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Thread#run()
-		 */
-		public void run() {
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "Starting up Calculator");
-			}
-			try {
-				while (!terminate) {
-					AgAct agact = pendingCalculations.take();
-					Action act = agact.getAct();
-					Literal r = new Literal("dummy");
-					if (! act.getFunctor().equals("done")) {
-						r = runCalculate(act);
-					}
-					String agName = agact.getAgName();
-					if (! act.getFunctor().equals("done")) {
-						addSharedBelief(agName, r);
-					}
-				}
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-		}
-				
-		/**
-		 * When a calculation is requested, add it to the queue.
-		 * @param act
-		 */
-		public void calculate(String AgName, Action act) {
-			try {
-				if (AJPFLogger.ltFine(logname)) {
-					AJPFLogger.fine(logname, "calculating " + act);
-				}
-				pendingCalculations.put(new AgAct(AgName, act));
-			} catch (Exception e) {
-				System.err.println("failed to add calculation to queue");
-			}
-		}
-				
-		/**
-		 * Stop the thread.
-		 *
-		 */
-		public void terminate() {
-			terminate = true;
-		}
-		
-
-		/**
-		 * When resources are available actually do the calculation.
-		 * @param act
-		 * @return
-		 */
-		protected Literal runCalculate(Action act) {
-			Predicate predicate = (Predicate) act.getTerm(0);
-			VarTerm val = (VarTerm) act.getTerm(1);
-			Unifier u = new Unifier();
-			if (connectedtomatlab) {
-				int num_args = predicate.getTermsSize();
-				String num_arg_s = "" + num_args;
-				if (AJPFLogger.ltFine(logname)) {
-					AJPFLogger.fine(logname, "sending calculation to matlab");
-				}
-				socketserver2.write("CALLMFILE");
-				socketserver2.write(predicate.getFunctor());
-				socketserver2.write(num_arg_s);
-				for (int i = 0; i < num_args; i++) {
-					socketserver2.write(predicate.getTerm(i).toString());
-				}
-				socketserver2.write("1");
-				String value = socketserver2.readLine();
-				if (value.startsWith("0") || value.startsWith("1") || value.startsWith("2")
-						|| value.startsWith("3") || value.startsWith("4") || value.startsWith("5")
-						|| value.startsWith("6") || value.startsWith("7") || value.startsWith("8")
-						|| value.startsWith("9") 
-
-						) {
-				try {
-					NumberTermImpl n = new NumberTermImpl(value);
-					val.unifies(n, u);
-				} catch (NumberFormatException ne) {
-					val.unifies(new Predicate(value), u);
-				}
-				} else {
-					val.unifies(new Predicate(value), u);
-				}
-				val.apply(u);
-				Literal result = new Literal("result");
-				result.addTerm(predicate);
-				result.addTerm(val);
-				return result;
-			} else {
-				Literal result = noconnection_calc(predicate, val, u);
-				return result;
-			}
-		}
-		
-		private class AgAct {
-			public String agname;
-			public Action act;
-			
-			public AgAct(String ag, Action a) {
-				agname = ag;
-				act = a;
-			}
-			
-			public String getAgName() {
-				return agname;
-			}
-			
-			public Action getAct() {
-				return act;
-			}
-		}
-	}
-
-	/**
-	 * A separate thread for managing calculations.  Uses a blocking queue so it only calls calculate when it 
-	 * has a request for processing.
-	 * @author louiseadennis
-	 *
-	 */
-	private class WaitingThread extends Thread {
-		private BlockingQueue<Action> pendingWaits = new LinkedBlockingQueue<Action>();
-		private LinkedList<String> waitinitiators = new LinkedList<String>();
-		public boolean terminate = false;
-				
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Thread#run()
-		 */
-		public void run() {
-			try {
-				while (!terminate) {
-					Action act = pendingWaits.take();
-					Literal r = new Literal("dummy");
-					if (! act.getFunctor().equals("done")) {
-						r = runWait(act);
-					}
-					String agName = waitinitiators.poll();
-					if (! act.getFunctor().equals("done")) {
-						addSharedBelief(agName, r);
-					}
-				}
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-		}
-				
-		/**
-		 * When a calculation is requested, add it to the queue.
-		 * @param act
-		 */
-		public void wait(String agName, Action act) {
-			try {
-				pendingWaits.put(act);
-				waitinitiators.offer(agName);
-			} catch (Exception e) {
-				System.err.println("failed to add wait to queue");
-			}
-		}
-				
-		/**
-		 * Stop the thread.
-		 *
-		 */
-		public void terminate() {
-			terminate = true;
-		}
-
-		/**
-		 * When resources are available actually do the calculation.
-		 * @param act
-		 * @return
-		 */
-		protected Literal runWait(Action act) {
-			NumberTerm val = (NumberTerm) act.getTerm(0);
-			Term waitkey = act.getTerm(1);
-			double n = val.solve();
-			try {
-				sleep(((Double) n).intValue());
-			} catch (Exception e) {
-			}
-				
-			Literal waited = new Literal("waited");
-			waited.addTerm(waitkey);
-			return waited;
-		}
-	}
 	
 	/**
 	 * Stop the environment running.
@@ -987,34 +489,21 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements MCAPLJ
 		return j.getName().compareTo(getName());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.AILEnv#configure(ail.util.AILConfig)
-	 */
-	public void configure(AILConfig config) {
-		if (config.containsKey("connectedtomatlab")) {
-			if (config.getProperty("connectedtomatlab").equals("false")) {
-				connectedtomatlab = false;
-			} else {
-				connectedtomatlab = true;
-			}
-		}
-	}
-	
 	/**
-	 * This environement is not connected to MatLab.
-	 */
-	public void notConnectedToMatLab() {
-		connectedtomatlab = false;
-	}
-	
-	/**
-	 * Is this environment connected to MatLab.
+	 * Actions are called by an agent called abstract_rname, but the actual agent's name 
+	 * May sometimes be needed.
+	 * @param name
 	 * @return
 	 */
-	public boolean connectedToMatLab() {
-		return connectedtomatlab;
+	public String rationalName(String name) {
+		int index = 12;
+		if (name.length() > index) {
+			return name.substring(index);
+		} else {
+			return name;
+		}
 	}
+
 	
 }
 

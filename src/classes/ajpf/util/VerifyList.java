@@ -41,6 +41,10 @@ import java.util.Collection;
 public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	ArrayList<K> sortedlist = new ArrayList<K>();
 	
+	public VerifyList() {
+		sortedlist.trimToSize();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.List#size()
@@ -231,7 +235,9 @@ public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	 * @see java.util.List#remove(int)
 	 */
 	public K remove(int index) {
-		return sortedlist.remove(index);
+		K element = sortedlist.remove(index);
+		sortedlist.trimToSize();
+		return element;
 	}
 	
 	/*
@@ -239,7 +245,9 @@ public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	 * @see java.util.List#remove(java.lang.Object)
 	 */
 	public boolean remove(Object o) {
-		return sortedlist.remove(o);
+		boolean element = sortedlist.remove(o);
+		sortedlist.trimToSize();
+		return element;
 	}
 
 	/*

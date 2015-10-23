@@ -58,6 +58,8 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	public final static byte AILReceived = 6; 
 	@FilterField
 	public final static byte AILPlan = 7;
+	@FilterField
+	public final static byte AILCapability = 8;
 
 	@FilterField
 	public final static int AILAddition = 0;
@@ -640,6 +642,18 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	public Term strip_varterm() {
 		if (hasContent()) {
 			setContent(getContent().strip_varterm());
+		}
+		return this;
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#resolveVarsClusters()
+	 */
+	public Term resolveVarsClusters() {
+		if (hasContent()) {
+			setContent(getContent().resolveVarsClusters());
 		}
 		return this;
 		

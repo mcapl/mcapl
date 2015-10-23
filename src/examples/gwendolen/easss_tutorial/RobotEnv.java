@@ -44,6 +44,8 @@ import gov.nasa.jpf.annotation.FilterField;
  * Environment for a Trash Robot Scenario.  Tailored for verification so that
  * the percepts are decided at random.
  * 
+ * WARNING: This environment can not be used with record and replay because of the use of Random.
+ * 
  * @author louiseadennis
  *
  */

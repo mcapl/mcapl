@@ -171,10 +171,10 @@ NAME	:	':name:';
 
 SEND	:	'.send';
 RECEIVED:	{gwendolen}?=> '.received';
-BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('B' | '.B') ;
-GOAL	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('G' | '.G') ;
-IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}?=> ('N') ;
-IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> ('X') ;
+BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('B' | '.B') ;
+GOAL	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('G' | '.G') ;
+IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
+IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
 SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
 LOCK	:	'.lock';
 ADD_PLAN	:	'.plan';
@@ -220,12 +220,21 @@ pred 	returns [Abstract_Predicate t]:	v=var {$t = $v.v;}| f=function {$t = $f.f;
 function returns [Abstract_Predicate f]: CONST {$f = new Abstract_Predicate($CONST.getText());} (OPEN terms[$f] CLOSE)?;
 
 terms[Abstract_Predicate f] : t=term {$f.addTerm($t.t);} (COMMA terms[$f])? ;
-term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | s = stringterm {$t = $s.s;} | f=function {$t = $f.f;};
+term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | 
+	s = stringterm {$t = $s.s;} | 
+	f=function {$t = $f.f;} |
+	l = listterm {$t = $l.l;};
 
 atom	returns [Abstract_NumberTerm t]	:	n = numberstring {$t = new Abstract_NumberTermImpl($n.s);}| 
 					v=var {$t = $v.v;} | OPEN a=arithexpr CLOSE {$t = $a.t;};
+
 stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE  STRING DOUBLEQUOTE {		 
                    $s = new Abstract_StringTermImpl($STRING.getText());};
+                   
+listterm returns [Abstract_ListTerm l] : {$l = new Abstract_ListTermImpl();} SQOPEN (hl=listheads {$l.addAll($hl.tl);} (BAR v=var {$l.addTail($v.v);})?)? SQCLOSE; 
+
+listheads returns [ArrayList<Abstract_Term> tl]: t1 = term {$tl = new ArrayList<Abstract_Term>(); $tl.add($t1.t);} (COMMA tl2= term {$tl.add($tl2.t);})*;
+
 
 var 	returns [Abstract_VarTerm v]:	VAR {
 	if (variables.containsKey($VAR.getText())) {
@@ -255,7 +264,7 @@ LINE_COMMENT
     : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     ;
 NEWLINE:'\r'? '\n' {skip();} ;
-WS  :   (' '|'\t')+ {skip();} ;
+WS  :  {!stringterm}?=>(' '|'\t')+ {skip();} ;
 
 
 OPEN	: 	'(' {plain_nesting++;};
@@ -268,7 +277,7 @@ DOUBLEQUOTE
 	:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
 NOT	:	'~';
 
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
@@ -276,7 +285,7 @@ NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
 
 LESS	:	'<';
 EQ	: 	'==';
-POINT	:	'.';
+POINT	:	{!stringterm}?=>'.';
 MULT	:	'*';
 PLUS	:	'+';
 MINUS	:	'-';
@@ -288,3 +297,4 @@ COMMA	:	',';
 SEMI	:	';';
 COLON	:	':';
 QUERY	:	'?';
+BAR	:	'|';

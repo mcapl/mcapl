@@ -30,6 +30,8 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import ail.semantics.AILAgent;
 
@@ -43,7 +45,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum NumericOp { 
+	public static enum NumericOp { 
 		none   { public String toString() { return ""; } }, 
 		less   { public String toString() { return "<"; } }, 
 		equal    { public String toString() { return "="; } }, 
@@ -97,7 +99,12 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 		return logicalConsequence(u);
 	}
 	
-    public Iterator<Unifier> logicalConsequence(Unifier un) {
+	/**
+	 * Does this equation hold true given a particularly unifier?
+	 * @param un
+	 * @return
+	 */
+    private Iterator<Unifier> logicalConsequence(Unifier un) {
         try {
         	Equation ec = (Equation) this.clone();
         	ec.apply(un);
@@ -351,6 +358,14 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	   }
 
 	   /*
+	    * (non-Javadoc)
+	    * @see ail.syntax.Unifiable#resolveVarsClusters()
+	    */
+	   public Equation resolveVarsClusters() {
+		   return new Equation((NumberTerm) lhs.resolveVarsClusters(), op, (NumberTerm) rhs.resolveVarsClusters());
+	   }
+
+	   /*
      * (non-Javadoc)
      * @see ail.syntax.GBelief#getVarNames()
      */
@@ -372,5 +387,18 @@ public class Equation implements LogicalFormula, GLogicalFormula {
     		getLHS().renameVar(oldname, newname);
     	}
     }
+
+	// For the time being we do not reason symbolically about equations!!!!
+	public Set<List<PredicateTerm>> groundSets() {
+		return new HashSet<List<PredicateTerm>>();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#ground()
+	 */
+	public LogicalFormula ground() {
+		return Predicate.PTrue;
+	}
 
 }

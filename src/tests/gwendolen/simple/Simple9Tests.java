@@ -38,10 +38,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Simple9Tests extends TestJPF {
 
- static final String[] PICKUP_ARGS = { "-show", 
-	 "+listener+=,.listener.ExecTracker",
-     "+et.print_insn=false",
-     "+vm.max_transition_length = MAX"
+ static final String[] PICKUP_ARGS = {
 };
 
   //--- driver to execute single test methods
@@ -65,6 +62,37 @@ public class Simple9Tests extends TestJPF {
 		    	 
 	  }
   }
+  
+  @Test //----------------------------------------------------------------------
+  public void testForgetfulMessaging () {
+	  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/MessageAgent/ForgetfulMessageAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/MessageAgent/MessageAgent.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "2";
+	    	AJPF_w_AIL.run(args);
+	  } else {
+		    	 
+	  }
+  }
+
+  @Test //----------------------------------------------------------------------
+  public void testNotForgetfulMessaging () {
+	  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/MessageAgent/NotSoForgetfulMessageAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/MessageAgent/MessageAgent.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "3";
+	    	AJPF_w_AIL.run(args);
+	  } else {
+		    	 
+	  }
+  }
+
 
 
 }

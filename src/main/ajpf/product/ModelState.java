@@ -88,11 +88,10 @@ public class ModelState implements Comparable<ModelState> {
 	public ModelState(int statenum, Set<Proposition> product_props) {
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
-			if (lowerLogLevelThan(Level.FINE)) {
-					log.fine("proposition is " + p);
-			}
 			if (p.check()) {
-				// log.fine("proposition added to " + JPFstatenum);
+				if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+					log.fine("proposition " + p + " added to " + JPFstatenum);
+				}
 				props.add(p);
 			}
 		}

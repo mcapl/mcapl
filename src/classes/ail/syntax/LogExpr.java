@@ -45,7 +45,7 @@ public class LogExpr implements LogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum LogicalOp { 
+	public static enum LogicalOp { 
 		none   { public String toString() { return ""; } }, 
 		not    { public String toString() { return "not "; } }, 
 		and    { public String toString() { return " & "; } },
@@ -458,6 +458,19 @@ public class LogExpr implements LogicalFormula {
 			return new LogExpr(getOp(), (LogicalFormula) getRHS().strip_varterm());				
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+		if (getLHS() != null) {
+			return new LogExpr((LogicalFormula) getLHS().resolveVarsClusters(), getOp(), (LogicalFormula) getRHS().resolveVarsClusters());
+		} else {
+			return new LogExpr(getOp(), (LogicalFormula) getRHS().resolveVarsClusters());				
+		}
+	}
+
 
 
 

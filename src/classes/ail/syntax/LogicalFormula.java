@@ -51,5 +51,5 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * @return
      */
     public LogicalFormula clone();
-    
+     
 }

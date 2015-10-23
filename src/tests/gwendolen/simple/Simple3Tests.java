@@ -39,10 +39,7 @@ import gov.nasa.jpf.util.TypeRef;
  */
 public class Simple3Tests extends TestJPF {
 
- static final String[] PICKUP_ARGS = { "-show", 
-	 "+listener+=,.listener.ExecTracker",
-     "+et.print_insn=false",
-     "+vm.max_transition_length = MAX"
+ static final String[] PICKUP_ARGS = {
 };
 
   //--- driver to execute single test methods

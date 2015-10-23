@@ -25,6 +25,7 @@
 package gwendolen.semantics;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import ail.semantics.ReasoningCycle;
 import ail.semantics.RCStage;
@@ -33,6 +34,7 @@ import ail.semantics.operationalrules.*;
 import ail.syntax.Action;
 import ail.syntax.Goal;
 
+import ajpf.MCAPLcontroller;
 // import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
 /**
@@ -78,13 +80,10 @@ public class GwendolenRC implements ReasoningCycle {
 		SelectIntentionNotUnplannedProblemGoal rule1 = new SelectIntentionNotUnplannedProblemGoal();
 		SleepIfEmpty rule2 = new SleepIfEmpty();
 		DropIntentionIfEmpty rule3 = new DropIntentionIfEmpty();
-		MatchDropGoal rule4 = new MatchDropGoal();
-		// Then we set these rules to the appropriate stage in the reasoning cycle.
 		RCStage StageA = getStageA();
 		StageA.setRule(rule1);  
 		StageA.setRule(rule2);
 		StageA.setRule(rule3);
-		StageA.setRule(rule4);
 		
 		/* Stage B Rules */
 		

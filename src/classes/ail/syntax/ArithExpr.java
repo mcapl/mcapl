@@ -45,7 +45,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 	 * @author lad
 	 *
 	 */
-	public enum ArithmeticOp {
+	public static enum ArithmeticOp {
         none {
             double eval(double x, double y) {
                 return 0;
@@ -370,6 +370,24 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
     	}
     }
 
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	if (isEvaluated()) {
+    		return fValue;
+    	} else {
+    	if (rhs != null) {
+    		return (new ArithExpr((NumberTerm) lhs.resolveVarsClusters(), op, (NumberTerm) rhs.resolveVarsClusters()));
+    	} else {
+    		return (new ArithExpr(op, (NumberTerm) lhs.resolveVarsClusters()));
+    	}
+    	}
+    }
+
+    
     /*
      * (non-Javadoc)
      * @see java.lang.Object#toString()
@@ -384,6 +402,10 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
                 return "(" + lhs + op + rhs + ")";
             }
         }
+    }
+    
+    public String fullstring() {
+    	return toString();
     }
     
     /*
