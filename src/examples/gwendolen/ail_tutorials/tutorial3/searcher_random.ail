@@ -26,3 +26,6 @@ env = gwendolen.ail_tutorials.tutorial3.RandomRobotEnv
 
 mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+// Command used  in testing (ignore)
+ajpf.transition_every_reasoning_cycle = false
