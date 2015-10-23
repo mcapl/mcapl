@@ -30,12 +30,14 @@ env=eass.verification.leo.LEOVerificationEnvironment
 
 mas.file = /src/examples/eass/verification/leo/satellite_leader_agent_line_nocleanup.eass
 mas.builder = eass.EASSMASBuilder
+ajpf.transition_every_reasoning_cycle = false
 
 log.warning = ajpf.MCAPLAgent
 log.info = eass.mas.DefaultEnvironment
 log.format = brief
 
 # Satellite specific configuration
+agname=aglead
 testing_movement=true
 testing_thrusters=false
 allthrusters=false

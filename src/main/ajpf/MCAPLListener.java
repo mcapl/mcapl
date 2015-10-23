@@ -179,10 +179,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 // If we've backtracked right past the beginning and, no, I'm not really clear what's going on
 				 // internally in AJPF here.  Anyway we're done and we need to fully run the DFS and check for accepting paths.
 				 product_automata.done(0);
-				// System.err.println("a");
-				 List<ProductState> list = product_automata.DFS();
-			//	 System.err.println(list);
-				 return product_automata.getAcceptingPath().isEmpty();
+				 return (product_automata.getAcceptingPath() == null || product_automata.getAcceptingPath().isEmpty());
 			 } else {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
