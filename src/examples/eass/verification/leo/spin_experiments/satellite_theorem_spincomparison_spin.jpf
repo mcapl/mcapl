@@ -35,8 +35,8 @@ et.print_insn=false
 et.show_shared=false
 
 ajpf.model_only = true
-ajpf.model.location = theorem_test.pml
-ajpf.model.path = /Users/louiseadennis/Research/eass/ExperimentalData/leo/
+ajpf.model.location = stdout
+# ajpf.model.path = /Users/louiseadennis/Research/eass/ExperimentalData/leo/
 ajpf.target_modelchecker = spin
 
 # this is a preemption boundary specifying the max number of instructions after which we
