@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2015-07-03 15:09:33
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2015-10-19 16:01:53
 
 package eass.parser;
 
@@ -24,8 +24,8 @@ public class EASSParser extends Parser {
 		"MOD", "MULT", "NAME", "NEWLINE", "NOT", "NUMBER", "OPEN", "PERFORM", 
 		"PERFORMGOAL", "PLAN", "PLANS", "PLUS", "POINT", "QUERY", "QUERYCOM", 
 		"RECEIVED", "RULEARROW", "SEMI", "SEND", "SENT", "SHRIEK", "SQCLOSE", 
-		"SQOPEN", "STRING", "SUBSTITUTE", "TELL", "TRUE", "UPDATE", "VAR", "WAIT", 
-		"WS"
+		"SQOPEN", "STRING", "SUBSTITUTE", "TELL", "TRUE", "UNNAMEDVAR", "UPDATE", 
+		"VAR", "WAIT", "WS"
 	};
 	public static final int EOF=-1;
 	public static final int ABSTRACTION=4;
@@ -86,10 +86,11 @@ public class EASSParser extends Parser {
 	public static final int SUBSTITUTE=59;
 	public static final int TELL=60;
 	public static final int TRUE=61;
-	public static final int UPDATE=62;
-	public static final int VAR=63;
-	public static final int WAIT=64;
-	public static final int WS=65;
+	public static final int UNNAMEDVAR=62;
+	public static final int UPDATE=63;
+	public static final int VAR=64;
+	public static final int WAIT=65;
+	public static final int WS=66;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -275,7 +276,7 @@ public class EASSParser extends Parser {
 			while (true) {
 				int alt3=2;
 				int LA3_0 = input.LA(1);
-				if ( (LA3_0==CONST||LA3_0==NOT||LA3_0==TRUE||LA3_0==VAR) ) {
+				if ( (LA3_0==CONST||LA3_0==NOT||(LA3_0 >= TRUE && LA3_0 <= UNNAMEDVAR)||LA3_0==VAR) ) {
 					alt3=1;
 				}
 
@@ -312,7 +313,7 @@ public class EASSParser extends Parser {
 					while (true) {
 						int alt4=2;
 						int LA4_0 = input.LA(1);
-						if ( (LA4_0==CONST||LA4_0==VAR) ) {
+						if ( (LA4_0==CONST||LA4_0==UNNAMEDVAR||LA4_0==VAR) ) {
 							alt4=1;
 						}
 
@@ -386,7 +387,7 @@ public class EASSParser extends Parser {
 			while (true) {
 				int alt8=2;
 				int LA8_0 = input.LA(1);
-				if ( (LA8_0==CONST||LA8_0==NOT||LA8_0==TRUE||LA8_0==VAR) ) {
+				if ( (LA8_0==CONST||LA8_0==NOT||(LA8_0 >= TRUE && LA8_0 <= UNNAMEDVAR)||LA8_0==VAR) ) {
 					alt8=1;
 				}
 
@@ -536,7 +537,7 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:12: (pre= clogicalfmla )?
 			int alt11=2;
 			int LA11_0 = input.LA(1);
-			if ( (LA11_0==CONST||LA11_0==NOT||LA11_0==VAR) ) {
+			if ( (LA11_0==CONST||LA11_0==NOT||LA11_0==UNNAMEDVAR||LA11_0==VAR) ) {
 				alt11=1;
 			}
 			switch (alt11) {
@@ -779,7 +780,7 @@ public class EASSParser extends Parser {
 					if ( (LA18_0==RECEIVED) ) {
 						alt18=1;
 					}
-					else if ( (LA18_0==CONST||LA18_0==NOT||LA18_0==SHRIEK||LA18_0==TRUE||LA18_0==VAR) ) {
+					else if ( (LA18_0==CONST||LA18_0==NOT||LA18_0==SHRIEK||(LA18_0 >= TRUE && LA18_0 <= UNNAMEDVAR)||LA18_0==VAR) ) {
 						alt18=2;
 					}
 
@@ -816,7 +817,7 @@ public class EASSParser extends Parser {
 							// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:97:5: (l= literal | SHRIEK g= goal )
 							int alt17=2;
 							int LA17_0 = input.LA(1);
-							if ( (LA17_0==CONST||LA17_0==NOT||LA17_0==TRUE||LA17_0==VAR) ) {
+							if ( (LA17_0==CONST||LA17_0==NOT||(LA17_0 >= TRUE && LA17_0 <= UNNAMEDVAR)||LA17_0==VAR) ) {
 								alt17=1;
 							}
 							else if ( (LA17_0==SHRIEK) ) {
@@ -868,7 +869,7 @@ public class EASSParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:99:13: (l= literal | SHRIEK g= goal )
 					int alt19=2;
 					int LA19_0 = input.LA(1);
-					if ( (LA19_0==CONST||LA19_0==NOT||LA19_0==TRUE||LA19_0==VAR) ) {
+					if ( (LA19_0==CONST||LA19_0==NOT||(LA19_0 >= TRUE && LA19_0 <= UNNAMEDVAR)||LA19_0==VAR) ) {
 						alt19=1;
 					}
 					else if ( (LA19_0==SHRIEK) ) {
@@ -971,6 +972,7 @@ public class EASSParser extends Parser {
 			case MINUS:
 			case NUMBER:
 			case OPEN:
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt24=4;
@@ -1026,7 +1028,7 @@ public class EASSParser extends Parser {
 					if ( (LA21_0==DOUBLEQUOTE) ) {
 						alt21=1;
 					}
-					else if ( (LA21_0==VAR) ) {
+					else if ( (LA21_0==UNNAMEDVAR||LA21_0==VAR) ) {
 						alt21=2;
 					}
 
@@ -1115,7 +1117,7 @@ public class EASSParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:110:73: (v= var |s= numberstring )
 					int alt23=2;
 					int LA23_0 = input.LA(1);
-					if ( (LA23_0==VAR) ) {
+					if ( (LA23_0==UNNAMEDVAR||LA23_0==VAR) ) {
 						alt23=1;
 					}
 					else if ( (LA23_0==MINUS||LA23_0==NUMBER) ) {
@@ -1228,6 +1230,7 @@ public class EASSParser extends Parser {
 			case PLUS:
 			case QUERYCOM:
 			case SEND:
+			case UNNAMEDVAR:
 			case UPDATE:
 			case VAR:
 			case WAIT:
@@ -1265,7 +1268,7 @@ public class EASSParser extends Parser {
 					case MINUS:
 						{
 						int LA28_2 = input.LA(2);
-						if ( (LA28_2==CONST||LA28_2==LOCK||LA28_2==NOT||LA28_2==PLAN||LA28_2==SHRIEK||LA28_2==TRUE||LA28_2==VAR) ) {
+						if ( (LA28_2==CONST||LA28_2==LOCK||LA28_2==NOT||LA28_2==PLAN||LA28_2==SHRIEK||(LA28_2 >= TRUE && LA28_2 <= UNNAMEDVAR)||LA28_2==VAR) ) {
 							alt28=1;
 						}
 						else if ( (LA28_2==NUMBER) ) {
@@ -1310,6 +1313,7 @@ public class EASSParser extends Parser {
 					case NUMBER:
 					case OPEN:
 					case SEND:
+					case UNNAMEDVAR:
 					case VAR:
 						{
 						alt28=6;
@@ -1351,6 +1355,7 @@ public class EASSParser extends Parser {
 									case CONST:
 									case NOT:
 									case TRUE:
+									case UNNAMEDVAR:
 									case VAR:
 										{
 										alt25=1;
@@ -1433,6 +1438,7 @@ public class EASSParser extends Parser {
 									case CONST:
 									case NOT:
 									case TRUE:
+									case UNNAMEDVAR:
 									case VAR:
 										{
 										alt26=1;
@@ -1938,7 +1944,7 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
 			int alt34=2;
 			int LA34_0 = input.LA(1);
-			if ( (LA34_0==CONST||LA34_0==SQOPEN||LA34_0==VAR) ) {
+			if ( (LA34_0==CONST||LA34_0==SQOPEN||LA34_0==UNNAMEDVAR||LA34_0==VAR) ) {
 				alt34=1;
 			}
 			else if ( (LA34_0==NOT) ) {
@@ -1958,7 +1964,7 @@ public class EASSParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
 					int alt32=2;
 					int LA32_0 = input.LA(1);
-					if ( (LA32_0==CONST||LA32_0==VAR) ) {
+					if ( (LA32_0==CONST||LA32_0==UNNAMEDVAR||LA32_0==VAR) ) {
 						alt32=1;
 					}
 					else if ( (LA32_0==SQOPEN) ) {
@@ -2007,6 +2013,7 @@ public class EASSParser extends Parser {
 					int alt33=3;
 					switch ( input.LA(1) ) {
 					case CONST:
+					case UNNAMEDVAR:
 					case VAR:
 						{
 						alt33=1;
@@ -2191,7 +2198,7 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:47: (gb= pred | NOT (gb2= pred |lf= csubfmla ) )
 			int alt37=2;
 			int LA37_0 = input.LA(1);
-			if ( (LA37_0==CONST||LA37_0==VAR) ) {
+			if ( (LA37_0==CONST||LA37_0==UNNAMEDVAR||LA37_0==VAR) ) {
 				alt37=1;
 			}
 			else if ( (LA37_0==NOT) ) {
@@ -2222,7 +2229,7 @@ public class EASSParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:83: (gb2= pred |lf= csubfmla )
 					int alt36=2;
 					int LA36_0 = input.LA(1);
-					if ( (LA36_0==CONST||LA36_0==VAR) ) {
+					if ( (LA36_0==CONST||LA36_0==UNNAMEDVAR||LA36_0==VAR) ) {
 						alt36=1;
 					}
 					else if ( (LA36_0==OPEN) ) {
@@ -2386,6 +2393,30 @@ public class EASSParser extends Parser {
 						input.consume();
 						NoViableAltException nvae =
 							new NoViableAltException("", 38, 3, input);
+						throw nvae;
+					} finally {
+						input.rewind(nvaeMark);
+					}
+				}
+
+				}
+				break;
+			case UNNAMEDVAR:
+				{
+				int LA38_4 = input.LA(2);
+				if ( (LA38_4==PLUS) ) {
+					alt38=1;
+				}
+				else if ( (LA38_4==COMMA||LA38_4==SEMI) ) {
+					alt38=3;
+				}
+
+				else {
+					int nvaeMark = input.mark();
+					try {
+						input.consume();
+						NoViableAltException nvae =
+							new NoViableAltException("", 38, 4, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -2740,7 +2771,7 @@ public class EASSParser extends Parser {
 			if ( (LA42_0==CONST) ) {
 				alt42=1;
 			}
-			else if ( (LA42_0==VAR) ) {
+			else if ( (LA42_0==UNNAMEDVAR||LA42_0==VAR) ) {
 				alt42=2;
 			}
 
@@ -2800,7 +2831,7 @@ public class EASSParser extends Parser {
 			if ( (LA44_0==NOT||LA44_0==TRUE) ) {
 				alt44=1;
 			}
-			else if ( (LA44_0==CONST||LA44_0==VAR) ) {
+			else if ( (LA44_0==CONST||LA44_0==UNNAMEDVAR||LA44_0==VAR) ) {
 				alt44=2;
 			}
 
@@ -2898,7 +2929,7 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:37: (v= var |f= function )
 			int alt45=2;
 			int LA45_0 = input.LA(1);
-			if ( (LA45_0==VAR) ) {
+			if ( (LA45_0==UNNAMEDVAR||LA45_0==VAR) ) {
 				alt45=1;
 			}
 			else if ( (LA45_0==CONST) ) {
@@ -3066,6 +3097,7 @@ public class EASSParser extends Parser {
 			case MINUS:
 			case NUMBER:
 			case OPEN:
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt48=1;
@@ -3168,6 +3200,7 @@ public class EASSParser extends Parser {
 				alt49=1;
 				}
 				break;
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt49=2;
@@ -3283,7 +3316,7 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:85: (hl= listheads ( BAR v= var )? )?
 			int alt51=2;
 			int LA51_0 = input.LA(1);
-			if ( (LA51_0==CONST||LA51_0==DOUBLEQUOTE||LA51_0==MINUS||(LA51_0 >= NUMBER && LA51_0 <= OPEN)||LA51_0==SQOPEN||LA51_0==VAR) ) {
+			if ( (LA51_0==CONST||LA51_0==DOUBLEQUOTE||LA51_0==MINUS||(LA51_0 >= NUMBER && LA51_0 <= OPEN)||LA51_0==SQOPEN||LA51_0==UNNAMEDVAR||LA51_0==VAR) ) {
 				alt51=1;
 			}
 			switch (alt51) {
@@ -3400,7 +3433,7 @@ public class EASSParser extends Parser {
 
 
 	// $ANTLR start "var"
-	// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:1: var returns [Abstract_VarTerm v] : VAR ;
+	// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:1: var returns [Abstract_VarTerm v] : ( VAR | UNNAMEDVAR ) ;
 	public final Abstract_VarTerm var() throws RecognitionException {
 		Abstract_VarTerm v = null;
 
@@ -3408,18 +3441,50 @@ public class EASSParser extends Parser {
 		Token VAR6=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:34: ( VAR )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:36: VAR
+			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:34: ( ( VAR | UNNAMEDVAR ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:36: ( VAR | UNNAMEDVAR )
 			{
-			VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var2898); 
+			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:36: ( VAR | UNNAMEDVAR )
+			int alt53=2;
+			int LA53_0 = input.LA(1);
+			if ( (LA53_0==VAR) ) {
+				alt53=1;
+			}
+			else if ( (LA53_0==UNNAMEDVAR) ) {
+				alt53=2;
+			}
 
-				if (variables.containsKey(VAR6.getText())) {
-					v = variables.get(VAR6.getText());
-					} else {
-					v = new Abstract_VarTerm(VAR6.getText());
-					variables.put(VAR6.getText(), v);
+			else {
+				NoViableAltException nvae =
+					new NoViableAltException("", 53, 0, input);
+				throw nvae;
+			}
+
+			switch (alt53) {
+				case 1 :
+					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:37: VAR
+					{
+					VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var2899); 
+
+						if (variables.containsKey(VAR6.getText())) {
+							v = variables.get(VAR6.getText());
+							} else {
+							v = new Abstract_VarTerm(VAR6.getText());
+							variables.put(VAR6.getText(), v);
+							}
+						
 					}
-				
+					break;
+				case 2 :
+					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:6: UNNAMEDVAR
+					{
+					match(input,UNNAMEDVAR,FOLLOW_UNNAMEDVAR_in_var2905); 
+					v = new Abstract_UnnamedVar();
+					}
+					break;
+
+			}
+
 			}
 
 		}
@@ -3451,16 +3516,16 @@ public class EASSParser extends Parser {
 			{
 			s = "";
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:46: ( MINUS )?
-			int alt53=2;
-			int LA53_0 = input.LA(1);
-			if ( (LA53_0==MINUS) ) {
-				alt53=1;
+			int alt54=2;
+			int LA54_0 = input.LA(1);
+			if ( (LA54_0==MINUS) ) {
+				alt54=1;
 			}
-			switch (alt53) {
+			switch (alt54) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:47: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_numberstring2915); 
+					match(input,MINUS,FOLLOW_MINUS_in_numberstring2923); 
 					s += "-";
 					}
 					break;
@@ -3470,21 +3535,21 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:68: (n1= NUMBER ( POINT n2= NUMBER )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:69: n1= NUMBER ( POINT n2= NUMBER )?
 			{
-			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2924); 
+			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2932); 
 			s += n1.getText();
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:6: ( POINT n2= NUMBER )?
-			int alt54=2;
-			int LA54_0 = input.LA(1);
-			if ( (LA54_0==POINT) ) {
-				alt54=1;
+			int alt55=2;
+			int LA55_0 = input.LA(1);
+			if ( (LA55_0==POINT) ) {
+				alt55=1;
 			}
-			switch (alt54) {
+			switch (alt55) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:7: POINT n2= NUMBER
 					{
-					match(input,POINT,FOLLOW_POINT_in_numberstring2934); 
+					match(input,POINT,FOLLOW_POINT_in_numberstring2942); 
 					s += ".";
-					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2940); 
+					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2948); 
 					s += n2.getText();
 					}
 					break;
@@ -3523,15 +3588,15 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:40: (a1= arithexpr oper= eqoper a2= arithexpr )
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:42: a1= arithexpr oper= eqoper a2= arithexpr
 			{
-			pushFollow(FOLLOW_arithexpr_in_equation2958);
+			pushFollow(FOLLOW_arithexpr_in_equation2966);
 			a1=arithexpr();
 			state._fsp--;
 
-			pushFollow(FOLLOW_eqoper_in_equation2962);
+			pushFollow(FOLLOW_eqoper_in_equation2970);
 			oper=eqoper();
 			state._fsp--;
 
-			pushFollow(FOLLOW_arithexpr_in_equation2966);
+			pushFollow(FOLLOW_arithexpr_in_equation2974);
 			a2=arithexpr();
 			state._fsp--;
 
@@ -3560,33 +3625,33 @@ public class EASSParser extends Parser {
 
 		try {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:27: ( LESS | EQ )
-			int alt55=2;
-			int LA55_0 = input.LA(1);
-			if ( (LA55_0==LESS) ) {
-				alt55=1;
+			int alt56=2;
+			int LA56_0 = input.LA(1);
+			if ( (LA56_0==LESS) ) {
+				alt56=1;
 			}
-			else if ( (LA55_0==EQ) ) {
-				alt55=2;
+			else if ( (LA56_0==EQ) ) {
+				alt56=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 55, 0, input);
+					new NoViableAltException("", 56, 0, input);
 				throw nvae;
 			}
 
-			switch (alt55) {
+			switch (alt56) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:29: LESS
 					{
-					match(input,LESS,FOLLOW_LESS_in_eqoper2980); 
+					match(input,LESS,FOLLOW_LESS_in_eqoper2988); 
 					oper =Abstract_Equation.less;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:68: EQ
 					{
-					match(input,EQ,FOLLOW_EQ_in_eqoper2986); 
+					match(input,EQ,FOLLOW_EQ_in_eqoper2994); 
 					oper =Abstract_Equation.equal;
 					}
 					break;
@@ -3620,26 +3685,26 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:43: (m= multexpr (oper= addoper m1= multexpr )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:45: m= multexpr (oper= addoper m1= multexpr )?
 			{
-			pushFollow(FOLLOW_multexpr_in_arithexpr3002);
+			pushFollow(FOLLOW_multexpr_in_arithexpr3010);
 			m=multexpr();
 			state._fsp--;
 
 			t = m;
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:69: (oper= addoper m1= multexpr )?
-			int alt56=2;
-			int LA56_0 = input.LA(1);
-			if ( (LA56_0==MINUS||LA56_0==PLUS) ) {
-				alt56=1;
+			int alt57=2;
+			int LA57_0 = input.LA(1);
+			if ( (LA57_0==MINUS||LA57_0==PLUS) ) {
+				alt57=1;
 			}
-			switch (alt56) {
+			switch (alt57) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:71: oper= addoper m1= multexpr
 					{
-					pushFollow(FOLLOW_addoper_in_arithexpr3010);
+					pushFollow(FOLLOW_addoper_in_arithexpr3018);
 					oper=addoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_multexpr_in_arithexpr3014);
+					pushFollow(FOLLOW_multexpr_in_arithexpr3022);
 					m1=multexpr();
 					state._fsp--;
 
@@ -3679,26 +3744,26 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:42: (a= atom (oper= multoper a1= atom )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:44: a= atom (oper= multoper a1= atom )?
 			{
-			pushFollow(FOLLOW_atom_in_multexpr3031);
+			pushFollow(FOLLOW_atom_in_multexpr3039);
 			a=atom();
 			state._fsp--;
 
 			t = a;
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:64: (oper= multoper a1= atom )?
-			int alt57=2;
-			int LA57_0 = input.LA(1);
-			if ( (LA57_0==DIV||(LA57_0 >= MOD && LA57_0 <= MULT)) ) {
-				alt57=1;
+			int alt58=2;
+			int LA58_0 = input.LA(1);
+			if ( (LA58_0==DIV||(LA58_0 >= MOD && LA58_0 <= MULT)) ) {
+				alt58=1;
 			}
-			switch (alt57) {
+			switch (alt58) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:65: oper= multoper a1= atom
 					{
-					pushFollow(FOLLOW_multoper_in_multexpr3038);
+					pushFollow(FOLLOW_multoper_in_multexpr3046);
 					oper=multoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_atom_in_multexpr3042);
+					pushFollow(FOLLOW_atom_in_multexpr3050);
 					a1=atom();
 					state._fsp--;
 
@@ -3735,33 +3800,33 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:30: ( PLUS | MINUS )
 			{
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:30: ( PLUS | MINUS )
-			int alt58=2;
-			int LA58_0 = input.LA(1);
-			if ( (LA58_0==PLUS) ) {
-				alt58=1;
+			int alt59=2;
+			int LA59_0 = input.LA(1);
+			if ( (LA59_0==PLUS) ) {
+				alt59=1;
 			}
-			else if ( (LA58_0==MINUS) ) {
-				alt58=2;
+			else if ( (LA59_0==MINUS) ) {
+				alt59=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 58, 0, input);
+					new NoViableAltException("", 59, 0, input);
 				throw nvae;
 			}
 
-			switch (alt58) {
+			switch (alt59) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:31: PLUS
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_addoper3059); 
+					match(input,PLUS,FOLLOW_PLUS_in_addoper3067); 
 					oper =Abstract_ArithExpr.plus;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:70: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_addoper3064); 
+					match(input,MINUS,FOLLOW_MINUS_in_addoper3072); 
 					oper =Abstract_ArithExpr.minus;
 					}
 					break;
@@ -3795,47 +3860,47 @@ public class EASSParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:31: ( MULT | DIV | MOD )
 			{
 			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:31: ( MULT | DIV | MOD )
-			int alt59=3;
+			int alt60=3;
 			switch ( input.LA(1) ) {
 			case MULT:
 				{
-				alt59=1;
+				alt60=1;
 				}
 				break;
 			case DIV:
 				{
-				alt59=2;
+				alt60=2;
 				}
 				break;
 			case MOD:
 				{
-				alt59=3;
+				alt60=3;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 59, 0, input);
+					new NoViableAltException("", 60, 0, input);
 				throw nvae;
 			}
-			switch (alt59) {
+			switch (alt60) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:32: MULT
 					{
-					match(input,MULT,FOLLOW_MULT_in_multoper3079); 
+					match(input,MULT,FOLLOW_MULT_in_multoper3087); 
 					oper =Abstract_ArithExpr.times;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:73: DIV
 					{
-					match(input,DIV,FOLLOW_DIV_in_multoper3085); 
+					match(input,DIV,FOLLOW_DIV_in_multoper3093); 
 					oper =Abstract_ArithExpr.div;
 					}
 					break;
 				case 3 :
 					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:111: MOD
 					{
-					match(input,MOD,FOLLOW_MOD_in_multoper3091); 
+					match(input,MOD,FOLLOW_MOD_in_multoper3099); 
 					oper =Abstract_ArithExpr.mod;
 					}
 					break;
@@ -3863,18 +3928,18 @@ public class EASSParser extends Parser {
 	public static final BitSet FOLLOW_eassagents_in_mas89 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_EASS_in_eassagents102 = new BitSet(new long[]{0x0000002000000010L});
 	public static final BitSet FOLLOW_eassagent_in_eassagents111 = new BitSet(new long[]{0x0000002000000012L});
-	public static final BitSet FOLLOW_NAME_in_eassagent130 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_NAME_in_eassagent130 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_word_in_eassagent134 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_ABSTRACTION_in_eassagent141 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_ABSTRACTION_in_eassagent141 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_word_in_eassagent145 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_BELIEFS_in_eassagent157 = new BitSet(new long[]{0xA000008020104200L});
-	public static final BitSet FOLLOW_literal_in_eassagent162 = new BitSet(new long[]{0xA000008020104200L});
-	public static final BitSet FOLLOW_BELIEFRULES_in_eassagent170 = new BitSet(new long[]{0x8000000020104000L});
-	public static final BitSet FOLLOW_brule_in_eassagent175 = new BitSet(new long[]{0x8000000020104000L});
+	public static final BitSet FOLLOW_BELIEFS_in_eassagent157 = new BitSet(new long[]{0x6000008020104200L,0x0000000000000001L});
+	public static final BitSet FOLLOW_literal_in_eassagent162 = new BitSet(new long[]{0x6000008020104200L,0x0000000000000001L});
+	public static final BitSet FOLLOW_BELIEFRULES_in_eassagent170 = new BitSet(new long[]{0x4000000020104000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_brule_in_eassagent175 = new BitSet(new long[]{0x4000000020104000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_CAPABILITIES_in_eassagent185 = new BitSet(new long[]{0x0000000020400000L});
 	public static final BitSet FOLLOW_capability_in_eassagent190 = new BitSet(new long[]{0x0000000020400000L});
-	public static final BitSet FOLLOW_GOALS_in_eassagent199 = new BitSet(new long[]{0xA000208000100000L});
-	public static final BitSet FOLLOW_goal_in_eassagent204 = new BitSet(new long[]{0xA000208000100000L});
+	public static final BitSet FOLLOW_GOALS_in_eassagent199 = new BitSet(new long[]{0x6000208000100000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_goal_in_eassagent204 = new BitSet(new long[]{0x6000208000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_PLANS_in_eassagent211 = new BitSet(new long[]{0x0000400400000002L});
 	public static final BitSet FOLLOW_plan_in_eassagent216 = new BitSet(new long[]{0x0000400400000002L});
 	public static final BitSet FOLLOW_literal_in_goal237 = new BitSet(new long[]{0x0200000000000000L});
@@ -3882,88 +3947,88 @@ public class EASSParser extends Parser {
 	public static final BitSet FOLLOW_ACHIEVEGOAL_in_goal242 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_PERFORMGOAL_in_goal250 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_goal255 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_capability270 = new BitSet(new long[]{0x8000008000300000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_capability270 = new BitSet(new long[]{0x4000008000300000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_clogicalfmla_in_capability275 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_capability279 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_capability279 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_capability285 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_capability290 = new BitSet(new long[]{0x8000008000100000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_capability290 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_clogicalfmla_in_capability294 = new BitSet(new long[]{0x0000000000200000L});
 	public static final BitSet FOLLOW_CURLYCLOSE_in_capability298 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_event_in_plan316 = new BitSet(new long[]{0x0000000000020000L});
 	public static final BitSet FOLLOW_COLON_in_plan324 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_plan326 = new BitSet(new long[]{0xA040138410000800L});
-	public static final BitSet FOLLOW_NOT_in_plan331 = new BitSet(new long[]{0xA040130410000800L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_plan326 = new BitSet(new long[]{0x6040138410000800L,0x0000000000000001L});
+	public static final BitSet FOLLOW_NOT_in_plan331 = new BitSet(new long[]{0x6040130410000800L,0x0000000000000001L});
 	public static final BitSet FOLLOW_guard_atom_in_plan339 = new BitSet(new long[]{0x0000000000240000L});
-	public static final BitSet FOLLOW_COMMA_in_plan347 = new BitSet(new long[]{0xA040138410000800L});
-	public static final BitSet FOLLOW_NOT_in_plan352 = new BitSet(new long[]{0xA040130410000800L});
+	public static final BitSet FOLLOW_COMMA_in_plan347 = new BitSet(new long[]{0x6040138410000800L,0x0000000000000001L});
+	public static final BitSet FOLLOW_NOT_in_plan352 = new BitSet(new long[]{0x6040130410000800L,0x0000000000000001L});
 	public static final BitSet FOLLOW_guard_atom_in_plan360 = new BitSet(new long[]{0x0000000000240000L});
 	public static final BitSet FOLLOW_CURLYCLOSE_in_plan366 = new BitSet(new long[]{0x0018000000000000L});
-	public static final BitSet FOLLOW_RULEARROW_in_plan369 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_RULEARROW_in_plan369 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000003L});
 	public static final BitSet FOLLOW_deed_in_plan374 = new BitSet(new long[]{0x0010000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_plan380 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_COMMA_in_plan380 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000003L});
 	public static final BitSet FOLLOW_deed_in_plan384 = new BitSet(new long[]{0x0010000000040000L});
 	public static final BitSet FOLLOW_SEMI_in_plan395 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_event412 = new BitSet(new long[]{0xA084008000100000L});
+	public static final BitSet FOLLOW_PLUS_in_event412 = new BitSet(new long[]{0x6084008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_RECEIVED_in_event415 = new BitSet(new long[]{0x0000020000000000L});
 	public static final BitSet FOLLOW_OPEN_in_event417 = new BitSet(new long[]{0x1000040000000020L});
 	public static final BitSet FOLLOW_performative_in_event421 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_event423 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_event423 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_event427 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_event429 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_literal_in_event446 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event456 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_SHRIEK_in_event456 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_goal_in_event460 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_event474 = new BitSet(new long[]{0xA080008000100000L});
+	public static final BitSet FOLLOW_MINUS_in_event474 = new BitSet(new long[]{0x6080008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_event479 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event489 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_SHRIEK_in_event489 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_goal_in_event493 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_BELIEVE_in_guard_atom515 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_BELIEVE_in_guard_atom515 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_guard_atom519 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_GOAL_in_guard_atom529 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_GOAL_in_guard_atom529 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_goal_in_guard_atom533 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SENT_in_guard_atom543 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_guard_atom545 = new BitSet(new long[]{0x8000000001000000L});
+	public static final BitSet FOLLOW_OPEN_in_guard_atom545 = new BitSet(new long[]{0x4000000001000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_stringterm_in_guard_atom552 = new BitSet(new long[]{0x0000000000040000L});
 	public static final BitSet FOLLOW_var_in_guard_atom560 = new BitSet(new long[]{0x0000000000040000L});
 	public static final BitSet FOLLOW_COMMA_in_guard_atom565 = new BitSet(new long[]{0x1000040001000020L});
 	public static final BitSet FOLLOW_stringterm_in_guard_atom572 = new BitSet(new long[]{0x0000000000040000L});
 	public static final BitSet FOLLOW_COMMA_in_guard_atom580 = new BitSet(new long[]{0x1000040000000020L});
 	public static final BitSet FOLLOW_performative_in_guard_atom588 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom596 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom596 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_guard_atom600 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_guard_atom602 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_equation_in_guard_atom616 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_PLAN_in_guard_atom636 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_guard_atom638 = new BitSet(new long[]{0x8000010400000000L});
+	public static final BitSet FOLLOW_OPEN_in_guard_atom638 = new BitSet(new long[]{0x4000010400000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_var_in_guard_atom645 = new BitSet(new long[]{0x0000000000040000L});
 	public static final BitSet FOLLOW_numberstring_in_guard_atom652 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom657 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom657 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_guard_atom705 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom707 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom707 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_guard_atom756 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom758 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom758 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_guard_atom762 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_guard_atom764 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_TRUE_in_guard_atom821 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_deed846 = new BitSet(new long[]{0xA080108200100000L});
+	public static final BitSet FOLLOW_PLUS_in_deed846 = new BitSet(new long[]{0x6080108200100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_deed851 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed861 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_SHRIEK_in_deed861 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_goal_in_deed865 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_LOCK_in_deed875 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_PLAN_in_deed884 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_deed886 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_OPEN_in_deed886 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_deed890 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_deed892 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_deed905 = new BitSet(new long[]{0xA080108200100000L});
+	public static final BitSet FOLLOW_MINUS_in_deed905 = new BitSet(new long[]{0x6080108200100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_deed910 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed920 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_SHRIEK_in_deed920 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_goal_in_deed924 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_LOCK_in_deed934 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_PLAN_in_deed944 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_deed946 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_OPEN_in_deed946 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_deed950 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_deed952 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_UPDATE_in_deed969 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_UPDATE_in_deed969 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_deed974 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CALCULATE_in_deed985 = new BitSet(new long[]{0x0000020000000000L});
 	public static final BitSet FOLLOW_calculation_in_deed989 = new BitSet(new long[]{0x0000000000000002L});
@@ -3975,72 +4040,72 @@ public class EASSParser extends Parser {
 	public static final BitSet FOLLOW_waitfor_in_deed1045 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SUBSTITUTE_in_deed1055 = new BitSet(new long[]{0x0000020000000000L});
 	public static final BitSet FOLLOW_substitution_in_deed1059 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_substitution1091 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_OPEN_in_substitution1091 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_substitution1095 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution1097 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_substitution1097 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_substitution1103 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution1105 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_substitution1105 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_substitution1110 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution1112 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_substitution1112 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_substitution1118 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_substitution1120 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_calculation1136 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_OPEN_in_calculation1136 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_calculation1142 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_calculation1144 = new BitSet(new long[]{0x8000000000000000L});
+	public static final BitSet FOLLOW_COMMA_in_calculation1144 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_var_in_calculation1148 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_calculation1150 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_query1168 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_OPEN_in_query1168 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_query1174 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_query1177 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_wait1195 = new BitSet(new long[]{0x8200030401100000L});
+	public static final BitSet FOLLOW_OPEN_in_wait1195 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_term_in_wait1201 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_wait1203 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_COMMA_in_wait1203 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_wait1207 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_wait1209 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_brule1232 = new BitSet(new long[]{0x0010000000001000L});
-	public static final BitSet FOLLOW_BRULEARROW_in_brule1235 = new BitSet(new long[]{0x8200008000100000L});
+	public static final BitSet FOLLOW_BRULEARROW_in_brule1235 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_logicalfmla_in_brule1239 = new BitSet(new long[]{0x0010000000000000L});
 	public static final BitSet FOLLOW_SEMI_in_brule1243 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SEMI_in_brule1247 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_notfmla_in_logicalfmla1265 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_logicalfmla1285 = new BitSet(new long[]{0x8200008000100000L});
+	public static final BitSet FOLLOW_COMMA_in_logicalfmla1285 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_notfmla_in_logicalfmla1289 = new BitSet(new long[]{0x0000000000040002L});
 	public static final BitSet FOLLOW_pred_in_notfmla1325 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1333 = new BitSet(new long[]{0x8000030400000000L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla1333 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_equation_in_notfmla1339 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1343 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_notfmla1427 = new BitSet(new long[]{0x8200020000100000L});
+	public static final BitSet FOLLOW_NOT_in_notfmla1427 = new BitSet(new long[]{0x4200020000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_notfmla1434 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1518 = new BitSet(new long[]{0x8000030400000000L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla1518 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_equation_in_notfmla1524 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1526 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_subfmla_in_notfmla1615 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_subfmla1629 = new BitSet(new long[]{0x8200008000100000L});
+	public static final BitSet FOLLOW_OPEN_in_subfmla1629 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_logicalfmla_in_subfmla1635 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_subfmla1639 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla1654 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_clogicalfmla1674 = new BitSet(new long[]{0x8000008000100000L});
+	public static final BitSet FOLLOW_COMMA_in_clogicalfmla1674 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla1678 = new BitSet(new long[]{0x0000000000040002L});
 	public static final BitSet FOLLOW_pred_in_cnotfmla1713 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_cnotfmla1798 = new BitSet(new long[]{0x8000020000100000L});
+	public static final BitSet FOLLOW_NOT_in_cnotfmla1798 = new BitSet(new long[]{0x4000020000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_cnotfmla1805 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_csubfmla_in_cnotfmla1894 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_csubfmla1908 = new BitSet(new long[]{0x8000008000100000L});
+	public static final BitSet FOLLOW_OPEN_in_csubfmla1908 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_clogicalfmla_in_csubfmla1914 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_csubfmla1918 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_waitfor1934 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_MULT_in_waitfor1934 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_waitfor1938 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_atom_in_action1958 = new BitSet(new long[]{0x0000400000000000L});
-	public static final BitSet FOLLOW_PLUS_in_action1960 = new BitSet(new long[]{0x8000030400000000L});
+	public static final BitSet FOLLOW_PLUS_in_action1960 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_atom_in_action1964 = new BitSet(new long[]{0x0000000008000000L});
-	public static final BitSet FOLLOW_EQ_ASSGN_in_action1966 = new BitSet(new long[]{0x8000000000000000L});
+	public static final BitSet FOLLOW_EQ_ASSGN_in_action1966 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_var_in_action1970 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SEND_in_action1979 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_action1981 = new BitSet(new long[]{0xA000008000100000L});
+	public static final BitSet FOLLOW_OPEN_in_action1981 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_literal_in_action1985 = new BitSet(new long[]{0x0000000000040000L});
 	public static final BitSet FOLLOW_COMMA_in_action1987 = new BitSet(new long[]{0x1000040000000020L});
 	public static final BitSet FOLLOW_performative_in_action1991 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_action1993 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_COMMA_in_action1993 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_action1997 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_action1999 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_action2010 = new BitSet(new long[]{0x0000000000000002L});
@@ -4049,24 +4114,24 @@ public class EASSParser extends Parser {
 	public static final BitSet FOLLOW_ACHIEVE_in_performative2038 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_classpath_in_environment2330 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_word_in_classpath2345 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_POINT_in_classpath2350 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_POINT_in_classpath2350 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_word_in_classpath2354 = new BitSet(new long[]{0x0000800000000002L});
 	public static final BitSet FOLLOW_CONST_in_word2455 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_VAR_in_word2461 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CONST_in_agentnameterm2561 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_agentnameterm2569 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_TRUE_in_literal2586 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_literal2597 = new BitSet(new long[]{0x8000000000100000L});
+	public static final BitSet FOLLOW_NOT_in_literal2597 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_pred_in_literal2601 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_literal2615 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_pred2632 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_function_in_pred2639 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CONST_in_function2652 = new BitSet(new long[]{0x0000020000000002L});
-	public static final BitSet FOLLOW_OPEN_in_function2657 = new BitSet(new long[]{0x8200030401100000L});
+	public static final BitSet FOLLOW_OPEN_in_function2657 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_terms_in_function2659 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_function2662 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_term_in_terms2676 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_terms2681 = new BitSet(new long[]{0x8200030401100000L});
+	public static final BitSet FOLLOW_COMMA_in_terms2681 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_terms_in_terms2683 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_atom_in_term2702 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_stringterm_in_term2714 = new BitSet(new long[]{0x0000000000000002L});
@@ -4074,39 +4139,40 @@ public class EASSParser extends Parser {
 	public static final BitSet FOLLOW_listterm_in_term2735 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_numberstring_in_atom2754 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_atom2767 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_atom2773 = new BitSet(new long[]{0x8000030400000000L});
+	public static final BitSet FOLLOW_OPEN_in_atom2773 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_arithexpr_in_atom2777 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_CLOSE_in_atom2779 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2793 = new BitSet(new long[]{0x0400000000000000L});
 	public static final BitSet FOLLOW_STRING_in_stringterm2796 = new BitSet(new long[]{0x0000000001000000L});
 	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2798 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_listterm2833 = new BitSet(new long[]{0x8300030401100000L});
+	public static final BitSet FOLLOW_SQOPEN_in_listterm2833 = new BitSet(new long[]{0x4300030401100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_listheads_in_listterm2838 = new BitSet(new long[]{0x0100000000000100L});
-	public static final BitSet FOLLOW_BAR_in_listterm2843 = new BitSet(new long[]{0x8000000000000000L});
+	public static final BitSet FOLLOW_BAR_in_listterm2843 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_var_in_listterm2847 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_listterm2855 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_term_in_listheads2871 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_listheads2876 = new BitSet(new long[]{0x8200030401100000L});
+	public static final BitSet FOLLOW_COMMA_in_listheads2876 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
 	public static final BitSet FOLLOW_term_in_listheads2881 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_VAR_in_var2898 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_numberstring2915 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2924 = new BitSet(new long[]{0x0000800000000002L});
-	public static final BitSet FOLLOW_POINT_in_numberstring2934 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2940 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2958 = new BitSet(new long[]{0x0000000084000000L});
-	public static final BitSet FOLLOW_eqoper_in_equation2962 = new BitSet(new long[]{0x8000030400000000L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2966 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LESS_in_eqoper2980 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EQ_in_eqoper2986 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr3002 = new BitSet(new long[]{0x0000400400000002L});
-	public static final BitSet FOLLOW_addoper_in_arithexpr3010 = new BitSet(new long[]{0x8000030400000000L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr3014 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_multexpr3031 = new BitSet(new long[]{0x0000001800800002L});
-	public static final BitSet FOLLOW_multoper_in_multexpr3038 = new BitSet(new long[]{0x8000030400000000L});
-	public static final BitSet FOLLOW_atom_in_multexpr3042 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_addoper3059 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_addoper3064 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_multoper3079 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DIV_in_multoper3085 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MOD_in_multoper3091 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_var2899 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_UNNAMEDVAR_in_var2905 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_numberstring2923 = new BitSet(new long[]{0x0000010000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2932 = new BitSet(new long[]{0x0000800000000002L});
+	public static final BitSet FOLLOW_POINT_in_numberstring2942 = new BitSet(new long[]{0x0000010000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2948 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2966 = new BitSet(new long[]{0x0000000084000000L});
+	public static final BitSet FOLLOW_eqoper_in_equation2970 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2974 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LESS_in_eqoper2988 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_EQ_in_eqoper2994 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr3010 = new BitSet(new long[]{0x0000400400000002L});
+	public static final BitSet FOLLOW_addoper_in_arithexpr3018 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr3022 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_multexpr3039 = new BitSet(new long[]{0x0000001800800002L});
+	public static final BitSet FOLLOW_multoper_in_multexpr3046 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
+	public static final BitSet FOLLOW_atom_in_multexpr3050 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PLUS_in_addoper3067 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_addoper3072 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MULT_in_multoper3087 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DIV_in_multoper3093 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MOD_in_multoper3099 = new BitSet(new long[]{0x0000000000000002L});
 }
