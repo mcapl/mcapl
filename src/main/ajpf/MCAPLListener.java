@@ -37,6 +37,7 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 import java.io.BufferedReader;
@@ -168,18 +169,17 @@ public class MCAPLListener extends PropertyListenerAdapter {
     * @see gov.nasa.jpf.PropertyListenerAdapter#check(gov.nasa.jpf.search.Search, gov.nasa.jpf.jvm.JVM)
     */
 	 public boolean check (Search search, VM vm) {
+		 if (lowerLogLevelThan(Level.FINER)) {
 			 log.finer("checking " + search.getStateId());
 			 log.finer(" is ignored " + search.isIgnoredState());
 			 log.finer(" transition occured " + vm.transitionOccurred());
+		 }
 			 
 			 if (search.getStateId() == -1) {
 				 // If we've backtracked right past the beginning and, no, I'm not really clear what's going on
 				 // internally in AJPF here.  Anyway we're done and we need to fully run the DFS and check for accepting paths.
 				 product_automata.done(0);
-				// System.err.println("a");
-				 List<ProductState> list = product_automata.DFS();
-			//	 System.err.println(list);
-				 return product_automata.getAcceptingPath().isEmpty();
+				 return (product_automata.getAcceptingPath() == null || product_automata.getAcceptingPath().isEmpty());
 			 } else {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
@@ -256,7 +256,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 		 if (search.isDone()) {
 			 product_automata.done(search.getStateId());
 		 }
-		 log.fine("backtracking to " + id);
+		 // log.fine("backtracking to " + id);
 
 		 // Since we're maintaining the "current path" in the model and the product automata this need to be pruned accordingly.
 		 if (product_automata != null) {
@@ -385,4 +385,20 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 }
 		 }
 	 }
+	 
+		/**
+		 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+		 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+		 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+		 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+		 * @param l
+		 * @return
+		 */
+		private static boolean lowerLogLevelThan(Level l) {
+			if  (log.getLevel().intValue() <= l.intValue()) {
+				return true;
+			}
+			return false;
+		}
+
 }

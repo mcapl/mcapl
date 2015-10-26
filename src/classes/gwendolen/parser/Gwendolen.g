@@ -236,14 +236,14 @@ listterm returns [Abstract_ListTerm l] : {$l = new Abstract_ListTermImpl();} SQO
 listheads returns [ArrayList<Abstract_Term> tl]: t1 = term {$tl = new ArrayList<Abstract_Term>(); $tl.add($t1.t);} (COMMA tl2= term {$tl.add($tl2.t);})*;
 
 
-var 	returns [Abstract_VarTerm v]:	VAR {
+var 	returns [Abstract_VarTerm v]:	(VAR {
 	if (variables.containsKey($VAR.getText())) {
 		$v = variables.get($VAR.getText());
 		} else {
 		$v = new Abstract_VarTerm($VAR.getText());
 		variables.put($VAR.getText(), $v);
 		}
-	};
+	} | UNNAMEDVAR {$v = new Abstract_UnnamedVar();});
 
 numberstring returns [String s] :	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}
 					(POINT {$s += ".";} n2=NUMBER {$s += $n2.getText();})?);
@@ -281,6 +281,8 @@ STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
+UNNAMEDVAR
+	:	{!stringterm}?=>'_';
 
 
 LESS	:	'<';

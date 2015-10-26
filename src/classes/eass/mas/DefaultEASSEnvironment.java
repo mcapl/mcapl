@@ -70,8 +70,11 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	public HashMap<String, Predicate> values = new HashMap<String, Predicate>();
-	HashMap<String, HashMap<String, Predicate>> agvalues = new HashMap<String, HashMap<String, Predicate>>();
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	/**
+	 * Tracking of input predicates.
+	 */
+	HashMap<String, HashMap<String, Predicate>> agvalues = new HashMap<String,HashMap<String, Predicate>>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
@@ -179,21 +182,30 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 	   
 		Unifier u = new Unifier();
+		boolean printed = false;
 		 
 	   if (act.getFunctor().equals("assert_shared")) {
 		   addSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
-		   act.setLogLevel(AJPFLogger.FINE);
+		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared")) {
 		   removeSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
-		   act.setLogLevel(AJPFLogger.FINE);
+		   printed = true;
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done " + act);
+		   }
 	   } else  if (act.getFunctor().equals("remove_shared_unifies")) {
 		   removeUnifiesShared(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
-		   act.setLogLevel(AJPFLogger.FINE);
 	   } else if (act.getFunctor().equals("perf")) {
 		   Predicate run = (Predicate) act.getTerm(0);
 		   Message m = new Message(2, agName, "abstraction", run);
 		   String abs = abstractionengines.get(agName);
 		   addMessage(abs, m);
+		   if (AJPFLogger.ltFine(logname)) {
+			   AJPFLogger.fine(logname, agName + " done PERF " + act);
+		   }
 	   } else if (act.getFunctor().equals("query")) {
 		   Predicate query = (Predicate) act.getTerm(0);
 		   Message m = new Message(2, agName, "abstraction", query);
@@ -267,8 +279,8 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		EASSAgent ea = (EASSAgent) a;
 		if (ea.isAbstractionEngine()) {
 			addAbstractionEngine(ea.getAgName(), ea.getEngineFor());
-			HashMap<String, Predicate> vs = new HashMap<String, Predicate>();
-			agvalues.put(ea.getAgName(), vs);
+			HashMap<String, Predicate> input_values = new HashMap<String, Predicate>();
+			agvalues.put(ea.getAgName(), input_values);
 		}
 	}
 

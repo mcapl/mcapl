@@ -155,7 +155,7 @@ public class Product {
 		log.fine("Entering justaddModelState");
 		ModelState s = m.containsState(modelstatenum);
 		if (s == null) {
-			if (log.getLevel().intValue() < Level.FINE.intValue()) {
+			if (lowerLogLevelThan(Level.FINER)) {
 				log.finer("Props are: " + props);
 			}
 			s = new ModelState(modelstatenum, props);

@@ -103,6 +103,21 @@ public final class AJPFLogger {
 				return getIntLevel(logname) <= Level.INFO.intValue();			}
 	  }
 
+	  //================================
+	  /**
+	   * added by Maryam
+	   * set a log file handler
+	   * 
+	   */
+	  public static void setFileHandler(String logname, FileHandler fh){
+		  Logger logger = Logger.getLogger(logname);
+		  logger.addHandler(fh);
+		  logger.setUseParentHandlers(false);
+	      fh.setFormatter(new BriefLogFormatter());  
+	  }
+	  //================================
+	  
+	  
 	  /**
 	   * Set the logging report format to Brief.
 	   */

@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2015-07-30 15:51:40
+// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g 2015-10-19 16:00:58
 
 package gwendolen.parser;
 
@@ -23,7 +23,7 @@ public class GwendolenParser extends Parser {
 		"LOCK", "MINUS", "MOD", "MULT", "NAME", "NEWLINE", "NOT", "NUMBER", "OPEN", 
 		"PERFORM", "PERFORMGOAL", "PLANS", "PLUS", "POINT", "QUERY", "RECEIVED", 
 		"RULEARROW", "SEMI", "SEND", "SENT", "SHRIEK", "SQCLOSE", "SQOPEN", "STRING", 
-		"TELL", "TELLHOW", "TRUE", "VAR", "WS"
+		"TELL", "TELLHOW", "TRUE", "UNNAMEDVAR", "VAR", "WS"
 	};
 	public static final int EOF=-1;
 	public static final int ACHIEVE=4;
@@ -82,8 +82,9 @@ public class GwendolenParser extends Parser {
 	public static final int TELL=57;
 	public static final int TELLHOW=58;
 	public static final int TRUE=59;
-	public static final int VAR=60;
-	public static final int WS=61;
+	public static final int UNNAMEDVAR=60;
+	public static final int VAR=61;
+	public static final int WS=62;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -290,7 +291,7 @@ public class GwendolenParser extends Parser {
 					while (true) {
 						int alt4=2;
 						int LA4_0 = input.LA(1);
-						if ( (LA4_0==CONST||LA4_0==VAR) ) {
+						if ( (LA4_0==CONST||(LA4_0 >= UNNAMEDVAR && LA4_0 <= VAR)) ) {
 							alt4=1;
 						}
 
@@ -425,6 +426,7 @@ public class GwendolenParser extends Parser {
 			case MINUS:
 			case NUMBER:
 			case OPEN:
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt9=4;
@@ -484,7 +486,7 @@ public class GwendolenParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:79:74: (an2= agentnameterm COMMA )?
 					int alt8=2;
 					int LA8_0 = input.LA(1);
-					if ( (LA8_0==CONST||LA8_0==VAR) ) {
+					if ( (LA8_0==CONST||(LA8_0 >= UNNAMEDVAR && LA8_0 <= VAR)) ) {
 						alt8=1;
 					}
 					switch (alt8) {
@@ -823,6 +825,7 @@ public class GwendolenParser extends Parser {
 					case NOT:
 					case SHRIEK:
 					case TRUE:
+					case UNNAMEDVAR:
 					case VAR:
 						{
 						alt17=2;
@@ -948,6 +951,7 @@ public class GwendolenParser extends Parser {
 					case CONST:
 					case NOT:
 					case TRUE:
+					case UNNAMEDVAR:
 					case VAR:
 						{
 						alt18=1;
@@ -1159,7 +1163,7 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:124:34: ( ( ( PLUS (l= literal | SHRIEK g= goal | ADD_CONTENT l= literal | ADD_CONTEXT l= literal | ADD_PLAN p= literal | ADD_CONSTRAINT c= literal | LOCK ) | MINUS (l= literal | SHRIEK g= goal | ADD_CONTENT l= literal | ADD_CONTEXT l= literal | LOCK ) ) |a= action ) |wf= waitfor )
 			int alt25=2;
 			int LA25_0 = input.LA(1);
-			if ( (LA25_0==CONST||LA25_0==MINUS||LA25_0==PLUS||LA25_0==SEND||LA25_0==VAR) ) {
+			if ( (LA25_0==CONST||LA25_0==MINUS||LA25_0==PLUS||LA25_0==SEND||(LA25_0 >= UNNAMEDVAR && LA25_0 <= VAR)) ) {
 				alt25=1;
 			}
 			else if ( (LA25_0==MULT) ) {
@@ -1182,7 +1186,7 @@ public class GwendolenParser extends Parser {
 					if ( (LA24_0==MINUS||LA24_0==PLUS) ) {
 						alt24=1;
 					}
-					else if ( (LA24_0==CONST||LA24_0==SEND||LA24_0==VAR) ) {
+					else if ( (LA24_0==CONST||LA24_0==SEND||(LA24_0 >= UNNAMEDVAR && LA24_0 <= VAR)) ) {
 						alt24=2;
 					}
 
@@ -1223,6 +1227,7 @@ public class GwendolenParser extends Parser {
 									case CONST:
 									case NOT:
 									case TRUE:
+									case UNNAMEDVAR:
 									case VAR:
 										{
 										alt21=1;
@@ -1351,6 +1356,7 @@ public class GwendolenParser extends Parser {
 									case CONST:
 									case NOT:
 									case TRUE:
+									case UNNAMEDVAR:
 									case VAR:
 										{
 										alt22=1;
@@ -1634,7 +1640,7 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
 			int alt30=2;
 			int LA30_0 = input.LA(1);
-			if ( (LA30_0==CONST||LA30_0==SQOPEN||LA30_0==VAR) ) {
+			if ( (LA30_0==CONST||LA30_0==SQOPEN||(LA30_0 >= UNNAMEDVAR && LA30_0 <= VAR)) ) {
 				alt30=1;
 			}
 			else if ( (LA30_0==NOT) ) {
@@ -1654,7 +1660,7 @@ public class GwendolenParser extends Parser {
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:150:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
 					int alt28=2;
 					int LA28_0 = input.LA(1);
-					if ( (LA28_0==CONST||LA28_0==VAR) ) {
+					if ( (LA28_0==CONST||(LA28_0 >= UNNAMEDVAR && LA28_0 <= VAR)) ) {
 						alt28=1;
 					}
 					else if ( (LA28_0==SQOPEN) ) {
@@ -1703,6 +1709,7 @@ public class GwendolenParser extends Parser {
 					int alt29=3;
 					switch ( input.LA(1) ) {
 					case CONST:
+					case UNNAMEDVAR:
 					case VAR:
 						{
 						alt29=1;
@@ -1863,7 +1870,7 @@ public class GwendolenParser extends Parser {
 			if ( (LA31_0==SEND) ) {
 				alt31=1;
 			}
-			else if ( (LA31_0==CONST||LA31_0==VAR) ) {
+			else if ( (LA31_0==CONST||(LA31_0 >= UNNAMEDVAR && LA31_0 <= VAR)) ) {
 				alt31=2;
 			}
 
@@ -2105,7 +2112,7 @@ public class GwendolenParser extends Parser {
 			if ( (LA34_0==CONST) ) {
 				alt34=1;
 			}
-			else if ( (LA34_0==VAR) ) {
+			else if ( ((LA34_0 >= UNNAMEDVAR && LA34_0 <= VAR)) ) {
 				alt34=2;
 			}
 
@@ -2165,7 +2172,7 @@ public class GwendolenParser extends Parser {
 			if ( (LA36_0==NOT||LA36_0==TRUE) ) {
 				alt36=1;
 			}
-			else if ( (LA36_0==CONST||LA36_0==VAR) ) {
+			else if ( (LA36_0==CONST||(LA36_0 >= UNNAMEDVAR && LA36_0 <= VAR)) ) {
 				alt36=2;
 			}
 
@@ -2263,7 +2270,7 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:219:37: (v= var |f= function )
 			int alt37=2;
 			int LA37_0 = input.LA(1);
-			if ( (LA37_0==VAR) ) {
+			if ( ((LA37_0 >= UNNAMEDVAR && LA37_0 <= VAR)) ) {
 				alt37=1;
 			}
 			else if ( (LA37_0==CONST) ) {
@@ -2431,6 +2438,7 @@ public class GwendolenParser extends Parser {
 			case MINUS:
 			case NUMBER:
 			case OPEN:
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt40=1;
@@ -2533,6 +2541,7 @@ public class GwendolenParser extends Parser {
 				alt41=1;
 				}
 				break;
+			case UNNAMEDVAR:
 			case VAR:
 				{
 				alt41=2;
@@ -2648,7 +2657,7 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:234:85: (hl= listheads ( BAR v= var )? )?
 			int alt43=2;
 			int LA43_0 = input.LA(1);
-			if ( (LA43_0==CONST||LA43_0==DOUBLEQUOTE||LA43_0==MINUS||(LA43_0 >= NUMBER && LA43_0 <= OPEN)||LA43_0==SQOPEN||LA43_0==VAR) ) {
+			if ( (LA43_0==CONST||LA43_0==DOUBLEQUOTE||LA43_0==MINUS||(LA43_0 >= NUMBER && LA43_0 <= OPEN)||LA43_0==SQOPEN||(LA43_0 >= UNNAMEDVAR && LA43_0 <= VAR)) ) {
 				alt43=1;
 			}
 			switch (alt43) {
@@ -2765,7 +2774,7 @@ public class GwendolenParser extends Parser {
 
 
 	// $ANTLR start "var"
-	// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:1: var returns [Abstract_VarTerm v] : VAR ;
+	// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:1: var returns [Abstract_VarTerm v] : ( VAR | UNNAMEDVAR ) ;
 	public final Abstract_VarTerm var() throws RecognitionException {
 		Abstract_VarTerm v = null;
 
@@ -2773,18 +2782,50 @@ public class GwendolenParser extends Parser {
 		Token VAR6=null;
 
 		try {
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:34: ( VAR )
-			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:36: VAR
+			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:34: ( ( VAR | UNNAMEDVAR ) )
+			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:36: ( VAR | UNNAMEDVAR )
 			{
-			VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var2265); 
+			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:36: ( VAR | UNNAMEDVAR )
+			int alt45=2;
+			int LA45_0 = input.LA(1);
+			if ( (LA45_0==VAR) ) {
+				alt45=1;
+			}
+			else if ( (LA45_0==UNNAMEDVAR) ) {
+				alt45=2;
+			}
 
-				if (variables.containsKey(VAR6.getText())) {
-					v = variables.get(VAR6.getText());
-					} else {
-					v = new Abstract_VarTerm(VAR6.getText());
-					variables.put(VAR6.getText(), v);
+			else {
+				NoViableAltException nvae =
+					new NoViableAltException("", 45, 0, input);
+				throw nvae;
+			}
+
+			switch (alt45) {
+				case 1 :
+					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:239:37: VAR
+					{
+					VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var2266); 
+
+						if (variables.containsKey(VAR6.getText())) {
+							v = variables.get(VAR6.getText());
+							} else {
+							v = new Abstract_VarTerm(VAR6.getText());
+							variables.put(VAR6.getText(), v);
+							}
+						
 					}
-				
+					break;
+				case 2 :
+					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:246:6: UNNAMEDVAR
+					{
+					match(input,UNNAMEDVAR,FOLLOW_UNNAMEDVAR_in_var2272); 
+					v = new Abstract_UnnamedVar();
+					}
+					break;
+
+			}
+
 			}
 
 		}
@@ -2816,16 +2857,16 @@ public class GwendolenParser extends Parser {
 			{
 			s = "";
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:46: ( MINUS )?
-			int alt45=2;
-			int LA45_0 = input.LA(1);
-			if ( (LA45_0==MINUS) ) {
-				alt45=1;
+			int alt46=2;
+			int LA46_0 = input.LA(1);
+			if ( (LA46_0==MINUS) ) {
+				alt46=1;
 			}
-			switch (alt45) {
+			switch (alt46) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:47: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_numberstring2282); 
+					match(input,MINUS,FOLLOW_MINUS_in_numberstring2290); 
 					s += "-";
 					}
 					break;
@@ -2835,21 +2876,21 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:68: (n1= NUMBER ( POINT n2= NUMBER )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:248:69: n1= NUMBER ( POINT n2= NUMBER )?
 			{
-			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2291); 
+			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2299); 
 			s += n1.getText();
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:249:6: ( POINT n2= NUMBER )?
-			int alt46=2;
-			int LA46_0 = input.LA(1);
-			if ( (LA46_0==POINT) ) {
-				alt46=1;
+			int alt47=2;
+			int LA47_0 = input.LA(1);
+			if ( (LA47_0==POINT) ) {
+				alt47=1;
 			}
-			switch (alt46) {
+			switch (alt47) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:249:7: POINT n2= NUMBER
 					{
-					match(input,POINT,FOLLOW_POINT_in_numberstring2301); 
+					match(input,POINT,FOLLOW_POINT_in_numberstring2309); 
 					s += ".";
-					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2307); 
+					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2315); 
 					s += n2.getText();
 					}
 					break;
@@ -2888,15 +2929,15 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:250:40: (a1= arithexpr oper= eqoper a2= arithexpr )
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:250:42: a1= arithexpr oper= eqoper a2= arithexpr
 			{
-			pushFollow(FOLLOW_arithexpr_in_equation2324);
+			pushFollow(FOLLOW_arithexpr_in_equation2332);
 			a1=arithexpr();
 			state._fsp--;
 
-			pushFollow(FOLLOW_eqoper_in_equation2328);
+			pushFollow(FOLLOW_eqoper_in_equation2336);
 			oper=eqoper();
 			state._fsp--;
 
-			pushFollow(FOLLOW_arithexpr_in_equation2332);
+			pushFollow(FOLLOW_arithexpr_in_equation2340);
 			a2=arithexpr();
 			state._fsp--;
 
@@ -2925,33 +2966,33 @@ public class GwendolenParser extends Parser {
 
 		try {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:251:27: ( LESS | EQ )
-			int alt47=2;
-			int LA47_0 = input.LA(1);
-			if ( (LA47_0==LESS) ) {
-				alt47=1;
+			int alt48=2;
+			int LA48_0 = input.LA(1);
+			if ( (LA48_0==LESS) ) {
+				alt48=1;
 			}
-			else if ( (LA47_0==EQ) ) {
-				alt47=2;
+			else if ( (LA48_0==EQ) ) {
+				alt48=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 47, 0, input);
+					new NoViableAltException("", 48, 0, input);
 				throw nvae;
 			}
 
-			switch (alt47) {
+			switch (alt48) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:251:29: LESS
 					{
-					match(input,LESS,FOLLOW_LESS_in_eqoper2346); 
+					match(input,LESS,FOLLOW_LESS_in_eqoper2354); 
 					oper =Abstract_Equation.less;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:251:68: EQ
 					{
-					match(input,EQ,FOLLOW_EQ_in_eqoper2352); 
+					match(input,EQ,FOLLOW_EQ_in_eqoper2360); 
 					oper =Abstract_Equation.equal;
 					}
 					break;
@@ -2985,26 +3026,26 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:43: (m= multexpr (oper= addoper m1= multexpr )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:45: m= multexpr (oper= addoper m1= multexpr )?
 			{
-			pushFollow(FOLLOW_multexpr_in_arithexpr2368);
+			pushFollow(FOLLOW_multexpr_in_arithexpr2376);
 			m=multexpr();
 			state._fsp--;
 
 			t = m;
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:69: (oper= addoper m1= multexpr )?
-			int alt48=2;
-			int LA48_0 = input.LA(1);
-			if ( (LA48_0==MINUS||LA48_0==PLUS) ) {
-				alt48=1;
+			int alt49=2;
+			int LA49_0 = input.LA(1);
+			if ( (LA49_0==MINUS||LA49_0==PLUS) ) {
+				alt49=1;
 			}
-			switch (alt48) {
+			switch (alt49) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:253:71: oper= addoper m1= multexpr
 					{
-					pushFollow(FOLLOW_addoper_in_arithexpr2376);
+					pushFollow(FOLLOW_addoper_in_arithexpr2384);
 					oper=addoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_multexpr_in_arithexpr2380);
+					pushFollow(FOLLOW_multexpr_in_arithexpr2388);
 					m1=multexpr();
 					state._fsp--;
 
@@ -3044,26 +3085,26 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:42: (a= atom (oper= multoper a1= atom )? )
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:44: a= atom (oper= multoper a1= atom )?
 			{
-			pushFollow(FOLLOW_atom_in_multexpr2397);
+			pushFollow(FOLLOW_atom_in_multexpr2405);
 			a=atom();
 			state._fsp--;
 
 			t = a;
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:64: (oper= multoper a1= atom )?
-			int alt49=2;
-			int LA49_0 = input.LA(1);
-			if ( (LA49_0==DIV||(LA49_0 >= MOD && LA49_0 <= MULT)) ) {
-				alt49=1;
+			int alt50=2;
+			int LA50_0 = input.LA(1);
+			if ( (LA50_0==DIV||(LA50_0 >= MOD && LA50_0 <= MULT)) ) {
+				alt50=1;
 			}
-			switch (alt49) {
+			switch (alt50) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:254:65: oper= multoper a1= atom
 					{
-					pushFollow(FOLLOW_multoper_in_multexpr2404);
+					pushFollow(FOLLOW_multoper_in_multexpr2412);
 					oper=multoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_atom_in_multexpr2408);
+					pushFollow(FOLLOW_atom_in_multexpr2416);
 					a1=atom();
 					state._fsp--;
 
@@ -3100,33 +3141,33 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:30: ( PLUS | MINUS )
 			{
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:30: ( PLUS | MINUS )
-			int alt50=2;
-			int LA50_0 = input.LA(1);
-			if ( (LA50_0==PLUS) ) {
-				alt50=1;
+			int alt51=2;
+			int LA51_0 = input.LA(1);
+			if ( (LA51_0==PLUS) ) {
+				alt51=1;
 			}
-			else if ( (LA50_0==MINUS) ) {
-				alt50=2;
+			else if ( (LA51_0==MINUS) ) {
+				alt51=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 50, 0, input);
+					new NoViableAltException("", 51, 0, input);
 				throw nvae;
 			}
 
-			switch (alt50) {
+			switch (alt51) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:31: PLUS
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_addoper2425); 
+					match(input,PLUS,FOLLOW_PLUS_in_addoper2433); 
 					oper =Abstract_ArithExpr.plus;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:256:70: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_addoper2430); 
+					match(input,MINUS,FOLLOW_MINUS_in_addoper2438); 
 					oper =Abstract_ArithExpr.minus;
 					}
 					break;
@@ -3160,47 +3201,47 @@ public class GwendolenParser extends Parser {
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:31: ( MULT | DIV | MOD )
 			{
 			// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:31: ( MULT | DIV | MOD )
-			int alt51=3;
+			int alt52=3;
 			switch ( input.LA(1) ) {
 			case MULT:
 				{
-				alt51=1;
+				alt52=1;
 				}
 				break;
 			case DIV:
 				{
-				alt51=2;
+				alt52=2;
 				}
 				break;
 			case MOD:
 				{
-				alt51=3;
+				alt52=3;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 51, 0, input);
+					new NoViableAltException("", 52, 0, input);
 				throw nvae;
 			}
-			switch (alt51) {
+			switch (alt52) {
 				case 1 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:32: MULT
 					{
-					match(input,MULT,FOLLOW_MULT_in_multoper2445); 
+					match(input,MULT,FOLLOW_MULT_in_multoper2453); 
 					oper =Abstract_ArithExpr.times;
 					}
 					break;
 				case 2 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:73: DIV
 					{
-					match(input,DIV,FOLLOW_DIV_in_multoper2451); 
+					match(input,DIV,FOLLOW_DIV_in_multoper2459); 
 					oper =Abstract_ArithExpr.div;
 					}
 					break;
 				case 3 :
 					// /Users/lad/Eclipse/mcapl/src/classes/gwendolen/parser/Gwendolen.g:257:111: MOD
 					{
-					match(input,MOD,FOLLOW_MOD_in_multoper2457); 
+					match(input,MOD,FOLLOW_MOD_in_multoper2465); 
 					oper =Abstract_ArithExpr.mod;
 					}
 					break;
@@ -3229,28 +3270,28 @@ public class GwendolenParser extends Parser {
 	public static final BitSet FOLLOW_GWENDOLEN_in_gwendolenagents102 = new BitSet(new long[]{0x0000002010000000L});
 	public static final BitSet FOLLOW_gwendolenagent_in_gwendolenagents113 = new BitSet(new long[]{0x0000002010000002L});
 	public static final BitSet FOLLOW_GWENDOLEN_in_gwendolenagent140 = new BitSet(new long[]{0x0000002000000000L});
-	public static final BitSet FOLLOW_NAME_in_gwendolenagent146 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_NAME_in_gwendolenagent146 = new BitSet(new long[]{0x2000000000080000L});
 	public static final BitSet FOLLOW_word_in_gwendolenagent150 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_BELIEFS_in_gwendolenagent155 = new BitSet(new long[]{0x1800008008080800L});
-	public static final BitSet FOLLOW_literal_in_gwendolenagent160 = new BitSet(new long[]{0x1800008008080800L});
-	public static final BitSet FOLLOW_BELIEFRULES_in_gwendolenagent168 = new BitSet(new long[]{0x1000000008080000L});
-	public static final BitSet FOLLOW_brule_in_gwendolenagent173 = new BitSet(new long[]{0x1000000008080000L});
-	public static final BitSet FOLLOW_GOALS_in_gwendolenagent182 = new BitSet(new long[]{0x1800108000080000L});
-	public static final BitSet FOLLOW_goal_in_gwendolenagent187 = new BitSet(new long[]{0x1800108000080000L});
+	public static final BitSet FOLLOW_BELIEFS_in_gwendolenagent155 = new BitSet(new long[]{0x3800008008080800L});
+	public static final BitSet FOLLOW_literal_in_gwendolenagent160 = new BitSet(new long[]{0x3800008008080800L});
+	public static final BitSet FOLLOW_BELIEFRULES_in_gwendolenagent168 = new BitSet(new long[]{0x3000000008080000L});
+	public static final BitSet FOLLOW_brule_in_gwendolenagent173 = new BitSet(new long[]{0x3000000008080000L});
+	public static final BitSet FOLLOW_GOALS_in_gwendolenagent182 = new BitSet(new long[]{0x3800108000080000L});
+	public static final BitSet FOLLOW_goal_in_gwendolenagent187 = new BitSet(new long[]{0x3800108000080000L});
 	public static final BitSet FOLLOW_PLANS_in_gwendolenagent194 = new BitSet(new long[]{0x0000200400000002L});
 	public static final BitSet FOLLOW_plan_in_gwendolenagent199 = new BitSet(new long[]{0x0000200400000002L});
-	public static final BitSet FOLLOW_BELIEVE_in_guard_atom218 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_BELIEVE_in_guard_atom218 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_guard_atom222 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_GOAL_in_guard_atom232 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_GOAL_in_guard_atom232 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_goal_in_guard_atom236 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SENT_in_guard_atom246 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_guard_atom248 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_OPEN_in_guard_atom248 = new BitSet(new long[]{0x3000000000080000L});
 	public static final BitSet FOLLOW_agentnameterm_in_guard_atom255 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom289 = new BitSet(new long[]{0x1600040000180010L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom289 = new BitSet(new long[]{0x3600040000180010L});
 	public static final BitSet FOLLOW_agentnameterm_in_guard_atom296 = new BitSet(new long[]{0x0000000000020000L});
 	public static final BitSet FOLLOW_COMMA_in_guard_atom304 = new BitSet(new long[]{0x0600040000100010L});
 	public static final BitSet FOLLOW_performative_in_guard_atom312 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom320 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_COMMA_in_guard_atom320 = new BitSet(new long[]{0x3000000000080000L});
 	public static final BitSet FOLLOW_pred_in_guard_atom324 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_guard_atom326 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_equation_in_guard_atom340 = new BitSet(new long[]{0x0000000000000002L});
@@ -3262,121 +3303,121 @@ public class GwendolenParser extends Parser {
 	public static final BitSet FOLLOW_SQCLOSE_in_goal404 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_event_in_plan418 = new BitSet(new long[]{0x0000000000010000L});
 	public static final BitSet FOLLOW_COLON_in_plan426 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_plan428 = new BitSet(new long[]{0x1810038404002000L});
-	public static final BitSet FOLLOW_NOT_in_plan433 = new BitSet(new long[]{0x1810030404002000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_plan428 = new BitSet(new long[]{0x3810038404002000L});
+	public static final BitSet FOLLOW_NOT_in_plan433 = new BitSet(new long[]{0x3810030404002000L});
 	public static final BitSet FOLLOW_guard_atom_in_plan441 = new BitSet(new long[]{0x0000000000220000L});
-	public static final BitSet FOLLOW_COMMA_in_plan449 = new BitSet(new long[]{0x1810038404002000L});
-	public static final BitSet FOLLOW_NOT_in_plan454 = new BitSet(new long[]{0x1810030404002000L});
+	public static final BitSet FOLLOW_COMMA_in_plan449 = new BitSet(new long[]{0x3810038404002000L});
+	public static final BitSet FOLLOW_NOT_in_plan454 = new BitSet(new long[]{0x3810030404002000L});
 	public static final BitSet FOLLOW_guard_atom_in_plan462 = new BitSet(new long[]{0x0000000000220000L});
 	public static final BitSet FOLLOW_CURLYCLOSE_in_plan468 = new BitSet(new long[]{0x0006000000000000L});
-	public static final BitSet FOLLOW_RULEARROW_in_plan471 = new BitSet(new long[]{0x1008201400080000L});
+	public static final BitSet FOLLOW_RULEARROW_in_plan471 = new BitSet(new long[]{0x3008201400080000L});
 	public static final BitSet FOLLOW_deed_in_plan476 = new BitSet(new long[]{0x0004000000020000L});
-	public static final BitSet FOLLOW_COMMA_in_plan481 = new BitSet(new long[]{0x1008201400080000L});
+	public static final BitSet FOLLOW_COMMA_in_plan481 = new BitSet(new long[]{0x3008201400080000L});
 	public static final BitSet FOLLOW_deed_in_plan485 = new BitSet(new long[]{0x0004000000020000L});
 	public static final BitSet FOLLOW_SEMI_in_plan495 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_event511 = new BitSet(new long[]{0x1821008000080180L});
+	public static final BitSet FOLLOW_PLUS_in_event511 = new BitSet(new long[]{0x3821008000080180L});
 	public static final BitSet FOLLOW_RECEIVED_in_event514 = new BitSet(new long[]{0x0000020000000000L});
 	public static final BitSet FOLLOW_OPEN_in_event516 = new BitSet(new long[]{0x0600040000100010L});
 	public static final BitSet FOLLOW_performative_in_event520 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_COMMA_in_event522 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_COMMA_in_event522 = new BitSet(new long[]{0x3000000000080000L});
 	public static final BitSet FOLLOW_pred_in_event526 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_event528 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_literal_in_event546 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event556 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_SHRIEK_in_event556 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_goal_in_event560 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTENT_in_event571 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTENT_in_event571 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_event575 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTEXT_in_event585 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTEXT_in_event585 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_event589 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_event607 = new BitSet(new long[]{0x1820008000080180L});
+	public static final BitSet FOLLOW_MINUS_in_event607 = new BitSet(new long[]{0x3820008000080180L});
 	public static final BitSet FOLLOW_literal_in_event612 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event622 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_SHRIEK_in_event622 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_goal_in_event626 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTENT_in_event636 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTENT_in_event636 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_event640 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTEXT_in_event650 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTEXT_in_event650 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_event654 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_TELL_in_performative676 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_PERFORM_in_performative682 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_ACHIEVE_in_performative688 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_TELLHOW_in_performative694 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CONSTRAINT_in_performative700 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_deed726 = new BitSet(new long[]{0x18200082000803C0L});
+	public static final BitSet FOLLOW_PLUS_in_deed726 = new BitSet(new long[]{0x38200082000803C0L});
 	public static final BitSet FOLLOW_literal_in_deed731 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed741 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_SHRIEK_in_deed741 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_goal_in_deed745 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTENT_in_deed755 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTENT_in_deed755 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed759 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTEXT_in_deed769 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTEXT_in_deed769 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed773 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_PLAN_in_deed783 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_PLAN_in_deed783 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed787 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONSTRAINT_in_deed797 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONSTRAINT_in_deed797 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed801 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_LOCK_in_deed811 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_deed824 = new BitSet(new long[]{0x1820008200080180L});
+	public static final BitSet FOLLOW_MINUS_in_deed824 = new BitSet(new long[]{0x3820008200080180L});
 	public static final BitSet FOLLOW_literal_in_deed829 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed839 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_SHRIEK_in_deed839 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_goal_in_deed843 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTENT_in_deed853 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTENT_in_deed853 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed857 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADD_CONTEXT_in_deed867 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_ADD_CONTEXT_in_deed867 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_deed871 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_LOCK_in_deed881 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_action_in_deed900 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_waitfor_in_deed913 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_brule948 = new BitSet(new long[]{0x0004000000004000L});
-	public static final BitSet FOLLOW_BRULEARROW_in_brule951 = new BitSet(new long[]{0x1080008000080000L});
+	public static final BitSet FOLLOW_BRULEARROW_in_brule951 = new BitSet(new long[]{0x3080008000080000L});
 	public static final BitSet FOLLOW_logicalfmla_in_brule955 = new BitSet(new long[]{0x0004000000000000L});
 	public static final BitSet FOLLOW_SEMI_in_brule959 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SEMI_in_brule963 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_notfmla_in_logicalfmla980 = new BitSet(new long[]{0x0000000000020002L});
-	public static final BitSet FOLLOW_COMMA_in_logicalfmla1000 = new BitSet(new long[]{0x1080008000080000L});
+	public static final BitSet FOLLOW_COMMA_in_logicalfmla1000 = new BitSet(new long[]{0x3080008000080000L});
 	public static final BitSet FOLLOW_notfmla_in_logicalfmla1004 = new BitSet(new long[]{0x0000000000020002L});
 	public static final BitSet FOLLOW_pred_in_notfmla1040 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1046 = new BitSet(new long[]{0x1000030400000000L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla1046 = new BitSet(new long[]{0x3000030400000000L});
 	public static final BitSet FOLLOW_equation_in_notfmla1052 = new BitSet(new long[]{0x0040000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1056 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_notfmla1140 = new BitSet(new long[]{0x1080020000080000L});
+	public static final BitSet FOLLOW_NOT_in_notfmla1140 = new BitSet(new long[]{0x3080020000080000L});
 	public static final BitSet FOLLOW_pred_in_notfmla1147 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1234 = new BitSet(new long[]{0x1000030400000000L});
+	public static final BitSet FOLLOW_SQOPEN_in_notfmla1234 = new BitSet(new long[]{0x3000030400000000L});
 	public static final BitSet FOLLOW_equation_in_notfmla1240 = new BitSet(new long[]{0x0040000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1242 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_subfmla_in_notfmla1331 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_subfmla1345 = new BitSet(new long[]{0x1080008000080000L});
+	public static final BitSet FOLLOW_OPEN_in_subfmla1345 = new BitSet(new long[]{0x3080008000080000L});
 	public static final BitSet FOLLOW_logicalfmla_in_subfmla1351 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_subfmla1355 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_waitfor1370 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_MULT_in_waitfor1370 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_waitfor1374 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_SEND_in_action1391 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_action1393 = new BitSet(new long[]{0x1800008000080000L});
+	public static final BitSet FOLLOW_OPEN_in_action1393 = new BitSet(new long[]{0x3800008000080000L});
 	public static final BitSet FOLLOW_literal_in_action1397 = new BitSet(new long[]{0x0000000000020000L});
 	public static final BitSet FOLLOW_COMMA_in_action1399 = new BitSet(new long[]{0x0600040000100010L});
 	public static final BitSet FOLLOW_performative_in_action1403 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_COMMA_in_action1405 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_COMMA_in_action1405 = new BitSet(new long[]{0x3000000000080000L});
 	public static final BitSet FOLLOW_pred_in_action1409 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_action1411 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_action1422 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_classpath_in_environment1702 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_word_in_classpath1717 = new BitSet(new long[]{0x0000400000000000L});
-	public static final BitSet FOLLOW_POINT_in_classpath1722 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_POINT_in_classpath1722 = new BitSet(new long[]{0x2000000000080000L});
 	public static final BitSet FOLLOW_word_in_classpath1726 = new BitSet(new long[]{0x0000400000000002L});
 	public static final BitSet FOLLOW_CONST_in_word1827 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_VAR_in_word1833 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CONST_in_agentnameterm1933 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_agentnameterm1941 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_TRUE_in_literal1957 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_literal1968 = new BitSet(new long[]{0x1000000000080000L});
+	public static final BitSet FOLLOW_NOT_in_literal1968 = new BitSet(new long[]{0x3000000000080000L});
 	public static final BitSet FOLLOW_pred_in_literal1972 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_pred_in_literal1986 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_pred2002 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_function_in_pred2009 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_CONST_in_function2021 = new BitSet(new long[]{0x0000020000000002L});
-	public static final BitSet FOLLOW_OPEN_in_function2026 = new BitSet(new long[]{0x1080030401080000L});
+	public static final BitSet FOLLOW_OPEN_in_function2026 = new BitSet(new long[]{0x3080030401080000L});
 	public static final BitSet FOLLOW_terms_in_function2028 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_function2031 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_term_in_terms2044 = new BitSet(new long[]{0x0000000000020002L});
-	public static final BitSet FOLLOW_COMMA_in_terms2049 = new BitSet(new long[]{0x1080030401080000L});
+	public static final BitSet FOLLOW_COMMA_in_terms2049 = new BitSet(new long[]{0x3080030401080000L});
 	public static final BitSet FOLLOW_terms_in_terms2051 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_atom_in_term2070 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_stringterm_in_term2082 = new BitSet(new long[]{0x0000000000000002L});
@@ -3384,39 +3425,40 @@ public class GwendolenParser extends Parser {
 	public static final BitSet FOLLOW_listterm_in_term2103 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_numberstring_in_atom2121 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_var_in_atom2134 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_atom2140 = new BitSet(new long[]{0x1000030400000000L});
+	public static final BitSet FOLLOW_OPEN_in_atom2140 = new BitSet(new long[]{0x3000030400000000L});
 	public static final BitSet FOLLOW_arithexpr_in_atom2144 = new BitSet(new long[]{0x0000000000008000L});
 	public static final BitSet FOLLOW_CLOSE_in_atom2146 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2160 = new BitSet(new long[]{0x0100000000000000L});
 	public static final BitSet FOLLOW_STRING_in_stringterm2163 = new BitSet(new long[]{0x0000000001000000L});
 	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2165 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_listterm2200 = new BitSet(new long[]{0x10C0030401080000L});
+	public static final BitSet FOLLOW_SQOPEN_in_listterm2200 = new BitSet(new long[]{0x30C0030401080000L});
 	public static final BitSet FOLLOW_listheads_in_listterm2205 = new BitSet(new long[]{0x0040000000000400L});
-	public static final BitSet FOLLOW_BAR_in_listterm2210 = new BitSet(new long[]{0x1000000000000000L});
+	public static final BitSet FOLLOW_BAR_in_listterm2210 = new BitSet(new long[]{0x3000000000000000L});
 	public static final BitSet FOLLOW_var_in_listterm2214 = new BitSet(new long[]{0x0040000000000000L});
 	public static final BitSet FOLLOW_SQCLOSE_in_listterm2222 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_term_in_listheads2238 = new BitSet(new long[]{0x0000000000020002L});
-	public static final BitSet FOLLOW_COMMA_in_listheads2243 = new BitSet(new long[]{0x1080030401080000L});
+	public static final BitSet FOLLOW_COMMA_in_listheads2243 = new BitSet(new long[]{0x3080030401080000L});
 	public static final BitSet FOLLOW_term_in_listheads2248 = new BitSet(new long[]{0x0000000000020002L});
-	public static final BitSet FOLLOW_VAR_in_var2265 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_numberstring2282 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2291 = new BitSet(new long[]{0x0000400000000002L});
-	public static final BitSet FOLLOW_POINT_in_numberstring2301 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2307 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2324 = new BitSet(new long[]{0x0000000082000000L});
-	public static final BitSet FOLLOW_eqoper_in_equation2328 = new BitSet(new long[]{0x1000030400000000L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2332 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LESS_in_eqoper2346 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EQ_in_eqoper2352 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2368 = new BitSet(new long[]{0x0000200400000002L});
-	public static final BitSet FOLLOW_addoper_in_arithexpr2376 = new BitSet(new long[]{0x1000030400000000L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2380 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_multexpr2397 = new BitSet(new long[]{0x0000001800800002L});
-	public static final BitSet FOLLOW_multoper_in_multexpr2404 = new BitSet(new long[]{0x1000030400000000L});
-	public static final BitSet FOLLOW_atom_in_multexpr2408 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_addoper2425 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_addoper2430 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_multoper2445 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DIV_in_multoper2451 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MOD_in_multoper2457 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_var2266 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_UNNAMEDVAR_in_var2272 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_numberstring2290 = new BitSet(new long[]{0x0000010000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2299 = new BitSet(new long[]{0x0000400000000002L});
+	public static final BitSet FOLLOW_POINT_in_numberstring2309 = new BitSet(new long[]{0x0000010000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2315 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2332 = new BitSet(new long[]{0x0000000082000000L});
+	public static final BitSet FOLLOW_eqoper_in_equation2336 = new BitSet(new long[]{0x3000030400000000L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2340 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LESS_in_eqoper2354 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_EQ_in_eqoper2360 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr2376 = new BitSet(new long[]{0x0000200400000002L});
+	public static final BitSet FOLLOW_addoper_in_arithexpr2384 = new BitSet(new long[]{0x3000030400000000L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr2388 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_multexpr2405 = new BitSet(new long[]{0x0000001800800002L});
+	public static final BitSet FOLLOW_multoper_in_multexpr2412 = new BitSet(new long[]{0x3000030400000000L});
+	public static final BitSet FOLLOW_atom_in_multexpr2416 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PLUS_in_addoper2433 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_addoper2438 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MULT_in_multoper2453 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DIV_in_multoper2459 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MOD_in_multoper2465 = new BitSet(new long[]{0x0000000000000002L});
 }

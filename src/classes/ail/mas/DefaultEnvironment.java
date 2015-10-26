@@ -199,10 +199,7 @@ public class DefaultEnvironment implements AILEnv {
     	
     	// Some basic actions you might expect all environments to support
     	if (act instanceof SendAction) {
-    		SendAction sent = (SendAction) act;
-    		Message m = sent.getMessage(agName);
-    		String r = m.getReceiver();
-    		addMessage(r, m);
+    		executeSendAction(agName, (SendAction) act);
     	} 
     	
     	if (act.getFunctor().equals("sum")) {
@@ -308,7 +305,18 @@ public class DefaultEnvironment implements AILEnv {
     	return act.toString();
     	
     }
-    
+
+     /**
+      * Default method for sending messages.  Simply adds the message to the receiver's inbox.
+      * @param agName
+      * @param act
+      */
+     public void executeSendAction(String agName, SendAction act) {
+ 		Message m = act.getMessage(agName);
+ 		String r = m.getReceiver();
+ 		addMessage(r, m);   	 
+     }
+     
     /**
      * Overridable method for printing illocutionary forces.
      * @param ilf
