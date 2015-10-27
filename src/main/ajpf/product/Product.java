@@ -167,6 +167,18 @@ public class Product {
 		
 	}
 		
+	int endstatecount = -2;
+	public boolean addEndState(int modelstatenum) {
+		Integer from = m.getEndofPathState();
+		ModelState from_state = m.containsState(from);
+		ModelState s = new ModelState(endstatecount, from_state);
+		m.addState(s);
+		m.addEdge(s);
+		m.addToPath(s);
+		endstatecount--;
+		return true;
+	}
+	
 	/**
 	 * A new model state has been generated, update the product automata accordingly;
 	 * @param modelstatenum

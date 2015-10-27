@@ -58,7 +58,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	 * @see ajpf.MCAPLListener#classLoaded(gov.nasa.jpf.jvm.JVM)
 	 */
 	public void classLoaded (VM vm, ClassInfo ci){
-		if (ci.getName().equals("ajpf.util.Choice")) {
+		if (ci.getName().equals("ajpf.util.choice.Choice")) {
 			michoose = ci.getMethod("choose()I", false);
 			assert michoose != null;
 		} 
@@ -75,10 +75,7 @@ public class MCAPLProbListener extends MCAPLListener {
        	int objref = ei.getObjectRef();
         ClassInfo ci = vm.getClassInfo(objref);
         // We're watching for a test object to be created.
-        if (ci.getName().equals("gwendolen.uavs.simple.SimpleUAVTests")) {
-        	testRef = objref;
-        }
-	}
+ 	}
 	
 	/*
 	 * (non-Javadoc)
@@ -86,16 +83,6 @@ public class MCAPLProbListener extends MCAPLListener {
 	 */
 	public void methodEntered(VM vm, ThreadInfo ti, MethodInfo mi) {
 		super.methodEntered(vm, ti, mi);
-
-		
-		// If the Test class is trying to get the probability for testing.
-		if (mi.getBaseName().equals("gwendolen.uavs.simple.SimpleUAVTests.getProbability")) {
-			int objref = ti.getThis();
-			testRef = objref;
-			ElementInfo ei = vm.getElementInfo(testRef);
-			// physically set the value by manipulating the object in the JVM
-			ei.setDoubleField("probability", overall_prob);
-		}
 	}
 
 	/*

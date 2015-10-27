@@ -126,6 +126,25 @@ You will find a second file in the tutorial directory, \texttt{spinprop2.pml}, w
 
 In order to verify this property you will need to adapt the property in \texttt{PickUpAgent.psl} so that it containsa  conjunction of $\lbelief{ag1}{hold(block)}$ and $\lbelief{ag2}{hold(flag)}$ and then regenerate the model and check in \spin.  As usual a solution file can be found in the answers directory.
 
+\section{Using \ajpf\ with \prism}
+\prism{}~\cite{KNP11} is a probabilistic symbolic model-checker in
+continuous development, primarily at the Universities of Birmingham
+and Oxford, since 1999. \prism{} provides broadly similar
+functionality to \spin{} but also allows for the model-checking of
+probabilistic models, i.e., models whose behaviour can vary depending
+on probabilities represented in the model. Developers can use \prism{} to
+create a probabilistic model (written in the \prism{} language) which
+can then be model-checked using \prism{}'s own probabilistic property
+specification language, which subsumes several well-known
+probabilistic logics including PCTL, probabilistic LTL, CTL, and
+PCTL*.  \prism{} has been used to formally verify a variety of systems
+in which reliability and randomness play a role, including
+communication protocols, cryptographic protocols and biological
+systems~\cite{PRISM:url}. The examples in this tutorial were checked using \prism{} version
+\texttt{4.1.beta2}.
+
+To complete this tutorial you will need to download, install and run \prism.  \prism\ can be downloaded from \url{http://www.prismmodelchecker.org} where you can also find documentation in its use.
+
 \bibliographystyle{abbrv} %% {plain}
 \bibliography{../../manual/manual}
 

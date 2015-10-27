@@ -190,6 +190,10 @@ public class MCAPLmodel {
 		}
 	}
 	
+	public Integer getEndofPathState() {
+		return current_path.get(current_path.size() - 1);
+	}
+	
 	/**
 	 * Add a state to the current path in the model.
 	 * @param s
@@ -279,6 +283,7 @@ public class MCAPLmodel {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	protected int higheststatenum = 0;
 	public String toString() {
 		 if (config.containsKey("ajpf.target_modelchecker")) {
 			 if (config.getProperty("ajpf.target_modelchecker").equals("spin")) {
@@ -294,6 +299,8 @@ public class MCAPLmodel {
 				s += "dtmc\n\n module jpfModel\n";
 				
 				s += "state : [0 .." + (states_by_num.size() - 1) + "] init 0;\n";
+				
+				higheststatenum = states_by_num.size() - 1;
 
 				if (!props.isEmpty()) {
 					ModelState init = states_by_num.get(0);
@@ -433,15 +440,9 @@ public class MCAPLmodel {
 	 * @return
 	 */
 	protected String printEdge(int from, int to, OutputFormat f) {
+		System.err.println("entered print edge");
 		 String s = "";
 		 switch (output) {
-		 	case Prism:
-				 int num_edges = model_edges.get(from).size();
-		 		double prob = 1.0 / num_edges;
-		 		s += prob;
-		 		s += ":";
-		 		s += "(state'=" + to + ")";
-		 		return s;
 		 	case Default:
 				s += from;
 				s += "-->";

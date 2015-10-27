@@ -213,7 +213,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 log.fine("is end");
 				 // Adding new state for pruning
 				 boolean returnvalue = product_automata.currentPathEnded();
-				 product_automata.justAddModelState(newstate);
+				 product_automata.addEndState(newstate);
 				 return (! returnvalue);
 			 }
 
