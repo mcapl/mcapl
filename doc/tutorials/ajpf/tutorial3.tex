@@ -22,6 +22,12 @@ This tutorial assumes familiarity with the operation of \ajpf\ as described in \
 
 This tutorial explains how to use the tools described in~\cite{dennis15:two}.
 
+\section{Separating out Model and Property}
+
+In normal \ajpf\ the system is performing two tasks at once.  Firstly it is building a \emph{model} of the program execution.  This is a graph (or Kripke Structure) of states.  These are numbered and labelled with the facts that are true in each state (e.g., ``agent 1 believes \texttt{holding\_block}'', ``agent 2 has a goal \texttt{pickup\_block}'' and so on).  At the same time it is checking this graph against a property (e.g., ``eventually agent 2 believes \texttt{holding\_block}'').  It does this by converting the property into an autonomaton, combinging the property autonomaton with the Kripke structure and then checking for accepting paths through this product automaton.
+
+In this tutorial we demonstrate how \ajpf\ can be used just to produce the Kripke Structure without creating the property automaton or the product automaton.
+
 \section{Using \ajpf\ with \spin}
 
 \spin{}~\cite{holzmann04spin} is a popular model-checking tool
@@ -40,7 +46,85 @@ an LTL property. \spin{}'s use of compiled C code makes it very quick
 in terms of execution time, and this is further enhanced through other
 techniques such as partial order reduction. The examples in this tutorial were checked using \spin{} version 6.2.3 (24 October 2012).
 
-\spin\ can be downloaded from \url{http://spinroot.com}.
+To complete this tutorial you will need to download, install and run \spin.  \spin\ can be downloaded from \url{http://spinroot.com} where you can also find documentation in its use.
+
+\subsection{Why use \spin{}}
+
+\spin\ and \ajpf\ are both LTL model-checkers so, at one level, it may seem odd to use \ajpf\ only to produce the model and then use \spin\ to create the property automaton.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated that the major cause of slow performance in \ajpf\ is in generating the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}.  However there may  nevertheless be situations where efficiency gains can be made.
+
+\subsection{Configuring \ajpf\ to output \spin\ models}
+
+In order to configure \ajpf\ to use another model checker you need to tell it to a) produce \emph{only} a program model, b) which other model checker to target and c) where to output the program model.  This is done in the \ajpf\ configuration file.  
+
+We will use the same program that was used in tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Spin.jpf} that is shown below.
+
+\begin{verbatim}
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,
+${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/PickUpAgent.psl,1
+
+ajpf.model_only = true
+ajpf.target_modelchecker = spin
+ajpf.model.location = stdout
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+\end{verbatim}
+
+This file target's the \spin\ model checker and prints the model to standard out.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  This print out starts
+
+\begin{verbatim}
+bool bag1holdblock
+
+active proctype JPFModel()
+{
+state0:
+	bag1holdblock = true;
+	if
+	:: goto state1;
+	:: goto state77;
+	fi;
+state1:
+	bag1holdblock = true;
+	if
+	:: goto state48;
+	:: goto state2;
+	fi;
+}
+\end{verbatim}
+
+In this state 0 in the \ajpf\ model has become \texttt{state0} in the \promela\ model.  This state can transition to either state 1 (\texttt{state1}) or state 77 (\texttt{state77}) and so on.
+
+This model also records one proposition \texttt{bag1holdblock} which is true in both states 0 and 1 but if you look further into the model
+
+\begin{verbatim}
+state7:
+	bag1holdblock = true;
+	goto state8;
+state8:
+	bag1holdblock = false;
+	goto state9;
+state9:
+	bag1holdblock = false;
+	printf("end state\n");
+\end{verbatim}
+
+You can see it is false in states 8 and 9 and that state 9 is an end state.
+
+\paragraph{The property} The property is, in fact, the \ajpf\ property $\lbelief{ag1}{hold(block))}$ and this has been stated in the property specification language file as property 1.  When using \ajpf\ to generate only a program model the property it is checked against should be a conjuction of the atomic properties that will be used in the final property to be checked.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\laction{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
+
+\paragraph{Outputting to a file} You can obviously cut and paste the \promela\ model from the \ajpf\ output into a file for use with \spin.  Alternatively you can set \texttt{ajpf.model.location} to the path to an input file.  The path should be relative to your \texttt{HOME} directory\footnote{If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \textttPajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.}.
+
+\paragraph{Model-checking the program in \spin}.  In the tutorial directory you will find a file \texttt{spinprop.pml} which is a \promela\ file containing the \emph{never claim} for $\neg \eventually \lbelief{ag1}{hold(block)}$.  \spin\ searches for a contradiction so the model-checking succeeds if it can find no path through the model where $\lbelief{ag1}{hold(block)}$ does not eventually hold.  You can take the file containing  your program model, plus \texttt{spinprop.pml} and compile them (using \texttt{spin -a -N spinprop.pml} \emph{model file}) to get a C file, \texttt{pan.c}.  This needs to be compiled and then executed in order to check the program.
+
+\subsection{Exercise}
+
+You will find a second file in the tutorial directory, \texttt{spinprop2.pml}, which contains a never claim for the property $\neg (\eventually \lbelief{ag1}{hold(block)} \wedge \eventually \neg \lbelief{ag2}{hold(block)}$.
+
+In order to verify this property you will need to adapt the property in \texttt{PickUpAgent.psl} so that it containsa  conjunction of $\lbelief{ag1}{hold(block)}$ and $\lbelief{ag2}{hold(flag)}$ and then regenerate the model and check in \spin.  As usual a solution file can be found in the answers directory.
 
 \bibliographystyle{abbrv} %% {plain}
 \bibliography{../../manual/manual}

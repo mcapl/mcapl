@@ -326,10 +326,10 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 } else {
 				 // If we're outputting to a file.
 				 try {
-					 String file_path = ".";
+					 String file_path = System.getenv("HOME");
 					 if (config.containsKey("ajpf.model.path")) {
 						 file_path = config.getProperty("ajpf.model.path");
-					 }
+					 } 
 					 File file = new File(file_path + "/" + config.getProperty("ajpf.model.location"));
 					 if (!file.exists()) {
 						 file.createNewFile();

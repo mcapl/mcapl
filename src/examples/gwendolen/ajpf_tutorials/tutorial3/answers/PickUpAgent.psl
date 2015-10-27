@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, and Michael Fisher
 // 
 // This file is part of Gwendolen
 //
@@ -21,15 +21,4 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-@using = mcapl
-
-target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/PickUpAgent.psl,1
-
-ajpf.model_only = true
-ajpf.target_modelchecker = spin
-ajpf.model.location = stdout
-
-listener+=,.listener.ExecTracker
-et.print_insn=false
-et.show_shared=false
+1: B(ag1, hold(block)) & B(ag2, hold(flag))
