@@ -14,7 +14,7 @@
 
 \begin{document}
 \maketitle
-This is the third a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ and \prism.  \ajpf\ is used to create a model of the program which is then verified by another tool.  The main purpose of this is to enable model-checking with more expressive logics (as can be done with the \prism\) implementation, but there may also be efficiency gains in outsourcing property checking to another tool
+This is the third a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ and \prism.  \ajpf\ is used to create a model of the program which is then verified by another tool.  The main purpose of this is to enable model-checking with more expressive logics (as can be done with the \prism) implementation, but there may also be efficiency gains in outsourcing property checking to another tool
 
 Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial3}.
 
@@ -53,6 +53,7 @@ To complete this tutorial you will need to download, install and run \spin.  \sp
 \spin\ and \ajpf\ are both LTL model-checkers so, at one level, it may seem odd to use \ajpf\ only to produce the model and then use \spin\ to create the property automaton.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated that the major cause of slow performance in \ajpf\ is in generating the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}.  However there may  nevertheless be situations where efficiency gains can be made.
 
 \subsection{Configuring \ajpf\ to output \spin\ models}
+\label{sec:configure_spin}
 
 In order to configure \ajpf\ to use another model checker you need to tell it to a) produce \emph{only} a program model, b) which other model checker to target and c) where to output the program model.  This is done in the \ajpf\ configuration file.  
 
@@ -116,7 +117,7 @@ You can see it is false in states 8 and 9 and that state 9 is an end state.
 
 \paragraph{The property} The property is, in fact, the \ajpf\ property $\lbelief{ag1}{hold(block))}$ and this has been stated in the property specification language file as property 1.  When using \ajpf\ to generate only a program model the property it is checked against should be a conjuction of the atomic properties that will be used in the final property to be checked.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\laction{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
 
-\paragraph{Outputting to a file} You can obviously cut and paste the \promela\ model from the \ajpf\ output into a file for use with \spin.  Alternatively you can set \texttt{ajpf.model.location} to the path to an input file.  The path should be relative to your \texttt{HOME} directory\footnote{If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \textttPajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.}.
+\paragraph{Outputting to a file} You can obviously cut and paste the \promela\ model from the \ajpf\ output into a file for use with \spin.  Alternatively you can set \texttt{ajpf.model.location} to the path to an input file.  The path should be relative to your \texttt{HOME} directory\footnote{If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.}.
 
 \paragraph{Model-checking the program in \spin}.  In the tutorial directory you will find a file \texttt{spinprop.pml} which is a \promela\ file containing the \emph{never claim} for $\neg \eventually \lbelief{ag1}{hold(block)}$.  \spin\ searches for a contradiction so the model-checking succeeds if it can find no path through the model where $\lbelief{ag1}{hold(block)}$ does not eventually hold.  You can take the file containing  your program model, plus \texttt{spinprop.pml} and compile them (using \texttt{spin -a -N spinprop.pml} \emph{model file}) to get a C file, \texttt{pan.c}.  This needs to be compiled and then executed in order to check the program.
 
@@ -144,6 +145,68 @@ systems~\cite{PRISM:url}. The examples in this tutorial were checked using \pris
 \texttt{4.1.beta2}.
 
 To complete this tutorial you will need to download, install and run \prism.  \prism\ can be downloaded from \url{http://www.prismmodelchecker.org} where you can also find documentation in its use.
+
+\subsection{Configuring \ajpf\ to output \prism\ models}
+
+As mentioned in section~\ref{sec:configure_spin}, in order to configure \ajpf\ to use another model checker you need to tell it to a) produce \emph{only} a program model, b) which other model checker to target and c) where to output the program model.  Because \prism\ also includes probabilistic information in the model, when using \ajpf\ with \prism\ it is also important to use a \emph{listener} that records such information when a choice in the java execution is governed by a probability.
+
+This is done in the \ajpf\ configuration file.  
+
+We will a program from a program from \ail\ tutorial 3 to illustrate this configuration. This program consists of a robot, \texttt{searcher.gwen}, which searches a 3x3 grid in order to find a human and an environment, \texttt{RandomRobotEnv}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot.  Therefore there is a chance that the robot could search the whole grid and never find the human.
+
+In the directory for tutorial 3 you will find the \ajpf\ configuration file \texttt{searcher.jpf} for this program, that is shown below.
+\begin{verbatim}
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/searcher.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/searcher.psl,1
+
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
+
+ajpf.model.location = stdout
+ajpf.model_only = true
+ajpf.target_modelchecker = prism
+
+listener=ajpf.MCAPLProbListener
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+\end{verbatim}
+
+This file target's the \prism\ model checker and prints the model to standard out.  It uses the listener \texttt{ajpf.MCAPLProbListener} to record probabilistic information as the model his built.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  This print out starts
+
+\begin{verbatim}
+dtmc
+
+ module jpfModel
+state : [0 ..61] init 0;
+bsearcherfound: bool init false;
+[] state = 0 -> 1.0:(state'=1) & (bsearcherfound'= false);
+[] state = 1 -> 0.5:(state'=2) & (bsearcherfound'= false) + 0.3:(state'=53) & (bsearcherfound'= false) + 0.2:(state'=55) & (bsearcherfound'= false);
+[] state = 2 -> 1.0:(state'=3) & (bsearcherfound'= false);
+[] state = 3 -> 0.3:(state'=49) & (bsearcherfound'= false) + 0.2:(state'=51) & (bsearcherfound'= false) + 0.5:(state'=4) & (bsearcherfound'= false);
+[] state = 4 -> 1.0:(state'=5) & (bsearcherfound'= false);
+[] state = 5 -> 0.5:(state'=6) & (bsearcherfound'= false) + 0.3:(state'=45) & (bsearcherfound'= false) + 0.2:(state'=47) & (bsearcherfound'= false);
+[] state = 6 -> 1.0:(state'=7) & (bsearcherfound'= false);
+[] state = 7 -> 0.5:(state'=8) & (bsearcherfound'= false) + 0.3:(state'=41) & (bsearcherfound'= false) + 0.2:(state'=43) & (bsearcherfound'= false);
+[] state = 8 -> 1.0:(state'=9) & (bsearcherfound'= false);
+[] state = 9 -> 0.2:(state'=39) & (bsearcherfound'= false) + 0.5:(state'=10) & (bsearcherfound'= false) + 0.3:(state'=13) & (bsearcherfound'= false);
+[] state = 10 -> 1.0:(state'=11) & (bsearcherfound'= true);
+[] state = 11 -> 1.0:(state'=61) & (bsearcherfound'= true);
+[] state = 13 -> 1.0:(state'=14) & (bsearcherfound'= false);
+\end{verbatim}
+
+In this state 0 in the \ajpf\ model has become state \texttt{0} in the \prism\ model.  This state can transition to state 1.  State 1 can transition to three states, state 2 (probability 0.5), state 53 (with probability 0.3) and state 55 (with probability 0.2) and so on.
+
+This model also records one proposition \texttt{bsearcherfound} which is false in both states 1 and 2 but if you look further into the model you will see it becomes true when state 10 transitions to state 11.
+
+\paragraph{The property} The property is, in fact, the \ajpf\ property $\lbelief{searcher}{found}$ and this has been stated in the property specification language file as property 1.  When using \ajpf\ to generate only a program model the property it is checked against should be a conjuction of the atomic properties that will be used in the final property to be checked.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\laction{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
+
+\paragraph{Outputting to a file} You can obviously cut and paste the \prism\ model from the \ajpf\ output into a file for use with \prism.  Alternatively you can set \texttt{ajpf.model.location} to the path to an input file.  The path should be relative to your \texttt{HOME} directory\footnote{If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.}.
+
+\paragraph{Model-checking the program in \prism}.  In the tutorial directory you will find a file \texttt{prismprop.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\eventually \lbelief{searcher}{found}$.  \spin\ searches for a contradiction so the model-checking succeeds if it can find no path through the model where $\lbelief{ag1}{hold(block)}$ does not eventually hold.  You can take the file containing  your program model, plus \texttt{spinprop.pml} and compile them (using \texttt{spin -a -N spinprop.pml} \emph{model file}) to get a C file, \texttt{pan.c}.  This needs to be compiled and then executed in order to check the program.
+
 
 \bibliographystyle{abbrv} %% {plain}
 \bibliography{../../manual/manual}
