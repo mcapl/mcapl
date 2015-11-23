@@ -49,7 +49,7 @@ import ail.semantics.AILAgent;
  * @author louiseadennis
  *
  */
-public interface AILEnv {
+public interface AILEnv {//  extends EnvironmentInterfaceStandard { 
 	/**
 	 * This is the effect of execution of an action on the environment from
 	 * the perspective of the environment.

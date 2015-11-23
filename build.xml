@@ -57,6 +57,8 @@
   	    <include name="lib/3rdparty/ev3classes.jar"/>
  	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
+ 	    <include name="lib/3rdparty/eis-0.3.jar"/>
+ 	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
     	<include name="lib/3rdparty/jpf.jar"/>
    </fileset>
 

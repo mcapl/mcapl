@@ -33,6 +33,9 @@ import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
 
+import eis.iilang.Parameter;
+import eis.iilang.Numeral;
+
 /** Immutable class that implements a term that represents a number */
 public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 
@@ -217,4 +220,12 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	public void makeVarsAnnon() {
 		
 	}
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.DefaultTerm#toEISParameter()
+     */
+    public Parameter toEISParameter() {
+    	return new Numeral(fValue);
+    }
 }
