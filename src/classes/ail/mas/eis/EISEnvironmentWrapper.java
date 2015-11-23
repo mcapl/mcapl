@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Vector;
 
 import ail.mas.AILEnv;
+import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Message;
@@ -67,6 +68,12 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	Map<String, Set<Predicate>> agentpercepts = new HashMap<String, Set<Predicate>>();
 	PrologParser parser = new PrologParser(null);
 	MCAPLScheduler scheduler;
+
+	/**
+	 * The multi-agent system this environment is part of.
+	 */
+	protected MAS mas;
+	
 	/**
 	 * The list of percept listeners.
 	 */
@@ -232,7 +239,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 
 	}
 	
-	public void final_cleanup() {
+	public void cleanup() {
 		try {
 			if (eis_environment.isKillSupported()) {
 				eis_environment.kill();
@@ -292,6 +299,16 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
     	}
      	
     }
+    
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		mas = m;
+	}
+
 
 
 }

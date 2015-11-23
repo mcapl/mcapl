@@ -1,15 +1,15 @@
 package gwendolen.eiscarriage;
 
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.mas.eis.EISEnvironmentWrapper;
 
 import ail.semantics.AILAgent;
 
 import ajpf.util.AJPFLogger;
 
-public class CarriageEnv extends EISEnvironmentWrapper{
+public class CarriageEnv extends EISEnvironmentWrapper {
 	public CarriageEnv() {
-		super("/Users/lad/Eclipse/eispackage-0.3-r72/interfaces/eiscarriage-0.3.jar");
+		super("/Users/louiseadennis/Eclipse/mcapl/lib/eis/Carriage-1.0.0.jar");
 		
 		ActionScheduler s = new ActionScheduler();
 		setScheduler(s);
