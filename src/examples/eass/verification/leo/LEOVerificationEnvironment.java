@@ -42,7 +42,7 @@ import eass.semantics.EASSAgent;
 import ajpf.util.AJPFLogger;
 
 /**
- * Specialised environement for the LEO Control example.
+ * Specialised environment for the LEO Control example.
  * @author louiseadennis
  *
  */

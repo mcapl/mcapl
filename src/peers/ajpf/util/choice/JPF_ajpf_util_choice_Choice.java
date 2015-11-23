@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package ajpf.util;
+package ajpf.util.choice;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.annotation.MJI;
@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * @author louiseadennis
  *
  */
-public class JPF_ajpf_util_Choice<O extends Object> extends NativePeer { 
+public class JPF_ajpf_util_choice_Choice<O extends Object> extends NativePeer { 
 	protected static Logger log = JPF.getLogger("ajpf.util");
 
 	  @MJI
