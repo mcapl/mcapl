@@ -24,9 +24,11 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A class for libraries of capabilities.
@@ -36,7 +38,7 @@ import java.util.HashMap;
 public class CapabilityLibrary implements EvaluationBase<Capability> {
 	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
-
+	ArrayList<Capability> allcaps = new ArrayList<Capability>();
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
@@ -93,10 +95,12 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		PredicateIndicator pi = c.getCap().getPredicateIndicator();
 		if (capMap.containsKey(pi)) {
 			capMap.get(pi).add(c);
+			allcaps.add(c);
 		} else {
 			ArrayList<Capability> cl = new ArrayList<Capability>();
 			cl.add(c);
 			capMap.put(pi, cl);
+			allcaps.add(c);
 		}
 	}
 	
@@ -116,53 +120,63 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
 		GBelief pgb = new GBelief(Post);
+		
+		Collections.shuffle(allcaps);
 
-		for (ArrayList<Capability> l: capMap.values()) {
+		int checked = 0;
+		for (Capability c: allcaps) {
+			checked ++;
 			
-			Capability c = l.get(0);
+			// Capability c = l.get(0);
 			
 			Capability cc = (Capability) c.clone();
 			cc.standardise_apart(oldcap, u, oldcap.getVarNames());
 			// NB we are assuming that capability names are unique here (give or take)
 
 			if (cc != capMap.get(pi).get(0)) {
+				// System.err.println(cc);
 			
 				// We check first the preconditions.  Only tests with trivial preconditions.
 				EvaluationBasewNames<PredicateTerm> eb = 
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPre()), "precondition");
 				
 				// NB. This needs to be generalised to GLogical Formulae in some way.
-				GBelief gb = (GBelief) cc.getPre();
-				
-				// The preconditions of the new capability are implied by the preconditions of the old capability
-				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames());
-
-				if (preuni.hasNext()) {
-				
-					u.compose(preuni.next());
+				try {
+					GBelief gb = (GBelief) cc.getPre();
 					
-					// Then we check postconditions.
-					EvaluationBasewNames<PredicateTerm> posteb = 
-							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
-					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
-					if (postuni.hasNext()) {
-						u.compose(postuni.next());
-						cc.apply(u);
-						pgb.apply(u);
+					// The preconditions of the new capability are implied by the preconditions of the old capability
+					Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames());
+	
+					if (preuni.hasNext()) {
+					
+						u.compose(preuni.next());
 						
-						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
-						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
-						Unifier puni = pun.next();
-						
-						u.compose(puni);
-
-						return cc;
-						
-						
+						// Then we check postconditions.
+						EvaluationBasewNames<PredicateTerm> posteb = 
+								new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
+						Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
+						if (postuni.hasNext()) {
+							u.compose(postuni.next());
+							cc.apply(u);
+							pgb.apply(u);
+							
+							EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
+							Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
+							Unifier puni = pun.next();
+							
+							u.compose(puni);
+	
+							// System.err.println(checked);
+							
+							return cc;
+							
+							
+						}
 					}
+				} catch (Exception e) {
+					
 				}
 			}
-			
 		}
 		
 		return null;

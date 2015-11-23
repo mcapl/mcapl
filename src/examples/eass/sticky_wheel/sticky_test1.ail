@@ -26,5 +26,5 @@ env = eass.sticky_wheel.SimpleWheeledRobotEnv
 mas.file = /src/examples/eass/sticky_wheel/sticky_simple_switch.eass
 mas.builder = eass.EASSMASBuilder
 
-log.warning = ail.semantics.AILAgent,ail.semantics.operationalrules.SelectIntention,ajpf.MCAPLAgent
+log.warning = ail.semantics.AILAgent,ail.semantics.operationalrules.SelectIntention,ajpf.MCAPLAgent,eass.mas.vehicle.EASSVehicle,ail.mas.DefaultEnvironment
 log.format = brief

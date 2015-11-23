@@ -23,11 +23,15 @@
 //----------------------------------------------------------------------------
 package eass.sticky_wheel;
 
+import java.util.ArrayList;
+
 import ail.mas.ActionScheduler;
+import eass.mas.vehicle.EASSVehicle;
 import eass.mas.vehicle.EASSVehicleEnvironment;
 import eass.semantics.EASSAgent;
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
+import ail.syntax.Capability;
 import ail.syntax.Unifier;
 import ail.syntax.Predicate;
 import ail.syntax.NumberTermImpl;
@@ -50,6 +54,7 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 	ActionScheduler scheduler;
 	String rName;
 	double sticky_modifier = 0;
+	ArrayList<Capability> capstoadd = new ArrayList<Capability>();
 	
 	// Assume one robot for the time being
 	double x = 50;
@@ -70,6 +75,11 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 		addPerceptListener(s);
 	}
 	
+	public void addCap(Capability c, String rName) {
+		EASSVehicle vehicle =  (EASSVehicle) getVehicle(rName);
+		vehicle.agent.addCap(c);
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -87,6 +97,10 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 			position.addTerm(new NumberTermImpl(y));
 			position.addTerm(new NumberTermImpl(theta));
 			getVehicle(eass.getReasoningName()).addPercept(position);
+			
+			for (Capability c: capstoadd) {
+				eass.addCap(c);
+			}
 		} else {
 			// Else create a TwoWheeledRobot object to act as the environment for the agent.
 			TwoWheeledRobot r = new TwoWheeledRobot(a);
@@ -138,7 +152,9 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 
 				// Vehicle environments may have GUI interfaces.  We assume that we have a WheeledRobotUI interface for this and
 				// update it with the robot's new position.  NB. It might be nice to make this more generic via an interface at some point.
-				((WheeledRobotUI) gui).updateGraphics(x, y, theta);
+				if (gui != null) {
+					((WheeledRobotUI) gui).updateGraphics(x, y, theta);
+				}
 				count++;
 			}
 		} 
@@ -192,6 +208,9 @@ public class SimpleWheeledRobotEnv extends EASSVehicleEnvironment implements MCA
 	 * @see ail.mas.DefaultEnvironment#done()
 	 */
 	public boolean done() {
+		if (gui == null) {
+			return true;
+		}
 		return false;
 	}
 

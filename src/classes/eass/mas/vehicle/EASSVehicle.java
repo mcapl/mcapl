@@ -44,7 +44,7 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	/**
 	 * The agent that controls the vehicle.
 	 */
-	EASSAgent agent;
+	public EASSAgent agent;
 	
 	EASSAgent abstraction;
 	/**
