@@ -33,7 +33,7 @@
 
 
   <!-- compiler settings -->
-  <property name="src_level"     value="7"/>
+  <property name="src_level"     value="8"/>
   <property name="debug"         value="on"/>
   <property name="deprecation"   value="on"/>
 
@@ -54,12 +54,12 @@
     <!-- <pathelement location="build/annotations"/> -->
 
     <fileset dir=".">
-  	    <include name="lib/3rdparty/pccomm.jar"/>
-  	    <include name="lib/3rdparty/bluecove.jar"/>
-  		<include name="lib/3rdparty/jpf.jar"/> 
+  	    <include name="lib/3rdparty/ev3classes.jar"/>
+ 	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
  	    <include name="lib/3rdparty/eis-0.3.jar"/>
  	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
+    	<include name="lib/3rdparty/jpf.jar"/>
    </fileset>
 
     <!-- add in what we need from the core -->
@@ -214,6 +214,8 @@
     </junit>
    
   </target>
+  
+  
 
   
 </project>

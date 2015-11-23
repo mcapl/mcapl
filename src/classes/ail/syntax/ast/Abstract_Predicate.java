@@ -66,7 +66,7 @@ import gov.nasa.jpf.vm.Types;
 /**
  * Represents a Predicate in First-Order Logic.
  */
-public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
+public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abstract_LogicalFormula {
 	static HashMap<String,Integer> strings = new HashMap<String,Integer>();
 	
 	/**
@@ -179,10 +179,15 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula {
      * (non-Javadoc)
      * @see ajpf.psl.ast.Abstract_MCAPLTerm#toMCAPL()
      */
+    @Override
 	public Predicate toMCAPL() {
 		Predicate s = new Predicate(functor);
 		for (Abstract_Term t: terms) {
 			s.addTerm((Term) t.toMCAPL());
+		}
+		
+		if (s.isGround()) {
+			return GroundPredSets.check_add(s);
 		}
 		return s;
 	}

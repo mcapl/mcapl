@@ -28,9 +28,6 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Action;
-import ail.syntax.GBelief;
-import ail.syntax.Literal;
-import ail.syntax.PredicatewAnnotation;
 import ail.syntax.SendAction;
 import ail.syntax.Event;
 
@@ -57,7 +54,7 @@ public class HandleSendAction extends HandleActionwProblem {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		return (super.checkPreconditions(a) && (((Action) topdeed.getTerm()).getActionType()) == SendAction.sendAction);
+		return (super.checkPreconditions(a) && (((Action) topdeed.getContent()).getActionType()) == SendAction.sendAction);
 	}
 	
 	/*
@@ -65,15 +62,14 @@ public class HandleSendAction extends HandleActionwProblem {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		SendAction send = (SendAction) topdeed.getTerm();
+		SendAction send = (SendAction) topdeed.getContent();
 		Message msg = send.getMessage(a.getAgName());
 		msg.apply(thetahd);
+		
+		Message varless_msg = (Message) msg.strip_varterm();
 		super.apply(a);
-		Intention i = new Intention(new Event(GBelief.AILAddition, Event.AILSent, 
-                new Literal(Literal.LPos, new PredicatewAnnotation(msg.toTerm()))),
-				                    thetahd,
-				                    AILAgent.refertoself());
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
 		a.getIntentions().add(i);
-		a.newSentMessage(msg);
+		a.newSentMessage(varless_msg);
 	}
 }

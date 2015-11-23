@@ -56,7 +56,7 @@ import gov.nasa.jpf.vm.MJIEnv;
  *  An abstract version of an expression that may appear in a guard statement and represents some kind of equation 
  *  (i.e., an (in)equality).
  */
-public class Abstract_Equation extends Abstract_GBelief {
+public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_LogicalFormula {
 
 	/**
 	 * What sort of equation is this.
@@ -76,11 +76,8 @@ public class Abstract_Equation extends Abstract_GBelief {
 	
 	/**
 	 * Empty Constructor.
-	 * The type of these guard beliefs is "pure reasoning".
 	 */
-	public Abstract_Equation() {
-		super(Abstract_GBelief.GpureR);
-	}
+	public Abstract_Equation() {	}
 	
 	/**
 	 * Construct and equation from two number terms and an operator.
@@ -89,7 +86,6 @@ public class Abstract_Equation extends Abstract_GBelief {
 	 * @param f2
 	 */
 	public Abstract_Equation(Abstract_NumberTerm f1, int oper, Abstract_NumberTerm f2) {
-		super(Abstract_GBelief.GpureR);
 		lhs = f1;
 		op = oper;
 		rhs = f2;
@@ -131,6 +127,13 @@ public class Abstract_Equation extends Abstract_GBelief {
 		env.setIntField(objref, "op", op);
 		return objref;
 	}
+
+	@Override
+	public boolean isTrivial() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 }

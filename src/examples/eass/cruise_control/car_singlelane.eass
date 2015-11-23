@@ -27,9 +27,9 @@
 
 :Initial Beliefs:
 
-:Belief Rules:
+:Reasoning Rules:
 
-B can_accelerate :- B safe, [~ B driver_accelerates, ~ B driver_brakes];
+can_accelerate :- safe, ~ driver_accelerates, ~ driver_brakes;
 
 :Initial Goals:
 

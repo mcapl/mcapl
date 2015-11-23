@@ -28,9 +28,10 @@
 package ail.syntax;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import ail.syntax.annotation.SourceAnnotation;
+
+import ajpf.util.AJPFLogger;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -43,7 +44,8 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class Plan implements Cloneable, Comparable<Plan> {
+public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
+	private static String logname = "ail.syntax.Plan";
   
 	/**
 	 * The plan can have an annotation.
@@ -118,8 +120,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-        posGuardPIs();
-     }
+      }
     
     /**
      * Construct a plan from an event, two deed stacks, a guard stack and a source.  It is
@@ -140,7 +141,6 @@ public class Plan implements Cloneable, Comparable<Plan> {
         context.trimToSize();
         body.trimToSize();
         prefix.trimToSize();
-        posGuardPIs();
     }
     
     /**
@@ -152,7 +152,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     		Term e = l.getTerm(0);
     		event = new Event(Event.AILAddition, new Goal(new Literal(true, new PredicatewAnnotation((Predicate) e)), Goal.achieveGoal));
     		ArrayList<Guard> guards = new ArrayList<Guard>();
-    		guards.add(new Guard(new GBelief(GBelief.GTrue)));
+    		guards.add(new Guard(new GBelief()));
     		setContext(guards);
     		setPrefix(new ArrayList<Deed>());
     		ArrayList<Deed> deeds = new ArrayList<Deed>();
@@ -232,7 +232,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
 
   		if (i > 1) {
   			for (int j = 0; j < (i - 1); j++) {
-  				context.add(j, new Guard(new GBelief(GBelief.GTrue)));
+  				context.add(j, new Guard(new GBelief()));
   			}
   		}
   		
@@ -445,62 +445,6 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	return s.toString();
      }
     
-    /**
-     * Convert the plan to a term in for unification purposes.
-     * 
-     * @return  The plan represented as a term.
-     */
-    public PredicatewAnnotation getPlanTerm() {
-    	if (planterm == null) {
-    		Predicate pts = new Predicate("planterm");
-    		pts.addTerm(getTriggerEvent().UnifyingTerm());
-    		Iterator<Guard> itc = getContext().iterator();
-
-    		Predicate ct = new Predicate("context");
-    		while (itc.hasNext()) {
-    			Guard g = itc.next();
-    			ct.addTerm(g.toTerm());
-    		}
-    		pts.addTerm(ct);
-    		
-    		Predicate dt = new Predicate("prefix");
-    		Iterator<Deed> itd = getPrefix().iterator();
-    		while (itd.hasNext()) {
-    			dt.addTerm(itd.next().UnifyingTerm());
-    		}
-    		pts.addTerm(dt);
-    		
-       		Predicate dt2 = new Predicate("body");
-    		Iterator<Deed> itd2 = getBody().iterator();
-    		while (itd2.hasNext()) {
-    			dt2.addTerm(itd2.next().UnifyingTerm());
-    		}
-    		pts.addTerm(dt2);
-    		
-    		planterm = new PredicatewAnnotation(pts);
-    		return (planterm);
-    	} else {
-    		return planterm;
-    	}
-    }
-    
-    /**
-     * Create list of predicate indicators for the guards for quick
-     * relevance filtering.
-     * @return
-     */
-    public ArrayList<PredicateIndicator> posGuardPIs() {
-    	if (pis != null) {
-    		return pis;
-    	} else {
-    		pis = new ArrayList<PredicateIndicator>();
-    		for (Guard g: getContext()) {
-    			pis.addAll(g.posbelInd());
-    		}
-    		return pis;
-    	}
-    }
-
     /*
      * (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -520,11 +464,12 @@ public class Plan implements Cloneable, Comparable<Plan> {
      * @param t
      * @param u
      */
-    public void standardise_apart(Unifiable t, Unifier u) {
+    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	List<String> tvarnames = t.getVarNames();
+    	tvarnames.addAll(varnames);
     	List<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
-    		myvarnames.addAll(g.getGuardExpression().getVarNames());
+    		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
@@ -537,10 +482,10 @@ public class Plan implements Cloneable, Comparable<Plan> {
     				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
     				getTriggerEvent().renameVar(s, s1);
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
     			   	for (Deed d: getBody()) {
     					d.renameVar(s, s1);
@@ -561,7 +506,7 @@ public class Plan implements Cloneable, Comparable<Plan> {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
-    		myvarnames.addAll(g.getGuardExpression().getVarNames());
+    		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
@@ -574,12 +519,9 @@ public class Plan implements Cloneable, Comparable<Plan> {
     				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
     				getTriggerEvent().renameVar(s, s1);
     			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
+    		    		g.renameVar(s, s1);
     		    	}
-    			   	for (Guard g: getContext()) {
-    		    		g.getGuardExpression().renameVar(s, s1);
-    		    	}
-    			   	for (Deed d: getBody()) {
+     			   	for (Deed d: getBody()) {
     					d.renameVar(s, s1);
     				}
     				u.renameVar(s, s1);
@@ -587,6 +529,365 @@ public class Plan implements Cloneable, Comparable<Plan> {
     		}
     	}
  
-    } 
+    }
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+    // NB. untested.
+	public boolean unifies(Unifiable t, Unifier u) {
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().unifies(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.unifies(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.unifies(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
+	// NB. untested.
+	public List<String> getVarNames() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		varnames.addAll(getTriggerEvent().getVarNames());
+		for (Guard g: getContext()) {
+			varnames.addAll(g.getVarNames());
+		}
+		for (Deed d: getBody()) {
+			varnames.addAll(d.getVarNames());
+		}
+		return varnames;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
+	public void renameVar(String oldname, String newname) {
+		getTriggerEvent().renameVar(oldname, newname);
+	   	for (Guard g: getContext()) {
+    		g.renameVar(oldname, newname);
+    	}
+		for (Deed d: getBody()) {
+			d.renameVar(oldname, newname);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	// NB. untested
+	public boolean match(Unifiable t, Unifier u) {
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().match(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.match(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.match(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	// NB. untested
+	public boolean matchNG(Unifiable t, Unifier u) {
+		if (t instanceof Plan) {
+			Plan p = (Plan) t;
+			if (getTriggerEvent().matchNG(p.getTriggerEvent(), u)) {
+				boolean unifiessofar = true;
+				int i = 0;
+				for (Guard g: getContext()) {
+					if (! g.matchNG(p.getContext().get(i), u)) {
+						unifiessofar = false;
+					}
+					i++;
+				}
+				if (unifiessofar) {
+					i = 0;
+					for (Deed d: getBody()) {
+						if (! d.matchNG(p.getBody().get(i), u)) {
+							unifiessofar = false;
+						}
+						i++;
+					}
+				}
+				return unifiessofar;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
+	public boolean isGround() {
+		if (getTriggerEvent().isGround()) {
+			for (Guard g : getContext()) {
+				if (!g.isGround()) {
+					return false;
+				}
+			}
+			for (Deed d: getBody()) {
+				if (!d.isGround()) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
+	// NB. untested.
+	public boolean apply(Unifier theta) {
+		if (getTriggerEvent().apply(theta)) {
+			boolean unifiessofar = true;
+			for (Guard g: getContext()) {
+				if (! g.apply(theta)) {
+					unifiessofar = false;
+				}
+			}
+			if (unifiessofar) {
+				for (Deed d: getBody()) {
+					if (! d.apply(theta)) {
+						unifiessofar = false;
+					}
+				}
+			}
+			return unifiessofar;
+
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		getTriggerEvent().makeVarsAnnon();
+	   	for (Guard g: getContext()) {
+    		g.makeVarsAnnon();
+    	}
+		for (Deed d: getBody()) {
+			d.makeVarsAnnon();
+		}
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
+	public Unifiable strip_varterm() {
+        Plan p = new Plan();
+
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation);
+        }
+ 
+        p.event = (Event) event.strip_varterm();
+        
+        ArrayList<Deed> copy = new ArrayList<Deed>(); 
+        for (Deed l : body) {
+            copy.add((Deed) l.strip_varterm());
+        }
+        p.setBody(copy);
+        
+        ArrayList<Deed> pcopy = new ArrayList<Deed>();
+        for (Deed l : prefix) {
+        	pcopy.add((Deed) l.strip_varterm());
+        }
+        p.setPrefix(pcopy);
+        
+        ArrayList<Guard> ccopy = new ArrayList<Guard>();
+        for (Guard f : context) {
+        	ccopy.add((Guard) f.strip_varterm());
+        }
+        p.setContext(ccopy);
+        p.setID(getID());
+        p.setLibID(getLibID());
+ 
+        return p;
+		
+	} 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	public Unifiable resolveVarsClusters() {
+        Plan p = new Plan();
+        
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation);
+        }
+ 
+        p.event = (Event) event.resolveVarsClusters();
+        
+        ArrayList<Deed> copy = new ArrayList<Deed>(); 
+        for (Deed l : body) {
+            copy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setBody(copy);
+        
+        ArrayList<Deed> pcopy = new ArrayList<Deed>();
+        for (Deed l : prefix) {
+        	pcopy.add((Deed) l.resolveVarsClusters());
+        }
+        p.setPrefix(pcopy);
+        
+        ArrayList<Guard> ccopy = new ArrayList<Guard>();
+        for (Guard f : context) {
+        	ccopy.add((Guard) f.resolveVarsClusters());
+        }
+        p.setContext(ccopy);
+        p.setID(getID());
+        p.setLibID(getLibID());
+ 
+        return p;
+	}
+	
+	/**
+	 * Replace one capability mentioned in this plan with another.
+	 * @param capname
+	 * @param c
+	 * @param old
+	 */
+	public  void replaceCap(Predicate capname, Capability c, Capability old) {
+		// NB. we are explicitly assuming EASS style plans here!!
+    	Action perf = new Action("perf");
+    	perf.addTerm(capname);
+    	ArrayList<Deed> newdeeds = new ArrayList<Deed>();
+    	ArrayList<Guard> guards = new ArrayList<Guard>();
+
+    	int i = 0;
+    	for (Deed d: body) {
+			if (d.getCategory() == Deed.DAction) {
+				Action a = (Action) d.getContent();
+				if (a.unifies(perf, new Unifier())) {
+					// WARNING: Can we be certain that unification of variables in c is correct???
+					a.setTerm(0, c.getCap());
+					newdeeds.add(d);
+					guards.add(context.get(i));
+					insertRowsHere(guards, context.get(i), newdeeds, c.getPre());
+				} else {
+					newdeeds.add(d);
+					guards.add(context.get(i));
+				}
+			} else {
+				newdeeds.add(d);
+				guards.add(context.get(i));
+			}
+			i++;
+		}
+    	body = newdeeds;
+    	context = guards;
+
+	}
+	
+	/**
+	 * Insert some new rows into a plan
+	 * @param gs
+	 * @param gu
+	 * @param ds
+	 * @param lf
+	 */
+	private void insertRowsHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp().equals(Guard.GLogicalOp.none)) {
+				GLogicalFormula f = g.getLHS();
+			 insertRowHere(gs, gu, ds, f);
+			} else if (g.getOp().equals(Guard.GLogicalOp.and)) {
+				insertRowsHere(gs, gu, ds, g.getRHS());
+				insertRowsHere(gs, gu, ds, g.getLHS());
+			} else {
+				AJPFLogger.warning(logname, "Can not insert deeds of this type");
+			}
+		} else if (lf instanceof GBelief) {
+			insertRowHere(gs, gu, ds, lf);
+		}
+	}
+	
+	/**
+	 * Insert one new row into the plan.
+	 * @param gs
+	 * @param gu
+	 * @param ds
+	 * @param lf
+	 */
+	private void insertRowHere(ArrayList<Guard> gs, Guard gu, ArrayList<Deed> ds, GLogicalFormula lf) {
+		GBelief gb = (GBelief) lf;
+		Goal gl = new Goal(gb, Goal.achieveGoal);
+		//NOTE at some point we need to handle deletions or absenses as well.
+		Deed d = new Deed(Deed.AILAddition, gl);
+		ds.add(d);
+		gs.add(gu);
+	}
+
+	/**
+	 * Does this plan mentioned this capability?
+	 * @param cap_name
+	 * @return
+	 */
+	public boolean containsCap(Predicate cap_name) {
+		ArrayList<Deed> body = getBody();
+		for (Deed d: body) {
+			if (d.getContent() instanceof Action) {
+				Action a = (Action) d.getContent();
+				if (a.unifies(cap_name, new Unifier())) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
+	}
+	
 }

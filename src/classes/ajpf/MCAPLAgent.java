@@ -41,12 +41,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 */
 	@FilterField
 	private MCAPLLanguageAgent agent;
-	/**
-	 * A flag indicating whether or not this is a model checking run.  Currently
-	 * unused but I anticipate it may be handy.
-	 */
-	@FilterField
-	private int outputlevel = 0;
+
 	/**
 	 * The controller within which the agent runs.
 	 */
@@ -56,21 +51,8 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 */
 	private String name;
 	
-	//private boolean notified;
+	private String logname = "ajpf.MCAPLAgent";
 	
-	
-	/**
-	 * Flag showing whether the agent is asleep or not.
-	 */
-//	@FilterField
-//	private boolean sleeping  = false;
-	
-	/**
-	 * Pregenerated to save time when model checking.
-	 */
-	//@FilterField
-	//private String sleepmessage = "";
-
 	/**
 	 * Constructor.
 	 * 
@@ -79,21 +61,28 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 *            This is currently unused but I anticipate it may be handy.
 	 * @param c   The controller in which this agent runs.
 	 */
-	public MCAPLAgent(MCAPLLanguageAgent a, int mc, MCAPLcontroller c) {
+	public MCAPLAgent(MCAPLLanguageAgent a, MCAPLcontroller c) {
 		agent = a;
-		outputlevel = mc;
 		controller = c;
 		name = a.getMCAPLAgName();
  	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#getName()
+	 */
 	public String getName() {
 		return getAgName();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLJobber#do_job()
+	 */
 	public void do_job() {
 		reason();
 	}
+	
 	/**
 	 * One step of the agents reasoning cycle.  This first calls
 	 * one step of the encapsulated agent's reasoning and then
@@ -105,7 +94,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 public void reason() {
 		 AJPFLogger.fine("ajpf.MCAPLAgent", "Entering reason");
 			 // This is the actual program and should ideally be run in full.
-			 agent.MCAPLreason(outputlevel);
+			 agent.MCAPLreason();
 			 // On the other hand the specification is not being checked and should be
 			 // treated as a single transition except where it branches (see BuchiAutomaton class).
 			 // We also keep as much of the sleeping behaviour within the atomic transition
@@ -148,38 +137,23 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 *
 	 */
 	public void sendtoSleep() {
-		// synchronized (this) {
-			// System.err.println("b");
-		//	if (!notified) {
-					AJPFLogger.fine("ajpf.MCAPLAgent", "agent isn't notifed");					
-			// wait can not be called inside an atomic otherwise JPF deadlocks.
-			// System.err.println("a");
-				try {
-					controller.addAsleep(getAgName());
-				//	sleeping = true;
-				// if the whole system has finished don't sleep but let the controller
-				// shut everything down.
-					if (! controller.checkEnd() && isRunning()) {
-					//if (outputlevel > 1) {
-						AJPFLogger.info("ajpf.MCAPLAgent", "Sleeping agent " + name);					
-					// System.err.println(name + " sleeping");
-					//	wait();
-						controller.getScheduler().notActive(this.getName());
-					// System.err.println(name + " has definitely woken up");
-					} 	
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "agent isn't notifed");	
+		}
+
+		try {
+			controller.addAsleep(getAgName());
+			// if the whole system has finished don't sleep but let the controller
+			// shut everything down.
+			if (! controller.checkEnd() && isRunning()) {
+				if (AJPFLogger.ltInfo(logname)) {
+					AJPFLogger.info(logname, "Sleeping agent " + name);	
 				}
-	//		} else {
-			// To reduce the search space we assume that a run in which something in the
-			// environment is pending for the agent is invalid only if there is an invalid
-			// run at this point where the pending action took place before the agent
-			// decided to sleep.  This is a slightly dodgy assumption and we might want
-			// to create a conditional test so this becomes an AJPF control option.
-		//		agent.MCAPLtellawake();
-		//		notified = false;
-		//	}
-		//}
+				controller.getScheduler().notActive(this.getName());
+			} 	
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 		
 	/**
@@ -187,49 +161,17 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 *
 	 */
 	public void wakeUP() {
-	//	synchronized (this) {
-			//notify();
-		// Only wake an agent up if it is asleep!  Should really encapsulate this better
 		if (! controller.getScheduler().getActiveJobberNames().contains(getName())) {
 			controller.getScheduler().isActive(this.getName());
 		
 			agent.MCAPLtellawake();
-		//	notified = true;
 			controller.addAwake(getAgName());
-			//sleeping = false;
-			AJPFLogger.info("ajpf.MCAPLAgent", "Waking agent " + getAgName());
+			if (AJPFLogger.ltInfo(logname)) {
+				AJPFLogger.info("ajpf.MCAPLAgent", "Waking agent " + getAgName());
+			}
 		}
-	//	}
 	} 
-	
-	/**
-	 * Called when the thread starts.  Repeatedly calls steps
-	 * of the reasoning cycle, which the agents reports it should
-	 * still be running.
-	 */
-	/* public void run() {
-	//	Verify.beginAtomic();
-		if (! controller.beginfinished()) {
-			// Again to reduce search space.  This prunes the space where the main thread
-			// has not finished running from consideration.
-			clearacceptingstate();
-		//	Verify.ignoreIf(! controller.beginfinished());
-		}
-		while (isRunning()) {
-		//	System.err.println(name + " running");
-			 reason();
-	    }
-	//	Verify.endAtomic();
-	} */
-	
-	/**
-	 * Dummy method call to trigger actions in the MCAPL listener.  In this case it
-	 * dumps any calculations that the current state leads to an accepting one.
-	 *
-	 */
-	/* public void clearacceptingstate() {} */
-
-	
+		
 	// Methods used by the Property Specification Language
 	
 	/**
@@ -262,6 +204,15 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 	return (agent.MCAPLhasGoal(phi));
 	}
 	
+	/**
+	 * Succeeds if the agent intends to perform some action.
+	 * @param phi
+	 * @return
+	 */
+	public boolean intendsToDo(MCAPLFormula phi) {
+		return agent.MCAPLintendsToDo(phi);
+	}
+	
 	// Miscellaneous other methods.
 	
 	/**
@@ -273,6 +224,10 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 		return name;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.PerceptListener#getListenerName()
+	 */
 	public String getListenerName() {
 		return name;
 	}
@@ -291,19 +246,18 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 		wakeUP();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return getAgName();
 	}
 
-	/**
-	 * Returns the status of the agent thread.
-	 * 
-	 * @return true if the agent is awake and false if it is asleep.
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-//	public boolean isAwake() {
-//		return (! sleeping);
-//	}
-	
 	public int compareTo(MCAPLJobber j) {
 		return j.getName().compareTo(getName());
 	}

@@ -26,20 +26,18 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target_args =src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail,src/examples/eass/verification/leo/satellite.psl,SpinSpin5
+target.args =src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail,src/examples/eass/verification/leo/satellite.psl,Spin0
 
-log.info = ajpf.MCAPLListener,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment,ajpf.product.Product
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,eass.verification.leo.LEOVerificationEnvironment
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
 
 ajpf.model_only = true
-ajpf.model.location = theorem_spin1.pml
-ajpf.model.path = /Users/louiseadennis/Research/eass/ExperimentalData/leo/
+ajpf.model.location = stdout
+# ajpf.model.path = /Users/louiseadennis/Research/eass/ExperimentalData/leo/
 ajpf.target_modelchecker = spin
-ajpf.spin.property_file = propspin0.txt
-ajpf.spin.path = /Users/louiseadennis/Systems/Spin/Src6.2.3/
-
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
@@ -66,5 +64,5 @@ vm.max_transition_length = MAX
 #    never claim generation: 2.33s
 #    spin generation and checking:real    0m20.021s
 
-
-
+# Tests for JPF revised paper version.
+# Model generation SpinSpin0: 

@@ -24,6 +24,7 @@
 
 package ail.semantics.operationalrules;
 
+import gov.nasa.jpf.annotation.FilterField;
 import ail.semantics.AILAgent;
 import ail.syntax.Literal;
 
@@ -35,6 +36,7 @@ import ail.syntax.Literal;
  */
 public abstract class HandleBelief extends HandleTopDeed {
 	// Store the identified belief
+	@FilterField
 	Literal b;
 	
 	/*
@@ -43,7 +45,7 @@ public abstract class HandleBelief extends HandleTopDeed {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		if (super.checkPreconditions(a) && topdeed.referstoBelief()) {
-			b = topdeed.getLiteral();
+			b = (Literal) topdeed.getContent();
 			return true;
 		}
 		

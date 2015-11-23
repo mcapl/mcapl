@@ -26,6 +26,8 @@ package gwendolen.uavs.prism;
 
 import ail.mas.vehicle.UnreliableSensor;
 import ail.syntax.Predicate;
+import ajpf.MCAPLcontroller;
+
 import java.util.ArrayList;
 
 /**
@@ -34,8 +36,8 @@ import java.util.ArrayList;
  *
  */
 public class SimpleRadar extends UnreliableSensor {
-	public SimpleRadar() {
-		super("Radar");
+	public SimpleRadar(MCAPLcontroller control) {
+		super("Radar", control);
 		ArrayList<Predicate> ls = new ArrayList<Predicate>();
 		ls.add(new Predicate("collision"));
 		detectOccurs(new Predicate("collision"), ls, 0.9);

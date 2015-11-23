@@ -28,6 +28,7 @@ import java.io.IOException;
 
 import ail.mas.AIL;
 import ail.mas.MAS;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
@@ -51,6 +52,7 @@ public class AJPF_w_AIL {
 			  AJPFLogger.fine(logname, "Entering Main in AJPF_w_AIL");
 		  }
 
+		GroundPredSets.clear();
 		run(args);
 	}
 	
@@ -62,12 +64,13 @@ public class AJPF_w_AIL {
 		// Create the configuration.
 		AILConfig config = new AILConfig(args[0]);
 		// Configure an AIL based MAS accordingly
-		MAS mas = AIL.AILSetup(config);
+		MCAPLcontroller mccontrol = new MCAPLcontroller();
+		MAS mas = AIL.AILSetup(config, mccontrol);
 		// Get the property to be checked.
 		String propertystring = getProperty(args[1],args[2]);
 		
 		// Run the system.
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, propertystring, 1);
+		mccontrol.setMAS(mas, propertystring, config);
 		mccontrol.begin(); 		
 	}
 	

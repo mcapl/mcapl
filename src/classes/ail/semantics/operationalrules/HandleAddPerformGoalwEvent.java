@@ -69,7 +69,7 @@ public class HandleAddPerformGoalwEvent extends HandleAddGoal {
 		newu.compose(u);
 		newu.compose(thetahd);
 		//i.tlI(a);
-		i.iReplace(e, new Deed(Deed.DNull), new Guard(new GBelief(GBelief.GTrue)), thetahd);
-		i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief(GBelief.GTrue)), thetahd);	
+		i.iReplace(e, new Deed(Deed.DNull), new Guard(new GBelief()), thetahd);
+		i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);	
 	}
 }

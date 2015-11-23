@@ -30,9 +30,8 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
-import ail.syntax.VarTerm;
-import ail.syntax.Term;
 import ail.syntax.PredicateIndicator;
+import ail.syntax.PredicateTerm;
 
 import ajpf.util.AJPFLogger;
 
@@ -69,11 +68,12 @@ public class HandleUpdateBelief extends HandleBelief {
 	 */
 	public void apply(AILAgent a) {
 		i.tlI(a);
-		Iterator<Literal> bl = a.getBB(topdeed.getDBnum()).iterator();
+		Iterator<PredicateTerm> bl = a.getBB(topdeed.getDBnum()).iterator();
 		PredicateIndicator pi = b.getPredicateIndicator();
 		
 		while (bl.hasNext()) {
-			Literal bp = bl.next();
+			// Since this comes from a belief base it should be a literal, but there really ought to be some kind of a check here.
+			Literal bp = (Literal) bl.next();
 			Unifier un = new Unifier();
 			PredicateIndicator bpi = bp.getPredicateIndicator();
 						
@@ -92,10 +92,6 @@ public class HandleUpdateBelief extends HandleBelief {
 		thetahd.compose(thetab);
 		i.compose(thetahd);
 		b.apply(thetahd);
-		if (b instanceof VarTerm) {
-			Term k = ((VarTerm) b).getValue();
-			System.err.println(k);
-		}
 	
 		a.addBel(b, AILAgent.refertoself(), topdeed.getDBnum());
 		if (AJPFLogger.ltFine(logname)) {

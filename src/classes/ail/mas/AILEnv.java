@@ -147,7 +147,7 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
    /**
     * Perform any final cleanup needed after the system stops.
     */
-   public void final_cleanup();
+   public void cleanup();
    
    /**
     * Perform any iniatilisation of the environment.  If the set up of the environment object depends
@@ -186,4 +186,10 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
      * @return
      */
     public boolean agentIsUpToDate(String agName);
+    
+    /**
+     * Set the mas that this environment is part of.
+     * @param m
+     */
+    public void setMAS(MAS m);
 }

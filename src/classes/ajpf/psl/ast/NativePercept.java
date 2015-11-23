@@ -26,8 +26,6 @@ package ajpf.psl.ast;
 
 import gov.nasa.jpf.vm.ElementInfo;
 import gov.nasa.jpf.vm.VM;
-import ajpf.MCAPLmas;
-import ajpf.psl.MCAPLPercept;
 
 /**
  * The formula P(phi) means phi is "true" in the environment.
@@ -67,6 +65,10 @@ public class NativePercept extends Native_Proposition {
 	}
 	
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return percept.hashCode();
 	}
@@ -97,10 +99,18 @@ public class NativePercept extends Native_Proposition {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Native_Proposition#getEquivalentJPFClass()
+	 */
 	public String getEquivalentJPFClass() {
 		return "ajpf.psl.ast.Abstract_Percept";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Native_Proposition#createInJPF(gov.nasa.jpf.vm.VM)
+	 */
 	public int createInJPF(VM vm) {
 		int objref = super.createInJPF(vm);
 		ElementInfo ei = vm.getElementInfo(objref);
@@ -108,6 +118,10 @@ public class NativePercept extends Native_Proposition {
 		return objref;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 5;
 	}

@@ -27,10 +27,10 @@ package ail.mas.vehicle;
 import java.util.List;
 import java.util.ArrayList;
 
-import ajpf.util.Choice;
+import ajpf.MCAPLcontroller;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
-
+import ajpf.util.choice.Choice;
 import ail.syntax.Predicate;
 
 /**
@@ -60,7 +60,8 @@ public class UnreliableSensor extends Choice<Predicate> implements Sensor {
 	 * Constructor.  Sets the name of the sensor.
 	 * @param s
 	 */
-	public UnreliableSensor(String s) {
+	public UnreliableSensor(String s, MCAPLcontroller control) {
+		super(control);
 		name = s;
 	}
 	
@@ -122,7 +123,7 @@ public class UnreliableSensor extends Choice<Predicate> implements Sensor {
 	 * @param p this is the probability that the ls will be returned if l is detected.
 	 */
 	public void detectOccurs(Predicate l, ArrayList<Predicate> ls, double p) {
-		Choice<ArrayList<Predicate>> choice = new Choice<ArrayList<Predicate>>();
+		Choice<ArrayList<Predicate>> choice = new Choice<ArrayList<Predicate>>(control);
 		choice.addChoice(p, ls);
 		choice.addChoice(1 - p, new ArrayList<Predicate>());
 		choices.put(l, choice);

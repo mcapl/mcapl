@@ -1,0 +1,212 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\author{Louise A. Dennis}
+
+\title{EASS Tutorial 2 -- Extending the Default EASS Environment}
+
+\begin{document}
+\maketitle
+This is the second in a series of tutorials on the use of the \eass\ variant of the \gwendolen\ language.  This tutorial covers creating environments for agent programs by extending the \texttt{eass.mas.DefaultEASSEnvironment} class.  
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/eass/tutorials/tutorial2}.
+
+The tutorial assumes a good working knowledge of Java programming, and some basic understanding of sockets.  It also assumes the reader is familiar with the creation of \ail\ environments (see \ail\ Tutorial 2).
+
+\section{The Default Environment and the AILEnv Interface}
+\begin{sloppypar}
+All environments for use with \eass\ must implement a java interface \texttt{eass.mas.EASSEnv}.  This extends \texttt{ail.mas.AILEnv} (discussed in \ail\ tutorial 2) and \texttt{ajpf.MCALJobber} which specifies the functionality required for \ajpf\ to include the environment in the scheduler.  One of the key features of \eass\ environments is that they are \emph{dynamic} -- that is things may occur in the environment which are not caused by the agents.  The \ajpf\ framework uses a scheduler to switch between agents and any other \emph{jobbers} known to the scheduler.  When a dynamic environment is used the scheduler switches between agents and the environment.  In fact there are a number of schedulers that can be used, and we will look at them in more detail in another tutorial.  As well as the functionality required by the two interfaces it extends, \texttt{eass.mas.EASSEnv} requires some extra functionality to support the \eass\ \gwendolen\ variant, particularly managing the links between abstraction and reasoning engines and shared beliefs.
+
+\texttt{eass.mas.DefaultEASSEnvironment} provides a basic level implementation of all these methods, so any environment that extends it only has to worry about those aspects particular to that environment.  Typically this is just the way that actions performed by the agents are to be handled and the way perceptions may change in between agent actions.  \texttt{ail.mas.DefaultEASSEnvironment} also provides a set of useful methods for handling changing the perceptions available to the agent that can then be used to program these action results.  \texttt{eass.mas.DefaultEASSEnvironment} extends \texttt{ail.mas.DefaultEnvironment} (see \ail\ tutorial 2) so all the methods available in that class are also available to classes that subclass \texttt{eass.mas.DefaultEASSEnvironment}.
+\end{sloppypar}
+
+\section{A Survey of some of Default \eass\ Environment's Methods}
+We note here some of the more useful methods made available by the Default Environment before we talk about implementing the outcomes of agent actions and getting new perceptions.
+
+\begin{sloppypar}
+\begin{description}
+\item[public static void scheduler\_setup(EASSEnv env, MCAPLScheduler s)] This takes an environment (typically one sub-classing \texttt{eass.mas.DefaultEASSEnvironment}) and a scheduler and sets the environment and scheduler up appropriately.  In general an \eass\ environment will want to use \texttt{ail.mas.NActionScheduler} -- this is a scheduler which can switch between agents and the environment every time an agent takes an action but will also switch every $N$ reasoning cycles in to force checking of changes in the environment.  A good value to start $N$ at is 100 though this will vary by application.  A typical constructor for an environment may look something like Listing~\ref{code:constructor}.
+\begin{lstlisting}[float,caption=Handling Numbers,basicstyle=\sffamily,language=Java,style=easslisting,label=code:constructor]
+public MyEnvironment() {
+	super();
+	super.scheduler_setup(this, new NActionScheduler(100));
+}
+\end{lstlisting}
+\item[public void addUniquePercept(String s, Predicate per)] It is fairly typical in the kinds of applications the \eass\ is used for that incoming perceptions indicate the current value of some measure -- e.g. the current distance to the car in front.  This gets converted into a predicate such as $distance(5.5)$ however the application only wants to have one such percept available.  \texttt{addUniquePercept} avoids the need to use \texttt{removeUnifiesPercept} followed by \texttt{addPercept} each time the value changes.  Instead \texttt{addUniquePercept} takes a unique reference string, \texttt{s} (normally the functor of the predicate -- e.g., \texttt{distance}) and then removes the old percept and adds the new one. 
+\item[public void addUniquePercept(String agName, String s, Literal  pred)] As above but the percept is perceivable only by the agent called \texttt{agName}.
+\end{description}
+\end{sloppypar}
+
+\section{Default Actions}
+Just as \texttt{ail.mas.DefaultEnvironment} provides a set of built-in actions, so does \texttt{eass.mas.DefaultEASSEnvironment}.  These critically support some aspects of the \eass\ language:
+
+\begin{description}
+\item[assert\_shared(B)] This puts $B$ in the shared belief set.
+\item[remove\_shared(B)] This removes $B$ from the shared belief set.
+\item[remove\_shared\_unifies(B)] This removes all beliefs that unify with $B$ from the shared belief set.  This is useful when you do not necessarily know the current value of one of a shared belief's parameters.
+\item[perf(G) and query(G)] These are actually identical and send a message to the abstraction engine requesting it adopt $G$ as a perform goal.
+\item[append\_string\_pred(S, T, V)] This is occasionally useful for converting between values treated as parameters by the agent, but which need to be translated to unique actions for the application (e.g., converting from $thruster(2)$ to ``thruster\_2''.  It takes a string as its first argument, a term, $T$, as its second argument.  It converts $T$ to a string and then unifies the concatenation of the first string and the new string with $V$.
+\end{description}
+
+\section{Adding Additional Actions}
+Adding additional actions can be done in the same way as for environments that subclass \texttt{ail.mas.DefaultEnvironment} (see \ail\ tutorial 2).
+
+\section{Adding Dynamic Behaviour}
+
+Dynamic behaviour can be added by overriding the method \texttt{do\_job()}.  This method is called each time the scheduler executes the environment.  Overrides of this method can be used simply to change the set of percepts (possibly at random) or to read data from sockets or other communications mechanisms.
+
+Once an environment is dynamic and is included in the scheduler it sometimes becomes important to know when the multi-agent system has finished running.  This is not always the case, sometimes you want it to keep running indefinitely and just kill it manually when you are done, but if you want the system to shut down neatly then the scheduler needs to be able to detect when the environment has finished.  To do this it calls the methods \texttt{public boolean done()} which should return \texttt{true} if the environment has finished running and \texttt{false} otherwise.
+
+\section{Example}
+You can find an example EASS environment, \texttt{CarOnMotorwayEnvironment}, for connecting to the Motorway Simulator over a socket in the tutorial directory.  We will examine this section by section.
+
+\begin{lstlisting}[float,caption=Class Fields,basicstyle=\sffamily,language=Java,label=code:fields,style=easslisting]
+public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
+  
+  String logname = 
+           "eass.tutorials.tutorial2.CarOnMotorwayEnvironment";
+		
+  /**
+   * Socket that connects to the Simulator.
+   */
+  protected AILSocketClient socket;
+
+  /**
+   * Has the environment concluded?
+   */
+  private boolean finished = false;
+\end{lstlisting}
+Listing~\ref{code:fields} shows initialisation of the class.  It sub-classes \texttt{DefaultEASSEnvironment}, sets up a name for logging and and a socket.  The \ail\ comes with some support for socket programming.  \texttt{ail.util.AILSocketClient} is a class for sockets which are clients of some server (as required by the Motorway simulator).  Lastly the environment sets up a boolean to track whether it has finished executing.
+
+\begin{lstlisting}[float,caption=Constructor,basicstyle=\sffamily,language=Java,label=code:constructor2,style=easslisting]
+  public CarOnMotorwayEnvironment() {
+    super();
+    super.scheduler_setup(this,  new NActionScheduler(100));
+    AJPFLogger.info(logname, "Waiting Connection");
+    socket = new AILSocketClient();
+    AJPFLogger.info(logname, "Connected to Socket");
+  }
+\end{lstlisting}
+Listing~\ref{code:constructor2} shows the class constructor.  We've set the environment up with an \emph{NActionScheduler} -- this scheduler switches between jobbers every time an agent takes and action, \emph{but also}, ever $n$ turns of a reasoning cycle.  In this case $n$ is set to 100.  This means that the environment keeps up to date processing input from the simulator even while agent deliberation is going on.  We then create the socket, we don't supply a port number for the socket.  The \ail\ socket classes have a default port number they use and the Motorway simulator uses this port so we don't need to specify it.  We are using the \texttt{AJPFLogger} class to provide output.  We will cover this in future tutorials.  In this instance printing messages to System Error or System out would work as well.
+
+\begin{lstlisting}[float,caption=Overriding do\_job,basicstyle=\sffamily,language=Java,label=code:do_job,style=easslisting]
+public void do_job() {
+  if (socket.allok()) {
+    readPredicatesfromSocket();
+  }	else {
+    System.err.println("something wrong with socket");
+  }
+}
+
+/**
+ * Reading the values from the sockets and turning them into perceptions.
+ */
+public void readPredicatesfromSocket() {
+  socket.readDouble();
+  socket.readDouble();
+  double xdot = socket.readDouble();
+  double ydot = socket.readDouble();
+  int started = socket.readInt();
+		
+  try {
+    while (socket.pendingInput()) {
+      socket.readDouble();
+      socket.readDouble();
+      xdot = socket.readDouble();
+      ydot = socket.readDouble();
+      started = socket.readInt();			
+    }
+  } catch (Exception e) {
+    AJPFLogger.warning(logname, e.getMessage());
+  } 
+		
+  Literal xspeed = new Literal("xspeed");
+  xspeed.addTerm(new NumberTermImpl(xdot));
+		
+  Literal yspeed = new Literal("yspeed");
+  yspeed.addTerm(new NumberTermImpl(ydot));
+		
+  if (started > 0) {
+    addPercept(new Literal("started"));
+  }
+		
+  addUniquePercept("xspeed", xspeed);
+  addUniquePercept("yspeed", yspeed);
+}
+\end{lstlisting}
+Listing~\ref{code:do_job} shows the code that gets executed each time the environment is scheduled to run.  In this case we want to get up-to-date values from the simulator by reading them off the socket.  The simulator posts output in sets of four doubles and then an integer representing the x position, y position, x speed, y speed of the car and finally the integer represents whether the simulation has started or not.  The code in lines 17-21 reads off these values.  This particular application isn't interested in the x and y position, so these are ignored but the speeds and starting information are saved as variables.  Note that different methods are used to read doubles and integers, it is important to use the right methods otherwise simulator and agent environment can get out of sync since different datatypes use up different numbers of bytes on the socket.  Lines 23-33 then repeat this process on a loop.  \texttt{socket.pendingInput()} returns true if there is any data left to be read off the socket.  Since the environment and simulator probably won't be entirely running in sync this loop is used to read all available data off the socket.  The final assignment of values to variables will represent the most recent state of the simulation and so is probably the best data to pass on to the agent.  Lines 35-44 show the environment turning the numbers read from the socket into literals for use by the agent (see discussion in \ail\ tutorial 2).  Finally \texttt{addUniquePercept} is used to add the percepts for \texttt{xspeed} and \texttt{yspeed} to the environment.  We only want one value for each of these to be available to the agent so we use the special method to remove the old value and add the new one.
+
+\begin{lstlisting}[float,caption=executeAction,basicstyle=\sffamily,language=Java,label=code:executeAction,style=easslisting]
+public Unifier executeAction(String agName, Action act) throws AILexception {
+		
+  if (act.getFunctor().equals("accelerate")) {
+    socket.writeDouble(0.0);
+    socket.writeDouble(0.01);
+  } else if (act.getFunctor().equals("decelerate")) {
+    socket.writeDouble(0.0);
+    socket.writeDouble(-0.1);
+  } else if (act.getFunctor().equals("maintain_speed")) {
+    socket.writeDouble(0.0);
+    socket.writeDouble(0.0);
+  } else if (act.getFunctor().equals("finished")) {
+    finished = true;
+  }
+		
+  return super.executeAction(agName, act);
+}
+\end{lstlisting}
+Listing~\ref{code:executeAction} shows the \texttt{executeAction} method which was discussed in \ail\ tutorial 2.  Here, as well as the actions, such as \lstinline{assert_shared}, \lstinline{remove_shared}, \lstinline{perf} and \lstinline{.query} provided by \texttt{DefaultEASSEnvironment} the environment offers \lstinline{accelerate}, \lstinline{decelerate}, \lstinline{maintain_speed} and \lstinline{finished}.  The Motorway simulator regularly checks the socket and expects to find pairs of doubles on it giving the acceleration in the x and y directions respectively.  The environment treats requests for acceleration and deceleration from the agent as requests to speed up or slow down in the y direction, but since the simulator expects a pair of values it has to write the x acceleration to the socket as well.  \lstinline{finished} is treated as a request to stop the environment and the boolean \texttt{finished} is set to true.
+
+\begin{lstlisting}[float,caption=Stopping,basicstyle=\sffamily,language=Java,label=code:stopping,style=easslisting]
+public void finalize() {
+  socket.close();
+}
+
+/*
+ * (non-Javadoc)
+ * @see ail.others.DefaultEnvironment#done()
+ */
+public boolean done() {
+  if (finished) {
+    return true;
+  }
+  return false;
+}
+\end{lstlisting}
+Listing~\ref{code:stopping} shows the code used when to notify the system that the environment is finished (by overriding \texttt{done}) and an over-ride of the \texttt{finialize()} method which is called before the system shuts down.  This is used to close the socket.
+
+\subsection{Executing the Example}
+The example is a variation on the one used in Tutorial 1 and can be executed in the same way by first starting up \texttt{MotorwayMain} and then running \ail\ on \texttt{car.ail}.  The main difference is that the agent in this program executes the \lstinline{finished} action once the car has reached the speed limit.  This results in the multi-agent system shutting down and the socket being closed.  These actions don't terminate the simulation which will continue executing, but you will be able to see error messages of the form \texttt{WARNING: Broken pipe} being generated by its attempts to read data from the socket.
+
+\section{Sending Messages}
+The \texttt{executeAction} method in the default environment simply places messages directly into the intended recipients inbox.  Obviously there will be situations, particularly if the multi-agent system needs to send messages over a socket or similar, where this will not suffice.
+
+In fact \texttt{executeAction} calls a method, \texttt{executeSendAction}: \texttt{public void executeSendAction(String agName, SendAction act)} so the simplest way to alter an environment's message sending behaviour is to override this method.
+
+The \texttt{SendAction} class has several useful methods such as:
+\begin{description}
+\item[Message getMessage(String agName)] which returns the \texttt{Message} object assocated with the action and takes the name of the sender as an argument.
+\item[Term getReciever()] returns the name of the intended receiver of the message as a \texttt{Term}.
+\end{description}
+\texttt{Message} objects are described in \ail\ tutorial 2.
+
+\section{Exercises}
+\subsection{Changing Lane}
+In the tutorial directory you will find an \eass\ program, \texttt{car\_exercises.eass}.  This contains a car control program that attempts to change lane (action \lstinline{change_lane}) once the car has reached the speed limit.  It then checks a perception, \lstinline{xpos(X)} for the x position of the car until it believes it is in the next lane at which point it instructs the environment to stay in that lane (action \lstinline{stay_in_lane}). 
+
+Extend and adapt \texttt{CarOnMotorwayEnvironment.java} to act as a suitable environment for this program.  As normal answers (including an \ail\ configuration file) can be found in the \texttt{answers} directory for the tutorial.
+
+\subsection{Changing the Simulator Behaviour}
+It is possible to change the behaviour of the Motorway Simulator by providing it with a config file.  A sample one is provided in the tutorial directory.  This new configuration gets the simulator to write 7 values to the socket rather than five.  These are, in order, the total distance travelled in the x direction, the total distance travelled in the y direction, the x coordinate of the car in the interface, the y coordinate of the car in the interface, the speed in the x direction, the speed in the y direction and whether the simulator has started now.
+
+\begin{sloppypar}
+The simulator can be started in this configuration by supplying \texttt{"/src/examples/eass/tutorials/tutorial2/config.txt"} as an argument to \texttt{MotorwayMain} (If you are using Eclipse you can add arguments to Run Configurations in a tab).  Adapt the environment to run \texttt{car\_exercises.eass} in this environment.  As normal answers (including an \ail\ configuration file) can be found in the \texttt{answers} directory for the tutorial.
+\end{sloppypar}
+
+\end{document}

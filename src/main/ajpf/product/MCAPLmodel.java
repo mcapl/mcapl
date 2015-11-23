@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ajpf.psl.Proposition;
@@ -84,7 +85,7 @@ public class MCAPLmodel {
 	 /*
 	  * For printing.  An enuemration of the possible output formats.
 	  */
-	 protected enum OutputFormat {
+	 protected static enum OutputFormat {
 		 Promela, Default, Prism
 	 }
 	
@@ -138,7 +139,9 @@ public class MCAPLmodel {
 	 */
 	public int prune (int statenum) {
 		// We assume statenum is in path
-		log.fine("pruning 1 state from " + current_path);
+		if (lowerLogLevelThan(Level.FINE)) {
+			log.fine("pruning 1 state from " + current_path);
+		}
 		int index = current_path_size - 1;
 		// We remove the head of the path because a prune has been triggered by it.
 		if (!current_path.isEmpty()) {
@@ -194,7 +197,9 @@ public class MCAPLmodel {
 	public void addToPath(ModelState s) {
 		current_path.add(s.getNum()); 
 		current_path_size++;
-		log.info("Current Path: " + current_path.toString());
+		if (lowerLogLevelThan(Level.INFO)) {
+			log.info("Current Path: " + current_path.toString());
+		}
 	}
 
 	/**
@@ -337,6 +342,7 @@ public class MCAPLmodel {
 			case Promela:
 				 // We need to declare all the properties as booleans at the top of the
 				 // Spin model.
+				HashMap<Proposition, String> propstringhash = new HashMap<Proposition, String>();
 				if (!props.isEmpty()) {
 					s+="bool ";
 					int i = 1;
@@ -347,6 +353,7 @@ public class MCAPLmodel {
 							s += ", ";
 							i++;
 						}
+						propstringhash.put(p, pstring);
 					}
 					s += "\n\n";
 				}
@@ -360,7 +367,8 @@ public class MCAPLmodel {
 					s += ":\n";
 					Set<Integer> edges = model_edges.get(num);
 					for (Proposition p: props) {
-						String pstring = convertPropForSpin(p.toString());
+						// String pstring = convertPropForSpin(p.toString());
+						String pstring = propstringhash.get(p);
 						s+="\t" + pstring + " = ";
 						if (state.getProps().contains(p)) {
 							s += "true;\n";
@@ -460,5 +468,19 @@ public class MCAPLmodel {
 
 	}
 
+	/**
+	 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+	 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+	 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+	 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+	 * @param l
+	 * @return
+	 */
+	private static boolean lowerLogLevelThan(Level l) {
+		if  (log.getLevel().intValue() <= l.intValue()) {
+			return true;
+		}
+		return false;
+	}
 	
 }

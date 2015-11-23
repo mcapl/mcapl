@@ -84,7 +84,9 @@ proposition returns [Abstract_Proposition p1] :
 	p2 = beliefproperty  {$p1 = (Abstract_Proposition) $p2.p;} |
 	p3 = goalproperty {$p1 = (Abstract_Proposition) $p3.p;} | p4 = falseprop {$p1 = (Abstract_Proposition) $p4.p;} | 
 	p5 = intentionproperty {$p1 = (Abstract_Proposition) $p5.p;} | p6 = lastactionproperty {$p1 = (Abstract_Proposition) $p6.p;} |
-	p7 = perceptproperty {$p1 = (Abstract_Proposition) $p7.p;} | p = trueprop {$p1 = (Abstract_Proposition) $p.p;};
+	p7 = perceptproperty {$p1 = (Abstract_Proposition) $p7.p;} | 
+	p8 = intendtodoproperty {$p1 = (Abstract_Proposition) $p8.p;} |
+	p = trueprop {$p1 = (Abstract_Proposition) $p.p;};
 	
 beliefproperty returns [Abstract_AgBelief p] :
 	BELIEVE OPENBRACKET ag=agentname COMMASEP f=formula CLOSEBRACKET {$p = new Abstract_AgBelief($ag.s, (Abstract_Formula) $f.f);};
@@ -98,6 +100,8 @@ lastactionproperty returns [Abstract_LastAction p] :
 	ACTION OPENBRACKET ag=agentname COMMASEP f=formula CLOSEBRACKET {$p = new Abstract_LastAction($ag.s, (Abstract_Formula) $f.f);};
 perceptproperty returns [Abstract_Percept p] :
 	PERCEPT OPENBRACKET f = formula CLOSEBRACKET {$p = new Abstract_Percept((Abstract_Formula) $f.f);};
+intendtodoproperty returns [Abstract_AgIntendToDo p]:
+	INTENDTODO OPENBRACKET ag=agentname COMMASEP f = formula CLOSEBRACKET {$p = new Abstract_AgIntendToDo($ag.s, (Abstract_Formula) $f.f);};
 trueprop returns [Abstract_TrueProp p] :
 	TRUE {$p = new Abstract_TrueProp();};	
 	
@@ -135,6 +139,8 @@ INTENTION
 ACTION	:	{!informula }?=> 'D' {informula=true;};
 PERCEPT	:	{!informula }?=> 'P' { informula=true;};
 TRUE	:	{!informula }?=> 'T';
+INTENDTODO
+	:	{!informula}?=> 'ItD';
 
 CONST	:	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 UNNAMED_VAR	:	'_';

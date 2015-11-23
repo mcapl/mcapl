@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis.
  *
  */
-public class PlanLibrary {
+public class PlanLibrary implements EvaluationBase<Plan>{
 	/** a MAP from TE to a list of relevant plans */
 	@FilterField
     Map<PredicateIndicator,PlanSet> relPlans = new VerifyMap<PredicateIndicator,PlanSet>();
@@ -72,6 +72,7 @@ public class PlanLibrary {
 	 */
 	@FilterField
 	protected String libname = AILAgent.AILdefaultPLname;
+	
 	
 	/**
 	 * Constructor.
@@ -249,6 +250,11 @@ public class PlanLibrary {
     	 * @return
     	 */
     	public int size();
+    	/**
+    	 * Remove p from the set of plans.
+    	 * @param p
+    	 */
+    	public void remove(Plan p);
     }
     
     /**
@@ -383,7 +389,7 @@ public class PlanLibrary {
         					} 
     						
     	    			} else {
-    	    				if (! intention.empty() || cp.getTriggerEvent().getGoal().getLiteral() instanceof VarTerm) {
+    	    				if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
     	    					appplanlength = 0;
     	    					plan_is_applicable = true;
     	    				} 
@@ -411,182 +417,75 @@ public class PlanLibrary {
     		};
 
     	}
+
+		/*
+		 * (non-Javadoc)
+		 * @see ail.syntax.PlanLibrary.PlanSet#remove(ail.syntax.Plan)
+		 */
+		public void remove(Plan p) {
+			plans.remove(p);
+		}
     }
     
-    /// Trees of plans - Experimental.
     
-    protected interface PlanTree {
-    	public void add(Plan p, List<Guard> g);
-    	
-    	public Iterator<ApplicablePlan> get(AILAgent a, Unifier un);
-    }
-    
-    protected class PlanTop implements PlanSet {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanTree topnode;
-    	
-    	public List<Plan> getAsList() {
-    		return plans;
-    	}
-    	
-    	public void addAll(Collection<Plan> ps) {
-    		for (Plan p: ps) {
-    			add(p);
-    		}
-    	}
-    	
-    	public void add(Plan p) {
-     		plans.add(p);
-    		topnode.add(p, p.getContext());
-    	}
-    	
-    	public int size() {
-    		return plans.size();
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(AILAgent a) {
-    		return topnode.get(a, new Unifier());
-    	}
-    	
-    	public Iterator<Plan> iterator() {
-    		return plans.iterator();
-    	}
-    }
-    
-    protected class PlanLeaf implements PlanTree {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanNode parent;
-    	boolean yes = true;
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		plans.add(p);
-    		if (! guards.isEmpty()) {
-    			PlanNode new_node = new PlanNode(guards, this);
-    			parent.addNode(new_node, yes);
-    		}
-    	}
-    	
-    	public PlanLeaf(PlanNode p) {
-    		parent = p;
-    		yes = false;
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		final Iterator<Plan> planIterator = plans.iterator();
-    		
-    		return new Iterator<ApplicablePlan>() {
-    			ApplicablePlan current = null;
-    			
-    			public void remove() {}
-    			
-    			public ApplicablePlan next() {
-    				if (current == null)
-    					get();
-    				ApplicablePlan ap = current;
-    				current = null;
-    				return ap;
-    			}
-    			
-    			public boolean hasNext() {        		
-    				if (current == null)
-    					get();
-    				return current != null;
-    			}
-    			
-    			public void get() {
-    				if (planIterator.hasNext()) {
-    					Plan p = planIterator.next();
-    					current = new ApplicablePlan(p.getTriggerEvent(), p.getBody(), p.getContext(), p.getPrefix().size(), un, p.getID(), p.getLibID());
+    /**
+     * getPlansContainingCap returns an iterator of all the plans in the library that contain
+     * an Action that unifies with capname.  WARNING: This version of the function is intended 
+     * for use with EASS programs and so in fact searches for perf(capname).  This needs to be generalised.
+     * @param capname
+     * @return
+     */
+    public Iterator<Plan> getPlansContainingCap(Predicate capname) {
+    	// Using perf here is very specific - can we fix that somehow?
+    	Action perf = new Action("perf");
+    	perf.addTerm(capname);
+    	List<Plan> plans = getPlans();
+    	ArrayList<Plan> cap_plans = new ArrayList<Plan>();
+    	for (Plan  p: plans) {
+    		ArrayList<Deed> body = p.getBody();
+    		for (Deed d: body) {
+    			if (d.getCategory() == Deed.DAction) {
+    				Action a = (Action) d.getContent();
+    				Action aclone = (Action) a.clone();
+    				if (aclone.unifies(perf, new Unifier())) {
+    					cap_plans.add(p);
     				}
     			}
-    		};
-     	}
+    		}
+    	}
+    	return cap_plans.iterator();
     }
+
     
-    protected class PlanNode implements PlanTree {
-    	PredicateIndicator pi;
-    	Guard g;
-    	PlanTree yes;
-    	PlanTree no;
-    	
-    	public PlanNode(List<Guard> gs, PlanLeaf l) {
-    		g = gs.remove(0);
-    		yes = new PlanNode(gs, l);
-    		no = new PlanLeaf(this);
-    	}
-    	
-    	public void addNode(PlanTree p, boolean yesno) {
-    		if (yesno) {
-    			yes = p;
-    		} else {
-    			no = p;
-    		}
-    	}
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		if (guards.contains(g)) {
-    			int index = guards.indexOf(g);
-    			guards.remove(index);
-    			yes.add(p, guards);
-    		} else {
-    			Guard ng = new Guard(new LogExpr(LogExpr.LogicalOp.not, g.getGuardExpression()), false);
-    			if (guards.contains(ng)) {
-        			int index = guards.indexOf(ng);
-        			guards.remove(index);
-        			no.add(p, guards);    				
-    			} else {
-    				yes.add(p, guards);
-    				no.add(p, guards);
+	// Think I may need a new datatype here - or need guard plan to implement EBCompare
+   	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
+		return null;
+	}
+	
+	/**
+	 * Remove a plan from the plan library.
+	 * @param p
+	 */
+	public void remove(Plan p) {
+    	Event trigger = p.getTriggerEvent();
+    	numplans--;
+
+        if (trigger.isVar()) {
+        	varPlans.remove(p);
+          } else {
+    		PredicateIndicator pi = trigger.getPredicateIndicator();
+    		PlanSet lc = relPlans.get(pi);
+    		if (lc != null) {
+    			lc.remove(p);
+    			if (lc.size() == 0) {
+    				relPlans.remove(lc);
     			}
-    		}
+    	    }  		
     	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		
-    		return new Iterator<ApplicablePlan>() {
-        		@FilterField
-        		ApplicablePlan current = null;
-        		
-        		Iterator<Unifier> gunifiers = ag.believes(g, un);
-        		
-        		public void remove() {}
-    			
-    			public ApplicablePlan next() {        		
-    				if (current == null)
-    					get();
-    				ApplicablePlan ap = current;
-    				current = null;
-    				return ap;
-    			}
-    			
-    			public boolean hasNext() {        		
-    				if (current == null)
-    					get();
-    				return current != null;
-    			}
-    			
-    			public void get() {
-    				if (gunifiers.hasNext()) {
-    					Iterator<ApplicablePlan> yesIterator = yes.get(ag, gunifiers.next());
-    					if (yesIterator.hasNext()) {
-    						current = yesIterator.next();
-    					} else {
-    						current = null;
-    					}
-    				} else {
-    					Iterator<ApplicablePlan> noIterator = no.get(ag, un);
-    					if (noIterator.hasNext()) {
-    						current = noIterator.next();
-    					} else {
-    						current = null;
-    					}
-    				}
-     			}
-    		};
-    		
-    	}
-    	
-    }
+  
+        plans.remove(p);        
+
+	} 
         
 }
 

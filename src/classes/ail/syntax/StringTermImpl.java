@@ -123,7 +123,12 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
      * @see java.lang.Object#toString()
      */
 	public String toString() {
-		return "\""+fValue+"\"";
+	//	return "\""+fValue+"\"";
+		return fValue;
+	}
+	
+	public String fullstring() {
+		return "STI:" + toString();
 	}
 
     /*
@@ -131,6 +136,14 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
      * @see ail.syntax.Term#strip_varterm()
      */
     public Term strip_varterm() {
+    	return this;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
     	return this;
     }
         
@@ -149,5 +162,13 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
     public void renameVar(String oldname, String newname) {
     	
     }
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		
+	}
   
 }

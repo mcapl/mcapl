@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -27,10 +27,15 @@
 
 package ail.syntax;
 
+import gov.nasa.jpf.annotation.FilterField;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import ail.semantics.AILAgent;
+import ajpf.util.AJPFLogger;
 
 /**
  * Represents a variable Term: like X (starts with upper case). It may have a
@@ -38,11 +43,14 @@ import java.util.ListIterator;
  * 
  * @author jomi
  */
-public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm {
+public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm, GuardAtom<PredicateTerm> {
 	/**
 	 * The value this variable is instantiated to, if any.
 	 */
 	private Term value  = null;
+	
+	@FilterField
+	private static final String logname = "ail.syntax.VarTerm";
     
     /**
      * New constructor for sub-classes (i.e., Goals at this point) construct
@@ -127,22 +135,32 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      * grounds a variable, set a value for this var (e.g. X = 10; Y = a(b,c);
      * ...)
      */
-    public boolean setValue(Term vl) {
+    private boolean setValue(Term vl) {
         if (vl.isVar()) {
+        	if (vl instanceof VarsCluster){
+        		value = vl;
+        		setAnnot(null);
+        		return true;
+        	}
              return false;
         }
         
         if (vl instanceof VarTerm) {
         	VarTerm vl1 = (VarTerm) vl;
         	value = vl1.getValue();
+        	if (value == null) {
+        		AJPFLogger.warning(logname, "Setting variable value to a null!!");
+        	}
+        	setAnnot(null);
+        } else if (vl instanceof VarsCluster){
+        	value = vl;
         	setAnnot(null);
         } else {
         	value = vl;
-        	setAnnot(null);
         }
         resetHashCodeCache();
         return true;
-    }
+    } 
 
     /** returns true if this var has a value */
     public boolean hasValue() {
@@ -158,11 +176,38 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             Term vl = u.get(this);
             if (vl != null && !(vl instanceof VarsCluster)) {
                 setValue(vl);
-                vl.apply(u); // in case t has var args
-                return true;
-            }
+                return vl.apply(u); // in case t has var args
+            } else if (vl !=null && vl instanceof VarsCluster) {
+            	// The unifier shouldn't, at this point, contain a value for anything in the var cluster (because, if so, the 
+            	// cluster should have been dropped and each variable unified to the value, but that doesn't avoid the 
+            	// possibility that they may get unified later.  I suggest replacing with the var cluster and hoping!!!
+            	if (((VarsCluster) vl).hasValue()) {
+            		Term vlp = ((VarsCluster) vl).getValue();
+            		setValue(vlp);
+            		return vlp.apply(u);
+            	} else {
+            		value = vl;
+            		return vl.apply(u);
+            	}
+            	
+            	// This is a place holder method in case we want to remove all unifications _apart_ from those involved with
+            	// the actual cluster from the VarsCluster
+            	// vl.trim();
+            } 
         } else {
-        	return getValue().apply(u);
+        	if (value instanceof VarsCluster) {
+               	// This variable is associated with a Vars Cluster which may not be part of the unifier
+        		VarsCluster cluster = (VarsCluster) value;
+        		
+        		u.compose(cluster.getUnifier());
+        		
+        		Term vl = u.get(this);
+        		
+        		setValue(vl);
+        		return true;
+        	} else {
+        		return getValue().apply(u);
+        	}
         }
         return false;            	
     }    
@@ -185,6 +230,18 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             Term vl = getValue();
             if (vl != null) {
                 // campare the values
+            	if (vl instanceof VarsCluster) {
+            		if (t instanceof VarTerm) {
+            			final VarTerm tAsVT = (VarTerm) t;
+                        if (tAsVT.getValue() == null) {
+                            return super.getFunctor().equals(tAsVT.getFunctor());
+                        }
+            		} else {
+            			if (!((VarsCluster) vl).hasValue()) {
+            				((VarsCluster) vl).setValue((Term) t); 
+            			}
+            		}
+            	}
                 return vl.equals(t);
             }
 
@@ -412,14 +469,6 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
      */
     public boolean isPredicate() {
         return value != null && getValue().isPredicate();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.DefaultTerm#isRule()
-     */
-    public boolean isRule() {
-        return value != null && getValue().isRule();
     }
 
     /*
@@ -749,14 +798,6 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public Object[] toArray(Object[] arg0) {
-        if (value != null && getValue().isList())
-            return ((ListTerm) getValue()).toArray(arg0);
-        else
-            return null;
-    }
-
     // from ListTerm
 
     /*
@@ -898,5 +939,80 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
     		return this;
     	}
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Predicate#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	if (hasValue()) {
+    		return getValue().strip_varterm();
+    	} else {
+    		return this;
+    	}
+    }
+
+    /*
+	 * (non-Javadoc)
+	 * @see java.util.List#toArray(T[])
+	 */
+	public <T> T[] toArray(T[] a) {
+        if (value != null && getValue().isList())
+            return ((ListTerm) getValue()).toArray(a);
+        else
+            return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
+	 */
+	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames);
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#isTrivial()
+	 */
+	public boolean isTrivial() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).isTrivial();
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEB()
+	 */
+	public StringTerm getEB() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).getEB();
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.GuardAtom#getEBType()
+	 */
+	public byte getEBType() {
+		if (value != null) {
+			if (value instanceof GuardAtom<?>) {
+				return ((GuardAtom<?>) value).getEBType();
+			}
+		}
+		return 0;
+	}
+    	
  }

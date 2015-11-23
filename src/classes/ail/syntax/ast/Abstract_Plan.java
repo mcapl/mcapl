@@ -140,7 +140,7 @@ public class Abstract_Plan {
 
   		if (i > 1) {
   			for (int j = 0; j < (i - 1); j++) {
-  				context[j] = new Abstract_Guard(new Abstract_GBelief(Abstract_GBelief.GTrue));
+  				context[j] = new Abstract_Guard(new Abstract_GBelief());
   			}
   		}
   		

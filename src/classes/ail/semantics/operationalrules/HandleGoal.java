@@ -50,7 +50,7 @@ public abstract class HandleGoal extends HandleTopDeed {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		if (super.checkPreconditions(a) && (topdeed.getCategory() == Deed.AILGoal)) {
-			g = topdeed.getGoal();
+			g = (Goal) topdeed.getContent();
 			gt = g.getGoalType();
 			return true;
 		}

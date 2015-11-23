@@ -66,12 +66,12 @@ public class TermSyntaxTests {
 	/**
 	 * Test that the various constants indicating trivial guards and literals are equated correctly.
 	 */
-	@Test public void trivialGuards() {
-		Guard g = new Guard(new GBelief(GBelief.GTrue));
+	/*@Test public void trivialGuards() {
+		Guard g = new Guard(new GBelief());
 		Term gt = g.toTerm();
 		Literal l = new Literal(true, new PredicatewAnnotation((Predicate) gt));
 		Assert.assertTrue(l.equals(Predicate.PTrue));
-	}
+	} */
 	
 	/**
 	 * Check that unification is working properly with non-default databases.
@@ -86,10 +86,10 @@ public class TermSyntaxTests {
 		VarTerm a3 = new VarTerm("C");
 		
 		
-		GBelief gb1 = new GBelief(GBelief.AILBel, l2);
-		gb1.setDBnum(a3);
-		GBelief gb2 = new GBelief(GBelief.AILBel, lb2);
-		gb2.setDBnum(a3);
+		GBelief gb1 = new GBelief(l2);
+		gb1.setEB(a3);
+		GBelief gb2 = new GBelief(lb2);
+		gb2.setEB(a3);
 		
 		AILAgent a = new AILAgent("agent");
 		a.addBeliefBase(new BeliefBase(), "a");
@@ -117,10 +117,10 @@ public class TermSyntaxTests {
 		VarTerm a3 = new VarTerm("C");
 		
 		
-		GBelief gb1 = new GBelief(GBelief.AILBel, l2);
-		gb1.setDBnum(a3);
-		GBelief gb2 = new GBelief(GBelief.AILBel, lb2);
-		gb2.setDBnum(a3);
+		GBelief gb1 = new GBelief(l2);
+		gb1.setEB(a3);
+		GBelief gb2 = new GBelief(lb2);
+		gb2.setEB(a3);
 		
 		AILAgent a = new AILAgent("agent");
 		a.addBeliefBase(new BeliefBase(), "a");
@@ -159,13 +159,13 @@ public class TermSyntaxTests {
 	@Test public void unificationofDBsTerms() {
 		Literal l1 = new Literal("l");
 		Literal l2 = new Literal("l");
-		Predicate a = new Predicate("a");
+		StringTerm a = new StringTermImpl("a");
 		
 		VarTerm a3 = new VarTerm("C");
 		
 		
-		GBelief gb1 = new GBelief(GBelief.AILBel, l2);
-		gb1.setDBnum(a3);
+		GBelief gb1 = new GBelief(l2);
+		gb1.setEB(a3);
 		
 		AILAgent ag = new AILAgent("agent");
 		ag.addBeliefBase(new BeliefBase(), "a");
@@ -219,13 +219,13 @@ public class TermSyntaxTests {
 		ethics_of_vars.addTerm(new Predicate("a1"));
 		ethics_of_vars.addTerm(new VarTerm("Eth"));
 
-		Rule r1 = new Rule(new GBelief(GBelief.AILBel, ethics_in_h), new GBelief(GBelief.AILBel, ethics_of_vars));
+		Rule r1 = new Rule(new GBelief(ethics_in_h), new GBelief(ethics_of_vars));
 		
 		Literal ethics_in_t = new Literal("ethics_in");
 		ethics_in_t.addTerm(new Predicate("a1"));
 		ethics_in_t.addTerm(new VarTerm("T"));
 		
-		Rule r2 = new Rule(new GBelief(GBelief.AILBel, ethics_in_h.clone()), new GBelief(GBelief.AILBel, ethics_in_t));
+		Rule r2 = new Rule(new GBelief(ethics_in_h.clone()), new GBelief(ethics_in_t));
 		
 		ag.addRule(r1);
 		ag.addRule(r2);
@@ -237,12 +237,12 @@ public class TermSyntaxTests {
 		ethics_list.add(new Predicate("e2"));
 		ethics_belief.addTerm(ethics_list);
 		
-		Assert.assertTrue(ag.believesyn(new Guard(new GBelief(GBelief.AILBel, ethics_belief)), new Unifier()));
+		Assert.assertTrue(ag.believesyn(new Guard(new GBelief(ethics_belief)), new Unifier()));
 	
 	}
 	
 	@Test public void goals_from_vars() {
-		Goal gv = new Goal(new VarTerm("G"), Goal.performGoal);
+		Goal gv = new Goal("G", Goal.performGoal);
 		
 		Goal g = new Goal("goal", Goal.performGoal);
 		
@@ -250,5 +250,26 @@ public class TermSyntaxTests {
 		gv.unifies(g, u);
 		gv.apply(u);
 		gv.strip_varterm();
+	}
+	
+	@Test public void unnamedvarTest() {
+		Predicate p1 = new Predicate("on");
+		Predicate p2 = new Predicate("under");
+		p1.addTerm(new Predicate("b3"));
+		p1.addTerm(new Predicate("b4"));
+		p2.addTerm(new Predicate("b3"));
+		p2.addTerm(new Predicate("b2"));
+		
+		Predicate p1u = new Predicate("on");
+		p1u.addTerm(new Predicate("b3"));
+		p1u.addTerm(new UnnamedVar());
+		Predicate p2u = new Predicate("under");
+		p2u.addTerm(new Predicate("b3"));
+		p2u.addTerm(new UnnamedVar());
+		
+		Unifier u = new Unifier();
+		Assert.assertTrue(u.unifies(p1, p1u));
+		Assert.assertTrue(u.unifies(p2, p2u));
+		
 	}
 }

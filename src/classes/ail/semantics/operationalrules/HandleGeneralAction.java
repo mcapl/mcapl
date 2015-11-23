@@ -66,6 +66,6 @@ public class HandleGeneralAction extends HandleActionwProblem {
 	 * @see ail.semantics.operationalrules.HandleActionwProblem#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		return (super.checkPreconditions(a) && (! excludedActions.contains((Integer) ((Action) topdeed.getTerm()).getActionType())));
+		return (super.checkPreconditions(a) && (! excludedActions.contains((Integer) ((Action) topdeed.getContent()).getActionType())));
 	}
 }

@@ -38,7 +38,7 @@ import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
 import ail.syntax.annotation.SourceAnnotation;
-
+import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * 
  * @author louiseadennis;
  */
-public class BeliefBase implements Iterable<Literal> {
+public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<PredicateTerm> {
 
 	@FilterField
 	/**
@@ -155,9 +155,15 @@ public class BeliefBase implements Iterable<Literal> {
         if (l.equals(Predicate.PTrue) || l.equals(Predicate.PFalse)) {
             return false;
         }
+       // if (l.isGround() && ! l.hasAnnot(TPercept)) {
+        if (l.isGround()) {
+        	// Shenanigans to attempt to reduce memory footprint during verification
+        	Literal tmp = GroundPredSets.check(l);
+        	l = tmp;
+        } 
          
         Literal bl = contains(l);
-        if (bl != null && !bl.isRule()) {
+        if (bl != null) {
             // add only annots
             if (bl.addAnnotFrom(l)) {
                 // check if it needs to be added in the percepts list
@@ -230,14 +236,24 @@ public class BeliefBase implements Iterable<Literal> {
     /**
      * Returns an iterators over all beliefs.
      */
-    public Iterator<Literal> iterator() {
-        List<Literal> all = new ArrayList<Literal>(size());
+    public Iterator<PredicateTerm> iterator() {
+        List<PredicateTerm> all = new ArrayList<PredicateTerm>(size());
         for (BelEntry be : belsMap.values()) {
-            all.addAll(be.list);
-       }
+        	all.addAll(be.list);
+        }
         return all.iterator();
-	}
-    
+    }
+
+    /**
+     * Returns an iterators over all beliefs.
+     */
+    public Iterator<Predicate> prediterator() {
+        List<Predicate> all = new ArrayList<Predicate>(size());
+        for (BelEntry be : belsMap.values()) {
+        	all.addAll(be.list);
+        }
+        return all.iterator();
+    }
 
     /**
      * Does the belief base contain this literal?
@@ -287,19 +303,19 @@ public class BeliefBase implements Iterable<Literal> {
      * @return	An iterators of literals in the belief base with the same
      *          predicate name and arity.
      */
-    public Iterator<Literal> getRelevant(Literal l) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    	PredicateTerm l = (PredicateTerm) ebl;
     	if (l.isVar()) {
             // all bels are relevant
             return iterator();
         } else {
             BelEntry entry = belsMap.get(l.getPredicateIndicator());
             if (entry != null) {
-                List<Literal> entrylist = new ArrayList<Literal>();
+                List<PredicateTerm> entrylist = new ArrayList<PredicateTerm>();
                 entrylist.addAll(entry.list);
                 return entrylist.iterator();
            } else {
-            	ArrayList<Literal> empty = new ArrayList<Literal>();
-                return empty.iterator();
+                return Collections.<PredicateTerm>emptyList().iterator();
             }
         }
         
@@ -312,6 +328,7 @@ public class BeliefBase implements Iterable<Literal> {
     public String toString() {
     	return (belsMap.toString());
      }
+    
     
     /** 
      * Special class for storing the actual beliefs.  Each instance of a class
@@ -332,11 +349,6 @@ public class BeliefBase implements Iterable<Literal> {
          */
         public void add(Literal l) {
             list.put(l);
-      //      try {
-      //      	Collections.sort(list);
-      //      } catch (Exception e) {
-      //      	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
-      //      }
         }
         
         /**

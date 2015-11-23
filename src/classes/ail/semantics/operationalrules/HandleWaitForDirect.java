@@ -30,7 +30,6 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Deed;
-import ail.syntax.Term;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
@@ -85,10 +84,8 @@ public class HandleWaitForDirect extends DirectPerception {
 				thetab = ui.next();
 	
 				topdeed = i.hdD();
-				Term t = topdeed.UnifyingTerm();
-				if (t != null) {
-					t.apply(thetab);
-				}
+				topdeed.apply(thetab);
+			
 				if (topdeed.getCategory() == Deed.Dwaitfor) {
 					return true;
 				}
@@ -106,11 +103,12 @@ public class HandleWaitForDirect extends DirectPerception {
 		// First perform perception
 		super.apply(a);
 
-		Literal waitingfor = topdeed.getLiteral();
-		GBelief wfgb = new GBelief(GBelief.AILBel, waitingfor);
+		Literal waitingfor = (Literal) topdeed.getContent();
+		GBelief wfgb = new GBelief(waitingfor);
 		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
 				
 		if (beliefs.hasNext()) {
+			// System.err.println("I believe" + wfgb);
 			i.tlI(a);
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
@@ -120,7 +118,7 @@ public class HandleWaitForDirect extends DirectPerception {
 			i.hdE().apply(thetahd);
 			if (a.allintentionssuspended()) {
 				a.getIntentions().add(i);
-				a.sleep();
+				//a.sleep();
 				a.setIntention(new Intention());
 			} else {
 				a.setIntention(i);

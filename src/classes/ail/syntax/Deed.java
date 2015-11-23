@@ -97,7 +97,7 @@ public class Deed extends DefaultAILStructure {
      */
     public Deed(Predicate t) {
     	super(DAction);
-    	setTerm(t);
+    	setContent(t);
     }
     
     /**
@@ -107,7 +107,7 @@ public class Deed extends DefaultAILStructure {
      * @param b the category of the deed.
      * @param l the literal contained in the deed.
      */
-    public Deed(int t, byte b, Literal l) {
+    public Deed(int t, byte b, Unifiable l) {
     	super(t, b, l);
     }
         
@@ -183,21 +183,21 @@ public class Deed extends DefaultAILStructure {
 	 */
 	public Deed clone() {
 			if (isAction()) {
-				Deed c = new Deed((Predicate) getTerm().clone());
+				Deed c = new Deed((Predicate) getContent().clone());
 				c.setDBnum((StringTerm) getDBnum().clone());
 				return c;
 			} else {
-				if (hasLiteral()) {
+				if (hasContent()) {
 					if (referstoGoal()) {
-						Deed d1 = new Deed(getTrigType(), getGoal().clone());
+						Deed d1 = new Deed(getTrigType(), (Goal) getContent().clone());
 						d1.setDBnum((StringTerm) getDBnum().clone());
 						return d1;
 					} else {
-						Deed d1 = new Deed(getTrigType(), getCategory(), (Literal) getLiteral().clone());
+						Deed d1 = new Deed(getTrigType(), getCategory(), (Unifiable) getContent().clone());
 						d1.setDBnum((StringTerm) getDBnum().clone());
 						return d1;
 					}
-				} else if (hasTerm()){
+				/*}  else if (hasTerm()){
 					if (referstoGroup()) {
 						Deed d1 = new Deed(getTrigType(), getCategory(), ((Predicate) getTerm().clone()).getTerm(0).toString());
 						d1.setDBnum((StringTerm) getDBnum().clone());
@@ -207,7 +207,7 @@ public class Deed extends DefaultAILStructure {
 						d1.setDBnum((StringTerm) getDBnum().clone());
 						return d1;
 
-					}
+					} */
 				} else 	{
 					if (hasTrigType()) {
 						Deed d1 = new Deed(getTrigType(), getCategory());
@@ -264,14 +264,12 @@ public class Deed extends DefaultAILStructure {
 			
 		if (referstoGoal()) {
 			s.append("!");
-			s.append(getGoal().toString());
+			s.append(getContent().toString());
 		} else if (getCategory() == Dwaitfor) {
 			s.append("*...");
-			s.append(getLiteral().toString());
-		} else if (hasLiteral()) {
-			s.append(getLiteral().toString());
-		} else if (hasTerm()) {
-			s.append(getTerm().toString());
+			s.append(getContent().toString());
+		} else if (hasContent()) {
+			s.append(getContent().toString());
 		} else if (isNPY()) {
 			s.append("npy");
 		} else if (isBacktrack()) {
@@ -286,6 +284,10 @@ public class Deed extends DefaultAILStructure {
 		return s.toString();
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/**
 	 * Apply a unifier to the deed.
 	 */
@@ -293,7 +295,7 @@ public class Deed extends DefaultAILStructure {
 		boolean result = false;
 		
 		if (isAction()) {
-			result = getTerm().apply(theta);
+			result = ((Action) getContent()).apply(theta);
 		} else {
 			result = super.apply(theta);
 		}
@@ -304,8 +306,8 @@ public class Deed extends DefaultAILStructure {
 	/**
 	 * Produce a term representing the deed that can be used in unification.
 	 */
-	public Predicate UnifyingTerm() {
-		if (hasLiteral() || hasTerm()) {
+	/*public Predicate UnifyingTerm() {
+		if (hasContent()) {
 			return (super.UnifyingTerm());
 		} else {
 			if (isLock()) {
@@ -322,7 +324,7 @@ public class Deed extends DefaultAILStructure {
 			
 			return null;
 		}
-	}
+	} */
 	
 	   /*
 	    * (non-Javadoc)
@@ -331,7 +333,7 @@ public class Deed extends DefaultAILStructure {
 	   public boolean unifies(Unifiable e, Unifier u) {
 	   		Deed d1 = (Deed) e;
   		
-	   		if (!hasLiteral() && !hasTerm()) {
+	   		if (!hasContent()) {
 	   			return sameType(d1);
 	   		} else {
 	   			return sameType(d1) && u.unifies(d1.getContent(), getContent());
@@ -354,7 +356,7 @@ public class Deed extends DefaultAILStructure {
 	    */
 	   public List<String> getVarNames() {
 		   List<String> varnames = new ArrayList<String>();
-		   if (hasLiteral() || hasTerm()) {
+		   if (hasContent()) {
 			   varnames = getContent().getVarNames();
 		   }
 		   varnames.addAll(getDBnum().getVarNames());
@@ -366,7 +368,7 @@ public class Deed extends DefaultAILStructure {
 	    * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	    */
 	   public void renameVar(String oldname, String newname) {
-		   if (hasLiteral() || hasTerm()) {
+		   if (hasContent()) {
 			   getContent().renameVar(oldname, newname);
        		}
 		   getDBnum().renameVar(oldname, newname);

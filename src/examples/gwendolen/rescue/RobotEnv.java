@@ -25,6 +25,7 @@
 package gwendolen.rescue;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Message;
@@ -35,8 +36,8 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
+import ajpf.util.choice.UniformBoolChoice;
 
-import java.util.Random;
 import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -63,7 +64,7 @@ public class RobotEnv extends DefaultEnvironment {
 	boolean withsearcher = true;
 	Literal human;
 	Literal clear;
-	Random random = new Random();
+	UniformBoolChoice random;
 	
 	String logname = "gwendolen.rescue.RobotEnv";
 	
@@ -94,7 +95,6 @@ public class RobotEnv extends DefaultEnvironment {
 			}
 			
 			if (canseehumanl) {
-				// System.err.println("having");
 				percepts.add(clear);
 			}
 			changel = false;
@@ -175,6 +175,16 @@ public class RobotEnv extends DefaultEnvironment {
 			withlifter2 = Boolean.valueOf((String) configuration.get("withlifter2"));
 		}
 	} 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random = new UniformBoolChoice(m.getController());
+	}
+
 }
 
 

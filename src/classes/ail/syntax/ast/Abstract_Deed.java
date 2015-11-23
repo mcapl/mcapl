@@ -83,6 +83,8 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     public static final byte	Dwaitfor = 13;
 	@FilterField
     public static final byte	DNull = 14;
+	@FilterField
+	public static final byte 	DPlan = 15;
 	
 	/**
 	 * The logical content of the deed.
@@ -151,6 +153,20 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     	hastrigtype = true;
     }
         
+    /**
+     * Construct a Deed from an addition/deletion flag, Category and predicate.
+     * 
+     * @param t whether the deed is an addition or deletion.
+     * @param b the category of the deed.
+     * @param l the literal contained in the deed.
+     */
+    public Abstract_Deed(int t, byte b, Abstract_Predicate l) {
+    	super(b);
+    	content = l;
+    	trigtype = t;
+    	hastrigtype = true;
+    }
+
     /**
      * Construct a Deed from an addition/deletion flag and a goal.  The
      * Category is determined to be a Goal category automatically.

@@ -34,7 +34,7 @@ import java.util.List;
  * @author louiseadennis
  *
  */
-public interface Unifiable  {
+public interface Unifiable extends Cloneable {
 	
 	/**
 	 * Does this unfiable unify with t according to the unifier u?  As as side effect
@@ -51,7 +51,7 @@ public interface Unifiable  {
 	 * @param varnames
 	 * @return
 	 */
-	public void standardise_apart(Unifiable t, Unifier u);
+	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames);
 	
 	/**
 	 * What are the names of the variables mentioned in this term?
@@ -70,7 +70,7 @@ public interface Unifiable  {
 	 * Is this a prolog rule?
 	 * @return
 	 */
-	public boolean isRule();
+	// public boolean isRule();
 	
 	/**
 	 * To be used when this unifiable is ground.
@@ -93,5 +93,32 @@ public interface Unifiable  {
 	 * @return
 	 */
 	public boolean isGround();
+	
+	/**
+	 * Apply a unifier to this Unifiable
+	 */
+	public boolean apply(Unifier theta);
+	
+	/**
+	 * Anonymise all the vars in this unifiable.
+	 */
+	public void makeVarsAnnon();
+	
+	/**
+	 * If variables have been instantiated replace the VarTerms with the instantiation - to assist matching during model-checking.
+	 * @return
+	 */
+	public Unifiable strip_varterm();
+	
+	/**
+	 * Sometimes a term may end up containing clusters of variables, these will need to be replaced by a variable from the cluster in some way.
+	 * @return
+	 */
+	public Unifiable resolveVarsClusters();
+	
+	/**
+	 * 
+	 */
+	public Object clone();
 
 }

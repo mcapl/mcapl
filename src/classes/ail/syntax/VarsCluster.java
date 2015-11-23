@@ -27,14 +27,11 @@
 
 package ail.syntax;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 
 import ajpf.util.AJPFLogger;
-
 import gov.nasa.jpf.annotation.FilterField;
     
 /**
@@ -59,19 +56,28 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
     @FilterField
     int          id = 0;
     
-    // The variables in this cluster.
-    Set<VarTerm> vars = null;
+    // The variables in this cluster.  As a list so we can use the first when applying a unifier.
+    List<VarTerm> vars = null;
     
-    // A Cluster of variables is associated with the unifier that identifies them all as thes ame.
+    // A Cluster of variables is associated with the unifier that identifies them all as the same.
     Unifier      u;
+    
+    // The VarsCluster needs a value for when it gets actually put in a term (rather than a unifier).
+    Term value;
 		
     // used in clone
     /**
      * Constructor.
      * @param u
      */
-	private VarsCluster(Unifier u) {
+	private VarsCluster(List<VarTerm> vs, Unifier u, int id1) {
+		id = id1;
 		this.u = u;
+		vars = new ArrayList<VarTerm>();
+		for (VarTerm vt : vs) {
+			vars.add((VarTerm) vt.clone());
+		}
+
 	}
 
 	/**
@@ -79,28 +85,36 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * @param v1
 	 * @param v2
 	 * @param u
+	 * 
+	 * The Unifier could associate one of the var terms with a var cluster, so that cluster needs to expand.
 	 */
 	VarsCluster(VarTerm v1, VarTerm v2, Unifier u) {
 		id = ++idCount;
 		this.u = u;
 		add(v1);
 		add(v2);
+		u.updateWithVarsCluster(this);
 	}
 
 	/**
 	 * Add a new variable to this cluster.
 	 * @param vt
 	 */
-	private void add(VarTerm vt) {
+	public void add(VarTerm vt) {
 		Term vl = u.get(vt);
 		if (vl == null) {
-			// v1 has no value
+			// This variable isn't already in a cluster according to the unifier
 			if (vars == null) {
-				vars = new HashSet<VarTerm>();
-			}
-			vars.add(vt);
+				// This is a new cluster
+				vars = new ArrayList<VarTerm>();
+				vars.add(vt);
+			} else {
+				vars.add(vt);
+ 			}
 		} else if (vl instanceof VarsCluster) {
+			// This variable is already in a VarCluster according to the unifier
 			if (vars == null) {
+				// But this var cluster is new so we inherit all the vars from the old cluster.
 				vars = ((VarsCluster) vl).vars;
 			} else {
 				vars.addAll(((VarsCluster) vl).vars);
@@ -108,6 +122,28 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		} else {
 			AJPFLogger.warning("ail.syntax.VarsCluster", "joining var that has value!");
 		}
+	}
+	
+	public Unifier getUnifier() {
+		return u;
+	}
+	
+	public Unifier getVarUnifier() {
+		Unifier un = new Unifier();
+		for (VarTerm v: vars) {
+			Term t = u.get(v);
+			un.unifies(v, t);
+		}
+		return un;
+	}
+	
+	/**
+	 * Is v unified by this cluster.
+	 * @param v
+	 * @return
+	 */
+	public boolean contains(VarTerm v) {
+		return vars.contains(v);
 	}
 
 	/**
@@ -130,28 +166,17 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 			return vars.equals(((VarsCluster) o).vars);
 		}
 		return false;
-	}
+	} 
 
-	/**
-	 * The cluster now has a value.
-	 * @return
-	 */
-	boolean hasValue() {
-		return vars != null && !vars.isEmpty();
-	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
 	public VarsCluster clone() {
-		VarsCluster c = new VarsCluster(u);
-		c.vars = new HashSet<VarTerm>();
-		for (VarTerm vt : this.vars) {
-			c.vars.add((VarTerm) vt.clone());
-		}
+		VarsCluster c = new VarsCluster(vars, u, id);
 		return c;
-	}
+	} 
 
 	/*
 	 * (non-Javadoc)
@@ -169,14 +194,46 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		return "_VC" + id;
 	}
 	
+	public String fullstring() {
+		return toString();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Term#strip_varterm()
 	 */
 	public Term strip_varterm() {
-		return this;
+		if (hasValue()) {
+			return getValue().strip_varterm();
+		} else {
+			return vars.get(0);
+		}
 	}
 	
+	/**
+	 * Return the value of this cluster.
+	 * @return
+	 */
+	public Term getValue() {
+		return value;
+	}
+	
+	/**
+	 * return the Cluster ID.
+	 * @return
+	 */
+	public int getID() {
+		return id;
+	}
+	
+	/**
+	 * Has this cluster been unified with a value?
+	 * @return
+	 */
+	public boolean hasValue() {
+		return value != null;
+	}
+		
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
@@ -197,6 +254,84 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		for (VarTerm v: vars) {
 			v.renameVar(oldname, newname);
 		}
+		
+		u.renameVar(oldname, newname);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
+	public void makeVarsAnnon() {
+		for (VarTerm v: vars) {
+			v.makeVarsAnnon();
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#apply(ail.syntax.Unifier)
+	 */
+	public boolean apply(Unifier un) {
+		for (VarTerm v: vars) {
+			Term uv = un.get(v);
+			// NB.  If two vars in the cluster are unified differently by the unifier, this will set the whole cluster to the first option.
+			if (uv != null) {
+				if (uv instanceof VarsCluster) {
+					return false;
+				} else {
+					value = uv;
+					for (VarTerm var: vars) {
+						u.unifies(var, uv);
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Instantiate this cluster.
+	 */
+	public void setValue(Term uv) {
+		value = uv;
+		for (VarTerm var: vars) {
+			u.unifies(var, uv);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isGround()
+	 */
+	public boolean isGround() {
+		if (value != null) {
+			return value.isGround();
+		} else {
+			return false;
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
+	public boolean isVar() {
+		if (value != null) {
+			return value.isVar();
+		} else {
+			return false;
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#resolveVarsClusters()
+	 */
+	public Term resolveVarsClusters() {
+		// We return the first variable in vars (is this ideal - should we have some kind of explicit canonical variable representing the cluster)
+		return vars.get(0);
 	}
 	
 	

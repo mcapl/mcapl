@@ -33,9 +33,9 @@ leader(aglead)
 my_name(ag1)
 maintaining(none)
 			
-:Belief Rules: 
+:Reasoning Rules: 
 				
-B repairable(X, with(change_line(X))) :- B thruster_line(X, 1); 
+repairable(X, with(change_line(X))) :- thruster_line(X, 1); 
 			
 :Initial Goals:
 

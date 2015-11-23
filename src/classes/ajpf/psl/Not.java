@@ -264,16 +264,24 @@ public class Not implements MCAPLProperty {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLProperty p) {
-	/*	if (p instanceof Not) {
+		if (p instanceof Not) {
 			return getProp().compareTo(((Not) p).getProp());
-		} else if (p instanceof Proposition) {
-			return -1;
 		} else {
-			return 1;
-		} */
-		return (this.toString().compareTo(p.toString()));
+			int myq = quickCompareVal();
+			int pq = p.quickCompareVal();
+		
+			if (myq < pq) {
+				return -1;
+			} else {
+				return 1;
+			}
+		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 12;
 	}

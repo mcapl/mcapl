@@ -122,6 +122,14 @@ public class Abstract_Literal extends Abstract_Pred {
 	}
 	
 	/**
+	 * Construct from a pred - assume true.
+	 * @param p
+	 */
+	public Abstract_Literal(Abstract_Predicate p) {
+		this (Literal.LPos, new Abstract_Pred(p));
+	}
+
+	/**
 	 * Set positive or negative.
 	 * @param b
 	 */
@@ -143,7 +151,11 @@ public class Abstract_Literal extends Abstract_Pred {
 	 */
 	public Literal toMCAPL() {
 		PredicatewAnnotation s = super.toMCAPL();
-		return new Literal(type, s);
+		Literal l = new Literal(type, s);
+		if (l.isGround()) {
+			return GroundPredSets.check_add(l);
+		}
+		return l;
 	}
 
 	/*

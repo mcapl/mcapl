@@ -51,12 +51,13 @@ import gov.nasa.jpf.vm.MJIEnv;
  * Rafael H. Bordini, Jomi F. Hubner, et. al.
  */
 public abstract class DefaultTerm implements Term {
+	@FilterField
 	static String logname = "ail.syntax.DefaultTerm";
 	
 	/**
 	 * Most terms, but not all (see ListTerms) have a functor string;
 	 */
-	String functor;
+	//String functor;
 
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
@@ -90,7 +91,37 @@ public abstract class DefaultTerm implements Term {
     public void resetHashCodeCache() {
         hashCodeCache = null;
     }
+    
+    /**
+     * Convert a MCAPL Term into an AIL Term
+     * @param t
+     * @return
+     */
+    static Term toAIL(MCAPLTerm t) {
+    	if (t instanceof MCAPLPredicate) {
+    		if (t.isUnnamedVar()) {
+    			return new UnnamedVar();
+    		} else {
+    			return new Predicate((MCAPLPredicate) t);
+    		}
+    	} else if (t instanceof MCAPLNumberTermImpl) {
+    		return new NumberTermImpl((MCAPLNumberTermImpl) t);
+    	} else if (t instanceof MCAPLListTerm) {
+    		return new ListTermImpl((MCAPLListTerm) t);
+    	} else if (t instanceof MCAPLTermImpl) {
+    		if (t.isUnnamedVar()) {
+    			return new UnnamedVar();
+    		} else {
+    			return new Predicate((MCAPLTermImpl) t);    	
+    		}
+    	} else {
+    		return null;
+    	}
+    }
 
+
+    // Methods required by Comparable
+    
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -98,14 +129,85 @@ public abstract class DefaultTerm implements Term {
     public int compareTo(Term t) {
         return this.toString().compareTo(t.toString());
     }
-        
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isVar()
-     */
-    public boolean isVar() {
-        return false;
+ 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+    public int compareTo(MCAPLTerm t) {
+    	return this.toString().compareTo(t.toString());
     }
+
+   // Methods required by MCAPLTerm
+         
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#isList()
+      */
+      public boolean isList() {
+         return false;
+     }
+     
+      /*
+       * (non-Javadoc)
+       * @see ajpf.psl.MCAPLTerm#isString()
+       */
+     public boolean isString() {
+         return false;
+     }
+
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#isNumeric()
+      */
+     public boolean isNumeric() {
+         return false;
+     }
+     
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#getFunctor()
+      */
+     @Override
+     public String getFunctor() {
+  	   return null;
+     }
+    
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#getTerms()
+      */
+     public List<Term> getTerms() {
+  	   return null;
+     }
+     
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#getTermsSize()
+      */
+     public int getTermsSize() {
+  	   return 0;
+     }
+      
+     /*
+      * (non-Javadoc)
+      * @see ajpf.psl.MCAPLTerm#isUnnamedVar()
+      */
+     public boolean isUnnamedVar() {
+  	   return false;
+     }
+
+
+     // Methods required by Term
+    
+     /*
+      * (non-Javadoc)
+      * @see ail.syntax.Term#isVar()
+      */
+      public boolean isVar() {
+         return false;
+     }
+      
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#isLiteral()
@@ -113,34 +215,7 @@ public abstract class DefaultTerm implements Term {
     public boolean isLiteral() {
         return false;
     }
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isRule()
-     */
-    public boolean isRule() {
-        return false;
-    }
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isList()
-     */
-    public boolean isList() {
-        return false;
-    }
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isString()
-     */
-    public boolean isString() {
-        return false;
-    }
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isInternalAction()
-     */
-    public boolean isInternalAction() {
-        return false;
-    }
+    
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#isArithExpr()
@@ -148,23 +223,18 @@ public abstract class DefaultTerm implements Term {
     public boolean isArithExpr() {
         return false;
     }
+     
     /*
      * (non-Javadoc)
-     * @see ail.syntax.Term#isNumeric()
-     */
-    public boolean isNumeric() {
-        return false;
-    }
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Term#isPred()
+     * @see ail.syntax.Term#hasAnnotation()
      */
     public boolean hasAnnotation() {
         return false;
     }
+    
     /*
      * (non-Javadoc)
-     * @see ail.syntax.Term#isStructure()
+     * @see ail.syntax.Term#isPredicate()
      */
     public boolean isPredicate() {
         return false;
@@ -177,6 +247,7 @@ public abstract class DefaultTerm implements Term {
     public boolean isGround() {
         return true;
     }
+
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#hasVar(ail.syntax.Term)
@@ -185,11 +256,16 @@ public abstract class DefaultTerm implements Term {
         return false;
     }
     
+    // Methods required by Cloneable
+    
     /*
      * (non-Javadoc)
      * @see java.lang.Object#clone()
      */
     abstract public Term clone();
+    
+    // Methods required by Unifiable
+ 
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#apply(ail.semantics.Unifier)
@@ -206,9 +282,9 @@ public abstract class DefaultTerm implements Term {
     	Term t1 = (Term) t1g;
     	boolean ok = false;
     	if (isGround()) {
-    		ok = u.matchTerms(this, t1);
+    		ok = u.matchTerms((DefaultTerm) this, t1);
     	} else {
-    		ok = u.unifyTerms(this, t1);
+    		ok = u.unifyTerms((DefaultTerm) this, t1);
     	}
 
     	return ok;
@@ -242,84 +318,12 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
-   public void standardise_apart(Unifiable t, Unifier u) {
+   public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	
     }
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-   public int compareTo(MCAPLTerm t) {
-       return this.toString().compareTo(t.toString());
-   }
    
-   /*
-    * (non-Javadoc)
-    * @see ajpf.psl.MCAPLTerm#getFunctor()
-    */
-   public String getFunctor() {
-	   return functor;
-   }
-  
-   /*
-    * (non-Javadoc)
-    * @see ajpf.psl.MCAPLTerm#getTerms()
-    */
-   public List<Term> getTerms() {
-	   return null;
-   }
    
-   /*
-    * (non-Javadoc)
-    * @see ajpf.psl.MCAPLTerm#getTermsSize()
-    */
-   public int getTermsSize() {
-	   return 0;
-   }
-  
-   /*
-    * (non-Javadoc)
-    * @see ail.syntax.Term#isConstant()
-    */
-   public boolean isConstant() {
-	   return false;
-   }
-  
-   /*
-    * (non-Javadoc)
-    * @see ajpf.psl.MCAPLTerm#isUnnamedVar()
-    */
-   public boolean isUnnamedVar() {
-	   return false;
-   }
-   
-   /**
-    * Convert a MCAPL Term into an AIL Term
-    * @param t
-    * @return
-    */
-   static Term toAIL(MCAPLTerm t) {
-   	if (t instanceof MCAPLPredicate) {
-   		if (t.isUnnamedVar()) {
-   			return new UnnamedVar();
-   		} else {
-   			return new Predicate((MCAPLPredicate) t);
-   		}
-   	} else if (t instanceof MCAPLNumberTermImpl) {
-   		return new NumberTermImpl((MCAPLNumberTermImpl) t);
-   	} else if (t instanceof MCAPLListTerm) {
-   		return new ListTermImpl((MCAPLListTerm) t);
-   	} else if (t instanceof MCAPLTermImpl) {
-   		if (t.isUnnamedVar()) {
-   			return new UnnamedVar();
-   		} else {
-   			return new Predicate((MCAPLTermImpl) t);    	
-   		}
-   	} else {
-   		return null;
-   	}
-   }
-   
+         
    /// For working with terms in MJI.  This is a worker class for returning the right sort of Term
    // WORK IN PROGRESS
    public static Term constructFromRef(MJIEnv env, int ref) throws AILexception {

@@ -241,6 +241,10 @@ public class And implements MCAPLProperty {
 		return(props);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#getUntils()
+	 */
 	public Set<Until> getUntils() {
 		TreeSet<Until> props = new TreeSet<Until>();
 		props.addAll(inL.getUntils());
@@ -270,9 +274,29 @@ public class And implements MCAPLProperty {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLProperty p) {
-		return (this.toString().compareTo(p.toString()));
+		if (p instanceof And) {
+			int compInl = getInL().compareTo(((And) p).getInL());
+			if (compInl == 0) {
+				return getInR().compareTo(((And) p).getInR());
+			} else {
+				return compInl;
+			}
+		} else {
+			int myq = quickCompareVal();
+			int pq = p.quickCompareVal();
+		
+			if (myq < pq) {
+				return -1;
+			} else {
+				return 1;
+			}
+		} 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 14;
 	}

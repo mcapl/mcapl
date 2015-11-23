@@ -24,22 +24,9 @@
 
 package ajpf.psl.ast;
 
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import ajpf.MCAPLcontroller;
-import ajpf.MCAPLmas;
-import ajpf.psl.MCAPLProperty;
-import ajpf.util.VerifyMap;
-import ajpf.psl.ast.Abstract_Formula;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTerm;
 
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.ElementInfo;
@@ -48,6 +35,30 @@ import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.ThreadInfo;
 import gov.nasa.jpf.vm.Types;
+
+
+/**
+ * Generic Description of Abstract Classes in AIL and AJPF
+ * -------------------------------------------------------
+ * 
+ * We use "Abstract" versions of syntax items for all bits of state that we sometimes wish to store in the native
+ * java VM as well in the JavaPathfinder VM.  In particular files are parsed into the native VM and then the relevant
+ * initial state of the multi-agent system is reconstructed in the model-checking VM.  This is done to improve
+ * efficiency of parsing (the native VM is faster).  We also represent properties for model checking in the native VM 
+ * and, indeed the property automata is stored only in the native VM.  We used Abstract classes partly because less
+ * computational content is needed for these objects in the native VM and so a smaller representation can be used
+ * but also because specific support is needed for transferring information between the two virtual machines both
+ * in terms of methods and in terms of the data types chosen for the various fields.  It was felt preferable to 
+ * separate these things out from the classes used for the objects that determine the run time behaviour of a MAS.
+ * 
+ * Abstract classes all have a method (toMCAPL) for creating a class for the equivalent concrete object used
+ * when executing the MAS.  They also have a method (newJPFObject) that will create an equivalent object in the 
+ * model-checking virtual machine from one that is held in the native VM.  At the start of execution the agent
+ * program is parsed into abstract classes in the native VM.  An equivalent structure is then created in the JVM
+ * using calls to newJPFObject and this structure is then converted into the structures used for executing the MAS
+ * by calls to toMCAPL.
+ * 
+ */
 
 /**
  * Represents a structure: a functor with <i>n</i> arguments, e.g.: val(10,x(3)). <i>n</i> can be
@@ -64,11 +75,18 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
     
     public Abstract_TermImpl() {};
     
-     
+    /**
+     * The number of arguments to the term.
+     * @return
+     */
     public int getTermSize() {
     	return terms.length;
     }
     
+    /**
+     * Add an argument to the term.
+     * @param t
+     */
     public void addTerm(Abstract_MCAPLTerm t) {
     	int newsize = terms.length + 1;
     	Abstract_MCAPLTerm[] newterms = new Abstract_MCAPLTerm[newsize];
@@ -79,27 +97,52 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
     	terms = newterms;
     }
     
+    /**
+     * Getter for the term functor.
+     * @return
+     */
     public String getFunctor() {
     	return functor;
     }
     
+    /**
+     * Setter for the term functor.
+     * @param s
+     */
     public void setFunctor(String s) {
     	functor = s;
     }
     
+    /**
+     * Return the term's arguments.
+     * @return
+     */
     public Abstract_MCAPLTerm[] getTerms() {
     	return terms;
     }
     
-    
+    /**
+     * Set the term's arguments.
+     * @param tArray
+     * @param size
+     */
     public void setTerms(Abstract_MCAPLTerm[] tArray, int size) {
     	terms = tArray;
     }
 
+    /**
+     * Get argument i.
+     * @param i
+     * @return
+     */
     public Abstract_MCAPLTerm getTerm(int i) {
     	return terms[i];
     }
     
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#clone()
+     */
     public Abstract_TermImpl clone() {
     	Abstract_TermImpl s = new Abstract_TermImpl(getFunctor());
     	Abstract_MCAPLTerm[] tArray = new Abstract_MCAPLTerm[terms.length];
@@ -110,6 +153,10 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
     	return s;
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.ast.Abstract_MCAPLTerm#toMCAPL()
+     */
 	public MCAPLPredicate toMCAPL() {
 		MCAPLPredicate s = new MCAPLPredicate(functor);
 		for (Abstract_MCAPLTerm t: terms) {
@@ -118,6 +165,10 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#newJPFObject(gov.nasa.jpf.vm.MJIEnv)
+	 */
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ajpf.psl.ast.Abstract_MCAPLPredicate");
 		env.setReferenceField(ref, "functor", env.newString(functor));
@@ -134,6 +185,10 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
 		return aRef;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.ast.Abstract_MCAPLTerm#createInJPF(gov.nasa.jpf.vm.VM)
+	 */
 	public int createInJPF(VM vm) {
 		Heap heap = vm.getHeap();
 		ThreadInfo ti = vm.getCurrentThread();
@@ -152,6 +207,10 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
 		return objref;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	   public String toString() {
 	         StringBuilder s = new StringBuilder();
 	         if (functor != null) {

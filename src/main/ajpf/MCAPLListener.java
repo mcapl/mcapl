@@ -37,7 +37,9 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -46,6 +48,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import ajpf.product.Product;
+import ajpf.product.Product.ProductState;
 import ajpf.psl.ast.Property_AST;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.ast.Native_Proposition;
@@ -152,7 +155,11 @@ public class MCAPLListener extends PropertyListenerAdapter {
     		}
     		
     		// Negate the property and initialise the product automataon
-     		product_automata = new Product(prop.negate(), props, getAutomataType(), model_only);
+     		MCAPLProperty negprop = prop;
+     		if (!model_only) {
+     			negprop = prop.negate();
+     		} 
+     		product_automata = new Product(negprop, props, getAutomataType(), model_only);
     		automata_initialised = true;
        	} 
 	}
@@ -162,15 +169,17 @@ public class MCAPLListener extends PropertyListenerAdapter {
     * @see gov.nasa.jpf.PropertyListenerAdapter#check(gov.nasa.jpf.search.Search, gov.nasa.jpf.jvm.JVM)
     */
 	 public boolean check (Search search, VM vm) {
+		 if (lowerLogLevelThan(Level.FINER)) {
 			 log.finer("checking " + search.getStateId());
 			 log.finer(" is ignored " + search.isIgnoredState());
 			 log.finer(" transition occured " + vm.transitionOccurred());
+		 }
 			 
 			 if (search.getStateId() == -1) {
 				 // If we've backtracked right past the beginning and, no, I'm not really clear what's going on
 				 // internally in AJPF here.  Anyway we're done and we need to fully run the DFS and check for accepting paths.
 				 product_automata.done(0);
-				 return product_automata.DFS().isEmpty();
+				 return (product_automata.getAcceptingPath() == null || product_automata.getAcceptingPath().isEmpty());
 			 } else {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
@@ -182,7 +191,6 @@ public class MCAPLListener extends PropertyListenerAdapter {
 					 // Check state returns true if an acccepting path hasn't been found in the product
 					 return checkstate(search);
 				 }
-
 				 return true;
 			 }
 	 }
@@ -201,6 +209,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 // Don't generate a new product state because of trivial truths but do add the state to the program model
 			 // so pruning will work properly when backtracking occurs.
 			 if (search.isEndState()) {
+				 log.info("Adding END STATE " + newstate + " to model");
 				 log.fine("is end");
 				 // Adding new state for pruning
 				 boolean returnvalue = product_automata.currentPathEnded();
@@ -247,7 +256,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 		 if (search.isDone()) {
 			 product_automata.done(search.getStateId());
 		 }
-		 log.fine("backtracking to " + id);
+		 // log.fine("backtracking to " + id);
 
 		 // Since we're maintaining the "current path" in the model and the product automata this need to be pruned accordingly.
 		 if (product_automata != null) {
@@ -274,7 +283,20 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  * Reporting of the nature of the error by JPF.
 	  */
 	 public String getErrorMessage() {
-		 String s = "An Accepting Path has been found: " + product_automata.getAcceptingPath();
+		 List<ProductState> product_states = product_automata.getAcceptingPath();
+		 int counter = 0;
+		 String pathstring = "";
+		 for (ProductState ps: product_states) {
+			 pathstring += ps.toPrettyString();
+			 counter++;
+			 if (counter == 5) {
+				 pathstring += ",\n";
+				 counter = 0;
+			 } else {
+				 pathstring += ", ";
+			 }
+		 }
+		 String s = "An Accepting Path has been found: \n" + pathstring;
 		 return s;
 	 }
 	 
@@ -363,4 +385,20 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 }
 		 }
 	 }
+	 
+		/**
+		 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+		 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+		 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+		 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+		 * @param l
+		 * @return
+		 */
+		private static boolean lowerLogLevelThan(Level l) {
+			if  (log.getLevel().intValue() <= l.intValue()) {
+				return true;
+			}
+			return false;
+		}
+
 }
