@@ -78,6 +78,14 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper {
 		}
 	}
 	
+	public void addToInitMap(String s, Identifier i) {
+		try {
+			initMap.put(s, i);
+		} catch (Exception e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}
+	}
+
 	@Override
 	public void handleNewEntity(String arg0) {
 		getLaunchPolicy().handleNewEntity(arg0);

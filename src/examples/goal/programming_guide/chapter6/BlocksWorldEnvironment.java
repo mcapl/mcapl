@@ -24,6 +24,14 @@ public class BlocksWorldEnvironment extends GOALEISEnvironment {
 			addFileToInitMap("start", filename);
 		}
 		
+		if (config.containsKey("goal.env.init.gui")) {
+			Identifier value = new Identifier("true");
+			if (config.getProperty("goal.env.init.gui").equals("false")) {
+				value = new Identifier("false");
+			}
+			addToInitMap("gui", value);
+		}
+
 		for (String s: config.stringPropertyNames()) {
 			if (s.startsWith("goal.launchpolicy")) {
 				getLaunchPolicy().configure(config);

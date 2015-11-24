@@ -1,5 +1,6 @@
 env = goal.programming_guide.chapter6.BlocksWorldEnvironment
 goal.env.init.start = bwconfigEx1.txt
+goal.env.init.gui = false
 
 mas.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
 mas.builder = goal.GOALMASBuilder
