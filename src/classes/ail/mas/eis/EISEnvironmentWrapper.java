@@ -46,6 +46,7 @@ import ail.syntax.Term;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ajpf.MCAPLScheduler;
+import ajpf.MCAPLcontroller;
 import ajpf.PerceptListener;
 import ajpf.util.AJPFLogger;
 import eis.AgentListener;
@@ -82,7 +83,8 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	
 	public EISEnvironmentWrapper(String jarFileName) {
 		try {
-			eis_environment = EILoader.fromJarFile(new File(jarFileName));
+			String filename = MCAPLcontroller.getFilename(jarFileName);
+			eis_environment = EILoader.fromJarFile(new File(filename));
 		} catch (Exception e) {
 			AJPFLogger.severe(logname, e.getMessage());
 		}

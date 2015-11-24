@@ -22,20 +22,66 @@
 //----------------------------------------------------------------------------
 package goal.mas;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import eis.EnvironmentInterfaceStandard;
+import eis.iilang.Identifier;
+import eis.iilang.Parameter;
+import goal.util.LaunchPolicy;
 import ail.mas.eis.EISEnvironmentWrapper;
 import ail.mas.scheduling.ActionScheduler;
 import ail.syntax.Predicate;
+import ajpf.MCAPLcontroller;
+import ajpf.util.AJPFLogger;
 
 public class GOALEISEnvironment extends EISEnvironmentWrapper {
+	
+	String logname = "goal.mas.GOALEISEnvironment";
+	
+	LaunchPolicy lp;
+	Map<String, Parameter> initMap = new HashMap<String, Parameter>();
+	
 	
 	public GOALEISEnvironment(String filename) {
 		super(filename);
 		ActionScheduler s = new ActionScheduler();
 		setScheduler(s);
 		addPerceptListener(s);
+		lp = new LaunchPolicy(getEISEnvironment());
 	}
+	
+	public LaunchPolicy getLaunchPolicy() {
+		return lp;
+	}
+	
+	@Override
+	public void initialise() {
+		EnvironmentInterfaceStandard eis = getEISEnvironment();
+		
+		try {
+			eis.init(initMap);
+		} catch (Exception e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}
+		
+	}
+
+	public void addFileToInitMap(String s, String f) {
+		try {
+			String filename = MCAPLcontroller.getFilename(f);
+			initMap.put(s, new Identifier(filename));
+		} catch (Exception e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}
+	}
+	
+	@Override
+	public void handleNewEntity(String arg0) {
+		getLaunchPolicy().handleNewEntity(arg0);
+	}
+
 	
 }

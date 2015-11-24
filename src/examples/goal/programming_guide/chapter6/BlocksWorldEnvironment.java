@@ -8,38 +8,16 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 import goal.mas.GOALEISEnvironment;
 import goal.mas.GoalEnvironment;
+import goal.util.LaunchPolicy;
 
 public class BlocksWorldEnvironment extends GOALEISEnvironment {
 	
 	public BlocksWorldEnvironment() {
-		super("/Users/louiseadennis/Eclipse/mcapl/lib/eis/blocksworld-1.1.0.jar");
-		
+		super("/lib/eis/blocksworld-1.1.0.jar");		
+		addFileToInitMap("start", "/src/examples/goal/programming_guide/chapter6/bwconfigEx1.txt");
+		getLaunchPolicy().setAssociateEntityLaunch("stackBuilder");
 	}
 	
-	@Override
-	public void initialise() {
-		EnvironmentInterfaceStandard eis = getEISEnvironment();
-		
-		Map<String, Parameter> initMap = new HashMap<String, Parameter>();
-		initMap.put("start", new Identifier("/Users/louiseadennis/Eclipse/mcapl/src/examples/goal/programming_guide/chapter6/bwconfigEx1.txt"));
-		try {
-			eis.init(initMap);
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		
-	}
-	
-	@Override
-	public void handleNewEntity(String arg0) {
-		EnvironmentInterfaceStandard eis = getEISEnvironment();
-		try {
-			eis.associateEntity("stackBuilder", arg0);
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-
-	}
 	
 	@Override
 	public boolean done() {
