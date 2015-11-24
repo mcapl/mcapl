@@ -2,6 +2,7 @@ package goal.util;
 
 import java.util.ArrayList;
 
+import ail.util.AILConfig;
 import eis.EnvironmentInterfaceStandard;
 
 public class LaunchPolicy {
@@ -27,5 +28,12 @@ public class LaunchPolicy {
 
 			}
 		}
+	}
+	
+	public void configure(AILConfig config) {
+		if (config.containsKey("goal.launchpolicy.entity.launch")) {
+			setAssociateEntityLaunch(config.getProperty("goal.launchpolicy.entity.launch"));			
+		}
+
 	}
 }

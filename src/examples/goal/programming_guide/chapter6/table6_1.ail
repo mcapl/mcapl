@@ -1,7 +1,7 @@
 env = goal.programming_guide.chapter6.BlocksWorldEnvironment
-// goal.env.init = [start = "bwconfigEx1.txt"]
+goal.env.init.start = bwconfigEx1.txt
 
 mas.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
 mas.builder = goal.GOALMASBuilder
 
-// goal.launchpolicy = "when entity@env do launch stackbuilder: stackBuilder."
+goal.launchpolicy.entity.launch = stackBuilder
