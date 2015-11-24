@@ -1,0 +1,13 @@
+@using = mcapl
+
+mcapl.classpath+=\
+	${mcapl}/lib/eis/blocksworld-1.1.0.jar
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/goal/programming_guide/chapter6/table6_1.ail,${mcapl}/src/examples/goal/programming_guide/chapter5/stack.psl,2
+
+log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

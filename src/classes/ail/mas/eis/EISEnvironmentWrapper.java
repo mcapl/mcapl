@@ -66,7 +66,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	EnvironmentInterfaceStandard eis_environment = null;
 	String logname = "ail.mas.eas.EISEnvironmentWrapper";
 	Map<String, Set<Predicate>> agentpercepts = new HashMap<String, Set<Predicate>>();
-	PrologParser parser = new PrologParser(null);
+	PrologParser parser;
 	MCAPLScheduler scheduler;
 
 	/**
@@ -94,6 +94,10 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		}
 		
 		eis_environment.attachEnvironmentListener(this);
+	}
+	
+	public EnvironmentInterfaceStandard getEISEnvironment() {
+		return eis_environment;
 	}
 
 	@Override
