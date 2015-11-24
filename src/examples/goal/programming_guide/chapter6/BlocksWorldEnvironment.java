@@ -24,7 +24,6 @@ public class BlocksWorldEnvironment extends GOALEISEnvironment {
 		initMap.put("start", new Identifier("/Users/louiseadennis/Eclipse/mcapl/src/examples/goal/programming_guide/chapter6/bwconfigEx1.txt"));
 		try {
 			eis.init(initMap);
-			eis.start();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

@@ -623,6 +623,14 @@ public class DefaultEnvironment implements AILEnv {
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {
+		
+	}
+	
  
 	/*
 	 * (non-Javadoc)

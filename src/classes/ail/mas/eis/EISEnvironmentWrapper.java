@@ -83,17 +83,30 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	public EISEnvironmentWrapper(String jarFileName) {
 		try {
 			eis_environment = EILoader.fromJarFile(new File(jarFileName));
-			if (eis_environment.isPauseSupported()) {
-				eis_environment.pause();
-				if (eis_environment.isStartSupported()) {
-					eis_environment.start();
-				}
-			}
 		} catch (Exception e) {
 			AJPFLogger.severe(logname, e.getMessage());
 		}
 		
 		eis_environment.attachEnvironmentListener(this);
+	}
+	
+	public void begin() {
+		try {
+			if (eis_environment.getState().equals(EnvironmentState.PAUSED)) {
+				if (eis_environment.isStartSupported()) {
+					eis_environment.start();
+				}				
+			} else {
+				if (eis_environment.isPauseSupported()) {
+					eis_environment.pause();
+					if (eis_environment.isStartSupported()) {
+						eis_environment.start();
+					}
+				}
+			}
+		} catch (Exception e) {
+			AJPFLogger.severe(logname, e.getMessage());
+		}		
 	}
 	
 	public EnvironmentInterfaceStandard getEISEnvironment() {

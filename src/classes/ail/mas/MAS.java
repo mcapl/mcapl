@@ -192,6 +192,10 @@ public class MAS implements MCAPLmas {
     	return (fEnv.done());
     }
     
+    public void begin() {
+    	fEnv.begin();
+    }
+    
     /*
      * (non-Javadoc)
      * @see ajpf.MCAPLmas#stopAgs()

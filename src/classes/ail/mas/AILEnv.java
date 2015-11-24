@@ -168,6 +168,12 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
    public boolean executing(String agName, Action act);
    
    /**
+    * This is called when the multi-agent system actually starts executing, after all initialisation has
+    * taken place.
+    */
+   public void begin();
+   
+   /**
     * This is for use when actions may take time to execute, specifically when other agents should be
     * allowed to do some execution during the action duration.  If this is not the case this should return
     * null, similarly if the environment has not processed Action act for String agName then this should return null.

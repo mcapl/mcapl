@@ -117,6 +117,12 @@ public class Vehicle implements VehicleInterface {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#lastAction()
 	 */
 	public Action lastAction() {

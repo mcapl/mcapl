@@ -84,8 +84,6 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 * The multi-agent system.
 	 */
 	protected MAS mas;
-	
-
 
 	@Override
 	/*
@@ -216,6 +214,14 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 */
 	public boolean done() {
 		return env.done();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {
+		env.begin();
 	}
 	
 	/*

@@ -196,6 +196,7 @@ public class MCAPLcontroller  {
 		
 		specification.createAutomaton();
 		specification.checkProperties();
+		mas.begin();
 		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
