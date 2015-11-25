@@ -30,6 +30,7 @@ package goal.parser;
 
 import ail.syntax.ast.*;
 import ail.syntax.DefaultAILStructure;
+import goal.syntax.ActionRule;
 import goal.syntax.ast.*;
 import ail.syntax.PredicateIndicator;
 import java.util.HashMap;
@@ -58,6 +59,13 @@ mas returns [Abstract_MAS mas]
 	CURLYCLOSE
 	{mas.setAgs(agents);}
 	;
+
+goalagent returns [Abstract_GOALAgent gl] 
+	: MAIN COLON i=id CURLYOPEN
+	{ $gl = new Abstract_GOALAgent($i.s);}
+	(moduleImport | gm=module {gl.addModule(gm);})+
+	CURLYCLOSE;
+
 
 moduleImport
 	: '#import' MODULEFILE STOP
@@ -96,8 +104,8 @@ knowledge [Abstract_GOALModule gl]
 
 krspec[Abstract_GOALModule gl]: (hd=declarationOrCallWithTerms
 	(STOP {$gl.addFact((Abstract_Predicate) hd);} |
-	PROLOGARROW body=no_bracket_literals STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
-
+	PROLOGARROW ( body=no_bracket_literals | body=forall_expr)  STOP {$gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));}))+;
+	
 beliefs [Abstract_GOALModule gl]
 	: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE;
 
@@ -111,7 +119,8 @@ goals [Abstract_GOALModule gl]
 	: GOALS CURLYOPEN le=goal_list {gl.addGoal(le);} CURLYCLOSE;
 	
 atom returns [Abstract_LogicalFormula l]
-	: p=declarationOrCallWithTerms {$l=p;}
+	: NOT OPEN p=declarationOrCallWithTerms{$l = new Abstract_LogExpr(Abstract_LogExpr.not, p);} CLOSE
+	| p=declarationOrCallWithTerms {$l=p;}
 	| e=equation {$l = e;}
 	;
 
@@ -140,7 +149,7 @@ macroDef
 programRule[Abstract_GOALModule gl]
 	:{Abstract_ActionRule rule = new Abstract_ActionRule();}
 	(IF lf=mentalstatecond {rule.setMentalStateCond(lf);} THEN ( dl=actions {rule.setBody(dl);} STOP | nestedRules[gl]  )
-	| 'forall' mentalstatecond DO (actions STOP | nestedRules[gl] )
+	| 'forall' {rule.setType(ActionRule.foralldo);} lf=mentalstatecond {rule.setMentalStateCond(lf);} DO (dl=actions {rule.setBody(dl);} STOP | nestedRules[gl] )
 	| 'listall' VAR '<-' mentalstatecond DO (actions STOP | nestedRules[gl]  )
 	| 'listall' mentalstatecond '->' VAR DO (actions STOP | nestedRules[gl]  ))
 	{gl.addPlan(rule);};
@@ -186,10 +195,10 @@ mentalatom returns [Abstract_MentalState ms]
 	;
 
 atom_parameters returns [Abstract_LogExpr ts] 
-	: OPEN (
-	t=atom {Abstract_LogExpr tl = new Abstract_LogExpr(Abstract_LogExpr.none, t);}
-	(COMMA t1=atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and, t1);}
-	| SEMI t1 = atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.or, t1);}
+	: OPEN ( 
+	 t=atom {Abstract_LogExpr tl = new Abstract_LogExpr(Abstract_LogExpr.none, t);}
+	(COMMA  t1=atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and,  t1);}
+	| SEMI  t1 = atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.or,  t1);}
 	)*  { $ts = tl;}
 	|  ap=atom_parameters {$ts = ap;}  )
 	CLOSE
@@ -221,8 +230,8 @@ action returns [Abstract_Deed d]
 	;
 
 actionOperator returns [Abstract_Deed d]
-	: op = 'adopt'
-	| op = 'drop'
+	: op = 'adopt' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILGoal);}
+	| op = 'drop' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILGoal);}
 	| op = 'insert' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);}
 	| op = 'delete'  {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILBel);}
 	| op = 'send'
@@ -295,10 +304,14 @@ no_bracket_parameters returns [ArrayList<Abstract_Term>ts]
 
 no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts] 
 	:  {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
-	((NOT OPEN t=atom {Abstract_LogExpr l=new Abstract_LogExpr(Abstract_LogExpr.not, t); tl.add(l);} CLOSE)
-	| t=atom { tl.add(t);})
-	(COMMA (NOT OPEN t1=atom {Abstract_LogExpr l=new Abstract_LogExpr(Abstract_LogExpr.not, t1); tl.add(l);} CLOSE
-	| t1 = atom {tl.add(t1);}))* 
+	 t=atom { tl.add(t);}
+	(COMMA  t1 = atom {tl.add(t1);})* 
+	{ $ts = tl;}
+	;
+
+forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
+	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
+	'forall' OPEN t1=atom COMMA t2=atom {Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);} CLOSE
 	{ $ts = tl;}
 	;
 

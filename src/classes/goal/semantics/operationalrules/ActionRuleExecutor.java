@@ -96,15 +96,31 @@ public class ActionRuleExecutor implements OSRule {
 		// What happens next also depends upon whether this is an ifthenrule or not.
 		Iterator<ApplicablePlan> ruleIt = module.getRule();
 		ApplicablePlan p = ruleIt.next();
-		
-		ArrayList<Guard> guardstack = p.getGuard();
+			
+		if (module.isIfThenRule(p)) {
+			IntentionFromPlan(p, a);
+		} else {
+			IntentionFromPlan(p, a);
+			int id = p.getID();
+			while (ruleIt.hasNext()) {
+				ApplicablePlan pp = ruleIt.next();
+				if (pp.getID() == id) {
+					IntentionFromPlan(pp, a);
+				}
+			}
+		}
 
+	}
+	
+	private static void IntentionFromPlan(ApplicablePlan p, AILAgent a) {
+		ArrayList<Guard> guardstack = p.getGuard();
+		
 		Literal state_literal = new Literal("state");
 		// state_literal.addTerm(guardstack.get(guardstack.size() - 1).toTerm());
 		Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 		// change the head of the guardstack to trivial - we've already checked it holds
 		guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 		a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
-
+		
 	}
 }

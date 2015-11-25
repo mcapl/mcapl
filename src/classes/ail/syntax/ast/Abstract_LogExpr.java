@@ -68,6 +68,7 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 	public static int not = 1;
 	public static int and = 2;
 	public static int or = 3;
+	public static int forall = 4;
 
 	/**
 	 * Can have a right hand side and a left hand side
@@ -186,6 +187,14 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
      * @see ail.syntax.ast.Abstract_LogicalFormula#toMCAPL()
      */
 	public LogExpr toMCAPL() {
+		if (op == forall) {
+			return new LogExpr(LogExpr.LogicalOp.not,
+					new LogExpr((LogicalFormula) lhs.toMCAPL(), LogExpr.LogicalOp.and,
+							new LogExpr(LogExpr.LogicalOp.not, (LogicalFormula) rhs.toMCAPL())
+							)
+					);
+		}
+		
 		LogExpr ae = new LogExpr();
 		if (rhs == null) {
 			

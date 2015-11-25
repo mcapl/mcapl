@@ -1,6 +1,7 @@
 package goal.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ail.util.AILConfig;
 import eis.EnvironmentInterfaceStandard;
@@ -21,7 +22,7 @@ public class LaunchPolicy {
 		if (!entities.isEmpty()) {
 			for (String agName: entities) {
 				try {
-					eis.associateEntity("stackBuilder", arg0);
+					eis.associateEntity(agName, arg0);
 				} catch (Exception e) {
 					System.err.println(e);
 				}
@@ -32,7 +33,11 @@ public class LaunchPolicy {
 	
 	public void configure(AILConfig config) {
 		if (config.containsKey("goal.launchpolicy.entity.launch")) {
-			setAssociateEntityLaunch(config.getProperty("goal.launchpolicy.entity.launch"));			
+			String entitylist = config.getProperty("goal.launchpolicy.entity.launch");
+			String[] entity_array = entitylist.split(",");
+			for (String s: Arrays.asList(entity_array)) {
+				setAssociateEntityLaunch(s);
+			}
 		}
 
 	}

@@ -51,6 +51,8 @@ import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_GLogicalFormula;
 
 public class Abstract_ActionRule extends Abstract_Plan {
+	int type = ActionRule.ifthen;
+	
 	public Abstract_ActionRule() {
 		setTrigger(new Abstract_Event(Abstract_Event.AILAddition, new Abstract_Goal(new Abstract_VarTerm("Any"), Abstract_Goal.achieveGoal)));
 		ArrayList<Abstract_Deed> prf = new ArrayList<Abstract_Deed>();
@@ -123,7 +125,11 @@ public class Abstract_ActionRule extends Abstract_Plan {
     		counter++;
     	}
     	Guard ms = context[context.length - 1].toMCAPL();
-    	return new ActionRule(ms, newdeed);
+    	return new ActionRule(ms, newdeed, type);
+    }
+    
+    public void setType(int t) {
+    	type = t;
     }
     
     public int newJPFObject(MJIEnv env) {
@@ -144,6 +150,7 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	env.setReferenceField(objref, "prefix", prefixref);
     	env.setReferenceField(objref, "context", contextref);
     	env.setReferenceField(objref, "event", event.newJPFObject(env));
+    	env.setIntField(objref, "type", type);
     	return objref;
     }
     

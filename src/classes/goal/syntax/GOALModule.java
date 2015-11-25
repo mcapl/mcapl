@@ -220,4 +220,9 @@ public class GOALModule {
 	public void setRuleEvaluationOrder(RuleEvaluationOrder o) {
 		order = o;
 	}
+	
+	public boolean isIfThenRule(ApplicablePlan p) {
+		ActionRule a = (ActionRule) pl.getPlanbyID(p.getID());
+		return (a.isIfThenRule());
+	}
 }

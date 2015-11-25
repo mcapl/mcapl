@@ -47,6 +47,11 @@ import ail.syntax.annotation.SourceAnnotation;
  *
  */
 public class ActionRule extends Plan { 
+	int type = ifthen;
+	
+	public static int ifthen = 0;
+	public static int foralldo = 1;
+	public static int listalldo = 2;
 	
 	/**
 	 * Construct a conditional action from a mental state and a goal.  This
@@ -54,7 +59,7 @@ public class ActionRule extends Plan {
 	 * @param ms
 	 * @param g2
 	 */
-	public ActionRule(Guard ms, ArrayList<Deed> ds) {
+	public ActionRule(Guard ms, ArrayList<Deed> ds, int type) {
 		setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
 		setContextSingle(ms, ds.size());
 		ArrayList<Deed> prf = new ArrayList<Deed>();
@@ -82,6 +87,14 @@ public class ActionRule extends Plan {
     		deeds.add(deed);
     		setBody(deeds);
     	}
+    }
+    
+    public boolean isIfThenRule() {
+    	return type == ifthen;
+    }
+    
+    public boolean isForallDoRule() {
+    	return type == foralldo;
     }
 
 }

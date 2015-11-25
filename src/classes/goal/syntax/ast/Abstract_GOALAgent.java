@@ -155,43 +155,57 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
    }
 
     
-    public GOALAgent toMCAPL(MAS mas) {
+   public GOALAgent toMCAPL() {
+		try{
+		    GOALAgent ag = new GOALAgent(fAgName);
+		    add_fields(ag);
+		    return ag;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+   public GOALAgent toMCAPL(MAS mas) {
 		try{
 		    	GOALAgent ag = new GOALAgent(mas, fAgName);
-		    	for (Abstract_Predicate l: beliefs) {
-		    		ag.addInitialBel(new Literal(l.toMCAPL()));
-		    	}
-		       	for (Abstract_Goal g: goals) {
-		    		ag.addGoal(g.toMCAPL());
-		    	}
-		    	for (Abstract_Rule r: knowledge_rules) {
-		    		ag.addRule(r.toMCAPL());
-		    	}
-		    	for (Abstract_GOALModule m: modules) {
-		    		try {
-		    			ag.addModule(m.toMCAPL());
-		    		} catch (Exception e) {
-		    			e.printStackTrace();
-		    		}
-		    	}
-		    	
-		    	for (Abstract_Goal g: goals) {
-		    		ag.addGoal(g.toMCAPL());
-		    	}
-		    	
-		    	try {
-		    		ag.initAg();
-		    	} catch (Exception e) {
-		    		e.printStackTrace();
-		    	}
+		    	add_fields(ag);
 		    	return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		   
-
 	}
+    
+    private void add_fields(GOALAgent ag) {
+    	for (Abstract_Predicate l: beliefs) {
+    		ag.addInitialBel(new Literal(l.toMCAPL()));
+    	}
+       	for (Abstract_Goal g: goals) {
+    		ag.addGoal(g.toMCAPL());
+    	}
+    	for (Abstract_Rule r: knowledge_rules) {
+    		ag.addRule(r.toMCAPL());
+    	}
+    	for (Abstract_GOALModule m: modules) {
+    		try {
+    			ag.addModule(m.toMCAPL());
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	
+    	for (Abstract_Goal g: goals) {
+    		ag.addGoal(g.toMCAPL());
+    	}
+    	
+    	try {
+    		ag.initAg();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+
+    }
 
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALAgent");

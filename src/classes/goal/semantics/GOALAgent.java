@@ -113,9 +113,15 @@ public class GOALAgent extends AILAgent {
 	public GOALAgent(MAS mas, String name) throws AILexception {
 		super(mas, name);
 	    setReasoningCycle(new GOALRC(this));
-	    setTrackPlanUsage(true);
+//	    setTrackPlanUsage(true);
 	    setGoalBase(new ConjGoalBase());
 //	    lastplanstate = this.toString();
+	}
+	
+	public GOALAgent(String name) throws AILexception {
+		super(name);
+		setReasoningCycle(new GOALRC(this));
+		setGoalBase(new ConjGoalBase());
 	}
 	
 	public GOALModule getMainModule() {
