@@ -336,7 +336,11 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     	if (content != null) {
     		getContent().addParams(tl);
     	} else {
-    		content = tl.get(0);
+    		if (getCategory() == Abstract_BaseAILStructure.AILGoal) {
+    			content = new Abstract_Goal((Abstract_Predicate) tl.get(0), Abstract_Goal.achieveGoal);
+    		} else {
+    			content = tl.get(0);
+    		}
     	}
     }
 

@@ -56,7 +56,7 @@ main: stackBuilder
    	event module{
 	  program{
 	    forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
-	    forall bel( on(X, Y), not( percept( on(X, Y) ) ) do delete( on(X, Y) ).
+	    forall bel( on(X, Y), not( percept( on(X, Y) ) ) ) do delete( on(X, Y) ).
 	  }
 	}  
 }

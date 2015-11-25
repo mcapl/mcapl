@@ -15,8 +15,10 @@ import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
+import ail.semantics.operationalrules.HandleAddAchieveTestGoal;
 import ail.semantics.operationalrules.HandleAddBelief;
 import ail.semantics.operationalrules.HandleDropBelief;
+import ail.semantics.operationalrules.HandleDropGoal;
 import goal.syntax.GOALModule;
 import goal.semantics.GOALAgent;
 
@@ -36,6 +38,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	ModuleExit exitModule = new ModuleExit(this);
 	HandleAddBelief addBelief = new HandleAddBelief();
 	HandleDropBelief dropBelief = new HandleDropBelief();
+	HandleAddAchieveTestGoal addGoal = new HandleAddAchieveTestGoal();
+	HandleDropGoal dropGoal = new HandleDropGoal();
 	
 	boolean performedAnAction = false;
 		
@@ -70,6 +74,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			rules.add(printaction);
 			rules.add(addBelief);
 			rules.add(dropBelief);
+			rules.add(addGoal);
+			rules.add(dropGoal);
 			rules.add(userspec);
 		} else {
 			rules.add(exitModule);

@@ -1,8 +1,8 @@
 env = goal.programming_guide.chapter6.BlocksWorldEnvironment
 goal.env.init.start = bwconfigEx1.txt
-goal.env.init.gui = false
+goal.env.init.gui = true
 
-mas.agent.1.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
+mas.agent.1.file = /src/examples/goal/programming_guide/chapter6/stackBuilder.gl
 mas.agent.1.builder = goal.GOALAgentBuilder
 mas.agent.1.name = stackbuilder
 mas.agent.2.file = /src/examples/goal/programming_guide/chapter6/tableAgent.gl

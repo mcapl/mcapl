@@ -74,6 +74,9 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 			a.removeGoal((Goal) topdeed.getContent());
 		} else {
 			a.addGoal((Goal) topdeed.getContent());
+			i.tlI(a);
+			thetahd.compose(thetab);
+			i.compose(thetahd);
 		}	
 	}
 }
