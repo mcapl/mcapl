@@ -19,6 +19,7 @@ import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.GLogicalFormula;
 import ail.syntax.LogicalFormula;
+import ail.syntax.StringTermImpl;
 import ail.syntax.Unifiable;
 import ail.syntax.Unifier;
 import ail.syntax.Guard;
@@ -60,7 +61,15 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 		if (type == Abstract_BaseAILStructure.AILBel) {
 			for (Abstract_LogicalFormula l: lits) {
 				if (l instanceof Abstract_Predicate) {
-					g.add(new GBelief(((Abstract_Predicate) l).toMCAPL()));
+					Abstract_Predicate lp = (Abstract_Predicate) l;
+					GBelief gb; 
+					if (lp.getFunctor().equals("percept")) {
+						gb = new GBelief(((Abstract_Predicate) lp.getTerm(0)).toMCAPL());
+						gb.setEB(new StringTermImpl("percepts"));
+					} else {
+						gb = new GBelief(((Abstract_Predicate) l).toMCAPL());
+					}
+					g.add(gb);
 				} else {
 					g.add(((Abstract_Equation) l).toMCAPL());
 				}
@@ -77,7 +86,15 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 	private Guard guard_from_lf(Abstract_LogicalFormula lf) {
 		if (lf instanceof Abstract_Predicate) {
 			if (type == Abstract_BaseAILStructure.AILBel ) {
-				return new Guard(new GBelief(((Abstract_Predicate) lf).toMCAPL()));
+				Abstract_Predicate lp = (Abstract_Predicate) lf;
+				GBelief gb; 
+				if (lp.getFunctor().equals("percept")) {
+					gb = new GBelief(((Abstract_Predicate) lp.getTerm(0)).toMCAPL());
+					gb.setEB(new StringTermImpl("percepts"));
+				} else {
+					gb = new GBelief(((Abstract_Predicate) lf).toMCAPL());
+				}
+				return new Guard(gb);
 			} else {
 				return new Guard(new Goal(((Abstract_Predicate) lf).toMCAPL(), Goal.achieveGoal));
 			}

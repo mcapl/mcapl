@@ -173,10 +173,14 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		} else {
 			// exit = false;
 			if (module.getType() == GOALModule.ModuleType.MAIN) {
+			//	if (rc.eventModuleInstantiated()  && ag.actionPerformedLastCycle()) {
+			//		return rc.eventModule;
+			//	} 
+				
 				rc.setStopandCheck(true);
 			}
 			if (module.getType() == GOALModule.ModuleType.INIT) {
-			//	if (rc.eventModuleInstantiated()  && ag.actionPerformedLastCycle()) {
+			//	if (rc.eventModuleInstantiated() ) { // && ag.actionPerformedLastCycle()) {
 			//		return rc.eventModule;
 			//	} else {
 					return rc.mainModule;

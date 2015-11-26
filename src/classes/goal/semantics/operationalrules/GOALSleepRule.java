@@ -101,7 +101,7 @@ public class GOALSleepRule implements OSRule {
 			if (percepts == null | ! percepts.contains(l)) {
 				return true;
 			} else {
-				percepts.remove(l);
+			//	percepts.remove(l);
 			}
 		}
 		

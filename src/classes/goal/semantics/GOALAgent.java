@@ -33,6 +33,7 @@ import gov.nasa.jpf.annotation.FilterField;
 
 
 
+
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import java.util.Queue;
 import ail.mas.MAS;
 import ail.util.AILexception;
 import ail.semantics.AILAgent;
+import ail.semantics.AILAgent.SelectionOrder;
 import ail.syntax.Intention;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.BeliefBase;
@@ -116,12 +118,14 @@ public class GOALAgent extends AILAgent {
 //	    setTrackPlanUsage(true);
 	    setGoalBase(new ConjGoalBase());
 //	    lastplanstate = this.toString();
+	    addBeliefBase(new BeliefBase(), "percepts");
 	}
 	
 	public GOALAgent(String name) throws AILexception {
 		super(name);
 		setReasoningCycle(new GOALRC(this));
 		setGoalBase(new ConjGoalBase());
+	    addBeliefBase(new BeliefBase(), "percepts");
 	}
 	
 	public GOALModule getMainModule() {
@@ -134,31 +138,11 @@ public class GOALAgent extends AILAgent {
 		ms.addBB(getBB());
 		ms.addGB((ConjGoalBase) getGoalBase());
 		ms.addRB(getRuleBase());
+		ms.addPerceptBase(getBB("percepts"));
 		((GOALRC) getReasoningCycle()).init(this);
 	}
-		
-    /**
-     * Adds a plan to the plan library.  Determines the library from the
-     * trigger type.  This assumes the parser is coding the triggers a specific
-     * way with capabilities represented as `perform' goals and conditional
-     * actions having a variable trigger of type achieve goal.
-     * 
-     * @param p The plan to be added.
-     * @param s The source of the plan.
-     * @throws AILexception
-     */
- /*  public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
-    	p.setSource(s);
-      	if (p.getTriggerEvent().getGoal().getGoalType() == Goal.achieveGoal) {
-    		getPL(condaction_libname).add(p); 
-    	//	getPL("2").init(this);
-    	 } else {
-    		getPL().add(p);
-    	//	getPL().init(this);
-    	 }
-    } */
-    
-    /**
+
+	/**
      * Adds a belief to the default belief base annotating it with a source.
      * 
      */
@@ -523,8 +507,8 @@ public class GOALAgent extends AILAgent {
  		StringBuilder s = new StringBuilder();
  		s.append(getAgName());
  		s.append(":\n");
- 		s.append(getBB().toString());
- 		s.append("\n");
+ //		s.append(getBB().toString());
+// 		s.append("\n");
 		for (String bb: bbmap.keySet()) {
 			s.append(bb);
 			s.append(":");
@@ -532,6 +516,10 @@ public class GOALAgent extends AILAgent {
 			s.append("\n");
 		}
 		s.append(gs);
+		if (I != null) {
+			s.append(I.toString());
+			s.append("\n");
+		}
 		String s1 = s.toString();
  		return s1;
  	} 
@@ -719,6 +707,12 @@ public class GOALAgent extends AILAgent {
     public void clearActionPerformed() {
     	actionPerformedLastCycle = false;
     }
+    
+    @Override
+    public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
+    	return g.logicalConsequence(this, un, g.getVarNames(), so);
+    }
+
     
 
 

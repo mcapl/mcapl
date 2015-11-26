@@ -44,6 +44,7 @@ public class GOALModule {
 	RuleBase rb = new RuleBase();
 	PlanLibrary pl = new PlanLibrary();
 	BeliefBase bb = new BeliefBase();
+	BeliefBase percepts = new BeliefBase();
 	CapabilityLibrary cl = new CapabilityLibrary();
 	
 	ModuleType module_type;

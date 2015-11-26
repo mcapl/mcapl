@@ -32,15 +32,19 @@ public class MentalState {
 	};
 	
 	public void addPercepts(Set<Predicate> ps) {
-		ownModel.getBB().addPercepts(ps);
+		ownModel.getPerceptBase().addPercepts(ps);
 	};
 	
 	public void removePercepts() {
-		ownModel.getBB().removePercepts();
+		ownModel.getPerceptBase().removePercepts();
 	};
 	
 	public void addBB(BeliefBase b) {
 		ownModel.addBB(b);
+	}
+	
+	public void addPerceptBase(BeliefBase b) {
+		ownModel.addPerceptBase(b);
 	}
 	
 	public void addGB(ConjGoalBase g) {

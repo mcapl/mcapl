@@ -363,6 +363,8 @@ PLUS 	: '+';
 INTERNAL 	: '@int';
 EXTERNAL  : '@ext';
 
+PERCEPT	:	'percept'
+
 // term syntax
 term returns [Abstract_Term t] 
 	: (st=stringterm {$t = st;} 

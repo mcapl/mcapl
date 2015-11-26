@@ -29,12 +29,17 @@ import java.util.Stack;
 
 public class MentalModel implements AgentMentalState {
 	BeliefBase bb;
+	BeliefBase percepts = new BeliefBase();
 	public Stack<ConjGoalBase> goalbases = new Stack<>();
 	RuleBase rb;
 
 	
 	public void addBB(BeliefBase b) {
 		bb = b;
+	}
+	
+	public void addPerceptBase(BeliefBase b) {
+		percepts = b;
 	}
 	
 	public void addGB(ConjGoalBase g) {
@@ -46,7 +51,7 @@ public class MentalModel implements AgentMentalState {
 	}
 	
 	public Iterator<Literal> getPercepts() {
-		return bb.getPercepts();
+		return percepts.getPercepts();
 	}
 	
 	public void updateGoalState() {
@@ -78,6 +83,10 @@ public class MentalModel implements AgentMentalState {
     	return getBB(new StringTermImpl(""));
     }
     
+    public BeliefBase getPerceptBase() {
+    	return percepts;
+    }
+    
     public void adopt(ConjGoal g) {
     	getAttentionSet(true).add(g);
     }
@@ -93,6 +102,7 @@ public class MentalModel implements AgentMentalState {
 		// TODO Auto-generated method stub
 		Set<String> bblist = new HashSet<String>();
 		bblist.add("");
+		bblist.add("percepts");
 		return bblist;
 	}
 

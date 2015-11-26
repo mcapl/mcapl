@@ -34,7 +34,7 @@ public class ModuleInitialisation implements OSRule {
 		for (Literal l: m.getBB().getAll()) {
 			a.addBel(l, BeliefBase.TSelf);
 		}
-		
+				
 		for (Rule r : m.getRuleBase().getAll()) {
 			a.addRule(r);
 		}
