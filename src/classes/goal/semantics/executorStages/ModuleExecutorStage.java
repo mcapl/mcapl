@@ -180,11 +180,11 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 				rc.setStopandCheck(true);
 			}
 			if (module.getType() == GOALModule.ModuleType.INIT) {
-			//	if (rc.eventModuleInstantiated() ) { // && ag.actionPerformedLastCycle()) {
-			//		return rc.eventModule;
-			//	} else {
+				if (rc.eventModuleInstantiated() ) { // && ag.actionPerformedLastCycle()) {
+					return rc.eventModule;
+				} else {
 					return rc.mainModule;
-			//	}
+				}
 			}
 			if (module.getType() == GOALModule.ModuleType.EVENT) {
 				exit = false;

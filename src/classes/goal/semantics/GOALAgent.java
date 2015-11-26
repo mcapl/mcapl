@@ -240,6 +240,13 @@ public class GOALAgent extends AILAgent {
     	ms.adopt(g);
     	// actionPerformed();
     }
+    
+    @Override
+    public void addGoal(Goal g) {
+    	ConjGoal gl = new ConjGoal();
+    	gl.addConj(g.getLogicalContent());
+    	ms.adopt(gl);
+    }
  
     /**
      * Adds a goal to the goal base indexed by i.  This is done by
@@ -247,7 +254,7 @@ public class GOALAgent extends AILAgent {
      * @param g
      * @param i
      */
-    public void addGoal(Term g) {
+ /*   public void addGoal(Term g) {
     	Goal gl = new Goal((Literal) g, Goal.achieveGoal);
     	StringTerm i = gl.getGoalBase();
     	Intention intention = new Intention(new Event(Event.AILAddition, gl), new SourceAnnotation(new Predicate(i.toString())));
@@ -265,7 +272,7 @@ public class GOALAgent extends AILAgent {
     	ms.updateGoalState();
    //   	getPL().addGoal(g, i);
     ////	getPL("2").addGoal(g, i);
-    }
+    } */
     /**
      * Some goals are conjunctions, we split into conjuncts to determine
      * if all are believed.
