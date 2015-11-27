@@ -110,6 +110,17 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#removeJobber(ajpf.MCAPLJobber)
+	 */
+	@Override
+	public void removeJobber(String jobName) {
+		agnames.remove(jobName);
+		agents.remove(jobName);
+	}
+
+	
+	/*
+	 * (non-Javadoc)
 	 * @see ajpf.PerceptListener#perceptChanged()
 	 */
 	public void perceptChanged() {

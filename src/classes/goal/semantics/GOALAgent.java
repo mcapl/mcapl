@@ -649,6 +649,8 @@ public class GOALAgent extends AILAgent {
                 // main module should be only element on stack; in that
                 // case we're leaving the agent, no need to reset context.
         		this.topLevelContext = null;
+        		getEnv().getScheduler().removeJobber(this.getAgName());
+        		getEnv().getScheduler().perceptChanged();
                 break;
         }
         this.activeStackOfModules.pop();

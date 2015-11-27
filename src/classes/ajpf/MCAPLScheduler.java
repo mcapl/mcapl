@@ -61,4 +61,10 @@ public interface MCAPLScheduler extends PerceptListener {
 	 * @return
 	 */
 	public List<String> getActiveJobberNames();
+	
+	/**
+	 * Remove a jobber from the scheduler.
+	 * @param a
+	 */
+	public void removeJobber(String jobName);
 }

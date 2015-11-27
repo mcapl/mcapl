@@ -57,8 +57,17 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 	@Override
 	public void addJobber(MCAPLJobber a) {
 		agent = a;
+		isactive = true;
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void removeJobber(String jobName) {
+		if (agent.getName().equals(jobName)) {
+			agent = null;
+			isactive = false;
+		}
 	}
 
 	@Override

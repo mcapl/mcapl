@@ -94,7 +94,7 @@ public class UserSpecAction extends ActionExecutor {
 		
 		Unifier u = a.getIntention().hdU();
 		cap.apply(u);
-		System.err.println("Attempting " + cap);
+		System.err.println(a.getAgName() + " attempting " + cap);
 		Unifier newu = new Unifier();
 		cap.standardise_apart(action, newu);
 		cap.unifies(action.getCap(), newu);
