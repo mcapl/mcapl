@@ -26,14 +26,14 @@ public class HelloWorldEnvironment extends GoalEnvironment {
 			Predicate printedtext = new Predicate("printedText");
 			printedtext.addTerm(new NumberTermImpl(printcount));
 			
-			Predicate percept1 = new Predicate("percept");
+/*			Predicate percept1 = new Predicate("percept");
 			percept1.addTerm(lastprintedtext);
 			
 			Predicate percept2 = new Predicate("percept");
-			percept2.addTerm(printedtext);
+			percept2.addTerm(printedtext); */
 			
-			addPercept(percept1);
-			addPercept(percept2);
+			addPercept(lastprintedtext);
+			addPercept(printedtext);
 		}
 		
 		return super.executeAction(agName, act);

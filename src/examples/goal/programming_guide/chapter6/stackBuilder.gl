@@ -23,41 +23,38 @@
 //----------------------------------------------------------------------------
 
 // Code taken from an example in Programming Rational Agents in GOAL by Koen Hindriks
-main: stackBuilder
-{
-	init module {
-   		knowledge{
- 	      	block(X) :- on(X, _).
-	      	clear(X) :- block(X), not( on(_, X) ).
- 	      	clear(table).
-	     	tower([X]) :- on(X, table).
-    	  	tower([X, Y| T]) :- on(X, Y), tower([Y | T]). 
-    	}
-      
-   		goals{
-      		on(b1, b5), on(b2, table), on(b3, table), on(b4, b3), on(b5, b2), on(b6, b4), on(b7, table).
-   		}
-   		
-   		actionspec{
-   			move(X, Y) {
-   				pre{ clear(X), clear(Y), on(X, Z), not( on(X, Y) ) }
-   				post{ not( on(X, Z) ), on(X, Y) }
-    		}
+init module {
+	knowledge{
+       	block(X) :- on(X, _).
+      	clear(X) :- block(X), not( on(_, X) ).
+       	clear(table).
+     	tower([X]) :- on(X, table).
+   	  	tower([X, Y| T]) :- on(X, Y), tower([Y | T]). 
    	}
+      
+   	goals{
+    		on(b1, b5), on(b2, table), on(b3, table), on(b4, b3), on(b5, b2), on(b6, b4), on(b7, table).
+  	}
+   		
+   	actionspec{
+   		move(X, Y) {
+   			pre{ clear(X), clear(Y), on(X, Z), not( on(X, Y) ) }
+   			post{ not( on(X, Z) ), on(X, Y) }
+   		}
   }
+}
    
-   main module [exit=nogoals] {
-      program [order=linear] {
-     	if a-goal(tower([X, Y| T])), bel(tower([Y| T])) then move(X, Y).
-       	if a-goal(tower([X| T])) then move(X, table).
-      }
+main module [exit=nogoals] {
+   program [order=linear] {
+   	if a-goal(tower([X, Y| T])), bel(tower([Y| T])) then move(X, Y).
+   	if a-goal(tower([X| T])) then move(X, table).
    }
+}
    
-   	event module{
-	  program{
+event module{
+	program{
 	    forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
 	    forall bel( on(X, Y), not( percept( on(X, Y) ) ) ) do delete( on(X, Y) ).
-	  }
 	}  
 }
  

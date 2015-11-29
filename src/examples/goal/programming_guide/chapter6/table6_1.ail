@@ -5,4 +5,4 @@ goal.env.init.gui = false
 mas.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
 mas.builder = goal.GOALMASBuilder
 
-goal.launchpolicy.entity.launch = stackBuilder
+goal.launchpolicy.entity.launch = goal_agent

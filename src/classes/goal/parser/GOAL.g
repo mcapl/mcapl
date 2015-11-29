@@ -53,19 +53,16 @@ private boolean stringterm = false;
 
 mas returns [Abstract_MAS mas] 
 	: {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}
-	MAIN COLON i=id CURLYOPEN
-	{ Abstract_GOALAgent gl = new Abstract_GOALAgent($i.s); agents.add(gl);}
+	// MAIN COLON i=id CURLYOPEN
+	{ Abstract_GOALAgent gl = new Abstract_GOALAgent("goal_agent"); agents.add(gl);}
 	(moduleImport | gm=module {gl.addModule(gm);})+
-	CURLYCLOSE
+	// CURLYCLOSE
 	{mas.setAgs(agents);}
 	;
 
 goalagent returns [Abstract_GOALAgent gl] 
-	: MAIN COLON i=id CURLYOPEN
-	{ $gl = new Abstract_GOALAgent($i.s);}
-	(moduleImport | gm=module {gl.addModule(gm);})+
-	CURLYCLOSE;
-
+	: { $gl = new Abstract_GOALAgent("goal_agent");}
+	(moduleImport | gm=module {gl.addModule(gm);})+;
 
 moduleImport
 	: '#import' MODULEFILE STOP

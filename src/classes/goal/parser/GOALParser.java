@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2015-11-27 16:59:14
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g 2015-11-29 19:00:18
 
 package goal.parser;
 
@@ -151,27 +151,19 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "mas"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:54:1: mas returns [Abstract_MAS mas] : MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:54:1: mas returns [Abstract_MAS mas] : ( moduleImport |gm= module )+ ;
 	public final Abstract_MAS mas() throws RecognitionException {
 		Abstract_MAS mas = null;
 
 
-		String i =null;
 		Abstract_GOALModule gm =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:2: ( MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:4: MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:2: ( ( moduleImport |gm= module )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:55:4: ( moduleImport |gm= module )+
 			{
 			mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();
-			match(input,MAIN,FOLLOW_MAIN_in_mas74); 
-			match(input,COLON,FOLLOW_COLON_in_mas76); 
-			pushFollow(FOLLOW_id_in_mas80);
-			i=id();
-			state._fsp--;
-
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_mas82); 
-			 Abstract_GOALAgent gl = new Abstract_GOALAgent(i); agents.add(gl);
+			 Abstract_GOALAgent gl = new Abstract_GOALAgent("goal_agent"); agents.add(gl);
 			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:2: ( moduleImport |gm= module )+
 			int cnt1=0;
 			loop1:
@@ -189,7 +181,7 @@ public class GOALParser extends Parser {
 				case 1 :
 					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:3: moduleImport
 					{
-					pushFollow(FOLLOW_moduleImport_in_mas89);
+					pushFollow(FOLLOW_moduleImport_in_mas80);
 					moduleImport();
 					state._fsp--;
 
@@ -198,7 +190,7 @@ public class GOALParser extends Parser {
 				case 2 :
 					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:58:18: gm= module
 					{
-					pushFollow(FOLLOW_module_in_mas95);
+					pushFollow(FOLLOW_module_in_mas86);
 					gm=module();
 					state._fsp--;
 
@@ -214,7 +206,6 @@ public class GOALParser extends Parser {
 				cnt1++;
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_mas102); 
 			mas.setAgs(agents);
 			}
 
@@ -233,27 +224,19 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "goalagent"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:63:1: goalagent returns [Abstract_GOALAgent gl] : MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:63:1: goalagent returns [Abstract_GOALAgent gl] : ( moduleImport |gm= module )+ ;
 	public final Abstract_GOALAgent goalagent() throws RecognitionException {
 		Abstract_GOALAgent gl = null;
 
 
-		String i =null;
 		Abstract_GOALModule gm =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:2: ( MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:4: MAIN COLON i= id CURLYOPEN ( moduleImport |gm= module )+ CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:2: ( ( moduleImport |gm= module )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:64:4: ( moduleImport |gm= module )+
 			{
-			match(input,MAIN,FOLLOW_MAIN_in_goalagent121); 
-			match(input,COLON,FOLLOW_COLON_in_goalagent123); 
-			pushFollow(FOLLOW_id_in_goalagent127);
-			i=id();
-			state._fsp--;
-
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_goalagent129); 
-			 gl = new Abstract_GOALAgent(i);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:2: ( moduleImport |gm= module )+
+			 gl = new Abstract_GOALAgent("goal_agent");
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:65:2: ( moduleImport |gm= module )+
 			int cnt2=0;
 			loop2:
 			while (true) {
@@ -268,18 +251,18 @@ public class GOALParser extends Parser {
 
 				switch (alt2) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:3: moduleImport
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:65:3: moduleImport
 					{
-					pushFollow(FOLLOW_moduleImport_in_goalagent136);
+					pushFollow(FOLLOW_moduleImport_in_goalagent115);
 					moduleImport();
 					state._fsp--;
 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:66:18: gm= module
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:65:18: gm= module
 					{
-					pushFollow(FOLLOW_module_in_goalagent142);
+					pushFollow(FOLLOW_module_in_goalagent121);
 					gm=module();
 					state._fsp--;
 
@@ -295,7 +278,6 @@ public class GOALParser extends Parser {
 				cnt2++;
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_goalagent149); 
 			}
 
 		}
@@ -313,15 +295,15 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "moduleImport"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:70:1: moduleImport : '#import' MODULEFILE STOP ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:67:1: moduleImport : '#import' MODULEFILE STOP ;
 	public final void moduleImport() throws RecognitionException {
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:71:2: ( '#import' MODULEFILE STOP )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:71:4: '#import' MODULEFILE STOP
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:2: ( '#import' MODULEFILE STOP )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:68:4: '#import' MODULEFILE STOP
 			{
-			match(input,64,FOLLOW_64_in_moduleImport159); 
-			match(input,MODULEFILE,FOLLOW_MODULEFILE_in_moduleImport161); 
-			match(input,STOP,FOLLOW_STOP_in_moduleImport163); 
+			match(input,64,FOLLOW_64_in_moduleImport134); 
+			match(input,MODULEFILE,FOLLOW_MODULEFILE_in_moduleImport136); 
+			match(input,STOP,FOLLOW_STOP_in_moduleImport138); 
 			}
 
 		}
@@ -338,7 +320,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "module"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:1: module returns [Abstract_GOALModule gl] : def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:71:1: module returns [Abstract_GOALModule gl] : def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE ;
 	public final Abstract_GOALModule module() throws RecognitionException {
 		Abstract_GOALModule gl = null;
 
@@ -347,15 +329,15 @@ public class GOALParser extends Parser {
 		ArrayList<Abstract_ActionSpec> as =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:2: (def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:4: def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:2: (def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:4: def= moduleDef ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )? CURLYOPEN ( krImport )? ( knowledge[gl] )? ( beliefs[gl] )? ( goals[gl] )? ( program[gl] )? (as= actionSpecs )? CURLYCLOSE
 			{
-			pushFollow(FOLLOW_moduleDef_in_module180);
+			pushFollow(FOLLOW_moduleDef_in_module155);
 			def=moduleDef();
 			state._fsp--;
 
 			gl = new Abstract_GOALModule(def);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:56: ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:56: ( SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE )?
 			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0==SQOPEN) ) {
@@ -363,14 +345,14 @@ public class GOALParser extends Parser {
 			}
 			switch (alt4) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:57: SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:57: SQOPEN moduleOption[gl] ( COMMA moduleOption[gl] )* SQCLOSE
 					{
-					match(input,SQOPEN,FOLLOW_SQOPEN_in_module185); 
-					pushFollow(FOLLOW_moduleOption_in_module187);
+					match(input,SQOPEN,FOLLOW_SQOPEN_in_module160); 
+					pushFollow(FOLLOW_moduleOption_in_module162);
 					moduleOption(gl);
 					state._fsp--;
 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:81: ( COMMA moduleOption[gl] )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:81: ( COMMA moduleOption[gl] )*
 					loop3:
 					while (true) {
 						int alt3=2;
@@ -381,10 +363,10 @@ public class GOALParser extends Parser {
 
 						switch (alt3) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:75:82: COMMA moduleOption[gl]
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:72:82: COMMA moduleOption[gl]
 							{
-							match(input,COMMA,FOLLOW_COMMA_in_module191); 
-							pushFollow(FOLLOW_moduleOption_in_module193);
+							match(input,COMMA,FOLLOW_COMMA_in_module166); 
+							pushFollow(FOLLOW_moduleOption_in_module168);
 							moduleOption(gl);
 							state._fsp--;
 
@@ -396,14 +378,14 @@ public class GOALParser extends Parser {
 						}
 					}
 
-					match(input,SQCLOSE,FOLLOW_SQCLOSE_in_module198); 
+					match(input,SQCLOSE,FOLLOW_SQCLOSE_in_module173); 
 					}
 					break;
 
 			}
 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module203); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:12: ( krImport )?
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_module178); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:12: ( krImport )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0==64) ) {
@@ -411,9 +393,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:12: krImport
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:12: krImport
 					{
-					pushFollow(FOLLOW_krImport_in_module205);
+					pushFollow(FOLLOW_krImport_in_module180);
 					krImport();
 					state._fsp--;
 
@@ -422,7 +404,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:22: ( knowledge[gl] )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:22: ( knowledge[gl] )?
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0==KNOWLEDGE) ) {
@@ -430,9 +412,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt6) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:22: knowledge[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:22: knowledge[gl]
 					{
-					pushFollow(FOLLOW_knowledge_in_module208);
+					pushFollow(FOLLOW_knowledge_in_module183);
 					knowledge(gl);
 					state._fsp--;
 
@@ -441,7 +423,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:38: ( beliefs[gl] )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:38: ( beliefs[gl] )?
 			int alt7=2;
 			int LA7_0 = input.LA(1);
 			if ( (LA7_0==BELIEFS) ) {
@@ -449,9 +431,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt7) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:38: beliefs[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:38: beliefs[gl]
 					{
-					pushFollow(FOLLOW_beliefs_in_module213);
+					pushFollow(FOLLOW_beliefs_in_module188);
 					beliefs(gl);
 					state._fsp--;
 
@@ -460,7 +442,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:51: ( goals[gl] )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:51: ( goals[gl] )?
 			int alt8=2;
 			int LA8_0 = input.LA(1);
 			if ( (LA8_0==GOALS) ) {
@@ -468,9 +450,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt8) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:51: goals[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:51: goals[gl]
 					{
-					pushFollow(FOLLOW_goals_in_module217);
+					pushFollow(FOLLOW_goals_in_module192);
 					goals(gl);
 					state._fsp--;
 
@@ -479,7 +461,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:62: ( program[gl] )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:62: ( program[gl] )?
 			int alt9=2;
 			int LA9_0 = input.LA(1);
 			if ( (LA9_0==PROGRAM) ) {
@@ -487,9 +469,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt9) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:76:62: program[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:73:62: program[gl]
 					{
-					pushFollow(FOLLOW_program_in_module221);
+					pushFollow(FOLLOW_program_in_module196);
 					program(gl);
 					state._fsp--;
 
@@ -498,7 +480,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:77:2: (as= actionSpecs )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:2: (as= actionSpecs )?
 			int alt10=2;
 			int LA10_0 = input.LA(1);
 			if ( (LA10_0==ACTIONSPEC) ) {
@@ -506,9 +488,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt10) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:77:3: as= actionSpecs
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:74:3: as= actionSpecs
 					{
-					pushFollow(FOLLOW_actionSpecs_in_module230);
+					pushFollow(FOLLOW_actionSpecs_in_module205);
 					as=actionSpecs();
 					state._fsp--;
 
@@ -518,7 +500,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module238); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_module213); 
 			}
 
 		}
@@ -536,13 +518,13 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "moduleDef"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:81:1: moduleDef returns [int i] : ( MODULE declaration | INIT MODULE | MAIN MODULE | EVENT MODULE );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:78:1: moduleDef returns [int i] : ( MODULE declaration | INIT MODULE | MAIN MODULE | EVENT MODULE );
 	public final int moduleDef() throws RecognitionException {
 		int i = 0;
 
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:2: ( MODULE declaration | INIT MODULE | MAIN MODULE | EVENT MODULE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:79:2: ( MODULE declaration | INIT MODULE | MAIN MODULE | EVENT MODULE )
 			int alt11=4;
 			switch ( input.LA(1) ) {
 			case MODULE:
@@ -572,36 +554,36 @@ public class GOALParser extends Parser {
 			}
 			switch (alt11) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:4: MODULE declaration
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:79:4: MODULE declaration
 					{
-					match(input,MODULE,FOLLOW_MODULE_in_moduleDef253); 
-					pushFollow(FOLLOW_declaration_in_moduleDef255);
+					match(input,MODULE,FOLLOW_MODULE_in_moduleDef228); 
+					pushFollow(FOLLOW_declaration_in_moduleDef230);
 					declaration();
 					state._fsp--;
 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:83:4: INIT MODULE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:80:4: INIT MODULE
 					{
-					match(input,INIT,FOLLOW_INIT_in_moduleDef260); 
-					match(input,MODULE,FOLLOW_MODULE_in_moduleDef262); 
+					match(input,INIT,FOLLOW_INIT_in_moduleDef235); 
+					match(input,MODULE,FOLLOW_MODULE_in_moduleDef237); 
 					i = Abstract_GOALModule.init;
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:84:4: MAIN MODULE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:81:4: MAIN MODULE
 					{
-					match(input,MAIN,FOLLOW_MAIN_in_moduleDef269); 
-					match(input,MODULE,FOLLOW_MODULE_in_moduleDef271); 
+					match(input,MAIN,FOLLOW_MAIN_in_moduleDef244); 
+					match(input,MODULE,FOLLOW_MODULE_in_moduleDef246); 
 					i = Abstract_GOALModule.main;
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:85:4: EVENT MODULE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:82:4: EVENT MODULE
 					{
-					match(input,EVENT,FOLLOW_EVENT_in_moduleDef278); 
-					match(input,MODULE,FOLLOW_MODULE_in_moduleDef280); 
+					match(input,EVENT,FOLLOW_EVENT_in_moduleDef253); 
+					match(input,MODULE,FOLLOW_MODULE_in_moduleDef255); 
 					i = Abstract_GOALModule.event;
 					}
 					break;
@@ -622,13 +604,13 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "moduleOption"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:89:1: moduleOption[Abstract_GOALModule gl] : (key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' ) |key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' ) );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:86:1: moduleOption[Abstract_GOALModule gl] : (key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' ) |key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' ) );
 	public final void moduleOption(Abstract_GOALModule gl) throws RecognitionException {
 		Token key=null;
 		Token value=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:2: (key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' ) |key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:87:2: (key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' ) |key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' ) )
 			int alt13=2;
 			int LA13_0 = input.LA(1);
 			if ( (LA13_0==73) ) {
@@ -646,11 +628,11 @@ public class GOALParser extends Parser {
 
 			switch (alt13) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:4: key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:87:4: key= 'exit' EQUALS value= ( 'always' | 'never' | 'nogoals' | 'noaction' )
 					{
-					key=(Token)match(input,73,FOLLOW_73_in_moduleOption299); 
-					match(input,EQUALS,FOLLOW_EQUALS_in_moduleOption301); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:31: ( 'always' | 'never' | 'nogoals' | 'noaction' )
+					key=(Token)match(input,73,FOLLOW_73_in_moduleOption274); 
+					match(input,EQUALS,FOLLOW_EQUALS_in_moduleOption276); 
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:87:31: ( 'always' | 'never' | 'nogoals' | 'noaction' )
 					int alt12=4;
 					switch ( input.LA(1) ) {
 					case 70:
@@ -680,30 +662,30 @@ public class GOALParser extends Parser {
 					}
 					switch (alt12) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:32: 'always'
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:87:32: 'always'
 							{
-							value=(Token)match(input,70,FOLLOW_70_in_moduleOption308); 
+							value=(Token)match(input,70,FOLLOW_70_in_moduleOption283); 
 							gl.setExitCondition(Abstract_GOALModule.always);
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:91:6: 'never'
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:88:6: 'never'
 							{
-							value=(Token)match(input,81,FOLLOW_81_in_moduleOption318); 
+							value=(Token)match(input,81,FOLLOW_81_in_moduleOption293); 
 							gl.setExitCondition(Abstract_GOALModule.never);
 							}
 							break;
 						case 3 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:92:6: 'nogoals'
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:89:6: 'nogoals'
 							{
-							value=(Token)match(input,84,FOLLOW_84_in_moduleOption328); 
+							value=(Token)match(input,84,FOLLOW_84_in_moduleOption303); 
 							gl.setExitCondition(Abstract_GOALModule.nogoals);
 							}
 							break;
 						case 4 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:93:7: 'noaction'
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:90:7: 'noaction'
 							{
-							value=(Token)match(input,83,FOLLOW_83_in_moduleOption339); 
+							value=(Token)match(input,83,FOLLOW_83_in_moduleOption314); 
 							gl.setExitCondition(Abstract_GOALModule.noaction);
 							}
 							break;
@@ -713,10 +695,10 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:94:4: key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:91:4: key= 'focus' EQUALS value= ( 'none' | 'new' | 'select' | 'filter' )
 					{
-					key=(Token)match(input,76,FOLLOW_76_in_moduleOption353); 
-					match(input,EQUALS,FOLLOW_EQUALS_in_moduleOption355); 
+					key=(Token)match(input,76,FOLLOW_76_in_moduleOption328); 
+					match(input,EQUALS,FOLLOW_EQUALS_in_moduleOption330); 
 					value=input.LT(1);
 					if ( input.LA(1)==75||input.LA(1)==82||input.LA(1)==85||input.LA(1)==87 ) {
 						input.consume();
@@ -744,14 +726,14 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "krImport"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:97:1: krImport : '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:94:1: krImport : '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP ;
 	public final void krImport() throws RecognitionException {
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:2: ( '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:4: '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:95:2: ( '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:95:4: '#import' ( stringLiteral | singleQuotedStringLiteral ) STOP
 			{
-			match(input,64,FOLLOW_64_in_krImport386); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:14: ( stringLiteral | singleQuotedStringLiteral )
+			match(input,64,FOLLOW_64_in_krImport361); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:95:14: ( stringLiteral | singleQuotedStringLiteral )
 			int alt14=2;
 			int LA14_0 = input.LA(1);
 			if ( (LA14_0==STRING) ) {
@@ -769,18 +751,18 @@ public class GOALParser extends Parser {
 
 			switch (alt14) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:15: stringLiteral
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:95:15: stringLiteral
 					{
-					pushFollow(FOLLOW_stringLiteral_in_krImport389);
+					pushFollow(FOLLOW_stringLiteral_in_krImport364);
 					stringLiteral();
 					state._fsp--;
 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:31: singleQuotedStringLiteral
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:95:31: singleQuotedStringLiteral
 					{
-					pushFollow(FOLLOW_singleQuotedStringLiteral_in_krImport393);
+					pushFollow(FOLLOW_singleQuotedStringLiteral_in_krImport368);
 					singleQuotedStringLiteral();
 					state._fsp--;
 
@@ -789,7 +771,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,STOP,FOLLOW_STOP_in_krImport396); 
+			match(input,STOP,FOLLOW_STOP_in_krImport371); 
 			}
 
 		}
@@ -806,19 +788,19 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "knowledge"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:101:1: knowledge[Abstract_GOALModule gl] : KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:98:1: knowledge[Abstract_GOALModule gl] : KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE ;
 	public final void knowledge(Abstract_GOALModule gl) throws RecognitionException {
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:2: ( KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:4: KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:2: ( KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:99:4: KNOWLEDGE CURLYOPEN krspec[gl] CURLYCLOSE
 			{
-			match(input,KNOWLEDGE,FOLLOW_KNOWLEDGE_in_knowledge409); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_knowledge411); 
-			pushFollow(FOLLOW_krspec_in_knowledge413);
+			match(input,KNOWLEDGE,FOLLOW_KNOWLEDGE_in_knowledge384); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_knowledge386); 
+			pushFollow(FOLLOW_krspec_in_knowledge388);
 			krspec(gl);
 			state._fsp--;
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_knowledge416); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_knowledge391); 
 			}
 
 		}
@@ -835,16 +817,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "krspec"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:1: krspec[Abstract_GOALModule gl] : (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+ ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:1: krspec[Abstract_GOALModule gl] : (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+ ;
 	public final void krspec(Abstract_GOALModule gl) throws RecognitionException {
 		Abstract_Predicate hd =null;
 		ArrayList<Abstract_LogicalFormula> body =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:31: ( (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:31: ( (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP ) )+
 			int cnt17=0;
 			loop17:
 			while (true) {
@@ -856,13 +838,13 @@ public class GOALParser extends Parser {
 
 				switch (alt17) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:105:34: hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:102:34: hd= declarationOrCallWithTerms ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP )
 					{
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_krspec428);
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_krspec403);
 					hd=declarationOrCallWithTerms();
 					state._fsp--;
 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:106:2: ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:103:2: ( STOP | PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP )
 					int alt16=2;
 					int LA16_0 = input.LA(1);
 					if ( (LA16_0==STOP) ) {
@@ -880,17 +862,17 @@ public class GOALParser extends Parser {
 
 					switch (alt16) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:106:3: STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:103:3: STOP
 							{
-							match(input,STOP,FOLLOW_STOP_in_krspec432); 
+							match(input,STOP,FOLLOW_STOP_in_krspec407); 
 							gl.addFact((Abstract_Predicate) hd);
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:2: PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:104:2: PROLOGARROW (body= no_bracket_literals |body= forall_expr ) STOP
 							{
-							match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_krspec439); 
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:14: (body= no_bracket_literals |body= forall_expr )
+							match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_krspec414); 
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:104:14: (body= no_bracket_literals |body= forall_expr )
 							int alt15=2;
 							int LA15_0 = input.LA(1);
 							if ( (LA15_0==CONST||LA15_0==MINUS||(LA15_0 >= NOT && LA15_0 <= NUMBER)||(LA15_0 >= UNNAMEDVAR && LA15_0 <= VAR)) ) {
@@ -908,18 +890,18 @@ public class GOALParser extends Parser {
 
 							switch (alt15) {
 								case 1 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:16: body= no_bracket_literals
+									// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:104:16: body= no_bracket_literals
 									{
-									pushFollow(FOLLOW_no_bracket_literals_in_krspec445);
+									pushFollow(FOLLOW_no_bracket_literals_in_krspec420);
 									body=no_bracket_literals();
 									state._fsp--;
 
 									}
 									break;
 								case 2 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:43: body= forall_expr
+									// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:104:43: body= forall_expr
 									{
-									pushFollow(FOLLOW_forall_expr_in_krspec451);
+									pushFollow(FOLLOW_forall_expr_in_krspec426);
 									body=forall_expr();
 									state._fsp--;
 
@@ -928,7 +910,7 @@ public class GOALParser extends Parser {
 
 							}
 
-							match(input,STOP,FOLLOW_STOP_in_krspec455); 
+							match(input,STOP,FOLLOW_STOP_in_krspec430); 
 							gl.addKRule(new Abstract_Rule((Abstract_Predicate) hd, body));
 							}
 							break;
@@ -962,19 +944,19 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "beliefs"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:109:1: beliefs[Abstract_GOALModule gl] : BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:106:1: beliefs[Abstract_GOALModule gl] : BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE ;
 	public final void beliefs(Abstract_GOALModule gl) throws RecognitionException {
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:2: ( BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:4: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:2: ( BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:107:4: BELIEFS CURLYOPEN brspec[gl] CURLYCLOSE
 			{
-			match(input,BELIEFS,FOLLOW_BELIEFS_in_beliefs472); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_beliefs474); 
-			pushFollow(FOLLOW_brspec_in_beliefs476);
+			match(input,BELIEFS,FOLLOW_BELIEFS_in_beliefs447); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_beliefs449); 
+			pushFollow(FOLLOW_brspec_in_beliefs451);
 			brspec(gl);
 			state._fsp--;
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_beliefs479); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_beliefs454); 
 			}
 
 		}
@@ -991,16 +973,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "brspec"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:1: brspec[Abstract_GOALModule gl] : (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+ ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:1: brspec[Abstract_GOALModule gl] : (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+ ;
 	public final void brspec(Abstract_GOALModule gl) throws RecognitionException {
 		Abstract_Predicate hd =null;
 		ArrayList<Abstract_LogicalFormula> body =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:31: ( (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:31: ( (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:33: (hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP ) )+
 			int cnt19=0;
 			loop19:
 			while (true) {
@@ -1012,13 +994,13 @@ public class GOALParser extends Parser {
 
 				switch (alt19) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:113:34: hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:110:34: hd= declarationOrCallWithTerms ( STOP | PROLOGARROW body= no_bracket_literals STOP )
 					{
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_brspec491);
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_brspec466);
 					hd=declarationOrCallWithTerms();
 					state._fsp--;
 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:114:2: ( STOP | PROLOGARROW body= no_bracket_literals STOP )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:111:2: ( STOP | PROLOGARROW body= no_bracket_literals STOP )
 					int alt18=2;
 					int LA18_0 = input.LA(1);
 					if ( (LA18_0==STOP) ) {
@@ -1036,21 +1018,21 @@ public class GOALParser extends Parser {
 
 					switch (alt18) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:114:3: STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:111:3: STOP
 							{
-							match(input,STOP,FOLLOW_STOP_in_brspec495); 
+							match(input,STOP,FOLLOW_STOP_in_brspec470); 
 							gl.addBel((Abstract_Predicate) hd);
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:115:2: PROLOGARROW body= no_bracket_literals STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:112:2: PROLOGARROW body= no_bracket_literals STOP
 							{
-							match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_brspec502); 
-							pushFollow(FOLLOW_no_bracket_literals_in_brspec506);
+							match(input,PROLOGARROW,FOLLOW_PROLOGARROW_in_brspec477); 
+							pushFollow(FOLLOW_no_bracket_literals_in_brspec481);
 							body=no_bracket_literals();
 							state._fsp--;
 
-							match(input,STOP,FOLLOW_STOP_in_brspec508); 
+							match(input,STOP,FOLLOW_STOP_in_brspec483); 
 							gl.addRule(new Abstract_Rule((Abstract_Predicate) hd, body));
 							}
 							break;
@@ -1084,22 +1066,22 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "goals"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:118:1: goals[Abstract_GOALModule gl] : GOALS CURLYOPEN le= goal_list CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:115:1: goals[Abstract_GOALModule gl] : GOALS CURLYOPEN le= goal_list CURLYCLOSE ;
 	public final void goals(Abstract_GOALModule gl) throws RecognitionException {
 		ArrayList<ArrayList<Abstract_Term>> le =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:119:2: ( GOALS CURLYOPEN le= goal_list CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:119:4: GOALS CURLYOPEN le= goal_list CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:116:2: ( GOALS CURLYOPEN le= goal_list CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:116:4: GOALS CURLYOPEN le= goal_list CURLYCLOSE
 			{
-			match(input,GOALS,FOLLOW_GOALS_in_goals525); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_goals527); 
-			pushFollow(FOLLOW_goal_list_in_goals531);
+			match(input,GOALS,FOLLOW_GOALS_in_goals500); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_goals502); 
+			pushFollow(FOLLOW_goal_list_in_goals506);
 			le=goal_list();
 			state._fsp--;
 
 			gl.addGoal(le);
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_goals535); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_goals510); 
 			}
 
 		}
@@ -1116,7 +1098,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "atom"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:121:1: atom returns [Abstract_LogicalFormula l] : ( NOT OPEN p= declarationOrCallWithTerms CLOSE |p= declarationOrCallWithTerms |e= equation );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:118:1: atom returns [Abstract_LogicalFormula l] : ( NOT OPEN p= declarationOrCallWithTerms CLOSE |p= declarationOrCallWithTerms |e= equation );
 	public final Abstract_LogicalFormula atom() throws RecognitionException {
 		Abstract_LogicalFormula l = null;
 
@@ -1125,7 +1107,7 @@ public class GOALParser extends Parser {
 		Abstract_Equation e =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:122:2: ( NOT OPEN p= declarationOrCallWithTerms CLOSE |p= declarationOrCallWithTerms |e= equation )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:119:2: ( NOT OPEN p= declarationOrCallWithTerms CLOSE |p= declarationOrCallWithTerms |e= equation )
 			int alt20=3;
 			switch ( input.LA(1) ) {
 			case NOT:
@@ -1153,22 +1135,22 @@ public class GOALParser extends Parser {
 			}
 			switch (alt20) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:122:4: NOT OPEN p= declarationOrCallWithTerms CLOSE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:119:4: NOT OPEN p= declarationOrCallWithTerms CLOSE
 					{
-					match(input,NOT,FOLLOW_NOT_in_atom549); 
-					match(input,OPEN,FOLLOW_OPEN_in_atom551); 
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_atom555);
+					match(input,NOT,FOLLOW_NOT_in_atom524); 
+					match(input,OPEN,FOLLOW_OPEN_in_atom526); 
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_atom530);
 					p=declarationOrCallWithTerms();
 					state._fsp--;
 
 					l = new Abstract_LogExpr(Abstract_LogExpr.not, p);
-					match(input,CLOSE,FOLLOW_CLOSE_in_atom558); 
+					match(input,CLOSE,FOLLOW_CLOSE_in_atom533); 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:123:4: p= declarationOrCallWithTerms
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:120:4: p= declarationOrCallWithTerms
 					{
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_atom565);
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_atom540);
 					p=declarationOrCallWithTerms();
 					state._fsp--;
 
@@ -1176,9 +1158,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:124:4: e= equation
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:121:4: e= equation
 					{
-					pushFollow(FOLLOW_equation_in_atom574);
+					pushFollow(FOLLOW_equation_in_atom549);
 					e=equation();
 					state._fsp--;
 
@@ -1202,16 +1184,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "program"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:128:1: program[Abstract_GOALModule gl] : PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:125:1: program[Abstract_GOALModule gl] : PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE ;
 	public final void program(Abstract_GOALModule gl) throws RecognitionException {
 		int i =0;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:129:2: ( PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:129:4: PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:126:2: ( PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:126:4: PROGRAM ( SQOPEN i= ruleEvaluationOrder SQCLOSE )? CURLYOPEN ( macroDef )* ( programRule[gl] )* CURLYCLOSE
 			{
-			match(input,PROGRAM,FOLLOW_PROGRAM_in_program589); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:129:12: ( SQOPEN i= ruleEvaluationOrder SQCLOSE )?
+			match(input,PROGRAM,FOLLOW_PROGRAM_in_program564); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:126:12: ( SQOPEN i= ruleEvaluationOrder SQCLOSE )?
 			int alt21=2;
 			int LA21_0 = input.LA(1);
 			if ( (LA21_0==SQOPEN) ) {
@@ -1219,22 +1201,22 @@ public class GOALParser extends Parser {
 			}
 			switch (alt21) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:129:13: SQOPEN i= ruleEvaluationOrder SQCLOSE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:126:13: SQOPEN i= ruleEvaluationOrder SQCLOSE
 					{
-					match(input,SQOPEN,FOLLOW_SQOPEN_in_program592); 
-					pushFollow(FOLLOW_ruleEvaluationOrder_in_program596);
+					match(input,SQOPEN,FOLLOW_SQOPEN_in_program567); 
+					pushFollow(FOLLOW_ruleEvaluationOrder_in_program571);
 					i=ruleEvaluationOrder();
 					state._fsp--;
 
 					gl.setOptionOrder(i);
-					match(input,SQCLOSE,FOLLOW_SQCLOSE_in_program600); 
+					match(input,SQCLOSE,FOLLOW_SQCLOSE_in_program575); 
 					}
 					break;
 
 			}
 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program606); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:130:12: ( macroDef )*
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_program581); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:127:12: ( macroDef )*
 			loop22:
 			while (true) {
 				int alt22=2;
@@ -1245,9 +1227,9 @@ public class GOALParser extends Parser {
 
 				switch (alt22) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:130:12: macroDef
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:127:12: macroDef
 					{
-					pushFollow(FOLLOW_macroDef_in_program608);
+					pushFollow(FOLLOW_macroDef_in_program583);
 					macroDef();
 					state._fsp--;
 
@@ -1259,7 +1241,7 @@ public class GOALParser extends Parser {
 				}
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:130:22: ( programRule[gl] )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:127:22: ( programRule[gl] )*
 			loop23:
 			while (true) {
 				int alt23=2;
@@ -1270,9 +1252,9 @@ public class GOALParser extends Parser {
 
 				switch (alt23) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:130:22: programRule[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:127:22: programRule[gl]
 					{
-					pushFollow(FOLLOW_programRule_in_program611);
+					pushFollow(FOLLOW_programRule_in_program586);
 					programRule(gl);
 					state._fsp--;
 
@@ -1284,7 +1266,7 @@ public class GOALParser extends Parser {
 				}
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program615); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_program590); 
 			}
 
 		}
@@ -1301,18 +1283,18 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "ruleEvaluationOrder"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:134:1: ruleEvaluationOrder returns [int i] : ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:131:1: ruleEvaluationOrder returns [int i] : ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE ) ;
 	public final int ruleEvaluationOrder() throws RecognitionException {
 		int i = 0;
 
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:2: ( ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:4: ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:132:2: ( ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:132:4: ORDER EQUALS ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE )
 			{
-			match(input,ORDER,FOLLOW_ORDER_in_ruleEvaluationOrder632); 
-			match(input,EQUALS,FOLLOW_EQUALS_in_ruleEvaluationOrder634); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:17: ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE )
+			match(input,ORDER,FOLLOW_ORDER_in_ruleEvaluationOrder607); 
+			match(input,EQUALS,FOLLOW_EQUALS_in_ruleEvaluationOrder609); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:132:17: ( LINEAR | LINEARALL | RANDOM | RANDOMALL | ADAPTIVE )
 			int alt24=5;
 			switch ( input.LA(1) ) {
 			case LINEAR:
@@ -1347,37 +1329,37 @@ public class GOALParser extends Parser {
 			}
 			switch (alt24) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:19: LINEAR
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:132:19: LINEAR
 					{
-					match(input,LINEAR,FOLLOW_LINEAR_in_ruleEvaluationOrder638); 
+					match(input,LINEAR,FOLLOW_LINEAR_in_ruleEvaluationOrder613); 
 					i =Abstract_GOALModule.linear;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:136:2: LINEARALL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:133:2: LINEARALL
 					{
-					match(input,LINEARALL,FOLLOW_LINEARALL_in_ruleEvaluationOrder645); 
+					match(input,LINEARALL,FOLLOW_LINEARALL_in_ruleEvaluationOrder620); 
 					i =Abstract_GOALModule.linearall;
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:137:2: RANDOM
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:134:2: RANDOM
 					{
-					match(input,RANDOM,FOLLOW_RANDOM_in_ruleEvaluationOrder651); 
+					match(input,RANDOM,FOLLOW_RANDOM_in_ruleEvaluationOrder626); 
 					i =Abstract_GOALModule.random;
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:138:2: RANDOMALL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:135:2: RANDOMALL
 					{
-					match(input,RANDOMALL,FOLLOW_RANDOMALL_in_ruleEvaluationOrder657); 
+					match(input,RANDOMALL,FOLLOW_RANDOMALL_in_ruleEvaluationOrder632); 
 					i =Abstract_GOALModule.randomall;
 					}
 					break;
 				case 5 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:139:2: ADAPTIVE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:136:2: ADAPTIVE
 					{
-					match(input,ADAPTIVE,FOLLOW_ADAPTIVE_in_ruleEvaluationOrder664); 
+					match(input,ADAPTIVE,FOLLOW_ADAPTIVE_in_ruleEvaluationOrder639); 
 					i = Abstract_GOALModule.adaptive;
 					}
 					break;
@@ -1401,28 +1383,28 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "macroDef"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:142:1: macroDef : HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:139:1: macroDef : HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP ;
 	public final void macroDef() throws RecognitionException {
 		Abstract_Predicate p =null;
 		Abstract_MentalState msc =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:143:2: ( HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:143:4: HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:140:2: ( HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:140:4: HASH DEFINE p= declarationOrCallWithTerms msc= mentalstate STOP
 			{
-			match(input,HASH,FOLLOW_HASH_in_macroDef678); 
-			match(input,DEFINE,FOLLOW_DEFINE_in_macroDef680); 
-			pushFollow(FOLLOW_declarationOrCallWithTerms_in_macroDef684);
+			match(input,HASH,FOLLOW_HASH_in_macroDef653); 
+			match(input,DEFINE,FOLLOW_DEFINE_in_macroDef655); 
+			pushFollow(FOLLOW_declarationOrCallWithTerms_in_macroDef659);
 			p=declarationOrCallWithTerms();
 			state._fsp--;
 
-			pushFollow(FOLLOW_mentalstate_in_macroDef689);
+			pushFollow(FOLLOW_mentalstate_in_macroDef664);
 			msc=mentalstate();
 			state._fsp--;
 
 			PredicateIndicator pi = new PredicateIndicator(p.getFunctor(), p.getTermSize()); macros.put(pi, msc);
 				macro_subs.put(pi, p);
-			match(input,STOP,FOLLOW_STOP_in_macroDef695); 
+			match(input,STOP,FOLLOW_STOP_in_macroDef670); 
 			}
 
 		}
@@ -1439,17 +1421,17 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "programRule"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:1: programRule[Abstract_GOALModule gl] : ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:146:1: programRule[Abstract_GOALModule gl] : ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) ) ;
 	public final void programRule(Abstract_GOALModule gl) throws RecognitionException {
 		Abstract_MentalState lf =null;
 		ArrayList<Abstract_Deed> dl =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:2: ( ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:3: ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:147:2: ( ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:147:3: ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) )
 			{
 			Abstract_ActionRule rule = new Abstract_ActionRule();
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:2: ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:2: ( IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] ) | 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] ) | 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] ) | 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] ) )
 			int alt29=4;
 			switch ( input.LA(1) ) {
 			case IF:
@@ -1514,16 +1496,16 @@ public class GOALParser extends Parser {
 			}
 			switch (alt29) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:3: IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:3: IF lf= mentalstatecond THEN (dl= actions STOP | nestedRules[gl] )
 					{
-					match(input,IF,FOLLOW_IF_in_programRule709); 
-					pushFollow(FOLLOW_mentalstatecond_in_programRule713);
+					match(input,IF,FOLLOW_IF_in_programRule684); 
+					pushFollow(FOLLOW_mentalstatecond_in_programRule688);
 					lf=mentalstatecond();
 					state._fsp--;
 
 					rule.setMentalStateCond(lf);
-					match(input,THEN,FOLLOW_THEN_in_programRule717); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:61: (dl= actions STOP | nestedRules[gl] )
+					match(input,THEN,FOLLOW_THEN_in_programRule692); 
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:61: (dl= actions STOP | nestedRules[gl] )
 					int alt25=2;
 					int LA25_0 = input.LA(1);
 					if ( (LA25_0==CONST||LA25_0==EVENT||LA25_0==INIT||LA25_0==MAIN||LA25_0==VAR||(LA25_0 >= 67 && LA25_0 <= 69)||(LA25_0 >= 71 && LA25_0 <= 72)||LA25_0==74||LA25_0==78||LA25_0==80||LA25_0==86||(LA25_0 >= 88 && LA25_0 <= 93)) ) {
@@ -1541,20 +1523,20 @@ public class GOALParser extends Parser {
 
 					switch (alt25) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:63: dl= actions STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:63: dl= actions STOP
 							{
-							pushFollow(FOLLOW_actions_in_programRule723);
+							pushFollow(FOLLOW_actions_in_programRule698);
 							dl=actions();
 							state._fsp--;
 
 							rule.setBody(dl);
-							match(input,STOP,FOLLOW_STOP_in_programRule727); 
+							match(input,STOP,FOLLOW_STOP_in_programRule702); 
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:101: nestedRules[gl]
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:148:101: nestedRules[gl]
 							{
-							pushFollow(FOLLOW_nestedRules_in_programRule731);
+							pushFollow(FOLLOW_nestedRules_in_programRule706);
 							nestedRules(gl);
 							state._fsp--;
 
@@ -1566,17 +1548,17 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:4: 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:4: 'forall' lf= mentalstatecond DO (dl= actions STOP | nestedRules[gl] )
 					{
-					match(input,77,FOLLOW_77_in_programRule740); 
+					match(input,77,FOLLOW_77_in_programRule715); 
 					rule.setType(ActionRule.foralldo);
-					pushFollow(FOLLOW_mentalstatecond_in_programRule746);
+					pushFollow(FOLLOW_mentalstatecond_in_programRule721);
 					lf=mentalstatecond();
 					state._fsp--;
 
 					rule.setMentalStateCond(lf);
-					match(input,DO,FOLLOW_DO_in_programRule750); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:103: (dl= actions STOP | nestedRules[gl] )
+					match(input,DO,FOLLOW_DO_in_programRule725); 
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:103: (dl= actions STOP | nestedRules[gl] )
 					int alt26=2;
 					int LA26_0 = input.LA(1);
 					if ( (LA26_0==CONST||LA26_0==EVENT||LA26_0==INIT||LA26_0==MAIN||LA26_0==VAR||(LA26_0 >= 67 && LA26_0 <= 69)||(LA26_0 >= 71 && LA26_0 <= 72)||LA26_0==74||LA26_0==78||LA26_0==80||LA26_0==86||(LA26_0 >= 88 && LA26_0 <= 93)) ) {
@@ -1594,20 +1576,20 @@ public class GOALParser extends Parser {
 
 					switch (alt26) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:104: dl= actions STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:104: dl= actions STOP
 							{
-							pushFollow(FOLLOW_actions_in_programRule755);
+							pushFollow(FOLLOW_actions_in_programRule730);
 							dl=actions();
 							state._fsp--;
 
 							rule.setBody(dl);
-							match(input,STOP,FOLLOW_STOP_in_programRule759); 
+							match(input,STOP,FOLLOW_STOP_in_programRule734); 
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:152:142: nestedRules[gl]
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:149:142: nestedRules[gl]
 							{
-							pushFollow(FOLLOW_nestedRules_in_programRule763);
+							pushFollow(FOLLOW_nestedRules_in_programRule738);
 							nestedRules(gl);
 							state._fsp--;
 
@@ -1619,17 +1601,17 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:4: 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:4: 'listall' VAR '<-' mentalstatecond DO ( actions STOP | nestedRules[gl] )
 					{
-					match(input,79,FOLLOW_79_in_programRule771); 
-					match(input,VAR,FOLLOW_VAR_in_programRule773); 
-					match(input,66,FOLLOW_66_in_programRule775); 
-					pushFollow(FOLLOW_mentalstatecond_in_programRule777);
+					match(input,79,FOLLOW_79_in_programRule746); 
+					match(input,VAR,FOLLOW_VAR_in_programRule748); 
+					match(input,66,FOLLOW_66_in_programRule750); 
+					pushFollow(FOLLOW_mentalstatecond_in_programRule752);
 					mentalstatecond();
 					state._fsp--;
 
-					match(input,DO,FOLLOW_DO_in_programRule779); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:42: ( actions STOP | nestedRules[gl] )
+					match(input,DO,FOLLOW_DO_in_programRule754); 
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:42: ( actions STOP | nestedRules[gl] )
 					int alt27=2;
 					int LA27_0 = input.LA(1);
 					if ( (LA27_0==CONST||LA27_0==EVENT||LA27_0==INIT||LA27_0==MAIN||LA27_0==VAR||(LA27_0 >= 67 && LA27_0 <= 69)||(LA27_0 >= 71 && LA27_0 <= 72)||LA27_0==74||LA27_0==78||LA27_0==80||LA27_0==86||(LA27_0 >= 88 && LA27_0 <= 93)) ) {
@@ -1647,19 +1629,19 @@ public class GOALParser extends Parser {
 
 					switch (alt27) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:43: actions STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:43: actions STOP
 							{
-							pushFollow(FOLLOW_actions_in_programRule782);
+							pushFollow(FOLLOW_actions_in_programRule757);
 							actions();
 							state._fsp--;
 
-							match(input,STOP,FOLLOW_STOP_in_programRule784); 
+							match(input,STOP,FOLLOW_STOP_in_programRule759); 
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:153:58: nestedRules[gl]
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:150:58: nestedRules[gl]
 							{
-							pushFollow(FOLLOW_nestedRules_in_programRule788);
+							pushFollow(FOLLOW_nestedRules_in_programRule763);
 							nestedRules(gl);
 							state._fsp--;
 
@@ -1671,17 +1653,17 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:4: 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:4: 'listall' mentalstatecond '->' VAR DO ( actions STOP | nestedRules[gl] )
 					{
-					match(input,79,FOLLOW_79_in_programRule797); 
-					pushFollow(FOLLOW_mentalstatecond_in_programRule799);
+					match(input,79,FOLLOW_79_in_programRule772); 
+					pushFollow(FOLLOW_mentalstatecond_in_programRule774);
 					mentalstatecond();
 					state._fsp--;
 
-					match(input,65,FOLLOW_65_in_programRule801); 
-					match(input,VAR,FOLLOW_VAR_in_programRule803); 
-					match(input,DO,FOLLOW_DO_in_programRule805); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:42: ( actions STOP | nestedRules[gl] )
+					match(input,65,FOLLOW_65_in_programRule776); 
+					match(input,VAR,FOLLOW_VAR_in_programRule778); 
+					match(input,DO,FOLLOW_DO_in_programRule780); 
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:42: ( actions STOP | nestedRules[gl] )
 					int alt28=2;
 					int LA28_0 = input.LA(1);
 					if ( (LA28_0==CONST||LA28_0==EVENT||LA28_0==INIT||LA28_0==MAIN||LA28_0==VAR||(LA28_0 >= 67 && LA28_0 <= 69)||(LA28_0 >= 71 && LA28_0 <= 72)||LA28_0==74||LA28_0==78||LA28_0==80||LA28_0==86||(LA28_0 >= 88 && LA28_0 <= 93)) ) {
@@ -1699,19 +1681,19 @@ public class GOALParser extends Parser {
 
 					switch (alt28) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:43: actions STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:43: actions STOP
 							{
-							pushFollow(FOLLOW_actions_in_programRule808);
+							pushFollow(FOLLOW_actions_in_programRule783);
 							actions();
 							state._fsp--;
 
-							match(input,STOP,FOLLOW_STOP_in_programRule810); 
+							match(input,STOP,FOLLOW_STOP_in_programRule785); 
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:58: nestedRules[gl]
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:151:58: nestedRules[gl]
 							{
-							pushFollow(FOLLOW_nestedRules_in_programRule814);
+							pushFollow(FOLLOW_nestedRules_in_programRule789);
 							nestedRules(gl);
 							state._fsp--;
 
@@ -1742,14 +1724,14 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "nestedRules"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:157:1: nestedRules[Abstract_GOALModule gl] : CURLYOPEN ( programRule[gl] )+ CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:154:1: nestedRules[Abstract_GOALModule gl] : CURLYOPEN ( programRule[gl] )+ CURLYCLOSE ;
 	public final void nestedRules(Abstract_GOALModule gl) throws RecognitionException {
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:2: ( CURLYOPEN ( programRule[gl] )+ CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:4: CURLYOPEN ( programRule[gl] )+ CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:2: ( CURLYOPEN ( programRule[gl] )+ CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:4: CURLYOPEN ( programRule[gl] )+ CURLYCLOSE
 			{
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_nestedRules832); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:14: ( programRule[gl] )+
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_nestedRules807); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:14: ( programRule[gl] )+
 			int cnt30=0;
 			loop30:
 			while (true) {
@@ -1761,9 +1743,9 @@ public class GOALParser extends Parser {
 
 				switch (alt30) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:158:14: programRule[gl]
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:155:14: programRule[gl]
 					{
-					pushFollow(FOLLOW_programRule_in_nestedRules834);
+					pushFollow(FOLLOW_programRule_in_nestedRules809);
 					programRule(gl);
 					state._fsp--;
 
@@ -1778,7 +1760,7 @@ public class GOALParser extends Parser {
 				cnt30++;
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_nestedRules838); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_nestedRules813); 
 			}
 
 		}
@@ -1795,7 +1777,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "mentalstatecond"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:162:1: mentalstatecond returns [Abstract_MentalState lf] : ma= basicCondition ( COMMA ms2= basicCondition )* ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:159:1: mentalstatecond returns [Abstract_MentalState lf] : ma= basicCondition ( COMMA ms2= basicCondition )* ;
 	public final Abstract_MentalState mentalstatecond() throws RecognitionException {
 		Abstract_MentalState lf = null;
 
@@ -1804,15 +1786,15 @@ public class GOALParser extends Parser {
 		Abstract_MentalState ms2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:2: (ma= basicCondition ( COMMA ms2= basicCondition )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:163:4: ma= basicCondition ( COMMA ms2= basicCondition )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:2: (ma= basicCondition ( COMMA ms2= basicCondition )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:160:4: ma= basicCondition ( COMMA ms2= basicCondition )*
 			{
-			pushFollow(FOLLOW_basicCondition_in_mentalstatecond856);
+			pushFollow(FOLLOW_basicCondition_in_mentalstatecond831);
 			ma=basicCondition();
 			state._fsp--;
 
 			Abstract_MentalState ms =  ma;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:2: ( COMMA ms2= basicCondition )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:2: ( COMMA ms2= basicCondition )*
 			loop31:
 			while (true) {
 				int alt31=2;
@@ -1823,10 +1805,10 @@ public class GOALParser extends Parser {
 
 				switch (alt31) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:3: COMMA ms2= basicCondition
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:161:3: COMMA ms2= basicCondition
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_mentalstatecond862); 
-					pushFollow(FOLLOW_basicCondition_in_mentalstatecond866);
+					match(input,COMMA,FOLLOW_COMMA_in_mentalstatecond837); 
+					pushFollow(FOLLOW_basicCondition_in_mentalstatecond841);
 					ms2=basicCondition();
 					state._fsp--;
 
@@ -1857,7 +1839,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "mentalstate"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:1: mentalstate returns [Abstract_MentalState ms] : (ma= mentalatom | NOT OPEN mentalatom CLOSE | TRUE );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:164:1: mentalstate returns [Abstract_MentalState ms] : (ma= mentalatom | NOT OPEN mentalatom CLOSE | TRUE );
 	public final Abstract_MentalState mentalstate() throws RecognitionException {
 		Abstract_MentalState ms = null;
 
@@ -1865,7 +1847,7 @@ public class GOALParser extends Parser {
 		Abstract_MentalState ma =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:168:2: (ma= mentalatom | NOT OPEN mentalatom CLOSE | TRUE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:2: (ma= mentalatom | NOT OPEN mentalatom CLOSE | TRUE )
 			int alt32=3;
 			switch ( input.LA(1) ) {
 			case AGOAL:
@@ -1901,9 +1883,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt32) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:168:4: ma= mentalatom
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:165:4: ma= mentalatom
 					{
-					pushFollow(FOLLOW_mentalatom_in_mentalstate889);
+					pushFollow(FOLLOW_mentalatom_in_mentalstate864);
 					ma=mentalatom();
 					state._fsp--;
 
@@ -1911,21 +1893,21 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:169:4: NOT OPEN mentalatom CLOSE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:166:4: NOT OPEN mentalatom CLOSE
 					{
-					match(input,NOT,FOLLOW_NOT_in_mentalstate896); 
-					match(input,OPEN,FOLLOW_OPEN_in_mentalstate898); 
-					pushFollow(FOLLOW_mentalatom_in_mentalstate900);
+					match(input,NOT,FOLLOW_NOT_in_mentalstate871); 
+					match(input,OPEN,FOLLOW_OPEN_in_mentalstate873); 
+					pushFollow(FOLLOW_mentalatom_in_mentalstate875);
 					mentalatom();
 					state._fsp--;
 
-					match(input,CLOSE,FOLLOW_CLOSE_in_mentalstate902); 
+					match(input,CLOSE,FOLLOW_CLOSE_in_mentalstate877); 
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:170:4: TRUE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:167:4: TRUE
 					{
-					match(input,TRUE,FOLLOW_TRUE_in_mentalstate907); 
+					match(input,TRUE,FOLLOW_TRUE_in_mentalstate882); 
 					ms = new Abstract_MentalState();
 					}
 					break;
@@ -1946,7 +1928,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "basicCondition"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:173:1: basicCondition returns [Abstract_MentalState ms] : (ms1= mentalstate |p= declarationOrCallWithTerms );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:170:1: basicCondition returns [Abstract_MentalState ms] : (ms1= mentalstate |p= declarationOrCallWithTerms );
 	public final Abstract_MentalState basicCondition() throws RecognitionException {
 		Abstract_MentalState ms = null;
 
@@ -1955,7 +1937,7 @@ public class GOALParser extends Parser {
 		Abstract_Predicate p =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:174:2: (ms1= mentalstate |p= declarationOrCallWithTerms )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:171:2: (ms1= mentalstate |p= declarationOrCallWithTerms )
 			int alt33=2;
 			int LA33_0 = input.LA(1);
 			if ( (LA33_0==CONST) ) {
@@ -1992,9 +1974,9 @@ public class GOALParser extends Parser {
 
 			switch (alt33) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:174:4: ms1= mentalstate
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:171:4: ms1= mentalstate
 					{
-					pushFollow(FOLLOW_mentalstate_in_basicCondition927);
+					pushFollow(FOLLOW_mentalstate_in_basicCondition902);
 					ms1=mentalstate();
 					state._fsp--;
 
@@ -2002,9 +1984,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:175:4: p= declarationOrCallWithTerms
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:172:4: p= declarationOrCallWithTerms
 					{
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_basicCondition936);
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_basicCondition911);
 					p=declarationOrCallWithTerms();
 					state._fsp--;
 
@@ -2032,7 +2014,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "mentalatom"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:182:1: mentalatom returns [Abstract_MentalState ms] : ( selector STOP )? b= mentalOperator tl= atom_parameters ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:179:1: mentalatom returns [Abstract_MentalState ms] : ( selector STOP )? b= mentalOperator tl= atom_parameters ;
 	public final Abstract_MentalState mentalatom() throws RecognitionException {
 		Abstract_MentalState ms = null;
 
@@ -2041,10 +2023,10 @@ public class GOALParser extends Parser {
 		Abstract_LogExpr tl =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:183:2: ( ( selector STOP )? b= mentalOperator tl= atom_parameters )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:184:2: ( selector STOP )? b= mentalOperator tl= atom_parameters
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:180:2: ( ( selector STOP )? b= mentalOperator tl= atom_parameters )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:181:2: ( selector STOP )? b= mentalOperator tl= atom_parameters
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:184:2: ( selector STOP )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:181:2: ( selector STOP )?
 			int alt34=2;
 			int LA34_0 = input.LA(1);
 			if ( (LA34_0==CONST||LA34_0==VAR||(LA34_0 >= 68 && LA34_0 <= 69)||LA34_0==88||(LA34_0 >= 91 && LA34_0 <= 93)) ) {
@@ -2052,23 +2034,23 @@ public class GOALParser extends Parser {
 			}
 			switch (alt34) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:184:3: selector STOP
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:181:3: selector STOP
 					{
-					pushFollow(FOLLOW_selector_in_mentalatom956);
+					pushFollow(FOLLOW_selector_in_mentalatom931);
 					selector();
 					state._fsp--;
 
-					match(input,STOP,FOLLOW_STOP_in_mentalatom958); 
+					match(input,STOP,FOLLOW_STOP_in_mentalatom933); 
 					}
 					break;
 
 			}
 
-			pushFollow(FOLLOW_mentalOperator_in_mentalatom964);
+			pushFollow(FOLLOW_mentalOperator_in_mentalatom939);
 			b=mentalOperator();
 			state._fsp--;
 
-			pushFollow(FOLLOW_atom_parameters_in_mentalatom968);
+			pushFollow(FOLLOW_atom_parameters_in_mentalatom943);
 			tl=atom_parameters();
 			state._fsp--;
 
@@ -2099,7 +2081,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "atom_parameters"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:197:1: atom_parameters returns [Abstract_LogExpr ts] : OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:194:1: atom_parameters returns [Abstract_LogExpr ts] : OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE ;
 	public final Abstract_LogExpr atom_parameters() throws RecognitionException {
 		Abstract_LogExpr ts = null;
 
@@ -2109,11 +2091,11 @@ public class GOALParser extends Parser {
 		Abstract_LogExpr ap =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:198:2: ( OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:198:4: OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:195:2: ( OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:195:4: OPEN (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters ) CLOSE
 			{
-			match(input,OPEN,FOLLOW_OPEN_in_atom_parameters987); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:198:9: (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters )
+			match(input,OPEN,FOLLOW_OPEN_in_atom_parameters962); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:195:9: (t= atom ( COMMA t1= atom | SEMI t1= atom )* |ap= atom_parameters )
 			int alt36=2;
 			int LA36_0 = input.LA(1);
 			if ( (LA36_0==CONST||LA36_0==MINUS||(LA36_0 >= NOT && LA36_0 <= NUMBER)||(LA36_0 >= UNNAMEDVAR && LA36_0 <= VAR)) ) {
@@ -2131,14 +2113,14 @@ public class GOALParser extends Parser {
 
 			switch (alt36) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:199:3: t= atom ( COMMA t1= atom | SEMI t1= atom )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:196:3: t= atom ( COMMA t1= atom | SEMI t1= atom )*
 					{
-					pushFollow(FOLLOW_atom_in_atom_parameters996);
+					pushFollow(FOLLOW_atom_in_atom_parameters971);
 					t=atom();
 					state._fsp--;
 
 					Abstract_LogExpr tl = new Abstract_LogExpr(Abstract_LogExpr.none, t);
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:200:2: ( COMMA t1= atom | SEMI t1= atom )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:197:2: ( COMMA t1= atom | SEMI t1= atom )*
 					loop35:
 					while (true) {
 						int alt35=3;
@@ -2152,10 +2134,10 @@ public class GOALParser extends Parser {
 
 						switch (alt35) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:200:3: COMMA t1= atom
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:197:3: COMMA t1= atom
 							{
-							match(input,COMMA,FOLLOW_COMMA_in_atom_parameters1002); 
-							pushFollow(FOLLOW_atom_in_atom_parameters1007);
+							match(input,COMMA,FOLLOW_COMMA_in_atom_parameters977); 
+							pushFollow(FOLLOW_atom_in_atom_parameters982);
 							t1=atom();
 							state._fsp--;
 
@@ -2163,10 +2145,10 @@ public class GOALParser extends Parser {
 							}
 							break;
 						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:201:4: SEMI t1= atom
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:198:4: SEMI t1= atom
 							{
-							match(input,SEMI,FOLLOW_SEMI_in_atom_parameters1014); 
-							pushFollow(FOLLOW_atom_in_atom_parameters1021);
+							match(input,SEMI,FOLLOW_SEMI_in_atom_parameters989); 
+							pushFollow(FOLLOW_atom_in_atom_parameters996);
 							t1=atom();
 							state._fsp--;
 
@@ -2183,9 +2165,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:203:5: ap= atom_parameters
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:200:5: ap= atom_parameters
 					{
-					pushFollow(FOLLOW_atom_parameters_in_atom_parameters1038);
+					pushFollow(FOLLOW_atom_parameters_in_atom_parameters1013);
 					ap=atom_parameters();
 					state._fsp--;
 
@@ -2195,7 +2177,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,CLOSE,FOLLOW_CLOSE_in_atom_parameters1046); 
+			match(input,CLOSE,FOLLOW_CLOSE_in_atom_parameters1021); 
 			}
 
 		}
@@ -2213,7 +2195,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "mentalOperator"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:208:1: mentalOperator returns [byte b] : (op= BEL |op= GOAL |op= AGOAL |op= GOALA );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:205:1: mentalOperator returns [byte b] : (op= BEL |op= GOAL |op= AGOAL |op= GOALA );
 	public final byte mentalOperator() throws RecognitionException {
 		byte b = 0;
 
@@ -2221,7 +2203,7 @@ public class GOALParser extends Parser {
 		Token op=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:209:2: (op= BEL |op= GOAL |op= AGOAL |op= GOALA )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:206:2: (op= BEL |op= GOAL |op= AGOAL |op= GOALA )
 			int alt37=4;
 			switch ( input.LA(1) ) {
 			case BEL:
@@ -2251,30 +2233,30 @@ public class GOALParser extends Parser {
 			}
 			switch (alt37) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:209:4: op= BEL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:206:4: op= BEL
 					{
-					op=(Token)match(input,BEL,FOLLOW_BEL_in_mentalOperator1067); 
+					op=(Token)match(input,BEL,FOLLOW_BEL_in_mentalOperator1042); 
 					b = Abstract_BaseAILStructure.AILBel;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:210:4: op= GOAL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:207:4: op= GOAL
 					{
-					op=(Token)match(input,GOAL,FOLLOW_GOAL_in_mentalOperator1078); 
+					op=(Token)match(input,GOAL,FOLLOW_GOAL_in_mentalOperator1053); 
 					b = Abstract_BaseAILStructure.AILGoal;
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:211:4: op= AGOAL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:208:4: op= AGOAL
 					{
-					op=(Token)match(input,AGOAL,FOLLOW_AGOAL_in_mentalOperator1089); 
+					op=(Token)match(input,AGOAL,FOLLOW_AGOAL_in_mentalOperator1064); 
 					b = Abstract_MentalAtom.agoal;
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:212:4: op= GOALA
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:209:4: op= GOALA
 					{
-					op=(Token)match(input,GOALA,FOLLOW_GOALA_in_mentalOperator1100); 
+					op=(Token)match(input,GOALA,FOLLOW_GOALA_in_mentalOperator1075); 
 					b = Abstract_MentalAtom.goala;
 					}
 					break;
@@ -2295,7 +2277,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "actions"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:215:1: actions returns [ArrayList<Abstract_Deed> dl] :a= action ( PLUS a1= action )* ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:212:1: actions returns [ArrayList<Abstract_Deed> dl] :a= action ( PLUS a1= action )* ;
 	public final ArrayList<Abstract_Deed> actions() throws RecognitionException {
 		ArrayList<Abstract_Deed> dl = null;
 
@@ -2304,16 +2286,16 @@ public class GOALParser extends Parser {
 		Abstract_Deed a1 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:216:2: (a= action ( PLUS a1= action )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:216:4: a= action ( PLUS a1= action )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:213:2: (a= action ( PLUS a1= action )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:213:4: a= action ( PLUS a1= action )*
 			{
 			dl = new ArrayList<Abstract_Deed>();
-			pushFollow(FOLLOW_action_in_actions1123);
+			pushFollow(FOLLOW_action_in_actions1098);
 			a=action();
 			state._fsp--;
 
 			dl.add(a);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:2: ( PLUS a1= action )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:215:2: ( PLUS a1= action )*
 			loop38:
 			while (true) {
 				int alt38=2;
@@ -2324,10 +2306,10 @@ public class GOALParser extends Parser {
 
 				switch (alt38) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:3: PLUS a1= action
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:215:3: PLUS a1= action
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_actions1130); 
-					pushFollow(FOLLOW_action_in_actions1134);
+					match(input,PLUS,FOLLOW_PLUS_in_actions1105); 
+					pushFollow(FOLLOW_action_in_actions1109);
 					a1=action();
 					state._fsp--;
 
@@ -2357,7 +2339,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "action"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:221:1: action returns [Abstract_Deed d] : ( ( selector STOP )? d1= actionOperator tl= parameters |op= 'exit-module' |op= 'log' |op= INIT |op= MAIN |op= EVENT |p= declarationOrCallWithTerms );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:218:1: action returns [Abstract_Deed d] : ( ( selector STOP )? d1= actionOperator tl= parameters |op= 'exit-module' |op= 'log' |op= INIT |op= MAIN |op= EVENT |p= declarationOrCallWithTerms );
 	public final Abstract_Deed action() throws RecognitionException {
 		Abstract_Deed d = null;
 
@@ -2368,7 +2350,7 @@ public class GOALParser extends Parser {
 		Abstract_Predicate p =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:2: ( ( selector STOP )? d1= actionOperator tl= parameters |op= 'exit-module' |op= 'log' |op= INIT |op= MAIN |op= EVENT |p= declarationOrCallWithTerms )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:2: ( ( selector STOP )? d1= actionOperator tl= parameters |op= 'exit-module' |op= 'log' |op= INIT |op= MAIN |op= EVENT |p= declarationOrCallWithTerms )
 			int alt40=7;
 			switch ( input.LA(1) ) {
 			case CONST:
@@ -2485,9 +2467,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt40) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:4: ( selector STOP )? d1= actionOperator tl= parameters
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:4: ( selector STOP )? d1= actionOperator tl= parameters
 					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:4: ( selector STOP )?
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:4: ( selector STOP )?
 					int alt39=2;
 					int LA39_0 = input.LA(1);
 					if ( (LA39_0==CONST||LA39_0==VAR||(LA39_0 >= 68 && LA39_0 <= 69)||LA39_0==88||(LA39_0 >= 91 && LA39_0 <= 93)) ) {
@@ -2495,23 +2477,23 @@ public class GOALParser extends Parser {
 					}
 					switch (alt39) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:5: selector STOP
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:219:5: selector STOP
 							{
-							pushFollow(FOLLOW_selector_in_action1154);
+							pushFollow(FOLLOW_selector_in_action1129);
 							selector();
 							state._fsp--;
 
-							match(input,STOP,FOLLOW_STOP_in_action1156); 
+							match(input,STOP,FOLLOW_STOP_in_action1131); 
 							}
 							break;
 
 					}
 
-					pushFollow(FOLLOW_actionOperator_in_action1162);
+					pushFollow(FOLLOW_actionOperator_in_action1137);
 					d1=actionOperator();
 					state._fsp--;
 
-					pushFollow(FOLLOW_parameters_in_action1166);
+					pushFollow(FOLLOW_parameters_in_action1141);
 					tl=parameters();
 					state._fsp--;
 
@@ -2519,39 +2501,39 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:224:4: op= 'exit-module'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:221:4: op= 'exit-module'
 					{
-					op=(Token)match(input,74,FOLLOW_74_in_action1178); 
+					op=(Token)match(input,74,FOLLOW_74_in_action1153); 
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:4: op= 'log'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:222:4: op= 'log'
 					{
-					op=(Token)match(input,80,FOLLOW_80_in_action1187); 
+					op=(Token)match(input,80,FOLLOW_80_in_action1162); 
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:4: op= INIT
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:223:4: op= INIT
 					{
-					op=(Token)match(input,INIT,FOLLOW_INIT_in_action1196); 
+					op=(Token)match(input,INIT,FOLLOW_INIT_in_action1171); 
 					}
 					break;
 				case 5 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:227:4: op= MAIN
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:224:4: op= MAIN
 					{
-					op=(Token)match(input,MAIN,FOLLOW_MAIN_in_action1205); 
+					op=(Token)match(input,MAIN,FOLLOW_MAIN_in_action1180); 
 					}
 					break;
 				case 6 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:228:4: op= EVENT
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:225:4: op= EVENT
 					{
-					op=(Token)match(input,EVENT,FOLLOW_EVENT_in_action1214); 
+					op=(Token)match(input,EVENT,FOLLOW_EVENT_in_action1189); 
 					}
 					break;
 				case 7 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:229:4: p= declarationOrCallWithTerms
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:226:4: p= declarationOrCallWithTerms
 					{
-					pushFollow(FOLLOW_declarationOrCallWithTerms_in_action1221);
+					pushFollow(FOLLOW_declarationOrCallWithTerms_in_action1196);
 					p=declarationOrCallWithTerms();
 					state._fsp--;
 
@@ -2575,7 +2557,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "actionOperator"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:232:1: actionOperator returns [Abstract_Deed d] : (op= 'adopt' |op= 'drop' |op= 'insert' |op= 'delete' |op= 'send' |op= 'sendonce' |op= 'print' |op= 'log' );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:229:1: actionOperator returns [Abstract_Deed d] : (op= 'adopt' |op= 'drop' |op= 'insert' |op= 'delete' |op= 'send' |op= 'sendonce' |op= 'print' |op= 'log' );
 	public final Abstract_Deed actionOperator() throws RecognitionException {
 		Abstract_Deed d = null;
 
@@ -2583,7 +2565,7 @@ public class GOALParser extends Parser {
 		Token op=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:2: (op= 'adopt' |op= 'drop' |op= 'insert' |op= 'delete' |op= 'send' |op= 'sendonce' |op= 'print' |op= 'log' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:2: (op= 'adopt' |op= 'drop' |op= 'insert' |op= 'delete' |op= 'send' |op= 'sendonce' |op= 'print' |op= 'log' )
 			int alt41=8;
 			switch ( input.LA(1) ) {
 			case 67:
@@ -2633,56 +2615,56 @@ public class GOALParser extends Parser {
 			}
 			switch (alt41) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:4: op= 'adopt'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:230:4: op= 'adopt'
 					{
-					op=(Token)match(input,67,FOLLOW_67_in_actionOperator1242); 
+					op=(Token)match(input,67,FOLLOW_67_in_actionOperator1217); 
 					d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILGoal);
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:234:4: op= 'drop'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:231:4: op= 'drop'
 					{
-					op=(Token)match(input,72,FOLLOW_72_in_actionOperator1253); 
+					op=(Token)match(input,72,FOLLOW_72_in_actionOperator1228); 
 					d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILGoal);
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:4: op= 'insert'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:232:4: op= 'insert'
 					{
-					op=(Token)match(input,78,FOLLOW_78_in_actionOperator1264); 
+					op=(Token)match(input,78,FOLLOW_78_in_actionOperator1239); 
 					d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:236:4: op= 'delete'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:233:4: op= 'delete'
 					{
-					op=(Token)match(input,71,FOLLOW_71_in_actionOperator1275); 
+					op=(Token)match(input,71,FOLLOW_71_in_actionOperator1250); 
 					d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILBel);
 					}
 					break;
 				case 5 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:237:4: op= 'send'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:234:4: op= 'send'
 					{
-					op=(Token)match(input,89,FOLLOW_89_in_actionOperator1287); 
+					op=(Token)match(input,89,FOLLOW_89_in_actionOperator1262); 
 					}
 					break;
 				case 6 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:238:4: op= 'sendonce'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:235:4: op= 'sendonce'
 					{
-					op=(Token)match(input,90,FOLLOW_90_in_actionOperator1296); 
+					op=(Token)match(input,90,FOLLOW_90_in_actionOperator1271); 
 					}
 					break;
 				case 7 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:239:4: op= 'print'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:236:4: op= 'print'
 					{
-					op=(Token)match(input,86,FOLLOW_86_in_actionOperator1305); 
+					op=(Token)match(input,86,FOLLOW_86_in_actionOperator1280); 
 					d = new Abstract_Deed(new Abstract_PrintAction());
 					}
 					break;
 				case 8 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:240:4: op= 'log'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:237:4: op= 'log'
 					{
-					op=(Token)match(input,80,FOLLOW_80_in_actionOperator1316); 
+					op=(Token)match(input,80,FOLLOW_80_in_actionOperator1291); 
 					}
 					break;
 
@@ -2702,12 +2684,12 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "selector"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:244:1: selector : ( word |op= 'all' |op= 'allother' |op= 'self' |op= 'some' |op= 'someother' |op= 'this' );
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:241:1: selector : ( word |op= 'all' |op= 'allother' |op= 'self' |op= 'some' |op= 'someother' |op= 'this' );
 	public final void selector() throws RecognitionException {
 		Token op=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:245:2: ( word |op= 'all' |op= 'allother' |op= 'self' |op= 'some' |op= 'someother' |op= 'this' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:242:2: ( word |op= 'all' |op= 'allother' |op= 'self' |op= 'some' |op= 'someother' |op= 'this' )
 			int alt42=7;
 			switch ( input.LA(1) ) {
 			case CONST:
@@ -2753,48 +2735,48 @@ public class GOALParser extends Parser {
 			}
 			switch (alt42) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:245:4: word
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:242:4: word
 					{
-					pushFollow(FOLLOW_word_in_selector1328);
+					pushFollow(FOLLOW_word_in_selector1303);
 					word();
 					state._fsp--;
 
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:4: op= 'all'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:243:4: op= 'all'
 					{
-					op=(Token)match(input,68,FOLLOW_68_in_selector1337); 
+					op=(Token)match(input,68,FOLLOW_68_in_selector1312); 
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:247:4: op= 'allother'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:244:4: op= 'allother'
 					{
-					op=(Token)match(input,69,FOLLOW_69_in_selector1346); 
+					op=(Token)match(input,69,FOLLOW_69_in_selector1321); 
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:4: op= 'self'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:245:4: op= 'self'
 					{
-					op=(Token)match(input,88,FOLLOW_88_in_selector1355); 
+					op=(Token)match(input,88,FOLLOW_88_in_selector1330); 
 					}
 					break;
 				case 5 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:249:4: op= 'some'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:246:4: op= 'some'
 					{
-					op=(Token)match(input,91,FOLLOW_91_in_selector1364); 
+					op=(Token)match(input,91,FOLLOW_91_in_selector1339); 
 					}
 					break;
 				case 6 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:250:4: op= 'someother'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:247:4: op= 'someother'
 					{
-					op=(Token)match(input,92,FOLLOW_92_in_selector1373); 
+					op=(Token)match(input,92,FOLLOW_92_in_selector1348); 
 					}
 					break;
 				case 7 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:251:4: op= 'this'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:248:4: op= 'this'
 					{
-					op=(Token)match(input,93,FOLLOW_93_in_selector1382); 
+					op=(Token)match(input,93,FOLLOW_93_in_selector1357); 
 					}
 					break;
 
@@ -2813,7 +2795,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "actionSpecs"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:254:1: actionSpecs returns [ArrayList<Abstract_ActionSpec> as] : ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:251:1: actionSpecs returns [ArrayList<Abstract_ActionSpec> as] : ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE ;
 	public final ArrayList<Abstract_ActionSpec> actionSpecs() throws RecognitionException {
 		ArrayList<Abstract_ActionSpec> as = null;
 
@@ -2821,13 +2803,13 @@ public class GOALParser extends Parser {
 		Abstract_ActionSpec a =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:255:2: ( ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:255:4: ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:252:2: ( ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:252:4: ACTIONSPEC CURLYOPEN (a= actionSpec )+ CURLYCLOSE
 			{
 			as = new ArrayList<Abstract_ActionSpec>();
-			match(input,ACTIONSPEC,FOLLOW_ACTIONSPEC_in_actionSpecs1401); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionSpecs1403); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:256:23: (a= actionSpec )+
+			match(input,ACTIONSPEC,FOLLOW_ACTIONSPEC_in_actionSpecs1376); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionSpecs1378); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:253:23: (a= actionSpec )+
 			int cnt43=0;
 			loop43:
 			while (true) {
@@ -2839,9 +2821,9 @@ public class GOALParser extends Parser {
 
 				switch (alt43) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:256:24: a= actionSpec
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:253:24: a= actionSpec
 					{
-					pushFollow(FOLLOW_actionSpec_in_actionSpecs1408);
+					pushFollow(FOLLOW_actionSpec_in_actionSpecs1383);
 					a=actionSpec();
 					state._fsp--;
 
@@ -2857,7 +2839,7 @@ public class GOALParser extends Parser {
 				cnt43++;
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionSpecs1414); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionSpecs1389); 
 			}
 
 		}
@@ -2875,7 +2857,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "actionSpec"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:259:1: actionSpec returns [Abstract_ActionSpec as] :cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:256:1: actionSpec returns [Abstract_ActionSpec as] :cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE ;
 	public final Abstract_ActionSpec actionSpec() throws RecognitionException {
 		Abstract_ActionSpec as = null;
 
@@ -2885,15 +2867,15 @@ public class GOALParser extends Parser {
 		Abstract_LogicalFormula post =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:260:2: (cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:260:4: cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:257:2: (cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:257:4: cap= declarationOrCallWithTerms ( INTERNAL | EXTERNAL )? CURLYOPEN pre= precondition post= postcondition CURLYCLOSE
 			{
 			boolean internal=false;
-			pushFollow(FOLLOW_declarationOrCallWithTerms_in_actionSpec1433);
+			pushFollow(FOLLOW_declarationOrCallWithTerms_in_actionSpec1408);
 			cap=declarationOrCallWithTerms();
 			state._fsp--;
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:260:61: ( INTERNAL | EXTERNAL )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:257:61: ( INTERNAL | EXTERNAL )?
 			int alt44=3;
 			int LA44_0 = input.LA(1);
 			if ( (LA44_0==INTERNAL) ) {
@@ -2904,31 +2886,31 @@ public class GOALParser extends Parser {
 			}
 			switch (alt44) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:260:62: INTERNAL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:257:62: INTERNAL
 					{
-					match(input,INTERNAL,FOLLOW_INTERNAL_in_actionSpec1436); 
+					match(input,INTERNAL,FOLLOW_INTERNAL_in_actionSpec1411); 
 					internal = true;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:260:92: EXTERNAL
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:257:92: EXTERNAL
 					{
-					match(input,EXTERNAL,FOLLOW_EXTERNAL_in_actionSpec1442); 
+					match(input,EXTERNAL,FOLLOW_EXTERNAL_in_actionSpec1417); 
 					}
 					break;
 
 			}
 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionSpec1448); 
-			pushFollow(FOLLOW_precondition_in_actionSpec1452);
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_actionSpec1423); 
+			pushFollow(FOLLOW_precondition_in_actionSpec1427);
 			pre=precondition();
 			state._fsp--;
 
-			pushFollow(FOLLOW_postcondition_in_actionSpec1456);
+			pushFollow(FOLLOW_postcondition_in_actionSpec1431);
 			post=postcondition();
 			state._fsp--;
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionSpec1458); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_actionSpec1433); 
 			as = new Abstract_ActionSpec(cap, pre, post, internal);
 			}
 
@@ -2947,7 +2929,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "precondition"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:265:1: precondition returns [Abstract_LogicalFormula f] : PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:262:1: precondition returns [Abstract_LogicalFormula f] : PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE ;
 	public final Abstract_LogicalFormula precondition() throws RecognitionException {
 		Abstract_LogicalFormula f = null;
 
@@ -2955,12 +2937,12 @@ public class GOALParser extends Parser {
 		ArrayList<Abstract_LogicalFormula> tl =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:266:2: ( PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:266:4: PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:263:2: ( PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:263:4: PRE CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE
 			{
-			match(input,PRE,FOLLOW_PRE_in_precondition1476); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_precondition1478); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:266:19: ( TRUE |tl= no_bracket_literals )
+			match(input,PRE,FOLLOW_PRE_in_precondition1451); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_precondition1453); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:263:19: ( TRUE |tl= no_bracket_literals )
 			int alt45=2;
 			int LA45_0 = input.LA(1);
 			if ( (LA45_0==TRUE) ) {
@@ -2978,16 +2960,16 @@ public class GOALParser extends Parser {
 
 			switch (alt45) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:266:20: TRUE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:263:20: TRUE
 					{
-					match(input,TRUE,FOLLOW_TRUE_in_precondition1482); 
+					match(input,TRUE,FOLLOW_TRUE_in_precondition1457); 
 					f = new Abstract_LogExpr();
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:267:4: tl= no_bracket_literals
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:264:4: tl= no_bracket_literals
 					{
-					pushFollow(FOLLOW_no_bracket_literals_in_precondition1492);
+					pushFollow(FOLLOW_no_bracket_literals_in_precondition1467);
 					tl=no_bracket_literals();
 					state._fsp--;
 
@@ -2997,7 +2979,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_precondition1497); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_precondition1472); 
 			}
 
 		}
@@ -3015,7 +2997,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "postcondition"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:270:1: postcondition returns [Abstract_LogicalFormula f] : POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:267:1: postcondition returns [Abstract_LogicalFormula f] : POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE ;
 	public final Abstract_LogicalFormula postcondition() throws RecognitionException {
 		Abstract_LogicalFormula f = null;
 
@@ -3023,12 +3005,12 @@ public class GOALParser extends Parser {
 		ArrayList<Abstract_LogicalFormula> tl =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:271:2: ( POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:271:4: POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:268:2: ( POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:268:4: POST CURLYOPEN ( TRUE |tl= no_bracket_literals ) CURLYCLOSE
 			{
-			match(input,POST,FOLLOW_POST_in_postcondition1512); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_postcondition1515); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:272:2: ( TRUE |tl= no_bracket_literals )
+			match(input,POST,FOLLOW_POST_in_postcondition1487); 
+			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_postcondition1490); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:269:2: ( TRUE |tl= no_bracket_literals )
 			int alt46=2;
 			int LA46_0 = input.LA(1);
 			if ( (LA46_0==TRUE) ) {
@@ -3046,16 +3028,16 @@ public class GOALParser extends Parser {
 
 			switch (alt46) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:272:3: TRUE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:269:3: TRUE
 					{
-					match(input,TRUE,FOLLOW_TRUE_in_postcondition1519); 
+					match(input,TRUE,FOLLOW_TRUE_in_postcondition1494); 
 					f = new Abstract_LogExpr();
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:273:4: tl= no_bracket_literals
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:270:4: tl= no_bracket_literals
 					{
-					pushFollow(FOLLOW_no_bracket_literals_in_postcondition1529);
+					pushFollow(FOLLOW_no_bracket_literals_in_postcondition1504);
 					tl=no_bracket_literals();
 					state._fsp--;
 
@@ -3066,7 +3048,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_postcondition1538); 
+			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_postcondition1513); 
 			}
 
 		}
@@ -3084,7 +3066,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "declaration"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:279:1: declaration returns [Abstract_Predicate p] : f= id (tl= parameters )? ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:276:1: declaration returns [Abstract_Predicate p] : f= id (tl= parameters )? ;
 	public final Abstract_Predicate declaration() throws RecognitionException {
 		Abstract_Predicate p = null;
 
@@ -3093,15 +3075,15 @@ public class GOALParser extends Parser {
 		ArrayList<Abstract_Term> tl =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:280:2: (f= id (tl= parameters )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:280:4: f= id (tl= parameters )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:277:2: (f= id (tl= parameters )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:277:4: f= id (tl= parameters )?
 			{
-			pushFollow(FOLLOW_id_in_declaration1555);
+			pushFollow(FOLLOW_id_in_declaration1530);
 			f=id();
 			state._fsp--;
 
 			p= new Abstract_Predicate(f);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:280:41: (tl= parameters )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:277:41: (tl= parameters )?
 			int alt47=2;
 			int LA47_0 = input.LA(1);
 			if ( (LA47_0==OPEN) ) {
@@ -3109,9 +3091,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt47) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:280:42: tl= parameters
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:277:42: tl= parameters
 					{
-					pushFollow(FOLLOW_parameters_in_declaration1562);
+					pushFollow(FOLLOW_parameters_in_declaration1537);
 					tl=parameters();
 					state._fsp--;
 
@@ -3138,7 +3120,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "declarationOrCallWithTerms"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:283:1: declarationOrCallWithTerms returns [Abstract_Predicate p] : f= function_term ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:280:1: declarationOrCallWithTerms returns [Abstract_Predicate p] : f= function_term ;
 	public final Abstract_Predicate declarationOrCallWithTerms() throws RecognitionException {
 		Abstract_Predicate p = null;
 
@@ -3146,10 +3128,10 @@ public class GOALParser extends Parser {
 		Abstract_Term f =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:284:2: (f= function_term )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:284:4: f= function_term
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:281:2: (f= function_term )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:281:4: f= function_term
 			{
-			pushFollow(FOLLOW_function_term_in_declarationOrCallWithTerms1583);
+			pushFollow(FOLLOW_function_term_in_declarationOrCallWithTerms1558);
 			f=function_term();
 			state._fsp--;
 
@@ -3171,7 +3153,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "id"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:287:1: id returns [String s] : ( CONST | VAR ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:284:1: id returns [String s] : ( CONST | VAR ) ;
 	public final String id() throws RecognitionException {
 		String s = null;
 
@@ -3180,10 +3162,10 @@ public class GOALParser extends Parser {
 		Token VAR2=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:288:2: ( ( CONST | VAR ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:288:4: ( CONST | VAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:285:2: ( ( CONST | VAR ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:285:4: ( CONST | VAR )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:288:4: ( CONST | VAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:285:4: ( CONST | VAR )
 			int alt48=2;
 			int LA48_0 = input.LA(1);
 			if ( (LA48_0==CONST) ) {
@@ -3201,16 +3183,16 @@ public class GOALParser extends Parser {
 
 			switch (alt48) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:288:5: CONST
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:285:5: CONST
 					{
-					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_id1602); 
+					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_id1577); 
 					s = CONST1.getText();
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:289:4: VAR
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:286:4: VAR
 					{
-					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_id1609); 
+					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_id1584); 
 					s = VAR2.getText();
 					}
 					break;
@@ -3234,7 +3216,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "parameters"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:293:1: parameters returns [ArrayList<Abstract_Term>ts] : OPEN t= term ( COMMA t1= term )* CLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:290:1: parameters returns [ArrayList<Abstract_Term>ts] : OPEN t= term ( COMMA t1= term )* CLOSE ;
 	public final ArrayList<Abstract_Term> parameters() throws RecognitionException {
 		ArrayList<Abstract_Term> ts = null;
 
@@ -3243,16 +3225,16 @@ public class GOALParser extends Parser {
 		Abstract_Term t1 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:294:2: ( OPEN t= term ( COMMA t1= term )* CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:294:4: OPEN t= term ( COMMA t1= term )* CLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:291:2: ( OPEN t= term ( COMMA t1= term )* CLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:291:4: OPEN t= term ( COMMA t1= term )* CLOSE
 			{
-			match(input,OPEN,FOLLOW_OPEN_in_parameters1632); 
-			pushFollow(FOLLOW_term_in_parameters1636);
+			match(input,OPEN,FOLLOW_OPEN_in_parameters1607); 
+			pushFollow(FOLLOW_term_in_parameters1611);
 			t=term();
 			state._fsp--;
 
 			ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:295:2: ( COMMA t1= term )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:292:2: ( COMMA t1= term )*
 			loop49:
 			while (true) {
 				int alt49=2;
@@ -3263,10 +3245,10 @@ public class GOALParser extends Parser {
 
 				switch (alt49) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:295:3: COMMA t1= term
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:292:3: COMMA t1= term
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_parameters1642); 
-					pushFollow(FOLLOW_term_in_parameters1646);
+					match(input,COMMA,FOLLOW_COMMA_in_parameters1617); 
+					pushFollow(FOLLOW_term_in_parameters1621);
 					t1=term();
 					state._fsp--;
 
@@ -3279,7 +3261,7 @@ public class GOALParser extends Parser {
 				}
 			}
 
-			match(input,CLOSE,FOLLOW_CLOSE_in_parameters1654); 
+			match(input,CLOSE,FOLLOW_CLOSE_in_parameters1629); 
 			 ts = tl;
 			}
 
@@ -3298,7 +3280,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "no_bracket_parameters"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:299:1: no_bracket_parameters returns [ArrayList<Abstract_Term>ts] : t= term ( COMMA t1= term )* ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:296:1: no_bracket_parameters returns [ArrayList<Abstract_Term>ts] : t= term ( COMMA t1= term )* ;
 	public final ArrayList<Abstract_Term> no_bracket_parameters() throws RecognitionException {
 		ArrayList<Abstract_Term> ts = null;
 
@@ -3307,15 +3289,15 @@ public class GOALParser extends Parser {
 		Abstract_Term t1 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:300:2: (t= term ( COMMA t1= term )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:300:5: t= term ( COMMA t1= term )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:297:2: (t= term ( COMMA t1= term )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:297:5: t= term ( COMMA t1= term )*
 			{
-			pushFollow(FOLLOW_term_in_no_bracket_parameters1676);
+			pushFollow(FOLLOW_term_in_no_bracket_parameters1651);
 			t=term();
 			state._fsp--;
 
 			ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:301:2: ( COMMA t1= term )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:298:2: ( COMMA t1= term )*
 			loop50:
 			while (true) {
 				int alt50=2;
@@ -3326,10 +3308,10 @@ public class GOALParser extends Parser {
 
 				switch (alt50) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:301:3: COMMA t1= term
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:298:3: COMMA t1= term
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_no_bracket_parameters1682); 
-					pushFollow(FOLLOW_term_in_no_bracket_parameters1686);
+					match(input,COMMA,FOLLOW_COMMA_in_no_bracket_parameters1657); 
+					pushFollow(FOLLOW_term_in_no_bracket_parameters1661);
 					t1=term();
 					state._fsp--;
 
@@ -3360,7 +3342,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "no_bracket_literals"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:305:1: no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts] :t= atom ( COMMA t1= atom )* ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:302:1: no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts] :t= atom ( COMMA t1= atom )* ;
 	public final ArrayList<Abstract_LogicalFormula> no_bracket_literals() throws RecognitionException {
 		ArrayList<Abstract_LogicalFormula> ts = null;
 
@@ -3369,16 +3351,16 @@ public class GOALParser extends Parser {
 		Abstract_LogicalFormula t1 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:306:2: (t= atom ( COMMA t1= atom )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:306:5: t= atom ( COMMA t1= atom )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:303:2: (t= atom ( COMMA t1= atom )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:303:5: t= atom ( COMMA t1= atom )*
 			{
 			ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();
-			pushFollow(FOLLOW_atom_in_no_bracket_literals1717);
+			pushFollow(FOLLOW_atom_in_no_bracket_literals1692);
 			t=atom();
 			state._fsp--;
 
 			 tl.add(t);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:308:2: ( COMMA t1= atom )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:305:2: ( COMMA t1= atom )*
 			loop51:
 			while (true) {
 				int alt51=2;
@@ -3389,10 +3371,10 @@ public class GOALParser extends Parser {
 
 				switch (alt51) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:308:3: COMMA t1= atom
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:305:3: COMMA t1= atom
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_no_bracket_literals1723); 
-					pushFollow(FOLLOW_atom_in_no_bracket_literals1730);
+					match(input,COMMA,FOLLOW_COMMA_in_no_bracket_literals1698); 
+					pushFollow(FOLLOW_atom_in_no_bracket_literals1705);
 					t1=atom();
 					state._fsp--;
 
@@ -3423,7 +3405,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "forall_expr"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:312:1: forall_expr returns [ArrayList<Abstract_LogicalFormula> ts] : 'forall' OPEN t1= atom COMMA t2= atom CLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:309:1: forall_expr returns [ArrayList<Abstract_LogicalFormula> ts] : 'forall' OPEN t1= atom COMMA t2= atom CLOSE ;
 	public final ArrayList<Abstract_LogicalFormula> forall_expr() throws RecognitionException {
 		ArrayList<Abstract_LogicalFormula> ts = null;
 
@@ -3432,23 +3414,23 @@ public class GOALParser extends Parser {
 		Abstract_LogicalFormula t2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:313:2: ( 'forall' OPEN t1= atom COMMA t2= atom CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:313:5: 'forall' OPEN t1= atom COMMA t2= atom CLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:310:2: ( 'forall' OPEN t1= atom COMMA t2= atom CLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:310:5: 'forall' OPEN t1= atom COMMA t2= atom CLOSE
 			{
 			ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();
-			match(input,77,FOLLOW_77_in_forall_expr1757); 
-			match(input,OPEN,FOLLOW_OPEN_in_forall_expr1759); 
-			pushFollow(FOLLOW_atom_in_forall_expr1763);
+			match(input,77,FOLLOW_77_in_forall_expr1732); 
+			match(input,OPEN,FOLLOW_OPEN_in_forall_expr1734); 
+			pushFollow(FOLLOW_atom_in_forall_expr1738);
 			t1=atom();
 			state._fsp--;
 
-			match(input,COMMA,FOLLOW_COMMA_in_forall_expr1765); 
-			pushFollow(FOLLOW_atom_in_forall_expr1769);
+			match(input,COMMA,FOLLOW_COMMA_in_forall_expr1740); 
+			pushFollow(FOLLOW_atom_in_forall_expr1744);
 			t2=atom();
 			state._fsp--;
 
 			Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);
-			match(input,CLOSE,FOLLOW_CLOSE_in_forall_expr1773); 
+			match(input,CLOSE,FOLLOW_CLOSE_in_forall_expr1748); 
 			 ts = tl;
 			}
 
@@ -3467,7 +3449,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "goal_list"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:1: goal_list returns [ArrayList<ArrayList<Abstract_Term>>ts] : (t= term ( COMMA t1= term )* STOP )+ ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:316:1: goal_list returns [ArrayList<ArrayList<Abstract_Term>>ts] : (t= term ( COMMA t1= term )* STOP )+ ;
 	public final ArrayList<ArrayList<Abstract_Term>> goal_list() throws RecognitionException {
 		ArrayList<ArrayList<Abstract_Term>> ts = null;
 
@@ -3476,11 +3458,11 @@ public class GOALParser extends Parser {
 		Abstract_Term t1 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:2: ( (t= term ( COMMA t1= term )* STOP )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:320:4: (t= term ( COMMA t1= term )* STOP )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:2: ( (t= term ( COMMA t1= term )* STOP )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:317:4: (t= term ( COMMA t1= term )* STOP )+
 			{
 			ArrayList<ArrayList<Abstract_Term>> tll = new ArrayList<ArrayList<Abstract_Term>>();
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:321:2: (t= term ( COMMA t1= term )* STOP )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:2: (t= term ( COMMA t1= term )* STOP )+
 			int cnt53=0;
 			loop53:
 			while (true) {
@@ -3492,14 +3474,14 @@ public class GOALParser extends Parser {
 
 				switch (alt53) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:321:3: t= term ( COMMA t1= term )* STOP
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:318:3: t= term ( COMMA t1= term )* STOP
 					{
-					pushFollow(FOLLOW_term_in_goal_list1799);
+					pushFollow(FOLLOW_term_in_goal_list1774);
 					t=term();
 					state._fsp--;
 
 					ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:322:2: ( COMMA t1= term )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:2: ( COMMA t1= term )*
 					loop52:
 					while (true) {
 						int alt52=2;
@@ -3510,10 +3492,10 @@ public class GOALParser extends Parser {
 
 						switch (alt52) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:322:3: COMMA t1= term
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:319:3: COMMA t1= term
 							{
-							match(input,COMMA,FOLLOW_COMMA_in_goal_list1806); 
-							pushFollow(FOLLOW_term_in_goal_list1810);
+							match(input,COMMA,FOLLOW_COMMA_in_goal_list1781); 
+							pushFollow(FOLLOW_term_in_goal_list1785);
 							t1=term();
 							state._fsp--;
 
@@ -3526,7 +3508,7 @@ public class GOALParser extends Parser {
 						}
 					}
 
-					match(input,STOP,FOLLOW_STOP_in_goal_list1817); 
+					match(input,STOP,FOLLOW_STOP_in_goal_list1792); 
 					tll.add(tl);
 					}
 					break;
@@ -3557,7 +3539,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "term"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:367:1: term returns [Abstract_Term t] : (st= stringterm |ft= function_term |at= arithexpr |lt= listterm ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:364:1: term returns [Abstract_Term t] : (st= stringterm |ft= function_term |at= arithexpr |lt= listterm ) ;
 	public final Abstract_Term term() throws RecognitionException {
 		Abstract_Term t = null;
 
@@ -3568,10 +3550,10 @@ public class GOALParser extends Parser {
 		Abstract_ListTermImpl lt =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:368:2: ( (st= stringterm |ft= function_term |at= arithexpr |lt= listterm ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:368:4: (st= stringterm |ft= function_term |at= arithexpr |lt= listterm )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:365:2: ( (st= stringterm |ft= function_term |at= arithexpr |lt= listterm ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:365:4: (st= stringterm |ft= function_term |at= arithexpr |lt= listterm )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:368:4: (st= stringterm |ft= function_term |at= arithexpr |lt= listterm )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:365:4: (st= stringterm |ft= function_term |at= arithexpr |lt= listterm )
 			int alt54=4;
 			switch ( input.LA(1) ) {
 			case STRING:
@@ -3604,9 +3586,9 @@ public class GOALParser extends Parser {
 			}
 			switch (alt54) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:368:5: st= stringterm
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:365:5: st= stringterm
 					{
-					pushFollow(FOLLOW_stringterm_in_term2107);
+					pushFollow(FOLLOW_stringterm_in_term2082);
 					st=stringterm();
 					state._fsp--;
 
@@ -3614,9 +3596,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:369:4: ft= function_term
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:366:4: ft= function_term
 					{
-					pushFollow(FOLLOW_function_term_in_term2117);
+					pushFollow(FOLLOW_function_term_in_term2092);
 					ft=function_term();
 					state._fsp--;
 
@@ -3624,9 +3606,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:370:4: at= arithexpr
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:367:4: at= arithexpr
 					{
-					pushFollow(FOLLOW_arithexpr_in_term2127);
+					pushFollow(FOLLOW_arithexpr_in_term2102);
 					at=arithexpr();
 					state._fsp--;
 
@@ -3634,9 +3616,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:371:4: lt= listterm
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:368:4: lt= listterm
 					{
-					pushFollow(FOLLOW_listterm_in_term2136);
+					pushFollow(FOLLOW_listterm_in_term2111);
 					lt=listterm();
 					state._fsp--;
 
@@ -3663,7 +3645,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "function_term"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:373:1: function_term returns [Abstract_Term t] : c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )? ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:370:1: function_term returns [Abstract_Term t] : c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )? ;
 	public final Abstract_Term function_term() throws RecognitionException {
 		Abstract_Term t = null;
 
@@ -3673,12 +3655,12 @@ public class GOALParser extends Parser {
 		Abstract_Term t2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:374:2: (c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:374:4: c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:371:2: (c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:371:4: c= CONST ( OPEN t1= term ( COMMA t2= term )* CLOSE )?
 			{
-			c=(Token)match(input,CONST,FOLLOW_CONST_in_function_term2154); 
+			c=(Token)match(input,CONST,FOLLOW_CONST_in_function_term2129); 
 			t=new Abstract_Predicate(c.getText());
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:375:2: ( OPEN t1= term ( COMMA t2= term )* CLOSE )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:372:2: ( OPEN t1= term ( COMMA t2= term )* CLOSE )?
 			int alt56=2;
 			int LA56_0 = input.LA(1);
 			if ( (LA56_0==OPEN) ) {
@@ -3686,15 +3668,15 @@ public class GOALParser extends Parser {
 			}
 			switch (alt56) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:375:3: OPEN t1= term ( COMMA t2= term )* CLOSE
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:372:3: OPEN t1= term ( COMMA t2= term )* CLOSE
 					{
-					match(input,OPEN,FOLLOW_OPEN_in_function_term2161); 
-					pushFollow(FOLLOW_term_in_function_term2165);
+					match(input,OPEN,FOLLOW_OPEN_in_function_term2136); 
+					pushFollow(FOLLOW_term_in_function_term2140);
 					t1=term();
 					state._fsp--;
 
 					((Abstract_Predicate) t).addTerm(t1);
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:376:2: ( COMMA t2= term )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:373:2: ( COMMA t2= term )*
 					loop55:
 					while (true) {
 						int alt55=2;
@@ -3705,10 +3687,10 @@ public class GOALParser extends Parser {
 
 						switch (alt55) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:376:3: COMMA t2= term
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:373:3: COMMA t2= term
 							{
-							match(input,COMMA,FOLLOW_COMMA_in_function_term2172); 
-							pushFollow(FOLLOW_term_in_function_term2176);
+							match(input,COMMA,FOLLOW_COMMA_in_function_term2147); 
+							pushFollow(FOLLOW_term_in_function_term2151);
 							t2=term();
 							state._fsp--;
 
@@ -3721,7 +3703,7 @@ public class GOALParser extends Parser {
 						}
 					}
 
-					match(input,CLOSE,FOLLOW_CLOSE_in_function_term2182); 
+					match(input,CLOSE,FOLLOW_CLOSE_in_function_term2157); 
 					}
 					break;
 
@@ -3744,7 +3726,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "var"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:380:1: var returns [Abstract_VarTerm v] : ( VAR | UNNAMEDVAR ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:377:1: var returns [Abstract_VarTerm v] : ( VAR | UNNAMEDVAR ) ;
 	public final Abstract_VarTerm var() throws RecognitionException {
 		Abstract_VarTerm v = null;
 
@@ -3752,10 +3734,10 @@ public class GOALParser extends Parser {
 		Token VAR3=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:381:2: ( ( VAR | UNNAMEDVAR ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:381:4: ( VAR | UNNAMEDVAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:378:2: ( ( VAR | UNNAMEDVAR ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:378:4: ( VAR | UNNAMEDVAR )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:381:4: ( VAR | UNNAMEDVAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:378:4: ( VAR | UNNAMEDVAR )
 			int alt57=2;
 			int LA57_0 = input.LA(1);
 			if ( (LA57_0==VAR) ) {
@@ -3773,9 +3755,9 @@ public class GOALParser extends Parser {
 
 			switch (alt57) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:381:5: VAR
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:378:5: VAR
 					{
-					VAR3=(Token)match(input,VAR,FOLLOW_VAR_in_var2202); 
+					VAR3=(Token)match(input,VAR,FOLLOW_VAR_in_var2177); 
 					if (variables.containsKey(VAR3.getText())) {
 							v = variables.get(VAR3.getText());
 						            } else {
@@ -3786,9 +3768,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:387:6: UNNAMEDVAR
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:384:6: UNNAMEDVAR
 					{
-					match(input,UNNAMEDVAR,FOLLOW_UNNAMEDVAR_in_var2208); 
+					match(input,UNNAMEDVAR,FOLLOW_UNNAMEDVAR_in_var2183); 
 					v =new Abstract_UnnamedVar();
 					}
 					break;
@@ -3812,7 +3794,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "stringLiteral"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:389:1: stringLiteral returns [Abstract_StringTerm s] : st= stringterm ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:386:1: stringLiteral returns [Abstract_StringTerm s] : st= stringterm ;
 	public final Abstract_StringTerm stringLiteral() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -3820,10 +3802,10 @@ public class GOALParser extends Parser {
 		Abstract_StringTerm st =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:390:2: (st= stringterm )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:390:4: st= stringterm
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:387:2: (st= stringterm )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:387:4: st= stringterm
 			{
-			pushFollow(FOLLOW_stringterm_in_stringLiteral2226);
+			pushFollow(FOLLOW_stringterm_in_stringLiteral2201);
 			st=stringterm();
 			state._fsp--;
 
@@ -3845,7 +3827,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "singleQuotedStringLiteral"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:391:1: singleQuotedStringLiteral returns [Abstract_StringTerm s] : SINGLEQUOTE w= word SINGLEQUOTE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:388:1: singleQuotedStringLiteral returns [Abstract_StringTerm s] : SINGLEQUOTE w= word SINGLEQUOTE ;
 	public final Abstract_StringTerm singleQuotedStringLiteral() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -3853,15 +3835,15 @@ public class GOALParser extends Parser {
 		String w =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:392:2: ( SINGLEQUOTE w= word SINGLEQUOTE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:392:4: SINGLEQUOTE w= word SINGLEQUOTE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:389:2: ( SINGLEQUOTE w= word SINGLEQUOTE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:389:4: SINGLEQUOTE w= word SINGLEQUOTE
 			{
-			match(input,SINGLEQUOTE,FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2240); 
-			pushFollow(FOLLOW_word_in_singleQuotedStringLiteral2244);
+			match(input,SINGLEQUOTE,FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2215); 
+			pushFollow(FOLLOW_word_in_singleQuotedStringLiteral2219);
 			w=word();
 			state._fsp--;
 
-			match(input,SINGLEQUOTE,FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2246); 
+			match(input,SINGLEQUOTE,FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2221); 
 			s = new Abstract_StringTermImpl(w);
 			}
 
@@ -3880,7 +3862,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "stringterm"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:394:1: stringterm returns [Abstract_StringTerm s] : STRING ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:391:1: stringterm returns [Abstract_StringTerm s] : STRING ;
 	public final Abstract_StringTerm stringterm() throws RecognitionException {
 		Abstract_StringTerm s = null;
 
@@ -3888,10 +3870,10 @@ public class GOALParser extends Parser {
 		Token STRING4=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:2: ( STRING )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:4: STRING
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:392:2: ( STRING )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:392:4: STRING
 			{
-			STRING4=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm2263); 
+			STRING4=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm2238); 
 			String str = STRING4.getText();s=new Abstract_StringTermImpl(str.substring(1,str.length()-1));
 			}
 
@@ -3910,7 +3892,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "word"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:1: word returns [String s] : ( CONST | VAR ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:1: word returns [String s] : ( CONST | VAR ) ;
 	public final String word() throws RecognitionException {
 		String s = null;
 
@@ -3919,10 +3901,10 @@ public class GOALParser extends Parser {
 		Token VAR6=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:25: ( ( CONST | VAR ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:27: ( CONST | VAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:25: ( ( CONST | VAR ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:27: ( CONST | VAR )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:27: ( CONST | VAR )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:27: ( CONST | VAR )
 			int alt58=2;
 			int LA58_0 = input.LA(1);
 			if ( (LA58_0==CONST) ) {
@@ -3940,16 +3922,16 @@ public class GOALParser extends Parser {
 
 			switch (alt58) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:28: CONST
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:28: CONST
 					{
-					CONST5=(Token)match(input,CONST,FOLLOW_CONST_in_word2280); 
+					CONST5=(Token)match(input,CONST,FOLLOW_CONST_in_word2255); 
 					s =CONST5.getText();
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:59: VAR
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:395:59: VAR
 					{
-					VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_word2286); 
+					VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_word2261); 
 					s =VAR6.getText();
 					}
 					break;
@@ -3973,7 +3955,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "listterm"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:400:1: listterm returns [Abstract_ListTermImpl l] : SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:397:1: listterm returns [Abstract_ListTermImpl l] : SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE ;
 	public final Abstract_ListTermImpl listterm() throws RecognitionException {
 		Abstract_ListTermImpl l = null;
 
@@ -3983,12 +3965,12 @@ public class GOALParser extends Parser {
 		Abstract_Term t =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:401:3: ( SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:401:5: SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:3: ( SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:398:5: SQOPEN (h= term ( COMMA t= term )* ( BAR v= VAR )? )? SQCLOSE
 			{
 			l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = l;
-			match(input,SQOPEN,FOLLOW_SQOPEN_in_listterm2307); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:402:10: (h= term ( COMMA t= term )* ( BAR v= VAR )? )?
+			match(input,SQOPEN,FOLLOW_SQOPEN_in_listterm2282); 
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:399:10: (h= term ( COMMA t= term )* ( BAR v= VAR )? )?
 			int alt61=2;
 			int LA61_0 = input.LA(1);
 			if ( (LA61_0==CONST||LA61_0==MINUS||LA61_0==NUMBER||LA61_0==SQOPEN||LA61_0==STRING||(LA61_0 >= UNNAMEDVAR && LA61_0 <= VAR)) ) {
@@ -3996,14 +3978,14 @@ public class GOALParser extends Parser {
 			}
 			switch (alt61) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:402:11: h= term ( COMMA t= term )* ( BAR v= VAR )?
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:399:11: h= term ( COMMA t= term )* ( BAR v= VAR )?
 					{
-					pushFollow(FOLLOW_term_in_listterm2312);
+					pushFollow(FOLLOW_term_in_listterm2287);
 					h=term();
 					state._fsp--;
 
 					l.addHead(h); l.addTail(new Abstract_ListTermImpl());
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:403:3: ( COMMA t= term )*
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:400:3: ( COMMA t= term )*
 					loop59:
 					while (true) {
 						int alt59=2;
@@ -4014,10 +3996,10 @@ public class GOALParser extends Parser {
 
 						switch (alt59) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:403:4: COMMA t= term
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:400:4: COMMA t= term
 							{
-							match(input,COMMA,FOLLOW_COMMA_in_listterm2319); 
-							pushFollow(FOLLOW_term_in_listterm2323);
+							match(input,COMMA,FOLLOW_COMMA_in_listterm2294); 
+							pushFollow(FOLLOW_term_in_listterm2298);
 							t=term();
 							state._fsp--;
 
@@ -4030,7 +4012,7 @@ public class GOALParser extends Parser {
 						}
 					}
 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:404:3: ( BAR v= VAR )?
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:401:3: ( BAR v= VAR )?
 					int alt60=2;
 					int LA60_0 = input.LA(1);
 					if ( (LA60_0==BAR) ) {
@@ -4038,10 +4020,10 @@ public class GOALParser extends Parser {
 					}
 					switch (alt60) {
 						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:404:4: BAR v= VAR
+							// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:401:4: BAR v= VAR
 							{
-							match(input,BAR,FOLLOW_BAR_in_listterm2332); 
-							v=(Token)match(input,VAR,FOLLOW_VAR_in_listterm2336); 
+							match(input,BAR,FOLLOW_BAR_in_listterm2307); 
+							v=(Token)match(input,VAR,FOLLOW_VAR_in_listterm2311); 
 							lrunning.addTail(new Abstract_VarTerm(v.getText()));
 							}
 							break;
@@ -4053,7 +4035,7 @@ public class GOALParser extends Parser {
 
 			}
 
-			match(input,SQCLOSE,FOLLOW_SQCLOSE_in_listterm2348); 
+			match(input,SQCLOSE,FOLLOW_SQCLOSE_in_listterm2323); 
 			}
 
 		}
@@ -4071,7 +4053,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "equation"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:408:1: equation returns [Abstract_Equation e] : a1= arithexpr i= eqoper a2= arithexpr ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:405:1: equation returns [Abstract_Equation e] : a1= arithexpr i= eqoper a2= arithexpr ;
 	public final Abstract_Equation equation() throws RecognitionException {
 		Abstract_Equation e = null;
 
@@ -4081,18 +4063,18 @@ public class GOALParser extends Parser {
 		Abstract_NumberTerm a2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:409:2: (a1= arithexpr i= eqoper a2= arithexpr )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:409:4: a1= arithexpr i= eqoper a2= arithexpr
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:406:2: (a1= arithexpr i= eqoper a2= arithexpr )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:406:4: a1= arithexpr i= eqoper a2= arithexpr
 			{
-			pushFollow(FOLLOW_arithexpr_in_equation2366);
+			pushFollow(FOLLOW_arithexpr_in_equation2341);
 			a1=arithexpr();
 			state._fsp--;
 
-			pushFollow(FOLLOW_eqoper_in_equation2370);
+			pushFollow(FOLLOW_eqoper_in_equation2345);
 			i=eqoper();
 			state._fsp--;
 
-			pushFollow(FOLLOW_arithexpr_in_equation2374);
+			pushFollow(FOLLOW_arithexpr_in_equation2349);
 			a2=arithexpr();
 			state._fsp--;
 
@@ -4114,7 +4096,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "numberstring"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:412:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:409:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? ) ;
 	public final String numberstring() throws RecognitionException {
 		String s = null;
 
@@ -4123,11 +4105,11 @@ public class GOALParser extends Parser {
 		Token n2=null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:413:2: ( ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:413:4: ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:410:2: ( ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:410:4: ( MINUS )? (n1= NUMBER ( STOP n2= NUMBER )? )
 			{
 			s = "";
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:413:15: ( MINUS )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:410:15: ( MINUS )?
 			int alt62=2;
 			int LA62_0 = input.LA(1);
 			if ( (LA62_0==MINUS) ) {
@@ -4135,21 +4117,21 @@ public class GOALParser extends Parser {
 			}
 			switch (alt62) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:413:16: MINUS
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:410:16: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_numberstring2394); 
+					match(input,MINUS,FOLLOW_MINUS_in_numberstring2369); 
 					s += "-";
 					}
 					break;
 
 			}
 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:414:2: (n1= NUMBER ( STOP n2= NUMBER )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:414:3: n1= NUMBER ( STOP n2= NUMBER )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:411:2: (n1= NUMBER ( STOP n2= NUMBER )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:411:3: n1= NUMBER ( STOP n2= NUMBER )?
 			{
-			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2405); 
+			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2380); 
 			s += n1.getText();
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:2: ( STOP n2= NUMBER )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:412:2: ( STOP n2= NUMBER )?
 			int alt63=2;
 			int LA63_0 = input.LA(1);
 			if ( (LA63_0==STOP) ) {
@@ -4160,11 +4142,11 @@ public class GOALParser extends Parser {
 			}
 			switch (alt63) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:3: STOP n2= NUMBER
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:412:3: STOP n2= NUMBER
 					{
-					match(input,STOP,FOLLOW_STOP_in_numberstring2411); 
+					match(input,STOP,FOLLOW_STOP_in_numberstring2386); 
 					s += ".";
-					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2417); 
+					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2392); 
 					s += n2.getText();
 					}
 					break;
@@ -4190,7 +4172,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "arithexpr"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:417:1: arithexpr returns [Abstract_NumberTerm ae] : a1= multexpr (i= addoper a2= multexpr )? ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:414:1: arithexpr returns [Abstract_NumberTerm ae] : a1= multexpr (i= addoper a2= multexpr )? ;
 	public final Abstract_NumberTerm arithexpr() throws RecognitionException {
 		Abstract_NumberTerm ae = null;
 
@@ -4200,15 +4182,15 @@ public class GOALParser extends Parser {
 		Abstract_NumberTerm a2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:418:2: (a1= multexpr (i= addoper a2= multexpr )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:418:4: a1= multexpr (i= addoper a2= multexpr )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:2: (a1= multexpr (i= addoper a2= multexpr )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:4: a1= multexpr (i= addoper a2= multexpr )?
 			{
-			pushFollow(FOLLOW_multexpr_in_arithexpr2437);
+			pushFollow(FOLLOW_multexpr_in_arithexpr2412);
 			a1=multexpr();
 			state._fsp--;
 
 			ae = a1;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:418:28: (i= addoper a2= multexpr )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:28: (i= addoper a2= multexpr )?
 			int alt64=2;
 			int LA64_0 = input.LA(1);
 			if ( (LA64_0==MINUS||LA64_0==PLUS) ) {
@@ -4216,13 +4198,13 @@ public class GOALParser extends Parser {
 			}
 			switch (alt64) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:418:29: i= addoper a2= multexpr
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:415:29: i= addoper a2= multexpr
 					{
-					pushFollow(FOLLOW_addoper_in_arithexpr2444);
+					pushFollow(FOLLOW_addoper_in_arithexpr2419);
 					i=addoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_multexpr_in_arithexpr2448);
+					pushFollow(FOLLOW_multexpr_in_arithexpr2423);
 					a2=multexpr();
 					state._fsp--;
 
@@ -4249,7 +4231,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "multexpr"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:419:1: multexpr returns [Abstract_NumberTerm ae] : a1= atom_term (i= multoper a2= atom_term )? ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:416:1: multexpr returns [Abstract_NumberTerm ae] : a1= atom_term (i= multoper a2= atom_term )? ;
 	public final Abstract_NumberTerm multexpr() throws RecognitionException {
 		Abstract_NumberTerm ae = null;
 
@@ -4259,15 +4241,15 @@ public class GOALParser extends Parser {
 		Abstract_NumberTerm a2 =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:2: (a1= atom_term (i= multoper a2= atom_term )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:4: a1= atom_term (i= multoper a2= atom_term )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:417:2: (a1= atom_term (i= multoper a2= atom_term )? )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:417:4: a1= atom_term (i= multoper a2= atom_term )?
 			{
-			pushFollow(FOLLOW_atom_term_in_multexpr2466);
+			pushFollow(FOLLOW_atom_term_in_multexpr2441);
 			a1=atom_term();
 			state._fsp--;
 
 			ae = a1;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:28: (i= multoper a2= atom_term )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:417:28: (i= multoper a2= atom_term )?
 			int alt65=2;
 			int LA65_0 = input.LA(1);
 			if ( (LA65_0==DIV||LA65_0==MULT) ) {
@@ -4275,13 +4257,13 @@ public class GOALParser extends Parser {
 			}
 			switch (alt65) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:29: i= multoper a2= atom_term
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:417:29: i= multoper a2= atom_term
 					{
-					pushFollow(FOLLOW_multoper_in_multexpr2472);
+					pushFollow(FOLLOW_multoper_in_multexpr2447);
 					i=multoper();
 					state._fsp--;
 
-					pushFollow(FOLLOW_atom_term_in_multexpr2476);
+					pushFollow(FOLLOW_atom_term_in_multexpr2451);
 					a2=atom_term();
 					state._fsp--;
 
@@ -4308,7 +4290,7 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "atom_term"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:422:1: atom_term returns [Abstract_NumberTerm t] : (n= numberstring |v= var ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:419:1: atom_term returns [Abstract_NumberTerm t] : (n= numberstring |v= var ) ;
 	public final Abstract_NumberTerm atom_term() throws RecognitionException {
 		Abstract_NumberTerm t = null;
 
@@ -4317,10 +4299,10 @@ public class GOALParser extends Parser {
 		Abstract_VarTerm v =null;
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:2: ( (n= numberstring |v= var ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:4: (n= numberstring |v= var )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:2: ( (n= numberstring |v= var ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:4: (n= numberstring |v= var )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:4: (n= numberstring |v= var )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:4: (n= numberstring |v= var )
 			int alt66=2;
 			int LA66_0 = input.LA(1);
 			if ( (LA66_0==MINUS||LA66_0==NUMBER) ) {
@@ -4338,9 +4320,9 @@ public class GOALParser extends Parser {
 
 			switch (alt66) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:5: n= numberstring
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:5: n= numberstring
 					{
-					pushFollow(FOLLOW_numberstring_in_atom_term2498);
+					pushFollow(FOLLOW_numberstring_in_atom_term2473);
 					n=numberstring();
 					state._fsp--;
 
@@ -4348,9 +4330,9 @@ public class GOALParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:66: v= var
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:420:66: v= var
 					{
-					pushFollow(FOLLOW_var_in_atom_term2506);
+					pushFollow(FOLLOW_var_in_atom_term2481);
 					v=var();
 					state._fsp--;
 
@@ -4377,16 +4359,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "addoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:1: addoper returns [int i] : ( PLUS | MINUS ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:423:1: addoper returns [int i] : ( PLUS | MINUS ) ;
 	public final int addoper() throws RecognitionException {
 		int i = 0;
 
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:2: ( ( PLUS | MINUS ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:4: ( PLUS | MINUS )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:2: ( ( PLUS | MINUS ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:4: ( PLUS | MINUS )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:4: ( PLUS | MINUS )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:4: ( PLUS | MINUS )
 			int alt67=2;
 			int LA67_0 = input.LA(1);
 			if ( (LA67_0==PLUS) ) {
@@ -4404,16 +4386,16 @@ public class GOALParser extends Parser {
 
 			switch (alt67) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:5: PLUS
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:5: PLUS
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_addoper2525); 
+					match(input,PLUS,FOLLOW_PLUS_in_addoper2500); 
 					i = 1;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:22: MINUS
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:424:22: MINUS
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_addoper2531); 
+					match(input,MINUS,FOLLOW_MINUS_in_addoper2506); 
 					i = 2;
 					}
 					break;
@@ -4437,16 +4419,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "multoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:428:1: multoper returns [int i] : ( MULT | DIV ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:425:1: multoper returns [int i] : ( MULT | DIV ) ;
 	public final int multoper() throws RecognitionException {
 		int i = 0;
 
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:2: ( ( MULT | DIV ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:4: ( MULT | DIV )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:2: ( ( MULT | DIV ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:4: ( MULT | DIV )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:4: ( MULT | DIV )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:4: ( MULT | DIV )
 			int alt68=2;
 			int LA68_0 = input.LA(1);
 			if ( (LA68_0==MULT) ) {
@@ -4464,16 +4446,16 @@ public class GOALParser extends Parser {
 
 			switch (alt68) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:5: MULT
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:5: MULT
 					{
-					match(input,MULT,FOLLOW_MULT_in_multoper2548); 
+					match(input,MULT,FOLLOW_MULT_in_multoper2523); 
 					i = 3;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:429:22: DIV
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:426:22: DIV
 					{
-					match(input,DIV,FOLLOW_DIV_in_multoper2554); 
+					match(input,DIV,FOLLOW_DIV_in_multoper2529); 
 					i = 4;
 					}
 					break;
@@ -4497,16 +4479,16 @@ public class GOALParser extends Parser {
 
 
 	// $ANTLR start "eqoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:1: eqoper returns [int i] : ( LESS | ( IS | EQUALS ) ) ;
+	// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:1: eqoper returns [int i] : ( LESS | ( IS | EQUALS ) ) ;
 	public final int eqoper() throws RecognitionException {
 		int i = 0;
 
 
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:24: ( ( LESS | ( IS | EQUALS ) ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:26: ( LESS | ( IS | EQUALS ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:24: ( ( LESS | ( IS | EQUALS ) ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:26: ( LESS | ( IS | EQUALS ) )
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:26: ( LESS | ( IS | EQUALS ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:26: ( LESS | ( IS | EQUALS ) )
 			int alt69=2;
 			int LA69_0 = input.LA(1);
 			if ( (LA69_0==LESS) ) {
@@ -4524,14 +4506,14 @@ public class GOALParser extends Parser {
 
 			switch (alt69) {
 				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:27: LESS
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:27: LESS
 					{
-					match(input,LESS,FOLLOW_LESS_in_eqoper2570); 
+					match(input,LESS,FOLLOW_LESS_in_eqoper2545); 
 					i = 1;
 					}
 					break;
 				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:430:44: ( IS | EQUALS )
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/goal/parser/GOAL.g:427:44: ( IS | EQUALS )
 					{
 					if ( input.LA(1)==EQUALS||input.LA(1)==IS ) {
 						input.consume();
@@ -4565,285 +4547,275 @@ public class GOALParser extends Parser {
 
 
 
-	public static final BitSet FOLLOW_MAIN_in_mas74 = new BitSet(new long[]{0x0000000000000800L});
-	public static final BitSet FOLLOW_COLON_in_mas76 = new BitSet(new long[]{0x4000000000004000L});
-	public static final BitSet FOLLOW_id_in_mas80 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_mas82 = new BitSet(new long[]{0x0000005010200000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_moduleImport_in_mas89 = new BitSet(new long[]{0x0000005010208000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_module_in_mas95 = new BitSet(new long[]{0x0000005010208000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_mas102 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MAIN_in_goalagent121 = new BitSet(new long[]{0x0000000000000800L});
-	public static final BitSet FOLLOW_COLON_in_goalagent123 = new BitSet(new long[]{0x4000000000004000L});
-	public static final BitSet FOLLOW_id_in_goalagent127 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_goalagent129 = new BitSet(new long[]{0x0000005010200000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_moduleImport_in_goalagent136 = new BitSet(new long[]{0x0000005010208000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_module_in_goalagent142 = new BitSet(new long[]{0x0000005010208000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_goalagent149 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_64_in_moduleImport159 = new BitSet(new long[]{0x0000008000000000L});
-	public static final BitSet FOLLOW_MODULEFILE_in_moduleImport161 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_moduleImport163 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_moduleDef_in_module180 = new BitSet(new long[]{0x0100000000010000L});
-	public static final BitSet FOLLOW_SQOPEN_in_module185 = new BitSet(new long[]{0x0000000000000000L,0x0000000000001200L});
-	public static final BitSet FOLLOW_moduleOption_in_module187 = new BitSet(new long[]{0x0080000000001000L});
-	public static final BitSet FOLLOW_COMMA_in_module191 = new BitSet(new long[]{0x0000000000000000L,0x0000000000001200L});
-	public static final BitSet FOLLOW_moduleOption_in_module193 = new BitSet(new long[]{0x0080000000001000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_module198 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_module203 = new BitSet(new long[]{0x0002000082008210L,0x0000000000000001L});
-	public static final BitSet FOLLOW_krImport_in_module205 = new BitSet(new long[]{0x0002000082008210L});
-	public static final BitSet FOLLOW_knowledge_in_module208 = new BitSet(new long[]{0x0002000002008210L});
-	public static final BitSet FOLLOW_beliefs_in_module213 = new BitSet(new long[]{0x0002000002008010L});
-	public static final BitSet FOLLOW_goals_in_module217 = new BitSet(new long[]{0x0002000000008010L});
-	public static final BitSet FOLLOW_program_in_module221 = new BitSet(new long[]{0x0000000000008010L});
-	public static final BitSet FOLLOW_actionSpecs_in_module230 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_module238 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MODULE_in_moduleDef253 = new BitSet(new long[]{0x4000000000004000L});
-	public static final BitSet FOLLOW_declaration_in_moduleDef255 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_INIT_in_moduleDef260 = new BitSet(new long[]{0x0000004000000000L});
-	public static final BitSet FOLLOW_MODULE_in_moduleDef262 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MAIN_in_moduleDef269 = new BitSet(new long[]{0x0000004000000000L});
-	public static final BitSet FOLLOW_MODULE_in_moduleDef271 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EVENT_in_moduleDef278 = new BitSet(new long[]{0x0000004000000000L});
-	public static final BitSet FOLLOW_MODULE_in_moduleDef280 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_73_in_moduleOption299 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_EQUALS_in_moduleOption301 = new BitSet(new long[]{0x0000000000000000L,0x00000000001A0040L});
-	public static final BitSet FOLLOW_70_in_moduleOption308 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_81_in_moduleOption318 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_84_in_moduleOption328 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_83_in_moduleOption339 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_76_in_moduleOption353 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_EQUALS_in_moduleOption355 = new BitSet(new long[]{0x0000000000000000L,0x0000000000A40800L});
-	public static final BitSet FOLLOW_set_in_moduleOption361 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_64_in_krImport386 = new BitSet(new long[]{0x0440000000000000L});
-	public static final BitSet FOLLOW_stringLiteral_in_krImport389 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_singleQuotedStringLiteral_in_krImport393 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_krImport396 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_KNOWLEDGE_in_knowledge409 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_knowledge411 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_krspec_in_knowledge413 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_knowledge416 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_krspec428 = new BitSet(new long[]{0x0204000000000000L});
-	public static final BitSet FOLLOW_STOP_in_krspec432 = new BitSet(new long[]{0x0000000000004002L});
-	public static final BitSet FOLLOW_PROLOGARROW_in_krspec439 = new BitSet(new long[]{0x60000C2000004000L,0x0000000000002000L});
-	public static final BitSet FOLLOW_no_bracket_literals_in_krspec445 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_forall_expr_in_krspec451 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_krspec455 = new BitSet(new long[]{0x0000000000004002L});
-	public static final BitSet FOLLOW_BELIEFS_in_beliefs472 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_beliefs474 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_brspec_in_beliefs476 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_beliefs479 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_brspec491 = new BitSet(new long[]{0x0204000000000000L});
-	public static final BitSet FOLLOW_STOP_in_brspec495 = new BitSet(new long[]{0x0000000000004002L});
-	public static final BitSet FOLLOW_PROLOGARROW_in_brspec502 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_no_bracket_literals_in_brspec506 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_brspec508 = new BitSet(new long[]{0x0000000000004002L});
-	public static final BitSet FOLLOW_GOALS_in_goals525 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_goals527 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_goal_list_in_goals531 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_goals535 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_atom549 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_OPEN_in_atom551 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_atom555 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_atom558 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_atom565 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_equation_in_atom574 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PROGRAM_in_program589 = new BitSet(new long[]{0x0100000000010000L});
-	public static final BitSet FOLLOW_SQOPEN_in_program592 = new BitSet(new long[]{0x0000200000000000L});
-	public static final BitSet FOLLOW_ruleEvaluationOrder_in_program596 = new BitSet(new long[]{0x0080000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_program600 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_program606 = new BitSet(new long[]{0x000000000C008000L,0x000000000000A000L});
-	public static final BitSet FOLLOW_macroDef_in_program608 = new BitSet(new long[]{0x000000000C008000L,0x000000000000A000L});
-	public static final BitSet FOLLOW_programRule_in_program611 = new BitSet(new long[]{0x0000000008008000L,0x000000000000A000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_program615 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ORDER_in_ruleEvaluationOrder632 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_EQUALS_in_ruleEvaluationOrder634 = new BitSet(new long[]{0x0018000600000020L});
-	public static final BitSet FOLLOW_LINEAR_in_ruleEvaluationOrder638 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LINEARALL_in_ruleEvaluationOrder645 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_RANDOM_in_ruleEvaluationOrder651 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_RANDOMALL_in_ruleEvaluationOrder657 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ADAPTIVE_in_ruleEvaluationOrder664 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_HASH_in_macroDef678 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_DEFINE_in_macroDef680 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_macroDef684 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalstate_in_macroDef689 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_macroDef695 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_IF_in_programRule709 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalstatecond_in_programRule713 = new BitSet(new long[]{0x0800000000000000L});
-	public static final BitSet FOLLOW_THEN_in_programRule717 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
-	public static final BitSet FOLLOW_actions_in_programRule723 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_programRule727 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_nestedRules_in_programRule731 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_77_in_programRule740 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalstatecond_in_programRule746 = new BitSet(new long[]{0x0000000000080000L});
-	public static final BitSet FOLLOW_DO_in_programRule750 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
-	public static final BitSet FOLLOW_actions_in_programRule755 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_moduleImport_in_mas80 = new BitSet(new long[]{0x0000005010200002L,0x0000000000000001L});
+	public static final BitSet FOLLOW_module_in_mas86 = new BitSet(new long[]{0x0000005010200002L,0x0000000000000001L});
+	public static final BitSet FOLLOW_moduleImport_in_goalagent115 = new BitSet(new long[]{0x0000005010200002L,0x0000000000000001L});
+	public static final BitSet FOLLOW_module_in_goalagent121 = new BitSet(new long[]{0x0000005010200002L,0x0000000000000001L});
+	public static final BitSet FOLLOW_64_in_moduleImport134 = new BitSet(new long[]{0x0000008000000000L});
+	public static final BitSet FOLLOW_MODULEFILE_in_moduleImport136 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_moduleImport138 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_moduleDef_in_module155 = new BitSet(new long[]{0x0100000000010000L});
+	public static final BitSet FOLLOW_SQOPEN_in_module160 = new BitSet(new long[]{0x0000000000000000L,0x0000000000001200L});
+	public static final BitSet FOLLOW_moduleOption_in_module162 = new BitSet(new long[]{0x0080000000001000L});
+	public static final BitSet FOLLOW_COMMA_in_module166 = new BitSet(new long[]{0x0000000000000000L,0x0000000000001200L});
+	public static final BitSet FOLLOW_moduleOption_in_module168 = new BitSet(new long[]{0x0080000000001000L});
+	public static final BitSet FOLLOW_SQCLOSE_in_module173 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_module178 = new BitSet(new long[]{0x0002000082008210L,0x0000000000000001L});
+	public static final BitSet FOLLOW_krImport_in_module180 = new BitSet(new long[]{0x0002000082008210L});
+	public static final BitSet FOLLOW_knowledge_in_module183 = new BitSet(new long[]{0x0002000002008210L});
+	public static final BitSet FOLLOW_beliefs_in_module188 = new BitSet(new long[]{0x0002000002008010L});
+	public static final BitSet FOLLOW_goals_in_module192 = new BitSet(new long[]{0x0002000000008010L});
+	public static final BitSet FOLLOW_program_in_module196 = new BitSet(new long[]{0x0000000000008010L});
+	public static final BitSet FOLLOW_actionSpecs_in_module205 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_module213 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MODULE_in_moduleDef228 = new BitSet(new long[]{0x4000000000004000L});
+	public static final BitSet FOLLOW_declaration_in_moduleDef230 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_INIT_in_moduleDef235 = new BitSet(new long[]{0x0000004000000000L});
+	public static final BitSet FOLLOW_MODULE_in_moduleDef237 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MAIN_in_moduleDef244 = new BitSet(new long[]{0x0000004000000000L});
+	public static final BitSet FOLLOW_MODULE_in_moduleDef246 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_EVENT_in_moduleDef253 = new BitSet(new long[]{0x0000004000000000L});
+	public static final BitSet FOLLOW_MODULE_in_moduleDef255 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_73_in_moduleOption274 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_EQUALS_in_moduleOption276 = new BitSet(new long[]{0x0000000000000000L,0x00000000001A0040L});
+	public static final BitSet FOLLOW_70_in_moduleOption283 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_81_in_moduleOption293 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_84_in_moduleOption303 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_83_in_moduleOption314 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_76_in_moduleOption328 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_EQUALS_in_moduleOption330 = new BitSet(new long[]{0x0000000000000000L,0x0000000000A40800L});
+	public static final BitSet FOLLOW_set_in_moduleOption336 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_64_in_krImport361 = new BitSet(new long[]{0x0440000000000000L});
+	public static final BitSet FOLLOW_stringLiteral_in_krImport364 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_singleQuotedStringLiteral_in_krImport368 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_krImport371 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_KNOWLEDGE_in_knowledge384 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_knowledge386 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_krspec_in_knowledge388 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_knowledge391 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_krspec403 = new BitSet(new long[]{0x0204000000000000L});
+	public static final BitSet FOLLOW_STOP_in_krspec407 = new BitSet(new long[]{0x0000000000004002L});
+	public static final BitSet FOLLOW_PROLOGARROW_in_krspec414 = new BitSet(new long[]{0x60000C2000004000L,0x0000000000002000L});
+	public static final BitSet FOLLOW_no_bracket_literals_in_krspec420 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_forall_expr_in_krspec426 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_krspec430 = new BitSet(new long[]{0x0000000000004002L});
+	public static final BitSet FOLLOW_BELIEFS_in_beliefs447 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_beliefs449 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_brspec_in_beliefs451 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_beliefs454 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_brspec466 = new BitSet(new long[]{0x0204000000000000L});
+	public static final BitSet FOLLOW_STOP_in_brspec470 = new BitSet(new long[]{0x0000000000004002L});
+	public static final BitSet FOLLOW_PROLOGARROW_in_brspec477 = new BitSet(new long[]{0x60000C2000004000L});
+	public static final BitSet FOLLOW_no_bracket_literals_in_brspec481 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_brspec483 = new BitSet(new long[]{0x0000000000004002L});
+	public static final BitSet FOLLOW_GOALS_in_goals500 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_goals502 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_goal_list_in_goals506 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_goals510 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NOT_in_atom524 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_OPEN_in_atom526 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_atom530 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_atom533 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_atom540 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_equation_in_atom549 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PROGRAM_in_program564 = new BitSet(new long[]{0x0100000000010000L});
+	public static final BitSet FOLLOW_SQOPEN_in_program567 = new BitSet(new long[]{0x0000200000000000L});
+	public static final BitSet FOLLOW_ruleEvaluationOrder_in_program571 = new BitSet(new long[]{0x0080000000000000L});
+	public static final BitSet FOLLOW_SQCLOSE_in_program575 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_program581 = new BitSet(new long[]{0x000000000C008000L,0x000000000000A000L});
+	public static final BitSet FOLLOW_macroDef_in_program583 = new BitSet(new long[]{0x000000000C008000L,0x000000000000A000L});
+	public static final BitSet FOLLOW_programRule_in_program586 = new BitSet(new long[]{0x0000000008008000L,0x000000000000A000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_program590 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ORDER_in_ruleEvaluationOrder607 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_EQUALS_in_ruleEvaluationOrder609 = new BitSet(new long[]{0x0018000600000020L});
+	public static final BitSet FOLLOW_LINEAR_in_ruleEvaluationOrder613 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LINEARALL_in_ruleEvaluationOrder620 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_RANDOM_in_ruleEvaluationOrder626 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_RANDOMALL_in_ruleEvaluationOrder632 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ADAPTIVE_in_ruleEvaluationOrder639 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_HASH_in_macroDef653 = new BitSet(new long[]{0x0000000000020000L});
+	public static final BitSet FOLLOW_DEFINE_in_macroDef655 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_macroDef659 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalstate_in_macroDef664 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_macroDef670 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_IF_in_programRule684 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalstatecond_in_programRule688 = new BitSet(new long[]{0x0800000000000000L});
+	public static final BitSet FOLLOW_THEN_in_programRule692 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
+	public static final BitSet FOLLOW_actions_in_programRule698 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_programRule702 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_nestedRules_in_programRule706 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_77_in_programRule715 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalstatecond_in_programRule721 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_DO_in_programRule725 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
+	public static final BitSet FOLLOW_actions_in_programRule730 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_programRule734 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_nestedRules_in_programRule738 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_79_in_programRule746 = new BitSet(new long[]{0x4000000000000000L});
+	public static final BitSet FOLLOW_VAR_in_programRule748 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000004L});
+	public static final BitSet FOLLOW_66_in_programRule750 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalstatecond_in_programRule752 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_DO_in_programRule754 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
+	public static final BitSet FOLLOW_actions_in_programRule757 = new BitSet(new long[]{0x0200000000000000L});
 	public static final BitSet FOLLOW_STOP_in_programRule759 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_nestedRules_in_programRule763 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_79_in_programRule771 = new BitSet(new long[]{0x4000000000000000L});
-	public static final BitSet FOLLOW_VAR_in_programRule773 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000004L});
-	public static final BitSet FOLLOW_66_in_programRule775 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalstatecond_in_programRule777 = new BitSet(new long[]{0x0000000000080000L});
-	public static final BitSet FOLLOW_DO_in_programRule779 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
-	public static final BitSet FOLLOW_actions_in_programRule782 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_programRule784 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_nestedRules_in_programRule788 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_79_in_programRule797 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalstatecond_in_programRule799 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
-	public static final BitSet FOLLOW_65_in_programRule801 = new BitSet(new long[]{0x4000000000000000L});
-	public static final BitSet FOLLOW_VAR_in_programRule803 = new BitSet(new long[]{0x0000000000080000L});
-	public static final BitSet FOLLOW_DO_in_programRule805 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
-	public static final BitSet FOLLOW_actions_in_programRule808 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_programRule810 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_nestedRules_in_programRule814 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_nestedRules832 = new BitSet(new long[]{0x0000000008000000L,0x000000000000A000L});
-	public static final BitSet FOLLOW_programRule_in_nestedRules834 = new BitSet(new long[]{0x0000000008008000L,0x000000000000A000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_nestedRules838 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_basicCondition_in_mentalstatecond856 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_COMMA_in_mentalstatecond862 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_basicCondition_in_mentalstatecond866 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_mentalatom_in_mentalstate889 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_mentalstate896 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_OPEN_in_mentalstate898 = new BitSet(new long[]{0x4000000001804140L,0x0000000039000030L});
-	public static final BitSet FOLLOW_mentalatom_in_mentalstate900 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_mentalstate902 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_TRUE_in_mentalstate907 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_mentalstate_in_basicCondition927 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_basicCondition936 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_selector_in_mentalatom956 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_mentalatom958 = new BitSet(new long[]{0x0000000001800140L});
-	public static final BitSet FOLLOW_mentalOperator_in_mentalatom964 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_atom_parameters_in_mentalatom968 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_atom_parameters987 = new BitSet(new long[]{0x60001C2000004000L});
+	public static final BitSet FOLLOW_79_in_programRule772 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalstatecond_in_programRule774 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
+	public static final BitSet FOLLOW_65_in_programRule776 = new BitSet(new long[]{0x4000000000000000L});
+	public static final BitSet FOLLOW_VAR_in_programRule778 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_DO_in_programRule780 = new BitSet(new long[]{0x4000001010214000L,0x000000003F4145B8L});
+	public static final BitSet FOLLOW_actions_in_programRule783 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_programRule785 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_nestedRules_in_programRule789 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_nestedRules807 = new BitSet(new long[]{0x0000000008000000L,0x000000000000A000L});
+	public static final BitSet FOLLOW_programRule_in_nestedRules809 = new BitSet(new long[]{0x0000000008008000L,0x000000000000A000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_nestedRules813 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_basicCondition_in_mentalstatecond831 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_mentalstatecond837 = new BitSet(new long[]{0x5000040001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_basicCondition_in_mentalstatecond841 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_mentalatom_in_mentalstate864 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NOT_in_mentalstate871 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_OPEN_in_mentalstate873 = new BitSet(new long[]{0x4000000001804140L,0x0000000039000030L});
+	public static final BitSet FOLLOW_mentalatom_in_mentalstate875 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_mentalstate877 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_TRUE_in_mentalstate882 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_mentalstate_in_basicCondition902 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_basicCondition911 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_selector_in_mentalatom931 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_mentalatom933 = new BitSet(new long[]{0x0000000001800140L});
+	public static final BitSet FOLLOW_mentalOperator_in_mentalatom939 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_atom_parameters_in_mentalatom943 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_OPEN_in_atom_parameters962 = new BitSet(new long[]{0x60001C2000004000L});
+	public static final BitSet FOLLOW_atom_in_atom_parameters971 = new BitSet(new long[]{0x0020000000001400L});
+	public static final BitSet FOLLOW_COMMA_in_atom_parameters977 = new BitSet(new long[]{0x60000C2000004000L});
+	public static final BitSet FOLLOW_atom_in_atom_parameters982 = new BitSet(new long[]{0x0020000000001400L});
+	public static final BitSet FOLLOW_SEMI_in_atom_parameters989 = new BitSet(new long[]{0x60000C2000004000L});
 	public static final BitSet FOLLOW_atom_in_atom_parameters996 = new BitSet(new long[]{0x0020000000001400L});
-	public static final BitSet FOLLOW_COMMA_in_atom_parameters1002 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_atom_in_atom_parameters1007 = new BitSet(new long[]{0x0020000000001400L});
-	public static final BitSet FOLLOW_SEMI_in_atom_parameters1014 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_atom_in_atom_parameters1021 = new BitSet(new long[]{0x0020000000001400L});
-	public static final BitSet FOLLOW_atom_parameters_in_atom_parameters1038 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_atom_parameters1046 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_BEL_in_mentalOperator1067 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_GOAL_in_mentalOperator1078 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_AGOAL_in_mentalOperator1089 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_GOALA_in_mentalOperator1100 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_action_in_actions1123 = new BitSet(new long[]{0x0000400000000002L});
-	public static final BitSet FOLLOW_PLUS_in_actions1130 = new BitSet(new long[]{0x4000001010204000L,0x000000003F4145B8L});
-	public static final BitSet FOLLOW_action_in_actions1134 = new BitSet(new long[]{0x0000400000000002L});
-	public static final BitSet FOLLOW_selector_in_action1154 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_STOP_in_action1156 = new BitSet(new long[]{0x0000000000000000L,0x0000000006414188L});
-	public static final BitSet FOLLOW_actionOperator_in_action1162 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_parameters_in_action1166 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_74_in_action1178 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_80_in_action1187 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_INIT_in_action1196 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MAIN_in_action1205 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EVENT_in_action1214 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_action1221 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_67_in_actionOperator1242 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_72_in_actionOperator1253 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_78_in_actionOperator1264 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_71_in_actionOperator1275 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_89_in_actionOperator1287 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_90_in_actionOperator1296 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_86_in_actionOperator1305 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_80_in_actionOperator1316 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_word_in_selector1328 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_68_in_selector1337 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_69_in_selector1346 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_88_in_selector1355 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_91_in_selector1364 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_92_in_selector1373 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_93_in_selector1382 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ACTIONSPEC_in_actionSpecs1401 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_actionSpecs1403 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_actionSpec_in_actionSpecs1408 = new BitSet(new long[]{0x000000000000C000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_actionSpecs1414 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_actionSpec1433 = new BitSet(new long[]{0x0000000020410000L});
-	public static final BitSet FOLLOW_INTERNAL_in_actionSpec1436 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_EXTERNAL_in_actionSpec1442 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_actionSpec1448 = new BitSet(new long[]{0x0001000000000000L});
-	public static final BitSet FOLLOW_precondition_in_actionSpec1452 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_postcondition_in_actionSpec1456 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_actionSpec1458 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PRE_in_precondition1476 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_precondition1478 = new BitSet(new long[]{0x70000C2000004000L});
-	public static final BitSet FOLLOW_TRUE_in_precondition1482 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_no_bracket_literals_in_precondition1492 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_precondition1497 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_POST_in_postcondition1512 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_postcondition1515 = new BitSet(new long[]{0x70000C2000004000L});
-	public static final BitSet FOLLOW_TRUE_in_postcondition1519 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_no_bracket_literals_in_postcondition1529 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_postcondition1538 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_id_in_declaration1555 = new BitSet(new long[]{0x0000100000000002L});
-	public static final BitSet FOLLOW_parameters_in_declaration1562 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_term_in_declarationOrCallWithTerms1583 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_id1602 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_id1609 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_parameters1632 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_parameters1636 = new BitSet(new long[]{0x0000000000001400L});
-	public static final BitSet FOLLOW_COMMA_in_parameters1642 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_parameters1646 = new BitSet(new long[]{0x0000000000001400L});
-	public static final BitSet FOLLOW_CLOSE_in_parameters1654 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_term_in_no_bracket_parameters1676 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_COMMA_in_no_bracket_parameters1682 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_no_bracket_parameters1686 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_atom_in_no_bracket_literals1717 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_COMMA_in_no_bracket_literals1723 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_atom_in_no_bracket_literals1730 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_77_in_forall_expr1757 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_OPEN_in_forall_expr1759 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_atom_in_forall_expr1763 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_COMMA_in_forall_expr1765 = new BitSet(new long[]{0x60000C2000004000L});
-	public static final BitSet FOLLOW_atom_in_forall_expr1769 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_CLOSE_in_forall_expr1773 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_term_in_goal_list1799 = new BitSet(new long[]{0x0200000000001000L});
-	public static final BitSet FOLLOW_COMMA_in_goal_list1806 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_goal_list1810 = new BitSet(new long[]{0x0200000000001000L});
-	public static final BitSet FOLLOW_STOP_in_goal_list1817 = new BitSet(new long[]{0x6500082000004002L});
-	public static final BitSet FOLLOW_stringterm_in_term2107 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_term_in_term2117 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_term2127 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_listterm_in_term2136 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_function_term2154 = new BitSet(new long[]{0x0000100000000002L});
-	public static final BitSet FOLLOW_OPEN_in_function_term2161 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_function_term2165 = new BitSet(new long[]{0x0000000000001400L});
-	public static final BitSet FOLLOW_COMMA_in_function_term2172 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_function_term2176 = new BitSet(new long[]{0x0000000000001400L});
-	public static final BitSet FOLLOW_CLOSE_in_function_term2182 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_var2202 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_UNNAMEDVAR_in_var2208 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_stringterm_in_stringLiteral2226 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2240 = new BitSet(new long[]{0x4000000000004000L});
-	public static final BitSet FOLLOW_word_in_singleQuotedStringLiteral2244 = new BitSet(new long[]{0x0040000000000000L});
-	public static final BitSet FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2246 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_STRING_in_stringterm2263 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_word2280 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_word2286 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_listterm2307 = new BitSet(new long[]{0x6580082000004000L});
-	public static final BitSet FOLLOW_term_in_listterm2312 = new BitSet(new long[]{0x0080000000001080L});
-	public static final BitSet FOLLOW_COMMA_in_listterm2319 = new BitSet(new long[]{0x6500082000004000L});
-	public static final BitSet FOLLOW_term_in_listterm2323 = new BitSet(new long[]{0x0080000000001080L});
-	public static final BitSet FOLLOW_BAR_in_listterm2332 = new BitSet(new long[]{0x4000000000000000L});
-	public static final BitSet FOLLOW_VAR_in_listterm2336 = new BitSet(new long[]{0x0080000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_listterm2348 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2366 = new BitSet(new long[]{0x0000000140100000L});
-	public static final BitSet FOLLOW_eqoper_in_equation2370 = new BitSet(new long[]{0x6000082000000000L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2374 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_numberstring2394 = new BitSet(new long[]{0x0000080000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2405 = new BitSet(new long[]{0x0200000000000002L});
-	public static final BitSet FOLLOW_STOP_in_numberstring2411 = new BitSet(new long[]{0x0000080000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2417 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2437 = new BitSet(new long[]{0x0000402000000002L});
-	public static final BitSet FOLLOW_addoper_in_arithexpr2444 = new BitSet(new long[]{0x6000082000000000L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2448 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_term_in_multexpr2466 = new BitSet(new long[]{0x0000010000040002L});
-	public static final BitSet FOLLOW_multoper_in_multexpr2472 = new BitSet(new long[]{0x6000082000000000L});
-	public static final BitSet FOLLOW_atom_term_in_multexpr2476 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_numberstring_in_atom_term2498 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_atom_term2506 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_addoper2525 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_addoper2531 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_multoper2548 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DIV_in_multoper2554 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LESS_in_eqoper2570 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_set_in_eqoper2576 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_parameters_in_atom_parameters1013 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_atom_parameters1021 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_BEL_in_mentalOperator1042 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_GOAL_in_mentalOperator1053 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_AGOAL_in_mentalOperator1064 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_GOALA_in_mentalOperator1075 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_action_in_actions1098 = new BitSet(new long[]{0x0000400000000002L});
+	public static final BitSet FOLLOW_PLUS_in_actions1105 = new BitSet(new long[]{0x4000001010204000L,0x000000003F4145B8L});
+	public static final BitSet FOLLOW_action_in_actions1109 = new BitSet(new long[]{0x0000400000000002L});
+	public static final BitSet FOLLOW_selector_in_action1129 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_STOP_in_action1131 = new BitSet(new long[]{0x0000000000000000L,0x0000000006414188L});
+	public static final BitSet FOLLOW_actionOperator_in_action1137 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_parameters_in_action1141 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_74_in_action1153 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_80_in_action1162 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_INIT_in_action1171 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MAIN_in_action1180 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_EVENT_in_action1189 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_action1196 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_67_in_actionOperator1217 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_72_in_actionOperator1228 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_78_in_actionOperator1239 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_71_in_actionOperator1250 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_89_in_actionOperator1262 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_90_in_actionOperator1271 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_86_in_actionOperator1280 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_80_in_actionOperator1291 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_word_in_selector1303 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_68_in_selector1312 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_69_in_selector1321 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_88_in_selector1330 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_91_in_selector1339 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_92_in_selector1348 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_93_in_selector1357 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ACTIONSPEC_in_actionSpecs1376 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_actionSpecs1378 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_actionSpec_in_actionSpecs1383 = new BitSet(new long[]{0x000000000000C000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_actionSpecs1389 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declarationOrCallWithTerms_in_actionSpec1408 = new BitSet(new long[]{0x0000000020410000L});
+	public static final BitSet FOLLOW_INTERNAL_in_actionSpec1411 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_EXTERNAL_in_actionSpec1417 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_actionSpec1423 = new BitSet(new long[]{0x0001000000000000L});
+	public static final BitSet FOLLOW_precondition_in_actionSpec1427 = new BitSet(new long[]{0x0000800000000000L});
+	public static final BitSet FOLLOW_postcondition_in_actionSpec1431 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_actionSpec1433 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PRE_in_precondition1451 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_precondition1453 = new BitSet(new long[]{0x70000C2000004000L});
+	public static final BitSet FOLLOW_TRUE_in_precondition1457 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_no_bracket_literals_in_precondition1467 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_precondition1472 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_POST_in_postcondition1487 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_CURLYOPEN_in_postcondition1490 = new BitSet(new long[]{0x70000C2000004000L});
+	public static final BitSet FOLLOW_TRUE_in_postcondition1494 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_no_bracket_literals_in_postcondition1504 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_CURLYCLOSE_in_postcondition1513 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_id_in_declaration1530 = new BitSet(new long[]{0x0000100000000002L});
+	public static final BitSet FOLLOW_parameters_in_declaration1537 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_function_term_in_declarationOrCallWithTerms1558 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CONST_in_id1577 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_id1584 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_OPEN_in_parameters1607 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_parameters1611 = new BitSet(new long[]{0x0000000000001400L});
+	public static final BitSet FOLLOW_COMMA_in_parameters1617 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_parameters1621 = new BitSet(new long[]{0x0000000000001400L});
+	public static final BitSet FOLLOW_CLOSE_in_parameters1629 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_term_in_no_bracket_parameters1651 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_no_bracket_parameters1657 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_no_bracket_parameters1661 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_atom_in_no_bracket_literals1692 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_COMMA_in_no_bracket_literals1698 = new BitSet(new long[]{0x60000C2000004000L});
+	public static final BitSet FOLLOW_atom_in_no_bracket_literals1705 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_77_in_forall_expr1732 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_OPEN_in_forall_expr1734 = new BitSet(new long[]{0x60000C2000004000L});
+	public static final BitSet FOLLOW_atom_in_forall_expr1738 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_COMMA_in_forall_expr1740 = new BitSet(new long[]{0x60000C2000004000L});
+	public static final BitSet FOLLOW_atom_in_forall_expr1744 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_CLOSE_in_forall_expr1748 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_term_in_goal_list1774 = new BitSet(new long[]{0x0200000000001000L});
+	public static final BitSet FOLLOW_COMMA_in_goal_list1781 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_goal_list1785 = new BitSet(new long[]{0x0200000000001000L});
+	public static final BitSet FOLLOW_STOP_in_goal_list1792 = new BitSet(new long[]{0x6500082000004002L});
+	public static final BitSet FOLLOW_stringterm_in_term2082 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_function_term_in_term2092 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_arithexpr_in_term2102 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_listterm_in_term2111 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CONST_in_function_term2129 = new BitSet(new long[]{0x0000100000000002L});
+	public static final BitSet FOLLOW_OPEN_in_function_term2136 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_function_term2140 = new BitSet(new long[]{0x0000000000001400L});
+	public static final BitSet FOLLOW_COMMA_in_function_term2147 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_function_term2151 = new BitSet(new long[]{0x0000000000001400L});
+	public static final BitSet FOLLOW_CLOSE_in_function_term2157 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_var2177 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_UNNAMEDVAR_in_var2183 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_stringterm_in_stringLiteral2201 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2215 = new BitSet(new long[]{0x4000000000004000L});
+	public static final BitSet FOLLOW_word_in_singleQuotedStringLiteral2219 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_SINGLEQUOTE_in_singleQuotedStringLiteral2221 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_STRING_in_stringterm2238 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CONST_in_word2255 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VAR_in_word2261 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_SQOPEN_in_listterm2282 = new BitSet(new long[]{0x6580082000004000L});
+	public static final BitSet FOLLOW_term_in_listterm2287 = new BitSet(new long[]{0x0080000000001080L});
+	public static final BitSet FOLLOW_COMMA_in_listterm2294 = new BitSet(new long[]{0x6500082000004000L});
+	public static final BitSet FOLLOW_term_in_listterm2298 = new BitSet(new long[]{0x0080000000001080L});
+	public static final BitSet FOLLOW_BAR_in_listterm2307 = new BitSet(new long[]{0x4000000000000000L});
+	public static final BitSet FOLLOW_VAR_in_listterm2311 = new BitSet(new long[]{0x0080000000000000L});
+	public static final BitSet FOLLOW_SQCLOSE_in_listterm2323 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2341 = new BitSet(new long[]{0x0000000140100000L});
+	public static final BitSet FOLLOW_eqoper_in_equation2345 = new BitSet(new long[]{0x6000082000000000L});
+	public static final BitSet FOLLOW_arithexpr_in_equation2349 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_numberstring2369 = new BitSet(new long[]{0x0000080000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2380 = new BitSet(new long[]{0x0200000000000002L});
+	public static final BitSet FOLLOW_STOP_in_numberstring2386 = new BitSet(new long[]{0x0000080000000000L});
+	public static final BitSet FOLLOW_NUMBER_in_numberstring2392 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr2412 = new BitSet(new long[]{0x0000402000000002L});
+	public static final BitSet FOLLOW_addoper_in_arithexpr2419 = new BitSet(new long[]{0x6000082000000000L});
+	public static final BitSet FOLLOW_multexpr_in_arithexpr2423 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_term_in_multexpr2441 = new BitSet(new long[]{0x0000010000040002L});
+	public static final BitSet FOLLOW_multoper_in_multexpr2447 = new BitSet(new long[]{0x6000082000000000L});
+	public static final BitSet FOLLOW_atom_term_in_multexpr2451 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_numberstring_in_atom_term2473 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_var_in_atom_term2481 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PLUS_in_addoper2500 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MINUS_in_addoper2506 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MULT_in_multoper2523 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DIV_in_multoper2529 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LESS_in_eqoper2545 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_set_in_eqoper2551 = new BitSet(new long[]{0x0000000000000002L});
 }

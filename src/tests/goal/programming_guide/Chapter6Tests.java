@@ -43,7 +43,7 @@ public class Chapter6Tests {
 		// Begin!
 		mccontrol.begin(); 
 		mas.cleanup();
-		String expectedOutput = "Attempting move(b4,b3)\nAttempting move(b2,table)\nAttempting move(b1,table)\nAttempting move(b4,b3)\nAttempting move(b2,table)\nAttempting move(b4,b3)\nAttempting move(b5,b2)\nAttempting move(b1,b5)\nAttempting move(b6,b4)\n";
+		String expectedOutput = "goal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b1,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b5,b2)\ngoal_agent attempting move(b1,b5)\ngoal_agent attempting move(b6,b4)\n";
 		Assert.assertEquals(expectedOutput, errContent.toString());
 		cleanUpStreams();
 
