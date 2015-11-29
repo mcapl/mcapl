@@ -69,7 +69,7 @@ public class UserSpecAction extends ActionExecutor {
 	private final static String name = "Plan with Action Specs";
 	
 	private Iterator<Unifier> preiterator;
-	private Capability action;
+	private ActionSpec action;
 			
 	public String getName() {
 		return name;
@@ -90,7 +90,7 @@ public class UserSpecAction extends ActionExecutor {
 		Predicate cap = (Predicate) d.getContent().clone();
 		
 		Iterator<Capability> cit = ((GOALAgent) a).getCL().getRelevant(cap, AILAgent.SelectionOrder.LINEAR);
-		action = cit.next().clone();
+		action = (ActionSpec) cit.next().clone();
 		
 		Unifier u = a.getIntention().hdU();
 		cap.apply(u);
@@ -125,7 +125,11 @@ public class UserSpecAction extends ActionExecutor {
 		// UserSpec should really include whether or not this is an external action.
 		try {
 			action.apply(preiterator.next());
-			a.getEnv().executeAction(a.getAgName(), new Action(action.getCap(), Action.normalAction));
+			if (! action.isInternalAction()) {
+				a.getEnv().executeAction(a.getAgName(), new Action(action.getCap(), Action.normalAction));
+			} else {
+				a.getEnv().notifyListeners();
+			}
 		} catch (Exception e) {
 			
 		}

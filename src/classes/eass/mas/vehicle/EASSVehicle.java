@@ -621,5 +621,22 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		mas = m;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners()
+	 */
+	@Override
+	public void notifyListeners() {
+		env.notifyListeners();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners(java.lang.String)
+	 */
+	@Override
+	public void notifyListeners(String name) {
+		env.notifyListeners(name);
+	}
 
 }

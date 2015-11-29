@@ -257,9 +257,9 @@ actionSpecs returns [ArrayList<Abstract_ActionSpec> as]
 	;
 
 actionSpec returns [Abstract_ActionSpec as]
-	: cap=declarationOrCallWithTerms (INTERNAL | EXTERNAL)? 
+	: {boolean internal=false;} cap=declarationOrCallWithTerms (INTERNAL {internal = true;} | EXTERNAL)? 
 	CURLYOPEN pre=precondition post=postcondition CURLYCLOSE
-	{as = new Abstract_ActionSpec(cap, pre, post);}
+	{as = new Abstract_ActionSpec(cap, pre, post, internal);}
 	;
 
 precondition returns [Abstract_LogicalFormula f]
@@ -362,8 +362,6 @@ POST 	: 'post';
 PLUS 	: '+';
 INTERNAL 	: '@int';
 EXTERNAL  : '@ext';
-
-PERCEPT	:	'percept'
 
 // term syntax
 term returns [Abstract_Term t] 

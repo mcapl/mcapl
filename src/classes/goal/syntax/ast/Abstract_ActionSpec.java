@@ -55,6 +55,7 @@ import ail.syntax.ast.Abstract_BaseAILStructure;
  *
  */
 public class Abstract_ActionSpec extends Abstract_Capability { 
+	boolean internal = false;
 	/**
 	 * Create a capability from a Goal (the capability), a mental states
 	 * (the precondition) and a list of deeds (the effects).
@@ -69,15 +70,16 @@ public class Abstract_ActionSpec extends Abstract_Capability {
 		addPost(new Abstract_MentalAtom(lf, Abstract_BaseAILStructure.AILBel));
 	}
 	
-	public Abstract_ActionSpec(Abstract_Predicate p, Abstract_LogicalFormula pre, Abstract_LogicalFormula pos) {
+	public Abstract_ActionSpec(Abstract_Predicate p, Abstract_LogicalFormula pre, Abstract_LogicalFormula pos, boolean internal) {
 		super(p);
 		addPre(new Abstract_MentalAtom(pre, Abstract_BaseAILStructure.AILBel));
 		addPost(new Abstract_MentalAtom(pos, Abstract_BaseAILStructure.AILBel));
+		this.internal = internal;
 	}
 	
     public ActionSpec toMCAPL() {
     	Capability c = super.toMCAPL();
-    	return new ActionSpec(c);
+    	return new ActionSpec(c, internal);
     }
     
     public int newJPFObject(MJIEnv env) {
@@ -85,6 +87,7 @@ public class Abstract_ActionSpec extends Abstract_Capability {
 		env.setReferenceField(objref, "cap", getCap().newJPFObject(env));
 		env.setReferenceField(objref, "pre", getPre().newJPFObject(env));
 		env.setReferenceField(objref, "post", getPost().newJPFObject(env));
+		env.setBooleanField(objref, "internal", internal);
     	return objref;
     }
 

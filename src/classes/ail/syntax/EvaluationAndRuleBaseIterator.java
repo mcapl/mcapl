@@ -216,7 +216,6 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 
 				if (random_depth == 1) {
 					if (currents.size() > 1) {
-						System.err.println("Evaluating " + logical_term + " with " + currents);
 						Collections.shuffle(currents);
 					}
 					cit = currents.iterator();

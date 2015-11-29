@@ -46,9 +46,19 @@ import ail.syntax.annotation.SourceAnnotation;
  *
  */
 public class ActionSpec extends Capability { 
+	boolean internal;
 	
-	public ActionSpec(Capability c) {
+	public ActionSpec(Capability c, boolean internal) {
 		super(c.getPre(), c.getCap(), c.getPost());
+		this.internal = internal;
 	};
+	
+	public boolean isInternalAction() {
+		return internal;
+	}
+	
+	public ActionSpec clone() {
+		return new ActionSpec(super.clone(), internal);
+	}
 	
 }

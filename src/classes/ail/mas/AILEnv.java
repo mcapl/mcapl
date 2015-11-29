@@ -198,4 +198,15 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
      * @param m
      */
     public void setMAS(MAS m);
+    
+    /**
+     * Notify percept listeners that something has happened.
+     */
+    public void notifyListeners();
+    
+    /**
+     * Notify listeners with a particular name that something has happened.
+     * @param name
+     */
+    public void notifyListeners(String name);
 }
