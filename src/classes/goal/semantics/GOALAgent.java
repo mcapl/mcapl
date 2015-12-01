@@ -84,8 +84,6 @@ public class GOALAgent extends AILAgent {
 	
 	private GOALModule.ModuleType topLevelContext = GOALModule.ModuleType.MAIN;
 	
-	private List<Predicate> modulenames;
-	
     /**
      * Stack of (non-anonymous) modules that have been entered and not yet
      * exited; last element on the list has been entered last.

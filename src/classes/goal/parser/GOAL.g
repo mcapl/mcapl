@@ -116,7 +116,8 @@ goals [Abstract_GOALModule gl]
 	: GOALS CURLYOPEN le=goal_list {gl.addGoal(le);} CURLYCLOSE;
 	
 atom returns [Abstract_LogicalFormula l]
-	: NOT OPEN p=declarationOrCallWithTerms{$l = new Abstract_LogExpr(Abstract_LogExpr.not, p);} CLOSE
+	: NOT OPEN ( p=declarationOrCallWithTerms{$l = new Abstract_LogExpr(Abstract_LogExpr.not, p);} 
+		| e=equation {$l= new Abstract_LogExpr(Abstract_LogExpr.not, e);} ) CLOSE
 	| p=declarationOrCallWithTerms {$l=p;}
 	| e=equation {$l = e;}
 	;
@@ -195,8 +196,10 @@ mentalatom returns [Abstract_MentalState ms]
 atom_parameters returns [Abstract_LogExpr ts] 
 	: OPEN ( 
 	 t=atom {Abstract_LogExpr tl = new Abstract_LogExpr(Abstract_LogExpr.none, t);}
-	(COMMA  t1=atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and,  t1);}
-	| SEMI  t1 = atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.or,  t1);}
+	(COMMA  ( t1=atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and,  t1);}
+		| ap=atom_parameters {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and,  ap);})
+	| SEMI  (t1 = atom {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.or,  t1);}
+		| ap=atom_parameters {tl = new Abstract_LogExpr(tl, Abstract_LogExpr.and,  ap);})
 	)*  { $ts = tl;}
 	|  ap=atom_parameters {$ts = ap;}  )
 	CLOSE
@@ -400,7 +403,7 @@ listterm returns [Abstract_ListTermImpl l]
 
 equation returns [Abstract_Equation e]
 	: ( a1=arithexprg i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);} ) |
-	   (v=var EQUALS (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=function_term {e = new Abstract_Equation(v, 3, ft);} ))
+	   (v=var EQUALS (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=term {e = new Abstract_Equation(v, 3, ft);} ))
 	;
 forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
 	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}

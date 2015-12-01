@@ -154,6 +154,10 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	   optionorder = i;
    }
    
+   public boolean hasName() {
+	   return (getModuleName() != null);
+   }
+   
    /**
     * Add a rule to the rule base.
     * @param r

@@ -180,7 +180,9 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     private void add_fields(GOALAgent ag) {
     	ArrayList<Abstract_Predicate> names = new ArrayList<Abstract_Predicate>();
     	for (Abstract_GOALModule m: modules) {
-    		names.add(m.getModuleName());
+    		if (m.hasName()) {
+    			names.add(m.getModuleName());
+    		}
     	}
     	
     	for (Abstract_GOALModule m: modules) {
