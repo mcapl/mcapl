@@ -40,6 +40,7 @@ import ail.syntax.ast.Abstract_Unifier;
 import ail.syntax.ast.Abstract_GLogicalFormula;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Term;
+import ail.syntax.ast.Abstract_VarTerm;
 
 public class Abstract_MentalState extends Abstract_Guard {
 	boolean macro = false;
@@ -71,11 +72,27 @@ public class Abstract_MentalState extends Abstract_Guard {
 		super(lf, i, lf2);
 	}
 	
+	/**
+	 * 
+	 * @param macro_ms - is the macro content as it appears in the definition.
+	 * @param macro_lookup - is the macro lookup as it appears in the definition.
+	 * @param key - is the current lookup used in this mental state condition.
+	 */
 	public Abstract_MentalState(Abstract_MentalState macro_ms, Abstract_Term macro_lookup, Abstract_Predicate key) {
+		// Dealt with in toMCAPL
 		macro = true;
 		mms = macro_ms;
 		t = macro_lookup;
 		p = key;
+	}
+	
+	/**
+	 * 
+	 * @param v is a list to be created by all instantiations of lf in the current context.
+	 * @param lf
+	 */
+	public Abstract_MentalState(Abstract_VarTerm v, Abstract_MentalState lf) {
+		super(Abstract_Guard.none, new Abstract_ListAll(v, lf));
 	}
 		
 		

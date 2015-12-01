@@ -24,9 +24,12 @@
 
 package ail.syntax.ast;
 
+import ail.syntax.AILComparison;
 import ail.syntax.Equation;
+import ail.syntax.Is;
 import ail.syntax.NumberTerm;
-
+import ail.syntax.Predicate;
+import ail.syntax.VarTerm;
 import gov.nasa.jpf.vm.MJIEnv;
 
 /**
@@ -69,6 +72,7 @@ public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_Log
 	 * It has a left and right hand side.
 	 */
 	private  Abstract_NumberTerm lhs, rhs;
+	private Abstract_Term term_rhs;
 	/**
 	 * By default an equation has no operator.
 	 */
@@ -85,10 +89,14 @@ public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_Log
 	 * @param oper
 	 * @param f2
 	 */
-	public Abstract_Equation(Abstract_NumberTerm f1, int oper, Abstract_NumberTerm f2) {
+	public Abstract_Equation(Abstract_NumberTerm f1, int oper, Abstract_Term f2) {
 		lhs = f1;
 		op = oper;
-		rhs = f2;
+		if (f2 instanceof Abstract_NumberTerm) {
+			rhs = (Abstract_NumberTerm) f2;
+		} else {
+			term_rhs = f2;
+		}
 	}
 	
 	/**
@@ -110,9 +118,12 @@ public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_Log
 	 * (non-Javadoc)
 	 * @see ail.syntax.ast.Abstract_GBelief#toMCAPL()
 	 */
-	public Equation toMCAPL() {
-		Equation eq = new Equation((NumberTerm) lhs.toMCAPL(), opToMCAPL(), (NumberTerm) rhs.toMCAPL());
-		return eq;
+	public AILComparison toMCAPL() {
+		if (term_rhs == null ) {
+			return new Equation((NumberTerm) lhs.toMCAPL(), opToMCAPL(), (NumberTerm) rhs.toMCAPL());
+		} else {
+			return new Is((VarTerm) lhs.toMCAPL(), (Predicate) term_rhs.toMCAPL());
+		}
 		
 	}
 	
@@ -123,7 +134,11 @@ public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_Log
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_Equation");
 		env.setReferenceField(objref, "lhs", lhs.newJPFObject(env));
-		env.setReferenceField(objref, "rhs", rhs.newJPFObject(env));
+		if (rhs != null) {
+			env.setReferenceField(objref, "rhs", rhs.newJPFObject(env));
+		} else {
+			env.setReferenceField(objref, "term_rhs", term_rhs.newJPFObject(env));
+		}
 		env.setIntField(objref, "op", op);
 		return objref;
 	}

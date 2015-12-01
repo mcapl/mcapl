@@ -90,6 +90,10 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		super(t, g);
 	}
 	
+	public Event(Goal g) {
+		this(Event.AILAddition, g);
+	}
+	
 	public Event(int t, byte c, Message msg) {
 		super(t, c, msg);
 	}

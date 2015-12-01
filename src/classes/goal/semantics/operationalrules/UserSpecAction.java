@@ -48,6 +48,7 @@ import goal.mas.GoalEnvironment;
 import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.syntax.ActionSpec;
 import goal.syntax.GOALModule;
+import goal.syntax.ModuleCallAction;
 import goal.semantics.GOALAgent;
 
 import java.util.Iterator;
@@ -84,6 +85,11 @@ public class UserSpecAction extends ActionExecutor {
 		
 		boolean userspecaction = d.getCategory() == Deed.DAction;
 		if (!userspecaction) {
+			return false;
+		}
+
+		Action act = (Action) d.getContent();
+		if (act instanceof ModuleCallAction) {
 			return false;
 		}
 		

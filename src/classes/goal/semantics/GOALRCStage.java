@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import ail.semantics.OSRule;
 import ail.semantics.RCStage;
 import ail.semantics.AILAgent;
+import goal.syntax.GOALModule;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 
@@ -42,4 +43,5 @@ import gov.nasa.jpf.annotation.FilterField;
 public interface GOALRCStage extends RCStage {
 	public void advance(AILAgent ag);
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag);
+	public void setNextStage(GOALModule module);
 }

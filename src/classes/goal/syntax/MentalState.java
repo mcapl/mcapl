@@ -61,6 +61,22 @@ public class MentalState {
 		}
 	}
 
+	public void focus(ConjGoalBase newAttentionSet) {
+		ownModel.focus(newAttentionSet);
+	}
+
+	public MentalModel getOwnModel() {
+		return ownModel;
+	}
+
+	public List<Goal> getGoals() {
+		return ownModel.getGoals();
+	}
+
+	public void defocus() {
+		ownModel.defocus();
+	}
+
 
 	
 }

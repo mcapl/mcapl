@@ -149,4 +149,22 @@ public class MentalModel implements AgentMentalState {
 		return null;
 	}
 
+	public void focus(ConjGoalBase newAttentionSet) {
+		addGB(newAttentionSet);
+	}
+
+	public List<Goal> getGoals() {
+		return getAttentionSet().getAll();
+	}
+	
+	ConjGoalBase getAttentionSet() {
+		return goalbases.peek();
+	}
+	
+	public void defocus() {
+		ConjGoalBase oldAttentionSet = goalbases.pop();
+		oldAttentionSet.cleanup();
+		updateGoalState();
+	}
+
 }

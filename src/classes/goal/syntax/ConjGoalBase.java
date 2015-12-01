@@ -33,4 +33,14 @@ public class ConjGoalBase extends GoalBase {
 		return conjgoals;
 	}
 
+	public void cleanup() {
+		List<ConjGoal> tbr = new ArrayList<ConjGoal>();
+		for (ConjGoal cg: conjgoals) {
+			tbr.add(cg);
+		}
+		for (ConjGoal cg: tbr) {
+			remove(cg);
+		}
+	}
+
 }

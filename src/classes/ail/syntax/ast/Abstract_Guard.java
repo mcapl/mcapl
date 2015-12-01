@@ -138,6 +138,7 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
     	if (op == not) {
     		return Guard.GLogicalOp.not;
     	}
+    	
     	return Guard.GLogicalOp.and;
     }
 

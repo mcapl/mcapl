@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.ArrayList;
 
-
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Message;
@@ -17,6 +16,7 @@ import goal.semantics.operationalrules.ProcessMessages;
 import goal.semantics.operationalrules.ProcessPercepts;
 import goal.semantics.operationalrules.GOALSleepRule;
 import goal.semantics.GOALAgent;
+import goal.syntax.GOALModule;
 
 public class startCycleStage extends AbstractGoalStage {
     private Set<Predicate> current_percepts = new LinkedHashSet<>();
@@ -101,6 +101,12 @@ public class startCycleStage extends AbstractGoalStage {
 	
 	public Set<Predicate> getPercepts() {
 		return current_percepts;
+	}
+
+	@Override
+	public void setNextStage(GOALModule module) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

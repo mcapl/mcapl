@@ -34,6 +34,7 @@ import ail.syntax.Guard;
 import ail.syntax.Plan;
 import ail.syntax.ast.Abstract_Unifier;
 import ail.syntax.Predicate;
+import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Event;
@@ -132,6 +133,13 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	type = t;
     }
     
+    public void merge(ArrayList<Abstract_ActionRule> rs) {
+    	Abstract_ModuleCallAction mca = new Abstract_ModuleCallAction(rs);
+    	ArrayList<Abstract_Deed> deeds = new ArrayList<Abstract_Deed>();
+    	deeds.add(new Abstract_Deed(mca));
+    	setBody(deeds);
+    }
+    
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_ActionRule");
     	int bodyref = env.newObjectArray("ail.syntax.Abstract_Deed", body.length);
@@ -164,6 +172,20 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	pred.unifies(target, u);
     	return u;
     }
+
+	public void resolveUserSpecOrCallModule(ArrayList<Abstract_Predicate> names) {
+		for (int index = 0; index < body.length; index++) {
+			Abstract_Deed d = body[index];
+			if (d.getContent() instanceof Abstract_UserSpecOrModuleCall) {
+				Abstract_Predicate dp = (Abstract_Predicate) d.getContent();
+				if (names.contains(dp)) {
+					body[index] = new Abstract_Deed(new Abstract_ModuleCallAction(dp));
+				} else {
+					body[index] = new Abstract_Deed(new Abstract_Action(dp));
+				}
+			}
+		}
+	}
 
 
 }

@@ -178,6 +178,19 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 	}
     
     private void add_fields(GOALAgent ag) {
+    	ArrayList<Abstract_Predicate> names = new ArrayList<Abstract_Predicate>();
+    	for (Abstract_GOALModule m: modules) {
+    		names.add(m.getModuleName());
+    	}
+    	
+    	for (Abstract_GOALModule m: modules) {
+    		m.setModuleNames(names);
+    		try {
+    			ag.addModule(m.toMCAPL());
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
     	for (Abstract_Predicate l: beliefs) {
     		ag.addInitialBel(new Literal(l.toMCAPL()));
     	}
@@ -186,13 +199,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     	}
     	for (Abstract_Rule r: knowledge_rules) {
     		ag.addRule(r.toMCAPL());
-    	}
-    	for (Abstract_GOALModule m: modules) {
-    		try {
-    			ag.addModule(m.toMCAPL());
-    		} catch (Exception e) {
-    			e.printStackTrace();
-    		}
     	}
     	
     	for (Abstract_Goal g: goals) {

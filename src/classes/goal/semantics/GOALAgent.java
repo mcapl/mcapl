@@ -84,6 +84,8 @@ public class GOALAgent extends AILAgent {
 	
 	private GOALModule.ModuleType topLevelContext = GOALModule.ModuleType.MAIN;
 	
+	private List<Predicate> modulenames;
+	
     /**
      * Stack of (non-anonymous) modules that have been entered and not yet
      * exited; last element on the list has been entered last.
@@ -633,6 +635,7 @@ public class GOALAgent extends AILAgent {
 
     public boolean exitModule(GOALModule module) {
         if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
+        		getMentalState().defocus();
                 return false;
         }
 
@@ -721,6 +724,20 @@ public class GOALAgent extends AILAgent {
     public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
     	return g.logicalConsequence(this, un, g.getVarNames(), so);
     }
+
+	public Goal getFocusGoal() {
+		if (getIntention() != null) {
+			Intention i = getIntention();
+			if (i.hdE().referstoGoal()) {
+				return (Goal) i.hdE().getContent();
+			}
+		}
+		return null;
+	}
+
+	public void setFocusGoal(Goal goal) {
+		setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself()));
+	}
 
     
 

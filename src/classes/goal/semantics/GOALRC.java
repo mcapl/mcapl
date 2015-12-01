@@ -51,7 +51,7 @@ public class GOALRC implements ReasoningCycle {
 	public GOALRCStage mainModule;
 	public GOALRCStage initModule;
 	public GOALRCStage eventModule;
-	
+		
 	GOALRCStage currentStage = startCycle; 
 	boolean stopandcheck = false;
 	private GOALAgent ag;
@@ -143,5 +143,9 @@ public class GOALRC implements ReasoningCycle {
 		if (m != null) {
 			eventModule = new ModuleExecutorStage(m);
 		}
+	}
+
+	public void setCurrentModuleExecuteFully(GOALModule module) {
+		currentStage.setNextStage(module);
 	}
 }

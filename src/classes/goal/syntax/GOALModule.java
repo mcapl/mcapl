@@ -34,7 +34,9 @@ import ail.syntax.PlanLibrary;
 import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.VarTerm;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class GOALModule {
 	CapabilityLibrary cl = new CapabilityLibrary();
 	
 	ModuleType module_type;
+	Predicate name;
 	
 	boolean is_terminated = false;
 	private ExitCondition exitCondition = ExitCondition.ALWAYS;
@@ -57,6 +60,8 @@ public class GOALModule {
     private RuleEvaluationOrder order = RuleEvaluationOrder.LINEAR;
     
     private Iterator<ApplicablePlan> ruleIt;
+    
+    private FocusMethod focusMethod = FocusMethod.NONE;
 	
 	public static enum ExitCondition {
 		NOGOALS,
@@ -69,7 +74,16 @@ public class GOALModule {
 		MAIN,
 		EVENT,
 		ANONYMOUS,
-		INIT
+		INIT,
+		USERDEF,
+		PROGRAM
+	}
+	
+	public static enum FocusMethod {
+		NONE,
+		NEW,
+		SELECT,
+		FILTER
 	}
 	
     public enum RuleEvaluationOrder {
@@ -144,10 +158,29 @@ public class GOALModule {
 	public GOALModule(ModuleType type) {
 		module_type = type;
 		if (module_type == ModuleType.MAIN) {
+			name = new Predicate("main");
 			exitCondition = ExitCondition.NEVER;
 		} else {
+			if (module_type == ModuleType.INIT) {
+				name = new Predicate("init");
+			} else if (module_type == ModuleType.EVENT) {
+				name = new Predicate("event");
+			}
 			exitCondition = ExitCondition.ALWAYS;
 		}
+		
+		BuiltInPrologRules prolog = new BuiltInPrologRules();
+		for (Predicate p: prolog.getFacts()) {
+			addFact(p);
+		}
+		for (Rule r: prolog.getRules()) {
+			addRule(r);
+		}
+	}
+	
+	public GOALModule(ModuleType type, Predicate name) {
+		this(type);
+		this.name = name;
 	}
 	
 	public void addGoal(ConjGoal p) {
@@ -226,4 +259,32 @@ public class GOALModule {
 		ActionRule a = (ActionRule) pl.getPlanbyID(p.getID());
 		return (a.isIfThenRule());
 	}
+
+    public String getNamePhrase() {
+        switch (this.module_type) {
+        case EVENT:
+        case INIT:
+        case MAIN:
+                return this.name + " module";
+        case PROGRAM:
+                return this.name + " program";
+        case USERDEF:
+                return "module " + this.name;
+        default:
+                return "";
+        }
+    }
+
+	public FocusMethod getFocusMethod() {
+		return focusMethod;
+	}
+
+	public List<VarTerm> getParams() {
+		List<VarTerm> vars = new ArrayList<VarTerm>();
+		for (String vname: name.getVarNames()) {
+			vars.add(new VarTerm(vname));
+		}
+		return vars;
+	}
 }
+

@@ -3,6 +3,7 @@ package goal.semantics.executorStages;
 import goal.semantics.AbstractGoalStage;
 import goal.semantics.GOALRC;
 import goal.semantics.GOALRCStage;
+import goal.semantics.operationalrules.ModuleCallActionExecutor;
 import goal.semantics.operationalrules.ModuleInitialisation;
 import goal.semantics.operationalrules.PrintActionExecutor;
 import goal.semantics.operationalrules.SelectRule;
@@ -28,12 +29,15 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	private boolean exit = false;
 	boolean selectedrules = false;
 	boolean agintention = false;
+	
+	ModuleExecutorStage nextModule;
 		
 	
 	ModuleInitialisation init = new ModuleInitialisation(this);
 	SelectRule ruleSelection = new SelectRule();
 	ActionRuleExecutor actionRule = new ActionRuleExecutor();
 	UserSpecAction userspec= new UserSpecAction();
+	ModuleCallActionExecutor mca = new ModuleCallActionExecutor();
 	PrintActionExecutor printaction = new PrintActionExecutor();
 	ModuleExit exitModule = new ModuleExit(this);
 	HandleAddBelief addBelief = new HandleAddBelief();
@@ -49,6 +53,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		actionRule.setModule(m);
 		userspec.setModule(m);
 		printaction.setModule(m);
+		mca.setModule(m);
 	}
 	
 	public GOALModule getModule() {
@@ -77,6 +82,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			rules.add(addGoal);
 			rules.add(dropGoal);
 			rules.add(userspec);
+			rules.add(mca);
 		} else {
 			rules.add(exitModule);
 		}
@@ -157,6 +163,12 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 	@Override
 	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
+		if (nextModule != null) {
+			ModuleExecutorStage tmp = nextModule;
+			nextModule = null;
+			return tmp;
+		}
+		
 		if (first & !exit) {
 			first = false;
 			return this;
@@ -206,6 +218,11 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	
 	public boolean first() {
 		return first;
+	}
+
+	@Override
+	public void setNextStage(GOALModule module) {
+		nextModule = new ModuleExecutorStage(module);
 	}
 
 }

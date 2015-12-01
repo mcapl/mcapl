@@ -67,9 +67,9 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	public static int randomall = 3;
 	public static int adaptive = 4;
 	
-	public static int main = 0;
-	public static int event = 1;
-	public static int init = 2;
+	public static Abstract_ModuleDef main = new Abstract_ModuleDef(0);
+	public static Abstract_ModuleDef event = new Abstract_ModuleDef(1);
+	public static Abstract_ModuleDef init = new Abstract_ModuleDef(2);
 	
 	public static int always = 0;
 	public static int never = 1;
@@ -77,7 +77,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	public static int noaction = 3;
 	public static int noneset = 4;
 	
-	int module_type;
+	Abstract_ModuleDef module_type;
 	int optionorder = linear;
 	int exitcondition = noneset;
 		
@@ -94,15 +94,12 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	 * The Plan Library.
 	 */
 	public Abstract_ActionRule[] actionrules = new Abstract_ActionRule[0];
+	
+	ArrayList<Abstract_Predicate> names;
 
-	 /**
-	 * Construct a Gwendolen agent from an architecture and a name.
-	 * 
-	 * @param arch the Agent Architecture.
-	 * @param name te name of the agent.
-	 */
-	public Abstract_GOALModule(int type) {
-		module_type = type;
+	
+	public Abstract_GOALModule(Abstract_ModuleDef def) {
+		module_type = def;
 	}
 	
 	public void addAllCap(ArrayList<Abstract_ActionSpec> as) {
@@ -228,10 +225,19 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     		mtype = GOALModule.ModuleType.MAIN;
     	} else if (module_type == event) {
     		mtype = GOALModule.ModuleType.EVENT;
-    	} else {
+    	} else if (module_type == init ){
     		mtype = GOALModule.ModuleType.INIT;
+    	} else {
+    		mtype = GOALModule.ModuleType.USERDEF;
     	}
-    	GOALModule m = new GOALModule(mtype);
+    	
+    	GOALModule m;
+    	if (module_type.hasName()) {
+    		m = new GOALModule(mtype, module_type.getName().toMCAPL());
+    	} else {
+    		m = new GOALModule(mtype);
+    	}
+    	
     	for (Abstract_ConjGoal g: goals) {
     		m.addGoal(g.toMCAPL());
     	}
@@ -240,6 +246,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	}
     	for (Abstract_ActionRule p: actionrules) {
     		try {
+    			p.resolveUserSpecOrCallModule(names);
     			m.addActionRule(p.toMCAPL());
     		} catch (Exception e) {
     			e.printStackTrace();
@@ -284,7 +291,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALModule");
-    	env.setIntField(objref, "module_type", module_type);
+    	env.setReferenceField(objref, "module_type", module_type.newJPFObject(env));
     	env.setIntField(objref, "optionorder", optionorder);
     	env.setIntField(objref, "exitcondition", exitcondition);
      	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
@@ -314,6 +321,14 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
       	return objref;
    	
     }
+
+	public Abstract_Predicate getModuleName() {
+		return module_type.getName();
+	}
+
+	public void setModuleNames(ArrayList<Abstract_Predicate> names) {
+		this.names = names;
+	}
 
 
 }

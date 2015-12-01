@@ -39,7 +39,7 @@ import ail.semantics.AgentMentalState;
 /** 
  *  represents an (in)equality. 
  */
-public class Equation implements LogicalFormula, GLogicalFormula {
+public class Equation extends AILComparison {
 
 	/**
 	 * The various comparators.

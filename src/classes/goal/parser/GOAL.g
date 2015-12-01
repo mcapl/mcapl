@@ -75,8 +75,8 @@ module returns [Abstract_GOALModule gl]
 	CURLYCLOSE
 	;
 
-moduleDef returns [int i]
-	: MODULE declaration
+moduleDef returns [Abstract_ModuleDef i]
+	: MODULE d=declaration {$i = new Abstract_ModuleDef(d);}
 	| INIT MODULE {$i = Abstract_GOALModule.init;}
 	| MAIN MODULE {$i = Abstract_GOALModule.main;}
 	| EVENT MODULE {$i = Abstract_GOALModule.event;}
@@ -124,7 +124,7 @@ atom returns [Abstract_LogicalFormula l]
 
 program[Abstract_GOALModule gl]
 	: PROGRAM (SQOPEN i=ruleEvaluationOrder {$gl.setOptionOrder(i);} SQCLOSE)? 
-	CURLYOPEN macroDef* programRule[gl]* CURLYCLOSE
+	CURLYOPEN macroDef* (rule = programRule {gl.addPlan(rule);})* CURLYCLOSE
 	;
 
 
@@ -138,21 +138,22 @@ ruleEvaluationOrder returns [int i]
 
 macroDef
 	: HASH DEFINE p=declarationOrCallWithTerms
-	msc=mentalstate {PredicateIndicator pi = new PredicateIndicator(p.getFunctor(), p.getTermSize()); macros.put(pi, msc);
+	msc=mentalstatecond {PredicateIndicator pi = new PredicateIndicator(p.getFunctor(), p.getTermSize()); macros.put(pi, msc);
 	macro_subs.put(pi, p);} 
 	STOP;
 
 
-programRule[Abstract_GOALModule gl]
-	:{Abstract_ActionRule rule = new Abstract_ActionRule();}
-	(IF lf=mentalstatecond {rule.setMentalStateCond(lf);} THEN ( dl=actions {rule.setBody(dl);} STOP | nestedRules[gl]  )
-	| 'forall' {rule.setType(ActionRule.foralldo);} lf=mentalstatecond {rule.setMentalStateCond(lf);} DO (dl=actions {rule.setBody(dl);} STOP | nestedRules[gl] )
-	| 'listall' VAR '<-' mentalstatecond DO (actions STOP | nestedRules[gl]  )
-	| 'listall' mentalstatecond '->' VAR DO (actions STOP | nestedRules[gl]  ))
-	{gl.addPlan(rule);};
+programRule returns [Abstract_ActionRule rule]
+	:{rule = new Abstract_ActionRule();}
+	(IF lf=mentalstatecond {rule.setMentalStateCond(lf);} THEN ( dl=actions {rule.setBody(dl);} STOP | nestedRules[rule]  )
+	| 'forall' {rule.setType(ActionRule.foralldo);} lf=mentalstatecond {rule.setMentalStateCond(lf);} DO (dl=actions {rule.setBody(dl);} STOP | nestedRules[rule] )
+	| 'listall' {rule.setType(ActionRule.listalldo);} v=var '<-' ms=mentalstatecond {rule.setMentalStateCond(new Abstract_MentalState(v, ms));} 
+		DO (dl=actions  {rule.setBody(dl);} STOP | nestedRules[rule]  )
+	| 'listall' mentalstatecond '->' var DO (actions STOP | nestedRules[rule]  ))
+	;
 
-nestedRules[Abstract_GOALModule gl]
-	: CURLYOPEN programRule[gl]+ CURLYCLOSE
+nestedRules[Abstract_ActionRule rule]
+	: CURLYOPEN {ArrayList<Abstract_ActionRule> rules = new ArrayList<Abstract_ActionRule>();} (r=programRule {rules.add(r);})+ {rule.merge(rules);}CURLYCLOSE
 	;
 
 
@@ -223,7 +224,7 @@ action returns [Abstract_Deed d]
 	| op = INIT
 	| op = MAIN
 	| op = EVENT
-	| p=declarationOrCallWithTerms {d = new Abstract_Deed(p);}
+	| p=declarationOrCallWithTerms {d = new Abstract_Deed(new Abstract_UserSpecOrModuleCall(p));}
 	;
 
 actionOperator returns [Abstract_Deed d]
@@ -306,11 +307,6 @@ no_bracket_literals returns [ArrayList<Abstract_LogicalFormula>ts]
 	{ $ts = tl;}
 	;
 
-forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
-	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
-	'forall' OPEN t1=atom COMMA t2=atom {Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);} CLOSE
-	{ $ts = tl;}
-	;
 
 
 goal_list returns [ArrayList<ArrayList<Abstract_Term>>ts] 
@@ -403,8 +399,15 @@ listterm returns [Abstract_ListTermImpl l]
  	;
 
 equation returns [Abstract_Equation e]
-	: a1=arithexpr i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);}
+	: ( a1=arithexprg i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);} ) |
+	   (v=var EQUALS (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=function_term {e = new Abstract_Equation(v, 3, ft);} ))
 	;
+forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
+	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
+	'forall' OPEN t1=atom COMMA t2=atom {Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);} CLOSE
+	{ $ts = tl;}
+	;
+	
 
 numberstring returns [String s]
 	: {$s = "";} (MINUS {$s += "-";})? 
@@ -419,6 +422,16 @@ multexpr returns [Abstract_NumberTerm ae]
 atom_term returns [Abstract_NumberTerm t]
 	: (n = numberstring {$t = new Abstract_NumberTermImpl($n.s);} | v=var {$t = $v.v;})
 	;
+	
+arithexprg returns [Abstract_NumberTerm ae]
+	: a1=multexprg {$ae = a1;} (i=addoper a2=multexpr {$ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+multexprg returns [Abstract_NumberTerm ae]
+	: a1=atom_termg{$ae = a1;} (i=multoper a2=atom_term {ae = new Abstract_ArithExpr($ae, $i.i, a2);})?;
+
+atom_termg returns [Abstract_NumberTerm t]
+	: n = numberstring {$t = new Abstract_NumberTermImpl($n.s);} 
+	;
+
 
 addoper returns [int i]
 	: (PLUS {$i = 1;} | MINUS {$i = 2;} );
