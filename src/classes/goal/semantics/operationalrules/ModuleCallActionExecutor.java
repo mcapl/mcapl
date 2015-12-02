@@ -17,7 +17,7 @@ import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 
 public class ModuleCallActionExecutor extends ActionExecutor {
-	GOALModule module;
+	GOALModule action_module;
 	Unifier u;
 
 	@Override
@@ -30,8 +30,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			if (isaction) {
 				Action action = (Action) d.getContent();
 				if (action instanceof ModuleCallAction) {
-					module = ((ModuleCallAction) action).getModule();
+					action_module = ((ModuleCallAction) action).getModule();
 					u = ((ModuleCallAction) action).getUnifier();
+					return true;
 				}
 			}
 		} catch (Exception e) {
@@ -55,14 +56,15 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		
 		ag.setFocusGoal(null);
 		GOALRC rc = (GOALRC) ag.getReasoningCycle();
-		rc.setCurrentModuleExecuteFully(module);
-		
+		rc.setCurrentModuleExecuteFully(action_module);
+		a.getIntention().tlI(a);
+
 
 	}
 
 	private ConjGoalBase getNewFocus(MentalState mentalstate,
 			Unifier subst, Goal goal) {
-        switch (module.getFocusMethod()) {
+        switch (action_module.getFocusMethod()) {
         case NEW:
                 // Create new empty goal base to construct a new attention set.
                 return new ConjGoalBase();
@@ -80,11 +82,11 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	}
 
 	private Unifier getModuleSubti(Unifier un) {
-		if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
+		if (action_module.getType() == GOALModule.ModuleType.ANONYMOUS) {
 			return un;
 		} else {
 			Unifier u = new Unifier();
-			for (VarTerm v: module.getParams()) {
+			for (VarTerm v: action_module.getParams()) {
 				if (un.containsVarName(v.getFunctor())) {
 					u.unifies(v, u.get(v));
 				}

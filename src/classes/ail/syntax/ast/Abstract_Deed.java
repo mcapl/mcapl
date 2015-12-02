@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import ail.semantics.AILAgent;
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
+import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Literal;
 import ail.syntax.Term;
@@ -301,7 +302,7 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     		}
     		if (content_term instanceof Predicate) {
     			if (getCategory() == DAction) {
-    				return new Deed((Predicate) content_term);
+    				return new Deed((Action) content_term);
     			} else if (hasTrigType()) {
     				return new Deed(trigtype, getCategory(), new Literal((Predicate) content_term));
     			}
@@ -343,5 +344,6 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     		}
     	}
     }
+    
 
 }

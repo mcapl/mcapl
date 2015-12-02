@@ -133,5 +133,18 @@ public class Abstract_MentalState extends Abstract_Guard {
 		}
 		return objref;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Guard#toString()
+	 */
+	@Override
+	public String toString() {
+		if (macro == false) {
+			return super.toString();
+		} else {
+			return p.toString();
+		}
+	}
 
 }

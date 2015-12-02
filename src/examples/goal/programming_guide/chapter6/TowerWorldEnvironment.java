@@ -1,5 +1,7 @@
 package goal.programming_guide.chapter6;
 
+import ail.util.AILConfig;
+import eis.iilang.Identifier;
 import goal.mas.GOALEISEnvironment;
 
 public class TowerWorldEnvironment extends GOALEISEnvironment {
@@ -9,4 +11,13 @@ public class TowerWorldEnvironment extends GOALEISEnvironment {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void configure(AILConfig config) {
+		for (String s: config.stringPropertyNames()) {
+			if (s.startsWith("goal.launchpolicy")) {
+				getLaunchPolicy().configure(config);
+				break;
+			}
+		}
+	}
 }

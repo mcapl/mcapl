@@ -62,7 +62,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 	@Override
 	public String getStageName() {
-		return "Module Executor";
+		return "Module Executor for " + module.getNamePhrase();
 	}
 
 	@Override

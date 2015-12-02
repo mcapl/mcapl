@@ -278,5 +278,23 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		env.setIntField(objref, "op", op);
 		return objref;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "";
+		if (op == none) {
+			s = rhs.toString();
+		} else if (op == not) {
+			s = "not (" + rhs.toString() + ")";
+		} else {
+			s = lhs.toString() + " and " + rhs.toString();
+		}
+		
+		return s;
+	}
 
 }

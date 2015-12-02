@@ -26,6 +26,9 @@ package goal.syntax.ast;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ail.util.AILexception;
 import ail.mas.MAS;
@@ -178,15 +181,17 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 	}
     
     private void add_fields(GOALAgent ag) {
-    	ArrayList<Abstract_Predicate> names = new ArrayList<Abstract_Predicate>();
+    	List<Abstract_GOALModule> name_map = new ArrayList<Abstract_GOALModule>();
+    	List<Abstract_Predicate> names = new ArrayList<Abstract_Predicate>();
     	for (Abstract_GOALModule m: modules) {
     		if (m.hasName()) {
+    			name_map.add(m);
     			names.add(m.getModuleName());
     		}
     	}
     	
     	for (Abstract_GOALModule m: modules) {
-    		m.setModuleNames(names);
+    		m.setModuleNames(names, name_map);
     		try {
     			ag.addModule(m.toMCAPL());
     		} catch (Exception e) {

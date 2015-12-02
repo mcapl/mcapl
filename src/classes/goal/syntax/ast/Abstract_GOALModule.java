@@ -26,6 +26,8 @@ package goal.syntax.ast;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import ail.util.AILexception;
 import ail.mas.MAS;
@@ -95,7 +97,8 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	 */
 	public Abstract_ActionRule[] actionrules = new Abstract_ActionRule[0];
 	
-	ArrayList<Abstract_Predicate> names;
+	List<Abstract_GOALModule> name_map;
+	List<Abstract_Predicate> names;
 
 	
 	public Abstract_GOALModule(Abstract_ModuleDef def) {
@@ -250,7 +253,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	}
     	for (Abstract_ActionRule p: actionrules) {
     		try {
-    			p.resolveUserSpecOrCallModule(names);
+    			p.resolveUserSpecOrCallModule(names, name_map);
     			m.addActionRule(p.toMCAPL());
     		} catch (Exception e) {
     			e.printStackTrace();
@@ -330,8 +333,18 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 		return module_type.getName();
 	}
 
-	public void setModuleNames(ArrayList<Abstract_Predicate> names) {
-		this.names = names;
+	public void setModuleNames(List<Abstract_Predicate> names3, List<Abstract_GOALModule> names2) {
+		this.name_map = names2;
+		names = names3;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getModuleName().toString();
 	}
 
 

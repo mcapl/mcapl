@@ -28,6 +28,8 @@ import goal.syntax.ActionRule;
 import gov.nasa.jpf.vm.MJIEnv;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import ail.syntax.Deed;
 import ail.syntax.Guard;
@@ -173,19 +175,58 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	return u;
     }
 
-	public void resolveUserSpecOrCallModule(ArrayList<Abstract_Predicate> names) {
+	public void resolveUserSpecOrCallModule(List<Abstract_Predicate> names2, List<Abstract_GOALModule> names) {
 		for (int index = 0; index < body.length; index++) {
 			Abstract_Deed d = body[index];
 			if (d.getContent() instanceof Abstract_UserSpecOrModuleCall) {
 				Abstract_Predicate dp = (Abstract_Predicate) d.getContent();
-				if (names.contains(dp)) {
-					body[index] = new Abstract_Deed(new Abstract_ModuleCallAction(dp));
+				if (names2.contains(dp)) {
+					body[index] = new Abstract_Deed(new Abstract_ModuleCallAction(names.get(names2.indexOf(dp))));
 				} else {
 					body[index] = new Abstract_Deed(new Abstract_Action(dp));
 				}
 			}
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Plan#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "";
+		if (type == ActionRule.ifthen) {
+			s = "if ";
+			boolean first = true;
+			for (Abstract_Guard ms: context) {
+				if (first) {
+					first = false;
+				} else {
+					s += ", ";
+				}
+				s += ms.toString(); 
+			}
+			s += " then " ;
+			first = true;
+			for (Abstract_Deed d: body) {
+				if (first) {
+					first = false;
+				} else {
+					s += ", ";
+				}
+				s += d.toString(); 
+			}
+		} else if (type == ActionRule.foralldo) {
+			s = "forall " + context.toString() + " do " + body.toString();
+		} else if (type == ActionRule.listalldo) {
+			s = "listall " + context.toString() + " do " + body.toString();
+		} else {
+			s = "unknown rule type";
+		}
+		return s;
+	}
+
 
 
 }

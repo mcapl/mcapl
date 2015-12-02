@@ -726,7 +726,7 @@ public class GOALAgent extends AILAgent {
 	public Goal getFocusGoal() {
 		if (getIntention() != null) {
 			Intention i = getIntention();
-			if (i.hdE().referstoGoal()) {
+			if (!i.empty() && i.hdE().referstoGoal()) {
 				return (Goal) i.hdE().getContent();
 			}
 		}
@@ -734,7 +734,9 @@ public class GOALAgent extends AILAgent {
 	}
 
 	public void setFocusGoal(Goal goal) {
-		setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself()));
+		if (goal != null) {
+			setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself()));
+		}
 	}
 
     

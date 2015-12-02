@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -105,6 +104,15 @@ public class Deed extends DefaultAILStructure {
     }
     
     /**
+     * Construct a deed from an action.
+     * @param a
+     */
+    public Deed(Action a) {
+    	super(DAction);
+    	setContent(a);
+    }
+    
+    /**
      * Construct a Deed from an addition/deletion flag, Category and literal.
      * 
      * @param t whether the deed is an addition or deletion.
@@ -156,8 +164,8 @@ public class Deed extends DefaultAILStructure {
     public Deed(int t, byte b, String s) {
     	super(t, b, s);
     }
-    
-    /**
+
+	/**
      * Is the Deed an Action?
      * 
      * @return wheter the deed is an action.

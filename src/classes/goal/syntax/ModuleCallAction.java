@@ -9,13 +9,21 @@ public class ModuleCallAction extends Action {
 	GOALModule module;
 	
 	public ModuleCallAction() {
-		super("module_call");
-		module = new GOALModule(GOALModule.ModuleType.ANONYMOUS);
+		this(new Action("module_call"), GOALModule.ModuleType.ANONYMOUS);
 	}
 
 	public ModuleCallAction(Action name) {
+		this(name, GOALModule.ModuleType.USERDEF);
+	}
+	
+	public ModuleCallAction(Action  name, GOALModule.ModuleType type) {
 		super(name);
-		module = new GOALModule(GOALModule.ModuleType.USERDEF, name);
+		module = new GOALModule(type, name);
+	}
+
+	public ModuleCallAction(GOALModule mcapl) {
+		super("module_call");
+		module = mcapl;
 	}
 
 	public void addActionRule(ActionRule r) {
@@ -28,5 +36,14 @@ public class ModuleCallAction extends Action {
 
 	public Unifier getUnifier() {
 		return new Unifier();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Action#clone()
+	 */
+	@Override
+	public ModuleCallAction clone() {
+		return new ModuleCallAction(module);
 	}
 }

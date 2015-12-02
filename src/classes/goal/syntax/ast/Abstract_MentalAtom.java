@@ -153,6 +153,18 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 		return false;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		ArrayList<Abstract_LogicalFormula> lits = new ArrayList<Abstract_LogicalFormula>(Arrays.asList(logical_formulas));
+		if (type == Abstract_BaseAILStructure.AILBel) {
+			return "bel( " + lits.toString() + ")";
+		} else {
+			return "goal( " + lits.toString() + ")";
+		}
+	}
 
 }

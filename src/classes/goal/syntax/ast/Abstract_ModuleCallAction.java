@@ -1,5 +1,6 @@
 package goal.syntax.ast;
 
+import goal.syntax.GOALModule;
 import goal.syntax.ModuleCallAction;
 import gov.nasa.jpf.vm.MJIEnv;
 
@@ -12,6 +13,7 @@ import ail.syntax.ast.Abstract_Predicate;
 public class Abstract_ModuleCallAction extends Abstract_Action {
 	
 	Abstract_ActionRule[] rules = new Abstract_ActionRule[0];
+	Abstract_GOALModule module;
 
 	public Abstract_ModuleCallAction(List<Abstract_ActionRule> rules) {
 		super("module_call");
@@ -22,6 +24,11 @@ public class Abstract_ModuleCallAction extends Abstract_Action {
 	
 	public Abstract_ModuleCallAction(Abstract_Predicate dp) {
 		super(dp);
+	}
+
+	public Abstract_ModuleCallAction(Abstract_GOALModule abstract_GOALModule) {
+		super("module_call");
+		module = abstract_GOALModule;
 	}
 
 	public void addRule(Abstract_ActionRule rule) {
@@ -36,11 +43,20 @@ public class Abstract_ModuleCallAction extends Abstract_Action {
 	}
 	
 	public ModuleCallAction toMCAPL() {
-		ModuleCallAction mca = new ModuleCallAction(super.toMCAPL());
-		for (Abstract_ActionRule rule: rules) {
-			mca.addActionRule(rule.toMCAPL());
+		if (module == null) {
+			ModuleCallAction mca;
+			if (this.getFunctor().equals("module_call")) {
+				mca = new ModuleCallAction(super.toMCAPL(), GOALModule.ModuleType.ANONYMOUS);
+			} else {
+				mca = new ModuleCallAction(super.toMCAPL(), GOALModule.ModuleType.USERDEF);
+			}
+			for (Abstract_ActionRule rule: rules) {
+				mca.addActionRule(rule.toMCAPL());
+			}
+			return mca;
+		} else {
+			return new ModuleCallAction(module.toMCAPL());
 		}
-		return mca;
 	}
 	
 	public int newJPFObject(MJIEnv env) {
