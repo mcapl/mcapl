@@ -403,7 +403,7 @@ listterm returns [Abstract_ListTermImpl l]
 
 equation returns [Abstract_Equation e]
 	: ( a1=arithexprg i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);} ) |
-	   (v=var EQUALS (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=term {e = new Abstract_Equation(v, 3, ft);} ))
+	   (v=var ( EQUALS | IS)  (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=term {e = new Abstract_Equation(v, 3, ft);} ))
 	;
 forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
 	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}

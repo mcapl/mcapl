@@ -22,17 +22,22 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
-		Deed d = a.getIntention().hdD();
+		try {
+			Deed d = a.getIntention().hdD();
 		
-		boolean isaction = d.getCategory() == Deed.DAction;
-		
-		if (isaction) {
-			Action action = (Action) d.getContent();
-			if (action instanceof ModuleCallAction) {
-				module = ((ModuleCallAction) action).getModule();
-				u = ((ModuleCallAction) action).getUnifier();
+			boolean isaction = d.getCategory() == Deed.DAction;
+			
+			if (isaction) {
+				Action action = (Action) d.getContent();
+				if (action instanceof ModuleCallAction) {
+					module = ((ModuleCallAction) action).getModule();
+					u = ((ModuleCallAction) action).getUnifier();
+				}
 			}
+		} catch (Exception e) {
+			return false;
 		}
+
 		
 		return false;
 	}
