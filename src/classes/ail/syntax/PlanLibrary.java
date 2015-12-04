@@ -156,15 +156,52 @@ public class PlanLibrary implements EvaluationBase<Plan>{
         	} else {
         		return varPlans.get(a);
         	}
-     }
-       
+     }       
 
+    /**
+     * Get an iterator over all uninstantiated plans that are relevant to pi;
+     * @param pi
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedRelevant(PredicateIndicator pi, AILAgent a) {
+    	PlanSet l = relPlans.get(pi);
+    	if (l != null) {
+    		return new MergeIterator<Plan>(l.getPlans(), varPlans.getPlans());
+    	} else {
+    		return varPlans.getPlans();
+    	}
+    }
+    
     /**
      * Get all the reactive plans;
      * @return
      */
     public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a) {
    		return varPlans.get(a);
+    }
+    
+    /**
+     * Get an iterator of all reactive plans in the agent.
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedReactivePlans(AILAgent a) {
+    	return varPlans.getPlans();
+    }
+    
+    /**
+     * Get an iterator of all instantions of plan p against agent a;
+     * @param p
+     * @param a
+     * @return
+     */
+    public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
+    	if (p.getTriggerEvent().isVar()) {
+    		return varPlans.getApplicablePlansFor(a, p);
+    	} else {
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    	}
     }
       
     /**
@@ -251,7 +288,7 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * @param a
     	 * @return
     	 */
-    	public Iterator<Plan> getPlans(AILAgent a);
+    	public Iterator<Plan> getPlans();
     	
     	/**
     	 * Get an iterator of instantiated plans for plan p given agent a;
@@ -334,7 +371,7 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * @see ail.syntax.PlanLibrary.PlanSet#getPlans(ail.semantics.AILAgent)
     	 */
     	@Override
-    	public Iterator<Plan> getPlans(final AILAgent a) {
+    	public Iterator<Plan> getPlans() {
     		return plans.iterator();
     	};
     	
@@ -431,13 +468,14 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * (non-Javadoc)
     	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
     	 */
+    	@Override
     	public Iterator<ApplicablePlan> get(final AILAgent a) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
     			/**
     			 * Index of the plan in the list we are currently considering
     			 */
-    			Iterator<Plan> planit = getPlans(a);
+    			Iterator<Plan> planit = getPlans();
      			/**
     			 * The iterator of the instantiations that match the current plan to the current situation.
     			 */
