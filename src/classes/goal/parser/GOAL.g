@@ -47,9 +47,6 @@ private static HashMap<PredicateIndicator,Abstract_Term> macro_subs = new HashMa
 private String name = "";
 }
 
-@lexer::members {
-private boolean stringterm = false;
-}
 
 mas returns [Abstract_MAS mas] 
 	: {$mas = new Abstract_MAS(); ArrayList<Abstract_GOALAgent> agents = new ArrayList<Abstract_GOALAgent>();}
@@ -118,7 +115,7 @@ goals [Abstract_GOALModule gl]
 atom returns [Abstract_LogicalFormula l]
 	: NOT OPEN ( p=declarationOrCallWithTerms{$l = new Abstract_LogExpr(Abstract_LogExpr.not, p);} 
 		| e=equation {$l= new Abstract_LogExpr(Abstract_LogExpr.not, e);} ) CLOSE
-	| p=declarationOrCallWithTerms {$l=p;}
+	| p=notnot_declarationOrCallWithTerms {$l=p;}
 	| e=equation {$l = e;}
 	;
 
@@ -190,7 +187,7 @@ mentalatom returns [Abstract_MentalState ms]
 	      Abstract_MentalAtom bl = new Abstract_MentalAtom(tl, Abstract_BaseAILStructure.AILBel);
 	      $ms = new Abstract_MentalState(new Abstract_MentalState(g), Abstract_Guard.and, new Abstract_MentalState(bl));
 	   } else {$ms= new Abstract_MentalState(new Abstract_MentalAtom(tl, b));}
-	 }
+	 } 
 	;
 
 atom_parameters returns [Abstract_LogExpr ts] 
@@ -227,13 +224,13 @@ action returns [Abstract_Deed d]
 	| op = INIT
 	| op = MAIN
 	| op = EVENT
-	| p=declarationOrCallWithTerms {d = new Abstract_Deed(new Abstract_UserSpecOrModuleCall(p));}
+	| p=not_action_opdeclarationOrCallWithTerms {d = new Abstract_Deed(new Abstract_UserSpecOrModuleCall(p));}
 	;
 
 actionOperator returns [Abstract_Deed d]
 	: op = 'adopt' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILGoal);}
-	| op = 'drop' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILGoal);}
-	| op = 'insert' {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);}
+	| op = DROP {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILGoal);}
+	| op = INSERT {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);}
 	| op = 'delete'  {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILBel);}
 	| op = 'send'
 	| op = 'sendonce'
@@ -265,7 +262,8 @@ actionSpec returns [Abstract_ActionSpec as]
 
 precondition returns [Abstract_LogicalFormula f]
 	: PRE CURLYOPEN  (TRUE  {f = new Abstract_LogExpr();}
-	| tl=no_bracket_literals {f = new Abstract_LogExpr(tl);}) CURLYCLOSE
+	| tl=no_bracket_literals {f = new Abstract_LogExpr(tl);}
+	| ap = atom_parameters {f = ap;} ) CURLYCLOSE
 	;
 
 postcondition returns [Abstract_LogicalFormula f]
@@ -282,7 +280,15 @@ declaration returns [Abstract_Predicate p]
 	;
 
 declarationOrCallWithTerms returns [Abstract_Predicate p]
-	: f=function_term {p = (Abstract_Predicate) f;}
+	: f=nested_function_term {p = (Abstract_Predicate) f;}
+	;
+	
+notnot_declarationOrCallWithTerms returns [Abstract_Predicate p]
+	: f=notnot_function_term {p = (Abstract_Predicate) f;}
+	;
+	
+not_action_opdeclarationOrCallWithTerms returns [Abstract_Predicate p]
+	: f=not_action_opfunction_term {p = (Abstract_Predicate) f;}
 	;
 
 id returns [String s] 
@@ -291,9 +297,26 @@ id returns [String s]
 	; 
 	
 	
+not_action_opparameters returns [ArrayList<Abstract_Term>ts] 
+	: OPEN {boolean negated=false;} ( NOT {negated = true;} OPEN t=not_action_opterm CLOSE |
+	t=toplevelterm )
+		{ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); 
+		if (negated) {Abstract_Literal l = new Abstract_Literal((Abstract_Predicate) t);
+		l.setNegated(negated); 
+		t=l;}
+		tl.add(t);}
+	(COMMA {negated = false;} ( NOT {negated = true;} OPEN t1=not_action_opterm CLOSE |
+	t1 = toplevelterm) {
+	if (negated) {Abstract_Literal l1 = new Abstract_Literal((Abstract_Predicate) t1); l1.setNegated(negated); t1=l1;}
+	 tl.add(t1);})* 
+	CLOSE { $ts = tl;}
+	;
+
 parameters returns [ArrayList<Abstract_Term>ts] 
-	: OPEN t=term {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); tl.add(t);}
-	(COMMA t1=term {tl.add(t1);})* 
+	: OPEN  t=term 
+		{ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); 
+		tl.add(t);}
+	(COMMA t1=term  {tl.add(t1);})* 
 	CLOSE { $ts = tl;}
 	;
 	
@@ -346,10 +369,10 @@ RANDOMALL
 ADAPTIVE	: 'adaptive';
 DEFINE 	: 'define';
 IF 	: 'if';
-DO 	: 'do';
+DO 	: 'do' ; 
 THEN 	: 'then';
 TRUE 	: 'true';
-BEL 	: 'bel';
+BEL 	: 'bel' ;
 GOAL 	: 'goal';
 AGOAL 	: 'a-goal';
 GOALA 	: 'goal-a';
@@ -358,19 +381,71 @@ POST 	: 'post';
 PLUS 	: '+';
 INTERNAL 	: '@int';
 EXTERNAL  : '@ext';
+DROP	: 'drop';
+INSERT	: 'insert';
 
 // term syntax
 term returns [Abstract_Term t] 
+	: (st=stringterm {$t = st;} 
+	| ft=nested_function_term {$t=ft;} 
+	| at=arithexpr {$t=at;}
+	| lt=listterm {$t=lt;});
+	
+toplevelterm returns [Abstract_Term t] 
 	: (st=stringterm {$t = st;} 
 	| ft=function_term {$t=ft;} 
 	| at=arithexpr {$t=at;}
 	| lt=listterm {$t=lt;});
 
-function_term returns [Abstract_Term t]
-	: c=CONST {t=new Abstract_Predicate(c.getText());} 
-	(OPEN t1=term {((Abstract_Predicate) t).addTerm($t1.t);} 
-	(COMMA t2=term {((Abstract_Predicate) t).addTerm($t2.t);})* CLOSE)?
+
+notnotterm returns [Abstract_Term t]
+	: (st=stringterm {$t = st;} 
+	| ft=notnot_function_term {$t=ft;} 
+	| at=arithexpr {$t=at;}
+	| lt=listterm {$t=lt;});
+	
+not_action_opterm returns [Abstract_Term t]
+	: (st=stringterm {$t = st;} 
+	| ft=not_action_opfunction_term {$t=ft;} 
+	| at=arithexpr {$t=at;}
+	| lt=listterm {$t=lt;});
+
+function_term returns [Abstract_Predicate t] : 
+	 c=CONST {t=new Abstract_Predicate(c.getText());} 
+	(OPEN (  t1=term {((Abstract_Predicate) t).addTerm($t1.t);} )
+	(COMMA (  t2=term  {((Abstract_Predicate) t).addTerm($t2.t);}))* CLOSE)?
 	;
+	
+notnot_function_term returns [Abstract_Predicate t] : 
+		( c=CONST {t=new Abstract_Predicate(c.getText());} 
+		| s=notnot_goalkeywordsappearinginprolog {t=new Abstract_Predicate(s);}
+		)
+	(OPEN (  t1=term {((Abstract_Predicate) t).addTerm($t1.t);}) 
+	(COMMA (   t2=term {((Abstract_Predicate) t).addTerm($t2.t);}))* CLOSE)?
+	;
+
+not_action_opfunction_term returns [Abstract_Term t] 
+	: (c=CONST {t=new Abstract_Predicate(c.getText());} | s=not_action_opgoalkeywordsappearinginprolog {t=new Abstract_Predicate(s);})
+	(OPEN ( t1=term {((Abstract_Predicate) t).addTerm($t1.t);} )
+	(COMMA(  t2=term {((Abstract_Predicate) t).addTerm($t2.t);}))* CLOSE)?
+	;
+
+	
+
+nested_function_term returns [Abstract_Term t] 
+	: (c=CONST {t=new Abstract_Predicate(c.getText());} | s=goalkeywordsappearinginprolog {t=new Abstract_Predicate(s);})
+	(OPEN (  t1=term {((Abstract_Predicate) t).addTerm($t1.t);} )
+	(COMMA (  t2=term {((Abstract_Predicate) t).addTerm($t2.t);}))* CLOSE)?
+	;
+
+goalkeywordsappearinginprolog returns [String s]
+	:	(NOT {s = "not";} | DROP {s="drop";}| INSERT {s = "insert";});
+
+notnot_goalkeywordsappearinginprolog returns [String s]
+	:	(DROP {s="drop";}| INSERT {s = "insert";});
+	
+not_action_opgoalkeywordsappearinginprolog returns [String s]
+	:	(NOT {s = "not";});
 
 
 var returns [Abstract_VarTerm v] 
@@ -397,13 +472,16 @@ listterm returns [Abstract_ListTermImpl l]
  	: {$l = new Abstract_ListTermImpl(); Abstract_ListTerm lrunning = $l;}
  	SQOPEN (h=term {$l.addHead($h.t); $l.addTail(new Abstract_ListTermImpl());}
  	(COMMA t=term {Abstract_ListTerm l2 = new Abstract_ListTermImpl(); l2.addHead($t.t); l2.addTail(new Abstract_ListTermImpl()); lrunning.addTail(l2); lrunning=l2;})*
- 	(BAR v=VAR {lrunning.addTail(new Abstract_VarTerm($v.getText()));})? )? 
+ 	(BAR v=var {lrunning.addTail($v.v);})? )? 
  	SQCLOSE
  	;
 
 equation returns [Abstract_Equation e]
 	: ( a1=arithexprg i=eqoper a2=arithexpr {e = new Abstract_Equation(a1, i, a2);} ) |
-	   (v=var ( EQUALS | IS)  (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | ft=term {e = new Abstract_Equation(v, 3, ft);} ))
+	   (v=var ( EQUALS | IS)  (a2=arithexpr {e = new Abstract_Equation(v, 2, a2);} | 
+	   	(ft=notnot_function_term {e = new Abstract_Equation(v, 3, ft);} 
+	   	| st=stringterm {e = new Abstract_Equation(v, 3, st);}
+	   	| lt = listterm {e = new Abstract_Equation(v, 3, lt);})))
 	;
 forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
 	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
@@ -447,7 +525,7 @@ COLON 	: ':';
 CURLYOPEN	: '{';
 CURLYCLOSE
 	:'}';
-STOP 	: '.';
+STOP 	: '.' ;
 COMMA 	: ',';
 SEMI	:';';
 OPEN 	: '(';
@@ -464,7 +542,7 @@ CONST : 'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR : 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 UNNAMEDVAR
 	:	'_';
-STRING	:	'"'('a'..'z'|'A'..'Z'|','|' '|'!')+'"';
+STRING	:	('"'|'\'')('a'..'z'|'A'..'Z'|','|' '|'!'|'0'..'9')+('"'|'\'');
 NUMBER : '0'..'9' ('0'..'9')*;
 
 MINUS : '-';

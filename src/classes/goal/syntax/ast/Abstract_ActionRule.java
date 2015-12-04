@@ -37,6 +37,7 @@ import ail.syntax.Plan;
 import ail.syntax.ast.Abstract_Unifier;
 import ail.syntax.Predicate;
 import ail.syntax.ast.Abstract_Action;
+import ail.syntax.ast.Abstract_BaseAILStructure;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Event;
@@ -123,12 +124,65 @@ public class Abstract_ActionRule extends Abstract_Plan {
     public ActionRule toMCAPL() {
     	ArrayList<Deed> newdeed = new ArrayList<Deed>();
     	int counter=0;
-    	for (int i = body.length - 1; i >= 0; i--) {
-    		newdeed.add(counter, body[i].toMCAPL());
+    	ArrayList<Abstract_Deed> newbody = transform(body);
+    	for (int i = newbody.size() - 1; i >= 0; i--) {
+    		newdeed.add(counter, newbody.get(i).toMCAPL());
     		counter++;
     	}
     	Guard ms = context[context.length - 1].toMCAPL();
     	return new ActionRule(ms, newdeed, type);
+    }
+    
+    private ArrayList<Abstract_Deed> transform(Abstract_Deed[] oldbody) {
+    	ArrayList<Abstract_Deed> newbody = new ArrayList<Abstract_Deed>();
+       	for (int i = 0; i < oldbody.length; i++) {
+    		Abstract_Deed deed = oldbody[i];
+    		Abstract_Predicate dcontent = (Abstract_Predicate) deed.getContent();
+    		if (dcontent.getFunctor().equals("tuple")) {
+    			if (dcontent.getTermSize() > 1) {
+    				ArrayList<Abstract_Deed> insertions = new ArrayList<Abstract_Deed>();
+    				ArrayList<Abstract_Deed> deletions = new ArrayList<Abstract_Deed>();
+    				for (Abstract_Term t: dcontent.getTerms()) {
+    					Abstract_Deed newdeed = new Abstract_Deed(deed.getTrigType(), deed.getCategory(), (Abstract_Predicate) t);
+    					handle_not(newdeed);
+    					if (newdeed.getTrigType() == Abstract_BaseAILStructure.AILAddition) {
+    						insertions.add(newdeed);
+    					} else {
+    						deletions.add(newdeed);
+    					}
+    				}
+   					for (Abstract_Deed d: deletions) {
+						newbody.add(d);
+					}
+					for (Abstract_Deed d: insertions) {
+						newbody.add(d);
+					}
+
+    			} else {
+    				handle_not(deed);
+    				newbody.add(deed);
+    			}
+    		} else {
+    			handle_not(deed);
+    			newbody.add(deed);
+    		}
+       	}
+       	return newbody;
+  
+    }
+       	
+    private void handle_not(Abstract_Deed deed) {
+		Abstract_Predicate dcontent = (Abstract_Predicate) deed.getContent();
+		if (dcontent.getFunctor().equals("not")) {
+			if (deed.getTrigType() == Abstract_BaseAILStructure.AILAddition) {
+				deed.setTrigType(Abstract_BaseAILStructure.AILDeletion);
+				deed.setContent(dcontent.getTerm(0));
+			} else {
+				deed.setTrigType(Abstract_BaseAILStructure.AILAddition);
+				deed.setContent(dcontent.getTerm(0));
+			}
+		}
+    	
     }
     
     public void setType(int t) {
@@ -199,16 +253,8 @@ public class Abstract_ActionRule extends Abstract_Plan {
 		if (type == ActionRule.ifthen) {
 			s = "if ";
 			boolean first = true;
-			for (Abstract_Guard ms: context) {
-				if (first) {
-					first = false;
-				} else {
-					s += ", ";
-				}
-				s += ms.toString(); 
-			}
+			s += context[context.length - 1].toString(); 
 			s += " then " ;
-			first = true;
 			for (Abstract_Deed d: body) {
 				if (first) {
 					first = false;
@@ -218,7 +264,19 @@ public class Abstract_ActionRule extends Abstract_Plan {
 				s += d.toString(); 
 			}
 		} else if (type == ActionRule.foralldo) {
-			s = "forall " + context.toString() + " do " + body.toString();
+			s = "forall ";
+			boolean first = true;
+			s += context[context.length - 1].toString(); 
+			s +=  " do ";
+			for (Abstract_Deed d: body) {
+				if (first) {
+					first = false;
+				} else {
+					s += ", ";
+				}
+				s += d.toString(); 
+			}
+			
 		} else if (type == ActionRule.listalldo) {
 			s = "listall " + context.toString() + " do " + body.toString();
 		} else {

@@ -118,7 +118,7 @@ public class Literal extends PredicatewAnnotation {
 	 * @param b false if the literal is negated, true if the literal is not.
 	 */
     public void setNegated(boolean b) {
-        type = b;
+        type = !b;
         hashCodeCache = null;
     }
 

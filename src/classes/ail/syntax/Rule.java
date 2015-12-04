@@ -62,6 +62,7 @@ public class Rule implements LogicalFormula {
      */
     public Rule(Predicate h) {
     	head = h;
+    	//this.body = Predicate.PTrue;
     }
     
     /*

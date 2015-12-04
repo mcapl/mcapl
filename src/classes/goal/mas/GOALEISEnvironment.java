@@ -33,6 +33,7 @@ import eis.iilang.Parameter;
 import goal.util.LaunchPolicy;
 import ail.mas.eis.EISEnvironmentWrapper;
 import ail.mas.scheduling.ActionScheduler;
+import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
@@ -58,7 +59,16 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper {
 	}
 	
 	@Override
-	public void initialise() {
+	public void addAgent(AILAgent a) {
+		super.addAgent(a);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.eis.EISEnvironmentWrapper#init_before_adding_agents()
+	 */
+	@Override
+	public void init_before_adding_agents() {
 		EnvironmentInterfaceStandard eis = getEISEnvironment();
 		
 		try {
@@ -67,6 +77,14 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper {
 			AJPFLogger.severe(logname, e.getMessage());
 		}
 		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.eis.EISEnvironmentWrapper#init_after_adding_agents()
+	 */
+	public void init_after_adding_agents() {
+		getLaunchPolicy().associateEntities();
 	}
 
 	public void addFileToInitMap(String s, String f) {

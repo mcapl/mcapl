@@ -27,8 +27,8 @@ import com.igormaznitsa.prologparser.terms.*;
 import com.igormaznitsa.prologparser.PrologParser;
 
 import eis.iilang.Percept;
-
 import ail.syntax.Predicate;
+import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
 import ail.syntax.Term;
 import ail.syntax.ListTerm;
@@ -73,7 +73,8 @@ public class EISPercept {
 				return new Predicate(plg.getText());
 			case VAR:
 				PrologVariable var = (PrologVariable) plg;
-				return new VarTerm(var.getText());
+				// Variables make no sense in percepts I _think_ the EIS is supposed to treat them a strings.
+				return new StringTermImpl(var.getText());
 				// NB. not handling arith expressions
 			case STRUCT:
 				PrologStructure struct = (PrologStructure) plg;
@@ -87,8 +88,10 @@ public class EISPercept {
 			case LIST:
 				PrologList list = (PrologList) plg;
 				ListTerm aillist = new ListTermImpl();
-				aillist.setHead(prologToAIL(list.getHead()));
-				aillist.setTail((ListTerm) prologToAIL(list.getTail()));
+				if (! list.isNullList()) {
+					aillist.setHead(prologToAIL(list.getHead()));
+					aillist.setTail((ListTerm) prologToAIL(list.getTail()));
+				}
 				return aillist;
 			default:
 				return new Predicate("none");

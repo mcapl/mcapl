@@ -104,6 +104,8 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
     	terms = (Abstract_Term[]) ts.toArray();
     }
     
+
+    
     /**
      * Get the number of arguments to this predicate.
      * @return

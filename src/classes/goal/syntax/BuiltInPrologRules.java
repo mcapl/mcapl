@@ -20,6 +20,7 @@ public class BuiltInPrologRules {
 	
 	public BuiltInPrologRules() {
 		memberPredicate();
+		nth0Predicate();
 	}
 	
 	public ArrayList<Predicate> getFacts() {
@@ -29,6 +30,31 @@ public class BuiltInPrologRules {
 		return rules;
 	}
 	
+	public void nth0Predicate() {
+		try {
+			Predicate nth0_0_hd = ruleHead("nth0(0, [H|_], H)");
+			rules.add(new Rule(nth0_0_hd, Predicate.PTrue));
+			
+			Predicate nth_nonvar_hd = ruleHead("nth0(N, [_|Tail], Elem)");
+			LogExpr nth_nonvar_body = ruleBody("M is N - 1, nth0(M, Tail, Elem)");
+			rules.add(new Rule(nth_nonvar_hd, nth_nonvar_body));
+			/*
+			 * Missing
+			 * nth0(N, [_|Tail], Elem) :-
+			 *  nonvar(N)
+			 *  M is N-1,
+			 *  nth0(M, Tail, Elem).
+			 */
+			
+			//Predicate nth_var_hd = ruleHead("nth0(N,[_|T], Item)");
+			//NB. skipping var(N)
+			//LogExpr nth_var_body = ruleBody("nth0(M, T, Item), N is M + 1");
+			//rules.add(new Rule(nth_var_hd, nth_var_body));
+		} catch (Exception e) {
+			AJPFLogger.severe("goal.syntax.BuiltInPrologRules", e.getMessage());
+		}
+	}
+	
 	public void memberPredicate() {
 		try {
 			Predicate nil_rule_hd = ruleHead("member(X, [])");
@@ -36,7 +62,8 @@ public class BuiltInPrologRules {
 			rules.add(new Rule(nil_rule_hd, nil_rule_body));
 			
 			Predicate cons_hd_rule = ruleHead("member(H, [H | T])");
-			facts.add(cons_hd_rule);
+			// LogExpr cons_rule_body = ruleBody("true");
+			rules.add(new Rule(cons_hd_rule, Predicate.PTrue));
 			
 			Predicate cons_tl_rule_hd = ruleHead("member(H, [X | T])");
 			LogExpr cons_tl_rule_body = ruleBody("member(H, T)");
@@ -62,7 +89,7 @@ public class BuiltInPrologRules {
 				rule_body = new LogExpr(LogExpr.LogicalOp.none, alf.toMCAPL());
 				first = false;
 			} else {
-				rule_body = new LogExpr(rule_body, LogExpr.LogicalOp.or, alf.toMCAPL());
+				rule_body = new LogExpr(rule_body, LogExpr.LogicalOp.and, alf.toMCAPL());
 			}
 			
 		}

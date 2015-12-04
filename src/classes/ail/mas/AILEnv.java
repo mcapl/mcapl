@@ -154,7 +154,9 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
     * at all on the configuration, or parameters, then the set up should be done with this method and
     * not with a constructor.  This is to assist with the assisting classes for MAS building like ail.mas.AIL. 
     */
-   public void initialise();
+   public void init_before_adding_agents();
+   
+   public void init_after_adding_agents();
    
    /**
     * This is for use when actions may take time to execute, specifically when other agents should be

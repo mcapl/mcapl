@@ -24,12 +24,14 @@
 package goal.semantics;
 
 import goal.syntax.ActionRule;
+import goal.syntax.BuiltInPrologRules;
 import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
 import goal.syntax.MentalState;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+
 
 
 
@@ -119,6 +121,13 @@ public class GOALAgent extends AILAgent {
 	    setGoalBase(new ConjGoalBase());
 //	    lastplanstate = this.toString();
 	    addBeliefBase(new BeliefBase(), "percepts");
+		BuiltInPrologRules prolog = new BuiltInPrologRules();
+		for (Predicate p: prolog.getFacts()) {
+			addBel(new Literal(p), refertoself());
+		}
+		for (Rule r: prolog.getRules()) {
+			addRule(r);
+		}
 	}
 	
 	public GOALAgent(String name) throws AILexception {
@@ -126,6 +135,13 @@ public class GOALAgent extends AILAgent {
 		setReasoningCycle(new GOALRC(this));
 		setGoalBase(new ConjGoalBase());
 	    addBeliefBase(new BeliefBase(), "percepts");
+		BuiltInPrologRules prolog = new BuiltInPrologRules();
+		for (Predicate p: prolog.getFacts()) {
+			addBel(new Literal(p), refertoself());
+		}
+		for (Rule r: prolog.getRules()) {
+			addRule(r);
+		}
 	}
 	
 	public GOALModule getMainModule() {

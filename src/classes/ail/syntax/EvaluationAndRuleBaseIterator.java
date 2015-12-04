@@ -103,7 +103,14 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 		rb = r;
 		un = u;
 		logical_term = t;
-		il = eb.getRelevantTuple(logical_term, AILAgent.SelectionOrder.LINEAR);
+		if (t == Predicate.PTrue) {
+			Tuple<PredicateTerm, String> tuple = new Tuple<PredicateTerm, String>(t, "");
+			ArrayList<Tuple<PredicateTerm, String>> ill = new ArrayList<Tuple<PredicateTerm, String>>();
+			ill.add(tuple);
+			il = ill.iterator();
+		} else {
+			il = eb.getRelevantTuple(logical_term, AILAgent.SelectionOrder.LINEAR);
+		}
 		rl = rb.getRelevant((Predicate) logical_term);
 		varnames = vars;
 		this.so = so;
@@ -142,6 +149,13 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 			AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " with unifier " + un);
 		}		        					
 		current = null;
+		
+		/*if (logical_term == Predicate.PTrue) {
+			currents.add(un);
+			cit = currents.iterator();
+			current = cit.next();
+			return;
+		} */
     		
 		// il is all possible Beliefs/messages/whatever that potentially unify with this GBelief
 		if (so == AILAgent.SelectionOrder.RANDOM) {

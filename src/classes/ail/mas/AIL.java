@@ -92,8 +92,9 @@ public class AIL {
 			try {
 				AILEnv env = (AILEnv) (Class.forName(config.getProperty("env"))).newInstance();
 				env.configure(config);
+				env.init_before_adding_agents();
 				mas.setEnv(env);
-				env.initialise();
+				env.init_after_adding_agents();
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);

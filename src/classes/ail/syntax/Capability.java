@@ -289,9 +289,9 @@ public class Capability implements Unifiable,
 				ArrayList<Literal> neglits = fmla_to_lits(g.getRHS());
 				Literal neglit = neglits.get(0);
 				if (neglit.negated()) {
-					neglit.setNegated(true);
-				} else {
 					neglit.setNegated(false);
+				} else {
+					neglit.setNegated(true);
 				}
 				lits.add(neglit);
 			} else {

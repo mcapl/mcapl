@@ -61,11 +61,11 @@ public class startCycleStage extends AbstractGoalStage {
 				firstround = false;
 				rc.setInitModule(ag.getInitModule());
 				return rc.initModule;
-			} else if (rc.eventModuleInstantiated() && ag.actionPerformedLastCycle()) {
-				ag.clearActionPerformed();
+			} else if (rc.eventModuleInstantiated() && ! firstround ) { // ag.actionPerformedLastCycle()) {
+				//ag.clearActionPerformed();
 				return rc.eventModule;
-			} else if (ag.hasEventModule() && ag.actionPerformedLastCycle()){
-				ag.clearActionPerformed();
+			} else if (ag.hasEventModule() && ! firstround) { //ag.actionPerformedLastCycle()){
+				//ag.clearActionPerformed();
 				rc.setEventModule(ag.getEventModule());
 				return rc.eventModule;
 			} else if (rc.mainModuleInstantiated()) {

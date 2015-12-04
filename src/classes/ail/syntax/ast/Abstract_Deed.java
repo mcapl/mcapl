@@ -336,13 +336,41 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     public void addParams(ArrayList<Abstract_Term> tl) {
     	if (content != null) {
     		getContent().addParams(tl);
+    		
+    	//	???? Need to sort into negative and positive params at some point;
     	} else {
     		if (getCategory() == Abstract_BaseAILStructure.AILGoal) {
-    			content = new Abstract_Goal((Abstract_Predicate) tl.get(0), Abstract_Goal.achieveGoal);
+    			if (tl.size() > 1) {
+	    			content = new Abstract_Predicate("tuple");
+	    			ArrayList<Abstract_Goal> ps = new ArrayList<Abstract_Goal>();
+	    			for (Abstract_Term t: tl) {
+	    				ps.add(new Abstract_Goal((Abstract_Predicate) t, Abstract_Goal.achieveGoal));
+	    			}
+	    			content.addParams(tl);
+    			} else {
+    				content = new Abstract_Goal((Abstract_Predicate) tl.get(0), Abstract_Goal.achieveGoal);
+    			}
     		} else {
-    			content = tl.get(0);
+    			if (tl.size() > 1) {
+	    			content = new Abstract_Predicate("tuple");
+	    			content.addParams(tl);
+    			} else {
+    				content = tl.get(0);
+    			}
     		}
     	}
+    }
+    
+    public int getTrigType() {
+    	return trigtype;
+    }
+    
+    public void setTrigType(int t) {
+    	trigtype = t;
+    }
+    
+    public void setContent(Abstract_Term t) {
+    	content = t;
     }
     
 

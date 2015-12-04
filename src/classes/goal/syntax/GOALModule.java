@@ -169,13 +169,6 @@ public class GOALModule {
 			exitCondition = ExitCondition.ALWAYS;
 		}
 		
-		BuiltInPrologRules prolog = new BuiltInPrologRules();
-		for (Predicate p: prolog.getFacts()) {
-			addFact(p);
-		}
-		for (Rule r: prolog.getRules()) {
-			addRule(r);
-		}
 	}
 	
 	public GOALModule(ModuleType type, Predicate name) {

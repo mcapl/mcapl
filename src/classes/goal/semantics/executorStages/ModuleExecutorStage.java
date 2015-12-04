@@ -212,9 +212,9 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		}
 	}
 	
-	public void performedAnAction() {
+	/*public void performedAnAction() {
 		performedAnAction = true;
-	}
+	} */
 	
 	public boolean first() {
 		return first;

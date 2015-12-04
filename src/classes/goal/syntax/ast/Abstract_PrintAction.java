@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ail.syntax.ast.Abstract_Deed;
+import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_Action;
@@ -17,6 +18,7 @@ public class Abstract_PrintAction extends Abstract_Action {
 		super("print");
 	}
 	
+	@Override
 	public void addParams(ArrayList<Abstract_Term> tl) {
 		addTerm(tl.get(0));
 	}

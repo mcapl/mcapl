@@ -143,7 +143,7 @@ public class UserSpecAction extends ActionExecutor {
 		ArrayList<Literal> updates = action.postConditionsToLiterals();
 		for (Literal b: updates) {
 			if (b.negated()) {
-				b.setNegated(true);
+				b.setNegated(false);
 				a.delBel(b);
 			} else {
 				a.addBel(b, BeliefBase.TSelf);

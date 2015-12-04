@@ -89,7 +89,13 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 				Abstract_Predicate lp = (Abstract_Predicate) lf;
 				GBelief gb; 
 				if (lp.getFunctor().equals("percept")) {
-					gb = new GBelief(((Abstract_Predicate) lp.getTerm(0)).toMCAPL());
+					Abstract_Predicate lpterm = (Abstract_Predicate) lp.getTerm(0);
+					if (lpterm.getFunctor().equals("not")) {
+						gb = new GBelief(((Abstract_Predicate) lpterm.getTerm(0)).toMCAPL());
+						gb.setNegated(true);
+					} else {
+						gb = new GBelief(((Abstract_Predicate) lp.getTerm(0)).toMCAPL());
+					}
 					gb.setEB(new StringTermImpl("percepts"));
 				} else {
 					gb = new GBelief(((Abstract_Predicate) lf).toMCAPL());

@@ -175,6 +175,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 			for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName)).values()) {
 				for (Percept p: ps) {
 					preds.add(new EISPercept(p).toPredicate());
+					System.err.println(p);
 				}
 			}
 			for (String e_name: eis_environment.getAssociatedEntities(agName)) {
@@ -234,10 +235,13 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		// TODO Auto-generated method stub
 		try {
 			eis_environment.registerAgent(a.getAgName());
-			eis_environment.attachAgentListener(a.getAgName(), this);
 		} catch (AgentException e) {
 			AJPFLogger.severe(logname, e.getMessage());
+		} catch (Exception e) {
+			AJPFLogger.warning(logname, e.getMessage());
+			e.printStackTrace();
 		}
+		eis_environment.attachAgentListener(a.getAgName(), this);
 		agentpercepts.put(a.getAgName(), new HashSet<Predicate>());
 		
 	}
@@ -259,9 +263,13 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	}
 
 	@Override
-	public void initialise() {
+	public void init_before_adding_agents() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void init_after_adding_agents() {
+		
 	}
 	
 	public void cleanup() {

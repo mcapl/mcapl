@@ -318,8 +318,10 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             return super.getFunctor();
         } else if (value.isPredicate()) {
             return ((Predicate)getValue()).getFunctor();
+        } else if (value.isString()){
+            return value.toString();
         } else {
-            return null;
+        	return null;
         }
     }
 

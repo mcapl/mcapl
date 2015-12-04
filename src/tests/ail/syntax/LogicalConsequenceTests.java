@@ -25,6 +25,7 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
@@ -41,6 +42,7 @@ import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_VarTerm;
+import ajpf.util.AJPFLogger;
 
 /**
  * Regression tests involving Logical Consequence.
@@ -57,6 +59,45 @@ public class LogicalConsequenceTests {
 				
 		GMessage gm = new GMessage(DefaultAILStructure.AILSent, 1, new StringTermImpl("s"), new StringTermImpl("r"), new Literal("message"));
 		Assert.assertTrue(ag.believesyn(new Guard(gm), new Unifier()));
+	}
+	
+	@Test public void prologMembershipTest() {
+		try {
+			AILAgent agent = new AILAgent("ag");
+
+			Predicate nil_rule_hd = ruleHead("member(X, [])");
+			LogExpr nil_rule_body = ruleBody("false");
+			agent.addRule(new Rule(nil_rule_hd, nil_rule_body));
+			
+			Predicate cons_hd_rule = ruleHead("member(H, [H | T])");
+			// LogExpr cons_rule_body = ruleBody("true");
+			agent.addRule(new Rule(cons_hd_rule, Predicate.PTrue));
+			
+			Predicate cons_tl_rule_hd = ruleHead("member(H, [X | T])");
+			LogExpr cons_tl_rule_body = ruleBody("member(H, T)");
+			agent.addRule(new Rule(cons_tl_rule_hd, cons_tl_rule_body));
+			
+			ListTermImpl list = parser_for("[a, b, c]").listterm().toMCAPL();
+			
+			Literal member = new Literal("member");
+			member.addTerm(new VarTerm("X"));
+			member.addTerm(list);
+			GBelief gb = new GBelief(member);
+			Guard g = new Guard(gb);
+			Unifier un = new Unifier();
+			Iterator<Unifier> iun = agent.believes(g, un);
+			
+			Assert.assertTrue(iun.hasNext());
+			Assert.assertTrue(iun.next().unifies(new VarTerm("X"), new Predicate("a")));
+			Assert.assertTrue(iun.hasNext());
+			Assert.assertTrue(iun.next().unifies(new VarTerm("X"), new Predicate("b")));
+			Assert.assertTrue(iun.hasNext());
+			Assert.assertTrue(iun.next().unifies(new VarTerm("X"), new Predicate("c")));
+			Assert.assertFalse(iun.hasNext());
+			
+		} catch (Exception e) {
+			Assert.assertFalse(true);
+		}
 	}
 	
 	@Test public void capabilityPreconditionTest() {
@@ -92,6 +133,29 @@ public class LogicalConsequenceTests {
 		} catch (Exception e) {
 			Assert.assertFalse(true);
 		}
+		
+	}
+	
+	public Predicate ruleHead(String s) throws Exception {
+		GOALParser parser = parser_for(s);
+		return (parser.declarationOrCallWithTerms()).toMCAPL();
+	}
+	
+	public LogExpr ruleBody(String s) throws Exception {
+		GOALParser parser = parser_for(s);
+		ArrayList<Abstract_LogicalFormula> rule_a = (parser.no_bracket_literals());
+		boolean first = true;
+		LogExpr rule_body = new LogExpr();
+		for (Abstract_LogicalFormula alf: rule_a) {
+			if (first) {
+				rule_body = new LogExpr(LogExpr.LogicalOp.none, alf.toMCAPL());
+				first = false;
+			} else {
+				rule_body = new LogExpr(rule_body, LogExpr.LogicalOp.and, alf.toMCAPL());
+			}
+			
+		}
+		return rule_body;
 		
 	}
 	
