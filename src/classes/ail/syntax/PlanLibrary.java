@@ -403,15 +403,6 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     					if (prefixsize > 0) {
     						if (a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
-        				//		if (realintention) {
-        				//			ArrayList<Deed> ids = i.deeds();
-        				//			int deedssize = i.deeds().size();
-        							// Prefix unifies
-        				//			for(int n = prefixsize; n > 0 ; n--) {
-        				//				boolean r = un.unifies(ids.get(deedssize - n), current.getPrefix().get(n - 1));
-        				//				result = (result  && r);
-        				//			}
-        				//		}
     							plan_is_applicable = true;
         					} 
     						

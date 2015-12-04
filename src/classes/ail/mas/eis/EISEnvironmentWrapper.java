@@ -175,7 +175,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 			for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName)).values()) {
 				for (Percept p: ps) {
 					preds.add(new EISPercept(p).toPredicate());
-					System.err.println(p);
+					//System.err.println(p);
 				}
 			}
 			for (String e_name: eis_environment.getAssociatedEntities(agName)) {
