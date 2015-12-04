@@ -245,6 +245,22 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	 * @return
     	 */
     	public Iterator<ApplicablePlan> get(AILAgent a);
+    	
+    	/**
+    	 * Return an iterator over uninstantiated plans in this plan base.
+    	 * @param a
+    	 * @return
+    	 */
+    	public Iterator<Plan> getPlans(AILAgent a);
+    	
+    	/**
+    	 * Get an iterator of instantiated plans for plan p given agent a;
+    	 * @param a
+    	 * @param p
+    	 * @return
+    	 */
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	
     	/**
     	 * The number of plans in the index.
     	 * @return
@@ -315,15 +331,22 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     	
     	/*
     	 * (non-Javadoc)
-    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getPlans(ail.semantics.AILAgent)
     	 */
-    	public Iterator<ApplicablePlan> get(final AILAgent a) {
-    		return new Iterator<ApplicablePlan> () {
+    	@Override
+    	public Iterator<Plan> getPlans(final AILAgent a) {
+    		return plans.iterator();
+    	};
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan)
+    	 */
+    	@Override
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p) {
+       		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
-    			/**
-    			 * Index of the plan in the list we are currently considering
-    			 */
-    			int i = 0;
+
     			/**
     			 * The current intention.
     			 */
@@ -365,53 +388,103 @@ public class PlanLibrary implements EvaluationBase<Plan>{
     			 * This is the method that does all the work of generating the applicable plans for a particular agent.
     			 */
     			public void get() {
-    				if (i < size()) {
-    					Plan cp = (Plan) plans.get(i).clone();
-    					cp.standardise_apart(intention.hdU(), new Unifier());
-    					int prefixsize = cp.getPrefix().size();
-    					int appplanlength = prefixsize;
-    					Unifier un = intention.hdU();
-    					boolean plan_is_applicable = false;
+    				Plan cp = (Plan) p.clone();
+    				cp.standardise_apart(intention.hdU(), new Unifier());
+    				int prefixsize = cp.getPrefix().size();
+    				int appplanlength = prefixsize;
+    				Unifier un = intention.hdU();
+    				boolean plan_is_applicable = false;
     				
-    					if (prefixsize > 0) {
-    						if (a.goalEntails(intention.hdE(), cp, un)) {
+    				if (prefixsize > 0) {
+    					if (a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
-        				//		if (realintention) {
-        				//			ArrayList<Deed> ids = i.deeds();
-        				//			int deedssize = i.deeds().size();
-        							// Prefix unifies
-        				//			for(int n = prefixsize; n > 0 ; n--) {
-        				//				boolean r = un.unifies(ids.get(deedssize - n), current.getPrefix().get(n - 1));
-        				//				result = (result  && r);
-        				//			}
-        				//		}
-    							plan_is_applicable = true;
-        					} 
+							plan_is_applicable = true;
+    					} 
     						
-    	    			} else {
-    	    				if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
-    	    					appplanlength = 0;
-    	    					plan_is_applicable = true;
-    	    				} 
-    	    			} 
-    					
-    					if (plan_is_applicable) {
-    						if (iun == null) {
-    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un);
-    						}
-    					}
-    					
-    					if (iun != null && iun.hasNext()) {
-    						current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
-    					} else {
-    						// If we've exhausted all possibilities for plan i then we try the next plan.
-    						iun = null;
-    						i++;
-    						get();
-    					}
-
     				} else {
+    					if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
+    						appplanlength = 0;
+    						plan_is_applicable = true;
+    					} 
+    				} 
+    					
+    				if (plan_is_applicable) {
+    					if (iun == null) {
+    						iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un);
+    					}
+    				}
+    					
+    				if (iun != null && iun.hasNext()) {
+    					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
+    				} else {
+    						// We've exhausted all possibilities for this plan
     					current = null;
+    					return;
+    				}
+    			}
+    		};
+   			
+    	};
+    	
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 */
+    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    		return new Iterator<ApplicablePlan> () {
+    			ApplicablePlan current = null;
+    			/**
+    			 * Index of the plan in the list we are currently considering
+    			 */
+    			Iterator<Plan> planit = getPlans(a);
+     			/**
+    			 * The iterator of the instantiations that match the current plan to the current situation.
+    			 */
+    			Iterator<ApplicablePlan> ap_it = null;
+   			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#remove()
+    			 */
+    			public void remove() {}
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#next()
+    			 */
+    			public ApplicablePlan next() {
+    				if (current == null)
+    					get();
+    				ApplicablePlan ap = current;
+    				current = null;
+    				return ap;
+    			}
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#hasNext()
+    			 */
+    			public boolean hasNext() {        		
+    				if (current == null)
+    					get();
+    				return current != null;
+    			}
+    			
+    			/**
+    			 * This is the method that does all the work of generating the applicable plans for a particular agent.
+    			 */
+    			public void get() {
+    				if (ap_it != null && ap_it.hasNext()) {
+    					current = ap_it.next();
+    				} else {
+    					if (planit.hasNext()) {
+    						ap_it = getApplicablePlansFor(a, planit.next());
+    						get();
+    					} else {
+    						current = null;
+    						return;
+    					}
     				}
     			}
     		};
