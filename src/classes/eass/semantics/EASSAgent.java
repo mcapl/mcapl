@@ -64,7 +64,7 @@ public class EASSAgent extends AILAgent {
 	public EASSAgent(MAS mas, String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(mas, name);
-		setTrackPlanUsage(false);
+		//setTrackPlanUsage(false);
 		
 
     // Then we construct Gwendolen's reasoning cycle, starting with
@@ -80,7 +80,7 @@ public class EASSAgent extends AILAgent {
 	public EASSAgent(String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(name);
-		setTrackPlanUsage(false);
+	//	setTrackPlanUsage(false);
 		
 
     // Then we construct Gwendolen's reasoning cycle, starting with

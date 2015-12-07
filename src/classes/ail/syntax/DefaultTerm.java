@@ -318,19 +318,4 @@ public abstract class DefaultTerm implements Term {
     }
    
    
-         
-   /// For working with terms in MJI.  This is a worker class for returning the right sort of Term
-   // WORK IN PROGRESS
-   public static Term constructFromRef(MJIEnv env, int ref) throws AILexception {
-	   String classname = env.getClassName(ref);
-	   
-	   if (classname.equals("ail.syntax.ArithExpr")) {
-		   return new ArithExpr(env, ref);
-	   } else {
-		   AJPFLogger.severe(logname, "unknown class name: " + classname);
-		   throw new AILexception(" Unknown Class Name ");
-	   }
-   }
-
-   
 }
