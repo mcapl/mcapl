@@ -214,11 +214,11 @@ public class PlanLibrary implements EvaluationBase<Plan> {
      * @param a
      * @return
      */
-    public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
+    public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a, boolean random) {
     	if (p.getTriggerEvent().isVar()) {
-    		return varPlans.getApplicablePlansFor(a, p);
+    		return varPlans.getApplicablePlansFor(a, p, random);
     	} else {
-    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p, random);
     	}
     }
       
@@ -317,7 +317,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * @param p
     	 * @return
     	 */
-    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p, boolean random);
     	
     	/**
     	 * The number of plans in the index.
@@ -403,7 +403,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan)
     	 */
     	@Override
-    	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p) {
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p, final boolean random) {
        		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
 
@@ -448,16 +448,15 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     			 * This is the method that does all the work of generating the applicable plans for a particular agent.
     			 */
     			public void get() {
-    				if (i < size()) {
-    					Plan cp = (Plan) plans.get(i).clone();
-    					Unifier un = new Unifier();
-    					if (intention != null) {
-    						cp.standardise_apart(intention.hdU(), new Unifier());
-    	   					un = intention.hdU();
-    					}  
-    					int prefixsize = cp.getPrefix().size();
-    					int appplanlength = prefixsize;
-    					boolean plan_is_applicable = false;
+     				Plan cp = (Plan) p.clone();
+    				Unifier un = new Unifier();
+    				if (intention != null) {
+    					cp.standardise_apart(intention.hdU(), new Unifier());
+    	   				un = intention.hdU();
+    				}  
+    				int prefixsize = cp.getPrefix().size();
+    				int appplanlength = prefixsize;
+    				boolean plan_is_applicable = false;
     				
     				if (prefixsize > 0) {
     					if (a.goalEntails(intention.hdE(), cp, un)) {
@@ -472,13 +471,12 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     					} 
     				} 
     					
-    					if (plan_is_applicable) {
-    						if (iun == null) {
-    							if (random == true) {
-    								iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
-    							} else {
-    								iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
-    							}
+    				if (plan_is_applicable) {
+    					if (iun == null) {
+    						if (random == true) {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
+    						} else {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
     						}
     					}
     				}
@@ -501,7 +499,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
     	 */
     	@Override
-    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    	public Iterator<ApplicablePlan> get(final AILAgent a, boolean random) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
     			/**
@@ -549,7 +547,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     					current = ap_it.next();
     				} else {
     					if (planit.hasNext()) {
-    						ap_it = getApplicablePlansFor(a, planit.next());
+    						ap_it = getApplicablePlansFor(a, planit.next(), random);
     						get();
     					} else {
     						current = null;
