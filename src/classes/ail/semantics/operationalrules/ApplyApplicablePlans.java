@@ -77,7 +77,7 @@ public class ApplyApplicablePlans implements OSRule {
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
 		
-		if (! p.noChangePlan()) {
+		//if (! p.noChangePlan()) {
 		
 			ArrayList<Guard> guardstack = p.getGuard();
 		
@@ -120,7 +120,7 @@ public class ApplyApplicablePlans implements OSRule {
 					i.hdU().compose(p.getUnifier().clone());
 				}
 			}
-		}
+		//}
 		
 		// To encourage state matching during model checking we clear the list of applicable plans.
 		a.clearApplicablePlans();
