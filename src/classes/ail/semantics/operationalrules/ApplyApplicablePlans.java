@@ -77,7 +77,7 @@ public class ApplyApplicablePlans implements OSRule {
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
 		
-		if (! p.noChangePlan()) {
+		//if (! p.noChangePlan()) {
 		
 			ArrayList<Guard> guardstack = p.getGuard();
 		
@@ -104,10 +104,10 @@ public class ApplyApplicablePlans implements OSRule {
                     } else {
                             i.dropP(p.getN());
                     }
-            } else {
+                } else {
             
                     i.dropP(p.getN());
-            }
+                }
 			
 				// NOTE HACK - top of guardstack presumably already tested!
 				if (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial()))) {
@@ -120,7 +120,7 @@ public class ApplyApplicablePlans implements OSRule {
 					i.hdU().compose(p.getUnifier().clone());
 				}
 			}
-		}
+		//}
 		
 		// To encourage state matching during model checking we clear the list of applicable plans.
 		a.clearApplicablePlans();
