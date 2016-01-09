@@ -104,10 +104,10 @@ public class ApplyApplicablePlans implements OSRule {
                     } else {
                             i.dropP(p.getN());
                     }
-            } else {
+                } else {
             
                     i.dropP(p.getN());
-            }
+                }
 			
 				// NOTE HACK - top of guardstack presumably already tested!
 				if (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial()))) {
