@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -32,7 +32,7 @@ import ajpf.util.AJPFLogger;
 
 /**
  * This is an evaluation base for some arbitrary conjunction.  I.e., instead of some set within an agent this is 
- * for more logical abstract expression (if they are conjunctions of atoms) and checking that something follows from them.
+ * for more logical abstract expressions (if they are conjunctions of atoms) and checking that something follows from them.
  * @author lad
  *
  */
@@ -90,6 +90,7 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
 	 */
+	@Override
 	public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ga) {
 		ArrayList<PredicateTerm> ptl = new ArrayList<PredicateTerm>();
 		for (Literal l: ll) {
@@ -99,6 +100,16 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 			}
 		}
 		return ptl.iterator();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "Conjunction Evaluation Base for: " + ll;
+		return s;
 	}
 
 }

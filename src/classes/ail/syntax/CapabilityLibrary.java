@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -33,7 +33,7 @@ import java.util.HashMap;
  * @author lad
  *
  */
-public class CapabilityLibrary implements EvaluationBase<Capability> {
+public class CapabilityLibrary implements EvaluationBase<Capability>, Iterable<Capability> {
 	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
 
@@ -41,6 +41,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
 	 */
+	@Override
 	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
 		Capability c = ((GCapability) ga).getCap();
 		Predicate cPred = c.getCap();
@@ -74,6 +75,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	 * An iterator of all the capabilities in the library.
 	 * @return
 	 */
+	@Override
 	public Iterator<Capability> iterator() {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
 		
@@ -101,8 +103,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	}
 	
 	/**
-	 * Preliminary implemenation for finding a capability in a library that can be exchanged for some other capability in the library
+	 * Preliminary implementation for finding a capability in a library that can be exchanged for some other capability in the library
 	 * on the assumption that certain preconditions hold and certain post-conditions are desired.
+	 * 
+	 * This needs to be compared to the use of planning techniques potentially over sequences of capabilities.
 	 * @param oldcap
 	 * @param capname
 	 * @param Pre
