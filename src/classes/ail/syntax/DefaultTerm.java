@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -50,11 +50,6 @@ public abstract class DefaultTerm implements Term {
 	static String logname = "ail.syntax.DefaultTerm";
 	
 	/**
-	 * Most terms, but not all (see ListTerms) have a functor string;
-	 */
-	//String functor;
-
-	/**
 	 * We need to override hashCode in order to use hash maps with terms
 	 * as keys elsewhere in the system.  Java expects equal objects to 
 	 * have the same hashsode.
@@ -66,6 +61,7 @@ public abstract class DefaultTerm implements Term {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
         if (hashCodeCache == null) {
             hashCodeCache = calcHashCode();
@@ -117,80 +113,78 @@ public abstract class DefaultTerm implements Term {
 
     // Methods required by Comparable
     
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
     public int compareTo(Term t) {
         return this.toString().compareTo(t.toString());
     }
  
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
     public int compareTo(MCAPLTerm t) {
     	return this.toString().compareTo(t.toString());
     }
 
    // Methods required by MCAPLTerm
          
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#isList()
-      */
-      public boolean isList() {
-         return false;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#isList()
+     */
+    @Override
+    public boolean isList() {
+    	return false;
+    }
      
-      /*
-       * (non-Javadoc)
-       * @see ajpf.psl.MCAPLTerm#isString()
-       */
-     public boolean isString() {
-         return false;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#isString()
+     */
+    @Override
+    public boolean isString() {
+    	return false;
+    }
 
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#isNumeric()
-      */
-     public boolean isNumeric() {
-         return false;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#isNumeric()
+     */
+    @Override
+    public boolean isNumeric() {
+    	return false;
+    }
      
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#getFunctor()
-      */
-     @Override
-     public String getFunctor() {
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#getFunctor()
+     */
+    @Override
+    public String getFunctor() {
   	   return null;
-     }
+    }
     
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#getTerms()
-      */
-     public List<Term> getTerms() {
-  	   return null;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#getTerms()
+     */
+    @Override
+    public List<Term> getTerms() {
+    	return null;
+    }
      
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#getTermsSize()
-      */
-     public int getTermsSize() {
-  	   return 0;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#getTermsSize()
+     */
+    @Override
+    public int getTermsSize() {
+    	return 0;
+    }
       
-     /*
-      * (non-Javadoc)
-      * @see ajpf.psl.MCAPLTerm#isUnnamedVar()
-      */
-     public boolean isUnnamedVar() {
-  	   return false;
-     }
+    /*
+     * (non-Javadoc)
+     * @see ajpf.psl.MCAPLTerm#isUnnamedVar()
+     */
+    @Override
+    public boolean isUnnamedVar() {
+    	return false;
+    }
 
 
      // Methods required by Term
