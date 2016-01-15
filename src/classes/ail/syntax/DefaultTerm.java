@@ -27,19 +27,16 @@
 
 package ail.syntax;
 
-import ail.util.AILexception;
-
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.psl.MCAPLListTerm;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLTermImpl;
-import ajpf.util.AJPFLogger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Base class for all terms.  Based heavily on that for Jason terms by
@@ -112,14 +109,15 @@ public abstract class DefaultTerm implements Term {
 
 
     // Methods required by Comparable
-    
-    public int compareTo(Term t) {
-        return this.toString().compareTo(t.toString());
-    }
- 
-    public int compareTo(MCAPLTerm t) {
-    	return this.toString().compareTo(t.toString());
-    }
+  
+     /*
+      * (non-Javadoc)
+      * @see java.lang.Comparable#compareTo(java.lang.Object)
+      */
+     @Override
+     public int compareTo(MCAPLTerm t) {
+    	 return this.toString().compareTo(t.toString());
+     }
 
    // Methods required by MCAPLTerm
          
@@ -193,14 +191,16 @@ public abstract class DefaultTerm implements Term {
       * (non-Javadoc)
       * @see ail.syntax.Term#isVar()
       */
-      public boolean isVar() {
-         return false;
-     }
+    @Override
+    public boolean isVar() {
+    	return false;
+    }
       
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#isLiteral()
      */
+    @Override
     public boolean isLiteral() {
         return false;
     }
@@ -209,6 +209,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#isArithExpr()
      */
+    @Override
     public boolean isArithExpr() {
         return false;
     }
@@ -217,6 +218,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#hasAnnotation()
      */
+    @Override
     public boolean hasAnnotation() {
         return false;
     }
@@ -225,6 +227,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#isPredicate()
      */
+    @Override
     public boolean isPredicate() {
         return false;
     }
@@ -233,6 +236,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#isGround()
      */
+    @Override
     public boolean isGround() {
         return true;
     }
@@ -241,6 +245,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#hasVar(ail.syntax.Term)
      */
+    @Override
     public boolean hasVar(Term t) {
         return false;
     }
@@ -251,6 +256,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see java.lang.Object#clone()
      */
+    @Override
     abstract public Term clone();
     
     // Methods required by Unifiable
@@ -259,6 +265,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Term#apply(ail.semantics.Unifier)
      */
+    @Override
     public boolean apply(Unifier u) {
     	return false;
     }
@@ -267,6 +274,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
      */
+    @Override
     public boolean unifies(Unifiable t1g, Unifier u) {
     	Term t1 = (Term) t1g;
     	boolean ok = false;
@@ -283,6 +291,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+    @Override
     public boolean match(Unifiable t1g, Unifier u) {
     	Term t1 = (Term) t1g;
     	
@@ -295,6 +304,7 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+    @Override
     public boolean matchNG(Unifiable t1g, Unifier u) {
     	Term t1 = (Term) t1g;
     	
@@ -307,9 +317,22 @@ public abstract class DefaultTerm implements Term {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
-   public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	
-    }
-   
+    @Override
+    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
+       	List<String> tvarnames = t.getVarNames();
+    	List<String> myvarnames = getVarNames();
+    	ArrayList<String> replacednames = new ArrayList<String>();
+    	ArrayList<String> newnames = new ArrayList<String>();
+    	for (String s:myvarnames) {
+    		if (tvarnames.contains(s)) {
+    			if (!replacednames.contains(s)) {
+    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
+    				renameVar(s, s1);
+    				u.renameVar(s, s1);
+    			}
+    		}
+    	}
+ 
+    }   
    
 }
