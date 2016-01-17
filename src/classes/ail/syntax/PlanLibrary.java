@@ -486,9 +486,8 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     				if (iun != null && iun.hasNext()) {
     						current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
     				} else {
-    						// If we've exhausted all possibilities for plan i then we try the next plan.
-    					iun = null;
-    					get();
+    					current = null;
+    					return;
     				}
     			}
 
