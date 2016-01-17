@@ -216,9 +216,9 @@ public class PlanLibrary implements EvaluationBase<Plan> {
      */
     public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
     	if (p.getTriggerEvent().isVar()) {
-    		return varPlans.getApplicablePlansFor(a, p);
+    		return varPlans.getApplicablePlansFor(a, p, false);
     	} else {
-    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p, false);
     	}
     }
       
@@ -317,7 +317,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * @param p
     	 * @return
     	 */
-    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p, boolean random);
     	
     	/**
     	 * The number of plans in the index.
@@ -393,7 +393,17 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * (non-Javadoc)
     	 * @see ail.syntax.PlanLibrary.PlanSet#getPlans(ail.semantics.AILAgent)
     	 */
-    	public Iterator<ApplicablePlan> get(final AILAgent a, boolean random) {
+    	@Override
+    	public Iterator<Plan> getPlans() {
+    		return plans.iterator();
+    	};
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan, boolean)
+    	 */
+    	@Override
+      	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p, boolean random) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
 
@@ -438,56 +448,51 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     			 * This is the method that does all the work of generating the applicable plans for a particular agent.
     			 */
     			public void get() {
-    				if (i < size()) {
-    					Plan cp = (Plan) plans.get(i).clone();
-    					Unifier un = new Unifier();
-    					if (intention != null) {
-    						cp.standardise_apart(intention.hdU(), new Unifier());
-    	   					un = intention.hdU();
-    					}  
-    					int prefixsize = cp.getPrefix().size();
-    					int appplanlength = prefixsize;
-    					boolean plan_is_applicable = false;
+    				Plan cp = (Plan) p.clone();
+    				Unifier un = new Unifier();
     				
-    					if (prefixsize > 0) {
-    						if (a.goalEntails(intention.hdE(), cp, un)) {
+    				if (intention != null) {
+    					cp.standardise_apart(intention.hdU(), new Unifier());
+    					un = intention.hdU();
+    				}
+ 
+    				int prefixsize = cp.getPrefix().size();
+    				int appplanlength = prefixsize;
+    				boolean plan_is_applicable = false;
+    				
+    				if (prefixsize > 0) {
+    					if (a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
-    							plan_is_applicable = true;
-        					} 
+    						plan_is_applicable = true;
+    					} 
     						
-    	    			} else {
-    	    				if ( (intention != null && intention.empty()) || (appplanlength == 0)) {
+    				} else {
+    					if ( (intention != null && intention.empty()) || (appplanlength == 0)) {
     	    					// appplanlength = 0;
-    	    					plan_is_applicable = true;
-    	    				} 
-    	    			} 
+    						plan_is_applicable = true;
+    					} 
+    				} 
     					
-    					if (plan_is_applicable) {
-    						if (iun == null) {
-    							if (random == true) {
-    								iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
-    							} else {
-    								iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
-    							}
+    				if (plan_is_applicable) {
+    					if (iun == null) {
+    						if (random == true) {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
+    						} else {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
     						}
     					}
+    				}
     					
-    					if (iun != null && iun.hasNext()) {
+    				if (iun != null && iun.hasNext()) {
     						current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
-    					} else {
-    						// If we've exhausted all possibilities for plan i then we try the next plan.
-    						iun = null;
-    						i++;
-    						get();
-    					}
-
     				} else {
-    						// We've exhausted all possibilities for this plan
-    					current = null;
-    					return;
+    						// If we've exhausted all possibilities for plan i then we try the next plan.
+    					iun = null;
+    					get();
     				}
     			}
-    		};
+
+     		};
    			
     	};
     	
@@ -497,7 +502,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
     	 */
     	@Override
-    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    	public Iterator<ApplicablePlan> get(final AILAgent a, boolean random) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
     			/**
@@ -545,7 +550,7 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     					current = ap_it.next();
     				} else {
     					if (planit.hasNext()) {
-    						ap_it = getApplicablePlansFor(a, planit.next());
+    						ap_it = getApplicablePlansFor(a, planit.next(), random);
     						get();
     					} else {
     						current = null;
