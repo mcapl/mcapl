@@ -174,15 +174,52 @@ public class PlanLibrary implements EvaluationBase<Plan> {
         	} else {
         		return varPlans.get(a, false);
         	}
-     }
-       
+     }       
 
+    /**
+     * Get an iterator over all uninstantiated plans that are relevant to pi;
+     * @param pi
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedRelevant(PredicateIndicator pi, AILAgent a) {
+    	PlanSet l = relPlans.get(pi);
+    	if (l != null) {
+    		return new MergeIterator<Plan>(l.getPlans(), varPlans.getPlans());
+    	} else {
+    		return varPlans.getPlans();
+    	}
+    }
+    
     /**
      * Get all the reactive plans;
      * @return
      */
     public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a) {
    		return getAllReactivePlans(a, false);
+    }
+    
+    /**
+     * Get an iterator of all reactive plans in the agent.
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedReactivePlans(AILAgent a) {
+    	return varPlans.getPlans();
+    }
+    
+    /**
+     * Get an iterator of all instantions of plan p against agent a;
+     * @param p
+     * @param a
+     * @return
+     */
+    public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
+    	if (p.getTriggerEvent().isVar()) {
+    		return varPlans.getApplicablePlansFor(a, p);
+    	} else {
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    	}
     }
       
     public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a, boolean random) {
@@ -268,6 +305,21 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	 */
     	public Iterator<ApplicablePlan> get(AILAgent a, boolean random);
     	/**
+    	 * Return an iterator over uninstantiated plans in this plan base.
+    	 * @param a
+    	 * @return
+    	 */
+    	public Iterator<Plan> getPlans();
+    	
+    	/**
+    	 * Get an iterator of instantiated plans for plan p given agent a;
+    	 * @param a
+    	 * @param p
+    	 * @return
+    	 */
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	
+    	/**
     	 * The number of plans in the index.
     	 * @return
     	 */
@@ -339,15 +391,12 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     	
     	/*
     	 * (non-Javadoc)
-    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getPlans(ail.semantics.AILAgent)
     	 */
     	public Iterator<ApplicablePlan> get(final AILAgent a, boolean random) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
-    			/**
-    			 * Index of the plan in the list we are currently considering
-    			 */
-    			int i = 0;
+
     			/**
     			 * The current intention.
     			 */
@@ -433,7 +482,75 @@ public class PlanLibrary implements EvaluationBase<Plan> {
     					}
 
     				} else {
+    						// We've exhausted all possibilities for this plan
     					current = null;
+    					return;
+    				}
+    			}
+    		};
+   			
+    	};
+    	
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 */
+    	@Override
+    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    		return new Iterator<ApplicablePlan> () {
+    			ApplicablePlan current = null;
+    			/**
+    			 * Index of the plan in the list we are currently considering
+    			 */
+    			Iterator<Plan> planit = getPlans();
+     			/**
+    			 * The iterator of the instantiations that match the current plan to the current situation.
+    			 */
+    			Iterator<ApplicablePlan> ap_it = null;
+   			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#remove()
+    			 */
+    			public void remove() {}
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#next()
+    			 */
+    			public ApplicablePlan next() {
+    				if (current == null)
+    					get();
+    				ApplicablePlan ap = current;
+    				current = null;
+    				return ap;
+    			}
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#hasNext()
+    			 */
+    			public boolean hasNext() {        		
+    				if (current == null)
+    					get();
+    				return current != null;
+    			}
+    			
+    			/**
+    			 * This is the method that does all the work of generating the applicable plans for a particular agent.
+    			 */
+    			public void get() {
+    				if (ap_it != null && ap_it.hasNext()) {
+    					current = ap_it.next();
+    				} else {
+    					if (planit.hasNext()) {
+    						ap_it = getApplicablePlansFor(a, planit.next());
+    						get();
+    					} else {
+    						current = null;
+    						return;
+    					}
     				}
     			}
     		};

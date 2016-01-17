@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -119,21 +119,10 @@ public class Action extends Predicate {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#clone()
 	 */
+	@Override
 	public Action clone() {
 		Predicate p = (Predicate) super.clone();
 		return(new Action(p, getActionType()));
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.Predicate#sameStructureType(ail.syntax.Predicate)
-	 */
-	public boolean sameStructureType(Predicate s) {
-		if (s instanceof Action) {
-			return (actiontype == ((Action) s).getActionType());
-		}
 		
-		return false;
-	}
-	
 }

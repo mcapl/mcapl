@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -180,7 +180,7 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
         if (l.equals(Predicate.PTrue) || l.equals(Predicate.PFalse)) {
             return false;
         }
-       // if (l.isGround() && ! l.hasAnnot(TPercept)) {
+
         if (l.isGround()) {
         	// Shenanigans to attempt to reduce memory footprint during verification
         	Literal tmp = GroundPredSets.check(l);

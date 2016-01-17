@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -27,13 +27,10 @@
 
 package ail.syntax;
 
-import ail.util.AILexception;
-
 import java.util.List;
 import java.util.ArrayList;
 
 import gov.nasa.jpf.annotation.FilterField;
-import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Represents and solve arithmetic expressions like "10 < 30".
@@ -181,13 +178,13 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#apply(ail.semantics.Unifier)
      */
+    @Override
     public boolean apply(Unifier u) {
     	if (isEvaluated()) return false;
     	
         getLHS().apply(u);
-        if (!isUnary()) {
-            getRHS().apply(u);
-        }
+        getRHS().apply(u);
+
         if (isGround()) {
         	evaluate();
         }
@@ -196,6 +193,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
     }
         
     /** make a hard copy of the terms */
+    @Override
     public NumberTerm clone() {
         if (isEvaluated()) {
             return fValue;
@@ -218,6 +216,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object t) {
         if (t == null) 
             return false;
@@ -249,7 +248,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
     }
 
     /**
-     * IMplementation of is this less, equal or greater than.
+     * Implementation of is this less, equal or greater than.
      * @param st
      * @return
      */
@@ -263,6 +262,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#calcHashCode()
      */
+    @Override
     protected int calcHashCode() {
         if (isEvaluated())
             return fValue.hashCode();
@@ -297,6 +297,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#isNumeric()
 	 */
+    @Override
 	public boolean isNumeric() {
 		return true;
 	}
@@ -305,22 +306,16 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#isArithExpr()
      */
+    @Override
     public boolean isArithExpr() {
         return !isEvaluated();
-    }
-
-    /**
-     * No right hand side - not sure this should ever be used?
-     * @return
-     */
-    public boolean isUnary() {
-        return rhs == null;
     }
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#isGround()
      */
+    @Override
     public boolean isGround() {
         return isEvaluated() || (lhs.isGround() && rhs.isGround());
     }
@@ -329,6 +324,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.NumberTerm#solve()
      */
+    @Override
     public double solve() {
         if (isEvaluated()) {
             // this expr already has a value
@@ -348,6 +344,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.NumberTerm#eqcompareTo(ail.syntax.NumberTerm)
      */
+    @Override
     public int eqcompareTo(NumberTerm st) {
     	if (solve() > st.solve()) return 1;
     	if (solve() < st.solve()) return -1;
@@ -358,6 +355,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
      */
+    @Override
     public Term strip_varterm() {
     	if (isEvaluated()) {
     		return fValue;
@@ -375,6 +373,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Term#resolveVarsClusters()
      */
+    @Override
     public Term resolveVarsClusters() {
     	if (isEvaluated()) {
     		return fValue;
@@ -392,6 +391,7 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         if (isEvaluated()) {
             return fValue.toString();
@@ -404,6 +404,11 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
         }
     }
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#fullstring()
+     */
+    @Override
     public String fullstring() {
     	return toString();
     }
@@ -412,17 +417,16 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
+    @Override
     public List<String> getVarNames() {
     	ArrayList<String> varnames = new ArrayList<String>();
     	if (! isEvaluated()) {
     		varnames.addAll(getLHS().getVarNames());
-    		if (!isUnary()) {
-    	   		varnames.addAll(getRHS().getVarNames());
-    		}
+    		varnames.addAll(getRHS().getVarNames());
     	}
     	return varnames;
     }
-    	
+        	
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
@@ -430,57 +434,20 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
     public void renameVar(String oldname, String newname) {
     	if (! isEvaluated()) {
     		getLHS().renameVar(oldname, newname);
-    		if (!isUnary()) {
-    			getRHS().renameVar(oldname, newname);
-    		}
-    	}
+    		getRHS().renameVar(oldname, newname);
+     	}
     }
-    
-    // Methods for working via MJI - this creates a term in the Native VM equivalent to this term in the JVM
-    // WORK IN PROGRESS NOT CURRENTLY USED
-	public ArithExpr(MJIEnv env, int aeRef) {
-		int rhsRef = env.getReferenceField(aeRef, "rhs");
-		int lhsRef = env.getReferenceField(aeRef, "lhs");
-		int opRef = env.getReferenceField(aeRef, "op");
-		System.err.println(env.getClassName(opRef));
-		
-		try {
-			rhs = (NumberTerm) DefaultTerm.constructFromRef(env, rhsRef);
-
-			lhs = (NumberTerm) DefaultTerm.constructFromRef(env, lhsRef);
-			
-			String opClassName = env.getClassName(opRef);
-			if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.none")) {
-				op = ArithmeticOp.none;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.div")) {
-				op = ArithmeticOp.div;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.intdiv")) {
-				op = ArithmeticOp.intdiv;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.minus")) {
-				op = ArithmeticOp.minus;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.mod")) {
-				op = ArithmeticOp.mod;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.plus")) {
-				op = ArithmeticOp.plus;
-			} else if (opClassName.equals("ail.syntax.ArithExpr.ArithmeticOp.pow")) {
-				op = ArithmeticOp.pow;
-			} else {
-				op = ArithmeticOp.times;
-			}
-		} catch (AILexception e) {
-			// Do something
-		}
-	}
-	
+    	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
-	   public void makeVarsAnnon() {
+    @Override
+    public void makeVarsAnnon() {
 		   lhs.makeVarsAnnon();
 		   rhs.makeVarsAnnon();
 		   hashCodeCache = null;
-	    }	 
+    }	 
 
 
 }
