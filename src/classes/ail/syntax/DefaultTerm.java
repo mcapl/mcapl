@@ -28,18 +28,17 @@
 package ail.syntax;
 
 import ail.util.AILexception;
-
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.psl.MCAPLListTerm;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLTermImpl;
 import ajpf.util.AJPFLogger;
-
 import eis.iilang.Parameter;
 import eis.iilang.Function;
 import eis.iilang.Identifier;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
