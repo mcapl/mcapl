@@ -24,9 +24,11 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 	Predicate visible_brick;
 	Predicate at_brick;
 		
-	public class Brick {
+	public static class Brick {
 		String colour;
 		String brick_name;
+		
+		public Brick() {};
 		
 		public void setAttributes(String n, String c) {
 			brick_name = n;
@@ -34,10 +36,10 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		}
 	}
 	
-	public static Brick brick1;
-	public static Brick brick2;
-	public static Brick brick3;
-	public static Brick brick4;
+	public static Brick brick1 = new Brick();
+	public static Brick brick2 = new Brick();
+	public static Brick brick3 = new Brick();
+	public static Brick brick4 = new Brick();
 	
 	static {
 		brick1.setAttributes("brick1", "green");
@@ -58,6 +60,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		
 		Predicate shopping_list = new Predicate("shopping_list");
 		ListTermImpl list = new ListTermImpl();
+		list.setTail(new ListTermImpl());
 		list.setHead(new Predicate("red"));
 		list.cons(new Predicate("green"));
 		list.cons(new Predicate("green"));
