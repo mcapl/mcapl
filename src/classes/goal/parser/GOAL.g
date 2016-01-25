@@ -162,7 +162,7 @@ mentalstatecond returns [Abstract_MentalState lf]
 	
 mentalstate returns [Abstract_MentalState ms]
 	: ma=mentalatom {$ms = new Abstract_MentalState(ma);}
-	| NOT OPEN mentalatom CLOSE
+	| NOT OPEN nma=mentalatom {nma.negate(); $ms = new Abstract_MentalState(nma);} CLOSE
 	| TRUE {$ms = new Abstract_MentalState();}
 		;
 
