@@ -1,0 +1,4 @@
+env = goal.simple_blocks_world.SimpleBlocksWorldEnvironment
+
+mas.file = /src/examples/goal/simple_blocks_world/block_sequence.goal
+mas.builder = goal.GOALMASBuilder
