@@ -97,10 +97,12 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				visible_brick.addTerm(new Predicate(b.colour));
 				addPercept(visible_brick);
 			}
+			System.err.println("moving to " + act.getTerm(0));
 		} else if (functor.equals("gotToBrick")) {
 			at_a_brick = true;
 			at_brick = new Predicate("atBrick");
 			at_brick.addTerm(act.getTerm(0));
+			System.err.println("moving to " + act.getTerm(0));
 			addPercept(at_brick);			
 		} else if (functor.equals("pickUp")) {
 			if (at_a_brick) {
@@ -110,6 +112,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				}
 				Predicate holding_pred = new Predicate("holding");
 				holding = at_brick.getTerm(0).getFunctor();
+				System.err.println("picking up brick");
 				removePercept(at_brick);
 				at_brick = null;
 				
@@ -125,6 +128,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				Predicate holding_pred = new Predicate("holding");
 				holding_pred.addTerm(new Predicate(holding));
 				removePercept(holding_pred);
+				System.err.println("putting down brick");
 			}
 		}
 		

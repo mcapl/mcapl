@@ -2,6 +2,7 @@ init module {
 	knowledge{
 		% list of all rooms in the environment
 		rooms(['Room1','Room2','Room3','Room4']).
+		place('Room1'). place('Room2'). place('Room3'). place('Room4'). place('DropZone').
 		
 		% room(X) is true if 'X' is a room
 		room(X):- rooms(L), member(X,L).
