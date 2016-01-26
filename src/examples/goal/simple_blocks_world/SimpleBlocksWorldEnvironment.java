@@ -98,7 +98,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				addPercept(visible_brick);
 			}
 			System.err.println("moving to " + act.getTerm(0));
-		} else if (functor.equals("gotToBrick")) {
+		} else if (functor.equals("goToBrick")) {
 			at_a_brick = true;
 			at_brick = new Predicate("atBrick");
 			at_brick.addTerm(act.getTerm(0));
@@ -129,6 +129,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				holding_pred.addTerm(new Predicate(holding));
 				removePercept(holding_pred);
 				System.err.println("putting down brick");
+				holding = null;
 			}
 		}
 		

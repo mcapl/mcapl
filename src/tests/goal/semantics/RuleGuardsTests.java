@@ -46,7 +46,7 @@ import ail.syntax.Unifier;
 
 
 public class RuleGuardsTests {
-	@Test public void notgoalguard() {
+	@Test public void not_perceptguard() {
 		GOALParser parser = parser_for("bel(not(visible(Brick, Color)), percept(visible(Brick, Color)))");
 		GOALParser parser2 = parser_for("bel(percept(visible(Brick, Color)), not(visible(Brick, Color)))");
 		
@@ -78,6 +78,32 @@ public class RuleGuardsTests {
 			System.err.println(e);
 			Assert.assertFalse(true);
 		}
+	}
+		
+	@Test public void perceptnotguard() {
+		GOALParser parser = parser_for(" bel(atBrick(Brick), percept(not(atBrick(Brick))))");
+			
+		try {
+			Abstract_MentalState l = parser.mentalstate();
+			Guard m  = l.toMCAPL();
+				
+				
+			GOALAgent g = new GOALAgent("agent");
+			g.getMentalState().addBB(g.getBB());
+			g.getMentalState().addPerceptBase(g.getBB("percepts"));
+			Predicate visible1 = new Predicate("atBrick");
+			visible1.addTerm(new Predicate("brick1"));
+			g.addBel(new Literal(visible1), g.refertoself());
+				
+			Predicate visible2 = new Predicate("atBrick");
+			visible2.addTerm(new Predicate("brick1"));
+				
+			Assert.assertTrue(g.believesyn(m, new Unifier()));
+		}  catch (Exception e) {
+			System.err.println(e);
+			Assert.assertFalse(true);
+		}
+
 		
 	}
 	
