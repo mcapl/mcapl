@@ -29,6 +29,7 @@ import java.util.HashSet;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import goal.syntax.ActionRule;
+import goal.syntax.ConjGoalBase;
 import goal.syntax.MentalState;
 import goal.syntax.ast.Abstract_ActionRule;
 import goal.syntax.ast.Abstract_MentalState;
@@ -47,12 +48,18 @@ import ail.syntax.Unifier;
 public class RuleGuardsTests {
 	@Test public void notgoalguard() {
 		GOALParser parser = parser_for("bel(not(visible(Brick, Color)), percept(visible(Brick, Color)))");
+		GOALParser parser2 = parser_for("bel(percept(visible(Brick, Color)), not(visible(Brick, Color)))");
 		
 		try {
 			Abstract_MentalState l = parser.mentalstate();
 			Guard m  = l.toMCAPL();
 			
+			Abstract_MentalState l2 = parser2.mentalstate();
+			Guard m2 = l2.toMCAPL();
+			
 			GOALAgent g = new GOALAgent("agent");
+			g.getMentalState().addBB(g.getBB());
+			g.getMentalState().addPerceptBase(g.getBB("percepts"));
 			Predicate visible1 = new Predicate("visible");
 			visible1.addTerm(new Predicate("brick1"));
 			visible1.addTerm(new Predicate("blue"));
@@ -65,6 +72,7 @@ public class RuleGuardsTests {
 			percepts.add(visible2);
 			g.getMentalState().addPercepts(percepts);
 			
+			Assert.assertTrue(g.believesyn(m2, new Unifier()));
 			Assert.assertTrue(g.believesyn(m, new Unifier()));
 		}  catch (Exception e) {
 			System.err.println(e);
