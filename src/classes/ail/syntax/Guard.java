@@ -485,6 +485,12 @@ public class Guard implements GLogicalFormula {
 		        		}
 		        
 		        	case and:
+		        		if (lhs instanceof Guard && ((Guard) lhs).getOp().equals(GLogicalOp.not)
+		        			&& (!(rhs instanceof Guard) || (!((Guard) rhs).getOp().equals(GLogicalOp.not)))) {
+		        			GLogicalFormula g1 = lhs;
+		        			lhs = rhs;
+		        			rhs = g1;
+		        		}
 		        		ileft = lhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR);
 	        			List<Unifier> currents = new ArrayList<Unifier>();
 		        		return new Iterator<Unifier>() {
