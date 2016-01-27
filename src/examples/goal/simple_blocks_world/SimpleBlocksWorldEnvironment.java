@@ -6,6 +6,7 @@ import java.util.List;
 import ail.syntax.Action;
 import ail.syntax.ListTermImpl;
 import ail.syntax.Predicate;
+import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
@@ -33,6 +34,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		String colour;
 		String brick_name;
 		boolean visible = false;
+		String room;
 		
 		public Brick() {};
 		
@@ -68,10 +70,14 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 	public SimpleBlocksWorldEnvironment() {
 		super();
 		brick_locations.put("Room1", brick1);
+		brick1.room = "Room1";
 		brick_locations.put("Room2", brick2);
+		brick2.room = "Room2";
 		brick_locations.put("Room3", brick3);
+		brick3.room = "Room3";
 		brick_locations.put("Room4", brick4);
-		addPercept(location_pred);
+		brick4.room = "Room4";
+		setPercepts();
 		
 		Predicate shopping_list = new Predicate("shopping_list");
 		ListTermImpl list = new ListTermImpl();
@@ -84,7 +90,53 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		addPercept(shopping_list);
 	}
 	
+	private void void_locations() {
+		atbrick1b = false;
+		atbrick2b = false;
+		atbrick3b = false;
+		atbrick4b = false;
+		inroom1b = false;
+		inroom2b = false;
+		inroom3b = false;
+		inroom4b = false;
+		instartb = false;
+		indropzoneb = false;
+		brick1.setVisible(false);
+		brick2.setVisible(false);
+		brick3.setVisible(false);
+		brick4.setVisible(false);
+	}
 	
+	private void setRoom(String room) {
+		if (room.equals("Room1")) {
+			inroom1b = true;
+		} else if (room.equals("Room2")) {
+			inroom2b = true;
+		} else if (room.equals("Room3")) {
+			inroom3b = true;
+		} else if (room.equals("Room4")) {
+			inroom4b = true;
+		} else if (room.equals("DropZone")) {
+			indropzoneb = true;
+		}
+		
+	}
+	
+	private Brick getBrick(String name) {
+		if (name.equals("brick1")) {
+			return brick1;
+		}
+		
+		if (name.equals("brick2")) {
+			return brick2;
+		}
+		if (name.equals("brick3")) {
+			return brick3;
+		}
+		
+		return brick4;
+		
+	}
 
 	@Override
 	public Unifier executeAction(String agName, Action act) throws AILexception {
@@ -92,68 +144,74 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 				
 		String functor = act.getFunctor();
 		if (functor.equals("goTo")) {
-			removePercept(location_pred);
-			if (visible_brick != null) {
-				removePercept(visible_brick);
-				Predicate notvisible = new Predicate("not");
-				notvisible.addTerm(visible_brick);
-				addPercept(notvisible);
-				visible_brick = null;
-			}
-			if (at_a_brick) {
-				removePercept(at_brick);
-				at_a_brick = false;
-				Predicate notatbrick = new Predicate("not");
-				notatbrick.addTerm(at_brick);
-				addPercept(notatbrick);
-			}
-			location_pred = new Predicate("in");
-			location = act.getTerm(0).getFunctor();
-			location_pred.addTerm(act.getTerm(0));
-			addPercept(location_pred);
-			if (brick_locations.containsKey(location)) {
-				visible_brick = new Predicate("visible");
-				Brick b = brick_locations.get(location);
-				visible_brick.addTerm(new Predicate(b.brick_name));
-				visible_brick.addTerm(new Predicate(b.colour));
-				addPercept(visible_brick);
+			void_locations();
+			String room = ((StringTerm) act.getTerm(0)).getString();
+			
+			setRoom(room);
+
+			if (brick_locations.containsKey(room)) {
+				Brick b = brick_locations.get(room);
+				b.setVisible(true);
 			}
 			System.err.println("moving to " + act.getTerm(0));
 		} else if (functor.equals("goToBrick")) {
-			at_a_brick = true;
-			at_brick = new Predicate("atBrick");
-			at_brick.addTerm(act.getTerm(0));
-			System.err.println("moving to " + act.getTerm(0));
-			addPercept(at_brick);			
-		} else if (functor.equals("pickUp")) {
-			if (at_a_brick) {
-				if (visible_brick != null) {
-					removePercept(visible_brick);
-					visible_brick = null;
-				}
-				Predicate holding_pred = new Predicate("holding");
-				holding = at_brick.getTerm(0).getFunctor();
-				System.err.println("picking up brick");
-				removePercept(at_brick);
-				at_brick = null;
-				
-				holding_pred.addTerm(new Predicate(holding));
-				addPercept(holding_pred);
-				at_a_brick = false;
-				
+			void_locations();
+			String brick_name = act.getTerm(0).getFunctor();
+			Brick b = getBrick(brick_name);
+			b.setVisible(true);
+			
+			setRoom(b.room);
+			
+			if (brick_name.equals("brick1")) {
+				atbrick1b = true;
+			} else if (brick_name.equals("brick2")) {
+				atbrick2b = true;
+			} else if (brick_name.equals("brick3")) {
+				atbrick3b = true;
+			} else if (brick_name.equals("brick4")) {
+				atbrick4b = true;
 			}
-			
-			
+
+			System.err.println("moving to " + act.getTerm(0));
+		} else if (functor.equals("pickUp")) {
+			if (atbrick1b) {
+				brick1.setVisible(false);
+				atbrick1b = false;
+				holdingbrick1 = true;
+				brick_locations.remove(brick1.room);
+				brick1.room = null;
+			} else if (atbrick2b) {
+				brick2.setVisible(false);
+				atbrick2b = false;
+				holdingbrick2 = true;
+				brick_locations.remove(brick2.room);
+				brick2.room = null;
+			} else if (atbrick3b) {
+				brick3.setVisible(false);
+				atbrick3b = false;
+				holdingbrick3 = true;
+				brick_locations.remove(brick3.room);
+				brick3.room = null;
+			} else if (atbrick4b) {
+				brick4.setVisible(false);
+				atbrick4b = false;
+				holdingbrick4 = true;
+				brick_locations.remove(brick4.room);
+				brick4.room = null;
+			}			
 		} else if (functor.equals("putDown")) {
-			if (holding != null) {
-				Predicate holding_pred = new Predicate("holding");
-				holding_pred.addTerm(new Predicate(holding));
-				removePercept(holding_pred);
-				System.err.println("putting down brick");
-				holding = null;
+			if (holdingbrick1) {
+				holdingbrick1 = false;
+			} else if (holdingbrick2 ){
+				holdingbrick2 = false;
+			} else if (holdingbrick3) {
+				holdingbrick3 = false;
+			} else if (holdingbrick4) {
+				holdingbrick4 = false;
 			}
 		}
 		
+		setPercepts();
 		return u;
 	}
 	
@@ -204,7 +262,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		notatbrick3.addTerm(atbrick3);
 		
 		Predicate atbrick4 = new Predicate("atBrick");
-		atbrick1.addTerm(new Predicate("brick4"));
+		atbrick4.addTerm(new Predicate("brick4"));
 		Predicate notatbrick4 = new Predicate("not");
 		notatbrick4.addTerm(atbrick4);
 		
@@ -224,7 +282,7 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 		notholding3.addTerm(holding3);
 		
 		Predicate holding4 = new Predicate("holding");
-		holding1.addTerm(new Predicate("brick4"));
+		holding4.addTerm(new Predicate("brick4"));
 		Predicate notholding4 = new Predicate("not");
 		notholding4.addTerm(holding4);
 		
@@ -300,6 +358,104 @@ public class SimpleBlocksWorldEnvironment extends GoalEnvironment {
 			removePercept(inroom4);
 		}
 		
+		if (atbrick1b) {
+			addPercept(atbrick1);
+			removePercept(notatbrick1);
+		} else {
+			addPercept(notatbrick1);
+			removePercept(atbrick1);
+		}
+		
+		if (atbrick2b) {
+			addPercept(atbrick2);
+			removePercept(notatbrick2);
+		} else {
+			addPercept(notatbrick2);
+			removePercept(atbrick2);
+		}
+		
+		if (atbrick3b) {
+			addPercept(atbrick3);
+			removePercept(notatbrick3);
+		} else {
+			addPercept(notatbrick3);
+			removePercept(atbrick3);
+		}
+		
+		if (atbrick4b) {
+			addPercept(atbrick4);
+			removePercept(notatbrick4);
+		} else {
+			addPercept(notatbrick4);
+			removePercept(atbrick4);
+		}
+		
+		if (holdingbrick1) {
+			addPercept(holding1);
+			removePercept(notholding1);
+		} else {
+			addPercept(notholding1);
+			removePercept(holding1);
+		}
+		
+		
+		if (holdingbrick2) {
+			addPercept(holding2);
+			removePercept(notholding2);
+		} else {
+			addPercept(notholding2);
+			removePercept(holding2);
+		}
+		
+		
+		if (holdingbrick3) {
+			addPercept(holding3);
+			removePercept(notholding3);
+		} else {
+			addPercept(notholding3);
+			removePercept(holding3);
+		}
+		
+		
+		if (holdingbrick4) {
+			addPercept(holding4);
+			removePercept(notholding4);
+		} else {
+			addPercept(notholding4);
+			removePercept(holding4);
+		}
+		
+		if (brick1.isVisible()) {
+			addPercept(visible1);
+			removePercept(notvisible1);
+		} else {
+			addPercept(notvisible1);
+			removePercept(visible1);
+		}
+		
+		if (brick2.isVisible()) {
+			addPercept(visible2);
+			removePercept(notvisible2);
+		} else {
+			addPercept(notvisible2);
+			removePercept(visible2);
+		}
+		
+		if (brick3.isVisible()) {
+			addPercept(visible3);
+			removePercept(notvisible3);
+		} else {
+			addPercept(notvisible3);
+			removePercept(visible3);
+		}
+		
+		if (brick4.isVisible()) {
+			addPercept(visible4);
+			removePercept(notvisible4);
+		} else {
+			addPercept(notvisible4);
+			removePercept(visible4);
+		}
 		
 	}
 

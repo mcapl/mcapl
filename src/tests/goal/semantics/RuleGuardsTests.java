@@ -30,8 +30,10 @@ import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import goal.syntax.ActionRule;
 import goal.syntax.ConjGoalBase;
+import goal.syntax.GOALModule;
 import goal.syntax.MentalState;
 import goal.syntax.ast.Abstract_ActionRule;
+import goal.syntax.ast.Abstract_GOALModule;
 import goal.syntax.ast.Abstract_MentalState;
 import junit.framework.Assert;
 import mcaplantlr.runtime.ANTLRStringStream;
@@ -39,10 +41,15 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
 
+import ail.syntax.GBelief;
 import ail.syntax.Guard;
+import ail.syntax.ListTermImpl;
 import ail.syntax.Literal;
+import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
+import ail.syntax.Rule;
 import ail.syntax.Unifier;
+import ail.syntax.UnnamedVar;
 
 
 public class RuleGuardsTests {
@@ -80,29 +87,60 @@ public class RuleGuardsTests {
 		}
 	}
 		
-	@Test public void perceptnotguard() {
-		GOALParser parser = parser_for(" bel(atBrick(Brick), percept(not(atBrick(Brick))))");
-			
+	@Test public void buildins() {
+		GOALParser length_parser = parser_for("init module {knowledge {finished(Index) :- index(Index), shopping_list(Colours), length(Colours, Index).}}");
+		GOALParser member_parser = parser_for("bel(colour(Colour), shopping_list(Colours), not(member(Colour, Colours)))");
+		
 		try {
-			Abstract_MentalState l = parser.mentalstate();
-			Guard m  = l.toMCAPL();
-				
-				
+			Abstract_MentalState ms = member_parser.mentalstate();
+			Guard gu = ms.toMCAPL();
+			
+			Abstract_GOALModule gm = length_parser.module();
+			
 			GOALAgent g = new GOALAgent("agent");
 			g.getMentalState().addBB(g.getBB());
 			g.getMentalState().addPerceptBase(g.getBB("percepts"));
-			Predicate visible1 = new Predicate("atBrick");
-			visible1.addTerm(new Predicate("brick1"));
-			g.addBel(new Literal(visible1), g.refertoself());
-				
-			Predicate visible2 = new Predicate("atBrick");
-			visible2.addTerm(new Predicate("brick1"));
-				
-			Assert.assertTrue(g.believesyn(m, new Unifier()));
-		}  catch (Exception e) {
+			GOALModule module = gm.toMCAPL();
+			g.addModule(module);
+			for (Rule r : module.getRuleBase().getAll()) {
+				g.addRule(r);
+			}
+			
+			Predicate index = new Predicate("index");
+			index.addTerm(new NumberTermImpl(4));
+			
+			ListTermImpl list = new ListTermImpl();
+			list.setTail(new ListTermImpl());
+			list.setHead(new Predicate("red"));
+			list.cons(new Predicate("green"));
+			list.cons(new Predicate("green"));
+			list.cons(new Predicate("blue"));
+			Predicate shopping_list = new Predicate("shopping_list");
+			shopping_list.addTerm(list);
+			
+			Predicate colour = new Predicate("colour");
+			colour.addTerm(new Predicate("red"));
+			
+			g.addBel(new Literal(index), g.refertoself());
+			g.addBel(new Literal(shopping_list), g.refertoself());
+			g.addBel(new Literal(colour), g.refertoself());
+			
+			Predicate finished = new Predicate("finished");
+			finished.addTerm(new UnnamedVar());
+			Guard guard = new Guard(new GBelief(finished));
+			
+			Assert.assertTrue(g.believesyn(guard, new Unifier()));
+			Assert.assertFalse(g.believesyn(gu, new Unifier()));
+
+			
+			
+		} catch (Exception e) {
 			System.err.println(e);
 			Assert.assertFalse(true);
 		}
+			
+
+
 
 		
 	}

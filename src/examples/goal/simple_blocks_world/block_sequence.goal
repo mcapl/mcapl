@@ -27,7 +27,7 @@ init module {
 		
 		
 		goToBrick(Brick) {
-			pre { visible(Brick, _) }
+			pre { hasColour(Brick, _) }
 			post { true }
 		}
 		

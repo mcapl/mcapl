@@ -21,6 +21,7 @@ public class BuiltInPrologRules {
 	public BuiltInPrologRules() {
 		memberPredicate();
 		nth0Predicate();
+		lengthPredicate();
 	}
 	
 	public ArrayList<Predicate> getFacts() {
@@ -72,6 +73,39 @@ public class BuiltInPrologRules {
 		} catch (Exception e) {
 			AJPFLogger.severe("goal.syntax.BuiltInPrologRules", e.getMessage());
 		}
+	}
+	
+	/**
+	 * Actually length1 - need to implement properly.
+	 */
+	public void lengthPredicate() {
+		try {
+			Predicate nil_rule_hd = ruleHead("length([], 0)");
+			rules.add(new Rule(nil_rule_hd, Predicate.PTrue));
+			
+			Predicate cons_rule_hd = ruleHead("length([_|L], Length)");
+			LogExpr cons_rule_body = ruleBody("N1 is Length-1, length(L, N1)");
+			rules.add(new Rule(cons_rule_hd, cons_rule_body));
+			
+			/* length(List, Length) :-
+	        ( var(Length) ->
+	          length(List, 0, Length)
+	        ;
+	          Length >= 0,
+	          length1(List, Length) ).
+
+	          length([], Length, Length).
+	          length([_|L], N, Length) :-
+	          N1 is N+1,
+	          length(L, N1, Length).
+
+	          length1([], 0) :- !.
+	          length1([_|L], Length) :-
+	          N1 is Length-1,
+	          length1(L, N1). */
+			} catch (Exception e) {
+				AJPFLogger.severe("goal.syntax.BuiltInPrologRules", e.getMessage());
+			}
 	}
 	
 	public Predicate ruleHead(String s) throws Exception {
