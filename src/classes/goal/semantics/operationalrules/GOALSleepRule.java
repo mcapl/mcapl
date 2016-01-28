@@ -36,6 +36,7 @@ import ail.syntax.Intention;
 import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
+import ail.syntax.PredicatewAnnotation;
 import ail.semantics.OSRule;
 import goal.semantics.executorStages.startCycleStage;
 import goal.semantics.GOALAgent;
@@ -95,13 +96,13 @@ public class GOALSleepRule implements OSRule {
 	
 	private boolean percepts_have_changed(AILAgent a, Set<Predicate> percepts) {
 		Iterator<Literal> percept_iterator = ((GOALAgent) a).getMentalState().getPercepts();
-		Set<Literal> removed_percepts = new TreeSet<Literal>();
+		Set<Predicate> removed_percepts = new HashSet<Predicate>();
 		while (percept_iterator.hasNext()) {
 			Literal l = percept_iterator.next();
 			if (percepts == null | ! percepts.contains(l)) {
 				return true;
 			} else {
-			//	percepts.remove(l);
+				removed_percepts.add(l);
 			}
 		}
 		
@@ -110,7 +111,9 @@ public class GOALSleepRule implements OSRule {
 		}
 		
 		for (Predicate l: percepts) {
-			return true;
+			if (! removed_percepts.contains(new PredicatewAnnotation(l, a.refertopercept()))) {
+				return true;
+			}
 		}
 			
 		return false;
