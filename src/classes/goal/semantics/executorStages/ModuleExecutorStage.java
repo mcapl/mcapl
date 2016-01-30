@@ -207,7 +207,8 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			} else {
 				ag.getEnv().getScheduler().notActive(ag.getAgName());
 				rc.setStopandCheck(true);
-				return null;
+				// NB. was return null but that was throwing errors.
+				return this;
 			}
 
 		}

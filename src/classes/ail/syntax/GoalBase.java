@@ -89,8 +89,11 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
        		entry = new VerifySet<Goal>();
        		goalMap.put(g.getPredicateIndicator(), entry);
        	}
+       	int entrysize = entry.size();
        	entry.add(g); 
-       	size++;
+       	if (entry.size() != entrysize) {
+       		size++;
+       	}
      }
 
     /**

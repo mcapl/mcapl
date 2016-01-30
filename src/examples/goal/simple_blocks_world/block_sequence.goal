@@ -44,7 +44,7 @@ init module {
 }
 
 
-main module{
+main module[exit=nogoals]{
 	program {
 		if bel(not(finished(_)), in('DropZone'), holding(Brick), index(GoalNr))
 			then adopt(delivered(GoalNr)).
