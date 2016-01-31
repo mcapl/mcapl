@@ -29,6 +29,7 @@ import java.util.HashSet;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import goal.syntax.ActionRule;
+import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
 import goal.syntax.MentalState;
@@ -42,6 +43,7 @@ import mcaplantlr.runtime.CommonTokenStream;
 import org.junit.Test;
 
 import ail.syntax.GBelief;
+import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.ListTermImpl;
 import ail.syntax.Literal;
@@ -87,7 +89,7 @@ public class RuleGuardsTests {
 		}
 	}
 		
-	@Test public void buildins() {
+	@Test public void builtins() {
 		GOALParser length_parser = parser_for("init module {knowledge {finished(Index) :- index(Index), shopping_list(Colours), length(Colours, Index).}}");
 		GOALParser member_parser = parser_for("bel(colour(Colour), shopping_list(Colours), not(member(Colour, Colours)))");
 		
@@ -139,11 +141,66 @@ public class RuleGuardsTests {
 			Assert.assertFalse(true);
 		}
 			
-
-
-
 		
 	}
+	
+	@Test public void prologrules() {
+		GOALParser constructivemove = parser_for("a-goal( tower([X, Y | T]) ), bel( tower([Y | T]), clear(Y), (clear(X); holding(X)) ).");
+		GOALParser tower = parser_for("init module {knowledge {clear(table). clear(X) :- block(X), not( on(_, X) ), not( holding(X) ). tower([X]) :- on(X, table).  tower([X, Y | T]) :- on(X, Y), tower([Y | T]).}}");
+		
+		try {
+			Abstract_MentalState ams = constructivemove.mentalstate();
+			Guard ms = ams.toMCAPL();
+			
+			Abstract_GOALModule agm = tower.module();
+			
+			GOALAgent g = new GOALAgent("agent");
+			g.getMentalState().addBB(g.getBB());
+			g.getMentalState().addPerceptBase(g.getBB("percepts"));
+			GOALModule module = agm.toMCAPL();
+			g.addModule(module);
+			for (Rule r : module.getRuleBase().getAll()) {
+				g.addRule(r);
+			}
+			g.getMentalState().addRB(g.getRuleBase());
+			g.getMentalState().addGB((ConjGoalBase) g.getGoalBase());
+			
+			Predicate blocka = new Predicate("block");
+			blocka.addTerm(new Predicate("a"));
+			Predicate blockb = new Predicate("block");
+			blockb.addTerm(new Predicate("b"));
+			
+			Predicate ontablea = new Predicate("on");
+			ontablea.addTerm(new Predicate("a"));
+			ontablea.addTerm(new Predicate("table"));			
+			Predicate ontableb = new Predicate("on");
+			ontableb.addTerm(new Predicate("b"));
+			ontableb.addTerm(new Predicate("table"));
+			
+			Predicate onab = new Predicate("on");
+			onab.addTerm(new Predicate("a"));
+			onab.addTerm(new Predicate("b"));
+			
+			ConjGoal goal = new ConjGoal();
+			goal.addConj(onab);
+			
+			
+			g.adopt(goal);
+			
+			g.addBel(new Literal(blocka), g.refertoself());
+			g.addBel(new Literal(blockb), g.refertoself());
+			g.addBel(new Literal(ontablea), g.refertoself());
+			g.addBel(new Literal(ontableb), g.refertoself());
+			
+			Assert.assertTrue(g.believesyn(ms, new Unifier()));
+
+			
+		} catch (Exception e) {
+			System.err.println(e);
+			Assert.assertFalse(true);
+		}
+	}
+
 	
 
 	

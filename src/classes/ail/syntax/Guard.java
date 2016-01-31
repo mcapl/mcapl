@@ -653,7 +653,7 @@ public class Guard implements GLogicalFormula {
 	        			}
 	        		} 
 	        		String srhs = "is null";
-	        		if (lhs != null) {
+	        		if (rhs != null) {
 	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames, so);
 	        			if (i != null) {
 	        				srhs = "";
