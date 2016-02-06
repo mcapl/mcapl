@@ -132,7 +132,7 @@ public class Abstract_ActionRule extends Abstract_Plan {
     	Guard ms = context[context.length - 1].toMCAPL();
     	return new ActionRule(ms, newdeed, type);
     }
-    
+        
     private ArrayList<Abstract_Deed> transform(Abstract_Deed[] oldbody) {
     	ArrayList<Abstract_Deed> newbody = new ArrayList<Abstract_Deed>();
        	for (int i = 0; i < oldbody.length; i++) {

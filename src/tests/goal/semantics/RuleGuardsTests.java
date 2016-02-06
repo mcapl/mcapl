@@ -25,6 +25,7 @@ package goal.semantics;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
@@ -42,6 +43,9 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
 
+import ail.syntax.Action;
+import ail.syntax.Deed;
+import ail.syntax.EBCompare;
 import ail.syntax.GBelief;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
@@ -49,9 +53,12 @@ import ail.syntax.ListTermImpl;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
+import ail.syntax.PredicateTerm;
 import ail.syntax.Rule;
 import ail.syntax.Unifier;
 import ail.syntax.UnnamedVar;
+import ail.syntax.VarTerm;
+import ail.syntax.ast.Abstract_Predicate;
 
 
 public class RuleGuardsTests {
@@ -183,6 +190,7 @@ public class RuleGuardsTests {
 			
 			ConjGoal goal = new ConjGoal();
 			goal.addConj(onab);
+			goal.addConj(ontableb);
 			
 			
 			g.adopt(goal);
@@ -201,7 +209,82 @@ public class RuleGuardsTests {
 		}
 	}
 
-	
+	@Test public void macros() {
+		Predicate key = new Predicate("constructiveMove");
+		key.addTerm(new VarTerm("X"));
+		key.addTerm(new VarTerm("Y"));
+		
+		
+		VarTerm x = new VarTerm("X");
+		VarTerm y = new VarTerm("Y");
+		Predicate lookup = new Predicate("constructiveMove");
+		lookup.addTerm(x);
+		lookup.addTerm(y);
+
+		Unifier u = new Unifier();
+		lookup.unifies(key, u);
+		
+		Predicate guard = new Predicate("guard");
+		guard.addTerm(x);
+		guard.addTerm(y);
+		Guard g = new Guard(new GBelief(guard));
+		g.apply(u);		
+		
+		GOALParser tower = parser_for("init module {knowledge {guard(C, D) :- guarda(C, D).}}");
+
+		try {
+			GOALAgent ag = new GOALAgent("agent");
+			ag.getMentalState().addBB(ag.getBB());
+			ag.getMentalState().addPerceptBase(ag.getBB("percepts"));
+
+			Abstract_GOALModule agm = tower.module();
+			GOALModule module = agm.toMCAPL();
+			ag.addModule(module);
+			for (Rule r : module.getRuleBase().getAll()) {
+				ag.addRule(r);
+			}
+			
+			
+			
+			
+			Predicate guard1 = new Predicate("guarda");
+			guard1.addTerm(new Predicate("brick1"));
+			guard1.addTerm(new Predicate("blue"));
+			ag.addBel(new Literal(guard1), ag.refertoself());
+			Unifier un = new Unifier();
+			Iterator<Unifier> iun = ag.believes(g, un);
+			
+			Unifier unif = iun.next();
+			
+			Predicate guard2 = new Predicate("guard");
+			guard2.addTerm(new VarTerm("X0"));
+			guard2.addTerm(new Predicate("blue"));
+			
+			Predicate gcontent = ((GBelief) g.getRHS()).toPredicate();
+			
+			unif.unifies(guard2, gcontent);
+			
+			Predicate guard3 = new Predicate("guard");
+			guard3.addTerm(new Predicate("brick3"));
+			guard3.addTerm(new Predicate("blue"));
+			
+			Assert.assertFalse(((EBCompare<PredicateTerm>) gcontent).unifieswith(guard3, unif, ""));
+			
+			
+			
+		} catch (Exception e) {
+			System.err.println(e);
+			Assert.assertFalse(true);
+			
+		}
+
+	/*	ar.apply(newu);
+		g.apply(newu);
+		Deed d3 = ar.getBody().get(1);
+		Assert.assertFalse(d3.unifies(test22u, newu2)); */
+		
+
+	}
 
 	
 	GOALParser parser_for(String s) {
