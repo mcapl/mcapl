@@ -224,8 +224,14 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         // do not use iterator! (see ListTermImpl class)
         final int tss = getTermsSize();
         for (int i = 0; i < tss; i++) {
-        	boolean tr = getTerm(i).apply(u); 
-            r = r || tr;
+        	Term t = getTerm(i);
+        	if (t instanceof VarTerm && u.swaps_vars() & u.get(t) instanceof VarTerm) {
+        		setTerm(i, u.get(t));
+        		r = true;
+        	} else {
+        		boolean tr = getTerm(i).apply(u); 
+        		r = r || tr;
+        	}
         }
         return r;
     }

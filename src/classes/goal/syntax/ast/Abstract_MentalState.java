@@ -104,7 +104,8 @@ public class Abstract_MentalState extends Abstract_Guard {
 			Predicate lookup = ((Abstract_Predicate) t).toMCAPL();
 			Predicate key = p.toMCAPL();
 			Unifier u = new Unifier();
-			lookup.unifies(key, u);
+			u.varsNotClusters();
+			key.unifies(lookup, u);
 			g.apply(u);
 			return g;
 		}

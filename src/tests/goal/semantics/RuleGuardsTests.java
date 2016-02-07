@@ -210,19 +210,20 @@ public class RuleGuardsTests {
 	}
 
 	@Test public void macros() {
-		Predicate key = new Predicate("constructiveMove");
-		key.addTerm(new VarTerm("X"));
-		key.addTerm(new VarTerm("Y"));
-		
-		
 		VarTerm x = new VarTerm("X");
 		VarTerm y = new VarTerm("Y");
+		Predicate key = new Predicate("constructiveMove");
+		key.addTerm(x);
+		key.addTerm(y);
+		
+		
 		Predicate lookup = new Predicate("constructiveMove");
-		lookup.addTerm(x);
-		lookup.addTerm(y);
+		lookup.addTerm(new VarTerm("Z"));
+		lookup.addTerm(new VarTerm("K"));
 
 		Unifier u = new Unifier();
-		lookup.unifies(key, u);
+		u.varsNotClusters();
+		key.unifies(lookup, u);
 		
 		Predicate guard = new Predicate("guard");
 		guard.addTerm(x);
