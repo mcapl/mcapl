@@ -672,6 +672,12 @@ public class GOALAgent extends AILAgent {
         }
         this.activeStackOfModules.pop();
         // Report module re-entry on module's debug channel.
+      //  if (this.topLevelContext == null) {
+       // 	this.topLevelContext = this.activeStackOfModules.peek().getType();
+       // }
+        if (this.topLevelContext == null && this.activeStackOfModules.peek() != null) {
+        	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(this.activeStackOfModules.peek());
+        }
         return (this.activeStackOfModules.peek() != null);
 	}
     
