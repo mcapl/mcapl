@@ -105,7 +105,71 @@ public class nestedRulesTests {
 		
 	}
 	
-
+	@Test public void listallguard() {
+		GOALParser parser = parser_for("event module{ program {if goal( holding(X) ) then { listall L <- bel ( constructiveMove(Y, Z) ) do {   if bel( not( L=[] ), not( member([X,_], L) ) ) then drop( holding(X) ).}}}}");
+		
+		try {
+			Abstract_GOALModule agm = parser.module();
+			
+			GOALAgent g = new GOALAgent("agent");
+			g.getMentalState().addBB(g.getBB());
+			g.getMentalState().addPerceptBase(g.getBB("percepts"));
+			GOALModule module = agm.toMCAPL();
+			g.addModule(module);
+			for (Rule r : module.getRuleBase().getAll()) {
+				g.addRule(r);
+			}
+			g.getMentalState().addRB(g.getRuleBase());
+			g.getMentalState().addGB((ConjGoalBase) g.getGoalBase());
+			
+			Predicate holding = new Predicate("holding");
+			holding.addTerm(new Predicate("s"));
+			ConjGoal goal = new ConjGoal();
+			goal.addConj(holding);
+			g.adopt(goal);
+			
+			Predicate cm1 = new Predicate("constructiveMove");
+			cm1.addTerm(new Predicate("a"));
+			cm1.addTerm(new Predicate("b"));
+			
+			Predicate cm2 = new Predicate("constructiveMove");
+			cm2.addTerm(new Predicate("c"));
+			cm2.addTerm(new Predicate("d"));
+			
+			SelectRule sr = new SelectRule();
+			sr.setModule(module);
+			Assert.assertTrue(sr.checkPreconditions(g));
+			sr.apply(g);
+			
+			ActionRuleExecutor are = new ActionRuleExecutor();
+			are.setModule(module);
+			Assert.assertTrue(are.checkPreconditions(g));
+			are.apply(g);
+						
+			ModuleCallActionExecutor mcae = new ModuleCallActionExecutor();
+			mcae.setModule(module);
+			Assert.assertTrue(mcae.checkPreconditions(g));
+			mcae.apply(g);
+			GOALModule action_module = mcae.getModule();
+			
+			SelectRule sr2 = new SelectRule();
+			sr2.setModule(action_module);
+			Assert.assertTrue(sr2.checkPreconditions(g));
+			sr2.apply(g);
+			
+			ActionRuleExecutor are2 = new ActionRuleExecutor();
+			are2.setModule(action_module);
+			Assert.assertTrue(are2.checkPreconditions(g));
+			are2.apply(g);
+			
+			Assert.assertTrue(g.getIntention().hdD().isGround());
+		}  catch (Exception e) {
+			System.err.println(e);
+			Assert.assertFalse(true);
+		}
+		
+	}
+	
 	
 	GOALParser parser_for(String s) {
 		GOALLexer lexer = new GOALLexer(new ANTLRStringStream(s));

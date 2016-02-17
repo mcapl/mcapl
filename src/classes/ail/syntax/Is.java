@@ -13,12 +13,12 @@ public class Is extends AILComparison {
 	
 	public Is(VarTerm v, Predicate predicate) {
 		variable = v;
-		predicate = value;
+		value = predicate;
 	}
 
 	public Is(Term v, Predicate predicate) {
 		variable = v;
-		predicate = value;
+		value = predicate;
 	}
 
 	/*
@@ -231,6 +231,17 @@ public class Is extends AILComparison {
 	@Override
 	public Is clone() {
 		return new Is((Term) variable.clone(), value.clone());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = variable.toString();
+		s += s + " is " + value.toString();
+		return s;
 	}
 
 }
