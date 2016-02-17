@@ -251,7 +251,12 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	    Iterator<Term> i = iterator();
 		while (i.hasNext()) {
 			Term t = i.next();
-			if (!t.isGround()) {
+			if (t != null) {
+				if (!t.isGround()) {
+					return false;
+				}
+			} else {
+				// If i has next and next is null then i was a variable.  This is bad program logic and should be fixed.
 				return false;
 			}
 		}
@@ -319,7 +324,12 @@ public class ListTermImpl extends Predicate implements ListTerm {
 				return i.hasNext();
 			}
 			public Term next() {
-				return i.next().getHead();
+				//ListTerm l = i.next();
+				//if (l.isVar()) {
+				//	return l;
+				//} else {
+					return i.next().getHead();
+				//}
 			}
 			public void remove() {
 				i.remove();

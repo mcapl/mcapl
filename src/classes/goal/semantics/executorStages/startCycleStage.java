@@ -109,4 +109,10 @@ public class startCycleStage extends AbstractGoalStage {
 		
 	}
 
+	@Override
+	public void setNextStage(ModuleExecutorStage stage) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

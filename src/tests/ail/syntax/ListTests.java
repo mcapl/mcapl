@@ -43,5 +43,12 @@ public class ListTests {
 		Assert.assertTrue(list.getTail().getTail().getHead().getFunctor().equals("green"));
 		Assert.assertTrue(list.getTail().getTail().getTail().getHead().getFunctor().equals("red"));
 	}
+	
+	@Test public void varTailTest() {
+		ListTermImpl list = new ListTermImpl();
+		list.setTail(new VarTerm("T"));
+		list.setHead(new Predicate("e"));
+		Assert.assertFalse(list.isGround());
+	}
 
 }

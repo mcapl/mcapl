@@ -190,7 +190,7 @@ public class Abstract_ActionRule extends Abstract_Plan {
     }
     
     public void merge(ArrayList<Abstract_ActionRule> rs) {
-    	Abstract_ModuleCallAction mca = new Abstract_ModuleCallAction(rs);
+    	Abstract_ModuleCallAction mca = new Abstract_ModuleCallAction(context[0], rs);
     	ArrayList<Abstract_Deed> deeds = new ArrayList<Abstract_Deed>();
     	deeds.add(new Abstract_Deed(mca));
     	setBody(deeds);

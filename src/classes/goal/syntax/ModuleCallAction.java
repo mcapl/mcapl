@@ -3,6 +3,7 @@ package goal.syntax;
 import java.util.ArrayList;
 
 import ail.syntax.Action;
+import ail.syntax.Term;
 import ail.syntax.Unifier;
 
 public class ModuleCallAction extends Action {
@@ -44,6 +45,12 @@ public class ModuleCallAction extends Action {
 	 */
 	@Override
 	public ModuleCallAction clone() {
-		return new ModuleCallAction(module);
+		ModuleCallAction clone = new ModuleCallAction(module);
+		if (getTerms() != null) {
+			for (Term term: getTerms()) {
+				clone.addTerm((Term) term.clone()); 
+			}
+		}
+		return clone;
 	}
 }

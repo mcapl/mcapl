@@ -19,6 +19,7 @@ import ail.semantics.OSRule;
 import ail.semantics.operationalrules.HandleAddAchieveTestGoal;
 import ail.semantics.operationalrules.HandleAddBelief;
 import ail.semantics.operationalrules.HandleDropBelief;
+import ail.semantics.operationalrules.HandleDropGeneralGoal;
 import ail.semantics.operationalrules.HandleDropGoal;
 import goal.syntax.GOALModule;
 import goal.semantics.GOALAgent;
@@ -43,7 +44,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	HandleAddBelief addBelief = new HandleAddBelief();
 	HandleDropBelief dropBelief = new HandleDropBelief();
 	HandleAddAchieveTestGoal addGoal = new HandleAddAchieveTestGoal();
-	HandleDropGoal dropGoal = new HandleDropGoal();
+	HandleDropGeneralGoal dropGoal = new HandleDropGeneralGoal(new ArrayList<Integer>());
 	
 	boolean performedAnAction = false;
 		
@@ -225,6 +226,12 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	@Override
 	public void setNextStage(GOALModule module) {
 		nextModule = new ModuleExecutorStage(module);
+	}
+
+	@Override
+	public void setNextStage(ModuleExecutorStage stage) {
+		// TODO Auto-generated method stub
+		nextModule = stage;
 	}
 
 }

@@ -194,7 +194,9 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             	// This is a place holder method in case we want to remove all unifications _apart_ from those involved with
             	// the actual cluster from the VarsCluster
             	// vl.trim();
-            } 
+            } else if (vl == null) {
+            	return true;
+            }
         } else {
         	if (value instanceof VarsCluster) {
                	// This variable is associated with a Vars Cluster which may not be part of the unifier

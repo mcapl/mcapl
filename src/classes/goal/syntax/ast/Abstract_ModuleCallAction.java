@@ -8,15 +8,20 @@ import java.util.List;
 
 import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_Deed;
+import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_VarTerm;
 
 public class Abstract_ModuleCallAction extends Abstract_Action {
 	
 	Abstract_ActionRule[] rules = new Abstract_ActionRule[0];
 	Abstract_GOALModule module;
 
-	public Abstract_ModuleCallAction(List<Abstract_ActionRule> rules) {
+	public Abstract_ModuleCallAction(Abstract_Guard context, List<Abstract_ActionRule> rules) {
 		super("module_call");
+		for (String s: context.toMCAPL().getVarNames()) {
+			this.addTerm(new Abstract_VarTerm(s));
+		}
 		for (Abstract_ActionRule rule: rules) {
 			addRule(rule);
 		}

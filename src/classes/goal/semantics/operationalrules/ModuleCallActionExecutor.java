@@ -13,6 +13,7 @@ import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Goal;
 import ail.syntax.GoalBase;
+import ail.syntax.Plan;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 
@@ -31,7 +32,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 				Action action = (Action) d.getContent();
 				if (action instanceof ModuleCallAction) {
 					action_module = ((ModuleCallAction) action).getModule();
-					u = ((ModuleCallAction) action).getUnifier();
+					u = a.getIntention().hdU();
 					return true;
 				}
 			}
@@ -49,6 +50,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		Unifier moduleSubstitution = getModuleSubti(u);
 		
 		ConjGoalBase newAttentionSet = getNewFocus(ag.getMentalState(), moduleSubstitution, ag.getFocusGoal());
+		for (Plan p: action_module.getRules().getPlans()) {
+			p.apply(moduleSubstitution);
+		}
 		
 		if (newAttentionSet != null) {
 			ag.getMentalState().focus(newAttentionSet);
@@ -93,6 +97,14 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			}
 			return u;
 		}
+	}
+	
+	/**
+	 * Used in testing.
+	 * @return
+	 */
+	public GOALModule getModule() {
+		return action_module;
 	}
 
 	@Override
