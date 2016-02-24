@@ -41,4 +41,12 @@ public class Abstract_ListAll implements Abstract_GLogicalFormula {
 	public boolean isTrivial() {
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		String s = "listall " +  v.toString();
+		s += " <- ";
+		s += ms.toString();
+		return s;
+	}
 }

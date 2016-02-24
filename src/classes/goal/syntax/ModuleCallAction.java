@@ -3,6 +3,7 @@ package goal.syntax;
 import java.util.ArrayList;
 
 import ail.syntax.Action;
+import ail.syntax.Plan;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 
@@ -37,6 +38,15 @@ public class ModuleCallAction extends Action {
 
 	public Unifier getUnifier() {
 		return new Unifier();
+	}
+	
+	@Override
+	public boolean apply(Unifier u) {
+		boolean b = super.apply(u);
+		for (Plan r: module.getRules().getPlans()) {
+			b = b && r.apply(u);
+		}
+		return b;
 	}
 	
 	/*

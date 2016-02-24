@@ -4,7 +4,9 @@ import goal.syntax.GOALModule;
 import goal.syntax.ModuleCallAction;
 import gov.nasa.jpf.vm.MJIEnv;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_Deed;
@@ -19,11 +21,22 @@ public class Abstract_ModuleCallAction extends Abstract_Action {
 
 	public Abstract_ModuleCallAction(Abstract_Guard context, List<Abstract_ActionRule> rules) {
 		super("module_call");
+		Set<String> thisvarnames = new HashSet<String>();
+		thisvarnames.add("Any");
 		for (String s: context.toMCAPL().getVarNames()) {
-			this.addTerm(new Abstract_VarTerm(s));
+			if (!thisvarnames.contains(s)) {
+				this.addTerm(new Abstract_VarTerm(s));
+				thisvarnames.add(s);
+			}
 		}
 		for (Abstract_ActionRule rule: rules) {
 			addRule(rule);
+			for (String s: rule.toMCAPL().getVarNames()) {
+				if (!thisvarnames.contains(s) && !s.startsWith("_")) {
+					this.addTerm(new Abstract_VarTerm(s));
+					thisvarnames.add(s);
+				}
+			}
 		}
 	}
 	

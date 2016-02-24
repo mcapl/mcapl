@@ -181,5 +181,14 @@ public class ListAll implements GLogicalFormula {
 	public ListAll clone() {
 		return new ListAll((ListTerm) list.clone(), mental_state.clone());
 	}
+	
+	@Override
+	public String toString() {
+		String s = "listall ";
+		s += list.toString();
+		s+= " <- ";
+		s += mental_state.toString();
+		return s;
+	}
 
 }

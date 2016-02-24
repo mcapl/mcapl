@@ -264,7 +264,7 @@ public class GOALModule {
         case USERDEF:
                 return "module " + this.name;
         default:
-                return "";
+                return "nestedRules: " + pl.toString();
         }
     }
 
