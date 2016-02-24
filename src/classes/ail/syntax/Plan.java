@@ -28,11 +28,12 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import ail.syntax.annotation.SourceAnnotation;
-
 import ajpf.util.AJPFLogger;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -464,18 +465,19 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
      * @param t
      * @param u
      */
-    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
+    @Override
+    public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	Set<String> tvarnames = t.getVarNames();
     	tvarnames.addAll(varnames);
-    	List<String> myvarnames = getTriggerEvent().getVarNames();
+    	Set<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
     		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
     	}
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {
@@ -503,16 +505,16 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
      * @param u
      */
     public void standardise_apart(Unifier t, Unifier u) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getTriggerEvent().getVarNames();
+    	Set<String> tvarnames = t.getVarNames();
+    	Set<String> myvarnames = getTriggerEvent().getVarNames();
     	for (Guard g: getContext()) {
     		myvarnames.addAll(g.getVarNames());
     	}
     	for (Deed d: getBody()) {
     		myvarnames.addAll(d.getVarNames());
     	}
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {
@@ -568,8 +570,9 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	// NB. untested.
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	@Override
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		varnames.addAll(getTriggerEvent().getVarNames());
 		for (Guard g: getContext()) {
 			varnames.addAll(g.getVarNames());

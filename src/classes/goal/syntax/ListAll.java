@@ -2,8 +2,10 @@ package goal.syntax;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent.SelectionOrder;
 import ail.semantics.AgentMentalState;
@@ -20,7 +22,7 @@ import ail.syntax.VarTerm;
 public class ListAll implements GLogicalFormula {
 	ListTerm list;
 	Guard mental_state;
-	List<String> ms_varnames;
+	Set<String> ms_varnames;
 	
 	public ListAll(ListTerm v, Guard ms) {
 		list = v;
@@ -50,12 +52,12 @@ public class ListAll implements GLogicalFormula {
 	}
 
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-	   	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+	   	Set<String> tvarnames = t.getVarNames();
+    	Set<String> myvarnames = getVarNames();
     	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {
@@ -73,17 +75,16 @@ public class ListAll implements GLogicalFormula {
 	}
 
 	@Override
-	public List<String> getVarNames() {
-		List<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		Set<String> varnames = new HashSet<String>();
 		varnames.addAll(list.getVarNames());
 		varnames.addAll(mental_state.getVarNames());
 		return varnames;
 	}
 	
 	private void replaceName(String oldname, String newname) {
-		int index = ms_varnames.indexOf(oldname);
-		ms_varnames.remove(index);
-		ms_varnames.add(index, newname);		
+		ms_varnames.remove(oldname);
+		ms_varnames.add(newname);		
 	}
 
 	@Override
@@ -154,7 +155,7 @@ public class ListAll implements GLogicalFormula {
 
 	@Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag,
-			Unifier un, List<String> varnames, SelectionOrder so) {
+			Unifier un, Set<String> varnames, SelectionOrder so) {
 		Iterator<Unifier> allms = mental_state.logicalConsequence(ag, un, varnames, so);
 		ListTermImpl newlist = new ListTermImpl();
 		while (allms.hasNext()) {

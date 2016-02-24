@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.util.Tuple;
@@ -56,8 +57,8 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	Unifier un;
 	// The logical term to be evaluated against the evaluation and rule bases.
 	PredicateTerm logical_term;
-	// An initial list of variable names appearing in some top level term, to be used in standardisation apart.
-	List<String> varnames;
+	// An initial set of variable names appearing in some top level term, to be used in standardisation apart.
+	Set<String> varnames;
 	
 	AILAgent.SelectionOrder so;
 	
@@ -98,7 +99,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 * @param t
 	 * @param vars
 	 */
-	public EvaluationAndRuleBaseIterator(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, PredicateTerm t, List<String> vars, AILAgent.SelectionOrder so) {
+	public EvaluationAndRuleBaseIterator(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, PredicateTerm t, Set<String> vars, AILAgent.SelectionOrder so) {
 		eb = e;
 		rb = r;
 		un = u;
@@ -290,7 +291,9 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 					rule = rl.next();
 					Rule ruleC = rule.clone();
 					Unifiable h = logical_term.clone();
-					ruleC.standardise_apart(h, unC, varnames);
+					Set<String> newvarnames = varnames;
+					newvarnames.addAll(unC.getVarNames());
+					ruleC.standardise_apart(h, new Unifier(), newvarnames);
 					// This this will just unify the head!!
 					if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
 						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Looking for a rule match for " + ruleC + " and " + h);

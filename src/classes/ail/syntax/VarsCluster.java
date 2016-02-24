@@ -27,9 +27,11 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
@@ -238,8 +240,8 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		for (VarTerm v: vars) {
 			varnames.addAll(v.getVarNames());
 		}

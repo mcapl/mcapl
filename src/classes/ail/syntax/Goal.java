@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -325,8 +326,9 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
      * (non-Javadoc)
      * @see ail.syntax.Predicate#getVarNames()
      */
-    public List<String> getVarNames() {
-    	List<String> varnames = super.getVarNames();
+    @Override
+    public Set<String> getVarNames() {
+    	Set<String> varnames = super.getVarNames();
     	varnames.addAll(getGoalBase().getVarNames());
     	return varnames;
     }
@@ -432,7 +434,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {

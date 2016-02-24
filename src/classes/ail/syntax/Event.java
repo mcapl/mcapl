@@ -24,8 +24,10 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -241,12 +243,13 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
+	@Override
+	public Set<String> getVarNames() {
 		if (hasContent()) {
-			List<String> varnames = getContent().getVarNames();
+			Set<String> varnames = getContent().getVarNames();
 			return varnames;
 		}
-		return new ArrayList<String>();
+		return new HashSet<String>();
 	}
 	
 	public boolean isGround() {

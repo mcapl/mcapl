@@ -24,9 +24,13 @@
 
 package goal.syntax.ast;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.MJIEnv;
+import ail.syntax.GBelief;
 import ail.syntax.Guard;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
@@ -103,12 +107,20 @@ public class Abstract_MentalState extends Abstract_Guard {
 			Guard g = mms.toMCAPL();
 			Predicate lookup = ((Abstract_Predicate) t).toMCAPL();
 			Predicate key = p.toMCAPL();
-			Unifier u = new Unifier();
-			u.varsNotClusters();
-			key.unifies(lookup, u);
-			g.apply(u);
+			unificationProcess(lookup, key, g);
 			return g;
 		}
+	}
+	
+	public static void unificationProcess(Predicate lookup, Predicate key, Guard g) {
+		Unifier u = new Unifier();
+		u.varsNotClusters();
+		GBelief gkey = new GBelief(key);
+		GBelief glookup = new GBelief(lookup);
+		Guard gtmp = new Guard(g, Guard.GLogicalOp.and, glookup);
+		gtmp.standardise_apart(gkey, u, new HashSet<String>());
+		glookup.unifies(gkey, u);
+		g.apply(u);
 	}
 	    
 	public int newJPFObject(MJIEnv env) {

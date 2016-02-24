@@ -30,6 +30,7 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
@@ -94,7 +95,8 @@ public class LogExpr implements LogicalFormula {
 	/**
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
-    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
@@ -306,8 +308,9 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
-    public List<String> getVarNames() {
-    	List<String> varnames = getRHS().getVarNames();
+    @Override
+    public Set<String> getVarNames() {
+    	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
     		varnames.addAll(getLHS().getVarNames());
     	}
@@ -329,22 +332,9 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
-    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
- 
+    @Override
+    public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
     /*

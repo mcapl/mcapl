@@ -1713,7 +1713,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @return
 	 */
 	public boolean goalEntails(Event e, Plan p, Unifier un) {
-		p.standardise_apart(e, un, Collections.<String>emptyList());
+		p.standardise_apart(e, un, Collections.<String>emptySet());
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 

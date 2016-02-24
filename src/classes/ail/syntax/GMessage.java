@@ -24,9 +24,11 @@
 package ail.syntax;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
@@ -108,7 +110,7 @@ public class GMessage implements GuardAtom<Message> {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
     @Override
-	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
 		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());
@@ -274,29 +276,18 @@ public class GMessage implements GuardAtom<Message> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Message#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-	   	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Message#getVarNames()
 	 */
-	public List<String> getVarNames() {
-    	ArrayList<String> varnames = new ArrayList<String>();
+	@Override
+	public Set<String> getVarNames() {
+    	Set<String> varnames = new HashSet<String>();
     	varnames.addAll(sender.getVarNames());
     	varnames.addAll(receiver.getVarNames());
     	varnames.addAll(content.getVarNames());

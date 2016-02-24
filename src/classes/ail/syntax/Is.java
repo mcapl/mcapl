@@ -1,8 +1,10 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent.SelectionOrder;
 import ail.semantics.AgentMentalState;
@@ -42,12 +44,12 @@ public class Is extends AILComparison {
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-	   	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		Set<String> tvarnames = t.getVarNames();
+    	Set<String> myvarnames = getVarNames();
     	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {
@@ -64,8 +66,8 @@ public class Is extends AILComparison {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		List<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		Set<String> varnames = new HashSet<String>();
 		varnames.addAll(variable.getVarNames());
 		varnames.addAll(value.getVarNames());
 		return varnames;
@@ -181,7 +183,7 @@ public class Is extends AILComparison {
 	 */
 	@Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag,
-			Unifier un, List<String> varnames, SelectionOrder so) {
+			Unifier un, Set<String> varnames, SelectionOrder so) {
 		// Equilvances are true or false regardless of context.
 		return logicalConsequence(un);
 	}
@@ -193,7 +195,7 @@ public class Is extends AILComparison {
 	@Override
 	public Iterator<Unifier> logicalConsequence(
 			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un,
-			List<String> varnames, SelectionOrder so) {
+			Set<String> varnames, SelectionOrder so) {
 		// Equilvances are true or false regardless of context.
 		return logicalConsequence(un);
 	}
@@ -240,7 +242,7 @@ public class Is extends AILComparison {
 	@Override
 	public String toString() {
 		String s = variable.toString();
-		s += s + " is " + value.toString();
+		s += " is " + value.toString();
 		return s;
 	}
 

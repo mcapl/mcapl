@@ -29,9 +29,11 @@ package ail.syntax;
 
 import gov.nasa.jpf.annotation.FilterField;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
@@ -116,7 +118,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @retun whether or not the two structures unify.
      */
     public boolean sunifies(Unifiable t1g, Unifiable t2g) {
-    	t2g.standardise_apart(t1g, this, Collections.<String>emptyList());
+    	t2g.standardise_apart(t1g, this, Collections.<String>emptySet());
     	return unifies(t1g, t2g);
     }
     
@@ -938,8 +940,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @param v
      * @return
      */
-    public ArrayList<String> getVarNames() {
-    	ArrayList<String> varnames = new ArrayList<String>();
+    public Set<String> getVarNames() {
+    	HashSet<String> varnames = new HashSet<String>();
     	for (VarTerm var: function.keySet()) {
     		varnames.add(var.getFunctor());
     	}

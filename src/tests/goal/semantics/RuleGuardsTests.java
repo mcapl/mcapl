@@ -220,16 +220,12 @@ public class RuleGuardsTests {
 		Predicate lookup = new Predicate("constructiveMove");
 		lookup.addTerm(new VarTerm("Z"));
 		lookup.addTerm(new VarTerm("K"));
-
-		Unifier u = new Unifier();
-		u.varsNotClusters();
-		key.unifies(lookup, u);
 		
 		Predicate guard = new Predicate("guard");
 		guard.addTerm(x);
 		guard.addTerm(y);
 		Guard g = new Guard(new GBelief(guard));
-		g.apply(u);		
+		Abstract_MentalState.unificationProcess(lookup, key, g);	
 		
 		GOALParser tower = parser_for("init module {knowledge {guard(C, D) :- guarda(C, D).}}");
 
@@ -278,14 +274,35 @@ public class RuleGuardsTests {
 			Assert.assertFalse(true);
 			
 		}
-
-	/*	ar.apply(newu);
-		g.apply(newu);
-		Deed d3 = ar.getBody().get(1);
-		Assert.assertFalse(d3.unifies(test22u, newu2)); */
 		
 
 	}
+	
+	@Test public void macros2() {
+		VarTerm x = new VarTerm("Y");
+		VarTerm y = new VarTerm("Z");
+		Predicate lookup = new Predicate("constructiveMove");
+		lookup.addTerm(x);
+		lookup.addTerm(y);
+		
+		
+		Predicate key = new Predicate("constructiveMove");
+		key.addTerm(new VarTerm("X"));
+		key.addTerm(new VarTerm("Y"));
+
+		
+		Predicate guard = new Predicate("guard");
+		guard.addTerm(x);
+		guard.addTerm(y);
+		Guard g = new Guard(new GBelief(guard));
+		Abstract_MentalState.unificationProcess(lookup, key, g);	
+		
+		Assert.assertTrue(g.getVarNames().contains("Y"));
+		
+		
+
+	}
+
 
 	
 	GOALParser parser_for(String s) {

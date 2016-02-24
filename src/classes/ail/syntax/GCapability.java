@@ -25,6 +25,7 @@ package ail.syntax;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
@@ -63,7 +64,7 @@ public class GCapability implements GuardAtom<Capability> {
 	 */
 	@Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un,
-			List<String> varnames, AILAgent.SelectionOrder so) {
+			Set<String> varnames, AILAgent.SelectionOrder so) {
 		
 		CapabilityLibrary leb = ag.getCL();
 		return new EvaluationBaseIterator<Capability>(leb, un, this, so);
@@ -96,7 +97,8 @@ public class GCapability implements GuardAtom<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
 		cap.standardise_apart(t,  u, varnames);
 	}
 
@@ -104,7 +106,8 @@ public class GCapability implements GuardAtom<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
+	@Override
+	public Set<String> getVarNames() {
 		return cap.getVarNames();
 	}
 

@@ -39,8 +39,10 @@ import eis.iilang.Function;
 import eis.iilang.Identifier;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -324,11 +326,11 @@ public abstract class DefaultTerm implements Term {
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
     @Override
-    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-       	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+       	Set<String> tvarnames = t.getVarNames();
+    	Set<String> myvarnames = getVarNames();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {

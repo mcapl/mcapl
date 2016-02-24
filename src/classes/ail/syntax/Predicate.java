@@ -28,9 +28,11 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ail.syntax.ast.GroundPredSets;
 import ail.semantics.AILAgent;
@@ -536,8 +538,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     /**
      * Assuming we are not higher order here!
      */
-    public List<String> getVarNames() {
-     	ArrayList<String> varnames = new ArrayList<String>();
+    public Set<String> getVarNames() {
+     	HashSet<String> varnames = new HashSet<String>();
      	if (isVar()) {
      		varnames.add(getFunctor());
      	} else {
@@ -573,10 +575,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
     public void standardise_apart(Unifiable t, Unifier u) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
+    	Set<String> tvarnames = t.getVarNames();
+    	Set<String> myvarnames = getVarNames();
+    	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
     	for (String s:myvarnames) {
     		if (tvarnames.contains(s)) {
     			if (!replacednames.contains(s)) {
@@ -593,7 +595,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
      */
-	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames, AILAgent.SelectionOrder so) {
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames, so);
 	}
 

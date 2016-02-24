@@ -87,7 +87,7 @@ public class Equation extends AILComparison {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -96,7 +96,8 @@ public class Equation extends AILComparison {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, List<String> varnames, AILAgent.SelectionOrder so) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -335,21 +336,9 @@ public class Equation extends AILComparison {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
      */
-     public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
- 
+    @Override
+     public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
 	/*
@@ -381,8 +370,9 @@ public class Equation extends AILComparison {
      * (non-Javadoc)
      * @see ail.syntax.GBelief#getVarNames()
      */
-    public List<String> getVarNames() {
-    	List<String> varnames = getRHS().getVarNames();
+	   @Override
+    public Set<String> getVarNames() {
+    	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
     		varnames.addAll(getLHS().getVarNames());
     	}

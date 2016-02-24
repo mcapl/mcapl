@@ -1,8 +1,10 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
@@ -27,7 +29,7 @@ public class GuardPlan implements GuardAtom<Plan> {
 
 	@Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un,
-			List<String> varnames, AILAgent.SelectionOrder so) {
+			Set<String> varnames, AILAgent.SelectionOrder so) {
 		PlanLibrary leb = ag.getPL();
 		return new EvaluationBaseIterator<Plan>(leb, un, this, so);
 	}
@@ -61,27 +63,14 @@ public class GuardPlan implements GuardAtom<Plan> {
 	}
 
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		List<String> tvarnames = t.getVarNames();
-		List<String> myvarnames = getVarNames();
-		tvarnames.addAll(varnames);
-	   	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 
 	}
 
 	@Override
-	public List<String> getVarNames() {
-		ArrayList<String> l = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		HashSet<String> l = new HashSet<String>();
 		l.addAll(plan.getVarNames());
 		l.addAll(cap.getVarNames());
 		l.addAll(post.getVarNames());

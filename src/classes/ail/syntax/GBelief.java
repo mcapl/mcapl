@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
@@ -216,7 +217,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, List<String> varnames, AILAgent.SelectionOrder so) {
+	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -309,8 +310,9 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
-		List<String> varnames = super.getVarNames();
+	@Override
+	public Set<String> getVarNames() {
+		Set<String> varnames = super.getVarNames();
 		varnames.addAll(getEB().getVarNames());
 		return varnames;
 	}

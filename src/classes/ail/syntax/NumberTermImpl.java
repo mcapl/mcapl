@@ -28,11 +28,12 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
-
 import eis.iilang.Parameter;
 import eis.iilang.Numeral;
 
@@ -201,8 +202,9 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
-    public ArrayList<String> getVarNames() {
-    	return new ArrayList<String>();
+    @Override
+    public Set<String> getVarNames() {
+    	return new HashSet<String>();
     }
  
     /*
