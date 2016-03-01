@@ -657,7 +657,10 @@ public class GOALAgent extends AILAgent {
         switch (module.getType()) {
         case ANONYMOUS:
         	// getMentalState().defocus();
-        	break;
+            if (this.activeStackOfModules.peek() != null) {
+            	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(this.activeStackOfModules.peek());
+            }
+        	return false;
         case EVENT:
         case INIT:
                 // We're leaving the init or event module and returning
@@ -683,15 +686,19 @@ public class GOALAgent extends AILAgent {
        // }
         GOALModule.ModuleType tlc = this.topLevelContext;
         GOALModule pk = this.activeStackOfModules.peek();
-        if (this.activeStackOfModules.peek() != null) {
-        	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(this.activeStackOfModules.peek());
-        }
-        return (this.activeStackOfModules.peek() != null);
+        if (pk != null) {
+        	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(pk);
+         }
+        return (pk != null);
 	}
     
     public void enteredModule(GOALModule module) {
-    	System.err.println("Entering module " + module.toString());
-    	if (this.activeStackOfModules.peek() != module) {
+       	System.err.println("Entering module " + module.toString());
+       	if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
+    		return;
+    	}
+    	
+     	if (this.activeStackOfModules.peek() != module) {
     		this.activeStackOfModules.push(module);
     	}
     	

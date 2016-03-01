@@ -163,13 +163,14 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 
 
 	@Override
-	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {
+	public GOALRCStage getNextStage(GOALRC rc, GOALAgent ag) {		
 		if (nextModule != null) {
 			ModuleExecutorStage tmp = nextModule;
 			nextModule = null;
+			exit = false;
 			return tmp;
 		}
-		
+
 		if (first & !exit) {
 			first = false;
 			return this;
@@ -203,6 +204,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 				exit = false;
 				return rc.mainModule;
 			}
+			
 			if (ag.isMainModuleRunning()) {
 				return rc.startCycle;
 			} else {
