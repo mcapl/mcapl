@@ -55,7 +55,7 @@ public class SelectRule implements OSRule {
     /**
      * The set of rules in this container.
      */
-    private PlanLibrary rules;
+    private PlanLibrary rules = new PlanLibrary();
     /**
      * Determines how the next action to be executed is selected.
      */
@@ -67,7 +67,12 @@ public class SelectRule implements OSRule {
     
     public void setModule(GOALModule m) {
     	this.m = m;
-    	rules = m.getRules();
+    	for (Plan p: m.getRules().getPlans()) {
+    		Plan cp = (Plan) p.clone();
+    		cp.apply(m.getModuleSubti());
+    		rules.add(cp);
+     	}
+    	// rules = m.getRules();
     	ruleOrder = m.getRuleOrder();
     }
     

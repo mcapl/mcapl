@@ -43,9 +43,10 @@ public class ModuleCallAction extends Action {
 	@Override
 	public boolean apply(Unifier u) {
 		boolean b = super.apply(u);
-		for (Plan r: module.getRules().getPlans()) {
-			b = b && r.apply(u);
-		}
+		//for (Plan r: module.getRules().getPlans()) {
+		//	b = b && r.apply(u);
+		//}
+		module.setModuleSubti(u);
 		return b;
 	}
 	

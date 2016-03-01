@@ -34,6 +34,7 @@ import ail.syntax.PlanLibrary;
 import ail.syntax.BeliefBase;
 import ail.syntax.Literal;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class GOALModule {
 	BeliefBase bb = new BeliefBase();
 	BeliefBase percepts = new BeliefBase();
 	CapabilityLibrary cl = new CapabilityLibrary();
+	
+	Unifier module_substitution = new Unifier();
 	
 	ModuleType module_type;
 	Predicate name;
@@ -287,6 +290,18 @@ public class GOALModule {
 	@Override
 	public String toString() {
 		return this.getNamePhrase();
+	}
+	
+	public void setModuleSubti(Unifier u) {
+		module_substitution = u;
+	}
+	
+	public void clearModuleSubti() {
+		module_substitution = new Unifier();
+	}
+	
+	public Unifier getModuleSubti() {
+		return module_substitution;
 	}
 }
 

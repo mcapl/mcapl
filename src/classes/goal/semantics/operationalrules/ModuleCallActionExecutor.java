@@ -48,11 +48,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	public void apply(AILAgent a) {
 		GOALAgent ag = (GOALAgent) a;
 		Unifier moduleSubstitution = getModuleSubti(u);
+		// action_module.setModuleSubti(moduleSubstitution);
 		
 		ConjGoalBase newAttentionSet = getNewFocus(ag.getMentalState(), moduleSubstitution, ag.getFocusGoal());
-		for (Plan p: action_module.getRules().getPlans()) {
+		/* for (Plan p: action_module.getRules().getPlans()) {
 			p.apply(moduleSubstitution);
-		}
+		} */
 		
 		if (newAttentionSet != null) {
 			ag.getMentalState().focus(newAttentionSet);

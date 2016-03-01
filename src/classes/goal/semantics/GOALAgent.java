@@ -653,6 +653,8 @@ public class GOALAgent extends AILAgent {
         		getMentalState().defocus();
                 return false;
         } */
+    	
+    	module.clearModuleSubti();
 
         switch (module.getType()) {
         case ANONYMOUS:
