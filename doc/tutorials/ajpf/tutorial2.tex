@@ -1,0 +1,360 @@
+\documentclass[a4]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+\author{Louise A. Dennis}
+
+\title{AJPF Tutorial 2 -- \jpf\ Configuration Files: Troubleshooting Model Checking}
+
+\begin{document}
+\maketitle
+This is the second in a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers \jpf\ configuration files in more detail as well as techniques for troubleshooting model-checking.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial2}.
+
+The tutorials assume some familiarity with the basics of running Java programs either at the command line or in Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic, and the use of B\"{u}chi Automata in model checking.
+
+\section{\jpf\ Configuration Files}
+As mentioned in \ajpf\ tutorial 1, \jpf\ had an extensive set of configuration options which you can find in the JPF documentation~\footnote{Currently to be found at \url{http://babelfish.arc.nasa.gov/trac/jpf}}. We only examined the most basic in Tutorial 1 but in this tutorial we will cover a few more that are useful, particularly when debugging a program you are attempting to model check.
+
+In the tutorial directory you will find a simple \gwendolen\ program, \texttt{twopickupagents.gwen}.  This contains two agents, one holding a block and one holding a flag.  Each agent puts down what they are holding.  If the agent with the block puts it down before the agent with the flag puts the flag down, then the agent with the flag will pick up the box.  The agent with the flag also perform an action with random consequences after it puts down the flag.
+
+\subsection{TwoPickUpAgents\_basic.jpf} is a minimal configuration file containing only options discussed in \ajpf\ tutorial 1.  This generates the following output:
+
+\begin{verbatim}
+JavaPathfinder core system v8.0 (rev ${version}) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
+
+====================================================== search started: 27/02/15 16:59
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:00:03
+states:             new=13,visited=10,backtracked=23,end=0
+search:             maxDepth=5,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=13
+heap:               new=84557,released=80981,maxLive=3504,gcCycles=23
+instructions:       7938974
+max memory:         309MB
+loaded code:        classes=309,methods=4795
+
+====================================================== search finished: 27/02/15 16:59
+\end{verbatim}
+
+This is obviously fine as output in situations where the model checking completes quickly and with \texttt{no errors detected} but gives the user very little to go on if there is a problem or the model checking is taking a long time and they are not sure whether to kill the attempt or not.
+
+\subsection{TwoPickUpAgents\_ExecTracker.jpf}
+
+\texttt{TwoPickUpAgents\_ExecTracker.jpf} adds the configuration option:
+
+\begin{verbatim}
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+\end{verbatim}
+
+Adding \texttt{listener.ExecTracker} to \jpf's listeners means that it collects more information about progress as it goes and then prints this information out.  The next two lines suppress some of this information which I, personally, don't find so useful.  With these settings the following output is generated (only the start is shown):
+
+\begin{small}
+\begin{verbatim}
+----------------------------------- search started
+      [skipping static init instructions]
+JavaPathfinder core system v8.0 (rev ${version}) - (C) 2005-2014 United States Government. All rights reserved.
+
+
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
+
+====================================================== search started: 27/02/15 17:02
+		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+		 # garbage collection
+----------------------------------- [1] forward: 0 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [2] forward: 1 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [3] forward: 2 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [4] forward: 3 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [5] forward: 4 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+		 # garbage collection
+----------------------------------- [6] forward: 5 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+----------------------------------- [7] forward: 6 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+		 # garbage collection
+----------------------------------- [8] forward: 7 visited
+----------------------------------- [7] backtrack: 6
+----------------------------------- [7] done: 6
+----------------------------------- [6] backtrack: 5
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,0,>1]
+		 # garbage collection
+----------------------------------- [7] forward: 8 visited
+----------------------------------- [6] backtrack: 5
+----------------------------------- [6] done: 5
+----------------------------------- [5] backtrack: 4
+----------------------------------- [5] done: 4
+----------------------------------- [4] backtrack: 3
+\end{verbatim}
+\end{small}
+
+Every time \jpf\ generates a new state for model checking it assigns that state a number.  In the output here you can see it generating new states 0 through to 7 and advancing forward to each state.  You then see it backtracking back to state 5 at which point it finds a branching point in the search space and advances to state 8 before backtracking to 3.
+
+Typically search space branching is caused either when the scheduler must choose between several agents, or when a random value is generated.  Both can be seen here.
+
+Random value generation activates a \texttt{BooleanChoiceGenerator} and the output here shows it alternately selecting  \texttt{false} (with \texttt{>false}).
+
+Scheduler choice activates an \texttt{IntChoiceFromSet} choice generator.  The scheduler keeps track of the agents which are awake and assigns an integer to them.  You can see here that sometimes both agents are awake and the choice is between \texttt{0} and \texttt{1} and at other times only one agent is awake in which case the only choice is \texttt{0} (\texttt{>0}).
+
+The numbers in square brackets -- \texttt{[7]}, \texttt{[6]} etc. indicate the depth that model checking has reached in the search tree.  If these numbers become very large without apparent reason then it may well be the case that the search has encountered an infinite branch of the tree and needs to be killed.
+
+\subsection{Logging}
+\jpf\ suppresses the logging configuration you have in your \ail\ configuration files so you need to add any logging configurations you want to the \jpf\ configuration file.  Useful classes when debugging a model checking run are
+
+\begin{description}
+\item[ail.mas.DefaultEnvironment] At the \texttt{info} level this prints out any actions the agent performs.  Since the scheduler normally only switches between agents when one sleeps or performs an action this can be useful for tracking progress on this model checking branch.
+\item[ajpf.MCAPLAgent] At the \texttt{info} level this prints information when an agent sleeps or wakes.  Again this can be useful for seeing what has triggered a scheduler switch.  It can also be useful for tracking which agents are awake and so deducing which one is being picked from the set by the \texttt{IntChoiceFromSet} choice generator.
+\item[ajpf.product.Product] At the \texttt{info} level this prints out the current path through the search tree being explored by the agent.  This can be useful just to get a feel for the agents progress through the search space.  It can also be useful, when an error is thrown and in conjunction with some combination of logging actions, sleeping and waking behaviour and (if necessary) internal agent states, to work out why a property has failed to hold.
+
+It also prints the message \texttt{Always True from Now On} when exploration of a branch of the search tree is halted because the system deduces that the property will be true for the rest of that branch.  This typically occurs when the property is something like $\sometime \phi$ (i.e., $\phi$ will eventually occur) and the search space is pruned once $\phi$ becomes true.
+\item[ajpf.psl.buchi.BuchiAutomaton] At the \texttt{info} level this prints out the B\"{u}chi Automaton that has been generated from the the property that is to be proved.  Again this is useful, when model checking fails, for working out what property was expected to hold in that state.
+\item[ail.semantics.AILAgent] At the \texttt{fine} level this prints out the internal agent state once every reasoning cycle.  Be warned that this produces a lot of output in the course of a model checking run.
+\end{description}
+
+In general, when I am working on a program for model checking I tend to have the \text{ExecTracker} listener enabled and \texttt{ajpf.MCAPLAgent}, \texttt{ajpf.product.Product} and any environment loggers (so typically \texttt{ail.mas.DefaultEnvironment} and any sub-classes of that I am using) set at info.   I find this provides a useful starting point for accessing information about model checking.
+
+\texttt{TwoPickUpAgents\_Logging.jpf} has this set up.  It's output starts
+
+\begin{verbatim}
+[INFO] Adding 0 to []
+----------------------------------- [1] forward: 0 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[INFO] ag2 done putdown(flag)
+		 # garbage collection
+[INFO] Adding 1 to [0]
+----------------------------------- [2] forward: 1 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+		 # garbage collection
+[INFO] Adding 2 to [0, 1]
+----------------------------------- [3] forward: 2 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+[INFO] Block 1 is not visible
+		 # garbage collection
+[INFO] Adding 3 to [0, 1, 2]
+----------------------------------- [4] forward: 3 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+[INFO] Block 2 is not visible
+[INFO] ag2 done random
+[INFO] Sleeping agent ag2
+		 # garbage collection
+[INFO] Adding 4 to [0, 1, 2, 3]
+----------------------------------- [5] forward: 4 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+[INFO] Waking agent ag2
+[INFO] ag1 done putdown(block)
+		 # garbage collection
+[INFO] Adding 5 to [0, 1, 2, 3, 4]
+----------------------------------- [6] forward: 5 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[INFO] Sleeping agent ag2
+		 # garbage collection
+[INFO] Adding 6 to [0, 1, 2, 3, 4, 5]
+----------------------------------- [7] forward: 6 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+		 # garbage collection
+[INFO] Adding 7 to [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Always True from Now On
+----------------------------------- [8] forward: 7 visited
+----------------------------------- [7] backtrack: 6
+----------------------------------- [7] done: 6
+----------------------------------- [6] backtrack: 5
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,0,>1]
+[INFO] Sleeping agent ag1
+		 # garbage collection
+[INFO] Adding 8 to [0, 1, 2, 3, 4, 5, 8]
+[INFO] Always True from Now On
+----------------------------------- [7] forward: 8 visited
+----------------------------------- [6] backtrack: 5
+----------------------------------- [6] done: 5
+----------------------------------- [5] backtrack: 4
+----------------------------------- [5] done: 4
+----------------------------------- [4] backtrack: 3
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{false,>true}]
+[INFO] Block 2 is visible
+[INFO] ag2 done random
+		 # garbage collection
+[INFO] Adding 9 to [0, 1, 2, 3]
+----------------------------------- [5] forward: 9 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[INFO] Sleeping agent ag2
+		 # garbage collection
+[INFO] Adding 10 to [0, 1, 2, 3, 9]
+----------------------------------- [6] forward: 10 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+\end{verbatim}
+You can see the additional information provided by the loggers here, in terms of printing out the current path through the search tree, reporting on sleeping and waking behaviour, etc.,
+
+{\bf Important Note:} While the additional output information can be very useful for understanding what is happening during a model checking run, printing output slows down the computation.  If speed of model checking is important then it is best to turn off all logging and the \texttt{ExecTracker}.
+
+\subsection{Saving the log to a file}
+It is possible to save log message generated by the \ail\ to a file by including \texttt{log.output = filename} (where \texttt{filename} is the name of the file you want to use) in your JPF configuration file.  Unfortunately this does not save the output of the \texttt{ExecTracker} to the file but may nevertheless be useful.
+
+\section{What to do when Model Checking Fails}
+
+\texttt{TwoPickUpAgents\_FalseProp.jpf} attempts to prove the property $\sometime \lbelief{ag2}{hold(block)}$ which isn't true.  The configuration file uses the normal loggers but doesn't have the \texttt{ExecTracker} listener\footnote{Largely to keep the output compact.}.  The following output is generated.
+
+\begin{footnotesize}
+\begin{verbatim}
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","2")
+
+====================================================== search started: 08/03/15 17:28
+[INFO] Adding 0 to []
+[INFO] ag2 done putdown(flag)
+[INFO] Adding 1 to [0]
+[INFO] Adding 2 to [0, 1]
+[INFO] Block 1 is not visible
+[INFO] Adding 3 to [0, 1, 2]
+[INFO] Block 2 is not visible
+[INFO] ag2 done random
+[INFO] Sleeping agent ag2
+[INFO] Adding 4 to [0, 1, 2, 3]
+[INFO] Waking agent ag2
+[INFO] ag1 done putdown(block)
+[INFO] Adding 5 to [0, 1, 2, 3, 4]
+[INFO] Sleeping agent ag2
+[INFO] Adding 6 to [0, 1, 2, 3, 4, 5]
+[INFO] Adding 7 to [0, 1, 2, 3, 4, 5, 6]
+
+====================================================== error 1
+ajpf.MCAPLListener
+An Accepting Path has been found: 
+[MS: 0, BS: 2, UN: 0], [MS: 1, BS: 2, UN: 0], [MS: 2, BS: 2, UN: 0], [MS: 3, BS: 2, UN: 0], [MS: 4, BS: 2, UN: 0],
+[MS: 5, BS: 2, UN: 0], [MS: 6, BS: 2, UN: 0], [MS: 7, BS: 2, UN: 0], 
+
+====================================================== snapshot #1
+no live threads
+
+====================================================== results
+error #1: ajpf.MCAPLListener "An Accepting Path has been found:  [MS: 0, BS: 2, ..."
+\end{verbatim}
+\end{footnotesize}
+
+As can be seen at the end of the failed run this prints out the accepting path that it has found that makes the property false.  This path is a sequence of triples consisting of the state in the model, \texttt{MS}, the state in the B\"{u}chi automaton generated from the negation of the property, \texttt{BS}, and lastly a count of the number of until statements that have been passed in this branch/loop of the search space (This counter is explained in~\cite{Gerth:1995:SOA:645837.670574} -- I've never found it useful for debugging properties).
+
+So we can see that the accepting path through the model is 0,1,2,3,4,5,6,7 and we can work out what happens on that path from the logging output.  (ag2 puts down the flag, neither block becomes visible, ag2 does random and then sleeps, ag1 puts down the block, waking ag2 which then sleeps again).  All these states in the model are paired with state 2 in the B\"{u}chi Automaton.  To see the B\"{u}chi Automaton you have to add \texttt{ajpf.psl.buchi.BuchiAutomaton} to the logging.
+
+If you do this you get the following print out at the start:
+
+\begin{verbatim}
+[INFO] Number: 2
+Incoming States: 0,2,
+True in this State: ~B(ag2,hold(block())),~T R ~B(ag2,hold(block())),
+True in next State: ~T R ~B(ag2,hold(block())),
+\end{verbatim}
+
+The property has created a very simple B\"{u}chi Automaton.  It has been given the number 2 in the automaton generation process.  It has two incoming states 0 (which is the start state) and 2 (i.e., itself).  It has two properties that hold in that state $\neg \lbelief{ag2}{hold(block)}$ (ag2 doesn't believe it is holding the block) and $\neg \top {\cal R} \neg \lbelief{ag2}{hold(block)}$ (false ($\neg \top$) released by ag2 doesn't believe it is holding the block -- which under standard LTL transformations means $\always \neg \lbelief{ag2}{hold(block)}$ (it is always the case that ag2 doesn't believe it is holding the block).  In the next state this should also hold.  For debugging failed model checking runs it is normally save to ignore the properties that should hold in the next state, and any temporal properties that should hold in the current state, so this automaton can be visualised as in figure~\ref{fig:automaton}.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=2in]{property_automata.pdf}
+\end{center}
+\caption{The Property Automaton for $\neg \sometime \lbelief{ag2}{hold(block)}$}
+\label{fig:automaton}
+\end{figure}
+
+I.e. a single state automaton in which $\lbelief{ag2}{hold(block)}$ is never true.  The model checking has failed because this state is true for every state in the model along the path 0,1,2,3,4,5,6,7 (you can look in the program to see why).
+
+\section{Replaying a Counter-example}
+When model-checking fails the branch it has failed on has essentially generated a counter-example for the property.  Sometimes you will want to replay this counter-example in the \ail\ without performing model-checking.  \ajpf\ has \emph{record} and \emph{replay} functionality to assist with this.
+
+To obtain a record of a model checking run you will need to set \emph{logging mode} in the \emph{\ail\ configuration file} (using \texttt{ajpf.record = true}) and then set the the logging level to fine in \texttt{ajpf.util.choice.ChoiceRecord}).
+
+\texttt{TwoPickupAgents\_Recording.txt} has this setup.  Its output starts:
+\begin{verbatim}
+		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
+		 # garbage collection
+----------------------------------- [1] forward: 0 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[FINE] Record: [0]
+		 # garbage collection
+----------------------------------- [2] forward: 1 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[FINE] Record: [0, 0]
+		 # garbage collection
+----------------------------------- [3] forward: 2 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [4] forward: 3 new
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{>false,true}]
+		 # garbage collection
+----------------------------------- [5] forward: 4 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+[FINE] Record: [0, 0, 0]
+		 # garbage collection
+----------------------------------- [6] forward: 5 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0,1]
+[FINE] Record: [0, 0, 0, 0]
+		 # garbage collection
+----------------------------------- [7] forward: 6 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
+[FINE] Record: [0, 0, 0, 0, 0]
+		 # garbage collection
+----------------------------------- [8] forward: 7 visited
+----------------------------------- [7] backtrack: 6
+----------------------------------- [7] done: 6
+----------------------------------- [6] backtrack: 5
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,0,>1]
+[FINE] Record: [0, 0, 0, 1]
+		 # garbage collection
+----------------------------------- [7] forward: 8 visited
+----------------------------------- [6] backtrack: 5
+----------------------------------- [6] done: 5
+----------------------------------- [5] backtrack: 4
+----------------------------------- [5] done: 4
+----------------------------------- [4] backtrack: 3
+		 # choice: gov.nasa.jpf.vm.BooleanChoiceGenerator[[id="verifyGetBoolean",isCascaded:false,{false,>true}]
+		 # garbage collection
+----------------------------------- [5] forward: 9 new
+\end{verbatim}
+The lines starting \texttt{[FINE] Record:} show the record of choices at that point.  To replay a particular branch through the search tree in \ail\ without model checking do the following:
+\begin{enumerate}
+\item Cut and paste one the relevant record list, e.g. \texttt{[0, 0, 0, 1]} into the file \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution.
+\item Replace the line \texttt{ajpf.record = true} in your \ail\ configuration file with the line \texttt{ajpf.replay = true}.  
+\item Run the program in \ail\ as normal.
+\end{enumerate}
+
+If you want to use a different file to \texttt{record.txt} to store the record for replay you can, but you will need to set \texttt{ajpf.replay.file} in the \ail\ configuration file appropriate in order to replay that record.
+
+Please note that it is important for record and replay to work correctly that all choice points in the program are used in the record.  Among other things this means that Java's \texttt{Random} class can not be used in constructing environments and \ajpf's \texttt{Choice} class should be used instead.  
+
+\section{Forcing Transitions in the Agent's Reasoning Cycle}
+In the examples considered so far in this tutorial \ajpf{} has only generated new states for the model when \jpf{} would generate a state.  This has been when there has been a scheduling choice between the two agents.  While this is often sufficient for many model checking problems it does mean that the property is only checked when the agent program has done significant processing.  This means that states of interest can sometimes be ommitted for checking -- particularly in the case of the ($\lintendtodo{\AILagent}{f}$ properties where you are interested in whether the agent ever has an intention that contains a particular action, the action may well have been removed from the intention before the property is checked).
+
+\begin{sloppypar}
+By default, in fact, \ajpf{} generates a new model state every time the agent advances its reasoning cycle.  \texttt{TwoPickUpAgents\_EveryTransition.jpf} runs the above examples in this mode.  If you run it you will notice that there are a lot more states in the model and that most of them are generated by a \texttt{NewAgentProgramState} choice generator that doesn't actually cause any branching.  This behaviour can be switched off by including \texttt{ajpf.transition\_every\_reasoning\_cycle = false} in the \ail{} configuration file (Note this has to be the \emph{AIL configuration file} not the \emph{JPF configuration file}).
+\end{sloppypar}
+
+
+\bibliographystyle{abbrv} %% {plain}
+\bibliography{../../manual/manual}
+
+
+\end{document}

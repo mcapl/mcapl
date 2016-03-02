@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -73,17 +73,11 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 */
 	@FilterField
 	protected String libname;
-	/**
-	 * No change flag
-	 */
-	private boolean nochange = false;
 	
 	/**
 	 * Constructor for the special case where a plan is to make no change to the intention.
 	 */
-	public ApplicablePlan() {
-		nochange = true;
-	}
+	public ApplicablePlan() {	}
 		
 	/**
 	 * Constructor.
@@ -170,6 +164,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		return equals((ApplicablePlan) o);
 	}
@@ -178,18 +173,8 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(ApplicablePlan p) {
-		if (nochange) {
-			if (p.noChangePlan()) {
-				return 0;
-			} else {
-				return -1;
-			}
-		} else {
-			if (p.noChangePlan()) {
-				return 1;
-			}
-		}
 
 		if (getID() == p.getID()) {
 			return theta.compareTo(p.getUnifier());
@@ -208,17 +193,6 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @return
 	 */
 	public boolean equals(ApplicablePlan p) {
-		if (nochange) {
-			if (p.noChangePlan()) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if (p.noChangePlan()) {
-				return false;
-			}
-		}
 		if (event.equals(p.getEvent())) {
 			if (guards.equals(p.getGuard())) {
 				if (prefix.equals(p.getPrefix())) {
@@ -232,23 +206,13 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 		}
 		return false;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean noChangePlan() {
-		return nochange;
-	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
     public int hashCode() {
-    	if (nochange) {
-    		return 0;
-    	}
     	final int PRIME = 7;
     	int result = PRIME * (libname.hashCode() ^ n) + event.hashCode();
     	for (Guard g: guards) {
@@ -267,26 +231,23 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * 
 	 * @return the plan as a string.
 	 */
+	@Override
 	public String toString() {
-		if (nochange) {
-			return new String("NO CHANGE");
-		} else {
-			String triggers = event.toString();
-			StringBuilder s = new StringBuilder();
+		String triggers = event.toString();
+		StringBuilder s = new StringBuilder();
 		
-			ListIterator<Guard> gi = guards.listIterator();
-			ListIterator<Deed> di = prefix.listIterator();
-			String us = theta.toString();
+		ListIterator<Guard> gi = guards.listIterator();
+		ListIterator<Deed> di = prefix.listIterator();
+		String us = theta.toString();
 		
-			while (gi.hasNext()) {
-				Guard gu = gi.next();
-				Deed d = di.next();
+		while (gi.hasNext()) {
+			Guard gu = gi.next();
+			Deed d = di.next();
 
-				s.append(keynum).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
-			}
-		
-			return s.toString();
+			s.append(keynum).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
 		}
+		
+		return s.toString();
 	}
 
 	/**
@@ -296,14 +257,10 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 */
 	public String keyString() {
 		String s = "";
-		if (nochange) {
-			s += "NO CHANGE";
-		} else {
-			s += keynum;
-			s += " ~ ";
-			s += libname;
-			s += getUnifier().toString();
-		}
+		s += keynum;
+		s += " ~ ";
+		s += libname;
+		s += getUnifier().toString();
 		return s;
 	}
 

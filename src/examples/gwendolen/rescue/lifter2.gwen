@@ -31,8 +31,8 @@ GWENDOLEN
 :Initial Goals: 
 			
 :Plans: 
-+.received(:tell, Msg): {~ B Msg} <- +Msg, +rec(msg);
-+human(X, Y): {~ B rec(msg) } <- +! free(human) [achieve];
++.received(:tell, Msg): {~ B Msg} <- +Msg;
++human(X, Y): {True} <- +! free(human) [achieve];
 +! free(human) [achieve] :{ B human(X, Y), ~ B at(X, Y), ~B have(human)} <- move_to(X, Y), +at(X, Y);
 +! free(human) [achieve] :{ B human(X, Y) , B at(X, Y), ~ B clear} <- lift(rubble), +random;
 +! free(human) [achieve] :{ B human(X, Y), B at(X, Y), B clear, ~ B have(human)} <- lift(human), +have(human);

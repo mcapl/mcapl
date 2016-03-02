@@ -1,0 +1,51 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
+// 
+// This file is part of Gwendolen
+//
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble([sq(1, 1), sq(3, 3), sq(5, 5)])
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- possible_rubble(L), check_rubble(L, X, Y);
+
+check_rubble([sq(X, Y) | T], X, Y) :- ~no_rubble(X, Y);
+check_rubble([sq(X, Y) | T], X1, Y1) :- no_rubble(X, Y), check_rubble(T, X1, Y1);
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : {B square_to_check(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
+
++holding(rubble): {True} <- print(done);

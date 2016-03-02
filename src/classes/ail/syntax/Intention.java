@@ -99,6 +99,7 @@ public class Intention implements Comparable<Intention>{
     	
     	this.iConcat(e, ds, gu, theta);
     	this.setSource(s);
+    	trimUnifiers();
     }
     
     /**
@@ -124,6 +125,7 @@ public class Intention implements Comparable<Intention>{
     public Intention(Event e, Unifier u, SourceAnnotation s) {
     	this(e, s);
     	compose(u);
+    	trimUnifiers();
     }
     
     /**
@@ -236,6 +238,18 @@ public class Intention implements Comparable<Intention>{
     }
     
     /**
+     * Unsuspend the intention if it's condition is met by the new belief
+     * @param beliefcondition
+     */
+    public void unsuspendFor(Predicate beliefcondition) {
+    	if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
+     //   if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
+    		suspendedfor = null;
+    		unsuspend();
+    	} 
+    }
+
+    /**
      * Unsuspend the intention if it's condition met by the changes in perception
      * @param newbeliefs
      * @param oldbeliefs
@@ -243,15 +257,16 @@ public class Intention implements Comparable<Intention>{
     public void unsuspendFor(Set<Predicate> newbeliefs, Set<Literal> oldbeliefs) {
     	if (suspended) {
     		for (Predicate p: newbeliefs) {
-    			unsuspendFor((Literal ) p);
+    			unsuspendFor(p);
     		}
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
-    			if (! l.negated()) {
-    				l.setNegated(false);
+   				Literal l1 = l.clone();
+   				if (! l.negated()) {
+    				l1.setNegated(false);
     			}
-    			unsuspendFor(l);
+    			unsuspendFor(l1);
     		}
     	}
     }
@@ -410,14 +425,18 @@ public class Intention implements Comparable<Intention>{
          if (suspended) {
         	 s += "SUSPENDED\n";
          }
-         for (IntentionRow ir : intentionRows) {
-        	s += "   *  " + ir.toString();
-        }
-        if (annotation != null) {
+         s += source.toString() + ":: ";
+         if (annotation != null) {
         	 s += annotation.toString();
+         }
+         s+="\n";
+
+         String s1 = "";
+         for (IntentionRow ir : intentionRows) {
+        	s1 = "   *  " + ir.toString() + s1;
         }
-        s += source.toString();
-        return s.toString();
+         s+= s1;
+         return s.toString();
     }
 
     // The operations on intentions defined in the AIL technical reports //
@@ -610,6 +629,7 @@ public class Intention implements Comparable<Intention>{
 		}
 	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
+		trimUnifiers();
 		
 		intentionRows.add(ir);
 	}
@@ -638,12 +658,9 @@ public class Intention implements Comparable<Intention>{
 			
 			lastcount = counter;
 		}
-		
-		/* if (empty()) {
-			source = new Atom("empty");
-		} */
-		
+				
 		intentionRows.trimToSize();
+		trimUnifiers();
 		
 	}
 	
@@ -751,6 +768,7 @@ public class Intention implements Comparable<Intention>{
 		
 		IntentionRow ir = new IntentionRow (e, gs, ds, theta);
 		push(ir);
+		trimUnifiers();
 	}
 	
 	/**
@@ -769,6 +787,7 @@ public class Intention implements Comparable<Intention>{
 			thetaHD.pruneRedundantNames(getVarNames());
 			dropP(1);
 			iCons(e, d, g, thetaHD);
+			trimUnifiers();
 		}
 	}
 	
@@ -892,5 +911,13 @@ public class Intention implements Comparable<Intention>{
 		return result;
 	}
 	
+	public void trimUnifiers() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		for (int i = 0; i < size(); i++) {
+			IntentionRow ir = intentionRows.get(i);
+			varnames.addAll(ir.getVarNames());
+			ir.trimUnifiers(varnames);
+		}
+	}
 
 }

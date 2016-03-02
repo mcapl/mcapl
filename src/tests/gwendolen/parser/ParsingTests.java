@@ -29,23 +29,27 @@ import java.util.Iterator;
 import junit.framework.Assert;
 
 import org.junit.Test;
+
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Goal;
+import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.NumberTermImpl;
+import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.GuardAtom;
 import ail.syntax.GMessage;
 import ail.syntax.Plan;
+import ail.syntax.UnnamedVar;
 import gwendolen.syntax.ast.Abstract_GPlan;
 
 /**
- * Tests that the parser works correctly.
+ * Tests that the Gwendolen parser works correctly.
  * @author louiseadennis
  *
  */
@@ -101,8 +105,6 @@ public class ParsingTests {
 	}
 	
 	@Test public void parseOrderTest() {
-//		AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
-//		AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
 		GwendolenLexer plan_lexer = new GwendolenLexer(new ANTLRStringStream("+win(Ag, X): {B my_name(Name), ~ B win(Name, Any), B collaborator(Coll)} <- +!coalition(Coll) [achieve];"));
 		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
 		GwendolenParser plan_parser = new GwendolenParser(plan_tokens);
@@ -134,5 +136,26 @@ public class ParsingTests {
 			System.err.println(e);
 		}
 	}
+	
+	@Test public void unnamed_varTest() {
+		GwendolenParser term = parser_for("on(X,_)");
+		
+		try {
+			Abstract_Predicate p = term.pred();
+			Predicate pred = p.toMCAPL();
+			Assert.assertTrue(pred.getTerm(1) instanceof UnnamedVar);
+		} catch (Exception e) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	GwendolenParser parser_for(String s) {
+		GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		GwendolenParser parser = new GwendolenParser(tokens);
+		return parser;
+	}
+	
+	
  
 }

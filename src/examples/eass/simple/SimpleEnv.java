@@ -26,28 +26,29 @@ package eass.simple;
 
 import eass.mas.DefaultEASSEnvironment;
 import ail.util.AILexception;
+import ail.mas.MAS;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
-
-import java.util.Random;
-
+import ajpf.util.choice.UniformBoolChoice;
 
 /**
- * A Simple Envrironment for testing features  of EASS.  Implements some simple blocks world actions.
+ * A Simple Environment, mostly for use in testing simple EASS programs.
+ * Primarily of use for debugging and testing.
  * 
  * @author louiseadennis
  *
  */
 public class SimpleEnv extends DefaultEASSEnvironment {
-	Random r = new Random();
+	UniformBoolChoice r;
 	
+	/**
+	 * Constructor.
+	 */
 	public SimpleEnv() {
 		super();
 	}
-	
 		
-	
 	/**
 	 * When a pickup action is executed the environment stores new perceptions
 	 * for the agent - that its picked something up and its hands are now longer
@@ -117,6 +118,15 @@ public class SimpleEnv extends DefaultEASSEnvironment {
 	public boolean done() {
 		setDone(true);
 		return super.done();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformBoolChoice(m.getController());
 	}
 
  

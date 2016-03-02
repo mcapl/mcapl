@@ -1,0 +1,154 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\author{Louise A. Dennis}
+
+\lstset{basicstyle=\sffamily}
+
+\title{Gwendolen Tutorial 2 -- Lifting Rubble: \\
+Simple Beliefs, Goals and Actions}
+
+\begin{document}
+\maketitle
+This is the second in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers the basics of beliefs, goals and actions as they appear in \gwendolen.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/tutorials/tutorial2}.
+
+\section{Pick Up Rubble}
+
+You will find a \gwendolen\ program in the tutorial directory called \texttt{pickuprubble.gwen}.  It's contents should look like Listing~\ref{code:pickuprubble}.
+\begin{lstlisting}[float,caption=Pick Up Rubble,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+goto55 [perform]
+
+:Plans:
+
++!goto55 [perform] : {True} <- move_to(5, 5);
+
++rubble(5, 5): {True} <- lift_rubble;
+
++holding(rubble): {True} <- print(done);
+\end{lstlisting}
+This is a program for moving around a simple grid based environment and picking up rubble.  The robot can perform three actions in this environment, 
+\begin{description}
+\item[move\_to(X, Y)] moves to grid square (X, Y) and adds the belief \lstinline{at(X, Y)}.
+\item[lift\_rubble] attempts picks up a piece of rubble and adds the belief \lstinline{holding(rubble)} if there is rubble at the robot's location.
+\item[drop] drops whatever the robot is holding and removes any beliefs about what the robot is holding.
+\end{description}
+The default actions (e.g., \lstinline{print}) are also available to the robot.  As the environment is set up there is a block of rubble at square (5, 5) which the robot will see if is in square (5, 5).  When the robot picks something  up it can see that it is holding it.  This environment is programmed in \java\ and is the class \lstinline{gwendolen.tutorials.SearchAndRescueEnv}.
+
+The program can be understood as follows.  
+\begin{description}
+\item[Line 1] states the language in which the program is written (this is because the \ail\ allows us to create multi-agent systems from programs written in several different languages).  
+\item[Line 3] gives the name of the agent (\lstinline{robot}).  
+\item[Line 5] starts the section for initial beliefs (there are none).  
+\item[Line 7] starts the section for initial goals.  There is one a \emph{perform} goal to \lstinline{goto55}.
+\item[Line 11] starts the section for plans.  There are three plans.  The first (line 13) states that in order to perform \lstinline{goto55} the agent must move to square (5, 5).  The second (line 15) states that if the agent sees rubble at 5, 5 it should lift the rubble and the third  (line 17) states that if the agent sees it is holding rubble then it should print done.
+\end{description}
+
+There are three different sorts of syntax being used here to distinguish between beliefs, goals and actions.
+
+\begin{description}
+\item[Beliefs] Beliefs are predicates (e.g., \lstinline{rubble(5, 5)} that are preceded either by a + symbol (to indicate a adding a belief) or a - symbol (to indicate removing a belief).
+\item[Goals] Goals are predicates preceded by an exclamation mark (e.g., \lstinline{!goto55}) again these are then preceded  either by a + symbol (to indicate a adding a goal) or a - symbol (to indicate removing a goal).  After the goal predicate there is also a label stating what kind of goal it is.  Goals can either be \emph{perform} goals or \emph{achieve} goals.  We will discuss the difference between these in a moment.
+\item[Actions] Are just predicates.  Actions are performed externally to the agent and can not be added or removed (they are just done).
+\end{description}
+
+\subsection{Running the Program and Getting more Log output}
+
+To run the program you need to call \texttt{ail.mas.AIL} and supply it with a suitable configuration file.  You will find an appropriate configuration file, \texttt{pickuprubble.ail} in the same directory as \texttt{pickuprubble.gwen}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL} configuration as detailed in the \mcapl\ manual.
+
+Run the program now.
+
+As in Tutorial 1, all you see is the robot printing the message \lstinline{done} once it has finished.  However what has happened is that the robot moved to square (5, 5) (because of the perform goal).  Once in square (5, 5) it saw the rubble and so lifted it (thanks to the second plan).  Once it had lifted the rubble it saw that it was holding it and printed \lstinline{done} (thanks to the third plan).
+
+You can get more information about the execution of the program by changing the logging information in the configuration file.  Open the configuration file and edit
+\begin{verbatim}
+log.warning = ail.mas.DefaultEnvironment
+\end{verbatim}
+to
+\begin{verbatim}
+log.info = ail.mas.DefaultEnvironment
+\end{verbatim}
+You will now see logging information printed out about each action the robots takes.
+
+If you add the line
+\begin{verbatim}
+log.format = brief
+\end{verbatim}
+to the configuration file you will get the log messages in a briefer form.
+
+\section{Perform and Achieve Goals}
+\lstinline{pickuprubble_achieve.gwen} is a slightly more complex version of the rubble lifting program which introduces some new concepts.  It is shown in Listing~\ref{code:pickuprubble_achieve}
+
+\begin{lstlisting}[float,caption=Pick Up Rubble (Achievement Goals),basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:pickuprubble_achieve]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble(1, 1)
+possible_rubble(3, 3)
+possible_rubble(5, 5)
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : 
+  {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
+
++holding(rubble): {True} <- print(done);
+\end{lstlisting}
+
+The first changes in lines 7-9.  Here we have a list of initial beliefs.  The agent believes there may be rubble in one of three squares (1, 1), (3, 3) and (5, 5).  As we know, in the environment, there is only rubble in (5, 5).
+
+The next change is in line 13.  Here instead of a \emph{perform} goal, \lstinline{goto55 [perform]} there is an \emph{achieve} goal, \lstinline{holding(rubble) [achieve]}.  The difference between perform goals and achieve goals is as follows:  
+\begin{itemize}
+\item When an agent adds a perform goal it searches for a plan for that goal, executes the plan and then drops the goal, it does not check that the plan has succeeded.
+\item When an agent adds an achieve goal it searches for a plan for that goal, executes the plan and then checks to see if it now has a belief corresponding to the goal.  If it has no such beliefs it searches for a plan again, if it does have such a belief then it drops the goal.
+\end{itemize}
+In the case of this program the robot will continue executing the plan for \lstinline{holding(rubble)} until it actually believes that it is holding some rubble.
+
+One lines 17 and 18, you can see the plan for the goal.  This plan no longer has an trivial guard.  Instead the plan only applies if the agent believes that there is possible rubble in some square (X, Y) and it does not (the $\sim$ symbol) belief there is no rubble in that square.  If it can find such a square then the robot moves to it.  The idea is that the robot will check each of the possible rubble squares  in turn until it successfully finds and lifts some rubble.  Not that we are using capital letters for variables that can be unified against beliefs (like in \prolog).
+
+The plan at line 20 gets the robot to add the belief \lstinline{no_rubble(X, Y)} if it is at some square, (X, Y), and it can't see any rubble there.  By this means the plan in lines 17 and 18 will be forced to pick a different square next time it executes.  Up until now all the plans you have used have simply executed actions in the plan body.  This one adds a belief.
+
+The plan at line 22 is similar to the plan in line 15 of Listing~\ref{code:pickuprubble} only in this case we are using variables for the rubble coordinates rather than giving it the coordinates (5, 5).
+
+You can run this program using the \lstinline{pickuprubble_achieve.ail} configuration file.
+
+\section{Some Simple Exercise to Try}
+\begin{enumerate}
+\item Instead of having the robot print \lstinline{done} once it has the rubble, get it to move to square (2, 2) and drop the rubble.  
+
+Hint: you may find  you need to add a ``housekeeping'' belief that the rubble has been moved to prevent the robot immediately picking up the rubble once it has been dropped.
+\item Rewrite the program so that instead of starting with an achievement goal \lstinline{holding(rubble)}, it starts with an achievement goal \lstinline{rubble(2, 2)} -- i.e., it wants to believe there is rubble in square (2, 2).
+
+Hint: you may want to reuse the plan for achieve \lstinline{holding(rubble)} by setting it up as a subgoal.  You can use this by adding the command \lstinline{+!holding(rubble) [achieve]} in the body of a plan.
+\end{enumerate}
+\begin{sloppypar}
+Sample answers for these two exercises can be found in \texttt{gwendolen/examples/tutorials/tutorial2/answers}.
+\end{sloppypar}
+
+\end{document}

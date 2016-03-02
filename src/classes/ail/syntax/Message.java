@@ -30,8 +30,8 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 
+import ail.syntax.ast.GroundPredSets;
 import ail.util.AILexception;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -134,6 +134,11 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
         ilForce  = ilf;
         sender   = s;
         receiver = r;
+     /*   if (c.isGround()) {
+        	propCont = GroundPredSets.check(c);
+        } else {
+        	propCont = c;
+        } */
         propCont = c;
         msgId    = id;
         threadId = thid;
@@ -143,6 +148,11 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
         ilForce  = ilf;
         sender   = s;
         receiver = r;
+      /*  if (c.isGround()) {
+        	propCont = GroundPredSets.check(c);
+        } else {
+        	propCont = c;
+        } */
         propCont = c;
         msgId    = new StringTermImpl(id);
         threadId = new StringTermImpl(thid);
@@ -486,4 +496,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.strip_varterm(), (StringTerm) msgId.strip_varterm(), (StringTerm)  threadId.strip_varterm());
 	}
 	
+	public Unifiable resolveVarsClusters() {
+		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.resolveVarsClusters(), (StringTerm) msgId.resolveVarsClusters(), (StringTerm)  threadId.resolveVarsClusters());
+	}
+
 }

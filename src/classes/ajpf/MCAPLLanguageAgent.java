@@ -37,10 +37,8 @@ public interface MCAPLLanguageAgent {
 	 * One reasoning step.  This defines the transition between which
 	 * properties should be checked.  In AIL this is one full reasoning
 	 * cycle, but this need not be the case.
-	 * 
-	 * @param flag Flag indicating whether or not this is a model checking run.
 	 */
-	public void MCAPLreason(int debuglevel);   
+	public void MCAPLreason();   
 	
 	/**
 	 * Indicates whether the agent should continue reasoning or not.
@@ -79,11 +77,20 @@ public interface MCAPLLanguageAgent {
 	/**
 	 * Succeeds if the agent has an intention phi.  The implementation of this
 	 * method defines the semantics of intentions in the Property Specificaiton
-	 * Languages.
+	 * Language.
 	 * @param phi the intention.
 	 * @return
 	 */
 	public boolean MCAPLhasIntention(MCAPLFormula phi);
+	
+	/**
+	 * Succeeds if the agent intends to perform some action phi.  The implementation
+	 * of this method defines the semantics of intends to do in the Property Specification
+	 * Language.
+	 * @param phi
+	 * @return
+	 */
+	public boolean MCAPLintendsToDo(MCAPLFormula phi);
 	
 	/**
 	 * Succeeds if the agent "wants to sleep" - typically envisaged for when the 

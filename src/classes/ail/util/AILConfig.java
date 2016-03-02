@@ -69,6 +69,13 @@ public class AILConfig extends Properties {
 			  System.exit(0);
 		  }
 	  }
+	
+	/**
+	 * Constructor for empty configurations.
+	 */
+	public AILConfig() {
+		
+	}
 
 	/**
 	 * Load the properties from the file.
@@ -82,7 +89,7 @@ public class AILConfig extends Properties {
 		      try {
 		        File f = new File(fileName);
 		        if (f.isFile()) {
-		          AJPFLogger.info(logname, "loading property file: " + fileName);
+		          AJPFLogger.fine(logname, "loading property file: " + fileName);
 
 		          setConfigPathProperties(f.getAbsolutePath());
 		          sources.add(f);

@@ -25,7 +25,9 @@
 package ajpf;
 
 import gov.nasa.jpf.annotation.FilterField;
+import gov.nasa.jpf.vm.Verify;
 
+import java.util.Properties;
 import java.util.Random;
 import java.util.List;
 import java.io.File;
@@ -33,6 +35,8 @@ import java.io.File;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFException;
+import ajpf.util.choice.ChoiceRecord;
+import ajpf.util.choice.UniformIntChoice;
 
 /**
  * Top level class for controlling the model checking of multi-agent
@@ -65,11 +69,30 @@ public class MCAPLcontroller  {
 	@FilterField
 	private boolean mainconcluded = false;
 	
+	/**
+	 * The scheduler being used by the multi-agent system.
+	 */
+	@FilterField
 	private MCAPLScheduler scheduler;
+
+	/**
+	 * Choice of which agent goes next follows a uniform distribution over integers.
+	 */
+	@FilterField
+	UniformIntChoice schedulerchoice = new UniformIntChoice(this);
 	
-	//private String propertystring;
-	Random random_numbers = new Random();
-		
+	/**
+	 * If we are recording, or playing back a run, this is the record.
+	 */
+	@FilterField
+	ChoiceRecord record = new ChoiceRecord();
+	
+	// We make this a class variable for test sets which run AIL in a thread.
+	boolean checkend = false;
+	boolean stop = false;
+	
+	// Store any application specific configurations.
+	Properties config;
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -77,13 +100,9 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public MCAPLcontroller(MCAPLmas mas, String pstring, int outputlevel) {
-		this(mas, outputlevel);
-		//propertystring = pstring;
-		//Property_AST prop_ast = new Property_AST();
-		//prop_ast.parse(propertystring);
-		//MCAPLProperty prop = prop_ast.toMCAPL(mas, this);
-		//System.err.println(prop);
+	public void setMAS(MCAPLmas mas, String pstring, Properties properties) {
+		setMAS(mas);
+		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
@@ -97,20 +116,16 @@ public class MCAPLcontroller  {
 	 * @param s
 	 *            The specification against which the system is to be checked.
 	 */
-	public MCAPLcontroller(MCAPLmas m, MCAPLSpec s, int mc) {
+	public void setMAS(MCAPLmas m, MCAPLSpec s) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
+			MCAPLAgent magent = new MCAPLAgent(a, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
-			//System.err.println(magent.getAgName());
 		}
-		//m.addPerceptListener(this);
 		specification = s;
-		mas.setController(this);
-	//	setOutputLevel(mc);
 	}
 	
 	/**
@@ -118,20 +133,16 @@ public class MCAPLcontroller  {
 	 * @param m
 	 * @param mc
 	 */
-	public MCAPLcontroller(MCAPLmas m, int mc) {
+	public void setMAS(MCAPLmas m) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
 		for (MCAPLLanguageAgent a : lagents) {
-			MCAPLAgent magent = new MCAPLAgent(a, mc, this);
+			MCAPLAgent magent = new MCAPLAgent(a, this);
 			agents.put(magent.getAgName(), magent);
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
-			//System.err.println(magent.getAgName());
 		}
-		mas.setController(this);
-		//m.addPerceptListener(this);
-		//setOutputLevel(mc);
 	}
 
 	/**
@@ -152,16 +163,7 @@ public class MCAPLcontroller  {
 	public MCAPLSpec getSpecification() {
 		return (specification);
 	}
-	
-	/**
-	 * Setter method for the outputlevel flag.
-	 * 
-	 * @param b the value of the flag.
-	 */
-//	public void setOutputLevel(int b) {
-//		mas.setOutputLevel(b);
-//	}
-	
+		
 	/**
 	 * Getter method for the multi-agent system.
 	 * @return
@@ -179,49 +181,89 @@ public class MCAPLcontroller  {
 	public void begin() {
 		// We assume it makes no difference the exact order the agents and the 
 		// environment (if relevant) start in so make this atomic.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
+		}
+		
+		if (replayMode()) {
+			try {
+				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
+				record = new ChoiceRecord(filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
+			}
+		}
+		
 		specification.createAutomaton();
 		specification.checkProperties();
-		//mas.MCAPLstart();
-		//for (MCAPLAgent a: agents.values()) {
-		//	System.out.println("starting agent" + a.getName());
-		//	a.start();
-		//}
-		// a = scheduling();
-		boolean checkend = checkEnd();
+		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {			
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
+			}
 			checkend = checkEnd();
 		}
-		triggerendstate();
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
+		if (! transitionEveryReasoningCycle()) {
+			force_transition();
+		}
+		
+		if (recordMode()) {
+			try {
+				String rel_filename = System.getProperty("user.dir") + config.getProperty("ajpf.replay.file", "/records/record.txt");
+				record.printRecord(rel_filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem writing record file: " + e.getMessage());
+			}
+		}
+		
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "leaving begin");
+		}
+		
 		
 	}
 	
+	/**
+	 * Use scheduler to pick a Jobber, do a Jobber, and return the Jobber.
+	 * @return
+	 */
 	public MCAPLJobber scheduling() {
 		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
-		//AJPFLogger.info("ajpf.MCAPLcontroller", "About to pick job");
+
 		if (!activeJobs.isEmpty()) {
 			a = null;
 			int job_num = pickJob(activeJobs.size());
+			if (Verify.isRunningInJPF() && recordMode()) {
+				getRecord().add(job_num);
+			}
 			a = activeJobs.get(job_num);
 			// Necessary to assist state matching at call to pickJob
 			job_num = 0;
-		//	AJPFLogger.info("ajpf.MCAPLcontroller", "Picked jobber " + a.getName());
-		} //else {
-		//	pickJob(1);
-		//}
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
+		} 
+
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "Picked jobber " + a.getName() + " from " + activeJobs);
+		}
 		a.do_job();
 		specification.checkProperties();
+		if (transitionEveryReasoningCycle()) {
+			force_transition();
+		}
 		return a;
 	}
 	
+	/**
+	 * Pick a jobber.  This method is intercepted by a native peer when executing in JPF.
+	 * Hence why it returns an int.
+	 * @param limit
+	 * @return
+	 */
 	private int pickJob(int limit) {
-		// System.err.println(limit);
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
-		int choice = random_numbers.nextInt(limit);
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "Limit is " + limit);
+		}
+		int choice = schedulerchoice.nextInt(limit);
 		return choice;
 	}
 	
@@ -235,12 +277,18 @@ public class MCAPLcontroller  {
 		return mainconcluded;
 	}
 		
-	
-	//private VerifySet<String> sleeping = new VerifySet<String>();
+	/**
+	 * This Jobber is asleep.
+	 * @param agname
+	 */
 	public void addAsleep(String agname) {
 		scheduler.notActive(agname);
-//		System.out.println(sleeping);
 	}
+	
+	/**
+	 * This Jobber is now awake.
+	 * @param agname
+	 */
 	public void addAwake(String agname) {
 		scheduler.isActive(agname);
 	}
@@ -252,56 +300,57 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean checkEnd() {
+		if (stop) {
+			return true;
+		}
 		// Check all agents are sleeping and without notifications.
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "entering check end");
+		}
 		for (MCAPLAgent ag : agents.values()) {
 			if (scheduler.getActiveJobberNames().contains(ag.getAgName())) {
-				//	!sleeping.contains(ag.getAgName()) ) {
-				// System.err.println(ag.getAgName());
-				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
+				if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+					AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false");
+				}
 				return false;
 			}
 		}
 
 		// If the MAS also reckons it's done.
 		if (getMAS().alldone()) {
-			//boolean tmp = triggerendstate();
 			getMAS().stopAgs();
-		//	for (MCAPLAgent ag : agents.values()) {
-		//		ag.perceptChanged();
-		//	}
-			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
+			if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
+			}
 			return true;
 		}
-		// System.err.println("not done");
-		AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
+		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
+			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
+		}
 		return false;
 		
-
 	} 
 	
 	/**
 	 * Dummy procedure for triggering the listener.
 	 * @return
 	 */
-	public boolean triggerendstate() {
-//		Thread.yield();
+	public static boolean force_transition() {
 		return true;
-	}
+	} 
 		
 	/**
-	 * Check an agent is all done.
-	 * @param a
+	 * Return the current scheduler.
 	 * @return
 	 */
-	//public boolean nothingpendingfor(MCAPLLanguageAgent a) {
-	//	return (getMAS().alldonefor(a.getMCAPLAgName()));
-	//}
-
 	public MCAPLScheduler getScheduler() {
 		return scheduler;
 	}
 
+	/**
+	 * Return the current path being used to store config files etc.
+	 * @return
+	 */
 	public static String getPath() {
 		if (System.getenv("AJPF_HOME") != null) {
 			return System.getenv("AJPF_HOME");
@@ -311,6 +360,12 @@ public class MCAPLcontroller  {
 
 	}
 	
+	/**
+	 * Given a filename, try to find the file.
+	 * @param filename
+	 * @return
+	 * @throws AJPFException
+	 */
 	public static String getFilename(String filename) throws AJPFException {
 		String ajpf_filename = null;
 		String abs_filename = System.getenv("HOME") + filename;
@@ -345,7 +400,68 @@ public class MCAPLcontroller  {
 		throw (new AJPFException(msg));
 	}
 	
+	/**
+	 * Get the absolute file name of a file in the current user.dir.
+	 * @param filename
+	 * @return
+	 */
 	public static String getAbsFilename(String filename) {
 		return System.getProperty("user.dir") + "/" + filename;
 	}
+	
+	/**
+	 * Stop the MAS.
+	 */
+	public void stop() {
+		stop = true;
+	}
+	
+	/**
+	 * Should there be a transition every reasoning cycle.  Needed for the "Intend to Do" property to work properly but does generate extra states.
+	 * @return
+	 */
+	public boolean transitionEveryReasoningCycle() {
+		if (config.containsKey("ajpf.transition_every_reasoning_cycle")) {
+			String result = config.getProperty("ajpf.transition_every_reasoning_cycle");
+			return (result.equals("true"));
+		}
+		return true;
+	}
+	
+	/**
+	 * Are we replaying a specific run through the multi-agent system?
+	 * @return
+	 */
+	public boolean replayMode() {
+		if (config != null && config.containsKey("ajpf.replay")) {
+			if (config.getProperty("ajpf.replay").equals("true")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Are we recording this run through the multi-agent system?
+	 * @return
+	 */
+	public boolean recordMode() {
+		if (config != null && config.containsKey("ajpf.record")) {
+			if (config.getProperty("ajpf.record").equals("true")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Return the current record for this run.
+	 * @return
+	 */
+	public ChoiceRecord getRecord() {
+		return record;
+	}
+
 }

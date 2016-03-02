@@ -229,8 +229,9 @@ public abstract class Proposition implements MCAPLProperty {
 			return -1;
 		} else if (myq > pq){
 			return 1;
+		} else {
+			return (this.toString().compareTo(p.toString()));
 		}
-		return (this.toString().compareTo(p.toString()));
 	}
 	
 	/**
@@ -250,5 +251,5 @@ public abstract class Proposition implements MCAPLProperty {
 	public boolean getTV() {
 		return current_truth_value;
 	}
-	
+		
 }

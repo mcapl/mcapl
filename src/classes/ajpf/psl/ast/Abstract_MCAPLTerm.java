@@ -26,64 +26,58 @@ package ajpf.psl.ast;
 
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
-import ajpf.MCAPLcontroller;
-import ajpf.MCAPLmas;
-import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
-import ajpf.psl.MCAPLProperty;
+
+/**
+ * Generic Description of Abstract Classes in AIL and AJPF
+ * -------------------------------------------------------
+ * 
+ * We use "Abstract" versions of syntax items for all bits of state that we sometimes wish to store in the native
+ * java VM as well in the JavaPathfinder VM.  In particular files are parsed into the native VM and then the relevant
+ * initial state of the multi-agent system is reconstructed in the model-checking VM.  This is done to improve
+ * efficiency of parsing (the native VM is faster).  We also represent properties for model checking in the native VM 
+ * and, indeed the property automata is stored only in the native VM.  We used Abstract classes partly because less
+ * computational content is needed for these objects in the native VM and so a smaller representation can be used
+ * but also because specific support is needed for transferring information between the two virtual machines both
+ * in terms of methods and in terms of the data types chosen for the various fields.  It was felt preferable to 
+ * separate these things out from the classes used for the objects that determine the run time behaviour of a MAS.
+ * 
+ * Abstract classes all have a method (toMCAPL) for creating a class for the equivalent concrete object used
+ * when executing the MAS.  They also have a method (newJPFObject) that will create an equivalent object in the 
+ * model-checking virtual machine from one that is held in the native VM.  At the start of execution the agent
+ * program is parsed into abstract classes in the native VM.  An equivalent structure is then created in the JVM
+ * using calls to newJPFObject and this structure is then converted into the structures used for executing the MAS
+ * by calls to toMCAPL.
+ * 
+ */
 
 /**
  * Common interface for all kind of Terms
  */
 public interface Abstract_MCAPLTerm extends Cloneable {
 
+	/**
+	 * Given a JPF VM, recreate this Term in the VM.
+	 * @param vm
+	 * @return
+	 */
 	public int createInJPF(VM vm);
 	
+	/**
+	 * Instantiate this term as its concrete version.
+	 * @return
+	 */
 	public MCAPLTerm toMCAPL();
 	
+	/**
+	 * Given a VM environment accessed via MJI, recreate this Term in the VM.
+	 * @param vm
+	 * @return
+	 */
 	public int newJPFObject(MJIEnv env);
-	
+
+	/*
+	 * 
+	 */
 	public Abstract_MCAPLTerm clone();
-	
-
-	/*public boolean isVar();
-
-    public boolean isLiteral();
-    
-    public boolean isList();
-
-    public boolean isString();
-
-    public boolean isInternalAction();
-
-    public boolean isArithExpr();
-
-    public boolean isNumeric();
-
-    public boolean isPred();
-
-    public boolean isGround();
-
-    public boolean isStructure();
-
-    public boolean isAtom();
-
-    public boolean hasVar(Term t);
-
-    public Object clone();
-
-    public boolean equals(Object o); */
-    
-    /** 
-     *  Applies variables's values in an unifier to the variables in the term.
-     *  Returns true if some variable was applied.  
-     */
-    /* public boolean apply(Unifier u);
-    
-    public int hashCode();
-    
-    public Term strip_varterm(); */
-    
-   /*  public void renameVar(String oldname, String newname); */
-     
 }

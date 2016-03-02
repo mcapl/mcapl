@@ -25,3 +25,5 @@
 
 1: [] (~ B (ag1, bad))
 
+2: [] (~ B(ag1, after_subgoal) || ~ G(ag1, sub_goal))
+

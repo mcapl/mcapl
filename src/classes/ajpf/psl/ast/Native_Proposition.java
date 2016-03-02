@@ -25,6 +25,7 @@
 package ajpf.psl.ast;
 
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.vm.ClassInfo;
@@ -37,13 +38,14 @@ import gov.nasa.jpf.vm.ThreadInfo;
 import ajpf.psl.Proposition;
 
 /**
- * Default class for properties which are proposition.
+ * Default concrete class for properties which are propositions in the native VM.  These
+ * maintain a link to propositions in the JPF VM.
  * 
  * @author louiseadennis
  *
  */
 public abstract class Native_Proposition extends Proposition {
-	 protected static Logger log = JPF.getLogger("ajpf.psl.ast.Native_Proposition");
+	protected static Logger log = JPF.getLogger("ajpf.psl.ast.Native_Proposition");
 	int objref;
 	
 	VM vm;
@@ -57,10 +59,18 @@ public abstract class Native_Proposition extends Proposition {
 	public boolean check() {
 		ElementInfo ei = vm.getElementInfo(objref);
 		boolean b = ei.getBooleanField("truth_value");
-		log.fine("Returning " + b + " for " + objref);
+		if (log.getLevel().intValue() <= Level.FINE.intValue()) {
+			log.fine("Returning " + b + " for " + objref);
+		}
 		return (b);
 	}
 
+	/**
+	 * Create an equivalent to this class in the JPF JVM.  For reasons of simplicity
+	 * this is the Abstract version of the proposition rather than the concrete one.
+	 * @param jvm
+	 * @return
+	 */
 	public int createInJPF(VM jvm) {
 		vm = jvm;
 		Heap heap = vm.getHeap();
@@ -70,6 +80,10 @@ public abstract class Native_Proposition extends Proposition {
 		return objref;
 	}
 	
+	/**
+	 * What is the equivalent class for this proposition in the JPF JVM?
+	 * @return
+	 */
 	public abstract String getEquivalentJPFClass();
 	
 }

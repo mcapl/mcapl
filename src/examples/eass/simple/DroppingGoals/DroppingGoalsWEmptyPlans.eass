@@ -1,0 +1,31 @@
+EASS
+
+:abstraction: ag1
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++! empty [achieve] : {True} <- putdown(block1), *empty;
+
+:name: ag1
+
+:Initial Beliefs:
+
+hold(block1)
+
+:Initial Goals:
+
+goal[perform]
+
+:Plans:
+
++! goal [perform]: {True} <-
+   +! sub_goal[perform],
+   +after_subgoal,
+   perf(empty);
+
++! sub_goal[perform]: {True};
+   
