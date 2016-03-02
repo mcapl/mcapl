@@ -201,12 +201,12 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * selection heuristics.
 	 */
 	protected VerifyMap<String, Integer> generated = new VerifyMap<String, Integer>();
-		  	   
+	
 	/**
 	 * Should plan usage be tracked?  If you don't track plan usage more states
 	 * in the agent will match.
 	 */
-	// boolean trackplanusage = true;
+	boolean trackplanusage = false;
 	
     /**
      * Is the agent running.
@@ -404,17 +404,17 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Setter method for trackplanusage.
 	 * @param b
 	 */
-	//public void setTrackPlanUsage(boolean b) {
-	//	trackplanusage = b;
-	//}
+	public void setTrackPlanUsage(boolean b) {
+		trackplanusage = b;
+	}
 	
 	/**
 	 * Getter for trackplanusage.
 	 * @return
 	 */
-	//public boolean getTrackPlanUsage() {
-	//	return trackplanusage;
-	//}
+	public boolean getTrackPlanUsage() {
+		return trackplanusage;
+	}
 	
 	
 	// --- Beliefs
@@ -798,7 +798,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-	
+		
 	//--- Capabilities
 	
 	/**
@@ -1459,12 +1459,12 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param p the plan used.
      */
     public void updatePlanUsage(ApplicablePlan p) {
-    //   	if (trackplanusage) {
-    //   		if (p != null && !p.noChangePlan()) {
-    //   			String ps = p.keyString();
-    //   			generated.put(ps, 0);
-    //   		}
-    //   	}
+       	if (getTrackPlanUsage()) {
+       		if (p != null && !p.noChangePlan()) {
+       			String ps = p.keyString();
+       			generated.put(ps, 0);
+       		}
+       	}
     }
         
     /**
@@ -1475,18 +1475,18 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @return
      */
 	protected int scoreplan(ApplicablePlan p) {
-	//	if (trackplanusage) {
-	//		String ps = p.keyString();
-	//		if (generated.get(ps) != null) {
-	//			int i = generated.get(ps);
-	//			i++;
-	//			generated.put(ps, i);
-	//			return (i - 1);
-	//		} else {
-	//			generated.put(ps, 1);
-	//			return 0;
-	//		}
-	//	} 
+		if (getTrackPlanUsage()) {
+			String ps = p.keyString();
+			if (generated.get(ps) != null) {
+				int i = generated.get(ps);
+				i++;
+				generated.put(ps, i);
+				return (i - 1);
+			} else {
+				generated.put(ps, 1);
+				return 0;
+			}
+		} 
 		return 0;
 	}
  
