@@ -10,7 +10,7 @@ import java.util.Random;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Guard;

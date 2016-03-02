@@ -1413,7 +1413,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @return
      */
     public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
-    /*	if (trackplanusage) {
+    	if (trackplanusage) {
     		int currentvalue = 0;	
     		ApplicablePlan candidate = null;
 		
@@ -1433,9 +1433,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 			
 			updatePlanUsage(candidate);
 			return candidate;
-    	} else { */
+    	} else { 
     		return aps.next();
-    //	}
+    	}
     }
     
     /**
@@ -1460,7 +1460,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      */
     public void updatePlanUsage(ApplicablePlan p) {
        	if (getTrackPlanUsage()) {
-       		if (p != null && !p.noChangePlan()) {
+       		if (p != null ) { //&& !p.noChangePlan()) {
        			String ps = p.keyString();
        			generated.put(ps, 0);
        		}

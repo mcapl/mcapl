@@ -25,13 +25,14 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/ethical_gwen/erratic_intruder/more_erratic.ail,${mcapl}/src/examples/ethical_gwen/erratic_intruder/erratic.psl,e4
+target.args = ${mcapl}/src/examples/ethical_gwen/lineup/lineup_verification.ail,${mcapl}/src/examples/ethical_gwen/lineup/lineup.psl,e3
 
-log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ail.semantics.AILAgent
-log.fine = ail.util.AJPF_w_AIL
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
+
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads
