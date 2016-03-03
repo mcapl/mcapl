@@ -161,4 +161,8 @@ public class GOALRC implements ReasoningCycle {
 			
 		}
 	}
+	
+	public GOALRCStage getCurrentStage() {
+		return currentStage;
+	}
 }

@@ -46,7 +46,8 @@ public class ModuleCallAction extends Action {
 		//for (Plan r: module.getRules().getPlans()) {
 		//	b = b && r.apply(u);
 		//}
-		module.setModuleSubti(u);
+		//module.setRule(null);
+		module.mergeModuleSubti(u);
 		return b;
 	}
 	
@@ -57,11 +58,16 @@ public class ModuleCallAction extends Action {
 	@Override
 	public ModuleCallAction clone() {
 		ModuleCallAction clone = new ModuleCallAction(module);
+		// module.setRule(null);
 		if (getTerms() != null) {
 			for (Term term: getTerms()) {
 				clone.addTerm((Term) term.clone()); 
 			}
 		}
 		return clone;
+	}
+	
+	public void resetModuleCall() {
+		module.setRule(null);
 	}
 }

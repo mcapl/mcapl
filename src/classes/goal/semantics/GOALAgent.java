@@ -23,6 +23,7 @@
 
 package goal.semantics;
 
+import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.syntax.ActionRule;
 import goal.syntax.BuiltInPrologRules;
 import goal.syntax.ConjGoal;
@@ -648,13 +649,14 @@ public class GOALAgent extends AILAgent {
     }
 
     public boolean exitModule(GOALModule module) {
-    	System.err.println("Leaving module " + module.toString());
+    	// System.err.println("Leaving module " + module.toString());
        /* if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
         		getMentalState().defocus();
                 return false;
         } */
     	
     	module.clearModuleSubti();
+    	// module.setRule(null);
 
         switch (module.getType()) {
         case ANONYMOUS:
@@ -686,7 +688,7 @@ public class GOALAgent extends AILAgent {
       //  if (this.topLevelContext == null) {
        // 	this.topLevelContext = this.activeStackOfModules.peek().getType();
        // }
-        GOALModule.ModuleType tlc = this.topLevelContext;
+        // GOALModule.ModuleType tlc = this.topLevelContext;
         GOALModule pk = this.activeStackOfModules.peek();
         if (pk != null) {
         	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(pk);
@@ -695,7 +697,9 @@ public class GOALAgent extends AILAgent {
 	}
     
     public void enteredModule(GOALModule module) {
-       	System.err.println("Entering module " + module.toString());
+       	// System.err.println("Entering module " + module.toString());
+       	
+       	       	
        	if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
     		return;
     	}

@@ -68,8 +68,9 @@ public class SelectRule implements OSRule {
     public void setModule(GOALModule m) {
     	this.m = m;
     	for (Plan p: m.getRules().getPlans()) {
-    		Plan cp = (Plan) p.clone();
+    		ActionRule cp = (ActionRule) p.clone();
     		cp.apply(m.getModuleSubti());
+    		// cp.resetModuleCalls();
     		rules.add(cp);
      	}
     	// rules = m.getRules();
@@ -95,6 +96,9 @@ public class SelectRule implements OSRule {
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
         PlanLibrary rules = this.rules.copy();
+        for (Plan p: rules.getPlans()) {
+        	((ActionRule) p).resetModuleCalls();
+        }
         boolean shufflebases = false;
 
         switch (this.ruleOrder) {

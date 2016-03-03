@@ -303,5 +303,9 @@ public class GOALModule {
 	public Unifier getModuleSubti() {
 		return module_substitution;
 	}
+	
+	public void mergeModuleSubti(Unifier u) {
+		module_substitution.compose(u);
+	}
 }
 

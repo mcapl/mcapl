@@ -26,6 +26,7 @@ package goal.syntax;
 
 import java.util.ArrayList;
 
+import ail.syntax.AILAnnotation;
 import ail.syntax.Action;
 import ail.syntax.Event;
 import ail.syntax.GBelief;
@@ -37,6 +38,7 @@ import ail.syntax.Deed;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Predicate;
 import ail.syntax.Term;
+import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.syntax.annotation.SourceAnnotation;
 
@@ -67,8 +69,21 @@ public class ActionRule extends Plan {
 		ArrayList<Deed> body = ds;
 		setBody(body);
 		setSource(new SourceAnnotation(new Predicate("self")));
+		// this.type = type;
 	}
 	
+	public ActionRule(ArrayList<Guard> ms, ArrayList<Deed> ds, int type) {
+		setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
+		setContext(ms);
+		ArrayList<Deed> prf = new ArrayList<Deed>();
+		setPrefix(prf);
+		ArrayList<Deed> body = ds;
+		setBody(body);
+		setSource(new SourceAnnotation(new Predicate("self")));
+		this.type = type;
+	}
+	
+
 	  /**
      * Constructs a plan from a Literal.  This needs to be expanded.
      * @param l
@@ -95,6 +110,39 @@ public class ActionRule extends Plan {
     
     public boolean isForallDoRule() {
     	return type == foralldo;
+    }
+    
+    public void resetModuleCalls() {
+    	for (Deed d: getBody()) {
+    		if (d.getCategory() == Deed.DAction && d.getContent() instanceof ModuleCallAction) {
+    			((ModuleCallAction) d.getContent()).resetModuleCall();
+    		}
+    	}
+    }
+    
+    @Override
+    public Object clone() {
+    	ArrayList<Guard> gs = new ArrayList<Guard>();
+    	for (Guard g: this.getContext()) {
+    		gs.add(g.clone());
+    	}
+    	
+    	ArrayList<Deed> ds = new ArrayList<Deed>();
+    	for (Deed d: this.getBody()) {
+    		ds.add(d.clone());
+    	}
+    	ActionRule p = new ActionRule(gs, ds, this.type);
+        if (annotation != null) {
+            p.setAnnotation((AILAnnotation) annotation.clone());
+        }
+         p.setID(getID());
+        p.setLibID(getLibID());
+        return p;
+    }
+    
+    @Override
+    public boolean apply(Unifier u) {
+    	return super.apply(u);
     }
 
 }

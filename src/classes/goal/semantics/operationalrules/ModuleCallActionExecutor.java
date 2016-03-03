@@ -2,6 +2,8 @@ package goal.semantics.operationalrules;
 
 import goal.semantics.GOALAgent;
 import goal.semantics.GOALRC;
+import goal.semantics.GOALRCStage;
+import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
 import goal.syntax.MentalModel;
@@ -55,6 +57,19 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			p.apply(moduleSubstitution);
 		} */
 		
+		
+ /*      	GOALRCStage currentStage = ((GOALRC) a.getReasoningCycle()).getCurrentStage();
+       	
+       	if (currentStage instanceof ModuleExecutorStage) {
+       		GOALModule prevModule = ((ModuleExecutorStage) currentStage).getModule(); 
+       		if (prevModule.getType() == GOALModule.ModuleType.ANONYMOUS) {
+       			System.err.println("here");
+       			//prevModule.setRule(null);
+       		}
+       	
+       	} */
+ 
+       	
 		if (newAttentionSet != null) {
 			ag.getMentalState().focus(newAttentionSet);
 		}

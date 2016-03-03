@@ -140,6 +140,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 					if (this.module.getType() != GOALModule.ModuleType.ANONYMOUS) {
 						this.module.setModuleTerminated(false);
 					}
+					// module.setRule(null);
 				} 
 		} else {
 			if (agintention) {
@@ -168,6 +169,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			ModuleExecutorStage tmp = nextModule;
 			nextModule = null;
 			exit = false;
+			// module.setRule(null);
 			return tmp;
 		}
 
@@ -202,6 +204,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			}
 			if (module.getType() == GOALModule.ModuleType.EVENT) {
 				exit = false;
+				// module.setRule(null);
 				return rc.mainModule;
 			}
 			
