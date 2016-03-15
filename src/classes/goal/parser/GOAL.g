@@ -31,6 +31,7 @@ package goal.parser;
 import ail.syntax.ast.*;
 import ail.syntax.DefaultAILStructure;
 import goal.syntax.ActionRule;
+import goal.syntax.GOALSendAction;
 import goal.syntax.ast.*;
 import ail.syntax.PredicateIndicator;
 import java.util.HashMap;
@@ -144,7 +145,7 @@ macroDef
 programRule returns [Abstract_ActionRule rule]
 	:{rule = new Abstract_ActionRule();}
 	(IF lf=mentalstatecond {rule.setMentalStateCond(lf);} THEN ( dl=actions {rule.setBody(dl);} STOP | nestedRules[rule]  )
-	| 'forall' {rule.setType(ActionRule.foralldo);} lf=mentalstatecond {rule.setMentalStateCond(lf);} DO (dl=actions {rule.setBody(dl);} STOP | nestedRules[rule] )
+	| FORALL {rule.setType(ActionRule.foralldo);} lf=mentalstatecond {rule.setMentalStateCond(lf);} DO (dl=actions {rule.setBody(dl);} STOP | nestedRules[rule] )
 	| 'listall' {rule.setType(ActionRule.listalldo);} v=var '<-' ms=mentalstatecond {rule.setMentalStateCond(new Abstract_MentalState(v, ms));} 
 		DO (dl=actions  {rule.setBody(dl);} STOP | nestedRules[rule]  )
 	| 'listall' mentalstatecond '->' var DO (actions STOP | nestedRules[rule]  ))
@@ -217,7 +218,9 @@ actions returns [ArrayList<Abstract_Deed> dl]
 	;
 
 action returns [Abstract_Deed d]
-	: (selector STOP)? d1=actionOperator tl=parameters {d1.addParams(tl); $d=d1;}
+	: {boolean receiver = false; Abstract_Term r= new Abstract_StringTermImpl(); ArrayList<Abstract_Term> l = new ArrayList<Abstract_Term>();} (sel=selector STOP {receiver=true; r=sel;})? 
+	                   d1=actionOperator tl=parameters 
+	                   {if (receiver) {l.add(r);}; l.addAll(tl); d1.addParams(l); $d=d1;}
 
 	| op = 'exit-module'
 	| op = 'log'
@@ -232,21 +235,21 @@ actionOperator returns [Abstract_Deed d]
 	| op = DROP {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILGoal);}
 	| op = INSERT {d = new Abstract_Deed(Abstract_BaseAILStructure.AILAddition, Abstract_BaseAILStructure.AILBel);}
 	| op = 'delete'  {d = new Abstract_Deed(Abstract_BaseAILStructure.AILDeletion, Abstract_BaseAILStructure.AILBel);}
-	| op = 'send'
-	| op = 'sendonce'
+	| op = 'send' {d = new Abstract_Deed(new Abstract_GOALSendAction(GOALSendAction.SEND));}
+	| op = 'sendonce' {d = new Abstract_Deed(new Abstract_GOALSendAction(GOALSendAction.SENDONCE));}
 	| op = 'print' {d = new Abstract_Deed(new Abstract_PrintAction());}
 	| op = 'log'
 	;
 
 
-selector
-	: word
-	| op = 'all'
-	| op = 'allother'
-	| op = 'self'
-	| op = 'some'
-	| op = 'someother'
-	| op = 'this'
+selector returns [Abstract_Term s]
+	: w=word {s = new Abstract_StringTermImpl(w);}
+	| op = 'all' {s = new Abstract_NumberTermImpl(0);}
+	| op = 'allother' {s = new Abstract_NumberTermImpl(1);}
+	| op = 'self' {s = new Abstract_NumberTermImpl(2);}
+	| op = 'some' {s = new Abstract_NumberTermImpl(3);}
+	| op = 'someother' {s = new Abstract_NumberTermImpl(4);}
+	| op = 'this' {s = new Abstract_NumberTermImpl(5);}
 	;
 
 actionSpecs returns [ArrayList<Abstract_ActionSpec> as] 
@@ -263,6 +266,7 @@ actionSpec returns [Abstract_ActionSpec as]
 precondition returns [Abstract_LogicalFormula f]
 	: PRE CURLYOPEN  (TRUE  {f = new Abstract_LogExpr();}
 	| tl=no_bracket_literals {f = new Abstract_LogExpr(tl);}
+	| fe = forall_expr {f = new Abstract_LogExpr(fe);}
 	| ap = atom_parameters {f = ap;} ) CURLYCLOSE
 	;
 
@@ -313,9 +317,8 @@ not_action_opparameters returns [ArrayList<Abstract_Term>ts]
 	;
 
 parameters returns [ArrayList<Abstract_Term>ts] 
-	: OPEN  t=term 
-		{ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); 
-		tl.add(t);}
+	: OPEN  {ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>(); } (i=ilf {tl.add(new Abstract_NumberTermImpl(i));})? t=term 
+		{tl.add(t);}
 	(COMMA t1=term  {tl.add(t1);})* 
 	CLOSE { $ts = tl;}
 	;
@@ -383,6 +386,7 @@ INTERNAL 	: '@int';
 EXTERNAL  : '@ext';
 DROP	: 'drop';
 INSERT	: 'insert';
+FORALL	: 'forall';
 
 // term syntax
 term returns [Abstract_Term t] 
@@ -390,6 +394,8 @@ term returns [Abstract_Term t]
 	| ft=nested_function_term {$t=ft;} 
 	| at=arithexpr {$t=at;}
 	| lt=listterm {$t=lt;});
+	
+ilf returns [int i]	:'?' {$i = 1;} | '!' {$i = 2;} | ':' {$i = 3;};
 	
 toplevelterm returns [Abstract_Term t] 
 	: (st=stringterm {$t = st;} 
@@ -411,7 +417,7 @@ not_action_opterm returns [Abstract_Term t]
 	| lt=listterm {$t=lt;});
 
 function_term returns [Abstract_Predicate t] : 
-	 c=CONST {t=new Abstract_Predicate(c.getText());} 
+	 c=CONST {t=new Abstract_Predicate(c.getText());}
 	(OPEN (  t1=term {((Abstract_Predicate) t).addTerm($t1.t);} )
 	(COMMA (  t2=term  {((Abstract_Predicate) t).addTerm($t2.t);}))* CLOSE)?
 	;
@@ -485,7 +491,7 @@ equation returns [Abstract_Equation e]
 	;
 forall_expr returns [ArrayList<Abstract_LogicalFormula> ts]
 	:	 {ArrayList<Abstract_LogicalFormula> tl = new ArrayList<Abstract_LogicalFormula>();}
-	'forall' OPEN t1=atom COMMA t2=atom {Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);} CLOSE
+	FORALL OPEN t1=atom COMMA t2=atom {Abstract_LogExpr l = new Abstract_LogExpr(t1, Abstract_LogExpr.forall, t2); tl.add(l);} CLOSE
 	{ $ts = tl;}
 	;
 	

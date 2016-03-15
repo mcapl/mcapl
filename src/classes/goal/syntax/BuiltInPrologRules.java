@@ -108,6 +108,13 @@ public class BuiltInPrologRules {
 			}
 	}
 	
+	/*public void forallPredicate() {
+		try {
+			Predicate rule_head = ruleHead("forall(Cond, Action)");
+			LogExpr rule_body = ruleBody("~(Cond, ~Action)");
+		}
+	}*/
+	
 	public Predicate ruleHead(String s) throws Exception {
 		GOALParser parser = getParser(s);
 		return (parser.declarationOrCallWithTerms()).toMCAPL();

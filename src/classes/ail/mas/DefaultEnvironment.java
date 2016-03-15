@@ -723,5 +723,16 @@ public class DefaultEnvironment implements AILEnv {
 		env.addPerceptListener(s);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.addAll(agentmap.values());
+		return agents;
+	}
+
 
 }

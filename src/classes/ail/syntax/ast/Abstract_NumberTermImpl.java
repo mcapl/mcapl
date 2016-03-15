@@ -169,5 +169,9 @@ public final class Abstract_NumberTermImpl implements Abstract_NumberTerm {
 		System.err.println("WARNING: Do not add params to a NumberTerm");
 		
 	}
+	
+	public double getValue() {
+		return fValue;
+	}
 
 }

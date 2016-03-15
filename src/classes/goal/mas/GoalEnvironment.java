@@ -40,10 +40,12 @@ import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
+import goal.semantics.GOALAgent;
 import goal.syntax.GoalMessage;
 import gov.nasa.jpf.vm.Verify;
 import gov.nasa.jpf.annotation.FilterField;
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+
 
 
 
@@ -93,6 +95,32 @@ public class GoalEnvironment extends DefaultEnvironment {
     	}
      	return p;
 		
+	}
+	
+	@Override
+	public void init_after_adding_agents() {
+		sendEnvironmentAgentBeliefs(this);
+	}
+	
+	public static void sendEnvironmentAgentBeliefs(AILEnv e) {
+		List<Literal> agentlist = new ArrayList<Literal>();
+		
+		for (AILAgent ag: e.getAgents()) {
+			GOALAgent gag =  (GOALAgent) ag;
+			Literal me = new Literal("me");
+			me.addTerm(new Predicate(gag.getAgName()));
+			gag.addBel(me, gag.refertoself());
+			
+			Literal agent = new Literal("agent");
+			agent.addTerm(new Predicate(gag.getAgName()));
+			agentlist.add(agent);
+		}
+		
+		for (AILAgent ag: e.getAgents()) {
+			for (Literal l: agentlist) {
+				ag.addBel(l, ag.refertoself());
+			}
+		}
 	}
 	
 

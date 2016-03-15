@@ -648,4 +648,15 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		env.notifyListeners(name);
 	}
 
+	/*
+	 * 
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.add(agent);
+		agents.add(abstraction);
+		return agents;
+	}
+
 }

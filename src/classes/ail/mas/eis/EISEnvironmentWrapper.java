@@ -69,6 +69,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	Map<String, Set<Predicate>> agentpercepts = new HashMap<String, Set<Predicate>>();
 	PrologParser parser;
 	MCAPLScheduler scheduler;
+	List<AILAgent> agents = new ArrayList<AILAgent>();
 
 	/**
 	 * The multi-agent system this environment is part of.
@@ -243,6 +244,7 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		}
 		eis_environment.attachAgentListener(a.getAgName(), this);
 		agentpercepts.put(a.getAgName(), new HashSet<Predicate>());
+		agents.add(a);
 		
 	}
 
@@ -340,6 +342,16 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 	@Override
 	public void setMAS(MAS m) {
 		mas = m;
+	}
+
+	
+	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	public List<AILAgent> getAgents() {
+		return agents;
 	}
 
 

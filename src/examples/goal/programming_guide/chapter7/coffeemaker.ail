@@ -1,0 +1,10 @@
+env = goal.mas.GoalEnvironment
+
+mas.agent.1.file = /src/examples/goal/programming_guide/chapter7/coffeemaker.gl
+mas.agent.1.builder = goal.GOALAgentBuilder
+mas.agent.1.name = maker
+mas.agent.2.file = /src/examples/goal/programming_guide/chapter7/coffeegrinder.gl
+mas.agent.2.builder = goal.GOALAgentBuilder
+mas.agent.2.name = grinder
+
+goal.launchpolicy.entity.launch = maker,grinder

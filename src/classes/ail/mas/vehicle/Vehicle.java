@@ -24,6 +24,8 @@
 
 package ail.mas.vehicle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -331,6 +333,17 @@ public class Vehicle implements VehicleInterface {
 	@Override
 	public void notifyListeners(String name) {
 		env.notifyListeners(name);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.add(agent);
+		return agents;
 	}
 
 }

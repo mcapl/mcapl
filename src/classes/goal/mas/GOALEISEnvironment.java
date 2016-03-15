@@ -85,6 +85,7 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper {
 	 */
 	public void init_after_adding_agents() {
 		getLaunchPolicy().associateEntities();
+		GoalEnvironment.sendEnvironmentAgentBeliefs(this);
 	}
 
 	public void addFileToInitMap(String s, String f) {

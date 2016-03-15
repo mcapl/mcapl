@@ -27,11 +27,11 @@
 
 package ail.mas;
 
+import java.util.List;
 import java.util.Set;
 
 import ajpf.PerceptListener;
 import ajpf.MCAPLScheduler;
-
 import ail.syntax.Unifier;
 import ail.syntax.Message;
 import ail.syntax.Action;
@@ -211,4 +211,10 @@ public interface AILEnv {//  extends EnvironmentInterfaceStandard {
      * @param name
      */
     public void notifyListeners(String name);
+    
+    /**
+     * Return a list of agents in the environment.
+     * @return
+     */
+    public List<AILAgent> getAgents();
 }

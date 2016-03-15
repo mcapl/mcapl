@@ -85,7 +85,7 @@ public class ProcessMessages implements OSRule {
         for (Message message : messages) {
         //    processMessageMentalModel(message);
         	((GOALAgent) a).getMentalState().addMessage(message);
-        	}
+        }
 
     // Check if goals have been achieved and, if so, update goal base.
         ((GOALAgent) a).getMentalState().updateGoalState();
