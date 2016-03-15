@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -31,6 +31,7 @@ import java.util.Iterator;
  * A class for AIL Send Actions.  These are actions with addition fields for 
  * performatives and ids.  It is assumed that the basic action is a term
  * with two arguments, the content and the receiver (as a StringTerm).
+ * Largely untested
  * 
  * @author louiseadennis
  *
@@ -214,6 +215,7 @@ public class BroadcastSendAction extends Action {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Action#clone()
 	 */
+	@Override
 	public BroadcastSendAction clone() {
 		Action a = (Action) super.clone();
 		return(new BroadcastSendAction(a, ilf, ann, (StringTerm) thId.clone()));
@@ -223,6 +225,7 @@ public class BroadcastSendAction extends Action {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#apply(ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier u) {
 		boolean flag = false;
 		if (msg != null) {

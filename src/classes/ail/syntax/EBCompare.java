@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, Michael Fisher
+// Copyright (C) 2014-2016 Louise A. Dennis, Michael Fisher
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 //
@@ -23,7 +23,7 @@
 package ail.syntax;
 
 /**
- * This is a class for things that can be unified with objects of type K in an
+ * This is an interface for things that can be unified with objects of type K in an
  * Evaluation base.
  * @author louiseadennis
  *

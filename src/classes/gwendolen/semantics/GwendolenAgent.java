@@ -60,7 +60,7 @@ public class GwendolenAgent extends AILAgent {
 		// an empty reasoning cycle.  See the GwendolenRC class for how
 		// to create a language specific reasoning cycle.  NB. this will
 		// change when we get the rules to return state change objects.
-		setTrackPlanUsage(false);
+		// setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
 
 
@@ -86,7 +86,7 @@ public class GwendolenAgent extends AILAgent {
 		// an empty reasoning cycle.  See the GwendolenRC class for how
 		// to create a language specific reasoning cycle.  NB. this will
 		// change when we get the rules to return state change objects.
-		setTrackPlanUsage(false);
+	//	setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
 
 
