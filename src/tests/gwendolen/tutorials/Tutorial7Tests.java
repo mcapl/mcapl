@@ -28,6 +28,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import ail.mas.AIL;
 import ajpf.MCAPLcontroller;
 import gwendolen.GwendolenAgentBuilder;
 import gwendolen.semantics.GwendolenAgent;
@@ -45,6 +46,17 @@ public class Tutorial7Tests {
 		  GwendolenAgentBuilder builder = new GwendolenAgentBuilder();
 		  GwendolenAgent g = (GwendolenAgent) builder.getAgent(abs_filename);
 		  Assert.assertNotNull(g);
+	  } catch (Exception e) {
+		  System.err.println(e);
+		  Assert.assertTrue(false);
+	  }
+  }
+  
+  @Test //----------------------------------------------------------------------
+  public void error_free() {
+	  try {
+		  String filename = MCAPLcontroller.getFilename("/src/examples/gwendolen/tutorials/tutorial7/answers/pickuprubble.ail");
+		  AIL.runAIL(filename);
 	  } catch (Exception e) {
 		  System.err.println(e);
 		  Assert.assertTrue(false);

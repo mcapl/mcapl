@@ -50,6 +50,7 @@ public class UniformIntChoice extends Choice<Integer> {
 		this.clearChoices();
 		for (int i = 0; i < limit; i++) {
 			double prob = 1.0/limit;
+			// System.err.println("limit is " + limit + " and prob is " + prob);
 			addChoice(prob, i);
 		}
 		int i = get_choice();

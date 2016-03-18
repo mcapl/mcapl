@@ -22,9 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.ajpf_tutorials.tutorial3.RandomRobotEnv
+env = gwendolen.ail_tutorials.tutorial3.RandomRobotEnv2
 
-mas.file = /src/examples/gwendolen/ajpf_tutorials/tutorial3/searcher.gwen
+mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 ajpf.transition_every_reasoning_cycle = false

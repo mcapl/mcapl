@@ -28,6 +28,7 @@ target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUp
 
 ajpf.model_only = true
 ajpf.target_modelchecker = spin
+ajpf.model.path = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/answers/
 ajpf.model.location = /tutorial3_ex1.pml
 
 listener+=,.listener.ExecTracker

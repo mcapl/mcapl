@@ -368,9 +368,15 @@ public class MCAPLmodel {
 				// Now we convert our model to a JPF proctype.
 				s += "active proctype JPFModel()\n";
 				s += "{\n";
+				
 				for (ModelState state: states_by_num.values()) {
 					int num = state.getNum();
-					s += "state" + num;
+					// Creating state numbers for end states.
+					if (num < 0) {
+						s += "end_state" + Math.abs(num);
+					} else {
+						s += "state" + num;
+					}
 					s += ":\n";
 					Set<Integer> edges = model_edges.get(num);
 					for (Proposition p: props) {
@@ -387,12 +393,20 @@ public class MCAPLmodel {
 						if (edges.size() > 1) {
 							s += "\tif\n";
 							for (int to: edges) {
-								s += "\t:: goto state" + to + ";\n";
+								if (to < 0) {
+									s += "\t:: goto end_state" + Math.abs(to) + ";\n";
+								} else {
+									s += "\t:: goto state" + to + ";\n";
+								}
 							}
 							s += "\tfi;\n";
 						} else {
 							for (int to: edges) {
-								s += "\tgoto state" + to + ";\n";
+								if (to < 0) {
+									s += "\tgoto end_state" + Math.abs(to) + ";\n";
+								} else {
+									s += "\tgoto state" + to + ";\n";
+								}
 							}
 						}
 					} else {

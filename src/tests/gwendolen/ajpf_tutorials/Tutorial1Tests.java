@@ -58,7 +58,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex1 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex1";
@@ -70,7 +71,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex2 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex2";
@@ -81,7 +83,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex3 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex3";
@@ -92,7 +95,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex4 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex4";
@@ -103,7 +107,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex5 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex5";
@@ -114,7 +119,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex6 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex6";
@@ -125,7 +131,8 @@ public class Tutorial1Tests extends TestJPF {
 	  public void ex7 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	String[] args = new String[3];
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial1/answers/lifterandmedic.psl";	    	
+	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
 	    	args[2] = "ex7";

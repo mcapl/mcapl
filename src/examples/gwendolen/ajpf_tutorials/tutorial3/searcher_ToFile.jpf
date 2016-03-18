@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
-// 
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+//
 // This file is part of Gwendolen
 // 
 // Gwendolen is free software; you can redistribute it and/or
@@ -22,41 +22,20 @@
 //
 //----------------------------------------------------------------------------
 
-GWENDOLEN
+@using = mcapl
 
-:name: searcher
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/searcher.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/searcher.psl,1
 
-:Initial Beliefs:
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
 
-square(0, 0)
-square(0, 1)
-square(0, 2)
-square(1, 0)
-square(1, 1)
-square(1, 2)
-square(2, 0)
-square(2, 1)
-square(2, 2)
+ajpf.model_only = true
+ajpf.target_modelchecker = prism
+ajpf.model.path = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/
+ajpf.model.location = tutorial3_prism_searcher.pm
 
-:Reasoning Rules: 
-			
-area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));
-unchecked(Xc, Y) :- square(Xc, Y), ~ at(Xc, Y), ~ empty(Xc, Y), ~ human(Xc, Y);
+listener=ajpf.MCAPLProbListener
 
-:Initial Goals:
-				
-leave [achieve]
-
-:Plans:
-
-+! leave [achieve]: {B human } <- 
-   +found; 
-+! leave [achieve]: {~ B at(X1, Y1), B unchecked(X, Y)} <- move_to(X, Y);
-+! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, B unchecked(X1, Y1) } <- 
-   +empty(X, Y), move_to(X1, Y1);
-+! leave [achieve]: {B at(X, Y), ~ B human, ~B area_empty, ~B unchecked(X1, Y1) } <- 
-   +empty(X, Y); 
-+! leave [achieve]: {B area_empty} <- +leave;
-
-+found : {True} <- rescue_human, +leave;
-
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

@@ -202,6 +202,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  */
 	 private boolean checkstate (Search search) {
 		 int newstate = search.getStateId();
+		 log.info("New State is " + newstate);
 		 
 		 // Add this new state to the program model inside the product automaton.
 		 if (automata_initialised) {

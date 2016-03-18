@@ -24,6 +24,7 @@
 package gwendolen.tutorials.tutorial7;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.DefaultEnvironmentwRandomness;
 import ail.mas.MAS;
 import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
@@ -55,7 +56,7 @@ import java.util.ArrayList;
  * @author lad
  *
  */
-public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
+public class SearchAndRescueDynamicEnv extends DefaultEnvironmentwRandomness implements
 		MCAPLJobber {
 	static final String logname = "gwendolen.tutorials.tutorial7.SearchAndRescueDynamicEnv";
 	
@@ -65,7 +66,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public ArrayList<Human> cleanup = new ArrayList<Human>();
 	public ArrayList<Square> free_squares = new ArrayList<Square>();
 	
-	UniformIntChoice r;
 	ProbBoolChoice building_collapse;
 	ProbBoolChoice human_move;
 	
@@ -93,11 +93,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		this.setScheduler(scheduler);
 		addPerceptListener(scheduler);
 		generatesquares();
-		int numbuildings = r.nextInt(4);
-		placebuildings(numbuildings, true);
-		int numrubble = r.nextInt(4);
-		placebuildings(numrubble, false);
-		placehumans(numhumans);
 		
 		Predicate at = new Predicate("at");
 		at.addTerm(new NumberTermImpl(robot_x));
@@ -434,7 +429,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public void placebuildings(int numbuildings, boolean standing) {
 		int free_squares_num = free_squares.size();
 		for (int i = 1; i <= numbuildings; i++) {
-			int square = r.nextInt(free_squares_num);
+			int square = random_ints.nextInt(free_squares_num);
 			free_squares_num--;
 			Square s = free_squares.remove(square);
 			if (standing) {
@@ -457,7 +452,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 */
 	public void placehumans(int numhumans) {
 		for (int i = 1; i <= numhumans; i++) {
-			int square = r.nextInt(25);
+			int square = random_ints.nextInt(25);
 			double x = square % 5;
 			int y = square / 5;
 			Human h = new Human(x, y);
@@ -509,7 +504,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		for (Human h: humans) {
 			if (! h.injured() && ! h.inBuilding() && ! h.directed() && h.onGrid()) {
 				if (human_move.nextBoolean()) {
-					int option = r.nextInt(8);
+					int option = random_ints.nextInt(8);
 					double x = h.getX();
 					double y = h.getY();
 					if (option == 1) {
@@ -884,9 +879,14 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	@Override
 	public void setMAS(MAS m) {
 		super.setMAS(m);
-		r = new UniformIntChoice(m.getController());
 		building_collapse = new ProbBoolChoice(m.getController(), building_collapse_chance);
 		human_move = new ProbBoolChoice(m.getController(), human_move_chance * 8);
+		int numbuildings = random_ints.nextInt(4);
+		placebuildings(numbuildings, true);
+		int numrubble = random_ints.nextInt(4);
+		placebuildings(numrubble, false);
+		placehumans(numhumans);
+
 	}
 
 

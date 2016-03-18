@@ -26,6 +26,7 @@
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/PickUpAgent.psl,1
 
+
 ajpf.model_only = true
 ajpf.target_modelchecker = spin
 ajpf.model.location = stdout
