@@ -92,17 +92,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		this.setScheduler(scheduler);
 		addPerceptListener(scheduler);
-		generatesquares();
-		int numbuildings = r.nextInt(4);
-		placebuildings(numbuildings, true);
-		int numrubble = r.nextInt(4);
-		placebuildings(numrubble, false);
-		placehumans(numhumans);
-		
-		Predicate at = new Predicate("at");
-		at.addTerm(new NumberTermImpl(robot_x));
-		at.addTerm(new NumberTermImpl(robot_y));
-		addPercept(at);
 		
 		getScheduler().addJobber(this);
 	}
@@ -879,6 +868,22 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 		return s;
 		
+	}
+	
+	@Override
+	public void initialise() {
+		super.initialise();
+		generatesquares();
+		int numbuildings = r.nextInt(4);
+		placebuildings(numbuildings, true);
+		int numrubble = r.nextInt(4);
+		placebuildings(numrubble, false);
+		placehumans(numhumans);
+		
+		Predicate at = new Predicate("at");
+		at.addTerm(new NumberTermImpl(robot_x));
+		at.addTerm(new NumberTermImpl(robot_y));
+		addPercept(at);
 	}
 	
 	@Override

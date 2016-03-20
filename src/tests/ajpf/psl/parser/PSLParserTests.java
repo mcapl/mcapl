@@ -111,8 +111,8 @@ public class PSLParserTests {
 			executive.addBel(better, BeliefBase.TSelf);
 			
 			mas.addAg(new AILAgent("executive"));
-			MCAPLcontroller mccontrol = new MCAPLcontroller();
-			mccontrol.setMAS(mas, propertystring, new AILConfig());
+			MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig());
+			mccontrol.setMAS(mas, propertystring);
 			MCAPLAgBelief cb = (MCAPLAgBelief) b.toMCAPL(mas, mccontrol);
 			Assert.assertTrue(executive.MCAPLbelieves(cb.getBel()));
 		} catch (Exception e) {
@@ -138,8 +138,8 @@ public class PSLParserTests {
 		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
 		LEOVerificationEnvironmentASEPaper env = new LEOVerificationEnvironmentASEPaper();
 		mas.setEnv(env);
-		MCAPLcontroller mccontrol = new MCAPLcontroller();
-		mccontrol.setMAS(mas, propertystring, new AILConfig());
+		MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig());
+		mccontrol.setMAS(mas, propertystring);
 		a.toMCAPL(mas, mccontrol);
 		
 	} 

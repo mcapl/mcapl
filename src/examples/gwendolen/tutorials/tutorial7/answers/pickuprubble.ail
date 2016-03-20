@@ -26,5 +26,8 @@ mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.tutorials.tutorial7.SearchAndRescueDynamicEnv
 
+ajpf.record = true;
+log.fine = ajpf.util.choice.ChoiceRecord
 log.info = ail.mas.DefaultEnvironment
 log.format = brief
+

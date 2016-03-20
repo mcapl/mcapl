@@ -55,7 +55,7 @@ public class DinoUILauncher {
         AILConfig config = new AILConfig(ui.getProgramFileName());
 		AIL.configureLogging(config);
 	
-		MCAPLcontroller mccontrol = new MCAPLcontroller();
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config);
 		MAS mas = AIL.AILSetup(config, mccontrol);
 		ui.addMas(mas);
 		
@@ -74,7 +74,7 @@ public class DinoUILauncher {
 			);
 
 			// Lastly we construct a controller.
-			mccontrol.setMAS(mas, "", config);
+			mccontrol.setMAS(mas, "");
 			// Start the system.
 			mccontrol.begin(); 
 		}

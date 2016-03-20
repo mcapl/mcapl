@@ -62,13 +62,15 @@ public class AIL {
 		configureLogging(config);
 		
 		// Create a controller
-		MCAPLcontroller mccontrol = new MCAPLcontroller();
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config);
 	
 		// Create the initial state of the multi-agent program.
 		MAS mas = AILSetup(config, mccontrol);
 		
 		// Set up a controller
-		mccontrol.setMAS(mas, "", config);
+		mccontrol.setMAS(mas, "");
+		
+		// mas.getEnv().initialise();
 		
 		// Begin!
 		mccontrol.begin(); 
