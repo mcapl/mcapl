@@ -73,7 +73,7 @@ import ail.mas.DefaultEnvironment;
  * @author louiseadennis
  *
  */
-public class GoalEnvironment extends DefaultEnvironment { 
+public class GoalEnvironment extends DefaultEnvironment implements GOALEnv { 
 
 	/*
 	 * (non-Javadoc)
@@ -121,6 +121,11 @@ public class GoalEnvironment extends DefaultEnvironment {
 				ag.addBel(l, ag.refertoself());
 			}
 		}
+	}
+
+	@Override
+	public void postMessage(GoalMessage m) {
+		this.addMessage(m.getSender(), m);
 	}
 	
 

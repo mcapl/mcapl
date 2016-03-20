@@ -20,7 +20,10 @@ import ail.syntax.PredicateTerm;
 import ail.syntax.Literal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.List;
 import java.util.LinkedList;
@@ -28,18 +31,74 @@ import java.util.Iterator;
 import java.util.Stack;
 
 public class MentalModel implements AgentMentalState {
-	BeliefBase bb;
-	BeliefBase percepts = new BeliefBase();
-	public Stack<ConjGoalBase> goalbases = new Stack<>();
+    /**
+     * A map containing the various {@link BeliefBase}s of type {@link BASETYPE}
+     * maintained by this {@link MentalModel}.
+     * <p>
+     * The knowledge of the agent is stored in its knowledge base. This base is
+     * static and does not change during runtime.
+     * </p>
+     * <p>
+     * A knowledge base is only used for the agent itself (the owner of this
+     * mental model) and not for other agents whose mental state is may be
+     * modeling. The idea here is that an agent does not have any direct or
+     * indirect access to the knowledge of another agent.
+     * </p>
+     * <p>
+     * The percepts the agent receives from its environment are stored in its
+     * percept base. This base is cleaned every reasoning cycle and the new
+     * percepts received are inserted.
+     * </p>
+     * <p>
+     * A percept base is only used for the agent itself (the owner of this
+     * mental model) and not for other agents because the agent does not have
+     * access to what another agent observes (and should store what it believes
+     * another agent has observed in that agent's mental model's belief base).
+     * </p>
+     * <p>
+     * The mail messages the agent receives from and sents to other agents are
+     * stored in its mailbox. This base is not cleaned but new messages are
+     * added. It is up to the agent itself to remove old messages.
+     * </p>
+     * <p>
+     * For reasons similar to those given for percepts above, a mailbox is only
+     * used for the agent itself (the owner of this mental model) and not for
+     * other agents.
+     * </p>
+     * <p>
+     * The beliefs of the agent that represent its environment are stored in its
+     * belief base. This is a base that is updated at runtime and used for
+     * maintaining an accurate picture of the actual state of affairs.
+     * </p>
+     * <p>
+     * A belief base is also used for other modeling the beliefs of other agents
+     * than the agent itself. That is, for maintaining a mental model of another
+     * agent's beliefs. The agent, of course, does not have direct access to
+     * another agent's beliefs and has to base such a mental model on what it
+     * observes the other agent is doing (from messages received, actions it
+     * performs).
+     * </p>
+     */
+    private final Map<MentalState.BASETYPE, BeliefBase> beliefBases = new LinkedHashMap<>();
+
+    public Stack<ConjGoalBase> goalbases = new Stack<>();
 	RuleBase rb;
+	
+	public MentalModel() {
+		beliefBases.put(MentalState.BASETYPE.PERCEPTBASE, new BeliefBase());
+	}
 
 	
 	public void addBB(BeliefBase b) {
-		bb = b;
+		beliefBases.put(MentalState.BASETYPE.BELIEFBASE, b);
 	}
 	
 	public void addPerceptBase(BeliefBase b) {
-		percepts = b;
+		beliefBases.put(MentalState.BASETYPE.PERCEPTBASE, b);
+	}
+	
+	public void addMessageBase(BeliefBase b) {
+		beliefBases.put(MentalState.BASETYPE.MESSAGEBASE, b);
 	}
 	
 	public void addGB(ConjGoalBase g) {
@@ -51,7 +110,7 @@ public class MentalModel implements AgentMentalState {
 	}
 	
 	public Iterator<Literal> getPercepts() {
-		return percepts.getPercepts();
+		return beliefBases.get(MentalState.BASETYPE.PERCEPTBASE).getPercepts();
 	}
 	
 	public void updateGoalState() {
@@ -84,7 +143,7 @@ public class MentalModel implements AgentMentalState {
     }
     
     public BeliefBase getPerceptBase() {
-    	return percepts;
+    	return beliefBases.get(MentalState.BASETYPE.PERCEPTBASE);
     }
     
     public void adopt(ConjGoal g) {
@@ -94,7 +153,7 @@ public class MentalModel implements AgentMentalState {
 	@Override
 	public BeliefBase getBB(StringTerm s) {
 		// TODO Auto-generated method stub
-		return bb;
+		return beliefBases.get(MentalState.BASETYPE.BELIEFBASE);
 	}
 
 	@Override
@@ -166,5 +225,15 @@ public class MentalModel implements AgentMentalState {
 		oldAttentionSet.cleanup();
 		updateGoalState();
 	}
+	
+	 /**
+     * @param type
+     *            The type to fetch.
+     * @return The base for the given type.
+     */
+    public BeliefBase getBase(MentalState.BASETYPE type) {
+            return this.beliefBases.get(type);
+    }
+
 
 }

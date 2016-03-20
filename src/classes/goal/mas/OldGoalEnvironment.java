@@ -169,7 +169,7 @@ public class OldGoalEnvironment extends DefaultEnvironment {
 	 * Create a conversation from message m.
 	 * @param m
 	 */
-	protected void createconversation(GoalMessage m) {
+/*	protected void createconversation(GoalMessage m) {
 		int numconv = activeConversations.size() + 1;
 		for (int i = 0; i <= numconv; i++) {
 			String pid = ((Integer) i).toString();
@@ -204,7 +204,7 @@ public class OldGoalEnvironment extends DefaultEnvironment {
 				addPercept(m.getSender(), conversation);
 			}
 		}
-	} 
+	} */
 	
 	/**
 	 * Remove the perceptions about the conversation from agents.
@@ -380,16 +380,16 @@ public class OldGoalEnvironment extends DefaultEnvironment {
    		GoalMessage m = (GoalMessage) sent.getMessage(agName);
    		StringTerm id = (StringTerm) m.getConversationID();
    		String idstring = id.getString();
-   		ArrayList<String> receivers = m.getReceivers();
+   	//	ArrayList<String> receivers = m.getReceivers();
    		
    		// If the agent is not trying to initiate a new conversatoin.
    		if (! idstring.equals("new")) {
    			// Assuming this is a message in a still open conversation
    			// add the message to relevant message lists.
    			if (activeConversations.contains(idstring)) {	
-   				for (String r: receivers) {
-    						addMessage(r, m);
-   				}
+   //				for (String r: receivers) {
+   // 						addMessage(r, m);
+   //				}
    			} else {
    				somethinghappened = false;
    			}
@@ -418,7 +418,7 @@ public class OldGoalEnvironment extends DefaultEnvironment {
    						}
    					} else {
    				// Similarly if one of them is a recipient of this message.
-   						for (String r: receivers) {
+   				/*		for (String r: receivers) {
    							if (conversers.contains(r)) {
    								if (! pendingConversations.contains(m)) {
    										pendingConversations.add(m);
@@ -431,7 +431,7 @@ public class OldGoalEnvironment extends DefaultEnvironment {
    				// Otherwise create a new conversation.
    						if (!pendingflag) {
    								createconversation(m);
-   						}
+   						} */
    					}
    			
    			} else {
@@ -455,7 +455,7 @@ public class OldGoalEnvironment extends DefaultEnvironment {
     			
     				conversationnumber = Integer.parseInt(cid.getString());
     				for (GoalMessage m1: fifo) {
-    					createconversation(m1);
+    				//	createconversation(m1);
     				}
      		}
     		

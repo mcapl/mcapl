@@ -30,21 +30,30 @@ import java.util.Set;
 import eis.EnvironmentInterfaceStandard;
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
+import goal.syntax.GoalMessage;
 import goal.util.LaunchPolicy;
 import ail.mas.eis.EISEnvironmentWrapper;
 import ail.mas.scheduling.ActionScheduler;
 import ail.semantics.AILAgent;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
+import ajpf.util.VerifyMap;
+import ajpf.util.VerifySet;
 
-public class GOALEISEnvironment extends EISEnvironmentWrapper {
+public class GOALEISEnvironment extends EISEnvironmentWrapper implements GOALEnv {
 	
 	String logname = "goal.mas.GOALEISEnvironment";
 	
 	LaunchPolicy lp;
 	Map<String, Parameter> initMap = new HashMap<String, Parameter>();
-	
+
+	/**
+	 * A map of agents to their pending messages.
+	 */
+	private Map<String, VerifySet<Message>> agMessages = new VerifyMap<String, VerifySet<Message>>();
+
 	
 	public GOALEISEnvironment(String filename) {
 		super(filename);
@@ -109,6 +118,62 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper {
 	public void handleNewEntity(String arg0) {
 		getLaunchPolicy().handleNewEntity(arg0);
 	}
+	
+	@Override
+	public Set<Message> getMessages(String agName) {
+    	if (agMessages.get(agName).isEmpty()) {
+			return new VerifySet<Message>();
+		}
+
+    	Set<Message> agl = agMessages.get(agName);
+     	VerifySet<Message> p = new VerifySet<Message>();
+		
+    	if (agl != null) {
+    		p.addAll(agl);
+    		clearMessages(agName);
+    	}
+		
+    	return p;
+	}
+	
+	/** Clears the list of  messages of a specific agent */
+	private void clearMessages(String agName) {
+			if (agName != null) {
+				VerifySet<Message> agl = agMessages.get(agName);
+				if (agl != null) {
+					 agl.clear();
+				}
+			}
+	 }
+
+	@Override
+	public void postMessage(GoalMessage msg) {
+		Set<String> rs = msg.getReceivers();
+		for (String agName: rs) {
+			if (msg != null && agName != null) {
+				VerifySet<Message> msgl = agMessages.get(agName);
+				if (msgl == null) {
+					msgl = new VerifySet<Message>();
+					msgl.add(msg);
+					agMessages.put( agName, msgl);
+				} else {
+					boolean havem = false;
+					for (Message m: msgl) {
+						if (m.compareTo(msg) == 0) {
+							havem = true;
+							break;
+						}
+					}
+					if (!havem) {
+						msgl.add(msg);
+					}
+				}
+			}
+			notifyListeners(agName);	
+		}
+	}
+
+
 
 	
 }
