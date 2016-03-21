@@ -93,6 +93,20 @@ public class MCAPLcontroller  {
 	
 	// Store any application specific configurations.
 	Properties config;
+	
+	public MCAPLcontroller(Properties config) {
+		this.config = config;
+		
+		if (replayMode()) {
+			try {
+				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
+				record = new ChoiceRecord(filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
+			}
+		}
+
+	}
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -100,9 +114,9 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public void setMAS(MCAPLmas mas, String pstring, Properties properties) {
+	public void setMAS(MCAPLmas mas, String pstring) {
 		setMAS(mas);
-		config = properties;
+//		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
@@ -185,14 +199,14 @@ public class MCAPLcontroller  {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
 		}
 		
-		if (replayMode()) {
+/* 		if (replayMode()) {
 			try {
 				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
 				record = new ChoiceRecord(filename);
 			} catch (Exception e) {
 				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
 			}
-		}
+		} */
 		
 		specification.createAutomaton();
 		specification.checkProperties();

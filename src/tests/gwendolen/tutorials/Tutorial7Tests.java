@@ -53,11 +53,14 @@ public class Tutorial7Tests {
   }
   
   @Test //----------------------------------------------------------------------
-  public void error_free() {
+  public void buildingcollapse() {
 	  try {
-		  String filename = MCAPLcontroller.getFilename("/src/examples/gwendolen/tutorials/tutorial7/answers/pickuprubble.ail");
+		  String filename = MCAPLcontroller.getFilename("/src/tests/gwendolen/tutorials/pickuprubble_buildingcollapse.ail");
 		  AIL.runAIL(filename);
-	  } catch (Exception e) {
+	  } catch (IndexOutOfBoundsException e) {
+		  String classname = e.getStackTrace()[3].getClassName();
+		  Assert.assertTrue(classname.equals("ajpf.util.choice.Choice"));
+  	}	catch (Exception e) {
 		  System.err.println(e);
 		  Assert.assertTrue(false);
 	  }

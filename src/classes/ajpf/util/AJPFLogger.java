@@ -87,7 +87,8 @@ public final class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.FINE.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.FINE.intValue();			}
+				return getIntLevel(logname) <= Level.FINE.intValue();			
+			}
 	  }
 
 	  /**
@@ -100,7 +101,8 @@ public final class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.INFO.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.INFO.intValue();			}
+				return getIntLevel(logname) <= Level.INFO.intValue();			
+			}
 	  }
 
 	  //================================
@@ -135,11 +137,15 @@ public final class AJPFLogger {
 	  public static Level getLevel(String logname) {
 		if (!Verify.isRunningInJPF()) {
 			Logger logger = Logger.getLogger(logname);
+			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+				setLevel(logname, levels.get(logname));
+			}
+
 			Level l = logger.getLevel();
-		    while (l == null && logger.getParent() != null) {
-		        logger = logger.getParent();
+			while (l == null && logger.getParent() != null) {
+				logger = logger.getParent();
 		        l = logger.getLevel();
-		      }
+			}
 			return l;
 		} else {
 			int l = getIntLevel(logname);
@@ -208,7 +214,9 @@ public final class AJPFLogger {
 	  public static void info(String logname, String msg) {
 		  Logger logger = Logger.getLogger(logname);
 		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  System.err.println(levels);
 			  setLevel(logname, levels.get(logname));
+			  System.err.println(levels);
 		  }
 
 		  logger.info(msg);
