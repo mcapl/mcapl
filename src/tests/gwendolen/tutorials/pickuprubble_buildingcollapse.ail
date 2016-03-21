@@ -26,6 +26,9 @@ mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.tutorials.tutorial7.SearchAndRescueDynamicEnv
 
+ajpf.replay = true
+ajpf.replay.file = /src/tests/gwendolen/tutorials/tutorial7_buildingcollapse_record.txt
+log.fine = ajpf.util.choice.ChoiceRecord
 log.info = ail.mas.DefaultEnvironment
 log.format = brief
 
