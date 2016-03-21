@@ -94,7 +94,7 @@ public class MCAPLcontroller  {
 	// Store any application specific configurations.
 	Properties config;
 	
-	public MCAPLcontroller(Properties config) {
+	public MCAPLcontroller(Properties config, String pstring) {
 		this.config = config;
 		
 		if (replayMode()) {
@@ -105,6 +105,10 @@ public class MCAPLcontroller  {
 				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
 			}
 		}
+		
+		specification.addPropertyString(pstring);
+		specification.addController(this);
+		
 
 	}
 
@@ -114,13 +118,13 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public void setMAS(MCAPLmas mas, String pstring) {
+/*	public void setMAS(MCAPLmas mas, String pstring) {
 		setMAS(mas);
 //		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
-	}
+	} */
 
 	/**
 	 * Constructor.
@@ -130,7 +134,7 @@ public class MCAPLcontroller  {
 	 * @param s
 	 *            The specification against which the system is to be checked.
 	 */
-	public void setMAS(MCAPLmas m, MCAPLSpec s) {
+/*	public void setMAS(MCAPLmas m, MCAPLSpec s) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
@@ -140,7 +144,7 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 		}
 		specification = s;
-	}
+	} */
 	
 	/**
 	 * Cretaes a controller from a MAS.
@@ -157,6 +161,9 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
 		}
+		specification.addMas(m);
+		System.err.println("creating automaton");
+		specification.createAutomaton();
 	}
 
 	/**
@@ -208,7 +215,6 @@ public class MCAPLcontroller  {
 			}
 		} */
 		
-		specification.createAutomaton();
 		specification.checkProperties();
 		checkend = checkEnd();
 		while (! checkend) {

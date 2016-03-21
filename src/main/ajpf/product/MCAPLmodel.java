@@ -479,7 +479,8 @@ public class MCAPLmodel {
 		String pstring1 = pstring.replace("(", "");
 		pstring = pstring1.replace(")", "");
 		pstring1 = pstring.replace(",", "");
-		return (pstring1.toLowerCase());
+		pstring = pstring1.replace(".", "");
+		return (pstring.toLowerCase());
 
 	}
 

@@ -21,4 +21,6 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-1: B(searcher, found)
+1: B(searcher, empty(2, 2))
+
+2: B(searcher, found)

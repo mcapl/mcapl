@@ -246,8 +246,7 @@ More details on this process can be found in the \spin\ documentation.
 
 \section{Model-Checking Agent Sytems with Probabilistic Behaviour}
 
-We will now look at a program with probabilistic behaviour.  This program a modified version of one used in \ail\ tutorial 3. The program consists of a robot, \texttt{searcher.gwen}, which searches a 3x3 grid in order to find a human and an environment, \texttt{RandomRobotEnv}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot.  Therefore there is a chance that the robot could search the whole grid and never find the human.
-
+We will now look at a program with probabilistic behaviour.  This program a modified version of one used in \ail\ tutorial 3. The program consists of a robot, \texttt{searcher.gwen}, which searches a 3x3 grid in order to find a human and an environment, \texttt{RandomRobotEnv}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot and it immediately leaves the area once it finds the human (if it has checked every square without finding the human then it checks every square again) therefore there is a chance that the robot will never check the last square (2, 2).
 
 In the directory for tutorial 3 you will find the \ajpf\ configuration file \texttt{searcher.jpf} for this program, that is shown below.
 
@@ -283,31 +282,33 @@ dtmc
 
  module jpfModel
 state : [0 ..156] init 0;
-bsearcherfound: bool init false;
-[] state = 0 -> 1.0:(state'=1) & (bsearcherfound'= false);
-[] state = 1 -> 0.5:(state'=2) & (bsearcherfound'= false) + 0.3:(state'=146) & (bsearcherfound'= false) + 0.2:(state'=148) & (bsearcherfound'= false);
-[] state = 2 -> 1.0:(state'=3) & (bsearcherfound'= false);
-[] state = 3 -> 0.2:(state'=144) & (bsearcherfound'= false) + 0.5:(state'=4) & (bsearcherfound'= false) + 0.3:(state'=142) & (bsearcherfound'= false);
-[] state = 4 -> 1.0:(state'=5) & (bsearcherfound'= false);
-[] state = 5 -> 0.5:(state'=6) & (bsearcherfound'= false) + 0.3:(state'=138) & (bsearcherfound'= false) + 0.2:(state'=140) & (bsearcherfound'= false);
-[] state = 6 -> 1.0:(state'=7) & (bsearcherfound'= false);
-[] state = 7 -> 0.3:(state'=134) & (bsearcherfound'= false) + 0.5:(state'=8) & (bsearcherfound'= false) + 0.2:(state'=136) & (bsearcherfound'= false);
-[] state = 8 -> 1.0:(state'=9) & (bsearcherfound'= false);
-[] state = 9 -> 0.2:(state'=132) & (bsearcherfound'= false) + 0.5:(state'=10) & (bsearcherfound'= false) + 0.3:(state'=13) & (bsearcherfound'= false);
-[] state = 10 -> 1.0:(state'=11) & (bsearcherfound'= true);
-[] state = 11 -> 1.0:(state'=156) & (bsearcherfound'= true);
-[] state = 13 -> 1.0:(state'=14) & (bsearcherfound'= false);
+bsearcherempty2020: bool init false;
+[] state = 0 -> 1.0:(state'=1) & (bsearcherempty2020'= false);
+[] state = 1 -> 0.5:(state'=2) & (bsearcherempty2020'= false) + 0.3:(state'=146) & (bsearcherempty2020'= false) + 0.2:(state'=148) & (bsearcherempty2020'= false);
+[] state = 2 -> 1.0:(state'=3) & (bsearcherempty2020'= false);
+[] state = 3 -> 0.2:(state'=144) & (bsearcherempty2020'= false) + 0.5:(state'=4) & (bsearcherempty2020'= false) + 0.3:(state'=142) & (bsearcherempty2020'= false);
+[] state = 4 -> 1.0:(state'=5) & (bsearcherempty2020'= false);
+[] state = 5 -> 0.5:(state'=6) & (bsearcherempty2020'= false) + 0.3:(state'=138) & (bsearcherempty2020'= false) + 0.2:(state'=140) & (bsearcherempty2020'= false);
+[] state = 6 -> 1.0:(state'=7) & (bsearcherempty2020'= false);
+[] state = 7 -> 0.3:(state'=134) & (bsearcherempty2020'= false) + 0.5:(state'=8) & (bsearcherempty2020'= false) + 0.2:(state'=136) & (bsearcherempty2020'= false);
+[] state = 8 -> 1.0:(state'=9) & (bsearcherempty2020'= false);
+[] state = 9 -> 0.2:(state'=132) & (bsearcherempty2020'= false) + 0.5:(state'=10) & (bsearcherempty2020'= false) + 0.3:(state'=13) & (bsearcherempty2020'= false);
+[] state = 10 -> 1.0:(state'=11) & (bsearcherempty2020'= false);
+[] state = 11 -> 1.0:(state'=156) & (bsearcherempty2020'= false);
+[] state = 13 -> 1.0:(state'=14) & (bsearcherempty2020'= false);
 \end{verbatim}
 \end{small}
 \noindent\rule{\textwidth}{1pt}
 
 In this state 0 can only state 1.  State 1 can transition to three states representing the movement of the human: state 2 (probability 0.5), state 146 (with probability 0.3) and state 148 (with probability 0.2) and so on.
 
-This model also records one proposition \texttt{bsearcherfound} which is false in both states 1 and 2 but if you look further into the model you will see it becomes true when state 10 transitions to state 11.
+This model also records one proposition \texttt{bsearcherempty2020} which is false in both states 1 and 2 but if you look further into the model you will see it becomes true when state 21 transitions to state 22.
 
-\paragraph{The property} The property is the \ajpf\ property $\lbelief{searcher}{found}$ and this has been stated in the property specification language file as property 1. 
+\paragraph{The property} The property is the \ajpf\ property $\lbelief{searcher}{empty(2, 2)}$ and this has been stated in the property specification language file as property 1. 
 
-\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop2.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\eventually \lbelief{searcher}{found}$.  If you run your \prism\ model with this file you should find that the property has a 72\% chance of being true -- i.e., the robot has a 72\% chance of finding the human.
+\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop2.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\eventually \lbelief{searcher}{empty(2, 2)}$.  If you run your \prism\ model with this file you should find that the property has a 35\% chance of being true -- i.e., the robot has a 35\% chance of checking the final square.
+
+In the property specification file there is a second property for $\lbelief{searcher}{found}$ (that the searcher has found the human).  If you generate a model for this property and check it in \prism\ you will find its probabily is 1, even though there is an infinite loop where the robot never finds the human, it is just that the probabilty that the robot will remain in this infinite loop forever is infinitesimally small.
 
 \subsection{A Note on Creating Environments with Probabilistic Behaviour}
 

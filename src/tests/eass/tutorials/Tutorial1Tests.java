@@ -159,13 +159,13 @@ public class Tutorial1Tests {
 				AILConfig config = new AILConfig(filename);
 				AIL.configureLogging(config);
 			
-				mccontrol = new MCAPLcontroller(config);
+				mccontrol = new MCAPLcontroller(config, "");
 
 				// Create the initial state of the multi-agent program.
 				MAS mas = AIL.AILSetup(config, mccontrol);
 				
 				// Set up a controller
-				mccontrol.setMAS(mas, "");
+				mccontrol.setMAS(mas);
 				
 				// Begin!
 				mccontrol.begin(); 

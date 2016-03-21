@@ -62,13 +62,13 @@ public class AIL {
 		configureLogging(config);
 		
 		// Create a controller
-		MCAPLcontroller mccontrol = new MCAPLcontroller(config);
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
 	
 		// Create the initial state of the multi-agent program.
 		MAS mas = AILSetup(config, mccontrol);
 		
 		// Set up a controller
-		mccontrol.setMAS(mas, "");
+		// mccontrol.setMAS(mas);
 		
 		// mas.getEnv().initialise();
 		
@@ -95,7 +95,9 @@ public class AIL {
 				AILEnv env = (AILEnv) (Class.forName(config.getProperty("env"))).newInstance();
 				env.configure(config);
 				mas.setEnv(env);
+				control.setMAS(mas);
 				env.initialise();
+				env.setMAS(mas);
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
