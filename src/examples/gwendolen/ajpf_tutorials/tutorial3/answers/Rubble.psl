@@ -21,4 +21,4 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-1: P(injured_humans)
+1: P(injured_humans) & D(robot, assist_humans)

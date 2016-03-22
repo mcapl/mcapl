@@ -69,7 +69,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	ProbBoolChoice building_collapse;
 	ProbBoolChoice human_move;
 	
-	double max_x = 2;
+	double max_x = 1;
 	double max_y = 2;
 	double min_x = 0;
 	double min_y = 0;
@@ -425,7 +425,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	public void placebuildings(int numbuildings, boolean standing) {
 		int free_squares_num = free_squares.size();
 		for (int i = 1; i <= numbuildings; i++) {
-			int square = r.nextInt(free_squares_num);
+			int square = 1;
 			free_squares_num--;
 			Square s = free_squares.remove(square);
 			if (standing) {
@@ -448,7 +448,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 */
 	public void placehumans(int numhumans) {
 		for (int i = 1; i <= numhumans; i++) {
-			int square = r.nextInt(9);
+			int square = r.nextInt(6);
 			double x = square % 3;
 			int y = square / 3;
 			Human h = new Human(x, y);
@@ -495,6 +495,20 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		}
 	}
 	
+	public ArrayList<Square> accessible_squares(double hx, double hy) {
+		ArrayList<Square> squares = new ArrayList<Square>();
+		for (double x = hx - 1; x <= hx + 1; x++) {
+			for (double y = hy - 1; y <= hy + 1; y++) {
+				if (x >= min_x && y >= min_y && x <= max_x && y <= max_y) {
+					if (x != hx || y != hy) {
+						squares.add(new Square(x, y));
+					}
+				}
+			}
+		}
+		return squares;
+	}
+	
 	/**
 	 * Move the humans;
 	 */
@@ -502,26 +516,14 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		for (Human h: humans) {
 			if (! h.injured() && ! h.inBuilding() && ! h.directed() && h.onGrid()) {
 				if (human_move.nextBoolean()) {
-					int option = r.nextInt(8);
+					//int option = r.nextInt(8);
 					double x = h.getX();
 					double y = h.getY();
-					if (option == 1) {
-						h.move(x - 1, y - 1);
-					} else if (option == 2) {
-						h.move(x, y - 1);
-					} else if (option == 3) {
-						h.move(x + 1, y - 1);
-					} else if (option == 4) {
-						h.move(x - 1, y);
-					} else if (option == 5) {
-						h.move(x + 1, y);
-					} else if (option == 6) {
-						h.move(x + 1, y - 1);
-					} else if (option == 7) {
-						h.move(x + 1, y);
-					} else {
-						h.move(x + 1, y + 1);
-					}
+					ArrayList<Square> accessible_squares = accessible_squares(x, y);
+					int option = r.nextInt(accessible_squares.size());
+					Square s = accessible_squares.get(option);
+					h.move(s.getX(), s.getY());
+					
 				}
 			}
 			
@@ -829,7 +831,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 	 * Print out this environment;
 	 */
 	public String toString() {
-		String s = "-------------\n";
+		String s = "---------\n";
 		for (double y = max_y; y >= 0; y--) {
 			s += "|";
 			for (double x = 0; x < max_x + 1; x++) {
@@ -868,7 +870,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 				s += "|";
 			}
 			s +="\n";
-			s += "-------------\n";
+			s += "---------\n";
 		}
 		return s;
 		
@@ -894,13 +896,13 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		building_collapse = new ProbBoolChoice(m.getController(), building_collapse_chance);
 		human_move = new ProbBoolChoice(m.getController(), human_move_chance * 8);
 		generatesquares();
-		System.err.println("a");
-		int numbuildings = r.nextInt(2);
+		//System.err.println("a");
+		int numbuildings = 1;
 		placebuildings(numbuildings, true);
-		System.err.println("b");
-		int numrubble = r.nextInt(2);
+		//System.err.println("b");
+		int numrubble = 0;
 		placebuildings(numrubble, false);
-		System.err.println("c");
+		//System.err.println("c");
 		placehumans(numhumans);
 		this.injured_humans_in_area();
 		
@@ -908,7 +910,7 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		at.addTerm(new NumberTermImpl(robot_x));
 		at.addTerm(new NumberTermImpl(robot_y));
 		addPercept(at);
-		System.err.println("d");
+		// System.err.println("d");
 
 	}
 

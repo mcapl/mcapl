@@ -162,7 +162,7 @@ public class MCAPLcontroller  {
 			scheduler.addJobber(magent);
 		}
 		specification.addMas(m);
-		System.err.println("creating automaton");
+		// System.err.println("creating automaton");
 		specification.createAutomaton();
 	}
 
@@ -268,6 +268,7 @@ public class MCAPLcontroller  {
 		a.do_job();
 		specification.checkProperties();
 		if (transitionEveryReasoningCycle()) {
+			// System.err.println("forcing transition");
 			force_transition();
 		}
 		return a;
@@ -441,8 +442,10 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean transitionEveryReasoningCycle() {
+//		System.err.println(config);
 		if (config.containsKey("ajpf.transition_every_reasoning_cycle")) {
 			String result = config.getProperty("ajpf.transition_every_reasoning_cycle");
+//			System.err.println("transitioning: " + result.equals("true"));
 			return (result.equals("true"));
 		}
 		return true;

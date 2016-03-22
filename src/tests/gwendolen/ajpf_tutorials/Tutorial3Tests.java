@@ -152,6 +152,42 @@ public class Tutorial3Tests {
 	 	// } 
 	  }
 	  
+	  @Test //----------------------------------------------------------------------
+	  public void prism_ex_output () {
+	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
+	    	String jpf_config = "src/examples/gwendolen/ajpf_tutorials/tutorial3/answers/ex2.jpf";
+	    	
+	    	Config conf = JPF.createConfig(JPF_ARGS);
+	    	FileInputStream is = null;
+	    	try {
+	    		File f = new File(jpf_config);
+	    		if (f.isFile()) {
+	    			is = new FileInputStream(f);
+	    			conf.load(is);
+	    		}
+	    	JPF jpf = new JPF(conf);
+	    	jpf.run();
+	    	
+	    	String tutorial_path = conf.getProperty("mcapl") + "/src/examples/gwendolen/ajpf_tutorials/tutorial3/answers/";
+	    	String this_path = conf.getProperty("mcapl") + "/src/tests/gwendolen/ajpf_tutorials/";
+	    	String example_filename = this_path + "tutorial3_ex3.pm";
+	    	String test_filename = tutorial_path + "tutorial3_ex3.pm";
+	    	
+	    	File example_file = new File(example_filename);
+	    	File test_file = new File(test_filename);
+	    	
+	    	Path epath = example_file.toPath();
+	    	Path tpath = test_file.toPath();
+	    	
+	    	Assert.assertTrue(sameContent(epath, tpath));
+	    	} catch (Exception e) {
+	    		Assert.assertFalse(true);
+	    	}
+
+	 	// } 
+	  }
+
+	  
 	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    final long size = Files.size(file1);

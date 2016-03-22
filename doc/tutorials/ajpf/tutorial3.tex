@@ -314,10 +314,15 @@ In the property specification file there is a second property for $\lbelief{sear
 
 In order for \ajpf's probability listener to work correctly, all randomness (and probabilistic behaviour) should be created using \ail's \texttt{Choice} classes as documented in \ail\ tutorial 3.
 
+It is important that probabilistic choices cause \emph{unique} transitions in the model.  If, for instance, you generate four choices each with, say, a 25\% probability but two of them end up leading to the same next state then AJPF will only annotate the transition with one of the probabilities (not the sum of both) and this will lead to \prism\ throwing an error.  For instance say you have for choices each representing a direction some human could move in, north, east, south or west, but if that direction were to take the human off the grid then you have the human remain in the same place instead, then when the human is in the corner of the grid two of those choices will lead to the same result (the human remains in place).
+
 \subsection{Exercise}
 
-Create a 
+You will find, in the tutorial directory an \ail\ program, \texttt{pickuprubble.ail}.  This controls a robot (called, \texttt{robot}) that searches a small 2x3 grid for injured humans.  There is one human in the grid who moves around it randomly and one building in the grid that may collapse.  If the building collapses onto the human then they will be injured.  The robot systematically searches the grid.  If it encounters the human it will direct them to safely and if it finds them injured it will assist them.  However the once the robot has reached the top corner of the grid it will stop searching so there is a chance that it will have missed the human and that the human will have been caught in a collapsing building.
 
+Create an \ajpf\ configuration file and property specification file that will generate a prism model.  In the tutorial directory you will find a file \texttt{prismprop\_ex.pctl} which tests to see whether if there injured humans are perceptible on the grid $\lpercept{injured\_humans}$ the robot eventually assists them $\lactions{robot}{assist_humans}$.  You should be able to discover that there is an 88\% chance of the robot assisting any injured human.  Note that the \ajpf\ model build will take several minutes to run (it generates 3,546 states).
+
+As usual solution files can be found in the answers directory.
 \bibliographystyle{abbrv} %% {plain}
 \bibliography{../../manual/manual}
 

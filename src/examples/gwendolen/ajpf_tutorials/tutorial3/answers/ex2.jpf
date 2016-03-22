@@ -31,6 +31,7 @@ ajpf.target_modelchecker = prism
 ajpf.model.path = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial3/answers/
 ajpf.model.location = /tutorial3_ex3.pm
 
+
 listener = ajpf.MCAPLProbListener
 
 listener+=,.listener.ExecTracker

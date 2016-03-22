@@ -29,3 +29,4 @@ env = gwendolen.ajpf_tutorials.tutorial3.SearchAndRescueDynamicEnv
 log.info = ail.mas.DefaultEnvironment
 log.fine = ail.semantics.AILAgent
 log.format = brief
+ajpf.transition_every_reasoning_cycle = false
