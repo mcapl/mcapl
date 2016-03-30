@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,56 +22,41 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.tutorials;
+package gwendolen.rescue;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+
 import gov.nasa.jpf.util.test.TestJPF;
 
-
 /**
- * Simple test that an auction example works.
+ * Regresssion test of various properties using the Rescue Robots as an example problem.
+ * Split over several files since JPF was having problems executing multiple tests in one file.
  */
-public class Tutorial3Tests extends TestJPF {
+public class RescueDQuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
+ static final String[] RESCUE_ARGS = { "-show", 
+	 "+listener+=,.listener.ExecTracker",
+     "+et.print_insn=false",
+     "+et.show_shared=false",
+     "+vm.max_transition_length=MAX"
 
-
-
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
-
+};
+  
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+  public void testGoalProperty () {
+    if (verifyNoPropertyViolation(RESCUE_ARGS)){
+    	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
+    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "3";
+    	args[2] = "Goal";
     	AJPF_w_AIL.run(args);
- 	 }
+     } else {
+    	 
+     }
   }
-
-  @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
 
 }

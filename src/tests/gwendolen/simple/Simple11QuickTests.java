@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,52 +22,47 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.tutorials;
-
-import java.io.ByteArrayOutputStream;
-import java.util.logging.Formatter;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
-import java.util.logging.StreamHandler;
-
-import junit.framework.Assert;
+package gwendolen.simple;
 
 import org.junit.Test;
 
-import ail.mas.AIL;
 import ail.util.AJPF_w_AIL;
-import ajpf.util.TimeFreeBriefLogFormatter;
+
 import gov.nasa.jpf.util.test.TestJPF;
 
-
 /**
- * Simple test that an auction example works.
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
  */
-public class Tutorial8Tests extends TestJPF {
+public class Simple11QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = { 
-  };
-
-
+ static final String[] PICKUP_ARGS = {
+};
 
   //--- driver to execute single test methods
   public static void main(String[] args) {
-    runTestsOfThisClass(args);
+	  runTestsOfThisClass(args);
   }
+  
 
   //--- test methods
-
-  @Test //----------------------------------------------------------------------
-  public void ex3 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex3.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "8";
-    	AJPF_w_AIL.run(args);
- 	 }
+	  @Test //----------------------------------------------------------------------
+	  public void testNonPerceptBeliefsPersist () {
+		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+		    	String filename =  "/src/examples/gwendolen/simple/PickUpAgent/PersistentBeliefAgent.ail";
+		    	String prop_filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "9";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
   }
+
+
 
 }

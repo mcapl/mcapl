@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -27,18 +27,31 @@ package gwendolen.tutorials;
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+import ail.mas.AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial3Tests extends TestJPF {
+public class Tutorial9QuickTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
 
+  // General framework for testing print statements.  Stolen from stackOverflow.
+  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  private PrintStream systemStdOut = System.out;
+  
+  public void setUpStreams() {
+      System.setOut(new PrintStream(outContent));
+  }
 
+  public void cleanUpStreams() {
+      System.setOut(systemStdOut);
+  }
 
   //--- driver to execute single test methods
   public static void main(String[] args) {
@@ -47,31 +60,36 @@ public class Tutorial3Tests extends TestJPF {
 
   //--- test methods
 
-
+ 
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
+  public void string_w_space () {
+	  setUpStreams();
+	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/strings.ail");
+	  assertEquals("hello world\n", outContent.toString());
+	  cleanUpStreams();
+  }
+  
+  @Test //----------------------------------------------------------------------
+  public void ex2 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial9/answers/arithmetic.ail";
     	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "3";
+    	args[2] = "9";
     	AJPF_w_AIL.run(args);
  	 }
   }
 
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
+  public void ex3 () {
+	  setUpStreams();
+	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/answers/equation.ail");
+	  String expectedOutput = "3 is less than 5\n3 is less than 4.8\n3 is equal to 3\n4.8 is less than 5\n3 is less than 5\n3 is less than 4.8\n";
+	  assertEquals(expectedOutput, outContent.toString());
+	  cleanUpStreams();
+
+  }
 
 }

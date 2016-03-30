@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -21,45 +21,41 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-
-package eass.tutorials;
+package eass.verification.leo;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-
 /**
- * Simple test that an auction example works.
+ * Tests for one of the examples involving satellites.
+ * @author louiseadennis
+ *
  */
-public class Tutorial3Tests extends TestJPF {
+public class NoThrustersQuickTests extends TestJPF  {
+	 static final String[] PICKUP_ARGS = {};
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
+	 //--- driver to execute single test methods
+	  public static void main(String[] args) {
+		  runTestsOfThisClass(args);
+	  }
 
+	  @Test //----------------------------------------------------------------------
+	  public void testInValidUnderTwoEventualities() {
+		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), PICKUP_ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
+		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "15sanity";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
 
+	  }
 
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
- 
-  @Test //----------------------------------------------------------------------
-  public void ex1 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/answers/car_ex1.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/answers/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
- 
 }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -21,38 +21,43 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package gwendolen.ail_tutorials;
+
+package gwendolen.rescue;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial1Tests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+/**
+ * Regresssion test of various properties using the Rescue Robots as an example problem.
+ * Split over several files since JPF was having problems executing multiple tests in one file.
+ */
+public class RescueCQuickTests extends TestJPF {
 
+ static final String[] RESCUE_ARGS = { "-show", 
+	 "+listener+=,.listener.ExecTracker",
+     "+et.print_insn=false",
+     "+et.show_shared=false",
+     "+vm.max_transition_length=MAX"
 
+};
+ 
+ @Test //----------------------------------------------------------------------
+  public void testProblemWithNumbers () {
+    if (verifyNoPropertyViolation(RESCUE_ARGS)){
+    	String filename =  "/src/examples/gwendolen/rescue/searchersmall.ail";
+    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "2small";
+    	AJPF_w_AIL.run(args);
+     } else {
+    	 
+     }
+  }
 
-	  //--- driver to execute single test methods
-	  public static void main(String[] args) {
-	    runTestsOfThisClass(args);
-	  }
-
-	  //--- test methods
-
-	  
-	  @Test //----------------------------------------------------------------------
-	  public void ex2 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "7";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
 
 }

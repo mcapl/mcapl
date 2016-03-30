@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,44 +22,25 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.tutorials;
+package eass.simple;
 
 import org.junit.Test;
 
-import ail.util.AJPF_w_AIL;
-import gov.nasa.jpf.util.test.TestJPF;
+import ail.mas.AIL;
 
 
 /**
- * Simple test that an auction example works.
+ * Test for goal dropping behaviour - basically all this has to do is terminate!
  */
-public class Tutorial3Tests extends TestJPF {
+public class SimpleQuickTests {
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
-
-
-
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
- 
+   
   @Test //----------------------------------------------------------------------
-  public void ex1 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/answers/car_ex1.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/answers/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 }
+  public void testDroppingNonExistantGoals () {
+	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";
+	  AIL.runAIL(filename);
   }
 
- 
+
+
 }

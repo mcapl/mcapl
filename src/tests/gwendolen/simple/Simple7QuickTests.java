@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -21,38 +21,48 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package gwendolen.ail_tutorials;
+
+package gwendolen.simple;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+
 import gov.nasa.jpf.util.test.TestJPF;
+import gov.nasa.jpf.util.TypeRef;
 
-public class Tutorial1Tests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+/**
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
+ */
+public class Simple7QuickTests extends TestJPF {
 
+ static final String[] PICKUP_ARGS = {
+};
 
-
-	  //--- driver to execute single test methods
-	  public static void main(String[] args) {
-	    runTestsOfThisClass(args);
-	  }
-
-	  //--- test methods
-
-	  
-	  @Test //----------------------------------------------------------------------
-	  public void ex2 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+  //--- driver to execute single test methods
+  public static void main(String[] args) {
+	  runTestsOfThisClass(args);
+  }
+  
+  @Test //----------------------------------------------------------------------
+  public void testLoopingInValidAlwaysEventuallyBlock1ANDAlwaysEventuallyBlock2 () {
+	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
-	    	args[2] = "7";
+	    	args[2] = "4";
 	    	AJPF_w_AIL.run(args);
-	 	 }
+	  } else {
+		    	 
 	  }
+
+  }
+
+
 
 }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,56 +22,50 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.tutorials;
+package gwendolen.simple;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+
 import gov.nasa.jpf.util.test.TestJPF;
 
-
 /**
- * Simple test that an auction example works.
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
  */
-public class Tutorial3Tests extends TestJPF {
+public class SimpleQuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
-
-
+ static final String[] PICKUP_ARGS = {
+};
 
   //--- driver to execute single test methods
   public static void main(String[] args) {
-    runTestsOfThisClass(args);
+	  runTestsOfThisClass(args);
   }
+  
 
   //--- test methods
 
-
+ 
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+  public void testEventuallyPickUp () {
+    if (verifyNoPropertyViolation(PICKUP_ARGS)){
+    	String filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail";
+    	String prop_filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "3";
+    	args[2] = "0";
     	AJPF_w_AIL.run(args);
- 	 }
+     } else {
+    	 
+     }
   }
+  
 
-  @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
+
 
 }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.tutorials;
+package gwendolen.auctions.basic;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial3Tests extends TestJPF {
+public class BasicAuctionQuickTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -47,31 +47,19 @@ public class Tutorial3Tests extends TestJPF {
 
   //--- test methods
 
-
+ 
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
+  public void test2bidders () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+    	String filename =  "/src/examples/gwendolen/auctions/basic/BasicAuction2Bidders.ail";
+    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "3";
+    	args[2] = "0";
     	AJPF_w_AIL.run(args);
  	 }
   }
 
-  @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
 
 }

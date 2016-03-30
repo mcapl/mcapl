@@ -28,7 +28,7 @@ import org.junit.Test;
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial3Tests extends TestJPF {
+public class Tutorial3QuickTests extends TestJPF {
 	 static final String[] JPF_ARGS = {  "-show" };
 
 	  //--- driver to execute single test methods
@@ -39,9 +39,9 @@ public class Tutorial3Tests extends TestJPF {
 	  //--- test methods
 
 	  @Test //----------------------------------------------------------------------
-	  public void random2 () {
+	  public void dynamicenv () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random2.ail";
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher.ail";
 	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
@@ -52,9 +52,9 @@ public class Tutorial3Tests extends TestJPF {
 	  }
 	  
 	  @Test //----------------------------------------------------------------------
-	  public void ex () {
+	  public void random () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/answers/searcher.ail";
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random.ail";
 	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
@@ -63,6 +63,7 @@ public class Tutorial3Tests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
+
 
 
 }

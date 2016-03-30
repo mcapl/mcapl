@@ -21,15 +21,19 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package gwendolen.ail_tutorials;
+package gwendolen.ajpf_tutorials;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial3Tests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" };
+public class Tutorial2QuickTests extends TestJPF {
+	 static final String[] JPF_ARGS = {  "-show" 
+	  };
+
+
 
 	  //--- driver to execute single test methods
 	  public static void main(String[] args) {
@@ -39,30 +43,29 @@ public class Tutorial3Tests extends TestJPF {
 	  //--- test methods
 
 	  @Test //----------------------------------------------------------------------
-	  public void random2 () {
+	  public void trueprop () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random2.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+	    	String filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
-	    	args[2] = "13";
+	    	args[2] = "1";
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
 	  
 	  @Test //----------------------------------------------------------------------
-	  public void ex () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/answers/searcher.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+	  public void falseprop () {
+	    if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"),JPF_ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
-	    	args[2] = "13";
+	    	args[2] = "2";
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
-
 
 }

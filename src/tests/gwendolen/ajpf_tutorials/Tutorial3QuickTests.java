@@ -43,7 +43,7 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial3Tests {
+public class Tutorial3QuickTests {
 	 static final String[] JPF_ARGS = {  
 	  };
 
@@ -151,7 +151,6 @@ public class Tutorial3Tests {
 
 	 	// } 
 	  }
-	  
 	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    final long size = Files.size(file1);
