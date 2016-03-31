@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -24,13 +24,10 @@
 
 package ail.syntax;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.LinkedList;
 
 import ail.semantics.AILAgent;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -111,6 +108,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
      * (non-Javadoc)
      * @see ail.syntax.PredicatewAnnotation#isGround()
      */
+    @Override
 	public boolean isGround() {
 		if (super.isGround()) {
 			return DBnum.isGround();
@@ -131,6 +129,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
      * Getter for the DB num.
      * @return
      */
+    @Override
     public StringTerm getEB() {
     	return DBnum;
     }
@@ -163,6 +162,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	/**
 	 * Clone this GBelief - useful when propagating guards through intention structures.
 	 */
+	@Override
 	public GBelief clone() {
 		if (! isTrue()) {
 			GBelief gb1 = new GBelief(super.clone());
@@ -179,6 +179,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 
@@ -193,6 +194,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	/**
 	 * Flag a GBelief as a varialble if the literal is a variable.
 	 */
+	@Override
 	public boolean isVar() {
 		if (!isTrue()) {
 			return super.isVar();
@@ -205,6 +207,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GuardAtom#isTrivial()
 	 */
+	@Override
 	public boolean isTrivial() {
 		return isTrue();
 	}
@@ -213,6 +216,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
+	@Override
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
@@ -241,6 +245,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
 	 */
+	@Override
 	public boolean unifies(Unifiable u, Unifier un) {
 		if (u instanceof GBelief) {
 			GBelief gu = (GBelief) u;
@@ -274,6 +279,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.PredicatewAnnotation#unifieswith(ail.syntax.PredicateTerm, ail.syntax.Unifier, java.lang.String)
 	 */
+	@Override
 	public boolean unifieswith(PredicateTerm p, Unifier un, String s) {
 		if (DBnum.unifies(new StringTermImpl(s), un)) {
 			return toLiteral().unifies(p, un);
@@ -286,6 +292,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#calcHashCode()
 	 */
+	@Override
 	protected int calcHashCode() {
 		return (41 * getEB().hashCode() + super.calcHashCode());
 	}
@@ -294,6 +301,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof GBelief) {
 			return (((GBelief) o).getEB().equals(getEB()) && super.equals(o));
@@ -306,6 +314,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
+	@Override
 	public List<String> getVarNames() {
 		List<String> varnames = super.getVarNames();
 		varnames.addAll(getEB().getVarNames());
@@ -316,6 +325,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void renameVar(String oldname, String newname) {
 		super.renameVar(oldname, newname);
 		getEB().renameVar(oldname, newname);
@@ -323,28 +333,9 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.syntax.LogicalFormula#getPosTerms()
-	 */
-	public List<LogicalFormula> getPosTerms() {
-		LinkedList<LogicalFormula> l = new LinkedList<LogicalFormula>();
-		l.add(this);
-		return l;
-	}
-	    	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.LogicalFormula#conjuncts()
-	 */
-	public List<LogicalFormula> conjuncts() {
-		ArrayList<LogicalFormula> l = new ArrayList<LogicalFormula>();
-		l.add(this);
-		return l;
-	}
-	
-	/*
-	 * (non-Javadoc)
 	 * @see ail.syntax.GuardAtom#getEBType()
 	 */
+	@Override
 	public byte getEBType() {
 		return category;
 	}

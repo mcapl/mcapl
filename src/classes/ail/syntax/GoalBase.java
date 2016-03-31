@@ -37,13 +37,13 @@ import ajpf.util.VerifyMap;
 import ajpf.util.VerifySet;
 
 /**
- * A Goal Base is a set of goals.  We need to implement this properly.
+ * A Goal Base is a set of goals.  
  * @author lad
  *
  */
 public class GoalBase implements EvaluationBase<PredicateTerm> {
 	/**
-     * goalMap is a table ussed for efficient
+     * goalMap is a table used for efficient
      * look-up of goals.
      */
     private Map<PredicateIndicator, Set<Goal>> goalMap = new VerifyMap<PredicateIndicator, Set<Goal>>();
@@ -137,6 +137,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
+    @Override
     public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
     	PredicateTerm l = (PredicateTerm) ebl;
     	LinkedList<PredicateTerm> ul = new LinkedList<PredicateTerm>();
@@ -170,6 +171,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * Convert the goal base into a string for printing.
      *
      */
+    @Override
     public String toString() {
     	return (goalMap.toString());
      }

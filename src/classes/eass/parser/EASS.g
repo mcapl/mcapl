@@ -107,10 +107,10 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				eq = equation {$g = $eq.eq;} |
 				// CAPABILITY OPEN pre=pred COMMA cap=pred COMMA pst=pred CLOSE 
 				//	{$g = new Abstract_GuardCap($pre.t, $cap.t, $pst.t);} |
-				PLAN OPEN {Abstract_NumberTerm n=new Abstract_NumberTermImpl("0");} (v=var {n = $v.v;}| s=numberstring {n = new Abstract_NumberTermImpl($s.s);}) COMMA
-				                                        ga=pred COMMA 
-				                                        c=pred COMMA post=pred CLOSE 
-				                                          {$g = new Abstract_GuardPlan(n, $c.t, $ga.t, $post.t);} |
+				//PLAN OPEN {Abstract_NumberTerm n=new Abstract_NumberTermImpl("0");} (v=var {n = $v.v;}| s=numberstring {n = new Abstract_NumberTermImpl($s.s);}) COMMA
+				 //                                       ga=pred COMMA 
+				 //                                       c=pred COMMA post=pred CLOSE 
+				//                                          {$g = new Abstract_GuardPlan(n, $c.t, $ga.t, $post.t);} |
 				TRUE {$g = new Abstract_GBelief();} ); 
 				
 deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |

@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2015-10-19 16:01:53
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2016-03-30 19:39:43
 
 package eass.parser;
 
@@ -95,15 +95,15 @@ public class EASSLexer extends Lexer {
 	public EASSLexer(CharStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
-	@Override public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
+	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
 
 	// $ANTLR start "UPDATE"
 	public final void mUPDATE() throws RecognitionException {
 		try {
 			int _type = UPDATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:9: ( '>' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:11: '>'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:9: ( '>' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:181:11: '>'
 			{
 			match('>'); 
 			}
@@ -122,8 +122,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = TELL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:6: ( ':tell' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:8: ':tell'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:6: ( ':tell' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:182:8: ':tell'
 			{
 			match(":tell"); 
 
@@ -143,8 +143,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PERFORM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:9: ( ':perform' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:11: ':perform'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:9: ( ':perform' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:183:11: ':perform'
 			{
 			match(":perform"); 
 
@@ -164,8 +164,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ACHIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:9: ( ':achieve' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:11: ':achieve'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:9: ( ':achieve' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:184:11: ':achieve'
 			{
 			match(":achieve"); 
 
@@ -185,8 +185,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SEND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:6: ( '.send' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:8: '.send'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:6: ( '.send' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:185:8: '.send'
 			{
 			match(".send"); 
 
@@ -206,8 +206,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = RECEIVED;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:9: ( '.received' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:11: '.received'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:9: ( '.received' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:186:11: '.received'
 			{
 			match(".received"); 
 
@@ -227,8 +227,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CALCULATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:188:2: ( '.calculate' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:188:4: '.calculate'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:188:2: ( '.calculate' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:188:4: '.calculate'
 			{
 			match(".calculate"); 
 
@@ -248,8 +248,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = QUERYCOM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:10: ( '.query' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:12: '.query'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:10: ( '.query' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:189:12: '.query'
 			{
 			match(".query"); 
 
@@ -269,8 +269,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = WAIT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:6: ( '.wait' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:8: '.wait'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:6: ( '.wait' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:190:8: '.wait'
 			{
 			match(".wait"); 
 
@@ -290,8 +290,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CAPABILITY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:12: ( '.cap' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:14: '.cap'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:12: ( '.cap' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:191:14: '.cap'
 			{
 			match(".cap"); 
 
@@ -311,8 +311,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PLAN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:6: ( '.plan' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:8: '.plan'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:6: ( '.plan' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:192:8: '.plan'
 			{
 			match(".plan"); 
 
@@ -332,8 +332,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = IMPLICATION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:13: ( '.imp' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:15: '.imp'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:13: ( '.imp' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:193:15: '.imp'
 			{
 			match(".imp"); 
 
@@ -353,8 +353,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SUBSTITUTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:195:2: ( '.substitute' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:195:4: '.substitute'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:195:2: ( '.substitute' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:195:4: '.substitute'
 			{
 			match(".substitute"); 
 
@@ -374,13 +374,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BELIEVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:11: {...}? => ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:9: ({...}? => ( 'B' | '.B' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:11: {...}? => ( 'B' | '.B' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:75: ( 'B' | '.B' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:75: ( 'B' | '.B' )
 			int alt1=2;
 			int LA1_0 = input.LA(1);
 			if ( (LA1_0=='B') ) {
@@ -398,13 +398,13 @@ public class EASSLexer extends Lexer {
 
 			switch (alt1) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:76: 'B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:76: 'B'
 					{
 					match('B'); 
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:82: '.B'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:196:82: '.B'
 					{
 					match(".B"); 
 
@@ -429,13 +429,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = GOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:6: ({...}? => ( 'G' | '.G' ) )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:8: {...}? => ( 'G' | '.G' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:6: ({...}? => ( 'G' | '.G' ) )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:8: {...}? => ( 'G' | '.G' )
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "GOAL", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:71: ( 'G' | '.G' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:71: ( 'G' | '.G' )
 			int alt2=2;
 			int LA2_0 = input.LA(1);
 			if ( (LA2_0=='G') ) {
@@ -453,13 +453,13 @@ public class EASSLexer extends Lexer {
 
 			switch (alt2) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:72: 'G'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:72: 'G'
 					{
 					match('G'); 
 					}
 					break;
 				case 2 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:78: '.G'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:197:78: '.G'
 					{
 					match(".G"); 
 
@@ -484,8 +484,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:6: ({...}? => '.sent' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:8: {...}? => '.sent'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:6: ({...}? => '.sent' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:198:8: {...}? => '.sent'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0|| belief_rules==1)) ) {
 				throw new FailedPredicateException(input, "SENT", "curly_nesting > 0 && plain_nesting == 0|| belief_rules==1");
@@ -508,8 +508,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LOCK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:6: ( '.lock' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:8: '.lock'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:6: ( '.lock' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:199:8: '.lock'
 			{
 			match(".lock"); 
 
@@ -529,8 +529,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = GOALS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:7: ( ':Initial Goals:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:9: ':Initial Goals:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:7: ( ':Initial Goals:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:200:9: ':Initial Goals:'
 			{
 			match(":Initial Goals:"); 
 
@@ -551,8 +551,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BELIEFS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:9: ( ':Initial Beliefs:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:11: ':Initial Beliefs:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:9: ( ':Initial Beliefs:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:201:11: ':Initial Beliefs:'
 			{
 			match(":Initial Beliefs:"); 
 
@@ -572,8 +572,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BELIEFRULES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:203:2: ( ':Reasoning Rules:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:203:4: ':Reasoning Rules:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:203:2: ( ':Reasoning Rules:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:203:4: ':Reasoning Rules:'
 			{
 			match(":Reasoning Rules:"); 
 
@@ -594,8 +594,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CAPABILITIES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:13: ( ':Capabilities:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:15: ':Capabilities:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:13: ( ':Capabilities:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:204:15: ':Capabilities:'
 			{
 			match(":Capabilities:"); 
 
@@ -615,8 +615,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PLANS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:7: ( ':Plans:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:9: ':Plans:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:7: ( ':Plans:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:205:9: ':Plans:'
 			{
 			match(":Plans:"); 
 
@@ -636,8 +636,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EASS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:6: ({...}? => 'EASS' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:8: {...}? => 'EASS'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:6: ({...}? => 'EASS' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:206:8: {...}? => 'EASS'
 			{
 			if ( !((curly_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "EASS", "curly_nesting == 0");
@@ -660,8 +660,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:6: ( ':name:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:8: ':name:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:6: ( ':name:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:207:8: ':name:'
 			{
 			match(":name:"); 
 
@@ -681,8 +681,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ABSTRACTION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:2: ( ':abstraction:' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:4: ':abstraction:'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:2: ( ':abstraction:' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:209:4: ':abstraction:'
 			{
 			match(":abstraction:"); 
 
@@ -702,8 +702,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = TRUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:6: ({...}? => 'True' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:8: {...}? => 'True'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:6: ({...}? => 'True' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:210:8: {...}? => 'True'
 			{
 			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
 				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
@@ -726,8 +726,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ACHIEVEGOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:13: ({...}? => 'achieve' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:15: {...}? => 'achieve'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:13: ({...}? => 'achieve' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:211:15: {...}? => 'achieve'
 			{
 			if ( !((sq_nesting > 0)) ) {
 				throw new FailedPredicateException(input, "ACHIEVEGOAL", "sq_nesting > 0");
@@ -750,8 +750,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PERFORMGOAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:13: ({...}? => 'perform' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:15: {...}? => 'perform'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:13: ({...}? => 'perform' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:212:15: {...}? => 'perform'
 			{
 			if ( !((sq_nesting > 0)) ) {
 				throw new FailedPredicateException(input, "PERFORMGOAL", "sq_nesting > 0");
@@ -774,8 +774,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BRULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:215:2: ( ':-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:215:4: ':-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:215:2: ( ':-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:215:4: ':-'
 			{
 			match(":-"); 
 
@@ -795,8 +795,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = RULEARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:11: ( '<-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:13: '<-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:11: ( '<-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:216:13: '<-'
 			{
 			match("<-"); 
 
@@ -816,8 +816,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EQ_ASSGN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:10: ( '=' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:12: '='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:10: ( '=' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:217:12: '='
 			{
 			match('='); 
 			}
@@ -836,8 +836,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = ARROW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:7: ( '->' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:9: '->'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:7: ( '->' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:218:9: '->'
 			{
 			match("->"); 
 
@@ -857,12 +857,12 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:5: ( '/*' ( . )* '*/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:7: '/*' ( . )* '*/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:5: ( '/*' ( . )* '*/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:7: '/*' ( . )* '*/'
 			{
 			match("/*"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:12: ( . )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:12: ( . )*
 			loop3:
 			while (true) {
 				int alt3=2;
@@ -883,7 +883,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt3) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:12: .
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:281:12: .
 					{
 					matchAny(); 
 					}
@@ -913,12 +913,12 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LINE_COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
 			match("//"); 
 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:12: (~ ( '\\n' | '\\r' ) )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:12: (~ ( '\\n' | '\\r' ) )*
 			loop4:
 			while (true) {
 				int alt4=2;
@@ -929,7 +929,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt4) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
 						input.consume();
@@ -947,7 +947,7 @@ public class EASSLexer extends Lexer {
 				}
 			}
 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:26: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:26: ( '\\r' )?
 			int alt5=2;
 			int LA5_0 = input.LA(1);
 			if ( (LA5_0=='\r') ) {
@@ -955,7 +955,7 @@ public class EASSLexer extends Lexer {
 			}
 			switch (alt5) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:26: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:284:26: '\\r'
 					{
 					match('\r'); 
 					}
@@ -981,10 +981,10 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NEWLINE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:8: ( ( '\\r' )? '\\n' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: ( '\\r' )? '\\n'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:8: ( ( '\\r' )? '\\n' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: ( '\\r' )? '\\n'
 			{
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: ( '\\r' )?
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: ( '\\r' )?
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0=='\r') ) {
@@ -992,7 +992,7 @@ public class EASSLexer extends Lexer {
 			}
 			switch (alt6) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: '\\r'
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:286:9: '\\r'
 					{
 					match('\r'); 
 					}
@@ -1018,13 +1018,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:5: ({...}? => ( ' ' | '\\t' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:8: {...}? => ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:5: ({...}? => ( ' ' | '\\t' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:8: {...}? => ( ' ' | '\\t' )+
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "WS", "!stringterm");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:24: ( ' ' | '\\t' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:287:24: ( ' ' | '\\t' )+
 			int cnt7=0;
 			loop7:
 			while (true) {
@@ -1036,7 +1036,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt7) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
 						input.consume();
@@ -1074,8 +1074,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = OPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:290:6: ( '(' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:290:9: '('
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:290:6: ( '(' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:290:9: '('
 			{
 			match('('); 
 			plain_nesting++;
@@ -1095,8 +1095,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:7: ( ')' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:9: ')'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:7: ( ')' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:291:9: ')'
 			{
 			match(')'); 
 			plain_nesting--;
@@ -1116,8 +1116,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SQOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:292:8: ( '[' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:292:10: '['
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:292:8: ( '[' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:292:10: '['
 			{
 			match('['); 
 			sq_nesting++;
@@ -1137,8 +1137,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SQCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:9: ( ']' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:11: ']'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:9: ( ']' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:293:11: ']'
 			{
 			match(']'); 
 			sq_nesting--;
@@ -1158,8 +1158,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CURLYOPEN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:11: ( '{' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:13: '{'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:11: ( '{' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:294:13: '{'
 			{
 			match('{'); 
 			curly_nesting++;
@@ -1179,8 +1179,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CURLYCLOSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:12: ( '}' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:14: '}'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:12: ( '}' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:295:14: '}'
 			{
 			match('}'); 
 			curly_nesting--;
@@ -1200,8 +1200,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = DOUBLEQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:297:2: ( '\"' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:297:4: '\"'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:297:2: ( '\"' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:297:4: '\"'
 			{
 			match('\"'); 
 			if (stringterm) {stringterm = false;} else {stringterm = true;}
@@ -1221,8 +1221,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:5: ( '~' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:7: '~'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:5: ( '~' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:299:7: '~'
 			{
 			match('~'); 
 			}
@@ -1241,13 +1241,13 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+ )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+ )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
 			{
 			if ( !((stringterm)) ) {
 				throw new FailedPredicateException(input, "STRING", "stringterm");
 			}
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:301:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | ' ' | '.' )+
 			int cnt8=0;
 			loop8:
 			while (true) {
@@ -1259,7 +1259,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt8) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( input.LA(1)==' '||input.LA(1)=='.'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1296,14 +1296,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = CONST;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "CONST", "!stringterm");
 			}
 			matchRange('a','z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:302:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -1314,7 +1314,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt9) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1348,14 +1348,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = VAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "VAR", "!stringterm");
 			}
 			matchRange('A','Z'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:303:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -1366,7 +1366,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt10) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -1400,14 +1400,14 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = NUMBER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:10: {...}? => '0' .. '9' ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:10: {...}? => '0' .. '9' ( '0' .. '9' )*
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
 			}
 			matchRange('0','9'); 
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:35: ( '0' .. '9' )*
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:304:35: ( '0' .. '9' )*
 			loop11:
 			while (true) {
 				int alt11=2;
@@ -1418,7 +1418,7 @@ public class EASSLexer extends Lexer {
 
 				switch (alt11) {
 				case 1 :
-					// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
+					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 						input.consume();
@@ -1452,8 +1452,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = UNNAMEDVAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:2: ({...}? => '_' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:4: {...}? => '_'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:2: ({...}? => '_' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:306:4: {...}? => '_'
 			{
 			if ( !((!stringterm)) ) {
 				throw new FailedPredicateException(input, "UNNAMEDVAR", "!stringterm");
@@ -1475,8 +1475,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = LESS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:6: ( '<' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:8: '<'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:6: ( '<' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:309:8: '<'
 			{
 			match('<'); 
 			}
@@ -1495,8 +1495,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = EQ;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:4: ( '==' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:7: '=='
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:4: ( '==' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:310:7: '=='
 			{
 			match("=="); 
 
@@ -1516,8 +1516,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = POINT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:7: ( '.' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:9: '.'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:7: ( '.' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:311:9: '.'
 			{
 			match('.'); 
 			}
@@ -1536,8 +1536,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MULT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:6: ( '*' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:8: '*'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:6: ( '*' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:312:8: '*'
 			{
 			match('*'); 
 			}
@@ -1556,8 +1556,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:313:6: ( '+' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:313:8: '+'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:313:6: ( '+' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:313:8: '+'
 			{
 			match('+'); 
 			}
@@ -1576,8 +1576,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MINUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:314:7: ( '-' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:314:9: '-'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:314:7: ( '-' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:314:9: '-'
 			{
 			match('-'); 
 			}
@@ -1596,8 +1596,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = DIV;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:315:5: ( '/' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:315:7: '/'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:315:5: ( '/' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:315:7: '/'
 			{
 			match('/'); 
 			}
@@ -1616,8 +1616,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = MOD;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:316:5: ( '%' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:316:7: '%'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:316:5: ( '%' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:316:7: '%'
 			{
 			match('%'); 
 			}
@@ -1636,8 +1636,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SHRIEK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:318:8: ( '!' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:318:10: '!'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:318:8: ( '!' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:318:10: '!'
 			{
 			match('!'); 
 			}
@@ -1656,8 +1656,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:319:7: ( ',' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:319:9: ','
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:319:7: ( ',' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:319:9: ','
 			{
 			match(','); 
 			}
@@ -1676,8 +1676,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = SEMI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:320:6: ( ';' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:320:8: ';'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:320:6: ( ';' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:320:8: ';'
 			{
 			match(';'); 
 			}
@@ -1696,8 +1696,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:321:7: ( ':' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:321:9: ':'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:321:7: ( ':' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:321:9: ':'
 			{
 			match(':'); 
 			}
@@ -1716,8 +1716,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = QUERY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:322:7: ( '?' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:322:9: '?'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:322:7: ( '?' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:322:9: '?'
 			{
 			match('?'); 
 			}
@@ -1736,8 +1736,8 @@ public class EASSLexer extends Lexer {
 		try {
 			int _type = BAR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:323:5: ( '|' )
-			// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:323:7: '|'
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:323:5: ( '|' )
+			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:323:7: '|'
 			{
 			match('|'); 
 			}
@@ -1753,446 +1753,446 @@ public class EASSLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | CAPABILITY | PLAN | IMPLICATION | SUBSTITUTE | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | CAPABILITIES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | ARROW | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | UNNAMEDVAR | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY | BAR )
+		// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:8: ( UPDATE | TELL | PERFORM | ACHIEVE | SEND | RECEIVED | CALCULATE | QUERYCOM | WAIT | CAPABILITY | PLAN | IMPLICATION | SUBSTITUTE | BELIEVE | GOAL | SENT | LOCK | GOALS | BELIEFS | BELIEFRULES | CAPABILITIES | PLANS | EASS | NAME | ABSTRACTION | TRUE | ACHIEVEGOAL | PERFORMGOAL | BRULEARROW | RULEARROW | EQ_ASSGN | ARROW | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | UNNAMEDVAR | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY | BAR )
 		int alt12=63;
 		alt12 = dfa12.predict(input);
 		switch (alt12) {
 			case 1 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: UPDATE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:10: UPDATE
 				{
 				mUPDATE(); 
 
 				}
 				break;
 			case 2 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:17: TELL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:17: TELL
 				{
 				mTELL(); 
 
 				}
 				break;
 			case 3 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:22: PERFORM
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:22: PERFORM
 				{
 				mPERFORM(); 
 
 				}
 				break;
 			case 4 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:30: ACHIEVE
 				{
 				mACHIEVE(); 
 
 				}
 				break;
 			case 5 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:38: SEND
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:38: SEND
 				{
 				mSEND(); 
 
 				}
 				break;
 			case 6 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:43: RECEIVED
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:43: RECEIVED
 				{
 				mRECEIVED(); 
 
 				}
 				break;
 			case 7 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:52: CALCULATE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:52: CALCULATE
 				{
 				mCALCULATE(); 
 
 				}
 				break;
 			case 8 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:62: QUERYCOM
 				{
 				mQUERYCOM(); 
 
 				}
 				break;
 			case 9 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:71: WAIT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:71: WAIT
 				{
 				mWAIT(); 
 
 				}
 				break;
 			case 10 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:76: CAPABILITY
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:76: CAPABILITY
 				{
 				mCAPABILITY(); 
 
 				}
 				break;
 			case 11 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:87: PLAN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:87: PLAN
 				{
 				mPLAN(); 
 
 				}
 				break;
 			case 12 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:92: IMPLICATION
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:92: IMPLICATION
 				{
 				mIMPLICATION(); 
 
 				}
 				break;
 			case 13 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:104: SUBSTITUTE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:104: SUBSTITUTE
 				{
 				mSUBSTITUTE(); 
 
 				}
 				break;
 			case 14 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:115: BELIEVE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:115: BELIEVE
 				{
 				mBELIEVE(); 
 
 				}
 				break;
 			case 15 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:123: GOAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:123: GOAL
 				{
 				mGOAL(); 
 
 				}
 				break;
 			case 16 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:128: SENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:128: SENT
 				{
 				mSENT(); 
 
 				}
 				break;
 			case 17 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:133: LOCK
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:133: LOCK
 				{
 				mLOCK(); 
 
 				}
 				break;
 			case 18 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:138: GOALS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:138: GOALS
 				{
 				mGOALS(); 
 
 				}
 				break;
 			case 19 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:144: BELIEFS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:144: BELIEFS
 				{
 				mBELIEFS(); 
 
 				}
 				break;
 			case 20 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:152: BELIEFRULES
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:152: BELIEFRULES
 				{
 				mBELIEFRULES(); 
 
 				}
 				break;
 			case 21 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:164: CAPABILITIES
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:164: CAPABILITIES
 				{
 				mCAPABILITIES(); 
 
 				}
 				break;
 			case 22 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:177: PLANS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:177: PLANS
 				{
 				mPLANS(); 
 
 				}
 				break;
 			case 23 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:183: EASS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:183: EASS
 				{
 				mEASS(); 
 
 				}
 				break;
 			case 24 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:188: NAME
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:188: NAME
 				{
 				mNAME(); 
 
 				}
 				break;
 			case 25 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:193: ABSTRACTION
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:193: ABSTRACTION
 				{
 				mABSTRACTION(); 
 
 				}
 				break;
 			case 26 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:205: TRUE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:205: TRUE
 				{
 				mTRUE(); 
 
 				}
 				break;
 			case 27 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:210: ACHIEVEGOAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:210: ACHIEVEGOAL
 				{
 				mACHIEVEGOAL(); 
 
 				}
 				break;
 			case 28 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:222: PERFORMGOAL
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:222: PERFORMGOAL
 				{
 				mPERFORMGOAL(); 
 
 				}
 				break;
 			case 29 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:234: BRULEARROW
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:234: BRULEARROW
 				{
 				mBRULEARROW(); 
 
 				}
 				break;
 			case 30 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:245: RULEARROW
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:245: RULEARROW
 				{
 				mRULEARROW(); 
 
 				}
 				break;
 			case 31 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:255: EQ_ASSGN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:255: EQ_ASSGN
 				{
 				mEQ_ASSGN(); 
 
 				}
 				break;
 			case 32 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:264: ARROW
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:264: ARROW
 				{
 				mARROW(); 
 
 				}
 				break;
 			case 33 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:270: COMMENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:270: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
 			case 34 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:278: LINE_COMMENT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:278: LINE_COMMENT
 				{
 				mLINE_COMMENT(); 
 
 				}
 				break;
 			case 35 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:291: NEWLINE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:291: NEWLINE
 				{
 				mNEWLINE(); 
 
 				}
 				break;
 			case 36 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:299: WS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:299: WS
 				{
 				mWS(); 
 
 				}
 				break;
 			case 37 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:302: OPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:302: OPEN
 				{
 				mOPEN(); 
 
 				}
 				break;
 			case 38 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:307: CLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:307: CLOSE
 				{
 				mCLOSE(); 
 
 				}
 				break;
 			case 39 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:313: SQOPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:313: SQOPEN
 				{
 				mSQOPEN(); 
 
 				}
 				break;
 			case 40 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:320: SQCLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:320: SQCLOSE
 				{
 				mSQCLOSE(); 
 
 				}
 				break;
 			case 41 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:328: CURLYOPEN
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:328: CURLYOPEN
 				{
 				mCURLYOPEN(); 
 
 				}
 				break;
 			case 42 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:338: CURLYCLOSE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:338: CURLYCLOSE
 				{
 				mCURLYCLOSE(); 
 
 				}
 				break;
 			case 43 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:349: DOUBLEQUOTE
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:349: DOUBLEQUOTE
 				{
 				mDOUBLEQUOTE(); 
 
 				}
 				break;
 			case 44 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:361: NOT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:361: NOT
 				{
 				mNOT(); 
 
 				}
 				break;
 			case 45 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:365: STRING
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:365: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
 			case 46 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:372: CONST
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:372: CONST
 				{
 				mCONST(); 
 
 				}
 				break;
 			case 47 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:378: VAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:378: VAR
 				{
 				mVAR(); 
 
 				}
 				break;
 			case 48 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:382: NUMBER
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:382: NUMBER
 				{
 				mNUMBER(); 
 
 				}
 				break;
 			case 49 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:389: UNNAMEDVAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:389: UNNAMEDVAR
 				{
 				mUNNAMEDVAR(); 
 
 				}
 				break;
 			case 50 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:400: LESS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:400: LESS
 				{
 				mLESS(); 
 
 				}
 				break;
 			case 51 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:405: EQ
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:405: EQ
 				{
 				mEQ(); 
 
 				}
 				break;
 			case 52 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:408: POINT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:408: POINT
 				{
 				mPOINT(); 
 
 				}
 				break;
 			case 53 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:414: MULT
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:414: MULT
 				{
 				mMULT(); 
 
 				}
 				break;
 			case 54 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:419: PLUS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:419: PLUS
 				{
 				mPLUS(); 
 
 				}
 				break;
 			case 55 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:424: MINUS
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:424: MINUS
 				{
 				mMINUS(); 
 
 				}
 				break;
 			case 56 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:430: DIV
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:430: DIV
 				{
 				mDIV(); 
 
 				}
 				break;
 			case 57 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:434: MOD
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:434: MOD
 				{
 				mMOD(); 
 
 				}
 				break;
 			case 58 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:438: SHRIEK
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:438: SHRIEK
 				{
 				mSHRIEK(); 
 
 				}
 				break;
 			case 59 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:445: COMMA
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:445: COMMA
 				{
 				mCOMMA(); 
 
 				}
 				break;
 			case 60 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:451: SEMI
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:451: SEMI
 				{
 				mSEMI(); 
 
 				}
 				break;
 			case 61 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:456: COLON
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:456: COLON
 				{
 				mCOLON(); 
 
 				}
 				break;
 			case 62 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:462: QUERY
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:462: QUERY
 				{
 				mQUERY(); 
 
 				}
 				break;
 			case 63 :
-				// /Users/lad/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:468: BAR
+				// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:1:468: BAR
 				{
 				mBAR(); 
 

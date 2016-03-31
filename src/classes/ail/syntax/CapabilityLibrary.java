@@ -33,23 +33,13 @@ import java.util.HashMap;
  * @author lad
  *
  */
-public class CapabilityLibrary implements EvaluationBase<Capability>, Iterable<Capability> {
+public class CapabilityLibrary implements Iterable<Capability> {
 	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
 
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
-	 */
-	@Override
-	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
-		Capability c = ((GCapability) ga).getCap();
-		Predicate cPred = c.getCap();
-		return getRelevant(cPred);
-	}
 	
 	/**
-	 * Helper method for getRelevant.  We get the capability that uses this action predicate - or several if there are several.
+	 * We get the capability that uses this action predicate - or several if there are several.
 	 * @param cPred
 	 * @return
 	 */
