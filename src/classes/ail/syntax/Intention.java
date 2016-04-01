@@ -243,7 +243,6 @@ public class Intention implements Comparable<Intention>{
      */
     public void unsuspendFor(Predicate beliefcondition) {
     	if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
-     //   if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
     		suspendedfor = null;
     		unsuspend();
     	} 
@@ -420,6 +419,7 @@ public class Intention implements Comparable<Intention>{
      * 
      * @return a string representing the intention.
      */
+    @Override
     public String toString() {
          String s = "";
          if (suspended) {
@@ -627,7 +627,6 @@ public class Intention implements Comparable<Intention>{
 		for (Guard g: gs) {
 			varnames.addAll(g.getVarNames());
 		}
-	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		trimUnifiers();
 		
@@ -855,6 +854,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Intention i) {
 		if (this.size() != i.size()) {
 			if (this.size() > i.size()) {
@@ -869,6 +869,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Intention) {
 			Intention i = (Intention) o;
@@ -901,6 +902,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		final int PRIME = 7;
 		int result = PRIME * getSource().hashCode() + getAnnotation().hashCode();
@@ -911,6 +913,9 @@ public class Intention implements Comparable<Intention>{
 		return result;
 	}
 	
+	/**
+	 * Remove unused variable names from unifiers.
+	 */
 	public void trimUnifiers() {
 		ArrayList<String> varnames = new ArrayList<String>();
 		for (int i = 0; i < size(); i++) {

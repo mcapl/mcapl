@@ -92,6 +92,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#equals(java.lang.Object)
 	 */
+	@Override
     public boolean equals(Object t) {
         if (t == null) return false;
         if (t == this) return true;
@@ -122,6 +123,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
      * (non-Javadoc)
      * @see ail.syntax.Predicate#calcHashCode()
      */
+	@Override
     public int calcHashCode() {
         int code = 37;
         if (head != null) 
@@ -135,11 +137,13 @@ public class ListTermImpl extends Predicate implements ListTerm {
      *  (non-Javadoc)
      * @see ail.syntax.ListTerm#setHead(ail.syntax.Term)
      */
+	@Override
 	public void setHead(Term t) {
 		head = t;
 	}
 	
 	/** gets the term of this ListTerm */
+	@Override
 	public Term getHead() {
 		return head;
 	}
@@ -148,6 +152,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.ListTerm#setTail(ail.syntax.Term)
 	 */
+	@Override
 	public void setTail(ListTerm l) {
 		tail = l;
 	}
@@ -156,6 +161,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.ListTerm#getTail()
 	 */
+	@Override
 	public ListTerm getTail() {
 		return (ListTerm)tail;
 	}
@@ -163,6 +169,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	/**
 	 * For unifier compatibility.
 	 */
+	@Override
 	public int getTermsSize() {
 		if (isEmpty()) {
 			return 0;
@@ -174,6 +181,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	/**
 	 * for unifier compatibility
 	 */
+	@Override
 	public Term getTerm(int i) {
 		if (i == 0) {
 			return head;
@@ -187,6 +195,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	/**
 	 * For unifier compatibility.
 	 */
+	@Override
 	public void setTerm(int i, Term t) {
 		if (i == 0) {
 			head = t;
@@ -197,6 +206,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	}
 
 	/** return the this ListTerm elements (0=Term, 1=ListTerm) */
+	@Override
 	public List<Term> getTerms() {
 		List<Term> l = new ArrayList<Term>(2);
 		if (head != null) {
@@ -212,6 +222,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#addTerm(ail.syntax.Term)
 	 */
+	@Override
 	public void addTerm(Term t) {
 		AJPFLogger.warning("ail.syntax.ListTermImpl", "Do not use addTerm in lists! Use add.");
 	}
@@ -219,6 +230,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	/**
 	 * Length of the list.
 	 */
+	@Override
 	public int size() {
 		if (isEmpty()) {
 			return 0;
@@ -231,6 +243,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#isList()
      */
+	@Override
     public boolean isList() {
 		return true;
 	}
@@ -239,6 +252,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
      * (non-Javadoc)
      * @see java.util.List#isEmpty()
      */
+	@Override
     public boolean isEmpty() {
 		return head == null;
 	}
@@ -247,6 +261,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
      * (non-Javadoc)
      * @see ail.syntax.Predicate#isGround()
      */
+	@Override
 	public boolean isGround() {
 	    Iterator<Term> i = iterator();
 		while (i.hasNext()) {
@@ -263,6 +278,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * add a term in the end of the list
 	 * @return the ListTerm where the term was added
 	 */
+	@Override
 	public boolean cons(Term t) {
 		ListTerm l = this.clone();
 		tail = l;
@@ -275,6 +291,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
      * Add a list in the end of this list.
 	 * This method do not clone <i>lt</i>.
 	 */
+	@Override
 	public void concat(ListTerm lt) {
 		if (isEmpty()) {
 			head = lt.getHead();
@@ -286,6 +303,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 
 	
 	/** returns an iterator where each element is a ListTerm */
+	@Override
 	public Iterator<ListTerm> listTermIterator() {
 		final ListTermImpl lt = this;
 		return new Iterator<ListTerm>() {
@@ -312,6 +330,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	}
 
 	/** returns an iterator where each element is a Term of this list */
+	@Override
 	public Iterator<Term> iterator() {
 		final Iterator<ListTerm> i = this.listTermIterator();
 		return new Iterator<Term>() {
@@ -332,6 +351,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * Returns this ListTerm as a Java List. 
 	 * Note: the list Tail is considered just as the last element of the list!
 	 */
+	@Override
     public List<Term> getAsList() {
         List<Term> l = new ArrayList<Term>();
         Iterator<Term> i = iterator();
@@ -345,6 +365,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#toString()
 	 */
+	@Override
 	public String toString() {
         StringBuilder s = new StringBuilder("[");
 		Iterator<ListTerm> i = listTermIterator();
@@ -366,6 +387,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#add(java.lang.Object)
 	 */
+	@Override
 	public boolean add(Term o) {
 		return cons(o);
 	}
@@ -374,6 +396,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
+	@Override
 	public void add(int i, Term t) throws IndexOutOfBoundsException {
 		if (i == 0) {
 			add(t);
@@ -390,6 +413,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
+	@Override
 	public boolean addAll(Collection<? extends Term> c) {
 		ListTerm lt = this; // where to add
 		Iterator<? extends Term> i = c.iterator();
@@ -403,6 +427,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
+	@Override
 	public boolean addAll(int index, Collection<? extends Term> c) {
 		Iterator<? extends Term> i = c.iterator();
 		int p = index;
@@ -417,6 +442,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#clear()
 	 */
+	@Override
 	public void clear() {
 		head = null;
 		tail = null;
@@ -426,6 +452,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#contains(java.lang.Object)
 	 */
+	@Override
 	public boolean contains(Object o) {
 		if (head != null && head.equals(o)) {
 			return true;
@@ -439,6 +466,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#containsAll(java.util.Collection)
 	 */
+	@Override
 	public boolean containsAll(Collection<?> c) {
 		boolean r = true;
 		Iterator<?> i = c.iterator();
@@ -452,6 +480,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#get(int)
 	 */
+	@Override
 	public Term get(int index) {
 		if (index == 0) {
 			return this.head;
@@ -465,6 +494,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#indexOf(java.lang.Object)
 	 */
+	@Override
 	public int indexOf(Object o) {
 		if (this.head.equals(o)) {
 			return 0;
@@ -481,6 +511,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#lastIndexOf(java.lang.Object)
 	 */
+	@Override
 	public int lastIndexOf(Object arg0) {
 		return getAsList().lastIndexOf(arg0);
 	}
@@ -489,6 +520,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#listIterator()
 	 */
+	@Override
 	public ListIterator<Term> listIterator() {
 		return listIterator(0);
 	}
@@ -497,6 +529,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#listIterator(int)
 	 */
+	@Override
 	public ListIterator<Term> listIterator(final int startIndex) {
         final ListTermImpl list = this;
         return new ListIterator<Term>() {
@@ -543,6 +576,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#remove(int)
 	 */
+	@Override
 	public Term remove(int index) {
 		if (index == 0) {
 			Term bt = this.head;
@@ -563,6 +597,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#remove(java.lang.Object)
 	 */
+	@Override
 	public boolean remove(Object o) {
 		if (head != null && head.equals(o)) {
 			if (getTail() != null) {
@@ -582,6 +617,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		boolean r = true;
 		Iterator<?> i = c.iterator();
@@ -595,6 +631,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		boolean r = true;
 		Iterator<?> i = iterator();
@@ -611,6 +648,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
+	@Override
 	public Term set(int index, Term t) {
 		if (index == 0) {
 			this.head = t;
@@ -625,6 +663,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#subList(int, int)
 	 */
+	@Override
 	public List<Term> subList(int arg0, int arg1) {
 		return getAsList().subList(arg0, arg1);
 	}
@@ -633,11 +672,17 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 * (non-Javadoc)
 	 * @see java.util.List#toArray()
 	 */
+	@Override
 	public Object[] toArray() {
 		return getAsList().toArray();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.List#toArray(java.lang.Object[])
+	 */
     @SuppressWarnings("unchecked")
+	@Override
 	public Object[] toArray(Object[] arg0) {
 		return getAsList().toArray(arg0);
 	}

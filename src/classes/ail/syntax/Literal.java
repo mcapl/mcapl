@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -27,7 +27,6 @@
 
 package ail.syntax;
 
-import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -91,6 +90,7 @@ public class Literal extends PredicatewAnnotation {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#isLiteral()
 	 */
+	@Override
 	public boolean isLiteral() {
 		return true;
 	}
@@ -120,6 +120,7 @@ public class Literal extends PredicatewAnnotation {
      * (non-Javadoc)
      * @see ail.syntax.Pred#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (o == null) return false;
         if (o == this) return true;
@@ -134,6 +135,11 @@ public class Literal extends PredicatewAnnotation {
         return false;
 	}
     
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.PredicatewAnnotation#equalsInclAnnots(java.lang.Object)
+     */
+    @Override
     public boolean equalsInclAnnots(Object o) {
         if (o == null) return false;
         if (o == this) return true;
@@ -151,7 +157,8 @@ public class Literal extends PredicatewAnnotation {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#compareTo(ail.syntax.Term)
      */
-    public int compareTo(Term t) {
+    // @Override
+  /*  public int compareTo(Term t) {
         if (t.isLiteral()) {
             Literal tl = (Literal)t;
             if (!negated() && tl.negated()) {
@@ -164,12 +171,13 @@ public class Literal extends PredicatewAnnotation {
         if (c != 0)
             return c;
         return 0;
-    }        
+    }   */     
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.Pred#clone()
      */
+    @Override
 	public Literal clone() {
     	Literal c = new Literal(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
@@ -190,6 +198,7 @@ public class Literal extends PredicatewAnnotation {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Pred#toString()
 	 */
+	@Override
 	public String toString() {
 		if (type == LPos)
 			return super.toString();
@@ -200,6 +209,11 @@ public class Literal extends PredicatewAnnotation {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.PredicatewAnnotation#fullstring()
+	 */
+	@Override
 	public String fullstring() {
 		if (type == LPos)
 			return "Lit" + super.fullstring();
