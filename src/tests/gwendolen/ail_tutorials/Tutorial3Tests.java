@@ -39,32 +39,6 @@ public class Tutorial3Tests extends TestJPF {
 	  //--- test methods
 
 	  @Test //----------------------------------------------------------------------
-	  public void dynamicenv () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "13";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
-	  
-	  @Test //----------------------------------------------------------------------
-	  public void random () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "13";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
-
-	  @Test //----------------------------------------------------------------------
 	  public void random2 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random2.ail";

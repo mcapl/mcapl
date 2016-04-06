@@ -29,5 +29,10 @@ package ail.syntax;
  *
  */
 public interface HasTermRepresentation {
+	
+	/**
+	 * Return this object represented as a Term.
+	 * @return
+	 */
 	public Term toTerm();
 }

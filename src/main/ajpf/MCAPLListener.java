@@ -202,6 +202,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  */
 	 private boolean checkstate (Search search) {
 		 int newstate = search.getStateId();
+		 log.info("New State is " + newstate);
 		 
 		 // Add this new state to the program model inside the product automaton.
 		 if (automata_initialised) {
@@ -214,7 +215,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 // Adding new state for pruning
 				 //product_automata.justAddModelState(newstate);
 				 boolean returnvalue = product_automata.currentPathEnded();
-				 product_automata.justAddModelState(newstate);
+				 product_automata.addEndState(newstate);
 				 return (! returnvalue);
 			 }
 
@@ -327,10 +328,10 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 } else {
 				 // If we're outputting to a file.
 				 try {
-					 String file_path = ".";
+					 String file_path = System.getenv("HOME");
 					 if (config.containsKey("ajpf.model.path")) {
 						 file_path = config.getProperty("ajpf.model.path");
-					 }
+					 } 
 					 File file = new File(file_path + "/" + config.getProperty("ajpf.model.location"));
 					 if (!file.exists()) {
 						 file.createNewFile();

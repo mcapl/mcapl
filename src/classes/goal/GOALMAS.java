@@ -35,6 +35,8 @@ import goal.mas.GoalEnvironment;
 /**
  * Example Set up for running the pickup agent.
  * 
+ * Is this class every used?
+ * 
  * @author louiseadennis
  *
  */
@@ -64,8 +66,8 @@ public abstract class GOALMAS {
 		mas.setEnv(env);
 			
 			// Set up a MCAPL controller and specification.
-		mccontrol = new MCAPLcontroller();
-		mas.setController(mccontrol);
+		//mccontrol = new MCAPLcontroller(config, propertystring);
+		//mas.setController(mccontrol);
 		//mccontrol.setMAS(mas, propertystring)
 			// Start the system.
 		

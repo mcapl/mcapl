@@ -32,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ail.syntax.ast.GroundPredSets;
 import ail.util.AILexception;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -136,11 +135,6 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
         ilForce  = ilf;
         sender   = s;
         receiver = r;
-     /*   if (c.isGround()) {
-        	propCont = GroundPredSets.check(c);
-        } else {
-        	propCont = c;
-        } */
         propCont = c;
         msgId    = id;
         threadId = thid;
@@ -150,11 +144,6 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
         ilForce  = ilf;
         sender   = s;
         receiver = r;
-      /*  if (c.isGround()) {
-        	propCont = GroundPredSets.check(c);
-        } else {
-        	propCont = c;
-        } */
         propCont = c;
         msgId    = new StringTermImpl(id);
         threadId = new StringTermImpl(thid);
@@ -236,6 +225,10 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		receiver = agName;
 	}
 	
+	/**
+	 * Set the ID for the thread this messages is part of.
+	 * @param id
+	 */
 	protected void setThreadId(StringTerm id) {
 		threadId = id;
 	}
@@ -256,6 +249,10 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		msgId = id;
 	}
 	
+	/**
+	 * Get the id of the thread this message is part of.
+	 * @return
+	 */
 	public StringTerm getThreadId() {
 		return threadId;
 	}
@@ -280,6 +277,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
         s.append("<").append(msgId).append(",").append(threadId).append(",").append(sender).append(",").append(ilForce);
@@ -293,6 +291,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * 
 	 * @return a term representing the message.
 	 */
+	@Override
 	public Predicate toTerm() {
 		Predicate t = new Predicate("message");
 		t.addTerm(msgId);
@@ -313,6 +312,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * @param u the unifier to be applied.
 	 * @return whether or not the unifier successfully appplied.
 	 */
+	@Override
 	public boolean apply(Unifier u) {
 		boolean flag = propCont.apply(u);
 		flag = flag || threadId.apply(u);	
@@ -323,6 +323,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Message clone() {
 		return(new Message(ilForce, sender, receiver, (Term) propCont.clone(), (StringTerm) msgId.clone(), (StringTerm) threadId.clone()));
 	}
@@ -331,6 +332,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Message m) {
 		return toTerm().compareTo(m.toTerm());
 	}  
@@ -339,6 +341,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Message) {
 			return toTerm().equals(((Message) o).toTerm());
@@ -351,6 +354,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return toTerm().hashCode();
 	}
@@ -359,6 +363,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Message) {
 			Message msg = (Message) t;
@@ -406,6 +411,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void renameVar(String oldname, String newname) {
 		msgId.renameVar(oldname, newname);
 		threadId.renameVar(oldname, newname);
@@ -416,6 +422,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Message) {
 			Message msg = (Message) t;
@@ -441,6 +448,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Message) {
 			Message msg = (Message) t;
@@ -466,6 +474,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#isGround()
 	 */
+	@Override
 	public boolean isGround() {
 		return (msgId.isGround() & threadId.isGround() & propCont.isGround());
 	}
@@ -474,17 +483,27 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+	@Override
 	public void makeVarsAnnon() {
 		msgId.makeVarsAnnon();
 		threadId.makeVarsAnnon();
 		propCont.makeVarsAnnon();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
 	@Override
 	public Unifiable strip_varterm() {
 		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.strip_varterm(), (StringTerm) msgId.strip_varterm(), (StringTerm)  threadId.strip_varterm());
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	@Override
 	public Unifiable resolveVarsClusters() {
 		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.resolveVarsClusters(), (StringTerm) msgId.resolveVarsClusters(), (StringTerm)  threadId.resolveVarsClusters());
 	}

@@ -252,24 +252,36 @@ public class DefaultEnvironment implements AILEnv {
     		
     		u.unifies(result, new StringTermImpl(s));
     	}
-    	
-    	if (act.getFunctor().equals("printagentstate")) {
-    		AILAgent a = agentmap.get(agName);
-    		System.err.println(a);
-    	}
-    	
+    	    	
 	   	if (act.getFunctor().equals("print")) {
 	    	 Term content = (Term) act.getTerm(0);
 	    	 System.out.println(content);
+	    	 act.setLogLevel(AJPFLogger.FINER);
 	     }
 
-	   	if (act.getFunctor().equals("printstate")) {
+	   	if (act.getFunctor().equals("printstate") || act.getFunctor().equals("printagentstate")) {
 	   		System.out.println(agentmap.get(agName).toString());
+	   		act.setLogLevel(AJPFLogger.FINER);
 	   	} 
  
 	   	if (AJPFLogger.ltInfo(logname)) {
-	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
-	   	}
+	   		if (act.getLogLevel() == AJPFLogger.INFO) {
+	   			AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   		} else if (act.getLogLevel() == AJPFLogger.FINE) {
+	   			AJPFLogger.fine(logname, agName + " done " + printAction(act));
+	   		} else if (act.getLogLevel() == AJPFLogger.FINER) {
+	   			AJPFLogger.finer(logname, agName + " done " + printAction(act));		   		
+	   		} else if (act.getLogLevel() == AJPFLogger.FINEST) {
+	   			AJPFLogger.finest(logname, agName + " done " + printAction(act));
+	   		}
+	   	} 
+	   	
+	   	if (act.getLogLevel() == AJPFLogger.SEVERE) {
+	   		AJPFLogger.severe(logname, agName + " done " + printAction(act));
+	   	} else if (act.getLogLevel() == AJPFLogger.WARNING) {
+	   		AJPFLogger.warning(logname, agName + " done " + printAction(act));
+	   	} 
+	   
 	   	
 	   	return (u);
     }

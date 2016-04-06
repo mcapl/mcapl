@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -212,6 +212,7 @@ public class LogExpr implements LogicalFormula {
     }
 	
 	/** make a hard copy of the terms */
+    @Override
 	public LogExpr clone() {
 		// do not call constructor with term parameter!
 		LogExpr t = new LogExpr();
@@ -231,6 +232,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+    @Override
 	public boolean equals(Object t) {
 		if (t != null && t instanceof LogExpr) {
 			LogExpr eprt = (LogExpr)t;
@@ -260,6 +262,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+    @Override
     public int hashCode() {
         int code = op.hashCode();
         if (lhs != null)
@@ -296,6 +299,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
     public String toString() {
 		if (lhs == null) {
 			return op+"("+rhs+")";
@@ -308,7 +312,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
-    @Override
+	@Override
     public Set<String> getVarNames() {
     	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
@@ -321,6 +325,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
      */
+	@Override
     public void renameVar(String oldname, String newname) {
     	getRHS().renameVar(oldname, newname);
     	if (!isUnary()) {
@@ -337,18 +342,12 @@ public class LogExpr implements LogicalFormula {
     	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Unifiable#isRule()
-     */
-    public boolean isRule() {
-    	return false;
-    }
     
     /*
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+	@Override
     public boolean unifies(Unifiable t, Unifier u) {
     	if (t instanceof LogExpr) {
     		LogExpr le = (LogExpr) t;
@@ -365,10 +364,11 @@ public class LogExpr implements LogicalFormula {
     	}
     }
     
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
-     */
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	@Override
     public boolean match(Unifiable t, Unifier u) {
     	if (t instanceof LogExpr) {
     		LogExpr le = (LogExpr) t;
@@ -385,10 +385,11 @@ public class LogExpr implements LogicalFormula {
     	}
     }
 
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
-     */
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	@Override
     public boolean matchNG(Unifiable t, Unifier u) {
     	if (t instanceof LogExpr) {
     		LogExpr le = (LogExpr) t;
@@ -410,6 +411,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#isGround()
      */
+	@Override
     public boolean isGround() {
     	if (lhs == null) {
     		return rhs.isGround();
@@ -423,6 +425,7 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
      */
+	@Override
 	public boolean apply(Unifier theta) {
 		if (getRHS().apply(theta)) {
 			if (getLHS() != null) {
@@ -438,6 +441,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+	@Override
 	public void makeVarsAnnon() {
 		if (getLHS() != null) {
 			getLHS().makeVarsAnnon();
@@ -449,6 +453,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
+	@Override
 	public Unifiable strip_varterm() {
 		if (getLHS() != null) {
 			return new LogExpr((LogicalFormula) getLHS().strip_varterm(), getOp(), (LogicalFormula) getRHS().strip_varterm());
@@ -461,6 +466,7 @@ public class LogExpr implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#resolveVarsClusters()
 	 */
+	@Override
 	public Unifiable resolveVarsClusters() {
 		if (getLHS() != null) {
 			return new LogExpr((LogicalFormula) getLHS().resolveVarsClusters(), getOp(), (LogicalFormula) getRHS().resolveVarsClusters());

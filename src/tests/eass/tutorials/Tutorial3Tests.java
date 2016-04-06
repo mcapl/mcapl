@@ -49,58 +49,6 @@ public class Tutorial3Tests extends TestJPF {
 
  
   @Test //----------------------------------------------------------------------
-  public void first_property () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 } 
-  }
-
-  @Test //----------------------------------------------------------------------
-  public void second_property () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "2";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-  @Test //----------------------------------------------------------------------
-  public void third_property () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "3";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-  @Test //----------------------------------------------------------------------
-  public void fourth_property () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/car.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-  @Test //----------------------------------------------------------------------
   public void ex1 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/eass/tutorials/tutorial3/answers/car_ex1.ail";
@@ -113,17 +61,5 @@ public class Tutorial3Tests extends TestJPF {
  	 }
   }
 
-  @Test //----------------------------------------------------------------------
-  public void ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/eass/tutorials/tutorial3/answers/car_ex2.ail";
-    	String prop_filename =  "/src/examples/eass/tutorials/tutorial3/car.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "3";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
-
+ 
 }

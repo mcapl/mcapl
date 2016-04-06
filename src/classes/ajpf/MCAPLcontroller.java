@@ -93,6 +93,24 @@ public class MCAPLcontroller  {
 	
 	// Store any application specific configurations.
 	Properties config;
+	
+	public MCAPLcontroller(Properties config, String pstring) {
+		this.config = config;
+		
+		if (replayMode()) {
+			try {
+				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
+				record = new ChoiceRecord(filename);
+			} catch (Exception e) {
+				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
+			}
+		}
+		
+		specification.addPropertyString(pstring);
+		specification.addController(this);
+		
+
+	} 
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -100,13 +118,13 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public void setMAS(MCAPLmas mas, String pstring, Properties properties) {
+/*	public void setMAS(MCAPLmas mas, String pstring) {
 		setMAS(mas);
-		config = properties;
+//		config = properties;
 		specification.addPropertyString(pstring);
 		specification.addMas(mas);
 		specification.addController(this);
-	}
+	} */
 
 	/**
 	 * Constructor.
@@ -116,7 +134,7 @@ public class MCAPLcontroller  {
 	 * @param s
 	 *            The specification against which the system is to be checked.
 	 */
-	public void setMAS(MCAPLmas m, MCAPLSpec s) {
+/*	public void setMAS(MCAPLmas m, MCAPLSpec s) {
 		mas = m;
 		scheduler = mas.getScheduler();
 		List<MCAPLLanguageAgent> lagents = m.getMCAPLAgents();
@@ -126,7 +144,7 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 		}
 		specification = s;
-	}
+	} */
 	
 	/**
 	 * Cretaes a controller from a MAS.
@@ -143,6 +161,23 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
 		}
+		specification.addMas(m);
+		// System.err.println("creating automaton");
+		specification.createAutomaton();
+	}
+	
+	/**
+	 * Constructs a controller from a MAS and a property.
+	 * @param mas
+	 * @param propertystring
+	 * @param outputlevel
+	 */
+	public void setProperty(String pstring) {
+		// setMAS(mas);
+		// config = properties;
+		specification.addPropertyString(pstring);
+		// specification.addMas(mas);
+		specification.addController(this);
 	}
 
 	/**
@@ -185,16 +220,15 @@ public class MCAPLcontroller  {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "entered begin");
 		}
 		
-		if (replayMode()) {
+/* 		if (replayMode()) {
 			try {
 				String filename = getFilename(config.getProperty("ajpf.replay.file", "/records/record.txt"));
 				record = new ChoiceRecord(filename);
 			} catch (Exception e) {
 				AJPFLogger.warning("ajpf.MCAPLcontroller", "problem opening record file: " + e.getMessage());
 			}
-		}
+		} */
 		
-		specification.createAutomaton();
 		specification.checkProperties();
 		mas.begin();
 		checkend = checkEnd();
@@ -249,6 +283,7 @@ public class MCAPLcontroller  {
 		a.do_job();
 		specification.checkProperties();
 		if (transitionEveryReasoningCycle()) {
+			// System.err.println("forcing transition");
 			force_transition();
 		}
 		return a;
@@ -422,8 +457,10 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public boolean transitionEveryReasoningCycle() {
+//		System.err.println(config);
 		if (config.containsKey("ajpf.transition_every_reasoning_cycle")) {
 			String result = config.getProperty("ajpf.transition_every_reasoning_cycle");
+//			System.err.println("transitioning: " + result.equals("true"));
 			return (result.equals("true"));
 		}
 		return true;

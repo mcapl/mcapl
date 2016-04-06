@@ -121,7 +121,8 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper implements GOALEnv
 	
 	@Override
 	public Set<Message> getMessages(String agName) {
-    	if (agMessages.get(agName).isEmpty()) {
+		// NB.  agMessages is not being initialised for EIS environments.  This probably needs fixing.
+    	if (agMessages.get(agName) == null || agMessages.get(agName).isEmpty()) {
 			return new VerifySet<Message>();
 		}
 

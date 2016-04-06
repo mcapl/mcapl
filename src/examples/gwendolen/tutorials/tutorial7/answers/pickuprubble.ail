@@ -28,3 +28,4 @@ env = gwendolen.tutorials.tutorial7.SearchAndRescueDynamicEnv
 
 log.info = ail.mas.DefaultEnvironment
 log.format = brief
+

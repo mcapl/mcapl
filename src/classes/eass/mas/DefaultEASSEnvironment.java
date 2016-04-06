@@ -155,15 +155,16 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param pred
 	 */
 	public void addUniquePercept(String agName, String s, Predicate pred) {
-		HashMap<String, Predicate> values = agvalues.get(agName);
-		if (values != null) {
-		if (values.containsKey(s.toLowerCase())) {
-			removePercept(agName, values.get(s.toLowerCase()));
-		}
+		HashMap<String, Predicate> vs = agvalues.get(agName);
+		if (vs != null) {
+			if (vs.containsKey(s.toLowerCase())) {
+				removePercept(agName, vs.get(s.toLowerCase()));
+			}
 
-		values.put(s.toLowerCase(), pred);
-		addPercept(agName, pred);
+			vs.put(s.toLowerCase(), pred);
 		}
+			
+		addPercept(agName, pred);
 	}
 	
 	/**
@@ -217,17 +218,10 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
     		VarTerm result = (VarTerm) act.getTerm(2);
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
-    		printed = true;
-    	} else {
-     		 u = super.executeAction(agName, act);
-    		 printed = true;
-    	}
+    	} 
 	   
-	   if (!printed) {
-		   AJPFLogger.info(logname, agName + " done " + printAction(act));
-	   }
-
-	     
+     	u = super.executeAction(agName, act);
+	   	     
 	   return u;
 	  }
 	  

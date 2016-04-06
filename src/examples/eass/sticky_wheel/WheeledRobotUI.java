@@ -301,7 +301,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
 
     	AIL.configureLogging(config);
 	
-    	MCAPLcontroller mccontrol = new MCAPLcontroller();
+    	MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
 		MAS mas = AIL.AILSetup(config, mccontrol);
 		env = (SimpleWheeledRobotEnv) mas.getEnv();
 		
@@ -314,7 +314,7 @@ public class WheeledRobotUI extends JPanel implements ActionListener,
         );
 
         // Lastly we construct a controller.
-		mccontrol.setMAS(mas, "", config);
+		mccontrol.setMAS(mas);
 		// Start the system.
 		mccontrol.begin(); 
 		mas.cleanup();

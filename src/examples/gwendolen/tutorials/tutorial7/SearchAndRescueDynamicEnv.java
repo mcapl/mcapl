@@ -92,17 +92,6 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		this.setScheduler(scheduler);
 		addPerceptListener(scheduler);
-		generatesquares();
-		int numbuildings = r.nextInt(4);
-		placebuildings(numbuildings, true);
-		int numrubble = r.nextInt(4);
-		placebuildings(numrubble, false);
-		placehumans(numhumans);
-		
-		Predicate at = new Predicate("at");
-		at.addTerm(new NumberTermImpl(robot_x));
-		at.addTerm(new NumberTermImpl(robot_y));
-		addPercept(at);
 		
 		getScheduler().addJobber(this);
 	}
@@ -497,8 +486,10 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 			i++;
 		}
 		
+		int modifier = 0;
 		for (Integer it: collapses) {
-			buildings.remove(it.intValue());
+			buildings.remove(it.intValue() - modifier);
+			modifier++;
 		}
 	}
 	
@@ -887,6 +878,18 @@ public class SearchAndRescueDynamicEnv extends DefaultEnvironment implements
 		r = new UniformIntChoice(m.getController());
 		building_collapse = new ProbBoolChoice(m.getController(), building_collapse_chance);
 		human_move = new ProbBoolChoice(m.getController(), human_move_chance * 8);
+		generatesquares();
+		int numbuildings = r.nextInt(4);
+		placebuildings(numbuildings, true);
+		int numrubble = r.nextInt(4);
+		placebuildings(numrubble, false);
+		placehumans(numhumans);
+		
+		Predicate at = new Predicate("at");
+		at.addTerm(new NumberTermImpl(robot_x));
+		at.addTerm(new NumberTermImpl(robot_y));
+		addPercept(at);
+
 	}
 
 

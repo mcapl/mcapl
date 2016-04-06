@@ -47,7 +47,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis.
  *
  */
-public class PlanLibrary implements EvaluationBase<Plan> {
+public class PlanLibrary {
 	/** a MAP from TE to a list of relevant plans */
 	@FilterField
     Map<PredicateIndicator,PlanSet> relPlans = new VerifyMap<PredicateIndicator,PlanSet>();

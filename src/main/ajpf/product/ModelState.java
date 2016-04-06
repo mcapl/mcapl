@@ -100,6 +100,16 @@ public class ModelState implements Comparable<ModelState> {
 	}
 	
 
+	public ModelState(int statenum, ModelState ms) {
+		JPFstatenum = statenum;
+		for (Proposition p: ms.getProps()) {
+			if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+				log.fine("proposition " + p + " added to " + JPFstatenum);
+			}
+			props.add(p);
+		}
+	}
+
 	/**
 	 * Equate states associated wit the same JPF state number;
 	 */

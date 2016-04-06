@@ -45,7 +45,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Tutorial8Tests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -56,33 +56,6 @@ public class Tutorial8Tests extends TestJPF {
   }
 
   //--- test methods
-
- 
-  @Test //----------------------------------------------------------------------
-  public void ex1 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex1.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "7";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-  @Test //----------------------------------------------------------------------
-  public void ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "7";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
 
   @Test //----------------------------------------------------------------------
   public void ex3 () {
@@ -95,34 +68,6 @@ public class Tutorial8Tests extends TestJPF {
     	args[2] = "8";
     	AJPF_w_AIL.run(args);
  	 }
-  }
-  
-  @Test
-  public void recordAndReplaytest() {
-	  Logger logger = Logger.getLogger("ail.mas.DefaultEnvironment");
-	  Formatter formatter = new TimeFreeBriefLogFormatter();
-	  ByteArrayOutputStream out = new ByteArrayOutputStream();
-	  Handler handler = new StreamHandler(out, formatter);
-	  logger.addHandler(handler);
-
-	  String recordfilename = "/src/examples/gwendolen/tutorials/tutorial8/simple_mas_record.ail";
-	  AIL.runAIL(recordfilename);
-	  
-	  handler.flush();
-	  String recordout = out.toString();
-	  handler.close();
-	  Handler handler2 = new StreamHandler(out, formatter);
-	  
-	  String replayfilename = "/src/examples/gwendolen/tutorials/tutorial8/simple_mas_replay.ail";
-	  AIL.runAIL(replayfilename);
-
-	  handler2.flush();
-	  String replayout = out.toString();
-
-	  
-	  Assert.assertEquals(recordout, replayout);
-	  
-	 
   }
 
 }

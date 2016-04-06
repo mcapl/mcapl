@@ -46,9 +46,7 @@ public class SimpleEnv extends DefaultEnvironment {
 	
 	public SimpleEnv() {
 		super();
-	}
-	
-		
+	}		
 	
 	/**
 	 * When a pickup action is executed the environment stores new perceptions
