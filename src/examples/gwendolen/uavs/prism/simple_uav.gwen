@@ -51,12 +51,12 @@ fly [perform]
 +collision: {B normalFlight, B direction(Dir)} <- -normalFlight, 
 	+oldstate(normalFlight), 
 	+olddir(Dir), 
-	+EmergencyAvoid, 
+	+emergencyAvoid, 
 	-direction(Dir), +direction(right), evade;
 +collision: {B changingHeading, B direction(Dir)} <- -changingHeading,
 	+oldstate(changingHeading),
 	+olddir(Dir),
-	+EmergencyAvoid,
+	+emergencyAvoid,
 	-direction(Dir), +direction(right), evade;
 +changeHeading: {B normalFlight, ~B toldOtherwise, B vicinityOfAerodrome} <- -normalFlight, +changingHeading, direction(left);
 +landing: {True} <- land;

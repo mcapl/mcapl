@@ -33,7 +33,8 @@ log.info = ail.mas.DefaultEnvironment,gwendolen.uavs.simple.SimpleUAVfromPRISMEn
 ajpf.model.location = stdout
 ajpf.model_only = true
 ajpf.target_modelchecker = prism
-# ajpf.model.path = /Users/lad/Research/ajpf/Prism
+ajpf.model.path = ${mcapl}/src/examples/gwendolen/uavs/prism
+ajpf.model.location = prism.pm
 
 listener=ajpf.MCAPLProbListener
 listener+=,.listener.ExecTracker
