@@ -1,5 +1,7 @@
 package goal.semantics.operationalrules;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
@@ -15,7 +17,7 @@ import goal.syntax.MentalState;
 import goal.syntax.PrintAction;
 import gov.nasa.jpf.annotation.FilterField;
 
-public class SendActionExecutor extends ActionExecutor {
+public class SendOnceActionExecutor extends ActionExecutor {
 	@FilterField
 	private final static String name = "Send Action Executor";
 
@@ -35,7 +37,7 @@ public class SendActionExecutor extends ActionExecutor {
 			Action act = (Action) d.getContent();
 			if (act instanceof GOALSendAction) {
 				action = (GOALSendAction) act;
-				if (action.getType() == GOALSendAction.SEND) {
+				if (action.getType() == GOALSendAction.SENDONCE) {
 					return true;
 				}
 			}
@@ -50,6 +52,21 @@ public class SendActionExecutor extends ActionExecutor {
     	MentalState mentalState = gag.getMentalState();
 
         GoalMessage message = this.action.getMessage(gag.getAgName());
+        
+        Set<String> receivers = message.getReceivers();
+        Set<String> done = new LinkedHashSet<>();
+        
+        for (String agent: receivers) {
+        	// update is the update to the mental state required by the action, filtered through conversion from mental  state representation.
+        	Update update = mentalState.getState().convert(
+                    this.action.getMessage(), true, receiver);
+        	// If we queried the  mental state with the update, return set of query is true for.
+        	if (!mentalState
+                    .query(update.toQuery(), BASETYPE.MAILBOX, debugger)
+                    .isEmpty()) {
+        		done.add(receiver);
+        	}	
+        }
 
         // message.setReceivers(receivers);
         // message.setSender(mentalState.getAgentId());

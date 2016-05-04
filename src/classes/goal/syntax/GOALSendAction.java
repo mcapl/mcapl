@@ -22,9 +22,14 @@
 //----------------------------------------------------------------------------
 package goal.syntax;
 
+import java.util.ArrayList;
+
 import ail.syntax.Action;
 import ail.syntax.BroadcastSendAction;
+import ail.syntax.ListTerm;
+import ail.syntax.ListTermImpl;
 import ail.syntax.SendAction;
+import ail.syntax.Term;
 
 public class GOALSendAction extends BroadcastSendAction {
 	public static final int SEND = 0;
@@ -38,6 +43,34 @@ public class GOALSendAction extends BroadcastSendAction {
 	}
 	
 	public GoalMessage getMessage(String agName) {
-		return new GoalMessage(this.getMessage(agName));
+		return new GoalMessage(super.getMessage(agName));
 	}
+	
+	/**
+	 * getter for the recipeint.
+	 * 
+	 * @return
+	 */
+	public Term getReceivers() {
+		Term receiver =  getTerm(1);
+		ListTerm receivers = new ListTermImpl();
+		receivers.cons(receiver);
+		return receivers;
+	}
+
+	
+	@Override
+	public GOALSendAction clone() {
+		BroadcastSendAction aclone = super.clone();
+		return new GOALSendAction(aclone, ilf, type);
+	}
+	
+	/**
+	 * Is this SEND or SENDONCE?
+	 * @return
+	 */
+	public int getType() {
+		return type;
+	}
+
 }

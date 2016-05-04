@@ -73,7 +73,7 @@ public class Abstract_Action extends Abstract_Predicate {
 	 * By default an action is a normalAction (i.e. a term).
 	 */
 	@FilterField
-	int actiontype = normalAction;
+	public int actiontype = normalAction;
 	
 
 	/**

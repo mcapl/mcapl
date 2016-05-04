@@ -86,6 +86,7 @@ public class MentalModel implements AgentMentalState {
 	
 	public MentalModel() {
 		beliefBases.put(MentalState.BASETYPE.PERCEPTBASE, new BeliefBase());
+		addMessageBase(new BeliefBase());
 	}
 
 	

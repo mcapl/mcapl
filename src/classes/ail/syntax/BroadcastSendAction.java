@@ -55,7 +55,7 @@ public class BroadcastSendAction extends Action {
 	/**
 	 * The thId of the message.
 	 */
-	protected StringTerm thId;
+	protected StringTerm thId = new StringTermImpl("");
 	
 	/**
 	 * The message constructed to be sent by the action when it is
