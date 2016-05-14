@@ -130,6 +130,16 @@ public final class AJPFLogger {
 	  }
 	  	
 	  /**
+	   * Set the logging report format to look like regular program output.
+	   */
+	  public static void setHandlerFormatAsOutput() {
+		for (Handler h: Logger.getLogger("").getHandlers()){
+				h.setFormatter(new AsOutputLogFormatter());
+		}
+	  }
+	  	
+
+	  /**
 	   * Get the level of this logging class.
 	   * @param logname
 	   * @return

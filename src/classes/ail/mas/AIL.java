@@ -229,6 +229,8 @@ public class AIL {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
 				AJPFLogger.setHandlerFormatBrief();
+			} else if (format.equals("as_output")) {
+				AJPFLogger.setHandlerFormatAsOutput();
 			}
 		}
 	}
