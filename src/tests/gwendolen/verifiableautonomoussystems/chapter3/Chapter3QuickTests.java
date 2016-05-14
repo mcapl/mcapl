@@ -80,7 +80,6 @@ public class Chapter3QuickTests extends TestJPF {
   
   @Test //----------------------------------------------------------------------
   public void example_3_12 () {
-	  setUpStreams();
 	  PrintStream errPrintStream = new PrintStream(errContent);
 	  System.setErr(errPrintStream);
 	  java.util.logging.Logger logger = java.util.logging.Logger.getLogger("");
@@ -90,7 +89,21 @@ public class Chapter3QuickTests extends TestJPF {
 	  // System.err.println("some content");
 	  String s = errContent.toString();
 	  assertEquals("ag1 done send(2:take(ag1,block), ag2) \nag2 done send(1:take(ag2,block), ag1) \n", s);
-	  cleanUpStreams();
+	  System.setErr(systemErrOut);
+  }
+  
+  @Test //----------------------------------------------------------------------
+  public void example_3_13() {
+	  PrintStream errPrintStream = new PrintStream(errContent);
+	  System.setErr(errPrintStream);
+	  java.util.logging.Logger logger = java.util.logging.Logger.getLogger("");
+	  logger.addHandler(new ConsoleHandler());
+	  // System.err.println("content 1");
+	  AIL.runAIL("/src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_13.ail");
+	  // System.err.println("some content");
+	  String s = errContent.toString();
+	  assertTrue(s.contains("searcher done move_to(0,0)"));
+	  assertTrue(s.contains("lifter done lift(human)"));
 	  System.setErr(systemErrOut);
   }
   
