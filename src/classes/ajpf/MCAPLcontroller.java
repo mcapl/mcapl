@@ -249,7 +249,7 @@ public class MCAPLcontroller  {
 	 * @return
 	 */
 	public MCAPLJobber scheduling() {
-		List<MCAPLJobber> activeJobs = scheduler.getActiveJobbers();
+		List<MCAPLJobber> activeJobs = scheduler.getAvailableJobbers();
 
 		if (!activeJobs.isEmpty()) {
 			a = null;

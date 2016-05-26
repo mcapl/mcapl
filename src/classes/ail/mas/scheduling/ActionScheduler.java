@@ -60,9 +60,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ajpf.MCAPLScheduler#getActiveAgents()
+	 * @see ajpf.MCAPLScheduler#getAvailableJobbers()
 	 */
-	public List<MCAPLJobber> getActiveJobbers() {
+	public List<MCAPLJobber> getAvailableJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
 			// Got a Concurrent Modification Error here in the Sticky Wheel example.
@@ -146,5 +146,14 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public String getListenerName() {
 		return "scheduler";
+	}
+
+	@Override
+	public List<MCAPLJobber> getActiveJobbers() {
+		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
+		for (int i = 0; i < activeAgents.size(); i++) {
+			ags.add(agnames.get(activeAgents.get(i)));
+		}
+		return ags;
 	}
 }

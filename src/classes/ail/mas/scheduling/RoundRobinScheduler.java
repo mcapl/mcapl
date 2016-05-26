@@ -60,15 +60,9 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
-		if (somethinghaschanged) {
-			String name = agents.get(turn);
+		for (String name: agents) {
 			ags.add(agnames.get(name));
-			turn++;
-			if (turn == agents.size()) {
-				turn = 0;
-			}
 		}
-		somethinghaschanged = false;
 		return ags;
 	}
 
@@ -78,8 +72,9 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
-		String name = agents.get(turn);
-		ags.add(name);
+		for (String name: agents) {
+			ags.add(name);
+		}
 		return ags;
 	}
 
@@ -89,6 +84,12 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public void notActive(String agName) {
 		somethinghaschanged = true;
+		if (agents.contains(agName)) {
+			if (agents.indexOf(agName) <= turn) {
+				turn--;
+			}
+		}
+		agents.remove(agName);
 	}
 	
 	/*
@@ -97,6 +98,9 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public void isActive(String a) {
 		somethinghaschanged = true;
+		if (!agents.contains(a)) {
+			agents.add(a);
+		}
 	}
 	
 	/*
@@ -138,6 +142,21 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 */
 	public int getTurn() {
 		return turn;
+	}
+
+	@Override
+	public List<MCAPLJobber> getAvailableJobbers() {
+		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
+		if (somethinghaschanged & agents.size() > 0) {
+			String name = agents.get(turn);
+			ags.add(agnames.get(name));
+			turn++;
+			if (turn == agents.size()) {
+				turn = 0;
+			}
+		}
+		somethinghaschanged = false;
+		return ags;
 	}
 
 

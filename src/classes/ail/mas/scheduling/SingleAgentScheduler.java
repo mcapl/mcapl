@@ -32,10 +32,9 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 	@Override
 	public List<MCAPLJobber> getActiveJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
-		if (somethinghaschanged) {
+		if (isactive) {
 			ags.add(agent);
-			somethinghaschanged = false;
-		} 
+		}
 		// TODO Auto-generated method stub
 		return ags;
 	}
@@ -67,6 +66,17 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 		if (isactive) {
 			ags.add(agent.getName());
 		}
+		// TODO Auto-generated method stub
+		return ags;
+	}
+
+	@Override
+	public List<MCAPLJobber> getAvailableJobbers() {
+		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
+		if (somethinghaschanged) {
+			ags.add(agent);
+			somethinghaschanged = false;
+		} 
 		// TODO Auto-generated method stub
 		return ags;
 	}

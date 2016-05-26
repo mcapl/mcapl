@@ -52,6 +52,7 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	public boolean colliding = false;
 	public boolean done = false;
 	public boolean flying = false;
+	public boolean navigating = false;
 	
 	public SimpleUAVforPRISMEnv() {
 		name = "Simple UAV Environment";
@@ -103,34 +104,44 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	// Tracking the stages of the example
 	int navAction = 0;
 	boolean collision_happened = false;
+	
+		
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLJobber#do_job()
 	 */
 	public void do_job() {
 		
-		navAction = navMan.get_choice();
-		if (navAction == 1 & flying) {
-			addPercept(new Predicate("changeHeading"));
-		} else if (navAction == 2 & flying) {
-			addPercept(new Predicate("headingOK"));
-		} else if (navAction == 3 & flying) {
-			addPercept(new Predicate("landing"));
-		}
-		
-		boolean uptodate = agentIsUpToDate("uav");
-		
-		if (flying & !colliding) {
-			if (objectSet.get_choice() & !collision_happened) {
-				colliding = true;
-				collision_happened = true;
-				addPercept(new Predicate("collision"));
+		if (navigating || getScheduler().getActiveJobberNames().size() == 1) {
+			navAction = navMan.get_choice();
+			if (navAction == 1 & flying) {
+				addPercept(new Predicate("changeHeading"));
+				removePercept(new Predicate("headingOK"));
+			} else if (navAction == 2 & flying) {
+				addPercept(new Predicate("headingOK"));
+				removePercept(new Predicate("changeHeading"));
+			} else if (navAction == 3 & flying) {
+				addPercept(new Predicate("landing"));
 			}
-		} else if (flying & colliding & uptodate) {
-			colliding = false;
+			
+			boolean uptodate = agentIsUpToDate("uav");
+			
+			if (flying & !colliding) {
+				if (objectSet.get_choice() & !collision_happened) {
+					colliding = true;
+					collision_happened = true;
+					addPercept(new Predicate("collision"));
+				}
+			} else if (flying & colliding & uptodate) {
+				colliding = false;
+			}
+			navigating = false;
 		}
 		
-		getScheduler().notActive(name);
+		getScheduler().perceptChanged();
+		
+		
 	}
 	
 	/*
@@ -148,17 +159,19 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("take_off")) {
 			flying = true;
+			removePercept(new Predicate("landing"));
 		} else if (act.getFunctor().equals("land")) {
 			flying = false;
 			colliding = false;
 			removePercept(new Predicate("collision"));
+			removePercept(new Predicate("landing"));
 			done = true;
 		} else if (act.getFunctor().equals("evade")) {
 			colliding = false;
 			removePercept(new Predicate("collision"));
 		}
 		
-		getScheduler().isActive(name);
+		navigating = true;
 		
 		return super.executeAction(agName, act);
 	}
