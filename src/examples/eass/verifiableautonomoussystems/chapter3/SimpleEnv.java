@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package gwendolen.verifiableautonomoussystems.chapter3;
+package eass.verifiableautonomoussystems.chapter3;
 
 import ail.mas.DefaultEnvironment;
 import ail.util.AILexception;

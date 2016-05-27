@@ -22,8 +22,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-env = gwendolen.verifiableautonomoussystems.chapter3.SimpleEnv
-mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_11.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+env = eass.verifiableautonomoussystems.chapter3.SimpleEnv
 
-log.warning = ail.mas.DefaultEnvironment
+log.format=as_output
+log.info = ail.mas.DefaultEnvironment
+log.severe = ajpf.MCAPLAgent
+
+mas.file = /src/examples/eass/verifiableautonomoussystems/chapter3/example_3_12.gwen
+mas.builder = gwendolen.GwendolenMASBuilder

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
-//
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// 
 // This file is part of Gwendolen
 // 
 // Gwendolen is free software; you can redistribute it and/or
@@ -22,8 +22,12 @@
 //
 //----------------------------------------------------------------------------
 
-@using = mcapl
+env = eass.verifiableautonomoussystems.chapter3.RobotEnv
 
-target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+mas.agent.1.file = /src/examples/eass/verifiableautonomoussystems/chapter3/searcher.gwen
+mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
+mas.agent.2.file = /src/examples/eass/verifiableautonomoussystems/chapter3/lifter.gwen
+mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
 
+log.format = as_output
+log.info = eass.verifiableautonomoussystems.chapter3.RobotEnv

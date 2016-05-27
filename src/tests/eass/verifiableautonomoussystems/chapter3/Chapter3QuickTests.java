@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2016 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,11 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.verifiableautonomoussystems.chapter3;
+package eass.verifiableautonomoussystems.chapter3;
 
 import org.junit.Test;
 
-import com.sun.istack.internal.logging.Logger;
 
 import ail.util.AJPF_w_AIL;
 import ail.mas.AIL;
@@ -73,7 +72,7 @@ public class Chapter3QuickTests extends TestJPF {
   @Test //----------------------------------------------------------------------
   public void example_3_11 () {
 	  setUpStreams();
-	  AIL.runAIL("/src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_11.ail");
+	  AIL.runAIL("/src/examples/eass/verifiableautonomoussystems/chapter3/example_3_11.ail");
 	  assertEquals("done\n", outContent.toString());
 	  cleanUpStreams();
   }
@@ -85,7 +84,7 @@ public class Chapter3QuickTests extends TestJPF {
 	  java.util.logging.Logger logger = java.util.logging.Logger.getLogger("");
 	  logger.addHandler(new ConsoleHandler());
 	  // System.err.println("content 1");
-	  AIL.runAIL("/src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_12.ail");
+	  AIL.runAIL("/src/examples/eass/verifiableautonomoussystems/chapter3/example_3_12.ail");
 	  // System.err.println("some content");
 	  String s = errContent.toString();
 	  assertEquals("ag1 done send(2:take(ag1,block), ag2) \nag2 done send(1:take(ag2,block), ag1) \n", s);
@@ -99,7 +98,7 @@ public class Chapter3QuickTests extends TestJPF {
 	  java.util.logging.Logger logger = java.util.logging.Logger.getLogger("");
 	  logger.addHandler(new ConsoleHandler());
 	  // System.err.println("content 1");
-	  AIL.runAIL("/src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_13.ail");
+	  AIL.runAIL("/src/examples/eass/verifiableautonomoussystems/chapter3/example_3_13.ail");
 	  // System.err.println("some content");
 	  String s = errContent.toString();
 	  assertTrue(s.contains("searcher done move_to(0,0)"));

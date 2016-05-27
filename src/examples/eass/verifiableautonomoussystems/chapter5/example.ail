@@ -1,9 +1,8 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
-//
+// 
 // Gwendolen is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
@@ -15,18 +14,20 @@
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with Gwendolen if not, write to the Free Software
+// License along with Gwendolen; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
+//
 //----------------------------------------------------------------------------
 
-env = gwendolen.verifiableautonomoussystems.chapter3.SimpleEnv
+env = eass.verifiableautonomoussystems.chapter5.RobotEnvFixedHuman
 
-log.format=as_output
-log.info = ail.mas.DefaultEnvironment
-log.severe = ajpf.MCAPLAgent
+mas.agent.1.file = /src/examples/eass/verifiableautonomoussystems/chapter3/searcher.gwen
+mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
+mas.agent.2.file = /src/examples/eass/verifiableautonomoussystems/chapter3/lifter.gwen
+mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
 
-mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter3/example_3_12.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+log.format = as_output
+log.info = eass.verifiableautonomoussystems.chapter5.RobotEnvFixedHuman

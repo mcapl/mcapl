@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2016 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -22,15 +22,15 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.verifiableautonomoussystems.chapter3;
+package eass.verifiableautonomoussystems.chapter5;
 
 import ail.mas.DefaultEnvironment;
-import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.SendAction;
 import ail.syntax.Literal;
+import ail.syntax.NumberTerm;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 
@@ -41,40 +41,32 @@ import java.util.HashSet;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
- * Environment for a Trash Robot Scenario.  Tailored for verification so that
- * the percepts are decided at random.
+ * Environment for a very simple search and rescue robot scenario.
  * 
  * WARNING: This environment can not be used with record and replay because of the use of Random.
  * 
  * @author louiseadennis
  *
  */
-public class RobotEnv extends DefaultEnvironment {
+public class RobotEnvFixedHuman extends DefaultEnvironment {
+	// Initial position of robot (off the grid).
+	int robot_x = -1;
+	int robot_y = -1;
+	int human_x = 2;
+	int human_y = 2;
 	boolean changer = true;
-	boolean changel = true;
-	boolean changemessage = true;
 	@FilterField
 	boolean canseehumanr = false;
-	@FilterField
-	boolean canseehumanl = false;
-	@FilterField
-	boolean havemessagel = false;
-	boolean withlifter = false;
-	boolean withlifter2 = false;
-	boolean withsearcher = true;
 	Literal human;
-	Literal clear;
-	Random random = new Random();
 	
-	String logname = "gwendolen.rescue.RobotEnv";
+	String logname = "eass.verifiableautonomoussystems.chapter5.RobotEnvFixedHuman";
 	
 	/**
 	 * Constructor.
 	 */
-	public RobotEnv() {
+	public RobotEnvFixedHuman() {
 		super();
 		human=new Literal("human");
-		clear = new Literal("clear");
 	}
 	
 	/*
@@ -84,31 +76,16 @@ public class RobotEnv extends DefaultEnvironment {
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		Set<Predicate> percepts = new HashSet<Predicate>();
 		if (agName.equals("searcher")) {
-			if (changer) {
-				if (withsearcher) {
-					canseehumanr = random.nextBoolean();
-				}
+			if (robot_x == human_x && robot_y == human_y) {
+					canseehumanr = true;
 			}
 			if (canseehumanr) {
 				percepts.add(human);
 			}
 			changer = false;
 		
-		} else {
-			if (changel) {
-				if (withlifter2) {
-					canseehumanl = random.nextBoolean();
-				}
-			}
-			
-			if (canseehumanl) {
-				percepts.add(clear);
-			}
-			changel = false;
-			
-		}
-		
-		AJPFLogger.fine(logname, percepts.toString());
+		} 
+
 		return percepts;
 	}
 	
@@ -121,9 +98,11 @@ public class RobotEnv extends DefaultEnvironment {
 	   	Unifier theta = new Unifier();
 	   	if (act instanceof SendAction) {
 	   		theta = super.executeAction(agName, act);
-	   	} else {
-	   		AJPFLogger.info("gwendolen.easss_tutorial.RobotEnv", agName + " done " + printAction(act));
-	   	}
+	   	} else if (act.getFunctor().equals("move_to")){
+	   		robot_x = (int) ((NumberTerm) act.getTerm(0)).solve();
+	   		robot_y = (int) ((NumberTerm) act.getTerm(1)).solve();
+	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   	} 
 	   	
 	   	change_for(agName);
 	   	 
@@ -137,40 +116,10 @@ public class RobotEnv extends DefaultEnvironment {
    public void change_for(String name) {
 	   if (name.equals("searcher")) {
 		   changer = true;
-	   } else {
-		   changel = true;
-		   changemessage = true;
-	   }
+	   } 
    }
    
-   /*
-    * 
-    */
-   public boolean nothingPending(String agName) {
-	   if (agName.equals("searcher")) {
-		   return (!changer); 
-	   } else {
-		   return (!changel & !changemessage);
-	   }
-   }
-
-   /*
-    * (non-Javadoc)
-    * @see ail.mas.DefaultEnvironment#configure(ail.util.AILConfig)
-    */
-	public void configure(AILConfig configuration) {
-		super.configure(configuration);
-		
-		if (configuration.containsKey("withsearcher")) {
-			withsearcher = Boolean.valueOf((String) configuration.get("withsearcher"));
-		}
-		if (configuration.containsKey("withlifter")) {
-			withlifter = Boolean.valueOf((String) configuration.get("withlifter"));
-		}
-		if (configuration.containsKey("withlifter2")) {
-			withlifter2 = Boolean.valueOf((String) configuration.get("withlifter2"));
-		}
-	} 
+ 
 }
 
 
