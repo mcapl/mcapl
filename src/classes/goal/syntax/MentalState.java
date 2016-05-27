@@ -14,13 +14,23 @@ import ail.syntax.RuleBase;
 import ail.syntax.StringTerm;
 import ail.syntax.Unifier;
 import ail.util.AILexception;
+import ajpf.util.VerifyMap;
+import ajpf.util.VerifySet;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MentalState {
 	MentalModel ownModel = new MentalModel();
+	
+	private final Set<String> knownAgents = new VerifySet<>();
+	private String agentId;
+	private final Map<String, MentalModel> models = new VerifyMap<>();
+
+	public MentalState(String agentId) {
+	}
 	
 	public enum BASETYPE {
 		/**
@@ -71,8 +81,14 @@ public class MentalState {
 		ownModel.updateGoalState();
 	};
 	
-	public void addMessage(Message m){
-		
+	public void updateGoalState(String agentId) {
+		this.models.get(agentId).updateGoalState();
+	};
+
+	public void addReceivedMessage(Message m){
+		Literal recievedMessage = new Literal("received");
+		recievedMessage.addTerm(m.toTerm());
+		ownModel.getMessageBase().add(recievedMessage);
 	};
 	
 	public Iterator<Literal> getPercepts() {
@@ -129,6 +145,92 @@ public class MentalState {
 		ownModel.defocus();
 	}
 	
+	/**
+     * Returns the names of the other agents for which this {@link MentalState}
+     * maintains {@link MentalModel}s.
+     *
+     * @return The names of other agents whose mental state are modeled in this
+     *         mental state.
+     */
+    public Set<String> getKnownAgents() {
+            return this.knownAgents;
+    }
+    
+    /**
+     * Adds a {@link MentalModel} for a (new) agent. Also used to create a
+     * mental model for the owner of this {@link MentalState}.
+     *
+     * CHECK that this method is thread safe. The agent may be running when this
+     * is called!
+     *
+     * @param id
+     *            The agent for which a mental model should be created.
+     * @param debugger
+     *            debugger to report on associated belief update. <b>Note:</b>
+     *            As during initialization the debugger needs to be different
+     *            (in order to avoid halting on this action) than during agent
+     *            execution (when the agent's debugger should be used), debugger
+     *            is a parameter of the method.
+     * @throws KRInitFailedException
+     *             If the KR technology failed to create the requested
+     *             databases.
+     * @throws KRQueryFailedException
+     * @throws KRDatabaseException
+     * @throws UnknownObjectException
+     */
+    public synchronized void addAgentModel(String id) {
+            // true if its me, the owner of this mental state.
+            // boolean me = id.equals(this.agentId);
+
+            // if (me || this.usesMentalModeling) {
+                    /**
+                     * DO NOT CHANGE THE ORDER OF CREATION OF DATABASES BELOW! The
+                     * {@link KnowledgeBase} of an agent must be created before any
+                     * {@link GoalBase} or {@link BeliefBase} is created. This is
+                     * because the latter import the knowledge base. Also, the order of
+                     * introducing the mailbox, percept base, and belief base is
+                     * important. The belief base may assume that the mailbox and
+                     * percept base have already been created.
+                     */
+
+                    // TODO: lazy creation of OTHER agents' models.
+
+                    // Add a mental model that can be used to model the (other) agent.
+                    // We know
+                    // that there is an(other) agent because we have a(n empty) mental
+                    // state.
+                    MentalModel model = new MentalModel();
+
+                    // Get content for the initial belief and goal base.
+                   /* if (me) {
+                            // Create the bases from the parsed GOAL agent program.
+                            model.addBase(this.agentProgram, this.agentId, this.state,
+                                            this.agentProgram.getAllKnowledge(),
+                                            BASETYPE.KNOWLEDGEBASE);
+                            model.addBase(this.agentProgram, this.agentId, this.state,
+                                            new LinkedList<DatabaseFormula>(), BASETYPE.MAILBOX);
+                            model.addBase(this.agentProgram, this.agentId, this.state,
+                                            new LinkedList<DatabaseFormula>(), BASETYPE.PERCEPTBASE);
+                    } */
+                    // Create the belief base.
+                    model.addBB(new BeliefBase());
+                    // Create the goal base.
+                    model.addGB(new ConjGoalBase());
+
+                    // Add the mental model to the map of mental models maintained by
+                    // this
+                    // mental state.
+                    this.models.put(id, model);
+            //}
+
+            // Insert the agent's existence as a fact 'agent(name)' in the belief
+            // base.
+            //getOwnBase(BASETYPE.BELIEFBASE).updateAgentFact(true, id, me);
+            this.knownAgents.add(id);
+    }
+
+
+	
     /**
      * Returns a {@link BeliefBase} that is of a particular {@link BASETYPE}.
      * <p>
@@ -149,7 +251,38 @@ public class MentalState {
             return getOwnModel().getBase(type);
     }
 
+    
+    public boolean insert(Literal p, BASETYPE b, String agentId) {
+    	return this.models.get(agentId).getBase(b).add(p);
+    }
+    
+    public boolean delete(Literal l, BASETYPE b, String name) {
+    	return this.models.get(name).getBase(b).remove(l);
+    }
+    
+    public boolean adopt(Predicate p, boolean focus, String name) {
+    	ConjGoal cg = new ConjGoal();
+    	cg.addConj(p);
+    	if (this.models.get(name).getAttentionSet(focus).getAllConjGoals().contains(cg)) {
+    		return false;
+    	}
+    	this.models.get(name).getAttentionSet(focus).add(cg);
+    	return true;
+    }
+    
+    public String toString() {
+    	String str = new String("");
+    	for (String s: models.keySet()) {
+    		str += s + ":\n";
+    		str += models.get(s).toString();
+    	}
+    	return str;
+    }
 
+    public void setAgName(String name) {
+		this.agentId = name;
+		models.put(this.agentId, ownModel);
+    }
 
 	
 }

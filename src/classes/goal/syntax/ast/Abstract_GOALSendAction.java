@@ -43,11 +43,11 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 		 Abstract_Term receiver = tl.get(0);
 		 Abstract_NumberTermImpl i = (Abstract_NumberTermImpl) tl.get(1);
 		 ilf = (int) i.getValue();
-		 this.addTerm(receiver);
 		 List<Abstract_Term> content = tl.subList(2, tl.size());
 		 for (Abstract_Term t: content) {
 			 this.addTerm(t);
 		 }
+		 this.addTerm(receiver);
 	 }
 
 	

@@ -53,34 +53,39 @@ public class SendOnceActionExecutor extends ActionExecutor {
 
         GoalMessage message = this.action.getMessage(gag.getAgName());
         
-        Set<String> receivers = message.getReceivers();
-        Set<String> done = new LinkedHashSet<>();
+        // Set<String> receivers = message.getReceivers();
+        // Set<String> done = new LinkedHashSet<>();
         
-        for (String agent: receivers) {
+        // NB. GOAL seems to be sending to a receiver at a time, below we just check if the message has been sent!!
+        
+        
+        //for (String agent: receivers) {
         	// update is the update to the mental state required by the action, filtered through conversion from mental  state representation.
-        	Update update = mentalState.getState().convert(
-                    this.action.getMessage(), true, receiver);
+        	//Update update = mentalState.getState().convert(
+            //        this.action.getMessage(), true, receiver);
         	// If we queried the  mental state with the update, return set of query is true for.
-        	if (!mentalState
-                    .query(update.toQuery(), BASETYPE.MAILBOX, debugger)
-                    .isEmpty()) {
-        		done.add(receiver);
-        	}	
-        }
+        	//if (!mentalState
+            //        .query(update.toQuery(), BASETYPE.MAILBOX, debugger)
+           //         .isEmpty()) {
+        	//	done.add(receiver);
+        	//}	
+       // }
 
         // message.setReceivers(receivers);
         // message.setSender(mentalState.getAgentId());
 
-        try {
-        	((GOALEnv) gag.getEnv()).postMessage(message);
-        
-        	Literal messagelit = new Literal("sent");
-        	messagelit.addTerm(message.toTerm());
-
-        	mentalState.getOwnBase(MentalState.BASETYPE.MESSAGEBASE).add(messagelit);
-        } catch (Exception e) {
-        	System.err.println("Problem Sending Message" + e);
-        }
+    	Literal messagelit = new Literal("sent");
+    	messagelit.addTerm(message.toTerm());
+    	try {
+    		if ( mentalState.getOwnBase(MentalState.BASETYPE.MESSAGEBASE).contains(messagelit) == null) {
+    			((GOALEnv) gag.getEnv()).postMessage(message);
+	        
+	
+	        	mentalState.getOwnBase(MentalState.BASETYPE.MESSAGEBASE).add(messagelit);
+    		}
+    	} catch (Exception e) {
+	        	System.err.println("Problem Sending Message" + e);
+    	}
 
         mentalState.updateGoalState(); 
 		a.getIntention().tlI(a);

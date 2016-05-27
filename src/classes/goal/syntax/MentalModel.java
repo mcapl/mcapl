@@ -147,6 +147,10 @@ public class MentalModel implements AgentMentalState {
     	return beliefBases.get(MentalState.BASETYPE.PERCEPTBASE);
     }
     
+    public BeliefBase getMessageBase() {
+    	return beliefBases.get(MentalState.BASETYPE.MESSAGEBASE);
+    }
+    
     public void adopt(ConjGoal g) {
     	getAttentionSet(true).add(g);
     }
@@ -235,6 +239,29 @@ public class MentalModel implements AgentMentalState {
     public BeliefBase getBase(MentalState.BASETYPE type) {
             return this.beliefBases.get(type);
     }
+    
+    public String toString() {
+    	String s = "";
+    	s += "   beliefs:";
+    	s += getBB().toString();
+    	s += "\n";
+    	
+    	s += "   percepts:";
+    	s += getPerceptBase().toString();
+    	s += "\n";
+    	
+    	s += "   messages:";
+    	s += getMessageBase().toString();
+    	s += "\n";
+    	
+    	s += "   goals:";
+    	s += getGoals().toString();
+    	s += "\n";
+    	
+    	return s;
+    	
+    }
+
 
 
 }

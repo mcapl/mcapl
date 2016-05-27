@@ -8,6 +8,7 @@ import goal.semantics.operationalrules.ModuleInitialisation;
 import goal.semantics.operationalrules.PrintActionExecutor;
 import goal.semantics.operationalrules.SelectRule;
 import goal.semantics.operationalrules.SendActionExecutor;
+import goal.semantics.operationalrules.SendOnceActionExecutor;
 import goal.semantics.operationalrules.UserSpecAction;
 import goal.semantics.operationalrules.ModuleExit;
 import goal.semantics.operationalrules.ActionRuleExecutor;
@@ -42,6 +43,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	ModuleCallActionExecutor mca = new ModuleCallActionExecutor();
 	PrintActionExecutor printaction = new PrintActionExecutor();
 	SendActionExecutor sendaction = new SendActionExecutor();
+	SendOnceActionExecutor sendonceaction = new SendOnceActionExecutor();
 	ModuleExit exitModule = new ModuleExit(this);
 	HandleAddBelief addBelief = new HandleAddBelief();
 	HandleDropBelief dropBelief = new HandleDropBelief();
@@ -81,6 +83,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		} else if (agintention & !exit) {
 			rules.add(printaction);
 			rules.add(sendaction);
+			rules.add(sendonceaction);
 			rules.add(addBelief);
 			rules.add(dropBelief);
 			rules.add(addGoal);

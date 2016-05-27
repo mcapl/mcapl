@@ -93,7 +93,7 @@ public class GOALAgent extends AILAgent {
      */
     public final LinkedList<GOALModule> activeStackOfModules = new LinkedList<>();
     
-    public MentalState ms = new MentalState();
+    public MentalState ms;
 
 	// Specific library for conditional actions/Action Rules.  Separate from
 	// the library of Capabilities/Action Specs.  Use to control plan selection.
@@ -153,11 +153,18 @@ public class GOALAgent extends AILAgent {
 	@Override
 	public void initAg() {
 		super.initAg();
+		ms = new MentalState(getAgName());
 		ms.addBB(getBB());
 		ms.addGB((ConjGoalBase) getGoalBase());
 		ms.addRB(getRuleBase());
 		ms.addPerceptBase(getBB("percepts"));
 		((GOALRC) getReasoningCycle()).init(this);
+	}
+	
+	@Override
+	public void setAgName(String name) {
+		super.setAgName(name);
+		ms.setAgName(name);
 	}
 
 	/**
@@ -507,7 +514,7 @@ public class GOALAgent extends AILAgent {
  	public String toString() {
  		// Use of StringBuffers for efficiency.  Use of Atomic because
  		// StringBuffers aren't thread safe.
- 		Iterator<Goal> ig = getUnSplitGoals();
+ 		/* Iterator<Goal> ig = getUnSplitGoals();
  		ArrayList<String> gstrings = new ArrayList<String>();
  		StringBuilder gs = new StringBuilder();
  		while (ig.hasNext()) {
@@ -521,26 +528,27 @@ public class GOALAgent extends AILAgent {
  				gstrings.add(gstring.toString());
  			}
  			
- 		}
+ 		} 
  		
  		Collections.sort(gstrings);
  		
  		for (String gsr: gstrings) {
  			gs.append(gsr);
- 		}
+ 		} */
  		
  		StringBuilder s = new StringBuilder();
  		s.append(getAgName());
  		s.append(":\n");
  //		s.append(getBB().toString());
 // 		s.append("\n");
-		for (String bb: bbmap.keySet()) {
+	/*	for (String bb: bbmap.keySet()) {
 			s.append(bb);
 			s.append(":");
 			s.append(bbmap.get(bb).toString());
 			s.append("\n");
-		}
-		s.append(gs);
+		} */
+ 		s.append(ms.toString());
+		// s.append(gs);
 		if (I != null) {
 			s.append(I.toString());
 			s.append("\n");

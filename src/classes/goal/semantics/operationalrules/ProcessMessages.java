@@ -33,9 +33,10 @@ import ail.semantics.OSRule;
 import ail.syntax.Literal;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
+import ail.syntax.Term;
 import ail.syntax.annotation.SourceAnnotation;
-
 import goal.syntax.GoalMessage;
+import goal.syntax.MentalState.BASETYPE;
 import goal.mas.GoalEnvironment;
 import goal.semantics.GOALAgent;
 import goal.syntax.ActionRule;
@@ -54,6 +55,46 @@ public class ProcessMessages implements OSRule {
 	private static final String name = "Handle Goal Messages";
 	private startCycleStage scs;
 	
+	public enum SentenceMood {
+        /**
+         * Indicative mood is used for exchanging information.
+         */
+        INDICATIVE,
+        /**
+         * Interrogative mood is used for asking questions.
+         */
+        INTERROGATIVE,
+        /**
+         * Imperative mood is used for requests and commands.
+         */
+        IMPERATIVE;
+
+        @Override
+        public String toString() {
+                switch (this) {
+                case INDICATIVE:
+                        return ":";
+                case INTERROGATIVE:
+                        return "?";
+                case IMPERATIVE:
+                        return "!";
+                default:
+                        return "";
+                }
+        }
+        
+        static public SentenceMood intToSentenceMood(int i) {
+        	if (i == 2) {
+        		return INDICATIVE;
+        	} else if (i == 1) {
+        		return INTERROGATIVE;
+        	} else {
+        		return IMPERATIVE;
+        	}
+    	}
+
+	}
+
 	public ProcessMessages(startCycleStage scs) {
 		this.scs = scs;
 	}
@@ -83,47 +124,62 @@ public class ProcessMessages implements OSRule {
 		Set<Message> messages = scs.getMessages();
 		
         for (Message message : messages) {
-        //    processMessageMentalModel(message);
-        	((GOALAgent) a).getMentalState().addMessage(message);
+            processMessageMentalModel(message, ga);
+        	((GOALAgent) a).getMentalState().addReceivedMessage(message);
         }
 
     // Check if goals have been achieved and, if so, update goal base.
         ((GOALAgent) a).getMentalState().updateGoalState();
 
-/*		for (Message m: msgs) {
-			GoalMessage gm = (GoalMessage) m;
-			if (gm.getIlForce() == GoalEnvironment.Imperative) {
-				ga.delBel((Literal) gm.getPropCont(), gm.getSender());
-				ga.addGoal(gm.getPropCont(), new StringTermImpl(gm.getSender()));
-			} else if (gm.getIlForce() == GoalEnvironment.Interrogative) {
-				ga.delBel((Literal) gm.getPropCont(), gm.getSender());
-				Literal negc = (Literal) gm.getPropCont();
-				if (negc.negated()) {
-					negc.setNegated(true);
-				} else {
-					negc.setNegated(false);
-				}
-				ga.delBel(negc, gm.getSender());
-			} else if (gm.getIlForce() == GoalEnvironment.Declarative) {
-				ga.addBel((Literal) gm.getPropCont(), new Predicate(gm.getSender()), gm.getSender());
-				// System.err.println(ga.toString());
-			} else if (gm.getIlForce() == GoalEnvironment.InformPlan) {
-				try {
-					ga.addPlan(new ActionRule((Literal) gm.getPropCont()), new SourceAnnotation(new Predicate(gm.getSender())));
-				} catch (Exception e) {
-					System.err.println("failed to add plan" + gm.getPropCont());
-				}
-			} else if (gm.getIlForce() == GoalEnvironment.InformConstraint) {
-				try {
-					//THIS NEEDS TO BE SORTED OUT
-//					ga.addConstraint(new Constraint((Literal) gm.getPropCont()), new SourceAnnotation(new Predicate(gm.getSender())));
-				} catch (Exception e) {
-					System.err.println("failed to add constraint" + gm.getPropCont());
-				}
-			}
-		} */
+
 	
 		a.clearInbox();
 	}
+	
+	/**
+     * Process one message that we received by updating the mental models. This
+     * does not update the message box, see also
+     * {@link #processMessageToMessagebox(Message)}
+     *
+     * @param message
+     *            the new message
+     */
+    private void processMessageMentalModel(Message message, GOALAgent ga) {
+            Term update = message.getPropCont();
+            String sender = message.getSender();
+
+          //  if (this.usesMentalModels) {
+                    if (!ga.getMentalState().getKnownAgents().contains(sender)) {
+                           // try {
+                                    ga.getMentalState().addAgentModel(sender);
+                       //     } catch (Exception e) {
+                       //             throw new IllegalStateException(String.format(
+                       //                             Resources.get(WarningStrings.FAILED_ADD_MODEL),
+                       //                             sender.getName()), e);
+                       //     }
+                    }
+
+              switch (SentenceMood.intToSentenceMood(message.getIlForce())) {
+                    case INDICATIVE:
+                             ga.getMentalState().insert(new Literal((Predicate) update), BASETYPE.BELIEFBASE, sender);
+                            break;
+                    case IMPERATIVE:
+                            ga.getMentalState()
+                                            .adopt((Predicate) update, true, sender);
+                            ga.getMentalState().delete(new Literal((Predicate) update), BASETYPE.BELIEFBASE,
+                                            sender);
+                            break;
+                    case INTERROGATIVE:
+                            ga.getMentalState().delete(new Literal((Predicate) update), BASETYPE.BELIEFBASE,
+                                            sender);
+                            break;
+                    default:
+                            //throw new GOALBug("Received a message with unexpected mood: " //$NON-NLS-1$
+                            //                + message.getMood());
+                    }
+                    ga.getMentalState().updateGoalState(sender);
+            
+    }
+
 
 }
