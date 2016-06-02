@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -33,9 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.nasa.jpf.annotation.FilterField;
+
 /**
  * Broadcast Message class. For Messages to go to multiple recipients  Environments may
- * need to serialize these messages for transmission.
+ * need to serialize these messages for transmission.  Largely untested.
  * 
  * @author louiseadennis
  *
@@ -171,6 +172,7 @@ public class BroadcastMessage extends Message {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder("<");
 		s.append(msgId).append(",").append(threadId).append(",").append(sender);
@@ -180,11 +182,11 @@ public class BroadcastMessage extends Message {
 		return s1;  
     }
 		
-	/**
-	 * Produce a term to represent the message.
-	 * 
-	 * @return a term representing the message.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#toTerm()
 	 */
+	@Override
 	public Predicate toTerm() {
 		Predicate t = new Predicate("message");
 		t.addTerm(msgId);
@@ -206,18 +208,11 @@ public class BroadcastMessage extends Message {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public BroadcastMessage clone() {
 		return(new BroadcastMessage(ilForce, sender, receivers, (Term) propCont.clone(), (StringTerm) msgId, (StringTerm) threadId.clone()));
 	}
 	
-	/**
-	 * Retrns an ordering on BroadcastMessages.
-	 * @param m
-	 * @return
-	 */
-	public int compareTo(BroadcastMessage m) {
-		return toTerm().compareTo(m.toTerm());
-	}  
 	
 	
 }

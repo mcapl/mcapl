@@ -41,87 +41,53 @@ pos(square, topleft)
 pos(square, topright)
 pos(square, bottomleft)
 pos(square, bottomright)
-			
-			
-desired_formation(line)
+						
+desired_formation(square)
 
 :Reasoning Rules:
 			
-all_positions_assigned(Formation) :- ~ ( pos(Formation, Pos), ~ position(Ag, Pos));
-inform_start :- ~ ( position(Ag, Pos), ~  informed(Ag, F));
-in_formation(F) :- ~ ( pos(F, P), ~ agent_at(P));
+all_positions_assigned(line) :- position(Ag1, left), position(Ag2, right), position(Ag3, middle);
+all_positions_assigned(square) :- position(Ag1, topleft), position(Ag2, topright), position(Ag3, bottomleft), position(Ag4, bottomright);
+in_formation(square) :- agent_at(topleft), agent_at(topright), agent_at(bottomleft), agent_at(bottomright);
+in_formation(line) :- agent_at(left), agent_at(right), agent_at(middle);
 agent_at(Pos) :-    position(Ag, Pos),  maintaining(Ag);
 some_formation :-  desired_formation(F1),  in_formation(F1);
 aformation :-  in_formation(line);
 aformation :-  in_formation(square);
 
 			
-// Only one way to conclude a satellite is broken, but could be extended
-broken(Ag) :- aborted(thruster_failure, Ag); 
-			
-// Beliefs used for clean up phases
-formation_clear(F) :- ~ ( pos(F, P),  position(Ag, P));
-agent_pos_clear :- ~ maintaining(AG);
-informed_clear(F) :- ~ informed(Ag, F);
 
 				
 :Initial Goals:
-some_formation [achieve]
+some_formation [perform]
 				
 :Plans:
 +.received(:tell, LG): {~B LG} <- +LG;
-+.received(:perform, LG): {~B handling(LG)} <- +handling(LG), +!LG [perform], -handling(LG);
 			
-+! some_formation [achieve] : {~ B formation(F), B desired_formation(Form)} <-
-  +! in_formation(Form) [achieve];
-+! some_formation [achieve] : {B formation(F), B desired_formation(F)} <- 
-  +! in_formation(F) [achieve];
-+! some_formation [achieve] : {B formation(F1), ~ B desired_formation(F1), B desired_formation(Form1)} <- 
-  +!cleanup_initialisation(F1) [perform], 
-  +!cleanup_formation(F1) [perform], 
-  +! in_formation(Form1) [achieve];
++! some_formation [perform] : {~ B formation(F), B desired_formation(Form)} <-
+  +! in_formation(Form) [perform];
++! some_formation [perform] : {B formation(F), B desired_formation(F)} <- 
+  +! in_formation(F) [perform];
 			
-+! in_formation(F) [achieve] : {True} <-
++! in_formation(F) [perform] : {True} <-
   +formation(F),
   +! all_positions_assigned(F) [achieve],
-  +! inform_start [achieve],
-  *in_formation(F);
+  +! inform_start(ag1) [perform],
+  +! inform_start(ag2) [perform],
+  +! inform_start(ag3) [perform],
+  +! inform_start(ag4) [perform];
+//  *in_formation(F);
 			
 +! all_positions_assigned(Formation) [achieve] : {B agent(Ag), ~B position(Ag, X), B pos(Formation, Y), ~B position(Ag2, Y), ~B broken(Ag)} <- 
   .send(Ag, :tell, position(Y)), 
-  +position(Ag, Y);
+  +position(Ag, Y), +informed(Ag, Formation);
 			
++! inform_start(Ag) [perform] : {B position(Ag, X), B formation(F)} <-
+  .send(Ag, :achieve, assuming_formation(F));
+ // +informed(Ag, F);
++! inform_start(Ag) [perform] : {~ B position(Ag, X)};
+ 
 +! inform_start [achieve] : {B position(Ag, X), B formation(F), ~B informed(Ag, F)} <-
   .send(Ag, :achieve, assuming_formation(F)),
   +informed(Ag, F);
-			
-// Information or Requests from other agents
-+ aborted(Reason, Ag) : {B position(Ag, X), G some_formation [achieve], ~B maintaining(Ag)}  <-
-  +.lock,
-  -position(Ag, X),
-  -informed(Ag, F),
-  -.lock,
-  .send(Ag, :perform, drop_formation(F)),
-  -! some_formation [achieve];
-			
-+! send_position(Ag) [perform] : {B position(Ag, X)} <-
-   .send(Ag, :tell, position(X));
-+! send_position(Ag) [perform] : {~ B position(Ag, X)} <-
-   .send(Ag, :tell, position(none));
-			
-			
-// Plans for cleaning up after a formation is achieved.  
-+! formation_clear(F) [achieve] : {B pos(F, P), B position(Ag, P)} <-
-  -position(Ag, P);
-+! agent_pos_clear [achieve] : {B maintaining(Ag)} <-
-  -maintaining(Ag);
-+! informed_clear(F) [achieve] : {B informed(Ag, F)} <-
-  .send(Ag, :perform, drop_formation(F)),
-  -informed(Ag, F);
-			
-+! cleanup_initialisation(F) [perform] : {True} <-
-   +! informed_clear(F) [achieve];
-+! cleanup_formation(F) [perform] : {True} <-
-   -formation(F),
-+! formation_clear(F) [achieve], 
-   +! agent_pos_clear [achieve];
+						

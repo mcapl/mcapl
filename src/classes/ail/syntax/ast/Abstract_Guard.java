@@ -105,6 +105,16 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		add(g, tf);
 	}
 	
+	public Abstract_Guard(int gop, Abstract_GLogicalFormula g) {
+		op = gop;
+		rhs = g;
+	}
+	
+	public Abstract_Guard(Abstract_GLogicalFormula g2, int gop, Abstract_GLogicalFormula g) {
+		lhs = g2;
+		op = gop;
+		rhs = g;
+	}
 	
 
 	/**

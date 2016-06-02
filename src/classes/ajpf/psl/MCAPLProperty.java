@@ -34,12 +34,17 @@ import java.util.Set;
  */
 public interface MCAPLProperty extends Comparable<MCAPLProperty> {
 	/**
-	 * Checks if the property is either temporal or true.
+	 * Checks if the property is either temporal or true in the current agent state.
 	 * 
 	 * @return whether the property is temporal or true.
 	 */
 	boolean check();
 	
+	/**
+	 * Check if the property appears in a list of propositions.
+	 * @param props
+	 * @return
+	 */
 	boolean check(Set<Proposition> props);
 	
 	/**
@@ -180,6 +185,11 @@ public interface MCAPLProperty extends Comparable<MCAPLProperty> {
 	 */
 	public Set<Proposition> getProps();
 	
+	/**
+	 * Return the until expressions appearing in the property.  It is important to track
+	 * these properly in the property automaton.
+	 * @return
+	 */
 	public Set<Until> getUntils();
 	
 	/**
@@ -197,6 +207,10 @@ public interface MCAPLProperty extends Comparable<MCAPLProperty> {
 	 */
 	public void noteKeep();
 	
+	/**
+	 * Return an integer representing the property class for quick comparisons.
+	 * @return
+	 */
 	public int quickCompareVal();
 
 }

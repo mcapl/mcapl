@@ -1,0 +1,226 @@
+// There was a unification problem in message assertion. Each time when SENDER and FRONT instantiated in +!platoon_m(SENDER, FRONT), new SENDER constants were added, e.g., sender1, sender2,.... which ended up to situation where equivalent states were not recognizable.
+// Another thing was about the property definition. When a belief like changed_lane is placed in condition of a property like "verified_1" property, the verifier checks all possible path that changed_lane is true. Since the perceptions are randomly asserted, 
+// we might see changed_lane, while we haven't sent any command to the vehicle to change lane. To avoid such sort of situations, we restrict search space by limiting the precondition. We only care about situations that changed_lane is true due to the changing lane command.
+// In fact, we revise the property [](  G(follower3, platoon_m(follower3, follower1))
+//									& B(follower3, join_agreement(follower3, follower1))
+//									& B(follower3, changed_lane)
+//									-> 
+//									<>B(follower3, sp_contr) )
+//
+
+
+
+// ============================================================= REQUIREMENT 1 ===========================================================
+// =================== A vehicle must only initiate joining a platoon once it has received confirmation from the leader ==================
+// ========================================== req1_1: liveness and req1-2: safety property ===============================================
+// revised property 7
+// 7: [] (
+//		G(follower3, platoon_m(follower3, follower1)) 
+//		& 
+//		B(follower3, join_agreement(follower3, follower1))
+//		->
+//		<> D(follower3, perf(join_ok(1))) || B(follower3, changed_lane)
+//	)
+// For this property if we just put ItD(...) in the guard, the property wont be proved. I guess it is because of the messages are generated randomly and are not based on what is in agnet goal so they mixed and we cannot track the one in agent goal.
+// to solve this problem I added G(follower3, ...) to the guard to restrict to messages that generate after establishing joining goal
+req1_1:   G(follower3, platoon_m(follower3, follower1))
+		&
+		[] (ItD(follower3, send(leader, 1, message(follower3, 1, follower1))) -> <>B(follower3, join_agreement(follower3, follower1)))
+		&
+		~B(follower3, changed_lane)
+		->
+		<>D(follower3, perf(join_ok(1)))  
+
+
+
+req1_2: ([]~B (follower3, join_agreement(follower3, follower1)))
+			 -> 
+			[](~D(follower3, perf(join_ok(1))))
+
+
+// ============================================================= REQUIREMENT 2 ===========================================================
+// ======= A vehicle must only initiate joining a platoon after positively identifying the preceding vehicle which it is to follow =======
+// ========================================================= is not in agent level =======================================================
+
+// ============================================================= REQUIREMENT 3 ===========================================================
+// ====== Before autonomous control is enabled, a joining vehicle must approach the preceding vehicle, in the correct lane, ==============
+// ======================================= under human control (or supervised automatic control) =========================================
+// ========================================== req3_1: liveness and req3-2, req3-3: safety property =======================================
+
+req3_1: []( D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane))
+		&
+		B(follower3, join_agreement(follower3, follower1))		
+		-> 
+		<>D(follower3, perf(speed_controller(1)))
+
+
+
+req3_2: []~B(follower3, changed_lane)
+		->
+	  []~D(follower3, speed_controller(1))
+
+
+
+req3_3: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & ~B(follower3, join_agreement(follower3, follower1)))
+		->
+		[] ~D(follower3, speed_controller(1))
+		)
+
+
+// ============================================================= REQUIREMENT 4 ===========================================================
+// ============ Autonomous control must only be enabled once the joining vehicle is sufficiently close to the preceding vehicle===========
+// ============================================ req4_1: liveness and req4-2: safety property =============================================
+req4_1: 	[]( D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane) )
+		&
+		B(follower3, join_agreement(follower3, follower1))
+		& 
+		[]( D(follower3, perf(speed_controller(1)))-> <>B(follower3, initial_distance) )
+		->
+		<> D(follower3, perf(steering_controller(1)))
+
+
+req4_2: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & ~B(follower3, initial_distance))
+		->
+		[] ~D(follower3, steering_controller(1))
+		)
+
+
+
+// checking how long does the checker take to prove a true statement like (B or ~B)
+// result: ====================================================== results
+//			no errors detected
+//		   ====================================================== statistics
+//			elapsed time:       00:52:55
+verified_provingTrueStatement:   []( 
+		ItD(follower3, send(leader, 1, message(follower3, 1, follower1))) 
+		-> 
+		<>B(follower3, join_agreement(follower3, follower1)) || []~ B(follower3, join_agreement(follower3, follower1)) 
+		)
+
+
+// ========================================================= END OF JOINING REQUIREMENTS ================================================
+
+
+// =============================================================== PLATOONING ======================================================	
+
+
+
+// ============================================================ REQUIREMENT 7 ==========================================================
+// ============================================= Acknowledge to the leader after a request has been fullfilled =========================
+// ================ At the end of joining procedure, a joining vehicle is in a correct lane with automatic control =====================
+// ====================================== and already sent an acknowledgement to the leader ============================================
+// ========================================================= joining acknowledgement ===================================================
+req7_1:   []( D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane) )
+		&
+		B(follower3, join_agreement(follower3, follower1))
+		& 
+		[]( D(follower3, perf(speed_controller(1)))-> <>B(follower3, initial_distance) )
+		->
+		<> B(follower3, success_ack)
+
+// ================ If a vehicle has changed its lane and switched to manual control, then it eventually sends =========================
+// ============================================== an acknowledgement to the leader =====================================================
+// ========================================================= leaving acknowledgement ===================================================
+out_of_bound:	[](
+		G(follower3, leave_platoon)
+	 	& 
+	 	D(follower3, perf(steering_controller(0)))
+		&
+		D(follower3, perf(join_ok(0)))-> <>B(follower3, changed_lane))
+		->
+		<>ItD(follower3, send(leader, 1, message(follower3, 0)))
+		)
+
+// ============================================== changed out_of_bound to req7_2 =======================================================
+req7_2:	G(follower3, leave_platoon)
+	 	& 
+	 	D(follower3, perf(steering_controller(0)))
+		&
+		[](D(follower3, perf(join_ok(0)))-> <>B(follower3, changed_lane))
+		->
+		<>ItD(follower3, send(leader, 1, message(follower3, 0)))
+
+
+// ========================================================= changing lane acknowledgement ===================================================
+
+
+
+
+
+// =============================================================== LEAVING PLATOON ======================================================	
+
+// ============================================================= REQUIREMENT 14 ===========================================================
+// =============== Except in emergency cases, a vehicle must not leave the platoon without authorisation from the leader ================	
+// ============================================ req14_1: liveness and req14-2: safety property ============================================
+req14_2:	[]~B(follower3, leave_agreement(follower3))
+						&
+						G(follower3, leave_platoon) 
+						->
+						[]~D(follower3, perf(speed_controller(0)))
+
+tes: []( G(follower3, leave_platoon)
+		  &
+		  []( ItD(follower3, send(leader, 1, message(follower3, 0))) -> B(follower3, leave_agreement(follower3)) )
+		  &
+		  B(follower3, sp_contr)		
+		  ->
+		  <>D(follower3, perf(speed_controller(0)))
+	)
+
+
+
+out_of_memory: 			[]( G(follower3, leave_platoon)
+						&
+						B(follower3, leave_agreement(follower3))
+						&
+						B(follower3, sp_contr)
+						->
+						<>D(follower3, perf(speed_controller(0)))
+						)
+						
+full_model: [] ~B(follower3, bad)
+
+test: ( 		
+		[](B(follower3, spacing(17))-> <>D(follower3, perf(set_spacing(17))))			
+		&
+		[](D(follower3, perf(set_spacing(17)))-> <>B(follower3, spacing))
+		->
+		<>ItD(follower3, send(leader, 1, set_spacing_from(follower3)))
+	  )
+
+tes: 	( G(follower3, set_spacing(17))
+		&
+		[](D(follower3, perf(set_spacing(17)))-> <>B(follower3, spacing))
+		&
+		[](B(follower3, spacing(17))-> <>D(follower3, perf(set_spacing(17))))
+		)
+		->
+		<>B(follower3, ack_spacing)
+
+
+out_of_memory:[]( G(follower3, platoon_m(follower3, follower1)) -> <>B(follower3, success_ok))
+->
+~G(follower3, leave_platoon)
+
+
+out_of_memory:		 []~B(follower3, ready_to_leave) ->
+				[]~G(follower3, leave_platoon) 		
+						
+		
+out_of_memory:		[] ( 
+							G(follower3, leave_platoon) ->
+							~G(follower3, platoon_m(follower3, follower1))
+						)
+		
+// ============================================================= REQUIREMENT 15 ===========================================================
+// ========== When authorized to leave, autonomous control should not be disabled until the maximum allowable =============================
+// ================================================== platoon spacing has been achieved ===================================================
+// ======= The leader authorizes to leave if and only if the maximum allowable platoon spacing has already been achieved ==================
+// ================== In a vehicle REQ 14 and REQ 15 are equivalent. This property should be verified in the leader =======================
+
+
+// ========================================================= END OF LEAVING REQUIREMENTS ==================================================
+  
+

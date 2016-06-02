@@ -104,7 +104,17 @@ public interface Unifiable extends Cloneable {
 	 */
 	public void makeVarsAnnon();
 	
+	/**
+	 * If variables have been instantiated replace the VarTerms with the instantiation - to assist matching during model-checking.
+	 * @return
+	 */
 	public Unifiable strip_varterm();
+	
+	/**
+	 * Sometimes a term may end up containing clusters of variables, these will need to be replaced by a variable from the cluster in some way.
+	 * @return
+	 */
+	public Unifiable resolveVarsClusters();
 	
 	/**
 	 * 

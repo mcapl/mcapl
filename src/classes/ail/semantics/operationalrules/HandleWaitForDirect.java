@@ -108,6 +108,7 @@ public class HandleWaitForDirect extends DirectPerception {
 		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
 				
 		if (beliefs.hasNext()) {
+			// System.err.println("I believe" + wfgb);
 			i.tlI(a);
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
@@ -117,7 +118,7 @@ public class HandleWaitForDirect extends DirectPerception {
 			i.hdE().apply(thetahd);
 			if (a.allintentionssuspended()) {
 				a.getIntentions().add(i);
-				a.sleep();
+				//a.sleep();
 				a.setIntention(new Intention());
 			} else {
 				a.setIntention(i);

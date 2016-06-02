@@ -41,9 +41,10 @@ public class BriefLogFormatter extends Formatter {
 	 
 	private static final DateFormat format = new SimpleDateFormat("h:mm:ss");
 	private static final String lineSep = System.getProperty("line.separator");
-		/**
-		 * A Custom format implementation that is designed for brevity.
-		 */
+
+	/**
+	 * A Custom format implementation that is designed for brevity.
+	 */
 	public String format(LogRecord record) {
 		String loggerName = record.getLoggerName();
 		if(loggerName == null) {

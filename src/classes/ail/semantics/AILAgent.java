@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.Collections;
 
 import ail.mas.AILEnv;
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.syntax.BeliefBase;
@@ -44,6 +45,8 @@ import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
+import ail.syntax.CapabilityLibrary;
+import ail.syntax.SendAction;
 import ail.syntax.Term;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
@@ -60,14 +63,15 @@ import ail.syntax.ApplicablePlan;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Message;
 import ail.syntax.Unifier;
+import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
-
+import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
+import ajpf.MCAPLcontroller;
 import ajpf.psl.MCAPLFormula;
 import ajpf.util.AJPFLogger;
 import ajpf.psl.MCAPLPredicate;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -176,6 +180,11 @@ public class AILAgent implements MCAPLLanguageAgent {
     protected List<String> context = new ArrayList<String>();
     
     /**
+     * The agent's capabilities.  Not used operationally at present.
+     */
+    protected CapabilityLibrary cl = new CapabilityLibrary();
+    
+    /**
      * The reasoning cycle used by the agent.  AIL itself provides no classes
      * that implement this interface.
      */
@@ -197,7 +206,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Should plan usage be tracked?  If you don't track plan usage more states
 	 * in the agent will match.
 	 */
-	boolean trackplanusage = true;
+	boolean trackplanusage = false;
 	
     /**
      * Is the agent running.
@@ -256,6 +265,11 @@ public class AILAgent implements MCAPLLanguageAgent {
      */
     public static final String AILdefaultCLname = "";
     
+    /**
+     * The default Capability Base name for AIL;
+     */
+    public static final String AILdefaultCBname = "";
+    
     /*
      * The default belief base name for this agent;
      */
@@ -263,6 +277,9 @@ public class AILAgent implements MCAPLLanguageAgent {
     
     /* The default log name for this class */
     protected String logname = "ail.semantics.AILAgent";
+    
+    /* Should a record be kept of sent messages */
+    public boolean store_sent_messages = true;
     
     
      //-----------------CONSTRUCTORS---------------//
@@ -288,6 +305,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public AILAgent(String name) {
     	this();
     	fAgName = name;
+    	fAgName.hashCode();
      }
     
 
@@ -299,7 +317,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      */
     public AILAgent(MAS mas, String name) {
     	this(name);
-    	fEnv = mas.getEnv();
+     	fEnv = mas.getEnv();
     	fMAS = mas; 
  	}
       
@@ -370,6 +388,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void setAgName(String name) {
 		fAgName = name;
+		fAgName.hashCode();
 	}
 	
 	/**
@@ -724,6 +743,14 @@ public class AILAgent implements MCAPLLanguageAgent {
 		getPL().add(p);
 	}
 	
+	/**
+	 * Remove a plan from the plan Library.
+	 * @param p
+	 */
+	public void removePlan(Plan p) {
+		getPL().remove(p);
+	}
+	
 	//--- Applicable Plans
 
 	/**
@@ -771,7 +798,25 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-   
+	
+	//--- Capabilities
+	
+	/**
+	 * Return the capability library.
+	 * @return
+	 */
+	public CapabilityLibrary getCL() {
+		return cl;
+	}
+	
+	/**
+	 * Add a capability.
+	 * @param c
+	 */
+	public void addCap(Capability c) {
+		getCL().add(c);
+	}
+	   
 	//--- Constraints
 	
 	/**
@@ -953,7 +998,7 @@ public class AILAgent implements MCAPLLanguageAgent {
  	 * @param msgs
  	 */
  	public void setInbox(List<Message> msgs) {
- 		Inbox = msgs;
+  		Inbox = msgs;
  	}
  	
 	/**
@@ -963,6 +1008,11 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void newMessages(Set<Message> msgs) {
 		Inbox.addAll(msgs);
+		// This seems pointless but improves state matching in model checking.
+		// Otherwise the Inbox is represented as an array list of nulls.
+		if (Inbox.isEmpty()) {
+			clearInbox();
+		}
 	}
 	
 	/**
@@ -991,31 +1041,49 @@ public class AILAgent implements MCAPLLanguageAgent {
 	}
 	
 	/**
+	 * Setter  for the storing of sent messages.
+	 * @param value
+	 */
+	public void setStoreSentMessages(boolean value) {
+		store_sent_messages = value;
+	}
+	
+	/**
+	 * Are we storing sent messages in an outbox?
+	 * @return
+	 */
+	public boolean getStoreSentMessages() {
+		return store_sent_messages;
+	}
+
+	/**
 	 * Add a new sent message to the agent's outbox.
 	 * 
 	 * @param msg The new sent message.
 	 */
 	public void newSentMessage(Message msg) {
-		List<Message> msgl = getOutbox();
-		boolean done = false;
-		int i = 0;
-		while (i < msgl.size()) {
-			if (msg.compareTo(msgl.get(i)) == 0) {
-				done = true;
-				break;
-			} else if (msg.compareTo(msgl.get(i)) < 0) {
-				msgl.add(i, msg);
-				done = true;
-				break;
+		if (store_sent_messages) {
+			List<Message> msgl = getOutbox();
+			boolean done = false;
+			int i = 0;
+			while (i < msgl.size()) {
+				if (msg.compareTo(msgl.get(i)) == 0) {
+					done = true;
+					break;
+				} else if (msg.compareTo(msgl.get(i)) < 0) {
+					msgl.add(i, msg);
+					done = true;
+					break;
+				}
+				i++;
 			}
-			i++;
+			
+			if (! done) {
+				msgl.add(i, msg);
+			}
+			
+			setOutbox(msgl);
 		}
-		
-		if (! done) {
-			msgl.add(i, msg);
-		}
-		
-		setOutbox(msgl);
 	}
     
 	//--- Reasoning Cycle
@@ -1203,7 +1271,9 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param b the new belief.
      */
     public void addInitialBel(Literal b) {
-    	addBel(b, refertoself());
+    	b.addAnnot(refertoself());
+    	GroundPredSets.check_add(b);
+    	getBB().add(b);
     }
 
     /**
@@ -1212,7 +1282,9 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param s
      */
     public void addInitialBel(Literal b, String s) {
-    	addBel(b, refertoself(), s);
+    	b.addAnnot(refertoself());
+    	GroundPredSets.check_add(b);
+    	getBB().add(b);
     }
     
     
@@ -1361,7 +1433,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 			
 			updatePlanUsage(candidate);
 			return candidate;
-    	} else {
+    	} else { 
     		return aps.next();
     	}
     }
@@ -1388,7 +1460,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      */
     public void updatePlanUsage(ApplicablePlan p) {
        	if (trackplanusage) {
-       		if (p != null && !p.noChangePlan()) {
+       		if (p != null) { // && !p.noChangePlan()) {
        			String ps = p.keyString();
        			generated.put(ps, 0);
        		}
@@ -1632,7 +1704,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @return
 	 */
 	public boolean goalEntails(Event e, Plan p, Unifier un) {
-		p.standardise_apart(e, un);
+		p.standardise_apart(e, un, Collections.<String>emptyList());
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 
@@ -1649,42 +1721,43 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void reason() {
 		if (RC.not_interrupted()) {
-		RC.setStopandCheck(false);
+			RC.setStopandCheck(false);
 	
-		while(! RC.stopandcheck()) {
-			RCStage stage = RC.getStage();
-			if (AJPFLogger.ltFine(logname)) {
-				AJPFLogger.fine(logname, "About to pick a rule for stage " + stage.getStageName());
-			}
-			
-			Iterator<OSRule> rules = stage.getStageRules();
-			
-		    boolean stagerulefound = false;
-			while(rules.hasNext()) {
-				OSRule rule = rules.next();
-				if (AJPFLogger.ltFine(logname)) {
-					AJPFLogger.fine(logname, "checking " + rule.getName());
+			while(! RC.stopandcheck()) {
+				RCStage stage = RC.getStage();
+				if (AJPFLogger.ltFiner(logname)) {
+					AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 				}
-				
-				if (rule.checkPreconditions(this)) {
-					stagerulefound = true;
-					rule.apply(this);
-					lastruleexecuted = rule.getName();
-					if (AJPFLogger.ltFine(logname)) {
-						AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+			
+				Iterator<OSRule> rules = stage.getStageRules();
+			
+				boolean stagerulefound = false;
+				while(rules.hasNext()) {
+					OSRule rule = rules.next();
+					if (AJPFLogger.ltFiner(logname)) {
+						AJPFLogger.finer(logname, "checking " + rule.getName());
 					}
-					printagentstate();
-					RC.cycle(this);
-					break;
+				
+					if (rule.checkPreconditions(this)) {
+						stagerulefound = true;
+						rule.apply(this);
+						lastruleexecuted = rule.getName();
+						if (AJPFLogger.ltFine(logname)) {
+							AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+						}
+						printagentstate();
+						RC.cycle(this);
+						break;
+					}
+			
 				}
 			
-			}
-			
-			if (!stagerulefound) {
-				RC.cycle(this);
+				if (!stagerulefound) {
+					RC.cycle(this);
+				}
 			}
 		}
-		}
+		// MCAPLcontroller.force_transition();
 	
 	}
 	
@@ -1705,7 +1778,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *
 	 */
 	public void sleep() {
-		AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "setting wanttosleep for agent");
+		}
 		RC.setStopandCheck(true);
 		wanttosleep = true;
 	}
@@ -1797,10 +1872,8 @@ public class AILAgent implements MCAPLLanguageAgent {
      * One reasoning step from the point of view of the model checker.  
      * Implemented as one full turn of the agent's reasoning cycle.
      * 
-     *  @param An (unused) flag indicating whether or not this is a model
-     *         checking run.
      */
-	public void MCAPLreason(int flag) {
+	public void MCAPLreason() {
 		reason();
 	}
 	
@@ -1894,6 +1967,46 @@ public class AILAgent implements MCAPLLanguageAgent {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLLanguageAgent#MCAPLintendsToDo(ajpf.psl.MCAPLFormula)
+	 */
+	@Override
+	public boolean MCAPLintendsToDo(MCAPLFormula fmla) {
+		Action action;
+		if (fmla.getFunctor().equals("send")) {
+			Predicate sendpred = new Predicate((MCAPLPredicate) fmla);
+			List<Term> args = sendpred.getTerms();
+			Term recip = args.get(0);
+			Integer ilf = Integer.parseInt(args.get(1).toString());
+			Term content = args.get(2);
+			action = new SendAction(recip, ilf, content);
+		} else {
+			action = new Action(new Predicate((MCAPLPredicate) fmla), Action.normalAction);
+		}
+		
+		if (getIntention() != null) {
+			for (Deed d: getIntention().deeds()) {
+				if (d.getCategory() == Deed.DAction) {
+					if (d.getContent().unifies(action, new Unifier())) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		for (Intention i: getIntentions()) {
+			for (Deed d: i.deeds()) {
+				if (d.getCategory() == Deed.DAction && d.getContent().equals(action)) {
+					return true;
+				}
+			}			
+		}
+
+		return false;
+		
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -1911,6 +2024,12 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void MCAPLtellawake() {
 		tellawake();
 	}	
+	
+	/**
+	 * Configure the agent.
+	 * @param c
+	 */
+	public void configure(AILConfig c) {};
 
 
   

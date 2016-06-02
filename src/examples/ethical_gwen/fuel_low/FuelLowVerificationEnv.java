@@ -4,9 +4,9 @@ package ethical_gwen.fuel_low;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.mas.DefaultEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.PlanLibrary;

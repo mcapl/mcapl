@@ -1,25 +1,24 @@
 // ----------------------------------------------------------------------------
 // Copyright (C) 2014 Louise A. Dennis, Michael Fisher
 //
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
-// 
-// The EASS Library is free software; you can redistribute it and/or
+// This file is part of the Agent Infrastructure Layer (AIL)
+//
+// The AIL is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The EASS Library is distributed in the hope that it will be useful,
+// The AIL is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the EASS Library; if not, write to the Free Software
+// License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
-//
 //----------------------------------------------------------------------------
 package ail.syntax;
 
@@ -28,7 +27,9 @@ import java.util.Iterator;
 import ail.util.Tuple;
 
 /**
- * An Evaluation base with a name allowing it to be referred to.
+ * An Evaluation base with a name allowing it to be referred to - this can be used
+ * for instance when an agent has several belief of goal bases and sometimes you want
+ * to refer to the specific goal base when checking if something is true of the agent.
  * @author louiseadennis
  *
  * @param <K>
@@ -37,6 +38,11 @@ public class NamedEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	String name;
 	EvaluationBase<K> eb;
 	
+	/**
+	 * Constructor.  The Named evaluation base consists of the evaluation base and a string.
+	 * @param e
+	 * @param s
+	 */
 	public NamedEvaluationBase(EvaluationBase<K> e, String s) {
 		name = s;
 		eb = e;

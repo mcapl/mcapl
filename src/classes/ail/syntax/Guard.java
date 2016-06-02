@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -35,8 +35,7 @@ import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 /**
- * AIL Guards.  This is really just a wrapper on top of LogicalExpression providing a few extra methods that are
- * not strictly logical in nature.
+ * Guards that appear primarily in the conditions on plans and which are checked for truth against the agent's state.
  * 
  * @author lad
  *
@@ -48,7 +47,7 @@ public class Guard implements GLogicalFormula {
 	 * @author lad
 	 *
 	 */
-	public enum GLogicalOp { 
+	public static enum GLogicalOp { 
 		none   { public String toString() { return ""; } }, 
 		not    { public String toString() { return "not "; } }, 
 		and    { public String toString() { return " & "; } },
@@ -141,6 +140,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Guard) {
 			Guard gu = (Guard) o;
@@ -177,16 +177,9 @@ public class Guard implements GLogicalFormula {
 		
 		return false;
 	}
-	
+			
 	/**
-	 * 
-	 */
-	public int hashcode() {
-		return lhs.hashCode() + rhs.hashCode();
-	}
-		
-	/**
-	 * Add a new Guard Atom (conjunct) to the guard.  By default this is to be believed.
+	 * Add a new Guard Atom (conjunct) to the guard.  By default this is to be checked as true.
 	 * 
 	 * @param gb  The belief to be added.
 	 * @return whether the belief was successfully added.
@@ -249,6 +242,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		if (op == GLogicalOp.none) {
 			if (rhs != null) {
@@ -272,6 +266,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Guard clone() {
 		if (rhs == null) {
 			return new Guard();
@@ -298,6 +293,7 @@ public class Guard implements GLogicalFormula {
 	 * @param un An initial unifier
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
+	@Override
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames) {
 	       try {
 		        final Iterator<Unifier> ileft;
@@ -411,6 +407,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+    @Override
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Guard) {
 			Guard g = (Guard) t;
@@ -446,6 +443,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+    @Override
 	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getVarNames();
@@ -467,6 +465,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
+    @Override
 	public List<String> getVarNames() {
 		ArrayList<String> varnames = new ArrayList<String>();
 		if (getLHS() != null) {
@@ -482,6 +481,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+    @Override
 	public void renameVar(String oldname, String newname) {
 		if (lhs != null) {
 			getLHS().renameVar(oldname, newname);
@@ -496,6 +496,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+    @Override
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Guard) {
 			Guard g = (Guard) t;
@@ -531,6 +532,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+    @Override
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Guard) {
 			Guard g = (Guard) t;
@@ -566,6 +568,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#isGround()
 	 */
+    @Override
 	public boolean isGround() {
 		if (lhs != null && getLHS().isGround()) {
 			if (rhs != null) {
@@ -584,14 +587,15 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
 	 */
+    @Override
 	public boolean apply(Unifier theta) {
 		boolean la = true;
 		if (lhs != null) {
 			la = getLHS().apply(theta);
 		}
 		
-		if (la & rhs != null) {
-			return getRHS().apply(theta);
+		if (rhs != null) {
+			return (la || getRHS().apply(theta));
 		}
 		
 		return la;
@@ -601,6 +605,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+    @Override
 	public void makeVarsAnnon() {
 		if (lhs != null) {
 			getLHS().makeVarsAnnon();
@@ -615,6 +620,7 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
+    @Override
 	public Unifiable strip_varterm() {
 		if (getLHS() != null) {
 			if (getRHS() != null) {
@@ -629,4 +635,23 @@ public class Guard implements GLogicalFormula {
 		return new Guard();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+    @Override
+	public Unifiable resolveVarsClusters() {
+		if (getLHS() != null) {
+			if (getRHS() != null) {
+				return new Guard((GLogicalFormula) getLHS().resolveVarsClusters(), getOp(), (GLogicalFormula) getRHS().resolveVarsClusters());
+				
+			}
+		} else {
+			if (getRHS() != null) {
+				return new Guard(getOp(), (GLogicalFormula) getRHS().resolveVarsClusters());				
+			}
+		}
+		return new Guard();
+	}
+
 }

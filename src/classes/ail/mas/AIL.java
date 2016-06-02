@@ -26,46 +26,68 @@ package ail.mas;
 
 import ail.util.AILConfig;
 import ail.semantics.AILAgent;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
+import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.logging.Level;
 
 /**
- * This class will serve as a helper class for initialising and running AIL mas's.  It will take a 
+ * This class serves as a helper class for initialising and running AIL mas's.  It takes a 
  * configuration file and build a MAS from it.
  * @author louiseadennis
  *
  */
 public class AIL {
+	@FilterField
 	static String logname = "ail.mas.AIL";
 
 	/**
+	 * Main method.  There should be one argument consisting of the name of a configuration file.
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		runAIL(args[0]);
 	}
 	
+	/**
+	 * Run an AIL program as specified in the configuration file.
+	 * @param configfile
+	 */
 	public static void runAIL(String configfile) {
+		GroundPredSets.clear();
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
-	
-		MAS mas = AILSetup(config);
 		
-		// Lastly we construct a controller.
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "", 1);
-		// Start the system.
+		// Create a controller
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
+	
+		// Create the initial state of the multi-agent program.
+		MAS mas = AILSetup(config, mccontrol);
+		
+		// Set up a controller
+		// mccontrol.setMAS(mas);
+		
+		// mas.getEnv().initialise();
+		
+		// Begin!
 		mccontrol.begin(); 
-		mas.finalize();
+		mas.cleanup();
 
 	}
 	
-	public static MAS AILSetup(AILConfig config) {
+	/**
+	 * Set up a multi-agent system from a configuration file.
+	 * @param config
+	 * @return
+	 */
+	public static MAS AILSetup(AILConfig config, MCAPLcontroller control) {
 		
 		// First we need to build the multi-agent system
 		MAS mas = buildMAS(config);
+		mas.setController(control);
 		
 		// Then, if necessary, we attach an environment
 		if (config.containsKey("env")) {
@@ -73,12 +95,15 @@ public class AIL {
 				AILEnv env = (AILEnv) (Class.forName(config.getProperty("env"))).newInstance();
 				env.configure(config);
 				mas.setEnv(env);
+				control.setMAS(mas);
 				env.initialise();
+				env.setMAS(mas);
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
 			}
 		}
+		mas.configure(config);
 		return mas;
 	}
 	
@@ -153,7 +178,7 @@ public class AIL {
 	private static String agentNumKey(int i) {
 		return "mas.agent." + i;
 	}
-	
+		
 	/**
 	 * Set up the loggers appropriately.
 	 */
@@ -203,7 +228,7 @@ public class AIL {
 		if (config.containsKey("log.format")) {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
-				AJPFLogger.setConsoleHandlerFormatBrief();
+				AJPFLogger.setHandlerFormatBrief();
 			}
 		}
 	}

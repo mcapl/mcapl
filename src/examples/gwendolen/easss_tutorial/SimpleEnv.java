@@ -32,9 +32,9 @@ import ail.syntax.Predicate;
 
 import java.util.Random;
 
-
 /**
- * Environment for a simpel Blocks World Scenario.
+ * Environment for a simple example involving picking up blocks.
+ * WARNING: This environment can not be used with record and replay because of the use of Random.
  * 
  * @author louiseadennis
  *
@@ -42,16 +42,17 @@ import java.util.Random;
 public class SimpleEnv extends DefaultEnvironment {
 	Random r = new Random();
 	
+	/**
+	 * Constructor.
+	 */
 	public SimpleEnv() {
 		super();
 	}
 	
 		
-	
-	/**
-	 * When a pickup action is executed the environment stores new perceptions
-	 * for the agent - that its picked something up and its hands are now longer
-	 * empty.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
 	   	Unifier theta = new Unifier();

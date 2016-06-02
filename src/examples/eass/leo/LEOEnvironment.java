@@ -26,8 +26,8 @@
 package eass.leo;
 
 import ail.util.AILexception;
-import ail.mas.NActionScheduler;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
@@ -37,11 +37,8 @@ import ail.syntax.VarTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
-
 import ajpf.util.AJPFLogger;
-
-import eass.mas.DefaultEASSEnvironment;
-
+import eass.mas.eass.EASSOriginalEnvironment;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -49,7 +46,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * connection in order to speed up debugging.
  *
  */
-public class LEOEnvironment extends DefaultEASSEnvironment {
+public class LEOEnvironment extends EASSOriginalEnvironment {
 	// A counter used to control the frequency of collision detection requests.
 	@FilterField
 	int mycounter = 0;	
@@ -62,10 +59,7 @@ public class LEOEnvironment extends DefaultEASSEnvironment {
 	 */
 	public LEOEnvironment() {
 		super();
-		NActionScheduler s = new NActionScheduler(100);
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
+		super.scheduler_setup(this, new NActionScheduler(100));
 	}
 	
 	/*

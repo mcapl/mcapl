@@ -56,8 +56,8 @@ public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 //	static Abstract_Property property;
 	 protected static Logger log = JPF.getLogger("ajpf.MCAPLcontroller");
 		
-	  @MJI
-	public static int pickJob__I__I(MJIEnv env, int objref, int limit) {
+/*	 @MJI
+	 public static int pickJob__I__I(MJIEnv env, int objref, int limit) {
 		int myChoice = 0;
 		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
@@ -81,14 +81,14 @@ public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 		}
 		return myChoice;
 
-	}
+	} */
 	
 	/*
 	 * Not, I think a good way to do this but forces a transition before the system closes everything down and so forces checking of
 	 * final state properly.
 	 */
 	  @MJI
-	public static boolean triggerendstate____Z(MJIEnv env, int objref) {
+	public static boolean force_transition____Z(MJIEnv env, int objref) {
 		log.fine("attempting to yield");
 		int myChoice = 0;
 		VM vm = env.getVM();
@@ -101,13 +101,13 @@ public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 				choicearray[index] = i;
 				index ++;
 			}
-			IntChoiceFromSet choices = new IntChoiceFromSet("endStateChoice", choicearray);
+			IntChoiceFromSet choices = new IntChoiceFromSet("NewAgentProgramState", choicearray);
 			vm.getSystemState().setNextChoiceGenerator(choices);
 			env.repeatInvocation();
 		} else {
 			log.fine("getting a choice");
-			IntChoiceFromSet cg = vm.getSystemState().getCurrentChoiceGenerator("endStateChoice", IntChoiceFromSet.class);
-			assert cg != null : "no 'endStateChoice' IntChoiceFromSet found";
+			IntChoiceFromSet cg = vm.getSystemState().getCurrentChoiceGenerator("NewAgentProgramState", IntChoiceFromSet.class);
+			assert cg != null : "no 'NewAgentProgramState' IntChoiceFromSet found";
 			myChoice = cg.getNextChoice();
 			log.fine("Selecting " + myChoice + " from " + 1);
 		}

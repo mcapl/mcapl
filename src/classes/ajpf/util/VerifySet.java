@@ -28,21 +28,43 @@ import java.util.SortedSet;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Collection;
 import java.util.Comparator;
 
+/**
+ * A Set class that stores objects in a canonical form in order to assist state 
+ * matching.
+ * @author louiseadennis
+ *
+ * @param <K>
+ */
 public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> {
 	ArrayList<K> sortedlist = new ArrayList<K>();
 	
+	public VerifySet() {
+		sortedlist.trimToSize();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#size()
+	 */
 	public int size() {
 		return sortedlist.size();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#isEmpty()
+	 */
 	public boolean isEmpty() {
 		return sortedlist.isEmpty();
 	}
 		
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#add(java.lang.Object)
+	 */
 	public boolean add(K e) {
 		if (contains(e)) {
 			return false;
@@ -52,7 +74,10 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		}
 	}
 	
-		
+	/*
+	 * 	(non-Javadoc)
+	 * @see java.util.Set#addAll(java.util.Collection)
+	 */
 	public boolean addAll(Collection<? extends K> c) {
 		boolean b = false;
 		for (K elem: c) {
@@ -63,27 +88,52 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		return b;
 	}
 
-		
+	/*
+	 * 	(non-Javadoc)
+	 * @see java.util.Set#clear()
+	 */
 	public void clear() {
 		sortedlist.clear();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#contains(java.lang.Object)
+	 */
 	public boolean contains(Object e) {
 		return sortedlist.contains(e);
 	}
-		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#containsAll(java.util.Collection)
+	 */
 	public boolean containsAll(Collection<?> e) {
 		return sortedlist.containsAll(e);
 	}
-		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return sortedlist.hashCode();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#iterator()
+	 */
 	public Iterator<K> iterator() {
 		return sortedlist.iterator();
 	}
 	
+	/**
+	 * Insert an element into the appropriate place in the sortedlist that represents
+	 * the canonical form of this set.
+	 * @param t
+	 * @return
+	 */
 	private K insert(K t) {
 		for (int i = 0; i < sortedlist.size(); i++) {
 			K t1 = sortedlist.get(i);
@@ -101,6 +151,10 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	public boolean equals(Object o) {
 		if (o instanceof Set<?>) {
 			Set<?> set = (Set<?>) o;
@@ -116,43 +170,82 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#remove(java.lang.Object)
+	 */
 	public boolean remove(Object o) {
 		return sortedlist.remove(o);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#removeAll(java.util.Collection)
+	 */
 	public boolean removeAll(Collection<?> c) {
 		return sortedlist.removeAll(c);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#retainAll(java.util.Collection)
+	 */
 	public boolean retainAll(Collection<?> c) {
 		return sortedlist.retainAll(c);
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#toArray()
+	 */
 	public Object[] toArray() {
 		return sortedlist.toArray();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Set#toArray(T[])
+	 */
 	public <T> T[] toArray(T[] a) {
 		return sortedlist.toArray(a);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return sortedlist.toString();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#comparator()
+	 */
 	public Comparator<? super K> comparator() {
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#first()
+	 */
 	public K first() {
 		return sortedlist.get(0);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#last()
+	 */
 	public K last() {
 		return sortedlist.get(size() - 1);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#headSet(java.lang.Object)
+	 */
 	public SortedSet<K> headSet(K e) {
 		VerifySet<K> hs = new VerifySet<K>();
 		for (K elem: sortedlist) {
@@ -163,6 +256,10 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		return hs;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#tailSet(java.lang.Object)
+	 */
 	public SortedSet<K> tailSet(K e) {
 		VerifySet<K> hs = new VerifySet<K>();
 		for (K elem: sortedlist) {
@@ -173,6 +270,10 @@ public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> 
 		return hs;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.SortedSet#subSet(java.lang.Object, java.lang.Object)
+	 */
 	public SortedSet<K> subSet(K e1, K e2) {
 		VerifySet<K> hs = new VerifySet<K>();
 		for (K elem: sortedlist) {

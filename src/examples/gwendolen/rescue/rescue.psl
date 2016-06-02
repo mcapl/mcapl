@@ -44,7 +44,7 @@ sanity4: ( <>B(r, at(0, 0)) & <>B(r, at(2,2)) )
 # Property 10 in paper
 10: ( 
    [] ( B(r, sent(agentlifter, human(_, _))) -> <>B(agentlifter, rec(msg)) ) ->
-   <>(B (r, found) -> <>B(agentlifter, free(human)) )
+   [](B (r, found) -> <>B(agentlifter, free(human)) )
    )
  
 # Some sanity checking for property 10
@@ -80,9 +80,10 @@ Goal: []( B(agentlifter, human(_, _)) -> <>( G (agentlifter, free(human)) || B(a
  & <>B(r,  at(2, 0)) & <>B(r,  at(2, 1)) & <>B(r,  at(2, 2))
  ) )
 			
-13: [] ( B(r, found) -> <>B(r, sent(agentlifter, human(_, _))) )
+8: [] ( B(r, found) -> <>B(r, sent(agentlifter, human(_, _))) )
+8a:  B(r, found) -> <>ItD(r, send(agentlifter, 1, human(_, _))) 
 
-14: [] ( B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
+9: [] ( B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
 
 16: ( [] ( B(r, sent(agentlifter, human(X, Y))) -> <>B(agentlifter, rec(msg)) ) ) ->
  (B (r, found) -> <>I(agentlifter, free(human)) )
@@ -95,7 +96,7 @@ Goal: []( B(agentlifter, human(_, _)) -> <>( G (agentlifter, free(human)) || B(a
   ( B (r, found) -> <>B (lifter, free(human)) )
   )
 
-18: (
+12: (
       []( I(agentlifter, free(human)) -> <>B(agentlifter, clear)) ) ->
   [](B(agentlifter, rec(msg)) -> <>B(agentlifter, free(human)) )
   )

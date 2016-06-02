@@ -4,7 +4,7 @@ package ethical_gwen.erratic_intruder;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Action;
 import ail.syntax.PlanLibrary;
 import ail.syntax.Event;

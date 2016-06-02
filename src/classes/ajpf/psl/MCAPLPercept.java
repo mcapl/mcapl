@@ -62,7 +62,6 @@ public class MCAPLPercept extends Proposition {
 	 */
 	public boolean check() {
 		boolean r = mas.hasPercept(percept);
-	//	System.err.println(toString() + " value is " + r);
 		return r;
 	}
 	
@@ -79,6 +78,9 @@ public class MCAPLPercept extends Proposition {
 		return false;
 	}
 	
+	/*
+	 * 
+	 */
 	public boolean equals(MCAPLProperty p) {
 		if (p instanceof MCAPLPercept) {
 			return (((MCAPLPercept) p).getPercept().equals(percept));
@@ -87,6 +89,10 @@ public class MCAPLPercept extends Proposition {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode() {
 		return percept.hashCode();
 	}
@@ -124,6 +130,10 @@ public class MCAPLPercept extends Proposition {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 16;
 	}

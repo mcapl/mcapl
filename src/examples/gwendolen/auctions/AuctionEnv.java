@@ -26,7 +26,7 @@
 package gwendolen.auctions;
 
 import ail.mas.DefaultEnvironment;
-import ail.mas.ActionScheduler;
+import ail.mas.scheduling.ActionScheduler;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;

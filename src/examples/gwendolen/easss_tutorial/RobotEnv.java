@@ -41,7 +41,10 @@ import java.util.HashSet;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
- * Environment for a Trash Robot Scenario;
+ * Environment for a Trash Robot Scenario.  Tailored for verification so that
+ * the percepts are decided at random.
+ * 
+ * WARNING: This environment can not be used with record and replay because of the use of Random.
  * 
  * @author louiseadennis
  *
@@ -65,12 +68,19 @@ public class RobotEnv extends DefaultEnvironment {
 	
 	String logname = "gwendolen.rescue.RobotEnv";
 	
+	/**
+	 * Constructor.
+	 */
 	public RobotEnv() {
 		super();
 		human=new Literal("human");
 		clear = new Literal("clear");
 	}
-			
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
+	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		Set<Predicate> percepts = new HashSet<Predicate>();
 		if (agName.equals("searcher")) {
@@ -101,11 +111,11 @@ public class RobotEnv extends DefaultEnvironment {
 		AJPFLogger.fine(logname, percepts.toString());
 		return percepts;
 	}
-		
-	/**
-	 * When a pickup action is executed the environment stores new perceptions
-	 * for the agent - that its picked something up and its hands are now longer
-	 * empty.
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
 	   	Unifier theta = new Unifier();
@@ -120,6 +130,10 @@ public class RobotEnv extends DefaultEnvironment {
     	return theta;
     }
    
+   /**
+    * Indicates that percepts for a particular robot may have changed.
+    * @param name
+    */
    public void change_for(String name) {
 	   if (name.equals("searcher")) {
 		   changer = true;
@@ -129,6 +143,9 @@ public class RobotEnv extends DefaultEnvironment {
 	   }
    }
    
+   /*
+    * 
+    */
    public boolean nothingPending(String agName) {
 	   if (agName.equals("searcher")) {
 		   return (!changer); 
@@ -137,6 +154,10 @@ public class RobotEnv extends DefaultEnvironment {
 	   }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see ail.mas.DefaultEnvironment#configure(ail.util.AILConfig)
+    */
 	public void configure(AILConfig configuration) {
 		super.configure(configuration);
 		

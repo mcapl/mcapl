@@ -32,12 +32,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTermImpl;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -86,8 +86,12 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 * @param t
 	 */
     public Predicate(Predicate t) {
-    	if (t.getFunctor() != null) {
-    		this.functor = t.getFunctor();
+    	
+     	if (t.getFunctor() != null) {
+    		// Shenanigans to attempt to help state matching during verification by
+    		// ensuring this is a new string object.
+    		String s = " " + t.getFunctor();
+     		this.functor = s.substring(1);
     	}
         List<Term> l = new ArrayList<Term>();
         List<Term> tl = t.getTerms();
@@ -227,6 +231,10 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 
     /** make a deep copy of the terms */
     public Predicate clone() {
+    	if (isGround()) {
+    		return this;
+    	}
+    	
         Predicate c = new Predicate(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;
@@ -249,7 +257,11 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     		return;
         if (terms == null)
             terms = new ArrayList<Term>();
-        terms.add(t);
+   //     if (t.isGround()) {
+   //     	terms.add(GroundPredSets.check(t));
+   //     } else {
+        	terms.add(t);
+   //     }
         predicateIndicatorCache = null;
         hashCodeCache = null;
       }
@@ -437,9 +449,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
             while (i.hasNext()) {
             	try {
             		Term it = (Term) i.next();
-            		Term it2 = (Term) it.clone();
-            		String is = it2.toString();
-            		s.append(is);
+            		if (!it.isGround()) {
+            			Term it2 = (Term) it.clone();
+            			String is = it2.toString();
+                		s.append(is);
+            		} else {
+            			s.append(it.toString());
+            		}
             	} catch (Exception e) {
             		s.append(terms);
             		break;
@@ -451,11 +467,18 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         }
         return s.toString();
     }
+    
+    public String fullstring() {
+    	String s = toString();
+    	return "Predicate-" + s;
+    }
+      
         
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#calcHashCode()
      */
+    @Override
     protected int calcHashCode() {
         final int PRIME = 7;
         int result = 1;
@@ -489,6 +512,24 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     	return this;
     }
    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
+    	
+    	for (int i = 0; i < getTermsSize(); i++) {
+    		try{
+     			setTerm(i, getTerm(i).resolveVarsClusters());
+    		} catch (Exception  e) {
+    			System.err.println(this); System.err.println(i);
+    		}
+   	}
+    	
+    	return this;
+    }
+
+    
     /**
      * Assuming we are not higher order here!
      */
@@ -559,8 +600,6 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 */
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
-	}
-
-       
+	}       
 
 }

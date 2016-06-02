@@ -24,17 +24,21 @@
 
 package ajpf.util;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.HashMap;
 
 import gov.nasa.jpf.vm.Verify;
-import gov.nasa.jpf.annotation.MJI;
 
-public class AJPFLogger {
+/**
+ * A Logger class that can be used from a class that may be run within JPF.
+ * @author louiseadennis
+ *
+ */
+public final class AJPFLogger {
 	  //--- those need to be kept in sync with the model side
 	  public static final int SEVERE = 1;
 	  public static final int WARNING = 2;
@@ -45,6 +49,26 @@ public class AJPFLogger {
 
 	  static HashMap<String, Level> levels = new HashMap<String, Level>();
 	  
+	  /**
+	   * The log level for this class is less than or equal to FINEST.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
+	  public static boolean ltFinest(String logname) {
+			if (!Verify.isRunningInJPF()) {
+				return getLevel(logname).intValue() <= Level.FINEST.intValue();
+			} else {
+				return getIntLevel(logname) <= Level.FINEST.intValue();
+			}
+	  }
+
+	  /**
+	   * The log level for this class is less than or equal to FINER.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
 	  public static boolean ltFiner(String logname) {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.FINER.intValue();
@@ -53,37 +77,75 @@ public class AJPFLogger {
 			}
 	  }
 	
+	  /**
+	   * The log level for this class is less than or equal to FINE.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
 	  public static boolean ltFine(String logname) {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.FINE.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.FINE.intValue();			}
+				return getIntLevel(logname) <= Level.FINE.intValue();			
+			}
 	  }
 
+	  /**
+	   * The log level for this class is less than or equal to INFO.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
 	  public static boolean ltInfo(String logname) {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.INFO.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.INFO.intValue();			}
+				return getIntLevel(logname) <= Level.INFO.intValue();			
+			}
 	  }
 
-	  public static void setConsoleHandlerFormatBrief() {
+	  //================================
+	  /**
+	   * added by Maryam
+	   * set a log file handler
+	   * 
+	   */
+	  public static void setFileHandler(String logname, FileHandler fh){
+		  Logger logger = Logger.getLogger(logname);
+		  logger.addHandler(fh);
+		  logger.setUseParentHandlers(false);
+	      fh.setFormatter(new BriefLogFormatter());  
+	  }
+	  //================================
+	  
+	  
+	  /**
+	   * Set the logging report format to Brief.
+	   */
+	  public static void setHandlerFormatBrief() {
 		for (Handler h: Logger.getLogger("").getHandlers()){
-			if (h instanceof ConsoleHandler) {
 				h.setFormatter(new BriefLogFormatter());
-			}
-			
 		}
-	}
-	
-	public static Level getLevel(String logname) {
+	  }
+	  	
+	  /**
+	   * Get the level of this logging class.
+	   * @param logname
+	   * @return
+	   */
+	  public static Level getLevel(String logname) {
 		if (!Verify.isRunningInJPF()) {
 			Logger logger = Logger.getLogger(logname);
+			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+				setLevel(logname, levels.get(logname));
+			}
+
 			Level l = logger.getLevel();
-		    while (l == null && logger.getParent() != null) {
-		        logger = logger.getParent();
+			while (l == null && logger.getParent() != null) {
+				logger = logger.getParent();
 		        l = logger.getLevel();
-		      }
+			}
 			return l;
 		} else {
 			int l = getIntLevel(logname);
@@ -103,76 +165,125 @@ public class AJPFLogger {
 				default:
 					return Level.INFO;
 			}
-		}
-	}
+			}
+	  }
 	
-	public static int getIntLevel(String logname) {
-		return INFO;
-	}
+	  /**
+	   * This method exists to be intercepted by the native peer when running in JPF and should
+	   * only be called when the class is running in JPF.  Therefore the actual code is irrelevant.
+	   * @param logname
+	   * @return
+	   */
+	  private static int getIntLevel(String logname) {
+		  return INFO;
+	  }
 	
-	public static void setLevel(String logname, Level l) {
-		if (!Verify.isRunningInJPF()) {
-			Logger logger = Logger.getLogger(logname);
-			logger.setLevel(l);
-			for (Handler h: Logger.getLogger("").getHandlers()) {
-				if (h.getLevel().intValue() > l.intValue()) {
-					h.setLevel(l);
-				}
-			}
-			levels.put(logname, l);
-		} else {
-			setIntLevel(logname, l.intValue());
-		}
-	}
+	  /**
+	   * Set the log level for a particular log.
+	   * @param logname
+	   * @param l
+	   */
+	  public static void setLevel(String logname, Level l) {
+		  if (!Verify.isRunningInJPF()) {
+			  Logger logger = Logger.getLogger(logname);
+			  logger.setLevel(l);
+			  for (Handler h: Logger.getLogger("").getHandlers()) {
+				  if (h.getLevel().intValue() > l.intValue()) {
+					  h.setLevel(l);
+				  }
+			  }
+			  levels.put(logname, l);
+		  } else {
+			  setIntLevel(logname, l.intValue());
+		  }
+	  }
 	
-	public static void setIntLevel(String logname, int l) {};
+	  /**
+	   * This method is only called when the class is running in JPF and is intercepted by
+	   * the native peer when it is called.
+	   * @param logname
+	   * @param l
+	   */
+	  public static void setIntLevel(String logname, int l) {};
 	
-	public static void info(String logname, String msg) {
-			Logger logger = Logger.getLogger(logname);
-			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-				setLevel(logname, levels.get(logname));
-			}
+	  /**
+	   * Return this message if the log level is INFO or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void info(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  System.err.println(levels);
+			  setLevel(logname, levels.get(logname));
+			  System.err.println(levels);
+		  }
 
-			logger.info(msg);
-	}
+		  logger.info(msg);
+	  }
 
-	public static void severe(String logname, String msg) {
-			Logger logger = Logger.getLogger(logname);
-			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-				setLevel(logname, levels.get(logname));
-			}
-			logger.severe(msg);
-	}
+	  /**
+	   * Return this message if the log level is SEVERE or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void severe(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  setLevel(logname, levels.get(logname));
+		  }
+		  logger.severe(msg);
+	  }
 
-	public static void warning(String logname, String msg) {
-		Logger logger = Logger.getLogger(logname);
-		if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-			setLevel(logname, levels.get(logname));
-		}
-		logger.warning(msg);
-}
+	  /**
+	   * Return this message if the log level is WARNING or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void warning(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  setLevel(logname, levels.get(logname));
+		  }
+		  logger.warning(msg);
+	  }
 
-	public static void fine(String logname, String msg) {
-			Logger logger = Logger.getLogger(logname);
-			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-				setLevel(logname, levels.get(logname));
-			}
-			logger.fine(msg);
-	}
+	  /**
+	   * Return this message if the log level is FINE or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void fine(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  setLevel(logname, levels.get(logname));
+		  }
+		  logger.fine(msg);
+	  }
 
-	public static void finer(String logname, String msg) {
-			Logger logger = Logger.getLogger(logname);
-			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-				setLevel(logname, levels.get(logname));
-			}
-			logger.finer(msg);
-	}
+	  /**
+	   * Return this message if the log level is FINER or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void finer(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  setLevel(logname, levels.get(logname));
+		  }
+		  logger.finer(msg);
+	  }
 
-	public static void finest(String logname, String msg) {
-			Logger logger = Logger.getLogger(logname);
-			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
-				setLevel(logname, levels.get(logname));
-			}
-			logger.finer(msg);
-	}
+	  /**
+	   * Return this message if the log level is FINEST or lower.
+	   * @param logname
+	   * @param msg
+	   */
+	  public static void finest(String logname, String msg) {
+		  Logger logger = Logger.getLogger(logname);
+		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  setLevel(logname, levels.get(logname));
+		  }
+		  logger.finer(msg);
+	  }
 }

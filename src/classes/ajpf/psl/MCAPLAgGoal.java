@@ -43,6 +43,7 @@ public class MCAPLAgGoal extends Proposition {
 	 * The formula that is the agent's goal.
 	 */
 	private MCAPLFormula goal;
+	
 	private int hashcode;
 	
 	/**
@@ -90,8 +91,11 @@ public class MCAPLAgGoal extends Proposition {
 		return false;
 	}
 	
+	/*
+	 * 
+	 */
 	public int hashcode() {
-		return hashcode();
+		return hashcode;
 	}
 	
 	/**
@@ -128,6 +132,10 @@ public class MCAPLAgGoal extends Proposition {
 		return s;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.psl.MCAPLProperty#quickCompareVal()
+	 */
 	public int quickCompareVal() {
 		return 7;
 	}

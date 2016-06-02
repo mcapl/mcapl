@@ -32,6 +32,7 @@ log.fine = ail.util.AJPF_w_AIL
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads

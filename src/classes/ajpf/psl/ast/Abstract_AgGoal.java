@@ -83,6 +83,10 @@ public class Abstract_AgGoal extends Abstract_Proposition {
 		agent = a;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String s = "G(" + agent + "," + goal.toString() + ")";
 		return s;
