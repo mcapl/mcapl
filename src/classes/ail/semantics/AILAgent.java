@@ -201,7 +201,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * selection heuristics.
 	 */
 	protected VerifyMap<String, Integer> generated = new VerifyMap<String, Integer>();
-		  	   
+	
 	/**
 	 * Should plan usage be tracked?  If you don't track plan usage more states
 	 * in the agent will match.
@@ -798,7 +798,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-	
+		
 	//--- Capabilities
 	
 	/**
@@ -1459,8 +1459,8 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param p the plan used.
      */
     public void updatePlanUsage(ApplicablePlan p) {
-       	if (trackplanusage) {
-       		if (p != null) { // && !p.noChangePlan()) {
+       	if (getTrackPlanUsage()) {
+       		if (p != null ) { //&& !p.noChangePlan()) {
        			String ps = p.keyString();
        			generated.put(ps, 0);
        		}
@@ -1475,7 +1475,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @return
      */
 	protected int scoreplan(ApplicablePlan p) {
-		if (trackplanusage) {
+		if (getTrackPlanUsage()) {
 			String ps = p.keyString();
 			if (generated.get(ps) != null) {
 				int i = generated.get(ps);
