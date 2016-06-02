@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-29 15:37:19
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2016-06-02 13:52:30
 
 package actiononly.parser;
 
@@ -1457,9 +1457,9 @@ public class ActionOnlyLexer extends Lexer {
 		"\1\10\1\45\1\uffff\1\6\1\34\1\uffff\1\12\1\13\1\40\5\uffff\1\30\2\uffff"+
 		"\1\27\1\31\1\1\5\uffff\1\11\3\uffff\1\2\1\4";
 	static final String DFA11_specialS =
-		"\1\1\1\10\1\uffff\1\24\1\0\1\6\13\uffff\1\15\1\22\1\7\13\uffff\1\13\1"+
-		"\17\1\11\6\uffff\1\12\2\uffff\1\5\3\uffff\1\21\1\23\1\20\1\3\1\14\2\uffff"+
-		"\1\4\4\uffff\1\2\1\uffff\1\16\7\uffff}>";
+		"\1\2\1\21\1\uffff\1\22\1\15\1\16\13\uffff\1\12\1\0\1\20\13\uffff\1\1\1"+
+		"\5\1\24\6\uffff\1\7\2\uffff\1\13\3\uffff\1\3\1\17\1\6\1\11\1\4\2\uffff"+
+		"\1\14\4\uffff\1\23\1\uffff\1\10\7\uffff}>";
 	static final String[] DFA11_transitionS = {
 			"\1\10\1\7\2\uffff\1\7\22\uffff\1\10\1\33\1\17\2\uffff\1\32\2\uffff\1"+
 			"\11\1\12\1\27\1\30\1\34\1\31\1\4\1\6\12\23\1\2\1\35\1\25\1\26\1\uffff"+
@@ -1574,29 +1574,42 @@ public class ActionOnlyLexer extends Lexer {
 			int _s = s;
 			switch ( s ) {
 					case 0 : 
-						int LA11_4 = input.LA(1);
+						int LA11_18 = input.LA(1);
 						 
-						int index11_4 = input.index();
+						int index11_18 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA11_4=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 41;}
-						else s = 42;
+						if ( ((LA11_18 >= '0' && LA11_18 <= '9')||(LA11_18 >= 'A' && LA11_18 <= 'Z')||LA11_18=='_'||(LA11_18 >= 'a' && LA11_18 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 32;
 						 
-						input.seek(index11_4);
+						input.seek(index11_18);
 						if ( s>=0 ) return s;
 						break;
 
 					case 1 : 
+						int LA11_31 = input.LA(1);
+						 
+						int index11_31 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_31 >= '0' && LA11_31 <= '9')||(LA11_31 >= 'A' && LA11_31 <= 'Z')||LA11_31=='_'||(LA11_31 >= 'a' && LA11_31 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 51;
+						 
+						input.seek(index11_31);
+						if ( s>=0 ) return s;
+						break;
+
+					case 2 : 
 						int LA11_0 = input.LA(1);
 						 
 						int index11_0 = input.index();
 						input.rewind();
 						s = -1;
-						if ( (LA11_0=='A') && (((curly_nesting == 0)||(!stringterm)||(stringterm)))) {s = 1;}
+						if ( (LA11_0=='A') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 1;}
 						else if ( (LA11_0==':') ) {s = 2;}
 						else if ( (LA11_0=='B') && (((stringterm)||(!stringterm)||(curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)))) {s = 3;}
 						else if ( (LA11_0=='.') ) {s = 4;}
-						else if ( (LA11_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 5;}
+						else if ( (LA11_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 5;}
 						else if ( (LA11_0=='/') ) {s = 6;}
 						else if ( (LA11_0=='\n'||LA11_0=='\r') ) {s = 7;}
 						else if ( (LA11_0=='\t'||LA11_0==' ') ) {s = 8;}
@@ -1608,9 +1621,9 @@ public class ActionOnlyLexer extends Lexer {
 						else if ( (LA11_0=='}') ) {s = 14;}
 						else if ( (LA11_0=='\"') ) {s = 15;}
 						else if ( (LA11_0=='~') ) {s = 16;}
-						else if ( ((LA11_0 >= 'a' && LA11_0 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 17;}
-						else if ( ((LA11_0 >= 'C' && LA11_0 <= 'S')||(LA11_0 >= 'U' && LA11_0 <= 'Z')) && (((!stringterm)||(stringterm)))) {s = 18;}
-						else if ( ((LA11_0 >= '0' && LA11_0 <= '9')) && (((!stringterm)||(stringterm)))) {s = 19;}
+						else if ( ((LA11_0 >= 'a' && LA11_0 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 17;}
+						else if ( ((LA11_0 >= 'C' && LA11_0 <= 'S')||(LA11_0 >= 'U' && LA11_0 <= 'Z')) && (((stringterm)||(!stringterm)))) {s = 18;}
+						else if ( ((LA11_0 >= '0' && LA11_0 <= '9')) && (((stringterm)||(!stringterm)))) {s = 19;}
 						else if ( (LA11_0=='_') && ((stringterm))) {s = 20;}
 						else if ( (LA11_0=='<') ) {s = 21;}
 						else if ( (LA11_0=='=') ) {s = 22;}
@@ -1627,144 +1640,20 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 2 : 
-						int LA11_59 = input.LA(1);
-						 
-						int index11_59 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_59 >= '0' && LA11_59 <= '9')||(LA11_59 >= 'A' && LA11_59 <= 'Z')||LA11_59=='_'||(LA11_59 >= 'a' && LA11_59 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 61;
-						 
-						input.seek(index11_59);
-						if ( s>=0 ) return s;
-						break;
-
 					case 3 : 
-						int LA11_50 = input.LA(1);
+						int LA11_47 = input.LA(1);
 						 
-						int index11_50 = input.index();
+						int index11_47 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA11_50 >= '0' && LA11_50 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
-						else if ( ((LA11_50 >= 'A' && LA11_50 <= 'Z')||LA11_50=='_'||(LA11_50 >= 'a' && LA11_50 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 55;}
 						 
-						input.seek(index11_50);
+						input.seek(index11_47);
 						if ( s>=0 ) return s;
 						break;
 
 					case 4 : 
-						int LA11_54 = input.LA(1);
-						 
-						int index11_54 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_54=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 59;}
-						else if ( ((LA11_54 >= '0' && LA11_54 <= '9')||(LA11_54 >= 'A' && LA11_54 <= 'Z')||LA11_54=='_'||(LA11_54 >= 'a' && LA11_54 <= 'd')||(LA11_54 >= 'f' && LA11_54 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_54);
-						if ( s>=0 ) return s;
-						break;
-
-					case 5 : 
-						int LA11_43 = input.LA(1);
-						 
-						int index11_43 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_43=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 54;}
-						else if ( ((LA11_43 >= '0' && LA11_43 <= '9')||(LA11_43 >= 'A' && LA11_43 <= 'Z')||LA11_43=='_'||(LA11_43 >= 'a' && LA11_43 <= 't')||(LA11_43 >= 'v' && LA11_43 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_43);
-						if ( s>=0 ) return s;
-						break;
-
-					case 6 : 
-						int LA11_5 = input.LA(1);
-						 
-						int index11_5 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_5=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(!stringterm)||(stringterm)))) {s = 43;}
-						else if ( ((LA11_5 >= '0' && LA11_5 <= '9')||(LA11_5 >= 'A' && LA11_5 <= 'Z')||LA11_5=='_'||(LA11_5 >= 'a' && LA11_5 <= 'q')||(LA11_5 >= 's' && LA11_5 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_5);
-						if ( s>=0 ) return s;
-						break;
-
-					case 7 : 
-						int LA11_19 = input.LA(1);
-						 
-						int index11_19 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_19 >= '0' && LA11_19 <= '9')) && (((!stringterm)||(stringterm)))) {s = 50;}
-						else if ( ((LA11_19 >= 'A' && LA11_19 <= 'Z')||LA11_19=='_'||(LA11_19 >= 'a' && LA11_19 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
-						 
-						input.seek(index11_19);
-						if ( s>=0 ) return s;
-						break;
-
-					case 8 : 
-						int LA11_1 = input.LA(1);
-						 
-						int index11_1 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_1=='O') && (((curly_nesting == 0)||(stringterm)||(!stringterm)))) {s = 31;}
-						else if ( ((LA11_1 >= '0' && LA11_1 <= '9')||(LA11_1 >= 'A' && LA11_1 <= 'N')||(LA11_1 >= 'P' && LA11_1 <= 'Z')||LA11_1=='_'||(LA11_1 >= 'a' && LA11_1 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_1);
-						if ( s>=0 ) return s;
-						break;
-
-					case 9 : 
-						int LA11_33 = input.LA(1);
-						 
-						int index11_33 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_33 >= '0' && LA11_33 <= '9')||(LA11_33 >= 'A' && LA11_33 <= 'Z')||LA11_33=='_'||(LA11_33 >= 'a' && LA11_33 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_33);
-						if ( s>=0 ) return s;
-						break;
-
-					case 10 : 
-						int LA11_40 = input.LA(1);
-						 
-						int index11_40 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 41;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_40);
-						if ( s>=0 ) return s;
-						break;
-
-					case 11 : 
-						int LA11_31 = input.LA(1);
-						 
-						int index11_31 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_31 >= '0' && LA11_31 <= '9')||(LA11_31 >= 'A' && LA11_31 <= 'Z')||LA11_31=='_'||(LA11_31 >= 'a' && LA11_31 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
-						else s = 51;
-						 
-						input.seek(index11_31);
-						if ( s>=0 ) return s;
-						break;
-
-					case 12 : 
 						int LA11_51 = input.LA(1);
 						 
 						int index11_51 = input.index();
@@ -1778,20 +1667,47 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 13 : 
-						int LA11_17 = input.LA(1);
+					case 5 : 
+						int LA11_32 = input.LA(1);
 						 
-						int index11_17 = input.index();
+						int index11_32 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA11_17 >= '0' && LA11_17 <= '9')||(LA11_17 >= 'A' && LA11_17 <= 'Z')||LA11_17=='_'||(LA11_17 >= 'a' && LA11_17 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
-						else s = 47;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
 						 
-						input.seek(index11_17);
+						input.seek(index11_32);
 						if ( s>=0 ) return s;
 						break;
 
-					case 14 : 
+					case 6 : 
+						int LA11_49 = input.LA(1);
+						 
+						int index11_49 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 56;}
+						 
+						input.seek(index11_49);
+						if ( s>=0 ) return s;
+						break;
+
+					case 7 : 
+						int LA11_40 = input.LA(1);
+						 
+						int index11_40 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 41;}
+						else if ( ((stringterm)) ) {s = 20;}
+						else if ( ((!stringterm)) ) {s = 52;}
+						 
+						input.seek(index11_40);
+						if ( s>=0 ) return s;
+						break;
+
+					case 8 : 
 						int LA11_61 = input.LA(1);
 						 
 						int index11_61 = input.index();
@@ -1805,81 +1721,165 @@ public class ActionOnlyLexer extends Lexer {
 						if ( s>=0 ) return s;
 						break;
 
-					case 15 : 
-						int LA11_32 = input.LA(1);
+					case 9 : 
+						int LA11_50 = input.LA(1);
 						 
-						int index11_32 = input.index();
+						int index11_50 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
+						if ( ((LA11_50 >= '0' && LA11_50 <= '9')) && (((stringterm)||(!stringterm)))) {s = 50;}
+						else if ( ((LA11_50 >= 'A' && LA11_50 <= 'Z')||LA11_50=='_'||(LA11_50 >= 'a' && LA11_50 <= 'z')) && ((stringterm))) {s = 20;}
+						else s = 49;
 						 
-						input.seek(index11_32);
+						input.seek(index11_50);
 						if ( s>=0 ) return s;
 						break;
 
-					case 16 : 
-						int LA11_49 = input.LA(1);
+					case 10 : 
+						int LA11_17 = input.LA(1);
 						 
-						int index11_49 = input.index();
+						int index11_17 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 56;}
+						if ( ((LA11_17 >= '0' && LA11_17 <= '9')||(LA11_17 >= 'A' && LA11_17 <= 'Z')||LA11_17=='_'||(LA11_17 >= 'a' && LA11_17 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 48;}
+						else s = 47;
 						 
-						input.seek(index11_49);
+						input.seek(index11_17);
 						if ( s>=0 ) return s;
 						break;
 
-					case 17 : 
-						int LA11_47 = input.LA(1);
+					case 11 : 
+						int LA11_43 = input.LA(1);
 						 
-						int index11_47 = input.index();
+						int index11_43 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 55;}
-						 
-						input.seek(index11_47);
-						if ( s>=0 ) return s;
-						break;
-
-					case 18 : 
-						int LA11_18 = input.LA(1);
-						 
-						int index11_18 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_18 >= '0' && LA11_18 <= '9')||(LA11_18 >= 'A' && LA11_18 <= 'Z')||LA11_18=='_'||(LA11_18 >= 'a' && LA11_18 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						if ( (LA11_43=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 54;}
+						else if ( ((LA11_43 >= '0' && LA11_43 <= '9')||(LA11_43 >= 'A' && LA11_43 <= 'Z')||LA11_43=='_'||(LA11_43 >= 'a' && LA11_43 <= 't')||(LA11_43 >= 'v' && LA11_43 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
 						else s = 32;
 						 
-						input.seek(index11_18);
+						input.seek(index11_43);
 						if ( s>=0 ) return s;
 						break;
 
-					case 19 : 
+					case 12 : 
+						int LA11_54 = input.LA(1);
+						 
+						int index11_54 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_54=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 59;}
+						else if ( ((LA11_54 >= '0' && LA11_54 <= '9')||(LA11_54 >= 'A' && LA11_54 <= 'Z')||LA11_54=='_'||(LA11_54 >= 'a' && LA11_54 <= 'd')||(LA11_54 >= 'f' && LA11_54 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_54);
+						if ( s>=0 ) return s;
+						break;
+
+					case 13 : 
+						int LA11_4 = input.LA(1);
+						 
+						int index11_4 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_4=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 41;}
+						else s = 42;
+						 
+						input.seek(index11_4);
+						if ( s>=0 ) return s;
+						break;
+
+					case 14 : 
+						int LA11_5 = input.LA(1);
+						 
+						int index11_5 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_5=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 43;}
+						else if ( ((LA11_5 >= '0' && LA11_5 <= '9')||(LA11_5 >= 'A' && LA11_5 <= 'Z')||LA11_5=='_'||(LA11_5 >= 'a' && LA11_5 <= 'q')||(LA11_5 >= 's' && LA11_5 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_5);
+						if ( s>=0 ) return s;
+						break;
+
+					case 15 : 
 						int LA11_48 = input.LA(1);
 						 
 						int index11_48 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA11_48 >= '0' && LA11_48 <= '9')||(LA11_48 >= 'A' && LA11_48 <= 'Z')||LA11_48=='_'||(LA11_48 >= 'a' && LA11_48 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 48;}
+						if ( ((LA11_48 >= '0' && LA11_48 <= '9')||(LA11_48 >= 'A' && LA11_48 <= 'Z')||LA11_48=='_'||(LA11_48 >= 'a' && LA11_48 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 48;}
 						else s = 47;
 						 
 						input.seek(index11_48);
 						if ( s>=0 ) return s;
 						break;
 
-					case 20 : 
+					case 16 : 
+						int LA11_19 = input.LA(1);
+						 
+						int index11_19 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_19 >= '0' && LA11_19 <= '9')) && (((stringterm)||(!stringterm)))) {s = 50;}
+						else if ( ((LA11_19 >= 'A' && LA11_19 <= 'Z')||LA11_19=='_'||(LA11_19 >= 'a' && LA11_19 <= 'z')) && ((stringterm))) {s = 20;}
+						else s = 49;
+						 
+						input.seek(index11_19);
+						if ( s>=0 ) return s;
+						break;
+
+					case 17 : 
+						int LA11_1 = input.LA(1);
+						 
+						int index11_1 = input.index();
+						input.rewind();
+						s = -1;
+						if ( (LA11_1=='O') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 31;}
+						else if ( ((LA11_1 >= '0' && LA11_1 <= '9')||(LA11_1 >= 'A' && LA11_1 <= 'N')||(LA11_1 >= 'P' && LA11_1 <= 'Z')||LA11_1=='_'||(LA11_1 >= 'a' && LA11_1 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_1);
+						if ( s>=0 ) return s;
+						break;
+
+					case 18 : 
 						int LA11_3 = input.LA(1);
 						 
 						int index11_3 = input.index();
 						input.rewind();
 						s = -1;
-						if ( ((LA11_3 >= '0' && LA11_3 <= '9')||(LA11_3 >= 'A' && LA11_3 <= 'Z')||LA11_3=='_'||(LA11_3 >= 'a' && LA11_3 <= 'z')) && (((!stringterm)||(stringterm)))) {s = 33;}
+						if ( ((LA11_3 >= '0' && LA11_3 <= '9')||(LA11_3 >= 'A' && LA11_3 <= 'Z')||LA11_3=='_'||(LA11_3 >= 'a' && LA11_3 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
 						else s = 40;
 						 
 						input.seek(index11_3);
+						if ( s>=0 ) return s;
+						break;
+
+					case 19 : 
+						int LA11_59 = input.LA(1);
+						 
+						int index11_59 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_59 >= '0' && LA11_59 <= '9')||(LA11_59 >= 'A' && LA11_59 <= 'Z')||LA11_59=='_'||(LA11_59 >= 'a' && LA11_59 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 61;
+						 
+						input.seek(index11_59);
+						if ( s>=0 ) return s;
+						break;
+
+					case 20 : 
+						int LA11_33 = input.LA(1);
+						 
+						int index11_33 = input.index();
+						input.rewind();
+						s = -1;
+						if ( ((LA11_33 >= '0' && LA11_33 <= '9')||(LA11_33 >= 'A' && LA11_33 <= 'Z')||LA11_33=='_'||(LA11_33 >= 'a' && LA11_33 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
+						else s = 32;
+						 
+						input.seek(index11_33);
 						if ( s>=0 ) return s;
 						break;
 			}

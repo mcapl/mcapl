@@ -270,4 +270,86 @@ SpinSpin5: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
   B(aglead, informed(ag4, square)) & B (aglead, maintaining(ag4)) &
   B (aglead, formation(square)) & B (aglead, bad)
 
+1prop: B (aglead, bad)
+
+2prop: B (aglead, maintaining(ag1))  & B (aglead, bad)
+
+3prop: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  & B (aglead, bad)
+
+4prop: B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) & B (aglead, bad)
+
+5prop: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) & B (aglead, bad)
+  
+6prop: B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
+
+7prop: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) & B (aglead, bad)
+  
+8prop: B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, square)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
+
+9prop: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, square)) & B (aglead, maintaining(ag4)) & B (aglead, bad)
+
+10prop: B(aglead, informed(ag1, square)) & B (aglead, maintaining(ag1))  &
+  B(aglead, informed(ag2, square)) & B (aglead, maintaining(ag2)) &
+  B(aglead, informed(ag3, square)) & B (aglead, maintaining(ag3)) &
+  B(aglead, informed(ag4, square)) & B (aglead, maintaining(ag4)) &
+  B (aglead, formation(square)) & B (aglead, bad)
+
+5prop0: ~ B (aglead, maintaining(ag1))  & ~B(aglead, informed(ag1, square)) &
+  ~ B(aglead, informed(ag2, square)) & ~ B (aglead, maintaining(ag2)) & [] ~(B (aglead, bad))
+
+5prop1: ( [] (B (aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag1)) )
+			-> [] ~(B (aglead, bad)) ) &
+		~ B (aglead, maintaining(ag2)) & ~B (aglead, informed(ag2, square))
+
+5prop2: (
+	    ( [] (B (aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag1)) )) &
+		( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2)) )
+		)
+			-> [] ~(B (aglead, bad)) ) 
+			
+5prop3: (
+	    ( [] (B (aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag1)) )) &
+		( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag1)) )) 
+		)
+			-> [] ~(B (aglead, bad)) ) 
+
+5prop4: (
+	    ( [] (B (aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag1)) )) &
+		( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, informed(ag1, square)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag1)) ))  
+		)
+			-> [] ~(B (aglead, bad)) ) 
+			
+5prop5: (
+	    ( [] (B (aglead, maintaining(ag1)) -> <> B (aglead, informed(ag2, square)) )) &
+		( [] (B (aglead, maintaining(ag2)) -> <> B (aglead, informed(ag2, square)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag1)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, maintaining(ag1)) -> <> B (aglead, maintaining(ag2)) )) 
+		)
+			-> [] ~(B (aglead, bad)) ) 
+
+4prop6: (
+	    ( [] (B (aglead, maintaining(ag1)) -> <> B (aglead, informed(ag2, square)) )) &
+		( [] (B (aglead, maintaining(ag2)) -> <> B (aglead, informed(ag2, square)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag1)) )) &
+	    ( [] (B (aglead, informed(ag2, square)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, maintaining(ag1)) -> <> B (aglead, maintaining(ag2)) )) &
+	    ( [] (B (aglead, maintaining(ag2)) -> <> B (aglead, maintaining(ag1)) )) 
+		)
+			-> [] ~(B (aglead, bad)) ) 
 

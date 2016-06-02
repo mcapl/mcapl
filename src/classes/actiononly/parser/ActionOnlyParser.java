@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2014-09-29 15:37:19
+// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2016-06-02 13:52:30
 
 package actiononly.parser;
 
@@ -563,7 +563,7 @@ public class ActionOnlyParser extends Parser {
 			a=action();
 			state._fsp--;
 
-			c = new Abstract_Capability(a); if (f != null) {c.addPre(f);}
+			c = new Abstract_Capability(a); if (f != null) {c.addPre(f); c.addPost(new Abstract_GBelief());}
 			}
 
 		}

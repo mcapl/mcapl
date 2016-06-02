@@ -1,0 +1,103 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
+// 
+// This file is part of Gwendolen
+//
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+square(0, 0) square(0, 1) square(0, 2) square(0, 3) square(0, 4)
+square(1, 0) square(1, 1) square(1, 2) square(1, 3) square(1, 4) 
+square(2, 0) square(2, 1) square(2, 2) square(2, 3) square(2, 4) 
+square(3, 0) square(3, 1) square(3, 2) square(3, 3) square(3, 4) 
+square(4, 0) square(4, 1) square(4, 2) square(4, 3) square(4, 4) 
+
+max_x(4) max_y(4) min_x(0) min_y(0)
+
+going_up
+going_right
+searching
+
+:Reasoning Rules:
+
+all_humans_directed :- seen_four;
+
+empty(X, Y) :- ~uninjured_human(X, Y), ~injured_human(X, Y), ~unchecked_rubble(X, Y), ~unchecked_building(X, Y);
+unchecked_rubble(X, Y) :- rubble(X, Y), ~lifted_rubble(X, Y);
+unchecked_building(X, Y) :- building(X, Y), ~checked_building(X, Y);
+
+find_clear_square_and_return(X, Y) :- at(X, Y), ~holding_rubble;
+
+human(X, Y) :- uninjured_human(X, Y);
+human(X, Y) :- injured_human(X, Y);
+
+:Initial Goals:
+
+all_humans_directed [achieve]
+
+:Plans:
+
++!all_humans_directed [achieve] : {~B moving} <- *moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B max_y(Y), B going_up, B moving} <- forward, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B min_y(Y), B going_down, B moving} <- back, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B max_x(X), B going_up, B max_y(Y), B moving, B going_right} <- -going_up, +going_down, right, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B max_x(X), B going_down, B min_y(Y), B moving, B going_right} <- -going_down, +going_up, right, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), B max_x(X), B going_up, B max_y(Y), B moving, B going_right} <- -going_up, +going_down, -going_right, +going_left, left, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B min_x(X), B going_up, B max_y(Y), B moving, B going_left} <- -going_up, +going_down, left, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), ~B min_x(X), B going_down, B min_y(Y), B moving, B going_left} <- -going_down, +going_up, left, -moving;
++!all_humans_directed [achieve] : {B at(X, Y), B min_x(X), B going_up, B max_y(Y), B moving, B going_left} <- -going_up, +going_down, -going_left, +going_right, right, -moving;
+
++!find_clear_square_and_return(X, Y) [achieve] : {B at(X1, Y1), ~B max_y(Y1), B gf} <- forward, -moving2, *moving2;
++!find_clear_square_and_return(X, Y) [achieve] : {B at(X1, Y1), B max_y(Y1), B gf} <- -gf;
++!find_clear_square_and_return(X, Y)  [achieve]: {B at(X1, Y1), ~B min_y(Y1), ~B gf} <- back, -moving2, *moving2;
++!find_clear_square_and_return(X, Y)  [achieve]: {B at(X1, Y1), B min_y(Y1), ~ B gf} <- +gf;
+
++at(X, Y): {~B holding_rubble, ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +!empty(X, Y) [achieve], +moving;
++at(X, Y): {B holding_rubble, B human(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +!empty(X, Y) [achieve], +moving;
++at(X, Y): {B holding_rubble, B rubble(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +!empty(X, Y) [achieve], +moving;
++at(X, Y) : {B holding_rubble, ~B rubble(X, Y), ~B human(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- drop_rubble, +lifted_rubble(X, Y), +moving;
+
++at(X, Y): {~B holding_rubble, G find_clear_square_and_return(X1, Y1) [achieve]} <- +moving2;
++at(X, Y): {B holding_rubble, B human(X, Y), G find_clear_square_and_return(X1, Y1) [achieve]} <- +moving2;
++at(X, Y): {B holding_rubble, B rubble(X, Y), G find_clear_square_and_return(X1, Y1) [achieve]} <- +moving2;
++at(X, Y) : {B holding_rubble, ~B rubble(X, Y), ~B human(X, Y), G find_clear_square_and_return(X1, Y1) [achieve]} <- drop_rubble, +lifted_rubble(X, Y), +moving2;
+
++injured_human(X, Y) : {~B seen_one, ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +seen_one;
++injured_human(X, Y) : {B seen_one, ~B seen_two, ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +seen_two;
++injured_human(X, Y) : {B seen_two, ~B seen_three, ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +seen_three;
++injured_human(X, Y) : {B seen_three, ~G find_clear_square_and_return(X1, Y1) [achieve]} <- +seen_four;
++uninjured_human(X, Y) : {~B seen_one, ~B assisted(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- direct_humans, +seen_one;
++uninjured_human(X, Y) : {B seen_one, ~B seen_two, ~B assisted(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- direct_humans, +seen_two;
++uninjured_human(X, Y) : {B seen_two, ~B seen_three, ~B assisted(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- direct_humans, +seen_three;
++uninjured_human(X, Y) : {B seen_three, ~B assisted(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- direct_humans, +seen_four;
++uninjured_human(X, Y) : {B assisted(X, Y), ~G find_clear_square_and_return(X1, Y1) [achieve]} <- -assisted(X, Y);
+
++!empty(X, Y) [achieve] : {B empty(X, Y)} <- do_nothing;
++!empty(X, Y) [achieve] : {B injured_human(X, Y)} <- +assisted(X, Y), assist_human, direct_humans;
++!empty(X, Y) [achieve] : {B uninjured_human(X, Y)} <- direct_humans;
++!empty(X, Y) [achieve] : {B rubble(X, Y), ~B holding_rubble} <- lift_rubble, +lifted_rubble(X, Y);
++!empty(X, Y) [achieve] : {B rubble(X, Y), B holding_rubble} <- +gf, +!find_clear_square_and_return(X, Y) [achieve];
++!empty(X, Y) [achieve] : {B building(X, Y), ~B checked_building(X, Y)} <- check_building, +checked_building(X, Y);
+
+

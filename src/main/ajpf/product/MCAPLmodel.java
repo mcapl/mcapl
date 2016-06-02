@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ajpf.psl.Proposition;
@@ -84,7 +85,7 @@ public class MCAPLmodel {
 	 /*
 	  * For printing.  An enuemration of the possible output formats.
 	  */
-	 protected enum OutputFormat {
+	 protected static enum OutputFormat {
 		 Promela, Default, Prism
 	 }
 	
@@ -138,7 +139,7 @@ public class MCAPLmodel {
 	 */
 	public int prune (int statenum) {
 		// We assume statenum is in path
-		if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
+		if (lowerLogLevelThan(Level.FINE)) {
 			log.fine("pruning 1 state from " + current_path);
 		}
 		int index = current_path_size - 1;
@@ -189,6 +190,10 @@ public class MCAPLmodel {
 		}
 	}
 	
+	public Integer getEndofPathState() {
+		return current_path.get(current_path.size() - 1);
+	}
+	
 	/**
 	 * Add a state to the current path in the model.
 	 * @param s
@@ -196,7 +201,7 @@ public class MCAPLmodel {
 	public void addToPath(ModelState s) {
 		current_path.add(s.getNum()); 
 		current_path_size++;
-		if (log.getLevel().intValue() <= java.util.logging.Level.INFO.intValue()) {
+		if (lowerLogLevelThan(Level.INFO)) {
 			log.info("Current Path: " + current_path.toString());
 		}
 	}
@@ -278,6 +283,7 @@ public class MCAPLmodel {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	protected int higheststatenum = 0;
 	public String toString() {
 		 if (config.containsKey("ajpf.target_modelchecker")) {
 			 if (config.getProperty("ajpf.target_modelchecker").equals("spin")) {
@@ -293,6 +299,8 @@ public class MCAPLmodel {
 				s += "dtmc\n\n module jpfModel\n";
 				
 				s += "state : [0 .." + (states_by_num.size() - 1) + "] init 0;\n";
+				
+				higheststatenum = states_by_num.size() - 1;
 
 				if (!props.isEmpty()) {
 					ModelState init = states_by_num.get(0);
@@ -360,9 +368,15 @@ public class MCAPLmodel {
 				// Now we convert our model to a JPF proctype.
 				s += "active proctype JPFModel()\n";
 				s += "{\n";
+				
 				for (ModelState state: states_by_num.values()) {
 					int num = state.getNum();
-					s += "state" + num;
+					// Creating state numbers for end states.
+					if (num < 0) {
+						s += "end_state" + Math.abs(num);
+					} else {
+						s += "state" + num;
+					}
 					s += ":\n";
 					Set<Integer> edges = model_edges.get(num);
 					for (Proposition p: props) {
@@ -379,12 +393,20 @@ public class MCAPLmodel {
 						if (edges.size() > 1) {
 							s += "\tif\n";
 							for (int to: edges) {
-								s += "\t:: goto state" + to + ";\n";
+								if (to < 0) {
+									s += "\t:: goto end_state" + Math.abs(to) + ";\n";
+								} else {
+									s += "\t:: goto state" + to + ";\n";
+								}
 							}
 							s += "\tfi;\n";
 						} else {
 							for (int to: edges) {
-								s += "\tgoto state" + to + ";\n";
+								if (to < 0) {
+									s += "\tgoto end_state" + Math.abs(to) + ";\n";
+								} else {
+									s += "\tgoto state" + to + ";\n";
+								}
 							}
 						}
 					} else {
@@ -432,15 +454,9 @@ public class MCAPLmodel {
 	 * @return
 	 */
 	protected String printEdge(int from, int to, OutputFormat f) {
+		System.err.println("entered print edge");
 		 String s = "";
 		 switch (output) {
-		 	case Prism:
-				 int num_edges = model_edges.get(from).size();
-		 		double prob = 1.0 / num_edges;
-		 		s += prob;
-		 		s += ":";
-		 		s += "(state'=" + to + ")";
-		 		return s;
 		 	case Default:
 				s += from;
 				s += "-->";
@@ -463,9 +479,24 @@ public class MCAPLmodel {
 		String pstring1 = pstring.replace("(", "");
 		pstring = pstring1.replace(")", "");
 		pstring1 = pstring.replace(",", "");
-		return (pstring1.toLowerCase());
+		pstring = pstring1.replace(".", "");
+		return (pstring.toLowerCase());
 
 	}
 
+	/**
+	 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+	 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+	 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+	 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+	 * @param l
+	 * @return
+	 */
+	private static boolean lowerLogLevelThan(Level l) {
+		if  (log.getLevel().intValue() <= l.intValue()) {
+			return true;
+		}
+		return false;
+	}
 	
 }

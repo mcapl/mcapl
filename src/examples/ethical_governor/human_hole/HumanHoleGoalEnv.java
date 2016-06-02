@@ -14,7 +14,7 @@
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the AIL; if not, write to the Free Software
+// License along with the DEG; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ajpf.util.AJPFLogger;
-import ajpf.util.Choice;
-
+import ajpf.util.choice.Choice;
+import ail.mas.MAS;
 import ail.syntax.Action;
 import ail.syntax.Capability;
 import ail.syntax.Literal;
@@ -38,10 +38,8 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
-
 import ethical_governor.mas.DefaultEthicalGovernorEnv;
 import ethical_governor.semantics.EthicalGovernor;
-
 import actiononly.mas.ActionOnlyEnv;
 
 /**
@@ -55,7 +53,7 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	private String logname = "ethical_governor.human_hole.HumanHoleGoalEnv";
 	
 	// We use a choice class so PRISM can be used for analysis if desired.
-	Choice<Boolean> human_moves = new Choice<Boolean>();
+	Choice<Boolean> human_moves;
 	
 	int robot_x = 0;
 	int robot_y = 2;
@@ -81,8 +79,18 @@ public class HumanHoleGoalEnv extends DefaultEthicalGovernorEnv implements Actio
 	 */
 	public HumanHoleGoalEnv() {
 		super();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		human_moves = new Choice<Boolean>(m.getController());
 		human_moves.addChoice(0.5, false);
 		human_moves.addChoice(0.5, true);
+
 	}
 	
 	/*

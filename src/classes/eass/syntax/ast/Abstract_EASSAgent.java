@@ -34,9 +34,12 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
+import ail.syntax.ast.Abstract_Capability;
 import ail.mas.DefaultEnvironment;
 import gov.nasa.jpf.vm.MJIEnv;
 import eass.semantics.EASSAgent;
+
+import java.util.ArrayList;
 
 
 /**
@@ -49,6 +52,8 @@ import eass.semantics.EASSAgent;
 public class Abstract_EASSAgent extends Abstract_Agent { 
 	private boolean isAbstraction = false;
 	private String abstraction_for;
+	
+	Abstract_Capability[] caps = new Abstract_Capability[0];
 
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
@@ -61,6 +66,16 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 		// first we create an AIL Agent.		
  
 		
+	}
+	
+	public void addCap(Abstract_Capability c) {
+	  	int newsize = caps.length + 1;
+	   	Abstract_Capability[] newcaps = new Abstract_Capability[newsize];
+	   	for (int i = 0; i < caps.length; i++) {
+	   		newcaps[i] = caps[i];
+	   	}
+	   	newcaps[caps.length] = c; 
+	   	caps = newcaps;
 	}
 	
 	public void setAbstraction(String agname) {
@@ -84,6 +99,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    	}
+    	for (Abstract_Capability c: caps) {
+    		ag.addCap(c.toMCAPL());
     	}
     	if (isAbstraction) {
     		ag.setAbstraction(abstraction_for);
@@ -130,6 +148,7 @@ public class Abstract_EASSAgent extends Abstract_Agent {
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
+       	int cRef = env.newObjectArray("ail.syntax.ast.Abstract_Capability", caps.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
@@ -142,6 +161,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
       	for (int i = 0; i < plans.length; i++) {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
+      	for (int i=0; i < caps.length; i++) {
+      		env.setReferenceArrayElement(cRef, i, caps[i].newJPFObject(env));
+      	}
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);

@@ -1,0 +1,194 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Strategic Facilities Technology Council 
+//
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+EASS
+
+:abstraction: dinor3x
+
+:Initial Beliefs:
+
+distance_threshold(0.4)
+water_threshold_upper(0.09)
+water_threshold_lower(0.06)
+path_threshold(0.03)
+
+:Initial Goals:
+
+:Plans:
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
+/* React to information from sensors */
++distance(D) : {~B obstacle, B distance_threshold(V), D < V} <- assert_shared(obstacle);
++distance(D) : {B obstacle, B distance_threshold(V), V < D} <- remove_shared(obstacle);
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, B really_maybe_water} <- assert_shared(water);
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, B maybe_water, ~B really_maybe_water} <- +really_maybe_water;
++green(L) : {~B water, B water_threshold_upper(V), B water_threshold_lower(V2), V2 < L,  L < V, ~B maybe_water} <- +maybe_water;
++green(L) : {B water, B water_threshold_lower(V), L < V} <- -maybe_water, -really_maybe_water, remove_shared(water);
++green(L) : {B water, B water_threshold_upper(V), V < L} <- -maybe_water, -really_maybe_water, remove_shared(water);
++red(L) : {~B path, B path_threshold(V), L < V} <- assert_shared(path);
++red(L) : {B path, B path_threshold(V), V < L} <-
+	  remove_shared(path);
+
+/* React to command from Reasoning Engine */
++! stop [perform] : {True} <-
+	stop;
++! right [perform] : {True} <-
+    right;
++! left [perform] : {True} <-
+    left;
++! backward [perform] : {True} <-
+    backward;
++! forward [perform] : {True} <-
+    forward;
++! do_nothing [perform] : {True} <-
+    do_nothing;
++! snap_jaws [perform] : {True} <-
+	scare;
++! forward_a_bit [perform] : {True} <-
+   forward_a_bit;
++! backward_a_bit [perform] : {True} <-
+   backward_a_bit;
++! right_a_bit [perform] : {True} <-
+   right_a_bit;
++! left_a_bit [perform] : {True} <-
+   left_a_bit;
+
+/* React to request from user to change thresholds */
++change_distance(D) : {B distance_threshold(D1)} <-
+    -distance_threshold(D1), +distance_threshold(D);
++change_water(D1, D2): {B water_threshold_upper(W1), B water_threshold_lower(W2)} <-
+    -water_threshold_upper(W1), +water_threshold_upper(D1),
+    -water_threshold_lower(W2), +water_threshold_lower(D2);
++change_path(D) : {B path_threshold(D1)} <-
+    -path_threshold(D1), +path_threshold(D);
+
+// REASONING ENGINE
+:name: dinor3x
+
+:Initial Beliefs:
+
+have_belief(anything)
+
+:Reasoning Rules:
+have_belief(no_water) :- ~ have_belief(water);
+
+:Initial Goals:
+
+:Plans:
+
+/* Plans configurable in the interface by the user */
++obstacle : {B active(rule1), B context(rule1, X), B have_belief(X), B rule(rule1, act1, A), B rule(rule1, act2, B), B rule(rule1, act3, C)} <-
+    show_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
+-obstacle : {B active(rule2), B context(rule2, X), B have_belief(X), B rule(rule2, act1, A), B rule(rule2, act2, B), B rule(rule2, act3, C)} <-
+    remove_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
++obstacle : {B active(rule3), B context(rule3, X), B have_belief(X), B rule(rule3, act1, A), B rule(rule3, act2, B), B rule(rule3, act3, C)} <-
+    show_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
+-obstacle : {B active(rule4), B context(rule4, X), B have_belief(X), B rule(rule4, act1, A), B rule(rule4, act2, B), B rule(rule4, act3, C)} <-
+    remove_belief(obstacle),
+    perf(A),
+    perf(B),
+    perf(C);
+
+/* Display beliefs in UI when obstacles appear */
++obstacle : {True} <-
+    show_belief(obstacle);
+-obstacle : {True} <-
+    remove_belief(obstacle);
+
+/* Display beliefs and altering goals, and potentially cancelling behaviours when water appears */
++water : {True} <-
+	show_belief(water),
+    +have_belief(water),
+    +stop_following_line,
+ 	-! water [achieve],
+    -! path [achieve],
+ 	remove_goal(water),
+ 	remove_goal(path),
+ 	drop_goal,
+ 	+stop_looking_for_path;
+-water : {True} <-
+	remove_belief(water),
+	-have_belief(water);
+
+/* Displaying beliefs and changing behaviour if a path appears */
++path : {True} <-
+      +stop_looking_for_path,
+      show_belief(path);
+-path : {True} <-
+      remove_belief(path);
+
+/* If told to adopt or drop a goal to find water */
++goal(water) : {True} <-
+	     show_goal(water),
+	     +! water [achieve],
+	     stop,
+         drop_goal,
+         remove_goal(water);
+-goal(water) : {True} <-
+		remove_goal(water),
+        remove_goal(path),
+	    -! water [achieve],
+        -! path [achieve];
+
+/* If the user starts clicking on teleop commands the robot will stop line following or random search.  Agent needs to update various beliefs.*/
++lfstopped: {True} <-
+	   +stop_following_line,
+	   remove_shared(lfstopped);
++rstopped: {True} <-
+	   +stop_looking_for_path,
+	   remove_shared(rstopped);
++stop_following_line: {True} <-
+		stop_line;
++stop_looking_for_path: {True} <-
+        stop_random;
+
+/* Actual plans for finding water and paths */
++! water [achieve] : {True} <-
+   +! path [achieve],
+   remove_goal(path),
+   -stop_following_line,
+   follow_line,
+   *stop_following_line;
+
++! path [achieve] : {True} <-
+   -stop_looking_for_path,
+   show_goal(path),
+   random,
+   *stop_looking_for_path,
+   -stop_looking_for_path;
+
+
+
+

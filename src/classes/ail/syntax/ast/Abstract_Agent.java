@@ -24,10 +24,12 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
-
+import ail.syntax.Predicate;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -171,7 +173,7 @@ public class Abstract_Agent {
    	goals = newgoals;
     	
     }
-
+   
    /**
      * Add a rule to the rule base.
      * @param r
@@ -272,6 +274,12 @@ public class Abstract_Agent {
     	for (Abstract_Capability c: capabilities) {
     		ag.addCapability(c.toMCAPL());
     	}
+    	
+    	try {
+    		ag.initAg();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
    	
     }
     
@@ -311,5 +319,4 @@ public class Abstract_Agent {
       	return objref;
    	
     }
-		
 }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -25,7 +25,6 @@
 
 package ail.syntax;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -74,22 +73,10 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * The content of the structure, e.g., a Literal, Predicate, Goal etc.,
 	 */
 	private Unifiable content = null;
+
 	@FilterField
 	private boolean hascontent = false;
-	
-	
-	/**
-	 * The Structure's literal, if it has one.
-	 */
-	/* private Literal literal = null;
-	@FilterField
-	private boolean hasliteral = false; */
-	
-	/**
-	 * The Structure's goal if it has one.
-	 */
-	/* private Goal goal = null; */
-	
+			
 	/**
 	 * The Structure's category.
 	 */
@@ -101,14 +88,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	private int trigtype = 0;
 	@FilterField
 	private boolean hastrigtype = false;
-	
-	/**
-	 * The Structure's term if it has one.
-	 */
-	/* private Predicate term = null;
-	@FilterField
-	private boolean hasterm = false; */
-	
+		
 	/**
 	 * We need to override hashCode in order to use hash maps with terms
 	 * as keys elsewhere in the system.  Java expects equal objects to 
@@ -121,6 +101,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
         if (hashCodeCache == null) {
             hashCodeCache = calcHashCode();
@@ -132,8 +113,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * Calculate the object hashcode.
 	 * @return
 	 */
-    // abstract protected int calcHashCode();
-	protected int calcHashCode() {
+ 	protected int calcHashCode() {
 		final int PRIME = 7;
 		int result = getCategory();
 		if (hasContent()) {
@@ -174,7 +154,12 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		setContent(g);
 		setCategory(AILGoal);
 	}
-	
+
+	/**
+	 * Construct an AIL Structure from a goal and a trigger type.
+	 * @param t
+	 * @param g
+	 */
 	public DefaultAILStructure(int t, Goal g) {
 		this(g);
 		setTrigType(t);
@@ -242,7 +227,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	}
 
 	/**
-	 * Constructor.
+	 * Constructor useful in cloning.
 	 * @param s
 	 */
 	public DefaultAILStructure(DefaultAILStructure s) {
@@ -259,92 +244,50 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
+	@Override
 	public abstract AILStructure clone();
 	
 
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#getCategory()
 	 */
+	@Override
 	public byte getCategory() {
 		return category;
 	}
 
-	/* (non-Javadoc)
-	 * @see ail.syntax.AILStructure#getLiteral()
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.AILStructure#getContent()
 	 */
-	/*public Literal getLiteral() {
-			return literal;
-	} */
-	
+	@Override
 	public Unifiable getContent() {
 		return content;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.AILStructure#hasContent()
+	 */
+	@Override
 	public boolean hasContent() {
 		return hascontent;
 	}
-	
-	/**
-	 * Get the literal/goal/term that is contained in the structure.
-	 * 
-	 * @return
-	 */
-	/*public Term getContent() {
-		if (hasLiteral()) {
-			if (referstoGoal()) {
-				return goal;
-			}
-			
-			return literal;
-		}
 		
-		return term;
-	}*/
-	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#getTrigType()
 	 */
+	@Override
 	public int getTrigType() {
 		return trigtype;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.AILStructure#getTerm()
-	 */
-	/*public Predicate getTerm() {
-		return term;
-	} */
-	
-	/**
-	 * Goal extends literal but for convenience sometimes want to know
-	 * its a goal we are getting back.  Assumes, of course, that it is
-	 * a goal thats stored. 
-	 */
-	/* public Goal getGoal() {
-		return goal;
-	} */
-
-	/* (non-Javadoc)
-	 * @see ail.syntax.AILStructure#hasLiteral()
-	 */
-	/* public boolean hasLiteral() {
-		return hasliteral;
-	} */
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.AILStructure#hasTerm()
-	 */
-	/* public boolean hasTerm() {
-		return hasterm;
-	} */
-	
+			
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#hasTrigType()
 	 */
+	@Override
 	public boolean hasTrigType() {
 		return hastrigtype;
 	}
@@ -352,6 +295,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isDBelief()
 	 */
+	@Override
 	public boolean isDBelief() {
 		return false;
 	}
@@ -359,6 +303,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isDeed()
 	 */
+	@Override
 	public boolean isDeed() {
 		return false;
 	}
@@ -366,6 +311,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isEvent()
 	 */
+	@Override
 	public boolean isEvent() {
 		return false;
 	}
@@ -373,6 +319,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isGBelief()
 	 */
+	@Override
 	public boolean isGBelief() {
 		return false;
 	}
@@ -380,46 +327,26 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/* (non-Javadoc)
 	 * @see ail.syntax.AILStructure#setCategory()
 	 */
+	@Override
 	public void setCategory(byte b) {
 		category = b;
 	}
-
-	/* (non-Javadoc)
-	 * @see ail.syntax.AILStructure#setLiteral()
-	 */
-	//public void setLiteral(Literal l) {
-	//	literal = l;
-	//	hasliteral = true;
-	//}
-	
-	/**
-	 * This is the same as setLiteral.  Should really get rid of it.
-	 * 
-	 * @param g
-	 */
-	//public void setGoal(Goal g) {
-	//	goal = g;
-	//	hasliteral = true;
-	//}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#setTrigType(boolean)
 	 */
+	@Override
 	public void setTrigType(int t) {
         trigtype = t;
         hastrigtype = true;
 	}	
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see ail.syntax.AILStructure#setTerm(ail.syntax.Term)
+	 * @see ail.syntax.AILStructure#setContent(ail.syntax.Unifiable)
 	 */
-/*	public void setTerm(Predicate t) {
-		term = t;
-		hasterm = true;
-	} */
-	
+	@Override
 	public void setContent(Unifiable u) {
 		content = u;
 		hascontent = true;
@@ -429,6 +356,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#apply(ail.semantics.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier theta) {
 			if (hasContent()) {
 				if (referstoGoal()) {
@@ -447,6 +375,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isAddition()
 	 */
+	@Override
 	public boolean isAddition() {
 		return trigtype == AILAddition;
 	}
@@ -455,6 +384,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isDeletion()
 	 */
+	@Override
 	public boolean isDeletion() {
 		return trigtype == AILDeletion;
 	}
@@ -463,13 +393,16 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#isUpdate()
 	 */
+	@Override
 	public boolean isUpdate() {
 		return trigtype == AILUpdate;
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#referstoBelief()
 	 */
+	@Override
 	public boolean referstoBelief() {
 		return (getCategory() == AILBel || getCategory() == AILReceived || getCategory() == AILSent);
 	}
@@ -478,6 +411,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#referstoGoal()
 	 */
+	@Override
 	public boolean referstoGoal() {
 		return (getCategory() == AILGoal);
 	}
@@ -494,6 +428,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * (non-Javadoc)
 	 * @see ail.syntax.AILStructure#sameType(ail.syntax.AILStructure)
 	 */
+	@Override
 	public boolean sameType(AILStructure a) {
 		if (hasTrigType() ) {
 			return (getTrigType() == a.getTrigType() && getCategory() == a.getCategory());
@@ -505,6 +440,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	/**
 	 * May be necessary to make an AIL Structures variables anonymous.
 	 */
+	@Override
 	public void makeVarsAnnon() {
 		if (hasContent()) {
 			getContent().makeVarsAnnon();
@@ -516,35 +452,15 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	 * for unification.  Returns null if there is no literal or term, sub-classes need to
 	 * handle this.
 	 */
+	@Override
 	public Unifiable UnifyingTerm() {
 		if (hasContent()) {
-		/*	if (referstoGoal()) {
-				return getGoal().getLiteral();
-			} else {
-				return ((Predicate) getLiteral());
-			}
-		} else if (hasTerm()) {
-			return (Predicate) getTerm(); */
 			return getContent();
 		} else {
 			return null;
 		}
 	}
 	
-
-	
-	/**
-	 * True if this structure is about the content or context of an agent.
-	 * 
-	 * @return
-	 */
-	public boolean referstoGroup() {
-		if (getCategory() == AILContent | getCategory() == AILContext) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 		
 	/**
 	 * True if this structure is about a plan.
@@ -558,22 +474,12 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 			return false;
 		}
 	}
-
-	/**
-	 * Returns the name of the group that the structure refers to.
-	 * 
-	 * @return
-	 */
-	/* public String getGroupAgentName() {
-		Predicate s = (Predicate) term;
-		Predicate nameterm = (Predicate) s.getTerm(0);
-		return nameterm.getFunctor();				
-	} */
 	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (isVar()) {
 			// Refactor
@@ -588,17 +494,6 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 				if (sameType(a)) {
 					if (hasContent() && a.hasContent()) {
 						return getContent().equals(a.getContent());
-						/*if (referstoGoal() && a.referstoGoal()) {
-							return (getGoal().equals(a.getGoal()));
-						} else if (referstoGoal() && !a.referstoGoal() ){
-							return false;
-						} else {
-							return (getLiteral().equals(a.getLiteral()));
-						} */
-					/*} else if (hasTerm() && a.hasTerm()) {
-						return (getTerm().equals(a.getTerm()));
-					} else if (hasTerm()) {
-						return false; */
 					} else {
 						return true;
 					}
@@ -611,37 +506,28 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		}
 	}
 	
-	/**
-	 * Useful for quick and dirty comparisons.
-	 */
-	/*public PredicateIndicator getPredicateIndicator() {
-		String catstring = ((Byte) getCategory()).toString();
-		if (predicateIndicatorCache != null) {
-			return predicateIndicatorCache;
-		}
-
-		if (hasContent()) {
-			if (referstoGoal()) {
-				predicateIndicatorCache = new PredicateIndicator(catstring + getGoal().getFunctor(), getGoal().getTermsSize());
-			} else {
-				predicateIndicatorCache = new PredicateIndicator(catstring +  getLiteral().getFunctor(), getLiteral().getTermsSize());
-			}
-		} else if (hasTerm()) {
-			predicateIndicatorCache = new PredicateIndicator(catstring + getTerm().getFunctor(), getTerm().getTermsSize());
-		} else {
-			predicateIndicatorCache = new PredicateIndicator(catstring, 0);
-		}
-		
-		return predicateIndicatorCache;
-	} */
 	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Term#strip_varterm()
 	 */
+	@Override
 	public Term strip_varterm() {
 		if (hasContent()) {
 			setContent(getContent().strip_varterm());
+		}
+		return this;
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#resolveVarsClusters()
+	 */
+	@Override
+	public Term resolveVarsClusters() {
+		if (hasContent()) {
+			setContent(getContent().resolveVarsClusters());
 		}
 		return this;
 		
@@ -656,27 +542,6 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 		return (isVar() && s.isVar() && super.equals(s));
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
-	 */
-    public void standardise_apart(Unifiable t, Unifier u) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s) || u.containsVarName(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				replacednames.add(s);
-    				newnames.add(s1);
-    			}
-    		}
-    	}
- 
-    } 
     
     /**
      * Generate fresh variable names.

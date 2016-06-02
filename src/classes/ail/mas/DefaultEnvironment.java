@@ -34,9 +34,9 @@ import java.util.Map;
 import java.util.HashSet;
 
 import gov.nasa.jpf.annotation.FilterField;
-
 import ail.util.AILexception;
 import ail.util.AILConfig;
+import ail.mas.scheduling.ActionScheduler;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
 import ail.syntax.Message;
@@ -50,7 +50,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
-
 import ajpf.util.VerifySet;
 import ajpf.util.VerifyMap;
 import ajpf.PerceptListener;
@@ -113,6 +112,15 @@ public class DefaultEnvironment implements AILEnv {
 	 */
 	protected MCAPLScheduler scheduler;
 	
+	/**
+	 * The multi-agent system this environment is part of.
+	 */
+	protected MAS mas;
+	
+	/**
+	 * Name for logging.
+	 */
+	@FilterField
 	String logname = "ail.mas.DefaultEnvironment";
 	
 	/**
@@ -133,6 +141,9 @@ public class DefaultEnvironment implements AILEnv {
 		VerifySet<Message> msgl = new VerifySet<Message>();
 		if (agMessages.get(a.getAgName()) == null) {
 			agMessages.put(a.getAgName(), msgl);
+			// Random dummy message added and removed to assist state matching during verification.
+			addMessage(a.getAgName(), new Message());
+			clearMessages(a.getAgName());
 		}
 		if (agPercepts.get(a.getAgName()) == null) {
 			VerifySet<Predicate> agl = new VerifySet<Predicate>();
@@ -180,16 +191,15 @@ public class DefaultEnvironment implements AILEnv {
     public Unifier executeAction(String agName, Action act) throws AILexception {
  
     	decidetostop(agName, act);
-    	lastAgent = agName;
-    	lastAction = act;
+    	if (!act.getFunctor().equals("print")) {
+    		lastAgent = agName;
+    		lastAction = act;
+    	}
     	Unifier u = new Unifier();
     	
     	// Some basic actions you might expect all environments to support
     	if (act instanceof SendAction) {
-    		SendAction sent = (SendAction) act;
-    		Message m = sent.getMessage(agName);
-    		String r = m.getReceiver();
-    		addMessage(r, m);
+    		executeSendAction(agName, (SendAction) act);
     	} 
     	
     	if (act.getFunctor().equals("sum")) {
@@ -216,6 +226,14 @@ public class DefaultEnvironment implements AILEnv {
     		NumberTermImpl z = new NumberTermImpl(d);
     		u.unifies(sum, z);
     	}
+    	if (act.getFunctor().equals("times")) {
+    		NumberTerm x = (NumberTerm) act.getTerm(0);
+    		NumberTerm y = (NumberTerm) act.getTerm(1);
+    		VarTerm sum = (VarTerm) act.getTerm(2);
+    		double d = x.solve()*y.solve();
+    		NumberTermImpl z = new NumberTermImpl(d);
+    		u.unifies(sum, z);
+    	}
    	
     	if (act.getFunctor().equals("append")) {
     		StringTerm x = (StringTerm) act.getTerm(0);
@@ -226,23 +244,44 @@ public class DefaultEnvironment implements AILEnv {
     		u.unifies(result, z);
     	}
     	
-    	if (act.getFunctor().equals("printagentstate")) {
-    		AILAgent a = agentmap.get(agName);
-    		System.err.println(a);
+    	if (act.getFunctor().equals("toString")) {
+    		Term x = act.getTerm(0);
+    		
+    		String s = x.toString();
+    		VarTerm result = (VarTerm) act.getTerm(1);
+    		
+    		u.unifies(result, new StringTermImpl(s));
     	}
-    	
+    	    	
 	   	if (act.getFunctor().equals("print")) {
 	    	 Term content = (Term) act.getTerm(0);
 	    	 System.out.println(content);
+	    	 act.setLogLevel(AJPFLogger.FINER);
 	     }
 
-	   	if (act.getFunctor().equals("printstate")) {
+	   	if (act.getFunctor().equals("printstate") || act.getFunctor().equals("printagentstate")) {
 	   		System.out.println(agentmap.get(agName).toString());
+	   		act.setLogLevel(AJPFLogger.FINER);
 	   	} 
  
 	   	if (AJPFLogger.ltInfo(logname)) {
-	   		AJPFLogger.info(logname, agName + " done " + printAction(act));
-	   	}
+	   		if (act.getLogLevel() == AJPFLogger.INFO) {
+	   			AJPFLogger.info(logname, agName + " done " + printAction(act));
+	   		} else if (act.getLogLevel() == AJPFLogger.FINE) {
+	   			AJPFLogger.fine(logname, agName + " done " + printAction(act));
+	   		} else if (act.getLogLevel() == AJPFLogger.FINER) {
+	   			AJPFLogger.finer(logname, agName + " done " + printAction(act));		   		
+	   		} else if (act.getLogLevel() == AJPFLogger.FINEST) {
+	   			AJPFLogger.finest(logname, agName + " done " + printAction(act));
+	   		}
+	   	} 
+	   	
+	   	if (act.getLogLevel() == AJPFLogger.SEVERE) {
+	   		AJPFLogger.severe(logname, agName + " done " + printAction(act));
+	   	} else if (act.getLogLevel() == AJPFLogger.WARNING) {
+	   		AJPFLogger.warning(logname, agName + " done " + printAction(act));
+	   	} 
+	   
 	   	
 	   	return (u);
     }
@@ -266,13 +305,24 @@ public class DefaultEnvironment implements AILEnv {
     	return act.toString();
     	
     }
-    
+
+     /**
+      * Default method for sending messages.  Simply adds the message to the receiver's inbox.
+      * @param agName
+      * @param act
+      */
+     public void executeSendAction(String agName, SendAction act) {
+ 		Message m = act.getMessage(agName);
+ 		String r = m.getReceiver();
+ 		addMessage(r, m);   	 
+     }
+     
     /**
      * Overridable method for printing illocutionary forces.
      * @param ilf
      * @return
      */
-    protected String ilfString(int ilf) {
+    protected  String ilfString(int ilf) {
     	String s = ilf + ":";
     	return s;
     }
@@ -294,7 +344,6 @@ public class DefaultEnvironment implements AILEnv {
     		uptodateAgs.add(agName);
     	}
     		
- 		
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
     		
@@ -307,8 +356,7 @@ public class DefaultEnvironment implements AILEnv {
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
     	}
-    				
-    	return p;
+     	return p;
      }
     
     
@@ -621,7 +669,7 @@ public class DefaultEnvironment implements AILEnv {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize() {}
+	public void cleanup() {}
 
 	/*
 	 * (non-Javadoc)
@@ -664,5 +712,20 @@ public class DefaultEnvironment implements AILEnv {
 			scheduler.notActive(jobber);
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS m) {
+		mas = m;
+	}
+	
+	public static void setup_scheduler(AILEnv env, MCAPLScheduler s) {
+		env.setScheduler(s);
+		env.addPerceptListener(s);
+	}
+
 
 }

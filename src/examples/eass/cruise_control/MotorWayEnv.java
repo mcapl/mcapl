@@ -24,7 +24,7 @@
 
 package eass.cruise_control;
 
-import ail.mas.RoundRobinScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
@@ -33,7 +33,6 @@ import ail.syntax.NumberTerm;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import eass.mas.DefaultEASSEnvironment;
-
 import ajpf.util.AJPFLogger;
 
 import java.util.Collections;
@@ -41,6 +40,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.ArrayList;
 
+/* WARNING: This environment can not be replayed */
 public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();
@@ -78,11 +78,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment {
 	
 	public MotorWayEnv() {
 		super();
-		RoundRobinScheduler s = new RoundRobinScheduler();
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
-		
+		super.scheduler_setup(this, new RoundRobinScheduler());
 	}
 	
 	public void set_up_cars() {

@@ -79,7 +79,7 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				
 brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
-capability returns [Abstract_Capability c] : CURLYOPEN (f=clogicalfmla)? CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); if ($f.f != null) {$c.addPre($f.f);}};
+capability returns [Abstract_Capability c] : CURLYOPEN (f=clogicalfmla)? CURLYCLOSE a=action {$c = new Abstract_Capability($a.a); if ($f.f != null) {$c.addPre($f.f); $c.addPost(new Abstract_GBelief());}};
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;

@@ -24,6 +24,7 @@
 
 package ajpf.util;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -37,7 +38,7 @@ import gov.nasa.jpf.vm.Verify;
  * @author louiseadennis
  *
  */
-public class AJPFLogger {
+public final class AJPFLogger {
 	  //--- those need to be kept in sync with the model side
 	  public static final int SEVERE = 1;
 	  public static final int WARNING = 2;
@@ -48,6 +49,20 @@ public class AJPFLogger {
 
 	  static HashMap<String, Level> levels = new HashMap<String, Level>();
 	  
+	  /**
+	   * The log level for this class is less than or equal to FINEST.  Useful for
+	   * efficiency in order not to create logging strings unless they are to be used.
+	   * @param logname
+	   * @return
+	   */
+	  public static boolean ltFinest(String logname) {
+			if (!Verify.isRunningInJPF()) {
+				return getLevel(logname).intValue() <= Level.FINEST.intValue();
+			} else {
+				return getIntLevel(logname) <= Level.FINEST.intValue();
+			}
+	  }
+
 	  /**
 	   * The log level for this class is less than or equal to FINER.  Useful for
 	   * efficiency in order not to create logging strings unless they are to be used.
@@ -72,7 +87,8 @@ public class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.FINE.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.FINE.intValue();			}
+				return getIntLevel(logname) <= Level.FINE.intValue();			
+			}
 	  }
 
 	  /**
@@ -85,20 +101,34 @@ public class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.INFO.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.INFO.intValue();			}
+				return getIntLevel(logname) <= Level.INFO.intValue();			
+			}
 	  }
 
+	  //================================
+	  /**
+	   * added by Maryam
+	   * set a log file handler
+	   * 
+	   */
+	  public static void setFileHandler(String logname, FileHandler fh){
+		  Logger logger = Logger.getLogger(logname);
+		  logger.addHandler(fh);
+		  logger.setUseParentHandlers(false);
+	      fh.setFormatter(new BriefLogFormatter());  
+	  }
+	  //================================
+	  
+	  
 	  /**
 	   * Set the logging report format to Brief.
 	   */
-	  public static void setConsoleHandlerFormatBrief() {
+	  public static void setHandlerFormatBrief() {
 		for (Handler h: Logger.getLogger("").getHandlers()){
-			if (h instanceof ConsoleHandler) {
 				h.setFormatter(new BriefLogFormatter());
-			}
 		}
 	  }
-	
+	  	
 	  /**
 	   * Get the level of this logging class.
 	   * @param logname
@@ -107,11 +137,15 @@ public class AJPFLogger {
 	  public static Level getLevel(String logname) {
 		if (!Verify.isRunningInJPF()) {
 			Logger logger = Logger.getLogger(logname);
+			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+				setLevel(logname, levels.get(logname));
+			}
+
 			Level l = logger.getLevel();
-		    while (l == null && logger.getParent() != null) {
-		        logger = logger.getParent();
+			while (l == null && logger.getParent() != null) {
+				logger = logger.getParent();
 		        l = logger.getLevel();
-		      }
+			}
 			return l;
 		} else {
 			int l = getIntLevel(logname);
@@ -140,7 +174,7 @@ public class AJPFLogger {
 	   * @param logname
 	   * @return
 	   */
-	  public static int getIntLevel(String logname) {
+	  private static int getIntLevel(String logname) {
 		  return INFO;
 	  }
 	
@@ -180,7 +214,9 @@ public class AJPFLogger {
 	  public static void info(String logname, String msg) {
 		  Logger logger = Logger.getLogger(logname);
 		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  System.err.println(levels);
 			  setLevel(logname, levels.get(logname));
+			  System.err.println(levels);
 		  }
 
 		  logger.info(msg);

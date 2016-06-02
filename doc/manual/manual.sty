@@ -62,6 +62,14 @@
 %\usepackage[dvips]{graphicx}
 %\fi
 \usepackage{graphicx}
+
+% ------------------------------------
+% Which version is this ajpf manual for?
+% ------------------------------------
+
+
+\newcommand{\ajpfversion}{ajpf2015}
+
 % ------------------------------------
 % editing macros
 % ------------------------------------
@@ -128,6 +136,8 @@
 \newcommand{\actionfac}{\ensuremath{\alpha_{\mathtt{fac}}}}
 \newcommand{\meta}[1]{\texttt{#1}}
 \newcommand{\emptyword}{\ensuremath{\epsilon}}
+
+
 
 % ------------------------------------
 % AIL macros
@@ -391,6 +401,10 @@
 \newcommand{\matlab}{MatLab}
 \newcommand{\simulink}{Simulink}
 \newcommand{\oopl}{{\sc OOPL}}
+\newcommand{\java}{Java}
+\newcommand{\spin}{\textsc{SPIN}}
+\newcommand{\prism}{\textsc{Prism}}
+\newcommand{\promela}{Promela}
 
 
 %% Logic
@@ -417,8 +431,22 @@
 \newcommand{\lactionop}{\ensuremath{{\cal A}}}
 \newcommand{\lintentionop}{\ensuremath{{\cal I}}}
 \newcommand{\lperceptop}{\ensuremath{{\cal P}}}
+\newcommand{\lbelief}[2]{\ensuremath{\mathrm{{\cal B}}_{#1} \, #2}}
+\newcommand{\lgoal}[2]{\ensuremath{\mathrm{{\cal G}}_{#1} #2}}
+\newcommand{\lactions}[2]{\ensuremath{\mathrm{{\cal A}}_{#1} #2}}
+\newcommand{\lactionsfunc}{\ensuremath{\mathrm{{\cal A}}}}
+\newcommand{\lintention}[2]{\ensuremath{\mathrm{{\cal I}}_{#1} #2}}
+\newcommand{\lintentionfunc}{\ensuremath{\mathrm{{\cal I}}}}
+\newcommand{\lintendtodo}[2]{\ensuremath{\mathrm{{\cal ID}}_{#1} #2}}
+\newcommand{\lintendtodofunc}{\ensuremath{\mathrm{{\cal ID}}}}
+\newcommand{\lpercept}[1]{\ensuremath{\mathrm{{\cal P}}(#1)}}
+\newcommand{\lperceptag}[2]{\ensuremath{\mathrm{{\cal P}}_{#1} #2}}
+\newcommand{\lperceptfunc}{\ensuremath{\mathrm{{\cal P}}}}
 \newcommand{\eventually}{\ensuremath{\diamond}}
+\newcommand{\sometime}{\ensuremath{\diamond}}
 \newcommand{\always}{\ensuremath{\Box}}
+\newcommand{\until}{\mathcal{U}}
+\newcommand{\release}{\mathcal{R}}
 \newcommand{\MAS}{M\!AS}
 
 \newcommand{\goalcap}[1]{{\mbox{\textsf{\textbf{#1}}}}}

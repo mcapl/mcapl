@@ -73,6 +73,7 @@ public class PlanLibrary {
 	@FilterField
 	protected String libname = AILAgent.AILdefaultPLname;
 	
+	
 	/**
 	 * Constructor.
 	 */
@@ -155,15 +156,52 @@ public class PlanLibrary {
         	} else {
         		return varPlans.get(a);
         	}
-     }
-       
+     }       
 
+    /**
+     * Get an iterator over all uninstantiated plans that are relevant to pi;
+     * @param pi
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedRelevant(PredicateIndicator pi, AILAgent a) {
+    	PlanSet l = relPlans.get(pi);
+    	if (l != null) {
+    		return new MergeIterator<Plan>(l.getPlans(), varPlans.getPlans());
+    	} else {
+    		return varPlans.getPlans();
+    	}
+    }
+    
     /**
      * Get all the reactive plans;
      * @return
      */
     public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a) {
    		return varPlans.get(a);
+    }
+    
+    /**
+     * Get an iterator of all reactive plans in the agent.
+     * @param a
+     * @return
+     */
+    public Iterator<Plan> getUninstantiatedReactivePlans(AILAgent a) {
+    	return varPlans.getPlans();
+    }
+    
+    /**
+     * Get an iterator of all instantions of plan p against agent a;
+     * @param p
+     * @param a
+     * @return
+     */
+    public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
+    	if (p.getTriggerEvent().isVar()) {
+    		return varPlans.getApplicablePlansFor(a, p);
+    	} else {
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    	}
     }
       
     /**
@@ -244,11 +282,32 @@ public class PlanLibrary {
     	 * @return
     	 */
     	public Iterator<ApplicablePlan> get(AILAgent a);
+    	
+    	/**
+    	 * Return an iterator over uninstantiated plans in this plan base.
+    	 * @param a
+    	 * @return
+    	 */
+    	public Iterator<Plan> getPlans();
+    	
+    	/**
+    	 * Get an iterator of instantiated plans for plan p given agent a;
+    	 * @param a
+    	 * @param p
+    	 * @return
+    	 */
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	
     	/**
     	 * The number of plans in the index.
     	 * @return
     	 */
     	public int size();
+    	/**
+    	 * Remove p from the set of plans.
+    	 * @param p
+    	 */
+    	public void remove(Plan p);
     }
     
     /**
@@ -309,15 +368,22 @@ public class PlanLibrary {
     	
     	/*
     	 * (non-Javadoc)
-    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getPlans(ail.semantics.AILAgent)
     	 */
-    	public Iterator<ApplicablePlan> get(final AILAgent a) {
-    		return new Iterator<ApplicablePlan> () {
+    	@Override
+    	public Iterator<Plan> getPlans() {
+    		return plans.iterator();
+    	};
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan)
+    	 */
+    	@Override
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p) {
+       		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
-    			/**
-    			 * Index of the plan in the list we are currently considering
-    			 */
-    			int i = 0;
+
     			/**
     			 * The current intention.
     			 */
@@ -359,126 +425,72 @@ public class PlanLibrary {
     			 * This is the method that does all the work of generating the applicable plans for a particular agent.
     			 */
     			public void get() {
-    				if (i < size()) {
-    					Plan cp = (Plan) plans.get(i).clone();
-    					cp.standardise_apart(intention.hdU(), new Unifier());
-    					int prefixsize = cp.getPrefix().size();
-    					int appplanlength = prefixsize;
-    					Unifier un = intention.hdU();
-    					boolean plan_is_applicable = false;
+    				Plan cp = (Plan) p.clone();
+    				cp.standardise_apart(intention.hdU(), new Unifier());
+    				int prefixsize = cp.getPrefix().size();
+    				int appplanlength = prefixsize;
+    				Unifier un = intention.hdU();
+    				boolean plan_is_applicable = false;
     				
-    					if (prefixsize > 0) {
-    						if (a.goalEntails(intention.hdE(), cp, un)) {
+    				if (prefixsize > 0) {
+    					if (a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
-        				//		if (realintention) {
-        				//			ArrayList<Deed> ids = i.deeds();
-        				//			int deedssize = i.deeds().size();
-        							// Prefix unifies
-        				//			for(int n = prefixsize; n > 0 ; n--) {
-        				//				boolean r = un.unifies(ids.get(deedssize - n), current.getPrefix().get(n - 1));
-        				//				result = (result  && r);
-        				//			}
-        				//		}
-    							plan_is_applicable = true;
-        					} 
+							plan_is_applicable = true;
+    					} 
     						
-    	    			} else {
-    	    				if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
-    	    					appplanlength = 0;
-    	    					plan_is_applicable = true;
-    	    				} 
-    	    			} 
-    					
-    					if (plan_is_applicable) {
-    						if (iun == null) {
-    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un);
-    						}
-    					}
-    					
-    					if (iun != null && iun.hasNext()) {
-    						current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
-    					} else {
-    						// If we've exhausted all possibilities for plan i then we try the next plan.
-    						iun = null;
-    						i++;
-    						get();
-    					}
-
     				} else {
+    					if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
+    						appplanlength = 0;
+    						plan_is_applicable = true;
+    					} 
+    				} 
+    					
+    				if (plan_is_applicable) {
+    					if (iun == null) {
+    						iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un);
+    					}
+    				}
+    					
+    				if (iun != null && iun.hasNext()) {
+    					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
+    				} else {
+    						// We've exhausted all possibilities for this plan
     					current = null;
+    					return;
     				}
     			}
     		};
-
-    	}
-    }
-    
-    /// Trees of plans - Experimental.
-    
-    protected interface PlanTree {
-    	public void add(Plan p, List<Guard> g);
+   			
+    	};
     	
-    	public Iterator<ApplicablePlan> get(AILAgent a, Unifier un);
-    }
-    
-    protected class PlanTop implements PlanSet {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanTree topnode;
     	
-    	public List<Plan> getAsList() {
-    		return plans;
-    	}
-    	
-    	public void addAll(Collection<Plan> ps) {
-    		for (Plan p: ps) {
-    			add(p);
-    		}
-    	}
-    	
-    	public void add(Plan p) {
-     		plans.add(p);
-    		topnode.add(p, p.getContext());
-    	}
-    	
-    	public int size() {
-    		return plans.size();
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(AILAgent a) {
-    		return topnode.get(a, new Unifier());
-    	}
-    	
-    	public Iterator<Plan> iterator() {
-    		return plans.iterator();
-    	}
-    }
-    
-    protected class PlanLeaf implements PlanTree {
-    	List<Plan> plans = new ArrayList<Plan>();
-    	PlanNode parent;
-    	boolean yes = true;
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		plans.add(p);
-    		if (! guards.isEmpty()) {
-    			PlanNode new_node = new PlanNode(guards, this);
-    			parent.addNode(new_node, yes);
-    		}
-    	}
-    	
-    	public PlanLeaf(PlanNode p) {
-    		parent = p;
-    		yes = false;
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		final Iterator<Plan> planIterator = plans.iterator();
-    		
-    		return new Iterator<ApplicablePlan>() {
+    	/*
+    	 * (non-Javadoc)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
+    	 */
+    	@Override
+    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
-    			
+    			/**
+    			 * Index of the plan in the list we are currently considering
+    			 */
+    			Iterator<Plan> planit = getPlans();
+     			/**
+    			 * The iterator of the instantiations that match the current plan to the current situation.
+    			 */
+    			Iterator<ApplicablePlan> ap_it = null;
+   			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#remove()
+    			 */
     			public void remove() {}
-    			
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#next()
+    			 */
     			public ApplicablePlan next() {
     				if (current == null)
     					get();
@@ -486,107 +498,105 @@ public class PlanLibrary {
     				current = null;
     				return ap;
     			}
-    			
+			
+    			/*
+    			 * (non-Javadoc)
+    			 * @see java.util.Iterator#hasNext()
+    			 */
     			public boolean hasNext() {        		
     				if (current == null)
     					get();
     				return current != null;
     			}
     			
+    			/**
+    			 * This is the method that does all the work of generating the applicable plans for a particular agent.
+    			 */
     			public void get() {
-    				if (planIterator.hasNext()) {
-    					Plan p = planIterator.next();
-    					current = new ApplicablePlan(p.getTriggerEvent(), p.getBody(), p.getContext(), p.getPrefix().size(), un, p.getID(), p.getLibID());
+    				if (ap_it != null && ap_it.hasNext()) {
+    					current = ap_it.next();
+    				} else {
+    					if (planit.hasNext()) {
+    						ap_it = getApplicablePlansFor(a, planit.next());
+    						get();
+    					} else {
+    						current = null;
+    						return;
+    					}
     				}
     			}
     		};
-     	}
+
+    	}
+
+		/*
+		 * (non-Javadoc)
+		 * @see ail.syntax.PlanLibrary.PlanSet#remove(ail.syntax.Plan)
+		 */
+		public void remove(Plan p) {
+			plans.remove(p);
+		}
     }
     
-    protected class PlanNode implements PlanTree {
-    	PredicateIndicator pi;
-    	Guard g;
-    	PlanTree yes;
-    	PlanTree no;
-    	
-    	public PlanNode(List<Guard> gs, PlanLeaf l) {
-    		g = gs.remove(0);
-    		yes = new PlanNode(gs, l);
-    		no = new PlanLeaf(this);
-    	}
-    	
-    	public void addNode(PlanTree p, boolean yesno) {
-    		if (yesno) {
-    			yes = p;
-    		} else {
-    			no = p;
-    		}
-    	}
-    	
-    	public void add(Plan p, List<Guard> guards) {
-    		if (guards.contains(g)) {
-    			int index = guards.indexOf(g);
-    			guards.remove(index);
-    			yes.add(p, guards);
-    		} else {
-    			Guard ng = new Guard(Guard.GLogicalOp.not, g);
-    			if (guards.contains(ng)) {
-        			int index = guards.indexOf(ng);
-        			guards.remove(index);
-        			no.add(p, guards);    				
-    			} else {
-    				yes.add(p, guards);
-    				no.add(p, guards);
-    			}
-    		}
-    	}
-    	
-    	public Iterator<ApplicablePlan> get(final AILAgent ag, final Unifier un) {
-    		
-    		return new Iterator<ApplicablePlan>() {
-        		@FilterField
-        		ApplicablePlan current = null;
-        		
-        		Iterator<Unifier> gunifiers = ag.believes(g, un);
-        		
-        		public void remove() {}
-    			
-    			public ApplicablePlan next() {        		
-    				if (current == null)
-    					get();
-    				ApplicablePlan ap = current;
-    				current = null;
-    				return ap;
-    			}
-    			
-    			public boolean hasNext() {        		
-    				if (current == null)
-    					get();
-    				return current != null;
-    			}
-    			
-    			public void get() {
-    				if (gunifiers.hasNext()) {
-    					Iterator<ApplicablePlan> yesIterator = yes.get(ag, gunifiers.next());
-    					if (yesIterator.hasNext()) {
-    						current = yesIterator.next();
-    					} else {
-    						current = null;
-    					}
-    				} else {
-    					Iterator<ApplicablePlan> noIterator = no.get(ag, un);
-    					if (noIterator.hasNext()) {
-    						current = noIterator.next();
-    					} else {
-    						current = null;
-    					}
+    
+    /**
+     * getPlansContainingCap returns an iterator of all the plans in the library that contain
+     * an Action that unifies with capname.  WARNING: This version of the function is intended 
+     * for use with EASS programs and so in fact searches for perf(capname).  This needs to be generalised.
+     * @param capname
+     * @return
+     */
+    public Iterator<Plan> getPlansContainingCap(Predicate capname) {
+    	// Using perf here is very specific - can we fix that somehow?
+    	Action perf = new Action("perf");
+    	perf.addTerm(capname);
+    	List<Plan> plans = getPlans();
+    	ArrayList<Plan> cap_plans = new ArrayList<Plan>();
+    	for (Plan  p: plans) {
+    		ArrayList<Deed> body = p.getBody();
+    		for (Deed d: body) {
+    			if (d.getCategory() == Deed.DAction) {
+    				Action a = (Action) d.getContent();
+    				Action aclone = (Action) a.clone();
+    				if (aclone.unifies(perf, new Unifier())) {
+    					cap_plans.add(p);
     				}
-     			}
-    		};
-    		
+    			}
+    		}
     	}
-    	
+    	return cap_plans.iterator();
     }
+
+    
+	// Think I may need a new datatype here - or need guard plan to implement EBCompare
+   	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
+		return null;
+	}
+	
+	/**
+	 * Remove a plan from the plan library.
+	 * @param p
+	 */
+	public void remove(Plan p) {
+    	Event trigger = p.getTriggerEvent();
+    	numplans--;
+
+        if (trigger.isVar()) {
+        	varPlans.remove(p);
+          } else {
+    		PredicateIndicator pi = trigger.getPredicateIndicator();
+    		PlanSet lc = relPlans.get(pi);
+    		if (lc != null) {
+    			lc.remove(p);
+    			if (lc.size() == 0) {
+    				relPlans.remove(lc);
+    			}
+    	    }  		
+    	}
+  
+        plans.remove(p);        
+
+	} 
         
 }
 

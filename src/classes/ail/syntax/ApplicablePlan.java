@@ -73,17 +73,12 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 */
 	@FilterField
 	protected String libname;
-	/**
-	 * No change flag
-	 */
-	private boolean nochange = false;
 	
 	/**
 	 * Constructor for the special case where a plan is to make no change to the intention.
 	 */
-	public ApplicablePlan() {
-		nochange = true;
-	}
+//	public ApplicablePlan() {
+//	}
 		
 	/**
 	 * Constructor.
@@ -179,7 +174,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(ApplicablePlan p) {
-		if (nochange) {
+/*		if (nochange) {
 			if (p.noChangePlan()) {
 				return 0;
 			} else {
@@ -189,7 +184,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 			if (p.noChangePlan()) {
 				return 1;
 			}
-		}
+		} */
 
 		if (getID() == p.getID()) {
 			return theta.compareTo(p.getUnifier());
@@ -208,7 +203,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @return
 	 */
 	public boolean equals(ApplicablePlan p) {
-		if (nochange) {
+		/* if (nochange) {
 			if (p.noChangePlan()) {
 				return true;
 			} else {
@@ -218,7 +213,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 			if (p.noChangePlan()) {
 				return false;
 			}
-		}
+		} */
 		if (event.equals(p.getEvent())) {
 			if (guards.equals(p.getGuard())) {
 				if (prefix.equals(p.getPrefix())) {
@@ -237,18 +232,18 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * 
 	 * @return
 	 */
-	public boolean noChangePlan() {
-		return nochange;
-	}
+	//public boolean noChangePlan() {
+	//	return nochange;
+	//}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
     public int hashCode() {
-    	if (nochange) {
-    		return 0;
-    	}
+    	//if (nochange) {
+    	//	return 0;
+    	//}
     	final int PRIME = 7;
     	int result = PRIME * (libname.hashCode() ^ n) + event.hashCode();
     	for (Guard g: guards) {
@@ -268,9 +263,9 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @return the plan as a string.
 	 */
 	public String toString() {
-		if (nochange) {
-			return new String("NO CHANGE");
-		} else {
+		//if (nochange) {
+		//	return new String("NO CHANGE");
+		//} else {
 			String triggers = event.toString();
 			StringBuilder s = new StringBuilder();
 		
@@ -286,7 +281,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 			}
 		
 			return s.toString();
-		}
+		//}
 	}
 
 	/**
@@ -296,14 +291,14 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 */
 	public String keyString() {
 		String s = "";
-		if (nochange) {
-			s += "NO CHANGE";
-		} else {
+		//if (nochange) {
+		//	s += "NO CHANGE";
+		//} else {
 			s += keynum;
 			s += " ~ ";
 			s += libname;
 			s += getUnifier().toString();
-		}
+		//}
 		return s;
 	}
 

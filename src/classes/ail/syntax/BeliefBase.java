@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -38,7 +38,7 @@ import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
 import ail.syntax.annotation.SourceAnnotation;
-
+import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -155,6 +155,12 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
         if (l.equals(Predicate.PTrue) || l.equals(Predicate.PFalse)) {
             return false;
         }
+
+        if (l.isGround()) {
+        	// Shenanigans to attempt to reduce memory footprint during verification
+        	Literal tmp = GroundPredSets.check(l);
+        	l = tmp;
+        } 
          
         Literal bl = contains(l);
         if (bl != null) {

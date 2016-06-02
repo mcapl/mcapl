@@ -50,6 +50,7 @@ public class ListEvaluationBase<K extends Unifiable> implements EvaluationBase<K
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
 	 */
+	@Override
 	public Iterator<K> getRelevant(EBCompare<K> ga) {
 		return list.iterator();
 	}

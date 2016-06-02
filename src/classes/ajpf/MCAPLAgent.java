@@ -41,12 +41,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 */
 	@FilterField
 	private MCAPLLanguageAgent agent;
-	/**
-	 * A flag indicating whether or not this is a model checking run.  Currently
-	 * unused but I anticipate it may be handy.
-	 */
-	// @FilterField
-	// private int outputlevel = 0;
+
 	/**
 	 * The controller within which the agent runs.
 	 */
@@ -205,6 +200,15 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 */
 	public boolean hasGoal(MCAPLFormula phi) {
 	 	return (agent.MCAPLhasGoal(phi));
+	}
+	
+	/**
+	 * Succeeds if the agent intends to perform some action.
+	 * @param phi
+	 * @return
+	 */
+	public boolean intendsToDo(MCAPLFormula phi) {
+		return agent.MCAPLintendsToDo(phi);
 	}
 	
 	// Miscellaneous other methods.

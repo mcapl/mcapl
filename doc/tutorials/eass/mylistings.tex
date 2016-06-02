@@ -1,0 +1,42 @@
+\newcounter{lst}[section]
+
+\renewcommand{\thelst}{\arabic{section}.\arabic{lst}}
+
+\lstset{basicstyle=\footnotesize\sffamily}
+
+\lstdefinestyle{easslisting}{basicstyle=\footnotesize\sffamily, mathescape=true, frame=tb,  numbers=right, numberstyle=\footnotesize, stepnumber=1, numbersep=-5pt, captionpos=b}
+
+\lstdefinestyle{eass}{basicstyle=\sffamily, mathescape=true}
+
+\lstnewenvironment{listing}[3]{
+  \noindent        
+  \refstepcounter{lst}         
+  \label{code:#1}  
+\begin{tabular}{p{.97\columnwidth}} \\ \hline  {\normalsize \textbf{Code  fragment \arabic{section}.\arabic{lst}} #2} \\  \end{tabular} 
+\lstset{language=#3,          
+  basicstyle=\footnotesize\sffamily,
+%%%  basicstyle=\footnotesize,    
+  xleftmargin=10pt,    
+  mathescape=true,    
+  frame=tb,    
+  numbers=right,    
+%%%  numberstyle=\tiny,     
+  numberstyle=\footnotesize,     
+  stepnumber=1,     
+  numbersep=-5pt}}{}
+
+%-- definition for Gwendolen --%
+
+\lstdefinelanguage{Gwendolen}{%
+    morekeywords={Plans,Initial,Beliefs,Goals,name,fof-parse,Rules,Belief,Reasoning},
+    morecomment=[l]{//},
+ literate= {<-}{{$\leftarrow$}{$\:$}}2
+           {.B}{{${\cal B}$}}2
+           {.G}{{${\cal G}$}}2
+           {lnot}{{$\sim$}}2
+           {assert_shared}{{$+_{\Sigma}$}}2
+           {remove_shared}{{$-_{\Sigma}$}}2
+           {(perform)}{}0
+}
+
+

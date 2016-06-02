@@ -55,7 +55,7 @@ public class GoalEnv extends DefaultEnvironment implements ActionOnlyEnv {
 		double distance = 32;
 		
 		while (ic.hasNext()) {
-			Action a = ic.next().getCap();
+			Action a = new Action(ic.next().getCap(), Action.normalAction);
 			double x = ((NumberTerm) a.getTerm(0)).solve();
 			double y = ((NumberTerm) a.getTerm(1)).solve();
 			

@@ -1,0 +1,86 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+
+\author{Louise A. Dennis}
+
+\title{Gwendolen Tutorial 1 -- Hello World: \\
+Running Gwendolen Programs, Configuration Files, Perform Goals and Print Actions}
+
+\begin{document}
+\maketitle
+This is the first in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers the basics of running \gwendolen\ programs, the configuration files, perform goals and print actions.  It assumes the reader is familiar with the basics of \prolog\ notation.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/tutorials/tutorial1}.
+
+The tutorials assume some familiarity with the \prolog\ programming language as well as the basics of running Java programs either at the command line or in Eclipse.
+
+\section{Hello World}
+
+You will find a \gwendolen\ program in the tutorial directory called \texttt{hello\_world.gwen}.  It's contents should look like Listing~\ref{code:hello_world}.
+\begin{lstlisting}[float,caption=Hello World,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:hello_world]
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+say_hello [perform]
+
+:Plans:
+
++!say_hello [perform] : {True} <- print(hello);
+\end{lstlisting}
+
+This can be understood as follows.  Line 1 states the language in which the program is written (this is because the \ail\ allows us to create multi-agent systems from programs written in several different languages).  Line 3 gives the name of the agent (\lstinline{hello}).  Line 5 starts the section for initial beliefs (there are none).  Line 7 starts the section for initial goals.  There is one a \emph{perform} goal to \lstinline{say_hello} (we will cover the different sorts of goal in a later tutorial).  Line 11 starts the section for plans.  There is one plan which can be understood as saying if the goal is to say hello \lstinline{+!say_hello} then do the action \lstinline{print(hello)}.  There is a third component to the plan (\lstinline+{True}+) which is a \emph{guard} that must be true before the plan is applied.  In this case the guard is always true so the plan applies whenever the agent has a goal to perform \lstinline{+!say_hello}.
+
+\subsection{Running the Program}
+
+To run the program you need to run the \java\ program \texttt{ail.mas.AIL} and supply it with a suitable configuration file as an argument.  You will find an appropriate configuration file, \texttt{hello\_world.ail} in the same directory as \texttt{hello\_world.gwen}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL} configuration (with \texttt{hellow\_world.ail} selected in the Package Explorer window) as detailed in the \mcapl\ manual.
+
+Run the program now.
+
+\section{The Configuration File}
+Now open the configuration file, \texttt{hello\_world.ail}.
+
+\noindent\rule{\textwidth}{1pt}
+\begin{verbatim}
+mas.file = /src/examples/gwendolen/tutorials/tutorial1/hello_world.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = ail.mas.DefaultEnvironment
+
+log.warning = ail.mas.DefaultEnvironment
+\end{verbatim}
+\rule{\textwidth}{1pt}
+
+This is a very simple configuration consisting of four items only.
+\begin{description}
+\item[mas.file] gives the path to the \gwendolen\ program to be run.
+\item[mas.builder] gives a java class for building the file.  In this case \texttt{gwendolen.GwendolenMASBuilder} parses a file containing one or more \gwendolen\ agents and compiles them into a multi-agent system.
+\item[env] provides an environment for the agent to run in.  In this case we use the default environment provided by the \ail.
+\item[log.warning] sets the level of output for the class \texttt{ail.mas.DefaultEnvironment}.  This is a pretty minimal level of output (warnings only).  We will see in later tutorials that it is often useful to get more output than this.
+\end{description}
+
+\section{Some Simple Exercise to Try}
+\begin{enumerate}
+\item Change the filename of \texttt{hello\_world.gwen} to something else (e.g., \texttt{hello.gwen}.  Update \texttt{hello\_world.ail} to reflect this change.  Check you can still run the program.
+\item Edit the hello world program so it prints out \texttt{hi} instead of \texttt{hello}.
+\item Edit the hello world program so the goal is called \texttt{hello} instead of \texttt{say\_hello}.  If you don't change the plan notice how the behaviour of the program changes.  Edit the plan to return to the original behaviour of the program.
+\item Change the plan to
+\begin{verbatim}
++!say_hello [perform] : {True} <- print(hello),print(louise);
+\end{verbatim} and see how this changes the behaviour of the program.
+\item Experiment getting the program to print out various different things.  Note the parser can not cope with whitespace in print statements (sorry!).
+\end{enumerate}
+
+\end{document}

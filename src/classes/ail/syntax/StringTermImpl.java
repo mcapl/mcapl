@@ -126,12 +126,24 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
 	//	return "\""+fValue+"\"";
 		return fValue;
 	}
+	
+	public String fullstring() {
+		return "STI:" + toString();
+	}
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
      */
     public Term strip_varterm() {
+    	return this;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#resolveVarsClusters()
+     */
+    public Term resolveVarsClusters() {
     	return this;
     }
         

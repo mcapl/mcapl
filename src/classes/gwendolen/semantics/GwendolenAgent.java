@@ -25,6 +25,7 @@
 package gwendolen.semantics;
 
 
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
@@ -59,7 +60,7 @@ public class GwendolenAgent extends AILAgent {
 		// an empty reasoning cycle.  See the GwendolenRC class for how
 		// to create a language specific reasoning cycle.  NB. this will
 		// change when we get the rules to return state change objects.
-		setTrackPlanUsage(false);
+		// setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
 
 
@@ -85,10 +86,27 @@ public class GwendolenAgent extends AILAgent {
 		// an empty reasoning cycle.  See the GwendolenRC class for how
 		// to create a language specific reasoning cycle.  NB. this will
 		// change when we get the rules to return state change objects.
-		setTrackPlanUsage(false);
+	//	setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
 
 
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.AILAgent#configure(ail.util.AILConfig)
+	 */
+	@Override
+	public void configure(AILConfig config) {
+		if (config.containsKey("ail.store_sent_messages")) {
+			String store_sent_messages = config.getProperty("ail.store_sent_messages");
+			if (store_sent_messages.equals("true")) {
+				setStoreSentMessages(true);
+			} else {
+				setStoreSentMessages(false);
+			}
+		}
 		
 	}
 	

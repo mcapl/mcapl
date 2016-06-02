@@ -1,0 +1,48 @@
+Experiments Run 28th July, 2.8Ghz Intel Macbook running MacOs 10.9.4, 8GB memory.
+
+Properties taken from satellite.psl
+
+A) satellite_theorem_spincomparison_spin.jpf - 
+set up to generate a model for the program only to be exported for us in Spin.
+
+Number of States: 1954
+
+with file write out
+
+1prop: 4:11,411,4:09,411,4:11,411,4:16,411,4:11,411
+2prop: 4:54,411,4:34,411,4:33,411,4:34,411,5:16,411
+3prop: 5:09,411,4:56,412,4:58,411,5:01,412,4:55,412
+4prop: 5:44,411,5:43,411,5:43,411,5:46,412,5:52,411
+5prop: 6:10,411,6:03,411,6:14,411,6:06,412,6:04,411
+6prop: 7:21,411,7:07,411,7:16,409,7:10,411,7:15,411
+7prop: 7:51,408,7:42,409,8:25,408,7:36,408,7:38,409
+8prop: 9:19,408,9:54,408,9:13,409,9:32,412,9:13,408
+9prop: 10:03,406,9:32,411,9:52,410,10:08,406,9:55,409
+10prop: 10:29,408,10:01,406,10:07,405,10:10,409,10:09,408
+
+
+
+B) satellite_theorem_spingcomparison.jpf - 
+set up to model check the theorem directly against the property.
+
+5prop0:6.07
+5prop1:6:05,410,6:02,410
+5prop2:6:17,411
+5prop3:6:07,412
+
+Spin4:9.27,416,9:36,417
+
+v2
+
+Spin0: 11:24,413
+Spin1: 13:09,410
+Spin2: 15:27,410
+Spin3: 18:19,411
+Spin4: 22:14,417
+
+1prop: 11:17,413
+3prop: 13:04,410
+5prop: 15.30,410
+7prop: 18:18,408
+9prop: 21:54,411
+10prop: 23:02

@@ -14,7 +14,7 @@
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the AIL; if not, write to the Free Software
+// License along with the DEG; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -30,7 +30,9 @@ import org.junit.Test;
 import actiononly.ActionOnlyAgentBuilder;
 import actiononly.semantics.ActionOnlyAgent;
 import ajpf.MCAPLcontroller;
+import ail.mas.AIL;
 import ail.mas.MAS;
+import ail.util.AILConfig;
 import ethical_governor.human_hole.HumanHoleGoalEnv;
 import ethical_governor.EthicalGovernorBuilder;
 
@@ -40,8 +42,15 @@ public class SimpleQuickTests {
 			String ao_abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			String eg_abs_filename = MCAPLcontroller.getFilename("/src/examples/ethical_governor/human_hole/governor.eg");
 			HumanHoleGoalEnv env = new HumanHoleGoalEnv();
-			MAS mas = new MAS();
+			AILConfig config = new AILConfig();
+			MCAPLcontroller mc = new MCAPLcontroller(config, "");
+			// Create the initial state of the multi-agent program.
+			MAS mas = AIL.AILSetup(config, mc);
+			
+			// Set up a controller
 			mas.setEnv(env);
+			env.setMAS(mas);
+			mc.setMAS(mas);
 			
 			ActionOnlyAgentBuilder ao_builder = new ActionOnlyAgentBuilder();
 			EthicalGovernorBuilder eg_builder = new EthicalGovernorBuilder();

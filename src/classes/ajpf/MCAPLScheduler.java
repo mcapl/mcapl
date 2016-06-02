@@ -31,7 +31,7 @@ import java.util.List;
  * @author louiseadennis
  *
  */
-public interface MCAPLScheduler {
+public interface MCAPLScheduler extends PerceptListener {
 	/**
 	 * Get the currently active jobbers.
 	 * @return

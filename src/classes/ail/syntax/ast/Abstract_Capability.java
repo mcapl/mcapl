@@ -53,18 +53,18 @@ import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * AIL Capability class.  A capability consists of preconditions, some kind of action and postconditions.
- * In general the AIL models these as perform plans, but sometimes we need to model them explicitly.
+ * In general/in the past the AIL models these as perform plans, but sometimes we need to model them explicitly.
  * 
  * @author louiseadennis
  *
  */
 public class Abstract_Capability {
-	Abstract_Action cap;
+	Abstract_Predicate cap;
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
 	Abstract_GLogicalFormula post = new Abstract_GBelief();
 	
 	/**
-	 * Convert the abstract capability into a concrete one.
+	 * Convert to a concrete object.
 	 * @return
 	 */
 	public Capability toMCAPL() {
@@ -72,7 +72,7 @@ public class Abstract_Capability {
 	}
 	
 	/**
-	 * When used with MJI, create an object in the JPF virtual machine that corresponds to this abstract capability.
+	 * Create an equivalent object in the JPF Virtual machine.
 	 * @param env
 	 * @return
 	 */
@@ -84,10 +84,10 @@ public class Abstract_Capability {
 		return ref;
 	}
   
-	/*
+	/**
 	 * Construct a capability with trivial pre- and post- conditions.
 	 */
-    public Abstract_Capability(Abstract_Action p) {
+    public Abstract_Capability(Abstract_Predicate p) {
     	cap = p;
     }
     
@@ -100,7 +100,7 @@ public class Abstract_Capability {
     }
     
     /**
-     * Add a postcondition.
+     * Add a postcondition
      * @param f
      */
     public void addPost(Abstract_GLogicalFormula f) {

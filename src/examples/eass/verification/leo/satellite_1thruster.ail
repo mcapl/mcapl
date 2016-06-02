@@ -45,3 +45,4 @@ allpositions=false
 all_can_break=true
 changing_formation=false
 initial_formation=line
+agname=ag1

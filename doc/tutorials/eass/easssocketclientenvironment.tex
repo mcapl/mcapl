@@ -1,0 +1,61 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+
+\author{Louise A. Dennis}
+
+\title{EASS Socket Client Environment Documentation}
+
+\begin{document}
+\maketitle
+\begin{sloppypar}
+This is optional documentation included with the tutorials on the use of the \eass\ variant of the \gwendolen\ language.  It covers the \texttt{EASSSocketClientEnvironment} class which is a class aimed to assist in the construction of \eass\ environments that are a client socket to some other system.
+\end{sloppypar}
+
+This article assumes a good working knowledge of Java programming. It also assumes the reader is familiar with the basics of the \eass\ language as detailed in tutorials 1 and 2.
+
+\section{Overview}
+\begin{sloppypar}
+In many situations an \eass\ environment needs to communicate with some other system using a socket.  Typically the \eass\ environment is a client socket while the other system provides a server socket.  The \texttt{EASSSocketClientEnvironment} class is provided to aid in the construction of such environments by providing a suitable class for sub-classing.
+\end{sloppypar}
+
+By default the class automatically handles connecting to the socket when the environment starts up, and closing the socket when the environment shuts down.  Moreover it allows the multi-agent system to be configured to run without connecting to a socket (if desired for debugging reasons).
+
+\subsection{Configuration Options}
+By default the environment will attempt to connect to a socket, however if the \ail\ configuration file for the system contains the line
+\begin{verbatim}
+connectedtosocket=false
+\end{verbatim}
+Then the environment will run without communicating to a socket.
+
+\subsection{Constructors}
+By default the constructor \texttt{public EASSSocketClientEnvironment()} will connect to a socket on port 6253.  However an alternative constructor \texttt{public EASSSocketClientEnvironment(int portnumber)} is provided which allows a multi-agent system to set a different portnumber.
+
+\subsection{Key Methods}
+
+\subsubsection{getSocket}
+\texttt{public AILSocketClient getSocket()} returns an instance of the \texttt{AILSocketClient} class that has methods for reading from and writing to a socket.
+
+\subsubsection{readPredicatesfromSocket}
+\texttt{public void readPredicatesfromSocket()} is an abstract method that needs to be implemented by any sub-class of \texttt{EASSSocketClientEnvironment}.  Its purpose is to read information from a socket and convert it into predicates that should be storied in the environment.  This method is called every time the environment is scheduled to run, if the class is configured to be connected to a socket.  If the environment is not connected to a socket then this method isn't called.
+
+\subsubsection{debuggingPredicates}
+By default \texttt{public void debuggingPredicates()} does nothing.  It is called whenever the environment is run and it is not connected to a socket.  This method can therefore be overridden to provide percepts for the agents in situations when the environment is being used without being connected to a socket.
+
+\subsubsection{connectedToSocket}
+\texttt{public boolean connectedToSocket} returns true if the environment is connected to a socket and false otherwise.
+
+\subsubsection{notConnectedToSocket}
+\texttt{public boolean notConnectedToSocket} sets the environment to run without communicating with the socket.
+
+\section{Example}
+An example of a subclass of \texttt{EASSSocketClientEnvironment} can be found in \texttt{src/examples/eass/tutorials/tutorial1/CarOneMotorwayEnvironment.java}.
+
+\end{document}

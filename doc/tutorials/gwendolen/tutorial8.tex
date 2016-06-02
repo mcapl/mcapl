@@ -1,0 +1,133 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+\author{Louise A. Dennis}
+
+\title{Gwendolen Tutorial 8 -- Multi-Agent Systems and Communication}
+
+\begin{document}
+\maketitle
+This is the eighth in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers the use of communication in \gwendolen\ and also looks at setting up a multi-agent system.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/gwendolen/tutorials/tutorial8}.
+
+\section{Pick Up Rubble (Again)}
+
+\begin{sloppypar}
+You will find a \gwendolen\ program in the tutorial directory called \texttt{simple\_mas.gwen}.  Its contents should look like Listing~\ref{code:simple_mas}.
+\end{sloppypar}
+\begin{lstlisting}[float,caption=Simple Multi-Agent System,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:simple_mas]
+GWENDOLEN
+
+:name: lifter
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+goto55 [perform]
+
+:Plans:
+
++!goto55 [perform] : {True} <- move_to(5, 5);
+
++rubble(5, 5): {True} <- lift_rubble;
+
++human(X, Y): {True} <- .send(medic, :perform, assist_human(X, Y));
+
+:name: medic
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++.received(:perform, G): {True} <- +!G [perform];
+
++!assist_human(X, Y) [perform] : {True} <- 
+	move_to(X, Y),
+	assist;
+\end{lstlisting}
+
+This is very similar to the first program in tutorial 2.  However  there are now two agents, \texttt{lifter} and \texttt{medic}.  As in the program in tutorial 2, the lifter robot moves to square (5, 5) and lifts the rubble there.  However if he sees a human he performs a special kind of action which is a \emph{send action}.  This sends a message to the medic agent asking it to perform \texttt{assist\_human(X, Y)}.  When the medic receives a perform instruction it converts it into a perform goal and if it has a goal to assist a human it moves to their square and assists them.
+
+You can run this program using \texttt{simple\_mas.ail}.  It uses a new environment \texttt{SearchAndRescueMASEnv.java} which is similar to \texttt{SearchAndRescueEnv.java}.
+
+\subsection{Syntax}
+
+A send action starts with the constant \texttt{.send}.  It then has three arguments:
+\begin{enumerate}
+\item The first is the name of the agent to whom the message is to be sent, 
+\item the second is a performative, and 
+\item the last is a logical term.  
+\end{enumerate}
+The performative can be one of \texttt{:tell}, \texttt{:perform} or \texttt{:achieve}.  \gwendolen\ attaches no particular meaning to these performatives but they are often used to tell an agent to believe something, ask an agent to adopt a perform goal or ask an agent to adopt an achieve goal.
+
+\begin{sloppypar}
+When a message is received \gwendolen\ turns it into an event: \texttt{.received(P,~F)} were \texttt{P} is the performative and \texttt{F} is the logical term.  Since many \gwendolen\ programs interpret \texttt{:tell}, \texttt{:perform} and \texttt{:achieve} as described above, they often include the following three plans 
+\end{sloppypar}
+\begin{verbatim}
++.received(:tell, B): {True} <- +B;
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+\end{verbatim}
+which embody that interpretation.  However many programs instead choose only to handle certain performatives (e.g., only \texttt{:tell} messages) or only certain message contents, (e.g., \texttt{.received(:perform, assist\_human(X, Y))} only handles messages asking the agent to perform \texttt{assist\_human(X, Y)} for some \texttt{X} and \texttt{Y}).
+
+\subsection{Exercise}
+Amend the \texttt{simple\_mas} program so that, instead of sending a perform message, the lifter agent sends a tell message and the medic reacts to the new belief, instead of the new goal.
+
+NB. It is important, for using the \texttt{SearchAndRescueMASEnv.java} environment that the lifting agent be called \texttt{lifter} and the medic agent be called \texttt{medic}.
+
+As usual sample solutions to all the exercises can be found in the \texttt{answers} directory for \texttt{tutorial8}.
+
+\section{Recording and Replaying \ail\ Programs}
+Now there is more than one agent in the system, you will observe that there are several paths through the program.  These depend upon which agent acts when.  Sometimes the \texttt{lifter} agent will go first (moving to (5, 5)) and sometimes the \texttt{medic} agent will go first (sleeping).
+
+When debugging a multi-agent program you sometimes want to replay the exact sequence of events that occurred in the  problem run.  To do this you first need to record the sequence.  You can get an \ail\ program to record its sequence of choices (in this case choices about which agent goes first) by adding the line
+
+\begin{verbatim}
+ajpf.record = true
+\end{verbatim}
+
+To the program's \ail\ configuration file.  By default this records the current path through the program in a file called \texttt{record.txt} in the directory, \texttt{records} of the \mcapl\ distribution.  You can change the file using \texttt{ajpf.replay.file =}.  There is an example of this in the configuration file \texttt{simple\_mas\_record.ail} in the tutorial directory.
+
+When you want to play back a record then include 
+
+\begin{verbatim}
+ajpf.replay = true
+\end{verbatim}
+
+In the program's \ail\ configuration file.  Again, by default, this will replay the sequence from \texttt{record.txt}, but will use a different file if \texttt{ajpf.replay.file = } is set.  The configuration file \texttt{simple\_mas\_replay.ail} is set up to replay runs generated by \texttt{simple\_mas\_record.ail}
+
+\section{Two Ways to Create a Multi-Agent System}
+
+In the previous example we put all the agents in a multi-agent system in one file.  However you often want to separate out your agents into different files, one for each agent.  This is easy to do in the \ail.  You write each agent as you normally would in a separate file.  Then in the \texttt{.ail} file for running the system instead of using \texttt{mas.file} you use \texttt{mas.agent.1.file} (for the file containing agent one), \texttt{mas.agent.2.file} etc.  Similarly instead of using a MAS builder you link to individual agent builders.  \gwendolen's agent builder is \texttt{gwendolen.GwendolenAgentBuilder} -- so you use 
+\begin{center}
+\texttt{mas.agent.1.builder = gwendolen.GwendolenAgentBuilder} 
+\end{center}
+etc., for each agent rather than 
+\begin{center}
+\texttt{mas.builder = gwendolen.GwendolenMASBuilder}.
+\end{center}
+
+\subsection{Exercise}
+Convert \texttt{simple\_mas.gwen} into a system consisting of two agents in different files.  NB.  You will need to make sure both agent files start with the declaration \texttt{GWENDOLEN} for the language the agent is programmed in.
+
+\section{Duplicating an Agent}
+
+Sometimes you want to create a multi-agent system in which all agents behave identically.  Ideally you would like to use the same agent code file for all these agents and just give them different names in the multi-agent system.
+
+You can do this using files and builders, as above, with the addition of a \texttt{name} setting.  So, for instance, \texttt{mas.agent.3.name = nurse} sets the name of agent 3 to \texttt{nurse} instead of whatever is given in the agent file.
+
+\subsection{Exercise}
+Adapt the system from exercise 2 by creating a new lifter agent that visits first square (5, 5) and summons the medic to assist the human there and, after that, visits square (3, 4) and summons a nurse to assist the human there.  The medic and the nurse should both use the medic agent code file you developed for exercise 2.  Give one of these agent's the name \texttt{nurse} in the \texttt{.ail} file.
+
+\end{document}

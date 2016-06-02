@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -27,24 +27,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Capability consists of an action together with explicit pre and post conditions.
+ * Capabilities represent what an agent can do and are very closely related to actions.  So closely related that for a long
+ * time the AIL managed without capabilities using, instead, a combination of actions and plans.  However in some situations
+ * they do need to be represented explicitly.  A capability can be thought of as an action with explicit pre- and post-conditions.
  * @author lad
  *
  */
-public class Capability implements Unifiable, Comparable<Capability> {
+public class Capability implements Unifiable,
+		Comparable<Capability> {
 	
 	GLogicalFormula pre;
 	GLogicalFormula post;
-	Action cap;
+	Predicate cap;
 	protected int keynum;
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 * @param pr
 	 * @param c
 	 * @param pt
 	 */
-	public Capability(GLogicalFormula pr, Action c, GLogicalFormula pt) {
+	public Capability(GLogicalFormula pr, Predicate c, GLogicalFormula pt) {
 		pre = pr;
 		cap = c;
 		post = pt;
@@ -54,6 +57,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Capability clone() {
 		return new Capability(pre.clone(), cap.clone(), post.clone());
 	}
@@ -62,6 +66,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Capability o) {
     	if (keynum == o.getID()) {
     		return 0;
@@ -73,7 +78,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	}
 	
 	/**
-	 * Give the capability and ID.
+	 * Set a unique id for the capability.
 	 * @param i
 	 */
 	public void setID(int i) {
@@ -81,7 +86,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	}
 	
 	/**
-	 * Get the capabilities ID.
+	 * Getter for the ID>
 	 * @return
 	 */
 	public int getID() {
@@ -89,10 +94,10 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	}
 	
 	/**
-	 * Get the capability's aciton.
+	 * Return the "action" part of the capability (represented as a predicate).
 	 * @return
 	 */
-	public Action getCap() {
+	public Predicate getCap() {
 		return cap;
 	}
 	
@@ -116,6 +121,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -130,6 +136,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
+	@Override
 	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
 		List<String> tvarnames = t.getVarNames();
 		List<String> myvarnames = getVarNames();
@@ -151,6 +158,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
+	@Override
 	public List<String> getVarNames() {
 		ArrayList<String> varnames = new ArrayList<String>();
 		varnames.addAll(cap.getVarNames());
@@ -163,6 +171,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void renameVar(String oldname, String newname) {
 		cap.renameVar(oldname, newname);
 		pre.renameVar(oldname, newname);
@@ -173,6 +182,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -187,6 +197,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -201,6 +212,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#isGround()
 	 */
+	@Override
 	public boolean isGround() {
 		if (cap.isGround()) {
 			if (pre.isGround()) {
@@ -215,6 +227,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier theta) {
 		boolean c = cap.apply(theta);
 		boolean p1 = pre.apply(theta);
@@ -226,6 +239,7 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+	@Override
 	public void makeVarsAnnon() {
 		cap.makeVarsAnnon();
 		pre.makeVarsAnnon();
@@ -236,14 +250,25 @@ public class Capability implements Unifiable, Comparable<Capability> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
+	@Override
 	public Unifiable strip_varterm() {
-		return new Capability((GLogicalFormula) pre.strip_varterm(), (Action) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
+		return new Capability((GLogicalFormula) pre.strip_varterm(), (Predicate) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
 	}
 	
 	/*
 	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
+	@Override
+	public Unifiable resolveVarsClusters() {
+		return new Capability((GLogicalFormula) pre.resolveVarsClusters(), (Predicate) cap.resolveVarsClusters(), (GLogicalFormula) post.resolveVarsClusters());
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String s = "{";
 		s += pre;

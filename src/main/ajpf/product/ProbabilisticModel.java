@@ -25,7 +25,6 @@
 package ajpf.product;
 
 import gov.nasa.jpf.JPF;
-
 import ajpf.psl.Proposition;
 
 import java.util.List;
@@ -122,7 +121,12 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 	case Prism:
 		 		s += edge_prob(to, from);
 		 		s += ":";
-		 		s += "(state'=" + to + ")";
+		 		if (to >= 0) {
+		 			s += "(state'=" + to + ")";
+		 		} else {
+		 			s += "(state'=" + higheststatenum + ")";
+		 			higheststatenum--;
+		 		}
 		 		return s;
 		 	case Default:
 		 		s += edge_prob(to, from);

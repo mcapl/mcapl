@@ -25,12 +25,13 @@
 package gwendolen.simple;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
-
-import java.util.Random;
+import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformBoolChoice;
 
 /**
  * A Simple Blocks' World Environment.
@@ -39,13 +40,13 @@ import java.util.Random;
  *
  */
 public class SimpleEnv extends DefaultEnvironment {
-	Random r = new Random();
+	static String logname = "gwendolen.simple.SimpleEnv";
+	
+	UniformBoolChoice r;
 	
 	public SimpleEnv() {
 		super();
-	}
-	
-		
+	}		
 	
 	/**
 	 * When a pickup action is executed the environment stores new perceptions
@@ -77,10 +78,16 @@ public class SimpleEnv extends DefaultEnvironment {
         	}
         } else if (act.getFunctor().equals("random")) {
         	if (r.nextBoolean()) {
+        		AJPFLogger.info(logname, "Block 1 is visible");
         		addPercept(new Predicate("block1"));
+        	} else {
+        		AJPFLogger.info(logname, "Block 1 is not visible");
         	}
         	if (r.nextBoolean()) {
+        		AJPFLogger.info(logname, "Block 2 is visible");
         		addPercept(new Predicate("block2"));
+        	} else {
+        		AJPFLogger.info(logname, "Block 2 is not visible");
         	}
        }
 	   	
@@ -93,6 +100,14 @@ public class SimpleEnv extends DefaultEnvironment {
     	return theta;
    }
    
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformBoolChoice(m.getController());
+	}
 
  
 }

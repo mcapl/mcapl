@@ -1,0 +1,166 @@
+\documentclass[a4]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{../../manual/manual}
+\include{mylistings}
+\makeindex
+
+\lstset{basicstyle=\sffamily}
+
+\author{Louise A. Dennis}
+
+\title{EASS Tutorial 3 -- Verifying Reasoning Engines}
+
+\begin{document}
+\maketitle
+This is the third in a series of tutorials on the use of the \eass\ variant of the \gwendolen\ language.  This tutorial covers verifying \eass\ reasoning engines as described in~\cite{dennis14:_pract,DBLP:journals/cacm/FisherDW13}.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory \texttt{src/examples/eass/tutorials/tutorial3}.
+
+The tutorial assumes a good working knowledge of Java programming.  It also assumes the reader is familiar with the basics of using \ajpf\ to verify programs (see \ajpf\ Tutorials 1 and 2~\footnote{Tutorial 2 not written yet but will cover \jpf\ configuration files and basic troubleshooting of verification.}).
+
+\section{Overview}
+The process for verifying an \eass\ reasoning engine is to first analyse the agent program in order to identify all the shared beliefs that are sent from the abstraction engine to the reasoning engine.  In multi-agent systems it is also necessary to identify all messages that the reasoning engine may receive from other agents in the environment.  This is discussed in some detail in~\cite{dennis14:_pract}.  Once a list of shared beliefs and messages has been identified, an environment is constructed for the reasoning engine alone in such a way that every time the agent takes an action the set of perceptions and messages available to it are created \emph{at random}.  When model checking the random selection causes the search tree to branch and the model checker to explore all possibilities.
+
+\section{Example}
+As an example we will consider the accelerating car controller we looked at in \eass\ tutorial 1.  The full code for this is show in Listing~\ref{code:example} and from this we can see there are two shared beliefs used by the program, \lstinline{start} and \lstinline{at_speed_limit}.
+
+\begin{lstlisting}[float,caption=A Simple EASS Program,basicstyle=\sffamily,style=easslisting,language=Gwendolen,label=code:example]
+EASS
+
+:abstraction: car
+
+:Initial Beliefs:
+
+speed_limit(5)
+													
+:Initial Goals:
+		
+
+:Plans: 
+/* Default plans for handling messages */
++.received(:tell, B): {True} <- +B;   
++.received(:perform, G): {True} <- +!G [perform];
++.received(:achieve, G): {True} <- +!G [achieve];
+
++started : {True} <-
+	assert_shared(start);
+
++yspeed(X) : {B speed_limit(SL), SL < X} <-
+	assert_shared(at_speed_limit);
++yspeed(X) : {B speed_limit(SL), X < SL} <-
+	remove_shared(at_speed_limit);
+	
++! accelerate [perform] : {B yspeed(X)} <- accelerate;
++! accelerate [perform] : {~B yspeed(X)} <- print("Waiting for Simulator to Start");
++! maintain_speed [perform] : {True} <- maintain_speed;
+
+:name: car
+			
+:Initial Beliefs:
+													
+:Initial Goals:
+		
+:Plans: 
+
++start: {True} <-
+	+!at_speed_limit[achieve];
+
++! at_speed_limit [achieve] : {True} <-
+	perf(accelerate),
+	*at_speed_limit;
+
++at_speed_limit: {True} <-
+	perf(maintain_speed);
+\end{lstlisting} 
+
+For verification purposes, we are only interested in the reasoning engine so we create a file containing just the reasoning engine.  This is \texttt{car\_re.eass} in the tutorial directory.  You will also find an \ail\ configuration file \texttt{car.ail}, a \jpf\ configuration file, \texttt{car.jpf} and a property specification file, \texttt{car.psl} in the tutorial directory.
+
+\begin{lstlisting}[float,caption=A Verification Environment,basicstyle=\sffamily,style=easslisting,language=Java,label=code:environment]
+/**
+ * An environment for verifying a simple car reasoning engine.
+ * @author louiseadennis
+ *
+ */
+public class VerificationEnvironment extends 
+                       EASSVerificationEnvironment {
+			
+  public String logname = "eass.tutorials.tutorial3.VerificationEnvironment";
+	
+  public Set<Predicate> generate_sharedbeliefs() {
+    TreeSet<Predicate> percepts = new TreeSet<Predicate>();
+    boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
+    if (assert_at_speed_limit) {
+      percepts.add(new Predicate("at_speed_limit"));
+      AJPFLogger.info(logname, "At the Speed Limit");
+    } else {
+      AJPFLogger.info(logname, "Not At Speed Limit");
+    }
+		
+    boolean assert_start = random_bool_generator.nextBoolean();
+    if (assert_start) {
+      percepts.add(new Predicate("start"));
+      AJPFLogger.info(logname, "Asserting start");
+    } else {
+      AJPFLogger.info(logname, "Not asserting start");
+    }
+    return percepts;
+  }
+	
+  public Set<Message> generate_messages() {
+    TreeSet<Message> messages = new TreeSet<Message>();
+      return messages;
+  };
+}
+\end{lstlisting}
+\begin{sloppypar}
+The environment for verifying the car reasoning engine is shown in listing~\ref{code:environment}.  This subclasses \texttt{eass.mas.verification.EASSVerificationEnvironment} which sets up a basic environment for handling verification of single reasoning engines.  In order to use this environment you have to implement two methods, \texttt{generate\_sharedbeliefs()} and \texttt{generate\_messages()}.  It is assumed that these methods will randomly generate the shared beliefs and messages of interest to your application.  \texttt{EASSVerificationEnvironment} handles the calling of these methods each time the reasoning engine takes an action.  It should be noted that \texttt{EASSVerificationEnvironment} ignores \lstinline{assert_shared} and \lstinline{remove_shared} actions, assuming these take negligible time to execute -- this is largely in order to keep search spaces as small as possible.
+\end{sloppypar}
+
+In the example verification environment, \texttt{generate\_messages} returns an empty set of messages because we didn't identify any messages in the program.  \texttt{generate\_sharedbeliefs} is responsible for asserting \lstinline{at_speed_limit} and \lstinline{start}.  \texttt{EASSVerificationEnvironment} provides \texttt{random\_bool\_generator} which is a member of the \texttt{ajpf.util.choice.UniformBoolChoice} class and \texttt{random\_int\_generator} which is a member of the \texttt{ajpf.util.choice.UniformIntChoice} class.  These can be used to generate random boolean and integer values.  In this case \texttt{random\_bool\_generator} is being used to generate two booleans, \texttt{assert\_at\_speed\_limit} and \texttt{assert\_start}.  If these booleans are true then the relevant predicate is added to the set returned by the method while, if it is false, nothing is added to the set.  An \texttt{AJPFLogger} is used to print out whether the shared belief was generated or not -- this can be useful when debugging failed model checking runs.
+
+There are four properties in the property specification file:
+\begin{description}
+\item[1] $\always \neg \lbelief{\texttt{car}}{crash}$ -- The car never believes it has crashed.  We know this to be impossible -- no such belief is ever asserted -- but it can be useful to have a simple property like this in a file in order to check the basics of the model checking is working.
+\item[2] $\always ( \lactions{\texttt{car}}{\mathit{perf}(accelerate)} \Rightarrow (\sometime \lactions{\texttt{car}}{\mathit{perf}(maintain\_speed)} \lor \always  \neg \lbelief{\texttt{car}}{at\_speed\_limit}))$ -- If the car ever accelerates then either eventually it maintains its speed, or it never believes it has reached the speed limit.
+\item[3] $\always ( \lbelief{\texttt{car}}{at\_speed\_limit}) \Rightarrow \sometime \lactions{\texttt{car}}{\mathit{perf}(maintain\_speed)}$ -- If the car believes it is at the speed limit then eventually it maintains its speed.  Properties of this form are often not true because $\lactions{ag}{a}$ only applies to the last action performed and beliefs are often more persistent than that so the agent acquires the belief, $b$, does action $a$, and then does something else.  At this point it still believes $b$ but unless it does $a$ again the property will be false in LTL.  In this case, however, the property is true because \lstinline{perf(maintain_speed)} is the last action performed by the agent.
+\item[4] $\always \neg \lbelief{\texttt{car}}{start} \Rightarrow \always \neg \lactions{\texttt{car}}{\mathit{perf}(accelerate)}$ -- If the car never believes the simulation has started then it never accelerates.
+\end{description}  
+
+The \jpf\ configuration file in the tutorial directory is set to check property 3.  It is mostly a standard configuration, as discussed in \ajpf\ tutorial 2.  However it is worth looking at the list of classes passed to \texttt{log.info}.  These are:
+\begin{description}
+\item[ail.mas.DefaultEnvironment] As discussed in \ajpf\ tutorial 2, this prints out the actions that an agent has performed and is useful for debugging.
+\begin{sloppypar}
+\item[eass.mas.verification.EASSVerificationEnvironment] This prints out when an agent is just about to perform an action, before all the random shared beliefs and messages are generated.  If both this class and \texttt{ail.mas.DefaultEnvironment} are passed to \texttt{log.info} then you will see a message before the agent does an action, then the search space branching as the random shared beliefs and messages are generated and then a message when the action completes.  You may prefer to have only one of these print out.
+\end{sloppypar}
+\item[eass.tutorials.tutorial3.VerificationEnvironment] As can be seen in listing~\ref{code:environment} this will cause information about the random branching to get printed.
+\item[ajpf.product.Product] As discussed in \ajpf\ tutorial 2, this prints out the current path through the \ajpf\ search space.
+\end{description}
+
+\section{Messages}
+Normally there is no need to construct messages in environments since this is handled by the way \texttt{ail.mas.DefaultEnvironment} handles send actions.  However for \eass\ verification environments, where messages must be constructed at random, it is necessary to do this in the environment.
+
+The important class is \texttt{ail.syntax.Message} and the main constructor of interest is \texttt{public Message(int ilf, String s, String r, Term c)}.  The four parameters are
+\begin{description}
+\item[ilf] This is the \emph{illocutionary force} or the \emph{performative}.  For \eass\ agents this should be 1, for a tell message, 2 for a perform message and 3 for an achieve message.  If in doubt you can use the static fields \texttt{EASSAgent.TELL}, \texttt{EASSAgent.PERFORM} and \texttt{EASSAgent.ACHIEVE}.
+\item[s] This is a string which is the name of the sender of the message.
+\item[r] This is a string which is the name of the receiver of the message.
+\item[c] This is a term for the content of the message and should be created using the \ail\ classes for \texttt{Predicate}s etc.
+\end{description}
+
+Where messages are to be randomly generated a list of them should be created in \texttt{generate\_messages}.
+
+\section{Exercises}
+
+\subsection{Exercise 1}
+Take the sample answer for exercise 2 in \eass\ tutorial 1, and verify that if the car never gets an alert then it never stops.  As usual you can find a sample answer in the \texttt{answers} sub-directory.
+
+\subsection{Exercise 2}
+In the tutorial directory you will find a reasoning engine, \texttt{car\_re\_messages.eass}.  This is identical to \texttt{car\_re.eass} apart from the fact that it can process tell messages.  Provide a verification environment where instead of \lstinline{start} being asserted as a shared belief, the agent receives it as a tell message from the simulator.  Check you can verify the same properties of the agent.  As usual you can find a sample answer in the \texttt{answers} sub-directory.
+
+\bibliographystyle{abbrv} %% {plain}
+\bibliography{../../manual/manual}
+
+\end{document}

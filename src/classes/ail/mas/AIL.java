@@ -26,9 +26,11 @@ package ail.mas;
 
 import ail.util.AILConfig;
 import ail.semantics.AILAgent;
+import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
 import ajpf.util.AJPFLogger;
+import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.logging.Level;
 
@@ -39,6 +41,7 @@ import java.util.logging.Level;
  *
  */
 public class AIL {
+	@FilterField
 	static String logname = "ail.mas.AIL";
 
 	/**
@@ -54,18 +57,24 @@ public class AIL {
 	 * @param configfile
 	 */
 	public static void runAIL(String configfile) {
+		GroundPredSets.clear();
 		AILConfig config = new AILConfig(configfile);
 		configureLogging(config);
+		
+		// Create a controller
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
 	
 		// Create the initial state of the multi-agent program.
-		MAS mas = AILSetup(config);
+		MAS mas = AILSetup(config, mccontrol);
 		
 		// Set up a controller
-		MCAPLcontroller mccontrol = new MCAPLcontroller(mas, "");
+		// mccontrol.setMAS(mas);
+		
+		// mas.getEnv().initialise();
 		
 		// Begin!
 		mccontrol.begin(); 
-		mas.finalize();
+		mas.cleanup();
 
 	}
 	
@@ -74,10 +83,11 @@ public class AIL {
 	 * @param config
 	 * @return
 	 */
-	public static MAS AILSetup(AILConfig config) {
+	public static MAS AILSetup(AILConfig config, MCAPLcontroller control) {
 		
 		// First we need to build the multi-agent system
 		MAS mas = buildMAS(config);
+		mas.setController(control);
 		
 		// Then, if necessary, we attach an environment
 		if (config.containsKey("env")) {
@@ -85,12 +95,15 @@ public class AIL {
 				AILEnv env = (AILEnv) (Class.forName(config.getProperty("env"))).newInstance();
 				env.configure(config);
 				mas.setEnv(env);
+				control.setMAS(mas);
 				env.initialise();
+				env.setMAS(mas);
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
 			}
 		}
+		mas.configure(config);
 		return mas;
 	}
 	
@@ -165,7 +178,7 @@ public class AIL {
 	private static String agentNumKey(int i) {
 		return "mas.agent." + i;
 	}
-	
+		
 	/**
 	 * Set up the loggers appropriately.
 	 */
@@ -215,7 +228,7 @@ public class AIL {
 		if (config.containsKey("log.format")) {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
-				AJPFLogger.setConsoleHandlerFormatBrief();
+				AJPFLogger.setHandlerFormatBrief();
 			}
 		}
 	}
