@@ -21,14 +21,14 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package ethical_gwen.fuel_low;
+package ethical_gwen.erratic_intruder;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class FuelLowQuickTests extends TestJPF {
+public class ErraticIntruderQuickTests extends TestJPF {
 	 static final String[] JPF_ARGS = {  "-show" 
 	  };
 
@@ -44,8 +44,8 @@ public class FuelLowQuickTests extends TestJPF {
 	  @Test //----------------------------------------------------------------------
 	  public void example1 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low_verification.ail";
-	    	String prop_filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low.psl";
+	    	String filename =  "/src/examples/ethical_gwen/erratic_intruder/more_erratic.ail";
+	    	String prop_filename =  "/src/examples/ethical_gwen/erratic_intruder/erratic.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
@@ -55,10 +55,23 @@ public class FuelLowQuickTests extends TestJPF {
 	  }
 	  
 	  @Test //----------------------------------------------------------------------
+	  public void example4 () {
+	    if (verifyNoPropertyViolation(JPF_ARGS)){
+	    	String filename =  "/src/examples/ethical_gwen/erratic_intruder/more_erratic.ail";
+	    	String prop_filename =  "/src/examples/ethical_gwen/erratic_intruder/erratic.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "e4";
+	    	AJPF_w_AIL.run(args);
+	 	 }
+	  }
+	  
+	  @Test //----------------------------------------------------------------------
 	  public void example2 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low_verification.ail";
-	    	String prop_filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low.psl";
+	    	String filename =  "/src/examples/ethical_gwen/erratic_intruder/more_erratic.ail";
+	    	String prop_filename =  "/src/examples/ethical_gwen/erratic_intruder/erratic.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
@@ -66,12 +79,12 @@ public class FuelLowQuickTests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
-
+	  
 	  @Test //----------------------------------------------------------------------
 	  public void example3 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low_verification.ail";
-	    	String prop_filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low.psl";
+	    	String filename =  "/src/examples/ethical_gwen/erratic_intruder/more_erratic.ail";
+	    	String prop_filename =  "/src/examples/ethical_gwen/erratic_intruder/erratic.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
@@ -79,7 +92,7 @@ public class FuelLowQuickTests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
-
+	  
 	  
 
 }
