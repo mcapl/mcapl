@@ -27,9 +27,9 @@
 
 :Outcome Scores:
 
-safe = 0
-collision = 4
-hole = 10
+safe == 0
+collision == 4
+hole == 10
 
 :Ethical Precedence:
 

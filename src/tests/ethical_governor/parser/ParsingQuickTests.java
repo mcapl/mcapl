@@ -37,7 +37,7 @@ import ajpf.MCAPLcontroller;
  * @author lad
  *
  */
-public class ParsingTests {
+public class ParsingQuickTests {
 	@Test public void simplegovernor() {
 		try {
 			String abs_filename = MCAPLcontroller.getFilename("/src/examples/ethical_governor/human_hole/governor.eg");

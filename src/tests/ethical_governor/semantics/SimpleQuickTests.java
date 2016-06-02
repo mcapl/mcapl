@@ -34,7 +34,7 @@ import ail.mas.MAS;
 import ethical_governor.human_hole.HumanHoleGoalEnv;
 import ethical_governor.EthicalGovernorBuilder;
 
-public class SimpleTests {
+public class SimpleQuickTests {
 	@Test public void simpleagent() {
 		try {
 			String ao_abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
