@@ -52,7 +52,8 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	public boolean colliding = false;
 	public boolean done = false;
 	public boolean flying = false;
-	public boolean navigating = false;
+	
+	// public boolean navigating = false;
 	
 	public SimpleUAVforPRISMEnv() {
 		name = "Simple UAV Environment";
@@ -103,7 +104,7 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	
 	// Tracking the stages of the example
 	int navAction = 0;
-	boolean collision_happened = false;
+	//boolean collision_happened = false;
 	
 		
 	
@@ -113,7 +114,7 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 	 */
 	public void do_job() {
 		
-		if (navigating || getScheduler().getActiveJobberNames().size() == 1) {
+		if (getScheduler().getActiveJobberNames().size() == 1 & flying) {
 			navAction = navMan.get_choice();
 			if (navAction == 1 & flying) {
 				addPercept(new Predicate("changeHeading"));
@@ -125,21 +126,21 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 				addPercept(new Predicate("landing"));
 			}
 			
-			boolean uptodate = agentIsUpToDate("uav");
-			
+			// boolean uptodate = agentIsUpToDate("uav");
+						
 			if (flying & !colliding) {
-				if (objectSet.get_choice() & !collision_happened) {
+				if (objectSet.get_choice()) {
 					colliding = true;
-					collision_happened = true;
 					addPercept(new Predicate("collision"));
 				}
-			} else if (flying & colliding & uptodate) {
+			} else if (flying & colliding) {
 				colliding = false;
 			}
-			navigating = false;
+//			navigating = false;
 		}
 		
 		getScheduler().perceptChanged();
+//		}
 		
 		
 	}
@@ -171,7 +172,7 @@ public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJob
 			removePercept(new Predicate("collision"));
 		}
 		
-		navigating = true;
+		// navigating = true;
 		
 		return super.executeAction(agName, act);
 	}

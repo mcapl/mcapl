@@ -52,7 +52,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	/*Flag that indicates a change in the  system somewhere indicating a new choice of 
 	 * agent is wanted
 	 */
-	private boolean somethinghaschanged = true;
+	// private boolean somethinghaschanged = true;
 
 	/*
 	 * (non-Javadoc)
@@ -83,7 +83,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 * @see ajpf.MCAPLScheduler#notActive(java.lang.String)
 	 */
 	public void notActive(String agName) {
-		somethinghaschanged = true;
+		// somethinghaschanged = true;
 		if (agents.contains(agName)) {
 			if (agents.indexOf(agName) <= turn) {
 				turn--;
@@ -97,7 +97,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 * @see ajpf.MCAPLScheduler#isActive(ajpf.MCAPLAgent)
 	 */
 	public void isActive(String a) {
-		somethinghaschanged = true;
+		// somethinghaschanged = true;
 		if (!agents.contains(a)) {
 			agents.add(a);
 		}
@@ -117,7 +117,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 * @see ajpf.PerceptListener#perceptChanged()
 	 */
 	public void perceptChanged() {
-		somethinghaschanged = true;
+		// somethinghaschanged = true;
 	}
 	
 	/*
@@ -125,7 +125,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	 * @see ajpf.PerceptListener#perceptChanged(java.lang.String)
 	 */
 	public void perceptChanged(String s) {
-		somethinghaschanged = true;
+		// somethinghaschanged = true;
 	}
 	
 	/*
@@ -147,7 +147,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 	@Override
 	public List<MCAPLJobber> getAvailableJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
-		if (somethinghaschanged & agents.size() > 0) {
+		if (agents.size() > 0) {
 			String name = agents.get(turn);
 			ags.add(agnames.get(name));
 			turn++;
@@ -155,7 +155,7 @@ public class RoundRobinScheduler implements MCAPLScheduler, PerceptListener  {
 				turn = 0;
 			}
 		}
-		somethinghaschanged = false;
+// 		somethinghaschanged = false;
 		return ags;
 	}
 

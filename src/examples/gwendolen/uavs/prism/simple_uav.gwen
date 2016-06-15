@@ -38,6 +38,7 @@ fly [perform]
 :Plans:
 +.received(:tell, B): {True} <- +B;   
 
+// Plans governing behaviour on the ground
 +!fly [perform]: {B waitingAtRamp} <- .send(atc, :tell, requestingTaxiClearance);
 
 +taxiClearanceDenied: {B waitingAtRamp} <- .send(atc, :tell, requestingTaxiClearance);
@@ -52,6 +53,7 @@ fly [perform]
 +takeOffClearanceGiven: {True} <- -takeOffClearanceGiven, -linedUpOnRunway, +takingOff;
 +takingOff: {True} <- -takingOff, take_off, +airborne;
 
+// Plans governing airborne behaviour
 +airborne: {True} <- +normalFlight, +direction(straight);
 
 +collision: {B normalFlight, B direction(Dir)} <- -normalFlight, 
@@ -64,11 +66,22 @@ fly [perform]
 	+olddir(Dir),
 	+emergencyAvoid,
 	-direction(Dir), +direction(right), evade;
+	
+-collision: {B emergencyAvoid, B oldstate(State), B olddir(Dir), B direction(D2)} <- 
+    -emergencyAvoid, 
+    -oldstate(State), 
+    +State, 
+    -olddir(Dir), 
+    -direction(D2), 
+    +direction(Dir);
+	
 
-+changeHeading: {B normalFlight, ~B toldOtherwise, B vicinityOfAerodrome} <- -normalFlight, +changingHeading, direction(left);
+// Information from the Navigation Manager
++changeHeading: {B normalFlight, B vicinityOfAerodrome, B direction(Dir)} <- -normalFlight, +changingHeading, -direction(Dir), +direction(left);
 +landing: {True} <- land, -airborne;
 +headingOK: {B changingHeading, B direction(Dir)} <- -changingHeading, +normalFlight, -direction(Dir), +direction(straight);
-+objectPassed: {B emergencyAvoid, B oldstate(State), B olddir(Dir), B direction(D2)} <- -emergencyAvoid, -oldstate(State), +State, -olddir(Dir), -direction(D2), +direction(Dir);
+
+
 
 :name: atc
 

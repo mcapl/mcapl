@@ -113,6 +113,19 @@ public class UAVsQuickTests extends TestJPF {
 	 	// }
 	  }
 
+	  @Test //----------------------------------------------------------------------
+	  public void simple_ajpf () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "2";
+	    	AJPF_w_AIL.run(args);
+	   }
+	 	// }
+	  }
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    final long size = Files.size(file1);
 		    if (size != Files.size(file2))
