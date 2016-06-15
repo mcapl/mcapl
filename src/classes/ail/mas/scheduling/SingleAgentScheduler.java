@@ -81,4 +81,24 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 		return ags;
 	}
 
+	@Override
+	public void removeJobber(MCAPLJobber a) {
+		// TODO Auto-generated method stub
+		// ? Not relevant for single agent
+	}
+
+	@Override
+	public void doNotSchedule(String a) {
+		// TODO Auto-generated method stub
+		// ? Not relevant for single agent
+		
+	}
+
+	@Override
+	public void resumeScheduling(String a) {
+		// TODO Auto-generated method stub
+		// ? Not relevant for single agent
+		
+	}
+
 }

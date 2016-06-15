@@ -50,6 +50,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	/* We use VerifyLists to reduce the state space during verification */
 	private VerifyList<String> activeAgents = new VerifyList<String>();
 	private VerifyList<String> inactiveAgents = new VerifyList<String>();
+	private VerifyList<String> donotSchedule = new VerifyList<String>();
 	
 	private String logname = "ail.mas.ActionScheduler";
 	
@@ -108,7 +109,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#isActive(ajpf.MCAPLAgent)
 	 */
 	public void isActive(String a) {
-		if (!activeAgents.contains(a)) {
+		if (!activeAgents.contains(a) && !donotSchedule.contains(a)) {
 			activeAgents.put(a);
 		}
 		inactiveAgents.remove(a);
@@ -121,7 +122,18 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public void addJobber(MCAPLJobber a) {
 		agnames.put(a.getName(), a);
-		activeAgents.put(a.getName());
+		if (!donotSchedule.contains(a.getName())) {
+			activeAgents.put(a.getName());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#removeJobber(ajpf.MCAPLJobber)
+	 */
+	public void removeJobber(MCAPLJobber a) {
+		agnames.remove(a.getName());
+		activeAgents.remove(a.getName());
 	}
 
 	/*
@@ -156,4 +168,30 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 		}
 		return ags;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#doNotSchedule(java.lang.String)
+	 */
+	public void doNotSchedule(String a) {
+		donotSchedule.add(a);
+		if (activeAgents.contains(a)) {
+			activeAgents.remove(a);
+		}
+		somethinghaschanged = true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#resumeScheduling(java.lang.String)
+	 */
+	public void resumeScheduling(String a) {
+		donotSchedule.remove(a);
+		if (!inactiveAgents.contains(a)) {
+			activeAgents.add(a);
+		}
+		somethinghaschanged = true;
+	}
+	
+	
 }

@@ -1,0 +1,90 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2014 Louise A. Dennis, Michael Fisher and Alan Winfield
+// 
+// This file is part of Declarative Ethical Governor (DEG)
+// 
+// The DEG is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The DEG is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the DEG; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+0: <>(B(robot, at(4, 2)))
+
+1: [](~B(robot, human1(hole)) || ~B(robot, human2(hole)))
+
+2: [](B(robot, danger(human2)) & B(robot, path_to(human2)) -> [] ~B(robot, human2(hole)))
+
+3: [](B(robot, danger(human1)) & B(robot, path_to(human1)) -> [] ~B(robot, human1(hole)))
+
+4: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, human(hole))) -> 
+          (B(ethical_g, outcome(action2, human(hole))) &
+            (B(ethical_g, outcome(action3, human(hole))) &
+             B(ethical_g, outcome(action4, human(hole))) ) )
+          
+          )
+          
+
+5: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, human(collision))) -> 
+         ( (B(ethical_g, outcome(action2, human(hole))) ||
+             B(ethical_g, outcome(action2, human(collision)))
+          ) &
+         ( (B(ethical_g, outcome(action3, human(hole))) ||
+             B(ethical_g, outcome(action3, human(collision)))
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+             B(ethical_g, outcome(action4, human(collision)))
+          ) ) )
+    )
+
+6: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, robot(hole))) -> 
+          ( (B(ethical_g, outcome(action2, human(hole))) ||
+             (B(ethical_g, outcome(action2, human(collision))) ||
+             B(ethical_g, outcome(action2, robot(hole))) )
+          ) &
+          ( (B(ethical_g, outcome(action3, human(hole))) ||
+             (B(ethical_g, outcome(action3, human(collision))) ||
+             B(ethical_g, outcome(action3, robot(hole))) )
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+             (B(ethical_g, outcome(action4, human(collision))) ||
+             B(ethical_g, outcome(action4, robot(hole))) )
+          ) ) )
+     )
+
+7: [](B(ethical_g, selected(action1)) & B(ethical_g, outcome(action1, robot(collision))) -> 
+          ( (B(ethical_g, outcome(action2, human(hole))) ||
+            ( (B(ethical_g, outcome(action2, human(collision))) ||
+              B(ethical_g, outcome(action2, robot(hole))) ) ||
+              B(ethical_g, outcome(action2, robot(collision))) )
+          ) &
+          ( (B(ethical_g, outcome(action3, human(hole))) ||
+            ( (B(ethical_g, outcome(action3, human(collision))) ||
+              B(ethical_g, outcome(action3, robot(hole))) ) ||
+              B(ethical_g, outcome(action3, robot(collision))) )
+          ) &
+          (B(ethical_g, outcome(action4, human(hole))) ||
+            ( (B(ethical_g, outcome(action4, human(collision))) ||
+              B(ethical_g, outcome(action4, robot(hole))) ) ||
+              B(ethical_g, outcome(action4, robot(collision))) )
+          ) ) )
+     )
+
+2sanity: [](~B(robot, danger(human2)) || ~B(robot, path_to(human2))
+
+sanity: [](~B(robot, human2(hole)))
+
+prism: B(robot, at(4, 2)) & B(robot, human1(hole)) & B(robot, human2(hole))
