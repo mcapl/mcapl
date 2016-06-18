@@ -57,8 +57,6 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	 * Constructor.
 	 * 
 	 * @param a   The Agent that is encapsulated.
-	 * @param mc  A flag indicating whether or not this is a model checking run.
-	 *            This is currently unused but I anticipate it may be handy.
 	 * @param c   The controller in which this agent runs.
 	 */
 	public MCAPLAgent(MCAPLLanguageAgent a, MCAPLcontroller c) {

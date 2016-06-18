@@ -24,6 +24,7 @@
 package goal.parser;
 
 import goal.semantics.GOALAgent;
+import goal.semantics.GOALRC;
 import goal.semantics.executorStages.ModuleExecutorStage;
 import goal.semantics.operationalrules.ActionRuleExecutor;
 import goal.semantics.operationalrules.ModuleCallActionExecutor;
@@ -32,6 +33,7 @@ import goal.syntax.ActionRule;
 import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
+import goal.syntax.MentalState;
 import goal.syntax.ast.Abstract_ActionRule;
 import goal.syntax.ast.Abstract_GOALModule;
 import junit.framework.Assert;
@@ -40,6 +42,7 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
 
+import ail.syntax.BeliefBase;
 import ail.syntax.Predicate;
 import ail.syntax.Rule;
 import ail.syntax.VarTerm;
@@ -53,9 +56,12 @@ public class nestedRulesQuickTests {
 			Abstract_GOALModule agm = parser.module();
 			
 			GOALAgent g = new GOALAgent("agent");
-			g.getMentalState().addBB(g.getBB());
-			g.getMentalState().addPerceptBase(g.getBB("percepts"));
+			g.setReasoningCycle(new GOALRC(g));
 			GOALModule module = agm.toMCAPL();
+			g.ms = new MentalState("agent");
+			MentalState ms = g.getMentalState();
+			ms.addBB(g.getBB());
+			ms.addPerceptBase(g.getBB("percepts"));
 			g.addModule(module);
 			for (Rule r : module.getRuleBase().getAll()) {
 				g.addRule(r);
@@ -112,8 +118,10 @@ public class nestedRulesQuickTests {
 			Abstract_GOALModule agm = parser.module();
 			
 			GOALAgent g = new GOALAgent("agent");
-			g.getMentalState().addBB(g.getBB());
-			g.getMentalState().addPerceptBase(g.getBB("percepts"));
+			g.ms = new MentalState("agent");
+			MentalState ms = g.getMentalState();
+			ms.addBB(g.getBB());
+			ms.addPerceptBase(g.getBB("percepts"));
 			GOALModule module = agm.toMCAPL();
 			g.addModule(module);
 			for (Rule r : module.getRuleBase().getAll()) {

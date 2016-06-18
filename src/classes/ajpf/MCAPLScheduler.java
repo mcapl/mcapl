@@ -39,6 +39,12 @@ public interface MCAPLScheduler extends PerceptListener {
 	public List<MCAPLJobber> getActiveJobbers();
 	
 	/**
+	 * Get the currently available jobbers.  These are jobbers that are both active and that the scheduler is making available for scheduling choices.
+	 * @return
+	 */
+	public List<MCAPLJobber> getAvailableJobbers();
+
+	/**
 	 * Note that this jobber is inactive.
 	 * @param a
 	 */
@@ -63,8 +69,20 @@ public interface MCAPLScheduler extends PerceptListener {
 	public List<String> getActiveJobberNames();
 	
 	/**
-	 * Remove a jobber from the scheduler.
+	 * Remove a jobber from the scheduler;
 	 * @param a
 	 */
-	public void removeJobber(String jobName);
+	public void removeJobber(String jobberName);
+	
+	/**
+	 * Remove an agent from scheduling irrespective of its sleeping or waking status.
+	 * @param a
+	 */
+	public void doNotSchedule(String a);
+	
+	/**
+	 * Return an agent to scheduling.
+	 * @param a
+	 */
+	public void resumeScheduling(String a);
 }

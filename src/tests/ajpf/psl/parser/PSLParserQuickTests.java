@@ -24,6 +24,8 @@
 
 package ajpf.psl.parser;
 
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -45,6 +47,8 @@ import ajpf.psl.ast.Abstract_LastAction;
 import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
+import ajpf.psl.MCAPLProperty;
+import ajpf.psl.Proposition;
 
 /**
  * Regression tests for parsing properties.
@@ -153,5 +157,17 @@ public class PSLParserQuickTests {
 		Abstract_Property np = p.toNormalForm();
 		Assert.assertTrue(np instanceof Abstract_Or);
 		
+	}
+	
+	@Test public void longConjuctionTest() throws Exception {
+		String propertystring = "G(ag1, platoon_m(ag1, follower1)) & ItD(ag1, send(leader, 1, message(ag1, 1, follower1)))  &B(ag1, join_agreement(ag1, follower1)) &D(ag1, perf(join_ok(1))) & B(ag1, changed_lane) &D(ag1, perf(speed_controller(1))) &B(ag1, initial_distance) &D(ag1, perf(steering_controller(1))) &ItD(ag1, send(leader, 1, message(ag1, 2)))  &B(ag1, platoon_m) &B(ag1, platoon_ok) &G(ag2, set_spacing(17)) &ItD(ag1, send(leader, 1, set_spacing_from(ag1)))  &B(ag1, ack_spacing(17)) &B(ag1, spacing) &D(ag1, perf(speed_controller(0))) &D(ag1, perf(steering_controller(0))) &D(ag1, perf(join_ok(0)))";
+		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
+		CommonTokenStream psltokens = new CommonTokenStream(lexer);
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		Abstract_Property p = pslparser.spec();
+		Abstract_Property np = p.toNormalForm();
+		MCAPLProperty prop = np.toMCAPLNative();
+		Set<Proposition> props = prop.getProps();
+		Assert.assertTrue(props.size() == 18);
 	}
 }

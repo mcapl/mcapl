@@ -24,6 +24,8 @@
 
 package gwendolen.uavs.prism;
 
+import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.mas.scheduling.RoundRobinScheduler;
 import ail.mas.vehicle.VehicleEnvironment;
 import ajpf.MCAPLJobber;
@@ -39,7 +41,7 @@ import ail.util.AILexception;
  * @author lad
  *
  */
-public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJobber{
+public class SimpleUAVforPRISMEnv extends DefaultEnvironment implements MCAPLJobber {
 	String name;
 	// The choice over whether there will be a collision
 	Choice<Boolean> objectSet; 
@@ -51,7 +53,9 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 	public boolean done = false;
 	public boolean flying = false;
 	
-	public SimpleUAVfromPRISMEnv() {
+	// public boolean navigating = false;
+	
+	public SimpleUAVforPRISMEnv() {
 		name = "Simple UAV Environment";
 		RoundRobinScheduler s = new RoundRobinScheduler();
 		s.addJobber(this);
@@ -59,7 +63,12 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 		addPerceptListener(s);
 	}
 	
-	public void initialise() {
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+	@Override
+	public void setMAS(MAS mas) {
 		objectSet = new Choice<Boolean>(mas.getController());
 		objectSet.addChoice(0.1, new Boolean(false));
 		objectSet.addChoice(0.9, new Boolean(true));
@@ -88,42 +97,52 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#addAgent(ail.semantics.AILAgent)
 	 */
-	public void addAgent(AILAgent a) {
-		SimpleUAV uav = new SimpleUAV(a);
-		addVehicle(uav);
-	}
+	//public void addAgent(AILAgent a) {
+	//	SimpleUAV uav = new SimpleUAV(a);
+	//	addVehicle(uav);
+	//}
 	
 	// Tracking the stages of the example
 	int navAction = 0;
-	boolean collision_happened = false;
+	//boolean collision_happened = false;
+	
+		
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLJobber#do_job()
 	 */
 	public void do_job() {
 		
-		navAction = navMan.get_choice();
-		if (navAction == 1 & flying) {
-			addPercept(new Predicate("changeHeading"));
-		} else if (navAction == 2 & flying) {
-			addPercept(new Predicate("headingOK"));
-		} else if (navAction == 3 & flying) {
-			addPercept(new Predicate("landing"));
-		}
-		
-		boolean uptodate = agentIsUpToDate("uav");
-		
-		if (flying & !colliding) {
-		if (objectSet.get_choice() & !collision_happened) {
-				colliding = true;
-				collision_happened = true;
-				addPercept(new Predicate("collision"));
+		if (getScheduler().getActiveJobberNames().size() == 1 & flying) {
+			navAction = navMan.get_choice();
+			if (navAction == 1 & flying) {
+				addPercept(new Predicate("changeHeading"));
+				removePercept(new Predicate("headingOK"));
+			} else if (navAction == 2 & flying) {
+				addPercept(new Predicate("headingOK"));
+				removePercept(new Predicate("changeHeading"));
+			} else if (navAction == 3 & flying) {
+				addPercept(new Predicate("landing"));
 			}
-		} else if (flying & colliding & uptodate) {
-			colliding = false;
+			
+			// boolean uptodate = agentIsUpToDate("uav");
+						
+			if (flying & !colliding) {
+				if (objectSet.get_choice()) {
+					colliding = true;
+					addPercept(new Predicate("collision"));
+				}
+			} else if (flying & colliding) {
+				colliding = false;
+			}
+//			navigating = false;
 		}
 		
-		getScheduler().notActive(name);
+		getScheduler().perceptChanged();
+//		}
+		
+		
 	}
 	
 	/*
@@ -141,17 +160,19 @@ public class SimpleUAVfromPRISMEnv extends VehicleEnvironment implements MCAPLJo
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		if (act.getFunctor().equals("take_off")) {
 			flying = true;
+			removePercept(new Predicate("landing"));
 		} else if (act.getFunctor().equals("land")) {
 			flying = false;
 			colliding = false;
 			removePercept(new Predicate("collision"));
+			removePercept(new Predicate("landing"));
 			done = true;
 		} else if (act.getFunctor().equals("evade")) {
 			colliding = false;
 			removePercept(new Predicate("collision"));
 		}
 		
-		getScheduler().isActive(name);
+		// navigating = true;
 		
 		return super.executeAction(agName, act);
 	}

@@ -145,18 +145,20 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	private void get() {
+	private void get() {		
 		if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
 			AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " with unifier " + un);
 		}		        					
 		current = null;
 		
-		/*if (logical_term == Predicate.PTrue) {
-			currents.add(un);
-			cit = currents.iterator();
-			current = cit.next();
-			return;
-		} */
+		if (logical_term instanceof GBelief) {
+			GBelief gb = (GBelief) logical_term;
+			if (gb.isTrue()) {
+				current = new Unifier();
+				return;
+			}
+		}  
+
     		
 		// il is all possible Beliefs/messages/whatever that potentially unify with this GBelief
 		if (so == AILAgent.SelectionOrder.RANDOM) {
@@ -171,7 +173,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 						AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", logical_term + " matches the head of a rule.");
 					}		        					
 				}
-		                      		
+
 				if (il != null) {
 					while (il.hasNext()) {
 						boolean incurrents = false;
@@ -184,14 +186,14 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 						Unifiable h2 = logical_term.clone();
 						if (h2 instanceof EBCompare<?>) {
 							if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
-								currents.add(unC);
+								current = unC;
 								if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
-									AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + t + " is " + unC);
+									AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
 								}		        					
 								incurrents = true;
 							}
-						} 
-							
+						}
+						
 						if (!incurrents & h2.unifies(u, unC)) {
 								currents.add(unC);
 								if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {

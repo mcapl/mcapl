@@ -74,6 +74,7 @@ public class RuleGuardsQuickTests {
 			Guard m2 = l2.toMCAPL();
 			
 			GOALAgent g = new GOALAgent("agent");
+			g.ms = new MentalState("agent");
 			g.getMentalState().addBB(g.getBB());
 			g.getMentalState().addPerceptBase(g.getBB("percepts"));
 			Predicate visible1 = new Predicate("visible");
@@ -107,6 +108,7 @@ public class RuleGuardsQuickTests {
 			Abstract_GOALModule gm = length_parser.module();
 			
 			GOALAgent g = new GOALAgent("agent");
+			g.ms = new MentalState("agent");
 			g.getMentalState().addBB(g.getBB());
 			g.getMentalState().addPerceptBase(g.getBB("percepts"));
 			GOALModule module = gm.toMCAPL();
@@ -162,6 +164,7 @@ public class RuleGuardsQuickTests {
 			Abstract_GOALModule agm = tower.module();
 			
 			GOALAgent g = new GOALAgent("agent");
+			g.ms = new MentalState("agent");
 			g.getMentalState().addBB(g.getBB());
 			g.getMentalState().addPerceptBase(g.getBB("percepts"));
 			GOALModule module = agm.toMCAPL();
@@ -231,6 +234,7 @@ public class RuleGuardsQuickTests {
 
 		try {
 			GOALAgent ag = new GOALAgent("agent");
+			ag.ms = new MentalState("agent");
 			ag.getMentalState().addBB(ag.getBB());
 			ag.getMentalState().addPerceptBase(ag.getBB("percepts"));
 

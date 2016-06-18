@@ -50,6 +50,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	/* We use VerifyLists to reduce the state space during verification */
 	private VerifyList<String> activeAgents = new VerifyList<String>();
 	private VerifyList<String> inactiveAgents = new VerifyList<String>();
+	private VerifyList<String> donotSchedule = new VerifyList<String>();
 	
 	private String logname = "ail.mas.ActionScheduler";
 	
@@ -60,9 +61,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ajpf.MCAPLScheduler#getActiveAgents()
+	 * @see ajpf.MCAPLScheduler#getAvailableJobbers()
 	 */
-	public List<MCAPLJobber> getActiveJobbers() {
+	public List<MCAPLJobber> getAvailableJobbers() {
 		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 		if (somethinghaschanged) {
 			// Got a Concurrent Modification Error here in the Sticky Wheel example.
@@ -110,11 +111,8 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#isActive(ajpf.MCAPLAgent)
 	 */
 	public void isActive(String a) {
-		if (inactiveAgents.contains(a)) {
-			if (!activeAgents.contains(a)) {
-				activeAgents.put(a);
-			}
-			inactiveAgents.remove(a);
+		if (!activeAgents.contains(a) && !donotSchedule.contains(a)) {
+			activeAgents.put(a);
 		}
 		somethinghaschanged = true;
 	}
@@ -125,7 +123,18 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 */
 	public void addJobber(MCAPLJobber a) {
 		agnames.put(a.getName(), a);
-		activeAgents.put(a.getName());
+		if (!donotSchedule.contains(a.getName())) {
+			activeAgents.put(a.getName());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#removeJobber(ajpf.MCAPLJobber)
+	 */
+	public void removeJobber(String a) {
+		agnames.remove(a);
+		activeAgents.remove(a);
 	}
 
 	/*
@@ -152,14 +161,38 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 		return "scheduler";
 	}
 
+	@Override
+	public List<MCAPLJobber> getActiveJobbers() {
+		List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
+		for (int i = 0; i < activeAgents.size(); i++) {
+			ags.add(agnames.get(activeAgents.get(i)));
+		}
+		return ags;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see ajpf.MCAPLScheduler#removeJobber(ajpf.MCAPLJobber)
+	 * @see ajpf.MCAPLScheduler#doNotSchedule(java.lang.String)
 	 */
-	@Override
-	public void removeJobber(String jobName) {
-		agnames.remove(jobName);
-		activeAgents.remove(jobName);
-		inactiveAgents.remove(jobName);
+	public void doNotSchedule(String a) {
+		donotSchedule.add(a);
+		if (activeAgents.contains(a)) {
+			activeAgents.remove(a);
+		}
+		somethinghaschanged = true;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#resumeScheduling(java.lang.String)
+	 */
+	public void resumeScheduling(String a) {
+		donotSchedule.remove(a);
+		if (!inactiveAgents.contains(a)) {
+			activeAgents.add(a);
+		}
+		somethinghaschanged = true;
+	}
+	
+	
 }
