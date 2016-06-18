@@ -32,7 +32,7 @@ import ajpf.MCAPLcontroller;
 import ail.mas.MAS;
 import actiononly.goal.GoalEnv;
 
-public class SimpleTests {
+public class SimpleQuickTests {
 	@Test public void simpleagent() {
 		try {
 			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");

@@ -36,7 +36,7 @@ import ajpf.MCAPLcontroller;
  * @author lad
  *
  */
-public class ParsingTests {
+public class ParsingQuickTests {
 	@Test public void simpleagent() {
 		try {
 			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
