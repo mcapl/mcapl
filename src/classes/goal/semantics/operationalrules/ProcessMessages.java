@@ -149,7 +149,7 @@ public class ProcessMessages implements OSRule {
             String sender = message.getSender();
 
           //  if (this.usesMentalModels) {
-                    if (!ga.getMentalState().getKnownAgents().contains(sender)) {
+                    if (!ga.getMentalState().getKnownAgents().contains(sender)  && sender != ga.getAgName()) {
                            // try {
                                     ga.getMentalState().addAgentModel(sender);
                        //     } catch (Exception e) {

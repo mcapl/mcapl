@@ -243,7 +243,8 @@ actionOperator returns [Abstract_Deed d]
 
 
 selector returns [Abstract_Term s]
-	: w=word {s = new Abstract_StringTermImpl(w);}
+	: v = var  {s = v;}
+	| CONST {s = new Abstract_StringTermImpl($CONST.getText());}
 	| op = 'all' {s = new Abstract_NumberTermImpl(0);}
 	| op = 'allother' {s = new Abstract_NumberTermImpl(1);}
 	| op = 'self' {s = new Abstract_NumberTermImpl(2);}

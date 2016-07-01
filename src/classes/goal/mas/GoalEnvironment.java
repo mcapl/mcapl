@@ -125,7 +125,9 @@ public class GoalEnvironment extends DefaultEnvironment implements GOALEnv {
 
 	@Override
 	public void postMessage(GoalMessage m) {
-		this.addMessage(m.getSender(), m);
+		for (String ag: m.getReceivers()) {
+			this.addMessage(ag, m);
+		}
 	}
 	
 

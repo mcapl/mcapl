@@ -50,6 +50,8 @@ public class SendOnceActionExecutor extends ActionExecutor {
     public void apply(AILAgent a) {
     	GOALAgent gag = (GOALAgent) a;
     	MentalState mentalState = gag.getMentalState();
+    	
+    	action.apply(a.getIntention().hdU());
 
         GoalMessage message = this.action.getMessage(gag.getAgName());
         
