@@ -144,7 +144,7 @@ public class ProcessMessages implements OSRule {
      * @param message
      *            the new message
      */
-    private void processMessageMentalModel(Message message, GOALAgent ga) {
+    public static void processMessageMentalModel(Message message, GOALAgent ga) {
             Term update = message.getPropCont();
             String sender = message.getSender();
 

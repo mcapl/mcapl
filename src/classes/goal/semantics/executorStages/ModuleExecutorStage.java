@@ -158,6 +158,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			if (!exit) {
 				if (!agintention) {
 					performedAnAction = false;
+					((GOALAgent) ag).clearActionPerformed();
 				}
 			}
 			

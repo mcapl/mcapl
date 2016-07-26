@@ -29,6 +29,7 @@ import java.util.Iterator;
 
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
+import goal.semantics.operationalrules.ProcessMessages;
 import goal.syntax.ActionRule;
 import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
@@ -44,6 +45,7 @@ import mcaplantlr.runtime.CommonTokenStream;
 import org.junit.Test;
 
 import ail.syntax.Action;
+import ail.syntax.BroadcastMessage;
 import ail.syntax.Deed;
 import ail.syntax.EBCompare;
 import ail.syntax.GBelief;
@@ -307,6 +309,48 @@ public class RuleGuardsQuickTests {
 
 	}
 
+	@Test public void messageRecievedTest() {
+		GOALParser ruleParser = parser_for("bel(me(Me), received(A, int(canMake(Me,_))), canMake(Me, Prod))");
+		
+		try {
+			GOALAgent ag = new GOALAgent("grinder");
+			ag.ms = new MentalState("grinder");
+			ag.getMentalState().addBB(ag.getBB());
+			ag.getMentalState().addPerceptBase(ag.getBB("percepts"));
+			ag.getMentalState().addMessageBase(ag.getBB("messages"));
+			
+			Literal me = new Literal("me");
+			me.addTerm(new Predicate("grinder"));
+			ag.addBel(me, ag.refertoself());
+			
+			Literal canMake = new Literal("canMake");
+			canMake.addTerm(new Predicate("grinder"));
+			ListTermImpl list = new ListTermImpl();
+			list.add(new Predicate("coffee"));
+			list.add(new Predicate("grounds"));
+			canMake.addTerm(list);
+			ag.addBel(canMake, ag.refertoself());
+			
+			HashSet<String> receivers = new HashSet<String>();
+			receivers.add("grinder");
+			Literal canMakeQuestion = new Literal("canMake");
+			canMakeQuestion.addTerm(new Predicate("grinder"));
+			canMakeQuestion.addTerm(new UnnamedVar());
+			BroadcastMessage message = new BroadcastMessage(1, "maker", receivers, canMakeQuestion);
+			ProcessMessages.processMessageMentalModel(message, ag);
+        	ag.getMentalState().addReceivedMessage(message);
+        	
+			Abstract_MentalState l = ruleParser.mentalstate();
+			Guard m  = l.toMCAPL();
+			Assert.assertTrue(ag.believesyn(m, new Unifier()));
+
+
+		}  catch (Exception e) {
+			System.err.println(e);
+			Assert.assertFalse(true);
+			
+		}
+	}
 
 	
 	GOALParser parser_for(String s) {
@@ -315,5 +359,7 @@ public class RuleGuardsQuickTests {
 		GOALParser parser = new GOALParser(tokens);
 		return parser;
 	}
+	
+	
 
 }
