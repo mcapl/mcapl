@@ -30,27 +30,39 @@ import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 /**
- * Tests for one of the examples involving satellites.
+ * Examples from Practical Verification of Decision-Making in Agent-Based Autonomous Systems
+ * that run in reasonable time.
  * @author louiseadennis
  *
  */
-public class NoThrustersQuickTests extends TestJPF  {
+public class ASEPaperTests extends TestJPF {
 	 static final String[] ARGS = {};
-
-	 //--- driver to execute single test methods
-	  public static void main(String[] args) {
-		  runTestsOfThisClass(args);
-	  }
-
+	
 	  @Test //----------------------------------------------------------------------
-	  public void testInValidUnderTwoEventualities() {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), ARGS)) {
-		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
+	  public void thm26() {
+		  if (verifyNoPropertyViolation(ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/satellite_requesting_middle_nothrusters.ail";
 		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
 		    	String[] args = new String[3];
 		    	args[0] = filename;
 		    	args[1] = prop_filename;
-		    	args[2] = "15sanity";
+		    	args[2] = "26";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+
+	  }
+
+	  @Test //----------------------------------------------------------------------
+	  public void thm27() {
+		  if (verifyNoPropertyViolation(ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/satellite_requesting_middle_nothrusters.ail";
+		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "27";
 		    	AJPF_w_AIL.run(args);
 		  } else {
 			    	 

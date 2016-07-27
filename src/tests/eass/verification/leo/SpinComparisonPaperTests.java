@@ -30,27 +30,39 @@ import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 /**
- * Tests for one of the examples involving satellites.
+ * Examples from Two-stage agent program verification (without Spin output)
+ * that run in reasonable time.
  * @author louiseadennis
  *
  */
-public class NoThrustersQuickTests extends TestJPF  {
+public class SpinComparisonPaperTests extends TestJPF {
 	 static final String[] ARGS = {};
-
-	 //--- driver to execute single test methods
-	  public static void main(String[] args) {
-		  runTestsOfThisClass(args);
-	  }
-
+	
 	  @Test //----------------------------------------------------------------------
-	  public void testInValidUnderTwoEventualities() {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), ARGS)) {
-		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
+	  public void thmSpin0() {
+		  if (verifyNoPropertyViolation(ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail";
 		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
 		    	String[] args = new String[3];
 		    	args[0] = filename;
 		    	args[1] = prop_filename;
-		    	args[2] = "15sanity";
+		    	args[2] = "Spin0";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+
+	  }
+
+	  @Test //----------------------------------------------------------------------
+	  public void thmSpin1() {
+		  if (verifyNoPropertyViolation(ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/leader_oneformation_nofailures_nocleanup.ail";
+		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "Spin1";
 		    	AJPF_w_AIL.run(args);
 		  } else {
 			    	 
