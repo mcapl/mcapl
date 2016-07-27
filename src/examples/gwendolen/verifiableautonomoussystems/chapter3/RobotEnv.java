@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.verifiableautonoussystems.chapter3;
+package gwendolen.verifiableautonomoussystems.chapter3;
 
 import ail.mas.DefaultEnvironment;
 import ail.util.AILConfig;

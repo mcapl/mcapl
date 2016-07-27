@@ -1,20 +1,20 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis and Michael Fisher
+// Copyright (C) 2016 Louise A. Dennis and Michael Fisher
 //
-// This file is part of Gwendolen
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
-// Gwendolen is free software; you can redistribute it and/or
+// The EASS Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// Gwendolen is distributed in the hope that it will be useful,
+// The EASS Library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with Gwendolen; if not, write to the Free Software
+// License along with the EASS Library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -22,8 +22,23 @@
 //
 //----------------------------------------------------------------------------
 
-@using = mcapl
+GWENDOLEN
 
-target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+:name: car
+			
+:Initial Beliefs:
+													
+:Initial Goals:
+		
+:Plans: 
 
++start: {True} <-
+	+!at_speed_limit[achieve];
+
++! at_speed_limit [achieve] : {True} <-
+	accelerate,
+	*at_speed_limit;
+
++at_speed_limit: {True} <-
+	maintain_speed,
+	finished;

@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.tutorials.motorwaysim;
+package motorwaysim;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,6 +30,8 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 
 import javax.swing.JPanel;
+
+import ail.util.AILSocketServer;
 
 /**
  * Simulation of a Motorway as a simple demonstration for the EASS Packages.
@@ -58,6 +60,12 @@ public class Motorway extends JPanel implements Runnable {
 	private boolean secondcar = false;
 	
 	/**
+	 * Socket that connects to the MAS environment.
+	 */
+	protected AILSocketServer socketserver;
+
+	
+	/**
 	 * Constructor.
 	 * @param args
 	 */
@@ -79,7 +87,7 @@ public class Motorway extends JPanel implements Runnable {
 		}
 		
 		
-		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, B_HEIGHT, car1control);
+		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, B_HEIGHT, car1control, 1);
 		repaint();
 	}
 	
@@ -149,12 +157,12 @@ public class Motorway extends JPanel implements Runnable {
 	private void cycle() {
 		
 		car1.calculatePos();
-		car1.updateParameters();
-		
+
 		if (secondcar) {
 			car2.calculatePos();
-			car2.updateParameters();
 		}
+		
+		updateParameters();
 	}
 	
 	/*
@@ -213,10 +221,7 @@ public class Motorway extends JPanel implements Runnable {
 	 */
 	public void stop() {
 		running = false;
-		car1.close();
-		if (secondcar) {
-			car2.close();
-		}
+		close();
 	}
 	
 	/**
@@ -239,11 +244,105 @@ public class Motorway extends JPanel implements Runnable {
 		car1.configure(config);
 		
 		if (config.containsKey("car2.control")) {
-			car2 = new Car(INITIAL_C2_X1, INITIAL_C2_Y1, B_WIDTH, B_HEIGHT, car1control);
+			car2 = new Car(INITIAL_C2_X1, INITIAL_C2_Y1, B_WIDTH, B_HEIGHT, car1control, 2);
 			car2.configure(config);
 			secondcar = true;
 		}
 	}
+	
+	public void updateParameters() {
+		if (socketserver.allok()) {
+			try {
+				if (socketserver.pendingInput()) {
+					readValues();
+				}
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+			
+			writeValues();
+ 		} else {
+ 			System.err.println("something wrong with socket server");
+ 		}
+	}
+	
+	/**
+	 * Read in values from socket.
+	 */
+	private void readValues() {
+		if (car1.isControlled()) {
+			try {
+				car1.setXAccel(socketserver.readDouble());
+				car1.setYAccel(socketserver.readDouble());
+			} catch (Exception e) {
+				System.err.println("READ ERROR: Closing socket");
+				close();
+			}
+		}
+		
+		if (secondcar) {
+			if (car2.isControlled()) {
+				try {
+					car2.setXAccel(socketserver.readDouble());
+					car2.setYAccel(socketserver.readDouble());
+				} catch (Exception e) {
+					System.err.println("READ ERROR: Closing socket");
+					close();
+				}
+				
+			}
+		}
+
+	}
+	
+	/**
+	 * Write values to socket.
+	 */
+	public void writeValues() {
+		if ( car1.isControlled() ) {
+			try {
+				if (car1.include_total_distance()) {
+					socketserver.writeDouble(car1.getX());
+					socketserver.writeDouble(car1.getY());
+				}
+				socketserver.writeDouble(car1.getXRel());
+				socketserver.writeDouble(car1.getYRel());
+				socketserver.writeDouble(car1.getXDot());
+				socketserver.writeDouble(car1.getYDot());
+				socketserver.writeInt(car1.started());
+			}  catch (Exception e) {
+				System.err.println("READ ERROR: Closing socket");
+				close();
+			}
+		}
+		
+		if ( car2.isControlled() ) {
+			try {
+				if (car2.include_total_distance()) {
+					socketserver.writeDouble(car2.getX());
+					socketserver.writeDouble(car2.getY());
+				}
+				socketserver.writeDouble(car2.getXRel());
+				socketserver.writeDouble(car2.getYRel());
+				socketserver.writeDouble(car2.getXDot());
+				socketserver.writeDouble(car2.getYDot());
+				socketserver.writeInt(car2.started());
+			}  catch (Exception e) {
+				System.err.println("READ ERROR: Closing socket");
+				close();
+			}
+		}
+
+	}
+
+	/**
+	 * Close up the socket server.
+	 */
+	public void close() {
+		socketserver.close();
+	}
+	
+
 	
 	
 

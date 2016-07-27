@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package eass.tutorials.motorwaysim;
+package motorwaysim;
 
 import ail.util.AILSocketServer;
 
@@ -41,11 +41,8 @@ public class Car {
 	private boolean controlled;
 	private boolean include_total_distance;
 	private int started = 0;
+	private int carnum = 1;
 
-	/**
-	 * Socket that connects to the agent.
-	 */
-	protected AILSocketServer socketserver;
 
 	/**
 	 * Constructor.
@@ -55,7 +52,7 @@ public class Car {
 	 * @param bh
 	 * @param externalcontrol
 	 */
-	public Car (int xi, int yi, int bw, int bh, boolean externalcontrol) {
+	public Car (int xi, int yi, int bw, int bh, boolean externalcontrol, int carnum) {
 		x = xi;
 		y = yi;
 		xrel = xi;
@@ -65,12 +62,7 @@ public class Car {
 		B_WIDTH = bw;
 		B_HEIGHT = bh;
 		controlled = externalcontrol;
-		
-		if (controlled) {
-			System.err.println("Motorway Sim waiting Socket Connection");
-			socketserver = new AILSocketServer();
-			System.err.println("Got Socket Connection");
-		}
+		this.carnum = carnum;
 
 	}
 	
@@ -90,6 +82,18 @@ public class Car {
 		return yrel;
 	}
 	
+	public double getXRel() {
+		return xrel;
+	}
+	
+	public double getYRel() {
+		return yrel;
+	}
+	
+	public double getXDot() {
+		return xdot;
+	}
+	
 	/**
 	 * Getter for speed in the y direction.
 	 * @return
@@ -107,13 +111,21 @@ public class Car {
 	}
 	
 	/**
-	 * Getter for speed in the x direction.
+	 * Getter for speed in the y direction.
 	 * @return
 	 */
 	public double getYTot() {
 		return y;
 	}
 	
+	public void setXAccel(double a) {
+		xaccel = a;
+	}
+	
+	public void setYAccel(double a) {
+		yaccel = a;
+	}
+
 	/**
 	 * Calculate cars new position.
 	 */
@@ -148,77 +160,7 @@ public class Car {
 		}
 
 	}
-	
-	/**
-	 * Read in new accelerations from the socket and write current position and speed to the socket.
-	 */
-	public void updateParameters() {
-		if (controlled) {
-			if (socketserver.allok()) {
-				try {
-					if (socketserver.pendingInput()) {
-						// System.err.println("reading values");
-						readValues();
-					}
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-				writeValues();
-			} else {
-				System.err.println("something wrong with socket server");
-			}
-			
-		}
-
-	}
-	
-	/**
-	 * Read in values from socket.
-	 */
-	private void readValues() {
-		if (controlled) {
-			try {
-				xaccel = socketserver.readDouble();
-				yaccel = socketserver.readDouble();
-			} catch (Exception e) {
-				System.err.println("READ ERROR: Closing socket");
-				close();
-			}
-		}
-
-	}
-	
-	/**
-	 * Write values to socket.
-	 */
-	public void writeValues() {
-		if ( controlled ) {
-			try {
-				if (include_total_distance) {
-					socketserver.writeDouble(x);
-					socketserver.writeDouble(y);
-				}
-				socketserver.writeDouble(xrel);
-				socketserver.writeDouble(yrel);
-				socketserver.writeDouble(xdot);
-				socketserver.writeDouble(ydot);
-				socketserver.writeInt(started);
-			}  catch (Exception e) {
-				System.err.println("READ ERROR: Closing socket");
-				close();
-			}
-		}
-	}
-	
-	/**
-	 * Close up the socket server.
-	 */
-	public void close() {
-		if (controlled) {
-			socketserver.close();
-		}
-	}
-	
+		
 	/**
 	 * Called to tell the car that the simulation has started.
 	 */
@@ -236,5 +178,17 @@ public class Car {
 				include_total_distance = true;
 			}
 		}
+	}
+	
+	public boolean isControlled() {
+		return controlled;
+	}
+	
+	public boolean include_total_distance() {
+		return include_total_distance();
+	}
+	
+	public int started() {
+		return started();
 	}
 }
