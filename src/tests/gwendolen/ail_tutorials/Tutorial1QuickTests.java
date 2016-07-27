@@ -29,8 +29,7 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Tutorial1QuickTests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+	 static final String[] JPF_ARGS = {  "-show" };
 
 
 

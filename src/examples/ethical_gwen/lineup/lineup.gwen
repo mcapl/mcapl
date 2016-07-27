@@ -1,0 +1,63 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2016 Louise A. Dennis, Michael Fisher, Marija Slavkovik and Matt Webster
+// 
+// This file is part of Ethical Gwendolen
+//
+// Ethical Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Ethical Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Ethical Gwendolen if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+:name: executive
+
+:Ethical Policy:
+
+E(flightPhase(lineup),doNotDamageOwnAircraft,1)
+E(flightPhase(lineup),doNotCollideAirportHardware,2)
+E(flightPhase(lineup),doNotCollidePeople,3)
+E(flightPhase(lineup),doNotCollideMannedAircraft,4)
+
+:Initial Beliefs:
+flightPhase(lineup)   // start off in lineup for simplicity
+
+:Reasoning Rules:
+
+all_well :- ~ brakesCompleteFailure;
+
+other_choices_violated(T) :- ~ untried_plan_not_violates(T);
+untried_plan_not_violates(T) :- untried_plan(P), ~ an_ethic_in(P, T);
+untried_plan(P) :- applicable(P) [applicable_plans], ~ already_tried(P);
+an_ethic_in(P, [Eth|T]) :- ethics_of(P, Eth) [ethics];
+an_ethic_in(P, [Eth|T]) :- an_ethic_in(P, T);
+
+un_tried_plan :- applicable(P) [applicable_plans], ~ already_tried(P);
+some_applicable :- applicable(P) [applicable_plans];
+some_plan_tried :- already_tried(P);
+
+:Initial Goals:
+
+startup [perform]
+
+:Plans:
+
++!startup [perform] : {True} <- +!missionComplete [achieve];
+
+// Vehicle (veh) sensor is polled.
++!missionComplete [achieve] : {B flightPhase(lineup), ~B polled(veh) } <-
+   +.lock, +polled(veh), poll(veh), -.lock;
++!missionComplete [achieve] : {B polled(veh), B all_well, ~B route(R)} <-
+   plan(regularRoutes,all_well);
++!missionComplete [achieve] : {B polled(veh), B all_well, B route(R)} <-
+   enactRoute(R);

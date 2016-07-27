@@ -44,8 +44,7 @@ import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Tutorial3QuickTests {
-	 static final String[] JPF_ARGS = {  
-	  };
+	 static final String[] JPF_ARGS = {  };
 
 	  //--- test methods
 

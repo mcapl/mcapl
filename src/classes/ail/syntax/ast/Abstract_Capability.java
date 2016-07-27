@@ -61,7 +61,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 public class Abstract_Capability {
 	Abstract_Predicate cap;
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
-	Abstract_GLogicalFormula post;
+	Abstract_GLogicalFormula post = new Abstract_GBelief();
 	
 	/**
 	 * Convert to a concrete object.

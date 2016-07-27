@@ -129,11 +129,20 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	private void get() {
+	private void get() {		
 		if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
 			AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " with unifier " + un);
 		}		        					
 		current = null;
+		
+		if (logical_term instanceof GBelief) {
+			GBelief gb = (GBelief) logical_term;
+			if (gb.isTrue()) {
+				current = new Unifier();
+				return;
+			}
+		}
+
     		
 		// try rule iterator, if it has been created I've worked through all of il
 		// and am now chaining through rules.

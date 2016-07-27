@@ -46,7 +46,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	MethodInfo michoose;
 	
 	// We keep track of the overall probability of violation.
-	public static double overall_prob = 0;
+	// public static double overall_prob = 0;
 		
 	// This is the only way I could work out how to check the right probability
 	// was calculated when using JUnit to test this class.  This is a references
@@ -107,7 +107,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	  * @param search
 	  * @return
 	  */
-	 public boolean check (Search search, VM vm) {
+	/* public boolean check (Search search, VM vm) {
 		 log.fine("calling check");
 
 		 boolean violation = super.check(search, vm);
@@ -123,24 +123,24 @@ public class MCAPLProbListener extends MCAPLListener {
 		 }
 
 		 return true;
-	 }
+	 } */
 	 
 	 /*
 	  * (non-Javadoc)
 	  * @see ajpf.MCAPLListener#searchFinished(gov.nasa.jpf.search.Search)
 	  */
-	 public void searchFinished(Search search) {
-		 log.info("Probability of Violation is: " + overall_prob);
-		 super.searchFinished(search);
-	 }
+	// public void searchFinished(Search search) {
+	//	 log.info("Probability of Violation is: " + overall_prob);
+	//	 super.searchFinished(search);
+//	 }
 	 
 	 /**
 	  * A Getter for the overall probability of violation.
 	  * @return
 	  */
-	 public double getProbability() {
-		 return overall_prob;
-	 }
+	// public double getProbability() {
+	//	 return overall_prob;
+	// }
 	 
 	 /*
 	  * (non-Javadoc)

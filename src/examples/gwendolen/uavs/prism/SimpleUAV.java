@@ -43,5 +43,6 @@ public class SimpleUAV extends Vehicle {
 		addSensor(new navMan());
 	}
 	
+	
 		
 }

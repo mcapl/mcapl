@@ -35,7 +35,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  *
  */
 public class NoThrustersQuickTests extends TestJPF  {
-	 static final String[] PICKUP_ARGS = {};
+	 static final String[] ARGS = {};
 
 	 //--- driver to execute single test methods
 	  public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class NoThrustersQuickTests extends TestJPF  {
 
 	  @Test //----------------------------------------------------------------------
 	  public void testInValidUnderTwoEventualities() {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), PICKUP_ARGS)) {
+		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), ARGS)) {
 		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
 		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
 		    	String[] args = new String[3];
