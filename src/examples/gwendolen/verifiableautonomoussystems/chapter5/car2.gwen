@@ -24,7 +24,7 @@
 
 GWENDOLEN
 
-:name: car
+:name: car2
 			
 :Initial Beliefs:
 													
@@ -32,8 +32,7 @@ GWENDOLEN
 		
 :Plans: 
 
-+start: {True} <-
-	+!at_speed_limit[achieve];
++.received(:achieve, G): {True} <- +!G [achieve];
 
 +! at_speed_limit [achieve] : {True} <-
 	accelerate,

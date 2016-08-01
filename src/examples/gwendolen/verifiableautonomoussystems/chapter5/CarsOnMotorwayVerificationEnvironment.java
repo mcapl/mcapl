@@ -27,6 +27,7 @@ package gwendolen.verifiableautonomoussystems.chapter5;
 import java.io.IOException;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.scheduling.ActionScheduler;
 import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
@@ -43,14 +44,10 @@ import ajpf.util.AJPFLogger;
  * @author louiseadennis
  *
  */
-public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAPLJobber {
+public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment implements MCAPLJobber {
 	
-	String logname = "gwendolen.verifiableautonomoussystems.chapter5.CarOnMotorwayEnvironment";
+	String logname = "gwendolen.verifiableautonomoussystems.chapter5.CarsOnMotorwayEnvironment";
 		
-	/**
-	 * Socket that connects to the Simulator.
-	 */
-	protected AILSocketClient socket;
 	
 	/**
 	 * Has the environment concluded?
@@ -63,97 +60,42 @@ public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAP
 	/**
 	 * Constructor.
 	 */
-	public CarOnMotorwayEnvironment() {
+	public CarsOnMotorwayVerificationEnvironment() {
 		super();
-		MCAPLScheduler s = new NActionScheduler(100);
+		MCAPLScheduler s = new ActionScheduler();
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
-		AJPFLogger.info(logname, "Waiting Connection");
-		try {
-			socket = new AILSocketClient();
-		} catch (IOException e) {
-			AJPFLogger.severe(logname, e.getMessage());
-			System.exit(0);
-		}
-		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	
+	int car1_speed = 0;
+	int car2_speed = 0;
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#do_job()
 	 */
 	@Override
 	public void do_job() {
-		if (socket.allok()) {
-			readPredicatesfromSocket();
-		}	else {
-			System.err.println("something wrong with socket");
+		if (car1_xaccel > 0) {
+			car1_speed++;
+		} 
+		if (car2_xaccel > 0) {
+			car2_speed++;
 		}
-	}
 
-	/**
-	 * Reading the values from the sockets and turning them into perceptions.
-	 */
-	public void readPredicatesfromSocket() {
-		
-		try {
-			if (socket.pendingInput()) {
+		addPercept("car1", new Literal("start"));
+		addPercept("car2", new Literal("start"));
 
-				socket.readDouble();
-				socket.readDouble();
-				double c1_xdot = socket.readDouble();
-				double c1_ydot = socket.readDouble();
-				int c1_started = socket.readInt();
-				
-				socket.readDouble();
-				socket.readDouble();
-				double c2_xdot = socket.readDouble();
-				double c2_ydot = socket.readDouble();
-				int c2_started = socket.readInt();
-				
-				
-				try {
-					while (socket.pendingInput()) {
-						socket.readDouble();
-						socket.readDouble();
-						c1_xdot = socket.readDouble();
-						c1_ydot = socket.readDouble();
-						c1_started = socket.readInt();			
-						socket.readDouble();
-						socket.readDouble();
-						c2_xdot = socket.readDouble();
-						c2_ydot = socket.readDouble();
-						c2_started = socket.readInt();			
-					}
-				} catch (Exception e) {
-					AJPFLogger.warning(logname, e.getMessage());
-				} 
-				
-								
-				if (c1_started > 0) {
-					addPercept("car1", new Literal("start"));
-				}
-				
-				if (c2_started > 0) {
-					addPercept("car2", new Literal("start"));
-				}
-
-				if (c1_ydot < speed_limit) {
-					removePercept("car1", new Literal("at_speed_limit"));
-				} else {
-					addPercept("car1", new Literal("at_speed_limit"));
-				}
-				
-				if (c2_ydot < speed_limit) {
-					removePercept("car2", new Literal("at_speed_limit"));
-				} else {
-					addPercept("car2", new Literal("at_speed_limit"));
-				}
-
-			}
-		} catch (Exception e) {
-			AJPFLogger.warning(logname, e.getMessage());
+		if (car1_speed < speed_limit) {
+			removePercept("car1", new Literal("at_speed_limit"));
+		} else {
+			addPercept("car1", new Literal("at_speed_limit"));
+		}
+					
+		if (car2_speed < speed_limit) {
+			removePercept("car2", new Literal("at_speed_limit"));
+		} else {
+			addPercept("car2", new Literal("at_speed_limit"));
 		}
 	}
 	
@@ -174,30 +116,18 @@ public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAP
 			} else {
 				car2_yaccel = 0.01;
 			}
-			socket.writeDouble(car1_xaccel);
-			socket.writeDouble(car1_yaccel);
-			socket.writeDouble(car2_xaccel);
-			socket.writeDouble(car2_yaccel);
 		} else if (act.getFunctor().equals("decelerate")) {
 			if (agName.equals("car1")) {
 				car1_yaccel = -0.1;
 			} else {
 				car2_yaccel = -0.1;
 			}
-			socket.writeDouble(car1_xaccel);
-			socket.writeDouble(car1_yaccel);
-			socket.writeDouble(car2_xaccel);
-			socket.writeDouble(car2_yaccel);
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			if (agName.equals("car1")) {
 				car1_yaccel = 0.0;
 			} else {
 				car2_yaccel = 0.0;
 			}
-			socket.writeDouble(car1_xaccel);
-			socket.writeDouble(car1_yaccel);
-			socket.writeDouble(car2_xaccel);
-			socket.writeDouble(car2_yaccel);
 		} else if (act.getFunctor().equals("finished")) {
 			if (agName.equals("car1")) {
 				car1_finished = true;
@@ -211,7 +141,6 @@ public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAP
 	
 	@Override
 	public void cleanup() {
-		socket.close();
 	}
 
 	/*
@@ -233,7 +162,7 @@ public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAP
 
 	@Override
 	public String getName() {
-		return "CarOnMotorwayEnvironment";
+		return "CarsOnMotorwayVerificationEnvironment";
 	}
 
 }

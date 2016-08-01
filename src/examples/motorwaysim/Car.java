@@ -23,8 +23,6 @@
 //----------------------------------------------------------------------------
 package motorwaysim;
 
-import ail.util.AILSocketServer;
-
 /**
  * A class for a car on a simple motorway simulation that may be controlled by an agent.
  * @author lad
@@ -185,10 +183,10 @@ public class Car {
 	}
 	
 	public boolean include_total_distance() {
-		return include_total_distance();
+		return include_total_distance;
 	}
 	
 	public int started() {
-		return started();
+		return started;
 	}
 }

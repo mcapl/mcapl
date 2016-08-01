@@ -106,7 +106,7 @@ public class MotorwayMain extends JFrame implements ActionListener {
 		if (args != null && args.length > 0) {
 			configure(args[0]);
 		} else {
-			configure("/src/examples/eass/tutorials/motorwaysim/config.txt");
+			configure("/src/examples/motorwaysim/config.txt");
 		}
 		
 		EventQueue.invokeLater(new Runnable() {

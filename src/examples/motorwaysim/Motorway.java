@@ -46,7 +46,7 @@ public class Motorway extends JPanel implements Runnable {
 	private final int B_HEIGHT = 550;
 	private final int INITIAL_X1 = 10;
 	private final int INITIAL_Y1 = 0;
-	private final int INITIAL_C2_X1 = 45;
+	private final int INITIAL_C2_X1 = 40;
 	private final int INITIAL_C2_Y1 = 0;
 	private final int DELAY = 25;
 	
@@ -89,6 +89,11 @@ public class Motorway extends JPanel implements Runnable {
 		
 		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, B_HEIGHT, car1control, 1);
 		repaint();
+		if (car1control) {
+			System.err.println("Motorway Sim waiting Socket Connection");
+			socketserver = new AILSocketServer();
+			System.err.println("Got Socket Connection");
+		}
 	}
 	
 	/*
