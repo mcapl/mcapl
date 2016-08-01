@@ -132,7 +132,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
        		
        		// Get the string representing the property, parse it and set up sets of atomic propositions it contains
        		String propertystring = ei.getStringField("propertystring");
-     		Property_AST prop_ast = new Property_AST();
+      		Property_AST prop_ast = new Property_AST();
     		prop_ast.parse(propertystring);
     		MCAPLProperty prop = prop_ast.toMCAPLNative();
     		Set<Proposition> props = prop.getProps();

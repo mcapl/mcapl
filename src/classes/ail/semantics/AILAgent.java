@@ -65,6 +65,10 @@ import ail.syntax.Message;
 import ail.syntax.Unifier;
 import ail.syntax.Capability;
 import ail.syntax.annotation.SourceAnnotation;
+import ail.syntax.LogicalFormula;
+import ail.syntax.NamedEvaluationBase;
+import ail.syntax.PredicateTerm;
+
 import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLLanguageAgent;
@@ -127,6 +131,11 @@ public class AILAgent implements MCAPLLanguageAgent {
 	protected Map<String, GoalBase> gbmap = new VerifyMap<String, GoalBase>();
 	
 	/**
+	 * THis is a map from strings to capability libraries.
+	 */
+	protected Map<String, CapabilityLibrary> clmap = new VerifyMap<String, CapabilityLibrary>();
+	
+	/**
 	 * This is a map from strings to plan libraries.  In general an agent only has one plan library (accessed by AILdefaultPLname) but this
 	 * structure allows for languages in which agents can maintain multiple plan libraries.
 	 */
@@ -146,6 +155,11 @@ public class AILAgent implements MCAPLLanguageAgent {
      * Currently applicable plans.
      */
     protected Iterator<ApplicablePlan> AP = new ArrayList<ApplicablePlan>().iterator();
+    
+    /**
+     * Currently applicable capabilties.
+     */
+    protected Iterator<Capability> AC = new ArrayList<Capability>().iterator();
  
     /**
      * Language specific annotations.  Unused by any AIL methods but may be
@@ -180,11 +194,6 @@ public class AILAgent implements MCAPLLanguageAgent {
     protected List<String> context = new ArrayList<String>();
     
     /**
-     * The agent's capabilities.  Not used operationally at present.
-     */
-    protected CapabilityLibrary cl = new CapabilityLibrary();
-    
-    /**
      * The reasoning cycle used by the agent.  AIL itself provides no classes
      * that implement this interface.
      */
@@ -201,12 +210,12 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * selection heuristics.
 	 */
 	protected VerifyMap<String, Integer> generated = new VerifyMap<String, Integer>();
-		  	   
+	
 	/**
 	 * Should plan usage be tracked?  If you don't track plan usage more states
 	 * in the agent will match.
 	 */
-	// boolean trackplanusage = true;
+	boolean trackplanusage = false;
 	
     /**
      * Is the agent running.
@@ -246,7 +255,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultRBname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default rule base name for this agent;
      */
     protected String defaultrbname = AILdefaultRBname;
 
@@ -256,7 +265,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultPLname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default plan library name for this agent;
      */
     protected String defaultplname = AILdefaultPLname;
  
@@ -271,7 +280,7 @@ public class AILAgent implements MCAPLLanguageAgent {
     public static final String AILdefaultCBname = "";
     
     /*
-     * The default belief base name for this agent;
+     * The default constraint library name for this agent;
      */
     protected String defaultclname = AILdefaultCLname;
     
@@ -293,6 +302,7 @@ public class AILAgent implements MCAPLLanguageAgent {
        	setBeliefBase(new BeliefBase());
     	setRuleBase(new RuleBase());
     	setPlanLibrary(new PlanLibrary());
+    	setCapabilityLibrary(new CapabilityLibrary());
     	setGoalBase(new GoalBase());
      }
     
@@ -404,17 +414,17 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Setter method for trackplanusage.
 	 * @param b
 	 */
-	//public void setTrackPlanUsage(boolean b) {
-	//	trackplanusage = b;
-	//}
+	public void setTrackPlanUsage(boolean b) {
+		trackplanusage = b;
+	}
 	
 	/**
 	 * Getter for trackplanusage.
 	 * @return
 	 */
-	//public boolean getTrackPlanUsage() {
-	//	return trackplanusage;
-	//}
+	public boolean getTrackPlanUsage() {
+		return trackplanusage;
+	}
 	
 	
 	// --- Beliefs
@@ -680,6 +690,60 @@ public class AILAgent implements MCAPLLanguageAgent {
 			gb.remove(g);
 		}
 	}
+	
+	//--Capabilities
+	
+	/**
+	 * Setter method for the Plan Library;
+	 * 
+	 * @param pl the new plan library.
+	 */
+	public void setCapabilityLibrary(CapabilityLibrary pl) {
+		clmap.put(getDefaultCBName(), pl);
+	}
+
+	
+	/**
+	 * Get he default capability library.
+	 * 
+	 * @return
+	 */
+	public CapabilityLibrary getCL() {
+		return clmap.get(getDefaultCBName());
+	}
+	
+    /**
+ 	 * Setter method for the currently applicable capabilities.
+ 	 * 
+ 	 * @param ap
+ 	 */
+ 	public void setApplicableCapabilities(Iterator<Capability> cs) {
+ 		AC = cs;
+ 	}
+ 	
+ 	/**
+ 	 * Getter method for currently applicable capabilities.
+ 	 * @return
+ 	 */
+ 	public Iterator<Capability> getApplicableCapabilities() {
+ 		return AC;
+ 	}
+ 	
+ 	/**
+ 	 * Clear the currently applicable capabilities - presumably one has been chosen or the situation has changed.
+ 	 */
+ 	public void clearApplicableCapabilities() {
+ 		AC = new ArrayList<Capability>().iterator();
+ 	}
+ 	
+ 	/**
+ 	 * Add a capability to the agent.
+ 	 * @param c
+ 	 */
+ 	public void addCapability(Capability c) {
+ 		getCL().add(c);
+ 	}
+
 
      //--Plans
 	
@@ -798,16 +862,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-	
+		
 	//--- Capabilities
 	
-	/**
-	 * Return the capability library.
-	 * @return
-	 */
-	public CapabilityLibrary getCL() {
-		return cl;
-	}
 	
 	/**
 	 * Add a capability.
@@ -1159,6 +1216,14 @@ public class AILAgent implements MCAPLLanguageAgent {
     public void setDefaultGBName(String s) {
     	 defaultgbname = s;
      }
+    
+    /**
+     * Get the name of the default capability base.
+     * @return
+     */
+    public String getDefaultCBName() {
+    	return defaultclname;
+    }
      
     /**
      * Get the name of the default goal base.
@@ -1413,7 +1478,7 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @return
      */
     public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
-    /*	if (trackplanusage) {
+    	if (trackplanusage) {
     		int currentvalue = 0;	
     		ApplicablePlan candidate = null;
 		
@@ -1433,9 +1498,9 @@ public class AILAgent implements MCAPLLanguageAgent {
 			
 			updatePlanUsage(candidate);
 			return candidate;
-    	} else { */
+    	} else { 
     		return aps.next();
-    //	}
+    	}
     }
     
     /**
@@ -1459,12 +1524,12 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @param p the plan used.
      */
     public void updatePlanUsage(ApplicablePlan p) {
-    //   	if (trackplanusage) {
-    //   		if (p != null && !p.noChangePlan()) {
-    //   			String ps = p.keyString();
-    //   			generated.put(ps, 0);
-    //   		}
-    //   	}
+       	if (getTrackPlanUsage()) {
+       		if (p != null ) { //&& !p.noChangePlan()) {
+       			String ps = p.keyString();
+       			generated.put(ps, 0);
+       		}
+       	}
     }
         
     /**
@@ -1475,18 +1540,18 @@ public class AILAgent implements MCAPLLanguageAgent {
      * @return
      */
 	protected int scoreplan(ApplicablePlan p) {
-	//	if (trackplanusage) {
-	//		String ps = p.keyString();
-	//		if (generated.get(ps) != null) {
-	//			int i = generated.get(ps);
-	//			i++;
-	//			generated.put(ps, i);
-	//			return (i - 1);
-	//		} else {
-	//			generated.put(ps, 1);
-	//			return 0;
-	//		}
-	//	} 
+		if (getTrackPlanUsage()) {
+			String ps = p.keyString();
+			if (generated.get(ps) != null) {
+				int i = generated.get(ps);
+				i++;
+				generated.put(ps, i);
+				return (i - 1);
+			} else {
+				generated.put(ps, 1);
+				return 0;
+			}
+		} 
 		return 0;
 	}
  
@@ -1770,6 +1835,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 */
 	public void stop() {
 	 	fRunning = false;
+	 	getEnv().getScheduler().doNotSchedule(getAgName());
 	}
 	
 

@@ -22,9 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.uavs.prism.SimpleUAVfromPRISMEnv
+env = gwendolen.uavs.prism.SimpleUAVforPRISMEnv
 
 mas.file = /src/examples/gwendolen/uavs/prism/really_simple_uav.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
+log.format = brief
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product

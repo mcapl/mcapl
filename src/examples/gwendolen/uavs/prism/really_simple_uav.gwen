@@ -29,7 +29,6 @@ GWENDOLEN
 :Initial Beliefs:
 
 waitingAtRamp
-vicinityOfAerodrome
 
 :Initial Goals:
 
@@ -37,7 +36,7 @@ fly [perform]
 
 :Plans:
 
-+!fly [perform]: {B waitingAtRamp} <- take_off, +airborne;
++!fly [perform]: {B waitingAtRamp} <- take_off, +airborne, -waitingAtRamp;
 +airborne: {True} <- +normalFlight, +direction(straight);
-+collision: {B airborne} <- evade;
++collision: {B airborne} <- -normalFlight, evade, +normalFlight;
 +normalFlight: {True} <- land;

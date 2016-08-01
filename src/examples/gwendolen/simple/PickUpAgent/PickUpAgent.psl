@@ -37,3 +37,4 @@
 7: E(B(ag1, random))
 8: E(B(ag2, hold(block)))
 9: <>([](B(ag1, putdown_block)))
+
