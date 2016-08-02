@@ -29,6 +29,7 @@ import java.io.IOException;
 import ail.mas.DefaultEnvironment;
 import ail.mas.scheduling.ActionScheduler;
 import ail.mas.scheduling.NActionScheduler;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
@@ -62,7 +63,7 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 	 */
 	public CarsOnMotorwayVerificationEnvironment() {
 		super();
-		MCAPLScheduler s = new ActionScheduler();
+		MCAPLScheduler s = new RoundRobinScheduler();
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
