@@ -22,10 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-env=gwendolen.verifiableautonomoussystems.chapter5.CarOnMotorwayEnvironment
+env=gwendolen.verifiableautonomoussystems.chapter5.Car1VerificationEnvironment
 
-mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter5/car.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+mas.agent.1.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter5/car1.gwen
+mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
 
 log.warning = ajpf.MCAPLAgent
 log.format = brief

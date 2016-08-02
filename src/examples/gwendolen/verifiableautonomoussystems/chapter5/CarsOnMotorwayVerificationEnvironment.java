@@ -41,7 +41,7 @@ import ajpf.MCAPLScheduler;
 import ajpf.util.AJPFLogger;
 
 /**
- * This is an environment for connecting with the simple Java Motorway Simulation for tutorial purposes.
+ * This is an environment for verifying two simple cars.
  * @author louiseadennis
  *
  */
@@ -77,10 +77,10 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 	 */
 	@Override
 	public void do_job() {
-		if (car1_xaccel > 0) {
+		if (car1_yaccel > 0) {
 			car1_speed++;
 		} 
-		if (car2_xaccel > 0) {
+		if (car2_yaccel > 0) {
 			car2_speed++;
 		}
 
@@ -113,15 +113,15 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 
 		if (act.getFunctor().equals("accelerate")) {
 			if (agName.equals("car1")) {
-				car1_yaccel = 0.01;
+				car1_yaccel = 1;
 			} else {
-				car2_yaccel = 0.01;
+				car2_yaccel = 1;
 			}
 		} else if (act.getFunctor().equals("decelerate")) {
 			if (agName.equals("car1")) {
-				car1_yaccel = -0.1;
+				car1_yaccel = -1;
 			} else {
-				car2_yaccel = -0.1;
+				car2_yaccel = -1;
 			}
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			if (agName.equals("car1")) {

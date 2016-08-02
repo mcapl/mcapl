@@ -1,0 +1,4 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car_both_verif.ail,${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl,9
