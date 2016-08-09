@@ -164,5 +164,21 @@ public class BothVerifQuickTests extends TestJPF {
 		  AJPF_w_AIL.run(args);
 	  }
   } 
+  
+  
+  @Test //----------------------------------------------------------------------
+  public void prop10 () {
+	  if (verifyNoPropertyViolation(JPF_ARGS)){
+		  String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car_both_verif.ail";
+		  String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl";
+		  String[] args = new String[3];
+		  args[0] = filename;
+		  args[1] = prop_filename;
+		  args[2] = "10";
+		  AJPF_w_AIL.run(args);
+	  }
+  } 
+
+
 
 }
