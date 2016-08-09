@@ -5,12 +5,13 @@ import java.util.Set;
 
 import ail.syntax.Message;
 import ail.syntax.Predicate;
+import ajpf.util.AJPFLogger;
 import gwendolen.mas.VerificationofAutonomousSystemsEnvironment;
 
 public class Car1VerificationEnvironment extends
 		VerificationofAutonomousSystemsEnvironment {
 
-	
+	String logname = "gwendolen.verifiableautonomoussystems.chapter5.Car1VerificationEnvironment";
 	
 	@Override
 	public Set<Predicate> generate_sharedbeliefs() {
@@ -20,10 +21,12 @@ public class Car1VerificationEnvironment extends
 		boolean started = random_bool_generator.nextBoolean();
 		if (at_speed_limit) {
 			beliefs.add(new Predicate("at_speed_limit"));
+			AJPFLogger.info(logname, "At Speed Limit");
 		}
 		
 		if (started) {
 			beliefs.add(new Predicate("started"));
+			AJPFLogger.info(logname, "Started");
 		}
 		return beliefs;
 	}

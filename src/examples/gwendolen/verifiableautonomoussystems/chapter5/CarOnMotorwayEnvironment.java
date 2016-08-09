@@ -132,11 +132,11 @@ public class CarOnMotorwayEnvironment extends DefaultEnvironment implements MCAP
 				
 								
 				if (c1_started > 0) {
-					addPercept("car1", new Literal("start"));
+					addPercept("car1", new Literal("started"));
 				}
 				
 				if (c2_started > 0) {
-					addPercept("car2", new Literal("start"));
+					addPercept("car2", new Literal("started"));
 				}
 
 				if (c1_ydot < speed_limit) {

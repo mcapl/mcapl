@@ -32,7 +32,7 @@ GWENDOLEN
 		
 :Plans: 
 
-+start: {True} <-
++started: {True} <-
 	+!at_speed_limit[achieve];
 
 +! at_speed_limit [achieve] : {True} <-
