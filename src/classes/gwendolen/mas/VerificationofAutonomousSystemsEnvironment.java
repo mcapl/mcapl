@@ -71,7 +71,7 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		// At the start we generate this set, after that we use percepts.
 		if (at_start_percepts) {
-			percepts.addAll(generate_sharedbeliefs());
+			percepts.addAll(generate_percepts());
 			for (Predicate p: percepts) {
 				addPercept(p);
 			}
@@ -106,7 +106,7 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 	 * This is where the application generates perceptions at random.
 	 * @return
 	 */
-	public abstract Set<Predicate> generate_sharedbeliefs();
+	public abstract Set<Predicate> generate_percepts();
 	
 	/**
 	 * This is where the application generates messages at random.
@@ -124,7 +124,7 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 
 	   	// We exclude remove_shared and assert_shared assuming these are instantaneous.
 	   	if (!act.getFunctor().equals("print") && !act.getFunctor().equals("remove_shared") && !act.getFunctor().equals("assert_shared")) {
-			Set<Predicate> percepts = generate_sharedbeliefs();
+			Set<Predicate> percepts = generate_percepts();
 			Set<Message> messages = generate_messages();
 			clearPercepts();
 			
@@ -164,7 +164,7 @@ public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
-					Set<Predicate> percepts = generate_sharedbeliefs();
+					Set<Predicate> percepts = generate_percepts();
 					Set<Message> messages = generate_messages();
 					clearPercepts();
 					

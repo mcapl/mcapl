@@ -78,14 +78,14 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 	@Override
 	public void do_job() {
 		if (car1_yaccel > 0) {
-			car1_speed++;
+			car1_speed = car1_speed + car1_yaccel;
 		} 
 		if (car2_yaccel > 0) {
-			car2_speed++;
+			car2_speed = car2_speed + car2_yaccel;
 		}
 
-		addPercept("car1", new Literal("start"));
-		addPercept("car2", new Literal("start"));
+		addPercept("car1", new Literal("started"));
+		addPercept("car2", new Literal("started"));
 
 		if (car1_speed < speed_limit) {
 			removePercept("car1", new Literal("at_speed_limit"));
@@ -101,10 +101,10 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 	}
 	
 	
-	double car1_xaccel = 0.0;
-	double car1_yaccel = 0.0;
-	double car2_xaccel = 0.0;
-	double car2_yaccel = 0.0;
+	int car1_xaccel = 0;
+	int car1_yaccel = 0;
+	int car2_xaccel = 0;
+	int car2_yaccel = 0;
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.DefaultEASSEnvironment#executeAction(java.lang.String, ail.syntax.Action)
@@ -125,9 +125,9 @@ public class CarsOnMotorwayVerificationEnvironment extends DefaultEnvironment im
 			}
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			if (agName.equals("car1")) {
-				car1_yaccel = 0.0;
+				car1_yaccel = 0;
 			} else {
-				car2_yaccel = 0.0;
+				car2_yaccel = 0;
 			}
 		} else if (act.getFunctor().equals("finished")) {
 			if (agName.equals("car1")) {

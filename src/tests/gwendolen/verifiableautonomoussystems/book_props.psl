@@ -23,26 +23,10 @@
 
 1: <>(B(ag1, pickup))
 
-2: <>(B(robot, rubble(2, 2)))
+2: <>(B(ag1, take(ag2, block)))
 
-3: <>(B(robot, see_rubble))
+3: <>(G(ag2, take(ag1, block)))
 
-4: [](<>(B(robot, rubble(2, 2))))
+4: <>(B(searcher, leave))
 
-5: [](B(robot, warning) -> <>B(robot, at(0, 0)))
-
-6: [](~B(robot, at(4, 4)))
-
-7: <>(D(medic, assist))
-
-8: <>(D(nurse, assist))
-
-9: <>(B(arithmetic, sum(6)) & B(arithmetic, times(250)))
-
-10: <>(B(ag1, holding_block))
-
-11: <>(B(ag1, holding(toy)))
-
-12: <>(B(searcher, found) & B(searcher, at(0, 0)))
-
-13: [](B(searcher, human) -> <> B(searcher, leave))
+5: <>(G(lifter, free(human)))

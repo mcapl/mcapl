@@ -35,8 +35,10 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Chapter3QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
+  static final String[] JPF_ARGS = {  "listener+=,.listener.ExecTracker",
+		  "et.print_insn=false",
+		  "et.show_shared=false"
+};
 
 
 
@@ -49,7 +51,7 @@ public class Chapter3QuickTests extends TestJPF {
 
  
   @Test //----------------------------------------------------------------------
-  public void pickuprubble () {
+  public void pickup () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter3/PickUpAgent.ail";
     	String prop_filename =  "/src/tests/gwendolen/verifiableautonomoussystems/book_props.psl";
@@ -60,5 +62,61 @@ public class Chapter3QuickTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
+  
+  @Test //----------------------------------------------------------------------
+  public void messageag1 () {
+    if (verifyNoPropertyViolation(JPF_ARGS)){
+    	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter3/MessageAgents.ail";
+    	String prop_filename =  "/src/tests/gwendolen/verifiableautonomoussystems/book_props.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "2";
+    	AJPF_w_AIL.run(args);
+ 	 }
+  }
+  
+  @Test //----------------------------------------------------------------------
+  public void messageag2 () {
+    if (verifyNoPropertyViolation(JPF_ARGS)){
+    	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter3/MessageAgents.ail";
+    	String prop_filename =  "/src/tests/gwendolen/verifiableautonomoussystems/book_props.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "3";
+    	AJPF_w_AIL.run(args);
+ 	 }
+  }
+    
+  @Test //----------------------------------------------------------------------
+  public void searcher () {
+    if (verifyNoPropertyViolation(JPF_ARGS)){
+    	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter3/searcherlifter.ail";
+    	String prop_filename =  "/src/tests/gwendolen/verifiableautonomoussystems/book_props.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "4";
+    	AJPF_w_AIL.run(args);
+ 	 }
+  }
+
+  
+@Test //----------------------------------------------------------------------
+public void lifter () {
+  if (verifyNoPropertyViolation(JPF_ARGS)){
+  	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter3/searcherlifter.ail";
+  	String prop_filename =  "/src/tests/gwendolen/verifiableautonomoussystems/book_props.psl";
+  	String[] args = new String[3];
+  	args[0] = filename;
+  	args[1] = prop_filename;
+  	args[2] = "5";
+  	AJPF_w_AIL.run(args);
+	 }
+}
+
+
+
 
 }

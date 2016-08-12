@@ -25,6 +25,7 @@
 package gwendolen.verifiableautonomoussystems.chapter3;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
@@ -32,7 +33,9 @@ import ail.syntax.Action;
 import ail.syntax.SendAction;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
+import ail.syntax.NumberTerm;
 import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformIntChoice;
 
 import java.util.Random;
 import java.util.Set;
@@ -41,7 +44,7 @@ import java.util.HashSet;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
- * Environment for a Trash Robot Scenario.  Tailored for verification so that
+ * Environment for a Search and Rescue Robot Scenario.  Tailored for verification so that
  * the percepts are decided at random.
  * 
  * WARNING: This environment can not be used with record and replay because of the use of Random.
@@ -50,21 +53,16 @@ import gov.nasa.jpf.annotation.FilterField;
  *
  */
 public class RobotEnv extends DefaultEnvironment {
-	boolean changer = true;
-	boolean changel = true;
-	boolean changemessage = true;
-	@FilterField
-	boolean canseehumanr = false;
-	@FilterField
-	boolean canseehumanl = false;
-	@FilterField
-	boolean havemessagel = false;
-	boolean withlifter = false;
-	boolean withlifter2 = false;
-	boolean withsearcher = true;
+	int human_x = 0;
+	int human_y = 0;
+	
+	int searcher_x = 0;
+	int searcher_y = 0;
+	int lifter_x = 0;
+	int lifter_y = 0;
 	Literal human;
-	Literal clear;
-	Random random = new Random();
+
+	UniformIntChoice random;
 	
 	String logname = "gwendolen.rescue.RobotEnv";
 	
@@ -74,7 +72,6 @@ public class RobotEnv extends DefaultEnvironment {
 	public RobotEnv() {
 		super();
 		human=new Literal("human");
-		clear = new Literal("clear");
 	}
 	
 	/*
@@ -83,30 +80,19 @@ public class RobotEnv extends DefaultEnvironment {
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		Set<Predicate> percepts = new HashSet<Predicate>();
+		int robot_x = 0;
+		int robot_y = 0;
 		if (agName.equals("searcher")) {
-			if (changer) {
-				if (withsearcher) {
-					canseehumanr = random.nextBoolean();
-				}
-			}
-			if (canseehumanr) {
-				percepts.add(human);
-			}
-			changer = false;
-		
+			robot_x = searcher_x;
+			robot_y = searcher_y;
 		} else {
-			if (changel) {
-				if (withlifter2) {
-					canseehumanl = random.nextBoolean();
-				}
-			}
-			
-			if (canseehumanl) {
-				percepts.add(clear);
-			}
-			changel = false;
-			
+			robot_x = lifter_x;
+			robot_y = lifter_y;
 		}
+
+		if (robot_x == human_x && robot_y == human_y) {
+			percepts.add(human);
+		} 
 		
 		AJPFLogger.fine(logname, percepts.toString());
 		return percepts;
@@ -118,59 +104,40 @@ public class RobotEnv extends DefaultEnvironment {
 	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
    public Unifier executeAction(String agName, Action act) throws AILexception {
-	   	Unifier theta = new Unifier();
-	   	if (act instanceof SendAction) {
-	   		theta = super.executeAction(agName, act);
-	   	} else {
-	   		AJPFLogger.info("gwendolen.easss_tutorial.RobotEnv", agName + " done " + printAction(act));
+	   	if (act.getFunctor().equals("move_to")) {
+	   		int robot_x = (int) ((NumberTerm) act.getTerm(0)).solve();
+	   		int robot_y = (int) ((NumberTerm) act.getTerm(1)).solve();
+	   		
+	   		if (agName.equals("searcher")) {
+	   			searcher_x = robot_x;
+	   			searcher_y = robot_y;
+	   		} else {
+	   			lifter_x = robot_x;
+	   			lifter_y = robot_y;
+	   		}
+	   		
 	   	}
 	   	
-	   	change_for(agName);
+	   	Unifier theta = super.executeAction(agName, act);
+	   	
 	   	 
     	return theta;
     }
    
-   /**
-    * Indicates that percepts for a particular robot may have changed.
-    * @param name
-    */
-   public void change_for(String name) {
-	   if (name.equals("searcher")) {
-		   changer = true;
-	   } else {
-		   changel = true;
-		   changemessage = true;
-	   }
-   }
    
-   /*
-    * 
-    */
-   public boolean nothingPending(String agName) {
-	   if (agName.equals("searcher")) {
-		   return (!changer); 
-	   } else {
-		   return (!changel & !changemessage);
-	   }
-   }
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
+	 */
+   @Override
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random = new UniformIntChoice(m.getController());
+		human_x = random.nextInt(2);
+		human_y = random.nextInt(2);
+	}
 
-   /*
-    * (non-Javadoc)
-    * @see ail.mas.DefaultEnvironment#configure(ail.util.AILConfig)
-    */
-	public void configure(AILConfig configuration) {
-		super.configure(configuration);
-		
-		if (configuration.containsKey("withsearcher")) {
-			withsearcher = Boolean.valueOf((String) configuration.get("withsearcher"));
-		}
-		if (configuration.containsKey("withlifter")) {
-			withlifter = Boolean.valueOf((String) configuration.get("withlifter"));
-		}
-		if (configuration.containsKey("withlifter2")) {
-			withlifter2 = Boolean.valueOf((String) configuration.get("withlifter2"));
-		}
-	} 
 }
 
 

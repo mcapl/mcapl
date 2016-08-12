@@ -14,7 +14,7 @@ public class Car1VerificationEnvironment extends
 	String logname = "gwendolen.verifiableautonomoussystems.chapter5.Car1VerificationEnvironment";
 	
 	@Override
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_percepts() {
 		Set<Predicate> beliefs = new HashSet<Predicate>();
 		
 		boolean at_speed_limit = random_bool_generator.nextBoolean();

@@ -22,15 +22,12 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.easss_tutorial.RobotEnv
+env = gwendolen.verifiableautonomoussystems.chapter3.RobotEnv
 
 mas.agent.1.file = /src/examples/gwendolen/easss_tutorial/searcher.gwen
 mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
 mas.agent.2.file = /src/examples/gwendolen/easss_tutorial/lifter1.gwen
 mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
 
-log.format = brief
+log.format = as_output
 log.info = gwendolen.easss_tutorial.RobotEnv
-
-withsearcher=true
-withlifter = true
