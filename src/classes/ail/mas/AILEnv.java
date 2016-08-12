@@ -150,7 +150,7 @@ public interface AILEnv {
    public void cleanup();
    
    /**
-    * Perform any iniatilisation of the environment.  If the set up of the environment object depends
+    * Perform any initialisation of the environment.  If the set up of the environment object depends
     * at all on the configuration, or parameters, then the set up should be done with this method and
     * not with a constructor.  This is to assist with the assisting classes for MAS building like ail.mas.AIL. 
     */

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2016 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -26,22 +26,18 @@ package gwendolen.verifiableautonomoussystems.chapter3;
 
 import ail.mas.DefaultEnvironment;
 import ail.mas.MAS;
-import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.SendAction;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.NumberTerm;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformIntChoice;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.HashSet;
 
-import gov.nasa.jpf.annotation.FilterField;
 
 /**
  * Environment for a Search and Rescue Robot Scenario.  Tailored for verification so that
