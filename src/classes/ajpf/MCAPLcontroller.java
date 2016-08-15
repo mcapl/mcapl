@@ -161,9 +161,15 @@ public class MCAPLcontroller  {
 			m.addPerceptListener(magent);
 			scheduler.addJobber(magent);
 		}
-		specification.addMas(m);
-		// System.err.println("creating automaton");
-		specification.createAutomaton();
+//		specification.addMas(m);
+//		System.err.println("creating automaton");
+//		specification.createAutomaton();
+	}
+	
+	public void initialiseSpec() {
+		specification.addMas(mas);
+//		System.err.println("creating automaton");
+		specification.createAutomaton();		
 	}
 
 	/**

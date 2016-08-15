@@ -196,8 +196,10 @@ public boolean done() {
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
 	 */
+	@Override
 	public void setMAS(MAS m) {
 		super.setMAS(m);
+		System.err.println("Setting MAS");
 		random_bool_generator = new UniformBoolChoice(m.getController());
 		random_int_generator = new UniformIntChoice(m.getController());
 	}
