@@ -87,7 +87,7 @@ if (act.getFunctor().equals("move")) {
 \end{lstlisting}
 \end{ourexample}
 \end{itemize}
-Listing~\ref{code:numbers} shows some sample code that takes an action such as \texttt{move(2.5)} requested by the agent extracts the distance to be moved and then calls some internal method to perform the action in the environment passing in the double as an argument.
+Example~\ref{code:numbers} shows some sample code that takes an action such as \texttt{move(2.5)} requested by the agent extracts the distance to be moved and then calls some internal method to perform the action in the environment passing in the double as an argument.
 
 \subsection{The Action class}
 Agents use \texttt{ail.syntax.Action} objects to request actions in the environment.  \texttt{ail.syntax.Action} subclasses \texttt{ail.syntax.Predicate} and can generally be used just like a predicate.
@@ -133,7 +133,7 @@ As can be seen \texttt{executeAction} takes the agent name and an action as para
 
 In \texttt{DefaultEnvironment}, \texttt{executeAction} implements the default actions (discussed in \gwendolen\ tutorial 9), message sending actions, updates fields relevant to model checking, and generates appropriate logging output.   All these are important functions and so we \emph{strongly recommend} that when overwriting \texttt{executeAction} you include a call to it (\texttt{super.executeAction(agName, act)}) at the end, outside of any conditional expressions.  The method returns an empty unifier so this can be safely ignored or composed in subclassing environments.
 
-Normally \texttt{executeAction} will need to handle several different actions.  An easy way to do this is to use conditional statements that check the functor of the \texttt{Action} predicate (see Listing~\ref{code:actions})
+Normally \texttt{executeAction} will need to handle several different actions.  An easy way to do this is to use conditional statements that check the functor of the \texttt{Action} predicate (see Example~\ref{code:actions})
 
 \begin{ourexample}
 \label{code:actions} \quad \\
