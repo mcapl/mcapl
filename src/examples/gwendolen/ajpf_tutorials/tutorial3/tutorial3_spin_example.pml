@@ -6,7 +6,7 @@ state0:
 	bag1holdblock = true;
 	if
 	:: goto state1;
-	:: goto state77;
+	:: goto state83;
 	fi;
 state1:
 	bag1holdblock = true;
@@ -236,24 +236,42 @@ end_state33:
 state33:
 	bag1holdblock = true;
 	goto state34;
+end_state34:
+	bag1holdblock = false;
+	printf("end state\n");
 state34:
 	bag1holdblock = false;
 	goto end_state10;
+end_state35:
+	bag1holdblock = false;
+	printf("end state\n");
 state35:
 	bag1holdblock = false;
 	goto state36;
+end_state36:
+	bag1holdblock = false;
+	printf("end state\n");
 state36:
 	bag1holdblock = false;
 	goto end_state11;
+end_state37:
+	bag1holdblock = false;
+	printf("end state\n");
 state37:
 	bag1holdblock = true;
 	if
 	:: goto state38;
 	:: goto state40;
 	fi;
+end_state38:
+	bag1holdblock = false;
+	printf("end state\n");
 state38:
 	bag1holdblock = true;
 	goto state39;
+end_state39:
+	bag1holdblock = false;
+	printf("end state\n");
 state39:
 	bag1holdblock = false;
 	goto end_state12;
@@ -357,131 +375,125 @@ state64:
 	bag1holdblock = false;
 	if
 	:: goto state65;
-	:: goto state72;
+	:: goto state76;
 	fi;
 state65:
 	bag1holdblock = false;
 	if
 	:: goto state66;
-	:: goto state69;
+	:: goto state71;
 	fi;
 state66:
 	bag1holdblock = false;
 	if
 	:: goto state67;
-	:: goto state68;
+	:: goto state69;
 	fi;
 state67:
 	bag1holdblock = false;
-	goto state8;
+	goto state68;
 state68:
 	bag1holdblock = false;
-	goto state11;
+	goto end_state17;
 state69:
 	bag1holdblock = false;
-	if
-	:: goto state70;
-	:: goto state71;
-	fi;
+	goto state70;
 state70:
 	bag1holdblock = false;
-	goto state21;
+	goto end_state18;
 state71:
 	bag1holdblock = false;
-	goto state23;
+	if
+	:: goto state72;
+	:: goto state74;
+	fi;
 state72:
 	bag1holdblock = false;
-	if
-	:: goto state73;
-	:: goto state76;
-	fi;
+	goto state73;
 state73:
 	bag1holdblock = false;
-	if
-	:: goto state74;
-	:: goto state75;
-	fi;
+	goto end_state19;
 state74:
 	bag1holdblock = false;
-	goto state34;
+	goto state75;
 state75:
 	bag1holdblock = false;
-	goto state36;
+	goto end_state20;
 state76:
 	bag1holdblock = false;
-	goto end_state17;
-state77:
-	bag1holdblock = true;
 	if
-	:: goto state137;
+	:: goto state82;
+	:: goto state77;
+	fi;
+state77:
+	bag1holdblock = false;
+	if
+	:: goto state80;
 	:: goto state78;
 	fi;
 state78:
-	bag1holdblock = true;
-	if
-	:: goto state120;
-	:: goto state79;
-	fi;
+	bag1holdblock = false;
+	goto state79;
 state79:
-	bag1holdblock = true;
-	if
-	:: goto state80;
-	:: goto state100;
-	fi;
+	bag1holdblock = false;
+	goto end_state21;
 state80:
-	bag1holdblock = true;
-	if
-	:: goto state81;
-	:: goto state92;
-	fi;
+	bag1holdblock = false;
+	goto state81;
 state81:
-	bag1holdblock = true;
-	if
-	:: goto state82;
-	:: goto state87;
-	fi;
+	bag1holdblock = false;
+	goto end_state22;
 state82:
-	bag1holdblock = true;
-	if
-	:: goto state83;
-	:: goto state85;
-	fi;
+	bag1holdblock = false;
+	goto end_state23;
 state83:
 	bag1holdblock = true;
-	goto state84;
+	if
+	:: goto state84;
+	:: goto state143;
+	fi;
 state84:
-	bag1holdblock = false;
-	goto end_state18;
+	bag1holdblock = true;
+	if
+	:: goto state85;
+	:: goto state126;
+	fi;
 state85:
-	bag1holdblock = false;
-	goto state86;
+	bag1holdblock = true;
+	if
+	:: goto state86;
+	:: goto state106;
+	fi;
 state86:
-	bag1holdblock = false;
-	goto end_state19;
+	bag1holdblock = true;
+	if
+	:: goto state98;
+	:: goto state87;
+	fi;
 state87:
 	bag1holdblock = true;
 	if
 	:: goto state88;
-	:: goto state90;
+	:: goto state93;
 	fi;
 state88:
 	bag1holdblock = true;
-	goto state89;
+	if
+	:: goto state89;
+	:: goto state91;
+	fi;
 state89:
-	bag1holdblock = false;
-	goto end_state20;
+	bag1holdblock = true;
+	goto state90;
 state90:
 	bag1holdblock = false;
-	goto state91;
+	goto end_state24;
 state91:
 	bag1holdblock = false;
-	goto end_state21;
+	goto state92;
 state92:
-	bag1holdblock = true;
-	if
-	:: goto state98;
-	:: goto state93;
-	fi;
+	bag1holdblock = false;
+	goto end_state25;
 state93:
 	bag1holdblock = true;
 	if
@@ -493,76 +505,76 @@ state94:
 	goto state95;
 state95:
 	bag1holdblock = false;
-	goto end_state22;
+	goto end_state26;
 state96:
 	bag1holdblock = false;
 	goto state97;
 state97:
 	bag1holdblock = false;
-	goto end_state23;
+	goto end_state27;
 state98:
 	bag1holdblock = true;
-	goto state99;
+	if
+	:: goto state99;
+	:: goto state104;
+	fi;
 state99:
-	bag1holdblock = false;
-	goto end_state24;
+	bag1holdblock = true;
+	if
+	:: goto state100;
+	:: goto state102;
+	fi;
 state100:
-	bag1holdblock = false;
+	bag1holdblock = true;
 	goto state101;
 state101:
 	bag1holdblock = false;
-	if
-	:: goto state113;
-	:: goto state102;
-	fi;
+	goto end_state28;
 state102:
 	bag1holdblock = false;
-	if
-	:: goto state103;
-	:: goto state108;
-	fi;
+	goto state103;
 state103:
 	bag1holdblock = false;
-	if
-	:: goto state104;
-	:: goto state106;
-	fi;
+	goto end_state29;
 state104:
-	bag1holdblock = false;
+	bag1holdblock = true;
 	goto state105;
 state105:
 	bag1holdblock = false;
-	goto end_state25;
+	goto end_state30;
 state106:
 	bag1holdblock = false;
 	goto state107;
 state107:
 	bag1holdblock = false;
-	goto end_state26;
+	if
+	:: goto state119;
+	:: goto state108;
+	fi;
 state108:
 	bag1holdblock = false;
 	if
+	:: goto state114;
 	:: goto state109;
-	:: goto state111;
 	fi;
 state109:
 	bag1holdblock = false;
-	goto state110;
+	if
+	:: goto state112;
+	:: goto state110;
+	fi;
 state110:
 	bag1holdblock = false;
-	goto end_state27;
+	goto state111;
 state111:
 	bag1holdblock = false;
-	goto state112;
+	goto end_state31;
 state112:
 	bag1holdblock = false;
-	goto end_state28;
+	goto state113;
 state113:
 	bag1holdblock = false;
-	if
-	:: goto state114;
-	:: goto state119;
-	fi;
+	goto end_state32;
 state114:
 	bag1holdblock = false;
 	if
@@ -574,158 +586,182 @@ state115:
 	goto state116;
 state116:
 	bag1holdblock = false;
-	goto end_state29;
+	goto end_state33;
 state117:
 	bag1holdblock = false;
 	goto state118;
 state118:
 	bag1holdblock = false;
-	goto end_state30;
+	goto end_state34;
 state119:
 	bag1holdblock = false;
-	goto end_state31;
+	if
+	:: goto state120;
+	:: goto state125;
+	fi;
 state120:
 	bag1holdblock = false;
-	goto state121;
+	if
+	:: goto state121;
+	:: goto state123;
+	fi;
 state121:
 	bag1holdblock = false;
-	if
-	:: goto state133;
-	:: goto state122;
-	fi;
+	goto state122;
 state122:
+	bag1holdblock = false;
+	goto end_state35;
+state123:
+	bag1holdblock = false;
+	goto state124;
+state124:
+	bag1holdblock = false;
+	goto end_state36;
+state125:
+	bag1holdblock = false;
+	goto end_state37;
+state126:
+	bag1holdblock = false;
+	goto state127;
+state127:
 	bag1holdblock = false;
 	if
 	:: goto state128;
-	:: goto state123;
+	:: goto state139;
 	fi;
-state123:
-	bag1holdblock = false;
-	if
-	:: goto state124;
-	:: goto state126;
-	fi;
-state124:
-	bag1holdblock = false;
-	if
-	:: goto state106;
-	:: goto state125;
-	fi;
-state125:
-	bag1holdblock = false;
-	goto state105;
-state126:
-	bag1holdblock = false;
-	if
-	:: goto state127;
-	:: goto state111;
-	fi;
-state127:
-	bag1holdblock = false;
-	goto state110;
 state128:
 	bag1holdblock = false;
 	if
 	:: goto state129;
-	:: goto state131;
+	:: goto state134;
 	fi;
 state129:
 	bag1holdblock = false;
 	if
 	:: goto state130;
-	:: goto state117;
+	:: goto state132;
 	fi;
 state130:
 	bag1holdblock = false;
-	goto state116;
+	if
+	:: goto state112;
+	:: goto state131;
+	fi;
 state131:
 	bag1holdblock = false;
-	goto state132;
+	goto state111;
 state132:
 	bag1holdblock = false;
-	goto end_state32;
+	if
+	:: goto state133;
+	:: goto state117;
+	fi;
 state133:
 	bag1holdblock = false;
-	goto state134;
+	goto state116;
 state134:
 	bag1holdblock = false;
 	if
-	:: goto state102;
 	:: goto state135;
+	:: goto state137;
 	fi;
 state135:
 	bag1holdblock = false;
 	if
-	:: goto state114;
 	:: goto state136;
+	:: goto state123;
 	fi;
 state136:
 	bag1holdblock = false;
-	goto end_state33;
+	goto state122;
 state137:
 	bag1holdblock = false;
 	goto state138;
 state138:
 	bag1holdblock = false;
-	if
-	:: goto state150;
-	:: goto state139;
-	fi;
+	goto end_state38;
 state139:
 	bag1holdblock = false;
-	if
-	:: goto state133;
-	:: goto state140;
-	fi;
+	goto state140;
 state140:
 	bag1holdblock = false;
 	if
-	:: goto state146;
+	:: goto state108;
 	:: goto state141;
 	fi;
 state141:
 	bag1holdblock = false;
 	if
-	:: goto state144;
+	:: goto state120;
 	:: goto state142;
 	fi;
 state142:
 	bag1holdblock = false;
-	if
-	:: goto state106;
-	:: goto state143;
-	fi;
+	goto end_state39;
 state143:
 	bag1holdblock = false;
-	goto state105;
+	goto state144;
 state144:
 	bag1holdblock = false;
 	if
 	:: goto state145;
-	:: goto state111;
+	:: goto state156;
 	fi;
 state145:
 	bag1holdblock = false;
-	goto state110;
+	if
+	:: goto state146;
+	:: goto state139;
+	fi;
 state146:
 	bag1holdblock = false;
 	if
 	:: goto state147;
-	:: goto state149;
+	:: goto state152;
 	fi;
 state147:
 	bag1holdblock = false;
 	if
 	:: goto state148;
-	:: goto state117;
+	:: goto state150;
 	fi;
 state148:
 	bag1holdblock = false;
-	goto state116;
+	if
+	:: goto state112;
+	:: goto state149;
+	fi;
 state149:
 	bag1holdblock = false;
-	goto state132;
+	goto state111;
 state150:
 	bag1holdblock = false;
-	goto state121;
+	if
+	:: goto state117;
+	:: goto state151;
+	fi;
+state151:
+	bag1holdblock = false;
+	goto state116;
+state152:
+	bag1holdblock = false;
+	if
+	:: goto state153;
+	:: goto state155;
+	fi;
+state153:
+	bag1holdblock = false;
+	if
+	:: goto state154;
+	:: goto state123;
+	fi;
+state154:
+	bag1holdblock = false;
+	goto state122;
+state155:
+	bag1holdblock = false;
+	goto state138;
+state156:
+	bag1holdblock = false;
+	goto state127;
 }

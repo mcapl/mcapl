@@ -70,7 +70,7 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 	public Set<Predicate> getPercepts(String agName, boolean update) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		// At the start we generate this set, after that we use percepts.
-		if (at_start_percepts) {
+		if (at_start_percepts && mas != null) {
 			percepts.addAll(generate_percepts());
 			for (Predicate p: percepts) {
 				addPercept(p);
