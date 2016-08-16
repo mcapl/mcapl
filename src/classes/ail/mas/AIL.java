@@ -99,7 +99,7 @@ public class AIL {
 				env.initialise();
 				control.initialiseSpec();
 				env.setMAS(mas);
-				System.err.println("about to initialise automata");
+				// System.err.println("about to initialise automata");
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);

@@ -21,30 +21,30 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package gwendolen.verifiableautonomoussystems.chapter5;
+package eass.tutorials;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import ail.mas.AIL;
-import motorwaysim.Motorway;
-import motorwaysim.MotorwayConfig;
-import motorwaysim.Car;
+import eass.tutorials.motorwaysim.Motorway;
+import eass.tutorials.motorwaysim.MotorwayConfig;
+import eass.tutorials.motorwaysim.Car;
 
-public class MotorwayTests {
+public class Tutorial2SocketTest {
 	
 
 	  @Test //----------------------------------------------------------------------
 	  public void tutorialexample () {
-		final MotorwayConfig config = new MotorwayConfig("/src/examples/motorwaysim/config.txt");
+		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
 		MotorwayThread motorwayThread = new MotorwayThread(config);
-		AILThread ailThread = new AILThread("/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car_simulated.ail");
+		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial2/answers/car_ex1.ail");
 		motorwayThread.start();
 
 		// Allowing times for sockets to start up.
 		try {
-			Thread.sleep(500);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			System.out.println("Interrupted: " + e.getMessage());
 		}
@@ -60,7 +60,6 @@ public class MotorwayTests {
 		
 		Motorway motorway = motorwayThread.getMotorway();
 		Car car = motorway.getCar1();
-		Car car2 = motorway.getCar2();
 
 		motorway.start();
 		while (car.getYTot() < 1000 ) {
@@ -72,10 +71,48 @@ public class MotorwayTests {
 		}
 		motorway.stop();
 		Assert.assertTrue(car.getX() <= 100); 
-		Assert.assertTrue(car2.getX() <= 100);
 
 	  }
 	  
+	  @Test //----------------------------------------------------------------------
+	  public void tutorialex2 () {
+		final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/tutorial2/config.txt");
+		
+		MotorwayThread motorwayThread = new MotorwayThread(config);
+		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial2/answers/car_ex2.ail");
+		motorwayThread.start();
+
+		// Allowing times for sockets to start up.
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			System.out.println("Interrupted: " + e.getMessage());
+		}
+		ailThread.start();
+
+		// Allowing times for sockets to start up.
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			System.out.println("Interrupted: " + e.getMessage());
+		}
+
+		
+		Motorway motorway = motorwayThread.getMotorway();
+		Car car = motorway.getCar1();
+
+		motorway.start();
+		while (car.getYTot() < 1000 ) {
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				System.out.println("Interrupted: " + e.getMessage());
+			}
+		}
+		Assert.assertTrue(car.getX() > 0);
+		motorway.stop(); 
+	  }
+
 	  
 	  public class AILThread extends Thread {
 		  String filename;

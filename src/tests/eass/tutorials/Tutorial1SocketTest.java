@@ -34,7 +34,7 @@ import eass.tutorials.motorwaysim.Motorway;
 import eass.tutorials.motorwaysim.MotorwayConfig;
 import eass.tutorials.motorwaysim.Car;
 
-public class Tutorial1Tests {
+public class Tutorial1SocketTest {
 	
 	  @Test //----------------------------------------------------------------------
 	  public void basicmotorway () {
