@@ -1,20 +1,20 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
-//
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// Copyright (C) 2016 Louise A. Dennis and Michael Fisher 
 // 
-// The EASS Library is free software; you can redistribute it and/or
+// This file is part of A Really Simple Motorway Simulation (RSMS)
+// 
+// RSMS is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The EASS Library is distributed in the hope that it will be useful,
+// RSMS is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the EASS Library; if not, write to the Free Software
+// License along with RSMS; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -34,7 +34,7 @@ import javax.swing.JPanel;
 import ail.util.AILSocketServer;
 
 /**
- * Simulation of a Motorway as a simple demonstration for the EASS Packages.
+ * Simulation of a Motorway as a simple demonstrator for various systems.
  * @author lad
  *
  */
@@ -237,6 +237,10 @@ public class Motorway extends JPanel implements Runnable {
 		return car1;
 	}
 	
+	/**
+	 * Return Car 2 object.
+	 * @return
+	 */
 	public Car getCar2() {
 		return car2;
 	}
@@ -255,6 +259,9 @@ public class Motorway extends JPanel implements Runnable {
 		}
 	}
 	
+	/**
+	 * Get control information from external source.
+	 */
 	public void updateParameters() {
 		if (socketserver.allok()) {
 			try {

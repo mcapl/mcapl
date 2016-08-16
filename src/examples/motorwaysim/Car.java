@@ -1,20 +1,20 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
-//
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// Copyright (C) 2016 Louise A. Dennis and Michael Fisher 
 // 
-// The EASS Library is free software; you can redistribute it and/or
+// This file is part of A Really Simple Motorway Simulation (RSMS)
+// 
+// RSMS is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The EASS Library is distributed in the hope that it will be useful,
+// RSMS is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with the EASS Library; if not, write to the Free Software
+// License along with RSMS; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -39,8 +39,8 @@ public class Car {
 	private boolean controlled;
 	private boolean include_total_distance;
 	private int started = 0;
+	@SuppressWarnings("unused")
 	private int carnum = 1;
-
 
 	/**
 	 * Constructor.
@@ -49,6 +49,7 @@ public class Car {
 	 * @param bw
 	 * @param bh
 	 * @param externalcontrol
+	 * @param carnum
 	 */
 	public Car (int xi, int yi, int bw, int bh, boolean externalcontrol, int carnum) {
 		x = xi;
@@ -80,14 +81,26 @@ public class Car {
 		return yrel;
 	}
 	
+	/**
+	 * Getter for the x coordinate relative to the top of the GUI.
+	 * @return
+	 */
 	public double getXRel() {
 		return xrel;
 	}
 	
+	/**
+	 * Getter for the y coordinate relative to the top of the GUI.
+	 * @return
+	 */
 	public double getYRel() {
 		return yrel;
 	}
 	
+	/**
+	 * Getter for the speed in the x direction
+	 * @return
+	 */
 	public double getXDot() {
 		return xdot;
 	}
@@ -109,17 +122,33 @@ public class Car {
 	}
 	
 	/**
-	 * Getter for speed in the y direction.
+	 * Getter for total distance in the y direction.
 	 * @return
 	 */
 	public double getYTot() {
 		return y;
 	}
 	
+	/**
+	 * Getter for total distance in the x direction.
+	 * @return
+	 */
+	public double getXTot() {
+		return x;
+	}
+	
+	/**
+	 * Setter for the acceleration in the x direction.
+	 * @param a
+	 */
 	public void setXAccel(double a) {
 		xaccel = a;
 	}
 	
+	/**
+	 * Setter for the acceleration in the y direction.
+	 * @param a
+	 */
 	public void setYAccel(double a) {
 		yaccel = a;
 	}
@@ -130,8 +159,6 @@ public class Car {
 	public void calculatePos() {
 		xdot += xaccel;
 		ydot += yaccel;
-		
-//		System.err.println(ydot);
 		
 		
 		if (xdot < 0) {
@@ -147,7 +174,6 @@ public class Car {
 		xrel += xdot;
 		yrel += ydot;
 
-		//		System.err.println(y);
 		
 		if (yrel > B_HEIGHT) {
 			yrel = INITIAL_Y;
@@ -178,14 +204,26 @@ public class Car {
 		}
 	}
 	
+	/**
+	 * Is the car being controlled externally to the simulator?
+	 * @return
+	 */
 	public boolean isControlled() {
 		return controlled;
 	}
 	
+	/**
+	 * Calculate total distances travelled not just relative to the top of the GUI.
+	 * @return
+	 */
 	public boolean include_total_distance() {
 		return include_total_distance;
 	}
 	
+	/**
+	 * Has the car started?
+	 * @return
+	 */
 	public int started() {
 		return started;
 	}

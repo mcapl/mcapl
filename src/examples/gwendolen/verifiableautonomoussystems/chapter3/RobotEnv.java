@@ -40,10 +40,8 @@ import java.util.HashSet;
 
 
 /**
- * Environment for a Search and Rescue Robot Scenario.  Tailored for verification so that
- * the percepts are decided at random.
+ * Environment for a Search and Rescue Robot Scenario.  
  * 
- * WARNING: This environment can not be used with record and replay because of the use of Random.
  * 
  * @author louiseadennis
  *
