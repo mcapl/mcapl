@@ -52,6 +52,7 @@ public class NamedEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.Unifiable)
 	 */
+	@Override
 	public Iterator<K> getRelevant(EBCompare<K> ga) {
 		return eb.getRelevant(ga);
 	}
@@ -60,6 +61,7 @@ public class NamedEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBasewNames#getRelevantTuple(ail.syntax.Unifiable)
 	 */
+	@Override
 	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga) {
 		final Iterator<K> ebl = eb.getRelevant(ga);
 		

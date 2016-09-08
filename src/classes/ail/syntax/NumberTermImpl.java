@@ -29,7 +29,6 @@ package ail.syntax;
 
 import java.util.ArrayList;
 
-import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
 
@@ -91,6 +90,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.NumberTerm#solve()
 	 */
+	@Override
 	public double solve() {
 		return fValue;
 	}
@@ -99,6 +99,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#clone()
 	 */
+	@Override
 	public NumberTerm clone() {
     	if (isGround()) {
     		return this;
@@ -111,6 +112,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#isNumeric()
 	 */
+	@Override
 	public boolean isNumeric() {
 		return true;
 	}
@@ -136,6 +138,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#calcHashCode()
      */
+    @Override
     protected int calcHashCode() {
         return 37 * (int)solve();
     }
@@ -145,16 +148,17 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * @param st
      * @return
      */
-    public int compareTo(NumberTerm st) {
-    	if (solve() > st.solve()) return 1;
-    	if (solve() < st.solve()) return -1;
-    	return 0;
-    }
+    //public int compareTo(NumberTerm st) {
+    //	if (solve() > st.solve()) return 1;
+    //	if (solve() < st.solve()) return -1;
+    //	return 0;
+    //}
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.NumberTerm#eqcompareTo(ail.syntax.NumberTerm)
      */
+    @Override
     public int eqcompareTo(NumberTerm st) {
     	if (solve() > st.solve()) return 1;
     	if (solve() < st.solve()) return -1;
@@ -165,6 +169,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see java.lang.Object#toString()
      */
+    @Override
 	public String toString() {
 		long r = Math.round(fValue);
 		if (fValue == (double)r) {
@@ -174,6 +179,11 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 		}
 	}
 	
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.Term#fullstring()
+     */
+    @Override
 	public String fullstring() {
 		return "NTI:" + toString();
 	}
@@ -182,6 +192,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
      */
+    @Override
     public Term strip_varterm() {
     	return this;
     }
@@ -190,6 +201,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Term#resolveVarsClusters()
      */
+    @Override
     public Term resolveVarsClusters() {
     	return this;
     }
@@ -198,6 +210,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
+    @Override
     public ArrayList<String> getVarNames() {
     	return new ArrayList<String>();
     }
@@ -206,6 +219,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
      */
+    @Override
     public void renameVar(String oldname, String newname) {
     	
     }
@@ -214,6 +228,7 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+    @Override
 	public void makeVarsAnnon() {
 		
 	}
