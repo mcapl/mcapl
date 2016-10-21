@@ -77,7 +77,13 @@ public class Rule implements LogicalFormula {
     public boolean equals(Object o) {
         if (o != null && o instanceof Rule) {
             Rule r = (Rule) o;
-            return super.equals(o) && body.equals(r.body);
+            if (body != null) {
+            	return super.equals(o) && body.equals(r.body);
+            } else {
+            	if (r.body == null) {
+            		return super.equals(o);
+            	}
+            }
         } 
         return false;
     }
@@ -87,7 +93,11 @@ public class Rule implements LogicalFormula {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        return super.hashCode() + body.hashCode();
+    	int hash = super.hashCode();
+    	if (body != null) {
+    		hash += body.hashCode();
+    	}
+        return hash;
     }
     
     /**
@@ -112,7 +122,11 @@ public class Rule implements LogicalFormula {
      * @see java.lang.Object#clone()
      */
     public Rule clone() {
-        return new Rule((Predicate) head.clone(), (LogicalFormula)body.clone());
+    	if (body != null) {
+    		return new Rule((Predicate) head.clone(), (LogicalFormula)body.clone());
+    	} else {
+    		return new Rule((Predicate) head.clone());
+    	}
     }
     
     /*
@@ -120,7 +134,11 @@ public class Rule implements LogicalFormula {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return head.toString() + " :- " + body;
+    	if (body != null) {
+    		return head.toString() + " :- " + body;
+    	} else {
+    		return head.toString();
+    	}
     }
 
     /*
@@ -129,7 +147,9 @@ public class Rule implements LogicalFormula {
      */
     public List<String> getVarNames() {
     	List<String> varnames = head.getVarNames();
-    	varnames.addAll(getBody().getVarNames());
+    	if (body != null) {
+    		varnames.addAll(getBody().getVarNames());
+    	}
     	return varnames;
     }
     
@@ -139,7 +159,9 @@ public class Rule implements LogicalFormula {
      */
     public void renameVar(String oldname, String newname) {
     	head.renameVar(oldname, newname);
-    	getBody().renameVar(oldname, newname);
+    	if (body != null) {
+    		getBody().renameVar(oldname, newname);
+    	}
     }
         
     /*

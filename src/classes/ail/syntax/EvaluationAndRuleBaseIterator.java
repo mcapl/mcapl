@@ -201,9 +201,17 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 				if (ruleC.unifies(h, unC)) {
 					// ruleUn is now (one possible) unifier for this GBelief and the head of the rule.
 					// This GBelief should be ground? so only one possibility (?)
-					ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames);
-					// ruleIt is an iterator over all possible unifiers for the rule body.
-					get();
+					if (ruleC.getBody() != null) {
+						ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames);
+						// ruleIt is an iterator over all possible unifiers for the rule body.
+						get();
+					} else {
+						current = unC;
+						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
+							AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Unifier for " + logical_term + " and " + rule + " is " + unC);
+						}		        					
+					}
+					
 					if (current != null) {
 						if (AJPFLogger.ltFine(logname)) {
 							AJPFLogger.fine(logname, "Rule instantiated with " + current);
