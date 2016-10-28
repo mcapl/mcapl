@@ -64,16 +64,13 @@ public class ReasoningRuleQuickTests {
 	}
 	
 	@Test public void cut_test() {
-		GwendolenParser rule_head_parser = gwendolen_parser_for("a(A)");
-		GwendolenParser rule_body_parser = gwendolen_parser_for("b(B)");
+		GwendolenParser rule_parser = gwendolen_parser_for("a(B) :- b(B), !;");
 		GwendolenParser belief1_parser = gwendolen_parser_for("b(b1)");
 		GwendolenParser belief2_parser = gwendolen_parser_for("b(b2)");
 		GwendolenParser to_check_parser = gwendolen_parser_for("a(A1)");
 		
 		try {
-			Predicate rule_head = (rule_head_parser.pred()).toMCAPL();
-			Predicate rule_body = (rule_body_parser.pred()).toMCAPL();
-			Rule rule = new Rule(rule_head, new LogExpr(rule_body, LogExpr.LogicalOp.and, new PrologCut()));
+			Rule rule = (rule_parser.brule()).toMCAPL();
 				
 			Predicate b1 = (belief1_parser.pred()).toMCAPL();
 			Predicate b2 = (belief2_parser.pred()).toMCAPL();
