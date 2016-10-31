@@ -21,7 +21,7 @@ public class PlanningContext {
 	
 	ListTerm initial_conditions = new ListTermImpl();
 	RuleBase rules = new RuleBase();
-	Predicate goal;
+	ListTerm goal = new ListTermImpl();
 	
 	public PlanningContext() {
 		/* %%% This is one of the example programs from the textbook:
@@ -159,7 +159,7 @@ public class PlanningContext {
 	}
 	
 	public void addGoal(Predicate goal) {
-		this.goal = goal;
+		this.goal.add(goal);
 	}
 	
 	public Term plan() {

@@ -114,8 +114,8 @@ public class SimplePlanningQuickTests {
 		atob.addTerm(new Predicate("b"));
 		
 		ListTerm moves = new ListTermImpl();
-		moves.add(atob);
 		moves.add(btoc);
+		moves.add(atob);
 		
 		
 		Assert.assertTrue(plan.equals(moves));

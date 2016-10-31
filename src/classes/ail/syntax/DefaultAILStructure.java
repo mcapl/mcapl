@@ -555,7 +555,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
     public static String generate_fresh(String s, List<String> names1, List<String> names2, List<String> names3, Unifier u) {
     	String sbase = s;
     	String news = sbase;
-    	for (int i = 0; i < names1.size() + names2.size() + names3.size(); i++) {
+    	for (int i = 0; i < names1.size() + names2.size() + names3.size() + u.size(); i++) {
     		news = sbase + i;
     		if (! names1.contains(news) & !names2.contains(news) & !names3.contains(news) & !u.containsVarName(news)) {
     			break;
