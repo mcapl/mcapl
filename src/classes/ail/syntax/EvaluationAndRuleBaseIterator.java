@@ -230,5 +230,13 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 */
 	public void remove() {
 	}
+	
+	@Override
+	public String toString() {
+		Term ground = (Term) logical_term.clone();
+		ground.apply(un);
+		String s = "Evaluator for:" + ground;
+		return s;
+	}
 
 }

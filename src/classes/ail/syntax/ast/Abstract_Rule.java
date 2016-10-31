@@ -105,7 +105,11 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
      * @see ail.syntax.ast.Abstract_GBelief#toMCAPL()
      */
     public Rule toMCAPL() {
-    	return new Rule(head.toMCAPL(), body.toMCAPL());
+    	if (body != null) {
+    		return new Rule(head.toMCAPL(), body.toMCAPL());
+    	} else {
+    		return new Rule(head.toMCAPL());
+    	}
     }
     
     /*
