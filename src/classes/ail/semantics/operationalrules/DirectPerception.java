@@ -99,9 +99,9 @@ public class DirectPerception implements OSRule {
 			// Add all the remaining perceptoins (i.e., the new ones) as intentions.
 			boolean additions = false;
 			for (Predicate l: percepts) {
-				Literal k = (Literal) l.clone();
+				Predicate k = (Predicate) l.clone();
 				additions = true;
-				a.addBel(k, AILAgent.refertopercept());
+				a.addBel(new Literal(true, k), AILAgent.refertopercept());
 				a.tellawake();
 			}
 			
