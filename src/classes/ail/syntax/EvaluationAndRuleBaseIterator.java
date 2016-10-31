@@ -77,6 +77,8 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	// Name for error logging.
 	String logname = "ail.syntax.EvaluationAndRuleBaseIterator";
 	
+	private boolean have_been_cut = false;
+	
 	/**
 	 * Constructor.
 	 * @param e
@@ -134,6 +136,10 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 			AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " with unifier " + un);
 		}		        					
 		current = null;
+		
+		if (have_been_cut) {
+			return;
+		}
 		
 		if (logical_term instanceof GBelief) {
 			GBelief gb = (GBelief) logical_term;
@@ -205,6 +211,9 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 						ruleIt = ruleC.getBody().logicalConsequence(eb, rb, unC, varnames);
 						// ruleIt is an iterator over all possible unifiers for the rule body.
 						get();
+						if (current != null && ruleC.getBody() instanceof LogExpr && ((LogExpr) ruleC.getBody()).contains_cut()) {
+							have_been_cut = true;
+						}
 					} else {
 						current = unC;
 						if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
