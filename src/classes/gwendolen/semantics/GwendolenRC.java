@@ -103,12 +103,12 @@ public class GwendolenRC implements ReasoningCycle {
 		
 		/* Stage D Rules */
 		
-		HandleGuardNotSatisfied rule8 = new HandleGuardNotSatisfied();
+		// HandleGuardNotSatisfied rule8 = new HandleGuardNotSatisfied();
 		HandleEmptyDeedStack rule9 = new HandleEmptyDeedStack();
 		HandleAddAchieveTestGoalwEvent rule10 = new HandleAddAchieveTestGoalwEvent();
 		HandleAddPerformGoalwEvent rule10a = new HandleAddPerformGoalwEvent();
-		HandleAddContent rulean = new HandleAddContentwEvent();
-		HandleAddContext ruleax = new HandleAddContext();
+//		HandleAddContent rulean = new HandleAddContentwEvent();
+//		HandleAddContext ruleax = new HandleAddContext();
 
 		LinkedList<Integer> excludedGoals = new LinkedList<Integer>();
 		excludedGoals.add(new Integer(Goal.maintainGoal));
@@ -119,30 +119,30 @@ public class GwendolenRC implements ReasoningCycle {
 		HandleLockUnLock rule14 = new HandleLockUnLock();
 		HandleWaitFor rulehwf = new HandleWaitFor();
 		IgnoreUnplannedProblemGoal ruleiup = new IgnoreUnplannedProblemGoal();
-		HandleAddPlan rulehap = new HandleAddPlan();
+//		HandleAddPlan rulehap = new HandleAddPlan();
 		
 		// Set up list of actions with special semantics.
 		LinkedList<Integer> excludedActions = new LinkedList<Integer>();
 		excludedActions.add(new Integer(Action.sendAction));
-		excludedActions.add(new Integer(Action.synchronisedJoin));
-		excludedActions.add(new Integer(Action.synchronisedAdopt));
+//		excludedActions.add(new Integer(Action.synchronisedJoin));
+//		excludedActions.add(new Integer(Action.synchronisedAdopt));
 		HandleGeneralAction rule15 = new HandleGeneralAction(excludedActions);
 		HandleSendAction rule15a = new HandleSendAction();
 		HandleNull rulehn = new HandleNull();
 		
 		RCStage StageD = getStageD();
-		StageD.setRule(rule8);
+		// StageD.setRule(rule8);
 		StageD.setRule(rule9);
 		StageD.setRule(rule10);
 		StageD.setRule(rule10a);
-		StageD.setRule(rulean);
-		StageD.setRule(ruleax);
+//		StageD.setRule(rulean);
+//		StageD.setRule(ruleax);
 		StageD.setRule(rule11);
 		StageD.setRule(rule12);
 		StageD.setRule(rule13);
 		StageD.setRule(rule14);
 		StageD.setRule(rulehwf);
-		StageD.setRule(rulehap);
+//		StageD.setRule(rulehap);
 //		StageD.setRule(rulehac);
 		StageD.setRule(rule15);
 		StageD.setRule(rule15a);
