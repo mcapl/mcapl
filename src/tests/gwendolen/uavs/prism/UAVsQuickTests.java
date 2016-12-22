@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
@@ -38,8 +37,8 @@ public class UAVsQuickTests extends TestJPF {
 		System.setErr(systemStdErr);
 	}
 
-	@Rule
-	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+	//@Rule
+	//public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
 	@Test
 	public void really_simple_uav_ail() {

@@ -350,6 +350,8 @@ public class MCAPLcontroller  {
 				AJPFLogger.fine("ajpf.MCAPLcontroller", "returning true");
 			}
 			return true;
+		} else {
+			force_transition();
 		}
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");

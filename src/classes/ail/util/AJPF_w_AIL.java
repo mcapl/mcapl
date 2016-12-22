@@ -70,7 +70,7 @@ public class AJPF_w_AIL {
 		// Get the property to be checked.
 		
 		// Run the system.
-		mccontrol.setMAS(mas);
+		// mccontrol.setMAS(mas);
 		mccontrol.begin(); 		
 	}
 	
