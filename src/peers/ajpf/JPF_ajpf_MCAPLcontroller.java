@@ -101,9 +101,11 @@ public class JPF_ajpf_MCAPLcontroller extends NativePeer {
 				choicearray[index] = i;
 				index ++;
 			}
-			IntChoiceFromSet choices = new IntChoiceFromSet("NewAgentProgramState", choicearray);
-			vm.getSystemState().setNextChoiceGenerator(choices);
-			env.repeatInvocation();
+			if (choicearray.length > 0) {
+				IntChoiceFromSet choices = new IntChoiceFromSet("NewAgentProgramState", choicearray);
+				vm.getSystemState().setNextChoiceGenerator(choices);
+				env.repeatInvocation();
+			}
 		} else {
 			log.fine("getting a choice");
 			IntChoiceFromSet cg = vm.getSystemState().getCurrentChoiceGenerator("NewAgentProgramState", IntChoiceFromSet.class);

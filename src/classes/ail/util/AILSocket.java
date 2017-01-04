@@ -55,6 +55,8 @@ public class AILSocket {
 	 */
 	String logname = "ail.util.AILSocket";
 	
+	boolean socketclosed = false;
+	
 	/**
 	 * Constructor. 
 	 *
@@ -80,7 +82,7 @@ public class AILSocket {
 	 * @return
 	 */
 	public boolean allok() {
-		return (socket !=null && input != null && output !=null);
+		return (!socketclosed && socket !=null && input != null && output !=null);
 	}
 	
 	/**
@@ -94,10 +96,11 @@ public class AILSocket {
 				output.write(linefeed.getBytes());
 				output.flush();
 			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
+				AJPFLogger.warning(logname, e.getMessage() + " closing socket");
+				close();
 			}
 		} else {
-			write ("error");
+			System.err.println ("error");
 		}
 	}
 		
@@ -111,10 +114,11 @@ public class AILSocket {
 				output.writeInt(i);
 				output.flush();
 			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
+				AJPFLogger.warning(logname, e.getMessage() + " closing socket");
+				close();
 			}
 		} else {
-			write ("error");
+			System.err.println ("error");
 		}
 	}
 
@@ -128,10 +132,11 @@ public class AILSocket {
 				output.writeDouble(d);
 				output.flush();
 			} catch (Exception e) {
-				AJPFLogger.warning(logname, e.getMessage());
+				AJPFLogger.warning(logname, e.getMessage() + " closing socket");
+				close();
 			}
 		} else {
-			write ("error");
+			System.err.println ("error");
 		}
 	}
 
@@ -198,8 +203,10 @@ public class AILSocket {
 			if (socket != null) {
 			socket.close();
 			}
+			socketclosed = true;
 		} catch (IOException e) {
 			AJPFLogger.warning(logname, e.getMessage());
+			socketclosed = true;
 		}
 	}
 	
@@ -208,6 +215,11 @@ public class AILSocket {
 	 * @return
 	 */
 	public boolean isClosed() {
+		if (socketclosed) {
+			System.err.println("c");
+			return true;
+		}
+		System.err.println("d");
 		if (socket != null) {
 			return socket.isClosed();
 		} else {

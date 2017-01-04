@@ -25,8 +25,11 @@
 
 package goal.syntax;
 
+import goal.semantics.operationalrules.ProcessMessages;
 import ail.syntax.BroadcastMessage;
+import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
+import ail.syntax.Term;
 
 /**
  * Broadcast Message class. For Messages to go to multiple recipients  Environments may
@@ -50,7 +53,7 @@ public class GoalMessage extends BroadcastMessage {
 	}
 	
 	/**
-	 * Setter for conversatoin id.
+	 * Setter for conversation id.
 	 * @param id
 	 */
 	public void setConversationID(StringTerm id) {
@@ -86,6 +89,11 @@ public class GoalMessage extends BroadcastMessage {
 	 */
 	public GoalMessage clone() {
 		return new GoalMessage(super.clone());
+	}
+	
+	@Override
+	public Predicate toTerm() {
+		return ProcessMessages.receivedMessageToTerm(this);
 	}
 
 }

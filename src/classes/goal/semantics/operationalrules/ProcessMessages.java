@@ -180,6 +180,32 @@ public class ProcessMessages implements OSRule {
                     ga.getMentalState().updateGoalState(sender);
             
     }
+    
+    public static Literal receivedMessageToTerm(Message message) {
+        Term update = message.getPropCont();
+        String sender = message.getSender();
+        
+        Literal l = new Literal("received");
+        l.addTerm(new Predicate(sender));
+        
+        switch (SentenceMood.intToSentenceMood(message.getIlForce())) {
+        	case INTERROGATIVE:
+        		Predicate cont = new Predicate("int");
+        		cont.addTerm(update);
+        		l.addTerm(cont);
+        		break;
+        	case IMPERATIVE:
+        		cont = new Predicate("imp");
+        		cont.addTerm(update);
+        		l.addTerm(cont);
+        		break;
+        	case INDICATIVE:
+        		l.addTerm(update);
+        			
+        }
+        return l;
+   	
+    }
 
 
 }

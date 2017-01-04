@@ -86,9 +86,7 @@ public class MentalState {
 	};
 
 	public void addReceivedMessage(Message m){
-		Literal recievedMessage = new Literal("received");
-		recievedMessage.addTerm(m.toTerm());
-		ownModel.getMessageBase().add(recievedMessage);
+		ownModel.getMessageBase().add(new Literal(m.toTerm()));
 	};
 	
 	public Iterator<Literal> getPercepts() {

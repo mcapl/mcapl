@@ -34,6 +34,7 @@ import goal.syntax.ActionRule;
 import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
+import goal.syntax.GoalMessage;
 import goal.syntax.MentalState;
 import goal.syntax.ast.Abstract_ActionRule;
 import goal.syntax.ast.Abstract_GOALModule;
@@ -336,7 +337,8 @@ public class RuleGuardsQuickTests {
 			Literal canMakeQuestion = new Literal("canMake");
 			canMakeQuestion.addTerm(new Predicate("grinder"));
 			canMakeQuestion.addTerm(new UnnamedVar());
-			BroadcastMessage message = new BroadcastMessage(1, "maker", receivers, canMakeQuestion);
+			BroadcastMessage msg = new BroadcastMessage(1, "maker", receivers, canMakeQuestion);
+			GoalMessage message = new GoalMessage(msg);
 			ProcessMessages.processMessageMentalModel(message, ag);
         	ag.getMentalState().addReceivedMessage(message);
         	

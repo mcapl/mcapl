@@ -98,6 +98,7 @@ public class AIL {
 				mas.setEnv(env);
 				control.setMAS(mas);
 				env.init_after_adding_agents();
+				control.initialiseSpec();
 				env.setMAS(mas);
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
@@ -230,6 +231,8 @@ public class AIL {
 			String format = config.getProperty("log.format");
 			if (format.equals("brief")) {
 				AJPFLogger.setHandlerFormatBrief();
+			} else if (format.equals("as_output")) {
+				AJPFLogger.setHandlerFormatAsOutput();
 			}
 		}
 	}

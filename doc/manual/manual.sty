@@ -63,6 +63,8 @@
 %\fi
 \usepackage{graphicx}
 
+\usepackage{framed}
+\definecolor{shadecolor}{gray}{0.895} 
 % ------------------------------------
 % Which version is this ajpf manual for?
 % ------------------------------------
@@ -458,3 +460,5 @@
 \newcommand{\aildrop}{\AILdrop}
 \newcommand{\saapltrans}[1]{\underrightarrow{{#1}}}
 
+\newtheorem{mexample}{Example}
+\newenvironment{ourexample}{\begin{shaded}\begin{mexample}\renewcommand{\labelenumi}{(\alph{enumi})}}{\renewcommand{\labelenumi}{(\roman{enumi})}\end{mexample}\end{shaded}}

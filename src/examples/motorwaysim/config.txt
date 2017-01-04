@@ -1,0 +1,2 @@
+car1.control = agent
+car2.control = agent

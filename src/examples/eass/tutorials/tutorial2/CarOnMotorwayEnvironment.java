@@ -153,9 +153,10 @@ public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#finalize()
+	 * @see ail.mas.DefaultEnvironment#cleanup()
 	 */
-	public void finalize() {
+	@Override
+	public void cleanup() {
 		socket.close();
 	}
 

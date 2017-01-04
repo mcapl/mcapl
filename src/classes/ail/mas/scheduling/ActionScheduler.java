@@ -122,6 +122,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#addAg(ajpf.MCAPLAgent)
 	 */
 	public void addJobber(MCAPLJobber a) {
+//		System.err.println("Adding jobber " + a.getName());
 		agnames.put(a.getName(), a);
 		if (!donotSchedule.contains(a.getName())) {
 			activeAgents.put(a.getName());

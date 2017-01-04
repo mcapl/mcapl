@@ -64,6 +64,11 @@ public class LogExpr implements LogicalFormula {
 	private  LogicalOp      op = LogicalOp.none;
 	
 	/**
+	 * 
+	 */
+	private boolean above_a_passed_cut = false;
+	
+	/**
 	 * Constuctor.
 	 */
 	public LogExpr() {
@@ -126,12 +131,28 @@ public class LogExpr implements LogicalFormula {
 	        			}
 	        			private void get() {
 	        				current = null;
-	        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
+	        				while ((iright == null || !iright.hasNext()) && ileft.hasNext() && uncut()) {
 	        					Unifier ul = ileft.next();
+	        					if (lhs instanceof PrologCut) {
+	        						cut();
+	        					}
+	        					if (lhs instanceof LogExpr) {
+	        						if (((LogExpr) lhs).contains_cut()) {
+	        							cut();
+	        						}
+	        					}
 	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames, so);
 	        				}
 	        				if (iright != null && iright.hasNext()) {
-	        					current = iright.next();	 
+	        					current = iright.next();
+	        					if (rhs instanceof PrologCut) {
+	        						cut();
+	        					}
+	        					if (rhs instanceof LogExpr) {
+	        						if (((LogExpr) rhs).contains_cut()) {
+	        							cut();
+	        						}
+	        					}
 	        				}
 	        			}
 	        			public void remove() {}
@@ -473,6 +494,48 @@ public class LogExpr implements LogicalFormula {
 		} else {
 			return new LogExpr(getOp(), (LogicalFormula) getRHS().resolveVarsClusters());				
 		}
+	}
+	
+	/**
+	 * Evaluation of this expression has not yet passed a cut.
+	 * @return
+	 */
+	public boolean uncut() {
+		return above_a_passed_cut == false;
+	}
+	
+	/**
+	 * Evaluation of this expression has now passed a cut.
+	 */
+	public void cut() {
+		above_a_passed_cut = true;
+	}
+	
+	/**
+	 * Is this logical expression a conjunction that contains a Prolog Cut?
+	 * @return
+	 */
+	public boolean contains_cut() {		
+		if (this.getOp() == LogicalOp.none) {
+			return rhs instanceof PrologCut;
+		}
+
+			
+		if (this.getOp() == LogicalOp.and) {
+			if (lhs instanceof PrologCut || rhs instanceof PrologCut) {
+				return true;
+			}
+
+			if (lhs instanceof LogExpr && ((LogExpr) lhs).contains_cut()) {
+				return true;
+			}
+
+			if (rhs instanceof LogExpr && ((LogExpr) rhs).contains_cut()) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 
