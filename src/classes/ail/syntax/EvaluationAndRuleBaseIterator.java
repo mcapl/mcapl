@@ -193,6 +193,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 						if (h2 instanceof EBCompare<?>) {
 							if (((EBCompare<PredicateTerm>) h2).unifieswith(u, unC, t.getRight())) {
 								current = unC;
+								currents.add(unC);
 								if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
 									AJPFLogger.fine("ail.syntax.EvaluationAndRuleBaseIterator", "Checking unification of " + logical_term + " and " + t);
 								}		        					

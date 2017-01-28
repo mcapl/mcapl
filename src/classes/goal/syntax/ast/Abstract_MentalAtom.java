@@ -130,6 +130,10 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
 		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).getOp() == Abstract_LogExpr.not){
 			Guard grhs = guard_from_lf (((Abstract_LogExpr) lf).getRHS());
 			return new Guard(Guard.GLogicalOp.not, grhs);	
+		} else if (lf instanceof Abstract_LogExpr && ((Abstract_LogExpr) lf).getOp() == Abstract_LogExpr.forall) {
+			Guard glhs = guard_from_lf (((Abstract_LogExpr) lf).getLHS());
+			Guard grhs = guard_from_lf (((Abstract_LogExpr) lf).getRHS());
+			return new Guard(glhs, Guard.GLogicalOp.forall, grhs);
 		} else {
 			return guard_from_lf(((Abstract_LogExpr) lf).getRHS());
 		}
