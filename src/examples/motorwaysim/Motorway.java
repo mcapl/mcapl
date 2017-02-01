@@ -87,7 +87,7 @@ public class Motorway extends JPanel implements Runnable {
 		}
 		
 		
-		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, B_HEIGHT, car1control, 1);
+		car1 = new Car(INITIAL_X1, INITIAL_Y1, B_WIDTH, INITIAL_Y1, B_HEIGHT, car1control, 1);
 		repaint();
 		if (car1control) {
 			System.err.println("Motorway Sim waiting Socket Connection");
@@ -122,8 +122,8 @@ public class Motorway extends JPanel implements Runnable {
 	 * @param g
 	 */
 	private void drawMotorway(Graphics g) {
-		Double d1 = car1.getX();
-		Double d2 = car1.getY();
+		Double d1 = car1.getXRel();
+		Double d2 = car1.getYRel();
 		
 		g.drawRect(d1.intValue(), d2.intValue(), 10, 15);
 		g.drawLine(30, 0, 30, B_HEIGHT);
@@ -134,8 +134,8 @@ public class Motorway extends JPanel implements Runnable {
 		Double dc2 = 0.0;
 		
 		if (secondcar) {
-			Double dc1 = car2.getX();
-			dc2 = car2.getY();
+			Double dc1 = car2.getXRel();
+			dc2 = car2.getYRel();
 			
 			g.drawRect(dc1.intValue(), dc2.intValue(), 10, 15);
 			g.drawLine(30, 0, 30, B_HEIGHT);
@@ -253,7 +253,7 @@ public class Motorway extends JPanel implements Runnable {
 		car1.configure(config);
 		
 		if (config.containsKey("car2.control")) {
-			car2 = new Car(INITIAL_C2_X1, INITIAL_C2_Y1, B_WIDTH, B_HEIGHT, car1control, 2);
+			car2 = new Car(INITIAL_C2_X1, INITIAL_C2_Y1, B_WIDTH, INITIAL_Y1, B_HEIGHT, car1control, 2);
 			car2.configure(config);
 			secondcar = true;
 		}

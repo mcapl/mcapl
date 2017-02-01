@@ -1,0 +1,2 @@
+random_cars = 50
+car1.control = agent
