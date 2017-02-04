@@ -167,13 +167,18 @@ public class MentalModel implements AgentMentalState {
 		Set<String> bblist = new HashSet<String>();
 		bblist.add("");
 		bblist.add("percepts");
+		bblist.add("messages");
 		return bblist;
 	}
 
 	@Override
 	public RuleBase getRuleBase() {
 		// TODO Auto-generated method stub
-		return rb;
+		if (rb != null) {
+			return rb;
+		} else {
+			return new RuleBase();
+		}
 	}
 
 	@Override

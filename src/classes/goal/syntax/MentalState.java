@@ -85,8 +85,8 @@ public class MentalState {
 		this.models.get(agentId).updateGoalState();
 	};
 
-	public void addReceivedMessage(Message m){
-		ownModel.getMessageBase().add(new Literal(m.toTerm()));
+	public void addReceivedMessage(GoalMessage m){
+		ownModel.getMessageBase().add(new Literal(m.toReceivedTerm()));
 	};
 	
 	public Iterator<Literal> getPercepts() {

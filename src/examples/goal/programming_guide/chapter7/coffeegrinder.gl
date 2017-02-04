@@ -10,7 +10,7 @@ init module {
 	}
       
    	beliefs {
-    		canMake(grinder, [coffee, grounds]).
+     		canMake(grinder, [coffee, grounds]).
   	}
   	  	
   	actionspec {
@@ -47,5 +47,7 @@ init module {
  			do allother.sendonce(!have(R)).
  		forall bel(agent(Machine), received(Machine, imp(have(X))), have(X))
  			do Machine.sendonce(:have(X)).
+ 		forall bel(received(_, imp(have(P))), me(Me), canMakeIt(Me, P))
+ 		    do adopt(have(P)).
  	}
  }

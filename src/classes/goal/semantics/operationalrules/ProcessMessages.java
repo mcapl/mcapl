@@ -84,7 +84,7 @@ public class ProcessMessages implements OSRule {
         }
         
         static public SentenceMood intToSentenceMood(int i) {
-        	if (i == 2) {
+        	if (i == 3) {
         		return INDICATIVE;
         	} else if (i == 1) {
         		return INTERROGATIVE;
@@ -125,7 +125,7 @@ public class ProcessMessages implements OSRule {
 		
         for (Message message : messages) {
             processMessageMentalModel(message, ga);
-        	((GOALAgent) a).getMentalState().addReceivedMessage(message);
+        	((GOALAgent) a).getMentalState().addReceivedMessage((GoalMessage) message);
         }
 
     // Check if goals have been achieved and, if so, update goal base.
@@ -207,5 +207,25 @@ public class ProcessMessages implements OSRule {
    	
     }
 
+    public static Literal messageToTerm(Message message) {
+        Term update = message.getPropCont();
+        String sender = message.getSender();
+                
+        switch (SentenceMood.intToSentenceMood(message.getIlForce())) {
+        	case INTERROGATIVE:
+        		Predicate cont = new Predicate("int");
+        		cont.addTerm(update);
+        		return new Literal(cont);
+        	case IMPERATIVE:
+        		cont = new Predicate("imp");
+        		cont.addTerm(update);
+        		return new Literal(cont);
+         	case INDICATIVE:
+        		return new Literal((Predicate) update);
+        			
+        }
+        return new Literal((Predicate) update);
+    	
+    }
 
 }

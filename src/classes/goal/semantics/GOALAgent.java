@@ -122,6 +122,7 @@ public class GOALAgent extends AILAgent {
 	    setGoalBase(new ConjGoalBase());
 //	    lastplanstate = this.toString();
 	    addBeliefBase(new BeliefBase(), "percepts");
+	    addBeliefBase(new BeliefBase(), "messages");
 		BuiltInPrologRules prolog = new BuiltInPrologRules();
 		for (Predicate p: prolog.getFacts()) {
 			addBel(new Literal(p), refertoself());
@@ -158,6 +159,7 @@ public class GOALAgent extends AILAgent {
 		ms.addGB((ConjGoalBase) getGoalBase());
 		ms.addRB(getRuleBase());
 		ms.addPerceptBase(getBB("percepts"));
+		ms.addMessageBase(getBB("messages"));
 		((GOALRC) getReasoningCycle()).init(this);
 	}
 	

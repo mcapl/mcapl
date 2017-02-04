@@ -49,6 +49,7 @@ import gov.nasa.jpf.annotation.FilterField;
 
 
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -74,6 +75,13 @@ import ail.mas.DefaultEnvironment;
  *
  */
 public class GoalEnvironment extends DefaultEnvironment implements GOALEnv { 
+	
+	/**
+	 * Name for logging.
+	 */
+	@FilterField
+	String logname = "goal.mas.GoalEnvironment";
+
 
 	/*
 	 * (non-Javadoc)
@@ -127,7 +135,18 @@ public class GoalEnvironment extends DefaultEnvironment implements GOALEnv {
 	public void postMessage(GoalMessage m) {
 		for (String ag: m.getReceivers()) {
 			this.addMessage(ag, m);
+			
+		   	System.err.println(m.getSender() + " done " + printAction(m));
+
 		}
+	}
+	
+	private String printAction(GoalMessage m) {
+		String s = "send(";
+		s += m.toTerm().toString();
+		s += ")";
+		return s;
+		
 	}
 	
 

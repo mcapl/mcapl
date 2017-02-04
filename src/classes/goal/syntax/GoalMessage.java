@@ -93,7 +93,12 @@ public class GoalMessage extends BroadcastMessage {
 	
 	@Override
 	public Predicate toTerm() {
-		return ProcessMessages.receivedMessageToTerm(this);
+		return ProcessMessages.messageToTerm(this);
 	}
 
+	public Predicate toReceivedTerm() {
+		return ProcessMessages.receivedMessageToTerm(this);
+	}
+	
+	
 }

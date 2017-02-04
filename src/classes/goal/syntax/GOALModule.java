@@ -48,6 +48,7 @@ public class GOALModule {
 	PlanLibrary pl = new PlanLibrary();
 	BeliefBase bb = new BeliefBase();
 	BeliefBase percepts = new BeliefBase();
+	BeliefBase messages = new BeliefBase();
 	CapabilityLibrary cl = new CapabilityLibrary();
 	
 	Unifier module_substitution = new Unifier();
