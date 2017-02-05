@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goal.syntax.GOALSendAction;
+import goal.syntax.GOALSendAction.RECEIVER;
 import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.Action;
 import ail.syntax.SendAction;
 import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_NumberTermImpl;
 import ail.syntax.ast.Abstract_SendAction;
+import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
+import ail.syntax.ast.Abstract_VarTerm;
 
 public class Abstract_GOALSendAction extends Abstract_Action {
 	int type = 0;
@@ -24,6 +27,10 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 	 * The thId of the message.
 	 */
 	protected String thId;
+	
+	protected GOALSendAction.RECEIVER receiver;
+	protected Abstract_Term receiver_term;
+
 
 	public Abstract_GOALSendAction(int i) {
 		super("send");
@@ -33,21 +40,34 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 	
 	public GOALSendAction toMCAPL() {
 		Action s = super.toMCAPL();
-		GOALSendAction a = new GOALSendAction(s, ilf, type);
+		
+		GOALSendAction a = new GOALSendAction(s, receiver, ilf, type);
+		if (receiver_term != null) {
+			if (receiver_term instanceof Abstract_VarTerm) {
+				a.setReceiver(((Abstract_VarTerm) receiver_term).toMCAPL());
+			} else {
+				a.setReceiver(((Abstract_StringTermImpl) receiver_term).toMCAPL());
+			}
+		}
 		return a;
 		
 	}
 		
 	@Override
 	 public void addParams(ArrayList<Abstract_Term> tl) {
-		 Abstract_Term receiver = tl.get(0);
+		 Abstract_Term rec = tl.get(0);
+		 if (rec instanceof Abstract_NumberTermImpl) {
+			 receiver = RECEIVER.fromInt((int)((Abstract_NumberTermImpl) rec).getValue());
+		 } else {
+			 receiver = RECEIVER.TERM;
+			 receiver_term = rec;
+		 }
 		 Abstract_NumberTermImpl i = (Abstract_NumberTermImpl) tl.get(1);
 		 ilf = (int) i.getValue();
 		 List<Abstract_Term> content = tl.subList(2, tl.size());
 		 for (Abstract_Term t: content) {
 			 this.addTerm(t);
 		 }
-		 this.addTerm(receiver);
 	 }
 
 	

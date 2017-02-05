@@ -53,7 +53,10 @@ public class SendOnceActionExecutor extends ActionExecutor {
     	
     	action.apply(a.getIntention().hdU());
 
+    	action.clearReceivers();
+        action.setReceivers(gag);
         GoalMessage message = this.action.getMessage(gag.getAgName());
+        message.addReceivers(action.getReceivers());
         
         // Set<String> receivers = message.getReceivers();
         // Set<String> done = new LinkedHashSet<>();

@@ -25,8 +25,13 @@
 
 package goal.syntax;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 import goal.semantics.operationalrules.ProcessMessages;
 import ail.syntax.BroadcastMessage;
+import ail.syntax.ListTerm;
 import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
 import ail.syntax.Term;
@@ -98,6 +103,16 @@ public class GoalMessage extends BroadcastMessage {
 
 	public Predicate toReceivedTerm() {
 		return ProcessMessages.receivedMessageToTerm(this);
+	}
+	
+	public void addReceivers(ListTerm rs) {
+		HashSet<String> new_rs = new HashSet<String>();
+		Iterator<Term> rs_list_it = rs.iterator();
+		while (rs_list_it.hasNext()) {
+			String s = ((Predicate) rs_list_it.next()).getFunctor();
+			new_rs.add(s);
+		}
+		super.setReceivers(new_rs);
 	}
 	
 	

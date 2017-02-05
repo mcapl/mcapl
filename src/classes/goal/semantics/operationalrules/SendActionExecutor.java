@@ -49,10 +49,12 @@ public class SendActionExecutor extends ActionExecutor {
     	GOALAgent gag = (GOALAgent) a;
     	MentalState mentalState = gag.getMentalState();
 
+    	action.clearReceivers();
+        action.setReceivers(gag);
         GoalMessage message = this.action.getMessage(gag.getAgName());
+        message.addReceivers(action.getReceivers());
 
-        // message.setReceivers(receivers);
-        // message.setSender(mentalState.getAgentId());
+       // message.setSender(mentalState.getAgentId());
 
         try {
         	((GOALEnv) gag.getEnv()).postMessage(message);
