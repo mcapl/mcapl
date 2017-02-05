@@ -28,7 +28,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class ListTests {
+public class ListQuickTests {
 	
 	@Test public void consTest() {
 		ListTermImpl list = new ListTermImpl();
