@@ -17,6 +17,7 @@ public class PrintActionExecutor extends ActionExecutor {
 		
 		if (isaction) {
 			action = (Action) d.getContent();
+			action.apply(a.getIntention().hdU());
 			return (action instanceof PrintAction);
 		} else {
 			return false;
