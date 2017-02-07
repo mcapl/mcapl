@@ -29,7 +29,7 @@ init module {
 }
 
 main module[exit=nogoals]{
-	% randomly select to move a block to the table (if possible) or to perform sip.
+	% randomly select to move a block to the table (if possible) or to perform skip.
 	program[order=random]{
 	    if bel( on(X, Y) ) then move(X, table).
 	    if true then skip.

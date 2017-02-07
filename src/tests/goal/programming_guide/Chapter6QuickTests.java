@@ -52,5 +52,32 @@ public class Chapter6QuickTests {
 		Assert.assertEquals(expectedOutput, errContent.toString());
 		cleanUpStreams();
 	  }
+	  
+	  @Test //----------------------------------------------------------------------
+	  public void twoagents () {
+		 // setUpStreams();
+		AILConfig config = new AILConfig("src/examples/goal/programming_guide/chapter6/two_agents.ail");
+		AIL.configureLogging(config);
+	
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
+
+		// Create the initial state of the multi-agent program.
+		MAS mas = AIL.AILSetup(config, mccontrol);
+		
+		// Set up a controller
+		// mccontrol.setMAS(mas);
+		
+		// Begin!
+		try {
+			mccontrol.begin(); 
+		} catch (Exception e) {
+			Assert.assertFalse(true);
+		}
+		mas.cleanup();
+		//String expectedOutput = "goal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b1,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b5,b2)\ngoal_agent attempting move(b1,b5)\ngoal_agent attempting move(b6,b4)\n";
+		//Assert.assertEquals(expectedOutput, errContent.toString());
+		//cleanUpStreams();
+	  }
+
 
 }
