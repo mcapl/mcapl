@@ -101,7 +101,7 @@ public class HandleWaitForDirect extends DirectPerception {
 	 */
 	public void apply(AILAgent a) {
 		// First perform perception
-		super.apply(a);
+		// super.apply(a);
 
 		Literal waitingfor = (Literal) topdeed.getContent();
 		GBelief wfgb = new GBelief(waitingfor);

@@ -43,6 +43,8 @@ import ail.syntax.Deed;
  */
 public class HandleActionwProblem extends HandleTopDeed {
 	private static final String name = "Handle Action and Recognise Problems";
+	
+	protected boolean succeeded = true;
 
 	/*
 	 * (non-Javadoc)
@@ -58,6 +60,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
+		succeeded = true;
 		if (super.checkPreconditions(a) && topdeed.getCategory() == Deed.DAction) {
 			return true;
 		}
@@ -92,6 +95,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 				i.compose(thetahd);
 			}
 		} catch (AILexception ex) {
+			succeeded = false;
 			Event e = i.hdE();
 			if (e.referstoGoal()) {
 				Goal goal = (Goal) e.getContent();
