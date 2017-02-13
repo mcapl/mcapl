@@ -27,7 +27,6 @@
 
 package ail.syntax;
 
-import ail.syntax.ast.GroundPredSets;
 import ajpf.psl.MCAPLPredicate;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -97,6 +96,7 @@ public class PredicatewAnnotation extends Predicate {
       * (non-Javadoc)
       * @see ail.syntax.Predicate#isGround()
       */
+     @Override
      public boolean isGround() {
     	 if (annotation == null) {
              return super.isGround();
@@ -109,6 +109,7 @@ public class PredicatewAnnotation extends Predicate {
       * (non-Javadoc)
       * @see ail.syntax.Predicate#apply(ail.syntax.Unifier)
       */
+     @Override
     public boolean apply(Unifier u) {
     	boolean r = super.apply(u);
         if (annotation != null) {
@@ -214,7 +215,7 @@ public class PredicatewAnnotation extends Predicate {
         if (o == null) return false;
         if (o == this) return true;
         if (o instanceof PredicatewAnnotation) {
-        	PredicatewAnnotation p = (PredicatewAnnotation) o;
+        	//PredicatewAnnotation p = (PredicatewAnnotation) o;
         	if (super.equals(o)) {
         		// Ignore annotations during unification until we have a use for them
         		//if (hasAnnot() && p.hasAnnot()) {
@@ -233,6 +234,11 @@ public class PredicatewAnnotation extends Predicate {
         return false;
     }
 
+    /**
+     * Check two predicates are equal up to their annotations.
+     * @param o
+     * @return
+     */
     public boolean equalsInclAnnots(Object o) {
         if (o == null) return false;
         if (o == this) return true;
@@ -249,7 +255,6 @@ public class PredicatewAnnotation extends Predicate {
         		return false;
         	}
         } else if (o instanceof Predicate) {
-          //  return !hasAnnot() && super.equals(o);
         	return super.equals(o);
         }
         return false;
@@ -268,10 +273,8 @@ public class PredicatewAnnotation extends Predicate {
      * (non-Javadoc)
      * @see ail.syntax.Predicate#clone()
      */
+    @Override
     public PredicatewAnnotation clone() {
-    	//if (isGround()) {
-    	//	return this;
-    	//}
 
     	return new PredicatewAnnotation(this);
     }
@@ -288,6 +291,9 @@ public class PredicatewAnnotation extends Predicate {
         return s.toString();
     }
     
+    /**
+     * A more comprehensive string!
+     */
     public String fullstring() {
         StringBuilder s = new StringBuilder(super.toString());
         if (hasAnnot()) {
@@ -303,6 +309,7 @@ public class PredicatewAnnotation extends Predicate {
 	 * (non-Javadoc)
 	 * @see ail.syntax.EBCompare#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
 	 */
+    @Override
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
 	}
@@ -311,6 +318,7 @@ public class PredicatewAnnotation extends Predicate {
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
      */
+    @Override
     public boolean unifies(Unifiable t1g, Unifier u) {
     	if (t1g instanceof PredicatewAnnotation) {
     		PredicatewAnnotation np1 = (PredicatewAnnotation)t1g;		
