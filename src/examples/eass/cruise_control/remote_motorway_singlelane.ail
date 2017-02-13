@@ -31,6 +31,7 @@ mas.agent.2.file = src/examples/eass/cruise_control/abstraction_car.eass
 mas.agent.2.builder = eass.EASSAgentBuilder
 mas.agent.2.name = abstraction_car
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayEnv
+log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayEnv,
+log.fine = ail.semantics.AILAgent
 log.format = brief

@@ -56,6 +56,7 @@ public class NActionScheduler extends ActionScheduler {
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#getActiveAgents()
 	 */
+	@Override
 	public List<MCAPLJobber> getActiveJobbers() {
 		if (counter >= max_count) {
 			super.perceptChanged();
@@ -65,5 +66,21 @@ public class NActionScheduler extends ActionScheduler {
 		}
 		return super.getActiveJobbers();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ajpf.MCAPLScheduler#getActiveAgents()
+	 */
+	@Override
+	public List<MCAPLJobber> getAvailableJobbers() {
+		if (counter >= max_count) {
+			super.perceptChanged();
+			counter = 0;
+		} else {
+			counter++;
+		}
+		return super.getActiveJobbers();
+	}
+
 
 }

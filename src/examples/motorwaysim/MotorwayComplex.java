@@ -298,8 +298,8 @@ public class MotorwayComplex extends JPanel implements Runnable {
 			car.setYDot(speed + 1);
 			car.setSpeedPref(speed + 1);
 			cars.add(car);
-	}
-}
+			}
+		}
 
 		
 		updateParameters();
@@ -505,22 +505,30 @@ public class MotorwayComplex extends JPanel implements Runnable {
 	boolean braking = false;
 	
 	public void car1_accel() {
-		cars.get(0).accelerate();
+		if (!cars.get(0).isControlled()) {
+			cars.get(0).accelerate();
+		}
 		accelerating = true;
 	}
 	
 	public void car1_no_accel() {
-		cars.get(0).setYAccel(0);
+		if (! cars.get(0).isControlled()) {
+			cars.get(0).setYAccel(0);
+		}
 		accelerating = false;
 	}
 	
 	public void car1_brake() {
-		cars.get(0).brake();
+		if (! cars.get(0).isControlled()) {
+			cars.get(0).brake();
+		}
 		braking = true;
 	}
 	
 	public void car1_no_brake() {
-		cars.get(0).setYAccel(0);
+		if (! cars.get(0).isControlled()) {
+			cars.get(0).setYAccel(0);
+		}
 		braking = false;
 	}
 	

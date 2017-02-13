@@ -61,7 +61,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment {
 	 */
 	public RemoteMotorwayEnvironment() {
 		super();
-		super.scheduler_setup(this,  new NActionScheduler(100));
+		super.scheduler_setup(this,  new NActionScheduler(10));
 		AJPFLogger.info(logname, "Waiting Connection");
 		try {
 			socket = new AILSocketClient();
@@ -132,6 +132,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment {
 					addPercept(new Literal("started"));
 				}
 				
+				System.err.println(accelerating);
 				if (accelerating == 1) {
 					addPercept(new Literal("acceleration_pedal"));
 				} else {
