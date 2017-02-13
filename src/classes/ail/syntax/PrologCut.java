@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) Louise A. Dennis and Michael Fisher 
+// Copyright (C) 2017 Louise A. Dennis and Michael Fisher 
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
 //
@@ -35,6 +35,10 @@ import java.util.List;
  */
 public class PrologCut implements LogicalFormula {
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	@Override
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof PrologCut) {
@@ -43,20 +47,36 @@ public class PrologCut implements LogicalFormula {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
+	 */
 	@Override
 	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
 	@Override
 	public List<String> getVarNames() {
 		return new ArrayList<String>();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void renameVar(String oldname, String newname) {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	@Override
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof PrologCut) {
@@ -65,6 +85,10 @@ public class PrologCut implements LogicalFormula {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
 	@Override
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof PrologCut) {
@@ -73,30 +97,54 @@ public class PrologCut implements LogicalFormula {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#isGround()
+	 */
 	@Override
 	public boolean isGround() {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
+	 */
 	@Override
 	public boolean apply(Unifier theta) {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#makeVarsAnnon()
+	 */
 	@Override
 	public void makeVarsAnnon() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#strip_varterm()
+	 */
 	@Override
 	public Unifiable strip_varterm() {
 		return new PrologCut();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#resolveVarsClusters()
+	 */
 	@Override
 	public Unifiable resolveVarsClusters() {
 		return new PrologCut();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
+	 */
 	@Override
 	public Iterator<Unifier> logicalConsequence(
 			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un,
@@ -104,11 +152,19 @@ public class PrologCut implements LogicalFormula {
 		return LogExpr.createUnifIterator(un);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
 	@Override
 	public LogicalFormula clone() {
 		return new PrologCut();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "!";
