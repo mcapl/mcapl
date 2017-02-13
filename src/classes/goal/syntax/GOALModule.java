@@ -66,6 +66,9 @@ public class GOALModule {
     private Iterator<ApplicablePlan> ruleIt;
     
     private FocusMethod focusMethod = FocusMethod.NONE;
+    
+    private boolean executeFully = false;
+    private boolean one_rule_executed = false;
 	
 	public static enum ExitCondition {
 		NOGOALS,
@@ -169,6 +172,7 @@ public class GOALModule {
 				name = new Predicate("init");
 			} else if (module_type == ModuleType.EVENT) {
 				name = new Predicate("event");
+				executeFully = true;
 			}
 			exitCondition = ExitCondition.ALWAYS;
 		}
@@ -245,7 +249,33 @@ public class GOALModule {
 	}
 	
 	public Iterator<ApplicablePlan> getRule() {
-		return ruleIt;
+		if (executeFully || !one_rule_executed) {
+			return ruleIt;
+		} else {
+			one_rule_executed = false;
+			return new Iterator<ApplicablePlan>() {
+
+				@Override
+				public boolean hasNext() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public ApplicablePlan next() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				
+			};
+		}
+	}
+	
+	public void note_applied_rule() {
+		if (!executeFully) {
+			// one_rule_executed = true;
+		}
 	}
 	
 	public void setRuleEvaluationOrder(RuleEvaluationOrder o) {
@@ -307,6 +337,14 @@ public class GOALModule {
 	
 	public void mergeModuleSubti(Unifier u) {
 		module_substitution.compose(u);
+	}
+	
+	public void setExecuteFully() {
+		executeFully = true;
+	}
+	
+	public boolean getExecuteFully() {
+		return executeFully;
 	}
 }
 

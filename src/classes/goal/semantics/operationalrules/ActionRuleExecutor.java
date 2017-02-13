@@ -96,6 +96,7 @@ public class ActionRuleExecutor implements OSRule {
 		// What happens next also depends upon whether this is an ifthenrule or not.
 		Iterator<ApplicablePlan> ruleIt = module.getRule();
 		ApplicablePlan p = ruleIt.next();
+		module.note_applied_rule();
 			
 		if (module.isIfThenRule(p)) {
 			IntentionFromPlan(p, a);

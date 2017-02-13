@@ -152,6 +152,9 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			if (agintention) {
 				//module.setRule(null);
 				selectedrules = false;
+				if (! module.getExecuteFully()) {
+				//	module.setRule(null);
+				}
 			//	((GOALAgent) ag).actionPerformed();
 			}
 			

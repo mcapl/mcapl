@@ -146,6 +146,7 @@ public class GOALRC implements ReasoningCycle {
 	}
 
 	public void setCurrentModuleExecuteFully(GOALModule module) {
+		// module.setExecuteFully();
 		switch (module.getType()){
 		case INIT:
 			currentStage.setNextStage((ModuleExecutorStage) initModule);

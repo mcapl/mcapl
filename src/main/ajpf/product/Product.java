@@ -486,7 +486,7 @@ public class Product {
 	
 	/**
 	 * This implements the interleaved double DFS algorithm with Courcoubetis et al, in such a way that its execution can
-	 * be interleaved with eneration of the product automata.  Full details of the algorithm can be found in the paper.
+	 * be interleaved with generation of the product automata.  Full details of the algorithm can be found in the paper.
 	 * 
 	 * It returns an accepting path if it finds one and an empty path if it doesn't.
 	 * @return

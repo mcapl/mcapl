@@ -1,1 +1,7 @@
-1: [](<>(B(goal_agent,on(e,f))))
+1: <>(B(goal_agent,on(e,f)))
+
+2: [](~B(goal_agent, bad))
+
+3: [](B(goal_agent, bad))
+
+4: <>(~B(goal_agent, bad))

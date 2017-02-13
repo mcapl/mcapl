@@ -22,7 +22,7 @@ public class Chapter7JPFTests extends TestJPF {
 	  
 	  
 	  @Test //----------------------------------------------------------------------
-	  public void towerAgent () {
+	  public void coffeeAgent () {
 		  if (verifyNoPropertyViolation(JPF_ARGS)){
 			  String filename =  "/src/examples/goal/programming_guide/chapter7/coffeemaker.ail";
 			  String prop_filename =  "/src/examples/goal/programming_guide/chapter7/chapter7.psl";

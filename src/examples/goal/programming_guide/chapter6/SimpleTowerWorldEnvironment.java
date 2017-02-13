@@ -1,6 +1,7 @@
 package goal.programming_guide.chapter6;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import ail.syntax.Action;
 import ail.syntax.Predicate;
@@ -15,8 +16,10 @@ public class SimpleTowerWorldEnvironment extends GoalEnvironment {
 	}
 	
 	public Block holding;
+	public Block newholding;
 	
 	public HashMap<Block, Block> onlist = new HashMap<Block, Block>();
+	public HashMap<Block, Block> newonlist = new HashMap<Block, Block>();
 	
 	public SimpleTowerWorldEnvironment() {
 		super();
@@ -29,6 +32,23 @@ public class SimpleTowerWorldEnvironment extends GoalEnvironment {
 	
 	private boolean clear(Block b) {
 		return !(onlist.containsValue(b));
+	}
+	
+	int percept_call_counter = 0;
+	@Override 
+	public Set<Predicate> getPercepts(String agName, boolean update) {
+		if (percept_call_counter < 5) {
+			percept_call_counter++;
+		} else {
+			holding = newholding;
+			onlist = newonlist;
+			setPercepts();
+			percept_call_counter = 0;
+		}
+		Set<Predicate> returns = super.getPercepts(agName, update);
+		// System.err.println(returns);
+		return returns;
+		
 	}
 	
 	private String getBlockName(Block b) {
@@ -110,16 +130,21 @@ public class SimpleTowerWorldEnvironment extends GoalEnvironment {
 		String functor = act.getFunctor();
 		if (functor.equals("pickup")) {
 			holding = getBlock(act.getTerm(0).getFunctor());
+			newholding = holding;
 			if (!ontable(holding)) {
 				onlist.remove(holding, onlist.get(holding));
-			}
+			} 
+			newonlist = onlist;
 		} else if (functor.equals("putdown")) {
 			Block putdown = holding;
-			holding = null;
+			newholding = null;
 			String target = act.getTerm(1).getFunctor();
 			if (! target.equals("table")) {
-				onlist.put(putdown, getBlock(target));
+				newonlist.put(putdown, getBlock(target));
 			}
+		} else if (functor.equals("nil")) {
+			newonlist = onlist;
+			newholding = holding;
 		}
 		setPercepts();
 		
