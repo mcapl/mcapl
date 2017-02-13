@@ -68,8 +68,10 @@ public class HandleSendAction extends HandleActionwProblem {
 		
 		Message varless_msg = (Message) msg.strip_varterm();
 		super.apply(a);
-		Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
-		a.getIntentions().add(i);
-		a.newSentMessage(varless_msg);
+		if (succeeded) {
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
+			a.getIntentions().add(i);
+			a.newSentMessage(varless_msg);
+		}
 	}
 }
