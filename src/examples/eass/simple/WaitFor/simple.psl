@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis, Michael Fisher, Nicholas K. Lincoln, Alexei
+// Lisitsa and Sandor M. Veres
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,27 +23,8 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.simple;
+1: [] (~ B (ag1, bad))
 
-import org.junit.Test;
+2: [] (~ B(ag1, after_subgoal) || ~ G(ag1, sub_goal))
 
-import ail.mas.AIL;
-
-
-/**
- * Test for goal dropping behaviour - basically all this has to do is terminate!
- */
-public class SimpleQuickTests {
-
-   
-  @Test //----------------------------------------------------------------------
-  public void testDroppingNonExistantGoals () {
-	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";
-	  AIL.runAIL(filename);
-  }
-  
-  
-
-
-
-}
+3: <> (B (ag1, done))

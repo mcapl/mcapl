@@ -104,9 +104,15 @@ public class HandleWaitFor implements OSRule {
 		// super.apply(a);
 
 		Literal waitingfor = (Literal) topdeed.getContent();
-		GBelief wfgb = new GBelief(waitingfor);
-		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
-				
+		Iterator<Unifier> beliefs;
+		if (waitingfor.negated()) {
+			waitingfor.setNegated(false);
+			GBelief wfgb = new GBelief(waitingfor);
+			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
+		} else {
+			GBelief wfgb = new GBelief(waitingfor);
+			beliefs = a.believes(new Guard(wfgb), thetab);
+		}				
 		if (beliefs.hasNext()) {
 			i.tlI(a);
 			thetahd.compose(beliefs.next());

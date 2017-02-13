@@ -27,6 +27,7 @@ package eass.simple;
 import eass.mas.DefaultEASSEnvironment;
 import ail.util.AILexception;
 import ail.mas.MAS;
+import ail.mas.scheduling.ActionScheduler;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
@@ -47,6 +48,9 @@ public class SimpleEnv extends DefaultEASSEnvironment {
 	 */
 	public SimpleEnv() {
 		super();
+		ActionScheduler as =  new ActionScheduler();
+		setScheduler(as);
+		addPerceptListener(as);
 	}
 		
 	/**
@@ -127,6 +131,14 @@ public class SimpleEnv extends DefaultEASSEnvironment {
 	public void setMAS(MAS m) {
 		super.setMAS(m);
 		r = new UniformBoolChoice(m.getController());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#eachrun()
+	 */
+	public void eachrun() {
+		// this.notifyListeners("scheduler");
 	}
 
  
