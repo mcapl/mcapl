@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
-//
+// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher
+// 
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
 // The EASS Library is free software; you can redistribute it and/or
@@ -22,27 +22,14 @@
 //
 //----------------------------------------------------------------------------
 
-package eass.simple;
+@using = mcapl
 
-import org.junit.Test;
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/simple/WaitFor/WaitForFalse.ail,src/examples/eass/simple/WaitFor/simple.psl,3
 
-import ail.mas.AIL;
+log.info = ajpf.product.Product,ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.verification.leo.LEOVerificationEnvironment
 
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
 
-/**
- * Test for goal dropping behaviour - basically all this has to do is terminate!
- */
-public class SimpleQuickTests {
-
-   
-  @Test //----------------------------------------------------------------------
-  public void testDroppingNonExistantGoals () {
-	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";
-	  AIL.runAIL(filename);
-  }
-  
-  
-
-
-
-}
