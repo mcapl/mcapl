@@ -178,13 +178,13 @@ public class MCAPLcontroller  {
 	 * @param propertystring
 	 * @param outputlevel
 	 */
-	public void setProperty(String pstring) {
+//	public void setProperty(String pstring) {
 		// setMAS(mas);
 		// config = properties;
-		specification.addPropertyString(pstring);
+	//	specification.addPropertyString(pstring);
 		// specification.addMas(mas);
-		specification.addController(this);
-	}
+	//	specification.addController(this);
+//	}
 
 	/**
 	 * Returns the agent with a given name.
