@@ -3,4 +3,6 @@ env = goal.programming_guide.chapter6.SimpleTowerWorldEnvironment
 mas.file = /src/examples/goal/programming_guide/chapter6/tower_agent.gl
 mas.builder = goal.GOALMASBuilder
 
+log.fine = ail.semantics.AILAgent
+
 goal.launchpolicy.entity.launch = goal_agent

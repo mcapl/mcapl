@@ -271,13 +271,14 @@ public class MentalState {
     public String toString() {
     	String str = new String("");
     	for (String s: models.keySet()) {
-    		str += s + ":\n";
+    		str += s + " mental model:\n";
     		str += models.get(s).toString();
     	}
     	return str;
     }
 
     public void setAgName(String name) {
+    	models.remove(this.agentId);
 		this.agentId = name;
 		models.put(this.agentId, ownModel);
     }

@@ -154,7 +154,7 @@ public class AIL {
 				if (config.containsKey(agentNumKey(agentcounter) + ".name")) {
 					String agentname = config.getProperty(agentNumKey(agentcounter) + ".name");
 					agent.setAgName(agentname);
-				}
+				} 
 				
 				mas.addAg(agent);
 				

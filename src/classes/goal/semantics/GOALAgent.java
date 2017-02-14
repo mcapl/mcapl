@@ -160,6 +160,7 @@ public class GOALAgent extends AILAgent {
 		ms.addRB(getRuleBase());
 		ms.addPerceptBase(getBB("percepts"));
 		ms.addMessageBase(getBB("messages"));
+		ms.setAgName(getAgName());
 		((GOALRC) getReasoningCycle()).init(this);
 	}
 	
