@@ -184,6 +184,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
 					 product_automata.done(search.getStateId());
+					 return (! product_automata.hasAcceptingPath());
 				 }
 				 
 				 // If a transition has occurred then we have a new edge in our model and the product automata needs to be updated.
@@ -191,7 +192,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 					 // Check state returns true if an acccepting path hasn't been found in the product
 					 return checkstate(search);
 				 }
-				 return true;
+				 return (! product_automata.hasAcceptingPath());
 			 }
 	 }
 	 
@@ -220,7 +221,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 }
 
 			 // Otherwise we add a new model state to the product and check if we're in a state
-			 // were there is state in the property that can be paired with this state in the model
+			 // where there is state in the property that can be paired with this state in the model
 			 // so all paths from this model node are trivially true.
 			 if (!product_automata.addModelState(newstate)) {
 			 

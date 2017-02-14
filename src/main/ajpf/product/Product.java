@@ -339,7 +339,7 @@ public class Product {
 
 		// Add to S1 (the depth first LTL search tree) as new start states.
 		if (lowerLogLevelThan(Level.FINER)) {
-			log.finer(S1.toString());
+			log.finer("S1 is: " + S1.toString());
 		}
 		
 		S1.addAll(ps);
@@ -377,7 +377,7 @@ public class Product {
 		Map<Integer, Map<Integer, Integer>> indexedbybuchi = existence.get(modelstatenum);
 		if (indexedbybuchi != null) {
 			if (lowerLogLevelThan(Level.FINER)) {
-				log.finer(indexedbybuchi.toString());
+				log.finer("indexedbybuchi is:" + indexedbybuchi.toString());
 			}
 			for (Map<Integer, Integer> indexbyuntil: indexedbybuchi.values()) {
 				for (int ps: indexbyuntil.values()) {
@@ -408,7 +408,7 @@ public class Product {
 			return false;
 		}
 		if (!accepting_path.isEmpty()) {
-			System.err.println(accepting_path);
+			// System.err.println(accepting_path);
 		}
 		return (!accepting_path.isEmpty());
 	} 
@@ -422,6 +422,7 @@ public class Product {
 			log.fine("pruning " + statenum);
 		}
 		m.prune(statenum);	
+		accepting_path = DFS();
 	}
 
 	/**
@@ -869,7 +870,7 @@ public class Product {
 				 return false;
 			 } else {
 				 if (lowerLogLevelThan(Level.FINER)) {
-					 log.finer(poss_nextBuchi.toString());
+					 log.finer("poss_nextBuchi is:" + poss_nextBuchi.toString());
 				 }
 			 }
 			 

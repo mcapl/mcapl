@@ -4,9 +4,6 @@ target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/goal/programming_guide/chapter6/tower_agent_simple.ail,${mcapl}/src/examples/goal/programming_guide/chapter6/chapter6.psl,3
 
 log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment
-log.fine = ajpf.product.ModelState
-log.finer = ajpf.psl.buchi.BuchiAutomaton
-log.finest = ajpf.product.Product
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
