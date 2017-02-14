@@ -20,13 +20,13 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 The tutorial assumes a working knowledge of Java programming.
 
 \section{Logging}
-\java\ has a flexible API for implementing logging within programs.  Unfortunately this does not work seamlessly within \jpf\ and hence within \ajpf.  In order to enable logging to be used in \ail\ programs we have therefore provided a class \texttt{ajpf.util.AJPFLogger} which uses the native \java\ logging capabilities when not executed within \ajpf\ but uses \jpf's logging support when it is.
+Java\ has a flexible API for implementing logging within programs.  Unfortunately this does not work seamlessly within \jpf\ and hence within \ajpf.  In order to enable logging to be used in \ail\ programs we have therefore provided a class \texttt{ajpf.util.AJPFLogger} which uses the native Java\ logging capabilities when not executed within \ajpf\ but uses \jpf's logging support when it is.
 
 \begin{sloppypar}
-\texttt{AJPFLogger} supports the six logging levels of the \java\ logging framework, namely, \texttt{SEVERE}, \texttt{WARNING}, \texttt{INFO}, \texttt{FINE}, \texttt{FINER} and \texttt{FINEST}.  If you want to print a log message at a particular log level, say \texttt{info}, you call the method \texttt{AJPFLogger.info(String logname, String message)} and similarly for \texttt{severe}, \texttt{warning} etc.
+\texttt{AJPFLogger} supports the six logging levels of the Java\ logging framework, namely, \texttt{SEVERE}, \texttt{WARNING}, \texttt{INFO}, \texttt{FINE}, \texttt{FINER} and \texttt{FINEST}.  If you want to print a log message at a particular log level, say \texttt{info}, you call the method \texttt{AJPFLogger.info(String logname, String message)} and similarly for \texttt{severe}, \texttt{warning} etc.
 \end{sloppypar}
 
-When logging, \java/\jpf\ will print out all messages for a log at the set logging level and higher.  So if you have set a log at level \texttt{FINE} in your \ail\ or \jpf\ configuration file you will get all messages for \texttt{FINE}, \texttt{INFO}, \texttt{WARNING} and \texttt{SEVERE}.
+When logging, Java/\jpf\ will print out all messages for a log at the set logging level and higher.  So if you have set a log at level \texttt{FINE} in your \ail\ or \jpf\ configuration file you will get all messages for \texttt{FINE}, \texttt{INFO}, \texttt{WARNING} and \texttt{SEVERE}.
 
 The \texttt{logname} can be any string you like, though in general people use the class name for the logname.  However there is no reason not to use log names associated with particular tasks your program performs or other groupings if that seems more sensible.
 
@@ -62,14 +62,14 @@ Experiment with setting log levels in the \ail\ configuration file.  Note that b
 
 \section{Customized Configuration}
 
-You can use the \texttt{key = value} mechanism inside \ail\ configuration files to create customisation for your own \ail\ programs.  When the configuration file is parsed all the properties are stored in an \texttt{ail.util.AILConfig} object which is itself an extension of the \java\ \texttt{java.util.Properties} class.  
+You can use the \texttt{key = value} mechanism inside \ail\ configuration files to create customisation for your own \ail\ programs.  When the configuration file is parsed all the properties are stored in an \texttt{ail.util.AILConfig} object which is itself an extension of the Java\ \texttt{java.util.Properties} class.  
 
 The \texttt{Properties} class has two methods of particular note:
 \begin{itemize}
 \item \texttt{public boolean containsKey(String key)} tells you if a particular key is contained in the configuration.  
 \item \texttt{public Object get(String key)} returns the value stored for the key.  If parsed from an \ail\ configuration file this will return a \texttt{String}.
 \end{itemize}
-You can then use \java\ methods such as \texttt{Boolean.valueOf(String s)} and \texttt{Integer.valueOf(String s)} to convert that value into a boolean, integer or other type if desired.
+You can then use Java\ methods such as \texttt{Boolean.valueOf(String s)} and \texttt{Integer.valueOf(String s)} to convert that value into a boolean, integer or other type if desired.
 
 Obviously in order to add your own key/value pairs to the configuration you need to be able to access the \texttt{AILConfig} object.  The easiest way to do this is via your environment.  During system initialisation a method \texttt{public void configure(AILConfig config)} is called on any \ail\ environment.  The default implementation of this method does nothing, but it is easy enough to override this in a customised environment and check any keys you are interested in.
 

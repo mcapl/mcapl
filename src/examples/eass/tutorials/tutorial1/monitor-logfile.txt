@@ -1,0 +1,1893 @@
+Monitoring protocol
+@(S_1*S_3,[S_1= (not_action:S_1)\/epsilon,S_2= (bel(abstraction_car,at_speed_limit):S_2)\/epsilon,S_3= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_2\/epsilon|epsilon))*S_3])
+
+
+Message
+event(abstraction_car,assert_shared(start))
+leads from state 
+@(S_1*S_3,[S_1= (not_action:S_1)\/epsilon,S_2= (bel(abstraction_car,at_speed_limit):S_2)\/epsilon,S_3= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_2\/epsilon|epsilon))*S_3])
+to state
+@(S_1*S_3,[S_1= (not_action:S_1)\/epsilon,S_2= (bel(abstraction_car,at_speed_limit):S_2)\/epsilon,S_3= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_2\/epsilon|epsilon))*S_3])
+
+Message
+event(car,perf(accelerate))
+leads from state 
+@(S_1*S_3,[S_1= (not_action:S_1)\/epsilon,S_2= (bel(abstraction_car,at_speed_limit):S_2)\/epsilon,S_3= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_2\/epsilon|epsilon))*S_3])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,accelerate)
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,remove_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,assert_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(car,perf(maintain_speed))
+leads from state 
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,assert_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,assert_shared(at_speed_limit))
+leads from state 
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,maintain_speed)
+leads from state 
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,assert_shared(at_speed_limit))
+leads from state 
+@((((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon)*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+
+Message
+event(abstraction_car,assert_shared(at_speed_limit))
+leads from state 
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])
+to state
+@(S_1*S_2,[S_1= (bel(abstraction_car,at_speed_limit):S_1)\/epsilon,S_2= (action(any_action): (((bel(abstraction_car,start):epsilon)\/epsilon)*S_1\/epsilon|epsilon))*S_2])

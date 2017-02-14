@@ -96,7 +96,7 @@ If you wish to use a different scheduler in an environment then create the relev
 Often we want an environment with some random behaviour to model, for instance, unreliable sensors or actuators.
 
 \begin{sloppypar}
-It is tempting to add random behaviour to an environment simply through use of \java's \texttt{Random} class.  However this will break the system's ability to record and replay runs through the program which can be very useful in debugging.  The simplest way to add some random behaviour to an environment is to subclass \texttt{ail.mas.DefaultEnvironmentwRandomness} rather than \texttt{ail.mas.DefaultEnvironment}.  This provides two \texttt{Choice} objects which are the mechanism the \ail\ manages random behaviour for recording and replaying.
+It is tempting to add random behaviour to an environment simply through use of Java's \texttt{Random} class.  However this will break the system's ability to record and replay runs through the program which can be very useful in debugging.  The simplest way to add some random behaviour to an environment is to subclass \texttt{ail.mas.DefaultEnvironmentwRandomness} rather than \texttt{ail.mas.DefaultEnvironment}.  This provides two \texttt{Choice} objects which are the mechanism the \ail\ manages random behaviour for recording and replaying.
 \end{sloppypar}
 
 The \texttt{random\_booleans} object has one method, \texttt{nextBoolean()} which will return either true or false.  The \texttt{random\_ints} object has one method, \texttt{nextInt(int i)}, which will return a random integer between \texttt{0} and \texttt{i}.  Example~\ref{code:RandomRobotEnv} shows a sample environment for the search and rescue robot.  This has a human at (1, 1) in the grid and the robot has a 50\% chance of spotting the human if it is in the same grid square.   If you run this program several times you will see that sometimes the robot finds the human quickly and sometimes it has to search the grid several times.
@@ -183,9 +183,9 @@ public class RandomRobotEnv2 extends DefaultEnvironmentwRandomness {
 \end{lstlisting}
 \end{ourexample}
 
-\texttt{Choice} objects can be created to return any object -- integers, \texttt{Predicates}, \texttt{AILAgent}s, etc.,\footnote{The sample answer to the exercise at the end of this tutorial has an example of a \texttt{Choice} object for a \java\ \texttt{enum} type created just for the example.} by being given the correct type and instantiated correctly.  It is important to remember that the probabilities of the choices added by the \texttt{addChoice} method should add up to 1.
+\texttt{Choice} objects can be created to return any object -- integers, \texttt{Predicates}, \texttt{AILAgent}s, etc.,\footnote{The sample answer to the exercise at the end of this tutorial has an example of a \texttt{Choice} object for a Java\ \texttt{enum} type created just for the example.} by being given the correct type and instantiated correctly.  It is important to remember that the probabilities of the choices added by the \texttt{addChoice} method should add up to 1.
 
-If you genuinely need random doubles in an \ail\ environment then you can use \java's \texttt{Random} class but be aware that the record and replay functionality will no longer work.
+If you genuinely need random doubles in an \ail\ environment then you can use Java's \texttt{Random} class but be aware that the record and replay functionality will no longer work.
 
 \section{Record and Replay}
 When debugging a multi-agent program you sometimes want to replay the exact sequence of events that occurred in the  problem run.  To do this you first need to record the sequence.  You can get an \ail\ program to record its sequence of choices (in this case choices about whether or not the agent perceives the human) by adding the line
@@ -212,7 +212,7 @@ Obviously for complex systems you often want to combine dynamic environments wit
 
 Adapt the various search and rescue environments so that the human moves one square in a random direction each time the environment's \texttt{do\_job} method is called, to simulate a human moving independently around the search grid (NB. the search grid is 3x3 with coordinates ranging from (0, 0) to (2, 2) - you may assume it wraps if you wish).  
 
-You may use either \texttt{random\_booleans} or \texttt{random\_ints} to generate movement, however the sample answer (in the \texttt{answers} directory) creates a probability distribution over a custom \java\ \texttt{enum} type with the human most likely to remain stationary and least likely to move diagonally.
+You may use either \texttt{random\_booleans} or \texttt{random\_ints} to generate movement, however the sample answer (in the \texttt{answers} directory) creates a probability distribution over a custom Java\ \texttt{enum} type with the human most likely to remain stationary and least likely to move diagonally.
 
 Since you are altering the position of the human in this environment, not the perceptions available, you will find that the scheduler will loop infinitely when selecting the enviroment unless you include the line
 \begin{verbatim}

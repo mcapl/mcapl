@@ -10,11 +10,11 @@ The tutorial assumes familiarity with the \gwendolen\ programming language.
 
 \section{Abstraction and Reasoning Engines}
 
-\begin{figure}[htb]
-\includegraphics[width=\textwidth]{images/arch.pdf}
-\caption{The Architecture of an \eass\ Agent}
-\label{fig:arch}
-\end{figure}
+%\begin{figure}[htb]
+%\includegraphics[width=\textwidth]{images/arch.pdf}
+%\caption{The Architecture of an \eass\ Agent}
+%\label{fig:arch}
+%\end{figure}
 Figure~\ref{fig:arch} shows the typical architecture of an \eass\ Agent.  The agent is actually a pair of agents, the \emph{reasoning engine} which is responsible for complicated reasoning tasks, and the \emph{abstraction engine} which is responsible for processing and filtering incoming perceptions so only those actually needed for reasoning are passed on to the reasoning engine itself.
 
 The reasons for this separation are primarily driven by the observation that BDI agents are unable to process incoming perceptions from real or simulated sources fast enough and so they get ``clogged'' by an ever increasing number of intentions to do with perception processing.  

@@ -39,22 +39,21 @@ import ail.syntax.Predicate;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
 import java.io.File;
-import monitor.Monitorable;
-import java.util.List;
-import java.util.ArrayList;
+import monitor.Monitor;
 
 /**
  * This is an environment for connecting with the simple Java Motorway Simulation for tutorial purposes.
  * @author louiseadennis
  *
  */
-public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment implements Monitorable {
+public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment {
 
 	String logname = "eass.tutorials.tutorial1.CarOnMotorwayEnvironment";
 
 	// Two doubles used to keep track of the total distance the car has travelled.
 	private double totalydistance = 0;
 	private double prevy = 0;
+	private Monitor monitor = new Monitor("/Users/angeloferrando/git/mcapl/src/examples/eass/tutorials/tutorial1/trace_expression.pl");
 
 	/**
 	 * Constructor.
@@ -62,6 +61,7 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment implem
 	public CarOnMotorwayEnvironment() {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
+		monitor.initialize("monitor-logfile.txt", "test_tutorial1");
 	}
 
 	/**
@@ -146,31 +146,31 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment implem
 		if (act.getFunctor().equals("accelerate")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(0.01);
-			//printTest("(" + agName +  ")[action]: " + act.toString());
-			//monitor.check("action(" + agName + ", " + act.toString() + ")");
+			printTest("(" + agName +  ")[action]: " + act.toString());
+			monitor.check("action(" + agName + ", " + act.toString() + ")");
 			// System.err.println("written to socket 0.0 0.1");
 		} else if (act.getFunctor().equals("decelerate")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(-0.1);
-			//printTest("(" + agName +  ")[action]: " + act.toString());
-			//monitor.check("action(" + agName + ", " + act.toString() + ")");
+			printTest("(" + agName +  ")[action]: " + act.toString());
+			monitor.check("action(" + agName + ", " + act.toString() + ")");
 			// System.err.println("written to socket 0.0 -0.1");
 		} else if (act.getFunctor().equals("maintain_speed")) {
 			socket.writeDouble(0.0);
 			socket.writeDouble(0.0);
-		  //printTest("(" + agName +  ")[action]: " + act.toString());
-			//monitor.check("action(" + agName + ", " + act.toString() + ")");
+		  printTest("(" + agName +  ")[action]: " + act.toString());
+			monitor.check("action(" + agName + ", " + act.toString() + ")");
 			// System.err.println("written to socket 0.0 0.0");
 		} else if (act.getFunctor().equals("calculate_totaldistance")) {
 			VarTerm distance = (VarTerm) act.getTerm(0);
 			u.unifies(distance, new NumberTermImpl(totalydistance));
-			//printTest("(" + agName +  ")[action]: " + act.toString());
-			//monitor.check("action(" + agName + ", " + act.toString() + ")");
+			printTest("(" + agName +  ")[action]: " + act.toString());
+			monitor.check("action(" + agName + ", " + act.toString() + ")");
 		}
-		// else if (act.getFunctor().equals("assert_shared")) {
-		// 	printTest("(" + agName + ")[shared beliefs]: " + new PredicatewAnnotation((Predicate) act.getTerm(0)));
-		// 	monitor.check("shared_belief(" + agName + ", " + new PredicatewAnnotation((Predicate) act.getTerm(0)).toString() + ")");
-		// }
+		else if (act.getFunctor().equals("assert_shared")) {
+			printTest("(" + agName + ")[shared beliefs]: " + new PredicatewAnnotation((Predicate) act.getTerm(0)));
+			monitor.check("shared_belief(" + agName + ", " + new PredicatewAnnotation((Predicate) act.getTerm(0)).toString() + ")");
+		}
 		// else if (act instanceof SendAction) {
 		// 	printTest("[message]: msg(" + agName + ", " + act.getReceiver() + ", " + act.getMessage(agName) + ")");
 		// 	monitor.check("msg(" + agName + ", " + act.getReceiver() + ", " + act.getMessage(agName) + ")");
@@ -182,26 +182,16 @@ public class CarOnMotorwayEnvironment extends EASSSocketClientEnvironment implem
 
 	}
 
-	public String getTraceExpressionPath(){
-		return "/Users/angeloferrando/git/mcapl/src/examples/eass/tutorials/tutorial1/trace_expression.pl";
+	private static void printTest(String str){
+		PrintWriter pw = null;
+		try{
+			pw = new PrintWriter(new FileOutputStream(new File("test.txt"), true));
+			pw.println(str);
+		} catch(Exception ex){
+			ex.printStackTrace(System.out);
+		} finally{
+			if(pw != null) pw.close();
+		}
 	}
-
-	public String getLogFilePath(){
-		return "monitor-logfile.txt";
-	}
-
-	public String getProtocolName(){
-		return "test_tutorial1";
-	}
-
-	/*public String[] getEventsToCatch(){
-		return new String[]{ "assert_shared" };
-	}*/
-
-	public void manageProtocolViolation(){
-
-	}
-
-
 
 }
