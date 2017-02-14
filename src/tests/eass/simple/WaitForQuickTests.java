@@ -26,23 +26,36 @@ package eass.simple;
 
 import org.junit.Test;
 
-import ail.mas.AIL;
+import ail.util.AJPF_w_AIL;
 
+import gov.nasa.jpf.util.test.TestJPF;
 
 /**
- * Test for goal dropping behaviour - basically all this has to do is terminate!
+ * Tests relating to goal dropping behaviour
  */
-public class SimpleQuickTests {
+public class WaitForQuickTests extends TestJPF {
 
-   
-  @Test //----------------------------------------------------------------------
-  public void testDroppingNonExistantGoals () {
-	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";
-	  AIL.runAIL(filename);
-  }
-  
-  
+	static final String[] JPF_ARGS = { "-show", 
+		 "+listener+=,.listener.ExecTracker",
+	     "+et.print_insn=false",
+	     "+vm.max_transition_length=MAX",
+	     "+et.show_shared=false"
 
+	};
 
+	  @Test //----------------------------------------------------------------------
+	 public void wait_for () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)){
+	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse.ail";
+	   	String prop_filename =  "/src/examples/eass/simple/WaitFor/simple.psl";
+	   	String[] args = new String[3];
+	   	args[0] = filename;
+	   	args[1] = prop_filename;
+	   	args[2] = "3";
+	   	AJPF_w_AIL.run(args);
+	    } else {
+	   	 
+	    }
+	 }
 
 }

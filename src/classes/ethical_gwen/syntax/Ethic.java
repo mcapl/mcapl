@@ -118,9 +118,9 @@ public class Ethic {
     	
     }
     
-    public void standardise_apart(Unifiable u, Unifier un) {
-    	getEthic().standardise_apart(u, un);
-    }
+   // public void standardise_apart(Unifiable u, Unifier un) {
+   // 	getEthic().standardise_apart(u, un);
+   // }
 
 	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un) {
 		EthicalGwendolenAgent eg = (EthicalGwendolenAgent) ag;
