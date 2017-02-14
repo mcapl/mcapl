@@ -25,9 +25,12 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.ail,${mcapl}/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.psl,6
+target.args = ${mcapl}/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.ail,${mcapl}/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.psl,9
 
-log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.util.choice.ChoiceRecord
+log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment
+log.fine = ajpf.product.ModelState
+log.finer = ajpf.psl.buchi.BuchiAutomaton
+log.finest = ajpf.product.Product
 
 listener+=,.listener.ExecTracker,.listener.CGMonitor
 et.print_insn=false

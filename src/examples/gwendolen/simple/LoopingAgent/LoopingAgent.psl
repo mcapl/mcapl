@@ -30,4 +30,5 @@
 6: A(~B(ag1, bad))
 7: A((E(B(ag1, block1)) & E(B(ag2,block2))))
 8: A((E(B(ag2, block2)) & E(B(ag1,block1))))
+9: [](B (ag1, bad))
 
