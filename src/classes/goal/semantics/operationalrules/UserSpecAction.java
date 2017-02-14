@@ -25,6 +25,7 @@
 package goal.semantics.operationalrules;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import ail.semantics.operationalrules.*;
@@ -102,7 +103,7 @@ public class UserSpecAction extends ActionExecutor {
 		cap.apply(u);
 		System.err.println(a.getAgName() + " attempting " + cap);
 		Unifier newu = new Unifier();
-		cap.standardise_apart(action, newu);
+		cap.standardise_apart(action, newu, new HashSet<String>());
 		cap.unifies(action.getCap(), newu);
 		AILAgent.SelectionOrder order = AILAgent.SelectionOrder.LINEAR;
 		if (module.getRuleOrder() == GOALModule.RuleEvaluationOrder.RANDOM) {

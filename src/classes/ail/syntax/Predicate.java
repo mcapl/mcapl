@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -598,8 +599,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
      */
     @Override
-	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
-		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames);
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
+		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames, so);
 	}
 
 	/*
