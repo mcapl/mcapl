@@ -190,7 +190,6 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 	   AJPFLogger.fine(logname, "running");
    }
 
-
 	public void configure(AILConfig configuration) {
 		super.configure(configuration);
 

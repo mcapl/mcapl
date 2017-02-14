@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2014 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2017 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -32,7 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -257,12 +256,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     		return;
         if (terms == null)
             terms = new ArrayList<Term>();
-   //     if (t.isGround()) {
-   //     	terms.add(GroundPredSets.check(t));
-   //     } else {
         	terms.add(t);
-   //     }
-        predicateIndicatorCache = null;
+       predicateIndicatorCache = null;
         hashCodeCache = null;
       }
     
@@ -499,6 +494,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.Term#strip_varterm()
      */
+    @Override
     public Term strip_varterm() {
     	
     	for (int i = 0; i < getTermsSize(); i++) {
@@ -516,6 +512,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.Term#resolveVarsClusters()
      */
+    @Override
     public Term resolveVarsClusters() {
     	
     	for (int i = 0; i < getTermsSize(); i++) {
@@ -533,6 +530,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     /**
      * Assuming we are not higher order here!
      */
+    @Override
     public List<String> getVarNames() {
      	ArrayList<String> varnames = new ArrayList<String>();
      	if (isVar()) {
@@ -551,6 +549,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
      */
+    @Override
     public void renameVar(String oldname, String newname) {
     	if (isVar()) {
     		if (getFunctor().equals(oldname)) {
@@ -569,6 +568,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+  /*  @Override
     public void standardise_apart(Unifiable t, Unifier u) {
     	List<String> tvarnames = t.getVarNames();
     	List<String> myvarnames = getVarNames();
@@ -584,12 +584,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     		}
     	}
  
-    } 
+    } */
     
     /*
      * (non-Javadoc)
      * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
      */
+    @Override
 	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
 		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames);
 	}
@@ -598,6 +599,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 * (non-Javadoc)
 	 * @see ail.syntax.EBCompare#unifieswith(ail.syntax.Unifiable, ail.syntax.Unifier, java.lang.String)
 	 */
+    @Override
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
 	}       

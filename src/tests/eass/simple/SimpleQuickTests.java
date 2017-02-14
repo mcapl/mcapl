@@ -40,6 +40,8 @@ public class SimpleQuickTests {
 	  String filename =  "/src/examples/eass/simple/DroppingGoals/DroppingNonExistantGoals.ail";
 	  AIL.runAIL(filename);
   }
+  
+  
 
 
 

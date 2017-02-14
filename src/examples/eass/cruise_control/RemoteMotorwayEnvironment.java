@@ -176,7 +176,6 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 		} else if (act.getFunctor().equals("accelerating")) {
 			socket.writeDouble(0.1);
 		}
-
 		return super.executeAction(agName, act);
 	}
 

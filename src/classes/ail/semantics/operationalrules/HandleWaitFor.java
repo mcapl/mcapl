@@ -27,13 +27,13 @@ package ail.semantics.operationalrules;
 import java.util.Iterator;
 
 import ail.semantics.AILAgent;
+import ail.semantics.OSRule;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 
@@ -44,7 +44,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author lad
  *
  */
-public class HandleWaitFor extends Perceive {
+public class HandleWaitFor implements OSRule {
 	@FilterField
 	Intention i;
 	
@@ -101,12 +101,18 @@ public class HandleWaitFor extends Perceive {
 	 */
 	public void apply(AILAgent a) {
 		// First perform perception
-		super.apply(a);
+		// super.apply(a);
 
 		Literal waitingfor = (Literal) topdeed.getContent();
-		GBelief wfgb = new GBelief(waitingfor);
-		Iterator<Unifier> beliefs = a.believes(new Guard(wfgb), thetab);
-				
+		Iterator<Unifier> beliefs;
+		if (waitingfor.negated()) {
+			waitingfor.setNegated(false);
+			GBelief wfgb = new GBelief(waitingfor);
+			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
+		} else {
+			GBelief wfgb = new GBelief(waitingfor);
+			beliefs = a.believes(new Guard(wfgb), thetab);
+		}				
 		if (beliefs.hasNext()) {
 			i.tlI(a);
 			thetahd.compose(beliefs.next());
