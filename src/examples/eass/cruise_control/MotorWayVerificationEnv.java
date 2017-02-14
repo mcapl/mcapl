@@ -178,15 +178,7 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 		return percepts;
 	}
 	
-	      
-   /*
-    * (non-Javadoc)
-    * @see eass.mas.DefaultEASSEnvironment#eachrun()
-    */
-   public void eachrun() {
-	   AJPFLogger.fine(logname, "running");
-   }
-   
+	        
 	
 	public void configure(AILConfig configuration) {
 		super.configure(configuration);

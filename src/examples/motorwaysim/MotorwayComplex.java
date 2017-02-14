@@ -215,6 +215,10 @@ public class MotorwayComplex extends JPanel implements Runnable {
 			if (last_car.getYDot() < last_car.getSpeedPref()) {
 				last_car.accelerate();
 			}
+			
+			if (last_car == cars.get(0)) {
+				safe_in_lane = 1;
+			}
 		}
 	}
 	

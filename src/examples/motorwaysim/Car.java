@@ -37,8 +37,8 @@ public class Car {
 	private double yaccel = 0;
 	
 	private int INITIAL_X, INITIAL_Y, B_WIDTH, MIN_Y, MAX_Y;
-	private double DEFAULT_ACCELERATION = 0.1;
-	private double DEFAULT_BRAKE = -1;
+	private double DEFAULT_ACCELERATION = 0.01;
+	private double DEFAULT_BRAKE = -0.1;
 	
 	private boolean controlled;
 	private boolean include_total_distance;

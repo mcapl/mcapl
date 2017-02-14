@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, Michael Fisher
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -22,18 +22,16 @@
 //
 //----------------------------------------------------------------------------
 
-1: [] (D(car0,perf(accelerate)) -> (B(car0, safe) || <> D(car0, perf(brake)) ))
+env = eass.cruise_control.MotorWayVerificationEnv
 
-sanity: [] (D(car0,perf(accelerate)) -> ~B(car0, safe))
+mas.agent.1.file = src/examples/eass/cruise_control/car_singlelane_2017.eass
+mas.agent.1.builder = eass.EASSAgentBuilder
+mas.agent.1.name = car0
 
-2: [] (D(car0,perf(accelerate)) -> B(car0, safe)) & 
-   [] (D(car0,perf(change_right)) -> B(car0, safe_right)) & 
-   [] (D(car0,perf(change_left)) -> B(car0, safe_left)) 
-   
-3: [] (~D(car0,perf(change_right)))
+log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv
+log.format = brief
 
-4:  ( [] ( D(car0, perf(brake)) -> <> B(car0, safe) ) ) -> 
-    (
-          B (car0, safe) -> [] (<> ( B (car0, safe)))
-    )
-    
+# Eass Specific stuff
+
+singlelane=true
