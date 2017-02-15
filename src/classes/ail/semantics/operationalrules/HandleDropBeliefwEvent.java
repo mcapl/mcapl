@@ -81,5 +81,12 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 		
 		i.tlI(a);
 		i.compose(thetahd);
+		
+		for (Intention i: a.getIntentions()) {
+			Literal b_clone = (Literal) b.clone();
+			b_clone.setNegated(true);
+			i.unsuspendFor(b_clone);
+		}
+
 	}
 }

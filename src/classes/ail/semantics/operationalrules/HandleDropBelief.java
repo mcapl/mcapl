@@ -27,10 +27,10 @@ package ail.semantics.operationalrules;
 import java.util.Iterator;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
 import ail.syntax.PredicateTerm;
-
 import ajpf.util.AJPFLogger;
 
 /**
@@ -85,5 +85,12 @@ public class HandleDropBelief extends HandleBelief {
 		
 		i.tlI(a);
 		i.compose(thetahd);
+		
+		for (Intention i: a.getIntentions()) {
+			Literal b_clone = (Literal) b.clone();
+			b_clone.setNegated(true);
+			i.unsuspendFor(b_clone);
+		}
+
 	}
 }

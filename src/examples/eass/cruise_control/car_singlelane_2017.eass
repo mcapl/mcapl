@@ -37,7 +37,7 @@ at_speed_limit [achieve]
 
 :Plans:
 
-+! at_speed_limit [achieve] : {B can_accelerate} <-
++! at_speed_limit [achieve] : {B can_accelerate, ~B accelerating, ~B at_speed_limit} <-
 	   +.lock,
 	   -braking,
 	   +accelerating,
@@ -50,11 +50,12 @@ at_speed_limit [achieve]
        *~driver_accelerates;
 +! at_speed_limit [achieve] : {B driver_brakes} <-
        *~driver_brakes;
++! at_speed_limit [achieve] : {B accelerating} <-
+       *~accelerating;
++! at_speed_limit [achieve] : {B at_speed_limit};
 
 +at_speed_limit: {B can_accelerate, B at_speed_limit} <- 
          +.lock, -accelerating, -braking, perf(maintain_speed), -.lock;
-+at_speed_limit: {~B safe, ~B braking} <- 
-        +.lock, -accelerating, +braking, perf(brake), -.lock;
 -at_speed_limit: {~G at_speed_limit [achieve], ~B at_speed_limit} <-
         +! at_speed_limit[achieve];
 -safe: {~B driver_brakes, ~B safe, ~B braking} <- 

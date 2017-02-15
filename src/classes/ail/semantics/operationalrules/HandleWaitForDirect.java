@@ -103,7 +103,7 @@ public class HandleWaitForDirect extends DirectPerception {
 		// First perform perception
 		// super.apply(a);
 
-		Literal waitingfor = (Literal) topdeed.getContent();
+		Literal waitingfor = (Literal) topdeed.getContent().clone();
 		Iterator<Unifier> beliefs;
 		if (waitingfor.negated()) {
 			waitingfor.setNegated(true);
