@@ -37,12 +37,12 @@ at_speed_limit [achieve]
 
 :Plans:
 
-+! at_speed_limit [achieve] : {B can_accelerate} <-
-//	   +.lock,
++! at_speed_limit [achieve] : {B can_accelerate, ~B accelerating, ~B at_speed_limit} <-
+	   +.lock,
 	   -braking,
 	   +accelerating,
        perf(accelerate),
- //      -.lock,
+       -.lock,
        *~accelerating;
 +! at_speed_limit [achieve] : {~B safe} <-
        *safe;
@@ -50,14 +50,19 @@ at_speed_limit [achieve]
        *~driver_accelerates;
 +! at_speed_limit [achieve] : {B driver_brakes} <-
        *~driver_brakes;
++! at_speed_limit [achieve] : {B accelerating} <-
+       *~accelerating;
++! at_speed_limit [achieve] : {B at_speed_limit};
 
 +at_speed_limit: {B can_accelerate, B at_speed_limit} <- 
-         -accelerating, -braking, perf(maintain_speed);
-+at_speed_limit: {~B safe, ~B braking} <- 
-        -accelerating, +braking, perf(brake);
+         +.lock, -accelerating, -braking, perf(maintain_speed), -.lock;
 -at_speed_limit: {~G at_speed_limit [achieve], ~B at_speed_limit} <-
         +! at_speed_limit[achieve];
--safe: {~B driver_brakes, ~B safe, ~B braking} <- -accelerating, +braking, perf(brake);
+-safe: {~B driver_brakes, ~B safe, ~B braking} <- 
+		+.lock, -accelerating, +braking, perf(brake), -.lock;
 
-+driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates, ~B accelerating} <- +accelerating, -braking, perf(accelerate);
-+driver_brakes: {B driver_brakes, ~B braking} <- +braking, -accelerating, perf(brake);
++driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates, ~B accelerating} <- 
+	+.lock,
+	+accelerating, -braking, perf(accelerate),
+	-.lock;
++driver_brakes: {B driver_brakes, ~B braking} <- +.lock, +braking, -accelerating, perf(brake), -.lock;

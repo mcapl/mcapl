@@ -32,6 +32,9 @@ log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontroller
 log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv
 log.format = brief
 
+ajpf.transition_every_reasoning_cycle = false
+
+
 # Eass Specific stuff
 
 singlelane=true
