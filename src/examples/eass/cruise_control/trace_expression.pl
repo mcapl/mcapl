@@ -146,7 +146,7 @@ all_shuffles(T) :-
 all_shuffles(T, A) :-
   get_assoc(T, A, _), !.
 all_shuffles(_:epsilon, _).
-all_shuffles((_:epsilon)\/epsilon, _).
+%all_shuffles((_:epsilon)\/epsilon, _).
 all_shuffles(((not_action:_)\/epsilon), _).
 all_shuffles(T1|T2, A) :-
   put_assoc(T1|T2, A, _, A1),
