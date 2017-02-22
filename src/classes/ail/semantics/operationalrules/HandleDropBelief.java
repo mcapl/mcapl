@@ -28,6 +28,7 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
+import ail.syntax.Intention;
 import ail.syntax.Literal;
 import ail.syntax.PredicateTerm;
 
@@ -85,5 +86,9 @@ public class HandleDropBelief extends HandleBelief {
 		
 		i.tlI(a);
 		i.compose(thetahd);
+		
+		for (Intention i: a.getIntentions()) {
+			i.unsuspendFor(b);
+		}
 	}
 }
