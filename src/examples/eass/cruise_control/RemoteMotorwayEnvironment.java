@@ -209,7 +209,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 
 	public String getProtocolName(){
 		//return "cruise_control_protocol";
-		return "motorwayNoSingleLaneNoOvertaking";
+		return "motorwayNew";
 	}
 
 	/*public String[] getEventsToCatch(){

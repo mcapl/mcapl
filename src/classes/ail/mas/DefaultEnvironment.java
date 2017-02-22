@@ -122,6 +122,10 @@ public class DefaultEnvironment implements AILEnv {
 
 	private Monitor monitor;
 
+	private String lastEvent;
+
+	private boolean consistent = true;
+
 	/**
 	 * Name for logging.
 	 */
@@ -293,7 +297,7 @@ public class DefaultEnvironment implements AILEnv {
 	   	}
 
 
-			if(this instanceof Monitorable){
+			if(this instanceof Monitorable && consistent){
 				Monitorable monMe = (Monitorable) this;
 
 				if (act instanceof SendAction) {
@@ -305,9 +309,13 @@ public class DefaultEnvironment implements AILEnv {
 
 				//for(String event : monMe.getEventsToCatch()){
 					//if (act.getFunctor().equals(event)) {
+					if(!("event(" + agName + ", " + act.toString() + ")").equals(lastEvent)){
+						lastEvent = "event(" + agName + ", " + act.toString() + ")";
 						if(!monitor.check("event(" + agName + ", " + act.toString() + ")")){
+							consistent = false;
 							monMe.manageProtocolViolation();
 						}
+					}
 						//break;
 					//}
 				//}

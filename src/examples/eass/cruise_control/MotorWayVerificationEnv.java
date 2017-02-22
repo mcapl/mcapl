@@ -70,7 +70,7 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 	boolean driver_accelerates_b = false;
 	boolean driver_brakes_b = false;
 
-	boolean singlelane = false;
+	boolean singlelane = true;
 	boolean overtaking = false;
 
 
