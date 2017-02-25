@@ -26,7 +26,7 @@ public class Abstract_ListAll implements Abstract_GLogicalFormula {
 
 	@Override
 	public ListAll toMCAPL() {
-		return new ListAll(v.toMCAPL(), ms.toMCAPL());
+		return new ListAll(v.toMCAPL(), ms);
 	}
 
 	@Override

@@ -159,5 +159,13 @@ public class Abstract_MentalState extends Abstract_Guard {
 			return p.toString();
 		}
 	}
+	
+	public boolean isMacro() {
+		return macro;
+	}
+	
+	public Abstract_Predicate getKey() {
+		return p;
+	}
 
 }

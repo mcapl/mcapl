@@ -1,5 +1,7 @@
 package goal.syntax;
 
+import goal.syntax.ast.Abstract_MentalState;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,6 +32,18 @@ public class ListAll implements GLogicalFormula {
 		ms_varnames = mental_state.getVarNames();
 	}
 	
+	public ListAll(ListTerm v, Abstract_MentalState ms) {
+		if (ms.isMacro()) {
+			ms_varnames = ms.getKey().toMCAPL().getVarNames();
+			mental_state = ms.toMCAPL();
+		} else {
+			mental_state = ms.toMCAPL();
+			ms_varnames = mental_state.getVarNames();
+		}
+		list = v;
+		// ms_varnames = mental_state.getVarNames();
+	}
+
 	public ListTerm getList() {
 		return list;
 	}

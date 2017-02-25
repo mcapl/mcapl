@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2015 Louise A. Dennis, Michael Fisher and Koen Hindriks
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher and Koen Hindriks
 // 
 // This file is part of GOAL (AIL version) - GOAL-AIL
 //
@@ -67,8 +67,8 @@ public class GOALModule {
     
     private FocusMethod focusMethod = FocusMethod.NONE;
     
-    private boolean executeFully = false;
-    private boolean one_rule_executed = false;
+   //  private boolean executeFully = false;
+    // private boolean one_rule_executed = false;
 	
 	public static enum ExitCondition {
 		NOGOALS,
@@ -170,9 +170,10 @@ public class GOALModule {
 		} else {
 			if (module_type == ModuleType.INIT) {
 				name = new Predicate("init");
+				order = RuleEvaluationOrder.LINEARALL;
 			} else if (module_type == ModuleType.EVENT) {
 				name = new Predicate("event");
-				executeFully = true;
+				order = RuleEvaluationOrder.LINEARALL;
 			}
 			exitCondition = ExitCondition.ALWAYS;
 		}
@@ -244,14 +245,20 @@ public class GOALModule {
 		ruleIt = p;
 	}
 	
+	public void clearRuleItIfNotApplyAll() {
+		if (! order.applyAll()) {// || (ruleIt != null && ! ruleIt.hasNext())) {
+			ruleIt = null;
+		}
+	}
+	
 	public boolean hasRuleSet() {
 		return ruleIt != null;
 	}
 	
 	public Iterator<ApplicablePlan> getRule() {
-		if (executeFully || !one_rule_executed) {
+		//if (executeFully || !one_rule_executed) {
 			return ruleIt;
-		} else {
+		/* } else {
 			one_rule_executed = false;
 			return new Iterator<ApplicablePlan>() {
 
@@ -269,14 +276,14 @@ public class GOALModule {
 				
 				
 			};
-		}
+		} */
 	}
 	
-	public void note_applied_rule() {
-		if (!executeFully) {
+	// public void note_applied_rule() {
+	//	if (!executeFully) {
 			// one_rule_executed = true;
-		}
-	}
+	//	}
+	// }
 	
 	public void setRuleEvaluationOrder(RuleEvaluationOrder o) {
 		order = o;
@@ -339,12 +346,12 @@ public class GOALModule {
 		module_substitution.compose(u);
 	}
 	
-	public void setExecuteFully() {
-		executeFully = true;
-	}
+	// public void setExecuteFully() {
+	// 	executeFully = true;
+	// }
 	
-	public boolean getExecuteFully() {
-		return executeFully;
-	}
+	// public boolean getExecuteFully() {
+	// 	return executeFully;
+	// }
 }
 

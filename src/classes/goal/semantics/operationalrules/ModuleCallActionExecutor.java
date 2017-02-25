@@ -1,3 +1,25 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher and Koen Hindriks
+// 
+// This file is part of GOAL (AIL version) - GOAL-AIL
+//
+// GOAL-AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// GOAL-AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with GOAL-AIL if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
 package goal.semantics.operationalrules;
 
 import goal.semantics.GOALAgent;
@@ -25,6 +47,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
+		/* if (module.hasRuleSet()) {
+			if ( ! module.getRule().hasNext() ) {
+				module.setRule(null);
+			}
+		} */
+
 		try {
 			Deed d = a.getIntention().hdD();
 		
@@ -58,9 +86,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		} */
 		
 		
- /*      	GOALRCStage currentStage = ((GOALRC) a.getReasoningCycle()).getCurrentStage();
+      	//GOALRCStage currentStage = ((GOALRC) a.getReasoningCycle()).getCurrentStage();
+      	//if (currentStage instanceof ModuleExecutorStage) {
+      	//	((ModuleExecutorStage) currentStage).setExitIfAppropriate(ag);
+      	//}
        	
-       	if (currentStage instanceof ModuleExecutorStage) {
+       /*	if (currentStage instanceof ModuleExecutorStage) {
        		GOALModule prevModule = ((ModuleExecutorStage) currentStage).getModule(); 
        		if (prevModule.getType() == GOALModule.ModuleType.ANONYMOUS) {
        			System.err.println("here");
@@ -68,7 +99,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
        		}
        	
        	} */
- 
+		module.clearRuleItIfNotApplyAll(); 
        	
 		if (newAttentionSet != null) {
 			ag.getMentalState().focus(newAttentionSet);

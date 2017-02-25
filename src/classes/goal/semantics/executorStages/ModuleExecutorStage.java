@@ -1,8 +1,34 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis,  Michael Fisher and Koen Hindriks
+// 
+// This file is part of GOAL (AIL version) - GOAL-AIL
+//
+// GOAL-AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// GOAL-AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with GOAL-AIL if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
 package goal.semantics.executorStages;
 
 import goal.semantics.AbstractGoalStage;
 import goal.semantics.GOALRC;
 import goal.semantics.GOALRCStage;
+import goal.semantics.operationalrules.GOALHandleAddAchieveTestGoal;
+import goal.semantics.operationalrules.GOALHandleAddBelief;
+import goal.semantics.operationalrules.GOALHandleDropBelief;
+import goal.semantics.operationalrules.GOALHandleDropGeneralGoal;
 import goal.semantics.operationalrules.ModuleCallActionExecutor;
 import goal.semantics.operationalrules.ModuleInitialisation;
 import goal.semantics.operationalrules.PrintActionExecutor;
@@ -32,7 +58,7 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	private boolean exit = false;
 	boolean selectedrules = false;
 	boolean agintention = false;
-	
+		
 	ModuleExecutorStage nextModule;
 		
 	
@@ -45,10 +71,10 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 	SendActionExecutor sendaction = new SendActionExecutor();
 	SendOnceActionExecutor sendonceaction = new SendOnceActionExecutor();
 	ModuleExit exitModule = new ModuleExit(this);
-	HandleAddBelief addBelief = new HandleAddBelief();
-	HandleDropBelief dropBelief = new HandleDropBelief();
-	HandleAddAchieveTestGoal addGoal = new HandleAddAchieveTestGoal();
-	HandleDropGeneralGoal dropGoal = new HandleDropGeneralGoal(new ArrayList<Integer>());
+	GOALHandleAddBelief addBelief = new GOALHandleAddBelief();
+	GOALHandleDropBelief dropBelief = new GOALHandleDropBelief();
+	GOALHandleAddAchieveTestGoal addGoal = new GOALHandleAddAchieveTestGoal();
+	GOALHandleDropGeneralGoal dropGoal = new GOALHandleDropGeneralGoal(new ArrayList<Integer>());
 	
 	boolean performedAnAction = false;
 		
@@ -58,6 +84,12 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		actionRule.setModule(m);
 		userspec.setModule(m);
 		printaction.setModule(m);
+		addBelief.setModule(m);
+		dropBelief.setModule(m);
+		addGoal.setModule(m);
+		dropGoal.setModule(m);
+		sendaction.setModule(m);
+		sendonceaction.setModule(m);
 		mca.setModule(m);
 	}
 	
@@ -122,39 +154,14 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 		}
 
 		if (!agintention && !selectedrules && !first && !exit) {
-			exit = module.isModuleTerminated();
-		
-			switch (module.getExitCondition()) {
-				case NOGOALS:
-					exit |= ((GOALAgent) ag).getAttentionSet().isEmpty();
-					break;
-				case NOACTION:
-					exit |= !performedAnAction;
-				case ALWAYS:
-					exit = true;
-					break;
-				default:
-				case NEVER:
-				// exit whenever module has been terminated (see above)
-					break;
-				}
-					
-				if (exit) {
-					// If module termination flag has been set, reset it except when
-					// this is an anonymous module. In that case, module termination
-					// needs to be propagated to enclosing module(s).
-					if (this.module.getType() != GOALModule.ModuleType.ANONYMOUS) {
-						this.module.setModuleTerminated(false);
-					}
-					// module.setRule(null);
-				} 
+			setExitIfAppropriate((GOALAgent) ag);
 		} else {
 			if (agintention) {
 				//module.setRule(null);
 				selectedrules = false;
-				if (! module.getExecuteFully()) {
+				// if (! module.getExecuteFully()) {
 				//	module.setRule(null);
-				}
+				// }
 			//	((GOALAgent) ag).actionPerformed();
 			}
 			
@@ -171,6 +178,36 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			}
 		}
 	}
+	
+	public void setExitIfAppropriate(GOALAgent ag) {
+		exit = module.isModuleTerminated();
+		
+		switch (module.getExitCondition()) {
+			case NOGOALS:
+				exit |= ag.getAttentionSet().isEmpty();
+				break;
+			case NOACTION:
+				exit |= !performedAnAction;
+			case ALWAYS:
+				exit = true;
+				break;
+			default:
+			case NEVER:
+			// exit whenever module has been terminated (see above)
+				break;
+			}
+				
+			if (exit) {
+				// If module termination flag has been set, reset it except when
+				// this is an anonymous module. In that case, module termination
+				// needs to be propagated to enclosing module(s).
+				if (this.module.getType() != GOALModule.ModuleType.ANONYMOUS) {
+					this.module.setModuleTerminated(false);
+				}
+				// module.setRule(null);
+			} 
+
+	}
 
 
 	@Override
@@ -180,6 +217,18 @@ public class ModuleExecutorStage extends AbstractGoalStage {
 			nextModule = null;
 			exit = false;
 			// module.setRule(null);
+			if (tmp.getModule().getType() == GOALModule.ModuleType.MAIN) {
+				if (module.getType() != GOALModule.ModuleType.EVENT && module.getType() != GOALModule.ModuleType.INIT) {
+					if (!tmp.selectedrules) {
+						if (!tmp.agintention) {
+							if (!tmp.exit) {
+								rc.setStopandCheck(true);
+								return rc.startCycle;
+							}
+						}
+					}
+				}
+			}
 			return tmp;
 		}
 

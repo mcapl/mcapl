@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2017 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of GOAL (AIL version) - GOAL-AIL
@@ -50,7 +50,7 @@ import gov.nasa.jpf.annotation.FilterField;
  */
 public class ActionRuleExecutor implements OSRule {
 	@FilterField
-	private static final String name = "Plan with Cond Actions";
+	private static final String name = "Apply Action Rule";
 	@FilterField
 	private Iterator<ApplicablePlan> aps = new ArrayList<ApplicablePlan>().iterator();
 	
@@ -96,7 +96,7 @@ public class ActionRuleExecutor implements OSRule {
 		// What happens next also depends upon whether this is an ifthenrule or not.
 		Iterator<ApplicablePlan> ruleIt = module.getRule();
 		ApplicablePlan p = ruleIt.next();
-		module.note_applied_rule();
+		// module.note_applied_rule();
 			
 		if (module.isIfThenRule(p)) {
 			IntentionFromPlan(p, a);

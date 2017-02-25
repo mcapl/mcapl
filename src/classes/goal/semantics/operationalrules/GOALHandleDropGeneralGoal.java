@@ -22,47 +22,29 @@
 //----------------------------------------------------------------------------
 package goal.semantics.operationalrules;
 
+import java.util.ArrayList;
+
 import goal.syntax.GOALModule;
-import goal.syntax.PrintAction;
 import ail.semantics.AILAgent;
-import ail.semantics.OSRule;
-import ail.syntax.Action;
-import ail.syntax.Deed;
+import ail.semantics.operationalrules.HandleDropGeneralGoal;
 
-public class PrintActionExecutor extends ActionExecutor {
-	Action action;
-
-	@Override
-	public boolean checkPreconditions(AILAgent a) {
-		Deed d = a.getIntention().hdD();
-		
-		boolean isaction = d.getCategory() == Deed.DAction;
-		
-		if (isaction) {
-			action = (Action) d.getContent();
-			action.apply(a.getIntention().hdU());
-			return (action instanceof PrintAction);
-		} else {
-			return false;
-		}
-		// TODO Auto-generated method stub
-		
+public class GOALHandleDropGeneralGoal extends HandleDropGeneralGoal implements
+		ActionExecutorInterface {
+	
+	public GOALHandleDropGeneralGoal(ArrayList<Integer> list) {
+		super(list);
 	}
 
-	@Override
+	GOALModule module;
+	
 	public void apply(AILAgent a) {
 		super.apply(a);
-		System.out.println(action.getTerm(0));
-		a.getIntention().tlI(a);
-	//	a.setIntention(null);
-		// TODO Auto-generated method stub
-
+		module.clearRuleItIfNotApplyAll();
 	}
 
 	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "Print Action Executor";
+	public void setModule(GOALModule m) {
+		module = m;
 	}
 
 }

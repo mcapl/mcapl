@@ -103,6 +103,9 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 	
 	public Abstract_GOALModule(Abstract_ModuleDef def) {
 		module_type = def;
+		if (def == event || def == init) {
+			optionorder = linearall;
+		}
 	}
 	
 	public void addAllCap(ArrayList<Abstract_ActionSpec> as) {

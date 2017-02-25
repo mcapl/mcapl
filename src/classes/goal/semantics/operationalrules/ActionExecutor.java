@@ -5,7 +5,7 @@ import goal.syntax.GOALModule;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 
-public abstract class ActionExecutor implements OSRule {
+public abstract class ActionExecutor implements ActionExecutorInterface {
 	GOALModule module;
 
 	@Override
@@ -17,9 +17,9 @@ public abstract class ActionExecutor implements OSRule {
 	@Override
 	public void apply(AILAgent a) {
 		// TODO Auto-generated method stub
-		// THis nees to be activated only if first action succeeds
+		// THis needs to be activated only if first action succeeds
 		((GOALAgent) a).actionPerformed(); 
-		module.setRule(null);
+		module.clearRuleItIfNotApplyAll();
 
 	}
 	
