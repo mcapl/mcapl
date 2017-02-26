@@ -142,10 +142,9 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 	   		return super.executeAction(agName, act);
 	   	} else {
 	   	   	decidetostop(agName, act);
-	    	if (!act.getFunctor().equals("print")) {
-	    		lastAgent = agName;
-	    		lastAction = act;
-	    	}
+	   	   	lastAgent = agName;
+	   	   	lastAction = act;
+	    	
 	    	Unifier u = new Unifier();
 		   	if (AJPFLogger.ltInfo("ail.mas.DefaultEnvironment")) {
 		   		AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
@@ -153,7 +152,7 @@ public abstract class VerificationofAutonomousSystemsEnvironment extends Default
 		   	
 		   	return (u);
 
-	   	}
+	   	} 
 		
 	}
 	
@@ -199,7 +198,7 @@ public boolean done() {
 	@Override
 	public void setMAS(MAS m) {
 		super.setMAS(m);
-		System.err.println("Setting MAS");
+		// System.err.println("Setting MAS");
 		random_bool_generator = new UniformBoolChoice(m.getController());
 		random_int_generator = new UniformIntChoice(m.getController());
 	}

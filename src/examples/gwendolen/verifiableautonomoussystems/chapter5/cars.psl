@@ -32,3 +32,5 @@
 8: <>ItD(car1, accelerate)
 9: <>ItD(car1, send(car2, 3, at_speed_limit))
 10: [](D(car1, accelerate) -> <>B(car1, at_speed_limit)) -> <>D(car1, finished)
+11: [](I(car1, at_speed_limit) -> <>( D(car1, accelerate) || B(car1, at_speed_limit)))
+12: []((I(car1, at_speed_limit) & ~B(car1, at_speed_limit)) -> <>D(car1, accelerate))
