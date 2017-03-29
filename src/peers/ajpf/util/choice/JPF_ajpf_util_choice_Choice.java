@@ -48,6 +48,7 @@ public class JPF_ajpf_util_choice_Choice<O extends Object> extends NativePeer {
 		int myChoice = 0;
 		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
+		if (limit > 0) {
 		if (!ti.isFirstStepInsn()) {
 			log.fine("creating a choice generator");
 			int[] choicearray = new int[limit + 1];
@@ -65,6 +66,9 @@ public class JPF_ajpf_util_choice_Choice<O extends Object> extends NativePeer {
 			assert cg != null : "no 'probabilisticChoice' IntChoiceFromSet found";
 			myChoice = cg.getNextChoice();
 			log.fine("choice was " + myChoice);
+		}
+		} else {
+			myChoice = 0;
 		}
 		return myChoice;
 

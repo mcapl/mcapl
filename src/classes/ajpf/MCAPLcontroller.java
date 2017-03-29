@@ -366,7 +366,10 @@ public class MCAPLcontroller  {
 			}
 			return true;
 		} else {
-			force_transition();
+			if (transitionEveryReasoningCycle()) {
+				// System.err.println("forcing transition");
+				force_transition();
+			}
 		}
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");

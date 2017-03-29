@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-env = ail.mas.DefaultEnvironment
+env = goal.mas.GoalEnvironment
 
 mas.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
 mas.builder = goal.GOALMASBuilder

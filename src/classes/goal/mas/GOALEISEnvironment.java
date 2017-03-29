@@ -37,6 +37,7 @@ import ail.mas.scheduling.ActionScheduler;
 import ail.semantics.AILAgent;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
+import ail.util.AILConfig;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
@@ -173,6 +174,17 @@ public class GOALEISEnvironment extends EISEnvironmentWrapper implements GOALEnv
 			notifyListeners(agName);	
 		}
 	}
+	
+	@Override
+	public void configure(AILConfig config) {
+		for (String s: config.stringPropertyNames()) {
+			if (s.startsWith("goal.launchpolicy")) {
+				getLaunchPolicy().configure(config);
+				break;
+			}
+		}
+	}
+
 
 
 

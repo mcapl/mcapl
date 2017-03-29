@@ -170,12 +170,12 @@ public boolean done() {
 					clearPercepts();
 					
 					for (Predicate p: percepts) {
-						addPercept(p);
+						// addPercept(p);
 					}
 					
 					for (String agName: agentmap.keySet()) {
 						for (Message m: messages) {
-							addMessage(agName, m);
+						//	addMessage(agName, m);
 						}
 					}
 					final_turn = 2;

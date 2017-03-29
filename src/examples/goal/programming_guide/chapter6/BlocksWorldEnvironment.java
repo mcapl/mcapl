@@ -32,12 +32,7 @@ public class BlocksWorldEnvironment extends GOALEISEnvironment {
 			addToInitMap("gui", value);
 		}
 
-		for (String s: config.stringPropertyNames()) {
-			if (s.startsWith("goal.launchpolicy")) {
-				getLaunchPolicy().configure(config);
-				break;
-			}
-		}
+		super.configure(config);
 	}
 	
 	
