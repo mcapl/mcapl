@@ -26,6 +26,8 @@ import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
+
 /**
  * This is an iterator for Evaluation Bases.  The Iterator returns potential unifiers 
  * for objects within the Evaluation Base.
@@ -50,11 +52,11 @@ public class EvaluationBaseIterator<K extends Unifiable> implements Iterator<Uni
 	Unifier current = null;
 
 	
-	public EvaluationBaseIterator(EvaluationBase<K> e, Unifier u, EBCompare<K> g) {
+	public EvaluationBaseIterator(EvaluationBase<K> e, Unifier u, EBCompare<K> g, AILAgent.SelectionOrder so) {
 		eb = e;
 		un = u;
 		ga = g;
-		il = eb.getRelevant(ga);
+		il = eb.getRelevant(ga, so);
 	} 
 
 	/*

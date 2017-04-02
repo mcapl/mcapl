@@ -63,7 +63,7 @@ public class SimpleQuickTests {
 			env.addAgent(ao);
 			env.addAgent(eg);
 			
-			env.initialise();
+			env.init_after_adding_agents();
 			
 			
 			ao.reason();

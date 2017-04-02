@@ -1,0 +1,22 @@
+init module{
+	beliefs{
+		nrOfPrintedLines(0).
+	}
+		
+	goals{
+		nrOfPrintedLines(10).
+	}
+}
+	
+event module{
+	program{
+		if bel(nrOfPrintedLines(Count), NewCount is Count + 1 )
+			then delete(nrOfPrintedLines(Count)) + insert( nrOfPrintedLines(NewCount) ).
+	}
+}
+	
+main module[exit=nogoals] {
+	program{
+		if goal(nrOfPrintedLines(10)) then print("Hello, world!").
+	}
+}

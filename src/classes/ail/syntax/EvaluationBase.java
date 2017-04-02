@@ -25,6 +25,8 @@ package ail.syntax;
 
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
+
 /**
  * An Evaluation Base is a set of ground terms - typically a belief base or a goal base, against which some logical
  * formula can be evaluated.
@@ -39,5 +41,5 @@ public interface EvaluationBase<K extends Unifiable> {
 	 * @param ga
 	 * @return
 	 */
-	public Iterator<K> getRelevant(EBCompare<K> ga);
+	public Iterator<K> getRelevant(EBCompare<K> ga, AILAgent.SelectionOrder so);
 }

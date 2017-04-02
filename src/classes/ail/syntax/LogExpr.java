@@ -30,7 +30,9 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ajpf.util.AJPFLogger;
 
 /** 
@@ -99,21 +101,21 @@ public class LogExpr implements LogicalFormula {
 	 * Implements backtracking to find a unifier which makes the expression true against the internal state of an agent.
 	 */
 	@Override
-    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final List<String> varnames) {
+    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
         try {
 	        final Iterator<Unifier> ileft;
 	        switch (op) {
 	        
 	        	case not:
-	        		if (!rhs.logicalConsequence(eb,rb,un,varnames).hasNext()) {
+	        		if (!rhs.logicalConsequence(eb,rb,un,varnames, so).hasNext()) {
 	        			return createUnifIterator(un);
 	        		}
 	        		break;
 	        	case none:
-	        		return rhs.logicalConsequence(eb, rb, un, varnames);
+	        		return rhs.logicalConsequence(eb, rb, un, varnames, so);
 	        
 	        	case and:
-	        		ileft = lhs.logicalConsequence(eb,rb,un, varnames);
+	        		ileft = lhs.logicalConsequence(eb,rb,un, varnames, so);
 	        		return new Iterator<Unifier>() {
 	        			Unifier current = null;
 	        			Iterator<Unifier> iright = null;
@@ -139,7 +141,7 @@ public class LogExpr implements LogicalFormula {
 	        							cut();
 	        						}
 	        					}
-	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames);
+	        					iright = rhs.logicalConsequence(eb, rb, ul, varnames, so);
 	        				}
 	        				if (iright != null && iright.hasNext()) {
 	        					current = iright.next();
@@ -154,11 +156,18 @@ public class LogExpr implements LogicalFormula {
 	        				}
 	        			}
 	        			public void remove() {}
+	        			
+	        			public String toString() {
+	        				String s = "Iterator for :" + LogExpr.this + " -- " + un + "\n";
+	        				s += "Current Unifier: ";
+	        				s += current;
+	        				return s;
+	        			}
 	        		};
 	            
 	        	case or:
-	            ileft = lhs.logicalConsequence(eb, rb, un, varnames);
-	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un,varnames);
+	            ileft = lhs.logicalConsequence(eb, rb, un, varnames, so);
+	            final Iterator<Unifier> iright = rhs.logicalConsequence(eb, rb, un,varnames, so);
 	            return new Iterator<Unifier>() {
 	                Unifier current = null;
 	                public boolean hasNext() {
@@ -185,7 +194,7 @@ public class LogExpr implements LogicalFormula {
     	    } catch (Exception e) {
         		String slhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un, varnames);
+        			Iterator<Unifier> i = lhs.logicalConsequence(eb, rb, un, varnames, so);
         			if (i != null) {
         				slhs = "";
         				while (i.hasNext()) {
@@ -197,7 +206,7 @@ public class LogExpr implements LogicalFormula {
         		} 
         		String srhs = "is null";
         		if (lhs != null) {
-        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un, varnames);
+        			Iterator<Unifier> i = rhs.logicalConsequence(eb, rb, un, varnames, so);
         			if (i != null) {
         				srhs = "";
         				while (i.hasNext()) {
@@ -325,8 +334,8 @@ public class LogExpr implements LogicalFormula {
      * @see ail.syntax.Unifiable#getVarNames()
      */
 	@Override
-    public List<String> getVarNames() {
-    	List<String> varnames = getRHS().getVarNames();
+    public Set<String> getVarNames() {
+    	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
     		varnames.addAll(getLHS().getVarNames());
     	}
@@ -349,23 +358,9 @@ public class LogExpr implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
-	@Override
-    public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
- 
+    @Override
+    public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
     

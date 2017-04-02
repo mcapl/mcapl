@@ -110,7 +110,7 @@ public class MCAPLcontroller  {
 		specification.addController(this);
 		
 
-	}
+	} 
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -171,6 +171,20 @@ public class MCAPLcontroller  {
 //		System.err.println("creating automaton");
 		specification.createAutomaton();		
 	}
+	
+	/**
+	 * Constructs a controller from a MAS and a property.
+	 * @param mas
+	 * @param propertystring
+	 * @param outputlevel
+	 */
+//	public void setProperty(String pstring) {
+		// setMAS(mas);
+		// config = properties;
+	//	specification.addPropertyString(pstring);
+		// specification.addMas(mas);
+	//	specification.addController(this);
+//	}
 
 	/**
 	 * Returns the agent with a given name.
@@ -222,6 +236,7 @@ public class MCAPLcontroller  {
 		} */
 		
 		specification.checkProperties();
+		mas.begin();
 		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
@@ -351,7 +366,10 @@ public class MCAPLcontroller  {
 			}
 			return true;
 		} else {
-			force_transition();
+			if (transitionEveryReasoningCycle()) {
+				// System.err.println("forcing transition");
+				force_transition();
+			}
 		}
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");

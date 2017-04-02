@@ -29,9 +29,11 @@ package ail.syntax;
 
 import gov.nasa.jpf.annotation.FilterField;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 import ail.syntax.ast.GroundPredSets;
 import ajpf.util.VerifyMap;
@@ -83,6 +85,25 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             return null;
         }
     }
+    
+    // We have (one) situation where we want to explicitly swap variables when applying a unifier, not replace with a
+    // Vars Cluster.  See macros test case in goal.semantics.RuleGuardsTests
+    private boolean vars_not_varclusters= false;
+    
+    /**
+     * In this situation we want to swap variables for each other, not for varsclusters.
+     */
+    public void varsNotClusters() {
+    	vars_not_varclusters = true;
+    }
+    
+    /**
+     * This unifier will swap variables rather than clustering them.
+     * @return
+     */
+    public boolean swaps_vars() {
+    	return vars_not_varclusters;
+    }
 
     // ----- Unify for Predicates/Literals
     
@@ -97,7 +118,7 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @retun whether or not the two structures unify.
      */
     public boolean sunifies(Unifiable t1g, Unifiable t2g) {
-    	t2g.standardise_apart(t1g, this, Collections.<String>emptyList());
+    	t2g.standardise_apart(t1g, this, Collections.<String>emptySet());
     	return unifies(t1g, t2g);
     }
     
@@ -312,8 +333,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
             if (! t1gv.isUnnamedVar() && ! t2gv.isUnnamedVar()) {
             	VarTerm t1c = (VarTerm) t1gv.clone();
                 VarTerm t2c = (VarTerm) t2gv.clone();
-                VarsCluster cluster = new VarsCluster(t1c, t2c, this);
-                updateWithVarsCluster(cluster);
+                if (! vars_not_varclusters) {
+                	VarsCluster cluster = new VarsCluster(t1c, t2c, this);
+                	updateWithVarsCluster(cluster);
+                } else {
+                	setVarValue(t1c, t2c);
+                }
                 // ?
                 return true;
             }
@@ -915,8 +940,8 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @param v
      * @return
      */
-    public ArrayList<String> getVarNames() {
-    	ArrayList<String> varnames = new ArrayList<String>();
+    public Set<String> getVarNames() {
+    	HashSet<String> varnames = new HashSet<String>();
     	for (VarTerm var: function.keySet()) {
     		varnames.add(var.getFunctor());
     	}

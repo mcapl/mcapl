@@ -24,6 +24,9 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nasa.jpf.vm.MJIEnv;
 import ail.syntax.SendAction;
 import ail.syntax.Action;
@@ -86,6 +89,23 @@ public class Abstract_SendAction extends Abstract_Action {
 		ilf = i;
 		setActionType(Abstract_Action.sendAction);
 	}
+	
+	public Abstract_SendAction() {
+		super("send");
+		setActionType(Abstract_Action.sendAction);
+	}
+	
+	@Override
+	 public void addParams(ArrayList<Abstract_Term> tl) {
+		 Abstract_Term receiver = tl.get(0);
+		 Abstract_NumberTermImpl i = (Abstract_NumberTermImpl) tl.get(1);
+		 ilf = (int) i.getValue();
+		 this.addTerm(receiver);
+		 List<Abstract_Term> content = tl.subList(2, tl.size());
+		 for (Abstract_Term t: content) {
+			 this.addTerm(t);
+		 }
+	 }
 		
 	/**
 	 * Getter for the illocutionary force.

@@ -58,7 +58,7 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 	 * @see ail.semantics.operationalrules.HandleDropBelief#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<PredicateTerm> bl = a.getBB().getRelevant(b);
+		Iterator<PredicateTerm> bl = a.getBB().getRelevant(b, AILAgent.SelectionOrder.LINEAR);
 				
 		while (bl.hasNext()) {
 			Literal bp = (Literal) bl.next();

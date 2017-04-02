@@ -27,8 +27,10 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -418,8 +420,8 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      * @see ail.syntax.Unifiable#getVarNames()
      */
     @Override
-    public List<String> getVarNames() {
-    	ArrayList<String> varnames = new ArrayList<String>();
+    public Set<String> getVarNames() {
+    	HashSet<String> varnames = new HashSet<String>();
     	if (! isEvaluated()) {
     		varnames.addAll(getLHS().getVarNames());
     		varnames.addAll(getRHS().getVarNames());

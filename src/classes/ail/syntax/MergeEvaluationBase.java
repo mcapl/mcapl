@@ -24,6 +24,7 @@ package ail.syntax;
 
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
 import ail.util.Tuple;
 
 /**
@@ -45,12 +46,11 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBasewNames#getRelevantTuple(ail.syntax.Unifiable)
 	 */
-	@Override
-	public Iterator<Tuple<K, String>> getRelevantTuple(final EBCompare<K> p) {
+	public Iterator<Tuple<K, String>> getRelevantTuple(final EBCompare<K> p, AILAgent.SelectionOrder so) {
 		
 		return new Iterator<Tuple<K, String>>() {
-				Iterator<Tuple<K, String>> eb1it = eb1.getRelevantTuple(p);
-				Iterator<Tuple<K, String>> eb2it = eb2.getRelevantTuple(p);
+				Iterator<Tuple<K, String>> eb1it = eb1.getRelevantTuple(p, so);
+				Iterator<Tuple<K, String>> eb2it = eb2.getRelevantTuple(p, so);
 
 				/*
 				 * (non-Javadoc)
@@ -92,12 +92,11 @@ public class MergeEvaluationBase<K extends Unifiable> implements EvaluationBasew
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.Unifiable)
 	 */
-	@Override
-	public Iterator<K> getRelevant(final EBCompare<K> p) {
+	public Iterator<K> getRelevant(final EBCompare<K> p, AILAgent.SelectionOrder so) {
 		
 		return new Iterator<K>() {
-				Iterator<K> eb1it = eb1.getRelevant(p);
-				Iterator<K> eb2it = eb2.getRelevant(p);
+				Iterator<K> eb1it = eb1.getRelevant(p, so);
+				Iterator<K> eb2it = eb2.getRelevant(p, so);
 
 				/*
 				 * (non-Javadoc)

@@ -28,9 +28,13 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
+import eis.iilang.Parameter;
+import eis.iilang.Numeral;
 
 /** Immutable class that implements a term that represents a number */
 public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
@@ -211,8 +215,8 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
      * @see ail.syntax.Unifiable#getVarNames()
      */
     @Override
-    public ArrayList<String> getVarNames() {
-    	return new ArrayList<String>();
+    public Set<String> getVarNames() {
+    	return new HashSet<String>();
     }
  
     /*
@@ -232,4 +236,12 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	public void makeVarsAnnon() {
 		
 	}
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.DefaultTerm#toEISParameter()
+     */
+    public Parameter toEISParameter() {
+    	return new Numeral(fValue);
+    }
 }

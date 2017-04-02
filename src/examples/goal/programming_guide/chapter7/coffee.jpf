@@ -1,0 +1,10 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/goal/programming_guide/chapter7/coffeemaker.ail,${mcapl}/src/examples/goal/programming_guide/chapter7/chapter7.psl,1
+
+log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

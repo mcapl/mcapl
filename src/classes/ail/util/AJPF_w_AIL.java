@@ -66,6 +66,7 @@ public class AJPF_w_AIL {
 		// Configure an AIL based MAS accordingly
 		String propertystring = getProperty(args[1],args[2]);
 		MCAPLcontroller mccontrol = new MCAPLcontroller(config, propertystring);
+		// mccontrol.setProperty(propertystring);
 		MAS mas = AIL.AILSetup(config, mccontrol);
 		// Get the property to be checked.
 		

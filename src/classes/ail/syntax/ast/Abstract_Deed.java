@@ -24,10 +24,12 @@
 
 package ail.syntax.ast;
 
-import ail.semantics.AILAgent;
+import java.util.ArrayList;
 
+import ail.semantics.AILAgent;
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
+import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Literal;
 import ail.syntax.Term;
@@ -137,7 +139,7 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     public Abstract_Deed(Abstract_Predicate t) {
     	super(DAction);
     	content = t;
-    }
+     }
     
     /**
      * Construct a Deed from an addition/deletion flag, Category and literal.
@@ -299,7 +301,11 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     			return new Deed(trigtype, getCategory(), (Literal) content_term);
     		}
     		if (content_term instanceof Predicate) {
-    			return new Deed((Predicate) content_term);
+    			if (getCategory() == DAction) {
+    				return new Deed((Action) content_term);
+    			} else if (hasTrigType()) {
+    				return new Deed(trigtype, getCategory(), new Literal((Predicate) content_term));
+    			}
     		}
     	} 
     	Deed d = new Deed(getCategory());
@@ -326,5 +332,46 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
 		return ref;
 
     }
+    
+    public void addParams(ArrayList<Abstract_Term> tl) {
+    	if (content != null) {
+    		getContent().addParams(tl);
+    		
+    	//	???? Need to sort into negative and positive params at some point;
+    	} else {
+    		if (getCategory() == Abstract_BaseAILStructure.AILGoal) {
+    			if (tl.size() > 1) {
+	    			content = new Abstract_Predicate("tuple");
+	    			ArrayList<Abstract_Goal> ps = new ArrayList<Abstract_Goal>();
+	    			for (Abstract_Term t: tl) {
+	    				ps.add(new Abstract_Goal((Abstract_Predicate) t, Abstract_Goal.achieveGoal));
+	    			}
+	    			content.addParams(tl);
+    			} else {
+    				content = new Abstract_Goal((Abstract_Predicate) tl.get(0), Abstract_Goal.achieveGoal);
+    			}
+    		} else {
+    			if (tl.size() > 1) {
+	    			content = new Abstract_Predicate("tuple");
+	    			content.addParams(tl);
+    			} else {
+    				content = tl.get(0);
+    			}
+    		}
+    	}
+    }
+    
+    public int getTrigType() {
+    	return trigtype;
+    }
+    
+    public void setTrigType(int t) {
+    	trigtype = t;
+    }
+    
+    public void setContent(Abstract_Term t) {
+    	content = t;
+    }
+    
 
 }

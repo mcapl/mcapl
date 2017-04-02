@@ -23,11 +23,15 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AILAgent.SelectionOrder;
+import ail.semantics.AgentMentalState;
 
 /**
  * A Reference to a message that may appear in a Guard.  It extends Message purely to make type matching work with the 
@@ -106,7 +110,7 @@ public class GMessage implements GuardAtom<Message> {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
     @Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
 		List<Message> ul = new ArrayList<Message>();
 		if (category == DefaultAILStructure.AILSent) {
 			ul.addAll(ag.getOutbox());
@@ -115,7 +119,7 @@ public class GMessage implements GuardAtom<Message> {
 		}
 		
 		EvaluationBase<Message> leb = new ListEvaluationBase<Message>(ul);
-		return new EvaluationBaseIterator<Message>(leb, un, this);
+		return new EvaluationBaseIterator<Message>(leb, un, this, so);
 	}
 
 	/*
@@ -255,75 +259,62 @@ public class GMessage implements GuardAtom<Message> {
 		
 		return false;
 	}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see ail.syntax.Message#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
-		 */
-	   @Override
-		public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		   	List<String> tvarnames = t.getVarNames();
-	    	List<String> myvarnames = getVarNames();
-	    	tvarnames.addAll(varnames);
-	    	ArrayList<String> replacednames = new ArrayList<String>();
-	    	ArrayList<String> newnames = new ArrayList<String>();
-	    	for (String s:myvarnames) {
-	    		if (tvarnames.contains(s)) {
-	    			if (!replacednames.contains(s)) {
-	    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-	    				renameVar(s, s1);
-	    				u.renameVar(s, s1);
-	    			}
-	    		}
-	    	}
-		}
-	
-		/*
-		 * (non-Javadoc)
-		 * @see ail.syntax.Message#getVarNames()
-		 */
-	   @Override
-		public List<String> getVarNames() {
-	    	ArrayList<String> varnames = new ArrayList<String>();
-	    	varnames.addAll(sender.getVarNames());
-	    	varnames.addAll(receiver.getVarNames());
-	    	varnames.addAll(content.getVarNames());
-	    	varnames.addAll(threadId.getVarNames());
-			return varnames;
-		}
-	
-	   /*
-	    * (non-Javadoc)
-	    * @see ail.syntax.Message#renameVar(java.lang.String, java.lang.String)
-	    */
-	   @Override
-	   public void renameVar(String oldname, String newname) {
-		   sender.renameVar(oldname, newname);
-		   receiver.renameVar(oldname, newname);
-		   content.renameVar(oldname, newname);
-		   threadId.renameVar(oldname, newname);
-	   }
-	
-		/*
-		 * (non-Javadoc)
-		 * @see ail.syntax.Message#match(ail.syntax.Unifiable, ail.syntax.Unifier)
-		 */
-	   @Override
-		public boolean match(Unifiable t, Unifier u) {
-			if (t instanceof GMessage) {
-				GMessage tm = (GMessage) t;
-				if (sender.match(tm.getSenderTerm(), u)) {
-					if (receiver.match(tm.getReceiverTerm(), u)) {
-						if (performative == tm.getIlf()) {
-							if (content.match(tm.getContent(), u)) {
-								return threadId.match(tm.getThdID(), u);
-							}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
+	 */
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#getVarNames()
+	 */
+	@Override
+	public Set<String> getVarNames() {
+    	Set<String> varnames = new HashSet<String>();
+    	varnames.addAll(sender.getVarNames());
+    	varnames.addAll(receiver.getVarNames());
+    	varnames.addAll(content.getVarNames());
+    	varnames.addAll(threadId.getVarNames());
+		return varnames;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#renameVar(java.lang.String, java.lang.String)
+	 */
+	public void renameVar(String oldname, String newname) {
+		sender.renameVar(oldname, newname);
+		receiver.renameVar(oldname, newname);
+		content.renameVar(oldname, newname);
+		threadId.renameVar(oldname, newname);
+
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	public boolean match(Unifiable t, Unifier u) {
+		if (t instanceof GMessage) {
+			GMessage tm = (GMessage) t;
+			if (sender.match(tm.getSenderTerm(), u)) {
+				if (receiver.match(tm.getReceiverTerm(), u)) {
+					if (performative == tm.getIlf()) {
+						if (content.match(tm.getContent(), u)) {
+							return threadId.match(tm.getThdID(), u);
 						}
 					}
 				}
 			}
-			return false;
 		}
+		return false;
+	}
 	
 		/*
 		 * (non-Javadoc)
@@ -406,6 +397,30 @@ public class GMessage implements GuardAtom<Message> {
 	        String s1 = s.toString();
 	        return s1;
 	    }
+
+	/* @Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag,
+			Unifier un, Set<String> varnames, SelectionOrder so) {
+		List<Message> ul = new ArrayList<Message>();
+		if (category == DefaultAILStructure.AILSent) {
+			ul.addAll(ag.getOutbox());
+		} else {
+			ul.addAll(ag.getInbox());
+		}
+		
+/*		if (so == AILAgent.SelectionOrder.RANDOM) {
+			Collections.shuffle(ul);
+		} */
+		
+/*		EvaluationBase<Message> leb = new ListEvaluationBase<Message>(ul);
+		return new EvaluationBaseIterator<Message>(leb, un, this, so);
+	}
+
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
+	} */
+
 
 
 }

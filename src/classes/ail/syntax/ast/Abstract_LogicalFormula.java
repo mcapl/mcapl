@@ -27,6 +27,7 @@ package ail.syntax.ast;
 import gov.nasa.jpf.vm.MJIEnv;
 
 import ail.syntax.LogicalFormula;
+import ail.syntax.Unifier;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -70,5 +71,5 @@ public interface Abstract_LogicalFormula {
 	 * @return
 	 */
 	public int newJPFObject(MJIEnv env);
-
+	
 }

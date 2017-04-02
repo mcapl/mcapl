@@ -1,0 +1,10 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/goal/programming_guide/chapter6/tower_agent_simple.ail,${mcapl}/src/examples/goal/programming_guide/chapter6/chapter6.psl,3
+
+log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

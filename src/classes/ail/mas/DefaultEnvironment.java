@@ -384,6 +384,7 @@ public class DefaultEnvironment implements AILEnv {
      * Notify the listeners that the perceptions have changed.
      *
      */
+    @Override
     public void notifyListeners() {
     	if (perceptListeners != null) {
     		for (PerceptListener l: perceptListeners) {
@@ -397,6 +398,7 @@ public class DefaultEnvironment implements AILEnv {
      * 
      * @param s the name of the agent whose perceptions have changed.
      */
+    @Override
     public void notifyListeners(String s) {
      	if (perceptListeners != null) {
     		for (PerceptListener l: perceptListeners) {
@@ -635,6 +637,14 @@ public class DefaultEnvironment implements AILEnv {
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {
+		
+	}
+	
  
 	/*
 	 * (non-Javadoc)
@@ -661,10 +671,18 @@ public class DefaultEnvironment implements AILEnv {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.AILEnv#initialise()
+	 * @see ail.mas.AILEnv#init_before_adding_agents()
 	 */
-	public void initialise() {}
-
+	@Override
+	public void init_before_adding_agents() {}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#init_after_adding_agents()
+	 */
+	@Override
+	public void init_after_adding_agents() {}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
@@ -725,6 +743,17 @@ public class DefaultEnvironment implements AILEnv {
 	public static void setup_scheduler(AILEnv env, MCAPLScheduler s) {
 		env.setScheduler(s);
 		env.addPerceptListener(s);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.addAll(agentmap.values());
+		return agents;
 	}
 
 

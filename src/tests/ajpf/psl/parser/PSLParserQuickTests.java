@@ -115,7 +115,7 @@ public class PSLParserQuickTests {
 			executive.addBel(better, BeliefBase.TSelf);
 			
 			mas.addAg(new AILAgent("executive"));
-			MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig(), propertystring);
+			MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig(), "");
 			mccontrol.setMAS(mas);
 			MCAPLAgBelief cb = (MCAPLAgBelief) b.toMCAPL(mas, mccontrol);
 			Assert.assertTrue(executive.MCAPLbelieves(cb.getBel()));
@@ -142,7 +142,7 @@ public class PSLParserQuickTests {
 		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
 		LEOVerificationEnvironmentASEPaper env = new LEOVerificationEnvironmentASEPaper();
 		mas.setEnv(env);
-		MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig(), propertystring);
+		MCAPLcontroller mccontrol = new MCAPLcontroller(new AILConfig(), "");
 		mccontrol.setMAS(mas);
 		a.toMCAPL(mas, mccontrol);
 		

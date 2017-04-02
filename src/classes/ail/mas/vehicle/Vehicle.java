@@ -24,6 +24,8 @@
 
 package ail.mas.vehicle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -114,6 +116,12 @@ public class Vehicle implements VehicleInterface {
 	public boolean done() {
 		return env.done();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {}
 	
 	/*
 	 * (non-Javadoc)
@@ -264,9 +272,17 @@ public class Vehicle implements VehicleInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.AILEnv#initialise()
+	 * @see ail.mas.AILEnv#init_before_adding_agents()
 	 */
-	public void initialise() {}
+	@Override
+	public void init_before_adding_agents() {}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#init_after_adding_agents()
+	 */
+	@Override
+	public void init_after_adding_agents() {}
 	
 	/*
 	 * (non-Javadoc)
@@ -299,6 +315,35 @@ public class Vehicle implements VehicleInterface {
 	@Override
 	public void setMAS(MAS m) {
 		mas = m;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners()
+	 */
+	@Override
+	public void notifyListeners() {
+		env.notifyListeners();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners(java.lang.String)
+	 */
+	@Override
+	public void notifyListeners(String name) {
+		env.notifyListeners(name);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.add(agent);
+		return agents;
 	}
 
 }

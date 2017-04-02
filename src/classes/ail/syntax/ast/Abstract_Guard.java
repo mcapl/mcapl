@@ -25,7 +25,8 @@
 package ail.syntax.ast;
 
 import ail.syntax.Guard;
-
+import ail.util.AILexception;
+import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -61,6 +62,8 @@ import gov.nasa.jpf.vm.MJIEnv;
  *
  */
 public class Abstract_Guard implements Abstract_GLogicalFormula {
+	static String logname = "ail.syntax.ast.Abstract_Guard";
+	
 	/**
 	 * Possible operataors
 	 */
@@ -71,11 +74,11 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 	/**
 	 * The LHS and RHS of the expression.
 	 */
-	private  Abstract_GLogicalFormula lhs, rhs;
+	protected  Abstract_GLogicalFormula lhs, rhs;
 	/**
 	 * The operator.
 	 */
-	private  int      op = none;
+	protected  int      op = none;
 	
 	
 	/**
@@ -138,6 +141,7 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
     	if (op == not) {
     		return Guard.GLogicalOp.not;
     	}
+    	
     	return Guard.GLogicalOp.and;
     }
 
@@ -191,6 +195,22 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		}
 
 		return true;
+	}
+	
+	public void negate() {
+		if (isTrivial()) {
+			AJPFLogger.warning(logname, "Trying to negate trivial guard");
+		} else {
+			if (op == none) {
+				op = not;
+			} else if (op == not) {
+				op = none;
+			} else {
+				op = not;
+				rhs = new Abstract_Guard(lhs, op, rhs);
+				lhs = null;
+			}
+		}
 	}
 	
 	/**
@@ -276,6 +296,24 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		}
 		env.setIntField(objref, "op", op);
 		return objref;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "";
+		if (op == none) {
+			s = rhs.toString();
+		} else if (op == not) {
+			s = "not (" + rhs.toString() + ")";
+		} else {
+			s = lhs.toString() + " and " + rhs.toString();
+		}
+		
+		return s;
 	}
 
 }

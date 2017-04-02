@@ -56,10 +56,11 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 	@Override
 	public void addJobber(MCAPLJobber a) {
 		agent = a;
+		isactive = true;
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public List<String> getActiveJobberNames() {
 		List<String> ags = new VerifyList<String>();
@@ -82,7 +83,7 @@ public class SingleAgentScheduler implements MCAPLScheduler {
 	}
 
 	@Override
-	public void removeJobber(MCAPLJobber a) {
+	public void removeJobber(String jobbername) {
 		// TODO Auto-generated method stub
 		// ? Not relevant for single agent
 	}

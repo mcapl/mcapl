@@ -82,7 +82,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * By default there is only one goal base.
 	 * 
 	 */
-	private Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
+	protected Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
 	
 	/**
 	 * This goal is a variable.
@@ -94,7 +94,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * @param l
 	 * @param i
 	 */
-	public Abstract_Goal(Abstract_Literal l, int i) {
+	public Abstract_Goal(Abstract_Predicate l, int i) {
 		if (l instanceof Abstract_VarTerm) {
 			isVariable = true;
 		}
@@ -102,7 +102,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		setTerms(l.getTerms());
 		goaltype = i;
 	}
-	
+		
 	/**
 	 * Constructor.
 	 * @param g
@@ -230,4 +230,10 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	public boolean isTrivial() {
 		return false;
 	}
+	
+	/**
+	 * Required by the interface, but this should not do anything here since the Category must be GOAL.
+	 */
+	public void setCategory(byte b) {};
+	
 }

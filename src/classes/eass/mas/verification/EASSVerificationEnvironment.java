@@ -144,10 +144,9 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	   		return super.executeAction(agName, act);
 	   	} else {
 	   	   	decidetostop(agName, act);
-	    	if (!act.getFunctor().equals("print")) {
-	    		lastAgent = agName;
-	    		lastAction = act;
-	    	}
+	   	   	lastAgent = agName;
+	    	lastAction = act;
+
 	    	Unifier u = new Unifier();
 		   	if (AJPFLogger.ltInfo("ail.mas.DefaultEnvironment")) {
 		   		AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));
@@ -171,12 +170,12 @@ public boolean done() {
 					clearPercepts();
 					
 					for (Predicate p: percepts) {
-						addPercept(p);
+						// addPercept(p);
 					}
 					
 					for (String agName: agentmap.keySet()) {
 						for (Message m: messages) {
-							addMessage(agName, m);
+						//	addMessage(agName, m);
 						}
 					}
 					final_turn = 2;

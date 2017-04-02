@@ -75,7 +75,7 @@ public class Ethic {
 		return score;
 	}
 	
-    public List<String> getVarNames() {
+    public Set<String> getVarNames() {
     	return ethic.getVarNames();
     }
     

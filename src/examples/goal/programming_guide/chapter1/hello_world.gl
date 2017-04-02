@@ -1,0 +1,5 @@
+main module[exit=always] {
+	program{
+		if true then print("Hello, world!").
+	}
+}

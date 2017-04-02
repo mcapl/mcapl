@@ -86,6 +86,7 @@ public class ModelState implements Comparable<ModelState> {
 	 * @param buchi
 	 */
 	public ModelState(int statenum, Set<Proposition> product_props) {
+		log.finer("Creating ModelState");
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
 			if (p.check()) {
@@ -95,6 +96,7 @@ public class ModelState implements Comparable<ModelState> {
 				props.add(p);
 			}
 		}
+		log.finer("Created ModelState");
 	}
 	
 

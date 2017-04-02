@@ -24,11 +24,12 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -96,7 +97,20 @@ public class Deed extends DefaultAILStructure {
      */
     public Deed(Predicate t) {
     	super(DAction);
-    	setContent(t);
+    	if (t instanceof Action) {
+    		setContent(t);
+    	} else {
+    		setContent(new Action(t, Action.normalAction));
+    	}
+    }
+    
+    /**
+     * Construct a deed from an action.
+     * @param a
+     */
+    public Deed(Action a) {
+    	super(DAction);
+    	setContent(a);
     }
     
     /**
@@ -151,8 +165,8 @@ public class Deed extends DefaultAILStructure {
     public Deed(int t, byte b, String s) {
     	super(t, b, s);
     }
-    
-    /**
+
+	/**
      * Is the Deed an Action?
      * 
      * @return whether the deed is an action.
@@ -328,8 +342,8 @@ public class Deed extends DefaultAILStructure {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		List<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		Set<String> varnames = new HashSet<String>();
 		if (hasContent()) {
 			varnames = getContent().getVarNames();
 		}

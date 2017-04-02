@@ -73,7 +73,7 @@ public class Abstract_Action extends Abstract_Predicate {
 	 * By default an action is a normalAction (i.e. a term).
 	 */
 	@FilterField
-	int actiontype = normalAction;
+	public int actiontype = normalAction;
 	
 
 	/**
@@ -108,6 +108,10 @@ public class Abstract_Action extends Abstract_Predicate {
 	}
 	
 	
+	public Abstract_Action(Abstract_Predicate dp) {
+		this(dp, normalAction);
+	}
+
 	/**
 	 * Getter method for the action type.
 	 * 
@@ -144,6 +148,11 @@ public class Abstract_Action extends Abstract_Predicate {
 	 */
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_Action");
+		JPFFields(objref, env);
+		return objref;
+	}
+	
+	protected void JPFFields(int objref, MJIEnv env) {
 		String functor = getFunctor();
 		if (strings.containsKey(functor)) {
 			env.setReferenceField(objref, "functor", strings.get(functor));
@@ -154,7 +163,7 @@ public class Abstract_Action extends Abstract_Predicate {
 		}
 		env.setReferenceField(objref, "terms", newJPFTermArray(env));
 		env.setIntField(objref, "actiontype", actiontype);
-		return objref;
+		
 	}
 
 }

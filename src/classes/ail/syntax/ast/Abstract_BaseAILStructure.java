@@ -90,6 +90,11 @@ public abstract class Abstract_BaseAILStructure implements Abstract_AILStructure
 	 * The Structure's category.
 	 */
 	private byte category;
+	
+	/**
+	 * Empty constructor.  Use with caution.
+	 */
+	public Abstract_BaseAILStructure() {}
 
 	/**
 	 * Construct an AIL Structure with a given category.

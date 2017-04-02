@@ -28,6 +28,7 @@
 package ail.syntax;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for things which can be unified.
@@ -47,17 +48,17 @@ public interface Unifiable extends Cloneable {
 	public boolean unifies(Unifiable t, Unifier u);
 	
 	/**
-	 * Standardise apart the variables in here from the list of variable names supplied.
+	 * Standardise apart the variables in here from the set of variable names supplied.
 	 * @param varnames
 	 * @return
 	 */
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames);
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames);
 	
 	/**
 	 * What are the names of the variables mentioned in this term?
 	 * @return
 	 */
-	public List<String> getVarNames();
+	public Set<String> getVarNames();
 	
 	/**
 	 * Rename all appearances of some variable.

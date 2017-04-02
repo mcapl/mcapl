@@ -80,6 +80,10 @@ public class MCAPLSpec {
 			Proposition p = (Proposition) t.getMCAPL();
 			p.updateTV();
 			((Abstract_Proposition) t.getAbstract()).setTV(p.getTV());
+			if (AJPFLogger.ltFiner("ajpf.MCAPLSpec")) {
+				AJPFLogger.finer("ajpf.MCAPLSpec", t.toString());
+			}
+			
 		}
 
 
