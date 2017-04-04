@@ -81,5 +81,9 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 		
 		i.tlI(a);
 		i.compose(thetahd);
+		
+		for (Intention i: a.getIntentions()) {
+			i.unsuspendFor(b);
+		}
 	}
 }
