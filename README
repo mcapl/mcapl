@@ -2,7 +2,7 @@ This software distribution consists of:
 
 - The Agent JPF (AJPF) extention of the Java Pathfinder model checker for model checking BDI style agent programs.
 
-- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming langauges.
+- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming languages.
 
 - The Gwendolen BDI agent programming language.
 
