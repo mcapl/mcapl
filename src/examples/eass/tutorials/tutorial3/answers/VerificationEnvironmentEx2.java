@@ -29,6 +29,7 @@ import java.util.TreeSet;
 
 import eass.mas.verification.EASSVerificationEnvironment;
 import eass.semantics.EASSAgent;
+import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ail.syntax.Message;
@@ -74,6 +75,18 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 			AJPFLogger.info(logname, "Not asserting start");
 		}
 		return messages;
+	}
+
+	@Override
+	public Set<Predicate> add_random_beliefs(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Message> add_random_messages(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
 	};
 
 	

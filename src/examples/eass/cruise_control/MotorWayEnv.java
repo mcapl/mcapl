@@ -33,6 +33,7 @@ import ail.syntax.NumberTerm;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import eass.mas.DefaultEASSEnvironment;
+import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
 
 import java.util.Collections;
@@ -626,7 +627,12 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 	}
 
 	public String getTraceExpressionPath(){
-		return "/Users/angeloferrando/git/mcapl/src/examples/eass/cruise_control/trace_expression.pl";
+		try {
+			return MCAPLcontroller.getFilename("/src/examples/eass/cruise_control/trace_expression.pl");
+		} catch (Exception e) {
+			System.err.println(e);
+			return "null";
+		}
 	}
 
 	public String getLogFilePath(){

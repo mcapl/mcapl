@@ -738,6 +738,18 @@ public class LEOVerificationEnvironment extends EASSVerificationEnvironment {
 		}
 	}
 
+	@Override
+	public Set<Predicate> add_random_beliefs(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Message> add_random_messages(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
 

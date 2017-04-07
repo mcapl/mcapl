@@ -326,21 +326,23 @@ public class PlatoonVerificationEnvironment extends EASSVerificationEnvironment 
 	/**
 	* Added by Angelo
 	*/
-	public void add_random_beliefs(String agName, Action act){
+	public Set<Predicate> add_random_beliefs(String agName, Action act){
 		Set<Predicate> percepts = generate_sharedbeliefs();
 		for (Predicate p: percepts) {
 			addPercept(p);
 		}
+		return percepts;
 	}
 
 	/**
 	* Added by Angelo
 	*/
-	public void add_random_messages(String agName, Action act){
+	public Set<Message> add_random_messages(String agName, Action act){
 		Set<Message> messages = generate_messages();
 		for (Message m: messages) {
 			addMessage(agName, m);
 		}
+		return messages;
 	}
 
 	/*

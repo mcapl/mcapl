@@ -26,6 +26,7 @@ package eass.ev3.eastercon;
 import java.util.HashSet;
 import java.util.Set;
 
+import ail.syntax.Action;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
 import eass.mas.verification.EASSVerificationEnvironment;
@@ -63,6 +64,18 @@ public class LegoRoverVerification extends EASSVerificationEnvironment {
 	@Override
 	public Set<Message> generate_messages() {
 		return new HashSet<Message>();
+	}
+
+	@Override
+	public Set<Predicate> add_random_beliefs(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Message> add_random_messages(String agName, Action act) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

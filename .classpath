@@ -11,5 +11,10 @@
 	<classpathentry kind="lib" path="lib/3rdparty/ev3classes.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/ev3tools.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/system-rules-1.16.0.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/jpl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/usr/local/lib/swipl-7.5.3/lib/x86_64-darwin16.5.0"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

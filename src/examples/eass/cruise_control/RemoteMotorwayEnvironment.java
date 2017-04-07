@@ -35,8 +35,10 @@ import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.util.AILSocketClient;
 import ail.util.AILexception;
+import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
 import monitor.Monitorable;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -200,7 +202,12 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	}
 
 	public String getTraceExpressionPath(){
-		return "/Users/angeloferrando/git/mcapl/src/examples/eass/cruise_control/trace_expression.pl";
+		try {
+			return MCAPLcontroller.getFilename("/src/examples/eass/cruise_control/trace_expression.pl");
+		} catch (Exception e) {
+			System.err.println(e);
+			return "null";
+		}
 	}
 
 	public String getLogFilePath(){

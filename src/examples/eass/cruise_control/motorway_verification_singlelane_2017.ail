@@ -28,7 +28,7 @@ mas.agent.1.file = src/examples/eass/cruise_control/car_singlelane_2017.eass
 mas.agent.1.builder = eass.EASSAgentBuilder
 mas.agent.1.name = car0
 
-log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontroller
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
 log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayVerificationEnv
 log.format = brief
 

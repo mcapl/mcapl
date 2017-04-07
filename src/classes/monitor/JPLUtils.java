@@ -9,13 +9,21 @@ import org.jpl7.JPL;
 import org.jpl7.Query;
 import org.jpl7.Term;
 
+import ajpf.MCAPLcontroller;
+
 public class JPLUtils {
 
 	public static void init(String texpFileName){
 		JPL.setTraditional();
 		JPL.init();
 
-		JPLUtils.createAndCheck("consult", new Atom(System.getenv("AJPF_HOME") + "/library.pl"));
+		try {
+			String library_filename = MCAPLcontroller.getFilename("/library.pl");
+			JPLUtils.createAndCheck("consult", new Atom(library_filename));
+		} catch (Exception e) {
+			
+		}
+		
 		JPLUtils.createAndCheck("consult", new Atom(texpFileName));
 	}
 
