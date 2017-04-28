@@ -300,7 +300,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 }
 		 }
 		 String s = "An Accepting Path has been found: \n" + pathstring;
-		 System.err.println(s);
+		 // System.err.println(s);
 		 return s;
 	 }
 	 

@@ -1,29 +1,30 @@
 
-This is the third a series of tutorials on the use of the \ajpf\ model checking program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ and \prism.  \ajpf\ is used to create a model of the program which is then verified by another tool.  The main purpose of this is to enable model-checking with more expressive logics (as can be done with the \prism\ implementation), but there may also be efficiency gains in outsourcing property checking to another tool.
+This is the third a series of tutorials on the use of the \ajpf\ model checking\index{model checking} program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ \index{SPIN} and \prism\index{Prism}.  \ajpf\ is used to create a model\index{model} of the program which is then verified by another tool.  The main purpose of this is to enable modelchecking with more expressive logics (as can be done with the \prism\ implementation), but there may also be efficiency gains in outsourcing property checking to another tool.
 
 Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
 \begin{quote}
 \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial3}.
 \end{quote}
 
-This tutorial assumes familiarity with the operation of \ajpf\ as described in \ajpf\ tutorials 1 and 2 and familiarity with the theory of model-checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism.
+This tutorial assumes familiarity with the operation of \ajpf\ as described in \ajpf\ tutorials 1 and 2 and familiarity with the theory of model checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism\index{SPIN}\index{Prism}.
 
 This tutorial explains how to use the tools described in~\cite{dennis15:_two}.
 
 \section{Separating out Model and Property}
 
-In normal operation, the \ajpf\ system is performing two tasks at once.  Firstly it is building a \emph{model} of the program execution.  This is a graph (or Kripke Structure) of states.  These are numbered and labelled with the facts that are true in each state (e.g., ``agent 1 believes \texttt{holding\_block}'', ``agent 2 has a goal \texttt{pickup\_block}'' and so on).  At the same time it is checking this graph against a property (e.g., ``eventually agent 2 believes \texttt{holding\_block}'').  It does this by converting the property into an automaton, combining the property automaton with the Kripke structure on-the-fly (following~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}) and then checking for accepting paths through this product automaton.
+In normal operation, the \ajpf\ system is performing two tasks at once.  Firstly it is building a \emph{model}\index{model} of the program execution.  This is a graph (or Kripke Structure) of states.  These are numbered and labelled with the facts that are true in each state (e.g., ``agent 1 believes \texttt{holding\_block}'', ``agent 2 has a goal \texttt{pickup\_block}'' and so on).  At the same time it is checking this graph against a property\index{B\"{u}chi Automaton} (e.g., ``eventually agent 2 believes \texttt{holding\_block}'').  It does this by converting the property into an automaton, combining the property automaton with the Kripke structure on-the-fly (following~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}) and then checking for accepting paths\index{accepting path} through this product automaton\index{product automaton}.
 
-In this tutorial we demonstrate how \ajpf\ can be used to produce just the Kripke Structure without creating the property automaton or the product automaton.
+In this tutorial we demonstrate how \ajpf\ can be used to produce\index{model checking!model generation only} just the Kripke Structure without creating the property automaton or the product automaton.
 
 \section{Using \ajpf\ with \spin}
 
-\spin{}~\cite{holzmann04spin} is a popular model-checking tool
+\begin{sloppypar}
+\spin{}~\cite{holzmann04spin}\index{SPIN} is a popular model checking tool
 originally developed by Bell Laboratories in the 1980s.  It has been
 in continuous development for over thirty years and is widely used in
 both industry and academia
 (e.g.,~\cite{havelund00formal,kars96application,kirsch11technical}).
-\spin{} uses an input language called \promela{}.  Typically a model
+\spin{} uses an input language called \promela{}\index{Promela}.  Typically a model
 of a program and the property (as a ``never claim'' --- an automaton
 describing executions that violate the property) are both provided in
 \promela{}, but \spin{} also provides tools to convert formulae
@@ -33,26 +34,27 @@ written in C which carry out the exploration of the model relative to
 an LTL property. \spin{}'s use of compiled C code makes it very quick
 in terms of execution time, and this is further enhanced through other
 techniques such as partial order reduction. The examples in this tutorial were checked using \spin{} version 6.2.3 (24 October 2012).
+\end{sloppypar}
 
-To complete this tutorial you will need to download, install and run \spin.  \spin\ can be downloaded from \url{http://spinroot.com} where you can also find documentation in its use.
+To complete this tutorial you will need to download, install and run \spin\index{SPIN}.  \spin\ can be downloaded from \url{http://spinroot.com} where you can also find documentation in its use.
 
 \subsection{Why use \spin{}}
 
-\spin\ and \ajpf\ are both LTL model-checkers so it may seem odd to use \ajpf\ only to produce the model and then use \spin\ to create the property automaton.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated~\cite{dennis15:_two} that the major cause of slow performance in \ajpf\ is in generating the Kripke structure of the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}.  However there may  nevertheless be situations where efficiency gains can be made.  
+\spin\ and \ajpf\ are both\index{SPIN} LTL model-checkers so it may seem odd to use \ajpf\ only to produce the model\index{model} and then use \spin\ to create the property automaton\index{B\"{u}chi Automaton}\index{property automaton|see B\"{u}chi Automaton}.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated~\cite{dennis15:_two} that the major cause of slow performance in \ajpf\ is in generating the Kripke structure of the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}\index{Promela}.  However there may  nevertheless be situations where efficiency gains can be made.  
 
-In terms of this tutorial, looking at the process of exporting models to \spin\ forms a useful preliminary first step before we turn our attention to \prism.
+In terms of this tutorial, looking at the process of exporting models to \spin\ forms\index{SPIN}\index{Prism} a useful preliminary first step before we turn our attention to \prism.
 
 \subsection{Configuring \ajpf\ to output \spin\ models}
 \label{sec:configure_spin}
 
-In order to configure \ajpf\ to use another model checker you need to tell it:
+In order to configure \ajpf\ to use another model checker\index{model checking!model generation only} you need to tell it:
 \begin{enumerate}
-\item to produce \emph{only} a program model, 
+\item to produce \emph{only} a program model, \index{model}
 \item which other model checker to target and, 
 \item where to output the program model.
-\end{enumerate}  This is done in the \ajpf\ configuration file.  
+\end{enumerate}  This is done in the \ajpf\ configuration file\index{JPF!configuration}\index{configuration!JPF}.  
 
-We will use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Spin.jpf} that is shown in figure~\ref{fig:spin_config}.
+We will use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Spin.jpf}\index{TwoPickUpAgents\_Spin.jpf} that is shown in figure~\ref{fig:spin_config}.
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -78,8 +80,8 @@ et.show_shared=false
 \label{fig:spin_config}
 \end{figure}
 
-This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model\_only = true}), to target the \spin\ model checker (\texttt{ajpf.target\_modelchecker = spin}), and to print the model to standard out (\texttt{ajpf.model.location = stdout}).  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  This start of this print out is shown in figure~\ref{fig:spin_output}.
-In this, the first state (state 0) in the \ajpf\ model has become \texttt{state0} in the \promela\ model.  This state can transition to either state 1 (\texttt{state1}) or state 77 (\texttt{state77}) and so on.
+This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model\_only = true})\index{ajpf.model\_only}, to target\index{SPIN} the \spin\ model checker (\texttt{ajpf.target\_modelchecker = spin})\index{ajpf.target\_modelchecker}, and to print the model to standard out (\texttt{ajpf.model.location = stdout})\index{ajpf.model.location}.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  This start of this print out is shown in figure~\ref{fig:spin_output}.
+In this, the first state (state 0) in the \ajpf\ model has become \texttt{state0} in the \promela\ model.  This state can transition to either state 1 (\texttt{state1}) or state 37 (\texttt{state77}) and so on.\index{Promela}
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -90,17 +92,17 @@ bool bag1holdblock
 active proctype JPFModel()
 {
 state0:
-  bag1holdblock = true;
-  if
-  :: goto state1;
-  :: goto state77;
-  fi;
+	bag1holdblock = true;
+	if
+	:: goto state1;
+	:: goto state37;
+	fi;
 state1:
-  bag1holdblock = true;
-  if
-  :: goto state48;
-  :: goto state2;
-  fi;
+	bag1holdblock = true;
+	if
+	:: goto state2;
+	:: goto state24;
+	fi;
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
@@ -109,22 +111,19 @@ state1:
 \end{figure}
 
 
-This model also records one proposition \texttt{bag1holdblock} which is true in both states 0 and 1. If we look further into the model (shown in figure~\ref{fig:spin_output2}) we see that \texttt{bag1holdblock} is false in states 8 and 9 and that state 9 is an end state.
+This model\index{model}\index{Promela}\index{model state} also records one proposition \texttt{bag1holdblock} which is true in both states 0 and 1. If we look further into the model (shown in figure~\ref{fig:spin_output2}) we see that \texttt{bag1holdblock} is false in states 8 and end\_state9 which is an end state in the model.
 
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
 \begin{small}
 \begin{verbatim}
-state7:
-  bag1holdblock = true;
-  goto state8;
 state8:
-  bag1holdblock = false;
-  goto state9;
-state9:
-  bag1holdblock = false;
-  printf("end state\n");
+	bag1holdblock = false;
+	goto end_state3;
+end_state9:
+	bag1holdblock = false;
+	printf("end state\n");
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
@@ -132,30 +131,30 @@ state9:
 \label{fig:spin_output2}
 \end{figure}
 
-\paragraph{The property} The property is, in fact, the \ajpf\ property $\lbelief{ag1}{hold(block))}$ and this has been stated in the property specification language file as property 1.  
+\paragraph{The property} The property is, in fact, the \ajpf\ property $\lbelief{ag1}{hold(block))}$ and this has been stated in the property specification language\index{property specification language} file as property 1.  
 
-When using \ajpf\ to generate only a program model, the property in the property specification language file should be a conjunction of the atomic properties that will appear in the property checked by the external system.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\lactions{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
+When using \ajpf\ to generate only a program model\index{model}, the property in the property specification language\index{property specification language} file should be a conjunction of the atomic properties that will appear in the property checked by the external system.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\lactions{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
 
-\paragraph{Printing the Output to a file} You can obviously cut and paste the \promela\ model from the \ajpf\ output into a file for use with \spin.  Alternatively you can set \texttt{ajpf.model.location} to the path to an output file.  The path should be relative to your \texttt{HOME} directory.  
+\paragraph{Printing the Output to a file} You can obviously cut and paste the \promela\ model\idnex{Promela} from the \ajpf\ output into a file for use with \spin.  Alternatively you can set \texttt{ajpf.model.location}\index{ajpf.model.location} to the path to an output file.  The path should be relative to your \texttt{HOME} directory.  
 
-If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.
+If you want to give the absolute file name you need to set \texttt{ajpf.model.path}\index{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.
 
-The file \texttt{TwoPickUpAgents\_SpinToFile.jpf} will print the model to a file \texttt{tutorial3\_spin.pml} in the tutorial directory.
+The file \texttt{TwoPickUpAgents\_SpinToFile.jpf}\index{TwoPickUpAgents\_SpinToFile.jpf} will print the model\index{model} to a file \texttt{tutorial3\_spin.pml} in the tutorial directory.
 
-\paragraph{Model-checking the program in \spin}  In the tutorial directory you will find a file \texttt{spinprop.pml} which is a \promela\ file containing the \emph{never claim} for $\neg \sometime \lbelief{ag1}{hold(block)}$.  \spin\ searches for a contradiction, so the model-checking succeeds if it can find no path through the model where $\lbelief{ag1}{hold(block)}$ does not eventually hold.  
+\paragraph{Model-checking the program in \spin}\index{SPIN}  In the tutorial directory you will find a file \texttt{spinprop.pml} which is a \promela\ file\index{Promela} containing the \emph{never claim} for $\neg \sometime \lbelief{ag1}{hold(block)}$.  \spin\ searches for a contradiction, so the model checking\index{model checking!model generation only} succeeds if it can find no path through the model where $\lbelief{ag1}{hold(block)}$ does not eventually hold.  
 
-You can take the file containing  your program model, plus \texttt{spinprop.pml} and compile them (using \texttt{spin -a -N spinprop.pml} \emph{modelfile}) to get a C file, \texttt{pan.c}.  This needs to be compiled then executed in order to check the program.  More details on this process can be found in the \spin\ documentation.
+You can take the file containing  your program model\index{model}, plus \texttt{spinprop.pml} and compile them (using \texttt{spin -a -N spinprop.pml} \emph{modelfile}) to get a C file, \texttt{pan.c}.  This needs to be compiled then executed in order to check the program.  More details on this process can be found in the \spin\ documentation\index{SPIN}.
 
-\subsection{Exercise}
+\subsection{Exercise}\index{model checking!model generation only!exercise}
 
 You will find a second file in the tutorial directory, \texttt{spinprop2.pml}, which contains a never claim for the property $\neg (\sometime \lbelief{ag1}{hold(block)} \wedge \sometime \neg \lbelief{ag2}{hold(block)})$.
 
 \begin{sloppypar}
-In order to verify this property you will need to adapt the property in \texttt{PickUpAgent.psl} so that it contains a  conjunction of $\lbelief{ag1}{hold(block)}$ and $\lbelief{ag2}{hold(flag)}$ and then regenerate the model and check in \spin.  As usual a solution file can be found in the answers directory.
+In order to verify this property you will need to adapt the property in \texttt{PickUpAgent.psl}\index{PickUpAgent.psl} so that it contains a  conjunction of $\lbelief{ag1}{hold(block)}$ and $\lbelief{ag2}{hold(flag)}$ and then regenerate the model and check in \spin.  As usual a solution file can be found in the answers directory.
 \end{sloppypar}
 
 \section{Using \ajpf\ with \prism}
-\prism{}~\cite{KNP11} is a probabilistic symbolic model-checker in
+\prism{}~\cite{KNP11} is a probabilistic symbolic model-checker in\index{Prism}
 continuous development, primarily at the Universities of Birmingham
 and Oxford, since 1999. \prism{} provides broadly similar
 functionality to \spin{} but also allows for the model-checking of
@@ -164,26 +163,26 @@ on probabilities represented in the model. Developers can use \prism{} to
 create a probabilistic model (written in the \prism{} language) which
 can then be model-checked using \prism{}'s own probabilistic property
 specification language, which subsumes several well-known
-probabilistic logics including PCTL, probabilistic LTL, CTL, and
+probabilistic logics including PCTL\index{PCTL}, probabilistic LTL, CTL, and
 PCTL*.  \prism{} has been used to formally verify a variety of systems
 in which reliability and randomness play a role, including
 communication protocols, cryptographic protocols and biological
 systems. The examples in this tutorial were checked using \prism{} version
 \texttt{4.3}.
 
-To complete this tutorial you will need to download, install and run \prism.  \prism\ can be downloaded from \url{http://www.prismmodelchecker.org} where you can also find documentation on its use.
+To complete this tutorial you will need to download, install and run \prism.  \prism\ can be downloaded from \url{http://www.prismmodelchecker.org} where you can also find documentation on its use.\index{Prism}
 
 \subsection{Configuring \ajpf\ to output \prism\ models}
 
-As mentioned in section~\ref{sec:configure_spin}, in order to configure \ajpf\ to use another model checker you need to tell it:
+As mentioned in section~\ref{sec:configure_spin}, in order to configure \ajpf\ to use another model checker\index{model checking!model generation only} you need to tell it:
 \begin{enumerate}
-\item to produce \emph{only} a program model, 
+\item to produce \emph{only} a program model\index{model}, 
 \item which other model checker to target and,
 \item where to output the program model.  
 \end{enumerate}
-Because \prism\ also includes probabilistic information in the model, when using \ajpf\ with \prism\ it is also important to use a \emph{listener} that records such information when a choice in the java execution is governed by a probability.
+Because \prism\ also includes probabilistic information\index{Prism} in the model, when using \ajpf\ with \prism\ it is also important to use a \emph{listener}\index{JPF!listener} that records such information when a choice in the java execution is governed by a probability.
 
-This is done in the \ajpf\ configuration file.  Initially we will, once again, use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Prism.jpf} that is shown in figure~\ref{fig:prism_config1}.
+This is done in the \ajpf\ configuration file\index{configuration!JPF}\index{JPF!configuration}.  Initially we will, once again, use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Prism.jpf}\index{TwoPIckUpAgents\_Prism.jpf} that is shown in figure~\ref{fig:prism_config1}.
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -211,7 +210,7 @@ et.show_shared=false
 \label{fig:prism_config1}
 \end{figure}
 
-This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model\_only = true}), to target the \prism\ model checker (\texttt{ajpf.target\_modelchecker = prism}), to print the model to standard out (\texttt{ajpf.model.location = stdout}), and to use a probability listener (\texttt{listener=ajpf.MCAPLProbListener}).  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  The start of this print out is shown in figure~\ref{fig:prism_output1}
+This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model\_only = true})\index{ajpf.model\_only}, to target the \prism\ model checker (\texttt{ajpf.target\_modelchecker = prism})\index{ajpf.target\_modelchecker}, to print the model to standard out (\texttt{ajpf.model.location = stdout})\index{ajpf.model.location}, and to use a probability listener (\texttt{listener=ajpf.MCAPLProbListener})\index{MCAPLProbListener (class)}.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  The start of this print out is shown in figure~\ref{fig:prism_output1}
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -220,13 +219,13 @@ This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model
 dtmc
 
  module jpfModel
-state : [0 ..181] init 0;
+state : [0 ..89] init 0;
 bag1holdblock: bool init true;
-[] state = 0 -> 0.5:(state'=1) & (bag1holdblock'= true) + 0.5:(state'=77) & (bag1holdblock'= true);
-[] state = 1 -> 0.5:(state'=48) & (bag1holdblock'= true) + 0.5:(state'=2) & (bag1holdblock'= true);
-[] state = 2 -> 0.5:(state'=3) & (bag1holdblock'= true) + 0.5:(state'=29) & (bag1holdblock'= true);
-[] state = 3 -> 0.5:(state'=17) & (bag1holdblock'= true) + 0.5:(state'=4) & (bag1holdblock'= true);
-[] state = 4 -> 0.5:(state'=5) & (bag1holdblock'= true) + 0.5:(state'=12) & (bag1holdblock'= true);
+[] state = 0 -> 0.5:(state'=1) & (bag1holdblock'= true) + 0.5:(state'=37) & (bag1holdblock'= true);
+[] state = 1 -> 0.5:(state'=2) & (bag1holdblock'= true) + 0.5:(state'=24) & (bag1holdblock'= true);
+[] state = 2 -> 0.5:(state'=3) & (bag1holdblock'= true) + 0.5:(state'=15) & (bag1holdblock'= true);
+[] state = 3 -> 0.5:(state'=4) & (bag1holdblock'= true) + 0.5:(state'=10) & (bag1holdblock'= true);
+[] state = 4 -> 1.0:(state'=5) & (bag1holdblock'= true) + 0.5:(state'=9) & (bag1holdblock'= true);
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
@@ -234,29 +233,29 @@ bag1holdblock: bool init true;
 \label{fig:prism_output1}
 \end{figure}
 
-There is no specifically probabilistic behaviour in this example, however there are two agents and the system, by default, assumes each agent has an equal chance of running every time the scheduler makes a decision.  We can see here, therefore, that in state 0 there is a 50\% change that the system will transition to state 1 and a 50\% chance that it will transition to state 77.  As with the \spin\ example we are interested in one property, \texttt{bag1holdblock} ($\lbelief{ag1}{hold(block))}$) and this is true in all the initial states of the mode.
+There is no specifically probabilistic behaviour in this example, however there are two agents and the system, by default, assumes each agent has an equal chance of running every time the scheduler\index{scheduler!effect on model checking} makes a decision.  We can see here, therefore, that in state 0 there is a 50\% change that the system will transition to state 1 and a 50\% chance that it will transition to state 37.  As with the \spin\ example we are interested in one property, \texttt{bag1holdblock} ($\lbelief{ag1}{hold(block))}$) and this is true in all the initial states of the mode.
 
-\paragraph{The property} Just as when using \ajpf\ with \spin, the property in the \ajpf\ property specification file should be a conjunction of the atomic properties that will be used in the final property to be checked.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\lactions{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
+\paragraph{The property} Just as when using \ajpf\ with \spin, the property in the \ajpf\ property specification\index{property specification language} file should be a conjunction of the atomic properties that will be used in the final property to be checked.  In the property specification language, the atomic properties are those about the mental state of the agent, or the perceptions in the environment, i.e., those of the form $\lbelief{ag}{f}$, $\lgoal{ag}{f}$, $\lactions{ag}{f}$, $\lintention{ag}{f}$, $\lintendtodo{ag}{f}$ and $\lpercept{ag}{f}$.
 
-\paragraph{Printing the Output to a file} You can obviously cut and paste the \prism\ model from the \ajpf\ output into a file for use with \prism.  Alternatively you can set \texttt{ajpf.model.location} to the path to an output file.  The path should be relative to your \texttt{HOME} directory.  
+\paragraph{Printing the Output to a file} You can obviously cut and paste the \prism\ model from the \ajpf\ output into a file for use with \prism.  Alternatively you can set \texttt{ajpf.model.location}\index{ajpf.model.location} to the path to an output file.  The path should be relative to your \texttt{HOME} directory.  
 
-If you want to give the absolute file name you need to set \texttt{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.
+If you want to give the absolute file name you need to set \texttt{ajpf.model.path}\index{ajpf.model.path} as well as \texttt{ajpf.model.location} in the configuration file.  The system will then join these to create the absolute path to the file you want to use.
 
-The file \texttt{TwoPickUpAgents\_PrismToFile.jpf} will print the model to a file \texttt{tutorial3\_prism.pm} in the tutorial directory.
+The file \texttt{TwoPickUpAgents\_PrismToFile.jpf}\index{TwoPickUpAgents\_PrismToFile.jpf} will print the model to a file \texttt{tutorial3\_prism.pm} in the tutorial directory.
 
-\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop1.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\always \sometime \lbelief{ag1}{hold(block)}$.  
+\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop1.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\always \sometime \lbelief{ag1}{hold(block)}$.\index{Prism} 
 
-You can take the file containing  your program model, plus \texttt{prismprop1.pctl} and run them in \prism\ (using \texttt{prism} \emph{model file} \texttt{prismprop1.pctl}).  This property is actually false and you should get a result of 0 probability:
+You can take the file containing  your program model\index{model}, plus \texttt{prismprop1.pctl} and run them in \prism\ \index{Prism}(using \texttt{prism} \emph{model file} \texttt{prismprop1.pctl}).  This property is actually false and you should get a result of 0 probability:
 
 \texttt{Result: 0.0 (value in the initial state)}.
 
-More details on this process can be found in the \spin\ documentation.
+More details on this process can be found in the \prism\ documentation.\index{Prism}
 
-\section{Model-Checking Agent Systems with Probabilistic Behaviour}
+\section{Model Checking Agent Systems with Probabilistic Behaviour}\index{Model Checking!Probabilistic}
 
-We will now look at a program with probabilistic behaviour.  This program a modified version of one used in \ail\ tutorial 3. The program consists of a robot, \texttt{searcher.gwen}, which searches a 3x3 grid in order to find a human and an environment, \texttt{RandomRobotEnv}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot and it immediately leaves the area once it finds the human (if it has checked every square without finding the human then it checks every square again) therefore there is a chance that the robot will never check the last square (2, 2).
+We will now look at a program with probabilistic behaviour.  This program is a modified version of one used in \ail\ tutorial 3. The program consists of a robot, \texttt{searcher.gwen}\index{searcher.gwen}, which searches a 3x3 grid in order to find a human and an environment\index{environment}, \texttt{RandomRobotEnv}\index{RandomRobotEnv (class)}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot and it immediately leaves the area once it finds the human (if it has checked every square without finding the human then it checks every square again) therefore there is a chance that the robot will never check the last square (2, 2).
 
-In the directory for tutorial 3 you will find the \ajpf\ configuration file \texttt{searcher.jpf} for this program, that is shown in figure~\ref{fig:prism_config2}.
+In the directory for tutorial 3 you will find the \ajpf\ configuration file \texttt{searcher.jpf} for this program, that is shown in figure~\ref{fig:prism_config2}.\index{Prism}
 
 \begin{figure}
 \noindent\rule{\textwidth}{1pt}
@@ -286,7 +285,7 @@ et.show_shared=false
 \label{fig:prism_config2}
 \end{figure}
 
-This file target's the \prism\ model checker and prints the model to standard out.  It uses the listener \texttt{ajpf.MCAPLProbListener} to record probabilistic information as the model his built.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  The start of this is shown in figure~\ref{fig:prism_output2}.
+This file target's the \prism\ model checker\index{Prism} and prints the model to standard out.  It uses the listener \texttt{ajpf.MCAPLProbListener}\index{MCAPLProbListener (class)} to record probabilistic information as the model\index{model} is built.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  The start of this is shown in figure~\ref{fig:prism_output2}.
 
 \begin{figure}
 \noindent\rule{\textwidth}{1pt}
@@ -295,21 +294,24 @@ This file target's the \prism\ model checker and prints the model to standard ou
 dtmc
 
  module jpfModel
-state : [0 ..156] init 0;
+state : [0 ..80] init 0;
 bsearcherempty2020: bool init false;
-[] state = 0 -> 1.0:(state'=1) & (bsearcherempty2020'= false);
-[] state = 1 -> 0.5:(state'=2) & (bsearcherempty2020'= false) + 0.3:(state'=146) & (bsearcherempty2020'= false) + 0.2:(state'=148) & (bsearcherempty2020'= false);
-[] state = 2 -> 1.0:(state'=3) & (bsearcherempty2020'= false);
-[] state = 3 -> 0.2:(state'=144) & (bsearcherempty2020'= false) + 0.5:(state'=4) & (bsearcherempty2020'= false) + 0.3:(state'=142) & (bsearcherempty2020'= false);
-[] state = 4 -> 1.0:(state'=5) & (bsearcherempty2020'= false);
-[] state = 5 -> 0.5:(state'=6) & (bsearcherempty2020'= false) + 0.3:(state'=138) & (bsearcherempty2020'= false) + 0.2:(state'=140) & (bsearcherempty2020'= false);
-[] state = 6 -> 1.0:(state'=7) & (bsearcherempty2020'= false);
-[] state = 7 -> 0.3:(state'=134) & (bsearcherempty2020'= false) + 0.5:(state'=8) & (bsearcherempty2020'= false) + 0.2:(state'=136) & (bsearcherempty2020'= false);
-[] state = 8 -> 1.0:(state'=9) & (bsearcherempty2020'= false);
-[] state = 9 -> 0.2:(state'=132) & (bsearcherempty2020'= false) + 0.5:(state'=10) & (bsearcherempty2020'= false) + 0.3:(state'=13) & (bsearcherempty2020'= false);
-[] state = 10 -> 1.0:(state'=11) & (bsearcherempty2020'= false);
-[] state = 11 -> 1.0:(state'=156) & (bsearcherempty2020'= false);
-[] state = 13 -> 1.0:(state'=14) & (bsearcherempty2020'= false);
+[] state = 0 -> 1.0:(state'=1) & (bsearcherempty2020'= false) + 1.0:(state'=72) & (bsearcherempty2020'= false) + 1.0:(state'=73) & (bsearcherempty2020'= false);
+[] state = 1 -> 1.0:(state'=2) & (bsearcherempty2020'= false) + 1.0:(state'=70) & (bsearcherempty2020'= false) + 1.0:(state'=71) & (bsearcherempty2020'= false);
+[] state = 2 -> 1.0:(state'=3) & (bsearcherempty2020'= false) + 1.0:(state'=68) & (bsearcherempty2020'= false) + 1.0:(state'=69) & (bsearcherempty2020'= false);
+[] state = 3 -> 1.0:(state'=66) & (bsearcherempty2020'= false) + 1.0:(state'=67) & (bsearcherempty2020'= false) + 1.0:(state'=4) & (bsearcherempty2020'= false);
+[] state = 4 -> 1.0:(state'=65) & (bsearcherempty2020'= false) + 1.0:(state'=5) & (bsearcherempty2020'= false) + 1.0:(state'=7) & (bsearcherempty2020'= false);
+[] state = 5 -> 1.0:(state'=80) & (bsearcherempty2020'= false);
+[] state = 7 -> 1.0:(state'=64) & (bsearcherempty2020'= false) + 1.0:(state'=8) & (bsearcherempty2020'= false) + 1.0:(state'=63) & (bsearcherempty2020'= false);
+[] state = 8 -> 1.0:(state'=9) & (bsearcherempty2020'= false) + 1.0:(state'=61) & (bsearcherempty2020'= false) + 1.0:(state'=62) & (bsearcherempty2020'= false);
+[] state = 9 -> 1.0:(state'=10) & (bsearcherempty2020'= false) + 1.0:(state'=59) & (bsearcherempty2020'= false) + 1.0:(state'=60) & (bsearcherempty2020'= false);
+[] state = 10 -> 1.0:(state'=11) & (bsearcherempty2020'= true) + 1.0:(state'=29) & (bsearcherempty2020'= true) + 1.0:(state'=46) & (bsearcherempty2020'= true);
+[] state = 11 -> 1.0:(state'=12) & (bsearcherempty2020'= true) + 1.0:(state'=30) & (bsearcherempty2020'= true) + 1.0:(state'=47) & (bsearcherempty2020'= true);
+[] state = 12 -> 1.0:(state'=48) & (bsearcherempty2020'= true) + 1.0:(state'=13) & (bsearcherempty2020'= true) + 1.0:(state'=31) & (bsearcherempty2020'= true);
+[] state = 13 -> 1.0:(state'=32) & (bsearcherempty2020'= true) + 1.0:(state'=58) & (bsearcherempty2020'= true) + 1.0:(state'=14) & (bsearcherempty2020'= true);
+[] state = 14 -> 1.0:(state'=33) & (bsearcherempty2020'= true) + 1.0:(state'=57) & (bsearcherempty2020'= true) + 1.0:(state'=15) & (bsearcherempty2020'= true);
+[] state = 15 -> 1.0:(state'=16) & (bsearcherempty2020'= true) + 1.0:(state'=17) & (bsearcherempty2020'= true) + 1.0:(state'=34) & (bsearcherempty2020'= true);
+[] state = 16 -> 1.0:(state'=79) & (bsearcherempty2020'= true);
 \end{verbatim}
 \end{small}
 \noindent\rule{\textwidth}{1pt}
