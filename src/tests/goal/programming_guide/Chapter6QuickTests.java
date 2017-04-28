@@ -20,6 +20,7 @@
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
+package goal.programming_guide;
 
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;

@@ -28,7 +28,7 @@ import goal.semantics.GOALRC;
 import goal.semantics.GOALRCStage;
 import goal.syntax.ActionRule;
 import goal.syntax.GOALModule.RuleEvaluationOrder;
-import goal.syntax.ActionCombo;
+
 import goal.syntax.MentalState;
 import goal.syntax.GOALModule;
 

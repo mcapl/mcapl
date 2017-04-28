@@ -66,18 +66,5 @@ public class FromPaperQuickTests extends TestJPF {
 	 	 }
 	  }
 
-	  @Test //----------------------------------------------------------------------
-	  public void equation8 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_governor/human_hole/governor.ail";
-	    	String prop_filename =  "/src/examples/ethical_governor/human_hole/human_hole.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "6";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
-
 
 }

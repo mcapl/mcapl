@@ -70,7 +70,7 @@
 % ------------------------------------
 
 
-\newcommand{\ajpfversion}{ajpf2015}
+\newcommand{\ajpfversion}{ajpf2017}
 
 % ------------------------------------
 % editing macros
@@ -462,3 +462,15 @@
 
 \newtheorem{mexample}{Example}
 \newenvironment{ourexample}{\begin{shaded}\begin{mexample}\renewcommand{\labelenumi}{(\alph{enumi})}}{\renewcommand{\labelenumi}{(\roman{enumi})}\end{mexample}\end{shaded}}
+
+
+% table of stacks:
+\newenvironment{stacks}{
+\smaller
+\begin{tabular}{l|l|l|l} 
+\hline
+event & guard & deed & unifier \\ 
+\hline \hline} {
+\cr \hline 
+\end{tabular}
+}
