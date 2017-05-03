@@ -54,7 +54,7 @@ public class ProbabilisticModel extends MCAPLmodel {
 	  */
 	 public void addState(ModelState s) {
 		 super.addState(s);
-		 s.setAnnotation(new ProbAnnotation());
+		 s.setAnnotation(new ProbAnnotation(s.getNum()));
 	 }
 	
 	 /**
@@ -84,9 +84,9 @@ public class ProbabilisticModel extends MCAPLmodel {
 	  * @param laststate
 	  * @return
 	  */
-	 public double edge_prob(int i, int laststate) {
-		 ProbAnnotation pa = (ProbAnnotation) this.getState(i).getAnnotation();
-		 double edge_prob = pa.getProbability(laststate);
+	 public double edge_prob(int to, int from) {
+		 ProbAnnotation pa = (ProbAnnotation) this.getState(from).getAnnotation();
+		 double edge_prob = pa.getProbability(to);
 		 double prob;
 		 // NB the probability defaults to 0 if no probabilitistic choice was
 		 // involved but in the case of, for instance, scheduler choices which
@@ -96,7 +96,7 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 if (edge_prob != 0) {
 			 prob = edge_prob;
 		 } else {
-			 prob = 1 / equivalent_edges(laststate);
+			 prob = 1 / equivalent_edges(from);
 		 }
 		 return prob;
 		

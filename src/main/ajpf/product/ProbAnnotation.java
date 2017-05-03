@@ -27,6 +27,8 @@ package ajpf.product;
 import java.util.HashMap;
 import java.util.Map;
 
+import ajpf.util.ProbabilisticEdgeAnnotationException;
+
 /**
  * An annotation on a  model indicating the probability of a transition from this state to another.
  * @author louiseadennis
@@ -34,6 +36,11 @@ import java.util.Map;
  */
 public class ProbAnnotation implements ModelAnnotation {
 	Map<Integer, Double> edge_probs = new HashMap<Integer, Double>();
+	Integer from;
+	
+	public ProbAnnotation(Integer f) {
+		from = f;
+	}
 	
 	/**
 	 * Get the probabiltity of a transition from the state annotated with this annotation to 
@@ -51,8 +58,16 @@ public class ProbAnnotation implements ModelAnnotation {
 	
 	/**
 	 * Annotate the probability of a transition from this state to i with a.
+	 * @throws AJPFException 
 	 */
-	public void edge_annotate_double(Integer i, double a) {
-		edge_probs.put(i, a);
+	public void edge_annotate_double(Integer to, double a) throws ProbabilisticEdgeAnnotationException {
+		edge_probs.put(to, a);
+		double prob_sum = 0;
+		for (Double prob: edge_probs.values()) {
+			prob_sum += prob;
+			if (prob_sum > 1) {
+				throw new ProbabilisticEdgeAnnotationException(to, prob_sum);
+			}
+		}
 	}
 }

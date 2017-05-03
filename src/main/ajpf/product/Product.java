@@ -29,7 +29,7 @@ import ajpf.psl.buchi.BuchiState;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.Until;
 import ajpf.psl.Proposition;
-
+import ajpf.util.AJPFException;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
@@ -151,7 +151,7 @@ public class Product {
 	 * @param modelstatenum
 	 * @return
 	 */
-	public boolean justAddModelState(int modelstatenum) {
+	public boolean justAddModelState(int modelstatenum) throws AJPFException {
 		log.fine("Entering justaddModelState");
 		ModelState s = m.containsState(modelstatenum);
 		if (s == null) {
@@ -169,7 +169,7 @@ public class Product {
 	}
 		
 	int endstatecount = -2;
-	public boolean addEndState(int modelstatenum) {
+	public boolean addEndState(int modelstatenum) throws AJPFException {
 		Integer from = m.getEndofPathState();
 		ModelState from_state = m.containsState(from);
 		ModelState s = new ModelState(endstatecount, from_state);
@@ -184,7 +184,7 @@ public class Product {
 	 * A new model state has been generated, update the product automata accordingly;
 	 * @param modelstatenum
 	 */
-	public boolean addModelState(int modelstatenum) {
+	public boolean addModelState(int modelstatenum) throws AJPFException {
 		log.fine("Entering addModelState");
 		ModelState s = m.containsState(modelstatenum);
 		// If s == null then this model state does not already exist

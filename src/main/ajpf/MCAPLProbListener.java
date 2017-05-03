@@ -96,7 +96,11 @@ public class MCAPLProbListener extends MCAPLListener {
       		log.fine("Dealing with choices");
        		ElementInfo ei = vm.getElementInfo(objref);
        		double prob = ei.getDoubleField("thischoice");
-       		product_automata.annotate_edge(prob);
+    		// But we only want to perform the annotation if there was more than one choice otherwise no branching has occured at this 
+       		// method call (see peer for Choice).
+       		if (prob < 1.0) {
+        			product_automata.annotate_edge(prob);
+       		}
        	} 
 
 	}
