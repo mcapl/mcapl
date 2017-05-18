@@ -1,3 +1,4 @@
+\label{tutorial:ajpf:psl}
 
 This is the first in a series of tutorials on the use of the \ajpf\ model checking program\index{AJPF}.  This tutorial covers the basics of configuring\index{configuration!model checking}\index{configuration!JPF}\index{JPF!configuration} a model-checking run and writing properties in \ajpf's property specification language\index{property specification language}.
 
@@ -9,7 +10,7 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 The tutorials assume some familiarity with the basics of running Java programs either at the command line or in Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic.
 
 \section{Setting up Agent Java Pathfinder}
-Before you can run \ajpf\ it is necessary to set up your computer to use Java Pathfinder (JPF)\index{JPF}.  There are instructions for doing this in the \mcapl\ manual (which you can find in the \texttt{doc} directory of the distribution).
+Before you can run \ajpf\ it is necessary to set up your computer to use Java Pathfinder (JPF)\index{JPF}.  There are instructions for doing this \inmanual{chap:installation}.
 
 The key point is that you need to create a file called \texttt{.jpf/site.properties}\index{site.properties} in your home directory on the computer you are using.  In this file you need to put one line which assigns the path to the \mcapl\ distribution to the key \texttt{mcapl}.  For instance if you have your \mcapl\ distribution in your home directory as  folder called \texttt{mcapl} then \texttt{site.properties} should contain the line.
 
@@ -77,7 +78,7 @@ We explain each line of this below.
 \begin{sloppypar}
 \begin{description}
 \item[@using = mcapl] Means that the proof is using the home directory for \texttt{mcapl} that you set up in \texttt{.jpf/site.properties}\index{site.properties}.
-\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  For those who are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL (class)}\index{AIL!class}
+\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  If you are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL (class)}\index{AIL!class}
 \item[target.args =...] This sets up the arguments to be passed to \texttt{ail.util.AJPF\_w\_AIL}.  \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)} takes three arguments.  In the configuration file these all have to appear on one line, separated by commas (but \emph{no spaces}).  This means you can not see them all in the file print out above.  In order the arguments are:
 \begin{enumerate}
 \item The first is an \ail\ configuration  file.  In this example the file is \texttt{\$\{mcapl\}/src/examples/gwendolen/ail\_tutorials/tutorial1/answers/ex2.ail} which is a configuration file for a multi-agent system written in the \gwendolen\ language.
@@ -197,7 +198,7 @@ $$
 $$
 %
 Conjunction $\land$\index{property!and} and the common temporal operators $\sometime$ (eventually\index{property!eventually}) and $\always$
-(always\index{property!always}) are, in turn, derivable from $\vee$\index{property!or}, $\luntil$\index{property!until} and $\release$\index{property!release} in theusual way~\cite{emerson:90a}.
+(always\index{property!always}) are, in turn, derivable from $\vee$\index{property!or}, $\luntil$\index{property!until} and $\release$\index{property!release} in the usual way~\cite{emerson:90a}.
 
 \section{Exercises}\index{property specification language!exercises}\index{property specification language}
 If you look in \texttt{lifterandmedic.psl}\index{example!lifterandmedic} you should see the following:
@@ -206,7 +207,7 @@ If you look in \texttt{lifterandmedic.psl}\index{example!lifterandmedic} you sho
 \end{verbatim}
 So this file contains one formula, labelled, \texttt{1} and the formula is equivalent to $\always \neg \lbelief{\texttt{medic}}{bad}$\index{property!about belief}\index{$\lbeliefop$} -- which means it is always the case the medic agent doesn't believe the formula \texttt{bad} (or alternatively that the medic agent never believes \emph{bad}.
 
-As noted previously the multi-agent system in \texttt{ex2.ail} is a \gwendolen\ program and is, in fact, the one described in the 8th \gwendolen\ tutorial in the \mcapl\ distribution.  It isn't necessary, for this tutorial, to understand the implementation of the BDI modalities (belief, goal, intention etc.) in the \gwendolen\ interpreter but a brief discussion is included at the end of this.
+As noted previously the multi-agent system in \texttt{ex2.ail} is a \gwendolen\ program and is, in fact, the one described \intutorial{\gwendolen}{8}{tutorial:gwendolen:communication}.  It isn't necessary, for this tutorial, to understand the implementation of the BDI modalities (belief, goal, intention etc.) in the \gwendolen\ interpreter but a brief discussion is included in section~\ref{s:impl_bdi}.
 
 Adapt the JPF configuration file and extend the property specification file in the tutorial directory in order to verify the following properties of the multi-agent system.  You can find sample answers in the \texttt{answers} directory.
 

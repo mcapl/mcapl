@@ -1,20 +1,20 @@
 
-This is the third a series of tutorials on the use of the \ajpf\ model checking\index{model checking} program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ \index{SPIN} and \prism\index{Prism}.  \ajpf\ is used to create a model\index{model} of the program which is then verified by another tool.  The main purpose of this is to enable modelchecking with more expressive logics (as can be done with the \prism\ implementation), but there may also be efficiency gains in outsourcing property checking to another tool.
+This is the third a series of tutorials on the use of the \ajpf\ model checking\index{model checking} program.  This tutorial covers the use of \ajpf\ in conjunction with other model-checkers, specifically \spin\ \index{SPIN} and \prism\index{Prism}.  \ajpf\ is used to create a model\index{model} of the program which is then verified by another tool.  The main purpose of this is to enable model checking with more expressive logics (as can be done with the \prism\ implementation), but there may also be efficiency gains in outsourcing property checking to another tool.
 
 Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
 \begin{quote}
 \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial3}.
 \end{quote}
 
-This tutorial assumes familiarity with the operation of \ajpf\ as described in \ajpf\ tutorials 1 and 2 and familiarity with the theory of model checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism\index{SPIN}\index{Prism}.
+This tutorial assumes familiarity with the operation of \ajpf\ as described \intutorial{\ajpf}{1}{tutorial:ajpf:psl} and \intutorial{\apjf}{2}{tutorial:ajpf:troubleshooting} and familiarity with the theory of model checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism\index{SPIN}\index{Prism}.
 
 This tutorial explains how to use the tools described in~\cite{dennis15:_two}.
 
 \section{Separating out Model and Property}
 
-In normal operation, the \ajpf\ system is performing two tasks at once.  Firstly it is building a \emph{model}\index{model} of the program execution.  This is a graph (or Kripke Structure) of states.  These are numbered and labelled with the facts that are true in each state (e.g., ``agent 1 believes \texttt{holding\_block}'', ``agent 2 has a goal \texttt{pickup\_block}'' and so on).  At the same time it is checking this graph against a property\index{B\"{u}chi Automaton} (e.g., ``eventually agent 2 believes \texttt{holding\_block}'').  It does this by converting the property into an automaton, combining the property automaton with the Kripke structure on-the-fly (following~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}) and then checking for accepting paths\index{accepting path} through this product automaton\index{product automaton}.
+In normal operation, the \ajpf\ system is performing two tasks at once.  Firstly it is building a \emph{model}\index{model} of the program execution.  This is a graph (or Kripke structure) of states.  These are numbered and labelled with the facts that are true in each state (e.g., ``agent 1 believes \texttt{holding\_block}'', ``agent 2 has a goal \texttt{pickup\_block}'' and so on).  At the same time it is checking this graph against a property\index{B\"{u}chi Automaton} (e.g., ``eventually agent 2 believes \texttt{holding\_block}'').  It does this by converting the property into an automaton, combining the property automaton with the Kripke structure on-the-fly (following~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}) and then checking for accepting paths\index{accepting path} through this product automaton\index{product automaton}.
 
-In this tutorial we demonstrate how \ajpf\ can be used to produce\index{model checking!model generation only} just the Kripke Structure without creating the property automaton or the product automaton.
+In this tutorial we demonstrate how \ajpf\ can be used to produce\index{model checking!model generation only} just the Kripke structure without creating the property automaton or the product automaton.
 
 \section{Using \ajpf\ with \spin}
 
@@ -40,7 +40,7 @@ To complete this tutorial you will need to download, install and run \spin\index
 
 \subsection{Why use \spin{}}
 
-\spin\ and \ajpf\ are both\index{SPIN} LTL model-checkers so it may seem odd to use \ajpf\ only to produce the model\index{model} and then use \spin\ to create the property automaton\index{B\"{u}chi Automaton}\index{property automaton|see B\"{u}chi Automaton}.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated~\cite{dennis15:_two} that the major cause of slow performance in \ajpf\ is in generating the Kripke structure of the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}\index{Promela}.  However there may  nevertheless be situations where efficiency gains can be made.  
+\spin\ and \ajpf\ are both\index{SPIN} LTL model-checkers so it may seem odd to use \ajpf\ only to produce the model\index{model} and then use \spin\ to create the property automaton\index{B\"{u}chi Automaton}\index{property automaton|see {B\"{u}chi Automaton}}.  There are a couple of advantages to this however.  Firstly \spin\ has more powerful tools for producing property automata and so there are some properties that \ajpf\ can not handle which \spin\ can.  Secondly \spin's LTL model checking algorithms are more efficient than \ajpf's so in theory the whole process could be quicker by using \spin.  In practice it has been demonstrated~\cite{dennis15:_two} that the major cause of slow performance in \ajpf\ is in generating the Kripke structure of the program model and any gains in efficiency from using \spin\ are often lost in converting \ajpf's program model into \promela{}\index{Promela}.  However there may  nevertheless be situations where efficiency gains can be made.  
 
 In terms of this tutorial, looking at the process of exporting models to \spin\ forms\index{SPIN}\index{Prism} a useful preliminary first step before we turn our attention to \prism.
 
@@ -54,7 +54,7 @@ In order to configure \ajpf\ to use another model checker\index{model checking!m
 \item where to output the program model.
 \end{enumerate}  This is done in the \ajpf\ configuration file\index{JPF!configuration}\index{configuration!JPF}.  
 
-We will use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Spin.jpf}\index{example!SPIN}\index{example!twopickupagents} that is shown in figure~\ref{fig:spin_config}.
+We will use the same program that was used \intutorial{\ajpf}{2}{tutorial:ajpf:troubleshooting}.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Spin.jpf}\index{example!SPIN}\index{example!twopickupagents} that is shown in figure~\ref{fig:spin_config}.
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -80,8 +80,10 @@ et.show_shared=false
 \label{fig:spin_config}
 \end{figure}
 
+\begin{sloppypar}
 This configuration file tells \ajpf\ to produce a model only (\texttt{ajpf.model\_only = true})\index{ajpf.model\_only}, to target\index{SPIN} the \spin\ model checker (\texttt{ajpf.target\_modelchecker = spin})\index{ajpf.target\_modelchecker}, and to print the model to standard out (\texttt{ajpf.model.location = stdout})\index{ajpf.model.location}.  If you execute it in \ajpf\ you get a print out of the model after \ajpf\  has finished executing.  This start of this print out is shown in figure~\ref{fig:spin_output}.
 In this, the first state (state 0) in the \ajpf\ model has become \texttt{state0} in the \promela\ model.  This state can transition to either state 1 (\texttt{state1}) or state 37 (\texttt{state77}) and so on.\index{Promela}
+\end{sloppypar}
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -182,7 +184,7 @@ As mentioned in section~\ref{sec:configure_spin}, in order to configure \ajpf\ t
 \end{enumerate}
 Because \prism\ also includes probabilistic information\index{Prism} in the model, when using \ajpf\ with \prism\ it is also important to use a \emph{listener}\index{JPF!listener}\index{JPF!listener!probabilistic} that records such information when a choice in the java execution is governed by a probability.
 
-This is done in the \ajpf\ configuration file\index{configuration!JPF}\index{JPF!configuration}.  Initially we will, once again, use the same program that was used in \ajpf\ tutorial 2.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Prism.jpf}\index{example!Prism}\index{example!twopickupagents} that is shown in figure~\ref{fig:prism_config1}.
+This is done in the \ajpf\ configuration file\index{configuration!JPF}\index{JPF!configuration}.  Initially we will, once again, use the same program that was used \intutorial{\ajpf}{2}{tutorial:ajpf:troubleshooting}.  In the directory for tutorial 3 you will find the configuration file \texttt{TwoPickUpAgents\_Prism.jpf}\index{example!Prism}\index{example!twopickupagents} that is shown in figure~\ref{fig:prism_config1}.
 
 \begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
@@ -256,7 +258,7 @@ More details on this process can be found in the \prism\ documentation.\index{Pr
 
 \section{Model Checking Agent Systems with Probabilistic Behaviour}\index{model checking!probabilistic}
 
-We will now look at a program with probabilistic behaviour.  This program is a modified version of one used in \ail\ tutorial 3. The program consists of a robot, \texttt{searcher.gwen}\index{example!searcher}\index{example!Prism}, which searches a 3x3 grid in order to find a human and an environment\index{environment}, \texttt{RandomRobotEnv}\index{RandomRobotEnv (class)}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot and it immediately leaves the area once it finds the human (if it has checked every square without finding the human then it checks every square again) therefore there is a chance that the robot will never check the last square (2, 2).
+We will now look at a program with probabilistic behaviour.  This program is a modified version of one used \intutorial{\ail}{3}{tutorial:ail:environments}. The program consists of a robot, \texttt{searcher.gwen}\index{example!searcher}\index{example!Prism}, which searches a 3x3 grid in order to find a human and an environment\index{environment}, \texttt{RandomRobotEnv}\index{RandomRobotEnv (class)}, in which a human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).  The robot only finds the human if it is in the same square as the robot and it immediately leaves the area once it finds the human (if it has checked every square without finding the human then it checks every square again) therefore there is a chance that the robot will never check the last square (2, 2).
 
 In the directory for tutorial 3 you will find the \ajpf\ configuration file \texttt{searcher.jpf} for this program, that is shown in figure~\ref{fig:prism_config2}.\index{Prism}
 
@@ -324,7 +326,7 @@ In the property specification\index{property specification language} file there 
 
 \subsection{A Note on Creating Environments with Probabilistic Behaviour}\index{environment!random features}
 
-In order for \ajpf's probability listener\index{JPF!listener}\index{JPF!listener!probabilistic}\index{MCAPLProbListener (class)} to work correctly, all randomness (and probabilistic behaviour) should be created using \ail's \texttt{Choice}\index{Choice (class)} classes as documented in \ail\ tutorial 3.  
+In order for \ajpf's probability listener\index{JPF!listener}\index{JPF!listener!probabilistic}\index{MCAPLProbListener (class)} to work correctly, all randomness (and probabilistic behaviour) should be created using \ail's \texttt{Choice}\index{Choice (class)} classes as documented \intutorial{\ail}{3}{tutorial:ail:environments}.  
 
 It is important that probabilistic choices cause \emph{unique} transitions in the model.  If, for instance, you generate four choices each with, say, a 25\% probability but two of them end up leading to the same next state then AJPF will only annotate the transition with one of the probabilities (not the sum of both) and this will lead to \prism\ generating an error\index{Prism}.  For instance say you have four choices each representing a direction some human could move in, north, east, south or west.  If you are working in a grid world and if the selected direction were to take the human off the grid then you might choose to have the human remain in the same place instead.  In this situation, when the human is in the corner of the grid, two of those choices will lead to the same result (the human remains in place) however only the probability for one of these occurring will be annotated on the transition and \prism\ will warn that the probabilities of the transitions in this state do not sum to 1.
 
