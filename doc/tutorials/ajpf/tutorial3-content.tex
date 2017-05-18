@@ -6,7 +6,7 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial3}.
 \end{quote}
 
-This tutorial assumes familiarity with the operation of \ajpf\ as described \intutorial{\ajpf}{1}{tutorial:ajpf:psl} and \intutorial{\apjf}{2}{tutorial:ajpf:troubleshooting} and familiarity with the theory of model checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism\index{SPIN}\index{Prism}.
+This tutorial assumes familiarity with the operation of \ajpf\ as described \intutorial{\ajpf}{1}{tutorial:ajpf:psl} and \intutorial{\ajpf}{2}{tutorial:ajpf:troubleshooting} and familiarity with the theory of model checking.  Unlike most tutorials, this tutorial is not standalone and assumes the user has access to both \spin\ and \prism\index{SPIN}\index{Prism}.
 
 This tutorial explains how to use the tools described in~\cite{dennis15:_two}.
 
@@ -320,7 +320,7 @@ This model\index{model} also records one proposition \texttt{bsearcherempty2020}
 
 \paragraph{The property} The property\index{property specification language} is the \ajpf\ property $\lbelief{searcher}{empty(2, 2)}$ and this has been stated in the property specification language file as property 1. 
 
-\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop2.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\sometime \lbelief{searcher}{empty(2, 2)}$.  If you run your \prism\ model with this file you should find that the property has a 35\% chance of being true -- i.e., the robot has a 35\% chance of checking the final square.\index{Prism}\index{model checking}
+\paragraph{Model-checking the program in \prism}  In the tutorial directory you will find a file \texttt{prismprop2.pctl} which is a \prism\ file containing the PCTL property for $P^{=?}\sometime \lbelief{searcher}{empty(2, 2)}$.  If you run your \prism\ model with this file you should find that the property has a 35\% chance of being true -- i.e., the robot has roughly a 35\% chance of checking the final square.\index{Prism}\index{model checking}
 
 In the property specification\index{property specification language} file there is a second property for $\lbelief{searcher}{found}$ (that the searcher has found the human).  If you generate a model for this property and check it in \prism\ you\index{Prism} will find its probability is 1, even though there is an infinite loop where the robot never finds the human.   However the probability that the robot will remain in this infinite loop forever is infinitesimally small.
 
