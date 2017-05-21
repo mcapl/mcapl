@@ -104,6 +104,19 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	}
 		
 	/**
+	 * Construct from a literal and a goal type.
+	 * @param l
+	 * @param i
+	 */
+	public Abstract_Goal(Abstract_Literal l, int i) {
+		if (l instanceof Abstract_VarTerm) {
+			isVariable = true;
+		}
+		setFunctor(l.getFunctor());
+		setTerms(l.getTerms());
+		goaltype = i;
+	}
+	/**
 	 * Constructor.
 	 * @param g
 	 */
