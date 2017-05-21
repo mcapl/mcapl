@@ -4,19 +4,11 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{../../manual/manual}
+\usepackage{../tutorial-only}
 \include{mylistings}
 \makeindex
 
 % table of stacks:
-\newenvironment{stacks}{
-\smaller
-\begin{tabular}{l|l|l|l} 
-\hline
-event & guard & deed & unifier \\ 
-\hline \hline} {
-\cr \hline 
-\end{tabular}
-}
 
 \newenvironment{vplan*}[1][] {
 \smaller

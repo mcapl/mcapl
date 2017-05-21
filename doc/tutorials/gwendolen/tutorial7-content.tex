@@ -29,7 +29,9 @@ The system generates all possible plans for the current intention - if the inten
 The agent sorts though its inbox and converts the messages into new intentions.\index{message!converted to intention}\index{Gwendolen}
 \end{description}
 
+\begin{sloppypar}
 The actual code for the reasoning cycle can be found in \texttt{gwendolen.semantics.GwendolenRC}\index{GwendolenRC (class)}\index{reasoning cycle}.  Each of the various rules that can be used in in a stage is a java class and they can all be found in the package \texttt{ail.semantics.operationalrules}\index{operationalrules (package)}.
+\end{sloppypar}
 
 \section{Using Java Debuggers to Debug \gwendolen\ programs}\index{debugging}\index{debugging!with a Java debugger}\index{Gwendolen!debugging}
 
@@ -39,7 +41,9 @@ It is outside the scope of these tutorials to explain the use of \java\ debugger
 
 In our experience it is particularly useful when debugging in this way to place breakpoints in the \java\ \texttt{ail.semantics.AILAgent}\index{AILAgent (class)} class which is the generic class supporting agents in the Agent Infrastructure Layer\index{AIL} (upon which \gwendolen\ is built).  In particular \texttt{ail.semantics.AILAgent} has a method called \texttt{reason}\index{AILAgent (class)!reason} which controls looping through an agent's reasoning cycle\index{reasoning cycle}.  We recommend placing such a break point either after \texttt{while(! RC.stopandcheck())} which is the top level loop through the reasoning cycle or at \texttt{rule.apply(this)} which is the moment that the outcome of a rule is calculated.
 
+\begin{sloppypar}
 \paragraph{Exercise} Find a \java\ debugger (e.g., the one shipped with Eclipse) and discover how to set breakpoints using the debugger.  Set a breakpoint at \texttt{rule.apply(this)} in the \texttt{reason()} method in \texttt{ail.semantics.AILAgent} (you can find this in the \texttt{src/classes/ail/semantics} directory).  Run one of your programs with this breakpoint in place and see what happens and experiment in seeing what information you can discover about the agent state.\index{debugging!exercises}\index{AILAgent (class)}\index{AILAgent (class)!reason}
+\end{sloppypar}
 
 \section{Programming Exercise}\index{Gwendolen}\index{Gwendolen!exercises}
 This is a fairly major programming exercise using the \gwendolen\ constructs you have already been introduced to.  As usual a sample solution can be found in the \texttt{answers} subdirectory for \texttt{tutorial7}.

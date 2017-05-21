@@ -1,4 +1,4 @@
-
+\label{tutorial:gwendolen:bda}
 This is the second in a series of tutorials on the use of the \gwendolen\ programming language\index{Gwendolen}.  This tutorial covers the basics of beliefs\index{belief}, goals\index{goal} and actions\index{action} as they appear in \gwendolen.
 
 Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
@@ -8,7 +8,9 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 
 \section{Pick Up Rubble}
 
+\begin{sloppypar}
 You will find a \gwendolen\ program\index{Gwendolen}\index{example!pickuprubble} in the tutorial directory called \texttt{pickuprubble.gwen}.  It's contents should look like Example~\ref{code:pickuprubble}.
+\end{sloppypar}
 \begin{ourexample}
 \label{code:pickuprubble}\quad \\
 \begin{lstlisting}[basicstyle=\sffamily,language=Gwendolen,style=easslisting]
@@ -34,7 +36,9 @@ goto55 [perform]
 This is a program for moving around a simple grid based environment\index{environment} and picking up rubble.  The robot can perform three actions\index{action} in this environment, \index{Gwendolen}\index{example!pickuprubble}
 \begin{description}
 \item[move\_to(X, Y)] moves to grid square (X, Y) and adds the belief\index{belief}\index{belief!add} \lstinline{at(X, Y)}.
+\begin{sloppypar}
 \item[lift\_rubble] attempts picks up a piece of rubble and adds the belief\index{belief}\index{belief!add} \lstinline{holding(rubble)} if there is rubble at the robot's location.
+\end{sloppypar}
 \item[drop] drops whatever the robot is holding and removes any beliefs\index{belief}\index{belief!remove} about what the robot is holding.
 \end{description}
 The default actions\index{action}\index{action!print} (e.g., \lstinline{print}) are also available to the robot.  As the environment\index{environment} is set up there is a block of rubble at square (5, 5) which the robot will see if is in square (5, 5).  When the robot picks something  up it can see that it is holding it.  This environment is programmed in \java\ and is the class \lstinline{gwendolen.tutorials.SearchAndRescueEnv}\index{SearchAndRescueEnv (class)}.
@@ -58,7 +62,9 @@ There are three different sorts of syntax being used here to distinguish between
 
 \subsection{Running the Program and Getting more Log output}\index{Gwendolen}\index{Gwendolen!running programs}
 
-To run the program you need to call \texttt{ail.mas.AIL}\index{AIL (class)}and supply it with a suitable configuration file\index{configuration!gwendolen}\index{Gwendolen!configuration}.  You will find an appropriate configuration file, \texttt{pickuprubble.ail}\index{example!pickuprubble} in the same directory as \texttt{pickuprubble.gwen}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL}\index{run-AIL} configuration as detailed in the \mcapl\ manual.
+\begin{sloppypar}
+To run the program you need to call \texttt{ail.mas.AIL}\index{AIL (class)} and supply it with a suitable configuration file\index{configuration!gwendolen}\index{Gwendolen!configuration}.  You will find an appropriate configuration file, \texttt{pickuprubble.ail}\index{example!pickuprubble} in the same directory as \texttt{pickuprubble.gwen}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL}\index{run-AIL} configuration as detailed in the \mcapl\ manual.
+\end{sloppypar}
 
 Run the program now.\index{Gwendolen}\index{Gwendolen!running programs}
 
@@ -82,6 +88,7 @@ to the configuration file you will get the log messages in a briefer form.\index
 
 \section{Perform and Achieve Goals}\index{Gwendolen}\index{goal}\index{goal!perform}\index{goal!achieve}
 \lstinline{pickuprubble_achieve.gwen} is a slightly more complex version of the rubble lifting program which introduces some new concepts.  It is shown in Example~\ref{code:pickuprubble_achieve}\index{example!pickuprubble}
+\begin{figure}[htb]
 \begin{ourexample}
 \label{code:pickuprubble_achieve} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
@@ -111,7 +118,8 @@ holding(rubble) [achieve]
 +holding(rubble): {True} <- print(done);
 \end{lstlisting}
 \end{ourexample}
-The first changes in lines 7-9.  Here we have a list of initial beliefs\index{belief}\index{belief!initial}.  The agent believes there may be rubble in one of three squares (1, 1), (3, 3) and (5, 5).  As we know, in the environment, there is only rubble in (5, 5).\index{environment}
+\end{figure}
+The first changes are in lines 7-9.  Here we have a list of initial beliefs\index{belief}\index{belief!initial}.  The agent believes there may be rubble in one of three squares (1, 1), (3, 3) and (5, 5).  As we know, in the environment, there is only rubble in (5, 5).\index{environment}
 
 The next change is in line 13.  Here instead of a \emph{perform} goal\index{goal}\index{goal!perform}, \lstinline{goto55 [perform]} there is an \emph{achieve} goal\index{goal!achieve}, \lstinline{holding(rubble) [achieve]}.  The difference between perform goals and achieve goals is as follows:  
 \begin{itemize}
@@ -120,7 +128,7 @@ The next change is in line 13.  Here instead of a \emph{perform} goal\index{goal
 \end{itemize}
 In the case of this program the robot will continue executing the plan for \lstinline{holding(rubble)} until it actually believes that it is holding some rubble.\index{belief}
 
-One lines 17 and 18, you can see the plan\index{plan} for the goal\index{goal}.  This plan no longer has an trivial guard\index{plan!guard}.  Instead the plan only applies if the agent believes\index{belief} that there is possible rubble in some square (X, Y) and it does not (the $\sim$ symbol) believe\index{belief!not believe} there is no rubble in that square.  If it can find such a square then the robot moves\index{action} to it.  The idea is that the robot will check each of the possible rubble squares  in turn until it successfully finds and lifts some rubble.  Note that we are using capital letters for variables\index{Gwendolen!variables} that can be unified against beliefs (like in \prolog).
+On lines 17 and 18, you can see the plan\index{plan} for the goal\index{goal}.  This plan no longer has a trivial guard\index{plan!guard}.  Instead the plan only applies if the agent believes\index{belief} that there is possible rubble in some square (X, Y) and it does not (the $\sim$ symbol) believe\index{belief!not believe} there is no rubble in that square.  If it can find such a square then the robot moves\index{action} to it.  The idea is that the robot will check each of the possible rubble squares  in turn until it successfully finds and lifts some rubble.  Note that we are using capital letters for variables\index{Gwendolen!variables} that can be unified against beliefs (like in \prolog).
 
 The plan\index{plan} at line 20 gets the robot to add the belief\index{belief} \lstinline{no_rubble(X, Y)} if it is at some square, (X, Y), and it can't see any rubble there.  By this means the plan in lines 17 and 18 will be forced to pick a different square next time it executes.  Up until now all the plans you have used have simply executed actions in the plan body.  This one adds a belief.\index{Gwendolen}
 

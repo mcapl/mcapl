@@ -1,4 +1,4 @@
-The implementation of \goal\ in the \ail\ for use with \ajpf\ is based upon the 2014 version of \goal.  Documentation for this version can be found in the version of \emph{Programming Cognitive Agents in \goal} included with the \ajpf\ distribution in the \texttt{doc/goal} directory.\index{GOAL}
+The implementation of \goal\ in the \ail\ for use with \ajpf\ is based upon the 2014 version of \goal.  Documentation for this version can be found in the version of \emph{Programming Cognitive Agents in \goal} included with the \ajpf\ distribution in the \texttt{doc/goal} directory.\index{GOAL}  These notes are intended to be used alongside the Programming Guide which explains how to program in \goal.
 
 While every effort has been made to keep the syntax and format of the \goal\ program files in line with this document.  The usage and format of configuration files differs.  These differences are outlined in this document.\index{GOAL}
 
@@ -37,7 +37,7 @@ The \goal\ program file, \texttt{hello\_world.gl} is also in the chapter directo
 
 \subsection{Running the Program}
 
-To run the program you need to run the \java\ program \texttt{ail.mas.AIL} and supply it with a the configuration file as an argument.  You can do this either from the command line or using the Eclipse \texttt{run-AIL} configuration (with \texttt{hello\_world.ail} selected in the Package Explorer window) as detailed in the \mcapl\ manual and \ail\ tutorials.\index{GOAL}\index{GOAL!executing}\index{run-AIL}\index{AIL (class)}\index{Eclipse}
+To run the program you need to run the \java\ program \texttt{ail.mas.AIL} and supply it with a the configuration file as an argument.  You can do this either from the command line or using the Eclipse \texttt{run-AIL} configuration (with \texttt{hello\_world.ail} selected in the Package Explorer window) as detailed \inmanual{chap:running}.\index{GOAL}\index{GOAL!executing}\index{run-AIL}\index{AIL (class)}\index{Eclipse}
 
 \subsection{Configuration Files}
 \label{sec:configuration}
@@ -61,7 +61,7 @@ Configuration files all contain a list of items of the form \texttt{key=value}. 
 \end{description}
 \end{sloppypar}
 
-More information on the use of \ail\ configuration files can be found in the \ail\ tutorials included with the \mcapl\ distribution.
+More information on the use of \ail\ configuration files can be found \intutorial{\ail}{1}{tutorial:ail:configuration}.
 
 \section{Notes on Chapter 1}
 
@@ -80,7 +80,7 @@ Section 1.5 discusses using an environment \texttt{HelloWorldEnvironment.jar}.  
 
 \section{Model Checking \goal\ Programs}\index{GOAL}\index{GOAL!verification}
 
-\goal\ programs can be model-checked in the same way that \gwendolen\ and other programs in the \ail\ framework can be checked.  This involves creating a \jpf\ configuration file and setting the program's \ail\ configuration file, a property specification file, and a property key as the \texttt{target.args} for a \texttt{target} of \texttt{ail.util.AJPF\_w\_AIL}.  This process is outlined in more detail in in the first two \ajpf\ tutorials.\index{AJPF\_w\_AIL (class)}\index{GOAL}
+\goal\ programs can be model-checked in the same way that \gwendolen\ and other programs in the \ail\ framework can be checked.  This involves creating a \jpf\ configuration file and setting the program's \ail\ configuration file, a property specification file, and a property key as the \texttt{target.args} for a \texttt{target} of \texttt{ail.util.AJPF\_w\_AIL}.  This process is outlined in more detail \intutorial{\ajpf}{1}{tutorial:ajpf:psl} and \intutorial{\ajpf}{2}{tutorial:ajpf:troubleshooting}.
 
 We outline the basics of this here.
 
@@ -90,8 +90,9 @@ Before you can run \ajpf\ it is necessary to set up your computer to use Java Pa
 Just as you run multi-agent systems in the \ail\ by passing an \ail\ configuration file as an argument to \texttt{ail.mas.AIL}, you model-check a multi-agent system by passing a \jpf\ configuration file as an argument to \texttt{ajpf.util.AJPF\_w\_AIL}.\index{AJPF\_w\_AIL (class)}\index{AIL (class)}\index{model checking}
 
 \subsection{Example}
-Below is a \jpf\ configuration file of the \texttt{hello\_world.gl} example from chapter 1 of \emph{Programming Cognitive Agents in \goal\ }.\index{GOAL}\index{GOAL!verification}\index{configuration!JPF}\index{JPF!configuration}
+Figure~\ref{fig:goal:hello_world} shows a \jpf\ configuration file of the \texttt{hello\_world.gl} example from chapter 1 of \emph{Programming Cognitive Agents in \goal\ }.\index{GOAL}\index{GOAL!verification}\index{configuration!JPF}\index{JPF!configuration}
 
+\begin{figure}[htb]
 \noindent\rule{\textwidth}{1pt}
 \begin{small}
 \begin{verbatim}
@@ -108,6 +109,9 @@ et.show_shared=false
 \end{verbatim}
 \end{small}
 \rule{\textwidth}{1pt}
+\caption{Hello World Configuration File}
+\label{fig:goal:hello_world}
+\end{figure}
 
 We explain each line of this below.\index{GOAL}\index{GOAL!verification}
 
@@ -132,7 +136,7 @@ It also prints the message \texttt{Always True from Now On} when exploration of 
 \item[ajpf.psl.buchi.BuchiAutomaton] At the \texttt{info} level this prints out the B\"{u}chi Automaton that has been generated from the the property that is to be proved.  Again this is useful, when model checking fails, for working out what property was expected to hold in that state.\index{BuchiAutomaton (class)}\index{GOAL}
 \item[ail.semantics.AILAgent] At the \texttt{fine} level this prints out the internal agent state once every reasoning cycle.  Be warned that this produces a lot of output in the course of a model checking run.\index{AILAgent (class)}\index{logging}
 \end{description}
-\item[listener+=,.listener.ExecTracker] Adding \texttt{listener.ExecTracker} to \jpf's listeners means that it collects more information about progress as it goes and then prints this information out.  The next two lines suppress some of this information which I, personally, don't find  useful. \index{listener}
+\item[listener+=,.listener.ExecTracker] Adding \texttt{listener.ExecTracker} to \jpf's listeners means that it collects more information about progress as it goes and then prints this information out.  The next two lines suppress some of this information which is usually less useful. \index{listener}
 \end{description}
 \end{sloppypar}
 
@@ -151,7 +155,7 @@ The file \texttt{simple.psl} specifies two Linear Temporal Logic (LTL) propertie
 
 The first of these is equivalent to the LTL statement ``it is always the case that \texttt{goal\_agent} doesn't believe \texttt{bad}'' $\always \neg \lbelief{\texttt{goal\_agent}}{bad}$.  The second is equivalent to the LTL statement ``eventually \texttt{goal\_agent} believes the number of printed lines is 10'' $\eventually \lbelief{\texttt{goal\_agent}}{\mathit{nrOfPrintedLines}(10)}$.
 
-You can find more detail on property specification in the \ajpf\ tutorials.
+You can find more detail on property specification \intutorial{\ajpf}{1}{tutorial:ajpf:psl}.
 
 \subsection{Running \ajpf}
 To run \ajpf\ you need to run the program \texttt{gov.jpf.tool.RunJPF}\index{runJPF (class)} which is contained in \texttt{lib/3rdparty/RunJPF.jar} in the \mcapl\ distribution.  Alternatively you can use the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.
@@ -216,6 +220,7 @@ Example~\ref{code:blocksworld} shows the mediating environment\index{example!Blo
 
 Lastly the \texttt{done()} method in \texttt{GOALEISEnvironment} is overridden.  By default GOAL environments are assumed to change without an agent performing an action (e.g., because of non software agents acting in them).  This is not the case with the Blocks World where things only move if the agent moves them.  This being the case the method \texttt{done()} should return true indicating that the program can exit if the agent has finished executing (see the discussion of \ail\ environments in the \ail\ tutorials).\index{GOAL}\index{GOALEISEnvironment (class)!done}\index{example!Blocks World}\index{EIS}
 
+\begin{figure}[!htpb]
 \begin{ourexample}
 \label{code:blocksworld} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
@@ -267,6 +272,7 @@ public class BlocksWorldEnvironment extends GOALEISEnvironment {
 }
 \end{lstlisting}
 \end{ourexample}\index{example!Blocks World}
+\end{figure}
 
 \subsection{Section 6.2}\index{GOAL}
 \label{sec:6.2}

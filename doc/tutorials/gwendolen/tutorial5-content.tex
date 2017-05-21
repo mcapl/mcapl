@@ -3,13 +3,13 @@ This is the fifth in a series of tutorials on the use of the \gwendolen\ program
 
 For this tutorial we will be working with files from previous tutorials.  You may wish to create a separate folder, \texttt{tutorial5} for this work and copy files into it.  Remember to update the paths in your configuration files if you do so.
 
-\gwendolen\ does not have its own debugger, however you can get a long way using error outputs and logging information.
-
 \section{\ail\ -- The Agent Infrastructure Layer}
 
 \gwendolen\ is implemented using the \ail\ Toolkit\index{AIL}.  This is mostly irrelevant to the programming of \gwendolen\ agents, however it can be useful in understanding some of the logging\index{logging} output that you may wish to use for debugging\index{debugging}\index{Gwendolen}\index{debugging!Gwendolen}\index{Gwendolen!debugging}, since the logging is based around the underlying \java\ data structures rather than their specific implementation in \gwendolen.
 
+\begin{sloppypar}
 The following discussion of intentions in the \ail\ is taken from~\cite{springerlink:10.1007/s10515-011-0088-x}.\index{Gwendolen}
+\end{sloppypar}
 
 \section{Intentions}
 
@@ -122,7 +122,7 @@ base when the intention is actually executed.
 
 \section{Intentions in \gwendolen}\index{Gwendolen}\index{intention}
 
-Let us look back at some of the logging output generated as part of tutorial 4.
+Let us look back at some of the logging output generated \intutorial{\gwendolen}{4}{tutorial:gwendolen:debugging}
 
 \begin{verbatim}
 ail.semantics.AILAgent[FINE|main|4:10:45]: Applying Handle Add Achieve Test Goal with Event 
@@ -141,7 +141,9 @@ In the above agent state you can see the belief\index{belief} base (beliefs abou
 
 As you can see \gwendolen\ uses the \texttt{start}\index{event}\index{event!start} event mentioned above for new intentions\index{intention}.  In this case it was the intention to commit to the achieve goal\index{goal}\index{goal!commitment} \lstinline{!all_squares_checked}.  When the goal was committed to it became an event and was placed as a new row on the top of the intention.  The row associated with the \texttt{start} event remains on the intention because this will force the agent to check if the goal is achieved when it reaches that row again.  A special deed\index{deed} has been used \texttt{npy()} which stands for \emph{no plan yet}\index{no plan yet}.  This means that although the goal has been committed to the agent has not yet looked for an applicable plan for achieving the goal.\index{Gwendolen}
 
+\begin{sloppypar}
 If you run \texttt{pickuprubble\_ex5.2.gwen} with logging for \texttt{ail.semantics.AILAgent} set to fine then you will later see the intention\index{intention} become:\index{Gwendolen}\index{example!pickuprubble}
+\end{sloppypar}
 \begin{verbatim}
 source(self):: 
    *  +!_aall_squares_checked()||True||move_to(X,Y)()||[X-1, X0-1, Y-1, Y0-1]

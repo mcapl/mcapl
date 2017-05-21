@@ -8,8 +8,9 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 
 \section{Wait For: Suspending Intentions}\index{Gwendolen}\index{waitfor}\index{intention}\index{intention!suspension}
 
-Recall the sample answer to the second exercise in tutorial 3 in which we had to introduce a ``do nothing'' action in order to delay the replanning of an achievement goal.  In the code in Example~\ref{code:pickuprubble_waitfor} we use, instead some new syntax \lstinline{*checked(X, Y)} which means \emph{wait until $checked(X, Y)$ is true before continuing.}\index{example!pickuprubble}\index{waitfor}
+Recall the sample answer to the second exercise \intutorial{\gwendolen}{3}{tutorial:gwendolen:guards} in which we had to introduce a ``do nothing'' action in order to delay the replanning of an achievement goal.  In the code in Example~\ref{code:pickuprubble_waitfor} we use, instead some new syntax \lstinline{*checked(X, Y)} which means \emph{wait until $checked(X, Y)$ is true before continuing.}\index{example!pickuprubble}\index{waitfor}
 
+\begin{figure}[!htb]
 \begin{ourexample}
 \label{code:pickuprubble_waitfor} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
@@ -50,6 +51,7 @@ all_squares_checked [achieve]
 +at(2, 2) : {True} <- +checked(2, 2);
 \end{lstlisting}
 \end{ourexample}
+\end{figure}
 We have adapted the program so that after moving to the square (X, Y) the agent waits until it believes it has checked that square.  Then we delay the addition of that belief until after the agent as lifted rubble.\index{Gwendolen}\index{waitfor}
 
 If you run this program with logging for \texttt{ail.semantics.AILAgent}\index{logging}\index{Gwendolen!logging}\index{AILAgent (class)} you will see that the intention is marked as \texttt{SUSPENDED} when the wait for deed is encountered.\index{intention}\index{waitfor}\index{intention!suspension}
@@ -109,6 +111,7 @@ We use some new syntax here.
 \item At line 37 we include the deed, \lstinline{-search_mode} in a plan.  This is an instruction to remove a belief.\index{belief}\index{belief!remove}\index{Gwendolen}
 \end{itemize}
 
+\begin{figure}[!htbp]
 \begin{ourexample}
 \label{code:pickuprubble_nolock} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
@@ -163,11 +166,10 @@ all_squares_checked [achieve]
 +at(2, 2) : {True} <- +checked(2, 2);
 \end{lstlisting}
 \end{ourexample}\index{Gwendolen}\index{example!pickuprubble}
+\end{figure}
 The agent in Example~\ref{code:pickuprubble_nolock} uses a belief, \lstinline{search_mode} to control whether it is actively searching squares or whether it is returning to to the ``safe'' square (0,0) in order to wait for the warning to switch off.  
 
 Run this program and see if you can spot a problem with its execution.
-
-\pagebreak
 
 Hopefully you observed an output something like:
 \begin{verbatim}

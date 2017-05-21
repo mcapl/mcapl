@@ -1,4 +1,4 @@
-
+\label{tutorial:eass:basic}
 This is the first in a series of tutorials on the use of the \eass\ variant\index{EASS} of the \gwendolen\ language\index{Gwendolen} that was first developed as part of the Engineering Autonomous Space Software project.  The \eass\ variant is adapted for use with physical systems and simulations, such as mobile robots, satellites and unmanned aircraft\index{autonomous systems}.  This tutorial covers the basic concepts behind the \eass\ variant and its differences to the \gwendolen\ language.  
 
 Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
@@ -11,7 +11,9 @@ The tutorial assumes familiarity with the \gwendolen\ programming language.\inde
 \section{Abstraction and Reasoning Engines}\index{abstraction engine}\index{reasoning engine}
 
 \begin{figure}[htb]
-\includegraphics[width=\textwidth]{images/arch.pdf}
+\begin{center}
+\includegraphics[width=3in]{images/arch.pdf}
+\end{center}
 \caption{The Architecture of an \eass\ Agent}
 \label{fig:arch}
 \end{figure}
@@ -19,7 +21,9 @@ Figure~\ref{fig:arch} shows the typical architecture of an \eass\ Agent\index{EA
 
 The reasons for this separation are primarily driven by the observation that BDI agents are unable to process incoming perceptions\index{perception} from real or simulated sources fast enough and so they get ``clogged'' by an ever increasing number of intentions\index{intention!too many}\index{intention} to do with perception processing. \index{EASS} 
 
+\begin{sloppypar}
 The theoretical underpinnings of this architecture are described in~\cite{DALT10:abstraction,Dennis2016}\index{EASS}.  The key points are that the \emph{reasoning engine}\index{reasoning engine} does not interact with the physical world (or a simulation) at all.  It gains perceptions via \emph{shared beliefs}\index{belief!shared} which are communicated with the abstraction engine\index{abstraction engine} via the Java \eass\ environment\index{environment}.  Similarly most of its actions\index{action} (ideally all) are communicated to the abstraction engine which then reifies them (e.g., adding more low level detail that may be required by the physical system or simulation to actually enact the action).  As a rule of thumb while perceptions\index{perception} and actions, as used by the physical system or simulation generally involve numeric values, reasoning generally uses logical (``yes/no'') information and outputs simple non-numeric commands.  Therefore the abstraction engine should be responsible for converting numeric data (``distance = 5.4m'') into logical statements (``too close'') and converting simple commands (``slow down'') into numerical instructions (``apply a deceleration of $-1m/s^2$'').  This is only a rule of thumb and the reality is that a certain amount of experimentation is often required to balance a system appropriately so that reasoning happens fast enough to adequately control the physical system.
+\end{sloppypar}
 
 In order for this to work \gwendolen's reasoning cycle\index{EASS}\index{EASS!reasoning cycle}\index{reasoning cycle} was adapted slightly, a set of dedicated actions were introduced for handling shared beliefs\index{belief!shared} and delegated actions\index{action}, and some new constructs were added to the language.\index{Gwendolen}
 
@@ -55,6 +59,7 @@ This means that abstraction engines need to implement plans for handling perform
 \section{Example}
 Example~\ref{code:EASSexample} shows a simple \eass\ program to control a car by making it accelerate up to the speed limit and then maintain that speed.  Lines 3-28 are the abstraction engine, and lines 30-46 are the reasoning engine.\index{example!motorway}\index{EASS}
 
+\begin{figure}[!htbp]
 \begin{ourexample}
 \label{code:EASSexample} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
@@ -106,6 +111,7 @@ speed_limit(5)
 	perf(maintain_speed);
 \end{lstlisting}
 \end{ourexample}
+\end{figure}
 
 As an initial belief the abstraction engine\index{EASS}\index{abstraction engine} has that the speed limit on the road is 5.  Every time the perception\index{perception}, \lstinline{yspeed(X)} comes in (lines 20-23) the abstraction compares this to the speed limit and, if appropriate asserts a shared belief\index{belief!shared} (NB., we are using $+_{\Sigma}(B)$ as shorthand for \lstinline{assert_shared(B)}\index{action!assert\_shared} and  $-_{\Sigma}(B)$ as shorthand for \lstinline{remove_shared(B)}\index{action!remove\_shared} ).
 
@@ -119,7 +125,9 @@ The environment\index{environment} passes on requests for acceleration etc., to 
 
 \subsection{Running the Example}
 
+\begin{sloppypar}
 The example uses \texttt{MotorwayMain}\index{MotorwayMain (class)} which you can find in the directory \texttt{src/examples/eass/tutorials/motorwaysim}.  This must be run as a separate java program and must be started before the \eass\ program is run.  When it starts you should see message:
+\end{sloppypar}
 
 \begin{verbatim}
 Motorway Sim waiting Socket Connection

@@ -11,6 +11,7 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 \begin{sloppypar}
 You will find a \gwendolen\ program in the tutorial directory called \texttt{simple\_mas.gwen}.  Its contents should look like Example~\ref{code:simple_mas}.\index{Gwendolen}\index{example!simple\_mas}
 \end{sloppypar}
+\begin{figure}[htb]
 \begin{ourexample}
 \label{code:simple_mas} \quad \\
 \begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
@@ -47,8 +48,9 @@ goto55 [perform]
 	assist;
 \end{lstlisting}
 \end{ourexample}
+\end{figure}
 
-This is very similar to the first program in tutorial 2.  However  there are now two agents, \texttt{lifter} and \texttt{medic}.  As in the program in tutorial 2, the lifter robot moves to square (5, 5) and lifts the rubble there.  However if he sees a human he performs a special kind of action which is a \emph{send action}.  This sends a message to the medic agent asking it to perform \texttt{assist\_human(X, Y)}.  When the medic receives a perform instruction it converts it into a perform goal and if it has a goal to assist a human it moves to their square and assists them.\index{Gwendolen}\index{example!lifterandmedic}\index{action}\index{action!send}
+This is very similar to the first program \intutorial{\gwendolen}{2}{tutorial:gwendolen:bda}.  However  there are now two agents, \texttt{lifter} and \texttt{medic}.  As in the program \intutorial{\gwendolen}{2}{tutorial:gwendolen:bda}, the lifter robot moves to square (5, 5) and lifts the rubble there.  However if he sees a human he performs a special kind of action which is a \emph{send action}.  This sends a message to the medic agent asking it to perform \texttt{assist\_human(X, Y)}.  When the medic receives a perform instruction it converts it into a perform goal and if it has a goal to assist a human it moves to their square and assists them.\index{Gwendolen}\index{example!lifterandmedic}\index{action}\index{action!send}
 
 \begin{sloppypar}
 You can run this program using \texttt{simple\_mas.ail}.  It uses a new environment \texttt{SearchAndRescueMASEnv.java} which is similar to \texttt{SearchAndRescueEnv.java}.
