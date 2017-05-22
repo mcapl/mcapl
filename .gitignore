@@ -10,7 +10,7 @@ bin/TEST*
 tmp/*
 
 # Replay Records #
-records/*
+records/*.txt
 
 # Prism and Spin output files
 src/examples/gwendolen/ajpf_tutorials/tutorial3/tutorial3_prism_searcher.pm
