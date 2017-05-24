@@ -294,7 +294,46 @@ trace_expression(motorwayNew1, Protocol, NotAction, SingleStepProtocol, Constrai
   SafeBeforeAccelerates =
     (not_bel(safe):SafeBeforeAccelerates)\/
     (bel(safe):(epsilon\/(SafeBeforeAccelerates))),
-	SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg)).
+    SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg)).
+
+trace_expression(motorwayNew1LD, Protocol, NotAction, SingleStepProtocol, Constraints) :-
+    Safe = ((bel(safe):epsilon)\/epsilon),
+    AcceleratesOrBrakes = (((bel(driver_accelerates):epsilon)\/(bel(driver_brakes):epsilon))\/epsilon),
+    ProtocolBel = (Safe|AcceleratesOrBrakes),
+    ProtocolMsg = epsilon,
+    NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
+ 
+    SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg)),
+    NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
+    Protocol = NotAction * (NewActionStepProtocol/\Constraints),
+    
+    Constraints = (accelerates_or_safe>>Constraints1),
+    Constraints1 = (SafeBeforeAccelerates * (bel(driver_accelerates):((not_bel(safe):epsilon) * Constraints1))),
+    SafeBeforeAccelerates =
+        (not_bel(safe):SafeBeforeAccelerates)\/
+        (bel(safe):(epsilon\/(SafeBeforeAccelerates))).
+
+
+
+%        Safe = ((bel(safe):epsilon)\/epsilon),
+%        AcceleratesOrBrakes = (((bel(driver_accelerates):epsilon)\/(bel(driver_brakes):epsilon))\/epsilon),
+%        ProtocolBel = (Safe|AcceleratesOrBrakes),
+%        ProtocolMsg = epsilon,
+
+%        NotAction = (not_action:NotAction\/epsilon), % a preamble for all that beliefs that appears before of the real first action
+
+%        SingleStepProtocol = (action(any_action):(ProtocolBel | ProtocolMsg)),
+%        NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
+
+%        Protocol = NotAction * (NewActionStepProtocol/\Constraints),
+
+%        Constraints = (accelerates_or_safe>>Constraints1),
+
+%        Constraints1 = (SafeBeforeAccelerates * (bel(driver_accelerates):((not_bel(safe):epsilon) * Constraints1))),
+
+%        SafeBeforeAccelerates =
+%             (not_bel(safe):SafeBeforeAccelerates)\/
+%                     (bel(safe):(epsilon\/(SafeBeforeAccelerates))).
 
 trace_expression(motorwayNew, Protocol, NotAction, SingleStepProtocol, Constraints) :-
 	ProtocolBel = (Safe|SafeLeft|SafeRight|Accelerates),

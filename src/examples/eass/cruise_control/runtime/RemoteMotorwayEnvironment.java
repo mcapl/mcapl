@@ -33,6 +33,7 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
+import ail.util.AILConfig;
 import ail.util.AILSocketClient;
 import ail.util.AILexception;
 import ajpf.MCAPLcontroller;
@@ -75,6 +76,11 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 			System.exit(0);
 		}
 		AJPFLogger.info(logname, "Connected to Socket");
+	}
+	
+	@Override
+	public void initialise() {
+		initialise_monitor();
 	}
 
 	/*
@@ -201,9 +207,13 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 		return false;
 	}
 
+	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/trace_expression.pl";
+	String log_file_path = "monitor_logfile.txt";
+	String protocol_name = "motorway1";
+
 	public String getTraceExpressionPath(){
 		try {
-			return MCAPLcontroller.getFilename("/src/examples/eass/cruise_control/trace_expression.pl");
+			return MCAPLcontroller.getAbsFilename(trace_expression_path);
 		} catch (Exception e) {
 			System.err.println(e);
 			return "null";
@@ -211,12 +221,12 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	}
 
 	public String getLogFilePath(){
-		return "monitor-logfile.txt";
+		return log_file_path;
 	}
 
 	public String getProtocolName(){
 		//return "cruise_control_protocol";
-		return "motorwayNew";
+		return protocol_name;
 	}
 
 	/*public String[] getEventsToCatch(){
@@ -225,6 +235,13 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 
 	public void manageProtocolViolation(){
 
+	}
+	
+	@Override
+	public void configure(AILConfig config) {
+		if (config.containsKey("protocol")) {
+			protocol_name = config.getProperty("protocol");
+		}
 	}
 
 }

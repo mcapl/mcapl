@@ -31,6 +31,7 @@ import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.NumberTerm;
 import ail.syntax.VarTerm;
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import eass.mas.DefaultEASSEnvironment;
 import ajpf.MCAPLcontroller;
@@ -81,6 +82,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 
 	public MotorWayEnv() {
 		super();
+		initialise_monitor();
 		super.scheduler_setup(this, new RoundRobinScheduler());
 	}
 
@@ -625,10 +627,14 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 			return position_end;
 		}
 	}
+	
+	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/trace_expression.pl";
+	String log_file_path = "monitor_logfile.txt";
+	String protocol_name = "motorwayNew";
 
 	public String getTraceExpressionPath(){
 		try {
-			return MCAPLcontroller.getFilename("/src/examples/eass/cruise_control/trace_expression.pl");
+			return trace_expression_path;
 		} catch (Exception e) {
 			System.err.println(e);
 			return "null";
@@ -636,12 +642,12 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 	}
 
 	public String getLogFilePath(){
-		return "monitor-logfile.txt";
+		return log_file_path;
 	}
 
 	public String getProtocolName(){
 		//return "cruise_control_protocol";
-		return "motorwayNew";
+		return protocol_name;
 	}
 
 	/*public String[] getEventsToCatch(){
@@ -650,6 +656,13 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 
 	public void manageProtocolViolation(){
 
+	}
+	
+	@Override
+	public void configure(AILConfig config) {
+		if (config.containsKey("protocol")) {
+			protocol_name = config.getProperty("protocol");
+		}
 	}
 
 }

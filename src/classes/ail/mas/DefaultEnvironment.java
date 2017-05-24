@@ -139,6 +139,10 @@ public class DefaultEnvironment implements AILEnv {
 		ActionScheduler s = new ActionScheduler();
 		setScheduler(s);
 		addPerceptListener(s);
+		
+	}
+	
+	public void initialise_monitor() {
 		if(this instanceof Monitorable){
 			Monitorable monMe = (Monitorable) this;
 			monitor = new Monitor(monMe.getTraceExpressionPath());
