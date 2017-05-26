@@ -58,10 +58,10 @@ at_speed_limit [achieve]
          +.lock, -accelerating, -braking, perf(maintain_speed), -.lock;
 -at_speed_limit: {~G at_speed_limit [achieve], ~B at_speed_limit} <-
         +! at_speed_limit[achieve];
--safe: {~B driver_brakes, ~B safe, ~B braking} <- 
+-safe: {~B driver_brakes, ~B driver_accelerates, ~B safe, ~B braking} <- 
 		+.lock, -accelerating, +braking, perf(brake), -.lock;
 
-+driver_accelerates: {B safe, ~B driver_brakes, B driver_accelerates, ~B accelerating} <- 
++driver_accelerates: {~B driver_brakes, B driver_accelerates, ~B accelerating} <- 
 	+.lock,
 	+accelerating, -braking, perf(accelerate),
 	-.lock;

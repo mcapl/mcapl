@@ -65,23 +65,29 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 				if (random_bool_generator.nextBoolean()) {
 					percepts.add(safe);
 					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+				} else {
+					AJPFLogger.info(logname, "Random not safe" );
 				}
 
 
 				if (random_bool_generator.nextBoolean()) {
 					percepts.add(above_speed_limit);
 					addPercept(above_speed_limit);
-				}
+				} 
 
 				if (random_bool_generator.nextBoolean()) {
 					percepts.add(driver_accelerates);
 					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+				} else {
+					AJPFLogger.info(logname, "Random driver doesn't accelerate" );
 				}
 
 				if (random_bool_generator.nextBoolean()) {
 					percepts.add(driver_brakes);
 					addPercept(driver_brakes);
-				}
+				} 
 
 				return percepts;
 	}

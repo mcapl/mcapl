@@ -183,18 +183,12 @@ public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
-					Set<Predicate> percepts = generate_sharedbeliefs();
-					Set<Message> messages = generate_messages();
 					clearPercepts();
 
-					for (Predicate p: percepts) {
-						addPercept(p);
-					}
 
 					for (String agName: agentmap.keySet()) {
-						for (Message m: messages) {
-							addMessage(agName, m);
-						}
+						add_random_beliefs(agName, new Action("done"));
+						add_random_messages(agName, new Action("done"));
 					}
 					final_turn = 2;
 					return false;

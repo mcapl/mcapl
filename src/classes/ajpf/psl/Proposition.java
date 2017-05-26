@@ -49,8 +49,10 @@ public abstract class Proposition implements MCAPLProperty {
 	 * Check against a set of propositions rather than a state;
 	 */
 	public boolean check(Set<Proposition> props) {
-		if (props.contains(this)) {
-			return true;
+		for (Proposition p: props) {
+			if (p.equals(this)) {
+				return true;
+			}
 		}
 		
 		return false;
@@ -78,7 +80,7 @@ public abstract class Proposition implements MCAPLProperty {
 		for (MCAPLProperty p: s) {
 			if (p instanceof Not) {
 				Proposition negated = ((Not) p).getProp();
-				if (negated.equals(p)) {
+				if (negated.equals(this)) {
 					return true;
 				}
 			}

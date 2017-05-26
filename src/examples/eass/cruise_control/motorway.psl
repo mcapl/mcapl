@@ -34,6 +34,14 @@ sanity: [] (D(car0,perf(accelerate)) -> ~B(car0, safe))
 
 4:  ( [] ( D(car0, perf(brake)) -> <> B(car0, safe) ) ) -> 
     (
-          B (car0, safe) -> [] (<> ( B (car0, safe)))
+         [] ( B(car0, safe) -> [] (<> ( B(car0, safe))))
     )
+
+4sanity:  ( [] ( D(car0, perf(brake)) -> <> B(car0, safe) ) ) -> 
+    (
+          [] (B(car0, safe) -> [] (<> ( B(car0, bad))))
+    )
+    
+5:  [] (B(car0,safe) -> [] (<> (B(car0, safe) || B(car0, braking))))
+
     
