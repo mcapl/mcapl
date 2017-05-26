@@ -298,8 +298,9 @@ trace_expression(motorwayNew1, Protocol, NotAction, SingleStepProtocol, Constrai
 
 trace_expression(motorwayNew1LD, Protocol, NotAction, SingleStepProtocol, Constraints) :-
     Safe = ((bel(safe):epsilon)\/epsilon),
+    AtSpeedLimit = ((bel(at_speed_limit):epsilon)\/epsilon),
     AcceleratesOrBrakes = (((bel(driver_accelerates):epsilon)\/(bel(driver_brakes):epsilon))\/epsilon),
-    ProtocolBel = (Safe|AcceleratesOrBrakes),
+    ProtocolBel = (Safe|AtSpeedLimit|AcceleratesOrBrakes),
     ProtocolMsg = epsilon,
     NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
  
