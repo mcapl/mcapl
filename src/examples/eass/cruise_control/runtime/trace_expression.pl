@@ -48,6 +48,16 @@ match(E, accelerates_or_safe) :-
   match(E, bel(safe));
   match(E, not_bel(safe)).
 
+match(E, brake_if_not_accelerate) :-
+    match(E, bel(driver_brakes));
+    match(E, bel(driver_accelerates));
+    match(E, not_bel(driver_accelerates)).
+
+match(E, accelerate_if_not_brake) :-
+    match(E, bel(driver_accelerates));
+    match(E, bel(driver_brakes));
+    match(E, not_bel(driver_brakes)).
+
 match(E, change_left_or_safe_left) :-
   match(E, bel(safe_left));
   match(E, not_bel(safe_left));
@@ -447,3 +457,5 @@ trace_expression(motorwayWithSingleLaneWithOvertaking, Protocol, NotAction, Sing
 	Protocol = NotAction * NewActionStepProtocol,
 	NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
 	SingleStepProtocol = (action(any_action):(ProtocolBel | ProtocolMsg)).
+
+

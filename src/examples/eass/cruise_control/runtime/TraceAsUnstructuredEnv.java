@@ -11,8 +11,8 @@ import ail.syntax.ast.GroundPredSets;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Message;
 
-public class SafeOrAccelerate extends EASSVerificationEnvironment {
-   public String logname = "eass.cruise_control.runtime.SafeOrAccelerate";
+public class TraceAsUnstructuredEnv extends EASSVerificationEnvironment {
+   public String logname = "eass.cruise_control.runtime.TraceAsUnstructuredEnv";
 
 
 
@@ -39,7 +39,7 @@ public class SafeOrAccelerate extends EASSVerificationEnvironment {
 
       
 
-            assert_random_int = random_int_generator.nextInt(12);
+            assert_random_int = random_int_generator.nextInt(16);
       if (assert_random_int ==0) {
          safe = new Predicate("safe");
          addPercept(safe);
@@ -141,6 +141,10 @@ public class SafeOrAccelerate extends EASSVerificationEnvironment {
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
+         driver_accelerates = new Predicate("driver_accelerates");
+         addPercept(driver_accelerates);
+         AJPFLogger.info(logname, "Asserting driver_accelerates");
+         predicates.add(driver_accelerates);
          driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
@@ -151,14 +155,50 @@ public class SafeOrAccelerate extends EASSVerificationEnvironment {
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
+         driver_accelerates = new Predicate("driver_accelerates");
+         addPercept(driver_accelerates);
+         AJPFLogger.info(logname, "Asserting driver_accelerates");
+         predicates.add(driver_accelerates);
       }
       if (assert_random_int ==10) {
+         at_speed_limit = new Predicate("at_speed_limit");
+         addPercept(at_speed_limit);
+         AJPFLogger.info(logname, "Asserting at_speed_limit");
+         predicates.add(at_speed_limit);
          driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
          predicates.add(driver_brakes);
       }
       if (assert_random_int ==11) {
+         at_speed_limit = new Predicate("at_speed_limit");
+         addPercept(at_speed_limit);
+         AJPFLogger.info(logname, "Asserting at_speed_limit");
+         predicates.add(at_speed_limit);
+      }
+      if (assert_random_int ==12) {
+         driver_accelerates = new Predicate("driver_accelerates");
+         addPercept(driver_accelerates);
+         AJPFLogger.info(logname, "Asserting driver_accelerates");
+         predicates.add(driver_accelerates);
+         driver_brakes = new Predicate("driver_brakes");
+         addPercept(driver_brakes);
+         AJPFLogger.info(logname, "Asserting driver_brakes");
+         predicates.add(driver_brakes);
+      }
+      if (assert_random_int ==13) {
+         driver_accelerates = new Predicate("driver_accelerates");
+         addPercept(driver_accelerates);
+         AJPFLogger.info(logname, "Asserting driver_accelerates");
+         predicates.add(driver_accelerates);
+      }
+      if (assert_random_int ==14) {
+         driver_brakes = new Predicate("driver_brakes");
+         addPercept(driver_brakes);
+         AJPFLogger.info(logname, "Asserting driver_brakes");
+         predicates.add(driver_brakes);
+      }
+      if (assert_random_int ==15) {
       }
 
       return predicates;

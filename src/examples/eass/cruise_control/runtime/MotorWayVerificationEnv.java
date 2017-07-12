@@ -45,49 +45,158 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 	Literal driver_accelerates = new Literal("driver_accelerates");
 	Literal driver_brakes = new Literal("driver_brakes");
 
-	boolean safe_b = false;
-	boolean above_speed_limit_b = false;
-	boolean driver_accelerates_b = false;
-	boolean driver_brakes_b = false;
 
 	public Set<Predicate> add_random_beliefs(String agName, Action act) {
-		//		lastAction = new Action("nothing");
 				TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 				
-				//safe_b = random_bool_generator.nextBoolean();
-				//AJPFLogger.info(logname, "Random safe " + safe_b);
-				//above_speed_limit_b = random_bool_generator.nextBoolean();
-				//AJPFLogger.info(logname, "Random at_speed_limit " + above_speed_limit_b);
-				//driver_accelerates_b = random_bool_generator.nextBoolean();
-				//AJPFLogger.info(logname, "Random driver_accelerates " + driver_accelerates_b);
-				//driver_brakes_b = random_bool_generator.nextBoolean();
 
-				if (random_bool_generator.nextBoolean()) {
+				int random_int = random_int_generator.nextInt(16);
+				if (random_int == 0) {
 					percepts.add(safe);
 					addPercept(safe);
 					AJPFLogger.info(logname, "Random safe" );
-				} else {
-					AJPFLogger.info(logname, "Random not safe" );
-				}
-
-
-				if (random_bool_generator.nextBoolean()) {
 					percepts.add(above_speed_limit);
 					addPercept(above_speed_limit);
-				} 
-
-				if (random_bool_generator.nextBoolean()) {
+					AJPFLogger.info(logname, "Random Speed Limit");
 					percepts.add(driver_accelerates);
 					addPercept(driver_accelerates);
 					AJPFLogger.info(logname, "Random driver accelerates" );
-				} else {
-					AJPFLogger.info(logname, "Random driver doesn't accelerate" );
-				}
-
-				if (random_bool_generator.nextBoolean()) {
 					percepts.add(driver_brakes);
 					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 1) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");					
+				} else if (random_int == 2) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 3) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");					
+				} else if (random_int == 4) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 5) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");	
+				} else if (random_int == 6) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");					
+				} else if (random_int == 7) {
+					percepts.add(safe);
+					addPercept(safe);
+					AJPFLogger.info(logname, "Random safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");						
+				} else if (random_int == 8) {
+					AJPFLogger.info(logname, "Random not safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 9) {
+					AJPFLogger.info(logname, "Random not safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");					
+				} else if (random_int == 10) {
+					AJPFLogger.info(logname, "Random not safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 11) {
+					AJPFLogger.info(logname, "Random not safe" );
+					percepts.add(above_speed_limit);
+					addPercept(above_speed_limit);
+					AJPFLogger.info(logname, "Random Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");					
+				} else if (random_int == 12) {
+					AJPFLogger.info(logname, "Random not safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");
+				} else if (random_int == 13) {
+					AJPFLogger.info(logname, "Random not safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					percepts.add(driver_accelerates);
+					addPercept(driver_accelerates);
+					AJPFLogger.info(logname, "Random driver accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");	
+				} else if (random_int == 14) {
+					AJPFLogger.info(logname, "Random not safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					percepts.add(driver_brakes);
+					addPercept(driver_brakes);
+					AJPFLogger.info(logname, "Random driver brakes");					
+				} else {
+					AJPFLogger.info(logname, "Random not safe" );
+					AJPFLogger.info(logname, "Random Not Speed Limit");
+					AJPFLogger.info(logname, "Random driver doesn't accelerates" );
+					AJPFLogger.info(logname, "Random driver doesn't brake");						
 				} 
+					
 
 				return percepts;
 	}

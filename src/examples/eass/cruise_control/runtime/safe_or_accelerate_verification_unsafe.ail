@@ -22,21 +22,19 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.runtime.RemoteMotorwayEnvironment
+env = eass.cruise_control.runtime.SafeOrAccelerate
 
-mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_2017.eass
+mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_unsafe_2017.eass
 mas.agent.1.builder = eass.EASSAgentBuilder
 mas.agent.1.name = car0
-mas.agent.2.file = src/examples/eass/cruise_control/abstraction_car.eass
-mas.agent.2.builder = eass.EASSAgentBuilder
-mas.agent.2.name = abstraction_car0
 
-log.warning = ajpf.MCAPLAgent, ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.RemoteMotorwayEnvironment,
-log.fine = ail.semantics.AILAgent
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.SafeOrAccelerate
 log.format = brief
-
 
 ajpf.transition_every_reasoning_cycle = false
 
-protocol = motorwayNew1LD
+
+# Eass Specific stuff
+
+singlelane=true

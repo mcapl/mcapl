@@ -22,14 +22,14 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.runtime.MotorwayAsJPFEnv
+env = eass.cruise_control.runtime.TraceAsUnstructuredEnv
 
 mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_2017.eass
 mas.agent.1.builder = eass.EASSAgentBuilder
 mas.agent.1.name = car0
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.MotorAsJPFEnv
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.TraceAsUnstructuredEnv
 log.format = brief
 
 ajpf.transition_every_reasoning_cycle = false

@@ -22,20 +22,30 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.runtime.RemoteMotorwayEnvironment
+@using = mcapl
 
-mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_unsafe_2017.eass
-mas.agent.1.builder = eass.EASSAgentBuilder
-mas.agent.1.name = car0
-mas.agent.2.file = src/examples/eass/cruise_control/abstraction_car.eass
-mas.agent.2.builder = eass.EASSAgentBuilder
-mas.agent.2.name = abstraction_car0
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/cruise_control/runtime/standard_verification_unsafe.ail,src/examples/eass/cruise_control/motorway.psl,5
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.MotorWayVerificationEnv
-log.format = brief
-
-ajpf.transition_every_reasoning_cycle = false
+log.info = ajpf.MCAPLAgent,eass.cruise_control.runtime.MotorWayVerificationEnv
 
 
-protocol = motorwayNew1LD
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+# 11th July 2017
+# ====================================================== results
+# error #1: ajpf.MCAPLListener "An Accepting Path has been found:  [MS: 0, BS: 2, ..."
+# 
+# ====================================================== statistics
+# elapsed time:       00:02:18
+# states:             new=1990,visited=1432,backtracked=3301,end=57
+# search:             maxDepth=325,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1988
+# heap:               new=8581200,released=8638150,maxLive=4200,gcCycles=3422
+# instructions:       595855858
+# max memory:         3157MB
+# loaded code:        classes=334,methods=5196
+# 
+# ====================================================== search finished: 11/07/17 15:52

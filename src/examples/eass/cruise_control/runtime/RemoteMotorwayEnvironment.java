@@ -102,7 +102,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 
 		try {
 			if (socket.pendingInput()) {
-
+				System.err.println("reading from socket");
 				int accelerating = socket.readInt();
 				int braking = socket.readInt();
 				int safe_in_lane = socket.readInt();
@@ -207,7 +207,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 		return false;
 	}
 
-	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/trace_expression.pl";
+	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/trace_expression_paper.pl";
 	String log_file_path = "monitor_logfile.txt";
 	String protocol_name = "motorway1";
 

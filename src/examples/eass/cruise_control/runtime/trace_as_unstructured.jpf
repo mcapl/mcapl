@@ -22,19 +22,29 @@
 //
 //----------------------------------------------------------------------------
 
-env = eass.cruise_control.runtime.MotorwaySafeOrAccelerate
+@using = mcapl
 
-mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_unsafe_2017.eass
-mas.agent.1.builder = eass.EASSAgentBuilder
-mas.agent.1.name = car0
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/cruise_control/runtime/trace_as_unstructured.ail,src/examples/eass/cruise_control/motorway.psl,5
 
-log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.MotorWayVerificationEnv
-log.format = brief
+log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.runtime.MotorWayVerificationEnv
 
-ajpf.transition_every_reasoning_cycle = false
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
 
-
-# Eass Specific stuff
-
-singlelane=true
+# 12th July 2017 - Macbook
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:31:02
+# states:             new=4934,visited=18433,backtracked=23367,end=298
+# search:             maxDepth=222,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=4931
+# heap:               new=135956440,released=137022016,maxLive=4315,gcCycles=23367
+# instructions:       9551182123
+# max memory:         3682MB
+# loaded code:        classes=335,methods=5213
+# 
+# ====================================================== search finished: 12/07/17 16:55
