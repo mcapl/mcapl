@@ -46,29 +46,14 @@ match(E, myContent) :-
 match(E, accelerates_or_safe) :-
   match(E, bel(driver_accelerates));
   match(E, bel(safe));
-  match(E, not_bel(safe)).
+  match(E, not_bel(safe));
+  match(E, not_bel(driver_accelerates)).
 
-match(E, brake_if_not_accelerate) :-
-    match(E, bel(driver_brakes));
-    match(E, bel(driver_accelerates));
-    match(E, not_bel(driver_accelerates)).
-
-match(E, accelerate_if_not_brake) :-
-    match(E, bel(driver_accelerates));
-    match(E, bel(driver_brakes));
-    match(E, not_bel(driver_brakes)).
-
-match(E, change_left_or_safe_left) :-
-  match(E, bel(safe_left));
-  match(E, not_bel(safe_left));
-  match(E, action(change_left));
-  match(E, action(_, change_left)).
-
-match(E, change_right_or_safe_right) :-
-  match(E, bel(safe_right));
-  match(E, not_bel(safe_right));
-  match(E, action(change_right));
-  match(E, action(_, change_right)).
+match(E, brake_or_accelerate) :-
+		match(E, bel(driver_accelerates));
+		match(E, bel(driver_brakes));
+		match(E, not_bel(driver_accelerates));
+		match(E, not_bel(driver_brakes)).
 
 event(_).
 
@@ -137,54 +122,52 @@ check_constraints(T1/\T2, L) :-
   check_constraints(T1, L1),
   check_constraints(T2, L2),
   append(L1, L2, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (bel(B):T1) \/ (not_bel(B):Constraint),
-    T1 = (((bel(B1):epsilon) \/ (bel(B):epsilon)) * T1) \/ (not_bel(B):Constraint),
+check_constraints(ET >> Can1, [C1, C2, NC1, NC2]) :-
+    (
+	Can1 = (NC1:CanEither) \/ (((NC2:epsilon) \/ (C1:epsilon)) * Can1);
+	Can1 = (((NC2:epsilon) \/ (C1:epsilon)) * Can1) \/ (NC1:CanEither);
+	Can1 = (NC1:CanEither) \/ (((C1:epsilon) \/ (NC2:epsilon)) * Can1);
+	Can1 = (((C1:epsilon) \/ (NC2:epsilon)) * Can1) \/ (NC1:CanEither)
+    ),
+    (
+	CanEither = (C2:Can2) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C1:Can1);
+	CanEither = (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C1:Can1) \/ (C2:Can2);
+	CanEither = (C1:Can1) \/ (C2:Can2) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither);
+	CanEither = (C1:Can1) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C2:Can2);
+	CanEither = (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C2:Can2) \/ (C1:Can1);
+	CanEither = (C2:Can2) \/ (C1:Can1) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither)
+    ),
+    (
+	Can2 = (((C2:epsilon) \/ (NC1:epsilon))*Can2) \/ (NC2:CanEither);
+	Can2 = (NC2:CanEither) \/ (((C2:epsilon) \/ (NC1:epsilon))*Can2);
+	Can2 = (((NC1:epsilon) \/ (C2:epsilon))*Can2) \/ (NC2:CanEither);
+	Can2 = (NC2:CanEither) \/ (((NC1:epsilon) \/ (C2:epsilon))*Can2)
+    ),
     !,
-    L = [bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (not_bel(B):T1) \/ (bel(B):Constraint),
-    T1 = (((bel(B1):epsilon) \/ (not_bel(B):epsilon)) * T1) \/ (bel(B):Constraint),
+		match_at_least(ET, [C1, C2, NC1, NC2]).
+check_constraints(ET >> CanEither, [C1, C2, NC1, NC2]):-
+    (
+	CanEither = (C2:Can2) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C1:Can1);
+	CanEither = (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C1:Can1) \/ (C2:Can2);
+	CanEither = (C1:Can1) \/ (C2:Can2) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither);
+	CanEither = (C1:Can1) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C2:Can2);
+	CanEither = (((_:epsilon) \/ (_:epsilon)) * CanEither) \/ (C2:Can2) \/ (C1:Can1);
+	CanEither = (C2:Can2) \/ (C1:Can1) \/ (((_:epsilon) \/ (_:epsilon)) * CanEither)
+    ),
+    (
+	Can1 = (NC1:CanEither) \/ (((NC2:epsilon) \/ (C1:epsilon)) * Can1);
+	Can1 = (((NC2:epsilon) \/ (C1:epsilon)) * Can1) \/ (NC1:CanEither);
+	Can1 = (NC1:CanEither) \/ (((C1:epsilon) \/ (NC2:epsilon)) * Can1);
+	Can1 = (((C1:epsilon) \/ (NC2:epsilon)) * Can1) \/ (NC1:CanEither)
+    ), !,
+    (
+	Can2 = (((C2:epsilon) \/ (NC1:epsilon))*Can2) \/ (NC2:CanEither);
+	Can2 = (NC2:CanEither) \/ (((C2:epsilon) \/ (NC1:epsilon))*Can2);
+	Can2 = (((NC1:epsilon) \/ (C2:epsilon))*Can2) \/ (NC2:CanEither);
+	Can2 = (NC2:CanEither) \/ (((NC1:epsilon) \/ (C2:epsilon))*Can2)
+    ),
     !,
-    L = [bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (bel(B):T1) \/ (not_bel(B):Constraint),
-    T1 = (((not_bel(B1):epsilon) \/ (bel(B):epsilon)) * T1) \/ (not_bel(B):Constraint),
-    !,
-    L = [not_bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (not_bel(B):T1) \/ (bel(B):Constraint),
-    T1 = (((not_bel(B1):epsilon) \/ (not_bel(B):epsilon)) * T1) \/ (bel(B):Constraint),
-    !,
-    L = [not_bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (((bel(B1):epsilon) \/ (bel(B):epsilon)) * Constraint) \/ (not_bel(B):T1),
-    T1 = (bel(B):Constraint) \/ (not_bel(B):T1),
-    !,
-    L = [bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (((bel(B1):epsilon) \/ (not_bel(B):epsilon)) * Constraint) \/ (bel(B):T1),
-    T1 = (not_bel(B):Constraint) \/ (bel(B):T1),
-    !,
-    L = [bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (((not_bel(B1):epsilon) \/ (bel(B):epsilon)) * Constraint) \/ (not_bel(B):T1),
-    T1 = (bel(B):Constraint) \/ (not_bel(B):T1),
-    !,
-    L = [not_bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
-check_constraints(ET >> Constraint, L) :-
-    Constraint = (((not_bel(B1):epsilon) \/ (not_bel(B):epsilon)) * Constraint) \/ (bel(B):T1),
-    T1 = (not_bel(B):Constraint) \/ (bel(B):T1),
-    !,
-    L = [not_bel(B1), bel(B), not_bel(B)],
-    match_at_least(ET, L).
+		match_at_least(ET, [C1, C2, NC1, NC2]).
 
 match_at_least(_, []).
 match_at_least(ET, [H|T]) :-
@@ -345,34 +328,9 @@ trace_expression(safe_or_accelerate, Protocol, NotAction, SingleStepProtocol, Co
         Protocol = NotAction * (NewActionStepProtocol/\Constraints),
 
         Constraints = (accelerates_or_safe>>CantAccel),
-        CantAccel = ((bel(safe):CanAccelOrBeUnsafe) \/ (not_bel(safe):CantAccel)),
-        CanAccelOrBeUnsafe = ((bel(driver_accelerates):CanAccel) \/ (not_bel(driver_acclerates):CanAccelOrBeUnsafe) \/ (not_bel(safe):CantAccel))
-        CanAccel = (not_bel(driver_accelerates):CanAccelOrBeUnsafe).
-
-trace_expression(brake_or_accelerate, Protocol, NotAction, SingleStepProtocol, Constraints) :-
-        Safe = ((bel(safe):epsilon) \/ (not_bel(safe):epsilon) \/ epsilon),
-        AtSpeedLimit =((bel(at_speed_limit):epsilon) \/ (not_bel(at_speed_limit):epsilon) \/ epsilon),
-        Accelerates = ((bel(driver_accelerates):epsilon) \/ (not_bel(driver_accelerates):epsilon) \/epsilon),
-        Brakes = ((bel(driver_brakes):epsilon) \/ (not_bel(driver_brakes):epsilon) \/epsilon),
-        ProtocolBel = (Safe|AtSpeedLimit|Accelerates|Brakes),
-        ProtocolMsg = epsilon,
-
-        NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
-
-        SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg) * NotAction),
-        NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
-
-        Protocol = NotAction * (NewActionStepProtocol/\Constraints),
-
-        Constraints = (accelerates_or_safe>>SafeOrNot/\brake_if_not_acccelerate>>CanBrake/\accelerate_if_not_brake>>CanAccel2),
-        SafeOrNot = ((bel(safe):CanAccel) \/ (not_bel(safe):SafeOrNot)),
-        CanAccel = (((bel(driver_accelerates):epsilon) \/ (bel(safe):epsilon)) * CanAccel) \/ (not_bel(safe):SafeOrNot),
-
-	CanBrake = (((bel(driver_brakes):epsilon) \/ (not_bel(driver_accelerates):epsilon)) * CanBrake) \/ (bel(driver_accelerates):CantBrake),
-	CantBrake = ((not_bel(driver_accelerates):CanBrake) \/ (bel(driver_accelerates):CantBrake)),
-
-	CanAccel2 = (((bel(driver_accelerates):epsilon) \/ (not_bel(driver_brakes):epsilon)) * CanAccel2) \/ (bel(driver_brakes):CantAccel),
-	CantAccel = ((not_bel(driver_brakes):CanAccel2) \/ (bel(driver_brakes):CantAccel)).
+        CantAccel = (bel(safe):CanAccelOrBeUnsafe) \/ (((not_bel(safe):epsilon) \/ (not_bel(driver_accelerates):epsilon)) * CantAccel),
+        CanAccelOrBeUnsafe = (bel(driver_accelerates):CanAccel) \/ (((not_bel(driver_acclerates):epsilon) \/ (bel(safe):epsilon)) * CanAccelOrBeUnsafe) \/ (not_bel(safe):CantAccel),
+        CanAccel = (not_bel(driver_accelerates):CanAccelOrBeUnsafe) \/ (((bel(safe):epsilon) \/ (bel(driver_accelerates):epsilon)) * CanAccel).
 
 trace_expression(as_jpf, Protocol, NotAction, SingleStepProtocol, epsilon) :-
         Safe = ((bel(safe):epsilon) \/ (not_bel(safe):epsilon) \/ epsilon),
@@ -389,34 +347,49 @@ trace_expression(as_jpf, Protocol, NotAction, SingleStepProtocol, epsilon) :-
 
         Protocol = NotAction * NewActionStepProtocol.
 
-trace_expression(test, Protocol, NotAction, SingleStepProtocol, epsilon) :-
+
+
+trace_expression(brake_or_accelerate, Protocol, NotAction, SingleStepProtocol, Constraints) :-
         Safe = ((bel(safe):epsilon) \/ (not_bel(safe):epsilon) \/ epsilon),
-        ProtocolBel = Safe,
+        AtSpeedLimit =((bel(at_speed_limit):epsilon) \/ (not_bel(at_speed_limit):epsilon) \/ epsilon),
+        Accelerates = ((bel(driver_accelerates):epsilon) \/ (not_bel(driver_accelerates):epsilon) \/epsilon),
+        Brakes = ((bel(driver_brakes):epsilon) \/ (not_bel(driver_brakes):epsilon) \/epsilon),
+        ProtocolBel = (Safe|AtSpeedLimit|Accelerates|Brakes),
         ProtocolMsg = epsilon,
 
-        SingleStepProtocol = action(any_action):((ProtocolBel | ProtocolMsg) * NotAction),
+        NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
+
+        SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg) * NotAction),
         NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
 
-        NotAction = ((not_action:NotAction)\/epsilon), 
+        Protocol = NotAction * (NewActionStepProtocol/\Constraints),
 
-        Protocol = NotAction * NewActionStepProtocol.
+        Constraints = (brake_or_accelerate>>BrakeOrAccelerate),
+				BrakeOrAccelerate = (bel(driver_accelerates):AccelOnly) \/ (((not_bel(driver_accelerates):epsilon) \/ (not_bel(driver_brakes):epsilon)) * BrakeOrAccelerate) \/ (bel(driver_brakes):BrakeOnly),
+				AccelOnly = (not_bel(driver_accelerates):BrakeOrAccelerate) \/ (((bel(driver_accelerates):epsilon) \/ (not_bel(driver_brakes):epsilon)) * AccelOnly),
+				BrakeOnly = (not_bel(driver_brakes):BrakeOrAccelerate) \/ (((bel(driver_brakes):epsilon) \/ (not_bel(driver_accelerates):epsilon)) * BrakeOnly).
 
-trace_expression(motorwayNew1LD, Protocol, NotAction, SingleStepProtocol, Constraints) :-
-    Safe = ((bel(safe):epsilon)\/epsilon),
-    AtSpeedLimit = ((bel(at_speed_limit):epsilon)\/epsilon),
-    AcceleratesOrBrakes = (((bel(driver_accelerates):epsilon)\/(bel(driver_brakes):epsilon))\/epsilon),
-    ProtocolBel = (Safe|AtSpeedLimit|AcceleratesOrBrakes),
-    ProtocolMsg = epsilon,
-    NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
- 
-    SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg)),
-    NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
-    Protocol = NotAction * (NewActionStepProtocol/\Constraints),
-    
-    Constraints = (accelerates_or_safe>>Constraints1),
-    Constraints1 = (SafeBeforeAccelerates * (bel(driver_accelerates):((not_bel(safe):epsilon) * Constraints1))),
-    SafeBeforeAccelerates =
-        (not_bel(safe):SafeBeforeAccelerates)\/
-        (bel(safe):(epsilon\/(SafeBeforeAccelerates))).
 
+trace_expression(two_constraints, Protocol, NotAction, SingleStepProtocol, Constraints) :-
+        Safe = ((bel(safe):epsilon) \/ (not_bel(safe):epsilon) \/ epsilon),
+        AtSpeedLimit =((bel(at_speed_limit):epsilon) \/ (not_bel(at_speed_limit):epsilon) \/ epsilon),
+        Accelerates = ((bel(driver_accelerates):epsilon) \/ (not_bel(driver_accelerates):epsilon) \/epsilon),
+        Brakes = ((bel(driver_brakes):epsilon) \/ (not_bel(driver_brakes):epsilon) \/epsilon),
+        ProtocolBel = (Safe|AtSpeedLimit|Accelerates|Brakes),
+        ProtocolMsg = epsilon,
+
+        NotAction = ((not_action:NotAction)\/epsilon), % a preamble for all that beliefs that appears before of the real first action
+
+        SingleStepProtocol = (action(any_action):((ProtocolBel) | ProtocolMsg) * NotAction),
+        NewActionStepProtocol =  SingleStepProtocol * NewActionStepProtocol,
+
+        Protocol = NotAction * (NewActionStepProtocol/\Constraints),
+
+        Constraints = (brake_or_accelerate>>BrakeOrAccelerate) /\ (accelerates_or_safe>>CantAccel),
+        CantAccel = (bel(safe):CanAccelOrBeUnsafe) \/ (((not_bel(safe):epsilon) \/ (not_bel(driver_accelerates):epsilon)) * CantAccel),
+        CanAccelOrBeUnsafe = (bel(driver_accelerates):CanAccel) \/ (((not_bel(driver_acclerates):epsilon) \/ (bel(safe):epsilon)) * CanAccelOrBeUnsafe) \/ (not_bel(safe):CantAccel),
+        CanAccel = (not_bel(driver_accelerates):CanAccelOrBeUnsafe) \/ (((bel(safe):epsilon) \/ (bel(driver_accelerates):epsilon)) * CanAccel),
+				BrakeOrAccelerate = (bel(driver_accelerates):AccelOnly) \/ (((not_bel(driver_accelerates):epsilon) \/ (not_bel(driver_brakes):epsilon)) * BrakeOrAccelerate) \/ (bel(driver_brakes):BrakeOnly),
+				AccelOnly = (not_bel(driver_accelerates):BrakeOrAccelerate) \/ (((bel(driver_accelerates):epsilon) \/ (not_bel(driver_brakes):epsilon)) * AccelOnly),
+				BrakeOnly = (not_bel(driver_brakes):BrakeOrAccelerate) \/ (((bel(driver_brakes):epsilon) \/ (not_bel(driver_accelerates):epsilon)) * BrakeOnly).
 

@@ -21,13 +21,9 @@ public class Monitor {
   }
 
   public boolean check(String event){
-	  System.err.println("entering check with " + event);
     Query query = new Query("type_check_aux(" + event + ")");
-    	System.err.println("formed query");
     boolean res = query.hasSolution();
-    	System.err.println("query has solution");
     query.close();
-    	System.err.println("leaving check");
     return res;
   }
 

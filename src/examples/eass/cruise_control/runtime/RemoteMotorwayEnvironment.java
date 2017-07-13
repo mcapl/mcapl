@@ -102,7 +102,6 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 
 		try {
 			if (socket.pendingInput()) {
-				System.err.println("reading from socket");
 				int accelerating = socket.readInt();
 				int braking = socket.readInt();
 				int safe_in_lane = socket.readInt();
