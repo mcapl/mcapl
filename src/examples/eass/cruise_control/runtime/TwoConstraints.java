@@ -17,111 +17,92 @@ public class TwoConstraints extends EASSVerificationEnvironment {
 
 
 
+   Predicate driver_brakes = new Predicate("driver_brakes");
+
+   
+   Predicate driver_accelerates = new Predicate("driver_accelerates");
+
+   
+   Predicate at_speed_limit = new Predicate("at_speed_limit");
+
+   
+   Predicate safe = new Predicate("safe");
+
+   
+
    public Set<Predicate> generate_sharedbeliefs() { return new TreeSet<Predicate>(); }
 
 
    public Set<Predicate> add_random_beliefs(String agName, Action act) {
 
-      boolean assert_belief;
-      int assert_random_int;
       Set<Predicate> predicates = new TreeSet<Predicate>();
 
-      Predicate driver_brakes = new Predicate("driver_brakes");
-
-      
-      Predicate driver_accelerates = new Predicate("driver_accelerates");
-
-      
-      Predicate at_speed_limit = new Predicate("at_speed_limit");
-
-      
-      Predicate safe = new Predicate("safe");
-
-      
-
-            assert_random_int = random_int_generator.nextInt(10);
+            int assert_random_int = random_int_generator.nextInt(10);
       if (assert_random_int ==0) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
-         at_speed_limit = new Predicate("at_speed_limit");
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
-         driver_accelerates = new Predicate("driver_accelerates");
          addPercept(driver_accelerates);
          AJPFLogger.info(logname, "Asserting driver_accelerates");
          predicates.add(driver_accelerates);
       }
       if (assert_random_int ==1) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
-         at_speed_limit = new Predicate("at_speed_limit");
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
-         driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
          predicates.add(driver_brakes);
       }
       if (assert_random_int ==2) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
-         at_speed_limit = new Predicate("at_speed_limit");
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
       }
       if (assert_random_int ==3) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
-         driver_accelerates = new Predicate("driver_accelerates");
          addPercept(driver_accelerates);
          AJPFLogger.info(logname, "Asserting driver_accelerates");
          predicates.add(driver_accelerates);
       }
       if (assert_random_int ==4) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
-         driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
          predicates.add(driver_brakes);
       }
       if (assert_random_int ==5) {
-         safe = new Predicate("safe");
          addPercept(safe);
          AJPFLogger.info(logname, "Asserting safe");
          predicates.add(safe);
       }
       if (assert_random_int ==6) {
-         at_speed_limit = new Predicate("at_speed_limit");
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
-         driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
          predicates.add(driver_brakes);
       }
       if (assert_random_int ==7) {
-         at_speed_limit = new Predicate("at_speed_limit");
          addPercept(at_speed_limit);
          AJPFLogger.info(logname, "Asserting at_speed_limit");
          predicates.add(at_speed_limit);
       }
       if (assert_random_int ==8) {
-         driver_brakes = new Predicate("driver_brakes");
          addPercept(driver_brakes);
          AJPFLogger.info(logname, "Asserting driver_brakes");
          predicates.add(driver_brakes);
@@ -137,9 +118,6 @@ public class TwoConstraints extends EASSVerificationEnvironment {
 
    public Set<Message> add_random_messages(String agName, Action act) {
       Set<Message> messages = new TreeSet<Message>();
-      boolean assert_belief;
-      int assert_random_int;
-
       return messages;
    }
 

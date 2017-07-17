@@ -284,15 +284,15 @@ insert_in_order((TS, Message), [(TSH, MessageH)|Tail], [(TSH, MessageH)|OrderedL
 
 
 type_check_aux(Message) :-
-   recorded(1, current_state(LastState), Ref),
-   next(LastState, Message, NewState), !,
-   write_log('\n'), write_log('Message\n'), write_log(Message), write_log('\nleads from state \n'), write_log(LastState), write_log('\nto state\n'), write_log(NewState), write_log('\n'),
-   erase(Ref),
-   recorda(1, current_state(NewState)).
+    recorded(1, current_state(LastState), Ref),
+    next(LastState, Message, NewState), !,
+    write_log('\n'), write_log('Message\n'), write_log(Message), write_log('\nleads from state \n'), write_log(LastState), write_log('\nto state\n'), write_log(NewState), write_log('\n'),
+    erase(Ref),
+    recorda(1, current_state(NewState)).
 
 type_check_aux(Message) :-
-recorded(1, current_state(LastState), Ref),
-write_log('\n'), write_log('*** DYNAMIC TYPE-CHECKING ERROR ***\nMessage '), write_log(Message), write_log(' cannot be accepted in the current state '), write_log(LastState), erase(Ref), fail.
+    recorded(1, current_state(LastState), Ref),
+    write_log('\n'), write_log('*** DYNAMIC TYPE-CHECKING ERROR ***\nMessage '), write_log(Message), write_log(' cannot be accepted in the current state '), write_log(LastState), erase(Ref), fail.
 
 type_check_list([], _Max_TS,  []).
 
