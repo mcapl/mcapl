@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="lib/3rdparty/system-rules-1.16.0.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/lad/Systems/swipl-devel/packages/jpl"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/louiseadennis/Systems/swipl-devel/packages/jpl"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
