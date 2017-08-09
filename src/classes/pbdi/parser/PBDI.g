@@ -1,11 +1,8 @@
 grammar PBDI;
 
 @header {
-package gwendolen.parser;
+package pbdi.parser;
 
-import ail.syntax.ast.*;
-import gwendolen.syntax.ast.*;
-import java.util.HashMap;
 }
 
 pythonfunction 
