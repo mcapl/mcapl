@@ -32,10 +32,13 @@ import org.antlr.v4.runtime.misc.NotNull;
 import ail.syntax.ast.Abstract_ArithExpr;
 import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_LogExpr;
+import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_NumberTerm;
 import ail.syntax.ast.Abstract_NumberTermImpl;
 import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_VarTerm;
@@ -214,9 +217,103 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	}
 	
 	// arithexpr returns [Abstract_NumberTerm t]	:	m=multexpr {$t = $m.t;} ( oper=addoper m1=multexpr {$t = new Abstract_ArithExpr($m.t, $oper.oper, $m1.t);})?;
+	@Override public Object visitArithexpr(@NotNull LogicalFmlasParser.ArithexprContext ctx) {
+		Abstract_NumberTerm m1 = (Abstract_NumberTerm) visitMultexpr(ctx.m1);
+		int oper = (int) visitAddoper(ctx.addoper());
+		Abstract_NumberTerm m2 = (Abstract_NumberTerm) visitMultexpr(ctx.m2);
+		return new Abstract_ArithExpr(m1, oper, m2);
+	}
+	
+	@Override public Object visitLitlist(@NotNull LogicalFmlasParser.LitlistContext ctx) {
+		ArrayList<Abstract_Literal> lits = new ArrayList<Abstract_Literal>();
+		lits.add((Abstract_Literal) visitLiteral(ctx.literal()));
+		if (ctx.litlist() != null) {
+			lits.addAll((ArrayList<Abstract_Literal>) visitLitlist(ctx.litlist()));
+		}
+		return lits;
+		
+	}
+	
+	@Override public Object visitLitlist_poss_empty(@NotNull LogicalFmlasParser.Litlist_poss_emptyContext ctx) { 
+		if (ctx.litlist() != null) {
+			return visitLitlist(ctx.litlist());
+		} else {
+			return new ArrayList<Abstract_Literal>();
+		}
+	}
+	
+	@Override public Object visitRulelist(@NotNull LogicalFmlasParser.RulelistContext ctx) {
+		ArrayList<Abstract_Rule> rules = new ArrayList<Abstract_Rule>();
+		rules.add((Abstract_Rule) visitProlog_rule(ctx.prolog_rule()));
+		if (ctx.rulelist() != null) {
+			rules.addAll((ArrayList<Abstract_Rule>) visitRulelist(ctx.rulelist()));
+		}
+		return rules;
+		
+	}
+	
+	@Override public Object visitRulelist_poss_empty(@NotNull LogicalFmlasParser.Rulelist_poss_emptyContext ctx) { 
+		if (ctx.rulelist() != null) {
+			return visitRulelist(ctx.rulelist());
+		} else {
+			return new ArrayList<Abstract_Rule>();
+		}
+	}
 
-//	@Override public Object visitArithexpr(@NotNull LogicalFmlasParser.ArithexprContext ctx) {
-//		
-//	}
+	
+	//prolog_rule returns [Abstract_Rule r] : head=pred (RULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
+	@Override public Object visitProlog_rule(@NotNull LogicalFmlasParser.Prolog_ruleContext ctx) {
+		Abstract_Predicate head = (Abstract_Predicate) visitPred(ctx.head);
+		if (ctx.RULEARROW()!= null) {
+			Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitLogicalfmla(ctx.logicalfmla());
+			return new Abstract_Rule(head, f);
+		} else {
+			return new Abstract_Rule(head);
+		}
+	}
+	
+	//logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
+	//               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*?;
+	               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+	@Override public Object visitLogicalfmla(@NotNull LogicalFmlasParser.LogicalfmlaContext ctx) {
+		Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitNotfmla(ctx.n);
+		if (ctx.n2 != null) {
+			Abstract_LogicalFormula f2 = (Abstract_LogicalFormula) visitNotfmla(ctx.n2);
+			return new Abstract_LogExpr(f, Abstract_LogExpr.and, f2);
+		}
+		return f;
+	}
+
+	//	notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+//	                                   NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
+//	                                              SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+//	                                          lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+	@Override public Object visitNotfmla(@NotNull LogicalFmlasParser.NotfmlaContext ctx) {
+		if (ctx.gb != null) {
+			return (Abstract_LogicalFormula) visitPred(ctx.gb);
+		}
+		
+		if (ctx.eq != null) {
+			return (Abstract_LogicalFormula) visitEquation(ctx.eq);
+		}
+		
+		if (ctx.gb2 != null) {
+			return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitPred(ctx.gb2));
+		}
+		
+		if (ctx.eq2 != null) {
+			return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitEquation(ctx.eq2));
+		}
+		
+		return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitSubfmla(ctx.lf));
+		
+	}
+	
+	//	subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
+	@Override public Object visitSubfmla(@NotNull LogicalFmlasParser.SubfmlaContext ctx) {
+		return visitLogicalfmla(ctx.lf);
+	}
+
+
 
 }

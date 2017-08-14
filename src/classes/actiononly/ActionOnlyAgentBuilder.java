@@ -24,12 +24,15 @@
 
 package actiononly;
 
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import actiononly.parser.ActionOnlyAILVisitor;
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
 import actiononly.semantics.ActionOnlyAgent;
 import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
@@ -69,10 +72,12 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
+			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    		abs_agent = parser.aoagent();
+			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
+			
+    			abs_agent = (Abstract_Agent) visitor.visitAoagent(parser.aoagent());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

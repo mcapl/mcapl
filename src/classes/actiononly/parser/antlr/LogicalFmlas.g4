@@ -24,6 +24,18 @@
 
 grammar LogicalFmlas;
 
+rulelist: prolog_rule (rulelist )?;
+rulelist_poss_empty: (rulelist)?;
+prolog_rule  : head=pred (RULEARROW f=logicalfmla SEMI | 
+	SEMI );
+logicalfmla : n=notfmla (COMMA n2=notfmla )*?;
+               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
+notfmla  : (gb = pred | SQOPEN eq = equation SQCLOSE) | 
+            NOT (gb2 = pred  | SQOPEN eq2 = equation SQCLOSE  | lf = subfmla );
+subfmla  : OPEN lf = logicalfmla CLOSE;
+
+litlist :  literal (litlist)?;
+litlist_poss_empty: litlist?;
 literal	:  (TRUE  | NOT pred | pred);
 
 pred	:  v=var | f=function;
@@ -73,6 +85,7 @@ CONST 	: 	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR	:	 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	 '0'..'9' ('0'..'9')*;
 
+RULEARROW :	':-';
 
 LESS	:	'<';
 EQ	: 	'==';
