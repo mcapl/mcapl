@@ -17,26 +17,24 @@ public class ActionOnlyParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ACTIONONLY=1, BELIEFS=2, NAME=3, BELIEVE=4, POINT=5, WORD=6, COMMENT=7, 
-		LINE_COMMENT=8, NEWLINE=9, WS=10, BELIEFRULES=11, GOAL_IB=12, BELIEF_BLOCK=13, 
-		GOAL_RR=14, RR_BLOCK=15, ACTIONS=16, GOAL_BLOCK=17, CURLYOPEN=18, CURLYCLOSE=19, 
-		ACTION_BLOCK=20;
+		ACTIONONLY=1, BELIEFS=2, NAME=3, WORD=4, COMMENT=5, LINE_COMMENT=6, NEWLINE=7, 
+		WS=8, GOAL_IB=9, IB_COMMENT=10, IB_LINE_COMMENT=11, IB_NEWLINE=12, IB_WS=13, 
+		BELIEF_BLOCK=14, GOAL_RR=15, GL_COMMENT=16, GL_LINE_COMMENT=17, GL_NEWLINE=18, 
+		GL_WS=19, GOAL_BLOCK=20;
 	public static final int
-		RULE_mas = 0, RULE_aoagents = 1, RULE_aoagent = 2, RULE_capability = 3;
+		RULE_mas = 0, RULE_aoagents = 1, RULE_aoagent = 2;
 	public static final String[] ruleNames = {
-		"mas", "aoagents", "aoagent", "capability"
+		"mas", "aoagents", "aoagent"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'AO'", "':Initial Beliefs:'", "':name:'", null, "'.'", null, null, 
-		null, null, null, "':Reasoning Rules:'", null, null, null, null, "':Actions:'", 
-		null, "'{'", "'}'"
+		null, "'AO'", "':Initial Beliefs:'", "':name:'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "ACTIONONLY", "BELIEFS", "NAME", "BELIEVE", "POINT", "WORD", "COMMENT", 
-		"LINE_COMMENT", "NEWLINE", "WS", "BELIEFRULES", "GOAL_IB", "BELIEF_BLOCK", 
-		"GOAL_RR", "RR_BLOCK", "ACTIONS", "GOAL_BLOCK", "CURLYOPEN", "CURLYCLOSE", 
-		"ACTION_BLOCK"
+		null, "ACTIONONLY", "BELIEFS", "NAME", "WORD", "COMMENT", "LINE_COMMENT", 
+		"NEWLINE", "WS", "GOAL_IB", "IB_COMMENT", "IB_LINE_COMMENT", "IB_NEWLINE", 
+		"IB_WS", "BELIEF_BLOCK", "GOAL_RR", "GL_COMMENT", "GL_LINE_COMMENT", "GL_NEWLINE", 
+		"GL_WS", "GOAL_BLOCK"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -108,7 +106,7 @@ public class ActionOnlyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(8);
+			setState(6);
 			aoagents();
 			}
 		}
@@ -149,19 +147,19 @@ public class ActionOnlyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(10);
+			setState(8);
 			match(ACTIONONLY);
-			setState(12); 
+			setState(10); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(11);
+				setState(9);
 				aoagent();
 				}
 				}
-				setState(14); 
+				setState(12); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==ACTIONONLY || _la==NAME );
@@ -181,25 +179,13 @@ public class ActionOnlyParser extends Parser {
 	public static class AoagentContext extends ParserRuleContext {
 		public Token w;
 		public Token bs;
-		public Token brs;
 		public Token gs;
-		public CapabilityContext c;
 		public TerminalNode NAME() { return getToken(ActionOnlyParser.NAME, 0); }
 		public TerminalNode BELIEFS() { return getToken(ActionOnlyParser.BELIEFS, 0); }
-		public TerminalNode ACTIONS() { return getToken(ActionOnlyParser.ACTIONS, 0); }
-		public TerminalNode WORD() { return getToken(ActionOnlyParser.WORD, 0); }
-		public TerminalNode GOAL_RR() { return getToken(ActionOnlyParser.GOAL_RR, 0); }
 		public TerminalNode GOAL_IB() { return getToken(ActionOnlyParser.GOAL_IB, 0); }
+		public TerminalNode WORD() { return getToken(ActionOnlyParser.WORD, 0); }
 		public TerminalNode GOAL_BLOCK() { return getToken(ActionOnlyParser.GOAL_BLOCK, 0); }
-		public TerminalNode BELIEFRULES() { return getToken(ActionOnlyParser.BELIEFRULES, 0); }
 		public TerminalNode BELIEF_BLOCK() { return getToken(ActionOnlyParser.BELIEF_BLOCK, 0); }
-		public TerminalNode RR_BLOCK() { return getToken(ActionOnlyParser.RR_BLOCK, 0); }
-		public List<CapabilityContext> capability() {
-			return getRuleContexts(CapabilityContext.class);
-		}
-		public CapabilityContext capability(int i) {
-			return getRuleContext(CapabilityContext.class,i);
-		}
 		public TerminalNode ACTIONONLY() { return getToken(ActionOnlyParser.ACTIONONLY, 0); }
 		public AoagentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -220,129 +206,37 @@ public class ActionOnlyParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(17);
+			setState(15);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ACTIONONLY) {
 				{
-				setState(16);
+				setState(14);
 				match(ACTIONONLY);
 				}
 			}
 
 			}
-			setState(19);
+			setState(17);
 			match(NAME);
-			setState(20);
+			setState(18);
 			((AoagentContext)_localctx).w = match(WORD);
-			setState(21);
+			setState(19);
 			match(BELIEFS);
-			setState(23);
+			setState(21);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==BELIEF_BLOCK) {
 				{
-				setState(22);
+				setState(20);
 				((AoagentContext)_localctx).bs = match(BELIEF_BLOCK);
 				}
 			}
 
-			setState(27);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==BELIEFRULES) {
-				{
-				setState(25);
-				match(BELIEFRULES);
-				setState(26);
-				((AoagentContext)_localctx).brs = match(RR_BLOCK);
-				}
-			}
-
-			setState(29);
-			_la = _input.LA(1);
-			if ( !(_la==GOAL_IB || _la==GOAL_RR) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			setState(30);
+			setState(23);
+			match(GOAL_IB);
+			setState(24);
 			((AoagentContext)_localctx).gs = match(GOAL_BLOCK);
-			setState(31);
-			match(ACTIONS);
-			setState(35);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==CURLYOPEN) {
-				{
-				{
-				setState(32);
-				((AoagentContext)_localctx).c = capability();
-				}
-				}
-				setState(37);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class CapabilityContext extends ParserRuleContext {
-		public Token pres;
-		public Token a;
-		public TerminalNode CURLYOPEN() { return getToken(ActionOnlyParser.CURLYOPEN, 0); }
-		public TerminalNode CURLYCLOSE() { return getToken(ActionOnlyParser.CURLYCLOSE, 0); }
-		public List<TerminalNode> ACTION_BLOCK() { return getTokens(ActionOnlyParser.ACTION_BLOCK); }
-		public TerminalNode ACTION_BLOCK(int i) {
-			return getToken(ActionOnlyParser.ACTION_BLOCK, i);
-		}
-		public CapabilityContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_capability; }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ActionOnlyVisitor ) return ((ActionOnlyVisitor<? extends T>)visitor).visitCapability(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final CapabilityContext capability() throws RecognitionException {
-		CapabilityContext _localctx = new CapabilityContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_capability);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(38);
-			match(CURLYOPEN);
-			setState(40);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==ACTION_BLOCK) {
-				{
-				setState(39);
-				((CapabilityContext)_localctx).pres = match(ACTION_BLOCK);
-				}
-			}
-
-			setState(42);
-			match(CURLYCLOSE);
-			setState(43);
-			((CapabilityContext)_localctx).a = match(ACTION_BLOCK);
 			}
 		}
 		catch (RecognitionException re) {
@@ -357,19 +251,15 @@ public class ActionOnlyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\26\60\4\2\t\2\4\3"+
-		"\t\3\4\4\t\4\4\5\t\5\3\2\3\2\3\3\3\3\6\3\17\n\3\r\3\16\3\20\3\4\5\4\24"+
-		"\n\4\3\4\3\4\3\4\3\4\5\4\32\n\4\3\4\3\4\5\4\36\n\4\3\4\3\4\3\4\3\4\7\4"+
-		"$\n\4\f\4\16\4\'\13\4\3\5\3\5\5\5+\n\5\3\5\3\5\3\5\3\5\2\2\6\2\4\6\b\2"+
-		"\3\4\2\16\16\20\20\2\61\2\n\3\2\2\2\4\f\3\2\2\2\6\23\3\2\2\2\b(\3\2\2"+
-		"\2\n\13\5\4\3\2\13\3\3\2\2\2\f\16\7\3\2\2\r\17\5\6\4\2\16\r\3\2\2\2\17"+
-		"\20\3\2\2\2\20\16\3\2\2\2\20\21\3\2\2\2\21\5\3\2\2\2\22\24\7\3\2\2\23"+
-		"\22\3\2\2\2\23\24\3\2\2\2\24\25\3\2\2\2\25\26\7\5\2\2\26\27\7\b\2\2\27"+
-		"\31\7\4\2\2\30\32\7\17\2\2\31\30\3\2\2\2\31\32\3\2\2\2\32\35\3\2\2\2\33"+
-		"\34\7\r\2\2\34\36\7\21\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36\37\3\2\2\2\37"+
-		" \t\2\2\2 !\7\23\2\2!%\7\22\2\2\"$\5\b\5\2#\"\3\2\2\2$\'\3\2\2\2%#\3\2"+
-		"\2\2%&\3\2\2\2&\7\3\2\2\2\'%\3\2\2\2(*\7\24\2\2)+\7\26\2\2*)\3\2\2\2*"+
-		"+\3\2\2\2+,\3\2\2\2,-\7\25\2\2-.\7\26\2\2.\t\3\2\2\2\b\20\23\31\35%*";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\26\35\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\3\2\3\2\3\3\3\3\6\3\r\n\3\r\3\16\3\16\3\4\5\4\22\n\4\3\4"+
+		"\3\4\3\4\3\4\5\4\30\n\4\3\4\3\4\3\4\3\4\2\2\5\2\4\6\2\2\2\34\2\b\3\2\2"+
+		"\2\4\n\3\2\2\2\6\21\3\2\2\2\b\t\5\4\3\2\t\3\3\2\2\2\n\f\7\3\2\2\13\r\5"+
+		"\6\4\2\f\13\3\2\2\2\r\16\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\5\3\2\2"+
+		"\2\20\22\7\3\2\2\21\20\3\2\2\2\21\22\3\2\2\2\22\23\3\2\2\2\23\24\7\5\2"+
+		"\2\24\25\7\6\2\2\25\27\7\4\2\2\26\30\7\20\2\2\27\26\3\2\2\2\27\30\3\2"+
+		"\2\2\30\31\3\2\2\2\31\32\7\13\2\2\32\33\7\26\2\2\33\7\3\2\2\2\5\16\21"+
+		"\27";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

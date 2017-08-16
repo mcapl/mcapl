@@ -37,10 +37,11 @@ aoagent  :
     (ACTIONONLY?) 
 	NAME w=WORD  
 	BELIEFS (bs=BELIEF_BLOCK )?
-	(BELIEFRULES brs=RR_BLOCK )? 
-	(GOAL_RR | GOAL_IB) gs=GOAL_BLOCK 
-	ACTIONS (c = capability)*;
+//	(BELIEFRULES brs=RR_BLOCK )? 
+//	(GOAL_RR | GOAL_IB) gs=GOAL_BLOCK;
+	GOAL_IB gs=GOAL_BLOCK;
+//	ACTIONS (c = capability)*;
 					
 
-capability : CURLYOPEN (pres=ACTION_BLOCK)? CURLYCLOSE a=ACTION_BLOCK; 
+//capability : CURLYOPEN (pres=ACTION_BLOCK)? CURLYCLOSE a=ACTION_BLOCK; 
 

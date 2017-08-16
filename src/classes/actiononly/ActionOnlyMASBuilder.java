@@ -25,12 +25,9 @@
 package actiononly;
 
 import ail.mas.MAS;
-import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_MAS;
 import ail.mas.MASBuilder;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
