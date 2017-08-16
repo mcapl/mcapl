@@ -23,23 +23,51 @@
 //----------------------------------------------------------------------------
 
 lexer grammar ActionOnlyLexer;
-// import LogicalFmlas;
 
-ACTIONONLY	: 'AO'; // {curly_nesting == 0}? 'AO' {ao = true;};
+ACTIONONLY	: 'AO'; 
 
-BELIEFS	:	':Initial Beliefs:';
-BELIEFRULES 
-	:	':Reasoning Rules:'; // {belief_rules = 1;};
-GOAL	:	':Initial Goal:';
+BELIEFS	:	':Initial Beliefs:' -> mode(INITIAL_BELIEFS);
 NAME	:	':name:';
+WORD:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 
-BELIEVE	:	('B' | '.B') ; // {curly_nesting > 0 && plain_nesting == 0 || belief_rules==1}? ('B' | '.B') ;
-ACTIONS	:	':Actions:';
+COMMENT : '/*' .*? '*/' -> skip ;
+LINE_COMMENT : '//' ~[\n]* -> skip ;
+NEWLINE:'\r'? '\n' -> skip  ;
+WS  :   (' '|'\t')+ -> skip ;
 
-FOF_BLOCK: .*?;
-PRED_BLOCK: .*?;
+mode INITIAL_BELIEFS;
+BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
+GOAL_IB	:	':Initial Goal:' -> mode(GOALS);
+IB_COMMENT : '/*' .*? '*/' -> skip ;
+IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
+IB_NEWLINE:'\r'? '\n' -> skip  ;
+IB_WS  :   (' '|'\t')+ -> skip ;
+BELIEF_BLOCK: 'abelief';
 
+mode REASONING_RULES;
+GOAL_RR	:	':Initial Goal:' -> mode(GOALS);
+RR_COMMENT : '/*' .*? '*/' -> skip ;
+RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
+RR_NEWLINE:'\r'? '\n' -> skip  ;
+RR_WS  :   (' '|'\t')+ -> skip ;
+RR_BLOCK: .+?;
+
+mode GOALS;
+ACTIONS	:	':Actions:' -> mode(ACTIONS_MODE);
+GL_COMMENT : '/*' .*? '*/' -> skip ;
+GL_LINE_COMMENT : '//' ~[\n]* -> skip ;
+GL_NEWLINE:'\r'? '\n' -> skip  ;
+GL_WS  :   (' '|'\t')+ -> channel(HIDDEN) ;
+GOAL_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|',')+;
+
+mode ACTIONS_MODE;
 CURLYOPEN	: '{';
 CURLYCLOSE	: '}';
-POINT	:	'.';
-WORD:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+A_COMMENT : '/*' .*? '*/' -> skip ;
+A_LINE_COMMENT : '//' ~[\n]* -> skip ;
+A_NEWLINE:'\r'? '\n' -> skip  ;
+A_WS  :   (' '|'\t')+ -> skip ;
+ACTION_BLOCK: .+?;
+
+
+
