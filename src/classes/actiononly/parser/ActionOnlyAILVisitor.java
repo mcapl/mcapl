@@ -30,6 +30,7 @@ import java.util.List;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
 import ail.syntax.ast.Abstract_Capability;
@@ -40,6 +41,7 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_MAS;
 import ail.syntax.ast.Abstract_Pred;
+import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 
 public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
@@ -81,33 +83,41 @@ public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 			FOFVisitor fofvisitor = new FOFVisitor();
 
 			if (ctx.bs != null) {
-				LogicalFmlasParser fofparser_bs = fofparser(ctx.bs.getText());
-				ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_bs.litlist());
-				for (Abstract_Literal l: bs) {
-					g.addInitialBel(l);
+				List<TerminalNode> beliefblocks = ctx.BELIEF_BLOCK();
+				for (TerminalNode bb: beliefblocks) {
+					LogicalFmlasParser fofparser_bs = fofparser(bb.getText());
+					ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_bs.litlist());
+					for (Abstract_Literal l: bs) {
+						g.addInitialBel(l);
+					}
 				}
 			}
 			
-/*			if (ctx.BELIEFRULES() != null) {
-				LogicalFmlasParser fofparser_brs = fofparser(ctx.brs.getText());
-				ArrayList<Abstract_Rule> brs = (ArrayList<Abstract_Rule>) fofvisitor.visitRulelist_poss_empty(fofparser_brs.rulelist_poss_empty());
-				for (Abstract_Rule r: brs) {
-					g.addRule(r);
+			if (ctx.BELIEFRULES() != null) {
+				List<TerminalNode> rrblocks = ctx.RR_BLOCK();
+				for (TerminalNode rr: rrblocks) {
+					LogicalFmlasParser fofparser_brs = fofparser(rr.getText());
+					ArrayList<Abstract_Rule> brs = (ArrayList<Abstract_Rule>) fofvisitor.visitRulelist(fofparser_brs.rulelist());
+					for (Abstract_Rule r: brs) {
+						g.addRule(r);
+					}
 				}
-			} */
+			} 
 			
-			
-			LogicalFmlasParser fofparser_gs = fofparser(ctx.gs.getText());
-			ArrayList<Abstract_Literal> gs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_gs.litlist());
-			for (Abstract_Literal l: gs) {
-				g.addInitialGoal(new Abstract_Goal(l, Abstract_Goal.achieveGoal));
+			List<TerminalNode> goalblocks = ctx.GOAL_BLOCK();
+			for (TerminalNode gb: goalblocks) {
+				LogicalFmlasParser fofparser_gs = fofparser(gb.getText());
+				ArrayList<Abstract_Literal> gs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_gs.litlist());
+				for (Abstract_Literal l: gs) {
+					g.addInitialGoal(new Abstract_Goal(l, Abstract_Goal.achieveGoal));
+				}
 			}
 			
-			/* List<ActionOnlyParser.CapabilityContext> cctx_s = ctx.capability();
+			List<ActionOnlyParser.CapabilityContext> cctx_s = ctx.capability();
 			for (ActionOnlyParser.CapabilityContext cctx:cctx_s) {
 				Abstract_Capability c = (Abstract_Capability) visitCapability(cctx);
 				g.addCapability(c);
-			} */
+			} 
 			return g;
 			
 		} catch (Exception e) {
@@ -117,12 +127,12 @@ public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 	}
 	
 	//capability returns [Abstract_Capability c] : CURLYOPEN (pres=FOF_BLOCK)? CURLYCLOSE a=PRED_BLOCK; // {$c = new Abstract_Capability($a.a); if ($f.f != null) {$c.addPre($f.f); $c.addPost(new Abstract_GBelief());}};
-/* 	@Override public Object visitCapability(ActionOnlyParser.CapabilityContext ctx) {
+ 	@Override public Object visitCapability(ActionOnlyParser.CapabilityContext ctx) {
 		FOFVisitor fofvisitor = new FOFVisitor();
 		GuardFOFVisitor gfofvisitor = new GuardFOFVisitor();
 		
 		LogicalFmlasParser action_parser = fofparser(ctx.a.getText());
-		Abstract_Pred p = (Abstract_Pred) fofvisitor.visitPred(action_parser.pred());
+		Abstract_Predicate p = (Abstract_Predicate) fofvisitor.visitPred(action_parser.pred());
 		Abstract_Capability c = new Abstract_Capability(p);
 		
 		if (ctx.pres != null) {
@@ -134,7 +144,7 @@ public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 		}
 		return c;
 		
-	} */
+	} 
 	
 	private LogicalFmlasParser fofparser(String s) {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));

@@ -63,7 +63,7 @@ multoper  	: (MULT  | DIV  | MOD );
 COMMENT
     : '/*' .*? '*/' -> skip ;
 LINE_COMMENT
-    : '//' ~[\n\n]* -> skip ;
+    : '//' ~[\n]* -> skip ;
 NEWLINE:'\r'? '\n' -> skip  ;
 WS  :   (' '|'\t')+ -> skip ;
 

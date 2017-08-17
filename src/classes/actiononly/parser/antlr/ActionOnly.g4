@@ -36,12 +36,15 @@ aoagents: ACTIONONLY (aoagent)+;
 aoagent  : 
     (ACTIONONLY?) 
 	NAME w=WORD  
-	BELIEFS (bs=BELIEF_BLOCK )?
-//	(BELIEFRULES brs=RR_BLOCK )? 
-//	(GOAL_RR | GOAL_IB) gs=GOAL_BLOCK;
-	GOAL_IB gs=GOAL_BLOCK;
-//	ACTIONS (c = capability)*;
+	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
+	BELIEFS ((bs=BELIEF_BLOCK)? IB_NEWLINE)*
+	// RR_BLCOKS should be rulelists from LogicalFmlas grammar
+	(BELIEFRULES (RR_NEWLINE)* (RR_BLOCK RR_NEWLINE) ((RR_BLOCK)? RR_NEWLINE)* )? 
+	// GOAL_BLOCKS should all be litlists from LogicalFmlas grammar
+	(GOAL_RR | GOAL_IB) (GL_NEWLINE)* (gs=GOAL_BLOCK GL_NEWLINE) ((GOAL_BLOCK)? GL_NEWLINE)*
+	ACTIONS (c = capability)*;
 					
 
-//capability : CURLYOPEN (pres=ACTION_BLOCK)? CURLYCLOSE a=ACTION_BLOCK; 
+// pres should be a logicalfmla from LogicalFmlas grammar and a should be pred from LogicalFmlas grammar
+capability : CURLYOPEN (pres=ACTION_BLOCK)? CURLYCLOSE a=ACTION_BLOCK; 
 

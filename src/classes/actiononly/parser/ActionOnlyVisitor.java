@@ -28,4 +28,10 @@ public interface ActionOnlyVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAoagent(ActionOnlyParser.AoagentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ActionOnlyParser#capability}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCapability(ActionOnlyParser.CapabilityContext ctx);
 }

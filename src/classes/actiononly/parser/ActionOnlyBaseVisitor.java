@@ -32,4 +32,11 @@ public class ActionOnlyBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitAoagent(ActionOnlyParser.AoagentContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitCapability(ActionOnlyParser.CapabilityContext ctx) { return visitChildren(ctx); }
 }

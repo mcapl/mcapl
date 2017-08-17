@@ -36,41 +36,38 @@ NEWLINE:'\r'? '\n' -> skip  ;
 WS  :   (' '|'\t') -> skip ;
 
 mode INITIAL_BELIEFS;
-// BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
+BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
 GOAL_IB	:	':Initial Goal:' -> mode(GOALS);
 IB_COMMENT : '/*' .*? '*/' -> skip ;
 IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
-IB_NEWLINE:'\r'? '\n' -> skip  ;
+IB_NEWLINE:'\r'? '\n' ;
 IB_WS  :   (' '|'\t') -> skip ;
-BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.')+;
+BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
 
 mode REASONING_RULES;
-R1: 'a';
-R2: 'b';
-// GOAL_RR	:	':Initial Goal:' -> mode(GOALS);
-// BLARG: ';';
-// RR_COMMENT : '/*' .*? '*/' -> skip ;
-// RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
-// RR_NEWLINE:'\r'? '\n' -> skip  ;
-// RR_WS  :   (' '|'\t') -> skip ;
-// RR_BLOCK: 'rule'; //('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-')+;
+GOAL_RR	:	':Initial Goal:' -> mode(GOALS);
+RR_COMMENT : '/*' .*? '*/' -> skip ;
+RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
+RR_NEWLINE:'\r'? '\n'   ;
+RR_WS  :   (' '|'\t') -> skip ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' ')+;
 
 mode GOALS;
-// ACTIONS	:	':Actions:' -> mode(ACTIONS_MODE);
+ACTIONS	:	':Actions:' -> mode(ACTIONS_MODE);
 GL_COMMENT : '/*' .*? '*/' -> skip ;
 GL_LINE_COMMENT : '//' ~[\n]* -> skip ;
-GL_NEWLINE:'\r'? '\n' -> skip  ;
+GL_NEWLINE:'\r'? '\n';
 GL_WS  :   (' '|'\t') -> skip ;
-GOAL_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.')+;
+GOAL_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
 
-// mode ACTIONS_MODE;
-// CURLYOPEN	: '{';
-// CURLYCLOSE	: '}';
-// A_COMMENT : '/*' .*? '*/' -> skip ;
-// A_LINE_COMMENT : '//' ~[\n]* -> skip ;
-// A_NEWLINE:'\r'? '\n' -> skip  ;
-// A_WS  :   (' '|'\t')+ -> skip ;
-// ACTION_BLOCK: .+?;
+mode ACTIONS_MODE;
+CURLYOPEN	: '{';
+CURLYCLOSE	: '}';
+A_COMMENT : '/*' .*? '*/' -> skip ;
+A_LINE_COMMENT : '//' ~[\n]* -> skip ;
+A_NEWLINE:'\r'? '\n' -> skip  ;
+A_WS  :   (' '|'\t') -> skip ;
+ACTION_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
 
 
 
