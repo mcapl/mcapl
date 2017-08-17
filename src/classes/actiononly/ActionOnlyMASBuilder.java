@@ -64,7 +64,7 @@ public class ActionOnlyMASBuilder implements MASBuilder {
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
 			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
 			
-    			amas = (Abstract_MAS) visitor.visitMas(parser.mas());
+    		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
       	} catch (Exception e) {
      		e.printStackTrace();
     	}

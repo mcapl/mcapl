@@ -91,7 +91,7 @@ public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 						g.addInitialBel(l);
 					}
 				}
-			}
+			} 
 			
 			if (ctx.BELIEFRULES() != null) {
 				List<TerminalNode> rrblocks = ctx.RR_BLOCK();
@@ -118,6 +118,7 @@ public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 				Abstract_Capability c = (Abstract_Capability) visitCapability(cctx);
 				g.addCapability(c);
 			} 
+			
 			return g;
 			
 		} catch (Exception e) {

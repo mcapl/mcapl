@@ -52,7 +52,7 @@ public class AJPF_w_AIL {
 			  AJPFLogger.fine(logname, "Entering Main in AJPF_w_AIL");
 		  }
 
-		GroundPredSets.clear();
+		// GroundPredSets.clear();
 		run(args);
 	}
 	
@@ -61,6 +61,7 @@ public class AJPF_w_AIL {
 	 * @param args
 	 */
 	public static void run(String[] args) {
+		GroundPredSets.clear();
 		// Create the configuration.
 		AILConfig config = new AILConfig(args[0]);
 		// Configure an AIL based MAS accordingly

@@ -24,7 +24,6 @@
 
 package actiononly;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -36,6 +35,7 @@ import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
+import ajpf.MCAPLcontroller;
 
 /**
  * A class to build action only agents from files.
@@ -52,6 +52,10 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	@Override
 	public AILAgent getAgent(String filename) {
 		parsefile(filename);
+		try {
+			abs_agent.getAgName();
+		} catch (Exception e) {
+		}
 		
 		try {
 			ActionOnlyAgent agent = new ActionOnlyAgent(abs_agent.getAgName());
@@ -65,6 +69,7 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	    	return agent;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("returning null");
 			return null;
 		}
 	}
@@ -72,12 +77,14 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromFileName(masstring));
+			String input = MCAPLcontroller.getStringFromFile(masstring);
+			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromString(input));
+			System.err.println("b");
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
 			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
 			
-    			abs_agent = (Abstract_Agent) visitor.visitAoagent(parser.aoagent());
+    		abs_agent = (Abstract_Agent) visitor.visitAoagent(parser.aoagent());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}
