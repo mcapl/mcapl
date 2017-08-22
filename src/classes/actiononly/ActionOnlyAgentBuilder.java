@@ -26,6 +26,7 @@ package actiononly;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 
 import actiononly.parser.ActionOnlyAILVisitor;
 import actiononly.parser.ActionOnlyLexer;
@@ -77,10 +78,17 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			String input = MCAPLcontroller.getStringFromFile(masstring);
-			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromString(input));
-			System.err.println("b");
+//			String input = MCAPLcontroller.getStringFromFile(masstring);
+			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			tokens.fill();
+	        
+/*	        System.out.println("[TOKENS]");
+	        
+	        for (Token t : tokens.getTokens()) {
+	            System.out.printf("  %-20s %s\n", ActionOnlyLexer.VOCABULARY.getSymbolicName(t.getType()), t.getText());
+	        } */
+
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
 			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
 			

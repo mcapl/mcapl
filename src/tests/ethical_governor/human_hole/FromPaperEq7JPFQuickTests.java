@@ -27,9 +27,8 @@ import org.junit.Test;
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class FromPaperQuickTests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+public class FromPaperEq7JPFQuickTests extends TestJPF {
+	 static final String[] JPF_ARGS = {  "-show" };
 
 
 
@@ -39,20 +38,6 @@ public class FromPaperQuickTests extends TestJPF {
 	  }
 
 	  //--- test methods
-
-	  @Test //----------------------------------------------------------------------
-	  public void equation6 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_governor/human_hole/governor.ail";
-	    	String prop_filename =  "/src/examples/ethical_governor/human_hole/human_hole.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "3";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
-	  
 	  @Test //----------------------------------------------------------------------
 	  public void equation7 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
