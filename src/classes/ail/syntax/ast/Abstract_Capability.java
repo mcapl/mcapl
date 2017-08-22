@@ -118,4 +118,16 @@ public class Abstract_Capability {
     public Abstract_GLogicalFormula getPost() {
     	return post;
     }
+    
+    @Override
+    public String toString() {
+    	String s = "{";
+    	s += pre.toString();
+    	s += "}";
+    	s += cap.toString();
+    	s += "{";
+    	s += post.toString();
+    	s +="}";
+    	return s;
+    }
 }

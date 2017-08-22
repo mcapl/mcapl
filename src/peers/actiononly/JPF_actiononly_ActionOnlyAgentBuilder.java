@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher 
+// Copyright (C) 2017 Louise A. Dennis, and Michael Fisher 
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -24,6 +24,7 @@
 
 package actiononly;
 
+import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_MAS;
 
 import gov.nasa.jpf.annotation.MJI;
@@ -43,26 +44,9 @@ import actiononly.parser.ActionOnlyParser;
  * @author louiseadennis
  *
  */
-public class JPF_actiononly_ActionOnlyMASBuilder extends NativePeer {
+public class JPF_actiononly_ActionOnlyAgentBuilder extends NativePeer {
 	
-	  @MJI
-	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
-		String masstring = env.getStringObject(masRef);
-		ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromString(masstring));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ActionOnlyParser parser = new ActionOnlyParser(tokens);
-		ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
-		
- 		try {
- 	   		Abstract_MAS amas = (Abstract_MAS) visitor.visitMas(parser.mas());
-			int ref = amas.newJPFObject(env);
-			env.setReferenceField(objref, "amas", ref);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-
+	@MJI
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
  		try {
@@ -71,16 +55,15 @@ public class JPF_actiononly_ActionOnlyMASBuilder extends NativePeer {
  			ActionOnlyParser parser = new ActionOnlyParser(tokens);
  			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
 
- 			Abstract_MAS amas = (Abstract_MAS) visitor.visitMas(parser.mas());
- 			int ref = amas.newJPFObject(env);
-			env.setReferenceField(objref, "amas", ref);
+ 			Abstract_Agent agt = (Abstract_Agent) visitor.visitAoagent(parser.aoagent());
+ 			int ref = agt.newJPFObject(env);
+			env.setReferenceField(objref, "abs_agent", ref);
 		} catch (ClinitRequired e) {
 			env.repeatInvocation();
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}
+	} 
 
 }

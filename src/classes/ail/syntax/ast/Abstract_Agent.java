@@ -260,6 +260,7 @@ public class Abstract_Agent {
     	for (Abstract_Rule r: rules) {
     		ag.addRule(r.toMCAPL());
     	}
+
     	for (Abstract_Plan p: plans) {
     		try {
     			ag.addPlan(p.toMCAPL());
