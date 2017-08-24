@@ -29,6 +29,7 @@ import java.util.List;
 import ail.syntax.ast.Abstract_MAS;
 import pbdi.syntax.ast.Abstract_PBDIAgent;
 import pbdi.syntax.ast.Abstract_PythonFunc;
+import pbdi.syntax.ast.Abstract_PythonStmt;
 
 public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	Abstract_PBDIAgent agent = new Abstract_PBDIAgent("agent");
@@ -50,8 +51,28 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	
 	@Override public Object visitFuncdef(Python3Parser.FuncdefContext ctx) { 
 		String name = ctx.NAME().getText();
-		visitChildren(ctx); 
-		return new Abstract_PythonFunc(name);
+		// funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		ArrayList<Abstract_PythonStmt> stmts = (ArrayList<Abstract_PythonStmt>) visitSuite(ctx.suite()); 
+		Abstract_PythonFunc func = new Abstract_PythonFunc(name);
+		for (Abstract_PythonStmt s: stmts) {
+			func.addStatement(s);
+		}
+		return func;
+	}
+	
+	@Override public Object visitSuite(Python3Parser.SuiteContext ctx) {
+		// suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT;
+		ArrayList<Abstract_PythonStmt> stmts = new ArrayList<Abstract_PythonStmt>();
+		if (ctx.simple_stmt() != null) {
+			String stmt_string = ctx.simple_stmt().getText();
+			stmts.add(new Abstract_PythonStmt(stmt_string));
+		} else {
+			List<Python3Parser.StmtContext> statements = ctx.stmt();
+			for (Python3Parser.StmtContext stmt: statements) {
+				stmts.add(new Abstract_PythonStmt(stmt.getText()));
+			}
+		}
+		return stmts;
 	}
 	
 	@Override public Object visitAtom_expr(Python3Parser.Atom_exprContext ctx) { 

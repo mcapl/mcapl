@@ -101,6 +101,7 @@ public class PBDIRCStage implements RCStage {
 	 * (non-Javadoc)
 	 * @see ail.semantics.RCStage#getStageRules()
 	 */
+	@Override
 	public Iterator<OSRule> getStageRules() {
 			return(rules.iterator());
 	}
@@ -109,8 +110,14 @@ public class PBDIRCStage implements RCStage {
 	 * (non-Javadoc)
 	 * @see ail.semantics.RCStage#setRule(ail.semantics.OSRule)
 	 */
+	@Override
 	public void setRule(OSRule rule) {
 			rules.add(rule);
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

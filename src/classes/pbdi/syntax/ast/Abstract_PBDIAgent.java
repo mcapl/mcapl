@@ -23,7 +23,10 @@
 //----------------------------------------------------------------------------
 package pbdi.syntax.ast;
 
+import ail.mas.MAS;
 import ail.syntax.ast.Abstract_Agent;
+import gov.nasa.jpf.vm.MJIEnv;
+import pbdi.semantics.PBDIAgent;
 
 public class Abstract_PBDIAgent extends Abstract_Agent {
 	public Abstract_PythonFunc[] funcs = new Abstract_PythonFunc[0];
@@ -62,5 +65,59 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 		return s;
 		
 	}
+	
+	
+	public PBDIAgent toMCAPL() {
+		try {
+			PBDIAgent pbdi = new PBDIAgent(getAgName());
+			addStructures(pbdi);
+		
+			return pbdi;
+		}  catch (Exception e) {
+				e.printStackTrace();
+				return null;
+		}
+	}
+	
+	public PBDIAgent toMCAPL(MAS m) {
+		try {
+			PBDIAgent pbdi = new PBDIAgent(m, getAgName());
+			addStructures(pbdi);
+		
+			return pbdi;
+		}  catch (Exception e) {
+				e.printStackTrace();
+				return null;
+		}
+	}
+
+	public void addStructures(PBDIAgent pbdi) throws Exception {
+		for (int i = 0; i < rulenames.length; i++) {
+			for (int j = 0; j < funcs.length; j++) {
+				if (funcs[j].getName().equals(rulenames[i])) {
+					pbdi.addPlan(funcs[j].toPlan());
+				}
+			}
+		}
+		
+	}
+	
+    public int newJPFObject(MJIEnv env) {
+    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PBDIAgent");
+    	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
+       	int rRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonFunc", funcs.length);
+       	int cRef = env.newObjectArray("java.util.String", rulenames.length);
+     	for (int i = 0; i < funcs.length; i++) {
+       		env.setReferenceArrayElement(rRef, i, funcs[i].newJPFObject(env));
+       	}
+      	for (int i = 0; i < rulenames.length; i++) {
+       		env.setReferenceArrayElement(cRef, i, env.newString(rulenames[i]));
+       	}
+      	env.setReferenceField(objref, "funcs", rRef);
+      	env.setReferenceField(objref, "rulenames", cRef);
+     	return objref;
+   	
+    }
+
 
 }

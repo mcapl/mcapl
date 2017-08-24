@@ -23,10 +23,65 @@
 //----------------------------------------------------------------------------
 package pbdi.syntax.ast;
 
+import java.util.ArrayList;
+
+import ail.syntax.Action;
+import ail.syntax.Deed;
+import ail.syntax.Event;
+import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Plan;
+import ail.syntax.VarTerm;
+import gov.nasa.jpf.vm.MJIEnv;
+
 public class Abstract_PythonFunc {
 	String name;
+	Abstract_PythonStmt[] statements = new Abstract_PythonStmt[0];
 	
 	public Abstract_PythonFunc(String name) {
 		this.name = name;
 	}
+	
+	public void addStatement(Abstract_PythonStmt stmt) {
+		int newsize = statements.length + 1;
+		Abstract_PythonStmt[] newstmts = new Abstract_PythonStmt[newsize];
+		for (int i = 0; i < statements.length; i++) {
+			newstmts[i] = statements[i];
+		}
+		newstmts[statements.length] = stmt;
+		statements = newstmts;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Plan toPlan() {
+		Plan p = new Plan();
+		p.setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
+		ArrayList<Deed> deeds = new ArrayList<Deed>();
+		for (int i = 0; i < statements.length; i++) {
+			if (! statements[i].getString().equals("return\n")) {
+				Action a = new Action(statements[i].getString());
+				deeds.add(new Deed(a));
+			}
+		}
+		p.setContextSingle(new Guard(), deeds.size());
+		p.setPrefix(new ArrayList<Deed>());
+		p.setBody(deeds);
+		return p;
+	}
+	
+    public int newJPFObject(MJIEnv env) {
+    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PythonFunc");
+    	env.setReferenceField(objref, "name", env.newString(name));
+    	int sRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonStmt", statements.length);
+       	for (int i = 0; i < statements.length; i++) {
+       		env.setReferenceArrayElement(sRef, i, statements[i].newJPFObject(env));
+       	}
+       	env.setReferenceField(objref, "statements", sRef);
+     	return objref;
+   	
+    }
+
 }

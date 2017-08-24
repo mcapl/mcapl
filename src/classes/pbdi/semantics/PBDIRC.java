@@ -118,6 +118,8 @@ public class PBDIRC implements ReasoningCycle {
 			currentstage = SelectRule;
 		} else if (currentstage == SelectRule) {
 			currentstage = ApplyRule;
+		} else if (currentstage == ApplyRule) {
+			currentstage = ExecuteRule;
 		} else if (currentstage == ExecuteRule) {
 			if (ag.getIntention() != null && ag.getIntention().empty() && (ag.getIntentions().isEmpty() || ag.allintentionssuspended())) {
 				setStopandCheck(true);
