@@ -22,6 +22,18 @@
 //
 //----------------------------------------------------------------------------
 
-1: [](~B(agent, bad))
 
-2: [](D(agent,agent.done()) -> B(agent, switch_pressed))
+grammar RuleCondition;
+
+rule_condition: dot_expr DOT BELIEVE OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET SEMI;
+dot_expr: WORD (DOT WORD)*;
+
+WS  :   (' '|'\t')+ -> skip ;
+
+BELIEVE: 'believe';
+WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+SINGLE_QUOTE: '\'';
+OPEN_BRACKET: '(';
+CLOSE_BRACKET: ')';
+DOT: '.';
+SEMI: ';';

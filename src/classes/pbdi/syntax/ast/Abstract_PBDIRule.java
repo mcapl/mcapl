@@ -21,7 +21,38 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package pbdi.syntax.ast;
 
-1: [](~B(agent, bad))
+import ail.syntax.ast.Abstract_Guard;
+import gov.nasa.jpf.vm.MJIEnv;
 
-2: [](D(agent,agent.done()) -> B(agent, switch_pressed))
+public class Abstract_PBDIRule {
+	String rulename;
+	Abstract_Guard guard;
+	
+	public Abstract_PBDIRule(String s) {
+		rulename = s;
+	}
+	
+	public void addGuard(Abstract_Guard g) {
+		guard = g;
+	}
+	
+	public Abstract_Guard getGuard() {
+		return guard;
+	}
+	
+	public String getName() {
+		return rulename;
+	}
+	
+    public int newJPFObject(MJIEnv env) {
+	    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PBDIRule");
+	    	env.setReferenceField(objref, "rulename", env.newString(rulename));
+	    	if (guard != null) {
+	    		env.setReferenceField(objref, "guard", guard.newJPFObject(env));
+	    	}
+	 	return objref;
+	
+    }
+}

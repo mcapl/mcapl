@@ -80,6 +80,14 @@ public class Pi2GoAgentEnv extends PBDIVerificationEnvironment {
 		} else {
 			AJPFLogger.info(logname, "Right on Left");
 		}
+		
+		boolean switch_pressed = random_bool_generator.nextBoolean();
+		if (switch_pressed) {
+			percepts.add(new Predicate("switch_pressed"));
+			AJPFLogger.info(logname, "Switch Pressed");
+		} else {
+			AJPFLogger.info(logname, "Switch Not Pressed");
+		}
 			
 		return percepts;
 	}

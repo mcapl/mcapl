@@ -56,7 +56,7 @@ public class Abstract_PythonFunc {
 		return name;
 	}
 	
-	public Plan toPlan() {
+	public Plan toPlan(Guard g) {
 		Plan p = new Plan();
 		p.setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
 		ArrayList<Deed> deeds = new ArrayList<Deed>();
@@ -66,19 +66,19 @@ public class Abstract_PythonFunc {
 				deeds.add(new Deed(a));
 			}
 		}
-		p.setContextSingle(new Guard(), deeds.size());
+		p.setContextSingle(g, deeds.size());
 		p.setPrefix(new ArrayList<Deed>());
 		p.setBody(deeds);
 		return p;
 	}
 	
     public int newJPFObject(MJIEnv env) {
-    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PythonFunc");
-    	env.setReferenceField(objref, "name", env.newString(name));
-    	int sRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonStmt", statements.length);
-       	for (int i = 0; i < statements.length; i++) {
-       		env.setReferenceArrayElement(sRef, i, statements[i].newJPFObject(env));
-       	}
+	    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PythonFunc");
+	    	env.setReferenceField(objref, "name", env.newString(name));
+	    	int sRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonStmt", statements.length);
+	    for (int i = 0; i < statements.length; i++) {
+	       	env.setReferenceArrayElement(sRef, i, statements[i].newJPFObject(env));
+	    }
        	env.setReferenceField(objref, "statements", sRef);
      	return objref;
    	

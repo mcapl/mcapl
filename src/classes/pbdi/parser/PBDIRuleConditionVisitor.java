@@ -21,7 +21,19 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package pbdi.parser;
 
-1: [](~B(agent, bad))
+import org.antlr.v4.runtime.misc.NotNull;
 
-2: [](D(agent,agent.done()) -> B(agent, switch_pressed))
+import ail.syntax.ast.Abstract_GBelief;
+import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_Literal;
+
+public class PBDIRuleConditionVisitor extends RuleConditionBaseVisitor<Abstract_Guard> {
+	
+	@Override public Abstract_Guard visitRule_condition(@NotNull RuleConditionParser.Rule_conditionContext ctx) {
+		Abstract_GBelief gb = new Abstract_GBelief(new Abstract_Literal(ctx.WORD().getText()));
+		return new Abstract_Guard(gb);
+	}
+
+}

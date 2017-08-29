@@ -24,13 +24,14 @@
 package pbdi.syntax.ast;
 
 import ail.mas.MAS;
+import ail.syntax.Guard;
 import ail.syntax.ast.Abstract_Agent;
 import gov.nasa.jpf.vm.MJIEnv;
 import pbdi.semantics.PBDIAgent;
 
 public class Abstract_PBDIAgent extends Abstract_Agent {
 	public Abstract_PythonFunc[] funcs = new Abstract_PythonFunc[0];
-	public String[] rulenames = new String[0];
+	public Abstract_PBDIRule[] rules = new Abstract_PBDIRule[0];
 	
 	public Abstract_PBDIAgent(String name) {
 		super(name);
@@ -46,21 +47,21 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 		funcs = newfuncs;
 	}
 	
-	public void addRuleName(String name) {
-		int newsize = rulenames.length + 1;
-		String[] newnames = new String[newsize];
-		for (int i = 0; i < rulenames.length; i++) {
-			newnames[i] = rulenames[i];
+	public void addRule(Abstract_PBDIRule rule) {
+		int newsize = rules.length + 1;
+		Abstract_PBDIRule[] newrules = new Abstract_PBDIRule[newsize];
+		for (int i = 0; i < rules.length; i++) {
+			newrules[i] = rules[i];
 		}
-		newnames[rulenames.length] = name;
-		rulenames = newnames;
+		newrules[rules.length] = rule;
+		rules = newrules;
 	}
 	
 	public String toString() {
 		String s = getAgName();
 		s += "\n";
-		for (int i = 0; i < rulenames.length; i++) {
-			s += rulenames[i] + "\n";
+		for (int i = 0; i < rules.length; i++) {
+			s += rules[i] + "\n";
 		}
 		return s;
 		
@@ -92,10 +93,14 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 	}
 
 	public void addStructures(PBDIAgent pbdi) throws Exception {
-		for (int i = 0; i < rulenames.length; i++) {
+		for (int i = 0; i < rules.length; i++) {
 			for (int j = 0; j < funcs.length; j++) {
-				if (funcs[j].getName().equals(rulenames[i])) {
-					pbdi.addPlan(funcs[j].toPlan());
+				if (funcs[j].getName().equals(rules[i].getName())) {
+					Guard g = new Guard();
+					if (rules[i].getGuard() != null) {
+						g = rules[i].getGuard().toMCAPL();
+					}
+					pbdi.addPlan(funcs[j].toPlan(g));
 				}
 			}
 		}
@@ -106,15 +111,15 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
     	int objref = env.newObject("pbdi.syntax.ast.Abstract_PBDIAgent");
     	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
        	int rRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonFunc", funcs.length);
-       	int cRef = env.newObjectArray("java.util.String", rulenames.length);
+       	int cRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PBDIRule", rules.length);
      	for (int i = 0; i < funcs.length; i++) {
        		env.setReferenceArrayElement(rRef, i, funcs[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < rulenames.length; i++) {
-       		env.setReferenceArrayElement(cRef, i, env.newString(rulenames[i]));
+      	for (int i = 0; i < rules.length; i++) {
+       		env.setReferenceArrayElement(cRef, i, rules[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "funcs", rRef);
-      	env.setReferenceField(objref, "rulenames", cRef);
+      	env.setReferenceField(objref, "rules", cRef);
      	return objref;
    	
     }

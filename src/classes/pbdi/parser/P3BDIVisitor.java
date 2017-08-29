@@ -26,13 +26,19 @@ package pbdi.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_MAS;
 import pbdi.syntax.ast.Abstract_PBDIAgent;
+import pbdi.syntax.ast.Abstract_PBDIRule;
 import pbdi.syntax.ast.Abstract_PythonFunc;
 import pbdi.syntax.ast.Abstract_PythonStmt;
 
 public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	Abstract_PBDIAgent agent = new Abstract_PBDIAgent("agent");
+	String agent_name = "agent";
 	
 	@Override public Object visitFile_input(Python3Parser.File_inputContext ctx) { 
 		Abstract_MAS mas = new Abstract_MAS();
@@ -48,6 +54,12 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 		mas.setAgs(ags);
 		return mas;
 	}
+	
+	/* @Override public Object visitStmt(Python3Parser.StmtContext ctx) {
+		Object stmt_object = super.visitStmt(ctx);
+		
+		agent.addStatement(stmt_object);
+	} */
 	
 	@Override public Object visitFuncdef(Python3Parser.FuncdefContext ctx) { 
 		String name = ctx.NAME().getText();
@@ -81,11 +93,30 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 			String s = trailers.get(i).getText();
 			if (s.equals(".add_rule")) {
 				String arglist = trailers.get(i+1).getText();
-				agent.addRuleName(arglist.substring(1, arglist.length() - 1));
+				agent.addRule(new Abstract_PBDIRule(arglist.substring(1, arglist.length() - 1)));
 				return arglist.substring(1, arglist.length());
+			} else if (s.equals(".add_condition_rule")) {
+				Python3Parser.TrailerContext trailer = trailers.get(i+1);
+				Python3Parser.ArglistContext arglist = trailer.arglist();
+				List<Python3Parser.ArgumentContext> args = arglist.argument();
+				String guard = args.get(0).getText();
+				String rulename = args.get(1).getText();
+				
+				RuleConditionLexer rclexer = new RuleConditionLexer(CharStreams.fromString(guard));
+				CommonTokenStream tokens = new CommonTokenStream(rclexer);
+				RuleConditionParser rcparser = new RuleConditionParser(tokens);
+				PBDIRuleConditionVisitor visitor = new PBDIRuleConditionVisitor();
+				Abstract_Guard g = visitor.visitRule_condition(rcparser.rule_condition());
+				
+				Abstract_PBDIRule rule = new Abstract_PBDIRule(rulename);
+				rule.addGuard(g);
+				agent.addRule(rule);
+				
+				return rulename;
+				
 			}
 		}
 		return visitChildren(ctx); 
 	}
-
+	
 }
