@@ -3,11 +3,11 @@ import pi2goagent
 agent = pi2goagent.Agent()
 
 def print_obstacle_rule():
-	print "Obstacle: ", agent.sensor_value('obstacle_centre')
+	print ("Obstacle: ", agent.sensor_value('obstacle_centre'))
 	return
 
 def stop_rule():
-	print "Stopping Agent"
+	print("Stopping Agent")
 	agent.done()
 	return
 

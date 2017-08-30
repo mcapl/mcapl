@@ -76,15 +76,122 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 		// suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT;
 		ArrayList<Abstract_PythonStmt> stmts = new ArrayList<Abstract_PythonStmt>();
 		if (ctx.simple_stmt() != null) {
-			String stmt_string = ctx.simple_stmt().getText();
-			stmts.add(new Abstract_PythonStmt(stmt_string));
+			Python3Parser.Simple_stmtContext simple_stmt = ctx.simple_stmt();
+			boolean parsed = false;
+			try {
+				Python3Parser.Atom_exprContext atom_expr = atom_expr_from_simple_stmt(simple_stmt);
+				stmts.add(atom_expr_to_Action(atom_expr));
+				parsed = true;
+			} catch (Exception e) {
+				
+			}
+		
+			if  (!parsed) {
+				String stmt_string = ctx.simple_stmt().getText();
+				stmts.add(new Abstract_PythonStmt(stmt_string));
+			}
 		} else {
 			List<Python3Parser.StmtContext> statements = ctx.stmt();
 			for (Python3Parser.StmtContext stmt: statements) {
-				stmts.add(new Abstract_PythonStmt(stmt.getText()));
+				if (stmt.simple_stmt() != null) {
+					Python3Parser.Simple_stmtContext simple_stmt = stmt.simple_stmt();
+					boolean parsed = false;
+					try {
+						Python3Parser.Atom_exprContext atom_expr = atom_expr_from_simple_stmt(simple_stmt);
+						stmts.add(atom_expr_to_Action(atom_expr));
+						parsed = true;
+					} catch (Exception e) {
+						
+					}
+				
+					if  (!parsed) {
+						String stmt_string = simple_stmt.getText();
+						stmts.add(new Abstract_PythonStmt(stmt_string));
+					}
+				} else {
+					stmts.add(new Abstract_PythonStmt(stmt.getText()));
+				}
 			}
 		}
 		return stmts;
+	}
+	
+	private Abstract_PythonStmt atom_expr_to_Action(Python3Parser.Atom_exprContext ctx) {
+		if (ctx.atom().getText().equals(agent_name)) {
+			Python3Parser.TrailerContext trailer = ctx.trailer(0);
+			return new Abstract_PythonStmt(trailer.getText().substring(1));
+		}
+		
+		return new Abstract_PythonStmt(ctx.getText());
+		
+	}
+	
+	private Python3Parser.Atom_exprContext atom_expr_from_simple_stmt(Python3Parser.Simple_stmtContext ctx) throws Exception {
+		Python3Parser.Small_stmtContext small_stmt = ctx.small_stmt(0);
+		Python3Parser.Expr_stmtContext expr_stmt = small_stmt.expr_stmt();
+		if (expr_stmt != null) {
+			List<Python3Parser.Testlist_star_exprContext> test_list_stars = expr_stmt.testlist_star_expr();
+			if (test_list_stars.size() == 1) {
+				Python3Parser.Testlist_star_exprContext test_list_star_expr = expr_stmt.testlist_star_expr(0);
+				List<Python3Parser.TestContext> tests = test_list_star_expr.test();
+				if (tests.size() == 1) {
+					try {
+						Python3Parser.Atom_exprContext atom_expr = extract_atom_expr_context(tests.get(0));
+						return atom_expr;
+					} catch (Exception e) {
+						throw e;
+					}
+				}
+			}
+		}
+		throw new Exception("Not an Atom_expr");
+		
+	}
+	
+	@Override public Object visitExpr_stmt(Python3Parser.Expr_stmtContext ctx) {
+		List<Python3Parser.Testlist_star_exprContext> test_list_stars = ctx.testlist_star_expr();
+		if (test_list_stars.size() == 2) {
+			Python3Parser.Testlist_star_exprContext assigned = test_list_stars.get(1);
+			if (assigned.test().size() == 1) {
+				Python3Parser.TestContext value = assigned.test().get(0);
+				try {
+					Python3Parser.Atom_exprContext atom_expr = extract_atom_expr_context(value);
+					List<Python3Parser.TrailerContext> trailers = atom_expr.trailer();
+					for (int i = 0; i < trailers.size(); i++) {
+						String s = trailers.get(i).getText();
+						if (s.equals(".Agent")) {
+							agent_name = test_list_stars.get(0).getText();
+							agent.setName(agent_name);
+						}
+					}
+				} catch (Exception e) {
+					
+				}
+			}
+		}
+		return visitChildren(ctx);
+	}
+	
+	private Python3Parser.Atom_exprContext extract_atom_expr_context(Python3Parser.TestContext ctx) throws Exception {
+		Python3Parser.Or_testContext or_test = ctx.or_test(0);
+		Python3Parser.And_testContext and_test = or_test.and_test(0);
+		Python3Parser.Not_testContext not_test = and_test.not_test(0);
+		if (not_test.comparison() != null) {
+			Python3Parser.ComparisonContext comparison = not_test.comparison();
+			Python3Parser.ExprContext expr = comparison.expr(0);
+			Python3Parser.Xor_exprContext xor_expr = expr.xor_expr(0);
+			Python3Parser.And_exprContext and_expr = xor_expr.and_expr(0);
+			Python3Parser.Shift_exprContext shift_expr = and_expr.shift_expr(0);
+			Python3Parser.Arith_exprContext arith_expr = shift_expr.arith_expr(0);
+			Python3Parser.TermContext term = arith_expr.term(0);
+			Python3Parser.FactorContext factor = term.factor(0);
+			if (factor.power() != null) {
+				Python3Parser.PowerContext power = factor.power();
+				return power.atom_expr();
+			}
+		}
+		
+		throw new Exception("Not an Atom Expr");
 	}
 	
 	@Override public Object visitAtom_expr(Python3Parser.Atom_exprContext ctx) { 

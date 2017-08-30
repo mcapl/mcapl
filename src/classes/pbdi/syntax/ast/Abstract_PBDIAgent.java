@@ -37,6 +37,10 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 		super(name);
 	}
 	
+	public void setName(String name) {
+		super.fAgName = name;
+	}
+	
 	public void addFunc(Abstract_PythonFunc func) {
 		int newsize = funcs.length + 1;
 		Abstract_PythonFunc[] newfuncs = new Abstract_PythonFunc[newsize];
