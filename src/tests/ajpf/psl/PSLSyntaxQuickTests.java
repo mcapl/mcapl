@@ -28,6 +28,7 @@ import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
+import org.antlr.v4.runtime.CharStreams;
 import org.junit.Assert;
 
 import gwendolen.parser.GwendolenLexer;
@@ -38,8 +39,11 @@ import ail.syntax.Unifier;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.mas.MAS;
 import ajpf.psl.ast.Abstract_Property;
+import ajpf.psl.parser.AJPF_PSLVisitor;
 import ajpf.psl.parser.A_PSLLexer;
 import ajpf.psl.parser.A_PSLParser;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 import ajpf.psl.ast.Abstract_Formula;
 
 /**
@@ -100,11 +104,12 @@ public class PSLSyntaxQuickTests {
 		String mcaplwithvar = "somebelief(_)";
 		String inbeliefbase = "somebelief(somebelief)";
 		
-		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(mcaplwithvar));
-		CommonTokenStream psltokens = new CommonTokenStream(lexer);
-		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(mcaplwithvar));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+		LogicalFmlasParser pslparser = new LogicalFmlasParser(psltokens);
+		ajpf.psl.parser.FOFVisitor visitor = new ajpf.psl.parser.FOFVisitor();
 		try {
-			Abstract_Formula p = pslparser.formula();
+			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 		
 			GwendolenLexer g_lexer = new GwendolenLexer(new ANTLRStringStream(inbeliefbase));
 			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
@@ -128,10 +133,11 @@ public class PSLSyntaxQuickTests {
 	
 	@Test public void toMCAPLNativeTest() throws Exception {
 		String propertystring = "(  [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )\n     &     [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )    ) \n ->     <> B(ag1, something_false)";
-		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
-		CommonTokenStream psltokens = new CommonTokenStream(lexer);
+		A_PSLLexer lexer = new A_PSLLexer(CharStreams.fromString(propertystring));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
-		Abstract_Property p = pslparser.property();
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		Abstract_Property p = (Abstract_Property) visitor.visitProperty(pslparser.property());
 		Abstract_Property np = p.toNormalForm();
 		MCAPLProperty mp = np.toMCAPLNative();
 		Assert.assertTrue(mp instanceof Or);

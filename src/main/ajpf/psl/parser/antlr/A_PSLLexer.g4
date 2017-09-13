@@ -43,11 +43,12 @@ TRUE	:	'T';
 INTENDTODO
 	:	 'ItD';
 
-FOF_BLOCK	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
+CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_'|)+;
 
-OPENBRACKET	: 	'(' ;
-CLOSEBRACKET	:	')' ;
+OPEN	: 	'(' ;
+CLOSE	:	')' ;
 COMMASEP	:	',' ;
+IDPUNCT:	'.';
 
 COMMENT : '/*' .*? '*/' -> skip ;
 LINE_COMMENT : '//' ~[\n]* -> skip ;

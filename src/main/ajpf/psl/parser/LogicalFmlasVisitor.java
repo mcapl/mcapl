@@ -101,6 +101,18 @@ public interface LogicalFmlasVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStringterm(LogicalFmlasParser.StringtermContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LogicalFmlasParser#listterm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListterm(LogicalFmlasParser.ListtermContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LogicalFmlasParser#listheads}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListheads(LogicalFmlasParser.ListheadsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LogicalFmlasParser#var}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

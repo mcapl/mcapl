@@ -46,20 +46,22 @@ finallyproperty : notproperty | FINALLY notproperty ;
 
 notproperty : atom | NOT atom ;
 	
-atom  : proposition  | OPENBRACKET property CLOSEBRACKET;
+atom  : proposition  | OPEN property CLOSE;
 	
 proposition : beliefproperty  | goalproperty | falseprop | intentionproperty | lastactionproperty | 
 	perceptproperty | intendtodoproperty  | trueprop ;
 	
-beliefproperty : BELIEVE OPENBRACKET agentname COMMASEP FOF_BLOCK CLOSEBRACKET ;
-goalproperty  : GOAL OPENBRACKET agentname COMMASEP FOF_BLOCK CLOSEBRACKET ;
+beliefproperty : BELIEVE OPEN agentname COMMASEP fof_expr CLOSE ;
+goalproperty  : GOAL OPEN agentname COMMASEP fof_expr CLOSE;
 falseprop  : FALSE ;
-intentionproperty : INTENTION OPENBRACKET agentname COMMASEP FOF_BLOCK CLOSEBRACKET ;
-lastactionproperty  : ACTION OPENBRACKET agentname COMMASEP FOF_BLOCK CLOSEBRACKET ;
-perceptproperty  : PERCEPT OPENBRACKET FOF_BLOCK CLOSEBRACKET ;
-intendtodoproperty : INTENDTODO OPENBRACKET agentname COMMASEP FOF_BLOCK CLOSEBRACKET ;
+intentionproperty : INTENTION OPEN agentname COMMASEP fof_expr CLOSE ;
+lastactionproperty  : ACTION OPEN agentname COMMASEP fof_expr CLOSE ;
+perceptproperty  : PERCEPT OPEN fof_expr CLOSE ;
+intendtodoproperty : INTENDTODO OPEN agentname COMMASEP fof_expr CLOSE ;
 trueprop  : TRUE ;	
 	
-agentname :	CONST {$s = $CONST.getText();};
+agentname :	CONST ;
+
+fof_expr: (CONST | IDPUNCT | OPEN fof_expr CLOSE)+;
 
 

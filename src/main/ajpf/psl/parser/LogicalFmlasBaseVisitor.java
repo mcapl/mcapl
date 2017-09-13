@@ -2,30 +2,6 @@
 package ajpf.psl.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
-import ajpf.psl.parser.LogicalFmlasParser.AddoperContext;
-import ajpf.psl.parser.LogicalFmlasParser.ArithexprContext;
-import ajpf.psl.parser.LogicalFmlasParser.AtomContext;
-import ajpf.psl.parser.LogicalFmlasParser.EqoperContext;
-import ajpf.psl.parser.LogicalFmlasParser.EquationContext;
-import ajpf.psl.parser.LogicalFmlasParser.FunctionContext;
-import ajpf.psl.parser.LogicalFmlasParser.LiteralContext;
-import ajpf.psl.parser.LogicalFmlasParser.LitlistContext;
-import ajpf.psl.parser.LogicalFmlasParser.Litlist_poss_emptyContext;
-import ajpf.psl.parser.LogicalFmlasParser.LogicalfmlaContext;
-import ajpf.psl.parser.LogicalFmlasParser.MultexprContext;
-import ajpf.psl.parser.LogicalFmlasParser.MultoperContext;
-import ajpf.psl.parser.LogicalFmlasParser.NotfmlaContext;
-import ajpf.psl.parser.LogicalFmlasParser.NumberstringContext;
-import ajpf.psl.parser.LogicalFmlasParser.PredContext;
-import ajpf.psl.parser.LogicalFmlasParser.Prolog_ruleContext;
-import ajpf.psl.parser.LogicalFmlasParser.RulelistContext;
-import ajpf.psl.parser.LogicalFmlasParser.Rulelist_poss_emptyContext;
-import ajpf.psl.parser.LogicalFmlasParser.StringtermContext;
-import ajpf.psl.parser.LogicalFmlasParser.SubfmlaContext;
-import ajpf.psl.parser.LogicalFmlasParser.TermContext;
-import ajpf.psl.parser.LogicalFmlasParser.TermsContext;
-import ajpf.psl.parser.LogicalFmlasParser.VarContext;
-
 /**
  * This class provides an empty implementation of {@link LogicalFmlasVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -140,6 +116,20 @@ public class LogicalFmlasBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStringterm(LogicalFmlasParser.StringtermContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitListterm(LogicalFmlasParser.ListtermContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitListheads(LogicalFmlasParser.ListheadsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
