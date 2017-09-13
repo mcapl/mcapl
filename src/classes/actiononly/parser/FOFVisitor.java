@@ -42,6 +42,8 @@ import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_VarTerm;
+import ajpf.psl.parser.LogicalFmlasBaseVisitor;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 @SuppressWarnings("deprecation")
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {

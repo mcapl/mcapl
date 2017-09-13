@@ -43,6 +43,8 @@ import ail.syntax.ast.Abstract_MAS;
 import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 	

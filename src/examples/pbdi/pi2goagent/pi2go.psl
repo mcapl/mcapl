@@ -27,3 +27,5 @@
 2: [](D(agent,done) -> B(agent, bad))
 
 3: [](D(agent,done) -> B(agent, switch_pressed))
+
+4: [](D(agent,pi2go.forward(20)) -> ~B(agent,switch_pressed))

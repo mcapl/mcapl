@@ -32,6 +32,7 @@ import org.junit.Assert;
 import eass.EASSMASBuilder;
 import eass.verification.leo.LEOVerificationEnvironmentASEPaper;
 import mcaplantlr.runtime.*;
+import pbdi.parser.Python3Lexer;
 import ajpf.MCAPLcontroller;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ail.mas.MAS;
@@ -100,6 +101,7 @@ public class PSLParserQuickTests {
 		
 		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
+		        
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
 		try {
 			Abstract_AgBelief b = pslparser.beliefproperty();

@@ -39,6 +39,7 @@ import pbdi.syntax.ast.Abstract_PythonStmt;
 public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	Abstract_PBDIAgent agent = new Abstract_PBDIAgent("agent");
 	String agent_name = "agent";
+	String pi2go = "pi2go";
 	
 	@Override public Object visitFile_input(Python3Parser.File_inputContext ctx) { 
 		Abstract_MAS mas = new Abstract_MAS();
@@ -118,6 +119,9 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	
 	private Abstract_PythonStmt atom_expr_to_Action(Python3Parser.Atom_exprContext ctx) {
 		if (ctx.atom().getText().equals(agent_name)) {
+			Python3Parser.TrailerContext trailer = ctx.trailer(0);
+			return new Abstract_PythonStmt(trailer.getText().substring(1));
+		} else if (ctx.atom().getText().equals(pi2go)) {
 			Python3Parser.TrailerContext trailer = ctx.trailer(0);
 			return new Abstract_PythonStmt(trailer.getText().substring(1));
 		}

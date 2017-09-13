@@ -1,175 +1,183 @@
-// Generated from LogicalFmlas.g4 by ANTLR 4.7
-package actiononly.parser;
+// Generated from A_PSL.g4 by ANTLR 4.4
+package ajpf.psl.parser;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link LogicalFmlasVisitor},
+ * This class provides an empty implementation of {@link A_PSLVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-public class LogicalFmlasBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LogicalFmlasVisitor<T> {
+public class A_PSLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements A_PSLVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRulelist(LogicalFmlasParser.RulelistContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFinallyproperty(@NotNull A_PSLParser.FinallypropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRulelist_poss_empty(LogicalFmlasParser.Rulelist_poss_emptyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNotproperty(@NotNull A_PSLParser.NotpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProlog_rule(LogicalFmlasParser.Prolog_ruleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOrproperty(@NotNull A_PSLParser.OrpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalfmla(LogicalFmlasParser.LogicalfmlaContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTrueprop(@NotNull A_PSLParser.TruepropContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNotfmla(LogicalFmlasParser.NotfmlaContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAlwaysproperty(@NotNull A_PSLParser.AlwayspropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSubfmla(LogicalFmlasParser.SubfmlaContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGoalproperty(@NotNull A_PSLParser.GoalpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLitlist(LogicalFmlasParser.LitlistContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLastactionproperty(@NotNull A_PSLParser.LastactionpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLitlist_poss_empty(LogicalFmlasParser.Litlist_poss_emptyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntentionproperty(@NotNull A_PSLParser.IntentionpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLiteral(LogicalFmlasParser.LiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntendtodoproperty(@NotNull A_PSLParser.IntendtodopropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPred(LogicalFmlasParser.PredContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSpec(@NotNull A_PSLParser.SpecContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunction(LogicalFmlasParser.FunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPerceptproperty(@NotNull A_PSLParser.PerceptpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerms(LogicalFmlasParser.TermsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitImpproperty(@NotNull A_PSLParser.ImppropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerm(LogicalFmlasParser.TermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubformula(@NotNull A_PSLParser.SubformulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAtom(LogicalFmlasParser.AtomContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAndproperty(@NotNull A_PSLParser.AndpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringterm(LogicalFmlasParser.StringtermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBeliefproperty(@NotNull A_PSLParser.BeliefpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVar(LogicalFmlasParser.VarContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTerms(@NotNull A_PSLParser.TermsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumberstring(LogicalFmlasParser.NumberstringContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUntilproperty(@NotNull A_PSLParser.UntilpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEquation(LogicalFmlasParser.EquationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProposition(@NotNull A_PSLParser.PropositionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEqoper(LogicalFmlasParser.EqoperContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAgentname(@NotNull A_PSLParser.AgentnameContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArithexpr(LogicalFmlasParser.ArithexprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProperty(@NotNull A_PSLParser.PropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultexpr(LogicalFmlasParser.MultexprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFormula(@NotNull A_PSLParser.FormulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAddoper(LogicalFmlasParser.AddoperContext ctx) { return visitChildren(ctx); }
+	@Override public T visitReleaseproperty(@NotNull A_PSLParser.ReleasepropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultoper(LogicalFmlasParser.MultoperContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAtom(@NotNull A_PSLParser.AtomContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFalseprop(@NotNull A_PSLParser.FalsepropContext ctx) { return visitChildren(ctx); }
 }
