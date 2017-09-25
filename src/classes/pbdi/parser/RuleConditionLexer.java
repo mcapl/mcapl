@@ -17,8 +17,8 @@ public class RuleConditionLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		WS=1, BELIEVE=2, WORD=3, SINGLE_QUOTE=4, OPEN_BRACKET=5, CLOSE_BRACKET=6, 
-		DOT=7, SEMI=8;
+		WS=1, BELIEVE=2, SHORT_BELIEVE=3, WORD=4, SINGLE_QUOTE=5, OPEN_BRACKET=6, 
+		CLOSE_BRACKET=7, DOT=8;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
@@ -28,8 +28,8 @@ public class RuleConditionLexer extends Lexer {
 		"'\\u0006'", "'\\u0007'", "'\b'"
 	};
 	public static final String[] ruleNames = {
-		"WS", "BELIEVE", "WORD", "SINGLE_QUOTE", "OPEN_BRACKET", "CLOSE_BRACKET", 
-		"DOT", "SEMI"
+		"WS", "BELIEVE", "SHORT_BELIEVE", "WORD", "SINGLE_QUOTE", "OPEN_BRACKET", 
+		"CLOSE_BRACKET", "DOT"
 	};
 
 
@@ -59,18 +59,18 @@ public class RuleConditionLexer extends Lexer {
 	public static final String _serializedATN =
 		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2\n\61\b\1\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\6\2\25\n"+
-		"\2\r\2\16\2\26\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\4\6\4$\n\4\r"+
-		"\4\16\4%\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\2\2\n\3\3\5\4\7\5\t\6"+
+		"\2\r\2\16\2\26\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\4\3\4\3\5\6\5"+
+		"&\n\5\r\5\16\5\'\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\2\2\n\3\3\5\4\7\5\t\6"+
 		"\13\7\r\b\17\t\21\n\3\2\4\4\2\13\13\"\"\6\2\62;C\\aac|\62\2\3\3\2\2\2"+
 		"\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2"+
-		"\2\2\2\21\3\2\2\2\3\24\3\2\2\2\5\32\3\2\2\2\7#\3\2\2\2\t\'\3\2\2\2\13"+
+		"\2\2\2\21\3\2\2\2\3\24\3\2\2\2\5\32\3\2\2\2\7\"\3\2\2\2\t%\3\2\2\2\13"+
 		")\3\2\2\2\r+\3\2\2\2\17-\3\2\2\2\21/\3\2\2\2\23\25\t\2\2\2\24\23\3\2\2"+
 		"\2\25\26\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\30\3\2\2\2\30\31\b\2\2"+
 		"\2\31\4\3\2\2\2\32\33\7d\2\2\33\34\7g\2\2\34\35\7n\2\2\35\36\7k\2\2\36"+
-		"\37\7g\2\2\37 \7x\2\2 !\7g\2\2!\6\3\2\2\2\"$\t\3\2\2#\"\3\2\2\2$%\3\2"+
-		"\2\2%#\3\2\2\2%&\3\2\2\2&\b\3\2\2\2\'(\7)\2\2(\n\3\2\2\2)*\7*\2\2*\f\3"+
-		"\2\2\2+,\7+\2\2,\16\3\2\2\2-.\7\60\2\2.\20\3\2\2\2/\60\7=\2\2\60\22\3"+
-		"\2\2\2\5\2\26%\3\b\2\2";
+		"\37\7g\2\2\37 \7x\2\2 !\7g\2\2!\6\3\2\2\2\"#\7D\2\2#\b\3\2\2\2$&\t\3\2"+
+		"\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(\n\3\2\2\2)*\7)\2\2*\f\3"+
+		"\2\2\2+,\7*\2\2,\16\3\2\2\2-.\7+\2\2.\20\3\2\2\2/\60\7\60\2\2\60\22\3"+
+		"\2\2\2\5\2\26\'\3\b\2\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -119,4 +119,12 @@ public class Abstract_LastAction extends Abstract_Proposition {
 		env.setReferenceField(ref, "agent", env.newString(agent));
 		return ref;
 	}
+	
+	/**
+	 * Test/debugging function.
+	 * @return
+	 */
+	public Abstract_Formula getAction() {
+		return action;
+	}
 }

@@ -43,12 +43,14 @@ TRUE	:	'T';
 INTENDTODO
 	:	 'ItD';
 
-CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_'|)+;
+CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 
 OPEN	: 	'(' ;
 CLOSE	:	')' ;
 COMMASEP	:	',' ;
 IDPUNCT:	'.';
+SQOPEN: '[';
+SQCLOSE: ']';
 
 COMMENT : '/*' .*? '*/' -> skip ;
 LINE_COMMENT : '//' ~[\n]* -> skip ;

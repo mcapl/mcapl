@@ -32,6 +32,7 @@ import ajpf.psl.ast.Abstract_AgGoal;
 import ajpf.psl.ast.Abstract_AgIntendToDo;
 import ajpf.psl.ast.Abstract_AgIntention;
 import ajpf.psl.ast.Abstract_Always;
+import ajpf.psl.ast.Abstract_And;
 import ajpf.psl.ast.Abstract_FalseProp;
 import ajpf.psl.ast.Abstract_Finally;
 import ajpf.psl.ast.Abstract_LastAction;
@@ -111,7 +112,7 @@ public class AJPF_PSLVisitor extends A_PSLBaseVisitor<Abstract_Property> {
 		boolean first = true;
 		for (A_PSLParser.OrpropertyContext r_ctx: ctx.orproperty()) {
 			if (!first) {
-				prop = new Abstract_Until(prop, visitOrproperty(r_ctx));
+				prop = new Abstract_And(prop, visitOrproperty(r_ctx));
 			} else {
 				first =false;
 			}

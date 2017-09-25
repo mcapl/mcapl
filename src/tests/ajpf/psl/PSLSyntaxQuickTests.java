@@ -130,6 +130,16 @@ public class PSLSyntaxQuickTests {
 
 
 	}
+
+	@Test public void dPropTest() throws Exception {
+		String propertystring = "query(get_close_to(middle,_))";
+		A_PSLLexer lexer = new A_PSLLexer(CharStreams.fromString(propertystring));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		pslparser.fof_expr();
+	}
+
 	
 	@Test public void toMCAPLNativeTest() throws Exception {
 		String propertystring = "(  [] ( D(ag1, query(get_close_to(middle, _))) -> <> B(ag1, have_plan(middle, plan_middle)) )\n     &     [] ( D(ag1, perf(execute(plan_middle))) ->  <> B(ag1, in_position(middle))  )    ) \n ->     <> B(ag1, something_false)";

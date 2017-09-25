@@ -120,11 +120,21 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	private Abstract_PythonStmt atom_expr_to_Action(Python3Parser.Atom_exprContext ctx) {
 		if (ctx.atom().getText().equals(agent_name)) {
 			Python3Parser.TrailerContext trailer = ctx.trailer(0);
-			return new Abstract_PythonStmt(trailer.getText().substring(1));
-		} else if (ctx.atom().getText().equals(pi2go)) {
-			Python3Parser.TrailerContext trailer = ctx.trailer(0);
-			return new Abstract_PythonStmt(trailer.getText().substring(1));
-		}
+			String trailerstring = trailer.getText().substring(0);
+			boolean first = true;
+			for (Python3Parser.TrailerContext trail: ctx.trailer()) {
+				if (!first) {
+					String st = trail.getText();
+					if (st != "()") {
+						trailerstring = trailerstring + st;
+					}
+				} else {
+					first = false;
+				}
+				
+			}
+			return new Abstract_PythonStmt(trailerstring);
+		} 
 		
 		return new Abstract_PythonStmt(ctx.getText());
 		
