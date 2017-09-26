@@ -2,6 +2,7 @@ package actiononly.parser;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import ail.parser.FOFVisitor;
 import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_GLogicalFormula;

@@ -33,6 +33,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
+import ail.parser.FOFVisitor;
 import ail.syntax.ast.Abstract_Capability;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_GLogicalFormula;

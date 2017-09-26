@@ -44,6 +44,7 @@ import ajpf.psl.MCAPLFormula;
 import ajpf.util.VerifyMap;
 import ajpf.MCAPLScheduler;
 import ajpf.psl.MCAPLPredicate;
+import ajpf.psl.MCAPLTerm;
 import ajpf.MCAPLcontroller;
 
 /**
@@ -214,8 +215,9 @@ public class MAS implements MCAPLmas {
     	String s = fEnv.lastActionby();
     	if (s != null) {
     	if (s.equals(a)) {
-    		Predicate st = fEnv.lastAction();
-    		// System.err.println(st);
+     		Predicate st = fEnv.lastAction();
+    		    		
+    		
     		Unifier u = new Unifier();
     		if (u.unifies(st, new Predicate((MCAPLPredicate) fmla))) {
     			return true;

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import ail.parser.FOFVisitor;
 import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Event;
@@ -36,7 +37,6 @@ import ail.syntax.Guard;
 import ail.syntax.Plan;
 import ail.syntax.VarTerm;
 import ail.syntax.ast.Abstract_Predicate;
-import actiononly.parser.FOFVisitor;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -69,12 +69,7 @@ public class Abstract_PythonFunc {
 		ArrayList<Deed> deeds = new ArrayList<Deed>();
 		for (int i = 0; i < statements.length; i++) {
 			if (! statements[i].getString().equals("return\n")) {
-				LogicalFmlasParser fof_parser = fofparser(statements[i].getString());
-				FOFVisitor fof_visitor = new FOFVisitor();
-				Abstract_Predicate p1 = (Abstract_Predicate) fof_visitor.visitFunction(fof_parser.function());
-				
-				Action a = new Action(p1.toMCAPL(), 0);
-				deeds.add(new Deed(a));
+				deeds.add(new Deed(statements[i].getAction().toMCAPL()));
 			}
 		}
 		p.setContextSingle(g, deeds.size());
@@ -95,12 +90,5 @@ public class Abstract_PythonFunc {
    	
     }
     
-	private LogicalFmlasParser fofparser(String s) {
-		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
-		return parser;
-	}
-
 
 }

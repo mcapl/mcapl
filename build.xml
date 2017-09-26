@@ -85,7 +85,7 @@
           description="compile all AJPF sources" >
   </target>
 
-   <target name="-compile-ajpf-classes" if="have_classes" >
+   <target name="-compile-ajpf-classes" if="have_classes">
   	<mkdir dir="bin/ajpf"/>
   	<javac srcdir="src/classes/ajpf" destdir="bin"
  	       includeantruntime="false"
@@ -97,7 +97,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes">
+   <target name="-compile-ail-classes" if="have_classes" depends="-compile-main">
   	<mkdir dir="bin"/>
   	<javac srcdir="src/classes/ail" destdir="bin"
  	       includeantruntime="false"
@@ -109,7 +109,7 @@
     </javac>
   </target>
   
-  <target name="-compile-main" if="have_main" depends="-compile-ail-classes">
+  <target name="-compile-main" if="have_main" depends="-compile-ajpf-classes">
     <mkdir dir="bin"/>
     <javac srcdir="src/main" destdir="bin"
  	       includeantruntime="false"

@@ -120,12 +120,12 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	private Abstract_PythonStmt atom_expr_to_Action(Python3Parser.Atom_exprContext ctx) {
 		if (ctx.atom().getText().equals(agent_name)) {
 			Python3Parser.TrailerContext trailer = ctx.trailer(0);
-			String trailerstring = trailer.getText().substring(0);
+			String trailerstring = trailer.getText().substring(1);
 			boolean first = true;
 			for (Python3Parser.TrailerContext trail: ctx.trailer()) {
 				if (!first) {
 					String st = trail.getText();
-					if (st != "()") {
+					if (! st.equals("()")) {
 						trailerstring = trailerstring + st;
 					}
 				} else {

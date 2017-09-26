@@ -25,22 +25,8 @@
 package ajpf.psl.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
-import ail.syntax.ast.Abstract_ArithExpr;
-import ail.syntax.ast.Abstract_Equation;
-import ail.syntax.ast.Abstract_Literal;
-import ail.syntax.ast.Abstract_LogExpr;
-import ail.syntax.ast.Abstract_LogicalFormula;
-import ail.syntax.ast.Abstract_NumberTerm;
-import ail.syntax.ast.Abstract_NumberTermImpl;
-import ail.syntax.ast.Abstract_Pred;
-import ail.syntax.ast.Abstract_Predicate;
-import ail.syntax.ast.Abstract_Rule;
-import ail.syntax.ast.Abstract_StringTermImpl;
-import ail.syntax.ast.Abstract_Term;
-import ail.syntax.ast.Abstract_VarTerm;
 import ajpf.psl.ast.Abstract_MCAPLListTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLNumberTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLPredicate;

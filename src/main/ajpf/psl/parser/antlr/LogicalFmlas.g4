@@ -81,7 +81,7 @@ CURLYOPEN	: '{';
 CURLYCLOSE	: '}';
 //DOUBLEQUOTE
 //	:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
-QUOTED_STRING: '"' .*? '"';
+QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
 NOT	:	'~';
 TRUE: 	'True';
 
