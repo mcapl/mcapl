@@ -1,6 +1,5 @@
-// Generated from RuleCondition.g4 by ANTLR 4.4
+// Generated from RuleCondition.g4 by ANTLR 4.7
 package pbdi.parser;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -16,11 +15,23 @@ public interface RuleConditionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRule_condition(@NotNull RuleConditionParser.Rule_conditionContext ctx);
+	T visitRule_condition(RuleConditionParser.Rule_conditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link RuleConditionParser#not_expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNot_expr(RuleConditionParser.Not_exprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link RuleConditionParser#belief_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBelief_expression(RuleConditionParser.Belief_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RuleConditionParser#dot_expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDot_expr(@NotNull RuleConditionParser.Dot_exprContext ctx);
+	T visitDot_expr(RuleConditionParser.Dot_exprContext ctx);
 }

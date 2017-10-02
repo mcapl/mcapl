@@ -25,12 +25,15 @@
 
 grammar RuleCondition;
 
-rule_condition: dot_expr DOT (BELIEVE | SHORT_BELIEVE) OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET;
+rule_condition: not_expr;
+not_expr: dot_expr DOT NOT OPEN_BRACKET rule_condition CLOSE_BRACKET | belief_expression;
+belief_expression: dot_expr DOT (BELIEVE | SHORT_BELIEVE) OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET;
 dot_expr: WORD (DOT WORD)*;
 
 WS  :   (' '|'\t')+ -> skip ;
 
 BELIEVE: 'believe';
+NOT: 'NOT';
 SHORT_BELIEVE: 'B';
 WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 SINGLE_QUOTE: '\'';

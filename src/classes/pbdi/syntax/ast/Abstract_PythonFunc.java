@@ -69,7 +69,7 @@ public class Abstract_PythonFunc {
 		ArrayList<Deed> deeds = new ArrayList<Deed>();
 		for (int i = 0; i < statements.length; i++) {
 			if (! statements[i].getString().equals("return\n")) {
-				deeds.add(new Deed(statements[i].getAction().toMCAPL()));
+				deeds.add(statements[i].getDeed().toMCAPL());
 			}
 		}
 		p.setContextSingle(g, deeds.size());

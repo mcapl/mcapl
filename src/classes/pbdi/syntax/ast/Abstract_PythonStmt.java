@@ -30,14 +30,18 @@ import ail.parser.FOFVisitor;
 import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.ast.Abstract_Action;
+import ail.syntax.ast.Abstract_Deed;
+import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_StringTermImpl;
+import ail.syntax.ast.Abstract_Term;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonStmt {
 	String statementstring;
-	Abstract_Action statement;
+	Abstract_Deed statement;
 	
 	public Abstract_PythonStmt(String s) {
 		statementstring = s;
@@ -53,7 +57,7 @@ public class Abstract_PythonStmt {
 		return statementstring;
 	}
 	
-	public Abstract_Action getAction() {
+	public Abstract_Deed getDeed() {
 		return statement;
 	}
 	
@@ -64,13 +68,22 @@ public class Abstract_PythonStmt {
 	    return objref;
 	}
 	
-	private Abstract_Action string_to_action(String s) {
+	private Abstract_Deed string_to_action(String s) {
 		LogicalFmlasParser fof_parser = fofparser(s);
 		FOFVisitor fof_visitor = new FOFVisitor();
 		Abstract_Predicate p1 = (Abstract_Predicate) fof_visitor.visitFunction(fof_parser.function());
-		
-		Abstract_Action a = new Abstract_Action(p1, 0);
-		return a;
+		if (p1.getFunctor().equals("add_belief")) {
+			Abstract_Term arg = (Abstract_Term) p1.getTerm(0);
+			Abstract_Literal p2;
+			if (arg instanceof Abstract_StringTermImpl) {
+				p2 = new Abstract_Literal(((Abstract_StringTermImpl) arg).getString());
+			} else {
+				p2 = (Abstract_Literal) arg;
+			}
+			return new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, p2);
+		} else {
+			return new Abstract_Deed(new Abstract_Action(p1));
+		}
 
 	}
 	

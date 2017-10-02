@@ -1,6 +1,5 @@
-// Generated from RuleCondition.g4 by ANTLR 4.4
+// Generated from RuleCondition.g4 by ANTLR 4.7
 package pbdi.parser;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -18,12 +17,26 @@ public class RuleConditionBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRule_condition(@NotNull RuleConditionParser.Rule_conditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRule_condition(RuleConditionParser.Rule_conditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDot_expr(@NotNull RuleConditionParser.Dot_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNot_expr(RuleConditionParser.Not_exprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitBelief_expression(RuleConditionParser.Belief_expressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDot_expr(RuleConditionParser.Dot_exprContext ctx) { return visitChildren(ctx); }
 }

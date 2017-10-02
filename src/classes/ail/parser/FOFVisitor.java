@@ -139,8 +139,9 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
     //     $s = new Abstract_StringTermImpl($STRING.getText());};
 	@Override public Object visitStringterm(@NotNull LogicalFmlasParser.StringtermContext ctx) {
 		String s = ctx.QUOTED_STRING().toString();
-		s.substring(1, s.length() - 1);
-		return new Abstract_StringTermImpl(s);
+		// Removing quotation marks...
+		String s1 = s.substring(1, s.length() - 1);
+		return new Abstract_StringTermImpl(s1);
 	}
 	
 	/* var 	returns [Abstract_VarTerm v]:	VAR {
