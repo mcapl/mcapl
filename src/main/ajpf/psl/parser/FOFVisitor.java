@@ -26,10 +26,10 @@ package ajpf.psl.parser;
 
 import java.util.ArrayList;
 
-
 import ajpf.psl.ast.Abstract_MCAPLListTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLNumberTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLPredicate;
+import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ajpf.psl.ast.Abstract_TermImpl;
 import ajpf.psl.parser.LogicalFmlasBaseVisitor;
@@ -68,8 +68,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
 		} else if (ctx.s != null) {
-			System.err.println("Error: Should be no string terms");
-			return null;
+			return visitStringterm(ctx.s);
 		} else if (ctx.l != null) {
 			return visitListterm(ctx.l);
 		} else {
@@ -125,6 +124,12 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	
 	@Override public Object visitListterm(LogicalFmlasParser.ListtermContext ctx) {
 		return visitListheads(ctx.listheads());
+	}
+	
+	@Override public Object visitStringterm(LogicalFmlasParser.StringtermContext ctx) {
+		String s = ctx.QUOTED_STRING().getText();
+		String s1 = s.substring(1, s.length() - 1);
+		return new Abstract_MCAPLStringTermImpl(s1);
 	}
 	
 	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {

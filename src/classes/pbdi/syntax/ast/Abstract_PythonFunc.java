@@ -67,7 +67,9 @@ public class Abstract_PythonFunc {
 		Plan p = new Plan();
 		p.setTrigger(new Event(Event.AILAddition, new Goal(new VarTerm("Any"), Goal.achieveGoal)));
 		ArrayList<Deed> deeds = new ArrayList<Deed>();
-		for (int i = 0; i < statements.length; i++) {
+		int j = statements.length;
+		int k = j - 1;
+		for (int i = k ; i >  -1; i--) {
 			if (! statements[i].getString().equals("return\n")) {
 				deeds.add(statements[i].getDeed().toMCAPL());
 			}

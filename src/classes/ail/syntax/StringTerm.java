@@ -27,12 +27,14 @@
 
 package ail.syntax;
 
+import ajpf.psl.MCAPLStringTerm;
+
 /**
  * An interface for terms that reprsent strings.
  * @author lad
  *
  */
-public interface StringTerm extends Term {
+public interface StringTerm extends Term, MCAPLStringTerm {
 	/**
 	 * Extract the string represented by this term.
 	 * @return

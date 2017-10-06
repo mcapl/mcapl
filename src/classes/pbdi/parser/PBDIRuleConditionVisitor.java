@@ -31,6 +31,15 @@ import ail.syntax.ast.Abstract_Literal;
 
 public class PBDIRuleConditionVisitor extends RuleConditionBaseVisitor<Abstract_Guard> {
 	
+	@Override public Abstract_Guard visitNot_expr(RuleConditionParser.Not_exprContext ctx) {
+		if (ctx.NOT() != null) {
+			Abstract_Guard expr = visitRule_condition(ctx.rule_condition());
+			return new Abstract_Guard(Abstract_Guard.not, expr);
+		} else {
+			return visitBelief_expression(ctx.belief_expression());
+		}
+	}
+	
 	@Override public Abstract_Guard visitBelief_expression(@NotNull RuleConditionParser.Belief_expressionContext ctx) {
 		Abstract_GBelief gb = new Abstract_GBelief(new Abstract_Literal(ctx.WORD().getText()));
 		return new Abstract_Guard(gb);

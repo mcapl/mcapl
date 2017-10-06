@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2017 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher
 // 
 // This file is part of Agent JPF (AJPF)
 //
@@ -15,45 +14,15 @@
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with AJPF if not, write to the Free Software
+// License along with AJPF; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
+package ajpf.psl;
 
-lexer grammar A_PSLLexer;
-
-ALWAYS 	:	('A' | '[]');
-FINALLY	:	('E' | '<>');
-UNTIL	:	'U';
-RELEASE	:	'R';
-AND 	:	'&';
-OR	:	'||';
-NOT	:	'~';
-IMP	:	'->';
-BELIEVE      :	 'B' ;
-GOAL 	:	 'G' ;
-FALSE	: 	'F';
-INTENTION
-	:	 'I';
-ACTION	:	'D';
-PERCEPT	:	'P';
-TRUE	:	'T';
-INTENDTODO
-	:	 'ItD';
-
-CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
-
-OPEN	: 	'(' ;
-CLOSE	:	')' ;
-COMMASEP	:	',' ;
-IDPUNCT:	'.';
-SQOPEN: '[';
-SQCLOSE: ']';
-
-COMMENT : '/*' .*? '*/' -> skip ;
-LINE_COMMENT : '//' ~[\n]* -> skip ;
-NEWLINE:'\r'? '\n' -> skip  ;
-WS  :   (' '|'\t') -> skip ;
+/* An interface for String Terms */
+public interface MCAPLStringTerm extends MCAPLTerm {
+	public String getString();
+}

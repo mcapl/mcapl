@@ -45,7 +45,9 @@ import ail.syntax.ListTermImpl;
 import ail.syntax.BeliefBase;
 import ail.util.AILConfig;
 import ajpf.psl.ast.Abstract_AgBelief;
+import ajpf.psl.ast.Abstract_Formula;
 import ajpf.psl.ast.Abstract_LastAction;
+import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
 import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.ast.Abstract_TermImpl;
 import ajpf.psl.ast.Abstract_Or;
@@ -199,5 +201,21 @@ public class PSLParserQuickTests {
 		MCAPLProperty prop = np.toMCAPLNative();
 		Set<Proposition> props = prop.getProps();
 		Assert.assertTrue(props.size() == 18);
+	}
+	
+	@Test public void stringTermTest() throws Exception {
+		String propertystring = "D(agent,print('Going Forward'))";
+		A_PSLLexer lexer = new A_PSLLexer(CharStreams.fromString(propertystring));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+        
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		Abstract_Property p = visitor.visitSpec(pslparser.spec());
+		Assert.assertTrue(p instanceof Abstract_LastAction);
+		Abstract_LastAction a = (Abstract_LastAction) p;
+		Abstract_Formula print = a.getAction();
+		Assert.assertTrue(print instanceof Abstract_MCAPLTerm);
+		Abstract_MCAPLTerm s = ((Abstract_TermImpl) print).getTerm(0);
+		Assert.assertTrue(s instanceof Abstract_MCAPLStringTermImpl);
 	}
 }

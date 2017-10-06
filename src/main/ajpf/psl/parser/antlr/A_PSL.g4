@@ -63,5 +63,6 @@ trueprop  : TRUE ;
 agentname :	CONST ;
 
 // fof_expr: (CONST | IDPUNCT | OPEN fof_expr CLOSE)+;
-fof_expr: (CONST ( IDPUNCT CONST)* (OPEN fof_expr (COMMASEP fof_expr)* CLOSE)? | SQOPEN fof_expr (COMMASEP fof_expr)* SQCLOSE);
+fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 
+	      | SQOPEN fof_expr (COMMASEP fof_expr)* SQCLOSE );
 
