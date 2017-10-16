@@ -26,6 +26,7 @@ package pbdi.semantics;
 
 
 import ail.util.AILexception;
+import ajpf.util.VerifyMap;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 
@@ -37,6 +38,9 @@ import ail.semantics.AILAgent;
  *
  */
 public class PBDIAgent extends AILAgent { 
+	public VerifyMap<String,Object> pythonstate;
+	
+	
 	/**
 	 * Construct a PBDI agent from an architecture and a name.
 	 * 
@@ -67,6 +71,18 @@ public class PBDIAgent extends AILAgent {
 
 
 		
+	}
+	
+	public void updateState(String variable, Object value) {
+		pythonstate.put(variable, value);
+	}
+	
+	public Object getState(String variable) throws Exception {
+		if (pythonstate.containsKey(variable)) {
+			return pythonstate.get(variable);
+		} else {
+			throw new Exception("Null value returned");
+		}
 	}
 
 

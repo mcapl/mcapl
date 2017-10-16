@@ -1,0 +1,19 @@
+self.agent = nao_agent.NaoAgent()
+
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.B('danger_close')), self.compare_plans_1, self.update_plan_rule)
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.NOT(self.agent.B('danger_far'))), self.compare_plans_2, self.update_plan_rule)
+
+def compare_plans_1(self, plan1, plan2):
+	if (plan1.walking_time < plan2.walking_time):
+		return 1;
+	else:
+		return 0;
+		
+def compare_plans_2(self, plan1, plan2):
+	if (plan1.walking_distance < plan2.walking_distance):
+		return 1;
+	else:
+		return 0;
+		
+def update_plan_rule(self, plan):
+	self.agent.add_belief('current_plan', plan);

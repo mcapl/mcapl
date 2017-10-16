@@ -3,7 +3,7 @@
 //
 // This file is part of the Python BDI Agent Model (PBDI) Library.
 // 
-// The PBDI Library is free software; you can redistribute it and/or
+// The EASS Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
@@ -21,25 +21,46 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package pbdi.syntax;
 
+import java.util.ArrayList;
 
-grammar RuleCondition;
+import ail.syntax.Deed;
+import gov.nasa.jpf.annotation.FilterField;
 
-rule_condition: and_expr;
-and_expr: dot_expr DOT AND OPEN_BRACKET rule_condition COMMA rule_condition CLOSE_BRACKET | not_expr;
-not_expr: dot_expr DOT NOT OPEN_BRACKET rule_condition CLOSE_BRACKET | belief_expression;
-belief_expression: dot_expr DOT (BELIEVE | SHORT_BELIEVE) OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET;
-dot_expr: WORD (DOT WORD)*;
+public class PythonIfStmt extends Deed {
+	@FilterField
+    public static final byte	IfStmt = 20;
+	
+	PythonExpr condition;
+	ArrayList<Deed> ifclause;
+	ArrayList<Deed> elseclause;
+	
+	public PythonIfStmt(PythonExpr condition, ArrayList<Deed> ifbody, ArrayList<Deed> elsebody) {
+		super(IfStmt);
+		this.condition = condition;
+		ifclause = ifbody;
+		elseclause = elsebody;
+	}
+	
+	public PythonIfStmt(PythonExpr condition, ArrayList<Deed> ifbody) {
+		super(IfStmt);
+		this.condition = condition;
+		ifclause = ifbody;
+		elseclause = new ArrayList<Deed>();
+	}
 
-WS  :   (' '|'\t')+ -> skip ;
+	
+	public PythonExpr condition() {
+		return condition;
+	}
+	
+	public ArrayList<Deed> if_clause() {
+		return ifclause;
+	}
+	
+	public ArrayList<Deed> else_clause() {
+		return elseclause;
+	}
 
-BELIEVE: 'believe';
-NOT: 'NOT';
-AND: 'AND';
-SHORT_BELIEVE: 'B';
-WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-SINGLE_QUOTE: '\'';
-OPEN_BRACKET: '(';
-CLOSE_BRACKET: ')';
-DOT: '.';
-COMMA: ',';
+}

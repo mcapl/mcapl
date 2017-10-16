@@ -21,25 +21,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package pbdi.syntax.ast;
 
+import gov.nasa.jpf.vm.MJIEnv;
 
-grammar RuleCondition;
+public interface Abstract_PythonS {
+	public int newJPFObject(MJIEnv env);
 
-rule_condition: and_expr;
-and_expr: dot_expr DOT AND OPEN_BRACKET rule_condition COMMA rule_condition CLOSE_BRACKET | not_expr;
-not_expr: dot_expr DOT NOT OPEN_BRACKET rule_condition CLOSE_BRACKET | belief_expression;
-belief_expression: dot_expr DOT (BELIEVE | SHORT_BELIEVE) OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET;
-dot_expr: WORD (DOT WORD)*;
-
-WS  :   (' '|'\t')+ -> skip ;
-
-BELIEVE: 'believe';
-NOT: 'NOT';
-AND: 'AND';
-SHORT_BELIEVE: 'B';
-WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-SINGLE_QUOTE: '\'';
-OPEN_BRACKET: '(';
-CLOSE_BRACKET: ')';
-DOT: '.';
-COMMA: ',';
+}

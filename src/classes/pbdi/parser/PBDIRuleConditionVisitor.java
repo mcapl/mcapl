@@ -27,9 +27,20 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_GuardAtom;
 import ail.syntax.ast.Abstract_Literal;
 
 public class PBDIRuleConditionVisitor extends RuleConditionBaseVisitor<Abstract_Guard> {
+	
+	@Override public Abstract_Guard visitAnd_expr(RuleConditionParser.And_exprContext ctx) {
+		if (ctx.AND() != null) {
+			Abstract_Guard lhs = visitRule_condition(ctx.rule_condition(0));
+			Abstract_Guard rhs = visitRule_condition(ctx.rule_condition(1));
+			return new Abstract_Guard(lhs, Abstract_Guard.and, rhs);
+		} else {
+			return visitNot_expr(ctx.not_expr());
+		}
+	}
 	
 	@Override public Abstract_Guard visitNot_expr(RuleConditionParser.Not_exprContext ctx) {
 		if (ctx.NOT() != null) {

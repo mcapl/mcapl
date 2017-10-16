@@ -1,0 +1,8 @@
+self.agent = nao_agent.NaoAgent()
+
+self.agent.add_condition_rule(self.agent.B('too_close_to_a_human'), self.stop_rule)
+
+def stop_rule(self,robot,rule_info):
+        self.robot_controller.end_flag.set()#cause CE_processes to terminate on next loop
+        if not (self.debugging()):
+            self.robot_controller.stop_action(robot, rule_info)

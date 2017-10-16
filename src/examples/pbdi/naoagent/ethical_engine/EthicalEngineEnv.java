@@ -21,25 +21,40 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package pbdi.naoagent.ethical_engine;
 
+import java.util.Set;
+import java.util.TreeSet;
 
-grammar RuleCondition;
+import ail.mas.DefaultEnvironment;
+import ail.mas.scheduling.SingleAgentScheduler;
+import ail.syntax.Message;
+import ail.syntax.Predicate;
+import ajpf.util.AJPFLogger;
+import ajpf.util.choice.UniformBoolChoice;
+import ajpf.util.choice.UniformIntChoice;
+import pbdi.mas.verification.PBDIVerificationEnvironment;
 
-rule_condition: and_expr;
-and_expr: dot_expr DOT AND OPEN_BRACKET rule_condition COMMA rule_condition CLOSE_BRACKET | not_expr;
-not_expr: dot_expr DOT NOT OPEN_BRACKET rule_condition CLOSE_BRACKET | belief_expression;
-belief_expression: dot_expr DOT (BELIEVE | SHORT_BELIEVE) OPEN_BRACKET SINGLE_QUOTE WORD SINGLE_QUOTE CLOSE_BRACKET;
-dot_expr: WORD (DOT WORD)*;
+public class EthicalEngineEnv extends PBDIVerificationEnvironment {
+	String logname = "pbdi.pi2goagent.Pi2GoAgentEnv";
 
-WS  :   (' '|'\t')+ -> skip ;
+	@Override
+	public Set<Predicate> generate_sharedbeliefs() {
+		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
+		boolean too_close_to_human = random_bool_generator.nextBoolean();
+		if (too_close_to_human) {
+			percepts.add(new Predicate("danger_close"));
+			AJPFLogger.info(logname, "Danger Close to Human");
+		} else {
+			AJPFLogger.info(logname, "Danger not close to  human");
+		}
 
-BELIEVE: 'believe';
-NOT: 'NOT';
-AND: 'AND';
-SHORT_BELIEVE: 'B';
-WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-SINGLE_QUOTE: '\'';
-OPEN_BRACKET: '(';
-CLOSE_BRACKET: ')';
-DOT: '.';
-COMMA: ',';
+		return percepts;
+	}
+
+	@Override
+	public Set<Message> generate_messages() {
+		return new TreeSet<Message>();
+	}
+
+}

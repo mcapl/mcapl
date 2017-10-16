@@ -39,7 +39,7 @@ import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import gov.nasa.jpf.vm.MJIEnv;
 
-public class Abstract_PythonStmt {
+public class Abstract_PythonStmt implements Abstract_PythonS {
 	String statementstring;
 	Abstract_Deed statement;
 	
