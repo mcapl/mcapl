@@ -295,14 +295,22 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 				
 			}
 		}
-		return new Abstract_PythonAtomExpr(ctx.getText());
+		return visitChildren(ctx);
+	}
+	
+	@Override public Object visitAtom(Python3Parser.AtomContext ctx) {
+		if (ctx.NAME() != null) {
+			return new Abstract_PythonAtomExpr(ctx.getText());
+		} else {
+			return super.visitAtom(ctx);
+		}
 	}
 	
 	@Override public Object visitComparison(Python3Parser.ComparisonContext ctx) {
 		if (ctx.comp_op() != null && ctx.comp_op().size() == 1) {
 			Abstract_PythonExpr lhs = (Abstract_PythonExpr) visitExpr(ctx.expr(0));
 			Abstract_PythonExpr rhs = (Abstract_PythonExpr) visitExpr(ctx.expr(1));
-			int comp_op = (int) visitComp_op(ctx.comp_op(1));
+			int comp_op = (int) visitComp_op(ctx.comp_op(0));
 			return new Abstract_PythonComparison(lhs, comp_op, rhs);
 		}
 		
@@ -310,9 +318,10 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	}
 	
 	@Override public Object visitComp_op(Python3Parser.Comp_opContext ctx) {
-		if (ctx.getText() == "<") {
+		String s = ctx.getText();
+		if (ctx.getText().equals("<")) {
 			return Abstract_PythonComparison.less_than;
-		} else if (ctx.getText() == ">") {
+		} else if (ctx.getText().equals(">")) {
 			return Abstract_PythonComparison.more_than;
 		}
 		
