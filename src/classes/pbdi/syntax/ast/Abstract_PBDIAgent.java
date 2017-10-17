@@ -108,7 +108,7 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 						for (int k = 0; k < funcs.length; k++) {
 							if (funcs[k].getName().equals(best_rule.getCompare())) {
 								Abstract_VarTerm v = new Abstract_VarTerm("X");
-								Abstract_Guard best_guard = funcs[k].toGuard(v);
+								Abstract_Guard best_guard = funcs[k].toGuard(g1, v);
 							}
 						}
 					} else {
