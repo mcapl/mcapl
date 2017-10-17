@@ -25,6 +25,7 @@ package pbdi.syntax.ast;
 
 import java.util.ArrayList;
 
+import ail.syntax.ast.Abstract_Deed;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonIfStmt implements Abstract_PythonS {
@@ -34,8 +35,20 @@ public class Abstract_PythonIfStmt implements Abstract_PythonS {
 	
 	public Abstract_PythonIfStmt(Abstract_PythonExpr c, ArrayList<Abstract_PythonS> ifclause, ArrayList<Abstract_PythonS> elseclause) {
 		condition = c;
-		ifbody = (Abstract_PythonS[]) ifclause.toArray();
-		elsebody = (Abstract_PythonS[]) elseclause.toArray();
+		Abstract_PythonS[] ifb = new Abstract_PythonS[ifclause.size()];
+		int i = 0;
+		for (Abstract_PythonS s: ifclause) {
+			ifb[i] = s;
+			i++;
+		}
+		Abstract_PythonS[] elseb = new Abstract_PythonS[elseclause.size()];
+		i = 0;
+		for (Abstract_PythonS s: elseclause) {
+			elseb[i] = s;
+			i++;
+		}
+		ifbody = ifb;
+		elsebody = elseb;
 	}
 	
 	
@@ -52,6 +65,20 @@ public class Abstract_PythonIfStmt implements Abstract_PythonS {
        		env.setReferenceArrayElement(elseRef, i, elsebody[i].newJPFObject(env));
        	}
 	    return objref;
+	}
+
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Abstract_Deed getDeed() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -73,7 +73,7 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 		// funcdef: 'def' NAME parameters ('->' test)? ':' suite;
 		ArrayList<Abstract_PythonStmt> stmts = (ArrayList<Abstract_PythonStmt>) visitSuite(ctx.suite()); 
 		Abstract_PythonFunc func = new Abstract_PythonFunc(name);
-		for (Abstract_PythonStmt s: stmts) {
+		for (Abstract_PythonS s: stmts) {
 			func.addStatement(s);
 		}
 		return func;

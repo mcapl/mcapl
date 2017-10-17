@@ -26,6 +26,8 @@ package pbdi.syntax.ast;
 import ail.mas.MAS;
 import ail.syntax.Guard;
 import ail.syntax.ast.Abstract_Agent;
+import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_VarTerm;
 import gov.nasa.jpf.vm.MJIEnv;
 import pbdi.semantics.PBDIAgent;
 
@@ -100,11 +102,22 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 		for (int i = 0; i < rules.length; i++) {
 			for (int j = 0; j < funcs.length; j++) {
 				if (funcs[j].getName().equals(rules[i].getName())) {
-					Guard g = new Guard();
-					if (rules[i].getGuard() != null) {
-						g = rules[i].getGuard().toMCAPL();
+					if (rules[i] instanceof Abstract_PBDIBestRule) {
+						Abstract_Guard g1 = rules[i].getGuard();
+						Abstract_PBDIBestRule best_rule = (Abstract_PBDIBestRule) rules[i];
+						for (int k = 0; k < funcs.length; k++) {
+							if (funcs[k].getName().equals(best_rule.getCompare())) {
+								Abstract_VarTerm v = new Abstract_VarTerm("X");
+								Abstract_Guard best_guard = funcs[k].toGuard(v);
+							}
+						}
+					} else {
+						Guard g = new Guard();
+						if (rules[i].getGuard() != null) {
+							g = rules[i].getGuard().toMCAPL();
+						}
+						pbdi.addPlan(funcs[j].toPlan(g));
 					}
-					pbdi.addPlan(funcs[j].toPlan(g));
 				}
 			}
 		}

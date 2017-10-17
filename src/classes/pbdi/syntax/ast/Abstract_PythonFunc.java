@@ -43,19 +43,19 @@ import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonFunc {
 	String name;
-	Abstract_PythonStmt[] statements = new Abstract_PythonStmt[0];
+	Abstract_PythonS[] statements = new Abstract_PythonS[0];
 	
 	public Abstract_PythonFunc(String name) {
 		this.name = name;
 	}
 	
-	public void addStatement(Abstract_PythonStmt stmt) {
+	public void addStatement(Abstract_PythonS s) {
 		int newsize = statements.length + 1;
-		Abstract_PythonStmt[] newstmts = new Abstract_PythonStmt[newsize];
+		Abstract_PythonS[] newstmts = new Abstract_PythonS[newsize];
 		for (int i = 0; i < statements.length; i++) {
 			newstmts[i] = statements[i];
 		}
-		newstmts[statements.length] = stmt;
+		newstmts[statements.length] = s;
 		statements = newstmts;
 	}
 	

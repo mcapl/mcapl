@@ -11,4 +11,8 @@ public class Abstract_PBDIBestRule extends Abstract_PBDIRule {
 		this.compare_function = compare_function_name;
 		
 	}
+	
+	public String getCompare() {
+		return compare_function;
+	}
 }

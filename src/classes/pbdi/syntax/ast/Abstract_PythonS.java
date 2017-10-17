@@ -23,9 +23,15 @@
 //----------------------------------------------------------------------------
 package pbdi.syntax.ast;
 
+import ail.syntax.Deed;
+import ail.syntax.ast.Abstract_Deed;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public interface Abstract_PythonS {
 	public int newJPFObject(MJIEnv env);
+	
+	public String getString();
+	
+	public Abstract_Deed getDeed();
 
 }
