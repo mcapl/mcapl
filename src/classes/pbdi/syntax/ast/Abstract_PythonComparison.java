@@ -15,6 +15,18 @@ public class Abstract_PythonComparison implements Abstract_PythonExpr {
 		this.comp_op = comp_op;
 		this.rhs = rhs;
 	}
+	
+	public Abstract_PythonExpr getLHS() {
+		return lhs;
+	}
+	
+	public Abstract_PythonExpr getRHS() {
+		return rhs;
+	}
+	
+	public int getOp() {
+		return comp_op;
+	}
 
 	@Override
 	public int newJPFObject(MJIEnv env) {

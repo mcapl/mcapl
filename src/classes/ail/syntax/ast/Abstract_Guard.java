@@ -130,6 +130,18 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		return add(gb, true);
 	}
 	
+	public Abstract_GLogicalFormula getLHS() {
+		return lhs;
+	}
+	
+	public Abstract_GLogicalFormula getRHS() {
+		return rhs;
+	}
+	
+	public int getOp() {
+		return op;
+	}
+	
 	/**
      * Operators must also be converted to the relevant concrete class.
      * @return

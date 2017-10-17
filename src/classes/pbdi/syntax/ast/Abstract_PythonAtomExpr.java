@@ -1,5 +1,6 @@
 package pbdi.syntax.ast;
 
+import ail.syntax.ast.Abstract_Literal;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonAtomExpr implements Abstract_PythonExpr {
@@ -7,6 +8,10 @@ public class Abstract_PythonAtomExpr implements Abstract_PythonExpr {
 	
 	public Abstract_PythonAtomExpr(String s) {
 		atom_expr = s;
+	}
+	
+	public Abstract_Literal toPercept() {
+		return new Abstract_Literal(atom_expr);
 	}
 
 	@Override

@@ -23,8 +23,11 @@
 //----------------------------------------------------------------------------
 package pbdi.syntax.ast;
 
+import ail.syntax.ast.Abstract_Literal;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public interface Abstract_PythonExpr {
+	public Abstract_Literal toPercept();
+	
 	public int newJPFObject(MJIEnv env);
 }

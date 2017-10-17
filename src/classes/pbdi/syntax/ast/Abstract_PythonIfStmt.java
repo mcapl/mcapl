@@ -66,6 +66,10 @@ public class Abstract_PythonIfStmt implements Abstract_PythonS {
        	}
 	    return objref;
 	}
+	
+	public Abstract_PythonExpr getCondition() {
+		return condition;
+	}
 
 
 	@Override
