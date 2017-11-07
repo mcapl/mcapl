@@ -232,6 +232,11 @@ public class Literal extends PredicatewAnnotation {
 		}
 		
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		return new Literal((Predicate) super.substitute(term, subst));
+	}
 
     
 }

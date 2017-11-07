@@ -51,6 +51,10 @@ public class Abstract_PythonIfStmt implements Abstract_PythonS {
 		elsebody = elseb;
 	}
 	
+	public Abstract_PythonS[] getElse() {
+		return elsebody;
+	}
+	
 	
 	public int newJPFObject(MJIEnv env) {
 	    int objref = env.newObject("pbdi.syntax.ast.Abstract_PythonIfStmt");
@@ -59,11 +63,13 @@ public class Abstract_PythonIfStmt implements Abstract_PythonS {
        	for (int i = 0; i < ifbody.length; i++) {
        		env.setReferenceArrayElement(ifRef, i, ifbody[i].newJPFObject(env));
        	}
+       	env.setReferenceField(objref, "ifbody", ifRef);
        	
        	int elseRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonS",  elsebody.length);
        	for (int i = 0; i < elsebody.length; i++) {
        		env.setReferenceArrayElement(elseRef, i, elsebody[i].newJPFObject(env));
        	}
+       	env.setReferenceField(objref, "elsebody", elseRef);
 	    return objref;
 	}
 	

@@ -223,6 +223,15 @@ public class Capability implements Unifiable,
 		boolean p2 = post.apply(theta);
 		return (c || p1 || p2);
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) {
+			return subst;
+		} else {
+			return new Capability((GLogicalFormula) pre.substitute(term,  subst), (Predicate) cap.substitute(term, subst), (GLogicalFormula) post.substitute(term, subst));
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

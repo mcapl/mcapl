@@ -22,75 +22,65 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package ail.semantics.operationalrules;
+package pbdi.semantics.operational_rules;
 
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Iterator;
 
+import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Intention;
-import ail.syntax.Unifier;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
-import ail.syntax.GBelief;
+import ail.syntax.Message;
+import ail.syntax.Literal;
+import ail.syntax.Predicate;
+import pbdi.mas.PBDIEnv;
+import pbdi.semantics.PBDIAgent;
+import pbdi.syntax.PythonCalculation;
+
 
 /**
- * If the selected intention asks for a goal to be dropped match it to all the relevant
- * intentions.
+ * Perception rule.  Gets a list of all literals the agent can perceive from the
+ * environment.  It all gets a list of things the agent believes it can perceive
+ * from the agent and compares the two.  Any discrepancies applied directly to the
+ * belief base.  Also gets messages from the environment and adds to inbox.
  * 
  * @author lad
  *
  */
-public class MatchDropGoal implements OSRule {
-	private static final String name = "Match Drop Goal";
+public class PythonCalculations implements OSRule {
+	private final static String name = "Python Calculations";
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.semantics.operationalrules.OSRule#getName()
+	 * @see ail.semantics.OSRule#getName()
 	 */
 	public String getName() {
 		return name;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-		Intention I = a.getIntention();
-		if (I != null && !I.empty() && I.hdE().referstoGoal() && I.hdE().isDeletion() &&  I.noplan()) {
-			return true;
-		} else {
-			return false;
-		}
+		// boolean result = a.getEnv().agentIsUpToDate(a.getAgName());
+		// System.err.println("CHECING CALC PRECONDITIONS" + result);
+		return true;
 	}
-		
+			
 	/*
 	 * (non-Javadoc)
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		List<Intention> Is = a.getIntentions();
-		Iterator<Intention> ii = Is.iterator();
-	  		    		
-		while (ii.hasNext()) {
-			Unifier u = new Unifier();
-			Intention i1 = ii.next();
-			Intention I = a.getIntention();
+		PBDIAgent agent = (PBDIAgent) a;
+		PBDIEnv env = (PBDIEnv) agent.getEnv();
+		Set<PythonCalculation> calcs = env.getCalculations(a.getAgName(), true);
+			
+		agent.setCalcs(calcs);
 		
-			if (i1.getSource() == I.getSource()) {
-				for (int j = 0; j < i1.size(); j++) {
-					if (i1.tr(j).referstoGoal() && i1.tr(j).isAddition()) {
-						if (u.sunifies(I.hdE(), i1.tr(j))) {
-							i1.iCons(I.hdE(), new Deed(Deed.Dnpy), new Guard(new GBelief()), u);
-						}								
-					}
-				}
-			}
-		}
-						
-		Intention ipp = a.selectIntention(Is);
-		a.setIntention(ipp);
-	} 
-}
+		
+	}
+} 

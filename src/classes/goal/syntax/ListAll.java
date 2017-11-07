@@ -227,4 +227,15 @@ public class ListAll implements GLogicalFormula {
 		return s;
 	}
 
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (this.equals(term)) {
+			return subst;
+		} else {
+			ListTerm l = (ListTerm) list.substitute(term, subst);
+			Guard g = (Guard) mental_state.substitute(term, subst);
+			return new ListAll(l, g);
+		}
+	}
+
 }

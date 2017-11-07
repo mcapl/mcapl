@@ -121,5 +121,7 @@ public interface Unifiable extends Cloneable {
 	 * 
 	 */
 	public Object clone();
+	
+	public Unifiable substitute(Unifiable term, Unifiable subst);
 
 }

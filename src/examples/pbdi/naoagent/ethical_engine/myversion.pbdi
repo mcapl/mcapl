@@ -1,19 +1,37 @@
 self.agent = nao_agent.NaoAgent()
 
-self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.B('danger_close')), self.compare_plans_1, self.update_plan_rule)
-self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.NOT(self.agent.B('danger_far'))), self.compare_plans_2, self.update_plan_rule)
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.B('danger_close')), self.compare_plans_asimov_WD, self.update_plan_rule)
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.NOT(self.agent.B('danger_close'))), self.compare_plans_asimov_WT, self.update_plan_rule)
 
-def compare_plans_1(self, plan1, plan2):
-	if (plan1.walking_time < plan2.walking_time):
+def compare_plans_asimov_WD(self, plan1, plan2):
+	if ((plan1.robot_walking_dist < plan2.robot_walking_dist) and not (much_worse(plan1, plan2, 'robot_danger_dist')) and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
 		return 1;
 	else:
-		return 0;
+		if (much_worse(plan2, plan1, 'human_danger_dist')):
+			return 1;
+		else:
+			if (much_worse(plan2, plan1, 'robot_obj_dist') and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+				return 1;
+			else:
+				if (much_worse(plan2, plan1, 'robot_danger_dist') and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+					return 1;
+				else:
+					return 0;
 		
-def compare_plans_2(self, plan1, plan2):
-	if (plan1.walking_distance < plan2.walking_distance):
+def compare_plans_asimov_WT(self, plan1, plan2):
+	if ((plan1.wait_time < plan2.wait_time) and not (much_worse(plan1, plan2, 'robot_danger_dist')) and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
 		return 1;
 	else:
-		return 0;
+		if (much_worse(plan2, plan1, 'human_danger_dist')):
+				return 1;
+			else:
+				if (much_worse(plan2, plan1, 'robot_obj_dist') and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+					return 1;
+				else:
+					if (much_worse(plan2, plan1, 'robot_danger_dist') and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+						return 1;
+					else:
+						return 0;
 		
 def update_plan_rule(self, plan):
 	self.agent.add_belief('current_plan', plan);

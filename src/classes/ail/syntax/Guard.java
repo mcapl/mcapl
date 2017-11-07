@@ -418,21 +418,23 @@ public class Guard implements GLogicalFormula {
 		        		};
 		        		
 					case or:
-						if (lhs instanceof GBelief) {
+						ileft = lhs.logicalConsequence(ag, un, varnames, so);
+						/* if (lhs instanceof GBelief) {
 							ileft = ((GBelief) lhs).logicalConsequence(ag, un, varnames, so);
 						} else if (lhs instanceof Guard) {
 							ileft = ((Guard) lhs).logicalConsequence(ag, un, varnames, so);
 						} else  {
 							ileft = createUnifIterator(un);
-						}
+						} */
 						final Iterator<Unifier> iright;
-						if (rhs instanceof GBelief) {
+						iright = rhs.logicalConsequence(ag, un, varnames, so);
+						/* if (rhs instanceof GBelief) {
 							iright = ((GBelief) rhs).logicalConsequence(ag, un, varnames, so);
 						} else if (rhs instanceof  Guard) {
 							iright = ((Guard) rhs).logicalConsequence(ag, un, varnames, so);
 						} else {
 							iright = createUnifIterator(un);
-						}
+						} */
 								
 		        		return new Iterator<Unifier>() {
 		        			Unifier current = null;
@@ -457,14 +459,14 @@ public class Guard implements GLogicalFormula {
 		        				if (ileft.hasNext()) {
 		        					current = ileft.next();
 		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + current);
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for lhs of " + lhs + " or " + rhs + " with unifier " + current);
 			        				}	
 		        				} else if (iright.hasNext()) {
 		        					current = iright.next();
 		           					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
-			        				}		        					
-		        				}
+		           						AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for rhs of  " + lhs + " or "+ rhs + " with unifier " + current);
+		           					}		        					
+		        					}
 		         			}
 		        			
 		        			public void remove() {}
@@ -773,6 +775,13 @@ public class Guard implements GLogicalFormula {
 		
 		return la;
 	}
+    
+    @Override 
+    public Unifiable substitute(Unifiable term, Unifiable subst) {
+    		if (equals(term)) return subst;
+    		
+    		return new Guard((GLogicalFormula) getLHS().substitute(term, subst), getOp(), (GLogicalFormula) getRHS().substitute(term, subst));
+    }
 
 	/*
 	 * (non-Javadoc)

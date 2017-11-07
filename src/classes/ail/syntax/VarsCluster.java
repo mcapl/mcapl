@@ -293,6 +293,12 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 		return true;
 	}
 	
+	@Override 
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		// to complicated implement later
+		return null;
+	}
+	
 	/**
 	 * Instantiate this cluster.
 	 */

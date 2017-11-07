@@ -244,6 +244,13 @@ public class Rule implements LogicalFormula {
 		}
 		return false;
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) return subst;
+		
+		return new Rule((Predicate) head.substitute(term, subst), (LogicalFormula) body.substitute(term, subst));
+	}
 
 	/*
 	 * (non-Javadoc)

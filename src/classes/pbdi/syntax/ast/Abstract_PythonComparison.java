@@ -1,5 +1,11 @@
 package pbdi.syntax.ast;
 
+import java.util.List;
+
+import ail.syntax.ast.Abstract_GBelief;
+import ail.syntax.ast.Abstract_GLogicalFormula;
+import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_Term;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonComparison implements Abstract_PythonExpr {
@@ -36,5 +42,27 @@ public class Abstract_PythonComparison implements Abstract_PythonExpr {
 		env.setReferenceField(objref, "rhs", rhs.newJPFObject(env));
 		return objref;
 	}
+	
+	@Override
+	public Abstract_GLogicalFormula toGuard(List<Abstract_Term> args) {
+		Abstract_Literal condition_lit = new Abstract_Literal(toString());
+		condition_lit.addTerm(args.get(0));
+		condition_lit.addTerm(args.get(1));
+		Abstract_PythonCalculation condition_belief = new Abstract_PythonCalculation(condition_lit);
+		return condition_belief;
+	}
+	
+	@Override
+	public String toString() {
+		String s = lhs.toString();
+		if (comp_op == less_than) {
+			s += "LT";
+		} else {
+			s += "GT";
+		}
+		s += rhs.toString();
+		return s;
+	}
+
 
 }

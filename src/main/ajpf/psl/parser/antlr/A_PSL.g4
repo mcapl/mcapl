@@ -60,7 +60,7 @@ perceptproperty  : PERCEPT OPEN fof_expr CLOSE ;
 intendtodoproperty : INTENDTODO OPEN agentname COMMASEP fof_expr CLOSE ;
 trueprop  : TRUE ;	
 	
-agentname :	CONST ;
+agentname :	CONST ( IDPUNCT CONST)*;
 
 // fof_expr: (CONST | IDPUNCT | OPEN fof_expr CLOSE)+;
 fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 

@@ -62,6 +62,7 @@ public class MCAPLPercept extends Proposition {
 	 */
 	public boolean check() {
 		boolean r = mas.hasPercept(percept);
+		// System.err.println("CHECKING PERCEPT" + r);
 		return r;
 	}
 	

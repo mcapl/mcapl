@@ -354,6 +354,13 @@ public class GMessage implements GuardAtom<Message> {
 		public boolean apply(Unifier theta) {
 			return (sender.apply(theta) && receiver.apply(theta) && content.apply(theta) && threadId.apply(theta));
 		}
+	   
+	   @Override
+	   public Unifiable substitute(Unifiable term, Unifiable subst) {
+		   if (equals(term)) return subst;
+		   
+		   return new GMessage(category, getIlf(), (StringTerm) sender.substitute(term, subst), (StringTerm) receiver.substitute(term, subst), (Term) content.substitute(term, subst), (StringTerm) getThdID().substitute(term, subst));
+	   }
 	
 		/*
 		 * (non-Javadoc)

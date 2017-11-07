@@ -23,11 +23,16 @@
 //----------------------------------------------------------------------------
 package pbdi.syntax.ast;
 
+import java.util.List;
+
+import ail.syntax.ast.Abstract_GLogicalFormula;
 import ail.syntax.ast.Abstract_Literal;
+import ail.syntax.ast.Abstract_Term;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public interface Abstract_PythonExpr {
-	public Abstract_Literal toPercept();
+//	public Abstract_Literal toPercept();
+	public Abstract_GLogicalFormula toGuard(List<Abstract_Term> args);
 	
 	public int newJPFObject(MJIEnv env);
 }

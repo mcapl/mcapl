@@ -34,11 +34,13 @@ import ail.syntax.ast.Abstract_MAS;
 import pbdi.syntax.ast.Abstract_PBDIAgent;
 import pbdi.syntax.ast.Abstract_PBDIBestRule;
 import pbdi.syntax.ast.Abstract_PBDIRule;
+import pbdi.syntax.ast.Abstract_PythonAndExpr;
 import pbdi.syntax.ast.Abstract_PythonAtomExpr;
 import pbdi.syntax.ast.Abstract_PythonComparison;
 import pbdi.syntax.ast.Abstract_PythonExpr;
 import pbdi.syntax.ast.Abstract_PythonFunc;
 import pbdi.syntax.ast.Abstract_PythonIfStmt;
+import pbdi.syntax.ast.Abstract_PythonNotExpr;
 import pbdi.syntax.ast.Abstract_PythonS;
 import pbdi.syntax.ast.Abstract_PythonStmt;
 
@@ -75,6 +77,13 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 		Abstract_PythonFunc func = new Abstract_PythonFunc(name);
 		for (Abstract_PythonS s: stmts) {
 			func.addStatement(s);
+		}
+		
+		Python3Parser.ParametersContext p_ctx = ctx.parameters();
+		if (p_ctx.typedargslist() != null) {
+			for (Python3Parser.TfpdefContext tpfdef: p_ctx.typedargslist().tfpdef()) {
+				func.addParameter(tpfdef.NAME().toString());
+			}
 		}
 		return func;
 	}
@@ -157,18 +166,27 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 			Python3Parser.TrailerContext trailer = ctx.trailer(0);
 			String trailerstring = trailer.getText();
 			boolean first = true;
+			int trailer_num = 0;
+			boolean add_belief = false;
 			for (Python3Parser.TrailerContext trail: ctx.trailer()) {
 				if (!first) {
 					String st = trail.getText();
-					if (! st.equals("()")) {
+					if (st.equals(".add_belief")) {
+						trailerstring = st;
+						add_belief = true;
+					} else if (! st.equals("()")) {
 						trailerstring = trailerstring + st;
 					}
 				} else {
 					first = false;
 				}
+				trailer_num++;
 				
 			}
 			String expr = start + trailerstring;
+			if (add_belief) {
+				expr = trailerstring;
+			}
 			return new Abstract_PythonStmt(expr);
 		}
 		
@@ -293,17 +311,49 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 				
 				return rulename;
 				
+			} 
+		}
+		
+		if (trailers.size() > 0) {
+			if (trailers.get(trailers.size() - 1).NAME() != null) {
+				return new Abstract_PythonAtomExpr(ctx.getText());
+			} else {
+				String s = ctx.atom().getText();
+				// ArrayList<Object> args = new ArrayList<Object>();
+				for (Python3Parser.TrailerContext trailer: trailers) {
+					//if (trailer.arglist() != null) {
+					//	args = (ArrayList<Object>) visitArglist(trailer.arglist());
+					//} else if (trailer.NAME() != null) {
+						s += trailer.getText();
+					// }
+				}
+				return new Abstract_PythonAtomExpr(s);
+				
 			}
 		}
+		
+		
 		return visitChildren(ctx);
+	}
+	
+	@Override public Object visitArglist(Python3Parser.ArglistContext ctx) {
+		ArrayList<Object> args = new ArrayList<Object>();
+		for (Python3Parser.ArgumentContext arg: ctx.argument()) {
+			args.add(visitArgument(arg));
+		}
+		return args;
 	}
 	
 	@Override public Object visitAtom(Python3Parser.AtomContext ctx) {
 		if (ctx.NAME() != null) {
 			return new Abstract_PythonAtomExpr(ctx.getText());
-		} else {
-			return super.visitAtom(ctx);
+		} else if (ctx.testlist_comp() != null){
+			return visitTestlist_comp(ctx.testlist_comp());
+		} else if (ctx.STRING() != null) {
+			return new Abstract_PythonAtomExpr(ctx.getText());
 		}
+		
+		return super.visitAtom(ctx);
 	}
 	
 	@Override public Object visitComparison(Python3Parser.ComparisonContext ctx) {
@@ -315,6 +365,30 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 		}
 		
 		else return visitChildren(ctx);
+	}
+	
+	@Override public Object visitAnd_test(Python3Parser.And_testContext ctx) {
+		if (ctx.not_test().size() > 1) {
+			boolean first = true;
+			Abstract_PythonAndExpr and = new Abstract_PythonAndExpr((Abstract_PythonExpr) visitNot_test(ctx.not_test(0)));
+			for (Python3Parser.Not_testContext not_ctx: ctx.not_test()) {
+				if (first) {
+					first = false;
+				} else {
+					and.addConjunct((Abstract_PythonExpr) visitNot_test(not_ctx));
+				}
+			}
+			return and;
+		} else 
+			return super.visitAnd_test(ctx);
+	}
+	
+	@Override public Object visitNot_test(Python3Parser.Not_testContext ctx) {
+		if (ctx.not_test() != null) {
+			Abstract_PythonNotExpr not = new Abstract_PythonNotExpr((Abstract_PythonExpr) visitNot_test(ctx.not_test()));
+			return not;
+		} else 
+			return super.visitNot_test(ctx);
 	}
 	
 	@Override public Object visitComp_op(Python3Parser.Comp_opContext ctx) {

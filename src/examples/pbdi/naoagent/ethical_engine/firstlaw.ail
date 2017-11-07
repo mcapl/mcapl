@@ -23,8 +23,8 @@
 //----------------------------------------------------------------------------
 
 env = pbdi.naoagent.ethical_engine.EthicalEngineEnv
-mas.file = src/examples/pbdi/naoagent/ethical_engine/myversion.pbdi
+mas.file = src/examples/pbdi/naoagent/ethical_engine/firstlaw.pbdi
 mas.builder = pbdi.PBDIMASBuilder
 
 log.info = pbdi.naoagent.ethical_engine.EthicalEngineEnv,pbdi.mas.verification.PBDIVerificationEnv,
-log.fine = ail.semantics.AILAgent
+log.fine = ail.semantics.AILAgent,ail.syntax.Guard

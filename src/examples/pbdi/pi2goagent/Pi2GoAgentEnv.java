@@ -34,6 +34,7 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 import ajpf.util.choice.UniformIntChoice;
 import pbdi.mas.verification.PBDIVerificationEnvironment;
+import pbdi.syntax.PythonCalculation;
 
 public class Pi2GoAgentEnv extends PBDIVerificationEnvironment {
 	String logname = "pbdi.pi2goagent.Pi2GoAgentEnv";
@@ -95,6 +96,12 @@ public class Pi2GoAgentEnv extends PBDIVerificationEnvironment {
 	@Override
 	public Set<Message> generate_messages() {
 		return new TreeSet<Message>();
+	}
+
+	@Override
+	public Set<PythonCalculation> generate_calcs() {
+		// TODO Auto-generated method stub
+		return new TreeSet<PythonCalculation>();
 	}
 
 }
