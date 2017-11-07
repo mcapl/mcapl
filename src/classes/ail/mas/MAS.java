@@ -234,7 +234,7 @@ public class MAS implements MCAPLmas {
      */
     public boolean hasPercept(MCAPLFormula fmla) {
     	for (AILAgent ag: fAgents.values()) {
-    		System.err.println("Getting Percepts" + fEnv);
+    		// System.err.println("Getting Percepts" + fEnv);
      	Set<Predicate> set = fEnv.getPercepts(ag.getAgName(), false);
     		if (set != null) {
     			for (Predicate s: set) {
@@ -253,9 +253,9 @@ public class MAS implements MCAPLmas {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-    		System.err.println("converting mas to string");
+    		// System.err.println("converting mas to string");
     		String s = fEnv.toString();
-    		System.err.println(s);
+    		// System.err.println(s);
     		for (AILAgent a : fAgents.values()) {
     			s += "\n" + a.toString();
     			System.err.println(s);
