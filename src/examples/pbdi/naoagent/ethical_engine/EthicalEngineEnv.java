@@ -101,7 +101,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 				}
 				calcs.add(walking_dist);
 				
-				int p1much_worsep2rdd = random_int_generator.nextInt(2);
+				int p1much_worsep2rdd = random_int_generator.nextInt(3);
 				PythonCalculation worse_rdd = new PythonCalculation(new Literal("much_worse_plan1_plan2_robot_danger_dist_"));
 				PythonCalculation worse_rdd_flip = new PythonCalculation(new Literal("much_worse_plan2_plan1_robot_danger_dist_"));
 				if (p1much_worsep2rdd == 0) {
@@ -112,7 +112,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 					AJPFLogger.info(logname, "much_worse(" + plan1_string + ", " + plan2_string + ", 'robot_danger_dist')");
 					calcs.add(worse_rdd);
 					calcs.add(worse_rdd_flip);
-				} else if (p1much_worsep2rdd == 2) {
+				} else if (p1much_worsep2rdd == 1) {
 					worse_rdd.addTerm(new Literal(plan2_string));
 					worse_rdd.addTerm(new Literal(plan1_string));
 					worse_rdd_flip.addTerm(new Literal(plan1_string));
@@ -124,7 +124,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 					AJPFLogger.info(logname, plan1_string + " and " + plan2_string + " have close robot_danger_dist");
 				}
 				
-				int p1much_worsep2rod = random_int_generator.nextInt(2);
+				int p1much_worsep2rod = random_int_generator.nextInt(3);
 				PythonCalculation worse_rod = new PythonCalculation(new Literal("much_worse_plan1_plan2_robot_obj_dist_"));
 				PythonCalculation worse_rod_flip = new PythonCalculation(new Literal("much_worse_plan2_plan1_robot_obj_dist_"));
 				if (p1much_worsep2rod == 0) {
@@ -135,7 +135,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 					AJPFLogger.info(logname, "much_worse(" + plan1_string + ", " + plan2_string + ", 'robot_obj_dist')");
 					calcs.add(worse_rod);
 					calcs.add(worse_rod_flip);
-				} else if (p1much_worsep2rod == 2) {
+				} else if (p1much_worsep2rod == 1) {
 					worse_rod.addTerm(new Literal(plan2_string));
 					worse_rod.addTerm(new Literal(plan1_string));
 					worse_rod_flip.addTerm(new Literal(plan1_string));
@@ -147,7 +147,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 					AJPFLogger.info(logname, plan1_string + " and " + plan2_string + " have close robot_obj_dist");
 				}
 				
-				int p1much_worsep2hdd = random_int_generator.nextInt(2);
+				int p1much_worsep2hdd = random_int_generator.nextInt(3);
 				PythonCalculation worse_hdd = new PythonCalculation(new Literal("much_worse_plan1_plan2_human_danger_dist_"));
 				PythonCalculation worse_hdd_flip = new PythonCalculation(new Literal("much_worse_plan2_plan1_human_danger_dist_"));
 				if (p1much_worsep2hdd == 0) {
@@ -158,7 +158,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 					AJPFLogger.info(logname, "much_worse(" + plan1_string + ", " + plan2_string + ", 'human_danger_dist')");
 					calcs.add(worse_hdd);
 					calcs.add(worse_hdd_flip);
-				} else if (p1much_worsep2hdd == 2) {
+				} else if (p1much_worsep2hdd == 1) {
 					worse_hdd.addTerm(new Literal(plan2_string));
 					worse_hdd.addTerm(new Literal(plan1_string));
 					worse_hdd_flip.addTerm(new Literal(plan1_string));
