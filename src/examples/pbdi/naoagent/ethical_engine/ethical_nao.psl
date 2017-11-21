@@ -33,3 +33,9 @@
              P(plan1.walking_timeLTplan2.walking_time(plan1, plan2)) )
              
 5: [] (B(self.agent, current_plan(plan1)) -> ~P(much_worse_plan1_plan2_human_danger_dist_(plan1,plan2)))
+
+6: [] (B(self.agent, current_plan(plan1)) & P(much_worse_plan1_plan2_robot_obj_dist_(plan1, plan2)) -> P(much_worse_plan1_plan2_human_danger_dist_(plan2, plan1)))
+
+7: [] (B(self.agent, current_plan(plan1)) & P(much_worse_plan1_plan2_robot_danger_dist_(plan1, plan2)) 
+		->  ( P(much_worse_plan1_plan2_human_danger_dist_(plan2, plan1)) || P(much_worse_plan1_plan2_robot_obj_dist_(plan2, plan1)) )
+	)
