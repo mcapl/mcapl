@@ -314,12 +314,10 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 			// System.err.println("Checking constraints: " + ts + " with " + a + " and " + b);
 			Tuple t = new Tuple(a, b);
 			if (ts.contains(t)) {
-				System.err.println("a");
 				return 1;
 			}
 			Tuple t1 = new Tuple(b, a);
 			if (ts.contains(t1)) {
-				System.err.println("b");
 				return 2;
 			}
 			
@@ -436,10 +434,8 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 			} else {
 				if (order_num == 1) {
 						if (!consistent(hypothetical2, robot_obj_order, robot_danger_order, walking_time_order) || !consistent(hypothetical2, robot_obj_order, robot_danger_order, wait_time_order)) {
-							System.err.println("h");
 							return 6;
 						}
-						System.err.println("i");
 						return 3;
 				} else if (order_num == 2) {
 						if (!consistent(human_danger_order, hypothetical2, robot_danger_order, walking_time_order) || !consistent(human_danger_order, hypothetical2, robot_danger_order, wait_time_order)) {
