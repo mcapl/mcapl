@@ -26,8 +26,12 @@ package ail.syntax;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
+import ail.syntax.annotation.BeliefBaseAnnotation;
+import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -217,7 +221,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.semantics.Unifier)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -226,7 +230,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getBBList()) {
-    				EvaluationBase<PredicateTerm> new_eb = ag.getBB(ebnames);
+    				EvaluationBase<PredicateTerm> new_eb = ag.getBB(new StringTermImpl(ebnames));
     				if (eb instanceof TrivialEvaluationBase) {
     					eb = new NamedEvaluationBase<PredicateTerm>(new_eb, ebnames);
     				} else {
@@ -238,7 +242,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(getEB()), ebname.getString());
     	}
     	    	
-    	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this, varnames);
+    	return new EvaluationAndRuleBaseIterator(eb, ag.getRuleBase(), un, this, varnames, so);
  	}
 	
 	/*
@@ -315,8 +319,8 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		List<String> varnames = super.getVarNames();
+	public Set<String> getVarNames() {
+		Set<String> varnames = super.getVarNames();
 		varnames.addAll(getEB().getVarNames());
 		return varnames;
 	}

@@ -40,7 +40,7 @@ import ail.syntax.Message;
  */
 public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 			
-	public String logname = "eass.tutorials.tutorial3.VerificationEnvironment";
+	public String logname = "eass.tutorials.tutorial3.VerificationEnvironmentEx1";
 	
 	/*
 	 * (non-Javadoc)

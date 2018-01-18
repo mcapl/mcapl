@@ -27,4 +27,4 @@
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl,2
 
-log.info=ajpf.MCAPLAgent,ajpf.product.Product,ail.mas.DefaultEnvironment,gwendolen.simple.SimpleEnv,ajpf.psl.buchi.BuchiAutomaton
+log.info=ajpf.MCAPLAgent,ajpf.product.Product,ail.mas.DefaultEnvironment,gwendolen.simple.SimpleEnv

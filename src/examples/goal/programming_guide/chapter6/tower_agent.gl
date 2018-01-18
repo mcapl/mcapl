@@ -1,0 +1,97 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+init module{
+  knowledge{
+     clear(table).
+     clear(X) :- block(X), not( on(_, X) ), not( holding(X) ).
+     above(X, Y) :- on(X, Y).
+     above(X, Y) :- on(X, Z), above(Z, Y).
+     tower([X]) :- on(X, table).
+     tower([X, Y | T]) :- on(X, Y), tower([Y | T]).
+  }
+  goals{
+     on(a, b), on(b, c), on(c, table), on(d, e), on(e, f), on(f, table), maintain.
+  }
+  program{
+     #define constructiveMove(X, Y)
+        a-goal( tower([X, Y | T]) ), bel( tower([Y | T]), clear(Y), (clear(X); holding(X)) ).
+  }
+  actionspec{
+     pickup(X) {
+        pre{ clear(X), not( holding(_) ) }
+        post{ true }
+     }
+     putdown(X, Y) {
+        pre{ holding(X), clear(Y) }
+        post{ true }
+     }
+     nil {
+        pre{ true }
+        post{ true }
+     }
+  }
+}
+
+main module{
+   program{
+      if a-goal( holding(X) ) then pickup(X).
+      if bel( holding(X) ) then {
+         if constructiveMove(X, Y) then putdown(X, Y).
+         if true then putdown(X, table).
+      }
+      if true then nil.
+   }
+}
+
+event module{
+   program{
+      #define inPosition(X) goal-a( tower([X | T]) ).
+      
+      forall bel( block(X), not( percept( block(X) ) ) ) do delete( block(X) ).
+      forall bel( percept( block(X) ), not( block(X) ) ) do insert( block(X) ).
+      forall bel( holding(X), not( percept( holding(X) ) ) ) do delete( holding(X) ).
+      forall bel( percept( holding(X) ), not( holding(X) ) ) do insert( holding(X) ).
+      forall bel( on(X, Y), not( percept( on(X,Y))) ) do delete( on(X, Y) ).
+      forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
+      
+      if goal( holding(X) ) then {
+         if bel( not( clear(X) ) ) then drop( holding(X) ).
+         if bel( holding(_) ) then drop( holding(X) ).
+         if inPosition( X ) then drop( holding(X) ).
+         listall L <- constructiveMove(Y, Z) do {
+           if bel( not( L=[] ), not( member([X,_], L) ) ) then drop( holding(X) ).
+         }
+      }
+      
+      if not(goal( holding(X) )), not(bel( holding(Y) )) then adoptgoal.
+   }
+}
+
+module adoptgoal{
+   program{
+      #define obstructingBlock(X) a-goal( on(Y, Z) ), bel( above(X, Z); above(X, Y) ).
+      
+      if constructiveMove(X, Y) then adopt( holding(X) ).
+      if obstructingBlock(X) then adopt( holding(X) ).
+   }
+}

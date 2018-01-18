@@ -28,10 +28,14 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -51,6 +55,8 @@ public class Guard implements GLogicalFormula {
 		none   { public String toString() { return ""; } }, 
 		not    { public String toString() { return "not "; } }, 
 		and    { public String toString() { return " & "; } },
+		or	   { public String toString() { return " || "; } },
+		forall { public String toString() { return " forall "; } }
 	}
 	
 	/**
@@ -188,6 +194,11 @@ public class Guard implements GLogicalFormula {
 		return add(gb, true);
 	}
 	
+	int remenbertoadcomments;
+	public boolean add(GLogicalFormula gb) {
+		return add(gb, true);
+	}
+	
 	/**
 	 * Add a Guard Atom to the guard with a flag showing whether or not it should be
 	 * believed or disbelieved for the guard to be true.
@@ -196,16 +207,16 @@ public class Guard implements GLogicalFormula {
 	 * @param b Flag indicating whether gb should be believed or disbelieved.
 	 * @return
 	 */
-	public boolean add(GuardAtom<? extends Unifiable> gb, boolean b) {
+	public boolean add(GLogicalFormula gb, boolean b) {
   
 		if (isTrivial()) {
 			if (b) {
-				if (!gb.isTrivial()) {
+				if (gb instanceof GuardAtom<?> && !((GuardAtom<?>) gb).isTrivial()) {
 					op = GLogicalOp.none;
 					rhs = gb;
 				}
 			} else {
-				if (!gb.isTrivial()) {
+				if (gb instanceof GuardAtom<?> && !((GuardAtom<?>) gb).isTrivial()) {
 					op = GLogicalOp.not;
 					rhs = gb;
 				} else {
@@ -215,21 +226,23 @@ public class Guard implements GLogicalFormula {
 		} else {
 			if (b) {
 				if (op == GLogicalOp.none) {
-					lhs = gb;
+					lhs = rhs;
 					op = GLogicalOp.and;
+					rhs = gb;
 				} else {
-					rhs = this.clone();
-					lhs = gb;
+					lhs = this.clone();
+					rhs = gb;
 					op = GLogicalOp.and;
 				}
 			} else {
 				Guard ng = new Guard(GLogicalOp.not, gb);
 				if (op == GLogicalOp.none) {
-					lhs = ng;
+					lhs = rhs;
+					rhs = ng;
 					op = GLogicalOp.and;
 				} else {
-					rhs = this.clone();
-					lhs = ng;
+					lhs = this.clone();
+					rhs = ng;
 					op = GLogicalOp.and;
 				}
 			}
@@ -257,8 +270,12 @@ public class Guard implements GLogicalFormula {
 				return "False";
 			}
 			
-		} else {
+		} else if (op == GLogicalOp.and) {
 			return lhs.toString() + " & " + rhs.toString();
+		} else if (op == GLogicalOp.forall) {
+			return " forall (" + lhs.toString() + ", " + rhs.toString() + ")";
+		} else {
+			return lhs.toString() + " || " + rhs.toString();
 		}
 	}
 
@@ -294,13 +311,13 @@ public class Guard implements GLogicalFormula {
 	 * @return An iterator of unifiers that the agent believes this guard.
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(final AILAgent ag, final Unifier un, final List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(final AgentMentalState ag, final Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
 	       try {
 		        final Iterator<Unifier> ileft;
 		        switch (op) {
 		        
 		        	case not:
-		        		if (!rhs.logicalConsequence(ag,un, varnames).hasNext()) {
+		        		if (!rhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR).hasNext()) {
 		        			return createUnifIterator(un);
 		        		}
 		        		break;
@@ -308,14 +325,22 @@ public class Guard implements GLogicalFormula {
 		        		if (rhs == null) {
 		        			return createUnifIterator(un);
 		        		} else {
-		        			return rhs.logicalConsequence(ag, un, varnames);
+		        			return rhs.logicalConsequence(ag, un, varnames, so);
 		        		}
 		        
 		        	case and:
-		        		ileft = lhs.logicalConsequence(ag,un, varnames);
+		        		if (lhs instanceof Guard && ((Guard) lhs).getOp().equals(GLogicalOp.not)
+		        			&& (!(rhs instanceof Guard) || (!((Guard) rhs).getOp().equals(GLogicalOp.not)))) {
+		        			GLogicalFormula g1 = lhs;
+		        			lhs = rhs;
+		        			rhs = g1;
+		        		}
+		        		ileft = lhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR);
+	        			List<Unifier> currents = new ArrayList<Unifier>();
 		        		return new Iterator<Unifier>() {
 		        			Unifier current = null;
 		        			Iterator<Unifier> iright = null;
+		        			Iterator<Unifier> cit = null;
 		        			public boolean hasNext() {
 		        				if (current == null) get();
 		        				return current != null;
@@ -333,39 +358,201 @@ public class Guard implements GLogicalFormula {
 		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
 		        				}
 		        				
-		        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
-		        					Unifier ul = ileft.next();
-		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
-			        				}		        					
-		        					iright = rhs.logicalConsequence(ag, ul, varnames);
-			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
-			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+		        				if (so == AILAgent.SelectionOrder.RANDOM) {
+		        					if (currents.isEmpty()) {
+		        						while (ileft.hasNext()) {
+		        							Unifier ul = ileft.next();
+				        					iright = rhs.logicalConsequence(ag, ul, varnames, AILAgent.SelectionOrder.LINEAR);
+				        					while (iright.hasNext()) {
+				        						currents.add(iright.next());
+				        					}
+		        						}
+			        					Collections.shuffle(currents);
+			        					cit = currents.iterator();
+		        					}
+		        					
+		        					if (cit != null && cit.hasNext()) {
+		        						current = cit.next();
+		        					}
+		        					
+		        					
+		        				} else {
+			        				while ((iright == null || !iright.hasNext()) && ileft.hasNext()) {
+			        					Unifier ul = ileft.next();
+			        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + ul);
+				        				}		        					
+			        					iright = rhs.logicalConsequence(ag, ul, varnames, AILAgent.SelectionOrder.LINEAR);
+				        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+				        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright does not have Next: " + rhs);
+				        				}
 			        				}
-		        				}
-		        				
-		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-		        					AJPFLogger.fine("ail.syntax.Guard", "Either ileft has no next or iright does have next");
-		        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright has next: " + rhs);
-		        				}
-
-		        				
-		        				if (iright != null && iright.hasNext()) {
-		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
-			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
-			        				}		        					
-		        					current = iright.next();	 
+			        				
+			        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Either ileft has no next or iright does have next");
+			        					AJPFLogger.fine("ail.syntax.Guard", "Checking iright has next: " + rhs);
+			        				}
+	
+			        				
+			        				if (iright != null && iright.hasNext()) {
+			        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+				        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
+				        				}		        					
+			        					current = iright.next();	 
+			        				}
 		        				}
 		        			}
 		        			public void remove() {}
+		        			
+		        			public String toString() {
+		        				String s = "Iterator for: ";
+		        				s += Guard.this.toString();
+		        				s += " -- ";
+		        				s += un;
+		        				s += "\n";
+		        				s += "Current Unifier: ";
+		        				s += current;
+		        				return s;
+		        			}
 		        		};
+		        		
+					case or:
+						if (lhs instanceof GBelief) {
+							ileft = ((GBelief) lhs).logicalConsequence(ag, un, varnames, so);
+						} else if (lhs instanceof Guard) {
+							ileft = ((Guard) lhs).logicalConsequence(ag, un, varnames, so);
+						} else  {
+							ileft = createUnifIterator(un);
+						}
+						final Iterator<Unifier> iright;
+						if (rhs instanceof GBelief) {
+							iright = ((GBelief) rhs).logicalConsequence(ag, un, varnames, so);
+						} else if (rhs instanceof  Guard) {
+							iright = ((Guard) rhs).logicalConsequence(ag, un, varnames, so);
+						} else {
+							iright = createUnifIterator(un);
+						}
+								
+		        		return new Iterator<Unifier>() {
+		        			Unifier current = null;
+		        			public boolean hasNext() {
+		        				if (current == null) get();
+		        				return current != null;
+		        			}
+		        			public Unifier next() {
+		        				if (current == null) get();
+		        				Unifier a = current;
+		        				current = null; 
+		        				return a;
+		        			}
+		        			private void get() {
+		        				current = null;
+		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+		        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+		        				}
+		        				
+		        				
+		        				// NOTE: if so = random the order these are evaluated should be random.
+		        				if (ileft.hasNext()) {
+		        					current = ileft.next();
+		        					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + current);
+			        				}	
+		        				} else if (iright.hasNext()) {
+		        					current = iright.next();
+		           					if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + rhs);
+			        				}		        					
+		        				}
+		         			}
+		        			
+		        			public void remove() {}
+		        			
+		        			public String toString() {
+		        				String s = "Iterator for: ";
+		        				s += Guard.this.toString();
+		        				s += " -- ";
+		        				s += un;
+		        				s += "\n";
+		        				s += "Current Unifier: ";
+		        				s += current;
+		        				return s;
+		        			}
+		        		};
+					case forall:
+						if (lhs instanceof GBelief) {
+							ileft = ((GBelief) lhs).logicalConsequence(ag, un, varnames, so);
+						} else if (lhs instanceof Guard) {
+							ileft = ((Guard) lhs).logicalConsequence(ag, un, varnames, so);
+						} else  {
+							ileft = createUnifIterator(un);
+						}
+														
+		        		return new Iterator<Unifier>() {
+		        			Unifier current = null;
+		        			public boolean hasNext() {
+		        				if (current == null) get();
+		        				return current != null;
+		        			}
+		        			public Unifier next() {
+		        				if (current == null) get();
+		        				Unifier a = current;
+		        				current = null; 
+		        				return a;
+		        			}
+		        			private void get() {
+		        				current = null;
+		        				if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+		        					AJPFLogger.fine("ail.syntax.Guard", "Checking ileft has Next: " + lhs);
+		        				}
+		        				
+		        				
+		        				// NOTE: if so = random the order these are evaluated should be random.
+		        				while (ileft.hasNext()) {
+									Iterator<Unifier> firight;
+									Unifier fun = ileft.next();
+									if (rhs instanceof GBelief) {
+										firight = ((GBelief) rhs).logicalConsequence(ag, fun, varnames, so);
+									} else if (rhs instanceof  Guard) {
+										firight = ((Guard) rhs).logicalConsequence(ag, fun, varnames, so);
+									} else {
+										firight = createUnifIterator(fun);
+									}
+									if (!firight.hasNext()) {
+										current = null;
+										return;
+									}
+									
+									if (AJPFLogger.ltFine("ail.syntax.Guard")) {
+			        					AJPFLogger.fine("ail.syntax.Guard", "Check Succeeded for " + lhs + " and " + rhs + " with unifier " + fun);
+			        				}	
+								}
+		        				
+		        				current = un;
+		        			}
+		        			
+		        			public void remove() {}
+		        			
+		        			public String toString() {
+		        				String s = "Iterator for: ";
+		        				s += Guard.this.toString();
+		        				s += " -- ";
+		        				s += un;
+		        				s += "\n";
+		        				s += "Current Unifier: ";
+		        				s += current;
+		        				return s;
+		        			}
+		        		};
+
+
 		        }
 		        
 	       } catch (Exception e) {
 	        		String slhs = "is null";
 	        		if (lhs != null) {
-	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un,varnames);
+	        			Iterator<Unifier> i = lhs.logicalConsequence(ag,un,varnames, so);
 	        			if (i != null) {
 	        				slhs = "";
 	        				while (i.hasNext()) {
@@ -376,8 +563,8 @@ public class Guard implements GLogicalFormula {
 	        			}
 	        		} 
 	        		String srhs = "is null";
-	        		if (lhs != null) {
-	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames);
+	        		if (rhs != null) {
+	        			Iterator<Unifier> i = rhs.logicalConsequence(ag,un,varnames, so);
 	        			if (i != null) {
 	        				srhs = "";
 	        				while (i.hasNext()) {
@@ -443,22 +630,8 @@ public class Guard implements GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-    @Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	tvarnames.addAll(varnames);
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}		
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 	}
 
 	/*
@@ -466,8 +639,8 @@ public class Guard implements GLogicalFormula {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
     @Override
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		if (getLHS() != null) {
 			varnames.addAll(getLHS().getVarNames());
 		} 
@@ -595,7 +768,7 @@ public class Guard implements GLogicalFormula {
 		}
 		
 		if (rhs != null) {
-			return (la || getRHS().apply(theta));
+			return (getRHS().apply(theta) || la);
 		}
 		
 		return la;

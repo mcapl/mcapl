@@ -25,10 +25,11 @@
 package ail.syntax.ast;
 
 import ajpf.psl.ast.Abstract_Formula;
-
 import ail.syntax.Predicate;
 import ail.syntax.Term;
+import ail.syntax.Unifier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import gov.nasa.jpf.vm.ClassInfo;
@@ -98,6 +99,12 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
     public void setTerms(Abstract_Term[] ts) {
     	terms = ts;
     }
+    
+    public void setTerms(ArrayList<Abstract_Term> ts) {
+    	terms = (Abstract_Term[]) ts.toArray();
+    }
+    
+
     
     /**
      * Get the number of arguments to this predicate.
@@ -266,6 +273,37 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
 		}
 		return s.toString();
 	}
-	    
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+    public Abstract_Term applyu(Abstract_Unifier u) {
+    	Abstract_Predicate p = new Abstract_Predicate(functor);
+        final int tss = getTermSize();
+        for (int i = 0; i < tss; i++) {
+        	p.addTerm(getTerm(i).applyu(u)); 
+        }
+        return p;
+     }
+
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+     */
+	 public void unifies(Abstract_Term t, Abstract_Unifier u) {
+		 Abstract_Predicate p = (Abstract_Predicate) t;
+	     final int tss = getTermSize();
+		 for (int i = 0; i < tss; i++) {
+			 getTerm(i).unifies(p.getTerm(i), u);
+		 }
+	 }
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		for (Abstract_Term t: tl) {
+			addTerm(t);
+		}
+	}
 
 }

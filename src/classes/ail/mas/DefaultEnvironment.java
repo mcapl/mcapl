@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and
+// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
-//
+// 
 // This file is part of the Agent Infrastructure Layer (AIL)
 //
 // The AIL is free software; you can redistribute it and/or
@@ -139,7 +139,6 @@ public class DefaultEnvironment implements AILEnv {
 		ActionScheduler s = new ActionScheduler();
 		setScheduler(s);
 		addPerceptListener(s);
-		
 	}
 	
 	public void initialise_monitor() {
@@ -428,6 +427,7 @@ public class DefaultEnvironment implements AILEnv {
      * Notify the listeners that the perceptions have changed.
      *
      */
+    @Override
     public void notifyListeners() {
     	if (perceptListeners != null) {
     		for (PerceptListener l: perceptListeners) {
@@ -441,6 +441,7 @@ public class DefaultEnvironment implements AILEnv {
      *
      * @param s the name of the agent whose perceptions have changed.
      */
+    @Override
     public void notifyListeners(String s) {
      	if (perceptListeners != null) {
     		for (PerceptListener l: perceptListeners) {
@@ -678,8 +679,16 @@ public class DefaultEnvironment implements AILEnv {
 		// The environment doesn't do anything of it is own accord, therefore it is always done.
 		return true;
 	}
-
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {
+		
+	}
+	
+ 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.AILEnv#lastAction()
@@ -705,10 +714,18 @@ public class DefaultEnvironment implements AILEnv {
 
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.AILEnv#initialise()
+	 * @see ail.mas.AILEnv#init_before_adding_agents()
 	 */
-	public void initialise() {}
-
+	@Override
+	public void init_before_adding_agents() {}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#init_after_adding_agents()
+	 */
+	@Override
+	public void init_after_adding_agents() {}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
@@ -769,6 +786,17 @@ public class DefaultEnvironment implements AILEnv {
 	public static void setup_scheduler(AILEnv env, MCAPLScheduler s) {
 		env.setScheduler(s);
 		env.addPerceptListener(s);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#getAgents()
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.addAll(agentmap.values());
+		return agents;
 	}
 
 

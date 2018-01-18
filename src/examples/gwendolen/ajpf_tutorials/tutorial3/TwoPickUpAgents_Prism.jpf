@@ -29,6 +29,7 @@ target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUp
 ajpf.model_only = true
 ajpf.target_modelchecker = prism
 ajpf.model.location = stdout
+log.fine = ajpf.util
 
 listener=ajpf.MCAPLProbListener
 

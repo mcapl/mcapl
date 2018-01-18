@@ -94,12 +94,12 @@ public class AIL {
 			try {
 				AILEnv env = (AILEnv) (Class.forName(config.getProperty("env"))).newInstance();
 				env.configure(config);
+				env.init_before_adding_agents();
 				mas.setEnv(env);
 				control.setMAS(mas);
-				env.initialise();
+				env.init_after_adding_agents();
 				control.initialiseSpec();
 				env.setMAS(mas);
-				// System.err.println("about to initialise automata");
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
@@ -154,7 +154,7 @@ public class AIL {
 				if (config.containsKey(agentNumKey(agentcounter) + ".name")) {
 					String agentname = config.getProperty(agentNumKey(agentcounter) + ".name");
 					agent.setAgName(agentname);
-				}
+				} 
 				
 				mas.addAg(agent);
 				

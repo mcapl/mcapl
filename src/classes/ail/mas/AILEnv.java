@@ -27,11 +27,11 @@
 
 package ail.mas;
 
+import java.util.List;
 import java.util.Set;
 
 import ajpf.PerceptListener;
 import ajpf.MCAPLScheduler;
-
 import ail.syntax.Unifier;
 import ail.syntax.Message;
 import ail.syntax.Action;
@@ -49,7 +49,7 @@ import ail.semantics.AILAgent;
  * @author louiseadennis
  *
  */
-public interface AILEnv {
+public interface AILEnv {//  extends EnvironmentInterfaceStandard { 
 	/**
 	 * This is the effect of execution of an action on the environment from
 	 * the perspective of the environment.
@@ -154,7 +154,9 @@ public interface AILEnv {
     * at all on the configuration, or parameters, then the set up should be done with this method and
     * not with a constructor.  This is to assist with the assisting classes for MAS building like ail.mas.AIL. 
     */
-   public void initialise();
+   public void init_before_adding_agents();
+   
+   public void init_after_adding_agents();
    
    /**
     * This is for use when actions may take time to execute, specifically when other agents should be
@@ -166,6 +168,12 @@ public interface AILEnv {
     * @return
     */
    public boolean executing(String agName, Action act);
+   
+   /**
+    * This is called when the multi-agent system actually starts executing, after all initialisation has
+    * taken place.
+    */
+   public void begin();
    
    /**
     * This is for use when actions may take time to execute, specifically when other agents should be
@@ -192,4 +200,21 @@ public interface AILEnv {
      * @param m
      */
     public void setMAS(MAS m);
+    
+    /**
+     * Notify percept listeners that something has happened.
+     */
+    public void notifyListeners();
+    
+    /**
+     * Notify listeners with a particular name that something has happened.
+     * @param name
+     */
+    public void notifyListeners(String name);
+    
+    /**
+     * Return a list of agents in the environment.
+     * @return
+     */
+    public List<AILAgent> getAgents();
 }

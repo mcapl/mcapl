@@ -22,9 +22,12 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import ail.semantics.AILAgent;
 import ail.syntax.Unifiable;
 
 /**
@@ -50,8 +53,15 @@ public class ListEvaluationBase<K extends Unifiable> implements EvaluationBase<K
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.GuardAtom)
 	 */
-	@Override
-	public Iterator<K> getRelevant(EBCompare<K> ga) {
+	public Iterator<K> getRelevant(EBCompare<K> ga, AILAgent.SelectionOrder so) {
+		if (so == AILAgent.SelectionOrder.RANDOM) {
+			ArrayList<K> listclone = new ArrayList<K>();
+			for (K k: list) {
+				listclone.add(k);
+			}
+			Collections.shuffle(listclone);
+			return listclone.iterator();
+		}
 		return list.iterator();
 	}
 

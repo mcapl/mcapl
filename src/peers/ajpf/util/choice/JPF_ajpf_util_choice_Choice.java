@@ -48,23 +48,28 @@ public class JPF_ajpf_util_choice_Choice<O extends Object> extends NativePeer {
 		int myChoice = 0;
 		VM vm = env.getVM();
 		ThreadInfo ti = env.getThreadInfo();
-		if (!ti.isFirstStepInsn()) {
-			log.fine("creating a choice generator");
-			int[] choicearray = new int[limit + 1];
-			int index = 0;
-			for (int i = 0; i <= limit; i++) {
-				choicearray[index] = i;
-				index ++;
+		// We only create a choice if there is more than 1 option. 
+		if (limit > 0) {
+			if (!ti.isFirstStepInsn()) {
+				log.fine("creating a choice generator");
+				int[] choicearray = new int[limit + 1];
+				int index = 0;
+				for (int i = 0; i <= limit; i++) {
+					choicearray[index] = i;
+					index ++;
+				}
+				IntChoiceFromSet choices = new IntChoiceFromSet("probabilisticChoice", choicearray);
+				vm.getSystemState().setNextChoiceGenerator(choices);
+				env.repeatInvocation();
+			} else {
+				log.fine("getting a choice from " + limit);
+				IntChoiceFromSet cg = vm.getSystemState().getCurrentChoiceGenerator("probabilisticChoice", IntChoiceFromSet.class);
+				assert cg != null : "no 'probabilisticChoice' IntChoiceFromSet found";
+				myChoice = cg.getNextChoice();
+				log.fine("choice was " + myChoice);
 			}
-			IntChoiceFromSet choices = new IntChoiceFromSet("probabilisticChoice", choicearray);
-			vm.getSystemState().setNextChoiceGenerator(choices);
-			env.repeatInvocation();
 		} else {
-			log.fine("getting a choice from " + limit);
-			IntChoiceFromSet cg = vm.getSystemState().getCurrentChoiceGenerator("probabilisticChoice", IntChoiceFromSet.class);
-			assert cg != null : "no 'probabilisticChoice' IntChoiceFromSet found";
-			myChoice = cg.getNextChoice();
-			log.fine("choice was " + myChoice);
+			myChoice = 0;
 		}
 		return myChoice;
 

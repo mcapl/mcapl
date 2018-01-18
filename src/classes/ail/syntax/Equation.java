@@ -28,15 +28,18 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /** 
  *  represents an (in)equality. 
  */
-public class Equation implements LogicalFormula, GLogicalFormula {
+public class Equation extends AILComparison {
 
 	/**
 	 * The various comparators.
@@ -85,7 +88,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -95,7 +98,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, List<String> varnames) {
+	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -111,9 +114,9 @@ public class Equation implements LogicalFormula, GLogicalFormula {
         	ec.apply(un);
         	NumberTerm elhs = ec.getLHS();
         	NumberTerm erhs = ec.getRHS();
-	        int comp = elhs.eqcompareTo(erhs);
 	        if (!elhs.isGround() & !erhs.isGround()) {
-	        	comp = 1;
+	        	ArrayList<Unifier> empty = new ArrayList<Unifier>();
+	            return empty.iterator();
 	        }
 	        
 	        switch (op) {
@@ -122,6 +125,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	return createUnifIterator(un);
 	        	
 	        case less:
+		        int comp = elhs.eqcompareTo(erhs);
 	        	if (comp < 0) {
 	        		return createUnifIterator(un);
 	        	} 
@@ -129,8 +133,17 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	break;
 	            
 	        case equal:
-	        	if (comp == 0) {
-	        		return createUnifIterator(un);
+	        	if (elhs.isGround() & erhs.isGround()) {
+	        		int comp1 = elhs.eqcompareTo(erhs);
+	        		if (comp1 == 0) {
+	        			return createUnifIterator(un);
+	        		}
+	        	} else {
+	        		ArrayList<Unifier> uns = new ArrayList<Unifier>();
+	        		Unifier unc = un.clone();
+	        		elhs.unifies(erhs, unc);
+	        		uns.add(unc);
+	        		return uns.iterator();
 	        	}
 	        	
 	        	break;
@@ -318,21 +331,8 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
      */
     @Override
-     public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
- 
+     public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
 	/*
@@ -368,8 +368,8 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * @see ail.syntax.GBelief#getVarNames()
      */
     @Override
-    public List<String> getVarNames() {
-    	List<String> varnames = getRHS().getVarNames();
+    public Set<String> getVarNames() {
+    	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
     		varnames.addAll(getLHS().getVarNames());
     	}
@@ -388,6 +388,17 @@ public class Equation implements LogicalFormula, GLogicalFormula {
     	}
     }
 
+	// For the time being we do not reason symbolically about equations!!!!
+	public Set<List<PredicateTerm>> groundSets() {
+		return new HashSet<List<PredicateTerm>>();
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.LogicalFormula#ground()
+	 */
+	public LogicalFormula ground() {
+		return Predicate.PTrue;
+	}
 
 }

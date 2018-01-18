@@ -1,1893 +1,255 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g 2016-06-02 13:52:30
-
+// Generated from ActionOnlyLexer.g4 by ANTLR 4.7
 package actiononly.parser;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
 
-
-import mcaplantlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-
-@SuppressWarnings("all")
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ActionOnlyLexer extends Lexer {
-	public static final int EOF=-1;
-	public static final int ACTIONONLY=4;
-	public static final int ACTIONS=5;
-	public static final int BELIEFRULES=6;
-	public static final int BELIEFS=7;
-	public static final int BELIEVE=8;
-	public static final int BRULEARROW=9;
-	public static final int CLOSE=10;
-	public static final int COLON=11;
-	public static final int COMMA=12;
-	public static final int COMMENT=13;
-	public static final int CONST=14;
-	public static final int CURLYCLOSE=15;
-	public static final int CURLYOPEN=16;
-	public static final int DIV=17;
-	public static final int DOUBLEQUOTE=18;
-	public static final int EQ=19;
-	public static final int GOAL=20;
-	public static final int LESS=21;
-	public static final int LINE_COMMENT=22;
-	public static final int MINUS=23;
-	public static final int MOD=24;
-	public static final int MULT=25;
-	public static final int NAME=26;
-	public static final int NEWLINE=27;
-	public static final int NOT=28;
-	public static final int NUMBER=29;
-	public static final int OPEN=30;
-	public static final int PLUS=31;
-	public static final int POINT=32;
-	public static final int QUERY=33;
-	public static final int SEMI=34;
-	public static final int SHRIEK=35;
-	public static final int SQCLOSE=36;
-	public static final int SQOPEN=37;
-	public static final int STRING=38;
-	public static final int TRUE=39;
-	public static final int VAR=40;
-	public static final int WS=41;
-
-	    public int plain_nesting = 0;
-	    public int sq_nesting = 0;
-	    public int curly_nesting = 0;
-	    public boolean stringterm = false;
-	    public boolean ao = true;
-	    public int belief_rules = 0;
-
-
-	// delegates
-	// delegators
-	public Lexer[] getDelegates() {
-		return new Lexer[] {};
-	}
-
-	public ActionOnlyLexer() {} 
-	public ActionOnlyLexer(CharStream input) {
-		this(input, new RecognizerSharedState());
-	}
-	public ActionOnlyLexer(CharStream input, RecognizerSharedState state) {
-		super(input,state);
-	}
-	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g"; }
-
-	// $ANTLR start "ACTIONONLY"
-	public final void mACTIONONLY() throws RecognitionException {
-		try {
-			int _type = ACTIONONLY;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:12: ({...}? => 'AO' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:105:13: {...}? => 'AO'
-			{
-			if ( !((curly_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "ACTIONONLY", "curly_nesting == 0");
-			}
-			match("AO"); 
-
-			ao = true;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ACTIONONLY"
-
-	// $ANTLR start "BELIEFS"
-	public final void mBELIEFS() throws RecognitionException {
-		try {
-			int _type = BELIEFS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:9: ( ':Initial Beliefs:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:107:11: ':Initial Beliefs:'
-			{
-			match(":Initial Beliefs:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEFS"
-
-	// $ANTLR start "BELIEFRULES"
-	public final void mBELIEFRULES() throws RecognitionException {
-		try {
-			int _type = BELIEFRULES;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:2: ( ':Reasoning Rules:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:109:4: ':Reasoning Rules:'
-			{
-			match(":Reasoning Rules:"); 
-
-			belief_rules = 1;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEFRULES"
-
-	// $ANTLR start "GOAL"
-	public final void mGOAL() throws RecognitionException {
-		try {
-			int _type = GOAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:6: ( ':Initial Goal:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:110:8: ':Initial Goal:'
-			{
-			match(":Initial Goal:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "GOAL"
-
-	// $ANTLR start "NAME"
-	public final void mNAME() throws RecognitionException {
-		try {
-			int _type = NAME;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:6: ( ':name:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:111:8: ':name:'
-			{
-			match(":name:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NAME"
-
-	// $ANTLR start "BELIEVE"
-	public final void mBELIEVE() throws RecognitionException {
-		try {
-			int _type = BELIEVE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:9: ({...}? => ( 'B' | '.B' ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:11: {...}? => ( 'B' | '.B' )
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {
-				throw new FailedPredicateException(input, "BELIEVE", "curly_nesting > 0 && plain_nesting == 0 || belief_rules==1");
-			}
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:75: ( 'B' | '.B' )
-			int alt1=2;
-			int LA1_0 = input.LA(1);
-			if ( (LA1_0=='B') ) {
-				alt1=1;
-			}
-			else if ( (LA1_0=='.') ) {
-				alt1=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 1, 0, input);
-				throw nvae;
-			}
-
-			switch (alt1) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:76: 'B'
-					{
-					match('B'); 
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:113:82: '.B'
-					{
-					match(".B"); 
-
-					}
-					break;
-
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BELIEVE"
-
-	// $ANTLR start "BRULEARROW"
-	public final void mBRULEARROW() throws RecognitionException {
-		try {
-			int _type = BRULEARROW;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:2: ( ':-' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:115:4: ':-'
-			{
-			match(":-"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "BRULEARROW"
-
-	// $ANTLR start "ACTIONS"
-	public final void mACTIONS() throws RecognitionException {
-		try {
-			int _type = ACTIONS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:116:9: ( ':Actions:' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:116:11: ':Actions:'
-			{
-			match(":Actions:"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "ACTIONS"
-
-	// $ANTLR start "TRUE"
-	public final void mTRUE() throws RecognitionException {
-		try {
-			int _type = TRUE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:117:6: ({...}? => 'True' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:117:8: {...}? => 'True'
-			{
-			if ( !((curly_nesting > 0 && plain_nesting == 0)) ) {
-				throw new FailedPredicateException(input, "TRUE", "curly_nesting > 0 && plain_nesting == 0");
-			}
-			match("True"); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "TRUE"
-
-	// $ANTLR start "COMMENT"
-	public final void mCOMMENT() throws RecognitionException {
-		try {
-			int _type = COMMENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:5: ( '/*' ( . )* '*/' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:7: '/*' ( . )* '*/'
-			{
-			match("/*"); 
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:12: ( . )*
-			loop2:
-			while (true) {
-				int alt2=2;
-				int LA2_0 = input.LA(1);
-				if ( (LA2_0=='*') ) {
-					int LA2_1 = input.LA(2);
-					if ( (LA2_1=='/') ) {
-						alt2=2;
-					}
-					else if ( ((LA2_1 >= '\u0000' && LA2_1 <= '.')||(LA2_1 >= '0' && LA2_1 <= '\uFFFF')) ) {
-						alt2=1;
-					}
-
-				}
-				else if ( ((LA2_0 >= '\u0000' && LA2_0 <= ')')||(LA2_0 >= '+' && LA2_0 <= '\uFFFF')) ) {
-					alt2=1;
-				}
-
-				switch (alt2) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:170:12: .
-					{
-					matchAny(); 
-					}
-					break;
-
-				default :
-					break loop2;
-				}
-			}
-
-			match("*/"); 
-
-			_channel=HIDDEN;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COMMENT"
-
-	// $ANTLR start "LINE_COMMENT"
-	public final void mLINE_COMMENT() throws RecognitionException {
-		try {
-			int _type = LINE_COMMENT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:7: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
-			{
-			match("//"); 
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:12: (~ ( '\\n' | '\\r' ) )*
-			loop3:
-			while (true) {
-				int alt3=2;
-				int LA3_0 = input.LA(1);
-				if ( ((LA3_0 >= '\u0000' && LA3_0 <= '\t')||(LA3_0 >= '\u000B' && LA3_0 <= '\f')||(LA3_0 >= '\u000E' && LA3_0 <= '\uFFFF')) ) {
-					alt3=1;
-				}
-
-				switch (alt3) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop3;
-				}
-			}
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:26: ( '\\r' )?
-			int alt4=2;
-			int LA4_0 = input.LA(1);
-			if ( (LA4_0=='\r') ) {
-				alt4=1;
-			}
-			switch (alt4) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:173:26: '\\r'
-					{
-					match('\r'); 
-					}
-					break;
-
-			}
-
-			match('\n'); 
-			_channel=HIDDEN;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "LINE_COMMENT"
-
-	// $ANTLR start "NEWLINE"
-	public final void mNEWLINE() throws RecognitionException {
-		try {
-			int _type = NEWLINE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:8: ( ( '\\r' )? '\\n' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: ( '\\r' )? '\\n'
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: ( '\\r' )?
-			int alt5=2;
-			int LA5_0 = input.LA(1);
-			if ( (LA5_0=='\r') ) {
-				alt5=1;
-			}
-			switch (alt5) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:175:9: '\\r'
-					{
-					match('\r'); 
-					}
-					break;
-
-			}
-
-			match('\n'); 
-			skip();
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NEWLINE"
-
-	// $ANTLR start "WS"
-	public final void mWS() throws RecognitionException {
-		try {
-			int _type = WS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:5: ( ( ' ' | '\\t' )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:9: ( ' ' | '\\t' )+
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:176:9: ( ' ' | '\\t' )+
-			int cnt6=0;
-			loop6:
-			while (true) {
-				int alt6=2;
-				int LA6_0 = input.LA(1);
-				if ( (LA6_0=='\t'||LA6_0==' ') ) {
-					alt6=1;
-				}
-
-				switch (alt6) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( input.LA(1)=='\t'||input.LA(1)==' ' ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					if ( cnt6 >= 1 ) break loop6;
-					EarlyExitException eee = new EarlyExitException(6, input);
-					throw eee;
-				}
-				cnt6++;
-			}
-
-			skip();
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "WS"
-
-	// $ANTLR start "OPEN"
-	public final void mOPEN() throws RecognitionException {
-		try {
-			int _type = OPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:6: ( '(' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:179:9: '('
-			{
-			match('('); 
-			plain_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "OPEN"
-
-	// $ANTLR start "CLOSE"
-	public final void mCLOSE() throws RecognitionException {
-		try {
-			int _type = CLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:7: ( ')' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:180:9: ')'
-			{
-			match(')'); 
-			plain_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CLOSE"
-
-	// $ANTLR start "SQOPEN"
-	public final void mSQOPEN() throws RecognitionException {
-		try {
-			int _type = SQOPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:8: ( '[' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:181:10: '['
-			{
-			match('['); 
-			sq_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SQOPEN"
-
-	// $ANTLR start "SQCLOSE"
-	public final void mSQCLOSE() throws RecognitionException {
-		try {
-			int _type = SQCLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:9: ( ']' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:182:11: ']'
-			{
-			match(']'); 
-			sq_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SQCLOSE"
-
-	// $ANTLR start "CURLYOPEN"
-	public final void mCURLYOPEN() throws RecognitionException {
-		try {
-			int _type = CURLYOPEN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:11: ( '{' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:183:13: '{'
-			{
-			match('{'); 
-			curly_nesting++;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CURLYOPEN"
-
-	// $ANTLR start "CURLYCLOSE"
-	public final void mCURLYCLOSE() throws RecognitionException {
-		try {
-			int _type = CURLYCLOSE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:12: ( '}' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:184:14: '}'
-			{
-			match('}'); 
-			curly_nesting--;
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CURLYCLOSE"
-
-	// $ANTLR start "DOUBLEQUOTE"
-	public final void mDOUBLEQUOTE() throws RecognitionException {
-		try {
-			int _type = DOUBLEQUOTE;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:2: ( '\"' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:186:4: '\"'
-			{
-			match('\"'); 
-			if (stringterm) {stringterm = false;} else {stringterm = true;}
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "DOUBLEQUOTE"
-
-	// $ANTLR start "NOT"
-	public final void mNOT() throws RecognitionException {
-		try {
-			int _type = NOT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:5: ( '~' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:187:7: '~'
-			{
-			match('~'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NOT"
-
-	// $ANTLR start "STRING"
-	public final void mSTRING() throws RecognitionException {
-		try {
-			int _type = STRING;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:8: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:10: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
-			{
-			if ( !((stringterm)) ) {
-				throw new FailedPredicateException(input, "STRING", "stringterm");
-			}
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:189:26: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )+
-			int cnt7=0;
-			loop7:
-			while (true) {
-				int alt7=2;
-				int LA7_0 = input.LA(1);
-				if ( ((LA7_0 >= '0' && LA7_0 <= '9')||(LA7_0 >= 'A' && LA7_0 <= 'Z')||LA7_0=='_'||(LA7_0 >= 'a' && LA7_0 <= 'z')) ) {
-					alt7=1;
-				}
-
-				switch (alt7) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					if ( cnt7 >= 1 ) break loop7;
-					EarlyExitException eee = new EarlyExitException(7, input);
-					throw eee;
-				}
-				cnt7++;
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "STRING"
-
-	// $ANTLR start "CONST"
-	public final void mCONST() throws RecognitionException {
-		try {
-			int _type = CONST;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:8: ({...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:11: {...}? => 'a' .. 'z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "CONST", "!stringterm");
-			}
-			matchRange('a','z'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:190:36: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			loop8:
-			while (true) {
-				int alt8=2;
-				int LA8_0 = input.LA(1);
-				if ( ((LA8_0 >= '0' && LA8_0 <= '9')||(LA8_0 >= 'A' && LA8_0 <= 'Z')||LA8_0=='_'||(LA8_0 >= 'a' && LA8_0 <= 'z')) ) {
-					alt8=1;
-				}
-
-				switch (alt8) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop8;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "CONST"
-
-	// $ANTLR start "VAR"
-	public final void mVAR() throws RecognitionException {
-		try {
-			int _type = VAR;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:5: ({...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:7: {...}? => 'A' .. 'Z' ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "VAR", "!stringterm");
-			}
-			matchRange('A','Z'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:191:32: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
-			loop9:
-			while (true) {
-				int alt9=2;
-				int LA9_0 = input.LA(1);
-				if ( ((LA9_0 >= '0' && LA9_0 <= '9')||(LA9_0 >= 'A' && LA9_0 <= 'Z')||LA9_0=='_'||(LA9_0 >= 'a' && LA9_0 <= 'z')) ) {
-					alt9=1;
-				}
-
-				switch (alt9) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop9;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "VAR"
-
-	// $ANTLR start "NUMBER"
-	public final void mNUMBER() throws RecognitionException {
-		try {
-			int _type = NUMBER;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:8: ({...}? => '0' .. '9' ( '0' .. '9' )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:10: {...}? => '0' .. '9' ( '0' .. '9' )*
-			{
-			if ( !((!stringterm)) ) {
-				throw new FailedPredicateException(input, "NUMBER", "!stringterm");
-			}
-			matchRange('0','9'); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:192:35: ( '0' .. '9' )*
-			loop10:
-			while (true) {
-				int alt10=2;
-				int LA10_0 = input.LA(1);
-				if ( ((LA10_0 >= '0' && LA10_0 <= '9')) ) {
-					alt10=1;
-				}
-
-				switch (alt10) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:
-					{
-					if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
-						input.consume();
-					}
-					else {
-						MismatchedSetException mse = new MismatchedSetException(null,input);
-						recover(mse);
-						throw mse;
-					}
-					}
-					break;
-
-				default :
-					break loop10;
-				}
-			}
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "NUMBER"
-
-	// $ANTLR start "LESS"
-	public final void mLESS() throws RecognitionException {
-		try {
-			int _type = LESS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:6: ( '<' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:195:8: '<'
-			{
-			match('<'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "LESS"
-
-	// $ANTLR start "EQ"
-	public final void mEQ() throws RecognitionException {
-		try {
-			int _type = EQ;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:4: ( '==' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:196:7: '=='
-			{
-			match("=="); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "EQ"
-
-	// $ANTLR start "POINT"
-	public final void mPOINT() throws RecognitionException {
-		try {
-			int _type = POINT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:7: ( '.' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:197:9: '.'
-			{
-			match('.'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "POINT"
-
-	// $ANTLR start "MULT"
-	public final void mMULT() throws RecognitionException {
-		try {
-			int _type = MULT;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:6: ( '*' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:198:8: '*'
-			{
-			match('*'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MULT"
-
-	// $ANTLR start "PLUS"
-	public final void mPLUS() throws RecognitionException {
-		try {
-			int _type = PLUS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:6: ( '+' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:199:8: '+'
-			{
-			match('+'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "PLUS"
-
-	// $ANTLR start "MINUS"
-	public final void mMINUS() throws RecognitionException {
-		try {
-			int _type = MINUS;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:7: ( '-' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:200:9: '-'
-			{
-			match('-'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MINUS"
-
-	// $ANTLR start "DIV"
-	public final void mDIV() throws RecognitionException {
-		try {
-			int _type = DIV;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:5: ( '/' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:201:7: '/'
-			{
-			match('/'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "DIV"
-
-	// $ANTLR start "MOD"
-	public final void mMOD() throws RecognitionException {
-		try {
-			int _type = MOD;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:5: ( '%' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:202:7: '%'
-			{
-			match('%'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "MOD"
-
-	// $ANTLR start "SHRIEK"
-	public final void mSHRIEK() throws RecognitionException {
-		try {
-			int _type = SHRIEK;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:8: ( '!' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:204:10: '!'
-			{
-			match('!'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SHRIEK"
-
-	// $ANTLR start "COMMA"
-	public final void mCOMMA() throws RecognitionException {
-		try {
-			int _type = COMMA;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:7: ( ',' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:205:9: ','
-			{
-			match(','); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COMMA"
-
-	// $ANTLR start "SEMI"
-	public final void mSEMI() throws RecognitionException {
-		try {
-			int _type = SEMI;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:6: ( ';' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:206:8: ';'
-			{
-			match(';'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "SEMI"
-
-	// $ANTLR start "COLON"
-	public final void mCOLON() throws RecognitionException {
-		try {
-			int _type = COLON;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:207:7: ( ':' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:207:9: ':'
-			{
-			match(':'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "COLON"
-
-	// $ANTLR start "QUERY"
-	public final void mQUERY() throws RecognitionException {
-		try {
-			int _type = QUERY;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:208:7: ( '?' )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:208:9: '?'
-			{
-			match('?'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "QUERY"
-
-	@Override
-	public void mTokens() throws RecognitionException {
-		// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:8: ( ACTIONONLY | BELIEFS | BELIEFRULES | GOAL | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY )
-		int alt11=38;
-		alt11 = dfa11.predict(input);
-		switch (alt11) {
-			case 1 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:10: ACTIONONLY
-				{
-				mACTIONONLY(); 
-
-				}
-				break;
-			case 2 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:21: BELIEFS
-				{
-				mBELIEFS(); 
-
-				}
-				break;
-			case 3 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:29: BELIEFRULES
-				{
-				mBELIEFRULES(); 
-
-				}
-				break;
-			case 4 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:41: GOAL
-				{
-				mGOAL(); 
-
-				}
-				break;
-			case 5 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:46: NAME
-				{
-				mNAME(); 
-
-				}
-				break;
-			case 6 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:51: BELIEVE
-				{
-				mBELIEVE(); 
-
-				}
-				break;
-			case 7 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:59: BRULEARROW
-				{
-				mBRULEARROW(); 
-
-				}
-				break;
-			case 8 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:70: ACTIONS
-				{
-				mACTIONS(); 
-
-				}
-				break;
-			case 9 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:78: TRUE
-				{
-				mTRUE(); 
-
-				}
-				break;
-			case 10 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:83: COMMENT
-				{
-				mCOMMENT(); 
-
-				}
-				break;
-			case 11 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:91: LINE_COMMENT
-				{
-				mLINE_COMMENT(); 
-
-				}
-				break;
-			case 12 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:104: NEWLINE
-				{
-				mNEWLINE(); 
-
-				}
-				break;
-			case 13 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:112: WS
-				{
-				mWS(); 
-
-				}
-				break;
-			case 14 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:115: OPEN
-				{
-				mOPEN(); 
-
-				}
-				break;
-			case 15 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:120: CLOSE
-				{
-				mCLOSE(); 
-
-				}
-				break;
-			case 16 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:126: SQOPEN
-				{
-				mSQOPEN(); 
-
-				}
-				break;
-			case 17 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:133: SQCLOSE
-				{
-				mSQCLOSE(); 
-
-				}
-				break;
-			case 18 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:141: CURLYOPEN
-				{
-				mCURLYOPEN(); 
-
-				}
-				break;
-			case 19 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:151: CURLYCLOSE
-				{
-				mCURLYCLOSE(); 
-
-				}
-				break;
-			case 20 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:162: DOUBLEQUOTE
-				{
-				mDOUBLEQUOTE(); 
-
-				}
-				break;
-			case 21 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:174: NOT
-				{
-				mNOT(); 
-
-				}
-				break;
-			case 22 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:178: STRING
-				{
-				mSTRING(); 
-
-				}
-				break;
-			case 23 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:185: CONST
-				{
-				mCONST(); 
-
-				}
-				break;
-			case 24 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:191: VAR
-				{
-				mVAR(); 
-
-				}
-				break;
-			case 25 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:195: NUMBER
-				{
-				mNUMBER(); 
-
-				}
-				break;
-			case 26 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:202: LESS
-				{
-				mLESS(); 
-
-				}
-				break;
-			case 27 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:207: EQ
-				{
-				mEQ(); 
-
-				}
-				break;
-			case 28 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:210: POINT
-				{
-				mPOINT(); 
-
-				}
-				break;
-			case 29 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:216: MULT
-				{
-				mMULT(); 
-
-				}
-				break;
-			case 30 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:221: PLUS
-				{
-				mPLUS(); 
-
-				}
-				break;
-			case 31 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:226: MINUS
-				{
-				mMINUS(); 
-
-				}
-				break;
-			case 32 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:232: DIV
-				{
-				mDIV(); 
-
-				}
-				break;
-			case 33 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:236: MOD
-				{
-				mMOD(); 
-
-				}
-				break;
-			case 34 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:240: SHRIEK
-				{
-				mSHRIEK(); 
-
-				}
-				break;
-			case 35 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:247: COMMA
-				{
-				mCOMMA(); 
-
-				}
-				break;
-			case 36 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:253: SEMI
-				{
-				mSEMI(); 
-
-				}
-				break;
-			case 37 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:258: COLON
-				{
-				mCOLON(); 
-
-				}
-				break;
-			case 38 :
-				// /Users/louiseadennis/Eclipse/mcapl/src/classes/actiononly/parser/ActionOnly.g:1:264: QUERY
-				{
-				mQUERY(); 
-
-				}
-				break;
-
-		}
-	}
-
-
-	protected DFA11 dfa11 = new DFA11(this);
-	static final String DFA11_eotS =
-		"\1\uffff\1\40\1\47\1\50\1\52\1\40\1\56\12\uffff\1\57\1\40\1\61\13\uffff"+
-		"\1\63\1\uffff\1\40\11\uffff\1\40\4\uffff\1\57\1\uffff\1\61\3\uffff\1\40"+
-		"\4\uffff\1\75\11\uffff";
-	static final String DFA11_eofS =
-		"\105\uffff";
-	static final String DFA11_minS =
-		"\1\11\1\60\1\55\1\60\1\102\1\60\1\52\12\uffff\3\60\13\uffff\1\60\1\0\1"+
-		"\60\1\156\5\uffff\1\0\2\uffff\1\60\3\uffff\1\0\1\60\1\0\1\60\1\0\1\uffff"+
-		"\1\151\1\60\3\uffff\1\164\1\60\1\151\1\0\1\141\1\uffff\1\154\1\40\1\102"+
-		"\2\uffff";
-	static final String DFA11_maxS =
-		"\1\176\1\172\1\156\1\172\1\102\1\172\1\57\12\uffff\3\172\13\uffff\1\172"+
-		"\1\0\1\172\1\156\5\uffff\1\0\2\uffff\1\172\3\uffff\1\0\1\172\1\0\1\172"+
-		"\1\0\1\uffff\1\151\1\172\3\uffff\1\164\1\172\1\151\1\0\1\141\1\uffff\1"+
-		"\154\1\40\1\107\2\uffff";
-	static final String DFA11_acceptS =
-		"\7\uffff\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\3\uffff\1\26"+
-		"\1\32\1\33\1\35\1\36\1\37\1\41\1\42\1\43\1\44\1\46\4\uffff\1\3\1\5\1\7"+
-		"\1\10\1\45\1\uffff\1\6\1\34\1\uffff\1\12\1\13\1\40\5\uffff\1\30\2\uffff"+
-		"\1\27\1\31\1\1\5\uffff\1\11\3\uffff\1\2\1\4";
-	static final String DFA11_specialS =
-		"\1\2\1\21\1\uffff\1\22\1\15\1\16\13\uffff\1\12\1\0\1\20\13\uffff\1\1\1"+
-		"\5\1\24\6\uffff\1\7\2\uffff\1\13\3\uffff\1\3\1\17\1\6\1\11\1\4\2\uffff"+
-		"\1\14\4\uffff\1\23\1\uffff\1\10\7\uffff}>";
-	static final String[] DFA11_transitionS = {
-			"\1\10\1\7\2\uffff\1\7\22\uffff\1\10\1\33\1\17\2\uffff\1\32\2\uffff\1"+
-			"\11\1\12\1\27\1\30\1\34\1\31\1\4\1\6\12\23\1\2\1\35\1\25\1\26\1\uffff"+
-			"\1\36\1\uffff\1\1\1\3\21\22\1\5\6\22\1\13\1\uffff\1\14\1\uffff\1\24\1"+
-			"\uffff\32\21\1\15\1\uffff\1\16\1\20",
-			"\12\41\7\uffff\16\41\1\37\13\41\4\uffff\1\41\1\uffff\32\41",
-			"\1\45\23\uffff\1\46\7\uffff\1\42\10\uffff\1\43\33\uffff\1\44",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"\1\51",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\21\41\1\53\10\41",
-			"\1\54\4\uffff\1\55",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\12\60\7\uffff\32\60\4\uffff\1\60\1\uffff\32\60",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"\12\62\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"\1\uffff",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"\1\65",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\uffff",
-			"",
-			"",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\24\41\1\66\5\41",
-			"",
-			"",
-			"",
-			"\1\uffff",
-			"\12\60\7\uffff\32\60\4\uffff\1\60\1\uffff\32\60",
-			"\1\uffff",
-			"\12\62\7\uffff\32\24\4\uffff\1\24\1\uffff\32\24",
-			"\1\uffff",
-			"",
-			"\1\72",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\4\41\1\73\25\41",
-			"",
-			"",
-			"",
-			"\1\74",
-			"\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-			"\1\76",
-			"\1\uffff",
-			"\1\100",
-			"",
-			"\1\101",
-			"\1\102",
-			"\1\103\4\uffff\1\104",
-			"",
-			""
+	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		ACTIONONLY=1, BELIEFS=2, NAME=3, WORD=4, COMMENT=5, LINE_COMMENT=6, NEWLINE=7, 
+		WS=8, BELIEFRULES=9, GOAL_IB=10, IB_COMMENT=11, IB_LINE_COMMENT=12, IB_NEWLINE=13, 
+		IB_WS=14, BELIEF_BLOCK=15, GOAL_RR=16, RR_COMMENT=17, RR_LINE_COMMENT=18, 
+		RR_NEWLINE=19, RR_WS=20, RR_BLOCK=21, ACTIONS=22, GL_COMMENT=23, GL_LINE_COMMENT=24, 
+		GL_NEWLINE=25, GL_WS=26, GOAL_BLOCK=27, CURLYOPEN=28, CURLYCLOSE=29, A_COMMENT=30, 
+		A_LINE_COMMENT=31, A_NEWLINE=32, A_WS=33, ACTION_BLOCK=34;
+	public static final int
+		INITIAL_BELIEFS=1, REASONING_RULES=2, GOALS=3, ACTIONS_MODE=4;
+	public static String[] channelNames = {
+		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
 
-	static final short[] DFA11_eot = DFA.unpackEncodedString(DFA11_eotS);
-	static final short[] DFA11_eof = DFA.unpackEncodedString(DFA11_eofS);
-	static final char[] DFA11_min = DFA.unpackEncodedStringToUnsignedChars(DFA11_minS);
-	static final char[] DFA11_max = DFA.unpackEncodedStringToUnsignedChars(DFA11_maxS);
-	static final short[] DFA11_accept = DFA.unpackEncodedString(DFA11_acceptS);
-	static final short[] DFA11_special = DFA.unpackEncodedString(DFA11_specialS);
-	static final short[][] DFA11_transition;
+	public static String[] modeNames = {
+		"DEFAULT_MODE", "INITIAL_BELIEFS", "REASONING_RULES", "GOALS", "ACTIONS_MODE"
+	};
 
+	public static final String[] ruleNames = {
+		"ACTIONONLY", "BELIEFS", "NAME", "WORD", "COMMENT", "LINE_COMMENT", "NEWLINE", 
+		"WS", "BELIEFRULES", "GOAL_IB", "IB_COMMENT", "IB_LINE_COMMENT", "IB_NEWLINE", 
+		"IB_WS", "BELIEF_BLOCK", "GOAL_RR", "RR_COMMENT", "RR_LINE_COMMENT", "RR_NEWLINE", 
+		"RR_WS", "RR_BLOCK", "ACTIONS", "GL_COMMENT", "GL_LINE_COMMENT", "GL_NEWLINE", 
+		"GL_WS", "GOAL_BLOCK", "CURLYOPEN", "CURLYCLOSE", "A_COMMENT", "A_LINE_COMMENT", 
+		"A_NEWLINE", "A_WS", "ACTION_BLOCK"
+	};
+
+	private static final String[] _LITERAL_NAMES = {
+		null, "'AO'", "':Initial Beliefs:'", "':name:'", null, null, null, null, 
+		null, "':Reasoning Rules:'", null, null, null, null, null, null, null, 
+		null, null, null, null, null, "':Actions:'", null, null, null, null, null, 
+		"'{'", "'}'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "ACTIONONLY", "BELIEFS", "NAME", "WORD", "COMMENT", "LINE_COMMENT", 
+		"NEWLINE", "WS", "BELIEFRULES", "GOAL_IB", "IB_COMMENT", "IB_LINE_COMMENT", 
+		"IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", "GOAL_RR", "RR_COMMENT", "RR_LINE_COMMENT", 
+		"RR_NEWLINE", "RR_WS", "RR_BLOCK", "ACTIONS", "GL_COMMENT", "GL_LINE_COMMENT", 
+		"GL_NEWLINE", "GL_WS", "GOAL_BLOCK", "CURLYOPEN", "CURLYCLOSE", "A_COMMENT", 
+		"A_LINE_COMMENT", "A_NEWLINE", "A_WS", "ACTION_BLOCK"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
 	static {
-		int numStates = DFA11_transitionS.length;
-		DFA11_transition = new short[numStates][];
-		for (int i=0; i<numStates; i++) {
-			DFA11_transition[i] = DFA.unpackEncodedString(DFA11_transitionS[i]);
-		}
-	}
-
-	protected class DFA11 extends DFA {
-
-		public DFA11(BaseRecognizer recognizer) {
-			this.recognizer = recognizer;
-			this.decisionNumber = 11;
-			this.eot = DFA11_eot;
-			this.eof = DFA11_eof;
-			this.min = DFA11_min;
-			this.max = DFA11_max;
-			this.accept = DFA11_accept;
-			this.special = DFA11_special;
-			this.transition = DFA11_transition;
-		}
-		@Override
-		public String getDescription() {
-			return "1:1: Tokens : ( ACTIONONLY | BELIEFS | BELIEFRULES | GOAL | NAME | BELIEVE | BRULEARROW | ACTIONS | TRUE | COMMENT | LINE_COMMENT | NEWLINE | WS | OPEN | CLOSE | SQOPEN | SQCLOSE | CURLYOPEN | CURLYCLOSE | DOUBLEQUOTE | NOT | STRING | CONST | VAR | NUMBER | LESS | EQ | POINT | MULT | PLUS | MINUS | DIV | MOD | SHRIEK | COMMA | SEMI | COLON | QUERY );";
-		}
-		@Override
-		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
-			IntStream input = _input;
-			int _s = s;
-			switch ( s ) {
-					case 0 : 
-						int LA11_18 = input.LA(1);
-						 
-						int index11_18 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_18 >= '0' && LA11_18 <= '9')||(LA11_18 >= 'A' && LA11_18 <= 'Z')||LA11_18=='_'||(LA11_18 >= 'a' && LA11_18 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_18);
-						if ( s>=0 ) return s;
-						break;
-
-					case 1 : 
-						int LA11_31 = input.LA(1);
-						 
-						int index11_31 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_31 >= '0' && LA11_31 <= '9')||(LA11_31 >= 'A' && LA11_31 <= 'Z')||LA11_31=='_'||(LA11_31 >= 'a' && LA11_31 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 51;
-						 
-						input.seek(index11_31);
-						if ( s>=0 ) return s;
-						break;
-
-					case 2 : 
-						int LA11_0 = input.LA(1);
-						 
-						int index11_0 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_0=='A') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 1;}
-						else if ( (LA11_0==':') ) {s = 2;}
-						else if ( (LA11_0=='B') && (((stringterm)||(!stringterm)||(curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)))) {s = 3;}
-						else if ( (LA11_0=='.') ) {s = 4;}
-						else if ( (LA11_0=='T') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 5;}
-						else if ( (LA11_0=='/') ) {s = 6;}
-						else if ( (LA11_0=='\n'||LA11_0=='\r') ) {s = 7;}
-						else if ( (LA11_0=='\t'||LA11_0==' ') ) {s = 8;}
-						else if ( (LA11_0=='(') ) {s = 9;}
-						else if ( (LA11_0==')') ) {s = 10;}
-						else if ( (LA11_0=='[') ) {s = 11;}
-						else if ( (LA11_0==']') ) {s = 12;}
-						else if ( (LA11_0=='{') ) {s = 13;}
-						else if ( (LA11_0=='}') ) {s = 14;}
-						else if ( (LA11_0=='\"') ) {s = 15;}
-						else if ( (LA11_0=='~') ) {s = 16;}
-						else if ( ((LA11_0 >= 'a' && LA11_0 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 17;}
-						else if ( ((LA11_0 >= 'C' && LA11_0 <= 'S')||(LA11_0 >= 'U' && LA11_0 <= 'Z')) && (((stringterm)||(!stringterm)))) {s = 18;}
-						else if ( ((LA11_0 >= '0' && LA11_0 <= '9')) && (((stringterm)||(!stringterm)))) {s = 19;}
-						else if ( (LA11_0=='_') && ((stringterm))) {s = 20;}
-						else if ( (LA11_0=='<') ) {s = 21;}
-						else if ( (LA11_0=='=') ) {s = 22;}
-						else if ( (LA11_0=='*') ) {s = 23;}
-						else if ( (LA11_0=='+') ) {s = 24;}
-						else if ( (LA11_0=='-') ) {s = 25;}
-						else if ( (LA11_0=='%') ) {s = 26;}
-						else if ( (LA11_0=='!') ) {s = 27;}
-						else if ( (LA11_0==',') ) {s = 28;}
-						else if ( (LA11_0==';') ) {s = 29;}
-						else if ( (LA11_0=='?') ) {s = 30;}
-						 
-						input.seek(index11_0);
-						if ( s>=0 ) return s;
-						break;
-
-					case 3 : 
-						int LA11_47 = input.LA(1);
-						 
-						int index11_47 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 55;}
-						 
-						input.seek(index11_47);
-						if ( s>=0 ) return s;
-						break;
-
-					case 4 : 
-						int LA11_51 = input.LA(1);
-						 
-						int index11_51 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting == 0)) ) {s = 57;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_51);
-						if ( s>=0 ) return s;
-						break;
-
-					case 5 : 
-						int LA11_32 = input.LA(1);
-						 
-						int index11_32 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_32);
-						if ( s>=0 ) return s;
-						break;
-
-					case 6 : 
-						int LA11_49 = input.LA(1);
-						 
-						int index11_49 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 56;}
-						 
-						input.seek(index11_49);
-						if ( s>=0 ) return s;
-						break;
-
-					case 7 : 
-						int LA11_40 = input.LA(1);
-						 
-						int index11_40 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1)) ) {s = 41;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_40);
-						if ( s>=0 ) return s;
-						break;
-
-					case 8 : 
-						int LA11_61 = input.LA(1);
-						 
-						int index11_61 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((curly_nesting > 0 && plain_nesting == 0)) ) {s = 63;}
-						else if ( ((stringterm)) ) {s = 20;}
-						else if ( ((!stringterm)) ) {s = 52;}
-						 
-						input.seek(index11_61);
-						if ( s>=0 ) return s;
-						break;
-
-					case 9 : 
-						int LA11_50 = input.LA(1);
-						 
-						int index11_50 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_50 >= '0' && LA11_50 <= '9')) && (((stringterm)||(!stringterm)))) {s = 50;}
-						else if ( ((LA11_50 >= 'A' && LA11_50 <= 'Z')||LA11_50=='_'||(LA11_50 >= 'a' && LA11_50 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
-						 
-						input.seek(index11_50);
-						if ( s>=0 ) return s;
-						break;
-
-					case 10 : 
-						int LA11_17 = input.LA(1);
-						 
-						int index11_17 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_17 >= '0' && LA11_17 <= '9')||(LA11_17 >= 'A' && LA11_17 <= 'Z')||LA11_17=='_'||(LA11_17 >= 'a' && LA11_17 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 48;}
-						else s = 47;
-						 
-						input.seek(index11_17);
-						if ( s>=0 ) return s;
-						break;
-
-					case 11 : 
-						int LA11_43 = input.LA(1);
-						 
-						int index11_43 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_43=='u') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 54;}
-						else if ( ((LA11_43 >= '0' && LA11_43 <= '9')||(LA11_43 >= 'A' && LA11_43 <= 'Z')||LA11_43=='_'||(LA11_43 >= 'a' && LA11_43 <= 't')||(LA11_43 >= 'v' && LA11_43 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_43);
-						if ( s>=0 ) return s;
-						break;
-
-					case 12 : 
-						int LA11_54 = input.LA(1);
-						 
-						int index11_54 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_54=='e') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 59;}
-						else if ( ((LA11_54 >= '0' && LA11_54 <= '9')||(LA11_54 >= 'A' && LA11_54 <= 'Z')||LA11_54=='_'||(LA11_54 >= 'a' && LA11_54 <= 'd')||(LA11_54 >= 'f' && LA11_54 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_54);
-						if ( s>=0 ) return s;
-						break;
-
-					case 13 : 
-						int LA11_4 = input.LA(1);
-						 
-						int index11_4 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_4=='B') && ((curly_nesting > 0 && plain_nesting == 0 || belief_rules==1))) {s = 41;}
-						else s = 42;
-						 
-						input.seek(index11_4);
-						if ( s>=0 ) return s;
-						break;
-
-					case 14 : 
-						int LA11_5 = input.LA(1);
-						 
-						int index11_5 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_5=='r') && (((curly_nesting > 0 && plain_nesting == 0)||(stringterm)||(!stringterm)))) {s = 43;}
-						else if ( ((LA11_5 >= '0' && LA11_5 <= '9')||(LA11_5 >= 'A' && LA11_5 <= 'Z')||LA11_5=='_'||(LA11_5 >= 'a' && LA11_5 <= 'q')||(LA11_5 >= 's' && LA11_5 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_5);
-						if ( s>=0 ) return s;
-						break;
-
-					case 15 : 
-						int LA11_48 = input.LA(1);
-						 
-						int index11_48 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_48 >= '0' && LA11_48 <= '9')||(LA11_48 >= 'A' && LA11_48 <= 'Z')||LA11_48=='_'||(LA11_48 >= 'a' && LA11_48 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 48;}
-						else s = 47;
-						 
-						input.seek(index11_48);
-						if ( s>=0 ) return s;
-						break;
-
-					case 16 : 
-						int LA11_19 = input.LA(1);
-						 
-						int index11_19 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_19 >= '0' && LA11_19 <= '9')) && (((stringterm)||(!stringterm)))) {s = 50;}
-						else if ( ((LA11_19 >= 'A' && LA11_19 <= 'Z')||LA11_19=='_'||(LA11_19 >= 'a' && LA11_19 <= 'z')) && ((stringterm))) {s = 20;}
-						else s = 49;
-						 
-						input.seek(index11_19);
-						if ( s>=0 ) return s;
-						break;
-
-					case 17 : 
-						int LA11_1 = input.LA(1);
-						 
-						int index11_1 = input.index();
-						input.rewind();
-						s = -1;
-						if ( (LA11_1=='O') && (((stringterm)||(!stringterm)||(curly_nesting == 0)))) {s = 31;}
-						else if ( ((LA11_1 >= '0' && LA11_1 <= '9')||(LA11_1 >= 'A' && LA11_1 <= 'N')||(LA11_1 >= 'P' && LA11_1 <= 'Z')||LA11_1=='_'||(LA11_1 >= 'a' && LA11_1 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_1);
-						if ( s>=0 ) return s;
-						break;
-
-					case 18 : 
-						int LA11_3 = input.LA(1);
-						 
-						int index11_3 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_3 >= '0' && LA11_3 <= '9')||(LA11_3 >= 'A' && LA11_3 <= 'Z')||LA11_3=='_'||(LA11_3 >= 'a' && LA11_3 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 40;
-						 
-						input.seek(index11_3);
-						if ( s>=0 ) return s;
-						break;
-
-					case 19 : 
-						int LA11_59 = input.LA(1);
-						 
-						int index11_59 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_59 >= '0' && LA11_59 <= '9')||(LA11_59 >= 'A' && LA11_59 <= 'Z')||LA11_59=='_'||(LA11_59 >= 'a' && LA11_59 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 61;
-						 
-						input.seek(index11_59);
-						if ( s>=0 ) return s;
-						break;
-
-					case 20 : 
-						int LA11_33 = input.LA(1);
-						 
-						int index11_33 = input.index();
-						input.rewind();
-						s = -1;
-						if ( ((LA11_33 >= '0' && LA11_33 <= '9')||(LA11_33 >= 'A' && LA11_33 <= 'Z')||LA11_33=='_'||(LA11_33 >= 'a' && LA11_33 <= 'z')) && (((stringterm)||(!stringterm)))) {s = 33;}
-						else s = 32;
-						 
-						input.seek(index11_33);
-						if ( s>=0 ) return s;
-						break;
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
 			}
-			NoViableAltException nvae =
-				new NoViableAltException(getDescription(), 11, _s, input);
-			error(nvae);
-			throw nvae;
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
 		}
 	}
 
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+
+	public ActionOnlyLexer(CharStream input) {
+		super(input);
+		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
+	}
+
+	@Override
+	public String getGrammarFileName() { return "ActionOnlyLexer.g4"; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public String[] getChannelNames() { return channelNames; }
+
+	@Override
+	public String[] getModeNames() { return modeNames; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
+
+	public static final String _serializedATN =
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2$\u0179\b\1\b\1\b"+
+		"\1\b\1\b\1\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t"+
+		"\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4"+
+		"\21\t\21\4\22\t\22\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4"+
+		"\30\t\30\4\31\t\31\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4"+
+		"\37\t\37\4 \t \4!\t!\4\"\t\"\4#\t#\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\5\6\5k\n\5\r\5\16\5l\3\6\3\6\3\6\3\6\7\6s\n\6\f\6\16"+
+		"\6v\13\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\7\7\u0081\n\7\f\7\16\7\u0084"+
+		"\13\7\3\7\3\7\3\b\5\b\u0089\n\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\3"+
+		"\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n"+
+		"\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13"+
+		"\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\7\f\u00bc\n\f\f\f\16\f\u00bf\13\f"+
+		"\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\7\r\u00ca\n\r\f\r\16\r\u00cd\13\r"+
+		"\3\r\3\r\3\16\5\16\u00d2\n\16\3\16\3\16\3\17\3\17\3\17\3\17\3\20\6\20"+
+		"\u00db\n\20\r\20\16\20\u00dc\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3"+
+		"\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\7\22\u00f4"+
+		"\n\22\f\22\16\22\u00f7\13\22\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3"+
+		"\23\7\23\u0102\n\23\f\23\16\23\u0105\13\23\3\23\3\23\3\24\5\24\u010a\n"+
+		"\24\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\6\26\u0116\n\26"+
+		"\r\26\16\26\u0117\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3\27\3"+
+		"\27\3\27\3\30\3\30\3\30\3\30\7\30\u012a\n\30\f\30\16\30\u012d\13\30\3"+
+		"\30\3\30\3\30\3\30\3\30\3\31\3\31\3\31\3\31\7\31\u0138\n\31\f\31\16\31"+
+		"\u013b\13\31\3\31\3\31\3\32\5\32\u0140\n\32\3\32\3\32\3\33\3\33\3\33\3"+
+		"\33\3\34\6\34\u0149\n\34\r\34\16\34\u014a\3\35\3\35\3\36\3\36\3\37\3\37"+
+		"\3\37\3\37\7\37\u0155\n\37\f\37\16\37\u0158\13\37\3\37\3\37\3\37\3\37"+
+		"\3\37\3 \3 \3 \3 \7 \u0163\n \f \16 \u0166\13 \3 \3 \3!\5!\u016b\n!\3"+
+		"!\3!\3!\3!\3\"\3\"\3\"\3\"\3#\6#\u0176\n#\r#\16#\u0177\7t\u00bd\u00f5"+
+		"\u012b\u0156\2$\7\3\t\4\13\5\r\6\17\7\21\b\23\t\25\n\27\13\31\f\33\r\35"+
+		"\16\37\17!\20#\21%\22\'\23)\24+\25-\26/\27\61\30\63\31\65\32\67\339\34"+
+		";\35=\36?\37A C!E\"G#I$\7\2\3\4\5\6\7\6\2\62;C\\aac|\3\2\f\f\4\2\13\13"+
+		"\"\"\n\2\"\"*+..\60\60\62;C\\aac|\b\2*+..\62;C\\aac|\2\u018a\2\7\3\2\2"+
+		"\2\2\t\3\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2\2\23"+
+		"\3\2\2\2\2\25\3\2\2\2\3\27\3\2\2\2\3\31\3\2\2\2\3\33\3\2\2\2\3\35\3\2"+
+		"\2\2\3\37\3\2\2\2\3!\3\2\2\2\3#\3\2\2\2\4%\3\2\2\2\4\'\3\2\2\2\4)\3\2"+
+		"\2\2\4+\3\2\2\2\4-\3\2\2\2\4/\3\2\2\2\5\61\3\2\2\2\5\63\3\2\2\2\5\65\3"+
+		"\2\2\2\5\67\3\2\2\2\59\3\2\2\2\5;\3\2\2\2\6=\3\2\2\2\6?\3\2\2\2\6A\3\2"+
+		"\2\2\6C\3\2\2\2\6E\3\2\2\2\6G\3\2\2\2\6I\3\2\2\2\7K\3\2\2\2\tN\3\2\2\2"+
+		"\13b\3\2\2\2\rj\3\2\2\2\17n\3\2\2\2\21|\3\2\2\2\23\u0088\3\2\2\2\25\u008e"+
+		"\3\2\2\2\27\u0092\3\2\2\2\31\u00a6\3\2\2\2\33\u00b7\3\2\2\2\35\u00c5\3"+
+		"\2\2\2\37\u00d1\3\2\2\2!\u00d5\3\2\2\2#\u00da\3\2\2\2%\u00de\3\2\2\2\'"+
+		"\u00ef\3\2\2\2)\u00fd\3\2\2\2+\u0109\3\2\2\2-\u010d\3\2\2\2/\u0115\3\2"+
+		"\2\2\61\u0119\3\2\2\2\63\u0125\3\2\2\2\65\u0133\3\2\2\2\67\u013f\3\2\2"+
+		"\29\u0143\3\2\2\2;\u0148\3\2\2\2=\u014c\3\2\2\2?\u014e\3\2\2\2A\u0150"+
+		"\3\2\2\2C\u015e\3\2\2\2E\u016a\3\2\2\2G\u0170\3\2\2\2I\u0175\3\2\2\2K"+
+		"L\7C\2\2LM\7Q\2\2M\b\3\2\2\2NO\7<\2\2OP\7K\2\2PQ\7p\2\2QR\7k\2\2RS\7v"+
+		"\2\2ST\7k\2\2TU\7c\2\2UV\7n\2\2VW\7\"\2\2WX\7D\2\2XY\7g\2\2YZ\7n\2\2Z"+
+		"[\7k\2\2[\\\7g\2\2\\]\7h\2\2]^\7u\2\2^_\7<\2\2_`\3\2\2\2`a\b\3\2\2a\n"+
+		"\3\2\2\2bc\7<\2\2cd\7p\2\2de\7c\2\2ef\7o\2\2fg\7g\2\2gh\7<\2\2h\f\3\2"+
+		"\2\2ik\t\2\2\2ji\3\2\2\2kl\3\2\2\2lj\3\2\2\2lm\3\2\2\2m\16\3\2\2\2no\7"+
+		"\61\2\2op\7,\2\2pt\3\2\2\2qs\13\2\2\2rq\3\2\2\2sv\3\2\2\2tu\3\2\2\2tr"+
+		"\3\2\2\2uw\3\2\2\2vt\3\2\2\2wx\7,\2\2xy\7\61\2\2yz\3\2\2\2z{\b\6\3\2{"+
+		"\20\3\2\2\2|}\7\61\2\2}~\7\61\2\2~\u0082\3\2\2\2\177\u0081\n\3\2\2\u0080"+
+		"\177\3\2\2\2\u0081\u0084\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2"+
+		"\2\u0083\u0085\3\2\2\2\u0084\u0082\3\2\2\2\u0085\u0086\b\7\3\2\u0086\22"+
+		"\3\2\2\2\u0087\u0089\7\17\2\2\u0088\u0087\3\2\2\2\u0088\u0089\3\2\2\2"+
+		"\u0089\u008a\3\2\2\2\u008a\u008b\7\f\2\2\u008b\u008c\3\2\2\2\u008c\u008d"+
+		"\b\b\3\2\u008d\24\3\2\2\2\u008e\u008f\t\4\2\2\u008f\u0090\3\2\2\2\u0090"+
+		"\u0091\b\t\3\2\u0091\26\3\2\2\2\u0092\u0093\7<\2\2\u0093\u0094\7T\2\2"+
+		"\u0094\u0095\7g\2\2\u0095\u0096\7c\2\2\u0096\u0097\7u\2\2\u0097\u0098"+
+		"\7q\2\2\u0098\u0099\7p\2\2\u0099\u009a\7k\2\2\u009a\u009b\7p\2\2\u009b"+
+		"\u009c\7i\2\2\u009c\u009d\7\"\2\2\u009d\u009e\7T\2\2\u009e\u009f\7w\2"+
+		"\2\u009f\u00a0\7n\2\2\u00a0\u00a1\7g\2\2\u00a1\u00a2\7u\2\2\u00a2\u00a3"+
+		"\7<\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\b\n\4\2\u00a5\30\3\2\2\2\u00a6"+
+		"\u00a7\7<\2\2\u00a7\u00a8\7K\2\2\u00a8\u00a9\7p\2\2\u00a9\u00aa\7k\2\2"+
+		"\u00aa\u00ab\7v\2\2\u00ab\u00ac\7k\2\2\u00ac\u00ad\7c\2\2\u00ad\u00ae"+
+		"\7n\2\2\u00ae\u00af\7\"\2\2\u00af\u00b0\7I\2\2\u00b0\u00b1\7q\2\2\u00b1"+
+		"\u00b2\7c\2\2\u00b2\u00b3\7n\2\2\u00b3\u00b4\7<\2\2\u00b4\u00b5\3\2\2"+
+		"\2\u00b5\u00b6\b\13\5\2\u00b6\32\3\2\2\2\u00b7\u00b8\7\61\2\2\u00b8\u00b9"+
+		"\7,\2\2\u00b9\u00bd\3\2\2\2\u00ba\u00bc\13\2\2\2\u00bb\u00ba\3\2\2\2\u00bc"+
+		"\u00bf\3\2\2\2\u00bd\u00be\3\2\2\2\u00bd\u00bb\3\2\2\2\u00be\u00c0\3\2"+
+		"\2\2\u00bf\u00bd\3\2\2\2\u00c0\u00c1\7,\2\2\u00c1\u00c2\7\61\2\2\u00c2"+
+		"\u00c3\3\2\2\2\u00c3\u00c4\b\f\3\2\u00c4\34\3\2\2\2\u00c5\u00c6\7\61\2"+
+		"\2\u00c6\u00c7\7\61\2\2\u00c7\u00cb\3\2\2\2\u00c8\u00ca\n\3\2\2\u00c9"+
+		"\u00c8\3\2\2\2\u00ca\u00cd\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cb\u00cc\3\2"+
+		"\2\2\u00cc\u00ce\3\2\2\2\u00cd\u00cb\3\2\2\2\u00ce\u00cf\b\r\3\2\u00cf"+
+		"\36\3\2\2\2\u00d0\u00d2\7\17\2\2\u00d1\u00d0\3\2\2\2\u00d1\u00d2\3\2\2"+
+		"\2\u00d2\u00d3\3\2\2\2\u00d3\u00d4\7\f\2\2\u00d4 \3\2\2\2\u00d5\u00d6"+
+		"\t\4\2\2\u00d6\u00d7\3\2\2\2\u00d7\u00d8\b\17\3\2\u00d8\"\3\2\2\2\u00d9"+
+		"\u00db\t\5\2\2\u00da\u00d9\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc\u00da\3\2"+
+		"\2\2\u00dc\u00dd\3\2\2\2\u00dd$\3\2\2\2\u00de\u00df\7<\2\2\u00df\u00e0"+
+		"\7K\2\2\u00e0\u00e1\7p\2\2\u00e1\u00e2\7k\2\2\u00e2\u00e3\7v\2\2\u00e3"+
+		"\u00e4\7k\2\2\u00e4\u00e5\7c\2\2\u00e5\u00e6\7n\2\2\u00e6\u00e7\7\"\2"+
+		"\2\u00e7\u00e8\7I\2\2\u00e8\u00e9\7q\2\2\u00e9\u00ea\7c\2\2\u00ea\u00eb"+
+		"\7n\2\2\u00eb\u00ec\7<\2\2\u00ec\u00ed\3\2\2\2\u00ed\u00ee\b\21\5\2\u00ee"+
+		"&\3\2\2\2\u00ef\u00f0\7\61\2\2\u00f0\u00f1\7,\2\2\u00f1\u00f5\3\2\2\2"+
+		"\u00f2\u00f4\13\2\2\2\u00f3\u00f2\3\2\2\2\u00f4\u00f7\3\2\2\2\u00f5\u00f6"+
+		"\3\2\2\2\u00f5\u00f3\3\2\2\2\u00f6\u00f8\3\2\2\2\u00f7\u00f5\3\2\2\2\u00f8"+
+		"\u00f9\7,\2\2\u00f9\u00fa\7\61\2\2\u00fa\u00fb\3\2\2\2\u00fb\u00fc\b\22"+
+		"\3\2\u00fc(\3\2\2\2\u00fd\u00fe\7\61\2\2\u00fe\u00ff\7\61\2\2\u00ff\u0103"+
+		"\3\2\2\2\u0100\u0102\n\3\2\2\u0101\u0100\3\2\2\2\u0102\u0105\3\2\2\2\u0103"+
+		"\u0101\3\2\2\2\u0103\u0104\3\2\2\2\u0104\u0106\3\2\2\2\u0105\u0103\3\2"+
+		"\2\2\u0106\u0107\b\23\3\2\u0107*\3\2\2\2\u0108\u010a\7\17\2\2\u0109\u0108"+
+		"\3\2\2\2\u0109\u010a\3\2\2\2\u010a\u010b\3\2\2\2\u010b\u010c\7\f\2\2\u010c"+
+		",\3\2\2\2\u010d\u010e\t\4\2\2\u010e\u010f\3\2\2\2\u010f\u0110\b\25\3\2"+
+		"\u0110.\3\2\2\2\u0111\u0116\t\6\2\2\u0112\u0113\7<\2\2\u0113\u0116\7/"+
+		"\2\2\u0114\u0116\7\"\2\2\u0115\u0111\3\2\2\2\u0115\u0112\3\2\2\2\u0115"+
+		"\u0114\3\2\2\2\u0116\u0117\3\2\2\2\u0117\u0115\3\2\2\2\u0117\u0118\3\2"+
+		"\2\2\u0118\60\3\2\2\2\u0119\u011a\7<\2\2\u011a\u011b\7C\2\2\u011b\u011c"+
+		"\7e\2\2\u011c\u011d\7v\2\2\u011d\u011e\7k\2\2\u011e\u011f\7q\2\2\u011f"+
+		"\u0120\7p\2\2\u0120\u0121\7u\2\2\u0121\u0122\7<\2\2\u0122\u0123\3\2\2"+
+		"\2\u0123\u0124\b\27\6\2\u0124\62\3\2\2\2\u0125\u0126\7\61\2\2\u0126\u0127"+
+		"\7,\2\2\u0127\u012b\3\2\2\2\u0128\u012a\13\2\2\2\u0129\u0128\3\2\2\2\u012a"+
+		"\u012d\3\2\2\2\u012b\u012c\3\2\2\2\u012b\u0129\3\2\2\2\u012c\u012e\3\2"+
+		"\2\2\u012d\u012b\3\2\2\2\u012e\u012f\7,\2\2\u012f\u0130\7\61\2\2\u0130"+
+		"\u0131\3\2\2\2\u0131\u0132\b\30\3\2\u0132\64\3\2\2\2\u0133\u0134\7\61"+
+		"\2\2\u0134\u0135\7\61\2\2\u0135\u0139\3\2\2\2\u0136\u0138\n\3\2\2\u0137"+
+		"\u0136\3\2\2\2\u0138\u013b\3\2\2\2\u0139\u0137\3\2\2\2\u0139\u013a\3\2"+
+		"\2\2\u013a\u013c\3\2\2\2\u013b\u0139\3\2\2\2\u013c\u013d\b\31\3\2\u013d"+
+		"\66\3\2\2\2\u013e\u0140\7\17\2\2\u013f\u013e\3\2\2\2\u013f\u0140\3\2\2"+
+		"\2\u0140\u0141\3\2\2\2\u0141\u0142\7\f\2\2\u01428\3\2\2\2\u0143\u0144"+
+		"\t\4\2\2\u0144\u0145\3\2\2\2\u0145\u0146\b\33\3\2\u0146:\3\2\2\2\u0147"+
+		"\u0149\t\5\2\2\u0148\u0147\3\2\2\2\u0149\u014a\3\2\2\2\u014a\u0148\3\2"+
+		"\2\2\u014a\u014b\3\2\2\2\u014b<\3\2\2\2\u014c\u014d\7}\2\2\u014d>\3\2"+
+		"\2\2\u014e\u014f\7\177\2\2\u014f@\3\2\2\2\u0150\u0151\7\61\2\2\u0151\u0152"+
+		"\7,\2\2\u0152\u0156\3\2\2\2\u0153\u0155\13\2\2\2\u0154\u0153\3\2\2\2\u0155"+
+		"\u0158\3\2\2\2\u0156\u0157\3\2\2\2\u0156\u0154\3\2\2\2\u0157\u0159\3\2"+
+		"\2\2\u0158\u0156\3\2\2\2\u0159\u015a\7,\2\2\u015a\u015b\7\61\2\2\u015b"+
+		"\u015c\3\2\2\2\u015c\u015d\b\37\3\2\u015dB\3\2\2\2\u015e\u015f\7\61\2"+
+		"\2\u015f\u0160\7\61\2\2\u0160\u0164\3\2\2\2\u0161\u0163\n\3\2\2\u0162"+
+		"\u0161\3\2\2\2\u0163\u0166\3\2\2\2\u0164\u0162\3\2\2\2\u0164\u0165\3\2"+
+		"\2\2\u0165\u0167\3\2\2\2\u0166\u0164\3\2\2\2\u0167\u0168\b \3\2\u0168"+
+		"D\3\2\2\2\u0169\u016b\7\17\2\2\u016a\u0169\3\2\2\2\u016a\u016b\3\2\2\2"+
+		"\u016b\u016c\3\2\2\2\u016c\u016d\7\f\2\2\u016d\u016e\3\2\2\2\u016e\u016f"+
+		"\b!\3\2\u016fF\3\2\2\2\u0170\u0171\t\4\2\2\u0171\u0172\3\2\2\2\u0172\u0173"+
+		"\b\"\3\2\u0173H\3\2\2\2\u0174\u0176\t\5\2\2\u0175\u0174\3\2\2\2\u0176"+
+		"\u0177\3\2\2\2\u0177\u0175\3\2\2\2\u0177\u0178\3\2\2\2\u0178J\3\2\2\2"+
+		"\34\2\3\4\5\6lt\u0082\u0088\u00bd\u00cb\u00d1\u00dc\u00f5\u0103\u0109"+
+		"\u0115\u0117\u012b\u0139\u013f\u014a\u0156\u0164\u016a\u0177\7\4\3\2\b"+
+		"\2\2\4\4\2\4\5\2\4\6\2";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+	static {
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+		}
+	}
 }

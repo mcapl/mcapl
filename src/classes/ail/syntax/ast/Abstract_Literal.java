@@ -114,14 +114,6 @@ public class Abstract_Literal extends Abstract_Pred {
 	}
 	
 	/**
-	 * Construct from a predicate - assume true.
-	 * @param p
-	 */
-	public Abstract_Literal(Abstract_Pred p) {
-		this (Literal.LPos, p);
-	}
-	
-	/**
 	 * Construct from a pred - assume true.
 	 * @param p
 	 */

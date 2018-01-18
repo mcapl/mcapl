@@ -75,12 +75,13 @@ public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment
 		this.portnumber = portnumber;
 	}
 
+
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#initialise()
+	 * @see ail.mas.DefaultEnvironment#init_after_adding_agents()
 	 */
 	@Override
-	public void initialise() {
+	public void init_after_adding_agents() {
 		if (connectedtosocket) {
 			AJPFLogger.info("eass.mas", "Waiting Connection");
 			try {

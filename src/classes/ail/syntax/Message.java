@@ -28,7 +28,9 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ail.util.AILexception;
 import gov.nasa.jpf.annotation.FilterField;
@@ -388,23 +390,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		List<String> tvarnames = t.getVarNames();
-		List<String> myvarnames = getVarNames();
-		tvarnames.addAll(varnames);
-	   	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
-
-		
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 	}
 
 	/*
@@ -412,8 +399,8 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		varnames.addAll(msgId.getVarNames());
 		varnames.addAll(threadId.getVarNames());
 		varnames.addAll(propCont.getVarNames());
@@ -520,5 +507,6 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	public Unifiable resolveVarsClusters() {
 		return new Message(getIlForce(), getSender(), getReceiver(), (Term) propCont.resolveVarsClusters(), (StringTerm) msgId.resolveVarsClusters(), (StringTerm)  threadId.resolveVarsClusters());
 	}
+
 
 }

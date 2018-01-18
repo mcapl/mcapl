@@ -161,10 +161,9 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	   		return super.executeAction(agName, act);
 	   	} else {
 	   	   	decidetostop(agName, act);
-	    	if (!act.getFunctor().equals("print")) {
-	    		lastAgent = agName;
-	    		lastAction = act;
-	    	}
+	   	   	lastAgent = agName;
+	    	lastAction = act;
+
 	    	Unifier u = new Unifier();
 		   	if (AJPFLogger.ltInfo("ail.mas.DefaultEnvironment")) {
 		   		AJPFLogger.info("ail.mas.DefaultEnvironment", agName + " done " + printAction(act));

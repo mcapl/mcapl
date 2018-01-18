@@ -163,10 +163,11 @@ public class HumanHoleVerificationEnv extends DefaultEthicalGovernorEnv implemen
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#initialise()
+	 * @see ail.mas.DefaultEnvironment#init_before_adding_agents()
 	 */
-	public void initialise() {
-		super.initialise();
+	@Override
+	public void init_before_adding_agents() {
+		super.init_before_adding_agents();
 		getScheduler().addJobber(this);
 	}
 

@@ -56,6 +56,11 @@ public interface MCAPLmas {
     public boolean alldone();
     
     /**
+     * Everything should now start.  Called after initialisation, but before scheduling.
+     */
+    public void begin();
+    
+    /**
      * Stop all the agents - or at least inform them they need to stop.
      *
      */

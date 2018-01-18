@@ -24,8 +24,12 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import ail.semantics.AILAgent;
 
 /**
  * Note that a Prolog Cut is not a Logical Formula, but appears in the position of one in Prolog programs so I'm hoping this will not cause too
@@ -52,7 +56,7 @@ public class PrologCut implements LogicalFormula {
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
 
 	}
 
@@ -61,8 +65,8 @@ public class PrologCut implements LogicalFormula {
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		return new ArrayList<String>();
+	public Set<String> getVarNames() {
+		return new HashSet<String>();
 	}
 
 	/*
@@ -148,7 +152,7 @@ public class PrologCut implements LogicalFormula {
 	@Override
 	public Iterator<Unifier> logicalConsequence(
 			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un,
-			List<String> varnames) {
+			Set<String> varnames, AILAgent.SelectionOrder so) {
 		return LogExpr.createUnifIterator(un);
 	}
 

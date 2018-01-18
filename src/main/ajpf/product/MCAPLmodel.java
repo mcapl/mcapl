@@ -36,7 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ajpf.psl.Proposition;
-
+import ajpf.util.AJPFException;
+import ajpf.util.ProbabilisticEdgeAnnotationException;
 import gov.nasa.jpf.Config;
 
 
@@ -169,7 +170,7 @@ public class MCAPLmodel {
 	 * Add an edge to the model.  
 	 * @param e
 	 */
-	public void addEdge(ModelState s) {
+	public void addEdge(ModelState s) throws AJPFException {
 		if (! current_path.isEmpty()) {
 			Integer from = current_path.get(current_path.size() - 1);
 			
@@ -183,7 +184,15 @@ public class MCAPLmodel {
 			
 			// Annotate if necessary.
 			if (next_edge_to_be_annotated) {
-				s.edge_annotate_double(from, next_edge_annotation);
+				try {
+					states_by_num.get(from).edge_annotate_double(s.getNum(), next_edge_annotation);
+					// s.edge_annotate_double(from, next_edge_annotation);
+				} catch (AJPFException e) {
+					if (e instanceof ProbabilisticEdgeAnnotationException) {
+						((ProbabilisticEdgeAnnotationException) e).addFrom(s.getNum());
+					}
+					throw e;
+				}
 				next_edge_to_be_annotated = false;
 				next_edge_annotation = 0.0;
 			}
@@ -454,7 +463,6 @@ public class MCAPLmodel {
 	 * @return
 	 */
 	protected String printEdge(int from, int to, OutputFormat f) {
-		System.err.println("entered print edge");
 		 String s = "";
 		 switch (output) {
 		 	case Default:

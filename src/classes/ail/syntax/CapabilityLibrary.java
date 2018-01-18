@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.HashMap;
 
+import ail.semantics.AILAgent;
+
 /**
  * A class for libraries of capabilities.
  * @author lad
@@ -43,7 +45,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 	 * @param cPred
 	 * @return
 	 */
-	public Iterator<Capability> getRelevant(Predicate cPred) {
+	public Iterator<Capability> getRelevant(Predicate cPred, AILAgent.SelectionOrder so) {
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
 			for (ArrayList<Capability> cl: capMap.values()) {
@@ -129,7 +131,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 				GBelief gb = (GBelief) cc.getPre();
 				
 				// The preconditions of the new capability are implied by the preconditions of the old capability
-				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames());
+				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR);
 
 				if (preuni.hasNext()) {
 				
@@ -138,14 +140,14 @@ public class CapabilityLibrary implements Iterable<Capability> {
 					// Then we check postconditions.
 					EvaluationBasewNames<PredicateTerm> posteb = 
 							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
-					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
+					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames(), AILAgent.SelectionOrder.LINEAR);
 					if (postuni.hasNext()) {
 						u.compose(postuni.next());
 						cc.apply(u);
 						pgb.apply(u);
 						
 						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
-						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
+						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames(),  AILAgent.SelectionOrder.LINEAR);
 						Unifier puni = pun.next();
 						
 						u.compose(puni);

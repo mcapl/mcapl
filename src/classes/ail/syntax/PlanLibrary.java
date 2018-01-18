@@ -29,10 +29,10 @@ package ail.syntax;
 
 import ail.semantics.AILAgent;
 import ail.util.MergeIterator;
-
 import ajpf.util.VerifyMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
@@ -72,6 +72,24 @@ public class PlanLibrary {
 	 */
 	@FilterField
 	protected String libname = AILAgent.AILdefaultPLname;
+	
+	public PlanLibrary copy() {
+		PlanLibrary pl = new PlanLibrary();
+		for (Plan p: getPlans()) {
+			pl.add(p);
+		}
+		return pl;
+	}
+	
+	public void shuffle() {
+		plans.shuffle();
+		varPlans = new PlanList();
+		for (Plan p: plans) {
+			if (p.getTriggerEvent().isVar()) {
+				varPlans.add(p);
+			}
+		}
+	}
 	
 	
 	/**
@@ -152,9 +170,9 @@ public class PlanLibrary {
     public Iterator<ApplicablePlan> getAllRelevant(PredicateIndicator pi, AILAgent a) {
         	PlanSet l = relPlans.get(pi);
         	if (l != null) {
-        		return new MergeIterator<ApplicablePlan>(l.get(a), varPlans.get(a));
+        		return new MergeIterator<ApplicablePlan>(l.get(a, false), varPlans.get(a, false));
         	} else {
-        		return varPlans.get(a);
+        		return varPlans.get(a, false);
         	}
      }       
 
@@ -178,7 +196,7 @@ public class PlanLibrary {
      * @return
      */
     public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a) {
-   		return varPlans.get(a);
+   		return getAllReactivePlans(a, false);
     }
     
     /**
@@ -198,12 +216,16 @@ public class PlanLibrary {
      */
     public Iterator<ApplicablePlan> getPlanInstantions(Plan p, AILAgent a) {
     	if (p.getTriggerEvent().isVar()) {
-    		return varPlans.getApplicablePlansFor(a, p);
+    		return varPlans.getApplicablePlansFor(a, p, false);
     	} else {
-    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p);
+    		return relPlans.get(p.getTriggerEvent().getPredicateIndicator()).getApplicablePlansFor(a, p, false);
     	}
     }
       
+    public Iterator<ApplicablePlan> getAllReactivePlans(AILAgent a, boolean random) {
+   		return varPlans.get(a, random);
+    }
+
     /**
      * Return the number of plans in the library.
      * @return
@@ -281,8 +303,7 @@ public class PlanLibrary {
     	 * @param a
     	 * @return
     	 */
-    	public Iterator<ApplicablePlan> get(AILAgent a);
-    	
+    	public Iterator<ApplicablePlan> get(AILAgent a, boolean random);
     	/**
     	 * Return an iterator over uninstantiated plans in this plan base.
     	 * @param a
@@ -296,7 +317,7 @@ public class PlanLibrary {
     	 * @param p
     	 * @return
     	 */
-    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p);
+    	public Iterator<ApplicablePlan> getApplicablePlansFor(AILAgent a, Plan p, boolean random);
     	
     	/**
     	 * The number of plans in the index.
@@ -308,6 +329,8 @@ public class PlanLibrary {
     	 * @param p
     	 */
     	public void remove(Plan p);
+    	
+    	public void shuffle();
     }
     
     /**
@@ -377,11 +400,11 @@ public class PlanLibrary {
     	
     	/*
     	 * (non-Javadoc)
-    	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan)
+    	 * @see ail.syntax.PlanLibrary.PlanSet#getApplicablePlansFor(ail.semantics.AILAgent, ail.syntax.Plan, boolean)
     	 */
     	@Override
-    	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p) {
-       		return new Iterator<ApplicablePlan> () {
+      	public Iterator<ApplicablePlan> getApplicablePlansFor(final AILAgent a, final Plan p, boolean random) {
+    		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
 
     			/**
@@ -426,40 +449,49 @@ public class PlanLibrary {
     			 */
     			public void get() {
     				Plan cp = (Plan) p.clone();
-    				cp.standardise_apart(intention.hdU(), new Unifier());
+    				Unifier un = new Unifier();
+    				
+    				if (intention != null) {
+    					cp.standardise_apart(intention.hdU(), new Unifier());
+    					un = intention.hdU();
+    				}
+ 
     				int prefixsize = cp.getPrefix().size();
     				int appplanlength = prefixsize;
-    				Unifier un = intention.hdU();
     				boolean plan_is_applicable = false;
     				
     				if (prefixsize > 0) {
     					if (a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
-							plan_is_applicable = true;
+    						plan_is_applicable = true;
     					} 
     						
     				} else {
-    					if (! intention.empty() || cp.getTriggerEvent().getContent() instanceof VarTerm) {
-    						appplanlength = 0;
+    					if ( (intention != null && intention.empty()) || (appplanlength == 0)) {
+    	    					// appplanlength = 0;
     						plan_is_applicable = true;
     					} 
     				} 
     					
     				if (plan_is_applicable) {
     					if (iun == null) {
-    						iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un);
+    						if (random == true) {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
+    						} else {
+    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
+    						}
     					}
     				}
     					
     				if (iun != null && iun.hasNext()) {
-    					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
+    						current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
     				} else {
-    						// We've exhausted all possibilities for this plan
     					current = null;
     					return;
     				}
     			}
-    		};
+
+     		};
    			
     	};
     	
@@ -469,7 +501,7 @@ public class PlanLibrary {
     	 * @see ail.syntax.PlanLibrary.PlanSet#get(ail.semantics.AILAgent)
     	 */
     	@Override
-    	public Iterator<ApplicablePlan> get(final AILAgent a) {
+    	public Iterator<ApplicablePlan> get(final AILAgent a, boolean random) {
     		return new Iterator<ApplicablePlan> () {
     			ApplicablePlan current = null;
     			/**
@@ -517,7 +549,7 @@ public class PlanLibrary {
     					current = ap_it.next();
     				} else {
     					if (planit.hasNext()) {
-    						ap_it = getApplicablePlansFor(a, planit.next());
+    						ap_it = getApplicablePlansFor(a, planit.next(), random);
     						get();
     					} else {
     						current = null;
@@ -535,6 +567,10 @@ public class PlanLibrary {
 		 */
 		public void remove(Plan p) {
 			plans.remove(p);
+		}
+		
+		public void shuffle() {
+			Collections.shuffle(plans);
 		}
     }
     
@@ -569,7 +605,7 @@ public class PlanLibrary {
 
     
 	// Think I may need a new datatype here - or need guard plan to implement EBCompare
-   	public Iterator<Plan> getRelevant(EBCompare<Plan> ga) {
+   	public Iterator<Plan> getRelevant(EBCompare<Plan> ga, AILAgent.SelectionOrder so) {
 		return null;
 	}
 	

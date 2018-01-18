@@ -84,8 +84,6 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 * The multi-agent system.
 	 */
 	protected MAS mas;
-	
-
 
 	@Override
 	/*
@@ -216,6 +214,14 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 */
 	public boolean done() {
 		return env.done();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#begin()
+	 */
+	public void begin() {
+		env.begin();
 	}
 	
 	/*
@@ -388,11 +394,20 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 	 */
 	public void cleanup() {}
 
+
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.AILEnv#initialise()
+	 * @see ail.mas.AILEnv#init_before_adding_agents()
 	 */
-	public void initialise() {}
+	@Override
+	public void init_before_adding_agents() {}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#init_after_adding_agents()
+	 */
+	@Override
+	public void init_after_adding_agents() {}
 	
 	/*
 	 * (non-Javadoc)
@@ -615,5 +630,33 @@ public class EASSVehicle implements VehicleInterface, EASSEnv {
 		mas = m;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners()
+	 */
+	@Override
+	public void notifyListeners() {
+		env.notifyListeners();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#notifyListeners(java.lang.String)
+	 */
+	@Override
+	public void notifyListeners(String name) {
+		env.notifyListeners(name);
+	}
+
+	/*
+	 * 
+	 */
+	@Override
+	public List<AILAgent> getAgents() {
+		ArrayList<AILAgent> agents = new ArrayList<AILAgent>();
+		agents.add(agent);
+		agents.add(abstraction);
+		return agents;
+	}
 
 }

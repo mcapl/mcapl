@@ -61,7 +61,7 @@ public class UnificationQuickTests {
 		Rule rule = new Rule(ghead, new GBelief(body));
 		Rule ruleC = rule.clone();
 		
-		ruleC.standardise_apart(ghead2, new Unifier(), Collections.<String>emptyList());
+		ruleC.standardise_apart(ghead2, new Unifier(), Collections.<String>emptySet());
 		
 		Assert.assertTrue(ghead.toString().equals(ghead3.toString()));
 		

@@ -25,9 +25,11 @@
 package ail.syntax;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -95,6 +97,12 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		goaltype = n;
 	}
 			
+	public Goal(Predicate p, int n) {
+		super(p.getFunctor());
+		this.addTerms(p.getTerms());
+//		this.addAnnotFrom(p);
+		goaltype = n;
+	}
 	/**
 	 * Getter method for the goal type.
 	 * 
@@ -239,17 +247,19 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
      */
 	@Override
     public boolean unifies(Unifiable g, Unifier u) {
-		Goal g1 = (Goal) g;
-   		
-		if (g1.getGoalType() == getGoalType()) {
-			if (getGoalBase().unifies(g1.getGoalBase(), u)) {
-				if (Character.isUpperCase(getFunctor().charAt(0))) {
-		    		VarTerm v = new VarTerm(getFunctor());
-		    		Literal l = new Literal(g1.getFunctor());
-		    		l.setTerms(g1.getTerms());
-		    		return v.unifies(l, u);
-				} else {
-					return super.unifies(g1, u);
+    	if (g instanceof Goal) {
+			Goal g1 = (Goal) g;
+	   		
+			if (g1.getGoalType() == getGoalType()) {
+				if (getGoalBase().unifies(g1.getGoalBase(), u)) {
+					if (Character.isUpperCase(getFunctor().charAt(0))) {
+			    		VarTerm v = new VarTerm(getFunctor());
+			    		Literal l = new Literal(g1.getFunctor());
+			    		l.setTerms(g1.getTerms());
+			    		return v.unifies(l, u);
+					} else {
+						return super.unifies(g1, u);
+					}
 				}
 			}
 			return false;
@@ -330,8 +340,8 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
      * @see ail.syntax.Predicate#getVarNames()
      */
     @Override
-    public List<String> getVarNames() {
-    	List<String> varnames = super.getVarNames();
+    public Set<String> getVarNames() {
+    	Set<String> varnames = super.getVarNames();
     	varnames.addAll(getGoalBase().getVarNames());
     	return varnames;
     }
@@ -392,8 +402,8 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier)
 	 */
-    @Override
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
      	StringTerm ebname =  getEB();
      	EvaluationBasewNames<PredicateTerm> eb = new TrivialEvaluationBase<PredicateTerm>();
     	if (ebname instanceof VarTerm) {
@@ -402,8 +412,13 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     			eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ((StringTerm) ebv.getValue()).getString());
     		} else {
     			for (String ebnames: ag.getGBList()) {
-    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(ebnames), ebnames);
-    				if (eb instanceof TrivialEvaluationBase) {
+    				EvaluationBasewNames<PredicateTerm> new_eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(new StringTermImpl(ebnames)), ebnames);
+        	     	// Temporary fix for need to evaluate against Belief Base as well.
+    				/* if (ag.getBB(new StringTermImpl(ebnames)) != null) {
+	        			EvaluationBasewNames<PredicateTerm> bb = new NamedEvaluationBase<PredicateTerm>(ag.getBB(new StringTermImpl(ebnames)), ebnames);
+	        			new_eb = new MergeEvaluationBase<PredicateTerm>(bb, new_eb);
+        			} */
+   				if (eb instanceof TrivialEvaluationBase) {
     					eb = new_eb;
     				} else {
     					eb = new MergeEvaluationBase<PredicateTerm>(new_eb, eb);
@@ -414,7 +429,7 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     		eb = new NamedEvaluationBase<PredicateTerm>(ag.getGoalBase(getEB()), ebname.getString());
     	}
     	
-    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames);
+    	return logicalConsequence(eb, ag.getRuleBase(), un, varnames, so);
 	}
 
 	/*
@@ -434,5 +449,10 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	public boolean isVar() {
 		return Character.isUpperCase(getFunctor().charAt(0));
 	}
+    
+	public Predicate getLogicalContent() {
+		return this;
+	}
+
 
 }

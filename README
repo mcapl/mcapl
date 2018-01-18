@@ -2,11 +2,19 @@ This software distribution consists of:
 
 - The Agent JPF (AJPF) extention of the Java Pathfinder model checker for model checking BDI style agent programs.
 
-- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming langauges.
+- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming languages.
 
 - The Gwendolen BDI agent programming language.
 
 - The EASS (Engineering Autonomous Space Software) variant of the Gwendolen Language
+
+- The Ethical Gwendolen variant of the Gwendolen Language
+
+- The AIL Implementation of the GOAL BDI agent programming language (AIL GOAL).
+
+- A Declarative Ethical Governor (DEG) Implementation
+
+- A Really Simple Motorway Simulation (RSMS)
 
 src/classes and src/main contains the core classes for each of these libraries 
    - when Java Pathfinder is being used the classes in src/classes run in the JPF virtual machine while those in src/main run in the native virtual machine

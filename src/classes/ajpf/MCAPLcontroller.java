@@ -30,7 +30,10 @@ import gov.nasa.jpf.vm.Verify;
 import java.util.Properties;
 import java.util.Random;
 import java.util.List;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
@@ -110,7 +113,7 @@ public class MCAPLcontroller  {
 		specification.addController(this);
 		
 
-	}
+	} 
 
 	/**
 	 * Constructs a controller from a MAS and a property.
@@ -171,6 +174,20 @@ public class MCAPLcontroller  {
 //		System.err.println("creating automaton");
 		specification.createAutomaton();		
 	}
+	
+	/**
+	 * Constructs a controller from a MAS and a property.
+	 * @param mas
+	 * @param propertystring
+	 * @param outputlevel
+	 */
+//	public void setProperty(String pstring) {
+		// setMAS(mas);
+		// config = properties;
+	//	specification.addPropertyString(pstring);
+		// specification.addMas(mas);
+	//	specification.addController(this);
+//	}
 
 	/**
 	 * Returns the agent with a given name.
@@ -222,6 +239,7 @@ public class MCAPLcontroller  {
 		} */
 		
 		specification.checkProperties();
+		mas.begin();
 		checkend = checkEnd();
 		while (! checkend) {
 			a = scheduling();
@@ -351,7 +369,10 @@ public class MCAPLcontroller  {
 			}
 			return true;
 		} else {
-			force_transition();
+			if (transitionEveryReasoningCycle()) {
+				// System.err.println("forcing transition");
+				force_transition();
+			}
 		}
 		if (AJPFLogger.ltFine("ajpf.MCAPLcontroller")) {
 			AJPFLogger.fine("ajpf.MCAPLcontroller", "returning false by default");
@@ -493,6 +514,40 @@ public class MCAPLcontroller  {
 	 */
 	public ChoiceRecord getRecord() {
 		return record;
+	}
+	
+	
+	/**
+	 * Read in a file and return its contents as a string
+	 * @param filename
+	 * @param key
+	 * @return
+	 */
+	public static String getStringFromFile(String filename) {
+		String abs_filename = "";
+		String out_string = "";
+		try {
+			abs_filename = MCAPLcontroller.getFilename(filename);
+		} catch (AJPFException e) {
+			AJPFLogger.severe("ajpf.MCAPLcontroller", e.getMessage());
+			System.exit(1);
+		}
+		
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(abs_filename));
+			String str;
+			while ((str = in.readLine()) != null) {
+				out_string += str;
+			}
+			in.close();
+		} catch (IOException e) {
+			AJPFLogger.severe("ajpf.MCAPLcontroller", e.getMessage());
+			System.exit(1);			
+		}
+
+		return out_string;
+		
+		
 	}
 
 }

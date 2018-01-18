@@ -25,7 +25,10 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -552,7 +555,7 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
      * @param u
      * @return
      */
-    public static String generate_fresh(String s, List<String> names1, List<String> names2, List<String> names3, Unifier u) {
+    public static String generate_fresh(String s, Set<String> names1, Set<String> names2, Set<String> names3, Unifier u) {
     	String sbase = s;
     	String news = sbase;
     	for (int i = 0; i < names1.size() + names2.size() + names3.size(); i++) {
@@ -563,6 +566,32 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
     	}
     	return news;
     }
+    
+    /**
+     * Standardise apart two unifiables.  Names in second get changed.
+     * @param t
+     * @param u is a unifier that may also need updating.
+     * @param varnames
+     * @param un
+     */
+	public static void standardise_apart(Unifiable t, Unifier u, Set<String> varnames, Unifiable un) {
+		Set<String> tvarnames = t.getVarNames();
+		Set<String> myvarnames = un.getVarNames();
+		tvarnames.addAll(varnames);
+	   	HashSet<String> replacednames = new HashSet<String>();
+    	HashSet<String> newnames = new HashSet<String>();
+    	for (String s:myvarnames) {
+    		if (tvarnames.contains(s)) {
+    			if (!replacednames.contains(s)) {
+    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
+    				un.renameVar(s, s1);
+    				u.renameVar(s, s1);
+    			}
+    		}
+    	}
+
+	}
+
     
 
 }

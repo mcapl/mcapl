@@ -24,9 +24,13 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.syntax.ArithExpr;
 import ail.syntax.NumberTerm;
-
+import ail.syntax.Term;
+import ail.syntax.Unifiable;
+import ail.syntax.Unifier;
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -218,4 +222,30 @@ public class Abstract_ArithExpr implements Abstract_NumberTerm {
 		
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+	   public Abstract_Term applyu(Abstract_Unifier u) {
+		   
+		   return new Abstract_ArithExpr((Abstract_NumberTerm) getLHS().applyu(u), getOp(), (Abstract_NumberTerm) getRHS().applyu(u));
+	    }
+
+	   /*
+	    * (non-Javadoc)
+	    * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	    */
+	    public void unifies(Abstract_Term t, Abstract_Unifier u) {
+	    	Abstract_ArithExpr ae = (Abstract_ArithExpr) t;
+	    	getLHS().unifies(ae.getLHS(), u);
+	    	getRHS().unifies(ae.getRHS(), u);
+	    }
+	    
+	  
+	    public void addParams(ArrayList<Abstract_Term> tl) {
+	    	System.err.println("WARNING: should not add parameters to an arithmetic expressions");
+	    }
+
+
 }

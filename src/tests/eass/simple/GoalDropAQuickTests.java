@@ -46,13 +46,13 @@ public class GoalDropAQuickTests extends TestJPF {
 	  @Test //----------------------------------------------------------------------
 	 public void testMultipleIdenticalGoal () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)){
-	   	String filename =  "/src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail";
-	   	String prop_filename =  "/src/examples/eass/simple/DroppingGoals/simple.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "1";
-	   	AJPF_w_AIL.run(args);
+		   	String filename =  "/src/examples/eass/simple/DroppingGoals/CheckingGoalExistence.ail";
+		   	String prop_filename =  "/src/examples/eass/simple/DroppingGoals/simple.psl";
+		   	String[] args = new String[3];
+		   	args[0] = filename;
+		   	args[1] = prop_filename;
+		   	args[2] = "1";
+		   	AJPF_w_AIL.run(args);
 	    } else {
 	   	 
 	    }

@@ -33,9 +33,9 @@ string3("world")
 
 :Initial Goals:
 
-compose_strings [perform]
+print_string [perform]
 
 :Plans:
 
-+! compose_strings [perform] : {True} <-
++! print_string [perform] : {True} <-
 	print("hello world");

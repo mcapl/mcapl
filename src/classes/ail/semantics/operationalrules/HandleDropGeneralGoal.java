@@ -50,7 +50,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 	private static final String name = "Handle Drop General Goal";
 	
 	@FilterField
-	private LinkedList<Integer> excludedGoalTypes = new LinkedList<Integer>();
+	private List<Integer> excludedGoalTypes = new LinkedList<Integer>();
 	
 	/*
 	 * (non-Javadoc)
@@ -66,7 +66,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 	 * 
 	 * @param sl
 	 */
-	public HandleDropGeneralGoal(LinkedList<Integer> sl) {
+	public HandleDropGeneralGoal(List<Integer> sl) {
 		excludedGoalTypes = sl;
 	}
 	
@@ -138,7 +138,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 			i.tlI(a);
 		}
 		
-		a.removeGoal(g);
+	//	a.removeGoal(g);
 		for (Goal sg: subgoals) {
 			a.removeGoal(sg);
 		}

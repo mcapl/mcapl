@@ -8,13 +8,18 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/java-prolog-parser.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/ev3classes.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/ev3tools.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/eis-0.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/system-rules-1.16.0.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/louiseadennis/Systems/swipl-devel/packages/jpl"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/3rdparty/antlr-4.7-complete.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

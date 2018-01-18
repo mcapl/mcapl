@@ -24,7 +24,9 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Capabilities represent what an agent can do and are very closely related to actions.  So closely related that for a long
@@ -137,21 +139,8 @@ public class Capability implements Unifiable,
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
 	@Override
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		List<String> tvarnames = t.getVarNames();
-		List<String> myvarnames = getVarNames();
-		tvarnames.addAll(varnames);
-	   	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 	}
 
 	/*
@@ -159,8 +148,8 @@ public class Capability implements Unifiable,
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
 	@Override
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		varnames.addAll(cap.getVarNames());
 		varnames.addAll(pre.getVarNames());
 		varnames.addAll(post.getVarNames());
@@ -276,6 +265,44 @@ public class Capability implements Unifiable,
 		s += post;
 		s += "}";
 		return s;
+	}
+	
+	public ArrayList<Literal> postConditionsToLiterals() {
+		GLogicalFormula posts = getPost();
+		return fmla_to_lits(posts);
+	}
+	
+	private static ArrayList<Literal> fmla_to_lits(GLogicalFormula lf) {
+		ArrayList<Literal> lits = new ArrayList<Literal>();
+		if (lf instanceof Literal) {
+			lits.add(new Literal((Literal) lf));
+			return lits;
+		}
+		
+		if (lf instanceof Predicate) {
+			lits.add(new Literal((Predicate) lf));
+			return lits;
+		}
+		
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp() == Guard.GLogicalOp.none) {
+				lits.addAll(fmla_to_lits(g.getRHS()));
+			} else if (g.getOp() == Guard.GLogicalOp.not) {
+				ArrayList<Literal> neglits = fmla_to_lits(g.getRHS());
+				Literal neglit = neglits.get(0);
+				if (neglit.negated()) {
+					neglit.setNegated(false);
+				} else {
+					neglit.setNegated(true);
+				}
+				lits.add(neglit);
+			} else {
+				lits.addAll(fmla_to_lits(g.getLHS()));
+				lits.addAll(fmla_to_lits(g.getRHS()));
+			}
+		}
+		return lits;
 	}
 
 }
