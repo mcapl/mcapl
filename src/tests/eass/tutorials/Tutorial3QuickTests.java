@@ -31,7 +31,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 
 
 /**
- * Simple test that an auction example works.
+ * Simple test that an auction example works. 
  */
 public class Tutorial3QuickTests extends TestJPF {
 

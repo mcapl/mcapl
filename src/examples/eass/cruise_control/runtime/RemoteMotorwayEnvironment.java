@@ -79,7 +79,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	}
 	
 	@Override
-	public void initialise() {
+	public void init_after_adding_agents() {
 		initialise_monitor();
 	}
 

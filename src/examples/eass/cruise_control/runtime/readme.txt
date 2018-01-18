@@ -36,4 +36,4 @@ Prolog Files
 
 prolog_files - aec_ld.pl (copied from Dropbox (most recent I think))
              - trace_expression.pl (copied from Dropbox (most recent I think))
-             - trace_ex
+             - trace_expression_paper.pl (is not the same as trace_expression.pl which is a worry)

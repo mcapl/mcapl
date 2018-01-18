@@ -37,7 +37,7 @@ import ail.syntax.Message;
 /**
  * An environment for verifying a simple car reasoning engine.
  * @author louiseadennis
- *
+ * 
  */
 public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 			
@@ -85,8 +85,8 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 
 	@Override
 	public Set<Message> add_random_messages(String agName, Action act) {
-		// TODO Auto-generated method stub
-		return null;
+		TreeSet<Message> messages = new TreeSet<Message>();
+		return messages;
 	};
 
 	
