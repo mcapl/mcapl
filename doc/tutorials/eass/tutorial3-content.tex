@@ -85,7 +85,7 @@ public class VerificationEnvironment extends
 			
   public String logname = "eass.tutorials.tutorial3.VerificationEnvironment";
 	
-  public Set<Predicate> generate_sharedbeliefs() {
+  public Set<Predicate> generate_sharedbeliefs(String AgName, Action act) {
     TreeSet<Predicate> percepts = new TreeSet<Predicate>();
     boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
     if (assert_at_speed_limit) {
@@ -114,7 +114,7 @@ public class VerificationEnvironment extends
 \end{ourexample}
 \end{figure}
 \begin{sloppypar}
-The environment\index{environment}\index{EASS} for verifying the car reasoning engine is shown in example~\ref{code:EASSverifenvironment}.  This subclasses \texttt{eass.mas.verification.EASSVerificationEnvironment} which sets up a basic environment for handling verification of single reasoning engines\index{reasoning engine}.  In order to use this environment you have to implement two methods, \texttt{generate\_sharedbeliefs()}\index{EASSVerificationEnvironment (class)!generate\_sharedbeliefs} and \texttt{generate\_messages()}\index{EASSVerificationEnvironment (class)!generate\_messages}.  It is assumed that these methods will randomly generate the shared beliefs and messages of interest to your application.  \texttt{EASSVerificationEnvironment} handles the calling of these methods each time the reasoning engine takes an action\index{action}.  It should be noted that \texttt{EASSVerificationEnvironment} ignores \lstinline{assert_shared} and \lstinline{remove_shared} actions, assuming these take negligible time to execute -- this is largely in order to keep search spaces\index{search space} as small as possible.\index{autonomous systems!verification}\index{reasoning engine}
+The environment\index{environment}\index{EASS} for verifying the car reasoning engine is shown in example~\ref{code:EASSverifenvironment}.  This subclasses \texttt{eass.mas.verification.EASSVerificationEnvironment} which sets up a basic environment for handling verification of single reasoning engines\index{reasoning engine}.  In order to use this environment you have to implement two methods, \texttt{generate\_sharedbeliefs(String AgName, Action act)}\index{EASSVerificationEnvironment (class)!generate\_sharedbeliefs} and \texttt{generate\_messages(String AgName, Action act)}\index{EASSVerificationEnvironment (class)!generate\_messages}.  It is assumed that these methods will randomly generate the shared beliefs and messages of interest to your application.  \texttt{EASSVerificationEnvironment} handles the calling of these methods each time the reasoning engine takes an action\index{action}.  It should be noted that \texttt{EASSVerificationEnvironment} ignores \lstinline{assert_shared} and \lstinline{remove_shared} actions, assuming these take negligible time to execute -- this is largely in order to keep search spaces\index{search space} as small as possible.\index{autonomous systems!verification}\index{reasoning engine}  \texttt{generate\_sharedbeliefs} and \texttt{generate\_messages} both take the agent's name and the last performed action as arguments.  These are used if creating \emph{structured environments}\index{environment!structured} which are not discussed here.
 \end{sloppypar}
 
 \begin{sloppypar}
