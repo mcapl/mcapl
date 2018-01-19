@@ -46,7 +46,7 @@ public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
 	 */
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
 		if (assert_at_speed_limit) {
@@ -79,22 +79,9 @@ public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_messages()
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		return messages;
 	}
 
-	@Override
-	public Set<Predicate> add_random_beliefs(String agName, Action act) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Message> add_random_messages(String agName, Action act) {
-		// TODO Auto-generated method stub
-		return null;
-	};
-
-	
 }

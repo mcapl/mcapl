@@ -39,7 +39,7 @@ import eass.mas.verification.EASSVerificationEnvironment;
 public class LegoRoverVerification extends EASSVerificationEnvironment {
 
 	@Override
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		Set<Predicate> shared_beliefs = new HashSet<Predicate>();
 		boolean click = random_bool_generator.nextBoolean();
 		if (! click) {
@@ -62,20 +62,9 @@ public class LegoRoverVerification extends EASSVerificationEnvironment {
 	}
 
 	@Override
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		return new HashSet<Message>();
 	}
 
-	@Override
-	public Set<Predicate> add_random_beliefs(String agName, Action act) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Message> add_random_messages(String agName, Action act) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

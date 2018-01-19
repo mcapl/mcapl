@@ -42,7 +42,7 @@ public class VerificationEnvironment extends EASSVerificationEnvironment {
 
 	public String logname = "eass.tutorials.tutorial3.VerificationEnvironment";
 
-	public Set<Predicate> add_random_beliefs(String agName, Action act){
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act){
 		Set<Predicate> predicates = new TreeSet<Predicate>();
 		int assert_at_speed_limit = random_int_generator.nextInt(2);
 		if (assert_at_speed_limit == 0) {
@@ -67,30 +67,11 @@ public class VerificationEnvironment extends EASSVerificationEnvironment {
 		return predicates;
 	}
 
-	public Set<Message> add_random_messages(String agName, Action act) {
-		Set<Message> messages = generate_messages();
-		for(Message message : messages){
-			messages.add(message);
-			addMessage(agName, message);
-		}
-		return messages;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
-	 */
-	public Set<Predicate> generate_sharedbeliefs() {
-		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
-
-		return percepts;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_messages()
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		return messages;
 	};

@@ -52,17 +52,17 @@ et.show_shared=false
 
 # 19th Jan 2017 - iMac (After replacement with generate beliefs.
 # 
-# ====================================================== results
+# ======================================================= results
 # error #1: ajpf.MCAPLListener "An Accepting Path has been found:  [MS: 0, BS: 2, ..."
 # 
 # ====================================================== statistics
-# elapsed time:       00:00:50
-# states:             new=248,visited=1335,backtracked=1559,end=40
-# search:             maxDepth=41,constraints=0
-# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=247
-# heap:               new=4002387,released=4042283,maxLive=4212,gcCycles=1583
-# instructions:       274576213
-# max memory:         929MB
-# loaded code:        classes=334,methods=5219
+# elapsed time:       00:01:08
+# states:             new=177,visited=1536,backtracked=1684,end=52
+# search:             maxDepth=44,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=176
+# heap:               new=5938127,released=5949826,maxLive=4246,gcCycles=1713
+# instructions:       353346604
+# max memory:         586MB
+# loaded code:        classes=338,methods=5309
 # 
-# ====================================================== search finished: 19/01/18 12:59
+# ====================================================== search finished: 19/01/18 15:02

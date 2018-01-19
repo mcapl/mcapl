@@ -74,7 +74,7 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 	boolean overtaking = false;
 
 
-	public Set<Predicate> add_random_beliefs(String agName, Action act) {
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		//		lastAction = new Action("nothing");
 				TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 
@@ -203,12 +203,9 @@ public class MotorWayVerificationEnv extends EASSVerificationEnvironment {
 	}
 
 	@Override
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		return new TreeSet<Message>();
 	}
 
-	public Set<Message> add_random_messages(String agName, Action act) {
-		return new TreeSet<Message>();
-	}
-
+	
 }

@@ -50,3 +50,19 @@ et.show_shared=false
 # 
 # ====================================================== search finished: 14/07/17 16:55
 
+# 19th Jan 2017 - iMac (After replacement with generate beliefs.
+# 
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:04:05
+# states:             new=355,visited=2636,backtracked=2991,end=60
+# search:             maxDepth=59,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=353
+# heap:               new=21217698,released=21287382,maxLive=4254,gcCycles=2991
+# instructions:       1297499434
+# max memory:         2593MB
+# loaded code:        classes=338,methods=5309
+# 
+# ====================================================== search finished: 19/01/18 15:33

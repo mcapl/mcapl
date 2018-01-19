@@ -54,13 +54,13 @@ et.show_shared=false
 # no errors detected
 # 
 # ====================================================== statistics
-# elapsed time:       00:12:12
-# states:             new=1026,visited=9628,backtracked=10654,end=100
-# search:             maxDepth=75,constraints=0
-# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1023
-# heap:               new=62574239,released=63085315,maxLive=4313,gcCycles=10654
-# instructions:       4381532498
-# max memory:         1160MB
-# loaded code:        classes=335,methods=5239
+# elapsed time:       00:17:50
+# states:             new=949,visited=12238,backtracked=13187,end=130
+# search:             maxDepth=133,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=946
+# heap:               new=91605637,released=92121916,maxLive=4347,gcCycles=13187
+# instructions:       5561486282
+# max memory:         3606MB
+# loaded code:        classes=339,methods=5330
 # 
-# ====================================================== search finished: 19/01/18 12:43
+# ====================================================== search finished: 19/01/18 15:00

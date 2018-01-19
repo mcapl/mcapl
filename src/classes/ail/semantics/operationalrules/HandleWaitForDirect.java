@@ -103,20 +103,22 @@ public class HandleWaitForDirect extends DirectPerception {
 		// First perform perception
 		// super.apply(a);
 
-		Literal waitingfor = (Literal) topdeed.getContent();
+		Literal waitingfor = (Literal) topdeed.getContent().clone();
 		Iterator<Unifier> beliefs;
 		if (waitingfor.negated()) {
-			Literal wf_clone = waitingfor.clone();
-			wf_clone.setNegated(true);
-			GBelief wfgb = new GBelief(wf_clone);
+			waitingfor.setNegated(false);
+			GBelief wfgb = new GBelief(waitingfor);
+			System.err.println("Checking not " + wfgb);
 			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
+			
 		} else {
 			GBelief wfgb = new GBelief(waitingfor);
+			System.err.println("Checking " + wfgb);
 			beliefs = a.believes(new Guard(wfgb), thetab);
 		}
 				
 		if (beliefs.hasNext()) {
-			// System.err.println("I believe" + wfgb);
+			//System.err.println("I believe" + wfgb);
 			i.tlI(a);
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
