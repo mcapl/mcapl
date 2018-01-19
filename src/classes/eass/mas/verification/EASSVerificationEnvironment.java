@@ -70,21 +70,21 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
-		Set<Predicate> percepts;// = new TreeSet<Predicate>();
+		Set<Predicate> percepts = new TreeSet<Predicate>();
 		// At the start we generate this set, after that we use percepts.
 		if (at_start_percepts && mas != null) {
-			percepts = add_random_beliefs(agName, null);
-			//percepts.addAll(generate_sharedbeliefs());
-			//for (Predicate p: percepts) {
-			//	addPercept(p);
-			//}
+			//percepts = add_random_beliefs(agName, null);
+			percepts.addAll(generate_sharedbeliefs(agName, null));
+			for (Predicate p: percepts) {
+				addPercept(p);
+			}
 			at_start_percepts = false;
 			return percepts;
 		}
 
 		Set<Predicate> ps = super.getPercepts(agName, update);
 		if (ps != null ) {
-			percepts = new TreeSet<Predicate>();
+			// percepts = new TreeSet<Predicate>();
 			percepts.addAll(ps);
 		} else {
 			return null;
@@ -96,10 +96,10 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	 *
 	 */
 	public Set<Message> getMessages(String agName) {
-		Set<Message> messages;// = new TreeSet<Message>();
+		Set<Message> messages = new TreeSet<Message>();
 		if (at_start_messages) {
-			messages = add_random_messages(agName, null);
-			//messages.addAll(generate_messages());
+			//messages = add_random_messages(agName, null);
+			messages.addAll(generate_messages(agName, null));
 			at_start_messages = false;
 			return messages;
 		} else {
@@ -111,23 +111,23 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	 * This is where the application generates perceptions at random.
 	 * @return
 	 */
-	public abstract Set<Predicate> generate_sharedbeliefs();
+	public abstract Set<Predicate> generate_sharedbeliefs(String agName, Action act);
 
 	/**
 	 * This is where the application generates messages at random.
 	 * @return
 	 */
-	public abstract Set<Message> generate_messages();
+	public abstract Set<Message> generate_messages(String agName, Action act);
 
 	/**
 	* Added by Angelo
 	*/
-	public abstract Set<Predicate> add_random_beliefs(String agName, Action act);
+	//public abstract Set<Predicate> add_random_beliefs(String agName, Action act);
 
 	/**
 	* Added by Angelo
 	*/
-	public abstract Set<Message> add_random_messages(String agName, Action act);
+	//public abstract Set<Message> add_random_messages(String agName, Action act);
 
 	/**
 	 * Action execution simply causes the random generation of perceptions and messages.
@@ -139,21 +139,21 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 
 	   	// We exclude remove_shared and assert_shared assuming these are instantaneous.
 	   	if (!act.getFunctor().equals("print") && !act.getFunctor().equals("remove_shared") && !act.getFunctor().equals("assert_shared")) {
-			//Set<Predicate> percepts = generate_sharedbeliefs();
-			//Set<Message> messages = generate_messages();
+			Set<Predicate> percepts = generate_sharedbeliefs(agName, act);
+			Set<Message> messages = generate_messages(agName, act);
 			clearPercepts();
 
-			add_random_beliefs(agName, act);
+			//add_random_beliefs(agName, act);
 
-			add_random_messages(agName, act);
+			//add_random_messages(agName, act);
 
-			//for (Predicate p: percepts) {
-				//addPercept(p);
-			//}
+			for (Predicate p: percepts) {
+				addPercept(p);
+			}
 
-			//for (Message m: messages) {
-				//addMessage(agName, m);
-			//}
+			for (Message m: messages) {
+				addMessage(agName, m);
+			}
 		}
 
 	   	final_turn = 0;
@@ -183,13 +183,17 @@ public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
+					for (String agName: agentmap.keySet()) {
+						Set<Predicate> percepts = generate_sharedbeliefs(agName, new Action("done"));
+						Set<Message> messages = generate_messages(agName, new Action("done"));
+					}
 					clearPercepts();
 
 
-					for (String agName: agentmap.keySet()) {
-						add_random_beliefs(agName, new Action("done"));
-						add_random_messages(agName, new Action("done"));
-					}
+					//for (String agName: agentmap.keySet()) {
+					//	add_random_beliefs(agName, new Action("done"));
+					//	add_random_messages(agName, new Action("done"));
+					//}
 					final_turn = 2;
 					return false;
 				} else if (final_turn == 0){
