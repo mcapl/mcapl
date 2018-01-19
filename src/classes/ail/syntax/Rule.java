@@ -30,6 +30,9 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Set;
+
+import ail.semantics.AILAgent;
 
 /**
  * A rule is a Literal (head) with an optional body, as in "a :- b &amp; c".
@@ -145,8 +148,8 @@ public class Rule implements LogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
-    public List<String> getVarNames() {
-    	List<String> varnames = head.getVarNames();
+    public Set<String> getVarNames() {
+    	Set<String> varnames = head.getVarNames();
     	if (body != null) {
     		varnames.addAll(getBody().getVarNames());
     	}
@@ -192,24 +195,10 @@ public class Rule implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
-    public void standardise_apart(Unifiable t, Unifier u, List<String> topvarnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	tvarnames.addAll(topvarnames);
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s) || u.containsVarName(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				replacednames.add(s);
-    				newnames.add(s1);
-    			}
-    		}
-    	}
- 
-    } 
+    @Override
+    public void standardise_apart(Unifiable t, Unifier u, Set<String> topvarnames) {
+    	DefaultAILStructure.standardise_apart(t, u, topvarnames, this);
+     } 
         
     /**
      * Get a predicate indicator from the head literal.
@@ -295,9 +284,10 @@ public class Rule implements LogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
+	@Override
 	public Iterator<Unifier> logicalConsequence(
-			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames) {
-		return head.logicalConsequence(eb, rb, un, varnames);
+			EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
+		return head.logicalConsequence(eb, rb, un, varnames, so);
 	}
 
 

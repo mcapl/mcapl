@@ -29,7 +29,7 @@ import ajpf.psl.buchi.BuchiState;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.Until;
 import ajpf.psl.Proposition;
-
+import ajpf.util.AJPFException;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
@@ -151,7 +151,7 @@ public class Product {
 	 * @param modelstatenum
 	 * @return
 	 */
-	public boolean justAddModelState(int modelstatenum) {
+	public boolean justAddModelState(int modelstatenum) throws AJPFException {
 		log.fine("Entering justaddModelState");
 		ModelState s = m.containsState(modelstatenum);
 		if (s == null) {
@@ -163,12 +163,13 @@ public class Product {
 		}
 		m.addEdge(s);
 		m.addToPath(s);
+		log.fine("Leaving justaddModelState");
 		return true;
 		
 	}
 		
 	int endstatecount = -2;
-	public boolean addEndState(int modelstatenum) {
+	public boolean addEndState(int modelstatenum) throws AJPFException {
 		Integer from = m.getEndofPathState();
 		ModelState from_state = m.containsState(from);
 		ModelState s = new ModelState(endstatecount, from_state);
@@ -183,7 +184,7 @@ public class Product {
 	 * A new model state has been generated, update the product automata accordingly;
 	 * @param modelstatenum
 	 */
-	public boolean addModelState(int modelstatenum) {
+	public boolean addModelState(int modelstatenum) throws AJPFException {
 		log.fine("Entering addModelState");
 		ModelState s = m.containsState(modelstatenum);
 		// If s == null then this model state does not already exist
@@ -338,7 +339,7 @@ public class Product {
 
 		// Add to S1 (the depth first LTL search tree) as new start states.
 		if (lowerLogLevelThan(Level.FINER)) {
-			log.finer(S1.toString());
+			log.finer("S1 is: " + S1.toString());
 		}
 		
 		S1.addAll(ps);
@@ -376,7 +377,7 @@ public class Product {
 		Map<Integer, Map<Integer, Integer>> indexedbybuchi = existence.get(modelstatenum);
 		if (indexedbybuchi != null) {
 			if (lowerLogLevelThan(Level.FINER)) {
-				log.finer(indexedbybuchi.toString());
+				log.finer("indexedbybuchi is:" + indexedbybuchi.toString());
 			}
 			for (Map<Integer, Integer> indexbyuntil: indexedbybuchi.values()) {
 				for (int ps: indexbyuntil.values()) {
@@ -407,7 +408,7 @@ public class Product {
 			return false;
 		}
 		if (!accepting_path.isEmpty()) {
-			System.err.println(accepting_path);
+			// System.err.println(accepting_path);
 		}
 		return (!accepting_path.isEmpty());
 	} 
@@ -421,6 +422,7 @@ public class Product {
 			log.fine("pruning " + statenum);
 		}
 		m.prune(statenum);	
+		accepting_path = DFS();
 	}
 
 	/**
@@ -485,7 +487,7 @@ public class Product {
 	
 	/**
 	 * This implements the interleaved double DFS algorithm with Courcoubetis et al, in such a way that its execution can
-	 * be interleaved with eneration of the product automata.  Full details of the algorithm can be found in the paper.
+	 * be interleaved with generation of the product automata.  Full details of the algorithm can be found in the paper.
 	 * 
 	 * It returns an accepting path if it finds one and an empty path if it doesn't.
 	 * @return
@@ -868,7 +870,7 @@ public class Product {
 				 return false;
 			 } else {
 				 if (lowerLogLevelThan(Level.FINER)) {
-					 log.finer(poss_nextBuchi.toString());
+					 log.finer("poss_nextBuchi is:" + poss_nextBuchi.toString());
 				 }
 			 }
 			 

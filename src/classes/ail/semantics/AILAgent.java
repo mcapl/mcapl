@@ -93,7 +93,7 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class AILAgent implements MCAPLLanguageAgent {
+public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 /**
 	 * The environment.
 	 */
@@ -287,6 +287,9 @@ public class AILAgent implements MCAPLLanguageAgent {
     /* The default log name for this class */
     protected String logname = "ail.semantics.AILAgent";
     
+    public enum SelectionOrder {
+    	LINEAR, RANDOM;
+    }
     /* Should a record be kept of sent messages */
     public boolean store_sent_messages = true;
     
@@ -486,6 +489,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Get the index names for all the non-primary belief bases.
 	 * @return
 	 */
+	@Override
 	public Set<String> getBBList() {
 		return bbmap.keySet();
 	}
@@ -568,7 +572,7 @@ public class AILAgent implements MCAPLLanguageAgent {
  		} else if (belcontents instanceof PredicatewAnnotation) {
  			l = new Literal(! v.negated(), (PredicatewAnnotation) belcontents);
  		} else if (belcontents instanceof Predicate) {
-    		l = new Literal(! v.negated(), new PredicatewAnnotation((Predicate) belcontents));
+    		l = new Literal(! v.negated(), new PredicatewAnnotation((Predicate) belcontents, null));
     		l.setAnnot(v.getAnnot());
  		}
  		return l;
@@ -654,6 +658,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * Get the index names for all the non-primary belief bases.
 	 * @return
 	 */
+	@Override
 	public Set<String> getGBList() {
 		return gbmap.keySet();
 	}
@@ -1743,10 +1748,14 @@ public class AILAgent implements MCAPLLanguageAgent {
      *         does not believe the guard if this iterator is empty.
      */
     public Iterator<Unifier> believes(Guard g, Unifier un) {
-    	return g.logicalConsequence(this, un, g.getVarNames());
+    	return believes(g, un, SelectionOrder.LINEAR);
     }
     
-	/**
+    public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
+    	return g.logicalConsequence(this, un, g.getVarNames(), so);
+    }
+ 
+    /**
 	 * Yes or no, does the agent believe a guard.
 	 * @param gu the guard in question.
 	 * @param un the current unifier.
@@ -1769,7 +1778,7 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 * @return
 	 */
 	public boolean goalEntails(Event e, Plan p, Unifier un) {
-		p.standardise_apart(e, un, Collections.<String>emptyList());
+		p.standardise_apart(e, un, Collections.<String>emptySet());
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 
@@ -1976,12 +1985,15 @@ public class AILAgent implements MCAPLLanguageAgent {
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {
+ 		if (AJPFLogger.ltFine("property_logging")) {
+ 			AJPFLogger.fine("property_logging", "checking agent beliefs");
+ 		}
 		GBelief  gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();
 		boolean return_value =  believesyn(gu, un);
- 		if (return_value & AJPFLogger.ltFine(logname)) {
- 			AJPFLogger.fine("property_logging", "Unifier for property " + un);
+ 		if (return_value & AJPFLogger.ltFine("property_logging")) {
+ 			AJPFLogger.fine("property_logging", "Unifier for property " + fmla + " is " + un);
  		}
 		return return_value;
 	}

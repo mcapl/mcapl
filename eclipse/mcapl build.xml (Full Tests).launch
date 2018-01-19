@@ -10,7 +10,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="AJPF_HOME" value="${workspace_loc:/mcapl}"/>
-<mapEntry key="ANT_HOME" value="/Applications/eclipse/plugins/org.apache.ant_1.9.2.v201404171502"/>
+<mapEntry key="ANT_HOME" value="/Users/lad/.p2/pool/plugins/org.apache.ant_1.9.6.v201510161327"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>

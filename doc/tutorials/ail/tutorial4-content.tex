@@ -1,0 +1,124 @@
+This is the fourth in a series of tutorials on the use of the Agent Infrastructure Layer (\ail).  This tutorial covers using configuration and logging\index{logging}\index{configuration!environment}\index{environment}\index{environment!configuration} when programming with the \ail.  These are particularly relevant for constructing environments but can be useful elsewhere.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory
+\begin{quote}
+  \texttt{src/examples/gwendolen/ail\_tutorials/tutorial4}.
+\end{quote}
+
+You can find sample answers for all the exercises in this tutorial in the \texttt{answers} directory.
+
+The tutorial assumes a working knowledge of Java programming and the implementation of logging in Java.
+
+\section{Logging}
+\java\ has a flexible API for implementing logging\index{logging} within programs.  Unfortunately this does not work seamlessly within \jpf\ and hence\index{JPF}\index{JPF!logging} within \ajpf\index{AJPF}\index{AJPF!logging}.  In order to enable logging to be used in \ail\ programs we have therefore provided a class \texttt{ajpf.util.AJPFLogger}\index{AJPFLogger (class)} which uses the native \java\ logging capabilities when not executed within \ajpf\ but uses \jpf's logging support when it is.\index{Java}\index{Java!logging}
+
+\begin{sloppypar}
+  \texttt{AJPFLogger} supports the six logging levels of the \java\ logging framework, namely, \texttt{SEVERE}, \texttt{WARNING}, \texttt{INFO}, \texttt{FINE}, \texttt{FINER} and \texttt{FINEST}.  If you want to print a log message at a particular log level, say \texttt{info}, you call the method \texttt{AJPFLogger.info(String logname, String message)} and similarly for \texttt{severe}, \texttt{warning} etc.\index{AJPFLogger (class)!logging level}\index{logging!logging level}
+\end{sloppypar}
+
+When logging, \java/\jpf\ will print out all messages for a log at the set logging level and higher.  So if you have set a log at level \texttt{FINE} in your \ail\ or \jpf\ configuration file you will get all messages for \texttt{FINE}, \texttt{INFO}, \texttt{WARNING} and \texttt{SEVERE}.\index{logging!logging level}
+
+The \texttt{logname} can be any string you like, though in general people use the class name for the logname.  However there is no reason not to use log names associated with particular tasks your program performs or other groupings if that seems more sensible.\index{logging!logname}\index{logging}
+
+It is worth noting that Java's string manipulation is not particularly efficient.  If you are constructing a complex string for a log message it can be worth putting the message within an if statement in order to prevent the string being constructed if it won't be printed.  This can improve the speed of model checking, in particular.  To help with this \texttt{AJPFLogger} provides four helper methods:\index{logging!Strings}\index{AJPFLogger (class)}\index{AJPFLogger (class)!ltFinest}\index{AJPFLogger (class)!ltFiner}\index{AJPFLogger (class)!ltFine}\index{AJPFLogger (class)!ltInfo}
+\begin{itemize}
+\item  \texttt{public boolean AJPFLogger.ltFinest(String logname)}, 
+\item \texttt{public boolean AJPFLogger.ltFiner(String logname)}, 
+\item \texttt{public boolean AJPFLogger.ltFine(String logname)}, 
+\item \texttt{public boolean AJPFLogger.ltInfo(String logname)} 
+\end{itemize}
+These return true if \texttt{logname} is set at or below a particular logging level.  Therefore you can use the construction:
+
+\begin{verbatim}
+if (AJPFLogger.lfFine(logname)) {
+    String s = ....
+     .... code for constructing your log message ...
+    AJPFLogger.fine(logname, s);
+}
+\end{verbatim}
+in order to ensure the string construction only takes place if the message will actually get logged.
+
+\subsection{Exercise}\index{logging!exercise}
+In the tutorial directory you will find a simple environment for a search and rescue robot (\texttt{RobotEnv.java}) together with code and a configuration file for the robot (\texttt{searcher.ail}, \texttt{searcher.gwen})\index{example!searcher}.  The robot moves around a 3x3 square searching for a human which may randomly appear in any square.  If the human appears the robot sends a message to some lifting agent and then stops.  If you run this program with the supplied \ail\ configuration\index{configuration!AIL}\index{AIL!configuration} you will see it printing out the standard messages from \texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)} noting when the robot moves and when it sends a message.
+
+Adapt the environment with the following log messages
+\begin{itemize}
+\item If logging is set to \texttt{INFO} it prints out a message when the system first decides a human is visible, 
+\item If logging is set to \texttt{FINE} it prints a message every time the agent is informed the human is visible (not just when the human first appears) and,
+\item If logging is set to \texttt{FINER} it prints a message every time the agent checks its percepts.
+\end{itemize}
+
+Experiment with setting log levels in the \ail\ configuration\index{AIL!configuration}\index{configuration!AIL} file.  Note that by default anything at \texttt{INFO} or higher gets printed.  If you don't want to see \texttt{INFO} level log messages then you need to configure the logger to a higher level e.g. \texttt{log.warning = gwendolen.ail\_tutorials.tutorial4.RobotEnv}.
+
+\section{Customized Configuration}\index{environment}\index{environment!configuration}
+
+You can use the \texttt{key = value} mechanism inside \ail\ configuration\index{AIL!configuration}\index{configuration!AIL} files to create customisation for your own \ail\ programs.  When the configuration file is parsed all the properties are stored in an \texttt{ail.util.AILConfig}\index{AILConfig (class)} object which is itself an extension of the \java\ \texttt{java.util.Properties}\index{Properties (class)} class.  
+
+The \texttt{Properties} class has two methods of particular note:\index{Properties (class)}
+\begin{itemize}
+\item \texttt{public boolean containsKey(String key)} tells you if a particular key is contained in the configuration.  \index{Properties (class)!containsKey}
+\item \texttt{public Object get(String key)} returns the value stored for the key.  If parsed from an \ail\ configuration file this will return a \texttt{String}.\index{Properties (class)!get}
+\end{itemize}
+You can then use \java\ methods such as \texttt{Boolean.valueOf(String s)} and \texttt{Integer.valueOf(String s)} to convert that value into a boolean, integer or other type if desired.
+
+Obviously in order to add your own key/value pairs to the configuration you need to be able to access the \texttt{AILConfig}\index{AILConfig (class)} object.  The easiest way to do this is via your environment\index{environment}.  During system initialisation a method \texttt{public void configure(AILConfig config)}\index{AILEnv (interface)!configure}\index{environment!configuration} is called on any \ail\ environment.  The default implementation of this method does nothing, but it is easy enough to override this in a customised environment and check any keys you are interested in.
+
+\begin{sloppypar}
+This can be particularly useful in environments used for verification where you may wish to have a range of slightly different behaviours in the environment\index{environment}\index{environment!configuration} for efficiency reasons.  Listing~\ref{code:config} shows (a slightly shortened version of) the \texttt{configure}\index{example!environment configuration}\index{AILEnv (interface)!configure} method used by \texttt{eass.verification.leo.LEOVerificationEnvironment}\index{example!low Earth orbit} which was used for the Low Earth Orbit satellite verifications described in~\cite{dennis14:_pract}.  Most of the values used here are \texttt{true}/\texttt{false} values parsed into booleans but in line 34 you can see a value that is being treated as a string (where the target formation can be either \texttt{line} or \texttt{square}).  In that paper you can see that different properties were proved against different sets of percepts.  The \texttt{configure} method was used in conjunction with \ail\ configuration\index{AIL!configuration}\index{configuration!AIL} files for each example in order to tweak the environment to use the correct settings.  You can find all the configuration files in the \texttt{examples/eass/verification/leo} directory.
+\end{sloppypar}
+
+\begin{ourexample}
+  \label{code:config} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+ public void configure(AILConfig configuration) {
+   if (configuration.containsKey("testing_thrusters")) {
+     testing_thrusters = Boolean.valueOf((String) configuration.get("testing_thrusters"));
+   }
+
+   if (configuration.containsKey("allthrusters")) {
+     allthrusters = Boolean.valueOf((String) configuration.get("allthrusters"));
+   }
+
+   if (configuration.containsKey("allpositions")) {
+     allpositions = Boolean.valueOf((String) configuration.get("allpositions");
+   }
+
+   if (configuration.containsKey("formation_line")) {
+     formation_line = Boolean.valueOf((String) configuration.get("formation_line"));
+   }
+
+   if (configuration.containsKey("formation_square")) {
+     formation_square = Boolean.valueOf((String) configuration.get("formation_square");
+   }
+
+   if (configuration.containsKey("all_can_break")) {
+     all_can_break = Boolean.valueOf((String) configuration.get("all_can_break"));
+   }
+
+   if (configuration.containsKey("changing_formation")) {
+     changing_formations = Boolean.valueOf((String) configuration.get("changing_formations"));
+     if (changing_formations) {
+       formation_line = true;
+       formation_square = true;
+     } else {
+       if (configuration.containsKey("initial_formation")) {
+         if (configuration.get("initial_formation").equals("line")) {
+ 	   formation_line = true;
+	   formation_square = false;
+	 } else {
+	   formation_line = false;
+	   formation_square = true;
+	 }
+       } else {
+         formation_line = true;
+         formation_square = false;
+       }
+     }
+   }
+ }
+\end{lstlisting}
+\end{ourexample}
+
+\subsection{Exercise}\index{environment!configuration!exercise}
+Adapt \texttt{RobotEnv} so it has a configuration option in which the robot always sees a human when it moves rather than there being a random chance of seeing a human. 
+

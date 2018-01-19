@@ -52,7 +52,7 @@ public class AJPF_w_AIL {
 			  AJPFLogger.fine(logname, "Entering Main in AJPF_w_AIL");
 		  }
 
-		GroundPredSets.clear();
+		// GroundPredSets.clear();
 		run(args);
 	}
 	
@@ -61,11 +61,13 @@ public class AJPF_w_AIL {
 	 * @param args
 	 */
 	public static void run(String[] args) {
+		GroundPredSets.clear();
 		// Create the configuration.
 		AILConfig config = new AILConfig(args[0]);
 		// Configure an AIL based MAS accordingly
 		String propertystring = getProperty(args[1],args[2]);
 		MCAPLcontroller mccontrol = new MCAPLcontroller(config, propertystring);
+		// mccontrol.setProperty(propertystring);
 		MAS mas = AIL.AILSetup(config, mccontrol);
 		// Get the property to be checked.
 		

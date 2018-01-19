@@ -24,12 +24,14 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
 import gov.nasa.jpf.vm.MJIEnv;
-
 import ail.syntax.LogExpr;
 import ail.syntax.LogicalFormula;
+import ail.syntax.Unifier;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -66,6 +68,7 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 	public static int not = 1;
 	public static int and = 2;
 	public static int or = 3;
+	public static int forall = 4;
 
 	/**
 	 * Can have a right hand side and a left hand side
@@ -105,8 +108,38 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 		op = oper;
 		rhs = f;
 	}
+	
+	public Abstract_LogExpr(ArrayList<Abstract_LogicalFormula> tl) {
+		this(none, lflist_to_lf(tl));
+	}
+	
+	public static Abstract_LogExpr termlist_to_lf(ArrayList<Abstract_Term> tl) {
+		if (tl.size() < 2) {
+			if (tl.isEmpty()) {
+				return new Abstract_LogExpr();
+			} else {
+				return new Abstract_LogExpr(none, (Abstract_Predicate) tl.get(0));
+			}
+		} else {
+			Abstract_Term t = tl.remove(0);
+			return new Abstract_LogExpr((Abstract_Predicate) t, and, termlist_to_lf(tl));
+		}
+	}
     
-  	/** gets the Operation of this Expression */
+	public static Abstract_LogExpr lflist_to_lf(ArrayList<Abstract_LogicalFormula> tl) {
+		if (tl.size() < 2) {
+			if (tl.isEmpty()) {
+				return new Abstract_LogExpr();
+			} else {
+				return new Abstract_LogExpr(none, tl.get(0));
+			}
+		} else {
+			Abstract_LogicalFormula t = tl.remove(0);
+			return new Abstract_LogExpr( t, and, lflist_to_lf(tl));
+		}
+	}
+
+	/** gets the Operation of this Expression */
 	public int getOp() {
 		return op;
 	}
@@ -154,6 +187,14 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
      * @see ail.syntax.ast.Abstract_LogicalFormula#toMCAPL()
      */
 	public LogExpr toMCAPL() {
+		if (op == forall) {
+			return new LogExpr(LogExpr.LogicalOp.not,
+					new LogExpr((LogicalFormula) lhs.toMCAPL(), LogExpr.LogicalOp.and,
+							new LogExpr(LogExpr.LogicalOp.not, (LogicalFormula) rhs.toMCAPL())
+							)
+					);
+		}
+		
 		LogExpr ae = new LogExpr();
 		if (rhs == null) {
 			
@@ -190,7 +231,12 @@ public class Abstract_LogExpr implements Abstract_LogicalFormula {
 		return ref;
 
 	}
-
-
-
+	
+	public boolean isTrivial() {
+		if (lhs == null && rhs == null) {
+			return true;
+		}
+		return false;
+	}
+	
 }

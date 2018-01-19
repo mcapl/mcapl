@@ -58,11 +58,19 @@ public abstract class Native_Proposition extends Proposition {
 	 */
 	public boolean check() {
 		ElementInfo ei = vm.getElementInfo(objref);
-		boolean b = ei.getBooleanField("truth_value");
 		if (log.getLevel().intValue() <= Level.FINE.intValue()) {
-			log.fine("Returning " + b + " for " + objref);
+			log.fine("About to check proof of " + objref);
 		}
-		return (b);
+		try {
+			boolean b = ei.getBooleanField("truth_value");
+			if (log.getLevel().intValue() <= Level.FINE.intValue()) {
+				log.fine("Returning " + b + " for " + objref);
+			}
+			return (b);
+		} catch (NullPointerException e) {
+			log.warning("Native Proposition doesn't Exist returning true");
+			return false;
+		}
 	}
 
 	/**

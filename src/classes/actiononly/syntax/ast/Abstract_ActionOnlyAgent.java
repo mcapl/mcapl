@@ -26,6 +26,7 @@ package actiononly.syntax.ast;
 import gov.nasa.jpf.vm.MJIEnv;
 import actiononly.semantics.ActionOnlyAgent;
 import ail.mas.MAS;
+import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Literal;
@@ -98,7 +99,8 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
 	 * This utility method is useful when building an agent without knowing the MAS in advance.
 	 * @param ag
 	 */
-	protected void addStructures(ActionOnlyAgent ag) {
+	@Override
+	public void addStructures(AILAgent ag) {
 		    	for (Abstract_Literal l: beliefs) {
 		    		ag.addInitialBel(l.toMCAPL());
 		    	}
@@ -120,9 +122,26 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
 		   
 
 	}
+	
+	@Override
+	public String toString() {
+		String s = super.getName();
+		s += "\n";
+		s += beliefs.toString();
+		s += "\n\n";
+		s += rules.toString();
+		s += "\n\n";
+		for (Abstract_Capability c: capabilities) {
+			s += c.toString();
+			s += "\n";
+		}
+		s += "\n\n";
+		s += goals.toString();
+		return s;
+	}
 
     public int newJPFObject(MJIEnv env) {
-    	int objref = env.newObject("gwendolen.syntax.ast.Abstract_ActionOnlyAgent");
+    	int objref = env.newObject("actiononly.syntax.ast.Abstract_ActionOnlyAgent");
     	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
       	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
@@ -134,7 +153,7 @@ public class Abstract_ActionOnlyAgent extends Abstract_Agent {
      	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < plans.length; i++) {
+      	for (int i = 0; i < capabilities.length; i++) {
        		env.setReferenceArrayElement(cRef, i, capabilities[i].newJPFObject(env));
        	}
       	for (int i = 0; i < goals.length; i++) {

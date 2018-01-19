@@ -40,7 +40,7 @@ public class SimpleQuickTests {
 			MAS mas = builder.getMAS(abs_filename);
 			GoalEnv env = new GoalEnv();
 			mas.setEnv(env);
-			env.initialise();
+			env.init_before_adding_agents();
 			
 			ActionOnlyAgent ag = (ActionOnlyAgent) mas.getAg("robot");
 			ag.reason();

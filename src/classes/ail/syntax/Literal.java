@@ -77,6 +77,14 @@ public class Literal extends PredicatewAnnotation {
 	}
 
 	/**
+	 * By default a literal created from a predicate is positive.
+	 * @param p
+	 */
+	public Literal(Predicate p) {
+		this(true, p);
+	}
+	
+	/**
 	 * This looks like a strange constructor but is used by sub-classes.
 	 * 
 	 * @param l a literal to create the literal from.
@@ -110,7 +118,7 @@ public class Literal extends PredicatewAnnotation {
 	 * @param b false if the literal is negated, true if the literal is not.
 	 */
     public void setNegated(boolean b) {
-        type = b;
+        type = !b;
         hashCodeCache = null;
     }
 

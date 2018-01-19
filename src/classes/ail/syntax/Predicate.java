@@ -28,10 +28,13 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -222,8 +225,14 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         // do not use iterator! (see ListTermImpl class)
         final int tss = getTermsSize();
         for (int i = 0; i < tss; i++) {
-        	boolean tr = getTerm(i).apply(u); 
-            r = r || tr;
+        	Term t = getTerm(i);
+        	if (t instanceof VarTerm && u.swaps_vars() & u.get(t) instanceof VarTerm) {
+        		setTerm(i, u.get(t));
+        		r = true;
+        	} else {
+        		boolean tr = getTerm(i).apply(u); 
+        		r = r || tr;
+        	}
         }
         return r;
     }
@@ -256,8 +265,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     		return;
         if (terms == null)
             terms = new ArrayList<Term>();
-        	terms.add(t);
-       predicateIndicatorCache = null;
+        terms.add(t);
+        predicateIndicatorCache = null;
         hashCodeCache = null;
       }
     
@@ -530,9 +539,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     /**
      * Assuming we are not higher order here!
      */
-    @Override
-    public List<String> getVarNames() {
-     	ArrayList<String> varnames = new ArrayList<String>();
+    public Set<String> getVarNames() {
+     	HashSet<String> varnames = new HashSet<String>();
      	if (isVar()) {
      		varnames.add(getFunctor());
      	} else {
@@ -591,8 +599,8 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
      * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
      */
     @Override
-	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final List<String> varnames) {
-		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames);
+	public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, final RuleBase rb, final Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
+		return new EvaluationAndRuleBaseIterator(eb, rb, un, this, varnames, so);
 	}
 
 	/*

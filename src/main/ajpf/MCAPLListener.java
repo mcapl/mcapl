@@ -53,6 +53,8 @@ import ajpf.psl.ast.Property_AST;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.ast.Native_Proposition;
 import ajpf.psl.Proposition;
+import ajpf.util.AJPFException;
+import ajpf.util.ProbabilisticEdgeAnnotationException;
 
 /**
  * Special listener class for the MCAPL Project.
@@ -92,6 +94,8 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	 * Are we only interested in generating a model of the program itself in this run?
 	 */
 	boolean model_only = false;
+	
+	String failure_message;
 		
 	/*
 	 * (non-Javadoc)
@@ -184,6 +188,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
 					 product_automata.done(search.getStateId());
+					 return (! product_automata.hasAcceptingPath());
 				 }
 				 
 				 // If a transition has occurred then we have a new edge in our model and the product automata needs to be updated.
@@ -191,7 +196,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 					 // Check state returns true if an acccepting path hasn't been found in the product
 					 return checkstate(search);
 				 }
-				 return true;
+				 return (! product_automata.hasAcceptingPath());
 			 }
 	 }
 	 
@@ -213,21 +218,32 @@ public class MCAPLListener extends PropertyListenerAdapter {
 				 log.info("Adding END STATE " + newstate + " to model");
 				 log.fine("is end");
 				 // Adding new state for pruning
+				 //product_automata.justAddModelState(newstate);
 				 boolean returnvalue = product_automata.currentPathEnded();
-				 product_automata.addEndState(newstate);
+				 try {
+					 product_automata.addEndState(newstate);
+				 } catch (AJPFException e) {
+					 failure_message = e.getMessage();
+					 return false;
+				 }
 				 return (! returnvalue);
 			 }
 
 			 // Otherwise we add a new model state to the product and check if we're in a state
-			 // were there is state in the property that can be paired with this state in the model
+			 // where there is state in the property that can be paired with this state in the model
 			 // so all paths from this model node are trivially true.
-			 if (!product_automata.addModelState(newstate)) {
-			 
-				 // Internal JPF stuff to force backtracking at this point since we're no longer interested in 
-				 // exploring further.
-				 log.fine("Setting Ignored");
-				 search.getVM().getSystemState().setIgnored(true);
-				 return true;
+			 try {
+				 if (!product_automata.addModelState(newstate)) {
+				 
+					 // Internal JPF stuff to force backtracking at this point since we're no longer interested in 
+					 // exploring further.
+					 log.fine("Setting Ignored");
+					 search.getVM().getSystemState().setIgnored(true);
+					 return true;
+				 }
+			 } catch (AJPFException e) {
+				 failure_message = e.getMessage();
+				 return false;
 			 }
 
 
@@ -284,21 +300,26 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  * Reporting of the nature of the error by JPF.
 	  */
 	 public String getErrorMessage() {
-		 List<ProductState> product_states = product_automata.getAcceptingPath();
-		 int counter = 0;
-		 String pathstring = "";
-		 for (ProductState ps: product_states) {
-			 pathstring += ps.toPrettyString();
-			 counter++;
-			 if (counter == 5) {
-				 pathstring += ",\n";
-				 counter = 0;
-			 } else {
-				 pathstring += ", ";
+		 if (failure_message != null) {
+			 return failure_message;
+		 } else {
+			 List<ProductState> product_states = product_automata.getAcceptingPath();
+			 int counter = 0;
+			 String pathstring = "";
+			 for (ProductState ps: product_states) {
+				 pathstring += ps.toPrettyString();
+				 counter++;
+				 if (counter == 5) {
+					 pathstring += ",\n";
+					 counter = 0;
+				 } else {
+					 pathstring += ", ";
+				 }
 			 }
+			 String s = "An Accepting Path has been found: \n" + pathstring;
+			 // System.err.println(s);
+			 return s;
 		 }
-		 String s = "An Accepting Path has been found: \n" + pathstring;
-		 return s;
 	 }
 	 
 	 /**

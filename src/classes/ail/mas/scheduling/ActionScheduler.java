@@ -97,9 +97,11 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#notActive(java.lang.String)
 	 */
 	public void notActive(String agName) {
-		activeAgents.remove(agName);
-		if (!inactiveAgents.contains(agName)) {
-			inactiveAgents.put(agName);
+		if (activeAgents.contains(agName)) {
+			activeAgents.remove(agName);
+			if (!inactiveAgents.contains(agName)) {
+				inactiveAgents.put(agName);
+			}
 		}
 		somethinghaschanged = true;
 	}
@@ -112,7 +114,6 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 		if (!activeAgents.contains(a) && !donotSchedule.contains(a)) {
 			activeAgents.put(a);
 		}
-		inactiveAgents.remove(a);
 		somethinghaschanged = true;
 	}
 	
@@ -132,9 +133,9 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLScheduler#removeJobber(ajpf.MCAPLJobber)
 	 */
-	public void removeJobber(MCAPLJobber a) {
-		agnames.remove(a.getName());
-		activeAgents.remove(a.getName());
+	public void removeJobber(String a) {
+		agnames.remove(a);
+		activeAgents.remove(a);
 	}
 
 	/*

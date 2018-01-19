@@ -1,0 +1,56 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+// Code taken from an example in Programming Rational Agents in GOAL by Koen Hindriks
+init module {
+   	knowledge{
+       	block(X) :- on(X, _).
+      	clear(X) :- block(X), not( on(_, X) ).
+       	clear(table).
+     	tower([X]) :- on(X, table).
+   	  	tower([X, Y| T]) :- on(X, Y), tower([Y | T]). 
+   	}
+   
+  	beliefs{
+     		on(b1, b2). on(b2, b3). on(b3, table). on(b4, b5). on(b5, table). on(b6, b7). on(b7, table).
+   	}
+   
+   	goals{
+   		on(b1, b5), on(b2, table), on(b3, table), on(b4, b3), on(b5, b2), on(b6, b4), on(b7, table).
+   	}
+   		
+   	actionspec{
+   		move(X, Y) {
+   			pre{ clear(X), clear(Y), on(X, Z), not( on(X, Y) ) }
+   			post{ not( on(X, Z) ), on(X, Y) }
+   		}
+   }
+}
+   
+main module [exit=nogoals] {
+   program [order=random] {
+  	if a-goal(tower([X, Y| T])), bel(tower([Y| T])) then move(X, Y).
+  	if a-goal(tower([X| T])) then move(X, table).
+   }
+}
+ 

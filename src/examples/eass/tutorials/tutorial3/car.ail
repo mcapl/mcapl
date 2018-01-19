@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-env=eass.tutorials.tutorial3.Tutorial1VerificationEnvironment
+env=eass.tutorials.tutorial3.VerificationEnvironment
 
 mas.file = /src/examples/eass/tutorials/tutorial3/car_re.eass
 mas.builder = eass.EASSMASBuilder

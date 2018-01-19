@@ -22,10 +22,10 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-env = gwendolen.easss_tutorial.SimpleEnv
+env = gwendolen.verifiableautonomoussystems.chapter3.SimpleEnv
 
 log.format=brief
 log.info = ail.mas.DefaultEnvironment,ail.semantics.AILAgent
 
-mas.file = /src/examples/gwendolen/easss_tutorial/MessageAgents.gwen
+mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter3/MessageAgents.gwen
 mas.builder = gwendolen.GwendolenMASBuilder

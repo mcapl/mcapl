@@ -1,14 +1,26 @@
 \chapter{Running and Model Checking an Agent Program}
 \label{chap:running}
 
-All of the languages implemented using the Agent Infrastructure Layer (AIL)\index{AIL} come provided with a parser which allows files written in that language to be read in and executed.  Examples of programs can be found in the \texttt{src/examples} directory.
+All of the languages implemented using the Agent Infrastructure Layer (AIL)\index{AIL} come provided with a parser which allows files written in that language to be read in and executed.  Examples of programs can be found in the \texttt{src/examples} directory and the tutorials for some of the languages can be found in Part 2 of this manual.
 
-However these languages only describe the agent and these agents must execute within an multi-agent system consisting of an environment and one or more agents.  Therefore for any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{Environment!Default} class that come with the AIL. Configuration files\index{configuration!AIL} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL!class} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} Eclipse Run Configuration (see next chapter).
+However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL!class} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} Eclipse Run Configuration.\index{Eclipse}
 
-Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL}. 
+Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF}\index{RunJPF (class)} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)}. 
 
 \section{Example: Executing a Multi-Agent-System (UNIX Based Systems)}
-{\bf Important:} Make sure that \texttt{\ajpfversion/bin} and \texttt{\ajpfversion/lib/3rdparty/jpf.jar} are in your CLASSPATH.  We also recommend setting the environment variable AJPF\_HOME\index{AJPF\_HOME} to be the path to \texttt{\ajpfversion} (NB. throughout this chapter, if you are using the development version \texttt{\ajpfversion} should be \texttt{mcapl}).
+{\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in you CLASSPATH\index{Java (class)path}\index{Unix}
+
+\begin{verbatim}
+lib/3rdparty/ev3classes.jar
+lib/3rdparty/ev3tools.jar
+lib/3rdparty/junit-4.10.jar
+lib/3rdparty/eis-0.5.0.jar
+lib/3rdparty/java-prolog-parser.jar
+lib/3rdparty/jpf.jar
+lib/3rdparty/system-rules-1.16.0.jar
+\end{verbatim}
+
+We also recommend setting the environment variable AJPF\_HOME\index{AJPF\_HOME} to be the path to \texttt{\ajpfversion} (NB. throughout this chapter, if you are using the development version \texttt{\ajpfversion} should be \texttt{mcapl}).
 
 You can run the simple agent \texttt{pickupagent.gwen} whose code you will find in \texttt{/src/examples/gwendolen/simple/PickUpAgent}\index{example!pickupagent} by calling
 
@@ -23,29 +35,30 @@ You should see output similar to:
 
 \noindent \begin{lstlisting}
  Jun 25, 2012 11:57:24 AM ajpf.util.AJPFLogger info
- INFO: loading property file: /Users/lad/Eclipse/\ajpfversion/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
+ INFO: loading property file: /Users/lad/Eclipse/ajpf2017/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
  done
 \end{lstlisting}
 \medskip
  
-\texttt{PickUpAgent.ail} is a Configuration File which describes how AIL should build the relevant multi-agent system.
+\texttt{PickUpAgent.ail} is a Configuration File\index{AIL!configuration}\index{configuration!AIL} which describes how AIL should build the relevant multi-agent system.
 
 {\bf NB}  If you do not have AJPF\_HOME set then you will need to run the example from the \texttt{\ajpfversion} directory.
 
 \subsection{In Eclipse}
 
-If you have successfully imported the project into Eclipse then you should have two run configurations \texttt{run-AIL} and \texttt{run-JPF (MCAPL)}.  If you do not these can be found in the \texttt{eclipse} sub-directory.
+If you have successfully imported the project into Eclipse then you should have two run configurations \texttt{run-AIL}\index{run-AIL} and \texttt{run-JPF (MCAPL)}\index{run-JPF}.  If you do not these can be found in the \texttt{eclipse} sub-directory.\index{Eclipse}
 
 Select the configuration file you will to run, and then select \texttt{run-AIL} from Eclipse's Run Configuration menu.
 
 
 \section{Example: Model Checking a Multi-Agent System (UNIX Systems)}
+\index{Unix}
 
-You will need to run jpf which uses a class containing in \texttt{lib/3rdparty/jpf.jar}.  Make sure this is on your class path.  Call \emph{in the \ajpfversion} directory:
+To verify a multi-agent system, you will need to run \jpf which uses a class contained in \texttt{lib/3rdparty/jpf.jar}.  Make sure this is on your class path.  Call \emph{in the \ajpfversion} directory:
 
 \noindent \begin{lstlisting}[basicstyle=\tiny]
 > java gov.nasa.jpf.tool.RunJPF ${path-to}/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf
-\end{lstlisting}
+\end{lstlisting}\index{RunJPF (class)}\index{example!pickupagent}
 \medskip
 
 \noindent where \texttt{\${path-to}} is the path to \ajpfversion\ in your system.
@@ -53,26 +66,36 @@ You will need to run jpf which uses a class containing in \texttt{lib/3rdparty/j
 You should see output similar to: 
 
 \noindent \begin{lstlisting}
- ----------------------------------- search started
+----------------------------------- search started
       [skipping static init instructions]
-JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
+JavaPathfinder core system v8.0 (rev 32) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 12/02/15 14:09
-		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"<root>" ,1/1,isCascaded:false}
+====================================================== search started: 28/04/17 14:42
+		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
 		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
-		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="agentSchedulerChoice",isCascaded:false,>0]
-done
-[INFO] ag1 done print(done)
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
 		 # garbage collection
-[INFO] Adding 1 to [0, 1]
+[INFO] Adding 1 to [0]
+----------------------------------- [2] forward: 1 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
+		 # garbage collection
+[INFO] Adding 2 to [0, 1]
+----------------------------------- [3] forward: 2 new
+		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
+		 # garbage collection
+[INFO] Adding 3 to [0, 1, 2, 3]
 [INFO] Always True from Now On
------------------------------------ [2] forward: 1 visited
+----------------------------------- [4] forward: 3 visited
+----------------------------------- [3] backtrack: 2
+----------------------------------- [3] done: 2
+----------------------------------- [2] backtrack: 1
+----------------------------------- [2] done: 1
 ----------------------------------- [1] backtrack: 0
 ----------------------------------- [1] done: 0
 ----------------------------------- [0] backtrack: -1
@@ -83,22 +106,22 @@ done
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:01
-states:             new=1, visited=1, backtracked=2, end=0
-search:             maxDepth=1, constraints hit=0
-choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=1
-heap:               new=8683, released=5787, max live=2735, gc-cycles=2
-heap:               new=8454, released=5469, max live=2827, gc-cycles=2
-instructions:       1093345
-max memory:         156MB
-loaded code:        classes=303, methods=4521
-====================================================== search finished: 12/02/15 14:09
+elapsed time:       00:00:00
+states:             new=3,visited=1,backtracked=4,end=0
+search:             maxDepth=3,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
+heap:               new=7563,released=4373,maxLive=3134,gcCycles=4
+instructions:       905783
+max memory:         155MB
+loaded code:        classes=319,methods=4995
+
+====================================================== search finished: 28/04/17 14:42
 \end{lstlisting}
 
 \subsection{In Eclipse}
 
-In eclipse you should be able to select \texttt{run-JPF (MCAPL)} from the Run menu while you have \texttt{src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf} selected.  This should generate similar output to the above.
+In eclipse you should be able to select \texttt{run-JPF (MCAPL)}\index{run-JPF} from the Run menu while you have \texttt{src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf} selected.  This should generate similar output to the above.
 
 \section{Executing and Model Checking Multi-Agent Systems on Windows Systems}
 
-AJPF and the AIL have not been extensively tested on Windows systems.  In particular all the examples assume UNIX conventions for path names.  \emph{In theory} however, it should be possible to adapt these to Windows systems simply by converting paths to use Windows style paths.
+AJPF and the AIL have not been extensively tested on Windows systems.  In particular all the examples assume UNIX conventions for path names.  \emph{In theory} however, it should be possible to adapt these to Windows systems simply by converting paths to use Windows\index{Windows} style paths.

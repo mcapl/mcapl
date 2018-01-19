@@ -1,0 +1,134 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+init module {
+	knowledge{
+		% list of all rooms in the environment
+		rooms(['Room1','Room2','Room3','Room4']).
+		place('Room1'). place('Room2'). place('Room3'). place('Room4'). place('DropZone').
+		
+		% room(X) is true if 'X' is a room
+		room(X):- rooms(L), member(X,L).
+		
+		% shopping_list(Colours) is a percept
+		nextItemInSeq(Colour) :- index(Index), shopping_list(Colours), nth0(Index, Colours, Colour).
+		
+		finished(Index) :- index(Index), shopping_list(Colours), length(Colours, Index).
+	}
+	
+	beliefs{			
+		% We use our own visitedRooms/1-predicate to remember the rooms the bot already visited.
+		visitedRooms([]).
+	}
+	
+	actionspec{
+		
+		goTo(Location) {
+            pre { true }
+			post { true }
+		}
+		
+		
+		goToBrick(Brick) {
+			pre { hasColour(Brick, _) }
+			post { true }
+		}
+		
+		pickUp {
+			pre { atBrick(_), not(holding(_)) }
+			post { true }
+		}
+		
+		putDown {
+			pre { holding(_), in(_) }
+			post { true }
+		}
+	}
+}
+
+
+main module[exit=nogoals]{
+	program {
+		if bel(not(finished(_)), in('DropZone'), holding(Brick), index(GoalNr))
+			then adopt(delivered(GoalNr)).
+			
+		if bel(not(finished(_)), holding(Brick))
+			then adopt(in('DropZone')).
+		
+		if bel(not(finished(_)), not(holding(_)), nextItemInSeq(Color), atBrick(Brick), visible(Brick, Colour))
+			then adopt(holding(Brick)).
+		
+		if not(goal(in(I))), not(goal(atBrick(B))), not(goal(holding(H))), not(goal(delivered(D))),
+			bel(not(finished(_)), nextItemInSeq(Color), hasColour(Brick, Color))
+				then adopt(atBrick(Brick)).
+	
+		if not(goal(in(I))), not(goal(atBrick(B))), not(goal(holding(H))), not(goal(delivered(D))),
+			bel(not(finished(_)), place(Place), room(Place), visitedRooms(List), not(member(Place, List)))
+				then adopt(in(Place)).
+
+		if a-goal(delivered(Pos))
+			then putDown.
+		
+		if a-goal(holding(Brick))
+			then pickUp.
+		
+		if a-goal(atBrick(Brick))
+			then goToBrick(Brick).
+		
+		if a-goal(in(Place))
+			then goTo(Place).
+	}
+}
+
+event module{
+	program{
+		
+		
+		forall bel(percept(place(Place))) do insert(place(Place)).
+		forall bel(percept(shopping_list(Items))) do insert(shopping_list(Items)).
+		
+		if bel(not(in(_)), percept(in(Place))) then insert(in(Place)).
+		if bel(in(OldPlace), percept(in(Place))) then insert(not(in(OldPlace)),in(Place)).
+				
+		if bel(holding(Brick), percept(not(holding(Brick))), index(Index), in('DropZone')) then delete(holding(Brick)) + insert(delivered(Index)).
+		if bel(holding(Brick), percept(not(holding(Brick)))) then delete(holding(Brick)).
+		if bel(not(holding(Brick)), percept(holding(Brick))) then insert(holding(Brick)).
+		
+		if bel(not(index(_))) then insert(index(0)).		
+		if bel(index(Index), delivered(Index), NewIndex is Index + 1) then delete(index(Index)) + insert(index(NewIndex)).
+		
+		forall bel(percept(atBrick(Brick))) do insert(atBrick(Brick)).
+		forall bel(atBrick(Brick), percept(not(atBrick(Brick)))) do delete(atBrick(Brick)).
+		
+		forall bel(percept(in(Room)), visitedRooms(List)) do insert(in(Room)) + delete(visitedRooms(List)) + insert(visitedRooms([Room|List])).
+		forall bel(in(Room), percept(not(in(Room)))) do delete(in(Room)).
+		
+		forall bel(not(visible(Brick, Color)), percept(visible(Brick, Color))) do insert(visible(Brick, Color)).
+		forall bel(visible(Brick, Color), percept(not(visible(Brick, Color)))) do delete(visible(Brick, Color)).
+		forall bel(not(hasColour(Brick, Colour)), visible(Brick, Colour)) do insert(hasColour(Brick, Colour)).	
+		forall bel(hasColour(Brick, Colour), holding(Brick)) do delete(hasColour(Brick, Colour)).
+		
+				
+	}
+}	
+	
+

@@ -1,0 +1,318 @@
+The implementation of \goal\ in the \ail\ for use with \ajpf\ is based upon the 2014 version of \goal.  Documentation for this version can be found in the version of \emph{Programming Cognitive Agents in \goal} included with the \ajpf\ distribution in the \texttt{doc/goal} directory.\index{GOAL}  These notes are intended to be used alongside the Programming Guide which explains how to program in \goal.
+
+While every effort has been made to keep the syntax and format of the \goal\ program files in line with this document.  The usage and format of configuration files differs.  These differences are outlined in this document.\index{GOAL}
+
+Many examples from \emph{Programming Cognitive Agents in \goal} can be found in the \texttt{mcapl} distribution in the directory\index{GOAL}
+\begin{quote}
+  \texttt{src/examples/goal/programming\_guide}.
+\end{quote}
+
+\section{\ail\ Configuration Files}
+\label{sec:config}
+
+\begin{sloppypar}
+  You will find an \ail\ configuration file in the chapter 1 directory called \texttt{hello\_world.ail}.  Its contents is shown below.\index{configuration!GOAL}\index{GOAL!configuration}
+  \end{sloppypar}
+
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+env = goal.mas.GoalEnvironment
+
+mas.file = /src/examples/goal/programming_guide/chapter1/hello_world.gl
+mas.builder = goal.GOALMASBuilder
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+
+This is a very simple configuration consisting of three items only.
+\begin{sloppypar}
+\begin{description}
+\item[mas.file] gives the path to the \goal\ program to be run.\index{GOAL}\index{mas.file}
+\item[mas.builder] gives a java class for building the file.  In this case \texttt{goal.GOALMASBuilder} parses a file containing a \goal\ agent and compiles it into a multi-agent system.\index{mas.builder}\index{GOALMASBuilder (class)}
+\item[env] provides an environment for the agent to run in.  In this case we use a default \goal\ environment provided by the \ail.\index{environment}\index{GoalEnvironment (class)}
+\end{description}
+\end{sloppypar}
+The \goal\ program file, \texttt{hello\_world.gl} is also in the chapter directory.
+
+\subsection{Running the Program}
+
+To run the program you need to run the \java\ program \texttt{ail.mas.AIL} and supply it with a the configuration file as an argument.  You can do this either from the command line or using the Eclipse \texttt{run-AIL} configuration (with \texttt{hello\_world.ail} selected in the Package Explorer window) as detailed \inmanual{chap:running}.\index{GOAL}\index{GOAL!executing}\index{run-AIL}\index{AIL (class)}\index{Eclipse}
+
+\subsection{Configuration Files}
+\label{sec:configuration}
+
+Configuration files all contain a list of items of the form \texttt{key=value}.  Particular agent programming languages, and even specific applications may have their own specialised keys that can be placed in this file.  However the keys that are supported by all agent programs are as follows:\index{GOAL}\index{configuration!GOAL}\index{GOAL!configuration}
+
+\begin{sloppypar}\index{GOAL}
+\begin{description}
+\item[env] This is the Java class that represents the environment of the multi-agent system.  The value should be a java class name -- e.g., \texttt{goal.mas.GoalEnvironment}.\index{GoalEnvironment (class)}
+\item[mas.file] This is the name of a file (including the path from the \mcapl\ home directory) which describes all the agents needed for a multi-agent system in some agent programming language.\index{mas.file}
+\item[mas.builder] This is the Java class that builds a multi-agent system in some language.  For \goal\ this is \texttt{goal.GOALMASBuilder}.  To find the builders for other languages consult the language documentation.\index{mas.builder}\index{GOALMASBuilder (class)}
+\item[mas.agent.\emph{N}.file] This is the name of a file (including the path from the \mcapl\ home directory) which describes the \emph{N}th agent to be used by some multi-agent system.  This allows individual agent code to be kept in separate files and allows agents to be re-used for different applications.  It also allows a multi-agent system to be built using agents programmed in several different agent programming languages.  You can see an example of the use of this in section~\ref{sec:6.2}.\index{mas.agent.1.file}
+\item[mas.agent.\emph{N}.builder] This is the Java class that is to be used to build the \emph{N}th agent in the system.  In the case of \goal\ individual agents are built using \texttt{goal.GOALAgentBuilder}.  You can see an example of the use of this in section~\ref{sec:6.2}.\index{mas.agent.1.builder}\index{GOALAgentBuilder (class)}\index{GOAL}
+\item[mas.agent.\emph{N}.name] All agent files contain a default name for the agent but this can be changed by the configuration (e.g., if you want several agents which are identical except for the name -- this way they can all refer to the same code file but the system will consider them to be different agents because they have different names).  You can see an example of the use of this in section~\ref{sec:6.2}.\index{mas.agent.1.name}
+\item[log.severe, log.warning, log.info, log.fine, log.finer, log.finest] These all set the logging level for Java classes in the system.  \texttt{log.finest} prints out the most information and \texttt{log.severe} prints out the least.  By default most classes are set to \texttt{log.warning} but sometimes, especially when debugging, you may want to specify a particular logging level for a particular class. \index{logging}
+\item[log.format] This lets you change the format of the log output from Java's default.  At the moment the only value for this is \texttt{brief}.\index{log.format}
+\item[ajpf.transition\_every\_reasoning\_cycle] This can be \texttt{true} or \texttt{false} (by default it is true).  It is used during model checking with \ajpf{} to determine whether a new model state should be generated for every state in the agent's reasoning cycle.  This means that model checking is more thorough, but at the expense of generating a lot more states.\index{ajpf.transition\_every\_reasoning\_cycle}\index{model checking}\index{search space}
+\item[ajpf.record] This can be \texttt{true} or \texttt{false} (by default  it is false).  If it is set to true then the program will record its sequence of choices (all choices made by the scheduler \emph{and} any choices made by the special \texttt{ajpf.util.choice.Choice} class).  By default (unless \texttt{ajpf.replay.file} is set) these choices are stored in a file called \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution.\index{GOAL}\index{ajpf.record}\index{Choice (class)}\index{ajpf.replay.file}
+\item[ajpf.replay] This can be set to \texttt{true} or \texttt{false} (by default it is false).  If it is set to true then the system will execute the program using a set of scheduler and other choices from a file.  By default (unless \texttt{ajpf.replay.file} is set) this  file is  \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution.\index{ajpf.replay}
+\item[ajpf.replay.file] This allows you to set the file used by either \texttt{ajpf.record} or \texttt{ajpf.replay}.\index{ajpf.replay.file}\index{GOAL}
+\end{description}
+\end{sloppypar}
+
+More information on the use of \ail\ configuration files can be found \intutorial{\ail}{1}{tutorial:ail:configuration}.
+
+\section{Notes on Chapter 1}
+
+\ail\ versions of all the examples that appear in chapter 1 of \emph{Programming Cognitive Agents in \goal} can be found in\index{GOAL}
+\begin{quote}
+  \texttt{src/examples/goal/programming\_guide/chapter1}.
+\end{quote}
+
+In section 1.1. of \emph{Programming Cognitive Agents in \goal}, a MAS file is presented for a Hello World agent containing {\bf agentfiles} and a {\bf launchpolicy}.  Instead of using a MAS file, users of the \ail\ version of \goal\ should use an \ail\ configuration file as discussed in section~\ref{sec:config}.\index{GOAL!launchpolicy}
+
+Section 1.5 discusses using an environment \texttt{HelloWorldEnvironment.jar}.  The \mcapl\ distribution instead supplies \texttt{HellowWorldEnvironment.java} in the chapter directory which can be included in an \ail\ configuration file as:
+
+\begin{quote}
+  \texttt{env = goal.programming\_guide.chapter1.HelloWorldEnvironment}
+\end{quote}\index{HelloWorldEnvironment (class)}
+
+\section{Model Checking \goal\ Programs}\index{GOAL}\index{GOAL!verification}
+
+\goal\ programs can be model-checked in the same way that \gwendolen\ and other programs in the \ail\ framework can be checked.  This involves creating a \jpf\ configuration file and setting the program's \ail\ configuration file, a property specification file, and a property key as the \texttt{target.args} for a \texttt{target} of \texttt{ail.util.AJPF\_w\_AIL}.  This process is outlined in more detail \intutorial{\ajpf}{1}{tutorial:ajpf:psl} and \intutorial{\ajpf}{2}{tutorial:ajpf:troubleshooting}.
+
+We outline the basics of this here.
+
+\subsection{Setting up Agent Java Pathfinder}
+Before you can run \ajpf\ it is necessary to set up your computer to use Java Pathfinder.  There are instructions for doing this in the \mcapl\ manual (which you can find in the \texttt{doc} directory of the distribution).\index{GOAL}\index{GOAL!verification}
+
+Just as you run multi-agent systems in the \ail\ by passing an \ail\ configuration file as an argument to \texttt{ail.mas.AIL}, you model-check a multi-agent system by passing a \jpf\ configuration file as an argument to \texttt{ajpf.util.AJPF\_w\_AIL}.\index{AJPF\_w\_AIL (class)}\index{AIL (class)}\index{model checking}
+
+\subsection{Example}
+Figure~\ref{fig:goal:hello_world} shows a \jpf\ configuration file of the \texttt{hello\_world.gl} example from chapter 1 of \emph{Programming Cognitive Agents in \goal\ }.\index{GOAL}\index{GOAL!verification}\index{configuration!JPF}\index{JPF!configuration}
+
+\begin{figure}[htb]
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/goal/programming_guide/chapter1/hello_world.ail,${mcapl}/src/examples/goal/programming_guide/chapter1/simple.psl,1
+
+log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+\caption{Hello World Configuration File}
+\label{fig:goal:hello_world}
+\end{figure}
+
+We explain each line of this below.\index{GOAL}\index{GOAL!verification}
+
+\begin{sloppypar}\index{GOAL}\index{GOAL!verification}
+\begin{description}
+\item[@using = mcapl] Means that the proof is using the home directory for \texttt{mcapl}.  This should be be set up in \texttt{.jpf/site.properties} (See the \mcapl\ manual).
+\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  For those who are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL}\index{AIL (class)}
+\item[target.args =...] This sets up the arguments to be passed to \texttt{ail.util.AJPF\_w\_AIL}.  \texttt{ail.util.AJPF\_w\_AIL} takes three arguments.  In the configuration file these all have to appear on one line, separated by commas (but \emph{no spaces}).  This means you can not see them all in the file print out above.  In order the arguments are:\index{target.args}
+\begin{enumerate}
+\item The first is an \ail\ configuration file.  In this example the file is \texttt{\$\{mcapl\}/src/examples/goal/programming\_guide/chapter1/hello\_world.ail} which is a configuration file for a simple Hello World program.
+\item The second argument is a file containing a list of properties in \ajpf's property specification language that can be checked.  In this example this file is \texttt{simple.psl} in the directory chapter 1 of the programming guide.
+\item The last argument is the name of the property to be checked, \texttt{1} in this case.
+\end{enumerate}
+\item[log.info =... ] \jpf\ suppresses the logging configuration you have in your \ail\ configuration files so you need to add any logging configurations you want to the \jpf\ configuration file.  Useful classes when debugging a model checking run are
+
+\begin{description}
+\item[ail.mas.DefaultEnvironment] At the \texttt{info} level this prints out any actions the agent performs.  Since the scheduler normally only switches between agents when one sleeps or performs an action this can be useful for tracking progress on this model checking branch.\index{DefaultEnvironment (class)}\index{GOAL}\index{GOAL!verification}\index{scheduler}\index{sleeping}
+\item[ajpf.MCAPLAgent] At the \texttt{info} level this prints information when an agent sleeps or wakes.  Again this can be useful for seeing what has triggered a scheduler switch.  It can also be useful for tracking which agents are awake and so deducing which one is being picked.\index{MCAPLAgent (class)}
+\item[ajpf.product.Product] At the \texttt{info} level this prints out the current path through the search tree being explored by the agent.  This can be useful just to get a feel for the system's progress through the search space.  It can also be useful, when an error is thrown and in conjunction with some combination of logging actions, sleeping and waking behaviour and (if necessary) internal agent states, to work out why a property has failed to hold.\index{Product (class)}\index{logging}
+
+It also prints the message \texttt{Always True from Now On} when exploration of a branch of the search tree is halted because the system deduces that the property will be true for the rest of that branch.  This typically occurs when the property is something like $\sometime \phi$ (i.e., $\phi$ will eventually occur) and the search space is pruned once $\phi$ becomes true.\index{GOAL}\index{GOAL!verification}\index{Always True from Now On}\index{model checking!search tree}
+\item[ajpf.psl.buchi.BuchiAutomaton] At the \texttt{info} level this prints out the B\"{u}chi Automaton that has been generated from the the property that is to be proved.  Again this is useful, when model checking fails, for working out what property was expected to hold in that state.\index{BuchiAutomaton (class)}\index{GOAL}
+\item[ail.semantics.AILAgent] At the \texttt{fine} level this prints out the internal agent state once every reasoning cycle.  Be warned that this produces a lot of output in the course of a model checking run.\index{AILAgent (class)}\index{logging}
+\end{description}
+\item[listener+=,.listener.ExecTracker] Adding \texttt{listener.ExecTracker} to \jpf's listeners means that it collects more information about progress as it goes and then prints this information out.  The next two lines suppress some of this information which is usually less useful. \index{listener}
+\end{description}
+\end{sloppypar}
+
+\subsection{Property Specification}\index{property}\index{property specification language}\index{GOAL}\index{GOAL!verification}
+The file \texttt{simple.psl} specifies two Linear Temporal Logic (LTL) properties for checking.  Given the Hello World programs are so simple these properties are very basic.  
+
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+1: [](~B(goal_agent,bad))
+
+2: <>(B(goal_agent, nrOfPrintedLines(10)))
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+
+The first of these is equivalent to the LTL statement ``it is always the case that \texttt{goal\_agent} doesn't believe \texttt{bad}'' $\always \neg \lbelief{\texttt{goal\_agent}}{bad}$.  The second is equivalent to the LTL statement ``eventually \texttt{goal\_agent} believes the number of printed lines is 10'' $\eventually \lbelief{\texttt{goal\_agent}}{\mathit{nrOfPrintedLines}(10)}$.
+
+You can find more detail on property specification \intutorial{\ajpf}{1}{tutorial:ajpf:psl}.
+
+\subsection{Running \ajpf}
+To run \ajpf\ you need to run the program \texttt{gov.jpf.tool.RunJPF}\index{runJPF (class)} which is contained in \texttt{lib/3rdparty/RunJPF.jar} in the \mcapl\ distribution.  Alternatively you can use the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.
+
+You need to supply the JPF Configuration file as an argument.  
+
+\section{Notes on Chapters 3 \& 4}\index{GOAL}
+
+Chapters 3 and 4 build up to executable programs that are used in Chapters 5 and 6.  As such we discuss the details in the notes on those chapters.  In particular the notes on chapter 6 discuss the use of the Blocks World environment.\index{example!Blocks World}
+
+It should be noted that actual \goal\ program code in \ail\ is identical to that presented in \emph{Programming Cognitive Agents in \goal}, it is only configuration files and sometimes environments that differ.
+
+\section{Notes on Chapter 5}\index{GOAL}
+The goal programs in chapter 5 do not need to use sensing to gain information from any external environment.  As such they can be run successfully in the Default \goal\ environment \texttt{goal.mas.GoalEnvironment}\index{GoalEnvironment (class)}
+
+Both stack builder programs used in the chapter can be found in\index{GOAL}
+\begin{quote}
+  \texttt{src/examples/goal/programming\_guide/chapter5}.
+\end{quote}
+together with \ail\ configuration files allowing them to be run and \ajpf\ configuration files allowing the system to check properties of them.  It should be noted that the random version of the stack builder program takes considerably longer to model-check because of the increase in search space caused by the random evaluation of rules.\index{model checking}\index{model checking!search space}
+
+\section{Notes on Chapter 6}\index{GOAL}
+
+All the programs discussed in the chapter 6 of \emph{Programming Cognitive Agents in \goal} can be found in
+\begin{quote}
+  \texttt{src/examples/goal/programming\_guide/chapter6}.
+\end{quote}
+
+\subsection{Section 6.1}\index{GOAL}
+Like \goal, the \ail\ supports the Environment Interface Standard (EIS)\index{Environment Interface Standard|see {EIS}}\index{EIS}.  However a little more effort is required to use this than in \goal\ itself where it can all be managed via a configuration file.
+
+In the \ail\ a mediating environment is needed between an environment that supports the EIS\index{EIS} and the system itself.  There are two of these in 
+\begin{quote}
+  \texttt{src/examples/goal/programming\_guide/chapter6}.
+\end{quote}
+one for the Blocks World and one for the Tower World.  These mediating environments extend \texttt{GOALEISEnvironment} (which is an \ail\ style environment for \goal\ that supports the EIS) and provide some simple configuration methods.\index{example!Blocks World}\index{example!Tower World}\index{GOALEISEnvironment (class)}\index{EIS}
+
+Table 6.1 in the programming guide shows a MAS file for use with the Blocks World environment.  In the \ail\ version of goal this becomes the combination of the \texttt{table6\_1.ail} configuration file and the \texttt{BlocksWorldEnvironment.java} mediating environment.  We will discuss these in turn.\index{BlocksWorldEnvironment (class)}\index{example!Blocks World}\index{GOAL}
+
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+env = goal.programming_guide.chapter6.BlocksWorldEnvironment
+goal.env.init.start = bwconfigEx1.txt
+goal.env.init.gui = true
+
+mas.file = /src/examples/goal/programming_guide/chapter5/stackBuilder.gl
+mas.builder = goal.GOALMASBuilder
+
+goal.launchpolicy.entity.launch = goal_agent
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+
+Here instead of providing a jar file for the environment we supply the mediating environment to the \texttt{env} argument.  However the other components of the environment section of the \goal\ MAS file are present.  \texttt{init = [start = ``bwconfigEx1.txt'']} becomes \texttt{goal.env.init.start = bwconfigEx1.txt}.  We also add \texttt{goal.env.init.gui = true} since this displays a useful GUI interface for the environment.\index{GOAL}\index{EIS!configuration}\index{configuration!EIS}\index{EIS}
+
+The {\bf agentfiles} section of the MAS file has become \texttt{mas.file} and \texttt{mas.builder} as described in the notes for Chapter 1.\index{GOAL!agentfiles}\index{mas.file}\index{mas.builder}\index{GOAL}
+
+Lastly the {\bf launchpolicy} section says to launch the entity \texttt{goal\_agent} which is the default agent name given to \goal\ agents in \ail.  We will discuss renaming agents when we examine the next example.\index{GOAL}\index{GOAL!launchpolicy}
+
+Example~\ref{code:blocksworld} shows the mediating environment\index{example!Blocks Wprld}\index{GOAL}.  It is the constructor for this environment that contains the jar file for the EIS\index{EIS} environment blocks world.  In our case we are using \texttt{blocksworld-1.1.0.jar} which we've supplied with the \mcapl\ distribution.  The \texttt{configure} method is used to configure the environment initialisation using the Java methods \texttt{addFileToInitMap}, \texttt{addToInitMap} which are supplied by the \texttt{GOALEISEnvironment}\index{GOALEISEnvironment (class)}\index{GOALEISEnvironment (class)!configure}\index{GOALEISEnvironment (class)!addFileToInitMap}\index{EIS} -- these add tuples of a string and an EIS parameter to an \emph{initialisation map} which is eventually passed to the EIS environment for initialisation.  Since the initialisation parameters are specific to the environment and may be filenames or other types of EIS parameters it is necessary to implement the configuration of these specifically for the environment.  The \texttt{configure} method then calls the method in the super class, \texttt{GOALEISEnvironment}, which handles configuration of launch policies, etc.\index{GOAL}
+
+Lastly the \texttt{done()} method in \texttt{GOALEISEnvironment} is overridden.  By default GOAL environments are assumed to change without an agent performing an action (e.g., because of non software agents acting in them).  This is not the case with the Blocks World where things only move if the agent moves them.  This being the case the method \texttt{done()} should return true indicating that the program can exit if the agent has finished executing (see the discussion of \ail\ environments in the \ail\ tutorials).\index{GOAL}\index{GOALEISEnvironment (class)!done}\index{example!Blocks World}\index{EIS}
+
+\begin{figure}[!htpb]
+\begin{ourexample}
+\label{code:blocksworld} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+package goal.programming_guide.chapter6;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import ail.util.AILConfig;
+import eis.EnvironmentInterfaceStandard;
+import eis.iilang.Identifier;
+import eis.iilang.Parameter;
+import goal.mas.GOALEISEnvironment;
+import goal.mas.GoalEnvironment;
+import goal.util.LaunchPolicy;
+
+public class BlocksWorldEnvironment extends GOALEISEnvironment {
+	
+  public BlocksWorldEnvironment() {
+    super("/lib/eis/blocksworld-1.1.0.jar");		
+  }
+	
+  @Override
+  public void configure(AILConfig config) {
+    if (config.containsKey("goal.env.init.start")) {
+      String filename = config.getProperty("config_path") + "/" +
+        config.getProperty("goal.env.init.start");
+      addFileToInitMap("start", filename);
+    }
+		
+    if (config.containsKey("goal.env.init.gui")) {
+      Identifier value = new Identifier("true");
+      if (config.getProperty("goal.env.init.gui").equals("false")) {
+        value = new Identifier("false");
+      }
+      addToInitMap("gui", value);
+    }
+
+    super.configure(config);
+  }
+	
+	
+  @Override
+  public boolean done() {
+    return true;
+  }
+
+
+}
+\end{lstlisting}
+\end{ourexample}\index{example!Blocks World}
+\end{figure}
+
+\subsection{Section 6.2}\index{GOAL}
+\label{sec:6.2}
+
+Section 6.2 introduces the use of two agents with the Blocks World environment.  These are the \texttt{stackBuilder} agent from chapter 5, and a \texttt{tableAgent} introduced in chapter 6.  The \goal\ agent code in the \ail\ version is identical to that in the \goal\ manual however the configuration file (figure 6.1 in the goal manual) is\index{example!Blocks World}
+
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+env = goal.programming_guide.chapter6.BlocksWorldEnvironment
+goal.env.init.start = bwconfigEx1.txt
+goal.env.init.gui = true
+
+mas.agent.1.file = /src/examples/goal/programming_guide/chapter6/stackBuilder.gl
+mas.agent.1.builder = goal.GOALAgentBuilder
+mas.agent.1.name = stackbuilder
+mas.agent.2.file = /src/examples/goal/programming_guide/chapter6/tableAgent.gl
+mas.agent.2.builder = goal.GOALAgentBuilder
+mas.agent.2.name = tableagent
+
+goal.launchpolicy.entity.launch = stackbuilder,tableagent
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+
+This uses the mechanisms for naming individual agents from \ail\ discussed in section~\ref{sec:configuration}\index{GOAL}
+
+\begin{sloppypar}\index{GOAL}
+  The configuration file can be found in the file \texttt{two\_agents.ail} in the \texttt{chapter6} directly.  Unfortunately when running this, events happen so fast that it is difficult to see what is going on although a series of actions taken by each agent will be printed to the console.  To see the effect in the environment you need to run the system using a Java debugger.  We would suggest with a breakpoint set in the \texttt{executeAction} method in the \texttt{ail.mas.eis.EISEnvironmentWrapper}\index{EISEnvironmentWrapper (class)}\index{EISEnvironmentWrapper (class)!executeAction}\index{action} class.  This will allow you to observe the effect each time an agent executes an action in the environment.\index{EIS}
+  \end{sloppypar}
+
+\subsection{Section 6.3 onwards}\index{GOAL}
+
+The remaining sections in chapter 6 refer to a ``tower world'' environment.  Again this is included in the \ail\ distribution.  The link to the tower world environment can be found in \texttt{TowerWorldEnvironment.java} in the \texttt{chapter6} package and the configuration file can be found in \texttt{tower\_agent.ail}.\index{example!Tower World}\index{TowerWorldEnvironment (class)}
+
+\begin{sloppypar}\index{GOAL}
+  A further environment and configuration file \texttt{SimpleTowerWorldEnvironment.java} and \texttt{tower\_agent\_simple.ail} can be found in the directory.  These were created to allow automated testing of the \goal\ implementation and provide an environment which is not interactive and doesn't use the EIS.  You may wish to examine them if interested but this isn't necessary for learning \goal\ from the programming guide.
+  \end{sloppypar}
+
+\section{Chapter 7}\index{GOAL}
+
+Chapter 7 examines communicating agents via two examples: an Elevator example and a Coffee Maker Example\index{example!Coffee Maker}.  The \texttt{chapter7} package in the \ail\ distribution contains only at the Coffee Maker example.  This does not require a special environment and so used the default \texttt{goal.mas.GoalEnvironment}\index{GoalEnvironment (class)}.  It launches the two agents \texttt{maker} and \texttt{grinder} as the \texttt{tableagent} and \texttt{stackbuilder} were launched in our discussion of section 6.2.
+

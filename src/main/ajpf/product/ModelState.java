@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ajpf.psl.Proposition;
+import ajpf.util.AJPFException;
 
 /**
  * A state in the model consists of the number of the JPF state and,
@@ -86,6 +87,7 @@ public class ModelState implements Comparable<ModelState> {
 	 * @param buchi
 	 */
 	public ModelState(int statenum, Set<Proposition> product_props) {
+		log.finer("Creating ModelState");
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
 			if (p.check()) {
@@ -95,6 +97,7 @@ public class ModelState implements Comparable<ModelState> {
 				props.add(p);
 			}
 		}
+		log.finer("Created ModelState");
 	}
 	
 
@@ -171,8 +174,12 @@ public class ModelState implements Comparable<ModelState> {
 	 * @param i
 	 * @param d
 	 */
-	public void edge_annotate_double(Integer i, double d) {
-		a.edge_annotate_double(i, d);
+	public void edge_annotate_double(Integer i, double d) throws AJPFException{
+		try {
+			a.edge_annotate_double(i, d);
+		} catch (AJPFException e) {
+			throw e;
+		}
 	}
 	
 	/**

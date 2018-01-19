@@ -28,9 +28,11 @@
 package ail.syntax;
 
 import ail.util.AILexception;
+import ajpf.util.VerifySet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -53,7 +55,7 @@ public class BroadcastMessage extends Message {
     /**
      * The receiver of the message: A string assumed to be unique.
      */
-    ArrayList<String> receivers = new ArrayList<String>();
+    Set<String> receivers = new VerifySet<String>();
     
       
     /**
@@ -71,7 +73,7 @@ public class BroadcastMessage extends Message {
      * @param r the receiver of the message.
      * @param c the content of the message.
      */
-    public BroadcastMessage(int ilf, String s, ArrayList<String> r, Term c) {
+    public BroadcastMessage(int ilf, String s, Set<String> r, Term c) {
        	this(ilf, s, r, c, new StringTermImpl("mid"), new StringTermImpl("thid"));
     }
     
@@ -84,7 +86,7 @@ public class BroadcastMessage extends Message {
      * @param c the content of the message.
      * @param thid the thread of the message.
      */
-    public BroadcastMessage(int ilf, String s, ArrayList<String> r, Term c, StringTerm thid) {
+    public BroadcastMessage(int ilf, String s, Set<String> r, Term c, StringTerm thid) {
     	this(ilf, s, r, c, new StringTermImpl("mid"), thid);
     }
  
@@ -98,7 +100,7 @@ public class BroadcastMessage extends Message {
      * @param id
      * @param thid
      */
-    protected BroadcastMessage(int ilf, String s, ArrayList<String> rs, Term c, String id, String thid) {
+    protected BroadcastMessage(int ilf, String s, Set<String> rs, Term c, String id, String thid) {
     	ilForce = ilf;
     	sender = s;
     	receivers = rs;
@@ -117,7 +119,7 @@ public class BroadcastMessage extends Message {
      * @param id
      * @param thid
      */
-    protected BroadcastMessage(int ilf, String s, ArrayList<String> rs, Term c, StringTerm id, StringTerm thid) {
+    protected BroadcastMessage(int ilf, String s, Set<String> rs, Term c, StringTerm id, StringTerm thid) {
     	ilForce = ilf;
     	sender = s;
     	receivers = rs;
@@ -155,7 +157,7 @@ public class BroadcastMessage extends Message {
 	 * Getter method for the receivers of the message.
 	 * @return
 	 */
-	public ArrayList<String> getReceivers() {
+	public Set<String> getReceivers() {
 		return receivers;
 	}
 	
@@ -163,7 +165,7 @@ public class BroadcastMessage extends Message {
 	 * Setter method for the receivers of a message.
 	 * @param agName
 	 */
-	public void setReceivers(ArrayList<String> agNames) {
+	public void setReceivers(Set<String> agNames) {
 		receivers = agNames;
 	}
 	

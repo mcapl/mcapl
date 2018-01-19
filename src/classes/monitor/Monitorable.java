@@ -24,45 +24,6 @@
 
 package monitor;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.TreeSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.LinkedList;
-import java.lang.Thread;
-
-import ail.util.AILConfig;
-import ail.util.AILexception;
-import ail.mas.DefaultEnvironment;
-import ail.mas.scheduling.NActionScheduler;
-import ail.util.AILSocketServer;
-import ail.syntax.SendAction;
-import ail.semantics.AILAgent;
-import ail.syntax.Unifier;
-import ail.syntax.Message;
-import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.StringTerm;
-import ail.syntax.Term;
-import ail.syntax.PredicatewAnnotation;
-import ail.syntax.Predicate;
-import ail.syntax.NumberTerm;
-import ail.syntax.NumberTermImpl;
-import ail.syntax.StringTermImpl;
-import ail.syntax.VarTerm;
-import eass.semantics.EASSAgent;
-import ajpf.MCAPLJobber;
-import ajpf.util.VerifyMap;
-import ajpf.util.AJPFLogger;
-import ajpf.MCAPLScheduler;
-import java.io.PrintWriter;
-import java.io.FileOutputStream;
-import java.io.File;
 
 /**
  *

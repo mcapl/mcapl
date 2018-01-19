@@ -1,0 +1,58 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+init module{
+	beliefs{
+		script(1, "Hello World") .
+		script(2, "I am a rule-based, cognitive agent.") .
+		script(3, "I have a simple purpose in life:") .
+		script(4, "Print text that is part of my script.") .
+		script(5, "For each sentence that is part of my script") .
+		script(6, "I print text using a 'printText' action.") .
+		script(7, "I keep track of the number of lines") .
+		script(8, "that I have printed so far by means of") .
+		script(9, "a percept that is provided by the printing") .
+		script(10, "environment that I am using.") .
+		script(11, "Bye now, see you next time!") .
+		nrOfPrintedLines(0).
+	}
+		
+	goals{
+		nrOfPrintedLines(11).
+	}
+}
+	
+event module{
+	program{
+		if bel(nrOfPrintedLines(Count), NewCount is Count + 1 )
+			then delete(nrOfPrintedLines(Count)) + insert( nrOfPrintedLines(NewCount) ).
+	}
+}
+	
+main module[exit=nogoals] {
+	program{
+		if goal(nrOfPrintedLines(11)), 
+			bel( nrOfPrintedLines(LineNr), NextLine is LineNr + 1, script(NextLine, Text) )
+			then print(Text).
+	}
+}

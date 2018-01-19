@@ -710,7 +710,12 @@ public class Intention implements Comparable<Intention>{
 	 * @return the top unifier on the unifier stack.
 	 */
 	public   Unifier hdU() {
-		return(theta(0));
+		try {
+			return(theta(0));
+		} catch (Exception e) {
+			// This may be an empty intention
+			return new Unifier();
+		}
 	}
 	
 	/**

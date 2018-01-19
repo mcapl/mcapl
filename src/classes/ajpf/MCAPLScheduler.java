@@ -72,7 +72,7 @@ public interface MCAPLScheduler extends PerceptListener {
 	 * Remove a jobber from the scheduler;
 	 * @param a
 	 */
-	public void removeJobber(MCAPLJobber a);
+	public void removeJobber(String jobberName);
 	
 	/**
 	 * Remove an agent from scheduling irrespective of its sleeping or waking status.

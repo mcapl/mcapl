@@ -24,15 +24,19 @@
 
 package actiononly;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
+
+import actiononly.parser.ActionOnlyAILVisitor;
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
 import actiononly.semantics.ActionOnlyAgent;
 import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
+import ajpf.MCAPLcontroller;
 
 /**
  * A class to build action only agents from files.
@@ -49,6 +53,10 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	@Override
 	public AILAgent getAgent(String filename) {
 		parsefile(filename);
+		try {
+			abs_agent.getAgName();
+		} catch (Exception e) {
+		}
 		
 		try {
 			ActionOnlyAgent agent = new ActionOnlyAgent(abs_agent.getAgName());
@@ -62,6 +70,7 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	    	return agent;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("returning null");
 			return null;
 		}
 	}
@@ -69,10 +78,21 @@ public class ActionOnlyAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
+//			String input = MCAPLcontroller.getStringFromFile(masstring);
+			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			tokens.fill();
+	        
+/*	        System.out.println("[TOKENS]");
+	        
+	        for (Token t : tokens.getTokens()) {
+	            System.out.printf("  %-20s %s\n", ActionOnlyLexer.VOCABULARY.getSymbolicName(t.getType()), t.getText());
+	        } */
+
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    		abs_agent = parser.aoagent();
+			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
+			
+    		abs_agent = (Abstract_Agent) visitor.visitAoagent(parser.aoagent());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

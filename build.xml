@@ -45,10 +45,14 @@
     <pathelement location="bin"/>
 
     <fileset dir=".">
+    	<include name="lib/3rdparty/antlr-4.7-complete.jar"/>
   	    <include name="lib/3rdparty/ev3classes.jar"/>
  	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
+ 	    <include name="lib/3rdparty/eis-0.5.0.jar"/>
+ 	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
     	<include name="lib/3rdparty/jpf.jar"/>
+    	<include name="lib/3rdparty/jpl.jar"/>
     	<include name="lib/3rdparty/system-rules-1.16.0.jar"/>
    </fileset>
 
@@ -94,7 +98,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes">
+   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes,-compile-monitor-classes">
   	<mkdir dir="bin"/>
   	<javac srcdir="src/classes/ail" destdir="bin"
  	       includeantruntime="false"
@@ -106,7 +110,19 @@
     </javac>
   </target>
   
-  <target name="-compile-main" if="have_main" depends="-compile-ail-classes">
+   <target name="-compile-monitor-classes" if="have_classes" >
+	  	<mkdir dir="bin"/>
+	  	<javac srcdir="src/classes/monitor" destdir="bin"
+	 	       includeantruntime="false"
+	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+	      <classpath>
+	        <path refid="lib.path"/>
+	        <pathelement location="bin"/>
+	      </classpath>
+	    </javac>
+    </target>
+
+	<target name="-compile-main" if="have_main" depends="-compile-ail-classes">
     <mkdir dir="bin"/>
     <javac srcdir="src/main" destdir="bin"
  	       includeantruntime="false"

@@ -24,14 +24,14 @@
 
 package actiononly;
 
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import ail.mas.MAS;
 import ail.syntax.ast.Abstract_MAS;
 import ail.mas.MASBuilder;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import actiononly.parser.ActionOnlyAILVisitor;
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
 
@@ -59,10 +59,12 @@ public class ActionOnlyMASBuilder implements MASBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRFileStream(masstring));
+			ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    		amas = parser.mas();
+			ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
+			
+    		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
       	} catch (Exception e) {
      		e.printStackTrace();
     	}
@@ -70,15 +72,12 @@ public class ActionOnlyMASBuilder implements MASBuilder {
 	}
 
 	public void parse(String masstring) {
-	   	ActionOnlyLexer lexer = new ActionOnlyLexer(new ANTLRStringStream(masstring));
-    	CommonTokenStream tokens = new CommonTokenStream(lexer);
-    	ActionOnlyParser parser = new ActionOnlyParser(tokens);
-    	try {
-    		amas = parser.mas();
-     	} catch (Exception e) {
-     		e.printStackTrace();
-    	}
+	   	ActionOnlyLexer lexer = new ActionOnlyLexer(CharStreams.fromString(masstring));
+	   	CommonTokenStream tokens = new CommonTokenStream(lexer);
+	   	ActionOnlyParser parser = new ActionOnlyParser(tokens);
+	   	ActionOnlyAILVisitor visitor = new ActionOnlyAILVisitor();
 		
+		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
 	}
 	/**
 	 * Getter method for the resulting MAS.

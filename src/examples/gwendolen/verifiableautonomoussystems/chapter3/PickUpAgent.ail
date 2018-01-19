@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-env = gwendolen.easss_tutorial.SimpleEnv
+env = gwendolen.verifiableautonomoussystems.chapter3.SimpleEnv
 mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter3/pickupagent.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 

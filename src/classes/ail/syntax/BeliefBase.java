@@ -32,11 +32,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
 import ajpf.util.AJPFLogger;
+import ail.semantics.AILAgent;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
 import gov.nasa.jpf.annotation.FilterField;
@@ -136,6 +138,29 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
  		}
     	return p_structs.iterator();
     }
+ 	
+ 	/**
+ 	 * Add a set of percepts to the belief base.
+ 	 * @param ps
+ 	 */
+ 	public void addPercepts(Set<Predicate> ps) {
+ 		for (Predicate p: ps) {
+ 			add(new Literal(new PredicatewAnnotation(p, TPercept)));
+ 		}
+ 	}
+ 	
+ 	/**
+ 	 * Remove all the percepts from the agent.
+ 	 */
+ 	public void removePercepts() {
+ 		ArrayList<Literal> toberemoved = new ArrayList<Literal>();
+ 		for (Literal l: percepts) {
+ 			toberemoved.add(l);
+ 		}
+ 		for (Literal l:toberemoved) {
+ 			remove(l);
+ 		}
+ 	}
 
  	/**
      * Add a literal to the belief base.
@@ -232,14 +257,23 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
     public void clear() {
     	belsMap = new VerifyMap<PredicateIndicator, BelEntry>();
     }
+    
 
     /**
      * Returns an iterators over all beliefs.
      */
     public Iterator<PredicateTerm> iterator() {
+    	return iterator(AILAgent.SelectionOrder.LINEAR);
+    }
+    
+    public Iterator<PredicateTerm> iterator(AILAgent.SelectionOrder so) {
         List<PredicateTerm> all = new ArrayList<PredicateTerm>(size());
         for (BelEntry be : belsMap.values()) {
         	all.addAll(be.list);
+        }
+        
+        if (so == AILAgent.SelectionOrder.RANDOM) {
+        	Collections.shuffle(all);
         }
         return all.iterator();
     }
@@ -303,17 +337,50 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
      * @return	An iterators of literals in the belief base with the same
      *          predicate name and arity.
      */
-    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl, AILAgent.SelectionOrder so) {
     	PredicateTerm l = (PredicateTerm) ebl;
     	if (l.isVar()) {
             // all bels are relevant
-            return iterator();
+            return iterator(so);
         } else {
             BelEntry entry = belsMap.get(l.getPredicateIndicator());
             if (entry != null) {
                 List<PredicateTerm> entrylist = new ArrayList<PredicateTerm>();
                 entrylist.addAll(entry.list);
-                return entrylist.iterator();
+                if (so == AILAgent.SelectionOrder.RANDOM) {
+                	return new Iterator<PredicateTerm>() {
+                		int size = entrylist.size();
+                		ArrayList<Integer> tried = new ArrayList<Integer>();
+
+						@Override
+						public boolean hasNext() {
+							// TODO Auto-generated method stub
+							return size != tried.size();
+						}
+
+						@Override
+						public PredicateTerm next() {
+							// TODO Auto-generated method stub
+							Random r = new Random();
+							int next = r.nextInt(size - tried.size());
+							for (Integer i: tried) {
+								if (i <= next) {
+									next++;
+								} else {
+									tried.add(next);
+									Collections.sort(tried);
+									return entrylist.get(next);
+								}
+							}
+							tried.add(next);
+							return entrylist.get(next);
+						}
+                		
+                	}; 
+                	//return entrylist.iterator();
+                } else {
+                	return entrylist.iterator();
+                }
            } else {
                 return Collections.<PredicateTerm>emptyList().iterator();
             }

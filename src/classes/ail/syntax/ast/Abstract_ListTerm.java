@@ -76,4 +76,10 @@ public interface Abstract_ListTerm extends Abstract_Term {
 	 * @param tl
 	 */
 	public void addTail(Abstract_ListTerm tl);
+	
+	/**
+	 * Is this an empty list?
+	 * @return
+	 */
+	public boolean isEmpty();
 }

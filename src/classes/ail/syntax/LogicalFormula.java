@@ -29,6 +29,9 @@ package ail.syntax;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import ail.semantics.AILAgent;
 
 /**
  * Represents a logical formula (p, p & q, not p, 3 > X, ...) which can be 
@@ -44,7 +47,7 @@ public interface LogicalFormula extends Cloneable, Unifiable {
      * 
      * Returns an iterator for all unifiers that are consequence.
      */
-    public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, List<String> varnames);
+    public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> eb, RuleBase rb, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so);
     
     /**
      * Clone this Formula
