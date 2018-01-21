@@ -23,7 +23,7 @@
 % TraceExpressionMessages, the trace expression representing all the messages
 % Constraints, the constraints among the beliefs
 generate_abstract_environment(ClassName, PackageName, SuperClassName, SuperClassPackageName, TraceExpressionInitialBeliefs, TraceExpressionSharedBeliefs, TraceExpressionMessages, Constraints) :-
-  string_concat(ClassName, '.java', ClassName1),
+    string_concat(ClassName, '.java', ClassName1),
   open(ClassName1, write, Stream),
   write_preamble(ClassName, PackageName, SuperClassName, SuperClassPackageName, Stream),
 
@@ -52,8 +52,8 @@ generate_abstract_environment(ClassName, PackageName, SuperClassName, SuperClass
 	),
 	_), nl(Stream),
 
-  writeln_indent(1, Stream, 'public Set<Predicate> generate_sharedbeliefs() { return new TreeSet<Predicate>(); }'), nl(Stream), nl(Stream),
-  writeln_indent(1, Stream, 'public Set<Predicate> add_random_beliefs(String agName, Action act) {'), nl(Stream),
+%  writeln_indent(1, Stream, 'public Set<Predicate> generate_sharedbeliefs() { return new TreeSet<Predicate>(); }'), nl(Stream), nl(Stream),
+  writeln_indent(1, Stream, 'public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {'), nl(Stream),
 
   %% Creating random beliefs
 %  extract_all_boolean_flags(TraceExpressionSharedBeliefs, BooleanFlagsBel),
@@ -70,8 +70,8 @@ generate_abstract_environment(ClassName, PackageName, SuperClassName, SuperClass
   writeln_indent(2, Stream, '}'), nl(Stream), nl(Stream),
 
   %% Messages
-  writeln_indent(1, Stream, 'public Set<Message> generate_messages() { return new TreeSet<Message>(); }'), nl(Stream),
-  writeln_indent(1, Stream, 'public Set<Message> add_random_messages(String agName, Action act) {'),
+%  writeln_indent(1, Stream, 'public Set<Message> generate_messages() { return new TreeSet<Message>(); }'), nl(Stream),
+  writeln_indent(1, Stream, 'public Set<Message> generate_messages(String agName, Action act) {'),
   writeln_indent(2, Stream, 'Set<Message> messages = new TreeSet<Message>();'),
 %  writeln_indent(2, Stream, 'boolean assert_belief;'),
 %  writeln_indent(2, Stream, 'int assert_random_int;'), nl(Stream),
@@ -108,7 +108,7 @@ writeln_indent(N, Stream, String):-
     writeln(Stream, String).
 
 write_preamble(ClassName, PackageName, SuperClassName, SuperClassPackageName, Stream):-
-  string_concat('package ', PackageName, PackageNameStr),
+  string_concat('//This is an automatically generated environment\n\npackage ', PackageName, PackageNameStr),
   string_concat(PackageNameStr, ';\n', PackageNameStr1),
   writeln_indent(0, Stream, PackageNameStr1),
   writeln(Stream, 'import java.util.Set;'),
@@ -295,11 +295,11 @@ from_event_type_to_java(Indent, bel(Belief), Java) :-
 %    string_concat(IndentString, Arguments, ArgString),
 %    string_concat(DefString, ArgString, Str0),
     %   string_concat(Str0, IndentString, IndentStr0),
-    string_concat(IndentString, 'addPercept(', Str1),
-    string_concat(Str1, F, Str2),
-    string_concat(Str2, ');\n', Str3),
-    string_concat(Str3, IndentString, IndentStr3),
-    string_concat(IndentStr3, 'AJPFLogger.info(logname, "Asserting ', Str4),
+%    string_concat(IndentString, 'addPercept(', Str1),
+%    string_concat(Str1, F, Str2),
+%    string_concat(Str2, ');\n', Str3),
+%    string_concat(Str3, IndentString, IndentStr3),
+    string_concat(IndentString, 'AJPFLogger.info(logname, "Asserting ', Str4),
     string_concat(Str4, F, Str5),
     string_concat(Str5, '");\n', Str6),
     string_concat(Str6, IndentString, IndentStr6),

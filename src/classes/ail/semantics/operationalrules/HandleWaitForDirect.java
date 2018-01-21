@@ -108,12 +108,12 @@ public class HandleWaitForDirect extends DirectPerception {
 		if (waitingfor.negated()) {
 			waitingfor.setNegated(false);
 			GBelief wfgb = new GBelief(waitingfor);
-			System.err.println("Checking not " + wfgb);
+			// System.err.println("Checking not " + wfgb);
 			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
 			
 		} else {
 			GBelief wfgb = new GBelief(waitingfor);
-			System.err.println("Checking " + wfgb);
+			// System.err.println("Checking " + wfgb);
 			beliefs = a.believes(new Guard(wfgb), thetab);
 		}
 				

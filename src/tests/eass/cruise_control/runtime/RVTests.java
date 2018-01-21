@@ -120,7 +120,7 @@ public class RVTests extends TestJPF {
 	  @Test //----------------------------------------------------------------------
 	  public void TwoConstraintsTest() {
 		  if (verifyNoPropertyViolation(JPF_ARGS)) {
-		    	String filename =  "src/examples/eass/cruise_control/runtime/two_constraints_verification_safe.ail.ail";
+		    	String filename =  "src/examples/eass/cruise_control/runtime/two_constraints_verification_safe.ail";
 		    	String prop_filename =  "src/examples/eass/cruise_control/motorway.psl";
 		    	String[] args = new String[3];
 		    	args[0] = filename;
@@ -133,6 +133,22 @@ public class RVTests extends TestJPF {
 
 	  }
 	  
+	  @Test //----------------------------------------------------------------------
+	  public void TwoConstraintsTestUnsafe() {
+		  if (verifyNoPropertyViolation(JPF_ARGS)) {
+		    	String filename =  "src/examples/eass/cruise_control/runtime/two_constraints_verification_unsafe.ail";
+		    	String prop_filename =  "src/examples/eass/cruise_control/motorway.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "5";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+
+	  }
+
 	  @Test //----------------------------------------------------------------------
 	  public void StandardUnsafeTest() {
 		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)) {
