@@ -1,9 +1,9 @@
 #----------------------------------------------------------------------------
-# Copyright (C) 2018 Louise A. Dennis,  Angelo Ferrando and Michael Fisher
+# Copyright (C) 2018 Louise A. Dennis, Angelo FerrandoDavide Ancona, Michael Fisher and Viviana Mascardi
 #
-# This file is part of Engineering Autonomous Space Software (EASS) Library.
+# This file is part of Runtime Verification for MCAPL (RVMCAPL) Library.
 #
-# The EASS Library is free software; you can redistribute it and/or
+# The RVMCAPL Library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.

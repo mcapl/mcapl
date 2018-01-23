@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// Copyright (C) 2018 Angelo Ferrando, Louise A. Dennis, Davide Ancona, Michael Fisher and Viviana Mascardi
 //
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// This file is part of the Runtime Verification for MCAPL (RVMCAPL) Library.
 // 
-// The EASS Library is free software; you can redistribute it and/or
+// The RVMCAPL Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
@@ -20,7 +20,7 @@
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 env = eass.cruise_control.runtime.SafeOrAccelerate
 

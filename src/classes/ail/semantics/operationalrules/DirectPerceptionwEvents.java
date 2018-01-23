@@ -80,7 +80,7 @@ public class DirectPerceptionwEvents implements OSRule {
 		AILEnv env = a.getEnv();
 		Set<Predicate> percepts = env.getPercepts(a.getAgName(), true);
 		Set<Message> messages = env.getMessages(a.getAgName());
-		System.err.println(messages);
+		// System.err.println(messages);
 		
 		if (AJPFLogger.ltFiner(logname)) {
 			AJPFLogger.finer(logname, "Incoming percepts: " + percepts);

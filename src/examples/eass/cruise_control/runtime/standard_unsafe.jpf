@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// Copyright (C) 2018 Angelo Ferrando, Louise A. Dennis, Davide Ancona, Michael Fisher and Viviana Mascardi
 //
-// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// This file is part of the Runtime Verification for MCAPL (RVMCAPL) Library.
 // 
-// The EASS Library is free software; you can redistribute it and/or
+// The RVMCAPL Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
@@ -20,7 +20,7 @@
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //
-//----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 @using = mcapl
 
@@ -50,7 +50,7 @@ et.show_shared=false
 # 
 # ====================================================== search finished: 11/07/17 15:52
 
-# 19th Jan 2017 - iMac (After replacement with generate beliefs.
+# 19th Jan 2018 - iMac (After replacement with generate beliefs).
 # 
 # ======================================================= results
 # error #1: ajpf.MCAPLListener "An Accepting Path has been found:  [MS: 0, BS: 2, ..."
@@ -66,3 +66,20 @@ et.show_shared=false
 # loaded code:        classes=338,methods=5309
 # 
 # ====================================================== search finished: 19/01/18 15:02
+
+# 23rd Jan Macbook
+# 
+# ====================================================== results
+# error #1: ajpf.MCAPLListener "An Accepting Path has been found:  [MS: 0, BS: 2, ..."
+# 
+# ====================================================== statistics
+# elapsed time:       00:01:19
+# states:             new=177,visited=1536,backtracked=1684,end=52
+# search:             maxDepth=44,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=176
+# heap:               new=5933081,released=5944832,maxLive=4242,gcCycles=1713
+# instructions:       353540396
+# max memory:         1214MB
+# loaded code:        classes=338,methods=5310
+# 
+# ====================================================== search finished: 23/01/18 15:48

@@ -1,3 +1,27 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Angelo Ferrando, Louise A. Dennis, Davide Ancona, Michael Fisher and Viviana Mascardi
+//
+// This file is part of the Runtime Verification for MCAPL (RVMCAPL) Library.
+// 
+// The RVMCAPL Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+// ----------------------------------------------------------------------------
+
 Prolog Installation
 ===================
 To use the prolog parts of Runtime Verification you will need to install swi-prolog - a version which includes the JPL library for linking with Java.  jpl.jar is included in the lib/3rdparty directory of the MCAPL distribution but when running this needs to be passed the location of the native library (probably /swipl/packages/jpl ) as an argument.  This can be configured in Eclipse (if being used) by editing the library include in Java Build path.
