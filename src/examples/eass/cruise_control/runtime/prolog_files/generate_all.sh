@@ -22,10 +22,10 @@
 #
 #----------------------------------------------------------------------------
 
-swipl -l abstract_environment_compiler_mcapl.pl -g generate_jpf\(\'TraceAsUnstructuredEnv\'\). -g halt
-swipl -l abstract_environment_compiler_mcapl.pl -g generate_two\(\'TwoConstraints\'\). -g halt
-swipl -l abstract_environment_compiler_mcapl.pl -g generate_safe_or_acc\(\'SafeOrAccelerate\'\). -g halt
-swipl -l abstract_environment_compiler_mcapl.pl -g generate_brake_or_acc\(\'BrakeOrAccelerate\'\). -g halt
+swipl -l generate_env.pl -g generate_env\(as_jpf\,\'TraceAsUnstructuredEnv\'\,\'as_jpf.pl\'\). -g halt
+swipl -l generate_env.pl -g generate_env\(two_constraints\,\'TwoConstraints\'\,\'two_constraints.pl\'\). -g halt
+swipl -l generate_env.pl -g generate_env\(safe_or_accelerate\,\'SafeOrAccelerate\'\,\'safe_or_accelerate.pl\'\). -g halt
+swipl -l generate_env.pl -g generate_env\(brake_or_accelerate,\'BrakeOrAccelerate\'\,\'brake_or_accelerate.pl\'\). -g halt
 
 cp -v TraceAsUnstructuredEnv.java ../.
 cp -v TwoConstraints.java ../.
