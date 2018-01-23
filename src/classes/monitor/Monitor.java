@@ -6,7 +6,7 @@ import org.jpl7.Query;
 public class Monitor {
 
   public Monitor(String texpFileName){
-    JPLUtils.init(texpFileName);
+	  JPLUtils.init(texpFileName);
   }
 
   public void initialize(String logFile, String protocolName){

@@ -1,3 +1,11 @@
+Prolog Installation
+===================
+To use the prolog parts of Runtime Verification you will need to install swi-prolog - a version which includes the JPL library for linking with Java.  jpl.jar is included in the lib/3rdparty directory of the MCAPL distribution but when running this needs to be passed the location of the native library (probably /swipl/packages/jpl ) as an argument.  This can be configured in Eclipse (if being used) by editing the library include in Java Build path.
+
+
+Files
+=====
+
 Program in Example 1 of Paper: car_singlelane_2017.eass
 
 Property file: motorway.psl (one level up)
@@ -31,9 +39,18 @@ brake_or_accelerate* Files for environments where driver never brakes and accele
 
 (sub-problems of one in paper).
 
-Prolog Files
-============
+Prolog Files Directory
+=====================
 
-prolog_files - aec_ld.pl (copied from Dropbox (most recent I think))
-             - trace_expression.pl (copied from Dropbox (most recent I think))
-             - trace_expression_paper.pl (is not the same as trace_expression.pl which is a worry)
+prolog_files directory
+
+as_jpf.pl, brake_or_accelerate.pl, safe_or_accelerate.pl, two_constraints.pl contain the trace expressions used in each case.
+
+generate_env.pl contains a predicate for generate_env/3 where the first argument is the name of the trace_expression (as used in the trace expression file), FileName is the name of the java environment to be created an TraceExpressionFile is the name of the trace expression prolog file to be used.  This will then create example environments to be used withh cruise_control.runtime
+
+generate_all.sh will generate the four example environments and copy them to the right  place.
+
+Generate Environments
+=====================
+
+You generate environments using abstract_environment_compiler (monitor/prolof_files) and a trace expression.  See generate_env.pl for example

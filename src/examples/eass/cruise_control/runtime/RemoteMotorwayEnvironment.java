@@ -24,9 +24,7 @@
 
 package eass.cruise_control.runtime;
 
-import java.io.IOException;
-
-import eass.mas.DefaultEASSEnvironment;
+import eass.mas.socket.EASSSocketClientEnvironment;
 import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
@@ -40,22 +38,15 @@ import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
 import monitor.Monitorable;
 
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This is an environment for connecting with the simple Java Motorway Simulation for tutorial purposes.
  * @author louiseadennis
  *
  */
-public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements Monitorable {
+public class RemoteMotorwayEnvironment extends EASSSocketClientEnvironment implements Monitorable {
 
-	String logname = "eass.cruise_control.RemoteMotorwayEnvironment";
-
-	/**
-	 * Socket that connects to the Simulator.
-	 */
-	protected AILSocketClient socket;
+	String logname = "eass.cruise_control.runtime.RemoteMotorwayEnvironment";
 
 	/**
 	 * Has the environment concluded?
@@ -68,39 +59,24 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	public RemoteMotorwayEnvironment() {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
-		AJPFLogger.info(logname, "Waiting Connection");
-		try {
-			socket = new AILSocketClient();
-		} catch (IOException e) {
-			AJPFLogger.severe(logname, e.getMessage());
-			System.exit(0);
-		}
-		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	
 	@Override
 	public void init_after_adding_agents() {
+		super.init_after_adding_agents();
 		initialise_monitor();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see eass.mas.DefaultEASSEnvironment#do_job()
-	 */
-	public void do_job() {
-		if (socket.allok()) {
-			readPredicatesfromSocket();
-		}	else {
-			System.err.println("something wrong with socket");
-		}
 	}
 
 	/**
 	 * Reading the values from the sockets and turning them into perceptions.
 	 */
 	public void readPredicatesfromSocket() {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "Reading Values from Socket");
+		}
 
 		try {
+			AILSocketClient socket = getSocket();
 			if (socket.pendingInput()) {
 				int accelerating = socket.readInt();
 				int braking = socket.readInt();
@@ -186,29 +162,10 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 		return super.executeAction(agName, act);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#cleanup()
-	 */
-	@Override
-	public void cleanup() {
-		socket.close();
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see ail.others.DefaultEnvironment#done()
-	 */
-	public boolean done() {
-		if (finished) {
-			return true;
-		}
-		return false;
-	}
-
-	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/trace_expression_paper.pl";
-	String log_file_path = "monitor_logfile.txt";
-	String protocol_name = "motorway1";
+	String trace_expression_path = "/src/examples/eass/cruise_control/runtime/prolog_files/two_constraints.pl";
+	String log_file_path = "two_constraints_monitor_logfile.txt";
+	String protocol_name = "two_constraints";
 
 	public String getTraceExpressionPath(){
 		try {
@@ -220,7 +177,7 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	}
 
 	public String getLogFilePath(){
-		return log_file_path;
+		return MCAPLcontroller.getAbsFilename(log_file_path);
 	}
 
 	public String getProtocolName(){
@@ -240,6 +197,14 @@ public class RemoteMotorwayEnvironment extends DefaultEASSEnvironment implements
 	public void configure(AILConfig config) {
 		if (config.containsKey("protocol")) {
 			protocol_name = config.getProperty("protocol");
+		}
+		
+		if (config.containsKey("trace_expression_file")) {
+			trace_expression_path = config.getProperty("trace_expression_file");
+		}
+		
+		if (config.containsKey("monitor_log_file")) {
+			log_file_path = config.getProperty("monitor_log_file");
 		}
 	}
 

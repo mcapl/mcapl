@@ -24,18 +24,19 @@
 
 env = eass.cruise_control.runtime.RemoteMotorwayEnvironment
 
-mas.agent.1.file = src/examples/eass/cruise_control/runtime/car_singlelane_unsafe_2017.eass
+mas.agent.1.file = /src/examples/eass/cruise_control/runtime/car_singlelane_unsafe_2017.eass
 mas.agent.1.builder = eass.EASSAgentBuilder
 mas.agent.1.name = car0
-mas.agent.2.file = src/examples/eass/cruise_control/abstraction_car.eass
+mas.agent.2.file = /src/examples/eass/cruise_control/abstraction_car.eass
 mas.agent.2.builder = eass.EASSAgentBuilder
 mas.agent.2.name = abstraction_car0
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.MotorWayVerificationEnv
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.TwoConstraints
 log.format = brief
 
 ajpf.transition_every_reasoning_cycle = false
 
-
-protocol = safe_or_accelerate
+trace_expression_file = /src/examples/eass/cruise_control/runtime/prolog_files/two_constraints.pl
+monitor_log_file = /src/examples/eass/cruise_control/runtime/two_constraints_unsafe_monitor_log.txt
+protocol = two_constraints

@@ -38,4 +38,6 @@ log.format = brief
 
 ajpf.transition_every_reasoning_cycle = false
 
+trace_expression_file = /src/examples/eass/cruise_control/runtime/prolog_files/as_jpf.pl
+monitor_log_file = /src/examples/eass/cruise_control/runtime/as_jpf_monitor_log.txt
 protocol = as_jpf

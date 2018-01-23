@@ -18,8 +18,10 @@ public class JPLUtils {
 		JPL.init();
 
 		try {
-			String library_filename = MCAPLcontroller.getFilename("/library.pl");
+			String library_filename = MCAPLcontroller.getFilename("/src/classes/monitor/prolog_files/library.pl");
 			JPLUtils.createAndCheck("consult", new Atom(library_filename));
+			String monitor_framework_file = MCAPLcontroller.getFilename("/src/classes/monitor/prolog_files/monitor_framework.pl");
+			JPLUtils.createAndCheck("consult", new Atom(monitor_framework_file));
 		} catch (Exception e) {
 			
 		}

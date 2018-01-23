@@ -27,8 +27,8 @@ swipl -l generate_env.pl -g generate_env\(two_constraints\,\'TwoConstraints\'\,\
 swipl -l generate_env.pl -g generate_env\(safe_or_accelerate\,\'SafeOrAccelerate\'\,\'safe_or_accelerate.pl\'\). -g halt
 swipl -l generate_env.pl -g generate_env\(brake_or_accelerate,\'BrakeOrAccelerate\'\,\'brake_or_accelerate.pl\'\). -g halt
 
-cp -v TraceAsUnstructuredEnv.java ../.
-cp -v TwoConstraints.java ../.
-cp -v SafeOrAccelerate.java ../.
-cp -v BrakeOrAccelerate.java ../BrakeOrAccelerate.java
+mv -v TraceAsUnstructuredEnv.java ../.
+mv -v TwoConstraints.java ../.
+mv -v SafeOrAccelerate.java ../.
+mv -v BrakeOrAccelerate.java ../BrakeOrAccelerate.java
 

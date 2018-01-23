@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import monitor.Monitorable;
 
 /* WARNING: This environment can not be replayed */
-public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
+public class MotorWayEnv extends DefaultEASSEnvironment {
 	String logname = "eass.cruise_control.MotorWayEnv";
 	Random r = new Random();
 	double lane_change_time = 5;
@@ -82,7 +82,7 @@ public class MotorWayEnv extends DefaultEASSEnvironment implements Monitorable {
 
 	public MotorWayEnv() {
 		super();
-		initialise_monitor();
+		// initialise_monitor();
 		super.scheduler_setup(this, new RoundRobinScheduler());
 	}
 
