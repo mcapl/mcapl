@@ -54,3 +54,16 @@ Generate Environments
 =====================
 
 You generate environments using abstract_environment_compiler (monitor/prolof_files) and a trace expression.  See generate_env.pl for example
+
+Runtime Monitoring
+==================
+
+Use MotorwayComplexMain with remote_motorway_config.txt as (configuration) - There is an Eclipse Runtime Configuration for this.
+
+Run your example using RemoteMotorwayEnvironment as the environment and configured with
+
+trace_expression_file = path-from-mcapl to trace_expression file
+monitor_log_file = path-from-mcapl to where you want the logfile
+protocol = two_constraints (name of the trace expression).
+
+See two_constraints.ail as an example.
