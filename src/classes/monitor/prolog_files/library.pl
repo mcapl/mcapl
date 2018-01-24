@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-/* Copyright (C) 2018 Angelo Ferrando, Louise A. Dennis, Davide Ancona, Michael Fisher and Viviana Mascardi
+/* Copyright (C) 2018 Angelo Ferrando, Davide Ancona, and Viviana Mascardi
 /*
 /* This file is part of the Runtime Verification for MCAPL (RVMCAPL) Library.
 /* 
