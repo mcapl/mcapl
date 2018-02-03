@@ -30,7 +30,7 @@ The predominant view of rational agency is that encapsulated within the BDI mode
 
 The software is currently under development as part of the EPSRC funded Verifiable Autonomy Project ( EP/L024845/1)
 
-The MCAPL framework has enabled research reported in a variety of papers [@dennis15:_two,@DBLP:journals/cacm/FisherDW13,@dennis14:_pract,@DALT10:abstraction,@Dennis2016,@MCAPL_journal,@Dennis2015,@dennis15:_towar_verif_ethic_robot_behav]
+The MCAPL framework has enabled research reported in a variety of papers [@dennis15:_two,@DBLP:journals/cacm/FisherDW13,@dennis14:_pract,@DALT10:abstraction,@Dennis2016,@MCAPL_journal,@Dennis2015,@dennis15:_towar_verif_ethic_robot_behav].  Examples from many of these publications appear in the software repository for the MCAPL  framework and are credited to the authors of those examples.
 
 The MCAPL Framework can be found on Sourceforge [@Sourceforge]
 
