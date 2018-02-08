@@ -17,11 +17,11 @@ bibliography: paper.bib
 
 # Summary
 
-The MCAPL (Model-checking Agent Programming Languages) framework is a suite of tools for building interpreters for agent programming languages and verifying the correctness of programs running in these interpreters using the model checking technique.  It consists of the Agent Infrastructure Layer (AIL) toolkit for building interpreters for rational agent programming languages (BDI languages) as introduced by [@rao:92a] and the Agent JavaPathFinder (AJPF) model checker [@MCAPL_journal].  AJPF extends the JavaPathfinder (JPF) model checker [@VisserHBPL03} to prove Linear Temporal Logic properties of BDI programs.  The distribution also contains a number of programming languages implemented in the AIL.  Chief among these are Gwendolen [@dennis17gwen], the EASS variant of Gwendolen that can be used to program hybrid autonomous systems and GOAL [@GOAL01].
+The MCAPL (Model-checking Agent Programming Languages) framework is a suite of tools for building interpreters for agent programming languages and verifying the correctness of programs running in these interpreters using the model checking technique.  It consists of the Agent Infrastructure Layer (AIL) toolkit for building interpreters for rational agent programming languages (BDI languages) as introduced by [@rao:92a] and the Agent JavaPathFinder (AJPF) model checker [@MCAPL_journal].  AJPF extends the JavaPathfinder (JPF) model checker [@VisserHBPL03] to prove Linear Temporal Logic properties of BDI programs.  The distribution also contains a number of programming languages implemented in the AIL.  Chief among these are Gwendolen [@dennis17gwen], the EASS variant of Gwendolen that can be used to program hybrid autonomous systems and GOAL [@GOAL01].
 
 ## Formal Verification and Model Checking
 
-Formal verification is essentially the process of assessing whether a specification given in formal logic is satisfied on a particular formal description of the system in question.  Model checking [Clarke00:MC] has proved an extremely successful approach to formal verification. Model checking takes an executable model of the system in question, defining all the model's possible
+Formal verification is essentially the process of assessing whether a specification given in formal logic is satisfied on a particular formal description of the system in question.  Model checking [@Clarke00:MC] has proved an extremely successful approach to formal verification. Model checking takes an executable model of the system in question, defining all the model's possible
 executions, and then checks a logical property against this model (and, hence, against all possible executions).
 
 ## BDI Agents and Programming Languages
