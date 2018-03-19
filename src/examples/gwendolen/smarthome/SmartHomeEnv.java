@@ -55,6 +55,13 @@ public class SmartHomeEnv extends DefaultEnvironment implements MCAPLJobber {
 	public int compareTo(MCAPLJobber o) {
 		return o.getName().compareTo(getName());
 	}
+	
+	@Override
+	public void init_after_adding_agents() {
+		Literal newtime = new Literal("time");
+		newtime.addTerm(new NumberTermImpl(clock_time));
+		this.addPercept(newtime);		
+	}
 
 	@Override
 	public void do_job() {
@@ -72,6 +79,11 @@ public class SmartHomeEnv extends DefaultEnvironment implements MCAPLJobber {
 	@Override
 	public String getName() {
 		return logname;
+	}
+	
+	@Override
+	public boolean done() {
+		return false;
 	}
 	
 	public class ClockScheduler implements MCAPLScheduler, PerceptListener {
@@ -108,11 +120,16 @@ public class SmartHomeEnv extends DefaultEnvironment implements MCAPLJobber {
 			for (int i = 0; i < activeAgents.size(); i++) {
 				ags.add(agnames.get(activeAgents.get(i)));
 			}
+			
+			
 			return ags;
 		}
 
 		@Override
 		public List<MCAPLJobber> getAvailableJobbers() {
+			if (getActiveJobbers().isEmpty()) {
+				isActive(SmartHomeEnv.this.getName());
+			}
 			List<MCAPLJobber> ags = new VerifyList<MCAPLJobber>();
 			if (somethinghaschanged) {
 				// Got a Concurrent Modification Error here in the Sticky Wheel example.
@@ -120,14 +137,12 @@ public class SmartHomeEnv extends DefaultEnvironment implements MCAPLJobber {
 					for (String s: activeAgents) {
 						ags.add(agnames.get(s));
 					}
+					
 				} catch (Exception e) {
 					AJPFLogger.warning(logname, e.getMessage());
 				}
 			}
-			if (ags.isEmpty()) {
-				String envname = SmartHomeEnv.this.getName();
-				ags.add(agnames.get(envname));
-			}
+			
 			somethinghaschanged = false;
 			return ags;
 		}
