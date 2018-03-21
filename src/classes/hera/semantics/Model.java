@@ -29,7 +29,7 @@ import hera.language.Formula;
 
 public class Model {
 	Double probability;
-	ArrayList<Model> alternatives = new ArrayList<Model>();
+	public ArrayList<Model> alternatives = new ArrayList<Model>();
 	ArrayList<Model> epistemic = new ArrayList<Model>();
 	Checker checker;
 	

@@ -41,8 +41,8 @@ import hera.language.FormulaString;
 import hera.language.Gt;
 import hera.language.IntegerTerm;
 import hera.language.Not;
-import hera.language.TermString;
 import hera.language.U;
+import hera.principles.Principle;
 
 public class CausalModel extends Model {
 		ArrayList<String> actions = new ArrayList<String>();
@@ -56,7 +56,7 @@ public class CausalModel extends Model {
 		HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
 		HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
 		HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
-		FormulaString action;
+		public FormulaString action;
 		
 		ArrayList<String> domainOfQuantification = new ArrayList<String>();
 		HashMap<Formula,Boolean> world;
@@ -132,9 +132,16 @@ public class CausalModel extends Model {
 				try {
 					JSONObject affects = (JSONObject) model.get("affects");
 					for (Object s: affects.keySet()) {
+						JSONArray list = (JSONArray) affects.get(s);
+						ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
+						for (Object o: list) {
+							JSONArray tuple = (JSONArray) o;
+							Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+							arrayl.add(new_tuple);
+						}
+						this.affects.put((String) s, arrayl); 
 						
 					}
-					JSONObjecttoHash(affects, this.affects);
 				} catch (Exception e) {
 					
 				}
@@ -300,7 +307,7 @@ public class CausalModel extends Model {
 		}
 		
 		public ArrayList<Formula> getAllBadConsequences() {
-			ArrayList<Formula> cons = getAllConsequences();
+			Set<Formula> cons = getAllConsequences();
 			ArrayList<Formula> cs = new ArrayList<Formula>();
 			for (Formula c: cons) {
 				if (models(new Gt(new IntegerTerm(0), new U(c)))) {
@@ -310,8 +317,8 @@ public class CausalModel extends Model {
 			return cs;
 		}
 		
-		public ArrayList<Formula> getAllConsequences() {
-			ArrayList<Formula> cs = new ArrayList<Formula>();
+		public Set<Formula> getAllConsequences() {
+			Set<Formula> cs = new HashSet<Formula>();
 			for (String c: consequences) {
 				if (models(new FormulaString(c))) {
 					cs.add(new FormulaString(c));
@@ -351,7 +358,7 @@ public class CausalModel extends Model {
 			double prob_sum = 0;
 			double prob_perm = 0;
 			for (Model w: k_a) {
-				boolean p = w.evaluate(principle);
+				boolean p = ((CausalModel) w).evaluate(principle);
 				prob_sum = prob_sum + w.probability;
 				if (p) {
 					prob_perm = prob_perm + w.probability;

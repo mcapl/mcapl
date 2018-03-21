@@ -21,20 +21,19 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package hera.semantics;
 
-import java.util.HashMap;
+package hera.language;
 
-import org.junit.Test;
-
-import hera.language.Formula;
-
-public class JSONQuickTests {
+public class BooleanFormula extends Formula {
+	boolean b = false;
 	
-	@Test public void filereadtest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
-		
-		CausalModel model = new CausalModel(file, new HashMap<Formula,Boolean>());
+	public BooleanFormula(boolean b) {
+		super(null, null);
+		this.b = b;
+	}
+	
+	public boolean getBoolean() {
+		return b;
 	}
 
 }

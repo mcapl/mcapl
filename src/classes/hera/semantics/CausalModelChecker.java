@@ -10,6 +10,7 @@ import hera.language.Affects;
 import hera.language.AffectsNeg;
 import hera.language.AffectsPos;
 import hera.language.And;
+import hera.language.BooleanFormula;
 import hera.language.Causes;
 import hera.language.Consequence;
 import hera.language.DB;
@@ -124,7 +125,9 @@ public class CausalModelChecker extends Checker {
 	
 	public Double _sumUp(CausalModel model, Formula formula) {
 		if (formula == null) { return new Double(0); }
-		// AARGH BOOL
+		if (formula instanceof BooleanFormula) {
+			return new Double(0);
+		}
 		if (formula instanceof FormulaString) {
 			if (model.utilities.containsKey(((FormulaString) formula).getString())) {
 				return model.utilities.get(((FormulaString) formula).getString());
@@ -310,7 +313,10 @@ public class CausalModelChecker extends Checker {
 	@Override
 	public boolean models(Model m, Formula formula) {
 		CausalModel model = (CausalModel) m;
-		/// AAARGH bool
+		if (formula instanceof BooleanFormula) {
+			return ((BooleanFormula) formula).getBoolean();
+		}
+		
 		if (formula instanceof FormulaString) {
 			if (model.intervention.containsKey(formula)) {
 				return model.intervention.get(formula);
@@ -345,6 +351,14 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Affects) {
 			return _affects(model.affects.get(formula.f1), formula.f2, "+") || _affects(model.affects.get(formula.f1), formula.f2, "-");
+		}
+		
+		if (formula instanceof AffectsPos) {
+			return _affects(model.affects.get(formula.f1), formula.f2, "+");
+		}
+		
+		if (formula instanceof AffectsNeg) {
+			return _affects(model.affects.get(formula.f1), formula.f2, "-");
 		}
 		
 		if (formula instanceof Causes) {
@@ -551,6 +565,15 @@ public class CausalModelChecker extends Checker {
 		if (formula instanceof Consequence) {
 			return model.consequences.contains(formula.toString());
 		}
+		
+		return false;
+	}
+	
+	public Formula substituteVariable(Formula var, String newf, Formula formula) {
+		String newFormula = formula.toString();
+		String replacedFormula = newFormula.replaceAll(var.toString(), newf);
+		Formula new_formula =  Formula.fromString(replacedFormula);
+		return new_formula;
 	}
 
 }
