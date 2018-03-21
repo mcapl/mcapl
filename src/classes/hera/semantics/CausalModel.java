@@ -1,0 +1,392 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Martin Mose Bentzen, Michael Fisher 
+// 
+// This file is part of HERA Java Implementation
+// 
+// HERA Java is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// HERA Java is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with HERA Java; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+package hera.semantics;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import hera.language.Causes;
+import hera.language.Formula;
+import hera.language.FormulaString;
+import hera.language.Gt;
+import hera.language.IntegerTerm;
+import hera.language.Not;
+import hera.language.TermString;
+import hera.language.U;
+
+public class CausalModel extends Model {
+		ArrayList<String> actions = new ArrayList<String>();
+		HashMap<String, Double> utilities = new HashMap<String, Double>();
+		ArrayList<String> patients = new ArrayList<String>();
+		String description = "No Description";
+		ArrayList<String> consequences = new ArrayList<String>();
+		ArrayList<String> background = new ArrayList<String>();
+		HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
+		HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
+		HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
+		HashMap<String, String> affects = new HashMap<String, String>();
+		HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
+		FormulaString action;
+		
+		ArrayList<String> domainOfQuantification = new ArrayList<String>();
+		HashMap<Formula,Boolean> world;
+		HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();		
+
+		public CausalModel(String file, HashMap<Formula,Boolean> world) {
+			JSONParser parser = new JSONParser();
+			try {
+				Object obj = parser.parse(new FileReader(file));
+				JSONObject model = (JSONObject) obj;
+				JSONArray actions = (JSONArray) model.get("actions");
+				JSONArraytoArrayListString(actions, this.actions);
+				
+				// Optional entries
+				try {
+					JSONObject utilities = (JSONObject) model.get("utilities");
+					JSONObjecttoHash(utilities, this.utilities);
+				} catch (Exception e) {
+					
+				}
+				
+				try {
+					JSONArray patients = (JSONArray) model.get("patients");
+					JSONArraytoArrayListString(patients, this.patients);
+				} catch (Exception e) {
+					
+				}
+				
+				try {
+					description = (String) model.get("description");
+				} catch (Exception e) {}
+				
+				try {
+					JSONArray consequences = (JSONArray) model.get("consequences");
+					JSONArraytoArrayListString(consequences, this.consequences);
+				} catch (Exception e) {
+					
+				}
+
+				try {
+					JSONArray background = (JSONArray) model.get("background");
+					JSONArraytoArrayListString(background, this.background);
+				} catch (Exception e) {
+					
+				}
+				
+				try {
+					JSONObject mechanisms = (JSONObject) model.get("mechanisms");
+					for (Object s: mechanisms.keySet()) {
+						String v = (String) mechanisms.get(s);
+						this.mechanisms.put((String) s, (Formula) Formula.fromString(v));
+					}
+				} catch (Exception e) {
+					
+				}
+				
+				_computeNetwork();
+
+				try {
+					JSONObject intentions = (JSONObject) model.get("intentions");
+					JSONObjecttoHashList(intentions, this.intentions);
+				} catch (Exception e) {
+					
+				}
+
+				try {
+					JSONObject goals = (JSONObject) model.get("goals");
+					JSONObjecttoHashList(goals, this.goals);
+				} catch (Exception e) {
+					
+				}
+
+				try {
+					JSONObject affects = (JSONObject) model.get("affects");
+					JSONObjecttoHash(affects, this.affects);
+				} catch (Exception e) {
+					
+				}
+				
+				domainOfQuantification.addAll(this.actions);
+				domainOfQuantification.addAll(consequences);
+				domainOfQuantification.addAll(background);
+				domainOfQuantification.addAll(patients);
+				this.world = world;
+				checker = new CausalModelChecker();
+				_setAction();
+				
+
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		public void setUtilities(HashMap<String, Double> u) {
+			utilities = u;
+		}
+		
+		public void clearIntervention() {
+			intervention = new HashMap<Formula, Boolean>();
+		}
+		
+		public Set<HashSet<Formula>> powerset(List<Formula> i) {
+			HashSet<HashSet<Formula>> sets = new HashSet<HashSet<Formula>>();
+			sets.add(new HashSet<Formula>());
+			for (Formula s: i) {
+				HashSet<HashSet<Formula>> newsets = new HashSet<HashSet<Formula>>();
+				for (HashSet<Formula> set: sets) {
+					newsets.add(set);
+					HashSet<Formula> setcopy = (HashSet<Formula>) set.clone();
+					setcopy.add(s);
+					newsets.add(setcopy);
+				}
+				sets = newsets;
+			}
+			return sets;
+		}
+		
+		public void setFlippedIntervention(List<Formula> variables) {
+			for (Formula variable: variables) {
+				boolean currValue = models(variable);
+				if (variable instanceof FormulaString) {
+					intervention.put(variable, (Boolean) !(currValue));
+				} else if (variable instanceof Not) {
+					intervention.put(((Not) variable).f1, (Boolean) currValue);
+				}
+			}
+		}
+		
+		public void setInterventionWithVariablesFixedToOriginal(Set<Formula> variables) {
+			HashMap<Formula,Boolean> intervention_backup = (HashMap<Formula,Boolean>) intervention.clone();
+			HashMap<Formula,Boolean> intervention_new = new HashMap<Formula,Boolean>();
+			clearIntervention();
+			for (Formula v: variables) {
+				boolean currValue = models(v);
+				if (v instanceof FormulaString) {
+					intervention_new.put(v, (Boolean) currValue);
+				} else if (v instanceof Not) {
+					intervention_new.put(v, (Boolean) (!currValue));
+				}
+			}
+			intervention.putAll(intervention_backup);
+			intervention.putAll(intervention_new);
+		}
+		
+		public void setNewIntervention(HashMap<Formula, Boolean> intervention) {
+			clearIntervention();
+			for (Formula v: intervention.keySet()) {
+				if (v instanceof FormulaString) {
+					this.intervention.put(v, Boolean.TRUE);
+				} else if (v instanceof Not) {
+					this.intervention.put(v.f1, Boolean.FALSE);
+				}
+			}
+		}
+		
+		public void _addToNetwork(Formula v, String k) {
+			if (network.containsKey(v)) {
+				if (! network.get(v).contains(k)) {
+					network.get(v).add(new FormulaString(k));
+				}
+			} else {
+				network.put(v, new ArrayList<FormulaString>());
+				network.get(v).add(new FormulaString(k));
+			}
+		}
+		
+		public void _computeNetwork() {
+			network = new HashMap<Formula, ArrayList<FormulaString>>();
+			for (String k: mechanisms.keySet()) {
+				Formula v = mechanisms.get(k);
+				if (v instanceof FormulaString) {
+					_addToNetwork(v, k);
+				} else {
+					ArrayList<Formula> parents = v.stripParentsFromMechanism();
+					for (Formula p: parents) {
+						_addToNetwork(p, k);
+					}
+				}
+			}
+		}
+		
+		public boolean path(ArrayList<Formula> a, Formula b, ArrayList<Formula> v) {
+			if (a.contains(b)) {
+				return true;
+			}
+			
+			for (Formula x: a) {
+				if (!v.contains(x)) {
+					if (network.keySet().contains(x)) {
+						a.addAll(network.get(x));
+					}
+					v.add(x);
+					return path(a, b, v);
+				}
+			}
+			
+			return false;
+		}
+		
+		public void _setAction() {
+			boolean ok = false;
+			for (String a: actions) {
+				if (models(new FormulaString(a))) {
+					action = new FormulaString(a);
+					ok = true;
+					break;
+				}
+			}
+			if (!ok) {
+				action = null;
+			}
+		}
+		
+		public ArrayList<Formula> getDirectConsequences() {
+			ArrayList<Formula> cs = new ArrayList<Formula>();
+			for (String c: consequences) {
+				if (models(new Causes(action, new FormulaString(c)))) {
+					cs.add(new FormulaString(c));
+				}
+				
+				if (models(new Causes(action, new Not(new FormulaString(c))))) {
+					cs.add(new Not(new FormulaString(c)));
+				}
+			}
+			
+			return cs;
+		}
+		
+		public ArrayList<Formula> getDirectBadConsequences() {
+			ArrayList<Formula> direct = getDirectConsequences();
+			ArrayList<Formula> cs = new ArrayList<Formula>();
+			for (Formula c: direct) {
+				if (models(new Gt(new IntegerTerm(0), new U(c)))) {
+					cs.add(c);
+				}
+			}
+			return cs;
+		}
+		
+		public ArrayList<Formula> getAllBadConsequences() {
+			ArrayList<Formula> cons = getAllConsequences();
+			ArrayList<Formula> cs = new ArrayList<Formula>();
+			for (Formula c: cons) {
+				if (models(new Gt(new IntegerTerm(0), new U(c)))) {
+					cs.add(c);
+				}
+			}
+			return cs;
+		}
+		
+		public ArrayList<Formula> getAllConsequences() {
+			ArrayList<Formula> cs = new ArrayList<Formula>();
+			for (String c: consequences) {
+				if (models(new FormulaString(c))) {
+					cs.add(new FormulaString(c));
+				} else {
+					cs.add(new Not(new FormulaString(c)));
+				}
+			}
+			
+			return cs;
+		}
+		
+		public boolean evaluate(Principle p) {
+			p.init(this);
+			boolean perm = p.permissible();
+			return perm;
+		}
+		
+		public void __checkProbabilities(ArrayList<Model> k) {
+			for (Model m:k) {
+				if (probability != null) {
+					__setDefaultProbabilities(k);
+					return;
+				}
+			}
+		}
+		
+		public void __setDefaultProbabilities(ArrayList<Model> k) {
+			double prob = 1/k.size();
+			for (Model m : k) {
+				m.probability = prob;
+			}
+		}
+		
+		public Double degPerm(Principle principle) {
+			ArrayList<Model> k_a = this.getEpistemicAlternatives(action);
+			__checkProbabilities(k_a);
+			double prob_sum = 0;
+			double prob_perm = 0;
+			for (Model w: k_a) {
+				boolean p = w.evaluate(principle);
+				prob_sum = prob_sum + w.probability;
+				if (p) {
+					prob_perm = prob_perm + w.probability;
+				}
+			}
+			
+			if (prob_sum > 0.0) {
+				return prob_perm/prob_sum;
+			}
+			
+			return null;
+		}
+
+
+		private void JSONArraytoArrayListString(JSONArray ja, ArrayList<String> a) {
+			for (Object s: ja) {
+				a.add((String) s);
+			}
+			
+		}
+		
+		private <T> void JSONObjecttoHash(JSONObject jo, HashMap<String, T> map) {
+			Set<Object> keySet = (Set<Object>) jo.keySet();
+			for (Object s: keySet) {
+				map.put((String) s, (T) jo.get(s)); 
+			}
+			
+		}
+		
+		private <T> void JSONObjecttoHashList(JSONObject jo, HashMap<String, ArrayList<T>> a) {
+			Set<Object> keySet = (Set<Object>) jo.keySet();
+			for (Object s: keySet) {
+				JSONArray list = (JSONArray) jo.get(s);
+				ArrayList<T> arrayl = new ArrayList<T>();
+				for (Object o: list) {
+					arrayl.add((T) o);
+				}
+				a.put((String) s, arrayl); 
+			}
+		
+		}
+}

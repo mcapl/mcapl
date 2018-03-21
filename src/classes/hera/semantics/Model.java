@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import hera.language.Formula;
 
 public class Model {
-	double probability;
+	Double probability;
 	ArrayList<Model> alternatives = new ArrayList<Model>();
 	ArrayList<Model> epistemic = new ArrayList<Model>();
 	Checker checker;
 	
 	public boolean models(Formula f) {
-		return checker.models(f);
+		return checker.models(this, f);
 	}
 	
 	public double degBelief(Formula f) {

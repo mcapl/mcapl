@@ -21,18 +21,19 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package hera.semantics;
 
-import java.io.FileReader;
+package hera.language;
 
-import org.json.simple.parser.JSONParser;
+public class IntegerTerm extends Term {
+	int i = 0;
+	
+	public IntegerTerm(int i) {
+		super(null, null);
+		this.i = i;
+	}
+	
+	public int getInt() {
+		return i;
+	}
 
-public class ClausalModel extends Model {
-
-		public ClausalModel(String file, world) {
-			super();
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(new FileReader(file));
-			
-		}
 }

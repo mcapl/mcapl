@@ -25,7 +25,14 @@
 package hera.language;
 
 public class U extends Term {
-	public U(Term t1) {
-		super(t1, null);
+	Formula f;
+	
+	public U(Formula t1) {
+		super(null, null);
+		f = t1;
+	}
+	
+	public Formula getFormula() {
+		return f;
 	}
 }

@@ -25,8 +25,8 @@
 package hera.language;
 
 public class Term {
-	Term t1;
-	Term t2;
+	public Term t1;
+	public Term t2;
 	
 	public Term(Term t1, Term t2) {
 		this.t1 = t1;
@@ -51,15 +51,15 @@ public class Term {
 		String t1s = "";
 		String t2s = "";
 		
-		if (t1 != null && t1 instanceof TermString) {
-			t1s =  "'" + ((TermString) t1).getString() + "'";
+		if (t1 != null && t1 instanceof IntegerTerm) {
+			t1s =  "'" + ((IntegerTerm) t1).getInt() + "'";
 		} else {
 			t1s = t1.toString();
 		}
 		
 		
-		if (t2 != null && t2 instanceof TermString) {
-			t2s =  "'" + ((TermString) t2).getString() + "'";
+		if (t2 != null && t2 instanceof IntegerTerm) {
+			t2s =  "'" + ((IntegerTerm) t2).getInt() + "'";
 		} else {
 			t1s = t2.toString();
 		}
@@ -82,6 +82,8 @@ public class Term {
 		if (this instanceof Add) {
 			return "Add(" + t1s + ", " + t2s + ")";
 		}
+		
+		return "";
 
 	}
 

@@ -25,7 +25,7 @@
 package hera.language;
 
 public class Gt extends Formula {
-	public Gt(Formula f1, Formula f2) {
-		super(f1, f2);
+	public Gt(Term f1, Term f2) {
+		super(new TermFormula(f1), new TermFormula(f2));
 	}
 }

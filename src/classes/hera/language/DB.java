@@ -25,7 +25,7 @@
 package hera.language;
 
 public class DB extends Term {
-	public DB(Term t1, Term t2) {
-		super(t1, t2);
+	public DB(Formula f1, Formula f2) {
+		super(new FormulaTerm(f1), new FormulaTerm(f2));
 	}
 }

@@ -21,19 +21,16 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
+package hera.semantics;
 
-package hera.language;
+import org.junit.Test;
 
-public class TermString extends Term {
-	String s = "";
+public class JSONQuickTests {
 	
-	public TermString(String s) {
-		super(null, null);
-		this.s = s;
-	}
-	
-	public String getString() {
-		return s;
+	@Test public void filereadtest() {
+		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
+		
+		ClausalModel model = new ClausalModel(file);
 	}
 
 }

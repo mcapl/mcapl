@@ -25,17 +25,25 @@
 package hera.language;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import hera.parser.HeraLanguageVisitor;
+import hera.parser.HeraLexer;
+import hera.parser.HeraParser;
 
 public class Formula {
-	Formula f1;
-	Formula f2;
+	public Formula f1;
+	public Formula f2;
 	
 	public Formula(Formula f1, Formula f2) {
 		this.f1 = f1;
 		this.f2 = f2;
 	}
 	
-	public Formula makeConjunction(ArrayList<Formula> s) {
+	public static Formula makeConjunction(Set<Formula> s) {
 		Formula f = null;
 		for (Formula e : s) {
 			if (f == null) {
@@ -47,7 +55,7 @@ public class Formula {
 		return f;
 	}
 	
-	public Formula makeDisjunction(ArrayList<Formula> s) {
+	public static Formula makeDisjunction(ArrayList<Formula> s) {
 		Formula f = null;
 		for (Formula e : s) {
 			if (f == null) {
@@ -195,6 +203,15 @@ public class Formula {
 		return "";
 	}
 	
+	public static Formula fromString(String s) {
+		HeraLexer lexer = new HeraLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		HeraParser parser = new HeraParser(tokens);
+		HeraLanguageVisitor visitor = new HeraLanguageVisitor();
+		Formula formula = visitor.visitFormula(parser.formula());
+		return formula;
+	}
+
 	public ArrayList<Formula> getPosLiteralsEvent() {
 		ArrayList<Formula> r = new ArrayList<Formula>();
 		
