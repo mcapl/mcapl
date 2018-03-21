@@ -6,19 +6,29 @@ import java.util.HashSet;
 
 import ail.util.Tuple;
 import hera.language.Add;
+import hera.language.Affects;
+import hera.language.AffectsNeg;
+import hera.language.AffectsPos;
 import hera.language.And;
 import hera.language.Causes;
+import hera.language.Consequence;
 import hera.language.DB;
 import hera.language.DR;
+import hera.language.Exists;
 import hera.language.Explains;
+import hera.language.Forall;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.language.FormulaTerm;
+import hera.language.Geq;
+import hera.language.Goal;
+import hera.language.Gt;
 import hera.language.I;
 import hera.language.Impl;
 import hera.language.IntegerTerm;
 import hera.language.Intervention;
 import hera.language.K;
+import hera.language.Means;
 import hera.language.Minus;
 import hera.language.Not;
 import hera.language.Or;
@@ -27,6 +37,7 @@ import hera.language.Prevents;
 import hera.language.SCauses;
 import hera.language.Sub;
 import hera.language.Term;
+import hera.language.TermFormula;
 import hera.language.U;
 
 public class CausalModelChecker extends Checker {
@@ -43,11 +54,13 @@ public class CausalModelChecker extends Checker {
 		return false;
 	}
 	
-	public boolean _affects(HashMap<String, String> affects, Formula f, String posneg) {
+	public boolean _affects(ArrayList<Tuple<String, String>> affects, Formula f, String posneg) {
 		if (f instanceof FormulaString) {
-			if (affects.containsKey(((FormulaString) f).getString())) {
-				if (affects.get(((FormulaString) f).getString()).equals(posneg)) {
-					return true;
+			for (Tuple<String, String> i: affects) {
+				if (i.getLeft().equals(((FormulaString) f).getString())) {
+					if (i.getRight().equals(posneg)) {
+						return true;
+					}
 				}
 			}
 		} else if (f instanceof And) {
@@ -330,6 +343,10 @@ public class CausalModelChecker extends Checker {
 			return _intended(model.intentions.get(model.action), formula.f1);
 		}
 		
+		if (formula instanceof Affects) {
+			return _affects(model.affects.get(formula.f1), formula.f2, "+") || _affects(model.affects.get(formula.f1), formula.f2, "-");
+		}
+		
 		if (formula instanceof Causes) {
 			if (models(model, formula.f1)  && models(model, formula.f2)) {
 				if (formula.f1.equals(formula.f2)) {
@@ -429,6 +446,110 @@ public class CausalModelChecker extends Checker {
 			if (! _sufficientCauseInEveryModel(model, formula.f1, formula.f2)) {
 				return false;
 			}
+			
+			ArrayList<Formula> conj = new ArrayList<Formula>();
+			
+			if (formula.f1 instanceof FormulaString) {
+				conj.add(formula.f1);
+			} else {
+				conj.addAll(formula.f1.getAllLiteralsEvent());
+			}
+			
+			// EX2 - don't understand
+			
+			if (model.getEpistemicAlternatives(new And(formula.f1, formula.f2)).size() == 0) {
+				return false;
+			}
+			
+			if (! (models(model, new Not(new K(formula.f1))))) {
+				return false;
+			}
+			return true;
+		}
+		
+		if (formula instanceof Intervention) {
+			ArrayList<Formula> i = new ArrayList<Formula>();
+			if (formula.f1 instanceof FormulaString) {
+				i.add(formula.f1);
+			} else {
+				i.addAll(formula.f1.getAllLiteralsEvent());
+			}
+			model.setNewIntervention(i);
+			boolean b = models(model, formula.f2);
+			model.clearIntervention();
+			return b;
+		}
+		
+		// Eq here - not mentioned elsewhere
+		
+		if (formula instanceof Gt) {
+			return evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) > evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
+		}
+		
+		if (formula instanceof Geq) {
+			return evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) >= evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
+		}
+		
+		if (formula instanceof K) {
+			return _trueInEveryAlternative(model, formula.f1);
+		}
+		
+		if (formula instanceof Goal) {
+			boolean foundPos = false;
+			for (String i: model.goals.get(model.action)) {
+				if (models(model, new AffectsNeg(new FormulaString(i), formula.f1))) {
+					return false;
+				}
+				
+				if (!foundPos && models(model, new AffectsPos(new FormulaString(i), formula.f1))) {
+					foundPos = true;
+				}
+			}
+			return foundPos;
+		}
+		
+		if (formula instanceof Means) {
+			ArrayList<Formula> l = new ArrayList<Formula>();
+			l.add(model.action);
+			l.addAll(model.getDirectConsequences());
+			for (Formula i: l) {
+				if (((FormulaString) formula.f1).getString().equals("Reading-1")) {
+					for (String g: model.goals.get(model.action)) {
+						if (models(model, new And(new Causes(i, new FormulaString(g)), new Affects(i, formula.f2)))) {
+							return true;
+						}
+					}
+				}
+				
+				if (((FormulaString) formula.f1).getString().equals("Reading-2")) {
+					if (models(model, new Affects(i, formula.f2))) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
+		if (formula instanceof Forall) {
+			Formula f = null;
+			for (String e: model.domainOfQuantification) {
+				Formula s = substituteVariable(formula.f1, e, formula.f2);
+				if (f == null) {
+					f = s;
+				} else {
+					f = new And(s, f);
+				}
+			}
+			return models(model, f);
+		}
+		
+		if (formula instanceof Exists) {
+			Formula f = new Not(new Forall(formula.f1, new Not(formula.f2)));
+			return models(model, f);
+		}
+		
+		if (formula instanceof Consequence) {
+			return model.consequences.contains(formula.toString());
 		}
 	}
 

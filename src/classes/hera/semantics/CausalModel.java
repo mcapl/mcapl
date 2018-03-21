@@ -34,6 +34,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import ail.util.Tuple;
 import hera.language.Causes;
 import hera.language.Formula;
 import hera.language.FormulaString;
@@ -53,7 +54,7 @@ public class CausalModel extends Model {
 		HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
 		HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
 		HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
-		HashMap<String, String> affects = new HashMap<String, String>();
+		HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
 		HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
 		FormulaString action;
 		
@@ -130,6 +131,9 @@ public class CausalModel extends Model {
 
 				try {
 					JSONObject affects = (JSONObject) model.get("affects");
+					for (Object s: affects.keySet()) {
+						
+					}
 					JSONObjecttoHash(affects, this.affects);
 				} catch (Exception e) {
 					
@@ -200,9 +204,9 @@ public class CausalModel extends Model {
 			intervention.putAll(intervention_new);
 		}
 		
-		public void setNewIntervention(HashMap<Formula, Boolean> intervention) {
+		public void setNewIntervention(ArrayList<Formula> intervention) {
 			clearIntervention();
-			for (Formula v: intervention.keySet()) {
+			for (Formula v: intervention) {
 				if (v instanceof FormulaString) {
 					this.intervention.put(v, Boolean.TRUE);
 				} else if (v instanceof Not) {

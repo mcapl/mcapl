@@ -1,7 +1,11 @@
 package hera.parser;
 
+import hera.language.Add;
 import hera.language.DB;
 import hera.language.DR;
+import hera.language.IntegerTerm;
+import hera.language.Minus;
+import hera.language.Sub;
 import hera.language.Term;
 import hera.language.U;
 import hera.parser.HeraParser.TermContext;
@@ -55,6 +59,31 @@ public class HeraTermVisitor extends HeraBaseVisitor<Term> {
 		return new DB(formula_visitor.visitFormula(f1ctx), formula_visitor.visitFormula(f2ctx));
 		
 	}
+	
+	@Override public Term visitMinusterm(HeraParser.MinustermContext ctx) {
+		HeraParser.TermContext tctx = ctx.term();
+		return new Minus(visitTerm(tctx));
+	}
+	
+	@Override public Term visitAddterm(HeraParser.AddtermContext ctx) {
+		HeraParser.TermContext t1ctx = ctx.term(0);
+		HeraParser.TermContext t2ctx = ctx.term(1);
+		
+		return new Add(visitTerm(t1ctx), visitTerm(t2ctx));
+	}
+	
+	@Override public Term visitSubterm(HeraParser.SubtermContext ctx) {
+		HeraParser.TermContext t1ctx = ctx.term(0);
+		HeraParser.TermContext t2ctx = ctx.term(1);
+		
+		return new Sub(visitTerm(t1ctx), visitTerm(t2ctx));
+	}
+	
+	@Override public Term visitIntterm(HeraParser.InttermContext ctx) {
+		int i = Integer.parseInt(ctx.INT().getText());
+		return new IntegerTerm(i);
+	}
+	
 
 
 }
