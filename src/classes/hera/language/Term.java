@@ -53,14 +53,14 @@ public class Term {
 		
 		if (t1 != null && t1 instanceof IntegerTerm) {
 			t1s =  "'" + ((IntegerTerm) t1).getInt() + "'";
-		} else {
+		} else if (t1 != null) {
 			t1s = t1.toString();
 		}
 		
 		
 		if (t2 != null && t2 instanceof IntegerTerm) {
 			t2s =  "'" + ((IntegerTerm) t2).getInt() + "'";
-		} else {
+		} else if (t2 != null ){
 			t1s = t2.toString();
 		}
 		

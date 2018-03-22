@@ -35,5 +35,16 @@ public class BooleanFormula extends Formula {
 	public boolean getBoolean() {
 		return b;
 	}
+	
+	@Override public int hashCode() {
+		if (b) return 1;
+		return 0;
+	}
+	
+	@Override public String toString() {
+		if (b) return "True";
+		return "False";
+	}
+
 
 }

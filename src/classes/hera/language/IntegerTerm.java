@@ -35,5 +35,14 @@ public class IntegerTerm extends Term {
 	public int getInt() {
 		return i;
 	}
+	
+	@Override public int hashCode() {
+		return i;
+	}
+	
+	@Override public String toString() {
+		return "" + i;
+	}
+
 
 }

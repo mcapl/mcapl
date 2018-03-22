@@ -133,7 +133,7 @@ public class Formula {
 		}
 		
 		if (this instanceof I) {
-			return ("I" + f1s + ")");
+			return ("I(" + f1s + ")");
 		}
 		
 		if (this instanceof Goal) {

@@ -11,5 +11,14 @@ public class TermFormula extends Formula {
 	public Term getTerm() {
 		return t;
 	}
+	
+	@Override public int hashCode() {
+		return t.hashCode();
+	}
+	
+	@Override public String toString() {
+		return t.toString();
+	}
+
 
 }

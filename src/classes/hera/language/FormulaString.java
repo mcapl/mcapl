@@ -35,5 +35,13 @@ public class FormulaString extends Formula {
 	public String getString() {
 		return s;
 	}
+	
+	@Override public int hashCode() {
+		return s.hashCode();
+	}
+	
+	@Override public String toString() {
+		return "'" + s + "'";
+	}
 
 }

@@ -11,4 +11,13 @@ public class FormulaTerm extends Term {
 	public Formula getFormula() {
 		return f;
 	}
+	
+	@Override public int hashCode() {
+		return f.hashCode();
+	}
+	
+	@Override public String toString() {
+		return f.toString();
+	}
+
 }

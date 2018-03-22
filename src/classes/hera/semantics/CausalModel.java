@@ -80,7 +80,9 @@ public class CausalModel extends Model {
 				
 				try {
 					JSONArray patients = (JSONArray) model.get("patients");
-					JSONArraytoArrayListString(patients, this.patients);
+					if (patients != null) {
+						JSONArraytoArrayListString(patients, this.patients);
+					}
 				} catch (Exception e) {
 					
 				}
@@ -124,23 +126,27 @@ public class CausalModel extends Model {
 
 				try {
 					JSONObject goals = (JSONObject) model.get("goals");
-					JSONObjecttoHashList(goals, this.goals);
+					if (goals != null) {
+						JSONObjecttoHashList(goals, this.goals);
+					}
 				} catch (Exception e) {
 					
 				}
 
 				try {
 					JSONObject affects = (JSONObject) model.get("affects");
-					for (Object s: affects.keySet()) {
-						JSONArray list = (JSONArray) affects.get(s);
-						ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
-						for (Object o: list) {
-							JSONArray tuple = (JSONArray) o;
-							Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
-							arrayl.add(new_tuple);
+					if (affects != null) {
+						for (Object s: affects.keySet()) {
+							JSONArray list = (JSONArray) affects.get(s);
+							ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
+							for (Object o: list) {
+								JSONArray tuple = (JSONArray) o;
+								Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+								arrayl.add(new_tuple);
+							}
+							this.affects.put((String) s, arrayl); 
+							
 						}
-						this.affects.put((String) s, arrayl); 
-						
 					}
 				} catch (Exception e) {
 					

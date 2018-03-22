@@ -25,14 +25,11 @@
 package hera.language;
 
 public class U extends Term {
-	Formula f;
-	
 	public U(Formula t1) {
-		super(null, null);
-		f = t1;
+		super(new FormulaTerm(t1), null);
 	}
 	
 	public Formula getFormula() {
-		return f;
+		return ((FormulaTerm) t1).getFormula();
 	}
 }
