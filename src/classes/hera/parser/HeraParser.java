@@ -18,8 +18,8 @@ public class HeraParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		AFFECTSPOS=7, ADD=31, QUOTE=34, IMPL=5, MAY=23, AFFECTSNEG=8, SCAUSES=14, 
-		I=9, FORALL=19, K=24, CLOSE=37, DR=27, INT=33, COMMENT=38, ATOM=1, MINUS=29, 
-		U=26, CONSEQUENCE=25, WS=41, INTERVENTION=17, COMMA=35, SUB=30, WORD=32, 
+		I=9, FORALL=19, K=24, CLOSE=37, DR=27, INT=32, COMMENT=38, ATOM=1, MINUS=29, 
+		U=26, CONSEQUENCE=25, WS=41, INTERVENTION=17, COMMA=35, SUB=30, WORD=33, 
 		OR=3, EXISTS=18, NEWLINE=40, PREVENTS=16, GT=20, MUST=22, OPEN=36, NOT=2, 
 		GOAL=10, GEQ=21, MEANS=11, LINE_COMMENT=39, AND=4, PCAUSES=13, CAUSES=12, 
 		EXPLAINS=15, AFFECTS=6, DB=28;
@@ -28,7 +28,7 @@ public class HeraParser extends Parser {
 		"'AffectsPos'", "'AffectsNeg'", "'I'", "'Goal'", "'Means'", "'Causes'", 
 		"'PCauses'", "'SCauses'", "'Explains'", "'Prevents'", "'Intervention'", 
 		"'Exists'", "'Forall'", "'Gt'", "'Geq'", "'Must'", "'May'", "'K'", "'Consequence'", 
-		"'U'", "'DR'", "'DB'", "'Minus'", "'Sub'", "'Add'", "WORD", "INT", "'''", 
+		"'U'", "'DR'", "'DB'", "'Minus'", "'Sub'", "'Add'", "INT", "WORD", "'''", 
 		"','", "'('", "')'", "COMMENT", "LINE_COMMENT", "NEWLINE", "WS"
 	};
 	public static final int
@@ -1982,7 +1982,7 @@ public class HeraParser extends Parser {
 		"\u00f7\u00f8\7\'\2\2\u00f8\61\3\2\2\2\u00f9\u00fa\7\32\2\2\u00fa\u00fb"+
 		"\7&\2\2\u00fb\u00fc\5\2\2\2\u00fc\u00fd\7\'\2\2\u00fd\63\3\2\2\2\u00fe"+
 		"\u00ff\7\33\2\2\u00ff\u0100\7&\2\2\u0100\u0101\5\2\2\2\u0101\u0102\7\'"+
-		"\2\2\u0102\65\3\2\2\2\u0103\u0104\7$\2\2\u0104\u0105\7\"\2\2\u0105\u0106"+
+		"\2\2\u0102\65\3\2\2\2\u0103\u0104\7$\2\2\u0104\u0105\7#\2\2\u0105\u0106"+
 		"\7$\2\2\u0106\67\3\2\2\2\u0107\u010f\5:\36\2\u0108\u010f\5<\37\2\u0109"+
 		"\u010f\5> \2\u010a\u010f\5@!\2\u010b\u010f\5B\"\2\u010c\u010f\5D#\2\u010d"+
 		"\u010f\5F$\2\u010e\u0107\3\2\2\2\u010e\u0108\3\2\2\2\u010e\u0109\3\2\2"+
@@ -1997,7 +1997,7 @@ public class HeraParser extends Parser {
 		"\7 \2\2\u0129\u012a\7&\2\2\u012a\u012b\58\35\2\u012b\u012c\7%\2\2\u012c"+
 		"\u012d\58\35\2\u012d\u012e\7\'\2\2\u012eC\3\2\2\2\u012f\u0130\7!\2\2\u0130"+
 		"\u0131\7&\2\2\u0131\u0132\58\35\2\u0132\u0133\7%\2\2\u0133\u0134\58\35"+
-		"\2\u0134\u0135\7\'\2\2\u0135E\3\2\2\2\u0136\u0137\7#\2\2\u0137G\3\2\2"+
+		"\2\u0134\u0135\7\'\2\2\u0135E\3\2\2\2\u0136\u0137\7\"\2\2\u0137G\3\2\2"+
 		"\2\4c\u010e";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

@@ -73,7 +73,7 @@ public class CausalModel extends Model {
 				// Optional entries
 				try {
 					JSONObject utilities = (JSONObject) model.get("utilities");
-					JSONObjecttoHash(utilities, this.utilities);
+					JSONObjecttoHashDouble(utilities, this.utilities);
 				} catch (Exception e) {
 					
 				}
@@ -381,15 +381,18 @@ public class CausalModel extends Model {
 
 		private void JSONArraytoArrayListString(JSONArray ja, ArrayList<String> a) {
 			for (Object s: ja) {
-				a.add((String) s);
+				String constant = (String) s;
+				a.add(constant);
 			}
 			
 		}
 		
-		private <T> void JSONObjecttoHash(JSONObject jo, HashMap<String, T> map) {
+		private <T> void JSONObjecttoHashDouble(JSONObject jo, HashMap<String, Double> map) {
 			Set<Object> keySet = (Set<Object>) jo.keySet();
 			for (Object s: keySet) {
-				map.put((String) s, (T) jo.get(s)); 
+				Number  n = (Number) jo.get(s);
+				double d = n.doubleValue();
+				map.put((String) s, new Double(d)); 
 			}
 			
 		}

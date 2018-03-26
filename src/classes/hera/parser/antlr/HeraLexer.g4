@@ -33,8 +33,8 @@ MINUS: 'Minus';
 SUB: 'Sub';
 ADD: 'Add';
 
-WORD:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 INT: ('0'..'9')+;
+WORD:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 QUOTE: '\'';
 COMMA: ',';
 OPEN: '(';

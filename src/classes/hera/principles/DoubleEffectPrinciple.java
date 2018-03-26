@@ -34,18 +34,18 @@ public class DoubleEffectPrinciple extends Principle {
 	}
 	
 	public Formula _condition2a() {
-		FormulaString x = new FormulaString("'__x__'");
+		FormulaString x = new FormulaString("__x__");
 		return new Forall(x, new Impl(new I(x), new Geq(new U(x), new IntegerTerm(0))));
 	}
 	
 	public Formula _condition2b() {
-		FormulaString x = new FormulaString("'__x__'");
+		FormulaString x = new FormulaString("__x__");
 		return new Exists(x, new And(new I(x), new Gt(new U(x), new IntegerTerm(0))));
 	}
 	
 	public Formula _condition3() {
-		FormulaString x = new FormulaString("'__x__'");
-		FormulaString y = new FormulaString("'__y__'");
+		FormulaString x = new FormulaString("__x__");
+		FormulaString y = new FormulaString("__y__");
 		return new Forall(x, new Forall(y, new Impl(new And(new Causes(x, y), new Gt(new IntegerTerm(0), new U(x))), new Gt(new IntegerTerm(0), new U(y)))));
 	}
 	

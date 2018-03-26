@@ -130,7 +130,8 @@ public class CausalModelChecker extends Checker {
 		}
 		if (formula instanceof FormulaString) {
 			if (model.utilities.containsKey(((FormulaString) formula).getString())) {
-				return model.utilities.get(((FormulaString) formula).getString());
+				Double l =  model.utilities.get(((FormulaString) formula).getString());
+				return l;
 			} else {
 				return new Double(0);
 			}
@@ -342,11 +343,18 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (formula instanceof Impl) {
-			return (! models(model, formula.f1) || models(model, formula.f2));			
+			if (! models(model, formula.f1)) {
+				return true;
+			} else if (models(model, formula.f2)) {
+				return true;
+			} else {
+				return false;
+			}
+			// return (! models(model, formula.f1) || models(model, formula.f2));			
 		}
 		
 		if (formula instanceof I) {
-			return _intended(model.intentions.get(model.action), formula.f1);
+			return _intended(model.intentions.get(model.action.getString()), formula.f1);
 		}
 		
 		if (formula instanceof Affects) {
@@ -571,7 +579,7 @@ public class CausalModelChecker extends Checker {
 	
 	public Formula substituteVariable(Formula var, String newf, Formula formula) {
 		String newFormula = formula.toString();
-		String replacedFormula = newFormula.replaceAll(var.toString(), newf);
+		String replacedFormula = newFormula.replaceAll(var.toString(), "'" + newf + "'");
 		Formula new_formula =  Formula.fromString(replacedFormula);
 		return new_formula;
 	}

@@ -43,5 +43,13 @@ public class FormulaString extends Formula {
 	@Override public String toString() {
 		return "'" + s + "'";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof FormulaString) {
+			return s.equals(((FormulaString) o).getString());
+		}
+		return false;
+	}
 
 }
