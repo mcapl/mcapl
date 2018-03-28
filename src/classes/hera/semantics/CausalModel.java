@@ -336,10 +336,14 @@ public class CausalModel extends Model {
 			return cs;
 		}
 		
-		public boolean evaluate(Principle p) {
+		public Boolean evaluate(Principle p) {
 			p.init(this);
-			boolean perm = p.permissible();
-			return perm;
+			try {
+				boolean perm = p.permissible();
+				return perm;
+			} catch (NullPointerException e) {
+				return null;
+			}
 		}
 		
 		public void __checkProbabilities(ArrayList<Model> k) {

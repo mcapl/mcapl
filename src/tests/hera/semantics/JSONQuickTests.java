@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 package hera.semantics;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -33,10 +34,11 @@ import org.junit.Test;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
+import hera.principles.UtilitarianPrinciple;
 
 public class JSONQuickTests {
 	
-	@Test public void filereadtest() {
+	@Test public void doubleeffecttest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("a1"), true);
@@ -66,12 +68,59 @@ public class JSONQuickTests {
 		alternatives.add(m2);
 		alternatives.add(m3);
 		
-		m1.setEpistemicAlternatives(alternatives);
-		m2.setEpistemicAlternatives(alternatives);
-		m3.setEpistemicAlternatives(alternatives);
+		m1.setAlternatives(alternatives);
+		m2.setAlternatives(alternatives);
+		m3.setAlternatives(alternatives);
 		
 		boolean b1 = m1.evaluate(new DoubleEffectPrinciple());
 		assertTrue(b1);
+		boolean b2 = m2.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b2);
+		Boolean b3 = m3.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b3 == null);
 	}
+	
+	@Test public void utilitariantest() {
+		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
+		w1.put(new FormulaString("a1"), true);
+		w1.put(new FormulaString("a2"), false);
+		w1.put(new FormulaString("a3"), false);
+		w1.put(new FormulaString("b1"), true);
+		
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
+		w2.put(new FormulaString("a1"), false);
+		w2.put(new FormulaString("a2"), true);
+		w2.put(new FormulaString("a3"), false);
+		w2.put(new FormulaString("b1"), true);
+
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
+		w3.put(new FormulaString("a1"), false);
+		w3.put(new FormulaString("a2"), false);
+		w3.put(new FormulaString("a3"), true);
+		w3.put(new FormulaString("b1"), true);
+
+		
+		CausalModel m1 = new CausalModel(file, w1);
+		CausalModel m2 = new CausalModel(file, w2);
+		CausalModel m3 = new CausalModel(file, w3);
+		
+		ArrayList<Model> alternatives = new ArrayList<Model>();
+		alternatives.add(m1);
+		alternatives.add(m2);
+		alternatives.add(m3);
+		
+		m1.setAlternatives(alternatives);
+		m2.setAlternatives(alternatives);
+		m3.setAlternatives(alternatives);
+		
+		boolean b1 = m1.evaluate(new UtilitarianPrinciple());
+		assertTrue(b1);
+		boolean b2 = m2.evaluate(new UtilitarianPrinciple());
+		assertTrue(b2);
+		boolean b3 = m3.evaluate(new UtilitarianPrinciple());
+		assertFalse(b3);
+	}
+
 
 }

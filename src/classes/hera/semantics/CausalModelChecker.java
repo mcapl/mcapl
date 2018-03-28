@@ -139,8 +139,8 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Not) {
 			if (formula.f1 instanceof FormulaString) {
-				if (model.utilities.containsKey(((FormulaString) formula.f1).getString())) {
-					return model.utilities.get(((FormulaString) formula.f1).getString());
+				if (model.utilities.containsKey(formula.toString())) {
+					return model.utilities.get(formula.toString());
 				} else {
 					return new Double(0);
 				}				

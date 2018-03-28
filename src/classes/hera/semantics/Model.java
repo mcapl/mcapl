@@ -47,6 +47,10 @@ public class Model {
 		return p;
 	}
 	
+	public void setAlternatives(ArrayList<Model> alternatives) {
+		this.alternatives = alternatives;
+	}
+	
 	public ArrayList<Model> getAlternatives(Formula f) {
 		if (f == null) {
 			return alternatives;

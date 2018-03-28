@@ -81,7 +81,11 @@ public class Formula {
 	
 	@Override
 	public int hashCode() {
-		return f1.hashCode() + f2.hashCode();
+		if (f2 != null) {
+			return f1.hashCode() + f2.hashCode();
+		} else {
+			return f1.hashCode();
+		}
 	}
 
 	@Override 

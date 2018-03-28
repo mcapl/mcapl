@@ -43,7 +43,11 @@ public class Term {
 	
 	@Override
 	public int hashCode() {
-		return t1.hashCode() + t2.hashCode();
+		if (t2 != null) {
+			return t1.hashCode() + t2.hashCode();
+		} else {
+			return t1.hashCode();
+		}
 	}
 	
 	@Override
