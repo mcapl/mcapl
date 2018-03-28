@@ -24,9 +24,19 @@
 
 package gwendolen.tutorials;
 
+import java.io.ByteArrayOutputStream;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 
+import ail.mas.AIL;
 import ail.util.AJPF_w_AIL;
+import ajpf.util.TimeFreeBriefLogFormatter;
 import gov.nasa.jpf.util.test.TestJPF;
 
 
@@ -35,7 +45,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Tutorial8Tests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -46,33 +56,6 @@ public class Tutorial8Tests extends TestJPF {
   }
 
   //--- test methods
-
- 
-  @Test //----------------------------------------------------------------------
-  public void ex1 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex1.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "7";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-  @Test //----------------------------------------------------------------------
-  public void ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "7";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
 
   @Test //----------------------------------------------------------------------
   public void ex3 () {

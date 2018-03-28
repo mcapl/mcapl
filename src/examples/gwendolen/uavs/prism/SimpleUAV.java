@@ -39,9 +39,10 @@ public class SimpleUAV extends Vehicle {
 		super();
 		addAgent(a);
 		a.setEnv(this);
-		addSensor(new SimpleRadar());
+		addSensor(new SimpleRadar(a.getMAS().getController()));
 		addSensor(new navMan());
 	}
+	
 	
 		
 }

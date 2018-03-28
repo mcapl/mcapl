@@ -1,0 +1,260 @@
+\label{tutorial:gwendolen:debugging}
+This is the fourth in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial looks at some of the things that typically cause errors in \gwendolen\ programs and how to identify and fix the errors.\index{Gwendolen}\index{Gwendolen!debugging}\index{debugging}\index{debugging!Gwendolen}
+
+For this tutorial we will be working with files from previous tutorials but editing them to introduce errors.  You may wish to create a separate folder, \texttt{tutorial4} for this work and copy files into it.  Remember to update the paths in your configuration files if you do so.
+
+\gwendolen\ does not have its own debugger, however you can get a long way using error outputs and logging information.\index{logging}
+
+\section{Path Errors}\index{debugging!could not find file}\index{Gwendolen}
+If you supply the wrong path or filename in a configuration\index{Gwendolen!configuration}\index{configuration!gwendolen} file \gwendolen\ will not be able to find the program you want to run.  You will see an error similar to the following: 
+\begin{verbatim}
+ail.mas.AIL[SEVERE|main|3:24:57]: Could not find file.  Checked: 
+ /src/examples/gwendolen/tutorials/tutorial3/pickuprubble_achiev.gwen,
+ /Users/lad/src/examples/gwendolen/tutorials/tutorial3/pickuprubble_achiev.gwen,
+ /Users/lad/Eclipse/mcapl/src/examples/gwendolen/tutorials/tutorial3/pickuprubble_achiev.gwen 
+\end{verbatim}
+
+\gwendolen\ looks for program files on\index{Gwendolen}
+\begin{enumerate}
+\item The absolute path given in the configuration file -- \index{configuration!gwendolen}\index{Gwendolen!configuration}
+
+\texttt{/src/examples/gwendolen/tutorials/tutorial3/pickuprubble\_achiev.gwen} above.
+\item The path from the \texttt{HOME} environment variable (normally the user's home directory on Unix systems) -- 
+
+\texttt{/Users/lad/src/examples/gwendolen/tutorials/tutorial3/pickuprubble\_achiev.gwen} above.
+\item The path from the directory from which the \java\ program \texttt{ail.mas.AIL} is called  -- \index{AIL (class)}
+
+\texttt{/Users/lad/Eclipse/mcapl/src/examples/gwendolen/tutorials/tutorial3/pickuprubble\_achiev.gwen} above.
+\item and the path from \texttt{AJPF\_HOME}\index{AJPF\_HOME} if that environment variable has been set -- not shown above.
+\end{enumerate}
+
+These should provide sufficient information to appropriately correct the path name.
+
+\section{Parsing Errors}\index{Gwendolen}\index{Gwendolen!parsing error}
+
+Parsing errors typically arise because of failures to punctuate your program correctly.  E.g., failing to close brackets, missing out commas or semi-colons etc.
+
+This is the output that arises if you remove the comma between \lstinline{possible_rubble(X, Y)} and \lstinline{~no_rubble(X, Y)} in \texttt{pickuprubble\_achieve.gwen} from Tutorial 3.\index{mismatched input}
+
+\begin{verbatim}
+line 36:47 mismatched input '~' expecting SEMI
+java.lang.NullPointerException
+	at ail.syntax.ast.Abstract_Rule.toMCAPL(Abstract_Rule.java:108)
+	at gwendolen.syntax.ast.Abstract_GwendolenAgent.addStructures(Abstract_GwendolenAgent.java:90)
+	at gwendolen.syntax.ast.Abstract_GwendolenAgent.toMCAPL(Abstract_GwendolenAgent.java:77)
+	at gwendolen.syntax.ast.Abstract_GwendolenAgent.toMCAPL(Abstract_GwendolenAgent.java:48)
+	at ail.syntax.ast.Abstract_MAS.toMCAPL(Abstract_MAS.java:117)
+	at gwendolen.GwendolenMASBuilder.getMAS(GwendolenMASBuilder.java:95)
+	at ail.mas.AIL.buildMAS(AIL.java:117)
+	at ail.mas.AIL.AILSetup(AIL.java:80)
+	at ail.mas.AIL.runAIL(AIL.java:61)
+	at ail.mas.AIL.main(AIL.java:49)
+ail.mas.AIL[SEVERE|main|3:15:19]: null 
+\end{verbatim}
+
+The first line of this output is from the parser.  This identifies the line number (36) and character in the line (47) where the error was first noticed.  It highlights the character that has caused the problem, \texttt{\~} and then makes a guess at what it should have been.  In this case the guess is incorrect.  It suggests a semi-colon, \texttt{SEMI}, when a comma is needed.  This first line is frequently the most useful piece of output for parsing errors.\index{Gwendolen}\index{mismatched input}
+
+We then have a \java\ stack trace because, in this case, the parse error has caused the whole problem to fail.  At the end is a log message from the \java\ class \texttt{ail.mas.AIL}.\index{Gwendolen}
+
+It should be noted that parsing errors do not always cause the program to crash.  For instance, if we delete the comma from between \texttt{X} and \texttt{Y} in the guard of the first plan of this program we get the following output:\index{Gwendolen}
+
+\begin{verbatim}
+line 44:51 extraneous input 'Y' expecting CLOSE
+ail.semantics.operationalrules.GenerateApplicablePlansEmptyProblemGoal[WARNING|main|3:19:44]: 
+Warning no applicable plan for goal _aholding(rubble)() 
+\end{verbatim}
+
+In this case we once again get some useful output from the parser giving us the line and position in the line where the error occurred.  It is followed by a warning that no plan can be found to match the goal \texttt{holding(rubble)}.  That is because this is the plan that didn't parse.\index{no applicable plan}
+
+\subsection{Some Exercises}\index{Gwendolen!debugging!exercises}\index{debugging!Gwendolen}
+Experiment with adding and deleting syntax from your existing programming files and get used to the kinds of parsing errors that they generate.  Remember that where a \texttt{no applicable plan} warning is generated you will often need to manually stop the program execution.\index{no applicable plan}
+
+\section{Why isn't my plan applicable?}\index{no applicable plan}\index{Gwendolen}
+
+As mentioned \intutorial{\gwendolen}{3}{tutorial:gwendolen:guards} sometimes a plan can fail because the agent has not had time to process incoming beliefs and perceptions.  We can get more information about the agent's operation by using log messages.\index{logging}\index{Gwendolen!logging}
+
+Add the line
+\begin{verbatim}
+log.fine = ail.semantics.AILAgent
+\end{verbatim}
+to the configuration file for the sample solution to the second exercise \exercise{6}{\gwendolen}{3}{ex:tutorial3}.  This is in
+\begin{quote}
+\texttt{/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble\_ex5.2.ail}
+\end{quote}
+This generates a lot of output.  If you are using Eclipse you may need to set Console output to unlimited in Eclipse $\rightarrow$ Preferences $\rightarrow$ Run/Debug $\rightarrow$ Console.\index{Gwendolen}\index{example!pickuprubble}\index{AILAgent (class)}
+
+The output should start
+\begin{verbatim}
+ail.semantics.AILAgent[FINE|main|4:03:27]: Applying Perceive 
+ail.semantics.AILAgent[FINE|main|4:03:27]: robot
+=============
+After Stage StageE :
+[square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), 
+square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), 
+square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), 
+square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), 
+square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[]
+[]
+source(self):: 
+   *  start||True||+!_aall_squares_checked()()||[]
+[] 
+\end{verbatim}
+This tells us that the agent is applying the rule from the agent's \emph{reasoning cycle}\index{reasoning cycle} called \texttt{Percieve}\index{Percieve (rule)} (we will discuss the reasoning cycle in a later tutorial).
+
+Then we get the current state of the agent.  It is called, \texttt{robot}, and we have a list of its beliefs\index{belief} (lots of beliefs about squares), then a list of goals\index{goal} (none at the start because it hasn't yet added the initial goal\index{goal!initial}) and then a list of sent messages\index{communication}\index{message}\index{message!sent} (also empty) and then the intentions\index{intention}.  In this case the initial intention is the \texttt{start} intention\index{intention!start} and the intention is to acquire the goal \texttt{all\_squares\_checked} which is an achievement goal (the \texttt{\_a} at the start of the goal name) -- again we will cover intentions in a later tutorial.\index{Gwendolen}
+
+A little further on in the output the agent adds this as a goal:
+\begin{verbatim}
+ail.semantics.AILAgent[FINE|main|4:10:45]: Applying Handle Add Achieve Test Goal with Event 
+ail.semantics.AILAgent[FINE|main|4:10:45]: robot
+=============
+After Stage StageD :
+[square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+   *  +!_aall_squares_checked()||True||npy()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+[] 
+\end{verbatim}
+So you can see that \texttt{all\_squares\_checked} now appears as a goal in the goal list. \index{Gwendolen}
+
+\begin{sloppypar}
+If you remove the action \texttt{do\_nothing} from the first plan\ in \texttt{pickuprubble\_ex5.2.gwen}\index{example!pickuprubble} then you end up with repeating output of the form:
+\end{sloppypar}
+
+\begin{verbatim}
+ail.semantics.AILAgent[FINE|main|4:20:16]: Applying Generate Applicable Plans Empty with Problem Goal 
+ail.semantics.AILAgent[FINE|main|4:20:16]: robot
+=============
+After Stage StageB :
+[at/2-at(5,5), , 
+checked/2-checked(1,1), checked(1,2), checked(1,3), checked(1,4), checked(1,5), checked(2,1), checked(2,2), checked(2,3), checked(2,4), checked(2,5), checked(3,1), checked(3,2), checked(3,3), checked(3,4), checked(3,5), checked(4,1), checked(4,2), checked(4,3), checked(4,4), checked(4,5), checked(5,1), checked(5,2), checked(5,3), checked(5,4), checked(5,5), , 
+holding/1-holding(rubble), , 
+rubble/2-rubble(2,2), , 
+square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+   *  x!_aall_squares_checked()||True||npy()||[]
+   *  +!_aall_squares_checked()||True||npy()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+\end{verbatim}
+
+\begin{sloppypar}
+Where \texttt{x!\_aall\_squares\_checked()||True||npy()||[]} indicates that there is some problem with the goal\index{goal!problem} and the agent is seeking to handle this.  Finding where this problem first occurred in all the output is something of a chore though it can sometimes be possible to search forwards through the output for the first occurrence of \texttt{x!\_}  or for the Warning message.  Here we see the agent is in the following state:\index{Gwendolen}
+\end{sloppypar}
+
+\begin{verbatim}
+ail.semantics.operationalrules.GenerateApplicablePlansEmptyProblemGoal[WARNING|main|4:20:15]: Warning no applicable plan for goal _aall_squares_checked() 
+ail.semantics.AILAgent[FINE|main|4:20:15]: Applying Generate Applicable Plans Empty with Problem Goal 
+ail.semantics.AILAgent[FINE|main|4:20:15]: robot
+=============
+After Stage StageB :
+[at/2-at(5,5), , 
+checked/2-checked(1,1), checked(1,2), checked(1,3), checked(1,4), checked(1,5), checked(2,1), checked(2,2), checked(2,3), checked(2,4), checked(2,5), checked(3,1), checked(3,2), checked(3,3), checked(3,4), checked(3,5), checked(4,1), checked(4,2), checked(4,3), checked(4,4), checked(4,5), checked(5,1), checked(5,2), checked(5,3), checked(5,4), checked(5,5), , 
+rubble/2-rubble(2,2), rubble(5,5), , 
+square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+   *  +!_aall_squares_checked()||True||npy()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+
+[source(self):: 
+   *  +checked(5,5)||True||npy()||[]
+, source(percept):: 
+   *  start||True||-rubble(5,5)()||[]
+, source(percept):: 
+   *  start||True||+holding(rubble)()||[]
+] 
+\end{verbatim}
+Here we see the agent believes it is at square (5, 5).  It believes it has checked all the squares.  But it does not yet believe it is holding any rubble.  It \emph{does} have an intention to hold rubble:
+\begin{verbatim}
+source(percept):: 
+    *  start||True||+holding(rubble)()||[]
+\end{verbatim}
+but it hasn't processed this yet and so hasn't added \texttt{holding(rubble)} to its belief base.\index{Gwendolen}
+
+As you learn more about \gwendolen, the reasoning cycle and intentions you will be able to get more information from this output.  However at the moment it is important to note it can be useful for seeing exactly what is in the agent's belief base and goal base at any time.\index{Gwendolen}
+
+\subsection{Some Exercises}\index{Gwendolen!debugging!exercises}\index{debugging!Gwendolen}
+Run some of your other programs with \texttt{ail.semantics.AILAgent}\index{AILAgent (class)} set at log level \texttt{fine} and see if you can get a feel for how an agents beliefs and goals change as the program executes.
+
+\section{Tracing the execution of reasoning rules}\index{logging}\index{reasoning rules}\index{reasoning rules!debugging}\index{Gwendolen}
+Another logger that can be useful is the one that traces the application of \prolog\ reasoning rules.  This can be also be useful for working out why a plan that \emph{should} apply does not.  Try adding the line\index{EvaluationAndRuleBaseIterator (class)}
+\begin{verbatim}
+log.fine = ail.syntax.EvaluationAndRuleBaseIterator
+\end{verbatim}
+to \texttt{pickuprubble\_achieve.ail} \intutorial{\gwendolen}{3}{tutorial:gwendolen:guards}.  If you now run the program you will get a lot of information about the unification of the reasoning rule starting with:\index{example!pickuprubble}
+
+\begin{small}
+\begin{verbatim}
+ail...[FINE|...]: Checking unification of holding(rubble)() with unifier [] 
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Looking for a rule match for square_to_check(X0,Y0) :- (possible_rubble(X0,Y0) & not (no_rubble(X0,Y0))) and square_to_check(X,Y)() 
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) with unifier [X-_VC1, X0-_VC1, Y-_VC2, Y0-_VC2] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) and <possible_rubble(1,1), > 
+ail...[FINE|...]: Unifier for possible_rubble(X0,Y0) and <possible_rubble(1,1), > is [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) with unifier [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: square_to_check(X,Y)() matches the head of a rule. 
+ail...[FINE|...]: Rule instantiated with [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Looking for a rule match for square_to_check(X0,Y0) :- (possible_rubble(X0,Y0) & not (no_rubble(X0,Y0))) and square_to_check(X,Y)() 
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) with unifier [X-_VC3, X0-_VC3, Y-_VC4, Y0-_VC4] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) and <possible_rubble(1,1), > 
+ail...[FINE|...]: Unifier for possible_rubble(X0,Y0) and <possible_rubble(1,1), > is [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) with unifier [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: square_to_check(X,Y)() matches the head of a rule. 
+ail...[FINE|...]: Rule instantiated with [X-1, X0-1, Y-1, Y0-1] 
+ail.mas.DefaultEnvironment[INFO|main|4:44:40]: robot done move_to(1,1) 
+\end{verbatim}
+\end{small}
+
+This is the selection process for the first plan in the program.  We discuss it line by line.
+\begin{itemize}
+\item First it unifies\index{unification} with the achieve goal \texttt{holding(rubble)}.  This does not instantiate any variables so there is an empty unifier\index{unifier}, \texttt{[]}.  
+\item Then it checks the plan guard\index{plan}\index{plan!guard} which is \lstinline{B square_to_check(X, Y)}.  
+\item Since there is nothing in the belief\index{belief} base about this but there is a reasoning rule\index{reasoning rules} it now looks for a  unifier\index{unifier} between these.  Notice how it has renamed the variables\index{Gwendolen!variables} in the rule to \texttt{X0} and \texttt{Y0} -- this is to avoid errors arising from false unifications.  
+\item It then attempts to unify \lstinline{B square_to_check(X, Y)} with the head of this rule.\index{reasoning rules}\index{Gwendolen}
+\item As a result of this unification\index{unification} \texttt{X} and \texttt{X0} are unified and \texttt{Y} and \texttt{Y0} are unified.  For technical reasons these are unified via \emph{variable clusters}\index{variable cluster}, \texttt{VC1} and \texttt{VC2} respectively.
+\begin{sloppypar}
+\item It then checks the body of the rule\index{reasoning rules} starting with looking for something to unify \texttt{possible\_rubble(X0, Y0)}.  This unifies\index{unification} with the belief\index{belief} \texttt{possible\_rubble(1, 1)}.
+\end{sloppypar}
+\item The unifier\index{unifier} is reported showing all the variables are now unified with the number 1.
+\item The system then checks to see if \texttt{no\_rubble(X0, Y0)} unifies with anything using this unifier.  The rule\index{reasoning rules} will fail if it does match because this predicate was negated.
+\item It doesn't match so the rule has matched.\index{Gwendolen}
+\item With everything unified to 1.
+\item The process then repeats because of the way the reasoning rule processes transitions.\index{reasoning rules}
+\end{itemize}
+
+If we look later in the trace we can see the same process being run after \texttt{no\_rubble(1, 1)} has been added to the belief\index{belief} base.\index{Gwendolen}
+
+\begin{verbatim}
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Looking for a rule match for square_to_check(X0,Y0) :- (possible_rubble(X0,Y0) & not (no_rubble(X0,Y0))) and square_to_check(X,Y)() 
+ail...[FINE|...]: Checking unification of square_to_check(X,Y)() with unifier [] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) with unifier [X-_VC5, X0-_VC5, Y-_VC6, Y0-_VC6] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) and <possible_rubble(1,1), > 
+ail...[FINE|...]: Unifier for possible_rubble(X0,Y0) and <possible_rubble(1,1), > is [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) with unifier [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) and <no_rubble(1,1), > 
+ail...[FINE|...]: Unifier for no_rubble(X0,Y0) and <no_rubble(1,1), > is [X-1, X0-1, Y-1, Y0-1] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) with unifier [X-_VC5, X0-_VC5, Y-_VC6, Y0-_VC6] 
+ail...[FINE|...]: Checking unification of possible_rubble(X0,Y0) and <possible_rubble(3,3), > 
+ail...[FINE|...]: Unifier for possible_rubble(X0,Y0) and <possible_rubble(3,3), > is [X-3, X0-3, Y-3, Y0-3] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) with unifier [X-3, X0-3, Y-3, Y0-3] 
+ail...[FINE|...]: Checking unification of no_rubble(X0,Y0) and <no_rubble(1,1), > 
+ail...[FINE|...]: square_to_check(X,Y)() matches the head of a rule. 
+ail...[FINE|...]: Rule instantiated with [X-3, X0-3, Y-3, Y0-3] 
+\end{verbatim}
+\begin{sloppypar}
+Here after a unifier\index{unifier} is found for \texttt{no\_rubble(1, 1)} that unifier for the rule has failed and the process backtracks to look for a different unifier for \texttt{possible\_rubble(X0, Y0)} in this instance finding (3, 3) and this time the rule succeeds.
+\end{sloppypar}
+
+\section{Conclusion}
+Hopefully this tutorial has given you some basic tools for tracking errors in your \gwendolen\ programs.  Although the logging facilities generate a lot of output that can be tiresome to read through, they are occasionally very useful for working out what is going wrong in a program.  We will look at more debugging possibilities after we have covered the \gwendolen\ reasoning cycle in a tutorial.\index{Gwendolen}\index{logging}\index{debugging}\index{Gwendolen!debugging}\index{debugging!Gwendolen}
+

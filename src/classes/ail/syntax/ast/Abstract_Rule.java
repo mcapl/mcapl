@@ -24,8 +24,10 @@
 
 package ail.syntax.ast;
 
-import ail.syntax.Rule;
+import java.util.ArrayList;
 
+import ail.syntax.Rule;
+import ail.syntax.Unifier;
 import gov.nasa.jpf.vm.MJIEnv;
 
 /**
@@ -75,7 +77,12 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
         this.head = h;
         this.body = body;
     }
-    
+        
+    public Abstract_Rule(Abstract_Predicate h, ArrayList<Abstract_LogicalFormula> body) {
+        this.head = h;
+        this.body = Abstract_LogExpr.lflist_to_lf(body);
+    }
+
     /**
      * Constructor.
      * @param head
@@ -118,4 +125,5 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
     	env.setReferenceField(objref, "head", head.newJPFObject(env));
 		return objref;
     }
-}
+        
+ }

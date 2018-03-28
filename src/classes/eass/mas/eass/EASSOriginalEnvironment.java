@@ -102,8 +102,6 @@ public class EASSOriginalEnvironment extends DefaultEASSEnvironment {
 	 */
 	protected WaitingThread waiter = new WaitingThread();
 
-	private String name = "Default EASS MatLab Environment";
-	
 	protected int control = 0;
 	int misccounter = 0;
 	boolean running = true;

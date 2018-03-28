@@ -2,11 +2,19 @@ This software distribution consists of:
 
 - The Agent JPF (AJPF) extention of the Java Pathfinder model checker for model checking BDI style agent programs.
 
-- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming langauges.
+- The Agent Infrastructure Layer (AIL) toolkit for prototyping interpreters for BDI-style agent programming languages.
 
 - The Gwendolen BDI agent programming language.
 
 - The EASS (Engineering Autonomous Space Software) variant of the Gwendolen Language
+
+- The Ethical Gwendolen variant of the Gwendolen Language
+
+- The AIL Implementation of the GOAL BDI agent programming language (AIL GOAL).
+
+- A Declarative Ethical Governor (DEG) Implementation
+
+- A Really Simple Motorway Simulation (RSMS)
 
 src/classes and src/main contains the core classes for each of these libraries 
    - when Java Pathfinder is being used the classes in src/classes run in the JPF virtual machine while those in src/main run in the native virtual machine
@@ -18,6 +26,15 @@ src/peers contains alternative implementations for some methods and classes for 
    
 src/tests contains regression tests.
 
-Documentation including installation instructions can be found in the doc folder
+Documentation including installation instructions can be found in the doc folder.
+
+Problems and Contributions
+==========================
+
+Bug reports and contributions are always welcome.
+
+Please contact Louise Dennis, L.A.Dennis@liverpool.ac.uk, by email to make a bug report.
+
+To contribute to the MCAPL code base please fork the git repository and then submit a pull request.  We value interaction with other people working on the code base and so would welcome contact from potential contributors to discuss their ideas and plans, though this is not a requirement for contribution.  Please email Louise Dennis, L.A.Dennis@liverpool.ac.uk, if you want to discuss working on the MCAPL code base.
 
 

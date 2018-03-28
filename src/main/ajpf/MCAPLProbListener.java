@@ -46,7 +46,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	MethodInfo michoose;
 	
 	// We keep track of the overall probability of violation.
-	public static double overall_prob = 0;
+	// public static double overall_prob = 0;
 		
 	// This is the only way I could work out how to check the right probability
 	// was calculated when using JUnit to test this class.  This is a references
@@ -58,7 +58,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	 * @see ajpf.MCAPLListener#classLoaded(gov.nasa.jpf.jvm.JVM)
 	 */
 	public void classLoaded (VM vm, ClassInfo ci){
-		if (ci.getName().equals("ajpf.util.Choice")) {
+		if (ci.getName().equals("ajpf.util.choice.Choice")) {
 			michoose = ci.getMethod("choose()I", false);
 			assert michoose != null;
 		} 
@@ -75,10 +75,7 @@ public class MCAPLProbListener extends MCAPLListener {
        	int objref = ei.getObjectRef();
         ClassInfo ci = vm.getClassInfo(objref);
         // We're watching for a test object to be created.
-        if (ci.getName().equals("gwendolen.uavs.simple.SimpleUAVTests")) {
-        	testRef = objref;
-        }
-	}
+ 	}
 	
 	/*
 	 * (non-Javadoc)
@@ -86,16 +83,6 @@ public class MCAPLProbListener extends MCAPLListener {
 	 */
 	public void methodEntered(VM vm, ThreadInfo ti, MethodInfo mi) {
 		super.methodEntered(vm, ti, mi);
-
-		
-		// If the Test class is trying to get the probability for testing.
-		if (mi.getBaseName().equals("gwendolen.uavs.simple.SimpleUAVTests.getProbability")) {
-			int objref = ti.getThis();
-			testRef = objref;
-			ElementInfo ei = vm.getElementInfo(testRef);
-			// physically set the value by manipulating the object in the JVM
-			ei.setDoubleField("probability", overall_prob);
-		}
 	}
 
 	/*
@@ -109,7 +96,11 @@ public class MCAPLProbListener extends MCAPLListener {
       		log.fine("Dealing with choices");
        		ElementInfo ei = vm.getElementInfo(objref);
        		double prob = ei.getDoubleField("thischoice");
-       		product_automata.annotate_edge(prob);
+    		// But we only want to perform the annotation if there was more than one choice otherwise no branching has occured at this 
+       		// method call (see peer for Choice).
+       		if (prob < 1.0) {
+        			product_automata.annotate_edge(prob);
+       		}
        	} 
 
 	}
@@ -120,7 +111,7 @@ public class MCAPLProbListener extends MCAPLListener {
 	  * @param search
 	  * @return
 	  */
-	 public boolean check (Search search, VM vm) {
+	/* public boolean check (Search search, VM vm) {
 		 log.fine("calling check");
 
 		 boolean violation = super.check(search, vm);
@@ -136,24 +127,24 @@ public class MCAPLProbListener extends MCAPLListener {
 		 }
 
 		 return true;
-	 }
+	 } */
 	 
 	 /*
 	  * (non-Javadoc)
 	  * @see ajpf.MCAPLListener#searchFinished(gov.nasa.jpf.search.Search)
 	  */
-	 public void searchFinished(Search search) {
-		 log.info("Probability of Violation is: " + overall_prob);
-		 super.searchFinished(search);
-	 }
+	// public void searchFinished(Search search) {
+	//	 log.info("Probability of Violation is: " + overall_prob);
+	//	 super.searchFinished(search);
+//	 }
 	 
 	 /**
 	  * A Getter for the overall probability of violation.
 	  * @return
 	  */
-	 public double getProbability() {
-		 return overall_prob;
-	 }
+	// public double getProbability() {
+	//	 return overall_prob;
+	// }
 	 
 	 /*
 	  * (non-Javadoc)

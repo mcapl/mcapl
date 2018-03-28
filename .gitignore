@@ -9,9 +9,24 @@ bin/TEST*
 # Debugging Files #
 tmp/*
 
+# Replay Records #
+records/*.txt
+
+# Prism and Spin output files
+src/examples/gwendolen/ajpf_tutorials/tutorial3/tutorial3_prism_searcher.pm
+src/examples/gwendolen/ajpf_tutorials/tutorial3/answers/tutorial3_ex3.pm
+src/examples/gwendolen/ajpf_tutorials/tutorial3/tutorial3_spin.pml
+src/examples/gwendolen/ajpf_tutorials/tutorial3/tutorial3_prism.pm
+
+# More Spin specific files
+pan.*
+a.out
+
 # Version Control Files #
 *.orig
 *~
+/bin/
+/bin/
 /bin
 
 # Machine Specific Settings #

@@ -23,10 +23,7 @@
 //----------------------------------------------------------------------------
 package eass.sticky_wheel;
 
-import java.util.ArrayList;
-
-import ail.mas.ActionScheduler;
-import eass.mas.vehicle.EASSVehicle;
+import ail.mas.scheduling.ActionScheduler;
 import eass.mas.vehicle.EASSVehicleEnvironment;
 import eass.semantics.EASSAgent;
 import ail.semantics.AILAgent;

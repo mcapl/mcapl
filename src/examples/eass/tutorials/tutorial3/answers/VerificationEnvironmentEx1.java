@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import eass.mas.verification.EASSVerificationEnvironment;
+import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ail.syntax.Message;
@@ -39,15 +40,15 @@ import ail.syntax.Message;
  */
 public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 			
-	public String logname = "eass.tutorials.tutorial3.VerificationEnvironment";
+	public String logname = "eass.tutorials.tutorial3.VerificationEnvironmentEx1";
 	
 	/*
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
 	 */
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
-		boolean assert_at_speed_limit = random_generator.nextBoolean();
+		boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
 		if (assert_at_speed_limit) {
 			percepts.add(new Predicate("at_speed_limit"));
 			AJPFLogger.info(logname, "At the Speed Limit");
@@ -55,7 +56,7 @@ public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 			AJPFLogger.info(logname, "Not At Speed Limit");
 		}
 		
-		boolean assert_start = random_generator.nextBoolean();
+		boolean assert_start = random_bool_generator.nextBoolean();
 		if (assert_start) {
 			percepts.add(new Predicate("start"));
 			AJPFLogger.info(logname, "Asserting start");
@@ -63,7 +64,7 @@ public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 			AJPFLogger.info(logname, "Not asserting start");
 		}
 		
-		boolean assert_alert = random_generator.nextBoolean();
+		boolean assert_alert = random_bool_generator.nextBoolean();
 		if (assert_alert) {
 			percepts.add(new Predicate("alert"));
 			AJPFLogger.info(logname, "Alert!");
@@ -78,10 +79,9 @@ public class VerificationEnvironmentEx1 extends EASSVerificationEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_messages()
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		return messages;
-	};
+	}
 
-	
 }

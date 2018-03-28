@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -24,7 +24,9 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Capabilities represent what an agent can do and are very closely related to actions.  So closely related that for a long
@@ -57,6 +59,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Capability clone() {
 		return new Capability(pre.clone(), cap.clone(), post.clone());
 	}
@@ -65,6 +68,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Capability o) {
     	if (keynum == o.getID()) {
     		return 0;
@@ -92,7 +96,7 @@ public class Capability implements Unifiable,
 	}
 	
 	/**
-	 * Return the "action" part of the capability (reprsented as a predicate).
+	 * Return the "action" part of the capability (represented as a predicate).
 	 * @return
 	 */
 	public Predicate getCap() {
@@ -119,6 +123,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -133,29 +138,18 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
 	 */
-	public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-		List<String> tvarnames = t.getVarNames();
-		List<String> myvarnames = getVarNames();
-		tvarnames.addAll(varnames);
-	   	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
+	@Override
+	public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+		DefaultAILStructure.standardise_apart(t, u, varnames, this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
-		ArrayList<String> varnames = new ArrayList<String>();
+	@Override
+	public Set<String> getVarNames() {
+		HashSet<String> varnames = new HashSet<String>();
 		varnames.addAll(cap.getVarNames());
 		varnames.addAll(pre.getVarNames());
 		varnames.addAll(post.getVarNames());
@@ -166,6 +160,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void renameVar(String oldname, String newname) {
 		cap.renameVar(oldname, newname);
 		pre.renameVar(oldname, newname);
@@ -176,6 +171,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -190,6 +186,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
@@ -204,6 +201,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#isGround()
 	 */
+	@Override
 	public boolean isGround() {
 		if (cap.isGround()) {
 			if (pre.isGround()) {
@@ -218,6 +216,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#apply(ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier theta) {
 		boolean c = cap.apply(theta);
 		boolean p1 = pre.apply(theta);
@@ -229,6 +228,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+	@Override
 	public void makeVarsAnnon() {
 		cap.makeVarsAnnon();
 		pre.makeVarsAnnon();
@@ -239,6 +239,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
+	@Override
 	public Unifiable strip_varterm() {
 		return new Capability((GLogicalFormula) pre.strip_varterm(), (Predicate) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
 	}
@@ -247,6 +248,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#resolveVarsClusters()
 	 */
+	@Override
 	public Unifiable resolveVarsClusters() {
 		return new Capability((GLogicalFormula) pre.resolveVarsClusters(), (Predicate) cap.resolveVarsClusters(), (GLogicalFormula) post.resolveVarsClusters());
 	}
@@ -255,6 +257,7 @@ public class Capability implements Unifiable,
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String s = "{";
 		s += pre;
@@ -262,6 +265,44 @@ public class Capability implements Unifiable,
 		s += post;
 		s += "}";
 		return s;
+	}
+	
+	public ArrayList<Literal> postConditionsToLiterals() {
+		GLogicalFormula posts = getPost();
+		return fmla_to_lits(posts);
+	}
+	
+	private static ArrayList<Literal> fmla_to_lits(GLogicalFormula lf) {
+		ArrayList<Literal> lits = new ArrayList<Literal>();
+		if (lf instanceof Literal) {
+			lits.add(new Literal((Literal) lf));
+			return lits;
+		}
+		
+		if (lf instanceof Predicate) {
+			lits.add(new Literal((Predicate) lf));
+			return lits;
+		}
+		
+		if (lf instanceof Guard) {
+			Guard g = (Guard) lf;
+			if (g.getOp() == Guard.GLogicalOp.none) {
+				lits.addAll(fmla_to_lits(g.getRHS()));
+			} else if (g.getOp() == Guard.GLogicalOp.not) {
+				ArrayList<Literal> neglits = fmla_to_lits(g.getRHS());
+				Literal neglit = neglits.get(0);
+				if (neglit.negated()) {
+					neglit.setNegated(false);
+				} else {
+					neglit.setNegated(true);
+				}
+				lits.add(neglit);
+			} else {
+				lits.addAll(fmla_to_lits(g.getLHS()));
+				lits.addAll(fmla_to_lits(g.getRHS()));
+			}
+		}
+		return lits;
 	}
 
 }

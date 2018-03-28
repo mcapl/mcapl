@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -77,6 +77,14 @@ public class Literal extends PredicatewAnnotation {
 	}
 
 	/**
+	 * By default a literal created from a predicate is positive.
+	 * @param p
+	 */
+	public Literal(Predicate p) {
+		this(true, p);
+	}
+	
+	/**
 	 * This looks like a strange constructor but is used by sub-classes.
 	 * 
 	 * @param l a literal to create the literal from.
@@ -90,6 +98,7 @@ public class Literal extends PredicatewAnnotation {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#isLiteral()
 	 */
+	@Override
 	public boolean isLiteral() {
 		return true;
 	}
@@ -109,7 +118,7 @@ public class Literal extends PredicatewAnnotation {
 	 * @param b false if the literal is negated, true if the literal is not.
 	 */
     public void setNegated(boolean b) {
-        type = b;
+        type = !b;
         hashCodeCache = null;
     }
 
@@ -119,6 +128,7 @@ public class Literal extends PredicatewAnnotation {
      * (non-Javadoc)
      * @see ail.syntax.Pred#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (o == null) return false;
         if (o == this) return true;
@@ -135,9 +145,28 @@ public class Literal extends PredicatewAnnotation {
     
     /*
      * (non-Javadoc)
+     * @see ail.syntax.PredicatewAnnotation#equalsInclAnnots(java.lang.Object)
+     */
+    @Override
+    public boolean equalsInclAnnots(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+
+        if (o instanceof Literal) {
+			final Literal l = (Literal) o;
+			return type == l.type 
+			&& super.equalsInclAnnots(l);
+		} else if (o instanceof Predicate) {
+			return !negated() && super.equalsInclAnnots(o);
+		}
+        return false;
+	}
+    /*
+     * (non-Javadoc)
      * @see ail.syntax.DefaultTerm#compareTo(ail.syntax.Term)
      */
-    public int compareTo(Term t) {
+    // @Override
+  /*  public int compareTo(Term t) {
         if (t.isLiteral()) {
             Literal tl = (Literal)t;
             if (!negated() && tl.negated()) {
@@ -150,14 +179,15 @@ public class Literal extends PredicatewAnnotation {
         if (c != 0)
             return c;
         return 0;
-    }        
+    }   */     
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.Pred#clone()
      */
+    @Override
 	public Literal clone() {
-        Literal c = new Literal(this);
+    	Literal c = new Literal(this);
         c.predicateIndicatorCache = this.predicateIndicatorCache;
         c.hashCodeCache = this.hashCodeCache;
         return c;
@@ -176,6 +206,7 @@ public class Literal extends PredicatewAnnotation {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Pred#toString()
 	 */
+	@Override
 	public String toString() {
 		if (type == LPos)
 			return super.toString();
@@ -186,6 +217,21 @@ public class Literal extends PredicatewAnnotation {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.PredicatewAnnotation#fullstring()
+	 */
+	@Override
+	public String fullstring() {
+		if (type == LPos)
+			return "Lit" + super.fullstring();
+		else {
+			StringBuilder s1 = new StringBuilder("~");
+			s1.append(super.fullstring());
+			return s1.toString();
+		}
+		
+	}
 
     
 }

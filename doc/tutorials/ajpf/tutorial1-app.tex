@@ -1,0 +1,21 @@
+\section{Implementation of BDI Modalities in \gwendolen}
+\label{s:impl_bdi}
+
+In \gwendolen\ the BDI modalities of the \ajpf\ property specification language are implemented as follows.
+
+\begin{itemize}
+\item $\lbelief{\AILagent}{f}$.  An agent, $\AILagent$, believes the formula, $f$, if $f$ appears in its belief base or is deducible from its goal base using its reasoning rules.
+\item $\lgoal{\AILagent}{f}$.  An agent, $\AILagent$, has a goal $f$, if $f$ is a goal that appears in the agent's goal base.
+\item $\lintention{\AILagent}{f}$.  An agent, $\AILagent$, has an intention $f$, if $f$ is a goal in the goal base a plan has been selected to achieve or perform the goal.
+\item $\lintendtodo{\AILagent}{f}$.  An agent, $\AILagent$, intends to do $f$, if $f$ is an action that appears in the deed stack of some intention.
+\end{itemize}
+
+\subsection{Intending to Send a Message}
+\gwendolen\ uses a special syntax for send actions (\texttt{.send(ag, :tell, c)}) which is not recognised by the property specification language.  If you want to check that a \gwendolen\ agent intends to send a messsage then you need to use the syntax \texttt{send(agname, number, c)} where \texttt{agname} is the name of the recipient, \texttt{number} is
+\begin{description}
+\item[1] For \texttt{:tell},
+\item[2] For \texttt{:perform},
+\item[3] For \texttt{:achieve}
+\end{description}
+and \texttt{c} is the content of the message.
+

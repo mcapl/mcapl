@@ -3,21 +3,21 @@
 // Lisitsa and Sandor M. Veres
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
-// 
+//
 // The EASS Library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
-// 
+//
 // The EASS Library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public
 // License along with the EASS Library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-// 
+//
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //
@@ -40,7 +40,7 @@ import java.lang.Thread;
 import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.DefaultEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.util.AILSocketServer;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -56,7 +56,6 @@ import ail.syntax.NumberTermImpl;
 import ail.syntax.StringTermImpl;
 import ail.syntax.VarTerm;
 import eass.semantics.EASSAgent;
-
 import ajpf.MCAPLJobber;
 import ajpf.util.VerifyMap;
 import ajpf.util.AJPFLogger;
@@ -71,7 +70,11 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	/**
 	 * Tracking of input predicates.
 	 */
-	HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	protected HashMap<String, Predicate> values = new HashMap<String, Predicate>();
+	/**
+	 * Tracking of input predicates.
+	 */
+	HashMap<String, HashMap<String, Predicate>> agvalues = new HashMap<String,HashMap<String, Predicate>>();
 	/**
 	 * Used to keep track of whether environment thread should continue operating.
 	 */
@@ -88,7 +91,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	protected Map<String, String> abstractionengines = new HashMap<String, String>();
 	private String name = "Default EASS Environment";
 	private static String logname = "eass.mas.DefaultEASSEnvironment";
-	
+
 	protected int control = 0;
 	int misccounter = 0;
 	boolean running = true;
@@ -101,19 +104,19 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	public DefaultEASSEnvironment() {
 		super();
 	}
-	
+
 	public static void scheduler_setup(EASSEnv env, MCAPLScheduler s) {
 		s.addJobber(env);
 		env.setScheduler(s);
 		env.addPerceptListener(s);
 	}
-	
-	
-	
-	public void do_job() {			
+
+
+
+	public void do_job() {
 		eachrun();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ajpf.MCAPLJobber#getName()
@@ -121,14 +124,14 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * This method is intended to be overriden by sub-classes which want something
 	 * specific to happen in each cycle of the environment.
 	 */
 	public void eachrun() {}
-	
-	
+
+
 	/**
 	 * Add a percept to this environment that is supposed to be unique - i.e.,
 	 * the predicate functor is unique.
@@ -141,9 +144,9 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		}
 
 		values.put(s.toLowerCase(), pred);
-		addPercept(pred);		
+		addPercept(pred);
 	}
-	
+
 	/**
 	 * Add a percept to this environment that is supposed to be unique - i.e.,
 	 * the predicate functor is unique.
@@ -152,14 +155,18 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	 * @param pred
 	 */
 	public void addUniquePercept(String agName, String s, Predicate pred) {
-		if (values.containsKey(s.toLowerCase())) {
-			removePercept(agName, values.get(s.toLowerCase()));
+		HashMap<String, Predicate> vs = agvalues.get(agName);
+		if (vs != null) {
+			if (vs.containsKey(s.toLowerCase())) {
+				removePercept(agName, vs.get(s.toLowerCase()));
+			}
+
+			vs.put(s.toLowerCase(), pred);
 		}
 
-		values.put(s.toLowerCase(), pred);
-		addPercept(agName, pred);		
+		addPercept(agName, pred);
 	}
-	
+
 	/**
 	 * This environment has finished.
 	 * @param b
@@ -167,16 +174,16 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 	public void setDone(boolean b) {
 		done = b;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
 	 */
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-	   
+
 		Unifier u = new Unifier();
 		boolean printed = false;
-		 
+
 	   if (act.getFunctor().equals("assert_shared")) {
 		   addSharedBelief(agName, new Literal(true, new PredicatewAnnotation((Predicate) act.getTerm(0))));
 		   printed = true;
@@ -211,21 +218,14 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
     		VarTerm result = (VarTerm) act.getTerm(2);
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
-    		printed = true;
-    	} else {
-     		 u = super.executeAction(agName, act);
-    		 printed = true;
     	}
-	   
-	   if (!printed) {
-		   AJPFLogger.info(logname, agName + " done " + printAction(act));
-	   }
 
-	     
+     	u = super.executeAction(agName, act);
+
 	   return u;
 	  }
-	  
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#addPercept(ail.syntax.Literal)
@@ -242,7 +242,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		}
 		notifyPerceptListeners();
 	}
-		
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#removePercept(ail.syntax.Literal)
@@ -252,14 +252,14 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		if (per != null) {
 			uptodateAgs.clear();
 			b =  percepts.remove(per);
-		} 
-				
+		}
+
 		notifyPerceptListeners();
 
 		return b;
 	}
-		
-		
+
+
 	/**
 	 * Add and abstraction engine.
 	 * @param s
@@ -269,7 +269,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		abstractionengines.put(foragent, s);
 		abstractionenginelist.add(s);
 	}
-	
+
 	/**
 	 * Add an agent to the list the environment knows about.
 	 * @param a
@@ -279,10 +279,12 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		EASSAgent ea = (EASSAgent) a;
 		if (ea.isAbstractionEngine()) {
 			addAbstractionEngine(ea.getAgName(), ea.getEngineFor());
+			HashMap<String, Predicate> input_values = new HashMap<String, Predicate>();
+			agvalues.put(ea.getAgName(), input_values);
 		}
 	}
 
-		
+
 	/**
 	 * Complicated by the separation of abstraction and reasoning engines.
 	 */
@@ -297,28 +299,29 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					}
 					return null;
 				}
-				
-				// if its the abstraction engine (NB.  this will add agName to up-to-date ags
-				if (abstractionenginelist.contains(agName)) {
-					Set<Predicate> ps = super.getPercepts(agName, update);
-					if (ps != null) {
-						p.addAll(ps);
-					}
-				} else {
+			}
 
-				uptodateAgs.add(agName);
+			// if its the abstraction engine (NB.  this will add agName to up-to-date ags
+			if (abstractionenginelist.contains(agName)) {
+				Set<Predicate> ps = super.getPercepts(agName, update);
+				if (ps != null) {
+					p.addAll(ps);
+				}
+			} else {
+				if (update) {
+					uptodateAgs.add(agName);
 				}
 			}
-						
-		    				
+
+
 			if (agl != null) { // add agent personal perception
 				p.addAll(agl);
 			}
-	    			
+
 		return p;
-				
+
 	}
-		   
+
 	/** Adds a perception for a specific agent */
 	public void addSharedBelief(String agName, Literal per) {
 			if (per != null && agName != null) {
@@ -335,11 +338,11 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 						Collections.sort(agl);
 					}
 				}
-				
+
 				String partneragent = abstractionengines.get(agName);
 				ArrayList<Literal> agl2 = agSharedBeliefs.get(partneragent);
 				if (partneragent == null) {
-					
+
 				} else {
 				if (agl2 == null) {
 					agl2 = new ArrayList<Literal>();
@@ -355,10 +358,10 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				}
 				}
 		}
-					
+
 		notifySharedListeners(agName);
 	}
-			
+
 	/** Removes a perception for one agent */
 	public boolean removeSharedBelief(String agName, Literal per) {
 		boolean result = true;
@@ -379,7 +382,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					System.out.println("PROBLEM" + agl);
 				}
 			}
-			
+
 			String partneragent = abstractionengines.get(agName);
 			List<Literal> agl2 = agSharedBeliefs.get(partneragent);
 			if (agl2 != null && !agl2.isEmpty()) {
@@ -413,7 +416,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				super.notifyListeners(s);
 			}
 		}
-     	
+
 		notifyListeners("scheduler");
 	}
 
@@ -443,14 +446,14 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 						rper = p;
 					}
 				}
-				
-						
+
+
 				if (rper != null) {
 					b = sharedbeliefs.remove(rper);
 				}
 
 				Collections.sort(sharedbeliefs);
-				
+
 				String partneragent = abstractionengines.get(agName);
 				uptodateAgs.remove(partneragent);
 				List<Literal> psharedbeliefs = agSharedBeliefs.get(agName);
@@ -459,39 +462,39 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 						rper = p;
 					}
 				}
-						
+
 				if (rper != null) {
 					b = psharedbeliefs.remove(rper);
 				}
 
 				Collections.sort(psharedbeliefs);
-					
+
 				return b;
 			}
-		} 
+		}
 
 		notifySharedListeners(agName);
 		return b;
 	}
-		
-	
+
+
 	/**
 	 * Stop the environment running.
 	 */
 	public void stopRunning() {
 		running = false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(MCAPLJobber j) {
 		return j.getName().compareTo(getName());
-	}	
-	
+	}
+
 	/**
-	 * Actions are called by an agent called abstract_rname, but the actual agent's name 
+	 * Actions are called by an agent called abstract_rname, but the actual agent's name
 	 * May sometimes be needed.
 	 * @param name
 	 * @return
@@ -505,7 +508,5 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 		}
 	}
 
-	
+
 }
-
-

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Goal;
 import ail.syntax.Intention;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
@@ -76,7 +77,7 @@ public class ApplyApplicablePlans implements OSRule {
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
 		
-		if (! p.noChangePlan()) {
+		//if (! p.noChangePlan()) {
 		
 			ArrayList<Guard> guardstack = p.getGuard();
 		
@@ -91,7 +92,22 @@ public class ApplyApplicablePlans implements OSRule {
 				a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
-				i.dropP(p.getN());
+                if (p.getPrefix().size() == 0) {
+                    if (i.hdE().referstoGoal()) {
+                            Goal g = (Goal) i.hdE().getContent();
+                            Goal gcloned = g.clone();
+                            gcloned.apply(i.hdU());
+                            i.dropP(p.getN());
+                            if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
+                                    a.removeGoal(gcloned);
+                            }
+                    } else {
+                            i.dropP(p.getN());
+                    }
+                } else {
+            
+                    i.dropP(p.getN());
+                }
 			
 				// NOTE HACK - top of guardstack presumably already tested!
 				if (! (guardstack.isEmpty()) && (! (guardstack.get(guardstack.size() - 1).isTrivial()))) {
@@ -104,7 +120,7 @@ public class ApplyApplicablePlans implements OSRule {
 					i.hdU().compose(p.getUnifier().clone());
 				}
 			}
-		}
+		//}
 		
 		// To encourage state matching during model checking we clear the list of applicable plans.
 		a.clearApplicablePlans();

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis, Michael Fisher 
+// Copyright (C) 2015 Louise A. Dennis, Michael Fisher 
 // 
 // This file is part of Gwendolen
 // 
@@ -26,3 +26,6 @@ env = gwendolen.ail_tutorials.tutorial3.RobotEnv
 
 mas.file = /src/examples/gwendolen/ail_tutorials/tutorial3/searcher.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+
+// Command used  in testing (ignore)
+ajpf.transition_every_reasoning_cycle = false

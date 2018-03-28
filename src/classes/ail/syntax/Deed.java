@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -24,11 +24,12 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
-
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -48,6 +49,7 @@ public class Deed extends DefaultAILStructure {
 	public static final byte	DAction 	= AILAction;
 	@FilterField
     public static final byte	Dnpy = 10;
+	// Backtrack deeds untested.
 	@FilterField
     public static final byte	Dbacktrack = 11;
 	@FilterField
@@ -61,8 +63,6 @@ public class Deed extends DefaultAILStructure {
 	 * If an agent has several structures of a particular type.
 	 * E.g. several belief bases, the one to be consulted for this
 	 * GBelief is the one numbered DBnum.
-	 * 
-	 * CHANGE STATIC RERENCE
 	 */
 	private StringTerm DBnum = new StringTermImpl(AILAgent.AILdefaultBBname);
 
@@ -97,7 +97,20 @@ public class Deed extends DefaultAILStructure {
      */
     public Deed(Predicate t) {
     	super(DAction);
-    	setContent(t);
+    	if (t instanceof Action) {
+    		setContent(t);
+    	} else {
+    		setContent(new Action(t, Action.normalAction));
+    	}
+    }
+    
+    /**
+     * Construct a deed from an action.
+     * @param a
+     */
+    public Deed(Action a) {
+    	super(DAction);
+    	setContent(a);
     }
     
     /**
@@ -152,11 +165,11 @@ public class Deed extends DefaultAILStructure {
     public Deed(int t, byte b, String s) {
     	super(t, b, s);
     }
-    
-    /**
+
+	/**
      * Is the Deed an Action?
      * 
-     * @return wheter the deed is an action.
+     * @return whether the deed is an action.
      */
     public boolean isAction() {
     	return (getCategory() == DAction);
@@ -165,6 +178,7 @@ public class Deed extends DefaultAILStructure {
     /**
      * Is the Deed equal to another Object.
      */
+    @Override
   	public boolean equals(Object o) {
     	return (super.equals(o));
 	}
@@ -181,46 +195,36 @@ public class Deed extends DefaultAILStructure {
 	/**
 	 * Clone the Deed.
 	 */
+	@Override
 	public Deed clone() {
-			if (isAction()) {
-				Deed c = new Deed((Predicate) getContent().clone());
-				c.setDBnum((StringTerm) getDBnum().clone());
-				return c;
-			} else {
-				if (hasContent()) {
-					if (referstoGoal()) {
-						Deed d1 = new Deed(getTrigType(), (Goal) getContent().clone());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-					} else {
-						Deed d1 = new Deed(getTrigType(), getCategory(), (Unifiable) getContent().clone());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-					}
-				/*}  else if (hasTerm()){
-					if (referstoGroup()) {
-						Deed d1 = new Deed(getTrigType(), getCategory(), ((Predicate) getTerm().clone()).getTerm(0).toString());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-					} else {
-						Deed d1 = new Deed((Predicate) getTerm().clone());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-
-					} */
-				} else 	{
-					if (hasTrigType()) {
-						Deed d1 = new Deed(getTrigType(), getCategory());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-					} else {
-						Deed d1 = new Deed(getCategory());
-						d1.setDBnum((StringTerm) getDBnum().clone());
-						return d1;
-					}
-			   }
+		if (isAction()) {
+			Deed c = new Deed((Predicate) getContent().clone());
+			c.setDBnum((StringTerm) getDBnum().clone());
+			return c;
+		} else {
+			if (hasContent()) {
+				if (referstoGoal()) {
+					Deed d1 = new Deed(getTrigType(), (Goal) getContent().clone());
+					d1.setDBnum((StringTerm) getDBnum().clone());
+					return d1;
+				} else {
+					Deed d1 = new Deed(getTrigType(), getCategory(), (Unifiable) getContent().clone());
+					d1.setDBnum((StringTerm) getDBnum().clone());
+					return d1;
+				}
+			} else 	{
+				if (hasTrigType()) {
+					Deed d1 = new Deed(getTrigType(), getCategory());
+					d1.setDBnum((StringTerm) getDBnum().clone());
+					return d1;
+				} else {
+					Deed d1 = new Deed(getCategory());
+					d1.setDBnum((StringTerm) getDBnum().clone());
+					return d1;
+				}
 			}
 		}
+	}
 
    
 	/**
@@ -249,8 +253,16 @@ public class Deed extends DefaultAILStructure {
 	}
 
 	/**
+	 * Is this a null deed?
+	 */
+	public boolean isNull() {
+		return (getCategory() == DNull);
+	}
+
+	   /**
 	 * Convert the deed to a string for printing.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		if (hasTrigType()) {
@@ -284,9 +296,19 @@ public class Deed extends DefaultAILStructure {
 		return s.toString();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Term#fullstring()
+	 */
+	@Override
+	public String fullstring() {
+		return toString();
+	}
+	
 	/**
 	 * Apply a unifier to the deed.
 	 */
+	@Override
 	public boolean apply(Unifier theta) {
 		boolean result = false;
 		
@@ -298,76 +320,47 @@ public class Deed extends DefaultAILStructure {
 		
 		return result;
 	}
-	
-	/**
-	 * Produce a term representing the deed that can be used in unification.
+		
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
 	 */
-	/*public Predicate UnifyingTerm() {
-		if (hasContent()) {
-			return (super.UnifyingTerm());
-		} else {
-			if (isLock()) {
-				return (new Predicate("lockdeed"));
-			} 
-			
-			if (isNPY()) {
-				return (new Predicate("epsilon"));
-			}
-			
-			if (isBacktrack()) {
-				return (new Predicate("backtrack"));
-			}
-			
-			return null;
-		}
-	} */
-	
-	   /*
-	    * (non-Javadoc)
-	    * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
-	    */
-	   public boolean unifies(Unifiable e, Unifier u) {
-	   		Deed d1 = (Deed) e;
+	@Override
+	public boolean unifies(Unifiable e, Unifier u) {
+		Deed d1 = (Deed) e;
   		
-	   		if (!hasContent()) {
-	   			return sameType(d1);
-	   		} else {
-	   			return sameType(d1) && u.unifies(d1.getContent(), getContent());
-	   		}
+		if (!hasContent()) {
+			return sameType(d1);
+		} else {
+			return sameType(d1) && u.unifies(d1.getContent(), getContent());
+		}
 		   
-	   }
-
-	
+	}
+ 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#getVarNames()
+	 */
+	@Override
+	public Set<String> getVarNames() {
+		Set<String> varnames = new HashSet<String>();
+		if (hasContent()) {
+			varnames = getContent().getVarNames();
+		}
+		varnames.addAll(getDBnum().getVarNames());
+		return varnames;
+	}
     
-	   /**
-	    * Is this a null deed?
-	    */
-	   public boolean isNull() {
-		   return (getCategory() == DNull);
-	   }
-
-	   /*
-	    * (non-Javadoc)
-	    * @see ail.syntax.Unifiable#getVarNames()
-	    */
-	   public List<String> getVarNames() {
-		   List<String> varnames = new ArrayList<String>();
-		   if (hasContent()) {
-			   varnames = getContent().getVarNames();
-		   }
-		   varnames.addAll(getDBnum().getVarNames());
-		   return varnames;
-	   }
-    
-	   /*
-	    * (non-Javadoc)
-	    * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
-	    */
-	   public void renameVar(String oldname, String newname) {
-		   if (hasContent()) {
-			   getContent().renameVar(oldname, newname);
-       		}
-		   getDBnum().renameVar(oldname, newname);
-	   }
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void renameVar(String oldname, String newname) {
+		if (hasContent()) {
+			getContent().renameVar(oldname, newname);
+		}
+		getDBnum().renameVar(oldname, newname);
+	}
 
 }

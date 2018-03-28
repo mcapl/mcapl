@@ -24,8 +24,9 @@
 
 package ail.syntax.ast;
 
-import ail.syntax.StringTermImpl;
+import java.util.ArrayList;
 
+import ail.syntax.StringTermImpl;
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.Verify;
@@ -133,6 +134,32 @@ public final class Abstract_StringTermImpl implements Abstract_StringTerm {
 	public int createInJPF(VM vm) {
 		Verify.log("ail.syntax.ast", Verify.WARNING, "Abstract_StringTermImpl should not be being created from Listener");
 		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u) {};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#applyu(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u) {return this;};
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "\"" + fValue + "\"";
+	}
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		System.err.println("WARNING: Do not add params to a string term");
+		
 	}
 
 }

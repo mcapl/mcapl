@@ -1,0 +1,112 @@
+\label{tutorial:ail:configuration}
+This is the first in a series of tutorials on the use of the Agent Infrastructure Layer (\ail).  This tutorial covers the basics of configuring\index{AIL!configuration} a multi-agent system\index{multi-agent system} in the \ail\ which can then be used to run the system and/or for model checking.  This duplicates material that appears \intutorial{\gwendolen}{1}{tutorial:gwendolen:introduction} and \intutorial{\gwendolen}{8}{tutorial:gwendolen:communication} but involves a more thorough discussion of configuration options.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/ail\_tutorials/tutorial1}.
+\end{quote}
+
+This tutorial assumes some familiarity with the basics of running Java programs either at the command line or in Eclipse.
+
+\section{Agent Java PathFinder (\ajpf) and the Agent Infrastructure Layer (\ail)}
+
+\emph{Agent Java PathFinder} (\ajpf)\index{AJPF} is primarily designed to work with agent programming languages which are implemented using the \emph{Agent Infrastructure Layer} (\ail)\index{AIL}.  The first language implemented in the \ail\ was \gwendolen\ so \index{Gwendolen} the examples in these tutorials will use \gwendolen\ agents.  It isn't necessary to understand \gwendolen\ to use these tutorials but it is important to understand a little bit about the \ail.  In particular it is important to understand \ail\ configuration\index{AIL!configuration} files and how they are used to construct a multi-agent system\index{multi-agent system} for model checking\index{model checking}.
+
+\section{An Example Configuration Files}
+
+You will find an \ail\ configuration file tutorial directory called \texttt{hello\_world.ail}\index{example!hello\_world}.  Its contents is shown in figure~\ref{fig:ail_config}.
+
+\begin{figure}[htb]
+\noindent\rule{\textwidth}{1pt}
+\begin{verbatim}
+mas.file = /src/examples/gwendolen/ail_tutorials/tutorial1/hello_world.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = ail.mas.DefaultEnvironment
+
+log.warning = ail.mas.DefaultEnvironment
+\end{verbatim}
+\rule{\textwidth}{1pt}
+\caption{An \ail\ Configuration File\index{AIL!configuration}}
+\label{fig:ail_config}
+\end{figure}
+
+This is a very simple configuration\index{AIL!configuration} consisting of four items only.
+\begin{description}
+\item[mas.file]\index{mas.file} gives the path to the \gwendolen\ program to be run.
+\begin{sloppypar}
+\item[mas.builder]\index{mas.builder} gives a java class for building the file.  In this case \texttt{gwendolen.GwendolenMASBuilder}\index{GwendolenMASBuilder (class)} parses a file containing one or more \gwendolen\ agents and compiles them into a multi-agent system\index{multi-agent system}.
+\item[env] provides an environment\index{environment} for the agent to run in.  In this case we use the default environment\index{DefaultEnvironment (class)} provided by the \ail.
+\item[log.warning]\index{logging} sets the level of output for the class \texttt{ail.mas.DefaultEnvironment}.  This is a pretty minimal level of output (warnings only).  We will see in later tutorials that it is often useful to get more output than this.
+\end{sloppypar}
+\end{description}
+You will notice that the \gwendolen\ MAS file, \texttt{hello\_world.gwen}\index{example!hello\_world} is also in the tutorial directory.
+
+\subsection{Running the Program}
+
+To run the program you need to run the \java\ program \texttt{ail.mas.AIL}\index{AIL (class)} and supply it with a the configuration file\index{AIL!configuration} as an argument\index{multi-agent system!execution}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL}\index{run-AIL} configuration (with \texttt{hello\_world.ail}\index{example!hello\_world} selected in the Package Explorer window) as detailed \inmanual{chap:running}
+
+Run the program now.
+
+\section{Configuration Files}
+
+Configuration\index{AIL!configuration} files all contain a list of items of the form \texttt{key=value}.  Particularly agent programming languages, and even specific applications may have their own specialised keys that can be placed in this file.  However the keys that are supported by all agent programs are as follows:
+
+\begin{description}
+\begin{sloppypar}
+\item[env] This is the Java class that represents the environment\index{environment} of the multi-agent system\index{multi-agent system}.  The value should be a java class name -- e.g., \texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)}.
+\end{sloppypar}
+\item[mas.file]\index{mas.file} This is the name of a file (including the path from the \mcapl\ home directory) which describes all the agents needed for a multi-agent system in some agent programming language.
+\item[mas.builder]\index{mas.builder} This is the Java class that builds a multi-agent system in some language.  For \gwendolen\ this is \texttt{gwendolen.GwendolenMASBuilder}.  To find the builders for other languages consult the language documentation.
+\item[mas.agent.\emph{N}.file]\index{mas.agent.1.file} This is the name of a file (including the path from the \mcapl\ home directory) which describes the \emph{N}th agent to be used by some multi-agent system.  This allows individual agent code to be kept in separate files and allows agents to be re-used for different applications.  It also allows a multi-agent system to be built using agents programmed in several different agent programming languages.
+\item[mas.agent.\emph{N}.builder]\index{mas.agent.1.builder} This is the Java class that is to be used to build the \emph{N}th agent in the system.  In the case of \gwendolen\ individual agents are built using \texttt{gwendolen.GwendolenAgentBuilder}.  To find the builders for other languages consult the language documentation.
+\item[mas.agent.\emph{N}.name]\index{mas.agent.1.name} All agent files contain a default name for the agent but this can be changed by the configuration (e.g., if you want several agents which are identical except for the name -- this way they can all refer to the same code file but the system will consider them to be different agents because they have different names)\index{agent!renaming}.
+\item[log.severe, log.warning, log.info, log.fine, log.finer, log.finest]\index{logging} These all set the logging level for Java classes in the system.  \texttt{log.finest} prints out the most information and \texttt{log.severe} prints out the least.  By default most classes are set to \texttt{log.warning} but sometimes, especially when debugging, you may want to specify a particular logging level for a particular class. 
+\item[log.format] This lets you change the format of the log output from Java's default.  At the moment the only value for this is \texttt{brief}.
+\item[ajpf.transition\_every\_reasoning\_cycle]\index{ajpf.transition\_every\_reasoning\_cycle} This can be \texttt{true} or \texttt{false} (by default it is true).  It is used during model checking with \ajpf{} to determine whether a new model state should be generated for every state in the agent's reasoning cycle.  This means that model checking\index{model checking} is more thorough, but at the expense of generating a lot more states.
+\begin{sloppypar}
+\item[ajpf.record]\index{ajpf.record} This can be \texttt{true} or \texttt{false} (by default  it is false).  If it is set to true then the program will record its sequence of choices (all choices made by the scheduler \emph{and} any choices made by the special \texttt{ajpf.util.choice.Choice}\index{Choice (class)} class).  By default (unless \texttt{ajpf.replay.file} is set) these choices are stored in a file called \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution\index{record model checking}.
+\end{sloppypar}
+\item[ajpf.replay]\index{ajpf.replay}\index{replay model branch} This can be set to \texttt{true} or \texttt{false} (by default it is false).  If it is set to true then the system will execute the program using a set of scheduler and other choices from a file.  By default (unless \texttt{ajpf.replay.file} is set) this  file is  \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution.
+\item[ajpf.replay.file]\index{ajpf.replay.file} This allows you to set the file used by either \texttt{ajpf.record} or \texttt{ajpf.replay}.
+\item[ail.store\_sent\_messages]\index{ail.store\_sent\_mssages}  This can be \texttt{true} of \texttt{false} (by default it is true).  If it is false then \ail{}'s built-in rules for message sending will not store a copy of the message that was sent.  This can be useful to reduce the number of states when model checking, but obviously only if it isn't important for the agent to know about sent messages.
+\end{description}
+
+\section{Exercises}\index{AIL!configuration!exercises}
+\begin{sloppypar}
+In the tutorial directory you will find three further \gwendolen\ files (\texttt{simple\_mas.gwen}\index{example!simple\_mas}, \texttt{lifter.gwen} and \texttt{medic.gwen}) and an environment (\texttt{SearchAndRescueMASEnv.java}).
+\end{sloppypar}
+\begin{description}
+\item[simple\_mas.gwen]\index{example!simple\_mas} Is a simple multi-agent system\index{multi-agent system} consisting of a lifter agent and a medic agent.  The lifter explores a location (5, 5).  If it finds a human it will summon the medic to assist the human.  If it finds some rubble it will pick up the rubble.
+\item[lifter.gwen]Is a single lifting agent much like the one in \texttt{simple\_mas.gwen}.  It explores first location (5, 5) and then (3, 4) and will ask one of two medics, \texttt{medic} or \texttt{nurse} for help assisting any humans it finds.
+\item[medic.gwen]Is a medic agent that assists humans if it gets sent a message requesting help.
+\item[SearchAndRescueMASEnv.java]\index{example!simple\_mas} is an environment containing two injured humans, one at (5, 5) and one at (3, 4).
+\end{description}
+
+\subsection{Exercise 1}
+\begin{sloppypar}
+Write a configuration file to run \texttt{simple\_mas.gwen} with \texttt{gwendolen.ail\_tutorials.tutorial1.SearchAndRescueMASEnv} as the environment.  Set the log level for \texttt{ail.mas.DefaultEnvironment} to \texttt{info}.
+\end{sloppypar}
+
+You should see output like
+\begin{verbatim}
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: lifter done move_to(5,5)
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: lifter done send(1:human(5,5), medic)
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: medic done move_to(5,5)
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: lifter done lift_rubble
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: medic done assist
+Jan 29, 2015 5:17:42 PM ajpf.util.AJPFLogger info
+INFO: Sleeping agent lifter
+\end{verbatim}
+Although the order of the actions may vary depending on which order the agents act in.
+
+You can find sample answers for all the exercises in this tutorial in the \texttt{answers} directory.
+
+\subsection{Exercise 2}
+Write a configuration file to run \texttt{lifter.gwen} and two copies of \texttt{medic.gwen}  with \texttt{gwendolen.ail\_tutorials.tutorial1.SearchAndRescueMASEnv} as the environment.  One of the medic agents should be called \texttt{medic} and one should be called \texttt{nurse}.
+

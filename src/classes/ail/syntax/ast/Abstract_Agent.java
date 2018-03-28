@@ -24,10 +24,12 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
-
+import ail.syntax.Predicate;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -85,6 +87,11 @@ public class Abstract_Agent {
 	 * An initial goal.
 	 */
 	public Abstract_Goal[] goals = new Abstract_Goal[0];
+	
+	/**
+	 * The Capablilites
+	 */
+	public Abstract_Capability[] capabilities = new Abstract_Capability[0];
 	  	   
     /**
      * Constructor.
@@ -197,6 +204,20 @@ public class Abstract_Agent {
        	newplans[plans.length] = p;
     	plans = newplans;
    }
+    
+    /**
+     * Adds a capability to the library.
+     * @param c
+     */
+    public void addCapability(Abstract_Capability c) {
+    	int newsize = capabilities.length + 1;
+    	Abstract_Capability[] newcaps = new Abstract_Capability[newsize];
+    	for (int i = 0; i < capabilities.length; i++) {
+    		newcaps[i] = capabilities[i];
+    	}
+    	newcaps[capabilities.length] = c;
+    	capabilities = newcaps;
+    }
  	
  	/*
  	 * (non-Javadoc)
@@ -217,12 +238,29 @@ public class Abstract_Agent {
  	 */
     public AILAgent toMCAPL(MAS mas) {
     	AILAgent ag = new AILAgent(mas, fAgName);
+    	addStructures(ag);
+     	
+    	try {
+    		ag.initAg();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return ag;
+    }
+    
+    /**
+     * Helper method for converting the abstract agent to a concrete one.  This is useful for builders that do not
+     * reference a MAS.
+     * @param ag
+     */
+    public void addStructures(AILAgent ag) {
     	for (Abstract_Literal l: beliefs) {
     		ag.addInitialBel(l.toMCAPL());
     	}
     	for (Abstract_Rule r: rules) {
     		ag.addRule(r.toMCAPL());
     	}
+
     	for (Abstract_Plan p: plans) {
     		try {
     			ag.addPlan(p.toMCAPL());
@@ -233,12 +271,17 @@ public class Abstract_Agent {
     	for (Abstract_Goal g: goals) {
     		ag.addGoal(g.toMCAPL());
     	}
+    	
+    	for (Abstract_Capability c: capabilities) {
+    		ag.addCapability(c.toMCAPL());
+    	}
+    	
     	try {
     		ag.initAg();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-    	return ag;
+   	
     }
     
     /**
@@ -253,6 +296,7 @@ public class Abstract_Agent {
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
+       	int cRef = env.newObjectArray("ail.syntax.ast.Abstract_Capability", capabilities.length);
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
@@ -265,12 +309,15 @@ public class Abstract_Agent {
       	for (int i = 0; i < plans.length; i++) {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
+     	for (int i = 0; i < capabilities.length; i++) {
+       		env.setReferenceArrayElement(cRef, i, capabilities[i].newJPFObject(env));
+       	}
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
+      	env.setReferenceField(objref, "capabilitiess", cRef);
       	return objref;
    	
     }
-		
 }

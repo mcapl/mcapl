@@ -42,6 +42,10 @@ import java.util.Comparator;
 public class VerifySet<K extends Comparable<? super K>> implements SortedSet<K> {
 	ArrayList<K> sortedlist = new ArrayList<K>();
 	
+	public VerifySet() {
+		sortedlist.trimToSize();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.Set#size()

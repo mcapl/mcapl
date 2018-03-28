@@ -82,13 +82,27 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * By default there is only one goal base.
 	 * 
 	 */
-	private Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
+	protected Abstract_StringTerm goalbase = new Abstract_StringTermImpl(AILAgent.AILdefaultGBname);
 	
 	/**
 	 * This goal is a variable.
 	 */
 	private boolean isVariable = false;
 	
+	/**
+	 * Construct from a literal and a goal type.
+	 * @param l
+	 * @param i
+	 */
+	public Abstract_Goal(Abstract_Predicate l, int i) {
+		if (l instanceof Abstract_VarTerm) {
+			isVariable = true;
+		}
+		setFunctor(l.getFunctor());
+		setTerms(l.getTerms());
+		goaltype = i;
+	}
+		
 	/**
 	 * Construct from a literal and a goal type.
 	 * @param l
@@ -102,7 +116,6 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 		setTerms(l.getTerms());
 		goaltype = i;
 	}
-	
 	/**
 	 * Constructor.
 	 * @param g
@@ -151,6 +164,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	/**
 	 * Represent as a string.
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s1 = new StringBuilder("_");
 		s1.append(typeString());
@@ -182,6 +196,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * (non-Javadoc)
 	 * @see ail.syntax.ast.Abstract_Pred#toMCAPL()
 	 */
+	@Override
 	public Goal toMCAPL() {
 		Goal g;
 		if (isVariable()) {
@@ -197,6 +212,7 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	 * (non-Javadoc)
 	 * @see ail.syntax.ast.Abstract_Pred#newJPFObject(gov.nasa.jpf.jvm.MJIEnv)
 	 */
+	@Override
 	public int newJPFObject(MJIEnv env) {
 		int objref = env.newObject("ail.syntax.ast.Abstract_Goal");
 		String functor = getFunctor();
@@ -223,7 +239,14 @@ public class Abstract_Goal extends Abstract_Pred implements Abstract_GuardAtom {
 	/**
 	 * Goals should not be trivial.  I.e. the agent should not attempt to achieve true.
 	 */
+	@Override
 	public boolean isTrivial() {
 		return false;
 	}
+	
+	/**
+	 * Required by the interface, but this should not do anything here since the Category must be GOAL.
+	 */
+	public void setCategory(byte b) {};
+	
 }

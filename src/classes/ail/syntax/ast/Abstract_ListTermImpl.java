@@ -24,6 +24,8 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.VM;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.Verify;
@@ -85,6 +87,17 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 			return getNext().append(t);
 		}
 	}
+	
+	/**
+	 * Add a list of terms to the head of this list.
+	 * @param tl
+	 */
+	@Override
+	public void addAll(ArrayList<Abstract_Term> tl) {
+		for (int i = tl.size() -1 ; i > -1; i--) {
+			addHead(tl.get(i));
+		}
+	}
 
 	/**
 	 * Is this the empty list.
@@ -138,7 +151,15 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	 * @see ail.syntax.ast.Abstract_ListTerm#addHead(ail.syntax.ast.Abstract_Term)
 	 */
 	public void addHead(Abstract_Term h) {
-		term = h;
+		if (isEmpty()) {
+			term = h;
+			next = new Abstract_ListTermImpl();
+		} else if (isTail()) {
+			// What to do?
+		} else {
+			next = this.clone();
+			term = h;
+		}
 	}
 	
 	/*
@@ -146,7 +167,12 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 	 * @see ail.syntax.ast.Abstract_ListTerm#addTail(ail.syntax.ast.Abstract_ListTerm)
 	 */
 	public void addTail(Abstract_ListTerm t) {
-		next = t;
+		Abstract_ListTermImpl tl = (Abstract_ListTermImpl) getNext();
+		if (tl.isEmpty()) {
+			next = t;
+		} else {
+			tl.addTail(t);
+		}
 	}
 
 	@Override
@@ -177,6 +203,59 @@ public class Abstract_ListTermImpl implements Abstract_ListTerm {
 			env.setReferenceField(objref, "next", next.newJPFObject(env));
 		}
 		return objref;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u) {
+		Abstract_ListTermImpl l = (Abstract_ListTermImpl) t;
+		next.unifies(l.getNext(), u);
+		term.unifies(l.term, u);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Term#apply(ail.syntax.ast.Abstract_Unifier)
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u) {
+		Abstract_ListTermImpl l = new Abstract_ListTermImpl();
+		
+		if (! isEmpty()) {
+			l.addHead(term.applyu(u));
+			l.addTail((Abstract_ListTerm) next.applyu(u));
+		}
+		
+		return l;
+	}
+	
+	public Abstract_ListTerm getTail() {
+		return next;
+	}
+	
+	public Abstract_Term getHead() {
+		return term;
+	}
+	
+	public String toString() {
+		if (isEmpty()) {
+			return "[]";
+		} else if (getTail().isEmpty()) {
+			return "[" + term.toString() + "]";
+		} else if (getTail() instanceof Abstract_VarTerm) {
+			return "[" + term.toString() + "|" + getTail().toString() + "]";
+		} else {
+			String tailstring = getTail().toString();
+			String tailstringchomp = tailstring.substring(1, tailstring.length() - 1);
+			return "[" + term.toString() + "," + tailstringchomp + "]";
+		}
+	}
+
+	@Override
+	public void addParams(ArrayList<Abstract_Term> tl) {
+		System.err.println("WARNING: Do not add params to a listterm");
+		
 	}
 
 }

@@ -1,0 +1,232 @@
+\label{tutorial:ajpf:psl}
+
+This is the first in a series of tutorials on the use of the \ajpf\ model checking program\index{AJPF}.  This tutorial covers the basics of configuring\index{configuration!model checking}\index{configuration!JPF}\index{JPF!configuration} a model-checking run and writing properties in \ajpf's property specification language\index{property specification language}.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial1}.
+\end{quote}
+
+The tutorials assume some familiarity with the basics of running Java programs either at the command line or in Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic.
+
+\section{Setting up Agent Java Pathfinder}
+Before you can run \ajpf\ it is necessary to set up your computer to use Java Pathfinder (JPF)\index{JPF}.  There are instructions for doing this \inmanual{chap:installation}.
+
+The key point is that you need to create a file called \texttt{.jpf/site.properties}\index{site.properties} in your home directory on the computer you are using.  In this file you need to put one line which assigns the path to the \mcapl\ distribution to the key \texttt{mcapl}.  For instance if you have your \mcapl\ distribution in your home directory as  folder called \texttt{mcapl} then \texttt{site.properties} should contain the line.
+
+\begin{verbatim}
+mcapl = ${user.home}/mcapl
+\end{verbatim}
+
+\begin{sloppypar}
+We strongly recommend that you also set up an environment variable, \texttt{\$AJPF\_HOME}\index{AJPF\_HOME}, set it to the path to the \mcapl\ directory and add this to your \texttt{.bashrc} or equivalent start-up files.
+\end{sloppypar}
+
+\section{A Simple Model Checking Attempt}
+
+To run \ajpf\ you need to run the program \texttt{gov.jpf.tool.RunJPF}\index{RunJPF (class)}\index{model checking} which is contained in \texttt{lib/3rdparty/RunJPF.jar} in the \mcapl\ distribution.  Alternatively you can use the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse\index{Eclipse}.
+
+You need to supply a JPF Configuration\index{configuration!JPF}\index{JPF!configuration} file as an argument.  You will find a sample file in \texttt{src/examples/gwendolen/ajpf\_tutorials/lifterandmedic.jpf}\index{example!lifterandmedic}.  If you run this you should see output like the following:
+
+\begin{verbatim}
+JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
+
+
+====================================================== system under test
+ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl","1")
+
+====================================================== search started: 02/02/15 08:16
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:00:12
+states:             new=96, visited=116, backtracked=212, end=3
+search:             maxDepth=16, constraints hit=0
+choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=95
+heap:               new=761483, released=752805, max live=4582, gc-cycles=212
+instructions:       122799365
+max memory:         495MB
+loaded code:        classes=316, methods=4705
+
+====================================================== search finished: 02/02/15 08:16
+\end{verbatim}
+
+Note this will take several seconds to generate.  We will discuss in future tutorials how to get more detailed output from the model checker.
+
+At the moment the key point is the fact that it states \texttt{no errors detected}.  This means that the property supplied to the model checker was true for this program.
+
+\section{JPF Configuration Files}\index{configuration!JPF}\index{JPF!configuration}
+
+\texttt{lifterandmedic.jpf}\index{example!lifterandmedic} is a JPF\index{JPF} Configuration file.  There are a large number of configuration options for JPF which you can find in the JPF documentation~\footnote{Currently to be found at \url{http://babelfish.arc.nasa.gov/trac/jpf}}.  We will only discuss a handful of these options.  If you open \texttt{lifterandmedic.jpf} you should see the following:
+
+\noindent\rule{\textwidth}{1pt}
+\begin{small}
+\begin{verbatim}
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl,1
+
+\end{verbatim}
+\end{small}
+\rule{\textwidth}{1pt}
+
+We explain each line of this below.
+
+\begin{sloppypar}
+\begin{description}
+\item[@using = mcapl] Means that the proof is using the home directory for \texttt{mcapl} that you set up in \texttt{.jpf/site.properties}\index{site.properties}.
+\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  If you are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL (class)}\index{AIL!class}
+\item[target.args =...] This sets up the arguments to be passed to \texttt{ail.util.AJPF\_w\_AIL}.  \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)} takes three arguments.  In the configuration file these all have to appear on one line, separated by commas (but \emph{no spaces}).  This means you can not see them all in the file print out above.  In order the arguments are:
+\begin{enumerate}
+\item The first is an \ail\ configuration  file.  In this example the file is \texttt{\$\{mcapl\}/src/examples/gwendolen/ail\_tutorials/tutorial1/answers/ex2.ail} which is a configuration file for a multi-agent system written in the \gwendolen\ language.
+\item The second argument is a file containing a list of properties in \ajpf's property specification language\index{property specification language} that can be checked.  In this example this file is \texttt{lifterandmedic.psl}\index{example!lifterandmedic} in the directory for this tutorial.
+\item The last argument is the name of the property to be checked, \texttt{1} in this case.
+\end{enumerate}
+\end{description}
+\end{sloppypar}
+
+\section{The Property Specification Language}\index{property specification language}
+
+\paragraph{Syntax}
+The syntax\index{property specification language!syntax} for property formul\ae\ $\phi$ is as follows, where
+$\AILagent$ is an ``agent constant'' referring to a specific agent in
+the system, and $f$ is a ground first-order atomic formula (although it may use $\_$, as in \prolog, to indicate variables which may match any value):
+%
+\begin{equation*}
+\begin{array}{rl}
+\phi ::= & \lbelief{\AILagent}{f} \mid \lgoal{\AILagent}{f} \mid
+  \lactions{\AILagent}{f} \mid \lintention{\AILagent}{f} \mid
+  \lintendtodo{\AILagent}{f} \mid
+  \lpercept{f} \mid \\ &
+%% \\
+%%    &
+%% \mid \phi \land \phi
+  \phi \vee \phi \mid \phi \wedge \phi \mid \neg \phi
+   \mid \phi \: \luntil \phi \mid \phi \release \phi \mid \sometime \phi \mid \always \phi
+\end{array}
+\end{equation*}
+%
+Here, $\lbelief{\AILagent}{f}$\index{$\lbeliefop$}\index{property!about belief} is true if $\AILagent$ believes
+$f$ to be true, $\lgoal{\AILagent}{f}$\index{$\lgoalop$}\index{property!about goals} is true if $\AILagent$ has a
+goal to make $f$ true, and so on (with $\lactionsfunc$\index{$\lactionsfunc$}\index{property!about actions} representing
+actions, $\lintentionfunc$\index{$\lintentionfunc$}\index{property!about intentions} representing intentions, $\lintendtodofunc$\index{$\lintendtodofunc$}\index{property!about intending to do} representing the intention to take an action, and $\lperceptfunc$\index{$\lperceptfunc$}\index{property!about percepts}
+representing percepts, i.e., properties that are true in the environment).
+
+The following representation of this syntax is used in \ajpf's property specification files\index{property specification language}:
+
+\begin{equation*}
+\begin{array}{rl}
+\phi ::= & \texttt{B(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{G(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{D(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{I(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{ItD(}\AILagent\texttt{, }f\texttt{)} \mid 
+\texttt{P(}f\texttt{)} \mid \sim \phi \\
+\phi' ::= & \phi \mid 
+  \phi' \: \texttt{|\!|} \: \phi' \mid 
+  \phi' \: \texttt{\&} \: \phi' \mid 
+   \phi' \: \texttt{U} \: \phi' \mid \phi' \: \texttt{R} \: \phi' \mid \texttt{<>} \phi' \mid \texttt{[]} \phi'
+\end{array}
+\end{equation*}
+
+Note, in particular, that in property specification\index{property specification language} files ``not'' ($\sim$) must always appear in an innermost position next to one of the BDI agent properties such as $\texttt{B(}\AILagent\texttt{, }f\texttt{)}$.\index{property!negated}  
+
+It is also possible to use $\phi \texttt{->} \psi$ as shorthand for $\neg \phi \vee \psi$ in property\index{property specification language} specification files.\index{property!implication}
+
+\medskip
+
+\paragraph{Semantics}\index{property specification language!semantics}\index{property specification language}
+%\noindent
+We summarise semantics of property formul\ae{}.
+Consider a program, $P$, describing a multi-agent system and let
+$\MAS$ be the state of the multi-agent system at one point in the run
+of $P$.  $\MAS$ is a tuple consisting of the local states of the individual agents and of the environment. Let $\AILagent \in \MAS$ be the state of an agent in the $\MAS$ tuple at this point in the 
+program execution. Then 
+$$
+\MAS \models_{MC} \lbelief{\AILagent}{f} \text{\quad iff\quad }
+\AILagent \models  \lbelief{\AILagent}{f}
+$$
+where $\models$ is logical consequence as implemented by the agent
+programming language\index{$\lbeliefop$}\index{property!about belief}. The semantics of $\lgoal{\AILagent}{f}$\index{$\lgoalop$}\index{property!about goals}, $\lintention{\AILagent}{f}$\index{$\lintentionfunc$}\index{property!about intention} and $\lintendtodo{\AILagent}{f}$\index{$\lintendtodofunc$}\index{property!about intending to do} similarly refer to internal implementations of the language interpreter~\footnote{We briefly cover the \gwendolen\ implementation in section~\ref{s:impl_bdi}.}.  
+The interpretation of $\lactions{\AILagent}{f}$\index{$\lactionsfunc$}\index{property!about actions} is:
+$$\MAS \models_{MC}
+\lactions{\AILagent}{f}$$ if, and only if, the last action changing
+the environment was action $f$ taken by agent $\AILagent$.  Finally, the interpretation of
+$\lpercept{f}$ is given as:
+$$\MAS
+\models_{MC} \lpercept{f}$$\index{$\lperceptfunc$}\index{property!about perception} if, and only if, $f$ is a percept that
+holds true in the environment.
+\medskip
+
+\noindent The other operators in the \ajpf{} property specification\index{property specification language}
+language have standard PLTL semantics~\cite{emerson:90a}\index{Linear Temporal Logic}\index{PLTL} and are
+implemented as B\"{u}chi Automata\index{B\"{u}chi Automaton} as described
+in~\cite{Gerth:1995:SOA:645837.670574,Courcoubetis92mea}. Thus, the
+classical logic operators are defined by:
+$$
+\begin{array}{rcl}
+%%  \MAS \models_{MC} \varphi \land \psi &\quad\text{iff}\quad& \MAS
+%%  \models_{MC} \varphi \text{ and } \MAS \models_{MC} \psi\\
+  \MAS \models_{MC} \varphi \vee \psi &\text{iff}& \MAS \models_{MC}
+  \varphi \text{ or } \MAS \models_{MC} \psi \\
+  \MAS \models_{MC} \neg \phi &\text{iff}& \MAS \not\models_{MC} \phi.
+\end{array}
+$$
+The temporal formul\ae\ apply to runs of the programs in the \jpf{}
+model checker. A run consists of a (possibly infinite) sequence of
+program states $\MAS_i$, $i \geq 0$ where $\MAS_0$ is the initial
+state of the program (note, however, that for model checking the
+number of \emph{different} states in any run is assumed to be
+finite). Let $P$ be a multi-agent program, then:
+$$
+\begin{array}{lcl}
+  \MAS \models_{MC}\quad \varphi \: \luntil \psi 
+   &\quad\text{iff}\quad&
+    \text{ in all runs of $P$ there exists a state } \MAS_j\\
+  &&  \text{ such that } \MAS_i \models_{MC}\ \varphi \text{ for all } 0 \leq i < j \\
+  && \text{ and } \MAS_j \models_{MC} \psi{}.\\[.5em]
+%
+  \MAS \models_{MC}\quad\varphi \release \psi  
+   &\quad\text{iff}\quad&
+    \text{ either } \MAS_i \models_{MC} \varphi \text{ for all } i \text{ or there }\\
+  && \text{ exists } \MAS_j \text{ such  that } \MAS_i \models_{MC} \varphi\\
+  && \text{ for all } 0 \leq i \leq j \text{ and } \MAS_j \models_{MC} \varphi \land \psi{}.
+\end{array}
+$$
+%
+Conjunction $\land$\index{property!and} and the common temporal operators $\sometime$ (eventually\index{property!eventually}) and $\always$
+(always\index{property!always}) are, in turn, derivable from $\vee$\index{property!or}, $\luntil$\index{property!until} and $\release$\index{property!release} in the usual way~\cite{emerson:90a}.
+
+\section{Exercises}\index{property specification language!exercises}\index{property specification language}
+If you look in \texttt{lifterandmedic.psl}\index{example!lifterandmedic} you should see the following:
+\begin{verbatim}
+1: [] (~B(medic, bad))
+\end{verbatim}
+So this file contains one formula, labelled, \texttt{1} and the formula is equivalent to $\always \neg \lbelief{\texttt{medic}}{bad}$\index{property!about belief}\index{$\lbeliefop$} -- which means it is always the case the medic agent doesn't believe the formula \texttt{bad} (or alternatively that the medic agent never believes \emph{bad}.
+
+As noted previously the multi-agent system in \texttt{ex2.ail} is a \gwendolen\ program and is, in fact, the one described \intutorial{\gwendolen}{8}{tutorial:gwendolen:communication}.  It isn't necessary, for this tutorial, to understand the implementation of the BDI modalities (belief, goal, intention etc.) in the \gwendolen\ interpreter but a brief discussion is included in section~\ref{s:impl_bdi}.
+
+Adapt the JPF configuration file and extend the property specification file in the tutorial directory in order to verify the following properties of the multi-agent system.  You can find sample answers in the \texttt{answers} directory.
+
+\begin{enumerate}
+\item Eventually the lifter believes $human(5, 5)$\index{property!about belief}\index{$\lbeliefop$}.
+$$\sometime \lbelief{\texttt{medic}}{human(5, 5)}$$
+\item Eventually the medic has the goal $assist\_human(5, 5)$\index{property!about goals}\index{$\lgoalop$}.
+$$\sometime \lgoal{\texttt{medic}}{human(5, 5)}$$
+\item Eventually the lift believes $human(3, 4)$ and eventually the lifter believes $holding(rubble)$.
+$$\sometime \lbelief{\texttt{lifter}}{human(3, 4)} \wedge \sometime \lbelief{\texttt{lifter}}{holding(rubble)}$$
+\item If the lifter has the intention to $goto55then34$ then eventually the medic will have the goal $assist\_human(5, 5)$\index{property!about intention}\index{$\lintentionfunc$}. 
+$$\lintention{\texttt{lifter}}{goto55then34} \Rightarrow \lgoal{\texttt{medic}}{assist\_human(5, 5)}$$
+\item It is always the case that if the lifter does $move\_to(5, 5)$ then $human(5, 5)$ becomes perceptible\index{property!about actions}\index{$\lactionsfunc$}\index{property!about perception}\index{$\lperceptfunc$}.  
+$$\always (\lactions{\texttt{lifter}}{move\_to(5, 5)} \Rightarrow \lpercept{human(5, 5)}$$
+\item Eventually the lifter intends to move to (5, 5)\index{property!about intending to do}\index{$\lintendtodofunc$}.
+$$\sometime \lintendtodo{\texttt{lifter}}{move\_to(5, 5)}$$
+\item Eventually the lifter intends to send the medic a perform request to assist the human in some square.
+$$\sometime \lintendtodo{\texttt{lifter}}{send(\texttt{medic}, 2, assist\_human(\_, \_))}$$
+For this you should consult the section on intending to send messages\index{property!sending messages} in section~\ref{s:impl_bdi}.
+\end{enumerate}
+
+

@@ -1,0 +1,11 @@
+java -cp ./lib/3rdparty/jpf-classes.jar:./lib/3rdparty/jpf-annotations.jar:./lib/3rdparty/RunJPF.jar:./lib/3rdparty/jpf.jar:./bin/ gov.nasa.jpf.tool.RunJPF /Users/angeloferrando/git/mcapl/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf
+
+
+
+———————————————————————————————————————————————————————————————
+pwd: /Users/angeloferrando/git/mcapl/src/examples/eass/tutorials/tutorial1
+
+java -cp /Users/angeloferrando/g/mcapl/bin:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf-classes.jar:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf-annotations.jar:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf.jar ail.mas.AIL car.ail
+
+
+java -cp /Users/angeloferrando/git/mcapl/bin:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf-classes.jar:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf-annotations.jar:/Users/angeloferrando/git/mcapl/lib/3rdparty/jpf.jar ail.mas.AIL answers/car_ex1.ail

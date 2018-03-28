@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -28,14 +28,17 @@
 package ail.syntax;
 
 import ail.util.AILexception;
+import ajpf.util.VerifySet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
+
 /**
  * Broadcast Message class. For Messages to go to multiple recipients  Environments may
- * need to serialize these messages for transmission.
+ * need to serialize these messages for transmission.  Largely untested.
  * 
  * @author louiseadennis
  *
@@ -52,7 +55,7 @@ public class BroadcastMessage extends Message {
     /**
      * The receiver of the message: A string assumed to be unique.
      */
-    ArrayList<String> receivers = new ArrayList<String>();
+    Set<String> receivers = new VerifySet<String>();
     
       
     /**
@@ -70,7 +73,7 @@ public class BroadcastMessage extends Message {
      * @param r the receiver of the message.
      * @param c the content of the message.
      */
-    public BroadcastMessage(int ilf, String s, ArrayList<String> r, Term c) {
+    public BroadcastMessage(int ilf, String s, Set<String> r, Term c) {
        	this(ilf, s, r, c, new StringTermImpl("mid"), new StringTermImpl("thid"));
     }
     
@@ -83,7 +86,7 @@ public class BroadcastMessage extends Message {
      * @param c the content of the message.
      * @param thid the thread of the message.
      */
-    public BroadcastMessage(int ilf, String s, ArrayList<String> r, Term c, StringTerm thid) {
+    public BroadcastMessage(int ilf, String s, Set<String> r, Term c, StringTerm thid) {
     	this(ilf, s, r, c, new StringTermImpl("mid"), thid);
     }
  
@@ -97,7 +100,7 @@ public class BroadcastMessage extends Message {
      * @param id
      * @param thid
      */
-    protected BroadcastMessage(int ilf, String s, ArrayList<String> rs, Term c, String id, String thid) {
+    protected BroadcastMessage(int ilf, String s, Set<String> rs, Term c, String id, String thid) {
     	ilForce = ilf;
     	sender = s;
     	receivers = rs;
@@ -116,7 +119,7 @@ public class BroadcastMessage extends Message {
      * @param id
      * @param thid
      */
-    protected BroadcastMessage(int ilf, String s, ArrayList<String> rs, Term c, StringTerm id, StringTerm thid) {
+    protected BroadcastMessage(int ilf, String s, Set<String> rs, Term c, StringTerm id, StringTerm thid) {
     	ilForce = ilf;
     	sender = s;
     	receivers = rs;
@@ -154,7 +157,7 @@ public class BroadcastMessage extends Message {
 	 * Getter method for the receivers of the message.
 	 * @return
 	 */
-	public ArrayList<String> getReceivers() {
+	public Set<String> getReceivers() {
 		return receivers;
 	}
 	
@@ -162,7 +165,7 @@ public class BroadcastMessage extends Message {
 	 * Setter method for the receivers of a message.
 	 * @param agName
 	 */
-	public void setReceivers(ArrayList<String> agNames) {
+	public void setReceivers(Set<String> agNames) {
 		receivers = agNames;
 	}
 	
@@ -171,6 +174,7 @@ public class BroadcastMessage extends Message {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder("<");
 		s.append(msgId).append(",").append(threadId).append(",").append(sender);
@@ -180,11 +184,11 @@ public class BroadcastMessage extends Message {
 		return s1;  
     }
 		
-	/**
-	 * Produce a term to represent the message.
-	 * 
-	 * @return a term representing the message.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.Message#toTerm()
 	 */
+	@Override
 	public Predicate toTerm() {
 		Predicate t = new Predicate("message");
 		t.addTerm(msgId);
@@ -206,18 +210,11 @@ public class BroadcastMessage extends Message {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public BroadcastMessage clone() {
 		return(new BroadcastMessage(ilForce, sender, receivers, (Term) propCont.clone(), (StringTerm) msgId, (StringTerm) threadId.clone()));
 	}
 	
-	/**
-	 * Retrns an ordering on BroadcastMessages.
-	 * @param m
-	 * @return
-	 */
-	public int compareTo(BroadcastMessage m) {
-		return toTerm().compareTo(m.toTerm());
-	}  
 	
 	
 }

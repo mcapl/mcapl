@@ -1,0 +1,207 @@
+
+This is the sixth in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers finer control of intentions by suspending and locking them.  It also looks at how goals can be dropped.\index{Gwendolen}\index{intention}\index{intention!suspension}\index{intention!locking}
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/tutorials/tutorial6}.
+\end{quote}
+
+\section{Wait For: Suspending Intentions}\index{Gwendolen}\index{waitfor}\index{intention}\index{intention!suspension}
+
+Recall the sample answer to the second exercise \intutorial{\gwendolen}{3}{tutorial:gwendolen:guards} in which we had to introduce a ``do nothing'' action in order to delay the replanning of an achievement goal.  In the code in Example~\ref{code:pickuprubble_waitfor} we use, instead some new syntax \lstinline{*checked(X, Y)} which means \emph{wait until $checked(X, Y)$ is true before continuing.}\index{example!pickuprubble}\index{waitfor}
+
+\begin{figure}[!htb]
+\begin{ourexample}
+\label{code:pickuprubble_waitfor} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+square(1, 1) square(1, 2) square(1, 3) square(1, 4) square(1, 5)
+square(2, 1) square(2, 2) square(2, 3) square(2, 4) square(2, 5)
+square(3, 1) square(3, 2) square(3, 3) square(3, 4) square(3, 5)
+square(4, 1) square(4, 2) square(4, 3) square(4, 4) square(4, 5)
+square(5, 1) square(5, 2) square(5, 3) square(5, 4) square(5, 5)
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- square(X, Y), ~checked(X, Y);
+no_rubble_in(X, Y) :- checked(X, Y), no_rubble(X, Y);
+all_squares_checked :-
+      ~square_to_check(X, Y), ~holding(rubble), at(2, 2);
+
+:Initial Goals:
+
+all_squares_checked [achieve]
+
+:Plans:
+
++!all_squares_checked [achieve] : 
+     {B square_to_check(X, Y), ~B holding(rubble)} <- 
+          move_to(X, Y), *checked(X, Y);
++!all_squares_checked [achieve] : {B holding(rubble)} <- 
+     move_to(2, 2), drop;
+
++rubble(X, Y) : {~B at(2, 2)} <- lift_rubble, +checked(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +checked(X, Y);
++at(2, 2) : {True} <- +checked(2, 2);
+\end{lstlisting}
+\end{ourexample}
+\end{figure}
+We have adapted the program so that after moving to the square (X, Y) the agent waits until it believes it has checked that square.  Then we delay the addition of that belief until after the agent as lifted rubble.\index{Gwendolen}\index{waitfor}
+
+If you run this program with logging for \texttt{ail.semantics.AILAgent}\index{logging}\index{Gwendolen!logging}\index{AILAgent (class)} you will see that the intention is marked as \texttt{SUSPENDED} when the wait for deed is encountered.\index{intention}\index{waitfor}\index{intention!suspension}
+\begin{verbatim}
+SUSPENDED
+source(self):: 
+   *  +!_aall_squares_checked()||True||+*...checked(1,1)()||[X-1, Y-1]
+   *  start||True||+!_aall_squares_checked()()||[]
+\end{verbatim}
+Once an intention is suspended it can not become the current intention until it is unsuspended.  In the case of the wait for command this happens when the predicate that is waiting for is believed.  Below you can see how this happens when \texttt{checked(1, 1)} is added to the belief base.\index{intention}\index{Gwendolen}\index{intention!suspension}\index{intention!current}
+
+\begin{verbatim}
+ail.semantics.AILAgent[FINE|main|4:01:48]: robot
+=============
+After Stage StageC :
+[at/2-at(1,1), , 
+square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+   *  +at(X0,Y0)||True||+checked(X0,Y0)()||[X-1, X0-1, Y-1, Y0-1]
+
+[SUSPENDED
+source(self):: 
+   *  +!_aall_squares_checked()||True||+*...checked(1,1)()||[X-1, Y-1]
+   *  start||True||+!_aall_squares_checked()()||[]
+] 
+ail.semantics.AILAgent[FINE|main|4:01:48]: Applying Handle Add Belief with Event 
+ail.semantics.AILAgent[FINE|main|4:01:48]: robot
+=============
+After Stage StageD :
+[at/2-at(1,1), , 
+checked/2-checked(1,1), , 
+square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+
+[source(self):: 
+   *  +!_aall_squares_checked()||True||+*...checked(1,1)()||[X-1, Y-1]
+   *  start||True||+!_aall_squares_checked()()||[]
+, source(self):: 
+   *  +checked(1,1)||True||npy()||[]
+] 
+\end{verbatim}
+
+The wait for command is particularly useful in simulated or physical environments where actions may take some time to complete.  It allows the agent to continue operating (e.g., performing error monitoring) while waiting until it recognises that an action has finished before continuing with what it was doing.\index{Gwendolen}\index{waitfor}\index{action}\index{action!with duration}
+
+
+\section{Lock and Unlock: Preventing interleaving of Intentions}\index{intention}\index{intention!locking}\index{lock}\index{unlock}\index{Gwendolen}
+In the code in Example~\ref{code:pickuprubble_nolock} we have complicated our agent's situation a little.  This agent has to explore squares (0, 0) to (0, 5) as well as the squares it was exploring previously.  It also has to switch warning lights on and off before and after it lifts rubble.  Lastly if a warning sounds it must stop searching and move to square (0, 0) until it is able to continue searching again.\index{example!pickuprubble}
+
+We use some new syntax here.  
+\begin{itemize}
+\item At line 34 we have an empty plan.  This can be useful in situations where we don't want to raise a ``no plan'' warning but we don't want the agent to actually do anything.\index{plan}\index{plan!empty}
+\item At line 36 we have a plan triggered by \lstinline{-warning}.  This is a plan that is triggered when something is no longer believed (in this case that the warning sound can no longer be heard).\index{plan}\index{plan!trigger}
+\item At line 37 we include the deed, \lstinline{-search_mode} in a plan.  This is an instruction to remove a belief.\index{belief}\index{belief!remove}\index{Gwendolen}
+\end{itemize}
+
+\begin{figure}[!htbp]
+\begin{ourexample}
+\label{code:pickuprubble_nolock} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+square(0, 0) 
+square(0, 1) square(0, 2) square(0, 3) square(0, 4) square(0, 5)
+square(1, 1) square(1, 2) square(1, 3) square(1, 4) square(1, 5)
+square(2, 1) square(2, 2) square(2, 3) square(2, 4) square(2, 5)
+square(3, 1) square(3, 2) square(3, 3) square(3, 4) square(3, 5)
+square(4, 1) square(4, 2) square(4, 3) square(4, 4) square(4, 5)
+square(5, 1) square(5, 2) square(5, 3) square(5, 4) square(5, 5)
+
+search_mode
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- square(X, Y), ~checked(X, Y);
+no_rubble_in(X, Y) :- checked(X, Y), no_rubble(X, Y);
+all_squares_checked :- 
+     ~square_to_check(X, Y), ~holding(rubble), at(2, 2);
+
+:Initial Goals:
+
+all_squares_checked [achieve]
+
+:Plans:
+
++!all_squares_checked [achieve] : {~ B search_mode} <- 
+     *search_mode;
++!all_squares_checked [achieve] : 
+     {B search_mode, B square_to_check(X, Y), ~B holding(rubble)} <- 
+          move_to(X, Y), *checked(X, Y);
++!all_squares_checked [achieve] : {B holding(rubble)};
+
+-warning: {True} <- +search_mode;
++warning: {True} <- -search_mode, move_to(0, 0);
+
++rubble(X, Y) : {~B at(2, 2)} <- 
+     warning_lights_on, 
+     lift_rubble, 
+     warning_lights_off, 
+     move_to(2, 2), 
+     drop, 
+     +checked(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +checked(X, Y);
++at(2, 2) : {True} <- +checked(2, 2);
+\end{lstlisting}
+\end{ourexample}\index{Gwendolen}\index{example!pickuprubble}
+\end{figure}
+The agent in Example~\ref{code:pickuprubble_nolock} uses a belief, \lstinline{search_mode} to control whether it is actively searching squares or whether it is returning to to the ``safe'' square (0,0) in order to wait for the warning to switch off.  
+
+Run this program and see if you can spot a problem with its execution.
+
+Hopefully you observed an output something like:
+\begin{verbatim}
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done move_to(0,1) 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done move_to(0,2) 
+gwendolen.tutorials.SearchAndRescueEnv[INFO|main|10:31:44]: Warning is Sounding 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done warning_lights_on 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done move_to(0,0) 
+gwendolen.tutorials.SearchAndRescueEnv[INFO|main|10:31:44]: Warning Ceases 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done lift_rubble 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done warning_lights_off 
+ail.mas.DefaultEnvironment[INFO|main|10:31:44]: robot done move_to(2,2) 
+\end{verbatim}
+So \emph{before} the robot lifts the rubble at square (0, 2) it has moved to square (0, 0) because the warning has sounded.  This is happening because \gwendolen\ executes the top deed from each intention in turn.  So it executes \lstinline{warning_lights_on} from the intention triggered by finding rubble, then it moves to (0, 0) from the intention triggered by hearing the warning and then it lifts the rubble (next in the intention to do with seeing the rubble).\index{Gwendolen}\index{intention}\index{intention!execution order}
+
+This situation often arises where there are a sequence of deeds that need to be performed \emph{without interference} from other intentions such as moving to the wrong place.  To overcome this \gwendolen\ has a special deed, \lstinline{.lock} which ``locks'' an intention in place and forces \gwendolen\ to execute deeds from that intention \emph{only} until the intention is unlocked.  The syntax \lstinline{+.lock} locks an intention and the syntax \lstinline{-.lock} unlocks an intention.\index{Gwendolen}\index{intention}\index{intention!locking}\index{lock}\index{unlock}
+
+\paragraph{Exercise} Add a lock and an unlock to \verb+pickuprubble_lock+ in order to force it to pick up the rubble before obeying the warning.\index{Gwendolen!exercises}
+
+\begin{sloppypar}
+NB. As usual you can find a sample solution in \texttt{/src/examples/gwendolen/tutorials/tutorial6/answers}
+\end{sloppypar}
+
+\section{Dropping Goals}\index{Gwendolen}\index{goal}\index{goal!drop}
+
+As a final note as well as dropping beliefs as a deed in plans (as we are doing with \lstinline{warning} and \lstinline{search_mode} in the programs here, it is possible to drop goals with the syntax \lstinline{-!goalname [goaltype]} - e.g., \lstinline{-!all_squares_checked [achieve]}.\index{goal}\index{goal!drop}\index{plan}
+
+Goal drops can appear in the deeds of plans but can not\footnote{at least not at present.} be  used to trigger plans.\index{goal}\index{goal!drop}\index{Gwendolen}
+
+\paragraph{Exercise} Write a program for picking up and moving rubble which, on hearing the warning sound, drops all its goals and leaves the area (use the action \texttt{leave}).\index{Gwendolen!exercises}
+
+\begin{sloppypar}
+NB. As usual you can find a sample solution in \texttt{/src/examples/gwendolen/tutorials/tutorial6/answers}
+\end{sloppypar}
+

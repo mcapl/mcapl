@@ -263,6 +263,7 @@ public class IntentionRow {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof IntentionRow) {
 			IntentionRow ir = (IntentionRow) o;
@@ -303,6 +304,7 @@ public class IntentionRow {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		final int PRIME = 7;
 		int result = PRIME * getEvent().hashCode();
@@ -341,6 +343,21 @@ public class IntentionRow {
      		varnames.addAll(g.getVarNames());
      	}
     	return varnames;
+	}
+	
+	/**
+	 * Remove unused variable names from the unifier/
+	 * @param varnames
+	 */
+	public void trimUnifiers(ArrayList<String> varnames) {
+		varnames.addAll(trigger.getVarNames());
+		for (int i = body.size(); i > 0; i--) {
+			varnames.addAll(body.get(i - 1).getVarNames());
+			varnames.addAll(guardstack.get(i - 1).getVarNames());
+			Unifier u = unif.get(i - 1);
+			u.pruneRedundantNames(varnames);
+		}
+
 	}
 
 }

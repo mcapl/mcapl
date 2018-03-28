@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -30,31 +30,24 @@ import java.util.Iterator;
 import java.util.HashMap;
 import java.util.List;
 
+import ail.semantics.AILAgent;
+
 /**
  * A class for libraries of capabilities.
  * @author lad
  *
  */
-public class CapabilityLibrary implements EvaluationBase<Capability> {
+public class CapabilityLibrary implements Iterable<Capability> {
 	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
-	ArrayList<Capability> allcaps = new ArrayList<Capability>();
-	/*
-	 * (non-Javadoc)
-	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
-	 */
-	public Iterator<Capability> getRelevant(EBCompare<Capability> ga) {
-		Capability c = ((GCapability) ga).getCap();
-		Predicate cPred = c.getCap();
-		return getRelevant(cPred);
-	}
+
 	
 	/**
-	 * Helper method for getRelevant.  We get the capability that uses this action predicate - or several if there are several.
+	 * We get the capability that uses this action predicate - or several if there are several.
 	 * @param cPred
 	 * @return
 	 */
-	public Iterator<Capability> getRelevant(Predicate cPred) {
+	public Iterator<Capability> getRelevant(Predicate cPred, AILAgent.SelectionOrder so) {
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
 			for (ArrayList<Capability> cl: capMap.values()) {
@@ -76,6 +69,7 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	 * An iterator of all the capabilities in the library.
 	 * @return
 	 */
+	@Override
 	public Iterator<Capability> iterator() {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
 		
@@ -105,8 +99,10 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	}
 	
 	/**
-	 * Preliminary implemenation for finding a capability in a library that can be exchanged for some other capability in the library
+	 * Preliminary implementation for finding a capability in a library that can be exchanged for some other capability in the library
 	 * on the assumption that certain preconditions hold and certain post-conditions are desired.
+	 * 
+	 * This needs to be compared to the use of planning techniques potentially over sequences of capabilities.
 	 * @param oldcap
 	 * @param capname
 	 * @param Pre
@@ -141,37 +137,33 @@ public class CapabilityLibrary implements EvaluationBase<Capability> {
 	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPre()), "precondition");
 				
 				// NB. This needs to be generalised to GLogical Formulae in some way.
-				try {
-					GBelief gb = (GBelief) cc.getPre();
+				GBelief gb = (GBelief) cc.getPre();
+				
+				// The preconditions of the new capability are implied by the preconditions of the old capability
+				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR);
+
+				if (preuni.hasNext()) {
+				
+					u.compose(preuni.next());
 					
-					// The preconditions of the new capability are implied by the preconditions of the old capability
-					Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames());
-	
-					if (preuni.hasNext()) {
-					
-						u.compose(preuni.next());
+					// Then we check postconditions.
+					EvaluationBasewNames<PredicateTerm> posteb = 
+							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
+					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames(), AILAgent.SelectionOrder.LINEAR);
+					if (postuni.hasNext()) {
+						u.compose(postuni.next());
+						cc.apply(u);
+						pgb.apply(u);
 						
-						// Then we check postconditions.
-						EvaluationBasewNames<PredicateTerm> posteb = 
-								new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
-						Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames());
-						if (postuni.hasNext()) {
-							u.compose(postuni.next());
-							cc.apply(u);
-							pgb.apply(u);
-							
-							EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
-							Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames());
-							Unifier puni = pun.next();
-							
-							u.compose(puni);
-	
-							// System.err.println(checked);
-							
-							return cc;
-							
-							
-						}
+						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
+						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames(),  AILAgent.SelectionOrder.LINEAR);
+						Unifier puni = pun.next();
+						
+						u.compose(puni);
+
+						return cc;
+						
+						
 					}
 				} catch (Exception e) {
 					

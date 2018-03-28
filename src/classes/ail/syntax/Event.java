@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -24,8 +24,10 @@
 
 package ail.syntax;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -90,6 +92,16 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		super(t, g);
 	}
 	
+	public Event(Goal g) {
+		this(Event.AILAddition, g);
+	}
+	
+	/**
+	 * Construct an event from an add/delete flag, a category and a message.
+	 * @param t
+	 * @param c
+	 * @param msg
+	 */
 	public Event(int t, byte c, Message msg) {
 		super(t, c, msg);
 	}
@@ -104,7 +116,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		return (getCategory() == Estart);
 	}
 	
-	/** return [+|-][!|?] super.getFucntorArity */
+
+	/**
+	 * Get a predicateindicator for the event.
+	 * @return
+	 */
 	public PredicateIndicator getPredicateIndicator() {
         if (piCache == null) {
             String s = "";
@@ -137,6 +153,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#clone()
 	 */
+	@Override
 	 public Event clone() {
 			if (hasContent()) {
 				if (referstoGoal())  {
@@ -144,6 +161,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 				} else if (referstoSentMessage()) {
 					return (new Event(getTrigType(), getCategory(), ((Message) getContent()).clone()));
 				} else {
+					if (getContent() instanceof Message) {
+						return (new Event(getTrigType(), getCategory(), ((Message) getContent()).clone()));
+						//Predicate content = (Predicate) ((Message) getContent()).getPropCont();
+					//	return (new Event(getTrigType(), getCategory(), new Literal(true, content)).clone());
+					}
 					return (new Event(getTrigType(), getCategory(), ((Literal) getContent()).clone()));
 				}
 			} else {
@@ -156,6 +178,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		if (isStart()) {
@@ -177,8 +200,18 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see ail.syntax.Term#fullstring()
+	 */
+	@Override
+	public String fullstring() {
+		return toString();
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#isEvent()
 	 */
+	@Override
 	public boolean isEvent() {
 		return true;
 	}
@@ -187,6 +220,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultTerm#unifies(ail.syntax.Unifiable, ail.semantics.Unifier)
 	 */
+	@Override
 	public boolean unifies(Unifiable e, Unifier u) {
 		Event e1 = (Event) e;
 		
@@ -198,9 +232,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
  		   
 	}
 	   
-	/**
-	 * Is the event a variable - as in a reactive plan.
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
 	 */
+	@Override
 	public boolean isVar() {
 		if (hasContent()) {
 			return ((Term) getContent()).isVar();
@@ -228,14 +264,20 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#getVarNames()
 	 */
-	public List<String> getVarNames() {
+	@Override
+	public Set<String> getVarNames() {
 		if (hasContent()) {
-			List<String> varnames = getContent().getVarNames();
+			Set<String> varnames = getContent().getVarNames();
 			return varnames;
 		}
-		return new ArrayList<String>();
+		return new HashSet<String>();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isGround()
+	 */
+	@Override
 	public boolean isGround() {
 		if (hasContent()) {
 			return getContent().isGround();
@@ -248,12 +290,18 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#renameVar(java.lang.String, java.lang.String)
 	 */
+	@Override
 	public void renameVar(String oldname, String newname) {
 		if (hasContent()) {
 			getContent().renameVar(oldname, newname);
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#match(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	@Override
 	   public boolean match(Unifiable t1g, Unifier u) {
 	    	boolean ok = false;
 	    	if (t1g instanceof Event) {
@@ -273,6 +321,11 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	    	return ok;
 	    }
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
+	 */
+	@Override
 	   public boolean matchNG(Unifiable t1g, Unifier u) {
 	    	boolean ok = false;
 	    	if (t1g instanceof Event) {

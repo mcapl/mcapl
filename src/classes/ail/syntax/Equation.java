@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -28,24 +28,25 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 
 /** 
  *  represents an (in)equality. 
  */
-public class Equation implements LogicalFormula, GLogicalFormula {
+public class Equation extends AILComparison {
 
 	/**
 	 * The various comparators.
 	 * @author lad
 	 *
 	 */
-	public enum NumericOp { 
+	public static enum NumericOp { 
 		none   { public String toString() { return ""; } }, 
 		less   { public String toString() { return "<"; } }, 
 		equal    { public String toString() { return "="; } }, 
@@ -77,6 +78,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.DefaultAILStructure#apply(ail.semantics.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier un) {
 		return (lhs.apply(un) & rhs.apply(un));
 	}
@@ -85,7 +87,8 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier u, List<String> varnames) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -94,7 +97,8 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see ail.syntax.LogicalFormula#logicalConsequence(ail.syntax.EvaluationBasewNames, ail.syntax.RuleBase, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, List<String> varnames) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(EvaluationBasewNames<PredicateTerm> e, RuleBase r, Unifier u, Set<String> varnames, AILAgent.SelectionOrder so) {
 		// Equations are true or false regardless of context.
 		return logicalConsequence(u);
 	}
@@ -110,9 +114,9 @@ public class Equation implements LogicalFormula, GLogicalFormula {
         	ec.apply(un);
         	NumberTerm elhs = ec.getLHS();
         	NumberTerm erhs = ec.getRHS();
-	        int comp = elhs.eqcompareTo(erhs);
 	        if (!elhs.isGround() & !erhs.isGround()) {
-	        	comp = 1;
+	        	ArrayList<Unifier> empty = new ArrayList<Unifier>();
+	            return empty.iterator();
 	        }
 	        
 	        switch (op) {
@@ -121,6 +125,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	return createUnifIterator(un);
 	        	
 	        case less:
+		        int comp = elhs.eqcompareTo(erhs);
 	        	if (comp < 0) {
 	        		return createUnifIterator(un);
 	        	} 
@@ -128,8 +133,17 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	        	break;
 	            
 	        case equal:
-	        	if (comp == 0) {
-	        		return createUnifIterator(un);
+	        	if (elhs.isGround() & erhs.isGround()) {
+	        		int comp1 = elhs.eqcompareTo(erhs);
+	        		if (comp1 == 0) {
+	        			return createUnifIterator(un);
+	        		}
+	        	} else {
+	        		ArrayList<Unifier> uns = new ArrayList<Unifier>();
+	        		Unifier unc = un.clone();
+	        		elhs.unifies(erhs, unc);
+	        		uns.add(unc);
+	        		return uns.iterator();
 	        	}
 	        	
 	        	break;
@@ -150,8 +164,13 @@ public class Equation implements LogicalFormula, GLogicalFormula {
         return r.iterator();
     }
 	
-	/** make a hard copy of the terms */
-	public Equation clone() {
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Equation clone() {
 		NumberTerm nlhs = (NumberTerm) lhs.clone();
 		NumericOp nop = this.op;
 		NumberTerm nrhs = (NumberTerm) rhs.clone();
@@ -164,6 +183,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
 	public boolean equals(Object t) {
 		if (t != null && t instanceof Equation) {
 			Equation eprt = (Equation)t;
@@ -188,30 +208,12 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 		} 
 		return false;
 	}
-    
-    /*
-     * (non-Javadoc)
-     * @see ail.syntax.GBelief#calcHashCode()
-     */
-    protected int calcHashCode() {
-    	final int PRIME = 7;
-    	int result = 1;
-    	if (op != null) {
-    		result = PRIME * result + op.hashCode();
-    	}
-    	if (lhs != null) {
-    		result = PRIME * result + lhs.hashCode();
-    	}
-    	if (rhs != null) {
-    		result = PRIME * result + rhs.hashCode();
-    	}
-    	return result;
-    }
 
     /*
      * (non-Javadoc)
      * @see ail.syntax.DefaultAILStructure#hashCode()
      */
+    @Override
     public int hashCode() {
         int code = op.hashCode();
         if (lhs != null)
@@ -248,6 +250,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
     public String toString() {
 		if (lhs == null) {
 			return op+"("+rhs+")";
@@ -261,6 +264,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+	@Override
     public boolean unifies(Unifiable t, Unifier u) {
     	if (t instanceof Equation) {
     		Equation e = (Equation) t;
@@ -278,6 +282,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#match(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+    @Override
     public boolean match(Unifiable t, Unifier u) {
     	if (t instanceof Equation) {
     		Equation e = (Equation) t;
@@ -296,6 +301,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#matchNG(ail.syntax.Unifiable, ail.syntax.Unifier)
      */
+    @Override
     public boolean matchNG(Unifiable t, Unifier u) {
     	if (t instanceof Equation) {
     		Equation e = (Equation) t;
@@ -314,6 +320,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#isGround()
      */
+    @Override
     public boolean isGround() {
     	return lhs.isGround() && rhs.isGround();
     };
@@ -323,27 +330,16 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#standardise_apart(ail.syntax.Unifiable, ail.syntax.Unifier, java.util.List)
      */
-     public void standardise_apart(Unifiable t, Unifier u, List<String> varnames) {
-    	List<String> tvarnames = t.getVarNames();
-    	List<String> myvarnames = getVarNames();
-    	ArrayList<String> replacednames = new ArrayList<String>();
-    	ArrayList<String> newnames = new ArrayList<String>();
-    	for (String s:myvarnames) {
-    		if (tvarnames.contains(s)) {
-    			if (!replacednames.contains(s)) {
-    				String s1 = DefaultAILStructure.generate_fresh(s, tvarnames, myvarnames, newnames, u);
-    				renameVar(s, s1);
-    				u.renameVar(s, s1);
-    			}
-    		}
-    	}
- 
+    @Override
+     public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+    	DefaultAILStructure.standardise_apart(t, u, varnames, this);
     } 
     
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#makeVarsAnnon()
 	 */
+    @Override
 	   public void makeVarsAnnon() {
 		   lhs.makeVarsAnnon();
 		   rhs.makeVarsAnnon();
@@ -353,6 +349,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	    * (non-Javadoc)
 	    * @see ail.syntax.Unifiable#strip_varterm()
 	    */
+    @Override
 	   public Equation strip_varterm() {
 		   return new Equation((NumberTerm) lhs.strip_varterm(), op, (NumberTerm) rhs.strip_varterm());
 	   }
@@ -361,6 +358,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
 	    * (non-Javadoc)
 	    * @see ail.syntax.Unifiable#resolveVarsClusters()
 	    */
+    @Override
 	   public Equation resolveVarsClusters() {
 		   return new Equation((NumberTerm) lhs.resolveVarsClusters(), op, (NumberTerm) rhs.resolveVarsClusters());
 	   }
@@ -369,8 +367,9 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.GBelief#getVarNames()
      */
-    public List<String> getVarNames() {
-    	List<String> varnames = getRHS().getVarNames();
+    @Override
+    public Set<String> getVarNames() {
+    	Set<String> varnames = getRHS().getVarNames();
     	if (!isUnary()) {
     		varnames.addAll(getLHS().getVarNames());
     	}
@@ -381,6 +380,7 @@ public class Equation implements LogicalFormula, GLogicalFormula {
      * (non-Javadoc)
      * @see ail.syntax.GBelief#renameVar(java.lang.String, java.lang.String)
      */
+    @Override
     public void renameVar(String oldname, String newname) {
     	getRHS().renameVar(oldname, newname);
     	if (!isUnary()) {

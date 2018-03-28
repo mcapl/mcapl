@@ -61,7 +61,7 @@ import gov.nasa.jpf.vm.MJIEnv;
 public class Abstract_Capability {
 	Abstract_Predicate cap;
 	Abstract_GLogicalFormula pre = new Abstract_GBelief();
-	Abstract_GLogicalFormula post;
+	Abstract_GLogicalFormula post = new Abstract_GBelief();
 	
 	/**
 	 * Convert to a concrete object.
@@ -105,5 +105,29 @@ public class Abstract_Capability {
      */
     public void addPost(Abstract_GLogicalFormula f) {
     	post = f;
+    }
+    
+    public Abstract_Predicate getCap() {
+    	return cap;
+    }
+    
+    public Abstract_GLogicalFormula getPre() {
+    	return pre;
+    }
+    
+    public Abstract_GLogicalFormula getPost() {
+    	return post;
+    }
+    
+    @Override
+    public String toString() {
+    	String s = "{";
+    	s += pre.toString();
+    	s += "}";
+    	s += cap.toString();
+    	s += "{";
+    	s += post.toString();
+    	s +="}";
+    	return s;
     }
 }

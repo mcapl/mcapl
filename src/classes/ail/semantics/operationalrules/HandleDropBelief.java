@@ -28,6 +28,7 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
+import ail.syntax.Intention;
 import ail.syntax.Literal;
 import ail.syntax.PredicateTerm;
 
@@ -64,7 +65,7 @@ public class HandleDropBelief extends HandleBelief {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<PredicateTerm> bl = a.getBB(topdeed.getDBnum()).getRelevant(b);
+		Iterator<PredicateTerm> bl = a.getBB(topdeed.getDBnum()).getRelevant(b, AILAgent.SelectionOrder.LINEAR);
 				
 		while (bl.hasNext()) {
 			Literal bp = (Literal) bl.next();
@@ -85,5 +86,11 @@ public class HandleDropBelief extends HandleBelief {
 		
 		i.tlI(a);
 		i.compose(thetahd);
+		
+		for (Intention i: a.getIntentions()) {
+			Literal b_clone = (Literal) b.clone();
+			b_clone.setNegated(true);
+			i.unsuspendFor(b_clone);
+		}
 	}
 }

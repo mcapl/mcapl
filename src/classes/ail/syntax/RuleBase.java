@@ -91,8 +91,7 @@ public class RuleBase implements Iterable<Rule> {
      */
     public boolean remove(Rule l) {
          if (l != null) {
-                 
-        	PredicateIndicator key = l.getPredicateIndicator();
+        	 PredicateIndicator key = l.getPredicateIndicator();
         	RuleEntry entry = ruleMap.get(key);
         	entry.remove(l);
         	if (entry.isEmpty()) {
@@ -138,6 +137,14 @@ public class RuleBase implements Iterable<Rule> {
             }
         }
     }
+    
+    public List<Rule> getAll() {
+    	ArrayList<Rule> rls = new ArrayList<Rule>();
+    	for (PredicateIndicator pi : ruleMap.keySet()) {
+    		rls.addAll(ruleMap.get(pi).getAll());
+    	}
+    	return rls;
+    }
 
     /**
      * Get a rule relevant to some guard atom - i.e., a rules whose head has the
@@ -166,8 +173,8 @@ public class RuleBase implements Iterable<Rule> {
      * @param pi
      * @return
      */
-    public boolean hasRelevant(PredicateIndicator pi) {
-    	RuleEntry entry = ruleMap.get(pi);
+    public boolean hasRelevant(PredicateIndicator pi, byte category) {
+    	RuleEntry entry = ruleMap.get(new Tuple(pi, category));
     	if (entry != null) {
     		return true;
     	} else {
@@ -237,6 +244,10 @@ public class RuleBase implements Iterable<Rule> {
         	return be;
         }
         
+        public List<Rule> getAll() {
+        	return list;
+        }
+        
         /*
          * (non-Javadoc)
          * @see java.lang.Object#toString()
@@ -250,5 +261,58 @@ public class RuleBase implements Iterable<Rule> {
         }
         
          
+    }
+    
+    private class Tuple implements Comparable<Tuple> {
+    	PredicateIndicator pi;
+    	byte b;
+    	
+    	public Tuple(PredicateIndicator p, byte by) {
+    		pi = p;
+    		b = by;
+    	}
+    	
+    	// Remember to comment this properly.
+    	public void randommethod() {};
+    	
+    	public int compareTo(Tuple t) {
+    		int picomp = getPI().compareTo(t.getPI());
+    		if (picomp != 0) {
+    			return picomp;
+    		} else {
+    			byte tb = t.getCategory();
+    			if (tb < b) {
+    				return -1;
+    			} else if (tb > b) {
+    				return 1;
+    			} else {
+    				return 0;
+    			}
+    		}
+    	}
+    	
+    	/*
+    	 * (non-Javadoc)
+    	 * @see java.lang.Object#equals(java.lang.Object)
+    	 */
+    	public boolean equals(Object o) {
+    		if (o instanceof Tuple) {
+    			Tuple t = (Tuple) o;
+    			return (pi.equals(t.getPI()) && b == t.getCategory());
+    		}
+    		return false;
+    	}
+    	
+    	public PredicateIndicator getPI() {
+    		return pi;
+    	}
+    	
+    	public byte getCategory() {
+    		return b;
+    	}
+    	
+    	public String toString() {
+    		return pi.toString() + b;
+    	}
     }
 }

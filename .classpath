@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/examples"/>
 	<classpathentry kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/peers"/>
-	<classpathentry kind="lib" path="lib/3rdparty/pccomm.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/bluecove.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/classes.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
-	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/std_msgs/0.5.8/std_msgs-0.5.8.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/control_msgs/1.2.0/control_msgs-1.2.0.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_messages/geometry_msgs/1.10.6/geometry_msgs-1.10.6.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_bootstrap/message_generation/0.2.0/message_generation-0.2.0.jar"/>
 	<classpathentry kind="lib" path="/Users/louiseadennis/ros/rosjava_ws/devel/share/maven/org/ros/rosjava_core/rosjava/0.2.0/rosjava-0.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/java-prolog-parser.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/ev3classes.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/ev3tools.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/eis-0.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/system-rules-1.16.0.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/jpl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/louiseadennis/Systems/swipl-devel/packages/jpl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/3rdparty/antlr-4.7-complete.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

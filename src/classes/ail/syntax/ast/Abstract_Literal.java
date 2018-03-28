@@ -114,14 +114,6 @@ public class Abstract_Literal extends Abstract_Pred {
 	}
 	
 	/**
-	 * Construct from a predicate - assume true.
-	 * @param p
-	 */
-	public Abstract_Literal(Abstract_Pred p) {
-		this (Literal.LPos, p);
-	}
-	
-	/**
 	 * Construct from a pred - assume true.
 	 * @param p
 	 */
@@ -151,7 +143,11 @@ public class Abstract_Literal extends Abstract_Pred {
 	 */
 	public Literal toMCAPL() {
 		PredicatewAnnotation s = super.toMCAPL();
-		return new Literal(type, s);
+		Literal l = new Literal(type, s);
+		if (l.isGround()) {
+			return GroundPredSets.check_add(l);
+		}
+		return l;
 	}
 
 	/*

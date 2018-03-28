@@ -24,13 +24,17 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.ClassInfo;
 import gov.nasa.jpf.vm.ClassLoaderInfo;
-
 import ail.syntax.Literal;
 import ail.syntax.PredicatewAnnotation;
+import ail.syntax.Term;
+import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.syntax.VarsCluster;
 
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
@@ -61,7 +65,8 @@ import ail.syntax.VarTerm;
  * 
  * @author jomi
  */
-public class Abstract_VarTerm extends Abstract_Literal implements Abstract_NumberTerm, Abstract_ListTerm, Abstract_StringTerm {
+public class Abstract_VarTerm extends Abstract_Literal 
+	implements Abstract_NumberTerm, Abstract_ListTerm, Abstract_StringTerm, Comparable<Abstract_VarTerm> {
 
 	/**
 	 * Constructor.
@@ -106,6 +111,14 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
     
     /*
      * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_ListTerm#addAll(java.util.ArrayList)
+     */
+    public void addAll(ArrayList<Abstract_Term> tl) {
+    	
+    }
+    
+    /*
+     * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_ListTerm#addHead(ail.syntax.ast.Abstract_Term)
      */
     public void addHead(Abstract_Term h) {
@@ -128,9 +141,9 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
      * (non-Javadoc)
      * @see ail.syntax.ast.Abstract_Literal#toMCAPL()
      */
-	public Literal toMCAPL() {
-		PredicatewAnnotation s = super.toMCAPL();
-		return new VarTerm(s.getFunctor());
+	public VarTerm toMCAPL() {
+		// PredicatewAnnotation s = super.toMCAPL();
+		return new VarTerm(getFunctor());
 	}
  
 	/*
@@ -158,5 +171,45 @@ public class Abstract_VarTerm extends Abstract_Literal implements Abstract_Numbe
 		return ref;
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.syntax.ast.Abstract_Predicate#apply(ail.syntax.Unifier)
+	 */
+    public Abstract_Term applyu(Abstract_Unifier u) {
+    	Abstract_Term vl = u.get(this);
+    	if (vl != null) {
+    		return vl.applyu(u);
+     	} else {
+     		return this;
+     	}
+    }    
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_Predicate#unifies(ail.syntax.ast.Abstract_Term, ail.syntax.ast.Abstract_Unifier)
+     */
+    public void unifies(Abstract_Term t, Abstract_Unifier u) {
+    	if (!t.equals(this)) {
+    		u.put(this, t);
+    	}
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Abstract_VarTerm v) {
+    	return getFunctor().compareTo(v.getFunctor());
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see ail.syntax.ast.Abstract_ListTerm#isEmpty()
+     */
+    public boolean isEmpty() {
+    	return false;
+    }
+
 
 }

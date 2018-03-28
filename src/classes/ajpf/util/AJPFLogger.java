@@ -24,6 +24,7 @@
 
 package ajpf.util;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -86,7 +87,8 @@ public final class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.FINE.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.FINE.intValue();			}
+				return getIntLevel(logname) <= Level.FINE.intValue();			
+			}
 	  }
 
 	  /**
@@ -99,20 +101,44 @@ public final class AJPFLogger {
 			if (!Verify.isRunningInJPF()) {
 				return getLevel(logname).intValue() <= Level.INFO.intValue();
 			} else {
-				return getIntLevel(logname) <= Level.INFO.intValue();			}
+				return getIntLevel(logname) <= Level.INFO.intValue();			
+			}
 	  }
 
+	  //================================
+	  /**
+	   * added by Maryam
+	   * set a log file handler
+	   * 
+	   */
+	  public static void setFileHandler(String logname, FileHandler fh){
+		  Logger logger = Logger.getLogger(logname);
+		  logger.addHandler(fh);
+		  logger.setUseParentHandlers(false);
+	      fh.setFormatter(new BriefLogFormatter());  
+	  }
+	  //================================
+	  
+	  
 	  /**
 	   * Set the logging report format to Brief.
 	   */
-	  public static void setConsoleHandlerFormatBrief() {
+	  public static void setHandlerFormatBrief() {
 		for (Handler h: Logger.getLogger("").getHandlers()){
-			if (h instanceof ConsoleHandler) {
 				h.setFormatter(new BriefLogFormatter());
-			}
 		}
 	  }
-	
+	  	
+	  /**
+	   * Set the logging report format to look like regular program output.
+	   */
+	  public static void setHandlerFormatAsOutput() {
+		for (Handler h: Logger.getLogger("").getHandlers()){
+				h.setFormatter(new AsOutputLogFormatter());
+		}
+	  }
+	  	
+
 	  /**
 	   * Get the level of this logging class.
 	   * @param logname
@@ -121,11 +147,15 @@ public final class AJPFLogger {
 	  public static Level getLevel(String logname) {
 		if (!Verify.isRunningInJPF()) {
 			Logger logger = Logger.getLogger(logname);
+			if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+				setLevel(logname, levels.get(logname));
+			}
+
 			Level l = logger.getLevel();
-		    while (l == null && logger.getParent() != null) {
-		        logger = logger.getParent();
+			while (l == null && logger.getParent() != null) {
+				logger = logger.getParent();
 		        l = logger.getLevel();
-		      }
+			}
 			return l;
 		} else {
 			int l = getIntLevel(logname);
@@ -194,7 +224,9 @@ public final class AJPFLogger {
 	  public static void info(String logname, String msg) {
 		  Logger logger = Logger.getLogger(logname);
 		  if (levels.containsKey(logname) && levels.get(logname) != logger.getLevel()) {
+			  System.err.println(levels);
 			  setLevel(logname, levels.get(logname));
+			  System.err.println(levels);
 		  }
 
 		  logger.info(msg);

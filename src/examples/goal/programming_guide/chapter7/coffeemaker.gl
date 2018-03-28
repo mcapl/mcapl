@@ -1,0 +1,78 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+init module {
+	knowledge {
+ 		requiredFor(coffee, water).
+		requiredFor(coffee, grounds).
+		requiredFor(espresso, coffee). 
+		requiredFor(grounds, beans).
+
+		canMakeIt(M, P) :- canMake(M, Prods), member(P, Prods).  
+		
+	}
+      
+   	beliefs {
+   		have(water).
+   		have(beans).
+   		canMake(maker, [coffee, espresso]).
+  	}
+  	
+  	goals {
+  		have(coffee).
+  	}
+  	
+  	actionspec {
+  		make(Prod) {
+  			pre{ forall(requiredFor(Prod, Req), have(Req)) }
+  			post { have(Prod) }
+  		}
+  	}
+   		
+ }
+ 
+ main module {
+ 	program {
+ 		if goal(have(P)) then make(P).
+ 	}
+ }
+ 
+ event module {
+ 	program {
+ 		forall bel(agent(A), not(me(A)), not(canMake(A,_))) do A.sendonce(?canMake(A,_)).
+ 		forall bel(me(Me), received(A, int(canMake(Me,_))), canMake(Me, Prod))
+ 			do A.sendonce(:canMake(Me, Prod)).
+ 		forall bel(received(Sender, canMake(Sender, Products))) do
+ 			insert(canMake(Sender, Products))
+ 			+ delete(received(Sender, canMake(Sender, Products))).
+ 		forall bel(agent(A), received(A, have(X))), not(bel(have(X))) do insert(have(X)).
+ 		forall goal(have(P)), bel(requiredFor(P, R), not(have(R)), canMakeIt(Me, R), me(Me))
+ 			do adopt(have(R)).
+ 		forall goal(have(P)), bel(requiredFor(P, R), not(have(R))),
+ 				bel(canMakeIt(Maker, R), not(me(Maker)))
+ 			do Maker.sendonce(!have(R)).
+ 		forall goal(have(P)), bel(requiredFor(P, R), not(have(R)), me(Me), not(canMakeIt(Me, R)))
+ 			do allother.sendonce(!have(R)).
+ 		forall bel(agent(Machine), received(Machine, imp(have(X))), have(X))
+ 			do Machine.sendonce(:have(X)).
+ 	}
+ }

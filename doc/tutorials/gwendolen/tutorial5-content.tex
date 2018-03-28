@@ -1,0 +1,224 @@
+
+This is the fifth in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial looks in more depth at the \gwendolen\ concepts of Event and Intention.  It is primarily theoretical but these will be important concepts for future tutorials.\index{Gwendolen}\index{event}\index{intention}
+
+For this tutorial we will be working with files from previous tutorials.  You may wish to create a separate folder, \texttt{tutorial5} for this work and copy files into it.  Remember to update the paths in your configuration files if you do so.
+
+\section{\ail\ -- The Agent Infrastructure Layer}
+
+\gwendolen\ is implemented using the \ail\ Toolkit\index{AIL}.  This is mostly irrelevant to the programming of \gwendolen\ agents, however it can be useful in understanding some of the logging\index{logging} output that you may wish to use for debugging\index{debugging}\index{Gwendolen}\index{debugging!Gwendolen}\index{Gwendolen!debugging}, since the logging is based around the underlying \java\ data structures rather than their specific implementation in \gwendolen.
+
+\begin{sloppypar}
+The following discussion of intentions in the \ail\ is taken from~\cite{springerlink:10.1007/s10515-011-0088-x}.\index{Gwendolen}
+\end{sloppypar}
+
+\section{Intentions}
+
+\ail's most complex data structure is that which represents an
+\emph{intention}\index{intention}.  BDI languages use intentions to
+store the \emph{intended means} for achieving goals -- this is
+generally represented as some from of {\em deed stack} (deeds include
+actions, belief updates, and the commitment to
+goals)\index{deed}\index{deed!stack}.  Intention structures in BDI languages may
+also maintain information about the (sub-)goal\index{goal}\index{goal!subgoal} they are intended to
+achieve or the event\index{event} that triggered them. In \ail, we aggregate
+this information: an intention becomes a stack of tuples of an
+event\index{event}, a guard\index{guard}, a deed\index{deed}, and a
+unifier\index{unifier}.  This \ail{} intention data structure is most
+simply viewed as a matrix structure consisting of four columns in
+which we record events (new perceptions\index{perception}, goals\index{goal}\index{goal!commitment} committed to and so
+forth), deeds\index{deed} (a plan of future actions\index{action}, belief\index{belief} updates, goal
+commitments, etc.), guards (which must be true before a deed can be
+performed) and unifiers\index{unifier}. These columns form an event stack, a deed
+stack, a guard stack, and a unifier stack.  Rows associate a
+particular deed with the event that has caused the deed to be placed
+on the intention, a guard which must be believed before the deed can
+be executed, and a unifier. New events are associated with an empty
+deed, $\AILnpy$\index{$\AILnpy$}\index{deed!empty}\index{no plan yet}.
+
+\paragraph{Example} The following shows the full structure for a
+single intention\index{intention} to clean a room.  We use a standard BDI syntax: $!g$
+to indicate the goal $g$, and $+!g$ to indicate the commitment to
+achieve that goal\index{goal} (i.e., a new goal that $g$ becomes true is
+adopted). Constants are shown starting with lower case letters, and
+variables with upper case letters.\index{example!intention structure}
+\begin{center}
+        \begin{stacks}
+                \inlinecode{+!clean()} & 
+                \inlinecode{dirty(Room)} & 
+                \inlinecode{+!goto(Room)} &
+                \inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & 
+                $\top$ & 
+                \inlinecode{+!vacuum(Room)} & 
+                \inlinecode{Room = room1} 
+        \end{stacks}
+\end{center}
+This intention\index{intention} has been triggered\index{intention!trigger} by a desire to clean --- the
+commitment to the goal\index{goal}\index{goal!commitment}
+$clean()$ is the trigger event for both rows in the intention.  An
+intention is processed from top to bottom so we see here that the
+agent first intends to commit to the goal $goto(Room)$, where $Room$
+is to be unified\index{unification} with $room1$.  It will only commit to this goal if it
+believes the (guard)\index{guard} statement, $dirty(Room)$.  Once it has committed
+to that goal it then commits to the goal $\mathit{vacuum}(Room)$.  In many
+languages the process of committing to a goal causes an expansion of
+the intention stack, pushing more deeds on it to be processed.  So
+$goto(Room)$ may be expanded\index{deed}
+\emph{before} the agent commits to vacuuming the room.  In which case
+the above intention might become
+\begin{center}
+        \begin{stacks}
+                \inlinecode{+!goto(Room)} &
+                $\top$ & 
+\inlinecode{+!planRoute(Room, Route)} &
+\inlinecode{Room = room1} \\
+                \inlinecode{+!goto(Room)} &
+$\top$ & 
+\inlinecode{+!follow(Route)} & 
+\inlinecode{Room = room1} \\
+                \inlinecode{+!goto(Room)} & 
+                $\top$ & 
+\inlinecode{+!enter(Room)} &
+\inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & 
+$\top$ & 
+\inlinecode{+!vacuum(Room)} & 
+\inlinecode{Room = room1} 
+        \end{stacks}
+\end{center}
+
+At any moment, we assume there is a \emph{current intention}\index{intention!current} which is
+the one being processed at that time.  The function
+\AILselectintention\ (implemented as a method in \ail) may be used
+to select an intention.  By default, this chooses the first intention
+from a queue, but this choice may be overridden for specific languages
+and applications.  Intentions\index{intention} can be
+\emph{suspended}\index{intention!suspension} which allows further
+heuristic control.  A suspended intention is, by default, \emph{not}
+selected by \AILselectintention.  Typically an intention will remain
+suspended until some trigger condition occurs, such as a message\index{message}\index{message!recieved} being
+received.  Many operational semantic rules (such as those involved
+with perception) resume\index{intention!resuming} \emph{all}
+intentions --- this allows suspension conditions to be re-checked.
+
+\section{Events}\index{event}
+
+Events\index{event} are things that occur within the system to which an agent may
+wish to react.  Typically we think of these as changes in
+beliefs\index{belief!change} or the new commitment to
+goals\index{goal!commitment}.  In many (though not all) programming
+languages, events trigger plans\index{plan} (i.e., a plan might selected for
+execution only when the corresponding event has taken place).
+
+In \ail{} there is a special event, `\AILstart{}'\index{event!start}, that is used to
+start off an intention\index{intention} which is not triggered by anything specific.
+This is mainly used for the initial goals of an agent --- the
+intention begins as a \texttt{start} intention with the deed to commit
+to a goal\index{goal!initial}.  In some languages the belief\index{belief}\index{belief!change} changes
+caused by perception\index{perception} are also treated in this way.  Rather than being
+added directly to the belief base, in \ail{}\index{AIL} such beliefs are assigned
+to intentions with the event \AILstart{} and then added to the belief
+base when the intention is actually executed.
+
+\section{Intentions in \gwendolen}\index{Gwendolen}\index{intention}
+
+Let us look back at some of the logging output generated \intutorial{\gwendolen}{4}{tutorial:gwendolen:debugging}
+
+\begin{verbatim}
+ail.semantics.AILAgent[FINE|main|4:10:45]: Applying Handle Add Achieve Test Goal with Event 
+ail.semantics.AILAgent[FINE|main|4:10:45]: robot
+=============
+After Stage StageD :
+[square/2-square(1,1), square(1,2), square(1,3), square(1,4), square(1,5), square(2,1), square(2,2), square(2,3), square(2,4), square(2,5), square(3,1), square(3,2), square(3,3), square(3,4), square(3,5), square(4,1), square(4,2), square(4,3), square(4,4), square(4,5), square(5,1), square(5,2), square(5,3), square(5,4), square(5,5), ]
+[all_squares_checked/0-[_aall_squares_checked()]]
+[]
+source(self):: 
+   *  +!_aall_squares_checked()||True||npy()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+[] 
+\end{verbatim}
+In the above agent state you can see the belief\index{belief} base (beliefs about squares), goal base (\texttt{all\_squares\_checked}), the empty sent messages box and then the current intention\index{intention!current}.  The main addition is the record of a \emph{source} for the intention (in this case \texttt{self}\index{intention!source}\index{self} -- which means the agent generated the intention itself rather than getting it via perception\index{perception}).\index{Gwendolen}
+
+As you can see \gwendolen\ uses the \texttt{start}\index{event}\index{event!start} event mentioned above for new intentions\index{intention}.  In this case it was the intention to commit to the achieve goal\index{goal}\index{goal!commitment} \lstinline{!all_squares_checked}.  When the goal was committed to it became an event and was placed as a new row on the top of the intention.  The row associated with the \texttt{start} event remains on the intention because this will force the agent to check if the goal is achieved when it reaches that row again.  A special deed\index{deed} has been used \texttt{npy()} which stands for \emph{no plan yet}\index{no plan yet}.  This means that although the goal has been committed to the agent has not yet looked for an applicable plan for achieving the goal.\index{Gwendolen}
+
+\begin{sloppypar}
+If you run \texttt{pickuprubble\_ex5.2.gwen} with logging for \texttt{ail.semantics.AILAgent} set to fine then you will later see the intention\index{intention} become:\index{Gwendolen}\index{example!pickuprubble}
+\end{sloppypar}
+\begin{verbatim}
+source(self):: 
+   *  +!_aall_squares_checked()||True||move_to(X,Y)()||[X-1, X0-1, Y-1, Y0-1]
+   *  start||True||+!_aall_squares_checked()()||[]
+\end{verbatim}
+when an applicable plan\index{plan} is found the intention becomes
+
+\begin{verbatim}
+source(self):: 
+   *  +!_aall_squares_checked()||True||move_to(X,Y)()||[X-1, X0-1, Y-1, Y0-1]
+      +!_aall_squares_checked()||True||do_nothing()||[X-1, X0-1, Y-1, Y0-1]
+   *  start||True||+!_aall_squares_checked()()||[]
+\end{verbatim}
+So now the intention\index{intention} is to first take a \texttt{move\_to} action\index{action} in order to get to (1, 1) and then make a \texttt{do\_nothing} action and then check if the goal\index{goal} has been achieved.\index{Gwendolen}
+
+After the agent performs the move action\index{action} new information comes in from perception\index{perception}.
+
+\begin{verbatim}
+source(percept):: 
+   *  start||True||+at(1,1)()||[]
+
+[source(self):: 
+   *  +!_aall_squares_checked()||True||do_nothing()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+] 
+\end{verbatim}
+The first intention\index{intention} in this list is the \emph{current intention}\index{intention!current} which is the one the agent will handle next.  In this case it is a new intention (indicated by the \texttt{start} event\index{event}\index{event!start}) and the intention is to add the belief\index{belief}, \texttt{at(1, 1)}.  The source of this intention is noted as \texttt{percept}\index{intention!source}\index{perception} (i.e., perception) rather than the agent itself.\index{Gwendolen}
+
+Since the agent hadn't finished processing the existing intention this is now contained in a list of other intentions.\index{Gwendolen}\index{intention}
+
+When the agent adds the new belief\index{belief} the current intention\index{intention}\index{intention!current}\index{intention!empty} becomes empty, but \gwendolen\ actually adds yet another new intention indicating that a new belief has been adopted which allows the agent to react to this with a new plan\index{plan}.  So the agent's intentions become
+\begin{verbatim}
+source(percept):: 
+
+[source(self):: 
+   *  +!_aall_squares_checked()||True||do_nothing()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+, source(self):: 
+   *  +at(1,1)||True||npy()||[]
+] 
+\end{verbatim}
+The current intention is empty, and there are now two intentions waiting for attention.  The empty intention will be removed as the agent continues processing.\index{Gwendolen}
+
+\gwendolen\ works on each intention in turn handling the top row on the intention.  So the very first intention becomes the current intention\index{intention} again in due course:\index{Gwendolen}
+\begin{verbatim}
+source(self):: 
+   *  +!_aall_squares_checked()||True||do_nothing()||[]
+   *  start||True||+!_aall_squares_checked()()||[]
+
+[source(self):: 
+   *  +at(1,1)||True||npy()||[]
+] 
+\end{verbatim}
+
+After the agent has done nothing, therefore, the new intention triggered by the new belief \texttt{at(1, 1)} becomes the current intention:\index{Gwendolen}\index{intention}
+\begin{verbatim}
+source(self):: 
+   *  +at(1,1)||True||npy()||[]
+
+[source(self):: 
+   *  start||True||+!_aall_squares_checked()()||[]
+] 
+\end{verbatim}
+
+If there was no plan for reacting to the new belief the agent would just delete the intention but since there is a plan the intention becomes\index{event!no plan}\index{intention}
+\begin{verbatim}
+source(self):: 
+   *  +at(X0,Y0)||True||+checked(X0,Y0)()||[X-1, X0-1, Y-1, Y0-1]
+
+[source(self):: 
+   *  start||True||+!_aall_squares_checked()()||[]
+] 
+\end{verbatim}
+And so on.
+
+\subsection{Exercises}\index{Gwendolen!exercises}\index{Gwendolen}
+Run some of your existing programs with logging of \texttt{ail.semantics.AILAgent} set to fine and see if you can follow how the agent is handling events, intentions and plans.
+

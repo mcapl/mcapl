@@ -35,7 +35,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Tutorial6Tests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -48,7 +48,7 @@ public class Tutorial6Tests extends TestJPF {
   //--- test methods
 
  
-  @Test //----------------------------------------------------------------------
+ @Test //----------------------------------------------------------------------
   public void pickuprubble_lock () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/gwendolen/tutorials/tutorial6/pickuprubble_lock.ail";
@@ -59,7 +59,7 @@ public class Tutorial6Tests extends TestJPF {
     	args[2] = "5";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } 
 
   @Test //----------------------------------------------------------------------
   public void pickuprubble_waitfor () {
@@ -84,19 +84,6 @@ public class Tutorial6Tests extends TestJPF {
     	args[0] = filename;
     	args[1] = prop_filename;
     	args[2] = "5";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-  @Test //----------------------------------------------------------------------
-  public void pickuprubble_leavex () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial6/answers/pickuprubble_leave.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "6";
     	AJPF_w_AIL.run(args);
  	 }
   }

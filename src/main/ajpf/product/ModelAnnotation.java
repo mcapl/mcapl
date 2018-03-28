@@ -24,6 +24,8 @@
 
 package ajpf.product;
 
+import ajpf.util.AJPFException;
+
 /**
  * An interface for annotation models.  TBH at the moment the only annotations I can off-hand think might be useful are
  * probabilities on edges (hence the one method) but I'm sure there may be others!
@@ -35,6 +37,7 @@ public interface ModelAnnotation {
 	 * Annotate then next edge from state i in the model with a double.
 	 * @param i
 	 * @param a
+	 * @throws AJPFException 
 	 */
-	public void edge_annotate_double(Integer i, double a);
+	public void edge_annotate_double(Integer i, double a) throws AJPFException;
 }

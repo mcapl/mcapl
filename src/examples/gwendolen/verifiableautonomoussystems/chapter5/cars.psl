@@ -1,0 +1,36 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2016 Louise A. Dennis and Michael Fisher 
+// 
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+1: <>B(car1, started)
+2: <>B(car1, at_speed_limit)
+3: <>G(car1, at_speed_limit)
+4: <>G(car2, at_speed_limit)
+5: <>B(car1, started) & <> B(car1, at_speed_limit)
+6: [](I(car1, at_speed_limit) -> <>D(car1, accelerate))
+7: [](D(car1, accelerate) -> <>P(at_speed_limit))
+8: <>ItD(car1, accelerate)
+9: <>ItD(car1, send(car2, 3, at_speed_limit))
+10: [](D(car1, accelerate) -> <>B(car1, at_speed_limit)) -> <>D(car1, finished)
+11: [](I(car1, at_speed_limit) -> <>( D(car1, accelerate) || B(car1, at_speed_limit)))
+12: []((I(car1, at_speed_limit) & ~B(car1, at_speed_limit)) -> <>D(car1, accelerate))

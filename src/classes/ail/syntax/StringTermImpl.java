@@ -28,6 +28,8 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /** 
  * Immutable class for string terms.
@@ -126,6 +128,10 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
 	//	return "\""+fValue+"\"";
 		return fValue;
 	}
+	
+	public String fullstring() {
+		return "STI:" + toString();
+	}
 
     /*
      * (non-Javadoc)
@@ -147,8 +153,9 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
      * (non-Javadoc)
      * @see ail.syntax.Unifiable#getVarNames()
      */
-    public ArrayList<String> getVarNames() {
-    	return new ArrayList<String>();
+    @Override
+    public Set<String> getVarNames() {
+    	return new HashSet<String>();
     }
  
     /*

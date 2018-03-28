@@ -23,6 +23,8 @@
 //----------------------------------------------------------------------------
 
 package ail.syntax.ast;
+
+import java.util.ArrayList;
 /**
  * Generic Description of Abstract Classes in AIL and AJPF
  * -------------------------------------------------------
@@ -58,6 +60,12 @@ public interface Abstract_ListTerm extends Abstract_Term {
 	public Abstract_ListTerm append(Abstract_Term t);
 	
 	/**
+	 * Adds a list of terms, in order to the front of this llist.
+	 * @param tl
+	 */
+	public void addAll(ArrayList<Abstract_Term> tl);
+	
+	/**
 	 * Add something as the head of the list.
 	 * @param h
 	 */
@@ -68,4 +76,10 @@ public interface Abstract_ListTerm extends Abstract_Term {
 	 * @param tl
 	 */
 	public void addTail(Abstract_ListTerm tl);
+	
+	/**
+	 * Is this an empty list?
+	 * @return
+	 */
+	public boolean isEmpty();
 }

@@ -27,12 +27,16 @@
 
 package ail.syntax;
 
+import gov.nasa.jpf.annotation.FilterField;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.semantics.AgentMentalState;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -47,6 +51,7 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 */
 	private Term value  = null;
 	
+	@FilterField
 	private static final String logname = "ail.syntax.VarTerm";
     
     /**
@@ -190,7 +195,9 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             	// This is a place holder method in case we want to remove all unifications _apart_ from those involved with
             	// the actual cluster from the VarsCluster
             	// vl.trim();
-            } 
+            } else if (vl == null) {
+            	return true;
+            }
         } else {
         	if (value instanceof VarsCluster) {
                	// This variable is associated with a Vars Cluster which may not be part of the unifier
@@ -314,8 +321,10 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
             return super.getFunctor();
         } else if (value.isPredicate()) {
             return ((Predicate)getValue()).getFunctor();
+        } else if (value.isString()){
+            return value.toString();
         } else {
-            return null;
+        	return null;
         }
     }
 
@@ -964,10 +973,11 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
 	 * (non-Javadoc)
 	 * @see ail.syntax.GLogicalFormula#logicalConsequence(ail.semantics.AILAgent, ail.syntax.Unifier, java.util.List)
 	 */
-	public Iterator<Unifier> logicalConsequence(AILAgent ag, Unifier un, List<String> varnames) {
+	@Override
+	public Iterator<Unifier> logicalConsequence(AgentMentalState ag, Unifier un, Set<String> varnames, AILAgent.SelectionOrder so) {
 		if (value != null) {
 			if (value instanceof GuardAtom<?>) {
-				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames);
+				return ((GuardAtom<?>) value).logicalConsequence(ag, un,varnames, so);
 			}
 		}
 		return null;

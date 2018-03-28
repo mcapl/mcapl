@@ -69,6 +69,7 @@ public class AILSocketServer extends AILSocket {
 	
 	public void close() {
 		try {
+			super.close();
 			service.close();
 		} catch  (IOException e) {
 			AJPFLogger.warning(logname, e.getMessage());

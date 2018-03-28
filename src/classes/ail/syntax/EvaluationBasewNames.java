@@ -24,6 +24,7 @@ package ail.syntax;
 
 import java.util.Iterator;
 
+import ail.semantics.AILAgent;
 import ail.util.Tuple;
 
 /**
@@ -33,5 +34,5 @@ import ail.util.Tuple;
  * @param <K>
  */
 public interface EvaluationBasewNames<K extends Unifiable> extends EvaluationBase<K> {
-	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga);
+	public Iterator<Tuple<K, String>> getRelevantTuple(EBCompare<K> ga, AILAgent.SelectionOrder so);
 }

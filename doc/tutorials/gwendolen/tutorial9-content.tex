@@ -1,0 +1,156 @@
+\label{tutorial:gwendolen:default_actions}
+This is the ninth in a series of tutorials on the use of the \gwendolen\ programming language\index{Gwendolen}.  This tutorial covers a few final elements of \gwendolen\ and the actions\index{action} that come with the Default Environment\index{environment!default}.  It is important to note that if a \gwendolen\ agent \emph{isn't} operating in some environment sub-classed from \texttt{DefaultEnvironment}\index{DefaultEnvironment (class)} then there is no guarantee that these actions will be available.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/tutorials/tutorial9}.
+\end{quote}
+
+\section{String Handling}\index{Gwendolen}\index{strings}\index{action}
+
+In the tutorial directory you will find a program called \texttt{strings.gwen}.  It's contents should look like Example~\ref{code:strings}
+\begin{ourexample}
+\label{code:strings} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+:name: strings
+
+:Initial Beliefs:
+
+string1("hello")
+string2(" ")
+string3("world")
+
+:Initial Goals:
+
+print_string [perform]
+
+:Plans:
+
++! print_string [perform] : {True} <-
+	print("hello world");
+\end{lstlisting}
+\end{ourexample}\index{example!hello\_world}
+If you run this program you will see that it prints out \texttt{hello world}.  Here ``print'' is an action\index{action}\index{action!print} which is implemented in \texttt{DefaultEnvironment}\index{DefaultEnvironment (class)}\index{Gwendolen}
+
+\subsection{Built-in String Actions}\index{action}
+If you look at \texttt{strings.ail} you will see that you are using \ail's \texttt{DefaultEnvironment}\index{DefaultEnvironment (class)}\index{strings} class.  Most \gwendolen\ environments are based on the default environment and this means they all support a set of standard actions that come with the Default Environment.  The built-in actions for strings are:
+\begin{description}\index{action}\index{action!in DefaultEnvironment}\index{action!toString}\index{action!append}
+\item[toString(T, S)] This will take any term, \lstinline{T}, that you are passing around your program and unify the variable, \lstinline{S}, to that term.
+\item[append(S1, S2, S3)]  This takes two strings, \lstinline{S1} and \lstinline{S2} and unifies, \lstinline{S3}, to the concatenation of those two strings.  So, for instance, \lstinline{append(``gwen",``dolen",S)} will unify \lstinline{S} to \lstinline{gwendolen}.
+\end{description}\index{Gwendolen}
+
+\subsection{Exercise}\index{Gwendolen!exercises}\index{action}
+You will notice that \texttt{strings.gwen} contains three beliefs about strings.  Adapt the program so that instead of printing out \texttt{hello world} directly, it instead uses \lstinline{append} to join the three strings together to print out the message.\index{action!append}
+
+\paragraph{Hint.} You will need to use \lstinline{append} twice.\index{Gwendolen}
+
+As usual you can find sample solutions in the \texttt{answers} directory.
+
+\section{Arithmetic}\index{Gwendolen}\index{action!arithmetic}\index{action}
+
+\gwendolen\ can use numbers as terms but it is both fiddly and inefficient to program up arithmetic operations using Reasoning Rules.  As a result the Default environment has four simple actions for manipulating numbers.\index{Gwendolen}\index{DefaultEnvironment (class)}\index{action!in DefaultEnvironment}
+
+\begin{description}
+\item[sum(X, Y, Z)] This unifies \lstinline{Z} to the sum of \lstinline{X} and \lstinline{Y}.\index{action!sum}
+\item[minus(X, Y, Z)] This takes \lstinline{Y} away from \lstinline{X} and unifies \lstinline{Z} to the result.\index{action!minus}
+\item[div(X, Y, Z)] This divides \lstinline{X} by \lstinline{Y} and unifies \lstinline{Z} to the result.\index{action!div}
+\item[times(X, Y, Z)] This multiplies \lstinline{X} by \lstinline{Y} and unifies \lstinline{Z} to the result.\index{action!times}
+\end{description}\index{action!in DefaultEnvironment}\index{action!arithmetic}\index{Gwendolen}
+
+\subsection{Exercise}\index{Gwendolen}\index{Gwendolen!exercises}\index{action}
+\begin{sloppypar}
+In the tutorial directory you will find a partial program, \texttt{arithmetic\_shell.gwen}.  This is shown in Example~\ref{code:arithmetic}
+\end{sloppypar}
+
+\begin{ourexample}
+\label{code:arithmetic} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: arithmetic
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+do_maths [perform]
+
+:Plans:
+	
++! do_maths[perform] : {True} <-
+	+! do_sum [perform],
+	+! do_minus [perform],
+	+! do_div [perform],
+	+! do_mult [perform];
+\end{lstlisting}
+\end{ourexample}\index{example!arithmetic}
+
+Implement the four missing plans so that\index{Gwendolen}\index{arithmetic}
+\begin{itemize}
+\item \lstinline{do_sum} adds two numbers and prints out the result as, for instance, \texttt{The Sum of 1 and 5 is 6}.  You will need to use \texttt{toString} and \texttt{append} to generate the string you want.
+\item \lstinline{do_minus} subtracts two numbers and prints out the result as, for instance, \texttt{5.5. take 3.2. is 2.3}.
+\item \lstinline{do_div} divides one number by another and prints out the result as, for instance, \texttt{7 divided by 2 is 3.5}
+\item \lstinline{do_mult} multiplies two numbers and prints out the result as, for instance, \texttt{100 times 2.5 is 250}.
+\end{itemize}
+
+\section{Using Equations in Plan Guards}\index{Gwendolen}\index{inequalities}
+Once you are using numbers in your program you quickly get to situations where you want to use equations in plan guards\index{plan}\index{plan!guard}\index{inequalities!in plan guard}.  \gwendolen\ has some limited support for this.  It can't perform arithmetic in the guards of plans, but it can compare numbers using \texttt{<} (less than) and \texttt{==} (equals).
+
+\subsection{Exercise}\index{Gwendolen}\index{Gwendolen!exercise}\index{example!inequalities}
+In the tutorial directory you will find a partial program, \texttt{equation\_shell.gwen}.  This is shown in Example~\ref{code:equation}
+
+\begin{ourexample}
+\label{code:equation} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: equation
+
+:Initial Beliefs:
+
+number1(3)
+number2(5)
+number3(4.8)
+number4(3)
+
+:Initial Goals:
+
+compare_numbers [perform]
+
+:Plans:
+
++! compare_numbers [perform] : {B number1(N1), B number2(N2), 
+                                B number3(N3), B number4(N4)} <-
+	+!compare(N1, N2) [perform],
+	+!compare(N1, N3) [perform],
+	+!compare(N1, N4) [perform],
+	+!compare(N2, N3) [perform],
+	+!compare(N2, N4) [perform],
+	+!compare(N3, N4) [perform];
+\end{lstlisting}
+\end{ourexample}
+
+Complete this program by implementing plans for the goal, \lstinline{compare(N1, N2)}, so that the program prints out the following output.\index{Gwendolen}
+
+\begin{verbatim}
+3 is less than 5
+3 is less than 4.8
+3 is equal to 3
+4.8 is less than 5
+3 is less than 5
+3 is less than 4.8
+\end{verbatim}
+
+\section{Print Actions}\index{action!print}\index{Gwendolen}\index{DefaultEnvironment (class)}\index{action!in DefaultEnvironment}\index{action}
+
+\gwendolen's default environment has three print actions.\index{action!print}
+\begin{description}
+\item[print(X)] you have already encountered and prints out the term, \lstinline{X}.\index{action!print}\index{action}
+\item[printagentstate] prints the current state of the agent to standard error.\index{action!printagentstate}
+\item[printstate] prints the current state of the agent to standard out.\index{action!printstate}
+\end{description}
+Clearly \lstinline{printagentstate} and \lstinline{printstate} are virtually identical.  They are mostly of use when debugging\index{debugging}\index{debugging!program}\index{debugging!agent state} and generally either can be used, but in certain situations you may have a preference about which output channel you want to use.\index{Gwendolen}\index{action}
+
+\subsection{Exercise}\index{Gwendolen!exercises}
+Experiment inserting \lstinline{printagentstate} and \lstinline{printstate} into one of your existing programs.
+

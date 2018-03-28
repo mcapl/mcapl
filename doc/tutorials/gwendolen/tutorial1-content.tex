@@ -1,0 +1,86 @@
+\label{tutorial:gwendolen:introduction}
+This is the first in a series of tutorials on the use of the \gwendolen\ programming language\index{Gwendolen}.  This tutorial covers the basics of running \gwendolen\ programs\index{Gwendolen!running programs}, the configuration files\index{Gwendolen!configuration}, perform goals\index{goal!perform}\index{goal} and print actions\index{action}\index{action!print}.  It assumes the reader is familiar with the basics of \prolog\ notation.
+Files for this tutorial can be found in the
+\texttt{mcapl} distribution in the directory
+\begin{quote}
+\texttt{src/examples/gwendolen/tutorials/tutorial1}.
+\end{quote}
+%
+The tutorials assume some familiarity with the \prolog\ programming language as well as the basics of running Java programs either at the command line or in Eclipse.
+
+\section{Hello World}
+
+\begin{sloppypar}
+You will find a \gwendolen\ program in the tutorial directory called \texttt{hello\_world.gwen}\index{example!hello\_world}\index{Gwendolen}.  It's contents should look like Example~\ref{code:hello_world}.
+\end{sloppypar}
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:hello_world} \quad \\
+\begin{lstlisting}[basicstyle=\footnotesize\sffamily,language=Gwendolen,style=easslisting]
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+say_hello [perform]
+
+:Plans:
+
++!say_hello [perform] : {True} <- print(hello);
+\end{lstlisting}
+\end{ourexample}
+\end{figure}
+
+This can be understood as follows\index{Gwendolen}.  Line 1 states the language in which the program is written (this is because the \ail\ allows us to create multi-agent systems from programs written in several different languages).  Line 3 gives the name of the agent (\lstinline{hello}).  Line 5 starts the section for initial beliefs (there are none).  Line 7 starts the section for initial goals.  There is one a \emph{perform} goal\index{goal}\index{goal!perform}\index{goal}\index{goal!perform}\index{goal}\index{goal!perform}\index{goal}\index{goal!perform} to \lstinline{say_hello} (we wi\index{plan}ll cover the different sorts of \index{plan}goal in a later tutorial).  Line\index{plan} 11 starts the section for plans\index{action}\index{action!print}\index{plan}.  There is one plan which can be und\index{action}\index{action!print}erstood as saying if the goal is \index{plan!guard}to say hell\index{action}\index{action!print}o \lstinline{+!say_hello} then do\index{plan!guard} the action\index{action}\index{action!print} \lstinline{print(hello)}.  There\index{plan!guard} is a third component to the plan (\lstinline+{True}+) which is a \emph{guard}\index{plan!guard} that must be true before the plan is applied.  In this case the guard is always true so the plan applies whenever the agent has a goal to perform \lstinline{+!say_hello}.
+
+\subsection{Running the Program}
+
+To run the program\index{Gwendolen}\index{Gwendolen!running programs} you need to run the \java\ program \texttt{ail.mas.AIL}\index{AIL (class)} and supply it with a suitable configuration\index{Gwendolen!configuration}\index{configuration!gwendolen} file as an argument.  You will find an appropriate configuration file, \texttt{hello\_world.ail}\index{example!hello\_world} in the same directory as \texttt{hello\_world.gwen}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL}\index{run-AIL} configuration (with \texttt{hello\_world.ail} selected in the Package Explorer window) as detailed \inmanual{chap:running}.
+
+Run the program now.
+
+\section{The Configuration File}\index{Gwendolen}
+Now open the configuration file, \texttt{hello\_world.ail} shown in figure~\ref{fig:gwen_config}.\index{configuration!gwendolen}\index{Gwendolen!configuration}
+
+\begin{figure}[htb]
+\noindent\rule{\textwidth}{1pt}
+\begin{verbatim}
+mas.file = /src/examples/gwendolen/tutorials/tutorial1/hello_world.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = ail.mas.DefaultEnvironment
+
+log.warning = ail.mas.DefaultEnvironment
+\end{verbatim}
+\rule{\textwidth}{1pt}
+\caption{A Simple Configuration File}
+\label{fig:gwen_config}
+\end{figure}
+
+This is a very simple configuration consisting of four items only.
+\begin{description}
+\item[mas.file]\index{mas.file}\index{Gwendolen} gives the path to the \gwendolen\ program to be run.
+\begin{sloppypar}
+\item[mas.builder]\index{mas.builder} gives a java class for building the file.  In this case \texttt{gwendolen.GwendolenMASBuilder}\index{GwendolenMASBuilder (class)} parses a file containing one or more \gwendolen\ agents and compiles them into a multi-agent system\index{multi-agent system}.
+\item[env] provides an environment\index{environment} for the agent to run in.  In this case we use the default environment\index{environment!default}\index{DefaultEnvironment (class)} provided by the \ail.\index{AIL}
+\item[log.warning]\index{logging} sets the level of output for the class \texttt{ail.mas.DefaultEnvironment}.  This is a pretty minimal level of output (warnings only).  We will see in later tutorials that it is often useful to get more output than this.
+\end{sloppypar}
+\end{description}
+
+\section{Some Simple Exercise to Try}\index{Gwendolen!exercises}
+\begin{enumerate}
+\begin{sloppypar}
+\item Change the filename of \texttt{hello\_world.gwen} to something else (e.g., \texttt{hello.gwen}).  Update \texttt{hello\_world.ail} to reflect this change.  Check you can still run the program.
+\item Edit the hello world program so it prints out \texttt{hi} instead of \texttt{hello}.
+\item Edit the hello world program so the goal is called \texttt{hello} instead of \texttt{say\_hello}.  If you don't change the plan notice how the behaviour of the program changes.  Edit the plan to return to the original behaviour of the program.
+\end{sloppypar}
+\item Change the plan to
+\begin{verbatim}
++!say_hello [perform] : {True} <- print(hello), print(louise);
+\end{verbatim} and see how this changes the behaviour of the program.
+\item Experiment getting the program to print out various different things.  Note that in order to print a string containing whitespace, the string must be contained in double quotes (i.e. \lstinline{print("hello world");})\index{example!hello\_world}\index{action!print!whitespace}\index{action!print}
+\end{enumerate}
+

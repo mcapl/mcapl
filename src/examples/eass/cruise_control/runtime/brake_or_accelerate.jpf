@@ -1,0 +1,85 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Angelo Ferrando, Louise A. Dennis, Davide Ancona, Michael Fisher and Viviana Mascardi
+//
+// This file is part of the Runtime Verification for MCAPL (RVMCAPL) Library.
+// 
+// The RVMCAPL Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+// ----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/eass/cruise_control/runtime/brake_or_accelerate_verification.ail,src/examples/eass/cruise_control/motorway.psl,5
+
+log.info = ail.mas.DefaultEnvironment,eass.mass.DefaultEASSEnvironment,ajpf.MCAPLAgent,eass.cruise_control.runtime.BrakeOrAccelerate
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+# 13th July 2017 - iMac
+
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:19:56
+# states:             new=3589,visited=11845,backtracked=15434,end=260
+# search:             maxDepth=208,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3586
+# heap:               new=90854915,released=91484348,maxLive=4306,gcCycles=15434
+# instructions:       6500171936
+# max memory:         3600MB
+# loaded code:        classes=335,methods=5241
+# 
+# ====================================================== search finished: 13/07/17 13:58
+
+# 19th Jan 20178- iMac (After replacement with generate beliefs.
+# 
+#====================================================== results
+#no errors detected
+#
+#====================================================== statistics
+#elapsed time:       00:10:58
+#states:             new=729,visited=6884,backtracked=7613,end=100
+#search:             maxDepth=133,constraints=0
+#choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=726
+#heap:               new=53623929,released=53922363,maxLive=4331,gcCycles=7613
+#instructions:       3316121410
+#max memory:         3520MB
+#loaded code:        classes=339,methods=5330
+#
+#====================================================== search finished: 19/01/18 15:15
+
+# 23rd Jan Macbook
+
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:12:10
+# states:             new=729,visited=6884,backtracked=7613,end=100
+# search:             maxDepth=133,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=726
+# heap:               new=53523691,released=53807347,maxLive=4325,gcCycles=7613
+# instructions:       3317213399
+# max memory:         3583MB
+# loaded code:        classes=339,methods=5329
+# 
+# ====================================================== search finished: 23/01/18 15:10

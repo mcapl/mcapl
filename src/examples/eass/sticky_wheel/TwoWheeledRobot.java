@@ -165,7 +165,7 @@ public class TwoWheeledRobot extends EASSVehicle {
 			AILAgent ag = getAgent();
 			Iterator<Plan> plans = ag.getPL().getPlansContainingCap(capname);
 			Unifier u = new Unifier();
-			Capability oldcap = ag.getCL().getRelevant(capname).next();
+			Capability oldcap = ag.getCL().getRelevant(capname, AILAgent.SelectionOrder.LINEAR).next();
 			Capability c = ag.getCL().findEquivalent(oldcap, post, ag.getRuleBase(), u );
 			oldcap.apply(u);
 			while (plans.hasNext()) {

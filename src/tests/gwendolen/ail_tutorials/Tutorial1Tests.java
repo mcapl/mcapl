@@ -41,18 +41,6 @@ public class Tutorial1Tests extends TestJPF {
 
 	  //--- test methods
 
-	  @Test //----------------------------------------------------------------------
-	  public void ex1 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex1.ail";
-	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "7";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
 	  
 	  @Test //----------------------------------------------------------------------
 	  public void ex2 () {

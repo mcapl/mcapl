@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2016 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -25,12 +25,17 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+
+import ajpf.util.VerifySet;
 
 /**
  * A class for AIL Send Actions.  These are actions with addition fields for 
  * performatives and ids.  It is assumed that the basic action is a term
  * with two arguments, the content and the receiver (as a StringTerm).
+ * Largely untested
  * 
  * @author louiseadennis
  *
@@ -50,7 +55,7 @@ public class BroadcastSendAction extends Action {
 	/**
 	 * The thId of the message.
 	 */
-	protected StringTerm thId;
+	protected StringTerm thId = new StringTermImpl("");
 	
 	/**
 	 * The message constructed to be sent by the action when it is
@@ -65,7 +70,7 @@ public class BroadcastSendAction extends Action {
 	 * @param i the illocutionary force of the message.
 	 * @param c the content of the message.
 	 */
-	public BroadcastSendAction(ArrayList<Term> rs, int i, Term c) {
+	public BroadcastSendAction(Set<Term> rs, int i, Term c) {
 		super("send");
 		// we add the unifiable bits of the content to the term.
 		this.addTerm(c);
@@ -86,7 +91,7 @@ public class BroadcastSendAction extends Action {
 	 * @param c the message content.
 	 * @param thid the thread id.
 	 */
-	public BroadcastSendAction(ArrayList<Term> recievers, int i, Term c, StringTerm thid) {
+	public BroadcastSendAction(Set<Term> recievers, int i, Term c, StringTerm thid) {
 		this(recievers, i, c);
 		this.addTerm(thid);
 		thId = thid;
@@ -122,6 +127,18 @@ public class BroadcastSendAction extends Action {
 		setActionType(Action.sendAction);
 	}
 	
+	/**
+	 * Construct from another action.
+	 * 
+	 * @param a
+	 * @param i
+	 * @param ann1
+	 */
+	public BroadcastSendAction(Action a, int i) {
+		super(a);
+		ilf = i;
+		setActionType(Action.sendAction);
+	}
 
 	/**
 	 * Setter method for the message annotation.
@@ -153,8 +170,8 @@ public class BroadcastSendAction extends Action {
 	 * Get list of recipients for the message.
 	 * @return
 	 */
-	public ArrayList<String> getReceiverList() {
-		ArrayList<String> list = new ArrayList<String>();
+	public Set<String> getReceiversSet() {
+		Set<String> list = new VerifySet<String>();
 		ListTermImpl tlist = (ListTermImpl) getReceivers();
 		Iterator<Term> tli = tlist.iterator();
 		while (tli.hasNext()) {
@@ -199,11 +216,11 @@ public class BroadcastSendAction extends Action {
 			StringTerm thid = getThId();
 			if (thid != null) {
 				msg = new BroadcastMessage(getILF(), agName, 
-					 getReceiverList(), getContent(), getThId());
+					 getReceiversSet(), getContent(), getThId());
 			
 			} else {
 			msg = new BroadcastMessage(getILF(), agName, 
-					  getReceiverList(), getContent());
+					  getReceiversSet(), getContent());
 			}
 		}
 
@@ -214,6 +231,7 @@ public class BroadcastSendAction extends Action {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Action#clone()
 	 */
+	@Override
 	public BroadcastSendAction clone() {
 		Action a = (Action) super.clone();
 		return(new BroadcastSendAction(a, ilf, ann, (StringTerm) thId.clone()));
@@ -223,6 +241,7 @@ public class BroadcastSendAction extends Action {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#apply(ail.syntax.Unifier)
 	 */
+	@Override
 	public boolean apply(Unifier u) {
 		boolean flag = false;
 		if (msg != null) {

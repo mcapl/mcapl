@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and  Michael Fisher 
+// Copyright (C) 2014-2016 Louise A. Dennis, and  Michael Fisher 
 //
 // This file is part of the Agent Infrastructure Layer (AIL)
 // 
@@ -23,16 +23,17 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import ail.semantics.AILAgent;
 import ail.util.AILexception;
-
 import ajpf.util.AJPFLogger;
 
 /**
  * This is an evaluation base for some arbitrary conjunction.  I.e., instead of some set within an agent this is 
- * for more logical abstract expression (if they are conjunctions of atoms) and checking that something follows from them.
+ * for more logical abstract expressions (if they are conjunctions of atoms) and checking that something follows from them.
  * @author lad
  *
  */
@@ -90,7 +91,7 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 	 * (non-Javadoc)
 	 * @see ail.syntax.EvaluationBase#getRelevant(ail.syntax.EBCompare)
 	 */
-	public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ga) {
+	public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ga, AILAgent.SelectionOrder so) {
 		ArrayList<PredicateTerm> ptl = new ArrayList<PredicateTerm>();
 		for (Literal l: ll) {
 			PredicateTerm p = (PredicateTerm) ga;
@@ -98,7 +99,21 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 				ptl.add(l);
 			}
 		}
+		
+		if (so == AILAgent.SelectionOrder.RANDOM) {
+			Collections.shuffle(ptl);
+		}
 		return ptl.iterator();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "Conjunction Evaluation Base for: " + ll;
+		return s;
 	}
 
 }

@@ -1,0 +1,293 @@
+\label{tutorial:gwendolen:guards}
+This is the third in a series of tutorials on the use of the \gwendolen\ programming language.  This tutorial covers the use of \prolog\ style rules as they appear in \gwendolen\ and also looks at plan guards in a little more detail.\index{Gwendolen}\index{plan}\index{plan!guard}\index{belief}\index{belief!reasoning about belief}\index{reasoning rules}
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/tutorials/tutorial3}.
+\end{quote}
+
+\section{Pick Up Rubble (Again)}\index{Gwendolen}\index{example!pickuprubble}
+
+\begin{sloppypar}
+You will find a \gwendolen\ program in the tutorial directory called \texttt{pickuprubble\_achieve.gwen}.  Its contents should look like Example~\ref{code:pickuprubble_achieve_tut3}.
+\end{sloppypar}
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_achieve_tut3} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble(1, 1) possible_rubble(3, 3) possible_rubble(5, 5)
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- possible_rubble(X, Y), ~no_rubble(X, Y);
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : {B square_to_check(X, Y)} <- 
+    move_to(X, Y);
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
++holding(rubble): {True} <- print(done);
+\end{lstlisting}
+\end{ourexample}
+\end{figure}
+
+This is very similar to the second program \intutorial{\gwendolen}{2}{tutorial:gwendolen:bda}.  However instead of having \index{Gwendolen}
+\begin{verbatim}
+{B possible_rubble(X, Y), ~B no_rubble(X, Y)}
+\end{verbatim}as the guard to the first plan we have \lstinline{B square_to_check(X, Y)} as the guard.
+
+We can then reason about whether there is a square to check using the \prolog\ style rule on line 13.  The syntax is very similar to \prolog\ syntax but there are a few differences.\index{belief}\index{reasoning rules}\index{belief!reasoning about belief}  We use the symbol, $\sim$, to indicate ``not''.  It isn't currently possible to use \prolog\ ``cuts'' to control backtracking in belief reasoning in \gwendolen\ programs.\index{Prolog}\index{Prolog!cut}
+
+\section{Using \prolog\ Lists}
+You can use \prolog\ style list structures in \gwendolen\ programs.  Example~\ref{code:pickuprubble_list} shows the previous example using lists.\index{example!pickuprubble}\index{lists}
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_list} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble([sq(1, 1), sq(3, 3), sq(5, 5)])
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- possible_rubble(L), check_rubble(L, X, Y);
+
+check_rubble([sq(X, Y) | T], X, Y) :- ~no_rubble(X, Y);
+check_rubble([sq(X, Y) | T], X1, Y1) :- no_rubble(X, Y), 
+                       check_rubble(T, X1, Y1);
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : {B square_to_check(X, Y)} <-
+     move_to(X, Y);
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
++holding(rubble): {True} <- print(done);
+\end{lstlisting}
+\end{ourexample}\index{Gwendolen}
+\end{figure}
+
+\prolog\ list structures\index{lists} can also be used in \gwendolen\ plans\index{Gwendolen}\index{plan} and a recursive style plan may sometimes provide a more efficient program than the kind of program that relies on the failure of a plan to achieve a goal\index{goal}\index{goal!achieve} to re-trigger the plan.  Example~\ref{code:pickuprubble_list2}\index{example!pickuprubble} shows an example of this style of programming where the achieve goal\index{goal}\index{goal!achieve} calls a perform goal\index{goal}\index{goal!perform} that recurses through the list\index{lists} of squares one at a time.
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_list2} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble([sq(1, 1), sq(3, 3), sq(5, 5)])
+
+:Reasoning Rules:
+
+rubble_in_current :- at(X, Y), rubble(X, Y);
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : {B possible_rubble(L)} <- 
+    +! check_all_squares(L) [perform];
+
++!check_all_squares([]) [perform] : {True} <- print(done);
++!check_all_squares([sq(X, Y) | T]) : {~B rubble_in_current} <- 
+    move_to(X, Y), 
+    +!check_all_squares(T) [perform];
++!check_all_squares([sq(X, Y) | T]) : {B rubble_in_current} <- 
+    print(done);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
+\end{lstlisting}
+\end{ourexample}\index{Gwendolen}
+\end{figure}
+
+\section{More Complex \prolog\ Reasoning -- Grouping predicates under a negation}\index{Gwendolen}
+
+\texttt{pickuprubble\_grouping.gwen}\index{example!pickuprubble} shows more complex use of Reasoning Rules\index{reasoning rules} including some syntax not available in \prolog.  This is shown in example~\ref{code:pickuprubble_grouping}
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_grouping} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble(1, 1)
+possible_rubble(3, 3)
+possible_rubble(5, 5)
+
+:Reasoning Rules:
+
+square_to_check(X, Y) :- possible_rubble(X, Y), ~no_rubble(X, Y);
+done :- holding(rubble);
+done :- ~ (possible_rubble(X, Y), ~no_rubble(X, Y));
+
+:Initial Goals:
+
+done [achieve]
+
+:Plans:
+
++!done [achieve] : {B square_to_check(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
+
++holding(rubble): {True} <- print(done);
+\end{lstlisting}
+\end{ourexample}\index{Gwendolen}
+\end{figure}
+
+In this program the agent's goal is to achieve \lstinline{done}.  It achieves this either if it is holding rubble (deduced using the code on line 14), or if there is no square it thinks may possibly contain rubble that has no rubble in it (deduced using the code on line 15).\index{Gwendolen}
+
+\begin{sloppypar}
+The rule on line 15
+\begin{verbatim}
+done :- ~ (possible_rubble(X, Y), ~no_rubble(X, Y));
+\end{verbatim}
+isn't standard \prolog\ syntax.  Here we group the two predicates \lstinline{possible_rubble(X, Y), ~no_rubble(X, Y)} (from \lstinline{square_to_check}) together using brackets and then negate the whole concept (i.e., there are no squares left to check).\index{reasoning rules}
+\end{sloppypar}\index{Gwendolen}
+
+\subsection{Some Simple Exercises to Try}\index{Gwendolen!exercises}
+\begin{enumerate}
+\item Try removing the initial belief that there is possible rubble in square (5, 5).  You should find the the program still completes and prints out done.
+\item Try replacing the rule on line 15 with one that refers to \lstinline{square_to_check}
+\end{enumerate}
+
+
+
+\section{Using Goals in Plan Guards}\index{plan}\index{plan!guard}\index{goal}\index{goal!in plan guard}
+
+\texttt{pickuprubble\_goal.gwen} shows how reasoning rules\index{reasoning rules} can be used to reason about both goals and beliefs.  This is shown in example~\ref{code:pickuprubble_goal}\index{Gwendolen}\index{example!pickuprubble}.
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_goal} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble(1, 1)
+possible_rubble(3, 3)
+possible_rubble(5, 5)
+
+:Initial Goals:
+
+rubble(2, 2) [achieve]
+
+:Plans:
+
++!rubble(2, 2) [achieve]: {True} <- +! holding(rubble)[achieve],
+    move_to(2, 2), 
+    drop;
+
++!holding(rubble) [achieve] : 
+    {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y), G holding(rubble) [achieve]} <- 
+    lift_rubble;
+\end{lstlisting}
+\end{ourexample}\index{Gwendolen}
+\end{figure}
+Recall that in the exercises \intutorial{\gwendolen}{2}{tutorial:gwendolen:bda} we had to use a belief to prevent the robot picking up the rubble after it had put it down.  Here instead we have added \lstinline{G holding(rubble) [achieve]}\index{goal}\index{goal!in plan guard}\index{plan}\index{plan!guard} as a guard to the plan that is activated when the robot sees some rubble.  In this case it only picks up the rubble if it has goal to be holding rubble.
+
+\section{Reasoning about Beliefs and Goals}\index{goal!reasoning about goals}\index{reasoning rules}\index{Gwendolen}
+\texttt{pickuprubble\_goalat.gwen} shows how goals can be used in plan guards\index{plan}\index{plan!guard}.  This is shown in example~\ref{code:pickuprubble_goalat}\index{plan}\index{plan!guard}\index{example!pickuprubble}.
+\begin{figure}[htb]
+\begin{ourexample}
+\label{code:pickuprubble_goalat} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,style=easslisting,language=Gwendolen]
+GWENDOLEN
+
+:name: robot
+
+:Initial Beliefs:
+
+possible_rubble(1, 1)
+possible_rubble(3, 3)
+possible_rubble(5, 5)
+
+:Reasoning Rules:
+
+rubble_at_22 :- holding(rubble), at(2, 2);
+
+:Initial Goals:
+
+at(2, 2) [achieve]
+
+:Plans:
+
++!at(X, Y) [achieve]: {True} <- +! holding(rubble)[achieve],
+     move_to(X, Y);
+
++!holding(rubble) [achieve] : 
+    {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y), ~B rubble_at_22} <- 
+    +no_rubble(X, Y);
++at(X, Y) : {B rubble_at_22} <- drop;
+
++rubble(X, Y): {B at(X, Y), G rubble_at_22 [achieve]} <- 
+    lift_rubble;
+\end{lstlisting}
+\end{ourexample}
+\end{figure}
+Here the reasoning rule\index{reasoning rules}\index{Gwendolen} on line 13 is used both in the plan\index{plan} on line 29 in order to reason about whether the robot is holding the rubble at square (2, 2) \emph{and} in the plan on line 31 to deduce that the robot has a goal to get the rubble to square (2, 2), from the the fact that it has a goal to be holding rubble (added on line 21) \emph{and} a goal to be at (2, 2) -- the initial goal.
+
+Note that we can't use reasoning rules\index{Gwendolen}\index{reasoning rules} to break down a goal into subgoals\index{goal!subgoal}\index{goal}.  So if you gave the robot the initial goal \lstinline{rubble_at_22} you need to provide a plan specifically for \lstinline{rubble_at_22}.  It is no good providing a plan for holding rubble and a plan for being at 2, 2 and then expecting the robot to compose these sensibly in order to achieve \lstinline{rubble_at_22}.
+
+Try changing the agent's initial goal to \lstinline{rubble_at_22 [achieve]} without changing anything else in the program.  You should see a warning generated that the agent can not find a plan for the goal\index{goal!no plan for goal}.  At this point the program will fail to terminate\index{debugging}\index{debugging!Gwendolen}\index{debugging!Gwendolen!termination failure}\index{no applicable plan} (when \gwendolen\ can't find a plan for a goal it cycles infinitely looking a plan to handle a failed goal (most programs don't include one of these)).  {\bf You will need to terminate the program} (control-C at the command line or clicking the red stop square in Eclipse).\index{Gwendolen}\index{Gwendolen!forcing stop}
+
+\section{Some Simple Programs to Write}\index{Gwendolen!exercises}
+\label{ex:tutorial3}
+NB.  The environment \texttt{gwendolen.tutorials.SearchAndRescueEnv}\index{SearchAndRescueEnv (class)} contains rubble both at (5, 5) and at (3, 4).
+\begin{enumerate}
+\item Write a program to make the robot check every square in a 5x5 grid (i.e., (1, 1), (1, 2), (1, 3) etc.,) until it finds some rubble at which point it stops.  Try implementing this program both with and without using lists in plans.  (NB.  For the list version you may need to insert a plan that asserts a belief when the rubble is seen, in order to make sure the robot doesn't progress through the squares too rapidly.  See comment about \lstinline{do_nothing} in the next exercise and further discussion of this in later tutorials).
+\item Write a program to make the robot search every square in a 5x5 grid (i.e., (1, 1), (1, 2) etc.,) taking all the rubble it finds to the square (2, 2) until it believes there is only rubble in square (2, 2).
+
+Hints:
+\begin{enumerate}
+\item You may see the warning similar to:
+\begin{small}
+\begin{verbatim}
+ail.semantics.operationalrules.GenerateApplicablePlansEmptyProblemGoal[WARNING|main|2:09:29]: 
+Warning no applicable plan for goal _aall_squares_checked() 
+\end{verbatim}
+\end{small}
+As noted above, this warning appears if the agent can not find a plan to achieve a goal\index{goal}\index{plan}\index{no applicable plan}.  Sometimes this arises because of bugs in the code, but it can also happen if the agent has not had a chance to process all new perceptions/beliefs before it once again looks for a plan to achieve a goal (we will talk about this some more in later tutorials).  
+
+It may be worth adding an action, \lstinline{do_nothing},\index{action!do\_nothing} into your plan, this will act to delay the next time the agent attempts to achieve the goal giving it time to process all new beliefs.
+\item You may need to include \lstinline{at(2, 2)} in your goal in some way to make sure the agent actually takes the final piece of rubble to the square (2, 2).
+\end{enumerate}
+\end{enumerate}
+\begin{sloppypar}
+Sample answers for these two exercises can be found in \texttt{gwendolen/examples/tutorials/tutorial3/answers}.
+\end{sloppypar}

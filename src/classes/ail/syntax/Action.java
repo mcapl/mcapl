@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Copyright (C) 2008-2015 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
 // This file is part of the Agent Infrastructure Layer (AIL)
@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -47,6 +48,9 @@ public class Action extends Predicate {
 	public final static int synchronisedAdopt = 3;
 	@FilterField
 	public final static int receivedAction = 4;
+	
+	@FilterField
+	public int loglevel = AJPFLogger.INFO;
 	
 	/**
 	 * By default an action is a normalAction (i.e. a term).
@@ -119,6 +123,7 @@ public class Action extends Predicate {
 	 * (non-Javadoc)
 	 * @see ail.syntax.Predicate#clone()
 	 */
+	@Override
 	public Action clone() {
 		Predicate p = (Predicate) super.clone();
 		return(new Action(p, getActionType()));
@@ -135,5 +140,23 @@ public class Action extends Predicate {
 		
 		return false;
 	}
+	
+	/**
+	 * Set the log level at which this action should be printed.
+	 * This is mostly so "print" actions don't end up getting printed twice during logging at INFO level.
+	 * @param level
+	 */
+	public void setLogLevel(int level) {
+		loglevel = level;
+	}
+	
+	/**
+	 * Get the logging level at which this action should be printed.
+	 * @return
+	 */
+	public int getLogLevel() {
+		return loglevel;
+	}
+	
 	
 }

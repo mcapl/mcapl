@@ -24,6 +24,9 @@
 
 package ail.syntax.ast;
 
+import java.util.ArrayList;
+
+import ail.syntax.Unifier;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 
 /**
@@ -66,5 +69,19 @@ public interface Abstract_Term extends Cloneable, Abstract_MCAPLTerm {
 	 * @return
 	 */
 	public Abstract_Term getTerm(int i);
+	
+	/**
+	 * This is to support macros when parsing GOAL programs.  Apply a unifer to the mental state condition.
+	 * @param u
+	 */
+	public Abstract_Term applyu(Abstract_Unifier u);
+
      
+	/**
+	 * This is to support macros when parsing GOAL programs.  Apply a unifer to the mental state condition.
+	 * @param u
+	 */
+	public void unifies(Abstract_Term t, Abstract_Unifier u);
+	
+	public void addParams(ArrayList<Abstract_Term> tl);
 }

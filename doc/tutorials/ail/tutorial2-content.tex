@@ -1,0 +1,210 @@
+\label{tutorial:ail:default_environment}
+This is the second in a series of tutorials on the use of the Agent Infrastructure Layer (\ail).  This tutorial covers creating environments for agent programs by extending the \texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)} class.  Sometimes this will not be possible because of the complexity of the environments involved, or the requirements of the programming language interpreters but this is the simplest way to create an environment\index{environment} for an agent program to run in.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/ail\_tutorials/tutorial2}.
+\end{quote}
+
+The tutorial assumes a good working knowledge of Java programming and an understanding of how unification works in \prolog\ programs.
+
+\section{The Default Environment and the AILEnv Interface}\index{DefaultEnvironment (class)}
+All environments\index{environment} for use with language interpreters created using the \ail\ must implement a java interface \texttt{ail.mas.AILEnv}\index{AILEnv (interface)}.  This specifies some minimal functionality agents will expect the environment to provide such as the ability to deliver a set of perceptions, deliver messages and calculate the outcomes of agent actions.  It also requires certain methods be implemented for use with the \ajpf\ property specification language\index{property specification language}.
+
+\begin{sloppypar}
+\texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)} provides a basic level implementation of all these methods, so any environment that extends it only has to worry about those aspects particular to that environment.  Typically this is just the way that actions\index{action} performed by the agents are to be handled.  \texttt{ail.mas.DefaultEnvironment} also provides a set of useful methods for handling changing the perceptions\index{perception} available to the agent that can then be used to program these action results.
+\end{sloppypar}
+
+\section{A Survey of some of Default Environment's Methods}
+We note here some of the more useful methods made available by the Default Environment \index{DefaultEnvironment (class)} before we talk about implementing the outcomes of agent actions.
+
+\begin{description}
+\item[public void addPercept(Predicate per)]\index{DefaultEnvironment (class)!addPercept} This adds a percept which is perceivable by all agents in the environment.  The percept has to be an object of class \texttt{ail.syntax.Predicate}\index{Predicate (class)} (see section~\ref{s:formulas}).\index{perception}
+\begin{sloppypar}
+\item[public void addPercept(String agName, Predicate per)] As above but the percept is perceivable only by the agent called \texttt{agName}.
+\item[public boolean removePercept(Predicate per)] This removes a percept which is perceivable by all agents in the environment.  It returns \texttt{true} if the percept existed.
+\item[public void removePercept(String agName, Predicate per)]\index{DefaultEnvironment (class)!removePercept} As above but the percept is perceivable only by the agent called \texttt{agName}.\index{perception}
+\item[public boolean removeUnifiesPercept(Predicate per)]\index{DefaultEnvironment (class)!removeUnifiesPercept}  Sometimes we don't know the exact logical formulae that we want removed only that it unifies with some term.  This method allows us to remove any percept that unifies with the argument.\index{perception}
+\end{sloppypar}
+\item[public void removeUnifiesPercept(String agName, Predicate per)] As above but the percept is perceivable only by the agent called \texttt{agName}.
+\item[public synchronized void clearPercepts()] Removes all percepts.\index{DefaultEnvironment (class)!clearPercepts}\index{perception}
+\item[public void clearPercepts(String agName)] Removes all percepts perceivable only by \texttt{agName}.
+\item[public void clearMessages(String agName)] Removes all messages available for \texttt{agName}.\index{DefaultEnvironment (class)!clearMessages}\index{communication}
+\item[public void addMessage(String agName, Message m)] This adds a message to an agent's inbox.  In general this should only be used by agent's invoking \texttt{SendAction}'s but their may be circumstances when a system requires messages to be added at other times.\index{DefaultEnvironment (class)!addMessage}\index{communication}\index{SendAction (class)}
+\end{description}
+
+\section{Classes for Logical Formulae}
+\label{s:formulas}
+
+\begin{sloppypar}
+Logical Formulae\index{logical formulae} in \ail\ are handled by a complex hierarchy of classes.  Here we will concern ourselves only with the \texttt{ail.syntax.Predicate}\index{Predicate (class)}, \texttt{ail.syntax.VarTerm}\index{VarTerm (class)}, \texttt{ail.syntax.NumberTerm}\index{NumberTerm (interface)}, \texttt{ail.syntax.NumberTermImpl}\index{NumberTermImpl (class)} and \texttt{ail.syntax.Action}\index{Action (class)} classes.
+\end{sloppypar}
+
+\subsection{The Predicate Class}\index{Predicate (class)}\index{logical formulae!predicates}
+\texttt{ail.syntax.Predicate} is a basic work horse class for handling logical formulae.\index{Predicate (class)}\index{logical formulae}
+
+\begin{itemize}
+\item You create a \texttt{Predicate} object by calling the constructor \texttt{Predicate} with a string argument that is the name of the predicate.\index{Predicate (class)}
+
+So, for instance, \texttt{Predicate red = new Predicate("red")} creates a constant, $red$.  
+\item You can add arguments to predicates using \texttt{addTerm}.
+
+So for instance, \texttt{red.addTerm(new Predicate("box"))} changes the constant, $red$ in to the predicate $red(box)$.  \index{Predicate (class)!addTerm}
+
+\texttt{addTerm} always adds new terms to the end of the the predicate.  So, for instance \texttt{red.addTerm(new Predicate("train"))} changes $red(box)$ into $red(box, train)$.  
+
+\item If you want to change an argument then you need to use \texttt{setTerm(int i, Term t)}.  So for instance, \texttt{red.setTerm(0, new Predicate("book"))} changes $red(box, train)$ to $red(book, train)$.\index{Predicate (class)!setTerm}
+
+NB.  Predicate arguments count up from zero.
+\item You can access the arguments of a predicate using \texttt{getTerm(int i)}.  So \texttt{red.getTerm(0)} applied to $red(book, train)$ returns $book$.\index{Predicate (class)}\index{Predicate (class)!getTerm}
+
+\begin{sloppypar}
+$book$ will be returned as an object of the \texttt{ail.syntax.Term} interface.  Most of the classes for logical terms subclass objects (usually \texttt{ail.syntax.DefaultTerm}) that implement this interface.  Depending on the situation, a programmer may therefore need to cast the \texttt{Term} object into something more specific.\index{Term (interface)}
+\end{sloppypar}
+\item \texttt{getTerms()} returns a list of the arguments to a term.  \texttt{getTermsSize()} returns an integer giving the number of arguments.\index{Predicate (class)!getTermsSize}
+\item \texttt{getFunctor()} returns a predicate's functor as a string.  So, for instance, \texttt{red.getFunctor()} applied to $red(book, train)$ returns ``red''.\index{Predicate (class)}\index{Predicate (class)!getFunctor}
+\end{itemize}
+
+\subsection{The VarTerm Class}\index{VarTerm (class)}\index{logical formulae}
+\texttt{ail.syntax.VarTerm} is used to create variables in terms.  Following \prolog\ conventions, all variables start with capital letters.\index{logical formulae!variables}
+\begin{itemize}
+\item You create a \texttt{VarTerm} object by calling the constructor \texttt{VarTerm} with a string argument that is the name of the variable.
+
+So, for instance, \texttt{VarTerm v1 = new VarTerm("A")} creates a variable, $A$.
+\item Since variables may be instantiated by unification to any logical term they subclass \texttt{ail.syntax.Predicate}\index{Predicate (class)} and implement interfaces for other sorts of term, e.g., numerical terms via the \texttt{ail.syntax.NumberTerm}\index{NumberTerm (interface)} interface mentioned below.  Once instantiated to some other sort of term a variable should behave like the relevant term object.
+\end{itemize}
+
+\subsection{The NumberTerm interface and the NumberTermImpl Class}\index{NumberTerm (interface)}\index{NumberTermImpl (class)}\index{logical formulae!numbers}\index{logical formulae}
+\texttt{ail.syntax.NumberTerm} and \texttt{ail.syntax.NumberTermImpl} are used to work with numerical terms.  \texttt{NumberTermImpl} implements the \texttt{NumberTerm} interface. 
+\begin{itemize}
+\begin{sloppypar}
+\item You create a \texttt{NumberTermImpl} object by calling the constructor \texttt{NumberTermImpl} with either a string argument that is the name of the number or a double.
+
+So, for instance, \texttt{NumberTermImpl value = new NumberTermImpl(2.5)} creates a numerical term, $2.5$.
+\end{sloppypar}
+\item You convert a \texttt{NumberTerm} into a value (e.g. to be used in a simulator) using the method \texttt{solve()} which returns a double.  So, for instance, \texttt{value.solve()} applied to the numerical term $2.5$ returns 2.5 as a double.\index{NumberTerm (interface)!solve}
+
+\begin{sloppypar}
+When working with predicates that have numerical arguments -- e.g., $distance(5.4)$ you may want to extract the argument (e.g, using \texttt{getTerm(0)}), cast it into a \texttt{NumberTerm} and then call \texttt{solve()} to get the actual number you want to work with.
+\end{sloppypar}
+\begin{ourexample}
+\label{code:numbers} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+if (act.getFunctor().equals("move")) {
+   NumberTerm distance = (NumberTerm) act.getTerm(0);
+   double d = distance.solve();
+   this.move(d);
+}
+\end{lstlisting}
+\end{ourexample}
+\end{itemize}
+Example~\ref{code:numbers} shows some sample code that takes an action such as \texttt{move(2.5)} requested by the agent extracts the distance to be moved and then calls some internal method to perform the action in the environment passing in the double as an argument.
+
+\subsection{The Action class}\index{Action (class)}\index{action}
+Agents use \texttt{ail.syntax.Action} objects to request actions in the environment.  \texttt{ail.syntax.Action} subclasses \texttt{ail.syntax.Predicate} and can generally be used just like a predicate.\index{Predicate (class)}
+
+\subsection{Unifiers}\index{Unifier (class)}\index{logical formulae!unification}\index{logical formulae}
+Lastly we will briefly look at the use of unifiers with logical terms.  Unifiers are represented by objects of the class \texttt{ail.syntax.Unifier}.  We will use the syntax $Var-value$ to indicate that a unifier unifies the variable $Var$\index{logical formulae!variables} with the value $value$.  We represent a unifier as a list of such variable-value pairs.
+\begin{itemize}
+\item Unifiers can be applied to any logical term (indeed to any object that implements the \texttt{ail.syntax.Unifiable} interface) by using the method \texttt{apply(Unifier u)}.\index{Unifiable (interface)}\index{Unifiable (interface)!apply}
+
+So, for instance, suppose the  Unifier, \texttt{u} is $[A-box]$, and \texttt{VarTerm a}\index{VarTerm (class)} is $A$. Then \texttt{a.apply(u)} will instantiate \texttt{a} as the term $box$.
+\item We can unify two terms using the \texttt{unifies(Unifiable t, Unifier u)} method.\index{Term (interface)!unifies}\index{logical formulae!unification}\index{logical formulae}
+
+So, for instance, if predicate \texttt{p1} is $red(A)$ and predicate \texttt{p2} is $red(box)$ then \texttt{p1.unifies(p2, new Unifier u)} will turn \texttt{u} into the unifier $[A-box]$.
+\item You can extend an existing unifier in the same way. 
+
+So, for instance, suppose \texttt{u} is $[A-box]$, \texttt{p1} is $red(A)$ and predicate \texttt{p2} is $red(B)$.  Then \texttt{p1.unifies(p2, u)} will turn \texttt{u} into the unifier $[A-box, B-box]$.
+\begin{sloppypar}
+\item You can combine two unifiers using the \texttt{compose()}\index{Unifier (class)!compose} method (e.g., \texttt{u1.compose(u2)}.  However you should be very careful about doing this unless you are certain that there is no variable unified with one term in the first unifier and a different term in the second.
+\end{sloppypar}
+\end{itemize}
+
+\section{The Message Class}\index{Message (class)}\index{communication}
+This should only be relevant if you want to change the default handling of messages.  This should only rarely be needed.
+
+The message class is \texttt{ail.syntax.Message}\index{Message (class)}.  It has a number of fields which allow a message to specify the sender (a String), receiver (a String), propositional content (a Term), an \emph{illocutionary force}\index{illocutionary force|see {performative}} or \emph{performative}\index{performative} (an int), a message identifier (a StringTerm) and a thread identifier (a StringTerm)\index{communication!thread}.
+
+It isn't necessary to use all these fields when creating a message and the simpliest constructor takes four arguments, the illocutionary force, sender, reciever and content, in that order.  So for instance,
+
+\texttt{Message m = new Message(1, "ag1", "ag2", new Predicate("red"))}
+
+\noindent sends the message ``red'' from \texttt{ag1} to \texttt{ag2} with illocutionary force 1.\index{communication}\index{Message (class)}
+
+Each language implemented in the \ail\ specifies its own meanings for illocutionary force.  For instance the \gwendolen\ language (and its \eass\ variant) define 1 as \emph{tell}, 2 as \emph{perform} and 3 as \emph{achieve}.  So a \gwendolen\ agent would interpret the above example message as a \emph{tell} message.\index{performative}\index{performative!tell}\index{performative!perform}\index{performative!achieve}.
+
+Messages come with a set of getter methods, \texttt{getIlForce()}, \texttt{getPropCont()}, \texttt{getReceiver()}, \texttt{getSender()} etc., for accessing the messages field.\index{Message (class)!getIlForce}\index{Message (class)!getPropCont}\index{Message (class)!getReceiver}\index{Message (class)!getSender}\index{communication}\index{Message (class)}
+
+Message objects also have a method \texttt{toTerm()}\index{Message (class)!toTerm} which will convert the message to a \texttt{Predicate} object of the form: \texttt{message(msgId, threadID, sender, receiever, ilFroce, propCont)}.  Note that sender, receiver and ilforce are all converted to predicates (not to StringTerms and a NumberTerm) in this representation.
+
+\section{Extending executeAction}\index{AILEnv (interface)!executeAction}
+\texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)} implements a method called \texttt{executeAction}
+
+\begin{verbatim}
+public Unifier executeAction(String agName, Action act) throws AILexception {
+\end{verbatim}
+
+As can be seen, \texttt{executeAction} takes the agent name and an action\index{Action (class)}\index{action}\index{action!execution} as parameters.  The method returns a unifier.  Sometimes part of the result of executing an action can be the instantiation of one of the arguments to the action predicate.  This instantiation is provided by the unifier that is returned.  It is this method that is called by agents when they want to perform an action.
+
+\begin{sloppypar}
+In \texttt{DefaultEnvironment}\index{DefaultEnvironment (class)}, \texttt{executeAction}\index{AILEnv (interface)!executeAction} implements the default actions\index{action} (discussed \intutorial{\gwendolen}{9}{tutorial:gwendolen:default_actions}), message sending actions, updates fields relevant to model checking, and generates appropriate logging output.   All these are important functions and so we \emph{strongly recommend} that when overwriting \texttt{executeAction} you include a call to it (\texttt{super.executeAction(agName, act)}) at the end, outside of any conditional expressions.  The method returns an empty unifier so this can be safely ignored or composed in subclassing environments.
+\end{sloppypar}
+
+Normally \texttt{executeAction} will need to handle several different actions.  An easy way to do this is to use conditional statements that check the functor of the \texttt{Action} predicate (see Example~\ref{code:actions})\index{action}\index{action!execution}
+
+\begin{ourexample}
+\label{code:actions} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+if (act.getFunctor().equals("red_button")) {
+   addPercept(agName, new Predicate("red_button_pressed");
+   removePercept(agName, new Predicate("green_button_pressed");
+} else if (act.getFunctor().equals("green_button")) {
+   addPercept(agName, new Predicate("green_button_pressed");
+   removePercept(agName, new Predicate("red_button_pressed");
+}
+\end{lstlisting}
+\end{ourexample}\index{AILEnv (interface)!addPercept}\index{AILEnv (interface)!removePercept}\index{AILEnv (interface)!executeAction}
+
+\section{Initialising and Cleaning Up}\index{environment}\index{environment!initialisation}\index{environment!clean up}
+Environments get created \emph{before} any agents are created or added to them.  This can sometimes cause problems if you want the environment to be configured in some way relating to the agents (e.g., setting up a location for each agent in the environment) before everything starts running.
+
+After environments are created they can be configured\index{environment!configuration} using the \ail\ configuration file\index{AIL!configuration} for the multi-agent system\index{multi-agent system}\index{multi-agent system!configuration}.  The key/value pairs used will be specific to the environment.\index{configuration!environment}\index{configuration!agent}
+
+The method \texttt{public void init\_before\_adding\_agents()}\index{AILEnv (interface)!init\_before\_adding\_agents} is called on environments after configuration but before any agents are added to them.  This is rarely used but occasionally there is some aspect of initialisation that has to happen \emph{after} the use of any user supplied configuration files but before agents are added.
+
+The method \texttt{public void init\_after\_adding\_agents()}\index{AILEnv (interface)!init\_after\_adding\_agents} is called after the agents have been created and added to the environment but before the environment starts running.  Therefore overriding this method can be a good way in which to perform any configuration that involves agents.\index{agent!configuration}
+
+Similarly \texttt{public void cleanup()}\index{AILEnv (interface)!cleanup} is called at the end of a run of the multi-agent system and so can be used for any final clean up of the environment or to print out reports or statistics.
+
+\section{Exercises}\index{DefaultEnvironment (class)!exercises}
+
+\subsection{Exercise 1}
+\begin{sloppypar}
+In the tutorial directory you will find an AIL configuration file, \texttt{PickUpAgent.ail}.  This is a configuration for a simple multi-agent system consisting of one \gwendolen\ agent, \texttt{pickupagent.gwen}, and the Default Environment.
+\end{sloppypar}
+
+The agent is programmed to continue making \texttt{pickup} actions  until it believes $holding\_block$.  If you run the multi-agent system you will observe it making repeated actions.  Because the default environment does nothing with the \texttt{pickup} action the agent sees no outcomes to its efforts and so keeps trying.
+
+\begin{sloppypar}
+Create a new environment for the agent that subclasses \texttt{ail.mas.DefaultEnvironment} and makes the \texttt{pickup} action result in the perception that the agent is $holding\_block$.
+\end{sloppypar}
+
+A sample answer can be found in the \texttt{answers} directory.
+
+\subsection{Exercise 2}
+\begin{sloppypar}
+In the tutorial directory you will find a second \gwendolen\ agent, \texttt{lucky\_dip\_agent.gwen}.  This agent is searching for a toy in three bins which are red, green and yellow.  If it doesn't find a toy in any of the bins it will throw a tantrum.  The agent can perform three actions.
+\end{sloppypar}
+
+\begin{description}
+\item[search(Colour, A)] It searches in the bin of colour, $Colour$ and expects $A$ to be unified to whatever it finds. 
+\item[drop(A)] It drops $A$ (which it will have unified with something) and then waits until it sees $A$ (e.g., if it does \texttt{drop(book)} it then waits until it perceives $see(book)$ before it continues).
+\item[throw\_tantrum]
+\end{description}
+
+\begin{sloppypar}
+Create an environment for the agent that subclasses \texttt{ail.mas.DefaultEnvironment} and implements the five actions in a sensible way -- i.e., unifying $A$ appropriately for the search actions (e.g., to \texttt{book} or \texttt{toy} depending which bin the agent searches in), and adding an appropriate $see(A)$ predicate.  It isn't really necessary for anything to happen as a result of the tantrum action but it can if you want.
+\end{sloppypar}
+
+A sample answer can be found in the \texttt{answers} directory.
+

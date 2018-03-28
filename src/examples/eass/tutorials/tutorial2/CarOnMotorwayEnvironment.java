@@ -24,8 +24,10 @@
 
 package eass.tutorials.tutorial2;
 
+import java.io.IOException;
+
 import eass.mas.DefaultEASSEnvironment;
-import ail.mas.NActionScheduler;
+import ail.mas.scheduling.NActionScheduler;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Unifier;
@@ -60,7 +62,12 @@ public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
 		super();
 		super.scheduler_setup(this,  new NActionScheduler(100));
 		AJPFLogger.info(logname, "Waiting Connection");
-		socket = new AILSocketClient();
+		try {
+			socket = new AILSocketClient();
+		} catch (IOException e) {
+			AJPFLogger.severe(logname, e.getMessage());
+			System.exit(0);
+		}
 		AJPFLogger.info(logname, "Connected to Socket");
 	}
 	
@@ -146,9 +153,10 @@ public class CarOnMotorwayEnvironment extends DefaultEASSEnvironment {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#finalize()
+	 * @see ail.mas.DefaultEnvironment#cleanup()
 	 */
-	public void finalize() {
+	@Override
+	public void cleanup() {
 		socket.close();
 	}
 

@@ -27,23 +27,25 @@ package ail.syntax;
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifySet;
 
 /**
- * A Goal Base is a set of goals.  We need to implement this properly.
+ * A Goal Base is a set of goals.  
  * @author lad
  *
  */
 public class GoalBase implements EvaluationBase<PredicateTerm> {
 	/**
-     * goalMap is a table ussed for efficient
+     * goalMap is a table used for efficient
      * look-up of goals.
      */
     private Map<PredicateIndicator, Set<Goal>> goalMap = new VerifyMap<PredicateIndicator, Set<Goal>>();
@@ -87,8 +89,11 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
        		entry = new VerifySet<Goal>();
        		goalMap.put(g.getPredicateIndicator(), entry);
        	}
+       	int entrysize = entry.size();
        	entry.add(g); 
-       	size++;
+       	if (entry.size() != entrysize) {
+       		size++;
+       	}
      }
 
     /**
@@ -137,7 +142,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * @return	An iterators of goals in the goal base with the same
      *          predicate name and arity.
      */
-    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl) {
+    public Iterator<PredicateTerm> getRelevant(EBCompare<PredicateTerm> ebl, AILAgent.SelectionOrder so) {
     	PredicateTerm l = (PredicateTerm) ebl;
     	LinkedList<PredicateTerm> ul = new LinkedList<PredicateTerm>();
     	Iterator<Goal> gl = null;
@@ -162,6 +167,9 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
     		}
     	}
     	
+    	if (so == AILAgent.SelectionOrder.RANDOM) {
+    		Collections.shuffle(ul);
+    	}
     	return ul.iterator();
         
      }
@@ -170,8 +178,17 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * Convert the goal base into a string for printing.
      *
      */
+    @Override
     public String toString() {
     	return (goalMap.toString());
      }
+    
+    /**
+     * Does this goal base have any goals?
+     * @return
+     */
+    public boolean isEmpty() {
+    	return size == 0;
+    }
 
 }

@@ -37,6 +37,7 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.Config;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 import java.io.BufferedReader;
@@ -52,6 +53,8 @@ import ajpf.psl.ast.Property_AST;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.ast.Native_Proposition;
 import ajpf.psl.Proposition;
+import ajpf.util.AJPFException;
+import ajpf.util.ProbabilisticEdgeAnnotationException;
 
 /**
  * Special listener class for the MCAPL Project.
@@ -91,6 +94,8 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	 * Are we only interested in generating a model of the program itself in this run?
 	 */
 	boolean model_only = false;
+	
+	String failure_message;
 		
 	/*
 	 * (non-Javadoc)
@@ -124,14 +129,14 @@ public class MCAPLListener extends PropertyListenerAdapter {
        		}
        		
       		
-      		// Get a reference for the specification (the class that callde createAutomaton) held in the JVM
+      		// Get a reference for the specification (the class that called createAutomaton) held in the JVM
            	int objref = ti.getThis();
        		specRef = objref;
        		ElementInfo ei = vm.getElementInfo(specRef);
        		
        		// Get the string representing the property, parse it and set up sets of atomic propositions it contains
        		String propertystring = ei.getStringField("propertystring");
-     		Property_AST prop_ast = new Property_AST();
+      		Property_AST prop_ast = new Property_AST();
     		prop_ast.parse(propertystring);
     		MCAPLProperty prop = prop_ast.toMCAPLNative();
     		Set<Proposition> props = prop.getProps();
@@ -168,19 +173,22 @@ public class MCAPLListener extends PropertyListenerAdapter {
     * @see gov.nasa.jpf.PropertyListenerAdapter#check(gov.nasa.jpf.search.Search, gov.nasa.jpf.jvm.JVM)
     */
 	 public boolean check (Search search, VM vm) {
+		 if (lowerLogLevelThan(Level.FINER)) {
 			 log.finer("checking " + search.getStateId());
 			 log.finer(" is ignored " + search.isIgnoredState());
 			 log.finer(" transition occured " + vm.transitionOccurred());
+		 }
 			 
 			 if (search.getStateId() == -1) {
 				 // If we've backtracked right past the beginning and, no, I'm not really clear what's going on
 				 // internally in AJPF here.  Anyway we're done and we need to fully run the DFS and check for accepting paths.
 				 product_automata.done(0);
-				 return product_automata.DFS().isEmpty();
+				 return (product_automata.getAcceptingPath() == null || product_automata.getAcceptingPath().isEmpty());
 			 } else {
 				 // This node in the model is fully explored, note as such in the program model
 				 if (search.isDone()) {
 					 product_automata.done(search.getStateId());
+					 return (! product_automata.hasAcceptingPath());
 				 }
 				 
 				 // If a transition has occurred then we have a new edge in our model and the product automata needs to be updated.
@@ -188,8 +196,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 					 // Check state returns true if an acccepting path hasn't been found in the product
 					 return checkstate(search);
 				 }
-
-				 return true;
+				 return (! product_automata.hasAcceptingPath());
 			 }
 	 }
 	 
@@ -200,6 +207,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  */
 	 private boolean checkstate (Search search) {
 		 int newstate = search.getStateId();
+		 log.info("New State is " + newstate);
 		 
 		 // Add this new state to the program model inside the product automaton.
 		 if (automata_initialised) {
@@ -207,23 +215,35 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 // Don't generate a new product state because of trivial truths but do add the state to the program model
 			 // so pruning will work properly when backtracking occurs.
 			 if (search.isEndState()) {
+				 log.info("Adding END STATE " + newstate + " to model");
 				 log.fine("is end");
 				 // Adding new state for pruning
+				 //product_automata.justAddModelState(newstate);
 				 boolean returnvalue = product_automata.currentPathEnded();
-				 product_automata.justAddModelState(newstate);
+				 try {
+					 product_automata.addEndState(newstate);
+				 } catch (AJPFException e) {
+					 failure_message = e.getMessage();
+					 return false;
+				 }
 				 return (! returnvalue);
 			 }
 
 			 // Otherwise we add a new model state to the product and check if we're in a state
-			 // were there is state in the property that can be paired with this state in the model
+			 // where there is state in the property that can be paired with this state in the model
 			 // so all paths from this model node are trivially true.
-			 if (!product_automata.addModelState(newstate)) {
-			 
-				 // Internal JPF stuff to force backtracking at this point since we're no longer interested in 
-				 // exploring further.
-				 log.fine("Setting Ignored");
-				 search.getVM().getSystemState().setIgnored(true);
-				 return true;
+			 try {
+				 if (!product_automata.addModelState(newstate)) {
+				 
+					 // Internal JPF stuff to force backtracking at this point since we're no longer interested in 
+					 // exploring further.
+					 log.fine("Setting Ignored");
+					 search.getVM().getSystemState().setIgnored(true);
+					 return true;
+				 }
+			 } catch (AJPFException e) {
+				 failure_message = e.getMessage();
+				 return false;
 			 }
 
 
@@ -253,7 +273,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 		 if (search.isDone()) {
 			 product_automata.done(search.getStateId());
 		 }
-		 log.fine("backtracking to " + id);
+		 // log.fine("backtracking to " + id);
 
 		 // Since we're maintaining the "current path" in the model and the product automata this need to be pruned accordingly.
 		 if (product_automata != null) {
@@ -280,21 +300,26 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  * Reporting of the nature of the error by JPF.
 	  */
 	 public String getErrorMessage() {
-		 List<ProductState> product_states = product_automata.getAcceptingPath();
-		 int counter = 0;
-		 String pathstring = "";
-		 for (ProductState ps: product_states) {
-			 pathstring += ps.toPrettyString();
-			 counter++;
-			 if (counter == 5) {
-				 pathstring += ",\n";
-				 counter = 0;
-			 } else {
-				 pathstring += ", ";
+		 if (failure_message != null) {
+			 return failure_message;
+		 } else {
+			 List<ProductState> product_states = product_automata.getAcceptingPath();
+			 int counter = 0;
+			 String pathstring = "";
+			 for (ProductState ps: product_states) {
+				 pathstring += ps.toPrettyString();
+				 counter++;
+				 if (counter == 5) {
+					 pathstring += ",\n";
+					 counter = 0;
+				 } else {
+					 pathstring += ", ";
+				 }
 			 }
+			 String s = "An Accepting Path has been found: \n" + pathstring;
+			 // System.err.println(s);
+			 return s;
 		 }
-		 String s = "An Accepting Path has been found: \n" + pathstring;
-		 return s;
 	 }
 	 
 	 /**
@@ -323,10 +348,10 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 } else {
 				 // If we're outputting to a file.
 				 try {
-					 String file_path = ".";
+					 String file_path = System.getenv("HOME");
 					 if (config.containsKey("ajpf.model.path")) {
 						 file_path = config.getProperty("ajpf.model.path");
-					 }
+					 } 
 					 File file = new File(file_path + "/" + config.getProperty("ajpf.model.location"));
 					 if (!file.exists()) {
 						 file.createNewFile();
@@ -382,4 +407,20 @@ public class MCAPLListener extends PropertyListenerAdapter {
 			 }
 		 }
 	 }
+	 
+		/**
+		 * I'm under the impression that composition of strings is quite inefficient in java.  Therefore we don't want to
+		 * perform such compositions for logging messages unless absolutely necessary.  This is a "helper" function for simply
+		 * determing the log level and it is wrapped around any log message that requires string composition.  I _think_ using
+		 * this function doesn't introduce a competeing overhead because it is static, but I could be wrong.
+		 * @param l
+		 * @return
+		 */
+		private static boolean lowerLogLevelThan(Level l) {
+			if  (log.getLevel().intValue() <= l.intValue()) {
+				return true;
+			}
+			return false;
+		}
+
 }

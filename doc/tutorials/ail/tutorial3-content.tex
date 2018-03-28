@@ -1,0 +1,225 @@
+\label{tutorial:ail:environments}
+
+This is the third in a series of tutorials on the use of the Agent Infrastructure Layer (\ail).  This tutorial covers creating environments\index{environment}\index{environment!dynamic}\index{environment!random features}\index{model checking!probabilistic} for agent programs which contain dynamic or random behaviour.   Dynamic behaviour is behaviour that may occur without the agents doing anything to cause it.  Random behaviour is when the outcome of an action\index{action}, the input to a sensor\index{perception}, or the dynamic behaviour of the environment has some element of chance to it.
+
+It should be noted that the \eass\ variant of the \gwendolen\ language is intended for use with dynamic and random environments and has its own customised support for them.  If you are working with the \eass\ variant you may wish to skip this tutorial and use the \eass\ tutorials on environments instead.
+
+Files for this tutorial can be found in the \texttt{mcapl} distribution in the directory 
+\begin{quote}
+\texttt{src/examples/gwendolen/ail\_tutorials/tutorial3}.
+\end{quote}
+
+The tutorial assumes a good working knowledge of Java programming and an understanding of the basics of constructing \ail\ environments as discussed \intutorial{\ail}{2}{tutorial:ail:default_environment}
+
+\section{Dynamic Environments}\index{environment}\index{environment!dynamic}
+
+A dynamic environment is one that gets to change in some way, typically to effect the percepts\index{perception} available in the system, without any agent taking any particular action\index{action}.  To do this the environment needs to be included in the scheduler\index{scheduler} that is used to decide which agent gets to act next.
+
+\begin{sloppypar}
+The schedulers\index{scheduler} all expect to pick between objects that implement the \texttt{ajpf.MCAPLJobber}\index{MCAPLJobber (interface)} interface so the first thing a dynamic environment\index{environment}\index{environment!dynamic} needs to do is implement this interface.  This interface includes implementing a \texttt{do\_job()}\index{MCAPLJobber (interface)!do\_job} method which should contain the changes to be made when the environment runs.  Once this is done the environment needs to be added to the scheduler and set up to receive notifications from the scheduler.  Example~\ref{code:RobotEnv} shows a simple dynamic environment for an agent that searches a grid in order to find a human.  The agent program searches a grid by performing \lstinline{move_to} actions\index{action}.  When the scheduler calls the the environment it inserts the perception\index{perception} that the robot sees a human to rescue.  
+\end{sloppypar}
+\begin{ourexample}
+\label{code:RobotEnv} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+public class RobotEnv extends DefaultEnvironment
+                                       implements MCAPLJobber {
+	
+  public RobotEnv() {
+    super();
+    getScheduler().addJobber(this);
+  }
+
+  @Override
+  public int compareTo(MCAPLJobber o) {
+    return o.getName().compareTo(getName());
+  }
+
+  @Override
+  public void do_job() {
+    addPercept(new Predicate("human"));
+  }
+
+  @Override
+  public String getName() {
+    return "gwendolen.ail_tutorials.tutorial3.RobotEnv";
+  }   
+
+  @Override
+  public Unifier executeAction(String agName, Action act) 
+                                         throws AILexception {
+    if (act.getFunctor().equals("move_to")) {
+      Predicate robot_position = new Predicate("at");
+      Predicate old_position = new Predicate("at");
+      robot_position.addTerm(act.getTerm(0));
+      robot_position.addTerm(act.getTerm(1));
+      old_position.addTerm(new VarTerm("X"));
+      old_position.addTerm(new VarTerm("Y"));
+      removeUnifiesPercept(old_position);
+      addPercept(robot_position);
+    }
+    return super.executeAction(agName, act);
+  }
+}
+\end{lstlisting}
+\end{ourexample}
+Line 2 shows that the class implements \texttt{MCAPLJobber}\index{MCAPLJobber (interface)}.  At line 6 the environment\index{environment} is added as a jobber to the scheduler\index{scheduler}.  Lines 9-23 show the three methods that need to be implemented for the \texttt{MCAPLJobber} interface.  Schedulers generally compare jobbers by their names so \texttt{compareTo}\index{MCAPLJobber (interface)!compareTo} implements this while \texttt{getName()}\index{MCAPLJobber (interface)!getName} returns a name for the jobber.  \texttt{do\_job()}\index{MCAPLJobber (interface)!do\_job} implements adding the perception of a human.
+
+Lastly \texttt{executeAction}\index{AILEnv (interface)!executeAction} implements the result of the robot moving by changing the perceptions of its coordinates.  This uses \texttt{removeUnifiesPercept}\index{DefaultEnvironment (class)!removeUnifiesPercept} to remove the old robot position before it then asserts the new one.
+
+The \ail\ configuration file, \texttt{searcher.ail}, executes a search and rescue agent in this environment.
+
+\subsection{A Note on Schedulers}\index{scheduler}
+
+\begin{sloppypar}
+The default scheduler used by \texttt{DefaultEnvironment}\index{DefaultEnvironment (class)} is \texttt{ail.mas.ActionScheduler}\index{ActionScheduler (class)}.  This makes a random scheduling choice from among all its jobbers each time perceptions\index{perception} change in the environment.  In general this works well but can become a problem if one of the jobbers (either an agent or the environment\index{environment}) gets stuck in a run in which it never changes any perceptions -- e.g., an agent never takes an action\index{action} or only does print actions\index{action!print} (or similar) which don't alter perceptions -- in these situations that jobber can run indefinitely without the scheduler ever being prompted to make another choice.\index{scheduler!not changing jobber}
+\end{sloppypar}
+
+One situation where this may commonly arise is if the environment modifies some underlying fields or data structures but this information only becomes available as perceptions\index{perception} when an agent does something (e.g., moves close enough to see the change).  In this case the line.
+\begin{verbatim}
+getScheduler().perceptChanged();
+\end{verbatim}
+\index{scheduler!perceptChanged}
+Can be asserted at the end of the \texttt{do\_job()}\index{MCAPLJobber (interface)!do\_job} method.  This will prompt the scheduler to make a new choice even though no explicit perceptions have changed.\index{scheduler}
+
+There are other three other schedulers in the current distribution:
+
+\begin{description}
+\item[NActionScheduler]\index{NActionScheduler (class)}\index{scheduler} This functions as \texttt{ActionScheduler}\index{ActionScheduler (class)} except every $n$ times it is invoked it forces a choice irrespective of whether perceptions\index{perception} have changed.  This can be particularly useful if the environment\index{environment} is connecting to an external system\index{environment!connecting to external system} and its use is discussed in the \eass\ tutorials\index{EASS} since the language is intended to work in this way.  It isn't advisable to use the \texttt{NActionScheduler} in verification since it contains counters that will increase the number of model-checking states.
+\item[RoundRobinScheduler]  \index{RoundRobinScheduler (class)} This scheduler acts like \texttt{ActionScheduler}\index{ActionScheduler (class)} except that instead of making a random choice between jobbers, it selects each in turn.
+\item[SingleAgentScheduler]\index{SingleAgentScheduler (class)} This is for situations when there is only one jobber and it effectively just returns that one jobber each time it is called.
+\end{description}
+
+\begin{sloppypar}
+If you wish to use a different scheduler\index{scheduler} in an environment then create the relevant scheduler object, add it to the environment (using \texttt{setScheduler(MCAPLScheduler s)}\index{AILEnv (interface)!setScheduler}\index{MCAPLScheduler (interface)} and add it as a percept listener\index{percept listener|see MCAPLPerceptListener (interface)} to the environment (using \texttt{addPerceptListener(MCAPLPerceptListener s)})\index{AILEnv (interface)!addPerceptListener}\index{MCAPLPerceptListener (interface)}.  If your environment subclasses \texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)} then you can call the method \texttt{setup\_scheduler(AILEnv env, MCAPLScheduler s)}\index{DefaultEnvironment (class)!setup\_scheduler} when the environment is constructed\index{environment} to do this for you.
+\end{sloppypar}
+
+\section{Adding Randomness}\index{environment!random features}\index{environment}
+
+Often we want an environment with some random behaviour to model, for instance, unreliable sensors or actuators.
+
+\begin{sloppypar}
+It is tempting to add random behaviour to an environment simply through use of \java's \texttt{Random}\index{Random (class)} class.  However this will break the system's ability to record\index{record model checking} and replay\index{replay model branch} runs through the program which can be very useful in debugging.  The simplest way to add some random behaviour to an environment is to subclass \texttt{ail.mas.DefaultEnvironmentwRandomness}\index{DefaultEnvironmentwRandomness (class)} rather than \texttt{ail.mas.DefaultEnvironment}\index{DefaultEnvironment (class)}.  This provides two \texttt{Choice}\index{Choice (class)} objects which are the mechanism the \ail\ uses to manage random behaviour for recording and replaying.\index{environment}\index{environment!random features}
+\end{sloppypar}
+
+The \texttt{random\_booleans}\index{random\_booleans} object has one method, \texttt{nextBoolean()}\index{random\_booleans!nextBoolean} which will return either true or false.  The \texttt{random\_ints}\index{random\_ints} object has one method, \texttt{nextInt(int i)}\index{random\_ints!nextInt}, which will return a random integer between \texttt{0} and \texttt{i}.  Example~\ref{code:RandomRobotEnv}\index{example!RandomRobotEnv (class)} shows a sample environment for a search and rescue robot.  This has a human at (1, 1) in the grid and the robot has a 50\% chance of spotting the human if it is in the same grid square.   If you run this program several times you will see that sometimes the robot finds the human quickly and sometimes it has to search the grid several times.
+
+\begin{ourexample}
+\label{code:RandomRobotEnv} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+public class RandomRobotEnv extends DefaultEnvironmentwRandomness {
+  int human_x = 1;
+  int human_y = 1;
+
+  public Unifier executeAction(String agName, Action act) 
+                                              throws AILexception {
+    if (act.getFunctor().equals("move_to")) {
+      Predicate robot_position = new Predicate("at");
+      Predicate old_position = new Predicate("at");
+      robot_position.addTerm(act.getTerm(0));
+      robot_position.addTerm(act.getTerm(1));
+      old_position.addTerm(new VarTerm("X"));
+      old_position.addTerm(new VarTerm("Y"));
+      removeUnifiesPercept(old_position);
+      addPercept(robot_position);
+      if (((NumberTerm) act.getTerm(0)).solve() == human_x 
+            && ((NumberTerm) act.getTerm(1)).solve() == human_y ) {
+        if (random_booleans.nextBoolean()) {
+          addPercept(new Predicate("human"));
+        }
+      }
+    }
+    return super.executeAction(agName, act);
+  }
+	      
+}
+\end{lstlisting}
+\end{ourexample}
+
+\begin{sloppypar}
+In example~\ref{code:RandomRobotEnv}\index{RandomRobotEnv (class)}\index{DefaultEnvironmentwRandomness (class)} lines 17-19 add the percept, \lstinline{human}, if \texttt{random\_booleans.nextBoolean()} returns true.
+\end{sloppypar}
+
+\subsection{Random Doubles}
+The \ail\ doesn't have support for random doubles\index{random doubles} (in part because model checking\index{model checking!probabilistic}\index{model checking} requires a finite state space) but it does let you specify a probability distribution\index{probability distribution} over a set of choices.  To do this you need to create your own \texttt{Choice}\index{Choice (class)} object.  Say, for instance, in the above example the human is moving between the squares and could be at (0, 1), (1, 1) or (2, 1) with a 50\% chance of being at (1, 1), a 30\% chance of being at (2, 1) and a 20\% chance of being at (0, 1).
+
+Example~\ref{code:RandomRobotEnv2} shows an environment with this behaviour.  An integer \texttt{Choice}\index{Choice (class)} object, \texttt{human\_location} is declared as a field in line 4.  This is then instantiated by the \texttt{setMAS} method in lines 25-31.  This method overrides the implementation in \texttt{DefaultEnvironmentwRandomness} so first we call the super-method, then we create the \texttt{Choice} object and lastly we add the choices to it -- the humans x-coordinate is 1 with a probability of 0.5, 2 with a probability of 0.3 and 0 with a probability of 0.2\index{probability distribution}\index{model checking!probabilistic}.  It is important to note that the \texttt{Choice} object can't be created when the class is created since it needs to be instantiated by a \texttt{MCAPLController}\index{MCAPLController (class)} object~\footnote{This is the object that governs the overrall behaviour of the system but which isn't available when the class it created.  As part of setting up a multi-agent system in the \ail\ the \texttt{setMAS(MCAPLController m)}\index{AILEnv (interface)!setMAS} from the environment will be invoked at a suitable moment after the controller has been created.}.  Any instantiation of an Environment\index{environment} class that involves choice methods (e.g., placing objects at random places within the environment) should be done in the \texttt{setMAS} method after the \texttt{Choice} objects have been instantiated and \emph{not} in the class's constructor or initialisation methods\index{environment!initialisation}\index{probability distribution!initialisation}.
+
+In line 17 you can see the call to the \texttt{Choice}\index{Choice (class)} object's \texttt{get\_choice()}\index{Choice (class)!get\_choice} method being invoked to return the correct integer.\index{example!RandomRobotEnv2 (class)}\index{DefaultEnvironmentwRandomness (class)}
+\begin{ourexample}
+\label{code:RandomRobotEnv2} \quad \\
+\begin{lstlisting}[basicstyle=\sffamily,language=Java,style=easslisting]
+public class RandomRobotEnv2 extends DefaultEnvironmentwRandomness {
+  int human_x = 1;
+  int human_y = 1;
+  Choice<Integer> human_location;
+
+  public Unifier executeAction(String agName, Action act) 
+                                           throws AILexception {
+    if (act.getFunctor().equals("move_to")) {
+      Predicate robot_position = new Predicate("at");
+      Predicate old_position = new Predicate("at");
+      robot_position.addTerm(act.getTerm(0));
+      robot_position.addTerm(act.getTerm(1));
+      old_position.addTerm(new VarTerm("X"));
+      old_position.addTerm(new VarTerm("Y"));
+      removeUnifiesPercept(old_position);
+      addPercept(robot_position);
+      human_x = human_location.get_choice();
+      if (((NumberTerm) act.getTerm(0)).solve() == human_x 
+            && ((NumberTerm) act.getTerm(1)).solve() == human_y ) {
+        addPercept(new Predicate("human"));
+      }
+    }
+    return super.executeAction(agName, act);
+  }
+
+  public void setMAS(MAS m) {
+    super.setMAS(m);
+    human_location = new Choice<Integer>(m.getController());
+    human_location.addChoice(0.5, 1);
+    human_location.addChoice(0.3, 2);
+    human_location.addChoice(0.2, 0);
+  }
+	      
+}
+\end{lstlisting}
+\end{ourexample}
+
+\texttt{Choice}\index{Choice (class)} objects can be created to return any object -- integers, \texttt{Predicates}, \texttt{AILAgent}s, etc.,\footnote{The sample answer to the exercise at the end of this tutorial has an example of a \texttt{Choice} object for a \java\ \texttt{enum} type created just for the example.} by being given the correct type and instantiated correctly.  It is important to remember that the probabilities of the choices added by the \texttt{addChoice}\index{Choice (class)!addChoice} method should add up to 1.
+
+If you genuinely need random doubles in an \ail\ environment then you can use \java's \texttt{Random}\index{Random (class)} class but be aware that there may be issues with model checking search space\index{model checking}\index{search space} and that the record\index{record model checking}\index{record random execution} and replay\index{replay execution} functionality will no longer work.
+
+\section{Record and Replay}
+When debugging a multi-agent program you sometimes want to replay the exact sequence of events that occurred in the  problem run\index{debugging}\index{debugging!random behaviour}.  To do this you first need to record\index{record random execution} the sequence.  You can get an \ail\ program to record its sequence of choices (in this case choices about whether or not the agent perceives the human) by adding the line
+
+\begin{verbatim}
+ajpf.record = true
+\end{verbatim}
+\index{ajpf.record}
+\begin{sloppypar}
+\noindent to the program's \ail\ configuration file\index{configuration!AIL}\index{AIL!configuration}.  There is an example of this in the configuration file \texttt{searcher\_random\_record.ail} in the tutorial directory.  By default this records the current path through the program in a file called \texttt{record.txt} in the directory, \texttt{records}, of the \mcapl\ distribution.  You can change the file using \texttt{ajpf.replay.file =}.  \index{ajpf.replay.file}
+\end{sloppypar}
+
+To play back a record you include\index{replay execution}
+\begin{verbatim}
+ajpf.replay = true
+\end{verbatim}
+\begin{sloppypar}\index{ajpf.replay}
+\noindent in the program's \ail\ configuration file\index{configuration!AIL}\index{AIL!configuration}.  The configuration file \texttt{searcher\_random\_replay.ail} is set up to replay runs generated by \texttt{searcher\_random\_record.ail}.  Again, by default, this will replay the sequence from \texttt{record.txt}, but will use a different file if \texttt{ajpf.replay.file = } is set.  \index{ajpf.replay.file}
+\end{sloppypar}
+
+\section{Exercise}
+
+Obviously for complex systems you often want to combine dynamic environments with randomness.  
+
+Adapt the various search and rescue environments so that the human moves one square in a random direction each time the environment's \texttt{do\_job} method is called, to simulate a human moving independently around the search grid (NB. the search grid is 3x3 with coordinates ranging from (0, 0) to (2, 2) -- you may assume it wraps if you wish).  
+
+You may use either \texttt{random\_booleans} or \texttt{random\_ints} to generate movement, however the sample answer (in the \texttt{answers} directory) creates a probability distribution over a custom \java\ \texttt{enum} type with the human most likely to remain stationary and least likely to move diagonally.
+
+Since you are altering the position of the human in this environment, not the perceptions available, you will find that the scheduler will loop infinitely when selecting the enviroment unless you include the line
+\begin{verbatim}
+getScheduler().perceptChanged();
+\end{verbatim}
+at the end of \texttt{do\_job} or you use a different scheduler.
+
+Check that your solution works with record and replay.

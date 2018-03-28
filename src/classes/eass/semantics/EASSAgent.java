@@ -30,10 +30,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+
 
 // Got this far in comment updatign.
 import java.util.Random;
@@ -62,7 +64,7 @@ public class EASSAgent extends AILAgent {
 	public EASSAgent(MAS mas, String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(mas, name);
-		setTrackPlanUsage(false);
+		//setTrackPlanUsage(false);
 		
 
     // Then we construct Gwendolen's reasoning cycle, starting with
@@ -78,7 +80,7 @@ public class EASSAgent extends AILAgent {
 	public EASSAgent(String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(name);
-		setTrackPlanUsage(false);
+	//	setTrackPlanUsage(false);
 		
 
     // Then we construct Gwendolen's reasoning cycle, starting with
@@ -163,6 +165,24 @@ public class EASSAgent extends AILAgent {
 
     	return i;
     }
+    
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.AILAgent#configure(ail.util.AILConfig)
+	 */
+	@Override
+	public void configure(AILConfig config) {
+		if (config.containsKey("ail.store_sent_messages")) {
+			String store_sent_messages = config.getProperty("ail.store_sent_messages");
+			if (store_sent_messages.equals("true")) {
+				setStoreSentMessages(true);
+			} else {
+				setStoreSentMessages(false);
+			}
+		}
+		
+	}
+
 
 
 }

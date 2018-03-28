@@ -177,8 +177,13 @@ public class Car {
 	 */
 	private void readValues() {
 		if (controlled) {
-			xaccel = socketserver.readDouble();
-			yaccel = socketserver.readDouble();
+			try {
+				xaccel = socketserver.readDouble();
+				yaccel = socketserver.readDouble();
+			} catch (Exception e) {
+				System.err.println("READ ERROR: Closing socket");
+				close();
+			}
 		}
 
 	}
@@ -188,15 +193,20 @@ public class Car {
 	 */
 	public void writeValues() {
 		if ( controlled ) {
-			if (include_total_distance) {
-				socketserver.writeDouble(x);
-				socketserver.writeDouble(y);
+			try {
+				if (include_total_distance) {
+					socketserver.writeDouble(x);
+					socketserver.writeDouble(y);
+				}
+				socketserver.writeDouble(xrel);
+				socketserver.writeDouble(yrel);
+				socketserver.writeDouble(xdot);
+				socketserver.writeDouble(ydot);
+				socketserver.writeInt(started);
+			}  catch (Exception e) {
+				System.err.println("READ ERROR: Closing socket");
+				close();
 			}
-			socketserver.writeDouble(xrel);
-			socketserver.writeDouble(yrel);
-			socketserver.writeDouble(xdot);
-			socketserver.writeDouble(ydot);
-			socketserver.writeInt(started);
 		}
 	}
 	

@@ -27,6 +27,8 @@ package ail.syntax.ast;
 import ail.semantics.AILAgent;
 import ail.syntax.GBelief;
 import ail.syntax.StringTerm;
+import ail.syntax.Goal;
+import ail.syntax.Literal;
 
 import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -205,6 +207,5 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      */
 	public boolean isTrivial() {
 		return (getCategory() == GTrue);
-	}
-	
+	}	
 }

@@ -1,0 +1,66 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2017 Louise A. Dennis, Michael Fisher, and Koen Hindriks
+// 
+// This file is part of AIL GOAL.  An AIL Implementation of the GOAL Programming
+// Language
+//
+// AIL GOAL is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// AIL GOAL is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+init module {
+	knowledge{
+	   block(X) :- on(X, _).
+	   clear(X) :- block(X), not(on(_, X)).
+	   clear(table).
+	    
+	    % allClear succeeds if all blocks are clear.
+	    % note that allClear also succeeds if there are no blocks
+	    allClear :- forall(block(X), clear(X)).
+	}
+	program{
+	    % first insert all percepts into the agent's belief base
+	    forall bel(percept( on(X, Y) ) ) do insert( on(X, Y) ).
+	    % then adopt a goal to clear all blocks (in this order, to make sure that the agent 
+	    % does not believe that allClear has been achieved just because there are no blocks)
+	    if true then adopt(allClear).
+	 }
+	 actionspec{
+	    move(X, Y) {
+	      pre{ clear(X), clear(Y), on(X, Z), not(on(X, Y)) }
+	      post{ not(on(X, Z)), on(X, Y) }
+	    }
+	    % @int declares action as internal and prevents that it is send to the environment
+	    skip@int {
+	      pre{ true }
+	      post{ true }
+	    }
+	 }
+}
+
+main module[exit=nogoals]{
+	% randomly select to move a block to the table (if possible) or to perform skip.
+	program[order=random]{
+	    if bel( on(X, Y) ) then move(X, table).
+	    if true then skip.
+	}
+}
+	
+event module{
+  program{
+    forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
+    forall bel( on(X, Y), not( percept( on(X, Y) ) ) ) do delete( on(X, Y) ).
+  }
+}

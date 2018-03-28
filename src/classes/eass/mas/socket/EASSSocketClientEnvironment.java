@@ -24,36 +24,39 @@
 
 package eass.mas.socket;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 import ail.util.AILConfig;
 import ail.util.AILSocketClient;
-import ail.syntax.Unifier;
-import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.Predicate;
-import ail.syntax.VarTerm;
 import eass.mas.DefaultEASSEnvironment;
-
 import ajpf.util.AJPFLogger;
 
 /**
- * Default environment class for EASS project.  Sets up socket servers and generic actions.  As originally developed for EASS Project.
+ * An basic class providing functionality for EASS environments which are client's for some socket.
  * @author louiseadennis
  *
  */
-public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
+public abstract class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	/**
 	 * Socket that connects to the Physical Engine.
 	 */
 	protected AILSocketClient socket;
 
 	/**
-	 * Are we actually connected to a socket?  Useful for debugging.
+	 * Are we actually connected to a socket?  Useful for debugging where it can be set to false,
+	 * and this classes methods overridden as appropriate for testing behaviour.
 	 */
 	protected boolean connectedtosocket = true;
 
+	/**
+	 * Name for the environment.
+	 */
 	private String name = "Default EASS Socket Environment";
+	
+	/**
+	 * The port number for the socket  (Default 6253)
+	 */
+	protected int portnumber = 6253;
 	
 	/**
 	 * Constructor - creates sockets.
@@ -63,17 +66,39 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		super();
 	}
 	
-	
-	public void initialise() {
+	/**
+	 * Constructor - creates sockets.
+	 *
+	 */
+	public EASSSocketClientEnvironment(int portnumber) {
+		super();
+		this.portnumber = portnumber;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#init_after_adding_agents()
+	 */
+	@Override
+	public void init_after_adding_agents() {
 		if (connectedtosocket) {
 			AJPFLogger.info("eass.mas", "Waiting Connection");
-			socket = new AILSocketClient();
+			try {
+				socket = new AILSocketClient(portnumber);
+			} catch (IOException e) {
+				AJPFLogger.severe("eass.mas", e.getMessage());
+				System.exit(0);
+			}
 			AJPFLogger.info("eass.mas", "Connected to Socket");
 		}		
 	}
 	
-	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see eass.mas.DefaultEASSEnvironment#do_job()
+	 */
+	@Override
 	public void do_job() {
 		if (connectedtosocket) {
 			if (socket.allok()) {
@@ -81,38 +106,39 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 			}	else {
 				System.err.println("something wrong with socket");
 			}
+		} else {
+			debuggingPredicates();
 		}
 	}
 	
-	public void readPredicatesfromSocket() {}
-
+	/**
+	 * To be overridden.  This method dictates how information from the socket should be converted to predicates.
+	 */
+	public abstract void readPredicatesfromSocket();
 	
+	/**
+	 * Can be overridden.  This method dictates how predicates should be generated when the environment is not connected to a socket.
+	 */
+	public void debuggingPredicates() {};
+
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#cleanup()
+	 */
+	@Override
 	public void cleanup() {
 		done = true;
-		socket.close();
+		if (connectedtosocket) {
+			socket.close();
+		}
 	}
 			
-	public void noconnection_run(String agname, Action act) {
-		System.err.println("No Socket Connection: " + act.toString());
-	}
-	
-	public Literal noconnection_calc(Predicate predicate, VarTerm val, Unifier u) {
-		try {
-			System.err.println("calculated");
-		} catch (Exception e) {
-			System.err.println("didn't sleep");
-		}
-		Literal result = new Literal("result");
-		result.addTerm(predicate);
-		result.addTerm(new Predicate("result"));
-		return result;
-	}
-
 	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.DefaultEnvironment#done()
 	 */
+	@Override
 	public boolean done() {
 		if (done) {
 			return true;
@@ -124,6 +150,7 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#configure(ail.util.AILConfig)
 	 */
+	@Override
 	public void configure(AILConfig config) {
 		if (config.containsKey("connectedtosocket")) {
 			if (config.getProperty("connectedtosocket").equals("false")) {
@@ -134,12 +161,27 @@ public class EASSSocketClientEnvironment extends DefaultEASSEnvironment {
 		}
 	}
 	
+	/**
+	 * Indicate that the environment is not connected to a socket.
+	 */
 	public void notConnectedToSocket() {
 		connectedtosocket = false;
 	}
 	
+	/**
+	 * Return whether the environment is connected to a socket.
+	 * @return
+	 */
 	public boolean connectedToSocket() {
 		return connectedtosocket;
+	}
+	
+	/**
+	 * Getter for the socket.
+	 * @return
+	 */
+	public AILSocketClient getSocket() {
+		return socket;
 	}
 	
 }

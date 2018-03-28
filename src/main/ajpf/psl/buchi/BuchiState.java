@@ -309,7 +309,6 @@ public class BuchiState implements Comparable<BuchiState> {
 //		System.err.println(number);
 
 		for (MCAPLProperty f : old) {
-//			System.err.println(f);
 			if (! f.check()) {
 				flag = false;
 				break;
@@ -324,7 +323,6 @@ public class BuchiState implements Comparable<BuchiState> {
 //		System.err.println(number);
 
 		for (MCAPLProperty f : old) {
-//			System.err.println(f);
 			if (! f.check(props)) {
 				flag = false;
 				break;

@@ -99,6 +99,7 @@ public class Intention implements Comparable<Intention>{
     	
     	this.iConcat(e, ds, gu, theta);
     	this.setSource(s);
+    	trimUnifiers();
     }
     
     /**
@@ -124,6 +125,7 @@ public class Intention implements Comparable<Intention>{
     public Intention(Event e, Unifier u, SourceAnnotation s) {
     	this(e, s);
     	compose(u);
+    	trimUnifiers();
     }
     
     /**
@@ -240,10 +242,10 @@ public class Intention implements Comparable<Intention>{
      * @param beliefcondition
      */
     public void unsuspendFor(Predicate beliefcondition) {
-    	if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
+    	if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
     		suspendedfor = null;
     		unsuspend();
-    	}
+    	} 
     }
 
     /**
@@ -254,16 +256,16 @@ public class Intention implements Comparable<Intention>{
     public void unsuspendFor(Set<Predicate> newbeliefs, Set<Literal> oldbeliefs) {
     	if (suspended) {
     		for (Predicate p: newbeliefs) {
-    			// System.err.println(p);
     			unsuspendFor(p);
     		}
     	}
     	if (suspended) {
     		for (Literal l: oldbeliefs) {
-    			if (! l.negated()) {
-    				l.setNegated(false);
+   				Literal l1 = l.clone();
+   				if (! l.negated()) {
+    				l1.setNegated(false);
     			}
-    			unsuspendFor(l);
+    			unsuspendFor(l1);
     		}
     	}
     }
@@ -417,6 +419,7 @@ public class Intention implements Comparable<Intention>{
      * 
      * @return a string representing the intention.
      */
+    @Override
     public String toString() {
          String s = "";
          if (suspended) {
@@ -624,8 +627,8 @@ public class Intention implements Comparable<Intention>{
 		for (Guard g: gs) {
 			varnames.addAll(g.getVarNames());
 		}
-	//	theta.pruneRedundantNames(getVarNames());
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
+		trimUnifiers();
 		
 		intentionRows.add(ir);
 	}
@@ -654,12 +657,9 @@ public class Intention implements Comparable<Intention>{
 			
 			lastcount = counter;
 		}
-		
-		/* if (empty()) {
-			source = new Atom("empty");
-		} */
-		
+				
 		intentionRows.trimToSize();
+		trimUnifiers();
 		
 	}
 	
@@ -710,7 +710,12 @@ public class Intention implements Comparable<Intention>{
 	 * @return the top unifier on the unifier stack.
 	 */
 	public   Unifier hdU() {
-		return(theta(0));
+		try {
+			return(theta(0));
+		} catch (Exception e) {
+			// This may be an empty intention
+			return new Unifier();
+		}
 	}
 	
 	/**
@@ -767,6 +772,7 @@ public class Intention implements Comparable<Intention>{
 		
 		IntentionRow ir = new IntentionRow (e, gs, ds, theta);
 		push(ir);
+		trimUnifiers();
 	}
 	
 	/**
@@ -785,6 +791,7 @@ public class Intention implements Comparable<Intention>{
 			thetaHD.pruneRedundantNames(getVarNames());
 			dropP(1);
 			iCons(e, d, g, thetaHD);
+			trimUnifiers();
 		}
 	}
 	
@@ -852,6 +859,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Intention i) {
 		if (this.size() != i.size()) {
 			if (this.size() > i.size()) {
@@ -866,6 +874,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Intention) {
 			Intention i = (Intention) o;
@@ -898,6 +907,7 @@ public class Intention implements Comparable<Intention>{
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		final int PRIME = 7;
 		int result = PRIME * getSource().hashCode() + getAnnotation().hashCode();
@@ -908,5 +918,16 @@ public class Intention implements Comparable<Intention>{
 		return result;
 	}
 	
+	/**
+	 * Remove unused variable names from unifiers.
+	 */
+	public void trimUnifiers() {
+		ArrayList<String> varnames = new ArrayList<String>();
+		for (int i = 0; i < size(); i++) {
+			IntentionRow ir = intentionRows.get(i);
+			varnames.addAll(ir.getVarNames());
+			ir.trimUnifiers(varnames);
+		}
+	}
 
 }
