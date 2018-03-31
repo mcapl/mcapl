@@ -358,15 +358,15 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (formula instanceof Affects) {
-			return _affects(model.affects.get(formula.f1), formula.f2, "+") || _affects(model.affects.get(formula.f1), formula.f2, "-");
+			return _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+") || _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
 		}
 		
 		if (formula instanceof AffectsPos) {
-			return _affects(model.affects.get(formula.f1), formula.f2, "+");
+			return _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+");
 		}
 		
 		if (formula instanceof AffectsNeg) {
-			return _affects(model.affects.get(formula.f1), formula.f2, "-");
+			return _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
 		}
 		
 		if (formula instanceof Causes) {
@@ -518,7 +518,7 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Goal) {
 			boolean foundPos = false;
-			for (String i: model.goals.get(model.action)) {
+			for (String i: model.goals.get(model.action.getString())) {
 				if (models(model, new AffectsNeg(new FormulaString(i), formula.f1))) {
 					return false;
 				}
@@ -536,7 +536,7 @@ public class CausalModelChecker extends Checker {
 			l.addAll(model.getDirectConsequences());
 			for (Formula i: l) {
 				if (((FormulaString) formula.f1).getString().equals("Reading-1")) {
-					for (String g: model.goals.get(model.action)) {
+					for (String g: model.goals.get(model.action.getString())) {
 						if (models(model, new And(new Causes(i, new FormulaString(g)), new Affects(i, formula.f2)))) {
 							return true;
 						}
