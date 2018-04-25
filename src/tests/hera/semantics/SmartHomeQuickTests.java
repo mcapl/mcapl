@@ -71,10 +71,10 @@ public class SmartHomeQuickTests {
 		m3.setAlternatives(alternatives);
 		
 		Boolean b1 = m1.evaluate(new DoubleEffectPrinciple());
-		assertFalse(b1);
 		Boolean b2 = m2.evaluate(new DoubleEffectPrinciple());
-		assertFalse(b2);
 		Boolean b3 = m3.evaluate(new DoubleEffectPrinciple());
+		assertFalse(b1);
+		assertFalse(b2);
 		assertTrue(b3 == null); // Not Applicable because refrain has no consequences
 	}
 	
@@ -110,10 +110,10 @@ public class SmartHomeQuickTests {
 		m3.setAlternatives(alternatives);
 		
 		Boolean b1 = m1.evaluate(new UtilitarianPrinciple());
-		assertTrue(b1);
 		Boolean b2 = m2.evaluate(new UtilitarianPrinciple());
-		assertTrue(b2);
 		Boolean b3 = m3.evaluate(new UtilitarianPrinciple());
+		assertTrue(b1);
+		assertTrue(b2);
 		assertFalse(b3);
 	}
 	
@@ -149,10 +149,10 @@ public class SmartHomeQuickTests {
 		m3.setAlternatives(alternatives);
 		
 		Boolean b1 = m1.evaluate(new KantianHumanityPrincipleReading1());
-		assertFalse(b1);
 		Boolean b2 = m2.evaluate(new KantianHumanityPrincipleReading1());
-		assertTrue(b2);
 		Boolean b3 = m3.evaluate(new KantianHumanityPrincipleReading1());
+		assertFalse(b1);
+		assertTrue(b2);
 		assertFalse(b3);
 	}
 
