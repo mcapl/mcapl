@@ -62,7 +62,8 @@ public class Tutorial1SocketTest {
 	  public void tutorialexample () {
 		  final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
-		MotorwayThread motorwayThread = new MotorwayThread(config);
+		MotorwayR motorwayR = new MotorwayR(config);
+		Thread motorwayThread = new Thread(motorwayR);
 		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/car.ail");
 		motorwayThread.start();
 
@@ -82,7 +83,7 @@ public class Tutorial1SocketTest {
 		}
 
 		
-		Motorway motorway = motorwayThread.getMotorway();
+		Motorway motorway = motorwayR.getMotorway();
 		Car car = motorway.getCar1();
 
 		motorway.start();
@@ -103,7 +104,8 @@ public class Tutorial1SocketTest {
 	  public void tutorialex2 () {
 	 	final MotorwayConfig config = new MotorwayConfig("/src/examples/eass/tutorials/motorwaysim/config.txt");
 		
-		MotorwayThread motorwayThread = new MotorwayThread(config);
+	 	MotorwayR motorwayR = new MotorwayR(config);
+		Thread motorwayThread = new Thread(motorwayR);
 		AILThread ailThread = new AILThread("/src/examples/eass/tutorials/tutorial1/answers/car_ex2.ail");
 		motorwayThread.start();
 
@@ -123,7 +125,7 @@ public class Tutorial1SocketTest {
 		}
 
 		
-		Motorway motorway = motorwayThread.getMotorway();
+		Motorway motorway = motorwayR.getMotorway();
 		Car car = motorway.getCar1();
 
 		motorway.start();
@@ -177,10 +179,10 @@ public class Tutorial1SocketTest {
 		  }
 	  }
 	  
-	  public class MotorwayThread extends Thread {
+	  public class MotorwayR implements Runnable {
 		  MotorwayConfig config;
 		  
-		  MotorwayThread(MotorwayConfig conf) {
+		  MotorwayR(MotorwayConfig conf) {
 			  config = conf;
 		  }
 		  

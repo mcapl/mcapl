@@ -1,0 +1,339 @@
+Monitoring protocol
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+
+Message
+event(abstraction_car0,assert_shared(safe))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(accelerate))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,accelerating)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(brake))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,braking)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(driver_accelerates))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(accelerate))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,accelerating)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(brake))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,braking)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(driver_accelerates))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(driver_brakes))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(driver_brakes))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(driver_accelerates))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(accelerate))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,accelerating)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(driver_brakes))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(brake))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,braking)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(driver_brakes))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(driver_accelerates))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(driver_accelerates))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(accelerate))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,accelerating)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(car0,perf(brake))
+leads from state 
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,braking)
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>((((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,assert_shared(safe))
+leads from state 
+@(myContent>>(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+
+Message
+event(abstraction_car0,remove_shared(at_speed_limit))
+leads from state 
+@(myContent>>(((bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)*(S_1*S_2)),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])
+to state
+@(myContent>>(S_1*S_2),[S_1=(not_action:S_1)\/epsilon,S_2=(action(any_action):(((bel(safe):epsilon)\/(not_bel(safe):epsilon)\/epsilon|(bel(at_speed_limit):epsilon)\/(not_bel(at_speed_limit):epsilon)\/epsilon|(bel(driver_accelerates):epsilon)\/(not_bel(driver_accelerates):epsilon)\/epsilon|(bel(driver_brakes):epsilon)\/(not_bel(driver_brakes):epsilon)\/epsilon)|epsilon)*S_1)*S_2])

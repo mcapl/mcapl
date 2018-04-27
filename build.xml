@@ -52,6 +52,7 @@
  	    <include name="lib/3rdparty/eis-0.5.0.jar"/>
  	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
     	<include name="lib/3rdparty/jpf.jar"/>
+    	<include name="lib/3rdparty/jpl.jar"/>
     	<include name="lib/3rdparty/system-rules-1.16.0.jar"/>
    </fileset>
 
@@ -97,7 +98,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ail-classes" if="have_classes" depends="-compile-main">
+   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes,-compile-monitor-classes">
   	<mkdir dir="bin"/>
   	<javac srcdir="src/classes/ail" destdir="bin"
  	       includeantruntime="false"
@@ -109,7 +110,19 @@
     </javac>
   </target>
   
-  <target name="-compile-main" if="have_main" depends="-compile-ajpf-classes">
+   <target name="-compile-monitor-classes" if="have_classes" depends="-compile-ajpf-classes">
+	  	<mkdir dir="bin"/>
+	  	<javac srcdir="src/classes/monitor" destdir="bin"
+	 	       includeantruntime="false"
+	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+	      <classpath>
+	        <path refid="lib.path"/>
+	        <pathelement location="bin"/>
+	      </classpath>
+	    </javac>
+    </target>
+
+	<target name="-compile-main" if="have_main" depends="-compile-ail-classes">
     <mkdir dir="bin"/>
     <javac srcdir="src/main" destdir="bin"
  	       includeantruntime="false"
@@ -240,6 +253,31 @@
    
   </target>
   
+	   <target name="prolog" depends="compile"
+	          description="compile and run regression tests" if="have_tests">
+
+	    <property name="junit.usefile" value="true"/>
+
+	    <junit printsummary="on" showoutput="off" haltonfailure="yes"
+	           fork="yes" forkmode="perTest" maxmemory="1024m">
+	      <formatter type="plain" usefile="${junit.usefile}"/>
+
+	      <classpath>
+	        <path refid="lib.path"/>
+
+	        <pathelement location="bin"/>
+	 
+	      </classpath>
+
+	        <batchtest todir="bin">
+	          <fileset dir="bin">
+	              <include name="**/*PrologTest.class"/>
+	          </fileset>
+	        </batchtest>
+
+	    </junit>
+	   
+	  </target>
   
   
   <target name="fulltest" depends="compile"

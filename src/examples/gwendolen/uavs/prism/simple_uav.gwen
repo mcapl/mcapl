@@ -77,9 +77,9 @@ fly [perform]
 	
 
 // Information from the Navigation Manager
-+changeHeading: {B normalFlight, B vicinityOfAerodrome, B direction(Dir)} <- -normalFlight, +changingHeading, -direction(Dir), +direction(left);
-+landing: {True} <- land, -airborne;
-+headingOK: {B changingHeading, B direction(Dir)} <- -changingHeading, +normalFlight, -direction(Dir), +direction(straight);
++changeHeading: {B normalFlight, B vicinityOfAerodrome, B direction(Dir)} <- +.lock, -normalFlight, +changingHeading, -direction(Dir), +direction(left), -.lock;
++landing: {True} <- +.lock, land, -airborne, -.lock;
++headingOK: {B changingHeading, B direction(Dir)} <- +.lock, -changingHeading, +normalFlight, -direction(Dir), +direction(straight), -.lock;
 
 
 
