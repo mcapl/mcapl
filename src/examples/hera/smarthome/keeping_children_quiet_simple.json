@@ -1,0 +1,43 @@
+{
+  "description": "Keeping children quiet problem",
+  "actions": [
+    "turn_on_video_game",
+    "do_nothing"
+  ],
+  "background": [],
+  "consequences": [
+    "children_play_game",
+    "children_quiet",
+  ],
+  "mechanisms": {
+    "children_play_game": "'turn_on_video_game'",
+    "children_quiet": "'children_play_game'"
+  },
+  "utilities": {
+    
+    "turn_on_video_game": 0,
+    "do_nothing": 0,
+   "children_play_game": 0,
+    "children_quiet": 0
+  },
+  "intentions": {
+    "turn_on_video_game": [
+      "turn_on_video_game",
+      "children_play_game",
+      "children_quiet",
+    ],
+    "do_nothing": [
+      "do_nothing"
+    ]
+  },
+  "patients": [
+    "Child"
+  ],
+  "affects": {
+  },
+  "goals": {
+    "turn_on_video_game": [
+      "children_quiet"
+    ],
+  }
+}
