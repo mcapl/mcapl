@@ -1,0 +1,10 @@
+import pi2goagent
+
+agent = pi2goagent.Agent()
+
+def print_obstacle_rule():
+	print("Obstacle: ", agent.sensor_value('obstacle_centre'))
+	return
+
+agent.add_rule(print_obstacle_rule)
+agent.run_agent()

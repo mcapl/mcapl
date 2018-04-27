@@ -451,7 +451,7 @@ public class PlanLibrary {
     				Plan cp = (Plan) p.clone();
     				Unifier un = new Unifier();
     				
-    				if (intention != null) {
+    				if (intention != null  && !intention.empty()) {
     					cp.standardise_apart(intention.hdU(), new Unifier());
     					un = intention.hdU();
     				}

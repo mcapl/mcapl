@@ -1,21 +1,21 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2017 Louise A. Dennis, and Michael Fisher and 
+// Copyright (C) 2008-2017 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
 // 
-// This file is part of Gwendolen
+// This file is part of Agent JPF (AJPF)
 //
-// Gwendolen is free software; you can redistribute it and/or
+// AJPF is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// Gwendolen is distributed in the hope that it will be useful,
+// AJPF is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with Gwendolen if not, write to the Free Software
+// License along with AJPF if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
@@ -42,12 +42,17 @@ pred	:  v=var | f=function;
 function: CONST (OPEN terms CLOSE)?;
 
 terms	: t=term (COMMA terms)? ;
-term	: a = atom | s = stringterm | f=function;
+term	: a = atom | s = stringterm | f=function | l = listterm;
 
 atom	: n = numberstring | v=var | OPEN a=arithexpr CLOSE;
 stringterm : QUOTED_STRING ; 
 
-var 	:	VAR;
+listterm : SQOPEN (hl=listheads (BAR v=var)?)? SQCLOSE; 
+
+listheads : t1 = term (COMMA term)*;
+
+
+var 	:	VAR | UNNAMEDVAR;
 
 numberstring :	(MINUS)? (n1=NUMBER (POINT n2=NUMBER)?);
 equation	: a1=arithexpr oper=eqoper a2=arithexpr; 
@@ -76,14 +81,15 @@ CURLYOPEN	: '{';
 CURLYCLOSE	: '}';
 //DOUBLEQUOTE
 //	:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
-QUOTED_STRING: '"' .*? '"';
+QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
 NOT	:	'~';
 TRUE: 	'True';
 
 // STRING	:	{stringterm}? ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-CONST 	: 	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+CONST 	: 	'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.')*;
 VAR	:	 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	 '0'..'9' ('0'..'9')*;
+UNNAMEDVAR: '_';
 
 RULEARROW :	':-';
 
@@ -101,3 +107,5 @@ COMMA	:	',';
 SEMI	:	';';
 COLON	:	':';
 QUERY	:	'?';
+BAR: '|';
+

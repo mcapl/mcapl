@@ -33,6 +33,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import actiononly.syntax.ast.Abstract_ActionOnlyAgent;
+import ail.parser.FOFVisitor;
 import ail.syntax.ast.Abstract_Capability;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_GLogicalFormula;
@@ -43,6 +44,8 @@ import ail.syntax.ast.Abstract_MAS;
 import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 	

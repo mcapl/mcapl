@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package actiononly.parser;
+package ail.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +42,8 @@ import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_VarTerm;
+import ajpf.psl.parser.LogicalFmlasBaseVisitor;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 @SuppressWarnings("deprecation")
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
@@ -137,8 +139,9 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
     //     $s = new Abstract_StringTermImpl($STRING.getText());};
 	@Override public Object visitStringterm(@NotNull LogicalFmlasParser.StringtermContext ctx) {
 		String s = ctx.QUOTED_STRING().toString();
-		s.substring(1, s.length() - 1);
-		return new Abstract_StringTermImpl(s);
+		// Removing quotation marks...
+		String s1 = s.substring(1, s.length() - 1);
+		return new Abstract_StringTermImpl(s1);
 	}
 	
 	/* var 	returns [Abstract_VarTerm v]:	VAR {

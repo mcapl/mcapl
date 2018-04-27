@@ -271,8 +271,12 @@ public class DefaultEnvironment implements AILEnv {
     	}
 
 	   	if (act.getFunctor().equals("print")) {
-	    	 Term content = (Term) act.getTerm(0);
-	    	 System.out.println(content);
+	   		String s = "";
+	   		 for (Term t: act.getTerms()) {
+	   			 s += t.toString();
+	   		 }
+	    	 // Term content = (Term) act.getTerm(0);
+	    	 System.out.println(s);
 	    	 act.setLogLevel(AJPFLogger.FINER);
 	     }
 
