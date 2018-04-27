@@ -82,8 +82,20 @@
   <!-- ======================= COMPILE SECTION ============================= -->
     
   <!-- public compile -->
-  <target name="compile" depends="-init,-compile-main,-compile-peers,-compile-classes,-compile-tests,-compile-fulltests,-compile-examples"
+  <target name="compile" depends="-init,-compile-main,-compile-ajpf-main,-compile-peers,-compile-classes,-compile-tests,-compile-fulltests,-compile-examples"
           description="compile all AJPF sources" >
+  </target>
+	
+	<target name="-compile-ajpf-main" if="have_main">
+  	<mkdir dir="bin/ajpf"/>
+  	<javac srcdir="src/main/ajpf" destdir="bin"
+ 	       includeantruntime="false"
+           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+      <classpath>
+        <path refid="lib.path"/>
+        <pathelement location="bin"/>
+      </classpath>
+    </javac>
   </target>
 
    <target name="-compile-ajpf-classes" if="have_classes">
@@ -98,7 +110,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes,-compile-monitor-classes">
+   <target name="-compile-ail-classes" if="have_classes" depends="-compile-ajpf-classes,-compile-ajpf-main,-compile-monitor-classes">
   	<mkdir dir="bin"/>
   	<javac srcdir="src/classes/ail" destdir="bin"
  	       includeantruntime="false"

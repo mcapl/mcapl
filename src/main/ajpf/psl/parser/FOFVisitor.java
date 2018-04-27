@@ -35,7 +35,6 @@ import ajpf.psl.ast.Abstract_TermImpl;
 import ajpf.psl.parser.LogicalFmlasBaseVisitor;
 import ajpf.psl.parser.LogicalFmlasParser;
 
-@SuppressWarnings("deprecation")
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 
 	//function returns [Abstract_Predicate f]: CONST {$f = new Abstract_Predicate($CONST.getText());} (OPEN terms[$f] CLOSE)?;

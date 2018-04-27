@@ -25,7 +25,6 @@ package pbdi.pi2goagent;
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
-import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Exercise3JPFTests extends TestJPF {

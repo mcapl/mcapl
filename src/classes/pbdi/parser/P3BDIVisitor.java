@@ -65,6 +65,7 @@ public class P3BDIVisitor extends Python3BaseVisitor<Object> {
 	@Override public Object visitFuncdef(Python3Parser.FuncdefContext ctx) { 
 		String name = ctx.NAME().getText();
 		// funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		@SuppressWarnings("unchecked")
 		ArrayList<Abstract_PythonStmt> stmts = (ArrayList<Abstract_PythonStmt>) visitSuite(ctx.suite()); 
 		Abstract_PythonFunc func = new Abstract_PythonFunc(name);
 		for (Abstract_PythonStmt s: stmts) {

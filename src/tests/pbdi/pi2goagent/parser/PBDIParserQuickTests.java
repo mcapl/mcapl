@@ -53,7 +53,7 @@ public class PBDIParserQuickTests {
 		Python3Parser pslparser = new Python3Parser(tokens);
 		P3BDIVisitor visitor = new P3BDIVisitor();
 		try {
-			@SuppressWarnings("unused")
+			@SuppressWarnings("unchecked")
 			ArrayList<Abstract_PythonStmt> stmts = (ArrayList<Abstract_PythonStmt>) visitor.visitSuite(pslparser.suite());
 			
 			Abstract_PythonFunc function = new Abstract_PythonFunc("dummy");

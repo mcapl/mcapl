@@ -24,7 +24,6 @@
 
 package pbdi;
 
-import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_MAS;
 
 import gov.nasa.jpf.annotation.MJI;
@@ -37,10 +36,6 @@ import pbdi.parser.Python3Parser;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import actiononly.parser.ActionOnlyAILVisitor;
-import actiononly.parser.ActionOnlyLexer;
-import actiononly.parser.ActionOnlyParser;
 
 /**
  * Utility class.  Builds an Action Only MAS by parsing a string or a file.
