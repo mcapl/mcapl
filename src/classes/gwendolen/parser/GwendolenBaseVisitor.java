@@ -1,6 +1,5 @@
-// Generated from Gwendolen.g4 by ANTLR 4.4
+// Generated from Gwendolen.g4 by ANTLR 4.7
 package gwendolen.parser;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -18,124 +17,124 @@ public class GwendolenBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGoal(@NotNull GwendolenParser.GoalContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMas(GwendolenParser.MasContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBrule(@NotNull GwendolenParser.BruleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGwendolenagents(GwendolenParser.GwendolenagentsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPerformative(@NotNull GwendolenParser.PerformativeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGwendolenagent(GwendolenParser.GwendolenagentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClasspath(@NotNull GwendolenParser.ClasspathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuard_atom(GwendolenParser.Guard_atomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGwendolenagents(@NotNull GwendolenParser.GwendolenagentsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGoal(GwendolenParser.GoalContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeed(@NotNull GwendolenParser.DeedContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPlan(GwendolenParser.PlanContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAgentnameterm(@NotNull GwendolenParser.AgentnametermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPn_guard_atom(GwendolenParser.Pn_guard_atomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEnvironment(@NotNull GwendolenParser.EnvironmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEvent(GwendolenParser.EventContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGuard_atom(@NotNull GwendolenParser.Guard_atomContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPerformative(GwendolenParser.PerformativeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPn_guard_atom(@NotNull GwendolenParser.Pn_guard_atomContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeed(GwendolenParser.DeedContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFof_expr(@NotNull GwendolenParser.Fof_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBrule(GwendolenParser.BruleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGwendolenagent(@NotNull GwendolenParser.GwendolenagentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWaitfor(GwendolenParser.WaitforContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAction(@NotNull GwendolenParser.ActionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAction(GwendolenParser.ActionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEvent(@NotNull GwendolenParser.EventContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEnvironment(GwendolenParser.EnvironmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlan(@NotNull GwendolenParser.PlanContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClasspath(GwendolenParser.ClasspathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWaitfor(@NotNull GwendolenParser.WaitforContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWord(GwendolenParser.WordContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWord(@NotNull GwendolenParser.WordContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAgentnameterm(GwendolenParser.AgentnametermContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMas(@NotNull GwendolenParser.MasContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFof_expr(GwendolenParser.Fof_exprContext ctx) { return visitChildren(ctx); }
 }

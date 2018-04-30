@@ -24,54 +24,83 @@
 
 lexer grammar GwendolenLexer;
 
-	
+@lexer::members {
+    public int plain_nesting = 0;
+    public int sq_nesting = 0;
+    public int curly_nesting = 0;
+//    public boolean stringterm = false;
+//    public boolean gwendolen = true;
+//    public int belief_rules = 0;
+}	
 
 GWENDOLEN	:'GWENDOLEN';
 
-GOALS	:	':Initial Goals:';
-BELIEFS	:	':Initial Beliefs:';
+// Top Level sections
+GOALS		:	':Initial Goals:';
+BELIEFS		:	':Initial Beliefs:';
 BELIEFRULES :	':Reasoning Rules:' ;
-PLANS	:	':Plans:';
+PLANS		:	':Plans:';
 NAME		:	':name:';
 
+// Deeds
 SEND		:	'.send';
-RECEIVED:   '.received';
-BELIEVE	:	 ('B' | '.B') ;
-GOAL		:	 ('G' | '.G') ;
-// IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
-// IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
-SENT		:	 '.sent';
 LOCK		:	'.lock';
 ADD_PLAN	:	'.plan';
-ADD_CONSTRAINT	: '.constraint';
+// ADD_CONSTRAINT	: '.constraint';
 // ADD_CONTENT	:	'.n';
 // ADD_CONTEXT	:	'.x';
 
 TELL		:	':tell';
-PERFORM :	':perform';
-ACHIEVE :	':achieve';
+PERFORM 	:	':perform';
+ACHIEVE 	:	':achieve';
 // TELLHOW	:	':how';
 //CONSTRAINT :	':constrain';
 
-ACHIEVEGOAL	: 'achieve';
-PERFORMGOAL	:  'perform';
+// Goals
+ACHIEVEGOAL	: {sq_nesting > 0}? 'achieve';
+PERFORMGOAL	:  {sq_nesting > 0}? 'perform';
+
+// Rules
 BRULEARROW 	:	':-';
 RULEARROW 	:	'<-';
 
+// Plan Guards
+NOT			:	'~';
 TRUE		:	'True';
+RECEIVED	:   '.received';
+BELIEVE		:	 {curly_nesting > 0 && plain_nesting == 0}? ('B' | '.B') ;
+GOAL		:	{curly_nesting > 0 && plain_nesting == 0}? ('G' | '.G') ;
+// IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
+// IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
+SENT		:	 '.sent';
 
 
 // General AIL Lexing stuff
 CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
 
-OPEN	: 	'(' ;
-CLOSE	:	')' ;
+OPEN	: 	'(' {plain_nesting++;};
+CLOSE	:	')' {plain_nesting--;};
+CURLYOPEN:  '{' {curly_nesting++;};
+CURLYCLOSE: '}' {curly_nesting--;};
+SQOPEN: '[' {sq_nesting++;};
+SQCLOSE: ']'{sq_nesting--;};
+
 COMMASEP	:	',' ;
 IDPUNCT:	'.';
-SQOPEN: '[';
-SQCLOSE: ']';
 BAR: '|';
+
+// LESS	:	'<';
+// EQ	: 	'==';
+SEMI	:	';';
+COLON	:	':';
+QUERY	:	'?';
+MULT	:	'*';
+PLUS	:	'+';
+MINUS	:	'-';
+SHRIEK	:	'!';
+// DIV	:	'/';
+// MOD	:	'%';
 
 COMMENT		: '/*' .*? '*/' -> skip;
 LINE_COMMENT	: '//' ~('\n'|'\r')* '\r'? '\n' -> skip;

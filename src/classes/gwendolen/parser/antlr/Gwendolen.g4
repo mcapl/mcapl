@@ -103,12 +103,12 @@ action  :
 	t=fof_expr ;
 	
 environment  : w=classpath ;
-classpath  : w=word  (POINT w1=word )+;                                                                                     
-word  : (CONST  | VAR );                                                                                     
+classpath  : w=word  (IDPUNCT w1=word )+;                                                                                     
+word  : CONST ;                                                                                     
 
-agentnameterm  : CONST  | VAR | UNNAMEDVAR ;
+agentnameterm  : CONST  ;
 
 // fof_expr: (CONST | IDPUNCT | OPEN fof_expr CLOSE)+;
 fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 
-	      | SQOPEN fof_expr (COMMASEP fof_expr)* (BAR VAR)? SQCLOSE );
+	      | SQOPEN fof_expr (COMMASEP fof_expr)* (BAR CONST)? SQCLOSE );
 

@@ -49,7 +49,7 @@ import ajpf.psl.parser.LogicalFmlasParser;
 
 @SuppressWarnings("deprecation")
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
-	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();	
+	private HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();	
 	/* literal returns [Abstract_Literal l]:  (TRUE {$l = new Abstract_Literal(Abstract_Literal.LTrue);} | 
 			NOT nt=pred {
 			if ($nt.t instanceof Abstract_VarTerm) 
@@ -155,11 +155,11 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			}
 		}; */
 	@Override public Object visitVar(@NotNull LogicalFmlasParser.VarContext ctx) {
-		if (variables.containsKey(ctx.VAR().getText())) {
-			return variables.get(ctx.VAR().getText());
+		if (variables.containsKey(ctx.getText())) {
+			return variables.get(ctx.getText());
 		} else {
-			Abstract_VarTerm v = new Abstract_VarTerm(ctx.VAR().getText());
-			variables.put(ctx.VAR().getText(), v);
+			Abstract_VarTerm v = new Abstract_VarTerm(ctx.getText());
+			variables.put(ctx.getText(), v);
 			return v;
 		}
 	}

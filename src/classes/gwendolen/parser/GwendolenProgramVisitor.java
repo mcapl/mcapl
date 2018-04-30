@@ -50,6 +50,7 @@ import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_SendAction;
 import ail.syntax.ast.Abstract_StringTerm;
 import ail.syntax.ast.Abstract_StringTermImpl;
+import ail.syntax.ast.Abstract_UnnamedVar;
 import ail.syntax.ast.Abstract_VarTerm;
 import ail.util.Tuple;
 import ajpf.psl.parser.LogicalFmlasLexer;
@@ -155,15 +156,17 @@ public class GwendolenProgramVisitor extends GwendolenBaseVisitor<Object> {
 		}
 		
 		if (ctx.SENT() != null) {
-			Abstract_StringTerm an1 = (Abstract_StringTerm) visitAgentnameterm(ctx.s);
+			String agname = ctx.s.getText();
+			Abstract_StringTerm an1 = agname_to_stringterm(agname);
+		
 			Abstract_StringTerm agn = agentname;
 			if (ctx.an2 != null) {
-				agn = (Abstract_StringTerm) visitAgentnameterm(ctx.an2);
+				agn = agname_to_stringterm(ctx.an2.getText());
 			}
 			Integer p = (Integer) visitPerformative(ctx.p);
 			
 			LogicalFmlasParser t_parser = fofparser(ctx.t.getText());
-			Abstract_Pred pred = (Abstract_Pred) fofvisitor.visitPred(t_parser.pred());
+			Abstract_Predicate pred = (Abstract_Predicate) fofvisitor.visitPred(t_parser.pred());
 			g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, p, pred);
 		}
 		
@@ -177,6 +180,16 @@ public class GwendolenProgramVisitor extends GwendolenBaseVisitor<Object> {
 		}
 		
 		return g;
+	}
+	
+	private Abstract_StringTerm agname_to_stringterm(String agname) {
+		if (Character.isUpperCase(agname.charAt(0))) {
+			return new Abstract_VarTerm(agname);
+		} else if (Character.isLowerCase(agname.charAt(0))){
+			return new Abstract_StringTermImpl(agname);
+		} else {
+			return new Abstract_UnnamedVar();
+		}
 	}
 
 	///goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
@@ -250,7 +263,7 @@ public class GwendolenProgramVisitor extends GwendolenBaseVisitor<Object> {
 		if (ctx.PLUS() != null) {
 			if (ctx.RECEIVED() != null) {
 				LogicalFmlasParser t_parser = fofparser(ctx.t.getText());
-				Abstract_Pred pred = (Abstract_Pred) fofvisitor.visitPred(t_parser.pred());
+				Abstract_Predicate pred = (Abstract_Predicate) fofvisitor.visitPred(t_parser.pred());
 				Abstract_GMessage message = new Abstract_GMessage(new Abstract_VarTerm("From"), new Abstract_VarTerm("To"), (Integer) visitPerformative(ctx.p), pred); 
 				return new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILReceived, message);
 			}
@@ -372,7 +385,7 @@ public class GwendolenProgramVisitor extends GwendolenBaseVisitor<Object> {
 	@Override public Object visitAction(GwendolenParser.ActionContext ctx) {
 		FOFVisitor fofvisitor = new FOFVisitor();
 		LogicalFmlasParser t_parser = fofparser(ctx.t.getText());
-		Abstract_Pred pred = (Abstract_Pred) fofvisitor.visitPred(t_parser.pred());
+		Abstract_Predicate pred = (Abstract_Predicate) fofvisitor.visitPred(t_parser.pred());
 
 		if (ctx.SEND() != null) {
 			LogicalFmlasParser l_parser = fofparser(ctx.an.getText());
