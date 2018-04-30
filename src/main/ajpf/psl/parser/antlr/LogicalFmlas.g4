@@ -49,7 +49,7 @@ stringterm : QUOTED_STRING ;
 
 listterm : SQOPEN (hl=listheads (BAR v=var)?)? SQCLOSE; 
 
-listheads : t1 = term (COMMA term)*;
+listheads : t1 = term (COMMA tl2=term)*;
 
 
 var 	:	VAR | UNNAMEDVAR;

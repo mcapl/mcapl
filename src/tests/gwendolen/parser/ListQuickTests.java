@@ -24,23 +24,23 @@
 package gwendolen.parser;
 
 import junit.framework.Assert;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
+import ail.parser.FOFVisitor;
 import ail.syntax.ListTerm;
 import ail.syntax.ast.Abstract_ListTerm;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 public class ListQuickTests {
 	@Test public void list1test() {
-		GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[]"));
-		CommonTokenStream list1_tokens = new CommonTokenStream(list1_lexer);
-		GwendolenParser list1_parser = new GwendolenParser(list1_tokens);
+		//GwendolenParser list1_parser = gwendolen_parser_for("[]");
 		
 		try {
-			Abstract_ListTerm l = list1_parser.listterm();
-			ListTerm cl = (ListTerm) l.toMCAPL();
+			ListTerm cl = list_term_from_string("[]");
 			
 			Assert.assertTrue(cl.isEmpty());
 		}  catch (Exception e) {
@@ -51,13 +51,10 @@ public class ListQuickTests {
 	}
 	
 	@Test public void list2test() {
-		GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[a,d,z,c]"));
-		CommonTokenStream list1_tokens = new CommonTokenStream(list1_lexer);
-		GwendolenParser list1_parser = new GwendolenParser(list1_tokens);
+		// GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[a,d,z,c]"));
 		
 		try {
-			Abstract_ListTerm l = list1_parser.listterm();
-			ListTerm cl = (ListTerm) l.toMCAPL();
+			ListTerm cl = list_term_from_string("[a,d,z,c]");
 			
 			Assert.assertTrue(cl.getHead().getFunctor().equals("a"));
 			cl.remove(0);
@@ -70,13 +67,10 @@ public class ListQuickTests {
 	}
 	
 	@Test public void list3test() {
-		GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[H|T]"));
-		CommonTokenStream list1_tokens = new CommonTokenStream(list1_lexer);
-		GwendolenParser list1_parser = new GwendolenParser(list1_tokens);
+		// GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[H|T]"));
 		
 		try {
-			Abstract_ListTerm l = list1_parser.listterm();
-			ListTerm cl = (ListTerm) l.toMCAPL();
+			ListTerm cl = list_term_from_string("[H|T]");
 			
 			Assert.assertTrue(cl.getHead().getFunctor().equals("H"));
 			Assert.assertTrue(cl.getTail().isVar());
@@ -85,16 +79,13 @@ public class ListQuickTests {
 			Assert.assertFalse(true);
 		}
 		
-	}
+	} 
 	
 	@Test public void list4test() {
-		GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[a,b|T]"));
-		CommonTokenStream list1_tokens = new CommonTokenStream(list1_lexer);
-		GwendolenParser list1_parser = new GwendolenParser(list1_tokens);
+		// GwendolenLexer list1_lexer = new GwendolenLexer(new ANTLRStringStream("[a,b|T]"));
 		
 		try {
-			Abstract_ListTerm l = list1_parser.listterm();
-			ListTerm cl = (ListTerm) l.toMCAPL();
+			ListTerm cl = list_term_from_string("[a,b|T]");
 			
 			Assert.assertTrue(cl.getHead().getFunctor().equals("a"));
 			cl.remove(0);
@@ -106,5 +97,17 @@ public class ListQuickTests {
 		}
 
 	}
+	
+	private ListTerm list_term_from_string(String  s) {
+		LogicalFmlasLexer fof_lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(fof_lexer);
+		LogicalFmlasParser fof_parser = new LogicalFmlasParser(tokens);
+		FOFVisitor fof_visitor = new FOFVisitor();
+		
+		Abstract_ListTerm l = (Abstract_ListTerm) fof_visitor.visitListterm(fof_parser.listterm());
+		return (ListTerm) l.toMCAPL();
+	}
+	
+
 
 }

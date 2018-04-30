@@ -23,12 +23,11 @@
 //----------------------------------------------------------------------------
 package gwendolen.parser;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
 import junit.framework.Assert;
-
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
 
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_Equation;
@@ -57,18 +56,14 @@ public class ReasoningRuleQuickTests {
 	 * 
 	 */
 	@Test public void ruleUnificationTest() {
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(X, Y) :- square(X, Y), ~ at(X, Y), ~ empty(X, Y), ~ human(X, Y);"));
-		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
-		
-		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));"));
-		CommonTokenStream rule2_tokens = new CommonTokenStream(rule2_lexer);
-		GwendolenParser rule2_parser = new GwendolenParser(rule2_tokens);
+		GwendolenParser rule_parser = parser_for("unchecked(X, Y) :- square(X, Y), ~ at(X, Y), ~ empty(X, Y), ~ human(X, Y);");
+		GwendolenParser rule2_parser = parser_for("area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		try {
-			Abstract_Rule ast_rule = rule_parser.brule();
+			Abstract_Rule ast_rule = (Abstract_Rule) visitor.visitBrule(rule_parser.brule());
 			Rule rule = ast_rule.toMCAPL();
 			
-			Abstract_Rule ast_rule2 = rule2_parser.brule();
+			Abstract_Rule ast_rule2 = (Abstract_Rule) visitor.visitBrule(rule2_parser.brule());
 			Rule rule2 = ast_rule2.toMCAPL();
 
 			AILAgent ag = new AILAgent();
@@ -138,20 +133,15 @@ public class ReasoningRuleQuickTests {
 	}
 
 	@Test public void rulesWithNegationTest() {
-//		AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
-//		AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("in_formation(F) :- ~ ( pos(F, P), ~ agent_at(P));"));
-		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		GwendolenParser rule_parser = parser_for("in_formation(F) :- ~ ( pos(F, P), ~ agent_at(P));");
+		GwendolenParser rule2_parser = parser_for("agent_at(Pos) :-   position(Ag, Pos), maintaining(Ag);");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		
-		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("agent_at(Pos) :-   position(Ag, Pos), maintaining(Ag);"));
-		CommonTokenStream rule2_tokens = new CommonTokenStream(rule2_lexer);
-		GwendolenParser rule2_parser = new GwendolenParser(rule2_tokens);
 		try {
-			Abstract_Rule ast_rule = rule_parser.brule();
+			Abstract_Rule ast_rule = (Abstract_Rule) visitor.visitBrule(rule_parser.brule());
 			Rule rule = ast_rule.toMCAPL();
 			
-			Abstract_Rule ast_rule2 = rule2_parser.brule();
+			Abstract_Rule ast_rule2 = (Abstract_Rule) visitor.visitBrule(rule2_parser.brule());
 			Rule rule2 = ast_rule2.toMCAPL();
 
 			AILAgent ag = new AILAgent();
@@ -189,17 +179,24 @@ public class ReasoningRuleQuickTests {
 	}
 	
 	@Test public void rulesWithEquationsTest() {
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("in_formation :- [F < P];"));
-		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		GwendolenParser rule_parser = parser_for("in_formation :- [F < P];");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		
 		try {
-			Abstract_Rule rule = rule_parser.brule();
+			Abstract_Rule rule = (Abstract_Rule) visitor.visitBrule(rule_parser.brule());
 			Assert.assertTrue(rule.getBody() instanceof Abstract_Equation);
 		} catch (Exception e) {
 			Assert.assertFalse(false);
 		}
 
 	}
+	
+	GwendolenParser parser_for(String s) {
+		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		GwendolenParser parser = new GwendolenParser(tokens);
+		return parser;
+	}
+
 
 }

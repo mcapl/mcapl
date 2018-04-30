@@ -28,9 +28,9 @@ lexer grammar GwendolenLexer;
 
 GWENDOLEN	:'GWENDOLEN';
 
-// GOALS	:	':Initial Goals:';
-BELIEFS	:	':Initial Beliefs:' -> mode(INITIAL_BELIEFS);
-// BELIEFRULES :	':Reasoning Rules:' ;
+GOALS	:	':Initial Goals:';
+BELIEFS	:	':Initial Beliefs:';
+BELIEFRULES :	':Reasoning Rules:' ;
 PLANS	:	':Plans:';
 NAME		:	':name:';
 
@@ -62,17 +62,20 @@ TRUE		:	'True';
 
 
 // General AIL Lexing stuff
-COMMENT		: '/*' .* '*/' -> skip;
+CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
+
+OPEN	: 	'(' ;
+CLOSE	:	')' ;
+COMMASEP	:	',' ;
+IDPUNCT:	'.';
+SQOPEN: '[';
+SQCLOSE: ']';
+BAR: '|';
+
+COMMENT		: '/*' .*? '*/' -> skip;
 LINE_COMMENT	: '//' ~('\n'|'\r')* '\r'? '\n' -> skip;
 NEWLINE		:'\r'? '\n' -> skip;
 WS  			: (' '|'\t')+ -> skip ;
 
-mode INITIAL_BELIEFS;
-BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
-GOALS_IB	:	':Initial Goals:' -> mode(GOALS);
-IB_COMMENT : '/*' .*? '*/' -> skip ;
-IB_LINE_COMMENT : '//' ~('\n'|'\r')* '\r'? '\n' -> skip ;
-IB_NEWLINE:	'\r'? '\n'-> skip ;
-IB_WS  :   (' '|'\t') -> skip ;
-BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
 

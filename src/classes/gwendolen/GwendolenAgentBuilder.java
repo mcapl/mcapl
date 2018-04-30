@@ -26,10 +26,13 @@ package gwendolen;
 
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
+import gwendolen.parser.GwendolenProgramVisitor;
 import gwendolen.syntax.ast.Abstract_GwendolenAgent;
 import gwendolen.semantics.GwendolenAgent;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.CommonTokenStream;
+
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
 import ail.mas.MAS;
@@ -53,10 +56,13 @@ public class GwendolenAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			GwendolenLexer lexer = new GwendolenLexer(new ANTLRFileStream(masstring));
+			GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			tokens.fill();
+			
 			GwendolenParser parser = new GwendolenParser(tokens);
-    		abs_agent = parser.gwendolenagent();
+			GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
+    			abs_agent = (Abstract_GwendolenAgent) visitor.visitGwendolenagent(parser.gwendolenagent());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

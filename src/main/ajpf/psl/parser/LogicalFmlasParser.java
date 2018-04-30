@@ -1,4 +1,4 @@
-// Generated from LogicalFmlas.g4 by ANTLR 4.7
+// Generated from LogicalFmlas.g4 by ANTLR 4.4
 package ajpf.psl.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class LogicalFmlasParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,6 +22,12 @@ public class LogicalFmlasParser extends Parser {
 		CONST=14, VAR=15, NUMBER=16, UNNAMEDVAR=17, RULEARROW=18, LESS=19, EQ=20, 
 		POINT=21, MULT=22, PLUS=23, MINUS=24, DIV=25, MOD=26, SHRIEK=27, COMMA=28, 
 		SEMI=29, COLON=30, QUERY=31, BAR=32;
+	public static final String[] tokenNames = {
+		"<INVALID>", "COMMENT", "LINE_COMMENT", "NEWLINE", "WS", "'('", "')'", 
+		"'['", "']'", "'{'", "'}'", "QUOTED_STRING", "'~'", "'True'", "CONST", 
+		"VAR", "NUMBER", "'_'", "':-'", "'<'", "'=='", "'.'", "'*'", "'+'", "'-'", 
+		"'/'", "'%'", "'!'", "','", "';'", "':'", "'?'", "'|'"
+	};
 	public static final int
 		RULE_rulelist = 0, RULE_rulelist_poss_empty = 1, RULE_prolog_rule = 2, 
 		RULE_logicalfmla = 3, RULE_notfmla = 4, RULE_subfmla = 5, RULE_litlist = 6, 
@@ -38,54 +44,11 @@ public class LogicalFmlasParser extends Parser {
 		"multoper"
 	};
 
-	private static final String[] _LITERAL_NAMES = {
-		null, null, null, null, null, "'('", "')'", "'['", "']'", "'{'", "'}'", 
-		null, "'~'", "'True'", null, null, null, "'_'", "':-'", "'<'", "'=='", 
-		"'.'", "'*'", "'+'", "'-'", "'/'", "'%'", "'!'", "','", "';'", "':'", 
-		"'?'", "'|'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "COMMENT", "LINE_COMMENT", "NEWLINE", "WS", "OPEN", "CLOSE", "SQOPEN", 
-		"SQCLOSE", "CURLYOPEN", "CURLYCLOSE", "QUOTED_STRING", "NOT", "TRUE", 
-		"CONST", "VAR", "NUMBER", "UNNAMEDVAR", "RULEARROW", "LESS", "EQ", "POINT", 
-		"MULT", "PLUS", "MINUS", "DIV", "MOD", "SHRIEK", "COMMA", "SEMI", "COLON", 
-		"QUERY", "BAR"
-	};
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
-
 	@Override
 	public String getGrammarFileName() { return "LogicalFmlas.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -125,15 +88,12 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
-			prolog_rule();
+			setState(50); prolog_rule();
 			setState(52);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
 				{
-				setState(51);
-				rulelist();
+				setState(51); rulelist();
 				}
 			}
 
@@ -173,12 +133,10 @@ public class LogicalFmlasParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(55);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
 				{
-				setState(54);
-				rulelist();
+				setState(54); rulelist();
 				}
 			}
 
@@ -201,11 +159,11 @@ public class LogicalFmlasParser extends Parser {
 		public PredContext pred() {
 			return getRuleContext(PredContext.class,0);
 		}
-		public TerminalNode RULEARROW() { return getToken(LogicalFmlasParser.RULEARROW, 0); }
 		public TerminalNode SEMI() { return getToken(LogicalFmlasParser.SEMI, 0); }
 		public LogicalfmlaContext logicalfmla() {
 			return getRuleContext(LogicalfmlaContext.class,0);
 		}
+		public TerminalNode RULEARROW() { return getToken(LogicalFmlasParser.RULEARROW, 0); }
 		public Prolog_ruleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -223,25 +181,19 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57);
-			((Prolog_ruleContext)_localctx).head = pred();
+			setState(57); ((Prolog_ruleContext)_localctx).head = pred();
 			setState(63);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case RULEARROW:
 				{
-				setState(58);
-				match(RULEARROW);
-				setState(59);
-				((Prolog_ruleContext)_localctx).f = logicalfmla();
-				setState(60);
-				match(SEMI);
+				setState(58); match(RULEARROW);
+				setState(59); ((Prolog_ruleContext)_localctx).f = logicalfmla();
+				setState(60); match(SEMI);
 				}
 				break;
 			case SEMI:
 				{
-				setState(62);
-				match(SEMI);
+				setState(62); match(SEMI);
 				}
 				break;
 			default:
@@ -263,15 +215,15 @@ public class LogicalFmlasParser extends Parser {
 	public static class LogicalfmlaContext extends ParserRuleContext {
 		public NotfmlaContext n;
 		public NotfmlaContext n2;
-		public List<NotfmlaContext> notfmla() {
-			return getRuleContexts(NotfmlaContext.class);
-		}
 		public NotfmlaContext notfmla(int i) {
 			return getRuleContext(NotfmlaContext.class,i);
 		}
 		public List<TerminalNode> COMMA() { return getTokens(LogicalFmlasParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(LogicalFmlasParser.COMMA, i);
+		}
+		public List<NotfmlaContext> notfmla() {
+			return getRuleContexts(NotfmlaContext.class);
 		}
 		public LogicalfmlaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -291,8 +243,7 @@ public class LogicalFmlasParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
-			((LogicalfmlaContext)_localctx).n = notfmla();
+			setState(65); ((LogicalfmlaContext)_localctx).n = notfmla();
 			setState(70);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
@@ -300,10 +251,8 @@ public class LogicalFmlasParser extends Parser {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(66);
-					match(COMMA);
-					setState(67);
-					((LogicalfmlaContext)_localctx).n2 = notfmla();
+					setState(66); match(COMMA);
+					setState(67); ((LogicalfmlaContext)_localctx).n2 = notfmla();
 					}
 					} 
 				}
@@ -330,18 +279,18 @@ public class LogicalFmlasParser extends Parser {
 		public PredContext gb2;
 		public EquationContext eq2;
 		public SubfmlaContext lf;
-		public TerminalNode SQOPEN() { return getToken(LogicalFmlasParser.SQOPEN, 0); }
-		public TerminalNode SQCLOSE() { return getToken(LogicalFmlasParser.SQCLOSE, 0); }
-		public PredContext pred() {
-			return getRuleContext(PredContext.class,0);
-		}
+		public TerminalNode NOT() { return getToken(LogicalFmlasParser.NOT, 0); }
 		public EquationContext equation() {
 			return getRuleContext(EquationContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(LogicalFmlasParser.NOT, 0); }
+		public PredContext pred() {
+			return getRuleContext(PredContext.class,0);
+		}
 		public SubfmlaContext subfmla() {
 			return getRuleContext(SubfmlaContext.class,0);
 		}
+		public TerminalNode SQOPEN() { return getToken(LogicalFmlasParser.SQOPEN, 0); }
+		public TerminalNode SQCLOSE() { return getToken(LogicalFmlasParser.SQCLOSE, 0); }
 		public NotfmlaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -358,7 +307,6 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 8, RULE_notfmla);
 		try {
 			setState(89);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SQOPEN:
 			case CONST:
@@ -367,24 +315,19 @@ public class LogicalFmlasParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(78);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case CONST:
 				case VAR:
 				case UNNAMEDVAR:
 					{
-					setState(73);
-					((NotfmlaContext)_localctx).gb = pred();
+					setState(73); ((NotfmlaContext)_localctx).gb = pred();
 					}
 					break;
 				case SQOPEN:
 					{
-					setState(74);
-					match(SQOPEN);
-					setState(75);
-					((NotfmlaContext)_localctx).eq = equation();
-					setState(76);
-					match(SQCLOSE);
+					setState(74); match(SQOPEN);
+					setState(75); ((NotfmlaContext)_localctx).eq = equation();
+					setState(76); match(SQCLOSE);
 					}
 					break;
 				default:
@@ -395,33 +338,26 @@ public class LogicalFmlasParser extends Parser {
 			case NOT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(80);
-				match(NOT);
+				setState(80); match(NOT);
 				setState(87);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case CONST:
 				case VAR:
 				case UNNAMEDVAR:
 					{
-					setState(81);
-					((NotfmlaContext)_localctx).gb2 = pred();
+					setState(81); ((NotfmlaContext)_localctx).gb2 = pred();
 					}
 					break;
 				case SQOPEN:
 					{
-					setState(82);
-					match(SQOPEN);
-					setState(83);
-					((NotfmlaContext)_localctx).eq2 = equation();
-					setState(84);
-					match(SQCLOSE);
+					setState(82); match(SQOPEN);
+					setState(83); ((NotfmlaContext)_localctx).eq2 = equation();
+					setState(84); match(SQCLOSE);
 					}
 					break;
 				case OPEN:
 					{
-					setState(86);
-					((NotfmlaContext)_localctx).lf = subfmla();
+					setState(86); ((NotfmlaContext)_localctx).lf = subfmla();
 					}
 					break;
 				default:
@@ -447,10 +383,10 @@ public class LogicalFmlasParser extends Parser {
 	public static class SubfmlaContext extends ParserRuleContext {
 		public LogicalfmlaContext lf;
 		public TerminalNode OPEN() { return getToken(LogicalFmlasParser.OPEN, 0); }
-		public TerminalNode CLOSE() { return getToken(LogicalFmlasParser.CLOSE, 0); }
 		public LogicalfmlaContext logicalfmla() {
 			return getRuleContext(LogicalfmlaContext.class,0);
 		}
+		public TerminalNode CLOSE() { return getToken(LogicalFmlasParser.CLOSE, 0); }
 		public SubfmlaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -468,12 +404,9 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
-			match(OPEN);
-			setState(92);
-			((SubfmlaContext)_localctx).lf = logicalfmla();
-			setState(93);
-			match(CLOSE);
+			setState(91); match(OPEN);
+			setState(92); ((SubfmlaContext)_localctx).lf = logicalfmla();
+			setState(93); match(CLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -488,11 +421,11 @@ public class LogicalFmlasParser extends Parser {
 	}
 
 	public static class LitlistContext extends ParserRuleContext {
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
-		}
 		public LitlistContext litlist() {
 			return getRuleContext(LitlistContext.class,0);
+		}
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
 		}
 		public LitlistContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -512,15 +445,12 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
-			literal();
+			setState(95); literal();
 			setState(97);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NOT) | (1L << TRUE) | (1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
 				{
-				setState(96);
-				litlist();
+				setState(96); litlist();
 				}
 			}
 
@@ -560,12 +490,10 @@ public class LogicalFmlasParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(100);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NOT) | (1L << TRUE) | (1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
 				{
-				setState(99);
-				litlist();
+				setState(99); litlist();
 				}
 			}
 
@@ -583,11 +511,11 @@ public class LogicalFmlasParser extends Parser {
 	}
 
 	public static class LiteralContext extends ParserRuleContext {
-		public TerminalNode TRUE() { return getToken(LogicalFmlasParser.TRUE, 0); }
 		public TerminalNode NOT() { return getToken(LogicalFmlasParser.NOT, 0); }
 		public PredContext pred() {
 			return getRuleContext(PredContext.class,0);
 		}
+		public TerminalNode TRUE() { return getToken(LogicalFmlasParser.TRUE, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -606,28 +534,23 @@ public class LogicalFmlasParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(106);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case TRUE:
 				{
-				setState(102);
-				match(TRUE);
+				setState(102); match(TRUE);
 				}
 				break;
 			case NOT:
 				{
-				setState(103);
-				match(NOT);
-				setState(104);
-				pred();
+				setState(103); match(NOT);
+				setState(104); pred();
 				}
 				break;
 			case CONST:
 			case VAR:
 			case UNNAMEDVAR:
 				{
-				setState(105);
-				pred();
+				setState(105); pred();
 				}
 				break;
 			default:
@@ -671,21 +594,18 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 18, RULE_pred);
 		try {
 			setState(110);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case VAR:
 			case UNNAMEDVAR:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(108);
-				((PredContext)_localctx).v = var();
+				setState(108); ((PredContext)_localctx).v = var();
 				}
 				break;
 			case CONST:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(109);
-				((PredContext)_localctx).f = function();
+				setState(109); ((PredContext)_localctx).f = function();
 				}
 				break;
 			default:
@@ -728,19 +648,14 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112);
-			match(CONST);
+			setState(112); match(CONST);
 			setState(117);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPEN) {
 				{
-				setState(113);
-				match(OPEN);
-				setState(114);
-				terms();
-				setState(115);
-				match(CLOSE);
+				setState(113); match(OPEN);
+				setState(114); terms();
+				setState(115); match(CLOSE);
 				}
 			}
 
@@ -784,17 +699,13 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
-			((TermsContext)_localctx).t = term();
+			setState(119); ((TermsContext)_localctx).t = term();
 			setState(122);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMA) {
 				{
-				setState(120);
-				match(COMMA);
-				setState(121);
-				terms();
+				setState(120); match(COMMA);
+				setState(121); terms();
 				}
 			}
 
@@ -816,11 +727,11 @@ public class LogicalFmlasParser extends Parser {
 		public StringtermContext s;
 		public FunctionContext f;
 		public ListtermContext l;
-		public AtomContext atom() {
-			return getRuleContext(AtomContext.class,0);
-		}
 		public StringtermContext stringterm() {
 			return getRuleContext(StringtermContext.class,0);
+		}
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
 		}
 		public FunctionContext function() {
 			return getRuleContext(FunctionContext.class,0);
@@ -844,7 +755,6 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 24, RULE_term);
 		try {
 			setState(128);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case OPEN:
 			case VAR:
@@ -853,29 +763,25 @@ public class LogicalFmlasParser extends Parser {
 			case MINUS:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(124);
-				((TermContext)_localctx).a = atom();
+				setState(124); ((TermContext)_localctx).a = atom();
 				}
 				break;
 			case QUOTED_STRING:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(125);
-				((TermContext)_localctx).s = stringterm();
+				setState(125); ((TermContext)_localctx).s = stringterm();
 				}
 				break;
 			case CONST:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(126);
-				((TermContext)_localctx).f = function();
+				setState(126); ((TermContext)_localctx).f = function();
 				}
 				break;
 			case SQOPEN:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(127);
-				((TermContext)_localctx).l = listterm();
+				setState(127); ((TermContext)_localctx).l = listterm();
 				}
 				break;
 			default:
@@ -897,17 +803,17 @@ public class LogicalFmlasParser extends Parser {
 		public NumberstringContext n;
 		public VarContext v;
 		public ArithexprContext a;
+		public ArithexprContext arithexpr() {
+			return getRuleContext(ArithexprContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(LogicalFmlasParser.OPEN, 0); }
 		public NumberstringContext numberstring() {
 			return getRuleContext(NumberstringContext.class,0);
 		}
 		public VarContext var() {
 			return getRuleContext(VarContext.class,0);
 		}
-		public TerminalNode OPEN() { return getToken(LogicalFmlasParser.OPEN, 0); }
 		public TerminalNode CLOSE() { return getToken(LogicalFmlasParser.CLOSE, 0); }
-		public ArithexprContext arithexpr() {
-			return getRuleContext(ArithexprContext.class,0);
-		}
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -924,33 +830,27 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 26, RULE_atom);
 		try {
 			setState(136);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NUMBER:
 			case MINUS:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(130);
-				((AtomContext)_localctx).n = numberstring();
+				setState(130); ((AtomContext)_localctx).n = numberstring();
 				}
 				break;
 			case VAR:
 			case UNNAMEDVAR:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(131);
-				((AtomContext)_localctx).v = var();
+				setState(131); ((AtomContext)_localctx).v = var();
 				}
 				break;
 			case OPEN:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(132);
-				match(OPEN);
-				setState(133);
-				((AtomContext)_localctx).a = arithexpr();
-				setState(134);
-				match(CLOSE);
+				setState(132); match(OPEN);
+				setState(133); ((AtomContext)_localctx).a = arithexpr();
+				setState(134); match(CLOSE);
 				}
 				break;
 			default:
@@ -987,8 +887,7 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(138);
-			match(QUOTED_STRING);
+			setState(138); match(QUOTED_STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1005,15 +904,15 @@ public class LogicalFmlasParser extends Parser {
 	public static class ListtermContext extends ParserRuleContext {
 		public ListheadsContext hl;
 		public VarContext v;
-		public TerminalNode SQOPEN() { return getToken(LogicalFmlasParser.SQOPEN, 0); }
-		public TerminalNode SQCLOSE() { return getToken(LogicalFmlasParser.SQCLOSE, 0); }
-		public ListheadsContext listheads() {
-			return getRuleContext(ListheadsContext.class,0);
-		}
 		public TerminalNode BAR() { return getToken(LogicalFmlasParser.BAR, 0); }
 		public VarContext var() {
 			return getRuleContext(VarContext.class,0);
 		}
+		public TerminalNode SQOPEN() { return getToken(LogicalFmlasParser.SQOPEN, 0); }
+		public ListheadsContext listheads() {
+			return getRuleContext(ListheadsContext.class,0);
+		}
+		public TerminalNode SQCLOSE() { return getToken(LogicalFmlasParser.SQCLOSE, 0); }
 		public ListtermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1032,32 +931,25 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140);
-			match(SQOPEN);
+			setState(140); match(SQOPEN);
 			setState(146);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << SQOPEN) | (1L << QUOTED_STRING) | (1L << CONST) | (1L << VAR) | (1L << NUMBER) | (1L << UNNAMEDVAR) | (1L << MINUS))) != 0)) {
 				{
-				setState(141);
-				((ListtermContext)_localctx).hl = listheads();
+				setState(141); ((ListtermContext)_localctx).hl = listheads();
 				setState(144);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==BAR) {
 					{
-					setState(142);
-					match(BAR);
-					setState(143);
-					((ListtermContext)_localctx).v = var();
+					setState(142); match(BAR);
+					setState(143); ((ListtermContext)_localctx).v = var();
 					}
 				}
 
 				}
 			}
 
-			setState(148);
-			match(SQCLOSE);
+			setState(148); match(SQCLOSE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1073,6 +965,7 @@ public class LogicalFmlasParser extends Parser {
 
 	public static class ListheadsContext extends ParserRuleContext {
 		public TermContext t1;
+		public TermContext tl2;
 		public List<TermContext> term() {
 			return getRuleContexts(TermContext.class);
 		}
@@ -1101,18 +994,15 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(150);
-			((ListheadsContext)_localctx).t1 = term();
+			setState(150); ((ListheadsContext)_localctx).t1 = term();
 			setState(155);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(151);
-				match(COMMA);
-				setState(152);
-				term();
+				setState(151); match(COMMA);
+				setState(152); ((ListheadsContext)_localctx).tl2 = term();
 				}
 				}
 				setState(157);
@@ -1158,11 +1048,7 @@ public class LogicalFmlasParser extends Parser {
 			if ( !(_la==VAR || _la==UNNAMEDVAR) ) {
 			_errHandler.recoverInline(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1179,12 +1065,12 @@ public class LogicalFmlasParser extends Parser {
 	public static class NumberstringContext extends ParserRuleContext {
 		public Token n1;
 		public Token n2;
-		public TerminalNode MINUS() { return getToken(LogicalFmlasParser.MINUS, 0); }
-		public List<TerminalNode> NUMBER() { return getTokens(LogicalFmlasParser.NUMBER); }
 		public TerminalNode NUMBER(int i) {
 			return getToken(LogicalFmlasParser.NUMBER, i);
 		}
 		public TerminalNode POINT() { return getToken(LogicalFmlasParser.POINT, 0); }
+		public TerminalNode MINUS() { return getToken(LogicalFmlasParser.MINUS, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(LogicalFmlasParser.NUMBER); }
 		public NumberstringContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1204,27 +1090,21 @@ public class LogicalFmlasParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(161);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==MINUS) {
 				{
-				setState(160);
-				match(MINUS);
+				setState(160); match(MINUS);
 				}
 			}
 
 			{
-			setState(163);
-			((NumberstringContext)_localctx).n1 = match(NUMBER);
+			setState(163); ((NumberstringContext)_localctx).n1 = match(NUMBER);
 			setState(166);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==POINT) {
 				{
-				setState(164);
-				match(POINT);
-				setState(165);
-				((NumberstringContext)_localctx).n2 = match(NUMBER);
+				setState(164); match(POINT);
+				setState(165); ((NumberstringContext)_localctx).n2 = match(NUMBER);
 				}
 			}
 
@@ -1249,11 +1129,11 @@ public class LogicalFmlasParser extends Parser {
 		public List<ArithexprContext> arithexpr() {
 			return getRuleContexts(ArithexprContext.class);
 		}
-		public ArithexprContext arithexpr(int i) {
-			return getRuleContext(ArithexprContext.class,i);
-		}
 		public EqoperContext eqoper() {
 			return getRuleContext(EqoperContext.class,0);
+		}
+		public ArithexprContext arithexpr(int i) {
+			return getRuleContext(ArithexprContext.class,i);
 		}
 		public EquationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1272,12 +1152,9 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(168);
-			((EquationContext)_localctx).a1 = arithexpr();
-			setState(169);
-			((EquationContext)_localctx).oper = eqoper();
-			setState(170);
-			((EquationContext)_localctx).a2 = arithexpr();
+			setState(168); ((EquationContext)_localctx).a1 = arithexpr();
+			setState(169); ((EquationContext)_localctx).oper = eqoper();
+			setState(170); ((EquationContext)_localctx).a2 = arithexpr();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1317,11 +1194,7 @@ public class LogicalFmlasParser extends Parser {
 			if ( !(_la==LESS || _la==EQ) ) {
 			_errHandler.recoverInline(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1338,14 +1211,14 @@ public class LogicalFmlasParser extends Parser {
 	public static class ArithexprContext extends ParserRuleContext {
 		public MultexprContext m1;
 		public MultexprContext m2;
-		public List<MultexprContext> multexpr() {
-			return getRuleContexts(MultexprContext.class);
-		}
 		public MultexprContext multexpr(int i) {
 			return getRuleContext(MultexprContext.class,i);
 		}
 		public AddoperContext addoper() {
 			return getRuleContext(AddoperContext.class,0);
+		}
+		public List<MultexprContext> multexpr() {
+			return getRuleContexts(MultexprContext.class);
 		}
 		public ArithexprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1365,17 +1238,13 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(174);
-			((ArithexprContext)_localctx).m1 = multexpr();
+			setState(174); ((ArithexprContext)_localctx).m1 = multexpr();
 			setState(178);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==PLUS || _la==MINUS) {
 				{
-				setState(175);
-				addoper();
-				setState(176);
-				((ArithexprContext)_localctx).m2 = multexpr();
+				setState(175); addoper();
+				setState(176); ((ArithexprContext)_localctx).m2 = multexpr();
 				}
 			}
 
@@ -1395,14 +1264,14 @@ public class LogicalFmlasParser extends Parser {
 	public static class MultexprContext extends ParserRuleContext {
 		public AtomContext a1;
 		public AtomContext a2;
-		public List<AtomContext> atom() {
-			return getRuleContexts(AtomContext.class);
-		}
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
 		public MultoperContext multoper() {
 			return getRuleContext(MultoperContext.class,0);
+		}
+		public List<AtomContext> atom() {
+			return getRuleContexts(AtomContext.class);
 		}
 		public MultexprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1422,17 +1291,13 @@ public class LogicalFmlasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(180);
-			((MultexprContext)_localctx).a1 = atom();
+			setState(180); ((MultexprContext)_localctx).a1 = atom();
 			setState(184);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) {
 				{
-				setState(181);
-				multoper();
-				setState(182);
-				((MultexprContext)_localctx).a2 = atom();
+				setState(181); multoper();
+				setState(182); ((MultexprContext)_localctx).a2 = atom();
 				}
 			}
 
@@ -1475,11 +1340,7 @@ public class LogicalFmlasParser extends Parser {
 			if ( !(_la==PLUS || _la==MINUS) ) {
 			_errHandler.recoverInline(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1495,8 +1356,8 @@ public class LogicalFmlasParser extends Parser {
 
 	public static class MultoperContext extends ParserRuleContext {
 		public TerminalNode MULT() { return getToken(LogicalFmlasParser.MULT, 0); }
-		public TerminalNode DIV() { return getToken(LogicalFmlasParser.DIV, 0); }
 		public TerminalNode MOD() { return getToken(LogicalFmlasParser.MOD, 0); }
+		public TerminalNode DIV() { return getToken(LogicalFmlasParser.DIV, 0); }
 		public MultoperContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1520,11 +1381,7 @@ public class LogicalFmlasParser extends Parser {
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1539,7 +1396,7 @@ public class LogicalFmlasParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00c1\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"\u00c1\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -1555,9 +1412,9 @@ public class LogicalFmlasParser extends Parser {
 		"\26\3\27\3\27\3\27\3\27\5\27\u00b5\n\27\3\30\3\30\3\30\3\30\5\30\u00bb"+
 		"\n\30\3\31\3\31\3\32\3\32\3\32\3H\2\33\2\4\6\b\n\f\16\20\22\24\26\30\32"+
 		"\34\36 \"$&(*,.\60\62\2\6\4\2\21\21\23\23\3\2\25\26\3\2\31\32\4\2\30\30"+
-		"\33\34\2\u00c2\2\64\3\2\2\2\49\3\2\2\2\6;\3\2\2\2\bC\3\2\2\2\n[\3\2\2"+
-		"\2\f]\3\2\2\2\16a\3\2\2\2\20f\3\2\2\2\22l\3\2\2\2\24p\3\2\2\2\26r\3\2"+
-		"\2\2\30y\3\2\2\2\32\u0082\3\2\2\2\34\u008a\3\2\2\2\36\u008c\3\2\2\2 \u008e"+
+		"\33\34\u00c2\2\64\3\2\2\2\49\3\2\2\2\6;\3\2\2\2\bC\3\2\2\2\n[\3\2\2\2"+
+		"\f]\3\2\2\2\16a\3\2\2\2\20f\3\2\2\2\22l\3\2\2\2\24p\3\2\2\2\26r\3\2\2"+
+		"\2\30y\3\2\2\2\32\u0082\3\2\2\2\34\u008a\3\2\2\2\36\u008c\3\2\2\2 \u008e"+
 		"\3\2\2\2\"\u0098\3\2\2\2$\u00a0\3\2\2\2&\u00a3\3\2\2\2(\u00aa\3\2\2\2"+
 		"*\u00ae\3\2\2\2,\u00b0\3\2\2\2.\u00b6\3\2\2\2\60\u00bc\3\2\2\2\62\u00be"+
 		"\3\2\2\2\64\66\5\6\4\2\65\67\5\2\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67\3"+

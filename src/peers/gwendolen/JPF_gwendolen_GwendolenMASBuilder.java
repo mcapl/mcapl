@@ -24,9 +24,8 @@
 
 package gwendolen;
 
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 import ail.syntax.ast.Abstract_MAS;
 
@@ -36,6 +35,7 @@ import gov.nasa.jpf.vm.ClinitRequired;
 import gov.nasa.jpf.vm.NativePeer;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
+import gwendolen.parser.GwendolenProgramVisitor;
 
 /**
  * Utility class.  Builds a Gwendolen MAS by parsing a string or a file.
@@ -47,11 +47,12 @@ public class JPF_gwendolen_GwendolenMASBuilder extends NativePeer {
 	  @MJI
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
-	   	GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(masstring));
-    	CommonTokenStream tokens = new CommonTokenStream(lexer);
-    	GwendolenParser parser = new GwendolenParser(tokens);
+	   	GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(masstring));
+	   	CommonTokenStream tokens = new CommonTokenStream(lexer);
+	   	GwendolenParser parser = new GwendolenParser(tokens);
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
  		try {
- 	   		Abstract_MAS amas = parser.mas();
+ 	   		Abstract_MAS amas = (Abstract_MAS) visitor.visitMas(parser.mas());
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);
 		} catch (Exception e) {
@@ -63,11 +64,12 @@ public class JPF_gwendolen_GwendolenMASBuilder extends NativePeer {
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
  		try {
- 		   	GwendolenLexer lexer = new GwendolenLexer(new ANTLRFileStream(masstring));
- 	    	CommonTokenStream tokens = new CommonTokenStream(lexer);
- 	    	GwendolenParser parser = new GwendolenParser(tokens);
+ 		   	GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
+ 		   	CommonTokenStream tokens = new CommonTokenStream(lexer);
+ 		   	GwendolenParser parser = new GwendolenParser(tokens);
+ 		   GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
  	    	//System.err.println("parsing");
- 	   		Abstract_MAS amas = parser.mas();
+ 	   		Abstract_MAS amas = (Abstract_MAS) visitor.visitMas(parser.mas());
  	   		//System.err.println("done parsing");
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);

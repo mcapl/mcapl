@@ -31,6 +31,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import ail.syntax.ast.Abstract_ArithExpr;
 import ail.syntax.ast.Abstract_Equation;
+import ail.syntax.ast.Abstract_ListTerm;
+import ail.syntax.ast.Abstract_ListTermImpl;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_LogicalFormula;
@@ -318,5 +320,32 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	}
 
 
+	// listterm returns [Abstract_ListTerm l] : 
+	/// {$l = new Abstract_ListTermImpl();} 
+	// SQOPEN (hl=listheads {$l.addAll($hl.tl);} (BAR v=var {$l.addTail($v.v);})?)? SQCLOSE; 
+	@Override public Object visitListterm(LogicalFmlasParser.ListtermContext ctx) {
+		Abstract_ListTerm l = new Abstract_ListTermImpl();
+		if (ctx.hl != null) {
+			ArrayList<Abstract_Term> hl = (ArrayList<Abstract_Term>) visitListheads(ctx.hl);
+			l.addAll(hl);
+			if (ctx.BAR() != null) {
+				Abstract_VarTerm v = (Abstract_VarTerm) visitVar(ctx.v);
+				l.addTail(v);
+			}
+		}
+		return l;
+	}
+
+	// listheads returns [ArrayList<Abstract_Term> tl]: 
+	// t1 = term {$tl = new ArrayList<Abstract_Term>(); $tl.add($t1.t);} 
+	// (COMMA tl2= term {$tl.add($tl2.t);})*;
+	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {
+		ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>();
+		for (LogicalFmlasParser.TermContext t: ctx.term()) {
+			Abstract_Term t1 = (Abstract_Term) visitTerm(t);
+			tl.add(t1);
+		}
+		return tl;
+	}
 
 }

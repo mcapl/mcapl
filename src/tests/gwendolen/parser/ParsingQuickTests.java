@@ -28,13 +28,16 @@ import java.util.Iterator;
 
 import junit.framework.Assert;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Predicate;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
@@ -60,15 +63,12 @@ public class ParsingQuickTests {
 	 * Test that a variable appearing as a goal gets parsed properly - including converstion to concrete datatypes.
 	 */
 	@Test public void VarsinGoalsTest() {
-		GwendolenLexer var_goal_lexer = new GwendolenLexer(new ANTLRStringStream("G [perform]"));
-		CommonTokenStream var_goal_tokens = new CommonTokenStream(var_goal_lexer);
-		GwendolenParser var_goal_parser = new GwendolenParser(var_goal_tokens);
-		GwendolenLexer literal_goal_lexer = new GwendolenLexer(new ANTLRStringStream("send_pos [perform]"));
-		CommonTokenStream literal_goal_tokens = new CommonTokenStream(literal_goal_lexer);
-		GwendolenParser literal_goal_parser = new GwendolenParser(literal_goal_tokens);
+		GwendolenParser var_goal_parser = parser_for("G [perform]");
+		GwendolenParser literal_goal_parser = parser_for("send_pos [perform]");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		try {
-			Abstract_Goal var_a_goal = var_goal_parser.goal();
-			Abstract_Goal literal_a_goal = literal_goal_parser.goal();
+			Abstract_Goal var_a_goal = (Abstract_Goal) visitor.visitGoal(var_goal_parser.goal());
+			Abstract_Goal literal_a_goal = (Abstract_Goal) visitor.visitGoal(literal_goal_parser.goal());
 			
 			Goal var_goal = var_a_goal.toMCAPL();
 			Goal literal_goal = literal_a_goal.toMCAPL();
@@ -83,12 +83,11 @@ public class ParsingQuickTests {
 	 * Testing parsing of message constructs in guards.
 	 */
 	@Test public void MessagesInGuardsTest() {
-		GwendolenLexer msg_lexer = new GwendolenLexer(new ANTLRStringStream("+e:{.sent(Ag, ag1, :tell, win)} <- d;"));
-		CommonTokenStream msg_tokens = new CommonTokenStream(msg_lexer);
-		GwendolenParser msg_parser = new GwendolenParser(msg_tokens);
+		GwendolenParser msg_parser = parser_for("+e:{.sent(Ag, ag1, :tell, win)} <- d;");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		
 		try {
-			Abstract_GPlan abs_plan = msg_parser.plan();
+			Abstract_GPlan abs_plan = (Abstract_GPlan) visitor.visitPlan(msg_parser.plan());
 			Guard guard = abs_plan.toMCAPL().getContext().get(0);
 		
 			@SuppressWarnings("unchecked")
@@ -105,12 +104,11 @@ public class ParsingQuickTests {
 	}
 	
 	@Test public void parseOrderTest() {
-		GwendolenLexer plan_lexer = new GwendolenLexer(new ANTLRStringStream("+win(Ag, X): {B my_name(Name), ~ B win(Name, Any), B collaborator(Coll)} <- +!coalition(Coll) [achieve];"));
-		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
-		GwendolenParser plan_parser = new GwendolenParser(plan_tokens);
+		GwendolenParser plan_parser = parser_for("+win(Ag, X): {B my_name(Name), ~ B win(Name, Any), B collaborator(Coll)} <- +!coalition(Coll) [achieve];");
+		GwendolenProgramVisitor visitor = new GwendolenProgramVisitor();
 		
 		try {
-			Abstract_GPlan ast_plan = plan_parser.plan();
+			Abstract_GPlan ast_plan = (Abstract_GPlan) visitor.visitPlan(plan_parser.plan());
 			Plan plan = ast_plan.toMCAPL();
 			
 			AILAgent ag = new AILAgent();
@@ -138,11 +136,8 @@ public class ParsingQuickTests {
 	}
 	
 	@Test public void unnamed_varTest() {
-		GwendolenParser term = parser_for("on(X,_)");
-		
 		try {
-			Abstract_Predicate p = term.pred();
-			Predicate pred = p.toMCAPL();
+			Predicate pred = predicate_parser("on(X,_)");
 			Assert.assertTrue(pred.getTerm(1) instanceof UnnamedVar);
 		} catch (Exception e) {
 			Assert.assertTrue(false);
@@ -150,12 +145,20 @@ public class ParsingQuickTests {
 	}
 	
 	GwendolenParser parser_for(String s) {
-		GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(s));
+		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GwendolenParser parser = new GwendolenParser(tokens);
 		return parser;
 	}
 	
-	
+	private Predicate predicate_parser(String s) {
+		LogicalFmlasLexer fof_lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(fof_lexer);
+		LogicalFmlasParser fof_parser = new LogicalFmlasParser(tokens);
+		FOFVisitor fof_visitor = new FOFVisitor();
+
+		return ((Abstract_Predicate) fof_visitor.visitPred(fof_parser.pred())).toMCAPL();
+	}
+
  
 }

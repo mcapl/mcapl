@@ -38,6 +38,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.mas.MAS;
+import ail.parser.FOFVisitor;
 import ajpf.psl.ast.Abstract_Property;
 import ajpf.psl.parser.AJPF_PSLVisitor;
 import ajpf.psl.parser.A_PSLLexer;
@@ -107,15 +108,20 @@ public class PSLSyntaxQuickTests {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(mcaplwithvar));
 		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
 		LogicalFmlasParser pslparser = new LogicalFmlasParser(psltokens);
+
+		LogicalFmlasLexer g_lexer = new LogicalFmlasLexer(CharStreams.fromString(inbeliefbase));
+		org.antlr.v4.runtime.CommonTokenStream g_tokens = new org.antlr.v4.runtime.CommonTokenStream(g_lexer);
+		LogicalFmlasParser g_parser = new LogicalFmlasParser(g_tokens);
+
+		
 		ajpf.psl.parser.FOFVisitor visitor = new ajpf.psl.parser.FOFVisitor();
+		FOFVisitor g_visitor = new FOFVisitor();
+				
 		try {
 			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new ANTLRStringStream(inbeliefbase));
-			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
-			GwendolenParser g_parser = new GwendolenParser(g_tokens);
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = (Abstract_Predicate) g_visitor.visitPred(g_parser.pred());
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();

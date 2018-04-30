@@ -32,6 +32,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Predicate;
 import ajpf.psl.MCAPLPredicate;
@@ -94,11 +95,12 @@ public class MatchingAJPFSyntaxQuickTests {
 			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 			AILAgent a = new AILAgent("ag1");
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new mcaplantlr.runtime.ANTLRStringStream(inbeliefbase));
-			mcaplantlr.runtime.CommonTokenStream g_tokens = new mcaplantlr.runtime.CommonTokenStream(g_lexer);
-			GwendolenParser g_parser = new GwendolenParser(g_tokens);
+			LogicalFmlasLexer g_lexer = new LogicalFmlasLexer(CharStreams.fromString(inbeliefbase));
+			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
+			LogicalFmlasParser g_parser = new LogicalFmlasParser(g_tokens);
+			FOFVisitor g_visitor = new FOFVisitor();
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = (Abstract_Predicate) g_visitor.visitPred(g_parser.pred());
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();
