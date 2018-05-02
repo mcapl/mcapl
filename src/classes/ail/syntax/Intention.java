@@ -583,7 +583,7 @@ public class Intention implements Comparable<Intention>{
     			return (ip.unifiers().get(counter - n - 1));
     		}
     	}
-    	
+    	    	
     	throw new IndexOutOfBoundsException("No Such Deed");
      }
     
@@ -727,7 +727,7 @@ public class Intention implements Comparable<Intention>{
 			Goal gcloned = g.clone();
 			gcloned.apply(hdU());
 			dropP(1);
-			if (!hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
+			if (empty() || !hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
 				ag.removeGoal(gcloned);
 			}
 		} else {

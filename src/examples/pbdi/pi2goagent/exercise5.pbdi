@@ -1,0 +1,18 @@
+import pi2goagent, pi2go
+
+agent = pi2goagent.Agent()
+
+def stop_rule():
+	print("Stopping Agent")
+	agent.done()
+	return
+
+def forward_rule():
+	print("Going Forward")
+	agent.add_belief('moving')
+	pi2go.forward(20)
+	return
+
+agent.add_condition_rule(agent.B('switch_pressed'), stop_rule)
+agent.add_condition_rule(agent.NOT(agent.B('moving')), forward_rule)
+agent.run_agent()
