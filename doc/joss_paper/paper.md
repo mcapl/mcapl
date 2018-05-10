@@ -1,5 +1,5 @@
 ---
-title: 'The MCAPL Framework including the Agent Infrastructure Layer an Agent Java Pathfinder'
+title: 'The MCAPL Framework including the Agent Infrastructure Layer and Agent Java Pathfinder'
 tags:
 - model-checking
 - beliefs desires intentions model of agency
