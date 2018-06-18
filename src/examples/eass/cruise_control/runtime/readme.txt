@@ -36,7 +36,8 @@ Property file: motorway.psl (one level up)
 
 Property P1 in paper: motorway.psl property 5
 
-Running example in simulation: safe_or_accelerate.ail
+Running example in simulation: standard_safe.ail
+Connect  to Remote Motorway (Run Configuration in Eclipse) or motorwaysim.MotorwayComplexMain with remote_motorway_config.txt as configuration file.
 
 Verify in Handcoded env: standard_safe.jpf
 Handcoded env: MotorWayVerificationEnv.java
@@ -44,7 +45,7 @@ Handcoded env: MotorWayVerificationEnv.java
 Verify in Unstructured env: trace_as_unstructured.jpf
 Automatically Generated Unstructured Env: TraceAsUnstructuredEnv.java
 
-Running unsafe example in simluation with monitor: two_constraints_unsafe.ail, safe_or_accelerate.ail
+Running unsafe example in simulation with monitor: two_constraints_unsafe.ail, safe_or_accelerate_unsafe.ail
 
 Verify in Env from Figure 5: two_constraints_verification_safe.ail
 Env: TwoConstraints.java

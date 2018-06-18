@@ -40,7 +40,7 @@ import monitor.Monitorable;
 
 
 /**
- * This is an environment for connecting with the simple Java Motorway Simulation for tutorial purposes.
+ * This is an environment for connecting with the simple Java Motorway Simulation.
  * @author louiseadennis
  *
  */
