@@ -57,5 +57,35 @@ public class WaitForQuickTests extends TestJPF {
 	   	 
 	    }
 	 }
+	  
+	  @Test //----------------------------------------------------------------------
+	 public void wait_for_w_suspended () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)){
+	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse2.ail";
+	   	String prop_filename =  "/src/examples/eass/simple/WaitFor/simple.psl";
+	   	String[] args = new String[3];
+	   	args[0] = filename;
+	   	args[1] = prop_filename;
+	   	args[2] = "3";
+	   	AJPF_w_AIL.run(args);
+	    } else {
+	   	 
+	    }
+	 }
+	  @Test //----------------------------------------------------------------------
+	 public void wait_for_suspended_internal () {
+	   if (verifyNoPropertyViolation(JPF_ARGS)){
+	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse3.ail";
+	   	String prop_filename =  "/src/examples/eass/simple/WaitFor/simple.psl";
+	   	String[] args = new String[3];
+	   	args[0] = filename;
+	   	args[1] = prop_filename;
+	   	args[2] = "3";
+	   	AJPF_w_AIL.run(args);
+	    } else {
+	   	 
+	    }
+	 }
+
 
 }

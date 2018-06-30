@@ -1,1830 +1,1368 @@
-// $ANTLR 3.4 /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g 2015-03-24 14:16:30
-
+// Generated from A_PSL.g4 by ANTLR 4.4
 package ajpf.psl.parser;
-
-import ajpf.psl.ast.*;
-import ajpf.*;
-
-
-import mcaplantlr.runtime.*;
-import java.util.Stack;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class A_PSLParser extends Parser {
-    public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "ACTION", "ALWAYS", "AND", "BELIEVE", "CLOSEBRACKET", "COMMASEP", "COMMENT", "CONST", "FALSE", "FINALLY", "GOAL", "IMP", "INTENDTODO", "INTENTION", "NEWLINE", "NOT", "NUMBER", "OPENBRACKET", "OR", "PERCEPT", "RELEASE", "SQCLOSEBRACKET", "SQOPENBRACKET", "TRUE", "UNNAMED_VAR", "UNTIL", "WS"
-    };
-
-    public static final int EOF=-1;
-    public static final int ACTION=4;
-    public static final int ALWAYS=5;
-    public static final int AND=6;
-    public static final int BELIEVE=7;
-    public static final int CLOSEBRACKET=8;
-    public static final int COMMASEP=9;
-    public static final int COMMENT=10;
-    public static final int CONST=11;
-    public static final int FALSE=12;
-    public static final int FINALLY=13;
-    public static final int GOAL=14;
-    public static final int IMP=15;
-    public static final int INTENDTODO=16;
-    public static final int INTENTION=17;
-    public static final int NEWLINE=18;
-    public static final int NOT=19;
-    public static final int NUMBER=20;
-    public static final int OPENBRACKET=21;
-    public static final int OR=22;
-    public static final int PERCEPT=23;
-    public static final int RELEASE=24;
-    public static final int SQCLOSEBRACKET=25;
-    public static final int SQOPENBRACKET=26;
-    public static final int TRUE=27;
-    public static final int UNNAMED_VAR=28;
-    public static final int UNTIL=29;
-    public static final int WS=30;
-
-    // delegates
-    public Parser[] getDelegates() {
-        return new Parser[] {};
-    }
-
-    // delegators
-
-
-    public A_PSLParser(TokenStream input) {
-        this(input, new RecognizerSharedState());
-    }
-    public A_PSLParser(TokenStream input, RecognizerSharedState state) {
-        super(input, state);
-    }
-
-    public String[] getTokenNames() { return A_PSLParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g"; }
-
-
-    	MCAPLmas mas;
-    	MCAPLcontroller c;
-
-
-
-    // $ANTLR start "spec"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:48:1: spec returns [Abstract_Property p1] : p= property ;
-    public final Abstract_Property spec() throws RecognitionException {
-        Abstract_Property p1 = null;
-
-
-        Abstract_Property p =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:48:37: (p= property )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:48:39: p= property
-            {
-            pushFollow(FOLLOW_property_in_spec72);
-            p=property();
-
-            state._fsp--;
-
-
-            p1 = p;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p1;
-    }
-    // $ANTLR end "spec"
-
-
-
-    // $ANTLR start "property"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:50:1: property returns [Abstract_Property p1] : p= untilproperty ;
-    public final Abstract_Property property() throws RecognitionException {
-        Abstract_Property p1 = null;
-
-
-        Abstract_Property p =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:50:41: (p= untilproperty )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:50:43: p= untilproperty
-            {
-            pushFollow(FOLLOW_untilproperty_in_property88);
-            p=untilproperty();
-
-            state._fsp--;
-
-
-            p1 = p;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p1;
-    }
-    // $ANTLR end "property"
-
-
-
-    // $ANTLR start "untilproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:52:1: untilproperty returns [Abstract_Property p] : rp= releaseproperty ( UNTIL a= releaseproperty )* ;
-    public final Abstract_Property untilproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property rp =null;
-
-        Abstract_Property a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:52:45: (rp= releaseproperty ( UNTIL a= releaseproperty )* )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:53:2: rp= releaseproperty ( UNTIL a= releaseproperty )*
-            {
-            pushFollow(FOLLOW_releaseproperty_in_untilproperty110);
-            rp=releaseproperty();
-
-            state._fsp--;
-
-
-            Abstract_Property prop = rp;
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:53:57: ( UNTIL a= releaseproperty )*
-            loop1:
-            do {
-                int alt1=2;
-                int LA1_0 = input.LA(1);
-
-                if ( (LA1_0==UNTIL) ) {
-                    alt1=1;
-                }
-
-
-                switch (alt1) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:53:58: UNTIL a= releaseproperty
-            	    {
-            	    match(input,UNTIL,FOLLOW_UNTIL_in_untilproperty115); 
-
-            	    pushFollow(FOLLOW_releaseproperty_in_untilproperty121);
-            	    a=releaseproperty();
-
-            	    state._fsp--;
-
-
-            	    prop = new Abstract_Until(prop, a);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop1;
-                }
-            } while (true);
-
-
-            p = prop;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "untilproperty"
-
-
-
-    // $ANTLR start "releaseproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:55:1: releaseproperty returns [Abstract_Property p] : ip= impproperty ( RELEASE a= impproperty )* ;
-    public final Abstract_Property releaseproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property ip =null;
-
-        Abstract_Property a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:55:47: (ip= impproperty ( RELEASE a= impproperty )* )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:56:2: ip= impproperty ( RELEASE a= impproperty )*
-            {
-            pushFollow(FOLLOW_impproperty_in_releaseproperty145);
-            ip=impproperty();
-
-            state._fsp--;
-
-
-            Abstract_Property prop = ip;
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:56:53: ( RELEASE a= impproperty )*
-            loop2:
-            do {
-                int alt2=2;
-                int LA2_0 = input.LA(1);
-
-                if ( (LA2_0==RELEASE) ) {
-                    alt2=1;
-                }
-
-
-                switch (alt2) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:56:54: RELEASE a= impproperty
-            	    {
-            	    match(input,RELEASE,FOLLOW_RELEASE_in_releaseproperty150); 
-
-            	    pushFollow(FOLLOW_impproperty_in_releaseproperty156);
-            	    a=impproperty();
-
-            	    state._fsp--;
-
-
-            	    prop = new Abstract_Release(prop, a);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop2;
-                }
-            } while (true);
-
-
-            p = prop;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "releaseproperty"
-
-
-
-    // $ANTLR start "impproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:58:1: impproperty returns [Abstract_Property p] : ap= andproperty ( IMP a= andproperty )* ;
-    public final Abstract_Property impproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property ap =null;
-
-        Abstract_Property a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:58:43: (ap= andproperty ( IMP a= andproperty )* )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:59:2: ap= andproperty ( IMP a= andproperty )*
-            {
-            pushFollow(FOLLOW_andproperty_in_impproperty180);
-            ap=andproperty();
-
-            state._fsp--;
-
-
-            Abstract_Property prop = ap;
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:59:53: ( IMP a= andproperty )*
-            loop3:
-            do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
-
-                if ( (LA3_0==IMP) ) {
-                    alt3=1;
-                }
-
-
-                switch (alt3) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:59:54: IMP a= andproperty
-            	    {
-            	    match(input,IMP,FOLLOW_IMP_in_impproperty185); 
-
-            	    pushFollow(FOLLOW_andproperty_in_impproperty191);
-            	    a=andproperty();
-
-            	    state._fsp--;
-
-
-            	    prop = new Abstract_Or(new Abstract_Not(prop), a);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop3;
-                }
-            } while (true);
-
-
-            p = prop;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "impproperty"
-
-
-
-    // $ANTLR start "andproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:61:1: andproperty returns [Abstract_Property p] : at= orproperty ( AND a= orproperty )* ;
-    public final Abstract_Property andproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property at =null;
-
-        Abstract_Property a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:61:43: (at= orproperty ( AND a= orproperty )* )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:62:2: at= orproperty ( AND a= orproperty )*
-            {
-            pushFollow(FOLLOW_orproperty_in_andproperty215);
-            at=orproperty();
-
-            state._fsp--;
-
-
-            Abstract_Property prop = at;
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:62:52: ( AND a= orproperty )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
-
-                if ( (LA4_0==AND) ) {
-                    alt4=1;
-                }
-
-
-                switch (alt4) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:62:53: AND a= orproperty
-            	    {
-            	    match(input,AND,FOLLOW_AND_in_andproperty220); 
-
-            	    pushFollow(FOLLOW_orproperty_in_andproperty226);
-            	    a=orproperty();
-
-            	    state._fsp--;
-
-
-            	    prop = new Abstract_And(prop, a);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop4;
-                }
-            } while (true);
-
-
-            p = prop;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "andproperty"
-
-
-
-    // $ANTLR start "orproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:64:1: orproperty returns [Abstract_Property p] : at= alwaysproperty ( OR a= alwaysproperty )* ;
-    public final Abstract_Property orproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property at =null;
-
-        Abstract_Property a =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:64:42: (at= alwaysproperty ( OR a= alwaysproperty )* )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:65:2: at= alwaysproperty ( OR a= alwaysproperty )*
-            {
-            pushFollow(FOLLOW_alwaysproperty_in_orproperty250);
-            at=alwaysproperty();
-
-            state._fsp--;
-
-
-            Abstract_Property prop = at;
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:65:56: ( OR a= alwaysproperty )*
-            loop5:
-            do {
-                int alt5=2;
-                int LA5_0 = input.LA(1);
-
-                if ( (LA5_0==OR) ) {
-                    alt5=1;
-                }
-
-
-                switch (alt5) {
-            	case 1 :
-            	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:65:57: OR a= alwaysproperty
-            	    {
-            	    match(input,OR,FOLLOW_OR_in_orproperty255); 
-
-            	    pushFollow(FOLLOW_alwaysproperty_in_orproperty261);
-            	    a=alwaysproperty();
-
-            	    state._fsp--;
-
-
-            	    prop = new Abstract_Or(prop, a);
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop5;
-                }
-            } while (true);
-
-
-            p = prop;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "orproperty"
-
-
-
-    // $ANTLR start "alwaysproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:67:1: alwaysproperty returns [Abstract_Property p] : (np= finallyproperty | ALWAYS pl= finallyproperty );
-    public final Abstract_Property alwaysproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property np =null;
-
-        Abstract_Property pl =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:67:46: (np= finallyproperty | ALWAYS pl= finallyproperty )
-            int alt6=2;
-            int LA6_0 = input.LA(1);
-
-            if ( (LA6_0==ACTION||LA6_0==BELIEVE||(LA6_0 >= FALSE && LA6_0 <= GOAL)||(LA6_0 >= INTENDTODO && LA6_0 <= INTENTION)||LA6_0==NOT||LA6_0==OPENBRACKET||LA6_0==PERCEPT||LA6_0==TRUE) ) {
-                alt6=1;
-            }
-            else if ( (LA6_0==ALWAYS) ) {
-                alt6=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 6, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt6) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:68:2: np= finallyproperty
-                    {
-                    pushFollow(FOLLOW_finallyproperty_in_alwaysproperty285);
-                    np=finallyproperty();
-
-                    state._fsp--;
-
-
-                    p = np;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:69:2: ALWAYS pl= finallyproperty
-                    {
-                    match(input,ALWAYS,FOLLOW_ALWAYS_in_alwaysproperty292); 
-
-                    pushFollow(FOLLOW_finallyproperty_in_alwaysproperty298);
-                    pl=finallyproperty();
-
-                    state._fsp--;
-
-
-                    p = new Abstract_Always(pl);
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "alwaysproperty"
-
-
-
-    // $ANTLR start "finallyproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:71:1: finallyproperty returns [Abstract_Property p] : (np= notproperty | FINALLY pl= notproperty );
-    public final Abstract_Property finallyproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property np =null;
-
-        Abstract_Property pl =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:71:47: (np= notproperty | FINALLY pl= notproperty )
-            int alt7=2;
-            int LA7_0 = input.LA(1);
-
-            if ( (LA7_0==ACTION||LA7_0==BELIEVE||LA7_0==FALSE||LA7_0==GOAL||(LA7_0 >= INTENDTODO && LA7_0 <= INTENTION)||LA7_0==NOT||LA7_0==OPENBRACKET||LA7_0==PERCEPT||LA7_0==TRUE) ) {
-                alt7=1;
-            }
-            else if ( (LA7_0==FINALLY) ) {
-                alt7=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 7, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt7) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:72:2: np= notproperty
-                    {
-                    pushFollow(FOLLOW_notproperty_in_finallyproperty317);
-                    np=notproperty();
-
-                    state._fsp--;
-
-
-                    p = np;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:73:2: FINALLY pl= notproperty
-                    {
-                    match(input,FINALLY,FOLLOW_FINALLY_in_finallyproperty324); 
-
-                    pushFollow(FOLLOW_notproperty_in_finallyproperty330);
-                    pl=notproperty();
-
-                    state._fsp--;
-
-
-                    p = new Abstract_Finally(pl);
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "finallyproperty"
-
-
-
-    // $ANTLR start "notproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:75:1: notproperty returns [Abstract_Property p] : (at= atom | NOT p1= atom );
-    public final Abstract_Property notproperty() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Property at =null;
-
-        Abstract_Property p1 =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:75:43: (at= atom | NOT p1= atom )
-            int alt8=2;
-            int LA8_0 = input.LA(1);
-
-            if ( (LA8_0==ACTION||LA8_0==BELIEVE||LA8_0==FALSE||LA8_0==GOAL||(LA8_0 >= INTENDTODO && LA8_0 <= INTENTION)||LA8_0==OPENBRACKET||LA8_0==PERCEPT||LA8_0==TRUE) ) {
-                alt8=1;
-            }
-            else if ( (LA8_0==NOT) ) {
-                alt8=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 8, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt8) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:76:2: at= atom
-                    {
-                    pushFollow(FOLLOW_atom_in_notproperty349);
-                    at=atom();
-
-                    state._fsp--;
-
-
-                    p = at;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:77:2: NOT p1= atom
-                    {
-                    match(input,NOT,FOLLOW_NOT_in_notproperty355); 
-
-                    pushFollow(FOLLOW_atom_in_notproperty361);
-                    p1=atom();
-
-                    state._fsp--;
-
-
-                    p = new Abstract_Not(p1);
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "notproperty"
-
-
-
-    // $ANTLR start "atom"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:79:1: atom returns [Abstract_Property p] : (prop= proposition | OPENBRACKET tp= property CLOSEBRACKET );
-    public final Abstract_Property atom() throws RecognitionException {
-        Abstract_Property p = null;
-
-
-        Abstract_Proposition prop =null;
-
-        Abstract_Property tp =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:79:36: (prop= proposition | OPENBRACKET tp= property CLOSEBRACKET )
-            int alt9=2;
-            int LA9_0 = input.LA(1);
-
-            if ( (LA9_0==ACTION||LA9_0==BELIEVE||LA9_0==FALSE||LA9_0==GOAL||(LA9_0 >= INTENDTODO && LA9_0 <= INTENTION)||LA9_0==PERCEPT||LA9_0==TRUE) ) {
-                alt9=1;
-            }
-            else if ( (LA9_0==OPENBRACKET) ) {
-                alt9=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 9, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt9) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:80:2: prop= proposition
-                    {
-                    pushFollow(FOLLOW_proposition_in_atom382);
-                    prop=proposition();
-
-                    state._fsp--;
-
-
-                    p = prop;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:81:2: OPENBRACKET tp= property CLOSEBRACKET
-                    {
-                    match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_atom389); 
-
-                    pushFollow(FOLLOW_property_in_atom395);
-                    tp=property();
-
-                    state._fsp--;
-
-
-                    p = tp;
-
-                    match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_atom399); 
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "atom"
-
-
-
-    // $ANTLR start "proposition"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:83:1: proposition returns [Abstract_Proposition p1] : (p2= beliefproperty |p3= goalproperty |p4= falseprop |p5= intentionproperty |p6= lastactionproperty |p7= perceptproperty |p8= intendtodoproperty |p= trueprop );
-    public final Abstract_Proposition proposition() throws RecognitionException {
-        Abstract_Proposition p1 = null;
-
-
-        Abstract_AgBelief p2 =null;
-
-        Abstract_AgGoal p3 =null;
-
-        Abstract_FalseProp p4 =null;
-
-        Abstract_AgIntention p5 =null;
-
-        Abstract_LastAction p6 =null;
-
-        Abstract_Percept p7 =null;
-
-        Abstract_AgIntendToDo p8 =null;
-
-        Abstract_TrueProp p =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:83:47: (p2= beliefproperty |p3= goalproperty |p4= falseprop |p5= intentionproperty |p6= lastactionproperty |p7= perceptproperty |p8= intendtodoproperty |p= trueprop )
-            int alt10=8;
-            switch ( input.LA(1) ) {
-            case BELIEVE:
-                {
-                alt10=1;
-                }
-                break;
-            case GOAL:
-                {
-                alt10=2;
-                }
-                break;
-            case FALSE:
-                {
-                alt10=3;
-                }
-                break;
-            case INTENTION:
-                {
-                alt10=4;
-                }
-                break;
-            case ACTION:
-                {
-                alt10=5;
-                }
-                break;
-            case PERCEPT:
-                {
-                alt10=6;
-                }
-                break;
-            case INTENDTODO:
-                {
-                alt10=7;
-                }
-                break;
-            case TRUE:
-                {
-                alt10=8;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 10, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt10) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:84:2: p2= beliefproperty
-                    {
-                    pushFollow(FOLLOW_beliefproperty_in_proposition417);
-                    p2=beliefproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p2;
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:85:2: p3= goalproperty
-                    {
-                    pushFollow(FOLLOW_goalproperty_in_proposition429);
-                    p3=goalproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p3;
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:85:60: p4= falseprop
-                    {
-                    pushFollow(FOLLOW_falseprop_in_proposition439);
-                    p4=falseprop();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p4;
-
-                    }
-                    break;
-                case 4 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:86:2: p5= intentionproperty
-                    {
-                    pushFollow(FOLLOW_intentionproperty_in_proposition451);
-                    p5=intentionproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p5;
-
-                    }
-                    break;
-                case 5 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:86:65: p6= lastactionproperty
-                    {
-                    pushFollow(FOLLOW_lastactionproperty_in_proposition461);
-                    p6=lastactionproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p6;
-
-                    }
-                    break;
-                case 6 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:87:2: p7= perceptproperty
-                    {
-                    pushFollow(FOLLOW_perceptproperty_in_proposition472);
-                    p7=perceptproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p7;
-
-                    }
-                    break;
-                case 7 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:88:2: p8= intendtodoproperty
-                    {
-                    pushFollow(FOLLOW_intendtodoproperty_in_proposition484);
-                    p8=intendtodoproperty();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p8;
-
-                    }
-                    break;
-                case 8 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:89:2: p= trueprop
-                    {
-                    pushFollow(FOLLOW_trueprop_in_proposition495);
-                    p=trueprop();
-
-                    state._fsp--;
-
-
-                    p1 = (Abstract_Proposition) p;
-
-                    }
-                    break;
-
-            }
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p1;
-    }
-    // $ANTLR end "proposition"
-
-
-
-    // $ANTLR start "beliefproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:91:1: beliefproperty returns [Abstract_AgBelief p] : BELIEVE OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET ;
-    public final Abstract_AgBelief beliefproperty() throws RecognitionException {
-        Abstract_AgBelief p = null;
-
-
-        String ag =null;
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:91:46: ( BELIEVE OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:92:2: BELIEVE OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET
-            {
-            match(input,BELIEVE,FOLLOW_BELIEVE_in_beliefproperty511); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_beliefproperty513); 
-
-            pushFollow(FOLLOW_agentname_in_beliefproperty517);
-            ag=agentname();
-
-            state._fsp--;
-
-
-            match(input,COMMASEP,FOLLOW_COMMASEP_in_beliefproperty519); 
-
-            pushFollow(FOLLOW_formula_in_beliefproperty523);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_beliefproperty525); 
-
-            p = new Abstract_AgBelief(ag, (Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "beliefproperty"
-
-
-
-    // $ANTLR start "goalproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:93:1: goalproperty returns [Abstract_AgGoal p] : GOAL OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET ;
-    public final Abstract_AgGoal goalproperty() throws RecognitionException {
-        Abstract_AgGoal p = null;
-
-
-        String ag =null;
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:93:42: ( GOAL OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:94:2: GOAL OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET
-            {
-            match(input,GOAL,FOLLOW_GOAL_in_goalproperty539); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_goalproperty541); 
-
-            pushFollow(FOLLOW_agentname_in_goalproperty545);
-            ag=agentname();
-
-            state._fsp--;
-
-
-            match(input,COMMASEP,FOLLOW_COMMASEP_in_goalproperty547); 
-
-            pushFollow(FOLLOW_formula_in_goalproperty551);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_goalproperty553); 
-
-            p = new Abstract_AgGoal(ag, (Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "goalproperty"
-
-
-
-    // $ANTLR start "falseprop"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:95:1: falseprop returns [Abstract_FalseProp p] : FALSE ;
-    public final Abstract_FalseProp falseprop() throws RecognitionException {
-        Abstract_FalseProp p = null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:95:42: ( FALSE )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:96:2: FALSE
-            {
-            match(input,FALSE,FOLLOW_FALSE_in_falseprop567); 
-
-            p = new Abstract_FalseProp();
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "falseprop"
-
-
-
-    // $ANTLR start "intentionproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:97:1: intentionproperty returns [Abstract_AgIntention p] : INTENTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET ;
-    public final Abstract_AgIntention intentionproperty() throws RecognitionException {
-        Abstract_AgIntention p = null;
-
-
-        String ag =null;
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:97:52: ( INTENTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:98:2: INTENTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET
-            {
-            match(input,INTENTION,FOLLOW_INTENTION_in_intentionproperty581); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_intentionproperty583); 
-
-            pushFollow(FOLLOW_agentname_in_intentionproperty587);
-            ag=agentname();
-
-            state._fsp--;
-
-
-            match(input,COMMASEP,FOLLOW_COMMASEP_in_intentionproperty589); 
-
-            pushFollow(FOLLOW_formula_in_intentionproperty593);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_intentionproperty595); 
-
-            p = new Abstract_AgIntention(ag, (Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "intentionproperty"
-
-
-
-    // $ANTLR start "lastactionproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:99:1: lastactionproperty returns [Abstract_LastAction p] : ACTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET ;
-    public final Abstract_LastAction lastactionproperty() throws RecognitionException {
-        Abstract_LastAction p = null;
-
-
-        String ag =null;
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:99:52: ( ACTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:100:2: ACTION OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET
-            {
-            match(input,ACTION,FOLLOW_ACTION_in_lastactionproperty609); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_lastactionproperty611); 
-
-            pushFollow(FOLLOW_agentname_in_lastactionproperty615);
-            ag=agentname();
-
-            state._fsp--;
-
-
-            match(input,COMMASEP,FOLLOW_COMMASEP_in_lastactionproperty617); 
-
-            pushFollow(FOLLOW_formula_in_lastactionproperty621);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_lastactionproperty623); 
-
-            p = new Abstract_LastAction(ag, (Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "lastactionproperty"
-
-
-
-    // $ANTLR start "perceptproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:101:1: perceptproperty returns [Abstract_Percept p] : PERCEPT OPENBRACKET f= formula CLOSEBRACKET ;
-    public final Abstract_Percept perceptproperty() throws RecognitionException {
-        Abstract_Percept p = null;
-
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:101:46: ( PERCEPT OPENBRACKET f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:102:2: PERCEPT OPENBRACKET f= formula CLOSEBRACKET
-            {
-            match(input,PERCEPT,FOLLOW_PERCEPT_in_perceptproperty637); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_perceptproperty639); 
-
-            pushFollow(FOLLOW_formula_in_perceptproperty645);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_perceptproperty647); 
-
-            p = new Abstract_Percept((Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "perceptproperty"
-
-
-
-    // $ANTLR start "intendtodoproperty"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:103:1: intendtodoproperty returns [Abstract_AgIntendToDo p] : INTENDTODO OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET ;
-    public final Abstract_AgIntendToDo intendtodoproperty() throws RecognitionException {
-        Abstract_AgIntendToDo p = null;
-
-
-        String ag =null;
-
-        Abstract_Formula f =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:103:53: ( INTENDTODO OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:104:2: INTENDTODO OPENBRACKET ag= agentname COMMASEP f= formula CLOSEBRACKET
-            {
-            match(input,INTENDTODO,FOLLOW_INTENDTODO_in_intendtodoproperty660); 
-
-            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_intendtodoproperty662); 
-
-            pushFollow(FOLLOW_agentname_in_intendtodoproperty666);
-            ag=agentname();
-
-            state._fsp--;
-
-
-            match(input,COMMASEP,FOLLOW_COMMASEP_in_intendtodoproperty668); 
-
-            pushFollow(FOLLOW_formula_in_intendtodoproperty674);
-            f=formula();
-
-            state._fsp--;
-
-
-            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_intendtodoproperty676); 
-
-            p = new Abstract_AgIntendToDo(ag, (Abstract_Formula) f);
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "intendtodoproperty"
-
-
-
-    // $ANTLR start "trueprop"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:105:1: trueprop returns [Abstract_TrueProp p] : TRUE ;
-    public final Abstract_TrueProp trueprop() throws RecognitionException {
-        Abstract_TrueProp p = null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:105:40: ( TRUE )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:106:2: TRUE
-            {
-            match(input,TRUE,FOLLOW_TRUE_in_trueprop690); 
-
-            p = new Abstract_TrueProp();
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return p;
-    }
-    // $ANTLR end "trueprop"
-
-
-
-    // $ANTLR start "agentname"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:108:1: agentname returns [String s] : CONST ;
-    public final String agentname() throws RecognitionException {
-        String s = null;
-
-
-        Token CONST1=null;
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:109:2: ( CONST )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:109:4: CONST
-            {
-            CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_agentname707); 
-
-            s = CONST1.getText();
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return s;
-    }
-    // $ANTLR end "agentname"
-
-
-
-    // $ANTLR start "formula"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:111:1: formula returns [Abstract_Formula f] : CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? ;
-    public final Abstract_Formula formula() throws RecognitionException {
-        Abstract_Formula f = null;
-
-
-        Token CONST2=null;
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:111:37: ( CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:112:5: CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )?
-            {
-            CONST2=(Token)match(input,CONST,FOLLOW_CONST_in_formula725); 
-
-            f = new Abstract_MCAPLPredicate(CONST2.getText());
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:113:5: ( OPENBRACKET terms[$f] CLOSEBRACKET )?
-            int alt11=2;
-            int LA11_0 = input.LA(1);
-
-            if ( (LA11_0==OPENBRACKET) ) {
-                alt11=1;
-            }
-            switch (alt11) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:113:6: OPENBRACKET terms[$f] CLOSEBRACKET
-                    {
-                    match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_formula735); 
-
-                    pushFollow(FOLLOW_terms_in_formula737);
-                    terms(f);
-
-                    state._fsp--;
-
-
-                    match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_formula740); 
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return f;
-    }
-    // $ANTLR end "formula"
-
-
-
-    // $ANTLR start "subformula"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:115:1: subformula returns [Abstract_MCAPLTerm f] : ( NUMBER | UNNAMED_VAR | SQOPENBRACKET h= subformula ( COMMASEP t= subformula )* SQCLOSEBRACKET | CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? ) ;
-    public final Abstract_MCAPLTerm subformula() throws RecognitionException {
-        Abstract_MCAPLTerm f = null;
-
-
-        Token NUMBER3=null;
-        Token UNNAMED_VAR4=null;
-        Token CONST5=null;
-        Abstract_MCAPLTerm h =null;
-
-        Abstract_MCAPLTerm t =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:115:42: ( ( NUMBER | UNNAMED_VAR | SQOPENBRACKET h= subformula ( COMMASEP t= subformula )* SQCLOSEBRACKET | CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? ) )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:115:44: ( NUMBER | UNNAMED_VAR | SQOPENBRACKET h= subformula ( COMMASEP t= subformula )* SQCLOSEBRACKET | CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? )
-            {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:115:44: ( NUMBER | UNNAMED_VAR | SQOPENBRACKET h= subformula ( COMMASEP t= subformula )* SQCLOSEBRACKET | CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )? )
-            int alt14=4;
-            switch ( input.LA(1) ) {
-            case NUMBER:
-                {
-                alt14=1;
-                }
-                break;
-            case UNNAMED_VAR:
-                {
-                alt14=2;
-                }
-                break;
-            case SQOPENBRACKET:
-                {
-                alt14=3;
-                }
-                break;
-            case CONST:
-                {
-                alt14=4;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 14, 0, input);
-
-                throw nvae;
-
-            }
-
-            switch (alt14) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:115:45: NUMBER
-                    {
-                    NUMBER3=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_subformula754); 
-
-                    f = new Abstract_MCAPLNumberTermImpl(NUMBER3.getText());
-
-                    }
-                    break;
-                case 2 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:116:31: UNNAMED_VAR
-                    {
-                    UNNAMED_VAR4=(Token)match(input,UNNAMED_VAR,FOLLOW_UNNAMED_VAR_in_subformula790); 
-
-                    f = new Abstract_TermImpl(UNNAMED_VAR4.getText());
-
-                    }
-                    break;
-                case 3 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:117:31: SQOPENBRACKET h= subformula ( COMMASEP t= subformula )* SQCLOSEBRACKET
-                    {
-                    match(input,SQOPENBRACKET,FOLLOW_SQOPENBRACKET_in_subformula826); 
-
-                    pushFollow(FOLLOW_subformula_in_subformula830);
-                    h=subformula();
-
-                    state._fsp--;
-
-
-                    f = new Abstract_MCAPLListTermImpl(h);
-
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:117:103: ( COMMASEP t= subformula )*
-                    loop12:
-                    do {
-                        int alt12=2;
-                        int LA12_0 = input.LA(1);
-
-                        if ( (LA12_0==COMMASEP) ) {
-                            alt12=1;
-                        }
-
-
-                        switch (alt12) {
-                    	case 1 :
-                    	    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:117:105: COMMASEP t= subformula
-                    	    {
-                    	    match(input,COMMASEP,FOLLOW_COMMASEP_in_subformula836); 
-
-                    	    pushFollow(FOLLOW_subformula_in_subformula840);
-                    	    t=subformula();
-
-                    	    state._fsp--;
-
-
-                    	    ((Abstract_MCAPLListTerm) f).addEnd(t);
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop12;
-                        }
-                    } while (true);
-
-
-                    match(input,SQCLOSEBRACKET,FOLLOW_SQCLOSEBRACKET_in_subformula846); 
-
-                    }
-                    break;
-                case 4 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:118:10: CONST ( OPENBRACKET terms[$f] CLOSEBRACKET )?
-                    {
-                    CONST5=(Token)match(input,CONST,FOLLOW_CONST_in_subformula859); 
-
-                    f = new Abstract_TermImpl(CONST5.getText());
-
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:119:10: ( OPENBRACKET terms[$f] CLOSEBRACKET )?
-                    int alt13=2;
-                    int LA13_0 = input.LA(1);
-
-                    if ( (LA13_0==OPENBRACKET) ) {
-                        alt13=1;
-                    }
-                    switch (alt13) {
-                        case 1 :
-                            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:119:11: OPENBRACKET terms[$f] CLOSEBRACKET
-                            {
-                            match(input,OPENBRACKET,FOLLOW_OPENBRACKET_in_subformula873); 
-
-                            pushFollow(FOLLOW_terms_in_subformula875);
-                            terms(f);
-
-                            state._fsp--;
-
-
-                            match(input,CLOSEBRACKET,FOLLOW_CLOSEBRACKET_in_subformula878); 
-
-                            }
-                            break;
-
-                    }
-
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return f;
-    }
-    // $ANTLR end "subformula"
-
-
-
-    // $ANTLR start "terms"
-    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:121:1: terms[Abstract_MCAPLTerm f] : t= subformula ( COMMASEP terms[$f] )? ;
-    public final void terms(Abstract_MCAPLTerm f) throws RecognitionException {
-        Abstract_MCAPLTerm t =null;
-
-
-        try {
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:121:29: (t= subformula ( COMMASEP terms[$f] )? )
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:121:31: t= subformula ( COMMASEP terms[$f] )?
-            {
-            pushFollow(FOLLOW_subformula_in_terms892);
-            t=subformula();
-
-            state._fsp--;
-
-
-            ((Abstract_TermImpl) f).addTerm(t);
-
-            // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:121:86: ( COMMASEP terms[$f] )?
-            int alt15=2;
-            int LA15_0 = input.LA(1);
-
-            if ( (LA15_0==COMMASEP) ) {
-                alt15=1;
-            }
-            switch (alt15) {
-                case 1 :
-                    // /Users/lad/Eclipse/mcapl/src/main/ajpf/psl/parser/A_PSL.g:121:87: COMMASEP terms[$f]
-                    {
-                    match(input,COMMASEP,FOLLOW_COMMASEP_in_terms897); 
-
-                    pushFollow(FOLLOW_terms_in_terms899);
-                    terms(f);
-
-                    state._fsp--;
-
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return ;
-    }
-    // $ANTLR end "terms"
-
-    // Delegated rules
-
-
- 
-
-    public static final BitSet FOLLOW_property_in_spec72 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_untilproperty_in_property88 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_releaseproperty_in_untilproperty110 = new BitSet(new long[]{0x0000000020000002L});
-    public static final BitSet FOLLOW_UNTIL_in_untilproperty115 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_releaseproperty_in_untilproperty121 = new BitSet(new long[]{0x0000000020000002L});
-    public static final BitSet FOLLOW_impproperty_in_releaseproperty145 = new BitSet(new long[]{0x0000000001000002L});
-    public static final BitSet FOLLOW_RELEASE_in_releaseproperty150 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_impproperty_in_releaseproperty156 = new BitSet(new long[]{0x0000000001000002L});
-    public static final BitSet FOLLOW_andproperty_in_impproperty180 = new BitSet(new long[]{0x0000000000008002L});
-    public static final BitSet FOLLOW_IMP_in_impproperty185 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_andproperty_in_impproperty191 = new BitSet(new long[]{0x0000000000008002L});
-    public static final BitSet FOLLOW_orproperty_in_andproperty215 = new BitSet(new long[]{0x0000000000000042L});
-    public static final BitSet FOLLOW_AND_in_andproperty220 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_orproperty_in_andproperty226 = new BitSet(new long[]{0x0000000000000042L});
-    public static final BitSet FOLLOW_alwaysproperty_in_orproperty250 = new BitSet(new long[]{0x0000000000400002L});
-    public static final BitSet FOLLOW_OR_in_orproperty255 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_alwaysproperty_in_orproperty261 = new BitSet(new long[]{0x0000000000400002L});
-    public static final BitSet FOLLOW_finallyproperty_in_alwaysproperty285 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ALWAYS_in_alwaysproperty292 = new BitSet(new long[]{0x0000000008AB7090L});
-    public static final BitSet FOLLOW_finallyproperty_in_alwaysproperty298 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_notproperty_in_finallyproperty317 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FINALLY_in_finallyproperty324 = new BitSet(new long[]{0x0000000008AB5090L});
-    public static final BitSet FOLLOW_notproperty_in_finallyproperty330 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_notproperty349 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_notproperty355 = new BitSet(new long[]{0x0000000008A35090L});
-    public static final BitSet FOLLOW_atom_in_notproperty361 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_proposition_in_atom382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_atom389 = new BitSet(new long[]{0x0000000008AB70B0L});
-    public static final BitSet FOLLOW_property_in_atom395 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_atom399 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_beliefproperty_in_proposition417 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_goalproperty_in_proposition429 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_falseprop_in_proposition439 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_intentionproperty_in_proposition451 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_lastactionproperty_in_proposition461 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_perceptproperty_in_proposition472 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_intendtodoproperty_in_proposition484 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_trueprop_in_proposition495 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_BELIEVE_in_beliefproperty511 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_beliefproperty513 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_agentname_in_beliefproperty517 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_beliefproperty519 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_beliefproperty523 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_beliefproperty525 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GOAL_in_goalproperty539 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_goalproperty541 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_agentname_in_goalproperty545 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_goalproperty547 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_goalproperty551 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_goalproperty553 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FALSE_in_falseprop567 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTENTION_in_intentionproperty581 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_intentionproperty583 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_agentname_in_intentionproperty587 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_intentionproperty589 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_intentionproperty593 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_intentionproperty595 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ACTION_in_lastactionproperty609 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_lastactionproperty611 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_agentname_in_lastactionproperty615 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_lastactionproperty617 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_lastactionproperty621 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_lastactionproperty623 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PERCEPT_in_perceptproperty637 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_perceptproperty639 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_perceptproperty645 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_perceptproperty647 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTENDTODO_in_intendtodoproperty660 = new BitSet(new long[]{0x0000000000200000L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_intendtodoproperty662 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_agentname_in_intendtodoproperty666 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_intendtodoproperty668 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_formula_in_intendtodoproperty674 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_intendtodoproperty676 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TRUE_in_trueprop690 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_agentname707 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_formula725 = new BitSet(new long[]{0x0000000000200002L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_formula735 = new BitSet(new long[]{0x0000000014100800L});
-    public static final BitSet FOLLOW_terms_in_formula737 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_formula740 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NUMBER_in_subformula754 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_UNNAMED_VAR_in_subformula790 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SQOPENBRACKET_in_subformula826 = new BitSet(new long[]{0x0000000014100800L});
-    public static final BitSet FOLLOW_subformula_in_subformula830 = new BitSet(new long[]{0x0000000002000200L});
-    public static final BitSet FOLLOW_COMMASEP_in_subformula836 = new BitSet(new long[]{0x0000000014100800L});
-    public static final BitSet FOLLOW_subformula_in_subformula840 = new BitSet(new long[]{0x0000000002000200L});
-    public static final BitSet FOLLOW_SQCLOSEBRACKET_in_subformula846 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CONST_in_subformula859 = new BitSet(new long[]{0x0000000000200002L});
-    public static final BitSet FOLLOW_OPENBRACKET_in_subformula873 = new BitSet(new long[]{0x0000000014100800L});
-    public static final BitSet FOLLOW_terms_in_subformula875 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSEBRACKET_in_subformula878 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_subformula_in_terms892 = new BitSet(new long[]{0x0000000000000202L});
-    public static final BitSet FOLLOW_COMMASEP_in_terms897 = new BitSet(new long[]{0x0000000014100800L});
-    public static final BitSet FOLLOW_terms_in_terms899 = new BitSet(new long[]{0x0000000000000002L});
-
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		CLOSE=20, SQCLOSE=24, FINALLY=2, ALWAYS=1, COMMENT=25, SQOPEN=23, COMMASEP=21, 
+		CONST=17, INTENTION=12, WS=28, BELIEVE=9, IDPUNCT=22, OR=6, NEWLINE=27, 
+		TRUE=15, INTENDTODO=16, RELEASE=4, UNTIL=3, IMP=8, OPEN=19, PERCEPT=14, 
+		NOT=7, GOAL=10, LINE_COMMENT=26, ACTION=13, AND=5, FALSE=11, QUOTED_STRING=18;
+	public static final String[] tokenNames = {
+		"<INVALID>", "ALWAYS", "FINALLY", "'U'", "'R'", "'&'", "'||'", "'~'", 
+		"'->'", "'B'", "'G'", "'F'", "'I'", "'D'", "'P'", "'T'", "'ItD'", "CONST", 
+		"QUOTED_STRING", "'('", "')'", "','", "'.'", "'['", "']'", "COMMENT", 
+		"LINE_COMMENT", "NEWLINE", "WS"
+	};
+	public static final int
+		RULE_spec = 0, RULE_property = 1, RULE_untilproperty = 2, RULE_releaseproperty = 3, 
+		RULE_impproperty = 4, RULE_andproperty = 5, RULE_orproperty = 6, RULE_alwaysproperty = 7, 
+		RULE_finallyproperty = 8, RULE_notproperty = 9, RULE_atom = 10, RULE_proposition = 11, 
+		RULE_beliefproperty = 12, RULE_goalproperty = 13, RULE_falseprop = 14, 
+		RULE_intentionproperty = 15, RULE_lastactionproperty = 16, RULE_perceptproperty = 17, 
+		RULE_intendtodoproperty = 18, RULE_trueprop = 19, RULE_agentname = 20, 
+		RULE_fof_expr = 21;
+	public static final String[] ruleNames = {
+		"spec", "property", "untilproperty", "releaseproperty", "impproperty", 
+		"andproperty", "orproperty", "alwaysproperty", "finallyproperty", "notproperty", 
+		"atom", "proposition", "beliefproperty", "goalproperty", "falseprop", 
+		"intentionproperty", "lastactionproperty", "perceptproperty", "intendtodoproperty", 
+		"trueprop", "agentname", "fof_expr"
+	};
+
+	@Override
+	public String getGrammarFileName() { return "A_PSL.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
+
+	public A_PSLParser(TokenStream input) {
+		super(input);
+		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
+	}
+	public static class SpecContext extends ParserRuleContext {
+		public PropertyContext p;
+		public PropertyContext property() {
+			return getRuleContext(PropertyContext.class,0);
+		}
+		public SpecContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_spec; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitSpec(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SpecContext spec() throws RecognitionException {
+		SpecContext _localctx = new SpecContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_spec);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(44); ((SpecContext)_localctx).p = property();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PropertyContext extends ParserRuleContext {
+		public UntilpropertyContext untilproperty() {
+			return getRuleContext(UntilpropertyContext.class,0);
+		}
+		public PropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_property; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitProperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PropertyContext property() throws RecognitionException {
+		PropertyContext _localctx = new PropertyContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_property);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(46); untilproperty();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class UntilpropertyContext extends ParserRuleContext {
+		public List<ReleasepropertyContext> releaseproperty() {
+			return getRuleContexts(ReleasepropertyContext.class);
+		}
+		public TerminalNode UNTIL(int i) {
+			return getToken(A_PSLParser.UNTIL, i);
+		}
+		public List<TerminalNode> UNTIL() { return getTokens(A_PSLParser.UNTIL); }
+		public ReleasepropertyContext releaseproperty(int i) {
+			return getRuleContext(ReleasepropertyContext.class,i);
+		}
+		public UntilpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_untilproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitUntilproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final UntilpropertyContext untilproperty() throws RecognitionException {
+		UntilpropertyContext _localctx = new UntilpropertyContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_untilproperty);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(48); releaseproperty();
+			setState(53);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==UNTIL) {
+				{
+				{
+				setState(49); match(UNTIL);
+				setState(50); releaseproperty();
+				}
+				}
+				setState(55);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ReleasepropertyContext extends ParserRuleContext {
+		public List<ImppropertyContext> impproperty() {
+			return getRuleContexts(ImppropertyContext.class);
+		}
+		public TerminalNode RELEASE(int i) {
+			return getToken(A_PSLParser.RELEASE, i);
+		}
+		public ImppropertyContext impproperty(int i) {
+			return getRuleContext(ImppropertyContext.class,i);
+		}
+		public List<TerminalNode> RELEASE() { return getTokens(A_PSLParser.RELEASE); }
+		public ReleasepropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_releaseproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitReleaseproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ReleasepropertyContext releaseproperty() throws RecognitionException {
+		ReleasepropertyContext _localctx = new ReleasepropertyContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_releaseproperty);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(56); impproperty();
+			setState(61);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==RELEASE) {
+				{
+				{
+				setState(57); match(RELEASE);
+				setState(58); impproperty();
+				}
+				}
+				setState(63);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ImppropertyContext extends ParserRuleContext {
+		public TerminalNode IMP(int i) {
+			return getToken(A_PSLParser.IMP, i);
+		}
+		public List<AndpropertyContext> andproperty() {
+			return getRuleContexts(AndpropertyContext.class);
+		}
+		public List<TerminalNode> IMP() { return getTokens(A_PSLParser.IMP); }
+		public AndpropertyContext andproperty(int i) {
+			return getRuleContext(AndpropertyContext.class,i);
+		}
+		public ImppropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_impproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitImpproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ImppropertyContext impproperty() throws RecognitionException {
+		ImppropertyContext _localctx = new ImppropertyContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_impproperty);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(64); andproperty();
+			setState(69);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==IMP) {
+				{
+				{
+				setState(65); match(IMP);
+				setState(66); andproperty();
+				}
+				}
+				setState(71);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AndpropertyContext extends ParserRuleContext {
+		public TerminalNode AND(int i) {
+			return getToken(A_PSLParser.AND, i);
+		}
+		public List<OrpropertyContext> orproperty() {
+			return getRuleContexts(OrpropertyContext.class);
+		}
+		public List<TerminalNode> AND() { return getTokens(A_PSLParser.AND); }
+		public OrpropertyContext orproperty(int i) {
+			return getRuleContext(OrpropertyContext.class,i);
+		}
+		public AndpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_andproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitAndproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AndpropertyContext andproperty() throws RecognitionException {
+		AndpropertyContext _localctx = new AndpropertyContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_andproperty);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(72); orproperty();
+			setState(77);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==AND) {
+				{
+				{
+				setState(73); match(AND);
+				setState(74); orproperty();
+				}
+				}
+				setState(79);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class OrpropertyContext extends ParserRuleContext {
+		public List<AlwayspropertyContext> alwaysproperty() {
+			return getRuleContexts(AlwayspropertyContext.class);
+		}
+		public AlwayspropertyContext alwaysproperty(int i) {
+			return getRuleContext(AlwayspropertyContext.class,i);
+		}
+		public List<TerminalNode> OR() { return getTokens(A_PSLParser.OR); }
+		public TerminalNode OR(int i) {
+			return getToken(A_PSLParser.OR, i);
+		}
+		public OrpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_orproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitOrproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final OrpropertyContext orproperty() throws RecognitionException {
+		OrpropertyContext _localctx = new OrpropertyContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_orproperty);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(80); alwaysproperty();
+			setState(85);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==OR) {
+				{
+				{
+				setState(81); match(OR);
+				setState(82); alwaysproperty();
+				}
+				}
+				setState(87);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AlwayspropertyContext extends ParserRuleContext {
+		public FinallypropertyContext finallyproperty() {
+			return getRuleContext(FinallypropertyContext.class,0);
+		}
+		public TerminalNode ALWAYS() { return getToken(A_PSLParser.ALWAYS, 0); }
+		public AlwayspropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_alwaysproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitAlwaysproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AlwayspropertyContext alwaysproperty() throws RecognitionException {
+		AlwayspropertyContext _localctx = new AlwayspropertyContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_alwaysproperty);
+		try {
+			setState(91);
+			switch (_input.LA(1)) {
+			case FINALLY:
+			case NOT:
+			case BELIEVE:
+			case GOAL:
+			case FALSE:
+			case INTENTION:
+			case ACTION:
+			case PERCEPT:
+			case TRUE:
+			case INTENDTODO:
+			case OPEN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(88); finallyproperty();
+				}
+				break;
+			case ALWAYS:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(89); match(ALWAYS);
+				setState(90); finallyproperty();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FinallypropertyContext extends ParserRuleContext {
+		public NotpropertyContext notproperty() {
+			return getRuleContext(NotpropertyContext.class,0);
+		}
+		public TerminalNode FINALLY() { return getToken(A_PSLParser.FINALLY, 0); }
+		public FinallypropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_finallyproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitFinallyproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FinallypropertyContext finallyproperty() throws RecognitionException {
+		FinallypropertyContext _localctx = new FinallypropertyContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_finallyproperty);
+		try {
+			setState(96);
+			switch (_input.LA(1)) {
+			case NOT:
+			case BELIEVE:
+			case GOAL:
+			case FALSE:
+			case INTENTION:
+			case ACTION:
+			case PERCEPT:
+			case TRUE:
+			case INTENDTODO:
+			case OPEN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(93); notproperty();
+				}
+				break;
+			case FINALLY:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(94); match(FINALLY);
+				setState(95); notproperty();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class NotpropertyContext extends ParserRuleContext {
+		public TerminalNode NOT() { return getToken(A_PSLParser.NOT, 0); }
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
+		}
+		public NotpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_notproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitNotproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final NotpropertyContext notproperty() throws RecognitionException {
+		NotpropertyContext _localctx = new NotpropertyContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_notproperty);
+		try {
+			setState(101);
+			switch (_input.LA(1)) {
+			case BELIEVE:
+			case GOAL:
+			case FALSE:
+			case INTENTION:
+			case ACTION:
+			case PERCEPT:
+			case TRUE:
+			case INTENDTODO:
+			case OPEN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(98); atom();
+				}
+				break;
+			case NOT:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(99); match(NOT);
+				setState(100); atom();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AtomContext extends ParserRuleContext {
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public PropositionContext proposition() {
+			return getRuleContext(PropositionContext.class,0);
+		}
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public PropertyContext property() {
+			return getRuleContext(PropertyContext.class,0);
+		}
+		public AtomContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_atom; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitAtom(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AtomContext atom() throws RecognitionException {
+		AtomContext _localctx = new AtomContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_atom);
+		try {
+			setState(108);
+			switch (_input.LA(1)) {
+			case BELIEVE:
+			case GOAL:
+			case FALSE:
+			case INTENTION:
+			case ACTION:
+			case PERCEPT:
+			case TRUE:
+			case INTENDTODO:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(103); proposition();
+				}
+				break;
+			case OPEN:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(104); match(OPEN);
+				setState(105); property();
+				setState(106); match(CLOSE);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PropositionContext extends ParserRuleContext {
+		public GoalpropertyContext goalproperty() {
+			return getRuleContext(GoalpropertyContext.class,0);
+		}
+		public FalsepropContext falseprop() {
+			return getRuleContext(FalsepropContext.class,0);
+		}
+		public IntentionpropertyContext intentionproperty() {
+			return getRuleContext(IntentionpropertyContext.class,0);
+		}
+		public PerceptpropertyContext perceptproperty() {
+			return getRuleContext(PerceptpropertyContext.class,0);
+		}
+		public TruepropContext trueprop() {
+			return getRuleContext(TruepropContext.class,0);
+		}
+		public LastactionpropertyContext lastactionproperty() {
+			return getRuleContext(LastactionpropertyContext.class,0);
+		}
+		public IntendtodopropertyContext intendtodoproperty() {
+			return getRuleContext(IntendtodopropertyContext.class,0);
+		}
+		public BeliefpropertyContext beliefproperty() {
+			return getRuleContext(BeliefpropertyContext.class,0);
+		}
+		public PropositionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_proposition; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitProposition(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PropositionContext proposition() throws RecognitionException {
+		PropositionContext _localctx = new PropositionContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_proposition);
+		try {
+			setState(118);
+			switch (_input.LA(1)) {
+			case BELIEVE:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(110); beliefproperty();
+				}
+				break;
+			case GOAL:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(111); goalproperty();
+				}
+				break;
+			case FALSE:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(112); falseprop();
+				}
+				break;
+			case INTENTION:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(113); intentionproperty();
+				}
+				break;
+			case ACTION:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(114); lastactionproperty();
+				}
+				break;
+			case PERCEPT:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(115); perceptproperty();
+				}
+				break;
+			case INTENDTODO:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(116); intendtodoproperty();
+				}
+				break;
+			case TRUE:
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(117); trueprop();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BeliefpropertyContext extends ParserRuleContext {
+		public AgentnameContext agentname() {
+			return getRuleContext(AgentnameContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode COMMASEP() { return getToken(A_PSLParser.COMMASEP, 0); }
+		public TerminalNode BELIEVE() { return getToken(A_PSLParser.BELIEVE, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public BeliefpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_beliefproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitBeliefproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final BeliefpropertyContext beliefproperty() throws RecognitionException {
+		BeliefpropertyContext _localctx = new BeliefpropertyContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_beliefproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(120); match(BELIEVE);
+			setState(121); match(OPEN);
+			setState(122); agentname();
+			setState(123); match(COMMASEP);
+			setState(124); fof_expr();
+			setState(125); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class GoalpropertyContext extends ParserRuleContext {
+		public AgentnameContext agentname() {
+			return getRuleContext(AgentnameContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode COMMASEP() { return getToken(A_PSLParser.COMMASEP, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public TerminalNode GOAL() { return getToken(A_PSLParser.GOAL, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public GoalpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_goalproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitGoalproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final GoalpropertyContext goalproperty() throws RecognitionException {
+		GoalpropertyContext _localctx = new GoalpropertyContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_goalproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(127); match(GOAL);
+			setState(128); match(OPEN);
+			setState(129); agentname();
+			setState(130); match(COMMASEP);
+			setState(131); fof_expr();
+			setState(132); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FalsepropContext extends ParserRuleContext {
+		public TerminalNode FALSE() { return getToken(A_PSLParser.FALSE, 0); }
+		public FalsepropContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_falseprop; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitFalseprop(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FalsepropContext falseprop() throws RecognitionException {
+		FalsepropContext _localctx = new FalsepropContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_falseprop);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(134); match(FALSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IntentionpropertyContext extends ParserRuleContext {
+		public AgentnameContext agentname() {
+			return getRuleContext(AgentnameContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode INTENTION() { return getToken(A_PSLParser.INTENTION, 0); }
+		public TerminalNode COMMASEP() { return getToken(A_PSLParser.COMMASEP, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public IntentionpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_intentionproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitIntentionproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final IntentionpropertyContext intentionproperty() throws RecognitionException {
+		IntentionpropertyContext _localctx = new IntentionpropertyContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_intentionproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(136); match(INTENTION);
+			setState(137); match(OPEN);
+			setState(138); agentname();
+			setState(139); match(COMMASEP);
+			setState(140); fof_expr();
+			setState(141); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LastactionpropertyContext extends ParserRuleContext {
+		public AgentnameContext agentname() {
+			return getRuleContext(AgentnameContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode COMMASEP() { return getToken(A_PSLParser.COMMASEP, 0); }
+		public TerminalNode ACTION() { return getToken(A_PSLParser.ACTION, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public LastactionpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_lastactionproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitLastactionproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LastactionpropertyContext lastactionproperty() throws RecognitionException {
+		LastactionpropertyContext _localctx = new LastactionpropertyContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_lastactionproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(143); match(ACTION);
+			setState(144); match(OPEN);
+			setState(145); agentname();
+			setState(146); match(COMMASEP);
+			setState(147); fof_expr();
+			setState(148); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PerceptpropertyContext extends ParserRuleContext {
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public TerminalNode PERCEPT() { return getToken(A_PSLParser.PERCEPT, 0); }
+		public PerceptpropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_perceptproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitPerceptproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PerceptpropertyContext perceptproperty() throws RecognitionException {
+		PerceptpropertyContext _localctx = new PerceptpropertyContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_perceptproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(150); match(PERCEPT);
+			setState(151); match(OPEN);
+			setState(152); fof_expr();
+			setState(153); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IntendtodopropertyContext extends ParserRuleContext {
+		public AgentnameContext agentname() {
+			return getRuleContext(AgentnameContext.class,0);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode COMMASEP() { return getToken(A_PSLParser.COMMASEP, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public TerminalNode INTENDTODO() { return getToken(A_PSLParser.INTENDTODO, 0); }
+		public IntendtodopropertyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_intendtodoproperty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitIntendtodoproperty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final IntendtodopropertyContext intendtodoproperty() throws RecognitionException {
+		IntendtodopropertyContext _localctx = new IntendtodopropertyContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_intendtodoproperty);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(155); match(INTENDTODO);
+			setState(156); match(OPEN);
+			setState(157); agentname();
+			setState(158); match(COMMASEP);
+			setState(159); fof_expr();
+			setState(160); match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class TruepropContext extends ParserRuleContext {
+		public TerminalNode TRUE() { return getToken(A_PSLParser.TRUE, 0); }
+		public TruepropContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_trueprop; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitTrueprop(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final TruepropContext trueprop() throws RecognitionException {
+		TruepropContext _localctx = new TruepropContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_trueprop);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(162); match(TRUE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AgentnameContext extends ParserRuleContext {
+		public TerminalNode CONST() { return getToken(A_PSLParser.CONST, 0); }
+		public AgentnameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_agentname; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitAgentname(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AgentnameContext agentname() throws RecognitionException {
+		AgentnameContext _localctx = new AgentnameContext(_ctx, getState());
+		enterRule(_localctx, 40, RULE_agentname);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(164); match(CONST);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Fof_exprContext extends ParserRuleContext {
+		public List<TerminalNode> CONST() { return getTokens(A_PSLParser.CONST); }
+		public TerminalNode IDPUNCT(int i) {
+			return getToken(A_PSLParser.IDPUNCT, i);
+		}
+		public TerminalNode QUOTED_STRING(int i) {
+			return getToken(A_PSLParser.QUOTED_STRING, i);
+		}
+		public List<Fof_exprContext> fof_expr() {
+			return getRuleContexts(Fof_exprContext.class);
+		}
+		public Fof_exprContext fof_expr(int i) {
+			return getRuleContext(Fof_exprContext.class,i);
+		}
+		public TerminalNode OPEN() { return getToken(A_PSLParser.OPEN, 0); }
+		public TerminalNode COMMASEP(int i) {
+			return getToken(A_PSLParser.COMMASEP, i);
+		}
+		public List<TerminalNode> COMMASEP() { return getTokens(A_PSLParser.COMMASEP); }
+		public List<TerminalNode> QUOTED_STRING() { return getTokens(A_PSLParser.QUOTED_STRING); }
+		public TerminalNode CONST(int i) {
+			return getToken(A_PSLParser.CONST, i);
+		}
+		public TerminalNode SQOPEN() { return getToken(A_PSLParser.SQOPEN, 0); }
+		public TerminalNode CLOSE() { return getToken(A_PSLParser.CLOSE, 0); }
+		public List<TerminalNode> IDPUNCT() { return getTokens(A_PSLParser.IDPUNCT); }
+		public TerminalNode SQCLOSE() { return getToken(A_PSLParser.SQCLOSE, 0); }
+		public Fof_exprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_fof_expr; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof A_PSLVisitor ) return ((A_PSLVisitor<? extends T>)visitor).visitFof_expr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Fof_exprContext fof_expr() throws RecognitionException {
+		Fof_exprContext _localctx = new Fof_exprContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_fof_expr);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(203);
+			switch (_input.LA(1)) {
+			case CONST:
+				{
+				setState(166); match(CONST);
+				setState(171);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==IDPUNCT) {
+					{
+					{
+					setState(167); match(IDPUNCT);
+					setState(168); match(CONST);
+					}
+					}
+					setState(173);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(190);
+				_la = _input.LA(1);
+				if (_la==OPEN) {
+					{
+					setState(174); match(OPEN);
+					setState(177);
+					switch (_input.LA(1)) {
+					case CONST:
+					case SQOPEN:
+						{
+						setState(175); fof_expr();
+						}
+						break;
+					case QUOTED_STRING:
+						{
+						setState(176); match(QUOTED_STRING);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(186);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					while (_la==COMMASEP) {
+						{
+						{
+						setState(179); match(COMMASEP);
+						setState(182);
+						switch (_input.LA(1)) {
+						case CONST:
+						case SQOPEN:
+							{
+							setState(180); fof_expr();
+							}
+							break;
+						case QUOTED_STRING:
+							{
+							setState(181); match(QUOTED_STRING);
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						}
+						}
+						setState(188);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+					}
+					setState(189); match(CLOSE);
+					}
+				}
+
+				}
+				break;
+			case SQOPEN:
+				{
+				setState(192); match(SQOPEN);
+				setState(193); fof_expr();
+				setState(198);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==COMMASEP) {
+					{
+					{
+					setState(194); match(COMMASEP);
+					setState(195); fof_expr();
+					}
+					}
+					setState(200);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(201); match(SQCLOSE);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static final String _serializedATN =
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\36\u00d0\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\3\2\3\2\3\3\3\3\3\4"+
+		"\3\4\3\4\7\4\66\n\4\f\4\16\49\13\4\3\5\3\5\3\5\7\5>\n\5\f\5\16\5A\13\5"+
+		"\3\6\3\6\3\6\7\6F\n\6\f\6\16\6I\13\6\3\7\3\7\3\7\7\7N\n\7\f\7\16\7Q\13"+
+		"\7\3\b\3\b\3\b\7\bV\n\b\f\b\16\bY\13\b\3\t\3\t\3\t\5\t^\n\t\3\n\3\n\3"+
+		"\n\5\nc\n\n\3\13\3\13\3\13\5\13h\n\13\3\f\3\f\3\f\3\f\3\f\5\fo\n\f\3\r"+
+		"\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\ry\n\r\3\16\3\16\3\16\3\16\3\16\3\16\3"+
+		"\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\21\3\21\3\21\3\21\3"+
+		"\21\3\21\3\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3"+
+		"\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\26\3\26\3\27\3\27\3"+
+		"\27\7\27\u00ac\n\27\f\27\16\27\u00af\13\27\3\27\3\27\3\27\5\27\u00b4\n"+
+		"\27\3\27\3\27\3\27\5\27\u00b9\n\27\7\27\u00bb\n\27\f\27\16\27\u00be\13"+
+		"\27\3\27\5\27\u00c1\n\27\3\27\3\27\3\27\3\27\7\27\u00c7\n\27\f\27\16\27"+
+		"\u00ca\13\27\3\27\3\27\5\27\u00ce\n\27\3\27\2\2\30\2\4\6\b\n\f\16\20\22"+
+		"\24\26\30\32\34\36 \"$&(*,\2\2\u00d0\2.\3\2\2\2\4\60\3\2\2\2\6\62\3\2"+
+		"\2\2\b:\3\2\2\2\nB\3\2\2\2\fJ\3\2\2\2\16R\3\2\2\2\20]\3\2\2\2\22b\3\2"+
+		"\2\2\24g\3\2\2\2\26n\3\2\2\2\30x\3\2\2\2\32z\3\2\2\2\34\u0081\3\2\2\2"+
+		"\36\u0088\3\2\2\2 \u008a\3\2\2\2\"\u0091\3\2\2\2$\u0098\3\2\2\2&\u009d"+
+		"\3\2\2\2(\u00a4\3\2\2\2*\u00a6\3\2\2\2,\u00cd\3\2\2\2./\5\4\3\2/\3\3\2"+
+		"\2\2\60\61\5\6\4\2\61\5\3\2\2\2\62\67\5\b\5\2\63\64\7\5\2\2\64\66\5\b"+
+		"\5\2\65\63\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\7\3\2\2\29\67"+
+		"\3\2\2\2:?\5\n\6\2;<\7\6\2\2<>\5\n\6\2=;\3\2\2\2>A\3\2\2\2?=\3\2\2\2?"+
+		"@\3\2\2\2@\t\3\2\2\2A?\3\2\2\2BG\5\f\7\2CD\7\n\2\2DF\5\f\7\2EC\3\2\2\2"+
+		"FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2H\13\3\2\2\2IG\3\2\2\2JO\5\16\b\2KL\7\7"+
+		"\2\2LN\5\16\b\2MK\3\2\2\2NQ\3\2\2\2OM\3\2\2\2OP\3\2\2\2P\r\3\2\2\2QO\3"+
+		"\2\2\2RW\5\20\t\2ST\7\b\2\2TV\5\20\t\2US\3\2\2\2VY\3\2\2\2WU\3\2\2\2W"+
+		"X\3\2\2\2X\17\3\2\2\2YW\3\2\2\2Z^\5\22\n\2[\\\7\3\2\2\\^\5\22\n\2]Z\3"+
+		"\2\2\2][\3\2\2\2^\21\3\2\2\2_c\5\24\13\2`a\7\4\2\2ac\5\24\13\2b_\3\2\2"+
+		"\2b`\3\2\2\2c\23\3\2\2\2dh\5\26\f\2ef\7\t\2\2fh\5\26\f\2gd\3\2\2\2ge\3"+
+		"\2\2\2h\25\3\2\2\2io\5\30\r\2jk\7\25\2\2kl\5\4\3\2lm\7\26\2\2mo\3\2\2"+
+		"\2ni\3\2\2\2nj\3\2\2\2o\27\3\2\2\2py\5\32\16\2qy\5\34\17\2ry\5\36\20\2"+
+		"sy\5 \21\2ty\5\"\22\2uy\5$\23\2vy\5&\24\2wy\5(\25\2xp\3\2\2\2xq\3\2\2"+
+		"\2xr\3\2\2\2xs\3\2\2\2xt\3\2\2\2xu\3\2\2\2xv\3\2\2\2xw\3\2\2\2y\31\3\2"+
+		"\2\2z{\7\13\2\2{|\7\25\2\2|}\5*\26\2}~\7\27\2\2~\177\5,\27\2\177\u0080"+
+		"\7\26\2\2\u0080\33\3\2\2\2\u0081\u0082\7\f\2\2\u0082\u0083\7\25\2\2\u0083"+
+		"\u0084\5*\26\2\u0084\u0085\7\27\2\2\u0085\u0086\5,\27\2\u0086\u0087\7"+
+		"\26\2\2\u0087\35\3\2\2\2\u0088\u0089\7\r\2\2\u0089\37\3\2\2\2\u008a\u008b"+
+		"\7\16\2\2\u008b\u008c\7\25\2\2\u008c\u008d\5*\26\2\u008d\u008e\7\27\2"+
+		"\2\u008e\u008f\5,\27\2\u008f\u0090\7\26\2\2\u0090!\3\2\2\2\u0091\u0092"+
+		"\7\17\2\2\u0092\u0093\7\25\2\2\u0093\u0094\5*\26\2\u0094\u0095\7\27\2"+
+		"\2\u0095\u0096\5,\27\2\u0096\u0097\7\26\2\2\u0097#\3\2\2\2\u0098\u0099"+
+		"\7\20\2\2\u0099\u009a\7\25\2\2\u009a\u009b\5,\27\2\u009b\u009c\7\26\2"+
+		"\2\u009c%\3\2\2\2\u009d\u009e\7\22\2\2\u009e\u009f\7\25\2\2\u009f\u00a0"+
+		"\5*\26\2\u00a0\u00a1\7\27\2\2\u00a1\u00a2\5,\27\2\u00a2\u00a3\7\26\2\2"+
+		"\u00a3\'\3\2\2\2\u00a4\u00a5\7\21\2\2\u00a5)\3\2\2\2\u00a6\u00a7\7\23"+
+		"\2\2\u00a7+\3\2\2\2\u00a8\u00ad\7\23\2\2\u00a9\u00aa\7\30\2\2\u00aa\u00ac"+
+		"\7\23\2\2\u00ab\u00a9\3\2\2\2\u00ac\u00af\3\2\2\2\u00ad\u00ab\3\2\2\2"+
+		"\u00ad\u00ae\3\2\2\2\u00ae\u00c0\3\2\2\2\u00af\u00ad\3\2\2\2\u00b0\u00b3"+
+		"\7\25\2\2\u00b1\u00b4\5,\27\2\u00b2\u00b4\7\24\2\2\u00b3\u00b1\3\2\2\2"+
+		"\u00b3\u00b2\3\2\2\2\u00b4\u00bc\3\2\2\2\u00b5\u00b8\7\27\2\2\u00b6\u00b9"+
+		"\5,\27\2\u00b7\u00b9\7\24\2\2\u00b8\u00b6\3\2\2\2\u00b8\u00b7\3\2\2\2"+
+		"\u00b9\u00bb\3\2\2\2\u00ba\u00b5\3\2\2\2\u00bb\u00be\3\2\2\2\u00bc\u00ba"+
+		"\3\2\2\2\u00bc\u00bd\3\2\2\2\u00bd\u00bf\3\2\2\2\u00be\u00bc\3\2\2\2\u00bf"+
+		"\u00c1\7\26\2\2\u00c0\u00b0\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00ce\3"+
+		"\2\2\2\u00c2\u00c3\7\31\2\2\u00c3\u00c8\5,\27\2\u00c4\u00c5\7\27\2\2\u00c5"+
+		"\u00c7\5,\27\2\u00c6\u00c4\3\2\2\2\u00c7\u00ca\3\2\2\2\u00c8\u00c6\3\2"+
+		"\2\2\u00c8\u00c9\3\2\2\2\u00c9\u00cb\3\2\2\2\u00ca\u00c8\3\2\2\2\u00cb"+
+		"\u00cc\7\32\2\2\u00cc\u00ce\3\2\2\2\u00cd\u00a8\3\2\2\2\u00cd\u00c2\3"+
+		"\2\2\2\u00ce-\3\2\2\2\23\67?GOW]bgnx\u00ad\u00b3\u00b8\u00bc\u00c0\u00c8"+
+		"\u00cd";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+	static {
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+		}
+	}
 }

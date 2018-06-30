@@ -1,2 +1,2 @@
-random_cars = 2
+random_cars = 10
 car1.control = agent

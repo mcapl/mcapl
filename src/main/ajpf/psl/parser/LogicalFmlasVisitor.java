@@ -1,5 +1,5 @@
 // Generated from LogicalFmlas.g4 by ANTLR 4.7
-package actiononly.parser;
+package ajpf.psl.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -100,6 +100,18 @@ public interface LogicalFmlasVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStringterm(LogicalFmlasParser.StringtermContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LogicalFmlasParser#listterm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListterm(LogicalFmlasParser.ListtermContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LogicalFmlasParser#listheads}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListheads(LogicalFmlasParser.ListheadsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LogicalFmlasParser#var}.
 	 * @param ctx the parse tree

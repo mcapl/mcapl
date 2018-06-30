@@ -26,13 +26,15 @@ package ajpf.psl.ast;
 
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.parser.A_PSLParser;
+import ajpf.psl.parser.AJPF_PSLVisitor;
 import ajpf.psl.parser.A_PSLLexer;
 
 import ajpf.MCAPLmas;
-import ajpf.MCAPLcontroller;
 
-import mcaplantlr.runtime.CommonTokenStream;
-import mcaplantlr.runtime.ANTLRStringStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import ajpf.MCAPLcontroller;
 
 import gov.nasa.jpf.annotation.MJI;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -50,11 +52,13 @@ public class JPF_ajpf_psl_ast_Property_AST extends NativePeer {
 	  @MJI
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int propertyRef) {
 		String propertystring = env.getStringObject(propertyRef);
-		A_PSLLexer psllexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
+		A_PSLLexer psllexer = new A_PSLLexer(CharStreams.fromString(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(psllexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
 		try {
-			Abstract_Property property = pslparser.spec(); 
+			Abstract_Property property = visitor.visitSpec(pslparser.spec()); 
 			Abstract_Property np = property.toNormalForm();
 			createProperty(env, objref, np);
 		} catch (Exception e) {

@@ -32,7 +32,7 @@ mas.agent.2.builder = eass.EASSAgentBuilder
 mas.agent.2.name = abstraction_car0
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.RemoteMotorwayEnvironment,
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.runtime.RemoteMotorwayEnvironment
 log.format = brief
 
 

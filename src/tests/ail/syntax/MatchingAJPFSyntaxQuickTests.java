@@ -27,9 +27,8 @@ package ail.syntax;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,8 +37,11 @@ import ail.syntax.ast.Abstract_Predicate;
 import ajpf.psl.MCAPLPredicate;
 import ajpf.psl.MCAPLTermImpl;
 import ajpf.psl.ast.Abstract_Formula;
+import ajpf.psl.parser.AJPF_PSLVisitor;
 import ajpf.psl.parser.A_PSLLexer;
 import ajpf.psl.parser.A_PSLParser;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 /**
  * Various tests for the link between AJPF's syntax of terms and AIL's.
@@ -84,15 +86,16 @@ public class MatchingAJPFSyntaxQuickTests {
 		String mcaplbelief = "at(0, 1))";
 		String inbeliefbase = "at(0, 1)";
 		
-		A_PSLLexer lexer = new A_PSLLexer(new ANTLRStringStream(mcaplbelief));
+		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(mcaplbelief));
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
-		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		LogicalFmlasParser pslparser = new LogicalFmlasParser(psltokens);
+		ajpf.psl.parser.FOFVisitor visitor = new ajpf.psl.parser.FOFVisitor();
 		try {
-			Abstract_Formula p = pslparser.formula();
+			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 			AILAgent a = new AILAgent("ag1");
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new ANTLRStringStream(inbeliefbase));
-			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
+			GwendolenLexer g_lexer = new GwendolenLexer(new mcaplantlr.runtime.ANTLRStringStream(inbeliefbase));
+			mcaplantlr.runtime.CommonTokenStream g_tokens = new mcaplantlr.runtime.CommonTokenStream(g_lexer);
 			GwendolenParser g_parser = new GwendolenParser(g_tokens);
 		
 			Abstract_Predicate b = g_parser.pred();

@@ -24,12 +24,13 @@
 
 package ajpf.psl.ast;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.parser.A_PSLParser;
+import ajpf.psl.parser.AJPF_PSLVisitor;
 import ajpf.psl.parser.A_PSLLexer;
-
-import mcaplantlr.runtime.CommonTokenStream;
-import mcaplantlr.runtime.ANTLRStringStream;
 
 /**
  * This is wrapper class for the Abstract Syntax Tree for some property.  It basically provides support for parsing 
@@ -46,11 +47,13 @@ public class Property_AST {
 	 * @param propertystring
 	 */
 	public void parse(String propertystring) {
-		A_PSLLexer psllexer = new A_PSLLexer(new ANTLRStringStream(propertystring));
+		A_PSLLexer psllexer = new A_PSLLexer(CharStreams.fromString(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(psllexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
 		try {
-			Abstract_Property prop = pslparser.spec(); 
+			Abstract_Property prop = visitor.visitSpec(pslparser.spec()); 
 			// Drive all the Not's inwards to the propositions.
 			property = prop.toNormalForm();
 		} catch (Exception e) {

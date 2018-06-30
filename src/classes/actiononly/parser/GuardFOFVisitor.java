@@ -2,6 +2,7 @@ package actiononly.parser;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import ail.parser.FOFVisitor;
 import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_GLogicalFormula;
@@ -10,6 +11,7 @@ import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Pred;
+import ajpf.psl.parser.LogicalFmlasParser;
 
 public class GuardFOFVisitor extends FOFVisitor {
 	/* 	
