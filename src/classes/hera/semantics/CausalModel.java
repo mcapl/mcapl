@@ -45,22 +45,24 @@ import hera.language.U;
 import hera.principles.Principle;
 
 public class CausalModel extends Model {
-		ArrayList<String> actions = new ArrayList<String>();
-		HashMap<String, Double> utilities = new HashMap<String, Double>();
-		ArrayList<String> patients = new ArrayList<String>();
-		String description = "No Description";
-		ArrayList<String> consequences = new ArrayList<String>();
-		ArrayList<String> background = new ArrayList<String>();
-		HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
-		HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
-		HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
-		HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
-		HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
+		protected ArrayList<String> actions = new ArrayList<String>();
+		protected HashMap<String, Double> utilities = new HashMap<String, Double>();
+		protected ArrayList<String> patients = new ArrayList<String>();
+		protected String description = "No Description";
+		protected ArrayList<String> consequences = new ArrayList<String>();
+		protected ArrayList<String> background = new ArrayList<String>();
+		protected HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
+		protected HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
+		protected HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
+		protected HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
+		protected HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
 		public FormulaString action;
 		
-		ArrayList<String> domainOfQuantification = new ArrayList<String>();
-		HashMap<Formula,Boolean> world;
-		HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();		
+		protected ArrayList<String> domainOfQuantification = new ArrayList<String>();
+		protected HashMap<Formula,Boolean> world;
+		protected HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();
+		
+		protected CausalModel() {};
 
 		public CausalModel(String file, HashMap<Formula,Boolean> world) {
 			JSONParser parser = new JSONParser();
@@ -412,5 +414,9 @@ public class CausalModel extends Model {
 				a.put((String) s, arrayl); 
 			}
 		
+		}
+		
+		public FormulaString getAction() {
+			return action;
 		}
 }

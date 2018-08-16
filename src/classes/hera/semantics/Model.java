@@ -31,7 +31,7 @@ public class Model {
 	Double probability;
 	public ArrayList<Model> alternatives = new ArrayList<Model>();
 	ArrayList<Model> epistemic = new ArrayList<Model>();
-	Checker checker;
+	protected Checker checker;
 	
 	public boolean models(Formula f) {
 		return checker.models(this, f);

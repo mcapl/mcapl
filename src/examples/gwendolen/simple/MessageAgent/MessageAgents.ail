@@ -24,7 +24,8 @@
 
 env = gwendolen.simple.SimpleEnv
 
-log.info = ail.mas.DefaultEnvironment,ail.semantics.AILAgent
+log.info = ail.mas.DefaultEnvironment
 
 mas.file = /src/examples/gwendolen/simple/MessageAgent/MessageAgents.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
+

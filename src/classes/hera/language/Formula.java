@@ -30,6 +30,10 @@ import java.util.Set;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import ail.syntax.GBelief;
+import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Predicate;
 import hera.parser.HeraLanguageVisitor;
 import hera.parser.HeraLexer;
 import hera.parser.HeraParser;
@@ -140,7 +144,7 @@ public class Formula {
 			return ("I(" + f1s + ")");
 		}
 		
-		if (this instanceof Goal) {
+		if (this instanceof hera.language.Goal) {
 			return ("Goal(" + f1s + ")");
 		}
 		
@@ -206,6 +210,132 @@ public class Formula {
 		
 		return "";
 	}
+	
+	public Guard toAILGuard() {
+		Guard f1t = null;
+		Guard f2t = null;
+		
+		if (f1 != null && f1 instanceof FormulaString) {
+			f1t = new Guard(new GBelief(new Predicate(((FormulaString) f1).getString())));
+		} else if (f1 != null ) {
+			f1t = f1.toAILGuard();
+		}
+		
+		if (f2 != null && f2 instanceof FormulaString) {
+			f2t = new Guard(new GBelief(new Predicate(((FormulaString) f2).getString())));
+		} else if (f2 != null) {
+			f2t = f2.toAILGuard();
+		}
+		
+		if (this instanceof FormulaString) {
+			return new Guard(new GBelief(new Predicate(((FormulaString) this).getString())));
+		}
+		
+		if (this instanceof Atom) {
+			return f1t;
+		}
+		
+		if (this instanceof Not) {
+			return new Guard(Guard.GLogicalOp.not, f1t);
+		}
+		
+		if (this instanceof Or) {
+			return new Guard(f1t, Guard.GLogicalOp.or, f2t);
+		}
+		
+		if (this instanceof And) {
+			return new Guard(f1t, Guard.GLogicalOp.and, f2t);
+		}
+		
+		if (this instanceof Impl) {
+			return new Guard(new Guard(Guard.GLogicalOp.not, f1t), Guard.GLogicalOp.or, f2t);
+		}
+		
+		if (this instanceof Affects) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof AffectsPos) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof AffectsNeg) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+
+		}
+		
+		if (this instanceof I) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+
+		}
+		
+		if (this instanceof hera.language.Goal) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Means) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Causes) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof PCauses) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof SCauses) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Explains) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Prevents) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Intervention) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Exists) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Forall) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Gt) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Geq) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Must) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof May) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof K) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		if (this instanceof Consequence) {
+			System.err.println("THIS FORMULA IS NOT A GUARD");
+		}
+		
+		return null;
+	}
+
 	
 	public static Formula fromString(String s) {
 		HeraLexer lexer = new HeraLexer(CharStreams.fromString(s));
