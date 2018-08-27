@@ -91,7 +91,10 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (t instanceof U) {
-			return _sumUp(m, ((U) t).getFormula());
+			Double utility =  _sumUp(m, ((U) t).getFormula());
+			// System.err.println("Utility of " + m.world + " is " + utility );
+			// System.err.println(m.utilities);
+			return utility;
 		}
 		
 		if (t instanceof DR) {
@@ -124,6 +127,7 @@ public class CausalModelChecker extends Checker {
 	}
 	
 	public Double _sumUp(CausalModel model, Formula formula) {
+		// System.err.println(formula);
 		if (formula == null) { return new Double(0); }
 		if (formula instanceof BooleanFormula) {
 			return new Double(0);
@@ -313,12 +317,14 @@ public class CausalModelChecker extends Checker {
 
 	@Override
 	public boolean models(Model m, Formula formula) {
+		System.err.println("Entering models");
 		CausalModel model = (CausalModel) m;
 		if (formula instanceof BooleanFormula) {
 			return ((BooleanFormula) formula).getBoolean();
 		}
 		
 		if (formula instanceof FormulaString) {
+			System.err.println(formula + " is FormulaString");
 			if (model.intervention.containsKey(formula)) {
 				return model.intervention.get(formula);
 			}
@@ -326,6 +332,7 @@ public class CausalModelChecker extends Checker {
 				return model.world.get(formula);
 			}
 			if (model.mechanisms.containsKey(((FormulaString) formula).getString())) {
+				System.err.println(model.mechanisms + " contains " + formula);
 				return models(model, model.mechanisms.get(((FormulaString) formula).getString()));
 			}
 		}
@@ -344,10 +351,13 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Impl) {
 			if (! models(model, formula.f1)) {
+				//System.err.println(" " + formula + " is true (1)");
 				return true;
 			} else if (models(model, formula.f2)) {
+				//System.err.println(" " + formula + " is true 21)");
 				return true;
 			} else {
+				//System.err.println(" " + formula + " is false");
 				return false;
 			}
 			// return (! models(model, formula.f1) || models(model, formula.f2));			
@@ -358,7 +368,11 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (formula instanceof Affects) {
-			return _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+") || _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
+			if (model.affects.containsKey(((FormulaString) formula.f1).getString())) {
+				return _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+") || _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
+			} else {
+				return false;
+			}
 		}
 		
 		if (formula instanceof AffectsPos) {
@@ -509,7 +523,10 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (formula instanceof Geq) {
-			return evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) >= evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
+			boolean result = evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) >= evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
+			// System.err.println("value of " + formula.f1 + "is" + evaluateTerm(model, ((TermFormula) formula.f1).getTerm()));
+			// System.err.println("value of " + formula.f2 + "is" + evaluateTerm(model, ((TermFormula) formula.f2).getTerm()));
+			return result;
 		}
 		
 		if (formula instanceof K) {
@@ -536,9 +553,11 @@ public class CausalModelChecker extends Checker {
 			l.addAll(model.getDirectConsequences());
 			for (Formula i: l) {
 				if (((FormulaString) formula.f1).getString().equals("Reading-1")) {
-					for (String g: model.goals.get(model.action.getString())) {
-						if (models(model, new And(new Causes(i, new FormulaString(g)), new Affects(i, formula.f2)))) {
-							return true;
+					if (model.goals.containsKey(model.action.getString())) {
+						for (String g: model.goals.get(model.action.getString())) {
+							if (models(model, new And(new Causes(i, new FormulaString(g)), new Affects(i, formula.f2)))) {
+								return true;
+							}
 						}
 					}
 				}
@@ -562,7 +581,9 @@ public class CausalModelChecker extends Checker {
 					f = new And(s, f);
 				}
 			}
-			return models(model, f);
+			boolean result = models(model, f);
+			// System.err.println(f + " evaluates to " + result);
+			return result;
 		}
 		
 		if (formula instanceof Exists) {

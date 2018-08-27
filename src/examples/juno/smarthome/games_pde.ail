@@ -1,0 +1,6 @@
+env = juno.smarthome.GamesEnv
+mas.file = src/examples/juno/smarthome/lights_fire_games.json
+mas.builder = juno.JunoMASBuilder
+
+log.info = ail.mas.DefaultEnvironment
+hera.principle = pde

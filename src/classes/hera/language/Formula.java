@@ -121,7 +121,7 @@ public class Formula {
 		}
 		
 		if (this instanceof And) {
-			return "And(" + f1s + ", " + f2s + ")";
+			return "\nAnd(" + f1s + ", " + f2s + ")";
 		}
 		
 		if (this instanceof Impl) {
@@ -338,8 +338,11 @@ public class Formula {
 
 	
 	public static Formula fromString(String s) {
+		System.err.println("a");
 		HeraLexer lexer = new HeraLexer(CharStreams.fromString(s));
+		System.err.println("b");
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		System.err.println("c");
 		HeraParser parser = new HeraParser(tokens);
 		HeraLanguageVisitor visitor = new HeraLanguageVisitor();
 		Formula formula = visitor.visitFormula(parser.formula());

@@ -13,27 +13,32 @@
     "consequences": [
 	"people_can_see",
 	"lights_are_on",
-	"people_are_safe"
+	"people_are_safe",
+	"people_leave_house"
     ],
     "mechanisms": {
 	"people_can_see": "'lights_are_on'",
-	"lights_are_on": "'turn_on_lights'",
-	"people_are_safe": "And('people_can_see','evacuate_the_house')",
-	"evacuate_the_house": "'turn_on_lights_and_evacuate_the_house'",
-	"lights_are_on": "'turn_on_lights_and_evacuate_the_house'",
+	"lights_are_on": "Or('turn_on_lights','turn_on_lights_and_evacuate_the_house')",
+	"people_are_safe": "And('people_can_see','people_leave_house')",
+	"people_leave_house": "Or('turn_on_lights_and_evacuate_the_house','evacuate_the_house')"
     },
     "utilities": {
 	"people_are_safe": 10,
-	"lights_are_on": -1
+	"lights_are_on": -1,
+	"people_leave_house": -1
     },
     "intentions": {
 	"turn_on_lights": [
-	    "lights_are_on"
+	    "turn_on_lights",
+	    "lights_are_on",
+	    "people_can_see"
 	],
 	"evacuate_the_house": [
+	    "evacuate_the_house",
 	    "people_are_safe"
 	],
 	"turn_on_lights_and_evacuate_the_house": [
+	    "turn_on_lights_and_evacuate_the_house",
 	    "lights_are_on",
 	    "people_are_safe"
 	],
@@ -47,17 +52,32 @@
     "affects": {
 	"people_are_safe": [
 	    [
-		"Residents ",
+		"Residents",
 		"+"
 	    ]
 	],
+	"people_can_see": [
+	    [
+		"Residents",
+		"+"
+	    ]
+	],
+	"lights_are_on": [
+	    [
+		"Residents",
+		"+"
+	    ]
+	]
     },
     "goals": {
-	"evacuate_house": [
+	"evacuate_the_house": [
 	    "people_are_safe"
 	],
 	"turn_on_lights": [
 	    "people_can_see"
+	]
+	"turn_on_lights_and_evacuate_the_house": [
+	    "people_are_safe"
 	]
     },
     "context_background": {
@@ -66,7 +86,10 @@
     },
     "context_utilities": {
 	"'evening'": {
-	    "'people_can_see'":2
+	    "people_can_see":2
+	}
+	"'fire'": {
+	    "people_leave_house":0
 	}
     }
 }

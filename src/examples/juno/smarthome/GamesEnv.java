@@ -6,16 +6,16 @@ import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Predicate;
 import ajpf.MCAPLJobber;
 
-public class FireEnv extends DefaultEnvironment implements MCAPLJobber {
+public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 	final static String logname = "juno.smarthome.FireEnv";
 	static int DAY = 0;
 	static int EVENING = 1;
 	static int NIGHT = 2;
 	int time = DAY;
-	static int FIRE = 0;
-	int fires = 0;
+	static int CHILDREN_NOISY = 0;
+	int noise = 0;
 	
-	public FireEnv() {
+	public GamesEnv() {
 		super();
 		RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		this.setScheduler(scheduler);
@@ -36,33 +36,31 @@ public class FireEnv extends DefaultEnvironment implements MCAPLJobber {
 			removePercept(new Predicate("day"));
 			addPercept(new Predicate("evening"));
 			System.err.println("Evening");
-			if (fires == 1) {
-				FIRE = 0;
-				removePercept(new Predicate("fire"));
-				fires++;
+			if (noise == 2) {
+				System.err.println("Mum Wrapping Presents");
 			}
 		} else if (time == EVENING) {
 			time = NIGHT;
 			removePercept(new Predicate("evening"));
+			removePercept(new Predicate("mum_working"));
+			removePercept(new Predicate("mum_wrapping_presents"));
 			addPercept(new Predicate("night"));		
 			System.err.println("Night");
-			if (fires == 0) {
-				fires = 1;
-			}
-			if (fires == 2) {
-				FIRE = 1;
-				System.err.println("Fire!");
-				addPercept(new Predicate("fire"));				
-			}
+			noise++;
 		} else {
 			time = DAY;
 			removePercept(new Predicate("night"));
+			if (noise < 2) {
+				addPercept(new Predicate("mum_working"));
+			} else {
+				addPercept(new Predicate("mum_wrapping_presents"));
+			}
 			addPercept(new Predicate("day"));
 			System.err.println("Day");
-			if (fires == 1) {
-				FIRE = 1;
-				System.err.println("Fire!");
-				addPercept(new Predicate("fire"));
+			if (noise == 1) {
+				CHILDREN_NOISY = 1;
+				System.err.println("CHILDREN_NOISY!");
+				addPercept(new Predicate("children_noisy"));
 			}
 		}
 	}
@@ -76,6 +74,7 @@ public class FireEnv extends DefaultEnvironment implements MCAPLJobber {
 	public void setMAS(MAS m) {
 		super.setMAS(m);
 		addPercept(new Predicate("day"));
+		addPercept(new Predicate("mum_working"));
 	}
 
 }

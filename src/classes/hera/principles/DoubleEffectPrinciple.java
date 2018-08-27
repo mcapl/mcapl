@@ -64,6 +64,35 @@ public class DoubleEffectPrinciple extends Principle {
 	@Override
 	public ArrayList<Boolean> _check() {
 		cons = ((CausalModel) model).getDirectConsequences();
+		
+		CausalModel cmodel = (CausalModel) model;
+		if (cmodel.intentions.isEmpty()) {
+			for (String s: cmodel.goalbase) {
+				// If the model achieves the goal then it is assumed to be the goal of the action.
+				boolean isgoal = true;
+				if (cmodel.world.containsKey(new FormulaString(s))) {
+					if (cmodel.world.get(new FormulaString(s))) {
+						isgoal = false;
+					}				
+				}
+				if (isgoal & cmodel.models(new FormulaString(s))) {
+					ArrayList<Formula> cs = cmodel.getDirectConsequences();
+					ArrayList<String> intentions = new ArrayList<String>();
+					for (Formula c: cs) {
+						ArrayList<Formula> goals = new ArrayList<Formula>();
+						goals.add(c);
+						if (cmodel.path(goals, new FormulaString(s), new ArrayList<Formula>())) {
+							System.err.println(cmodel.action + " " + c);
+							intentions.add(((FormulaString) c).getString());
+						}
+					}
+					cmodel.setIntention(cmodel.action, intentions);
+				}
+			}
+		}
+
+		
+		
 		formulae.add(_condition1());
 		formulae.add(_condition2a());
 		formulae.add(_condition2b());
@@ -76,7 +105,9 @@ public class DoubleEffectPrinciple extends Principle {
 		}
 		for (Formula f: formulae) {
 			result.add(model.models(f));
+			// System.err.println(f);
 		}
+		cmodel.clearIntentions();
 		return result;
 	}
 

@@ -31,6 +31,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
+import ajpf.MCAPLcontroller;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -40,7 +41,8 @@ import hera.principles.UtilitarianPrinciple;
 public class SmartHomeQuickTests {
 	
 	@Test public void doubleeffecttest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String rel_file = "/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String file = MCAPLcontroller.getAbsFilename(rel_file);
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);

@@ -8,7 +8,9 @@ import ail.semantics.operationalrules.GenerateApplicablePlans;
 import gov.nasa.jpf.annotation.FilterField;
 import juno.semantics.operationalrules.HandleHeraAction;
 import juno.semantics.operationalrules.ReasonAboutActions;
+import juno.semantics.operationalrules.UpdateAffects;
 import juno.semantics.operationalrules.UpdateBackground;
+import juno.semantics.operationalrules.UpdateGoals;
 import juno.semantics.operationalrules.UpdateUtilities;
 
 public class JunoRC implements ReasoningCycle {
@@ -17,8 +19,10 @@ public class JunoRC implements ReasoningCycle {
 	private JunoRCStage Perception = new JunoRCStage(0, "Perception");
 	private JunoRCStage UpdateModelUtilities = new JunoRCStage(1, "UpdateModelU");
 	private JunoRCStage UpdateModelBackground = new JunoRCStage(2, "UpdateModelB");
-	private JunoRCStage EthicalReasoning = new JunoRCStage(3, "EthicalReasoning");
-	private JunoRCStage Act = new JunoRCStage(4, "Act");
+	private JunoRCStage UpdateModelAffects = new JunoRCStage(3, "UpdateModelA");
+	private JunoRCStage UpdateModelGoals = new JunoRCStage(4, "UpdateModelG");
+	private JunoRCStage EthicalReasoning = new JunoRCStage(5, "EthicalReasoning");
+	private JunoRCStage Act = new JunoRCStage(6, "Act");
 
 	@FilterField
 	private boolean stopandcheck = false;
@@ -35,6 +39,12 @@ public class JunoRC implements ReasoningCycle {
 		
 		UpdateBackground rule3 = new UpdateBackground();
 		UpdateModelBackground.setRule(rule3);
+		
+		UpdateAffects rule3a = new UpdateAffects();
+		UpdateModelAffects.setRule(rule3a);
+		
+		UpdateGoals rule3b = new UpdateGoals();
+		UpdateModelGoals.setRule(rule3b);
 		
 		ReasonAboutActions rule4 = new ReasonAboutActions();
 		EthicalReasoning.setRule(rule4);
@@ -63,6 +73,10 @@ public class JunoRC implements ReasoningCycle {
 		} else if (currentstage == UpdateModelUtilities) {
 			currentstage = UpdateModelBackground;
 		} else if (currentstage == UpdateModelBackground) {
+			currentstage = UpdateModelAffects;
+		} else if (currentstage == UpdateModelAffects) {
+			currentstage = UpdateModelGoals;
+		} else if (currentstage == UpdateModelGoals) {
 			currentstage = EthicalReasoning;
 		} else if (currentstage == EthicalReasoning) {
 			currentstage = Act;

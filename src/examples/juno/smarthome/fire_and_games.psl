@@ -1,0 +1,1 @@
+1: [](B(juno, fire) -> <>(D(juno, evacuate_the_house) || D(juno, turn_on_lights_and_evacuate_the_house)))

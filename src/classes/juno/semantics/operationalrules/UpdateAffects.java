@@ -1,5 +1,6 @@
 package juno.semantics.operationalrules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -7,7 +8,6 @@ import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.GBelief;
 import ail.syntax.Guard;
-import ail.syntax.Literal;
 import ail.syntax.NumberTerm;
 import ail.syntax.NumberTermImpl;
 import ail.syntax.Predicate;
@@ -16,10 +16,9 @@ import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.util.Tuple;
 import hera.language.Formula;
-import hera.language.FormulaString;
 import juno.semantics.JunoAgent;
 
-public class UpdateBackground implements OSRule {
+public class UpdateAffects implements OSRule {
 	private String name="Update Utilities";
 
 	@Override
@@ -33,15 +32,30 @@ public class UpdateBackground implements OSRule {
 	@Override
 	public void apply(AILAgent a) {
 		JunoAgent juno = (JunoAgent) a;
-		juno.clearBackground();
-		for (Tuple<Formula, FormulaString> bck: juno.getContextBackground()) {
+		juno.setAffects(juno.defaultAffects());
+		for (Formula f: juno.getContextAffects().keySet()) {
 			
-			Iterator<Unifier> u_it = juno.believes(bck.getLeft().toAILGuard(), new Unifier());
+			Iterator<Unifier> u_it = juno.believes(f.toAILGuard(), new Unifier());
 			
 			if (u_it.hasNext()) {
-				juno.addBel(new Literal(bck.getRight().getString()), juno.refertoself());
-			} else {
-				juno.delBel(new Literal(bck.getRight().getString()));
+				HashMap<String, ArrayList<Tuple<String, String>>> new_affects = juno.getContextAffects().get(f);
+				
+				for (String s: new_affects.keySet()) {
+					ArrayList<Tuple<String, String>> pairs = new_affects.get(s);
+					ArrayList<Tuple<String, String>> new_pairs = new ArrayList<Tuple<String, String>>();
+					for (Tuple<String, String> t: pairs) {
+						if (! t.getRight().equals("?")) {
+							new_pairs.add(t);
+						}
+					}
+					if (!new_pairs.isEmpty()) {
+						juno.setAffect(s, new_pairs);
+					} else {
+						juno.removeAffect(s);
+					}
+				}
+		
+				
 			}
 		}
 	}

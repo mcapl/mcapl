@@ -16,8 +16,13 @@ public class JunoCausalModel extends CausalModel {
 		this.consequences = juno.getConsequences();
 		this.background = juno.getBackground();
 		this.mechanisms = juno.getMechanisms();
-		this.intentions = juno.getHeraIntentions();
-		this.goals = juno.getHeraGoals();
+		
+		
+		_computeNetwork();
+		
+		// this.intentions = juno.getHeraIntentions();
+		// this.goals = juno.getHeraGoals();
+		this.goalbase = juno.getHeraGoalBase();
 		this.affects = juno.getAffects();
 		
 		domainOfQuantification.addAll(this.actions);

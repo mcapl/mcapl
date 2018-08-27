@@ -30,6 +30,7 @@ public class UtilitarianPrinciple extends Principle {
 		
 		Formula f = null;
 		for (Term w: v) {
+			// System.err.println(w);
 			if (f == null ) {
 				f = new Geq(u, w);
 			} else {
@@ -49,7 +50,7 @@ public class UtilitarianPrinciple extends Principle {
 	@Override
 	public Boolean permissible() {
 		_check();
-		return result.get(0);
+		return result.get(result.size() - 1);
 	}
 
 }

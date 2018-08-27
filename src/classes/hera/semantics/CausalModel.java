@@ -52,14 +52,15 @@ public class CausalModel extends Model {
 		protected ArrayList<String> consequences = new ArrayList<String>();
 		protected ArrayList<String> background = new ArrayList<String>();
 		protected HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
-		protected HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
-		protected HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
+		public HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
+		public HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
+		public ArrayList<String> goalbase = new ArrayList<String>();
 		protected HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
 		protected HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
 		public FormulaString action;
 		
 		protected ArrayList<String> domainOfQuantification = new ArrayList<String>();
-		protected HashMap<Formula,Boolean> world;
+		public HashMap<Formula,Boolean> world;
 		protected HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();
 		
 		protected CausalModel() {};
@@ -127,9 +128,11 @@ public class CausalModel extends Model {
 				}
 
 				try {
+					// JSONArray goalbase = (JSONArray) model.get("goalbase");
+					// JSONArraytoArrayListString(goalbase, this.goalbase);
 					JSONObject goals = (JSONObject) model.get("goals");
 					if (goals != null) {
-						JSONObjecttoHashList(goals, this.goals);
+					 	JSONObjecttoHashList(goals, this.goals);
 					}
 				} catch (Exception e) {
 					
@@ -328,13 +331,13 @@ public class CausalModel extends Model {
 		public Set<Formula> getAllConsequences() {
 			Set<Formula> cs = new HashSet<Formula>();
 			for (String c: consequences) {
+				// System.err.println("AAA");
 				if (models(new FormulaString(c))) {
 					cs.add(new FormulaString(c));
 				} else {
 					cs.add(new Not(new FormulaString(c)));
 				}
 			}
-			
 			return cs;
 		}
 		
@@ -393,6 +396,13 @@ public class CausalModel extends Model {
 			
 		}
 		
+		private void JSONArraytoArrayListFormula(JSONArray ja, ArrayList<Formula> a) {
+			for (Object s: ja) {
+				Formula constant = new FormulaString(s.toString());
+				a.add(constant);
+			}
+			
+		}
 		private <T> void JSONObjecttoHashDouble(JSONObject jo, HashMap<String, Double> map) {
 			Set<Object> keySet = (Set<Object>) jo.keySet();
 			for (Object s: keySet) {
@@ -418,5 +428,19 @@ public class CausalModel extends Model {
 		
 		public FormulaString getAction() {
 			return action;
+		}
+		
+		public void addGoal(String s) {
+			ArrayList<String> goals = new ArrayList<String>();
+			goals.add(s);
+			this.goals.put(action.getString(), goals);
+		}
+		
+		public void setIntention(FormulaString s, ArrayList<String> cs) {
+			intentions.put(s.getString(), cs); 
+		}
+		
+		public void clearIntentions() {
+			intentions = new HashMap<String, ArrayList<String>>();
 		}
 }

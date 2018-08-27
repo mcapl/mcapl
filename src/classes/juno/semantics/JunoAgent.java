@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import ail.semantics.AILAgent;
+import ail.util.AILConfig;
 import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
 import hera.language.Formula;
@@ -23,29 +24,39 @@ public class JunoAgent extends AILAgent {
 	ArrayList<String> actions = new ArrayList<String>();
 	HashMap<String, Double> utilities = new HashMap<String, Double>();
 	HashMap<String, Double> default_utilities = new HashMap<String, Double>();
+	ArrayList<String> default_goals = new ArrayList<String>();
 	ArrayList<String> patients = new ArrayList<String>();
+	HashMap<String, ArrayList<Tuple<String,String>>> default_affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
 	String description = "No Description";
 	ArrayList<String> consequences = new ArrayList<String>();
 	ArrayList<String> background = new ArrayList<String>();
 	HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
 	HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
 	HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
+	public ArrayList<String> goalbase = new ArrayList<String>();
 	HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
 	ArrayList<Tuple<Formula, FormulaString>> context_background = new ArrayList<Tuple<Formula, FormulaString>>();
 	HashMap<Formula, HashMap<String, Double>> context_utilities = new HashMap<Formula, HashMap<String, Double>>();
+	HashMap<Formula, ArrayList<String>> context_goals = new HashMap<Formula, ArrayList<String>>();
+	HashMap<Formula, HashMap<String, ArrayList<Tuple<String,String>>>> context_affects = new HashMap<Formula, HashMap<String, ArrayList<Tuple<String,String>>>>();
 	
-	static int UTILITARIAN = 0;
-	static int DOUBLE_EFFECT = 1;
-	static int KANTIAN = 2;
+	public static int UTILITARIAN = 0;
+	public static int DOUBLE_EFFECT = 1;
+	public static int KANTIAN = 2;
 	
 	FormulaString action;
 	
-	int ethical_system = UTILITARIAN;
+	public int ethical_system = UTILITARIAN;
 
 	public JunoAgent(String file) {
 		super();
 		this.setAgName("juno");
 		this.setReasoningCycle(new JunoRC());
+
+		parseFromFile(file);
+	}
+	
+	public void parseFromFile(String file) {
 		JSONParser parser = new JSONParser();
 		try {
 			String abs_filename = MCAPLcontroller.getFilename(file);
@@ -59,6 +70,7 @@ public class JunoAgent extends AILAgent {
 				JSONObject utilities = (JSONObject) model.get("utilities");
 				JSONObjecttoHashDouble(utilities, this.utilities);
 				default_utilities = this.utilities;
+				// System.err.println(this.utilities);
 			} catch (Exception e) {
 					
 			}
@@ -81,7 +93,9 @@ public class JunoAgent extends AILAgent {
 			
 			try {
 				JSONObject mechanisms = (JSONObject) model.get("mechanisms");
+				System.err.println("AAA");
 				for (Object s: mechanisms.keySet()) {
+					System.err.println(s);
 					String v = (String) mechanisms.get(s);
 					this.mechanisms.put((String) s, (Formula) Formula.fromString(v));
 				}
@@ -97,10 +111,13 @@ public class JunoAgent extends AILAgent {
 			}
 
 			try {
-				JSONObject goals = (JSONObject) model.get("goals");
-				if (goals != null) {
-					JSONObjecttoHashList(goals, this.goals);
-				}
+				JSONArray goalbase = (JSONArray) model.get("goalbase");
+				JSONArraytoArrayListString(goalbase, this.goalbase);
+				default_goals = this.goalbase;
+				// JSONObject goals = (JSONObject) model.get("goals");
+				// if (goals != null) {
+				// 	JSONObjecttoHashList(goals, this.goals);
+				// }
 			} catch (Exception e) {
 				
 			}
@@ -120,6 +137,7 @@ public class JunoAgent extends AILAgent {
 						
 					}
 				}
+				default_affects = this.affects;
 			} catch (Exception e) {
 				
 			}
@@ -149,6 +167,43 @@ public class JunoAgent extends AILAgent {
 			} catch (Exception e) {
 				
 			}
+			
+			try {
+				JSONObject context_affects = (JSONObject) model.get("context_affects");
+				if (context_affects != null) {
+					for (Object s: context_affects.keySet()) {
+						HashMap<String, ArrayList<Tuple<String,String>>> affects_for_context = new HashMap<String, ArrayList<Tuple<String, String>>>();
+						JSONObject affs = (JSONObject) context_affects.get(s);
+						for (Object s1: affs.keySet()) {
+							JSONArray list = (JSONArray) affs.get(s1);
+							ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
+							for (Object o: list) {
+								JSONArray tuple = (JSONArray) o;
+								Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+								arrayl.add(new_tuple);
+							}
+							affects_for_context.put((String) s1, arrayl); 						
+						}
+						this.context_affects.put((Formula) Formula.fromString((String) s), affects_for_context);
+					}
+				}
+			} catch (Exception e) {
+				
+			}
+			
+			try {
+				JSONObject context_goals = (JSONObject) model.get("context_goals");
+				if (context_goals != null) {
+					for (Object s: context_goals.keySet()) {
+						JSONArray v = (JSONArray) context_goals.get(s);
+						ArrayList<String> gs = new ArrayList<String>();
+						JSONArraytoArrayListString(v, gs);
+						this.context_goals.put((Formula) Formula.fromString((String) s), gs);
+					}
+				}
+			} catch (Exception e) {
+				
+			}
 					
 
 		} catch (Exception e) {
@@ -156,8 +211,7 @@ public class JunoAgent extends AILAgent {
 		}
 
 
-
-
+		
 	}
 	
 	public ArrayList<String> getHeraActions() {
@@ -168,6 +222,14 @@ public class JunoAgent extends AILAgent {
 		return context_utilities;
 	}
 	
+	public HashMap<Formula, ArrayList<String>> getContextGoals() {
+		return context_goals;
+	}
+	
+	public HashMap<Formula, HashMap<String, ArrayList<Tuple<String, String>>>> getContextAffects() {
+		return context_affects;
+	}
+	
 	public void setUtilities(HashMap<String, Double> utilities) {
 		this.utilities = utilities;
 	}
@@ -176,10 +238,57 @@ public class JunoAgent extends AILAgent {
 		this.utilities.put(s, u);
 	}
 	
-	public HashMap<String, Double> defaultUtilities() {
-		return default_utilities;
+	public void setGoals(ArrayList<String>  goals) {
+		this.goalbase = goals;
 	}
 	
+	public void setNewGoal(String goal) {
+		this.goalbase.add(goal);
+	}
+	
+	public void setAffects(HashMap<String, ArrayList<Tuple<String, String>>> affs) {
+		this.affects = affs;
+	}
+	
+	public void setAffect(String s, ArrayList<Tuple<String, String>> affs) {
+		this.affects.put(s, affs);
+	}
+	
+	public void removeAffect(String s) {
+		if (affects.keySet().contains(s)) {
+			affects.remove(s);
+		}
+	}
+	
+	public HashMap<String, Double> defaultUtilities() {
+		HashMap<String, Double> us_clone = new HashMap<String, Double>();
+		for (String s: default_utilities.keySet()) {
+			us_clone.put(s, default_utilities.get(s));
+		}
+		return us_clone;
+	}
+	
+	public ArrayList<String> defaultGoals() {
+		ArrayList<String> g_clone = new ArrayList<String>();
+		for (String s: default_goals) {
+			g_clone.add(s);
+		}
+		return g_clone;
+	}
+
+	public HashMap<String, ArrayList<Tuple<String,String>>> defaultAffects() {
+		HashMap<String, ArrayList<Tuple<String,String>>> us_clone = new HashMap<String, ArrayList<Tuple<String,String>>>();
+		for (String s: default_affects.keySet()) {
+			ArrayList<Tuple<String, String>> aff_list = default_affects.get(s);
+			ArrayList<Tuple<String, String>> new_aff_list = new ArrayList<Tuple<String, String>>();
+			for (Tuple<String, String> t: aff_list) {
+				new_aff_list.add(new Tuple(t.getLeft(), t.getRight()));
+			}
+			us_clone.put(s, new_aff_list);
+		}
+		return us_clone;
+	}
+
 	public HashMap<String, Double> getUtilities() {
 		return this.utilities;
 	}
@@ -210,6 +319,10 @@ public class JunoAgent extends AILAgent {
 	
 	public HashMap<String, ArrayList<String>> getHeraGoals() {
 		return this.goals;
+	}
+	
+	public ArrayList<String> getHeraGoalBase() {
+		return this.goalbase;
 	}
 	
 	public HashMap<String, ArrayList<Tuple<String, String>>> getAffects() {
@@ -269,12 +382,31 @@ public class JunoAgent extends AILAgent {
 		}
 	}
 	
+	public void setEthicalPrinciple(int principle) {
+		ethical_system = principle;
+	}
+	
 	public void setAction(FormulaString a) {
 		action = a;
 	}
 	
 	public FormulaString getAction() {
 		return action;
+	}
+	
+	@Override
+	public void configure(AILConfig c) {
+		if (c.containsKey("hera.principle")) {
+			Object principle = c.get("hera.principle");
+			String principle_string = principle.toString();
+			if (principle_string.equals("utilitarian")) {
+				setEthicalPrinciple(UTILITARIAN);
+			} else if (principle_string.equals("kantian")) {
+				setEthicalPrinciple(KANTIAN);
+			} else {
+				setEthicalPrinciple(DOUBLE_EFFECT);
+			}
+		}
 	}
 
 }
