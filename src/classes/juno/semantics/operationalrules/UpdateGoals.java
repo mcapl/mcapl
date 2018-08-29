@@ -18,7 +18,7 @@ import hera.language.Formula;
 import juno.semantics.JunoAgent;
 
 public class UpdateGoals implements OSRule {
-	private String name="Update Utilities";
+	private String name="Update Goals";
 
 	@Override
 	public boolean checkPreconditions(AILAgent a) {

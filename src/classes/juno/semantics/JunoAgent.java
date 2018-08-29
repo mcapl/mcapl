@@ -97,7 +97,7 @@ public class JunoAgent extends AILAgent {
 				for (Object s: mechanisms.keySet()) {
 					System.err.println(s);
 					String v = (String) mechanisms.get(s);
-					this.mechanisms.put((String) s, (Formula) Formula.fromString(v));
+					this.mechanisms.put((String) s, (Formula) new FormulaString("tmp").fromString(v));
 				}
 			} catch (Exception e) {
 				
@@ -147,8 +147,8 @@ public class JunoAgent extends AILAgent {
 				if (context_background != null) {
 					for (Object s: context_background.keySet()) {
 						String v = (String) context_background.get(s);
-						this.context_background.add(new Tuple((Formula) Formula.fromString((String) s), 
-								                              (Formula) Formula.fromString(v)));
+						this.context_background.add(new Tuple((Formula) new FormulaString("tmp").fromString((String) s), 
+								                              (Formula) new FormulaString("tmp").fromString(v)));
 					}
 				}
 			} catch (Exception e) {
@@ -161,7 +161,7 @@ public class JunoAgent extends AILAgent {
 					for (Object s: context_utilities.keySet()) {
 						HashMap<String, Double> utilities_for_context = new HashMap<String, Double>();
 						JSONObjecttoHashDouble((JSONObject) context_utilities.get(s), utilities_for_context);
-						this.context_utilities.put((Formula) Formula.fromString((String) s), utilities_for_context);
+						this.context_utilities.put((Formula) new FormulaString("tmp").fromString((String) s), utilities_for_context);
 					}
 				}
 			} catch (Exception e) {
@@ -184,7 +184,7 @@ public class JunoAgent extends AILAgent {
 							}
 							affects_for_context.put((String) s1, arrayl); 						
 						}
-						this.context_affects.put((Formula) Formula.fromString((String) s), affects_for_context);
+						this.context_affects.put((Formula) new FormulaString("tmp").fromString((String) s), affects_for_context);
 					}
 				}
 			} catch (Exception e) {
@@ -198,7 +198,7 @@ public class JunoAgent extends AILAgent {
 						JSONArray v = (JSONArray) context_goals.get(s);
 						ArrayList<String> gs = new ArrayList<String>();
 						JSONArraytoArrayListString(v, gs);
-						this.context_goals.put((Formula) Formula.fromString((String) s), gs);
+						this.context_goals.put((Formula) new FormulaString("tmp").fromString((String) s), gs);
 					}
 				}
 			} catch (Exception e) {

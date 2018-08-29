@@ -48,6 +48,7 @@ public class FireAndGamesVerificationEnvironment extends EASSVerificationEnviron
 			AJPFLogger.info(logname, "Mum wrapping presents");
 		}
 		
+		AJPFLogger.info(logname, "Predicates: " + predicates);
 		return predicates;
 		
 	}

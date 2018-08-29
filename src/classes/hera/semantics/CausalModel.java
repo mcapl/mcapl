@@ -112,7 +112,7 @@ public class CausalModel extends Model {
 					JSONObject mechanisms = (JSONObject) model.get("mechanisms");
 					for (Object s: mechanisms.keySet()) {
 						String v = (String) mechanisms.get(s);
-						this.mechanisms.put((String) s, (Formula) Formula.fromString(v));
+						this.mechanisms.put((String) s, (Formula) new FormulaString("tmp").fromString(v));
 					}
 				} catch (Exception e) {
 					

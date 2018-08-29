@@ -317,14 +317,14 @@ public class CausalModelChecker extends Checker {
 
 	@Override
 	public boolean models(Model m, Formula formula) {
-		System.err.println("Entering models");
+		// System.err.println("Entering models");
 		CausalModel model = (CausalModel) m;
 		if (formula instanceof BooleanFormula) {
 			return ((BooleanFormula) formula).getBoolean();
 		}
 		
 		if (formula instanceof FormulaString) {
-			System.err.println(formula + " is FormulaString");
+			// System.err.println(formula + " is FormulaString");
 			if (model.intervention.containsKey(formula)) {
 				return model.intervention.get(formula);
 			}
@@ -332,7 +332,7 @@ public class CausalModelChecker extends Checker {
 				return model.world.get(formula);
 			}
 			if (model.mechanisms.containsKey(((FormulaString) formula).getString())) {
-				System.err.println(model.mechanisms + " contains " + formula);
+				// System.err.println(model.mechanisms + " contains " + formula);
 				return models(model, model.mechanisms.get(((FormulaString) formula).getString()));
 			}
 		}
@@ -573,12 +573,23 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Forall) {
 			Formula f = null;
-			for (String e: model.domainOfQuantification) {
-				Formula s = substituteVariable(formula.f1, e, formula.f2);
-				if (f == null) {
-					f = s;
-				} else {
-					f = new And(s, f);
+			if (!formula.retrictedtopatients()) {
+				for (String e: model.domainOfQuantification) {
+					Formula s = substituteVariable(formula.f1, e, formula.f2);
+					if (f == null) {
+						f = s;
+					} else {
+						f = new And(s, f);
+					}
+				}
+			} else {
+				for (String e: model.patients) {
+					Formula s = substituteVariable(formula.f1, e, formula.f2);
+					if (f == null) {
+						f = s;
+					} else {
+						f = new And(s, f);
+					}
 				}
 			}
 			boolean result = models(model, f);
@@ -601,7 +612,7 @@ public class CausalModelChecker extends Checker {
 	public Formula substituteVariable(Formula var, String newf, Formula formula) {
 		String newFormula = formula.toString();
 		String replacedFormula = newFormula.replaceAll(var.toString(), "'" + newf + "'");
-		Formula new_formula =  Formula.fromString(replacedFormula);
+		Formula new_formula =  formula.fromString(replacedFormula);
 		return new_formula;
 	}
 

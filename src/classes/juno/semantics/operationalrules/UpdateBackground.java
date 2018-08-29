@@ -20,7 +20,7 @@ import hera.language.FormulaString;
 import juno.semantics.JunoAgent;
 
 public class UpdateBackground implements OSRule {
-	private String name="Update Utilities";
+	private String name="Update Background";
 
 	@Override
 	public boolean checkPreconditions(AILAgent a) {

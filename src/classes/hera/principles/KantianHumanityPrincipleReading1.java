@@ -38,6 +38,7 @@ public class KantianHumanityPrincipleReading1 extends Principle {
 		
 		FormulaString x = new FormulaString("__x__");
 		Formula f1 = new Forall(x, new Impl(new Means(new FormulaString("Reading-1"), x), new Goal(x)));
+		f1.restrictopatients();
 		formulae.add(f1);
 		result.add(model.models(f1));
 		return result;

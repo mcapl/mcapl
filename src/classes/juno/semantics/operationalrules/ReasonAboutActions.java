@@ -18,7 +18,8 @@ import juno.semantics.JunoAgent;
 import juno.semantics.JunoCausalModel;
 
 public class ReasonAboutActions implements OSRule {
-
+	private static final String name = "Ethical Reasoning";
+	
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
 		// TODO Auto-generated method stub

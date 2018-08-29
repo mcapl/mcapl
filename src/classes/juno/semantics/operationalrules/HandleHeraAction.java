@@ -79,6 +79,7 @@ public class HandleHeraAction implements OSRule {
 		Action act = new Action(s.getString());
 
 		try {
+			System.err.println("Hera doing " + act);
 			a.getEnv().executeAction(a.getAgName(), act);
 		} catch (AILexception e) {
 			

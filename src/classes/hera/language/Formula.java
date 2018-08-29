@@ -34,13 +34,24 @@ import ail.syntax.GBelief;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Predicate;
+import gov.nasa.jpf.vm.MJIEnv;
 import hera.parser.HeraLanguageVisitor;
 import hera.parser.HeraLexer;
 import hera.parser.HeraParser;
 
-public class Formula {
+public class Formula implements Comparable {
 	public Formula f1;
 	public Formula f2;
+	
+	boolean rtp = false;
+	
+	public void restrictopatients() {
+		rtp = true;
+	}
+	
+	public boolean retrictedtopatients() {
+		return rtp;
+	}
 	
 	public Formula(Formula f1, Formula f2) {
 		this.f1 = f1;
@@ -336,17 +347,19 @@ public class Formula {
 		return null;
 	}
 
+	Formula fromStringFormula;
+	public  Formula fromString(String s) {
+		createFormulaFromString(s);
+		return fromStringFormula;
+	}
 	
-	public static Formula fromString(String s) {
-		System.err.println("a");
+	public void createFormulaFromString(String s) {
 		HeraLexer lexer = new HeraLexer(CharStreams.fromString(s));
-		System.err.println("b");
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		System.err.println("c");
 		HeraParser parser = new HeraParser(tokens);
 		HeraLanguageVisitor visitor = new HeraLanguageVisitor();
 		Formula formula = visitor.visitFormula(parser.formula());
-		return formula;
+		fromStringFormula = formula;
 	}
 
 	public ArrayList<Formula> getPosLiteralsEvent() {
@@ -426,5 +439,238 @@ public class Formula {
 		}
 		
 		return null;
+	}
+	
+	public int newJPFObject(MJIEnv env) {
+		if (this instanceof FormulaString) {
+			int ref = env.newObject("hera.language.FormulaString");
+			env.setReferenceField(ref, "s", env.newString(((FormulaString) this).getString()));
+			return ref;
+		} 
+		
+		if (this instanceof Atom) {
+			int ref = env.newObject("hera.language.Atom");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof Not) {
+			int ref = env.newObject("hera.language.Not");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof Or) {
+			int ref = env.newObject("hera.language.Or");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof And) {
+			int ref = env.newObject("hera.language.And");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Impl) {
+			int ref = env.newObject("hera.language.Impl");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Affects) {
+			int ref = env.newObject("hera.language.Affects");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof AffectsPos) {
+			int ref = env.newObject("hera.language.AffectsPos");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof AffectsNeg) {
+			int ref = env.newObject("hera.language.AffectsNeg");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof I) {
+			int ref = env.newObject("hera.language.I");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof hera.language.Goal) {
+			int ref = env.newObject("hera.language.Goal");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof Means) {
+			int ref = env.newObject("hera.language.Means");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Causes) {
+			int ref = env.newObject("hera.language.Causes");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof PCauses) {
+			int ref = env.newObject("hera.language.PCauses");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof SCauses) {
+			int ref = env.newObject("hera.language.SCauses");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Explains) {
+			int ref = env.newObject("hera.language.Explains");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Prevents) {
+			int ref = env.newObject("hera.language.Prevents");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Intervention) {
+			int ref = env.newObject("hera.language.Intervention");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Exists) {
+			int ref = env.newObject("hera.language.Exists");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Forall) {
+			int ref = env.newObject("hera.language.Forall");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Gt) {
+			int ref = env.newObject("hera.language.Gt");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Geq) {
+			int ref = env.newObject("hera.language.Geq");
+			int f1ref = f1.newJPFObject(env);
+			int f2ref = f2.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			env.setReferenceField(ref, "f2", f2ref);
+			return ref;
+		}
+		
+		if (this instanceof Must) {
+			int ref = env.newObject("hera.language.Must");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof May) {
+			int ref = env.newObject("hera.language.May");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof K) {
+			int ref = env.newObject("hera.language.K");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		if (this instanceof Consequence) {
+			int ref = env.newObject("hera.language.Consequence");
+			int f1ref = f1.newJPFObject(env);
+			env.setReferenceField(ref, "f1", f1ref);
+			return ref;
+		}
+		
+		return 0;
+		
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof Formula) {
+			Formula fc = (Formula) o;
+			if (fc.f1.compareTo(f1) != 0) {
+				return fc.f1.compareTo(f1);
+			} else {
+				return fc.f2.compareTo(f2);
+			}
+		}
+		return 0;
 	}
 }
