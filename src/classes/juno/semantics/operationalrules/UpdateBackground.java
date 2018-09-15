@@ -14,6 +14,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.util.ComparableTuple;
 import ail.util.Tuple;
 import hera.language.Formula;
 import hera.language.FormulaString;
@@ -34,7 +35,7 @@ public class UpdateBackground implements OSRule {
 	public void apply(AILAgent a) {
 		JunoAgent juno = (JunoAgent) a;
 		juno.clearBackground();
-		for (Tuple<Formula, FormulaString> bck: juno.getContextBackground()) {
+		for (ComparableTuple<Formula, FormulaString> bck: juno.getContextBackground()) {
 			
 			Iterator<Unifier> u_it = juno.believes(bck.getLeft().toAILGuard(), new Unifier());
 			

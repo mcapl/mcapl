@@ -34,7 +34,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import ail.util.ComparableTuple;
 import ail.util.Tuple;
+import ajpf.util.VerifyList;
+import ajpf.util.VerifyMap;
 import hera.language.Causes;
 import hera.language.Formula;
 import hera.language.FormulaString;
@@ -45,38 +48,38 @@ import hera.language.U;
 import hera.principles.Principle;
 
 public class CausalModel extends Model {
-		protected ArrayList<String> actions = new ArrayList<String>();
-		protected HashMap<String, Double> utilities = new HashMap<String, Double>();
-		protected ArrayList<String> patients = new ArrayList<String>();
+		protected VerifyList<String> actions = new VerifyList<String>();
+		protected VerifyMap<String, Double> utilities = new VerifyMap<String, Double>();
+		protected VerifyList<String> patients = new VerifyList<String>();
 		protected String description = "No Description";
-		protected ArrayList<String> consequences = new ArrayList<String>();
-		protected ArrayList<String> background = new ArrayList<String>();
-		protected HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
-		public HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
-		public HashMap<String, ArrayList<String>> goals = new HashMap<String, ArrayList<String>>();
-		public ArrayList<String> goalbase = new ArrayList<String>();
-		protected HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
-		protected HashMap<Formula, ArrayList<FormulaString>> network = new HashMap<Formula,ArrayList<FormulaString>>();
-		public FormulaString action;
+		protected VerifyList<String> consequences = new VerifyList<String>();
+		protected VerifyList<String> background = new VerifyList<String>();
+		protected VerifyMap<String, Formula> mechanisms = new VerifyMap<String, Formula>();
+		public VerifyMap<String, VerifyList<String>> intentions = new VerifyMap<String, VerifyList<String>>();
+		public VerifyMap<String, VerifyList<String>> goals = new VerifyMap<String, VerifyList<String>>();
+		public VerifyList<String> goalbase = new VerifyList<String>();
+		protected VerifyMap<String, VerifyList<ComparableTuple<String,String>>> affects = new VerifyMap<String, VerifyList<ComparableTuple<String, String>>>();
+		protected VerifyMap<Formula, VerifyList<FormulaString>> network = new VerifyMap<Formula,VerifyList<FormulaString>>();
+		public FormulaString action = new FormulaString("noactionyet");
 		
 		protected ArrayList<String> domainOfQuantification = new ArrayList<String>();
-		public HashMap<Formula,Boolean> world;
+		public VerifyMap<Formula,Boolean> world;
 		protected HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();
 		
 		protected CausalModel() {};
 
-		public CausalModel(String file, HashMap<Formula,Boolean> world) {
+		public CausalModel(String file, VerifyMap<Formula,Boolean> world) {
 			JSONParser parser = new JSONParser();
 			try {
 				Object obj = parser.parse(new FileReader(file));
 				JSONObject model = (JSONObject) obj;
 				JSONArray actions = (JSONArray) model.get("actions");
-				JSONArraytoArrayListString(actions, this.actions);
+				JSONArraytoVerifyListString(actions, this.actions);
 				
 				// Optional entries
 				try {
 					JSONObject utilities = (JSONObject) model.get("utilities");
-					JSONObjecttoHashDouble(utilities, this.utilities);
+					JSONObjecttoVerifyHashDouble(utilities, this.utilities);
 				} catch (Exception e) {
 					
 				}
@@ -84,7 +87,7 @@ public class CausalModel extends Model {
 				try {
 					JSONArray patients = (JSONArray) model.get("patients");
 					if (patients != null) {
-						JSONArraytoArrayListString(patients, this.patients);
+						JSONArraytoVerifyListString(patients, this.patients);
 					}
 				} catch (Exception e) {
 					
@@ -96,14 +99,14 @@ public class CausalModel extends Model {
 				
 				try {
 					JSONArray consequences = (JSONArray) model.get("consequences");
-					JSONArraytoArrayListString(consequences, this.consequences);
+					JSONArraytoVerifyListString(consequences, this.consequences);
 				} catch (Exception e) {
 					
 				}
 
 				try {
 					JSONArray background = (JSONArray) model.get("background");
-					JSONArraytoArrayListString(background, this.background);
+					JSONArraytoVerifyListString(background, this.background);
 				} catch (Exception e) {
 					
 				}
@@ -122,7 +125,7 @@ public class CausalModel extends Model {
 
 				try {
 					JSONObject intentions = (JSONObject) model.get("intentions");
-					JSONObjecttoHashList(intentions, this.intentions);
+					JSONObjecttoVerifyMapList(intentions, this.intentions);
 				} catch (Exception e) {
 					
 				}
@@ -132,7 +135,7 @@ public class CausalModel extends Model {
 					// JSONArraytoArrayListString(goalbase, this.goalbase);
 					JSONObject goals = (JSONObject) model.get("goals");
 					if (goals != null) {
-					 	JSONObjecttoHashList(goals, this.goals);
+					 	JSONObjecttoVerifyMapList(goals, this.goals);
 					}
 				} catch (Exception e) {
 					
@@ -143,10 +146,10 @@ public class CausalModel extends Model {
 					if (affects != null) {
 						for (Object s: affects.keySet()) {
 							JSONArray list = (JSONArray) affects.get(s);
-							ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
+							VerifyList<ComparableTuple<String, String>> arrayl = new VerifyList<ComparableTuple<String,String>>();
 							for (Object o: list) {
 								JSONArray tuple = (JSONArray) o;
-								Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+								ComparableTuple<String, String> new_tuple = new ComparableTuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
 								arrayl.add(new_tuple);
 							}
 							this.affects.put((String) s, arrayl); 
@@ -171,7 +174,7 @@ public class CausalModel extends Model {
 			}
 		}
 		
-		public void setUtilities(HashMap<String, Double> u) {
+		public void setUtilities(VerifyMap<String, Double> u) {
 			utilities = u;
 		}
 		
@@ -207,7 +210,7 @@ public class CausalModel extends Model {
 		}
 		
 		public void setInterventionWithVariablesFixedToOriginal(Set<Formula> variables) {
-			HashMap<Formula,Boolean> intervention_backup = (HashMap<Formula,Boolean>) intervention.clone();
+			VerifyMap<Formula,Boolean> intervention_backup = (VerifyMap<Formula,Boolean>) intervention.clone();
 			HashMap<Formula,Boolean> intervention_new = new HashMap<Formula,Boolean>();
 			clearIntervention();
 			for (Formula v: variables) {
@@ -239,13 +242,13 @@ public class CausalModel extends Model {
 					network.get(v).add(new FormulaString(k));
 				}
 			} else {
-				network.put(v, new ArrayList<FormulaString>());
+				network.put(v, new VerifyList<FormulaString>());
 				network.get(v).add(new FormulaString(k));
 			}
 		}
 		
 		public void _computeNetwork() {
-			network = new HashMap<Formula, ArrayList<FormulaString>>();
+			network = new VerifyMap<Formula, VerifyList<FormulaString>>();
 			for (String k: mechanisms.keySet()) {
 				Formula v = mechanisms.get(k);
 				if (v instanceof FormulaString) {
@@ -388,7 +391,7 @@ public class CausalModel extends Model {
 		}
 
 
-		private void JSONArraytoArrayListString(JSONArray ja, ArrayList<String> a) {
+		private void JSONArraytoVerifyListString(JSONArray ja, VerifyList<String> a) {
 			for (Object s: ja) {
 				String constant = (String) s;
 				a.add(constant);
@@ -396,7 +399,7 @@ public class CausalModel extends Model {
 			
 		}
 		
-		private void JSONArraytoArrayListFormula(JSONArray ja, ArrayList<Formula> a) {
+		private void JSONArraytoVerifyListFormula(JSONArray ja, VerifyList<Formula> a) {
 			for (Object s: ja) {
 				Formula constant = new FormulaString(s.toString());
 				a.add(constant);
@@ -413,6 +416,16 @@ public class CausalModel extends Model {
 			
 		}
 		
+		private <T> void JSONObjecttoVerifyHashDouble(JSONObject jo, VerifyMap<String, Double> map) {
+			Set<Object> keySet = (Set<Object>) jo.keySet();
+			for (Object s: keySet) {
+				Number  n = (Number) jo.get(s);
+				double d = n.doubleValue();
+				map.put((String) s, new Double(d)); 
+			}
+			
+		}
+
 		private <T> void JSONObjecttoHashList(JSONObject jo, HashMap<String, ArrayList<T>> a) {
 			Set<Object> keySet = (Set<Object>) jo.keySet();
 			for (Object s: keySet) {
@@ -426,21 +439,34 @@ public class CausalModel extends Model {
 		
 		}
 		
+		private <T extends Comparable<? super T>> void JSONObjecttoVerifyMapList(JSONObject jo, VerifyMap<String, VerifyList<T>> a) {
+			Set<Object> keySet = (Set<Object>) jo.keySet();
+			for (Object s: keySet) {
+				JSONArray list = (JSONArray) jo.get(s);
+				VerifyList<T> arrayl = new VerifyList<T>();
+				for (Object o: list) {
+					arrayl.add((T) o);
+				}
+				a.put((String) s, arrayl); 
+			}
+		
+		}
+
 		public FormulaString getAction() {
 			return action;
 		}
 		
 		public void addGoal(String s) {
-			ArrayList<String> goals = new ArrayList<String>();
+			VerifyList<String> goals = new VerifyList<String>();
 			goals.add(s);
 			this.goals.put(action.getString(), goals);
 		}
 		
-		public void setIntention(FormulaString s, ArrayList<String> cs) {
+		public void setIntention(FormulaString s, VerifyList<String> cs) {
 			intentions.put(s.getString(), cs); 
 		}
 		
 		public void clearIntentions() {
-			intentions = new HashMap<String, ArrayList<String>>();
+			intentions = new VerifyMap<String, VerifyList<String>>();
 		}
 }

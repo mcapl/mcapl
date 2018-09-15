@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import ail.util.ComparableTuple;
 import ail.util.Tuple;
+import ajpf.util.VerifyList;
 import hera.language.Add;
 import hera.language.Affects;
 import hera.language.AffectsNeg;
@@ -43,7 +45,7 @@ import hera.language.U;
 
 public class CausalModelChecker extends Checker {
 	
-	public boolean _intended(ArrayList<String> intentions, Formula formula) {
+	public boolean _intended(VerifyList<String> intentions, Formula formula) {
 		if (formula instanceof FormulaString) {
 			return intentions.contains(((FormulaString) formula).getString());
 		} else if (formula instanceof And) {
@@ -55,9 +57,9 @@ public class CausalModelChecker extends Checker {
 		return false;
 	}
 	
-	public boolean _affects(ArrayList<Tuple<String, String>> affects, Formula f, String posneg) {
+	public boolean _affects(VerifyList<ComparableTuple<String, String>> affects, Formula f, String posneg) {
 		if (f instanceof FormulaString) {
-			for (Tuple<String, String> i: affects) {
+			for (ComparableTuple<String, String> i: affects) {
 				if (i.getLeft().equals(((FormulaString) f).getString())) {
 					if (i.getRight().equals(posneg)) {
 						return true;

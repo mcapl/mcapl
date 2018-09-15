@@ -14,6 +14,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ajpf.util.VerifyList;
 import hera.language.Formula;
 import juno.semantics.JunoAgent;
 
@@ -37,7 +38,7 @@ public class UpdateGoals implements OSRule {
 			Iterator<Unifier> u_it = juno.believes(f.toAILGuard(), new Unifier());
 			
 			if (u_it.hasNext()) {
-				ArrayList<String> new_goals = juno.getContextGoals().get(f);
+				VerifyList<String> new_goals = juno.getContextGoals().get(f);
 				
 				for (String g: new_goals) {
 					juno.setNewGoal(g);

@@ -13,6 +13,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import juno.semantics.JunoAgent;
 
@@ -36,7 +37,7 @@ public class UpdateUtilities implements OSRule {
 			Iterator<Unifier> u_it = juno.believes(f.toAILGuard(), new Unifier());
 			
 			if (u_it.hasNext()) {
-				HashMap<String, Double> new_utilities = juno.getContextUtilities().get(f);
+				VerifyMap<String, Double> new_utilities = juno.getContextUtilities().get(f);
 				
 				for (String s: new_utilities.keySet()) {
 					juno.setUtility(s, new_utilities.get(s));

@@ -1,25 +1,24 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2018 Louise A. Dennis, Martin Mose Bentzen, Michael Fisher 
-// 
-// This file is part of HERA Java Implementation
-// 
-// HERA Java is free software; you can redistribute it and/or
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
+//
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// HERA Java is distributed in the hope that it will be useful,
+// Juno is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with HERA Java; if not, write to the Free Software
+// License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
-//
 //----------------------------------------------------------------------------
 package hera.semantics;
 
@@ -27,11 +26,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.junit.Test;
 
 import ajpf.MCAPLcontroller;
+import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -43,17 +42,17 @@ public class SmartHomeQuickTests {
 	@Test public void doubleeffecttest() {
 		String rel_file = "/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
 		String file = MCAPLcontroller.getAbsFilename(rel_file);
-		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);
@@ -82,17 +81,17 @@ public class SmartHomeQuickTests {
 	
 	@Test public void utilitariantest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
-		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);
@@ -121,17 +120,17 @@ public class SmartHomeQuickTests {
 	
 	@Test public void kantiantest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
-		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
+		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);

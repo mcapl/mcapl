@@ -29,11 +29,11 @@ package ail.util;
  * @param <K>
  * @param <L>
  */
-public class Tuple<K, L> {
+public class ComparableTuple<K extends Comparable<? super K>, L extends Comparable<? super L>> implements Comparable<Object>{
 	K left;
 	L right;
 	
-	public Tuple(K k, L l) {
+	public ComparableTuple(K k, L l) {
 		left = k;
 		right = l;
 	}
@@ -63,5 +63,17 @@ public class Tuple<K, L> {
 		return s;
 	}
 
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof ComparableTuple<?, ?>) {
+			ComparableTuple<K, L> t = (ComparableTuple <K, L>) o;
+			if (t.getLeft().compareTo(left) == 0) {
+				return t.getRight().compareTo(right);
+			} else {
+				return t.getLeft().compareTo(left);
+			}
+		}
+		return 0;
+	} 
 
 }

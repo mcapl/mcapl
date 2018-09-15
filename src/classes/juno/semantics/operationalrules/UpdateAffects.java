@@ -14,7 +14,10 @@ import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.util.ComparableTuple;
 import ail.util.Tuple;
+import ajpf.util.VerifyList;
+import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import juno.semantics.JunoAgent;
 
@@ -38,12 +41,12 @@ public class UpdateAffects implements OSRule {
 			Iterator<Unifier> u_it = juno.believes(f.toAILGuard(), new Unifier());
 			
 			if (u_it.hasNext()) {
-				HashMap<String, ArrayList<Tuple<String, String>>> new_affects = juno.getContextAffects().get(f);
+				VerifyMap<String, VerifyList<ComparableTuple<String, String>>> new_affects = juno.getContextAffects().get(f);
 				
 				for (String s: new_affects.keySet()) {
-					ArrayList<Tuple<String, String>> pairs = new_affects.get(s);
-					ArrayList<Tuple<String, String>> new_pairs = new ArrayList<Tuple<String, String>>();
-					for (Tuple<String, String> t: pairs) {
+					VerifyList<ComparableTuple<String, String>> pairs = new_affects.get(s);
+					VerifyList<ComparableTuple<String, String>> new_pairs = new VerifyList<ComparableTuple<String, String>>();
+					for (ComparableTuple<String, String> t: pairs) {
 						if (! t.getRight().equals("?")) {
 							new_pairs.add(t);
 						}

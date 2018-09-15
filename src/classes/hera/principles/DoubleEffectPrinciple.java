@@ -2,6 +2,7 @@ package hera.principles;
 
 import java.util.ArrayList;
 
+import ajpf.util.VerifyList;
 import hera.language.And;
 import hera.language.Causes;
 import hera.language.Exists;
@@ -77,7 +78,7 @@ public class DoubleEffectPrinciple extends Principle {
 				}
 				if (isgoal & cmodel.models(new FormulaString(s))) {
 					ArrayList<Formula> cs = cmodel.getDirectConsequences();
-					ArrayList<String> intentions = new ArrayList<String>();
+					VerifyList<String> intentions = new VerifyList<String>();
 					for (Formula c: cs) {
 						ArrayList<Formula> goals = new ArrayList<Formula>();
 						goals.add(c);

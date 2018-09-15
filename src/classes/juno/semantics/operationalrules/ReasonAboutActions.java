@@ -2,10 +2,13 @@ package juno.semantics.operationalrules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Literal;
+import ajpf.util.VerifyList;
+import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -30,13 +33,13 @@ public class ReasonAboutActions implements OSRule {
 	public void apply(AILAgent a) {
 		// TODO Auto-generated method stub
 		JunoAgent juno = (JunoAgent) a;
-		ArrayList<FormulaString> actions = filterActions(juno.getHeraActions(), juno, juno.ethical_system);
+		List<FormulaString> actions = filterActions(juno.getHeraActions(), juno, juno.ethical_system);
 		
 		if (actions.isEmpty()) {
 			juno.setAction(null);
 		} else {
 			if (actions.size() > 1 && juno.ethical_system != JunoAgent.UTILITARIAN) {
-				ArrayList<String> action_strings = new ArrayList<String>();
+				VerifyList<String> action_strings = new VerifyList<String>();
 				for (FormulaString action:actions) {
 					action_strings.add(action.getString());
 				}
@@ -56,13 +59,13 @@ public class ReasonAboutActions implements OSRule {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 	
-	private ArrayList<FormulaString> filterActions(ArrayList<String> actions_in, JunoAgent juno, int ethical_system) {
-		ArrayList<HashMap<Formula, Boolean>> worlds = new ArrayList<HashMap<Formula, Boolean>>();
+	private ArrayList<FormulaString> filterActions(VerifyList<String> actions_in, JunoAgent juno, int ethical_system) {
+		ArrayList<VerifyMap<Formula, Boolean>> worlds = new ArrayList<VerifyMap<Formula, Boolean>>();
 		for (String action: actions_in) {
-			HashMap<Formula, Boolean> world = new HashMap<Formula, Boolean>();
+			VerifyMap<Formula, Boolean> world = new VerifyMap<Formula, Boolean>();
 			world.put(new FormulaString(action), true);
 			for (String action2 : actions_in) {
 				if (!action2.equals(action)) {
@@ -73,7 +76,7 @@ public class ReasonAboutActions implements OSRule {
 		}
 		
 		ArrayList<Model> models = new ArrayList<Model>();
-		for (HashMap<Formula, Boolean> world: worlds) {
+		for (VerifyMap<Formula, Boolean> world: worlds) {
 			for (Literal bel: juno.getBB().getAll()) {
 				world.put(new FormulaString(bel.getFunctor().toString()), true);
 			}
@@ -89,6 +92,7 @@ public class ReasonAboutActions implements OSRule {
 			if (b != null && b) {
 				actions.add(((CausalModel) model).getAction());
 			}
+			
 		}
 		
 		return actions;

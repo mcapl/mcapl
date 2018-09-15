@@ -39,7 +39,7 @@ import hera.parser.HeraLanguageVisitor;
 import hera.parser.HeraLexer;
 import hera.parser.HeraParser;
 
-public class Formula implements Comparable {
+public class Formula implements Comparable<Object> {
 	public Formula f1;
 	public Formula f2;
 	
@@ -350,6 +350,7 @@ public class Formula implements Comparable {
 	Formula fromStringFormula;
 	public  Formula fromString(String s) {
 		createFormulaFromString(s);
+		fromStringFormula.hashCode();
 		return fromStringFormula;
 	}
 	
@@ -661,16 +662,127 @@ public class Formula implements Comparable {
 		
 	}
 
+	// Ordering on Formulas
+	// FormulaString
+	// Atom
+	// Not
+	// Or
+	// And
+	// Impl
+	// Affects
+	// AffectsPos
+	// AffectsNeg
+	// I
+	// hera.language.Goal
+	// Means
+	// Causes
+	// PCauses
+	// SCauses
+	// Explains
+	// Prevents
+	// Intervention
+	// Exists
+	// Forall
+	// Gt
+	// Geq
+	// Must
+	// May
+	// K
+	// Consequence
+	// TermFormula
+	private int ordernum() { 
+		if (this instanceof FormulaString) {
+			return 0;
+		} else if (this instanceof Atom) {
+			return 1;
+		} else if (this instanceof Not) {
+			return 2;
+		} else if (this instanceof Or) {
+			return 3;
+		} else if (this instanceof And) {
+			return 4;
+		} else if (this instanceof Impl) {
+			return 5;
+		} else if (this instanceof Affects) {
+			return 6;
+		} else if (this instanceof AffectsPos) {
+			return 7;
+		} else if (this instanceof AffectsNeg) {
+			return 8;
+		} else if (this instanceof I) {
+			return 9;
+		} else if (this instanceof hera.language.Goal) {
+			return 10;
+		} else if (this instanceof Means) {
+			return 11;
+		} else if (this instanceof Causes) {
+			return 12;
+		} else if (this instanceof PCauses) {
+			return 13;
+		} else if (this instanceof SCauses) {
+			return 14;
+		} else if (this instanceof Explains) {
+			return 15;
+		} else if (this instanceof Prevents) {
+			return 16;
+		} else if (this instanceof Intervention) {
+			return 17;
+		} else if (this instanceof Exists) {
+			return 18;
+		} else if (this instanceof Forall) {
+			return 19;
+		} else if (this instanceof Gt) {
+			return 20;
+		} else if (this instanceof Geq) {
+			return 21;
+		} else if (this  instanceof Must) {
+			return 22;
+		} else if (this  instanceof May) {
+			return 23;
+		} else if (this  instanceof K) {
+			return 24;
+		} else if (this instanceof Consequence){
+			return 25;
+		} else {
+			return 26;
+		}
+	}
+	
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Formula) {
-			Formula fc = (Formula) o;
-			if (fc.f1.compareTo(f1) != 0) {
-				return fc.f1.compareTo(f1);
-			} else {
-				return fc.f2.compareTo(f2);
+			Formula of = (Formula) o;
+			if (ordernum() == of.ordernum()) {
+				if (this instanceof FormulaString) {
+					FormulaString thiss = (FormulaString) this;
+					FormulaString os = (FormulaString) o;
+					return thiss.getString().compareTo(os.getString());
+				}
+				
+				if (this instanceof Atom || this instanceof Not || this instanceof I || this instanceof hera.language.Goal ||
+						this  instanceof Must || this instanceof May || this  instanceof K || this instanceof  Consequence) {
+					return f1.compareTo(of.f1);
+				}
+				
+				if (this instanceof Or || this instanceof And || this instanceof Impl || this instanceof AffectsPos || 
+						this instanceof AffectsNeg || this instanceof Means || this  instanceof Causes || this instanceof PCauses ||
+						this instanceof SCauses || this instanceof Explains || this instanceof Prevents || this instanceof Intervention ||
+						this instanceof Exists || this instanceof Forall || this instanceof Gt || this instanceof Geq) {
+					if (f1.compareTo(of.f1) == 0) {
+						return (f2.compareTo(of.f2));
+					}
+					return f1.compareTo(of.f1);
+				}
+				
+				// Cheating but I can't be bothered to set up compareTo on Terms
+				return this.toString().compareTo(of.toString());
+				
+			} else if (ordernum() < of.ordernum()){
+				return -1;
 			}
+			return 1;
 		}
-		return 0;
+		return 1;
 	}
+
 }

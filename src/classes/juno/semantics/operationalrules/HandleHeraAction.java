@@ -77,10 +77,17 @@ public class HandleHeraAction implements OSRule {
 		JunoAgent juno = (JunoAgent) a;
 		FormulaString s = juno.getAction();
 		Action act = new Action(s.getString());
+		// Empty the belief base.  This assists state matching in model checking
+		// but assumes that reasoning can start afresh each cycle and does not 
+		// involve any persistent beliefs.  This may be a suspect assumption in some 
+		// settings.
+		juno.getBB().clear();
+		// System.err.println(juno.toString());
 
 		try {
-			System.err.println("Hera doing " + act);
+			// System.err.println("Hera doing " + act);
 			a.getEnv().executeAction(a.getAgName(), act);
+			// System.err.println(juno.toString());
 		} catch (AILexception e) {
 			
 		}
