@@ -1,3 +1,25 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
+//
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Juno is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
 package juno.semantics.operationalrules;
 
 import java.util.ArrayList;
@@ -7,8 +29,6 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Literal;
-import ajpf.util.VerifyList;
-import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -20,26 +40,40 @@ import hera.semantics.Model;
 import juno.semantics.JunoAgent;
 import juno.semantics.JunoCausalModel;
 
+/**
+ * Transition in which a Juno Agents uses Hera to reason about available actions and then selects one.
+ * @author louisedennis
+ *
+ */
 public class ReasonAboutActions implements OSRule {
 	private static final String name = "Ethical Reasoning";
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.OSRule#checkPreconditions(ail.semantics.AILAgent)
+	 */
 	@Override
 	public boolean checkPreconditions(AILAgent a) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.OSRule#apply(ail.semantics.AILAgent)
+	 */
 	@Override
 	public void apply(AILAgent a) {
-		// TODO Auto-generated method stub
 		JunoAgent juno = (JunoAgent) a;
 		List<FormulaString> actions = filterActions(juno.getHeraActions(), juno, juno.ethical_system);
 		
 		if (actions.isEmpty()) {
 			juno.setAction(null);
 		} else {
+			// If we have more than one choice and are not reasoning using utilitarianism, then
+			// further refine selection using utilitarian reasoning.
+			// See discussion in Verifying Ethical Reasoning in Changing Contexts paper.
 			if (actions.size() > 1 && juno.ethical_system != JunoAgent.UTILITARIAN) {
-				VerifyList<String> action_strings = new VerifyList<String>();
+				ArrayList<String> action_strings = new ArrayList<String>();
 				for (FormulaString action:actions) {
 					action_strings.add(action.getString());
 				}
@@ -56,16 +90,28 @@ public class ReasonAboutActions implements OSRule {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.OSRule#getName()
+	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 	
-	private ArrayList<FormulaString> filterActions(VerifyList<String> actions_in, JunoAgent juno, int ethical_system) {
-		ArrayList<VerifyMap<Formula, Boolean>> worlds = new ArrayList<VerifyMap<Formula, Boolean>>();
+	/**
+	 * Filter actions creates a world for each action under consideration and then reasons
+	 * about that world using Hera in order to decide if it is permissible.
+	 * 
+	 * @param actions_in
+	 * @param juno
+	 * @param ethical_system
+	 * @return
+	 */
+	private ArrayList<FormulaString> filterActions(ArrayList<String> actions_in, JunoAgent juno, int ethical_system) {
+		ArrayList<HashMap<Formula, Boolean>> worlds = new ArrayList<HashMap<Formula, Boolean>>();
 		for (String action: actions_in) {
-			VerifyMap<Formula, Boolean> world = new VerifyMap<Formula, Boolean>();
+			HashMap<Formula, Boolean> world = new HashMap<Formula, Boolean>();
 			world.put(new FormulaString(action), true);
 			for (String action2 : actions_in) {
 				if (!action2.equals(action)) {
@@ -76,7 +122,7 @@ public class ReasonAboutActions implements OSRule {
 		}
 		
 		ArrayList<Model> models = new ArrayList<Model>();
-		for (VerifyMap<Formula, Boolean> world: worlds) {
+		for (HashMap<Formula, Boolean> world: worlds) {
 			for (Literal bel: juno.getBB().getAll()) {
 				world.put(new FormulaString(bel.getFunctor().toString()), true);
 			}
@@ -98,6 +144,11 @@ public class ReasonAboutActions implements OSRule {
 		return actions;
 	}
 	
+	/**
+	 * Return the current ethical system being used by the agent.
+	 * @param ethical_system
+	 * @return
+	 */
 	private Principle getPrinciple(int ethical_system) {
 		if (ethical_system == JunoAgent.UTILITARIAN) {
 			return new UtilitarianPrinciple();

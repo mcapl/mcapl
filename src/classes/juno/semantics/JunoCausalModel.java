@@ -9,7 +9,7 @@ import hera.semantics.CausalModelChecker;
 
 public class JunoCausalModel extends CausalModel {
 
-	public JunoCausalModel(JunoAgent juno, VerifyMap<Formula, Boolean> world) {
+	public JunoCausalModel(JunoAgent juno, HashMap<Formula, Boolean> world) {
 		this.actions = juno.getHeraActions();
 		this.utilities = juno.getUtilities();
 		this.patients = juno.getPatients();

@@ -23,6 +23,14 @@
 
 // Properties for the fire and games examples.
 
+sanity: [] (~B(juno, bad))
+
 1: [](B(juno, fire) -> <>(D(juno, evacuate_the_house) || D(juno, turn_on_lights_and_evacuate_the_house)))
 
-sanity: [] (~B(juno, bad))
+2: [](~D(juno, turn_on_lights))
+
+3: [](B(juno, mum_working) -> ~D(juno, turn_on_video_game))
+
+4: [](B(juno, day) -> ~D(juno, turn_on_video_game))
+
+5: []((B(juno, fire) & B(juno, day)) -> <> D(juno, evacuate_the_house))

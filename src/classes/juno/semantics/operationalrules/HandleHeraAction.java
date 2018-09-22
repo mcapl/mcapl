@@ -1,15 +1,14 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
-// 
-// This file is part of the Agent Infrastructure Layer (AIL)
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
 //
-// The AIL is free software; you can redistribute it and/or
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// The AIL is distributed in the hope that it will be useful,
+// Juno is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
@@ -29,12 +28,10 @@ import hera.language.FormulaString;
 import juno.semantics.JunoAgent;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-import ail.syntax.Unifier;
 import ail.syntax.Action;
-import ail.syntax.Deed;
 
 /**
- * Handle an action.  Calls immediately executeAction in the environment.
+ * Handle a Hera action.  
  * 
  * @author lad
  *
@@ -82,12 +79,9 @@ public class HandleHeraAction implements OSRule {
 		// involve any persistent beliefs.  This may be a suspect assumption in some 
 		// settings.
 		juno.getBB().clear();
-		// System.err.println(juno.toString());
 
 		try {
-			// System.err.println("Hera doing " + act);
 			a.getEnv().executeAction(a.getAgName(), act);
-			// System.err.println(juno.toString());
 		} catch (AILexception e) {
 			
 		}

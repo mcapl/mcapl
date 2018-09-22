@@ -21,10 +21,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package hera.language;
+// AIL configuration file for verifying a utilitarian reasoner for the fire+lights example.
 
-public class SCauses extends Formula {
-	public SCauses(Formula f1, Formula f2) {
-		super(f1, f2);
-	}
-}
+env = juno.smarthome.FireVerificationEnvironment
+mas.file = src/examples/juno/smarthome/lights_fire_games.json
+mas.builder = juno.JunoMASBuilder
+
+log.info = ail.mas.DefaultEnvironment
+hera.principle = utilitarian

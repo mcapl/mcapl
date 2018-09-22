@@ -1,3 +1,25 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
+//
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Juno is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
 package juno.semantics;
 
 import java.io.FileReader;
@@ -11,11 +33,11 @@ import org.json.simple.parser.JSONParser;
 
 import ail.semantics.AILAgent;
 import ail.util.AILConfig;
-import ail.util.ComparableTuple;
 import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
 import ajpf.util.VerifyList;
 import ajpf.util.VerifyMap;
+import gov.nasa.jpf.annotation.FilterField;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -24,24 +46,33 @@ import hera.principles.Principle;
 import hera.principles.UtilitarianPrinciple;
 
 public class JunoAgent extends AILAgent {
-	VerifyList<String> actions = new VerifyList<String>();
-	VerifyMap<String, Double> utilities = new VerifyMap<String, Double>();
-	VerifyMap<String, Double> default_utilities = new VerifyMap<String, Double>();
-	VerifyList<String> default_goals = new VerifyList<String>();
-	VerifyList<String> patients = new VerifyList<String>();
-	VerifyMap<String, VerifyList<ComparableTuple<String,String>>> default_affects = new VerifyMap<String, VerifyList<ComparableTuple<String, String>>>();
-	String description = "No Description";
-	VerifyList<String> consequences = new VerifyList<String>();
-	VerifyList<String> background = new VerifyList<String>();
-	VerifyMap<String, Formula> mechanisms = new VerifyMap<String, Formula>();
-	//HashMap<String, ArrayList<String>> intentions = new HashMap<String, ArrayList<String>>();
-	//HashMap<String, VerifyList<String>> goals = new HashMap<String, VerifyList<String>>();
-	public VerifyList<String> goalbase = new VerifyList<String>();
-	VerifyMap<String, VerifyList<ComparableTuple<String,String>>> affects = new VerifyMap<String, VerifyList<ComparableTuple<String, String>>>();
-	VerifyList<ComparableTuple<Formula, FormulaString>> context_background = new VerifyList<ComparableTuple<Formula, FormulaString>>();
+	String description = "Juno Agent";
+
+	ArrayList<String> actions = new ArrayList<String>();
+
+	@FilterField
+	HashMap<String, Double> utilities = new HashMap<String, Double>();
+	HashMap<String, Double> default_utilities = new HashMap<String, Double>();
 	VerifyMap<Formula, VerifyMap<String, Double>> context_utilities = new VerifyMap<Formula, VerifyMap<String, Double>>();
-	VerifyMap<Formula, VerifyList<String>> context_goals = new VerifyMap<Formula, VerifyList<String>>();
-	VerifyMap<Formula, VerifyMap<String, VerifyList<ComparableTuple<String,String>>>> context_affects = new VerifyMap<Formula, VerifyMap<String, VerifyList<ComparableTuple<String,String>>>>();
+
+	@FilterField
+	public ArrayList<String> goalbase = new ArrayList<String>();
+	ArrayList<String> default_goals = new ArrayList<String>();
+	HashMap<Formula, ArrayList<String>> context_goals = new HashMap<Formula, ArrayList<String>>();
+
+	ArrayList<String> patients = new ArrayList<String>();
+	@FilterField
+	HashMap<String, ArrayList<Tuple<String,String>>> affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
+	HashMap<String, ArrayList<Tuple<String,String>>> default_affects = new HashMap<String, ArrayList<Tuple<String, String>>>();
+	VerifyMap<Formula, VerifyMap<String, ArrayList<Tuple<String,String>>>> context_affects = new VerifyMap<Formula, VerifyMap<String, ArrayList<Tuple<String,String>>>>();
+
+	ArrayList<String> consequences = new ArrayList<String>();
+	HashMap<String, Formula> mechanisms = new HashMap<String, Formula>();
+
+	@FilterField
+	ArrayList<String> background = new ArrayList<String>();
+	ArrayList<Tuple<Formula, FormulaString>> context_background = new ArrayList<Tuple<Formula, FormulaString>>();
+
 	
 	public static int UTILITARIAN = 0;
 	public static int DOUBLE_EFFECT = 1;
@@ -66,14 +97,13 @@ public class JunoAgent extends AILAgent {
 			Object obj = parser.parse(new FileReader(abs_filename));
 			JSONObject model = (JSONObject) obj;
 			JSONArray actions = (JSONArray) model.get("actions");
-			JSONArraytoVerifyListString(actions, this.actions);
+			JSONArraytoArrayListString(actions, this.actions);
 			
 			// Optional entries
 			try {
 				JSONObject utilities = (JSONObject) model.get("utilities");
-				JSONObjecttoVerifyHashDouble(utilities, this.utilities);
+				JSONObjecttoHashDouble(utilities, this.utilities);
 				default_utilities = this.utilities;
-				// System.err.println(this.utilities);
 			} catch (Exception e) {
 					
 			}
@@ -81,7 +111,7 @@ public class JunoAgent extends AILAgent {
 			try {
 				JSONArray patients = (JSONArray) model.get("patients");
 				if (patients != null) {
-						JSONArraytoVerifyListString(patients, this.patients);
+						JSONArraytoArrayListString(patients, this.patients);
 				}
 			} catch (Exception e) {
 					
@@ -89,7 +119,7 @@ public class JunoAgent extends AILAgent {
 			
 			try {
 				JSONArray consequences = (JSONArray) model.get("consequences");
-				JSONArraytoVerifyListString(consequences, this.consequences);
+				JSONArraytoArrayListString(consequences, this.consequences);
 			} catch (Exception e) {
 				
 			}
@@ -115,7 +145,7 @@ public class JunoAgent extends AILAgent {
 
 			try {
 				JSONArray goalbase = (JSONArray) model.get("goalbase");
-				JSONArraytoVerifyListString(goalbase, this.goalbase);
+				JSONArraytoArrayListString(goalbase, this.goalbase);
 				default_goals = this.goalbase;
 				// JSONObject goals = (JSONObject) model.get("goals");
 				// if (goals != null) {
@@ -130,10 +160,10 @@ public class JunoAgent extends AILAgent {
 				if (affects != null) {
 					for (Object s: affects.keySet()) {
 						JSONArray list = (JSONArray) affects.get(s);
-						VerifyList<ComparableTuple<String, String>> arrayl = new VerifyList<ComparableTuple<String,String>>();
+						ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
 						for (Object o: list) {
 							JSONArray tuple = (JSONArray) o;
-							ComparableTuple<String, String> new_tuple = new ComparableTuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+							Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
 							arrayl.add(new_tuple);
 						}
 						this.affects.put((String) s, arrayl); 
@@ -150,7 +180,7 @@ public class JunoAgent extends AILAgent {
 				if (context_background != null) {
 					for (Object s: context_background.keySet()) {
 						String v = (String) context_background.get(s);
-						this.context_background.add(new ComparableTuple((Formula) new FormulaString("tmp").fromString((String) s), 
+						this.context_background.add(new Tuple((Formula) new FormulaString("tmp").fromString((String) s), 
 								                              (Formula) new FormulaString("tmp").fromString(v)));
 					}
 				}
@@ -175,14 +205,14 @@ public class JunoAgent extends AILAgent {
 				JSONObject context_affects = (JSONObject) model.get("context_affects");
 				if (context_affects != null) {
 					for (Object s: context_affects.keySet()) {
-						VerifyMap<String, VerifyList<ComparableTuple<String,String>>> affects_for_context = new VerifyMap<String, VerifyList<ComparableTuple<String, String>>>();
+						VerifyMap<String, ArrayList<Tuple<String,String>>> affects_for_context = new VerifyMap<String, ArrayList<Tuple<String, String>>>();
 						JSONObject affs = (JSONObject) context_affects.get(s);
 						for (Object s1: affs.keySet()) {
 							JSONArray list = (JSONArray) affs.get(s1);
-							VerifyList<ComparableTuple<String, String>> arrayl = new VerifyList<ComparableTuple<String,String>>();
+							ArrayList<Tuple<String, String>> arrayl = new ArrayList<Tuple<String,String>>();
 							for (Object o: list) {
 								JSONArray tuple = (JSONArray) o;
-								ComparableTuple<String, String> new_tuple = new ComparableTuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
+								Tuple<String, String> new_tuple = new Tuple<String, String>((String) tuple.get(0), (String) tuple.get(1));
 								arrayl.add(new_tuple);
 							}
 							affects_for_context.put((String) s1, arrayl); 						
@@ -199,8 +229,8 @@ public class JunoAgent extends AILAgent {
 				if (context_goals != null) {
 					for (Object s: context_goals.keySet()) {
 						JSONArray v = (JSONArray) context_goals.get(s);
-						VerifyList<String> gs = new VerifyList<String>();
-						JSONArraytoVerifyListString(v, gs);
+						ArrayList<String> gs = new ArrayList<String>();
+						JSONArraytoArrayListString(v, gs);
 						this.context_goals.put((Formula) new FormulaString("tmp").fromString((String) s), gs);
 					}
 				}
@@ -217,7 +247,7 @@ public class JunoAgent extends AILAgent {
 		
 	}
 	
-	public VerifyList<String> getHeraActions() {
+	public ArrayList<String> getHeraActions() {
 		return actions;
 	}
 	
@@ -225,15 +255,15 @@ public class JunoAgent extends AILAgent {
 		return context_utilities;
 	}
 	
-	public VerifyMap<Formula, VerifyList<String>> getContextGoals() {
+	public HashMap<Formula, ArrayList<String>> getContextGoals() {
 		return context_goals;
 	}
 	
-	public VerifyMap<Formula, VerifyMap<String, VerifyList<ComparableTuple<String, String>>>> getContextAffects() {
+	public VerifyMap<Formula, VerifyMap<String, ArrayList<Tuple<String, String>>>> getContextAffects() {
 		return context_affects;
 	}
 	
-	public void setUtilities(VerifyMap<String, Double> utilities) {
+	public void setUtilities(HashMap<String, Double> utilities) {
 		this.utilities = utilities;
 	}
 	
@@ -241,7 +271,7 @@ public class JunoAgent extends AILAgent {
 		this.utilities.put(s, u);
 	}
 	
-	public void setGoals(VerifyList<String>  goals) {
+	public void setGoals(ArrayList<String>  goals) {
 		this.goalbase = goals;
 	}
 	
@@ -249,11 +279,11 @@ public class JunoAgent extends AILAgent {
 		this.goalbase.add(goal);
 	}
 	
-	public void setAffects(VerifyMap<String, VerifyList<ComparableTuple<String, String>>> affs) {
+	public void setAffects(HashMap<String, ArrayList<Tuple<String, String>>> affs) {
 		this.affects = affs;
 	}
 	
-	public void setAffect(String s, VerifyList<ComparableTuple<String, String>> affs) {
+	public void setAffect(String s, ArrayList<Tuple<String, String>> affs) {
 		this.affects.put(s, affs);
 	}
 	
@@ -263,40 +293,40 @@ public class JunoAgent extends AILAgent {
 		}
 	}
 	
-	public VerifyMap<String, Double> defaultUtilities() {
-		VerifyMap<String, Double> us_clone = new VerifyMap<String, Double>();
+	public HashMap<String, Double> defaultUtilities() {
+		HashMap<String, Double> us_clone = new HashMap<String, Double>();
 		for (String s: default_utilities.keySet()) {
 			us_clone.put(s, default_utilities.get(s));
 		}
 		return us_clone;
 	}
 	
-	public VerifyList<String> defaultGoals() {
-		VerifyList<String> g_clone = new VerifyList<String>();
+	public ArrayList<String> defaultGoals() {
+		ArrayList<String> g_clone = new ArrayList<String>();
 		for (String s: default_goals) {
 			g_clone.add(s);
 		}
 		return g_clone;
 	}
 
-	public VerifyMap<String, VerifyList<ComparableTuple<String,String>>> defaultAffects() {
-		VerifyMap<String, VerifyList<ComparableTuple<String,String>>> us_clone = new VerifyMap<String, VerifyList<ComparableTuple<String,String>>>();
+	public HashMap<String, ArrayList<Tuple<String,String>>> defaultAffects() {
+		HashMap<String, ArrayList<Tuple<String,String>>> us_clone = new HashMap<String, ArrayList<Tuple<String,String>>>();
 		for (String s: default_affects.keySet()) {
-			VerifyList<ComparableTuple<String, String>> aff_list = default_affects.get(s);
-			VerifyList<ComparableTuple<String, String>> new_aff_list = new VerifyList<ComparableTuple<String, String>>();
-			for (ComparableTuple<String, String> t: aff_list) {
-				new_aff_list.add(new ComparableTuple(t.getLeft(), t.getRight()));
+			ArrayList<Tuple<String, String>> aff_list = default_affects.get(s);
+			ArrayList<Tuple<String, String>> new_aff_list = new ArrayList<Tuple<String, String>>();
+			for (Tuple<String, String> t: aff_list) {
+				new_aff_list.add(new Tuple(t.getLeft(), t.getRight()));
 			}
 			us_clone.put(s, new_aff_list);
 		}
 		return us_clone;
 	}
 
-	public VerifyMap<String, Double> getUtilities() {
+	public HashMap<String, Double> getUtilities() {
 		return this.utilities;
 	}
 	
-	public VerifyList<String> getPatients() {
+	public ArrayList<String> getPatients() {
 		return this.patients;
 	}
 	
@@ -304,40 +334,33 @@ public class JunoAgent extends AILAgent {
 		return this.description;
 	}
 	
-	public VerifyList<String> getConsequences() {
+	public ArrayList<String> getConsequences() {
 		return this.consequences;
 	}
 	
-	public VerifyList<String> getBackground() {
+	public ArrayList<String> getBackground() {
 		return this.background;
 	}
 	
-	public VerifyMap<String, Formula> getMechanisms() {
+	public HashMap<String, Formula> getMechanisms() {
 		return this.mechanisms;
 	}
 	
-	// public HashMap<String, ArrayList<String>> getHeraIntentions() {
-	//	return this.intentions;
-	// }
 	
-	// public HashMap<String, VerifyList<String>> getHeraGoals() {
-	// 	return this.goals;
-	// }
-	
-	public VerifyList<String> getHeraGoalBase() {
+	public ArrayList<String> getHeraGoalBase() {
 		return this.goalbase;
 	}
 	
-	public VerifyMap<String, VerifyList<ComparableTuple<String, String>>> getAffects() {
+	public HashMap<String, ArrayList<Tuple<String, String>>> getAffects() {
 		return this.affects;
 	}
 	
-	public VerifyList<ComparableTuple<Formula, FormulaString>> getContextBackground() {
+	public ArrayList<Tuple<Formula, FormulaString>> getContextBackground() {
 		return context_background;
 	}
 	
 	public void clearBackground() {
-		background = new VerifyList<String>();
+		background = new ArrayList<String>();
 	}
 	
 	public void addToBackground(FormulaString s) {

@@ -26,11 +26,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Test;
 
 import ajpf.MCAPLcontroller;
-import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -42,17 +42,17 @@ public class SmartHomeQuickTests {
 	@Test public void doubleeffecttest() {
 		String rel_file = "/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
 		String file = MCAPLcontroller.getAbsFilename(rel_file);
-		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);
@@ -81,17 +81,17 @@ public class SmartHomeQuickTests {
 	
 	@Test public void utilitariantest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
-		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);
@@ -120,17 +120,17 @@ public class SmartHomeQuickTests {
 	
 	@Test public void kantiantest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
-		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w1.put(new FormulaString("refrain"), false);
 		
-		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
 		w2.put(new FormulaString("turn_on_video_game"), false);
 		w2.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), true);
 		w2.put(new FormulaString("refrain"), false);
 
-		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
 		w3.put(new FormulaString("turn_on_video_game"), false);
 		w3.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
 		w3.put(new FormulaString("refrain"), true);

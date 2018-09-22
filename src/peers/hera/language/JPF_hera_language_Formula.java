@@ -20,8 +20,6 @@ public class JPF_hera_language_Formula extends NativePeer {
 		HeraLanguageVisitor visitor = new HeraLanguageVisitor();
 		Formula formula = visitor.visitFormula(parser.formula());
 		int formula_ref = formula.newJPFObject(env);
-		// System.err.println(formula_ref);
-		// System.err.println(objref);
 				
 		env.setReferenceField(objref, "fromStringFormula", formula_ref);
 	}

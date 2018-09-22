@@ -26,10 +26,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Test;
 
-import ajpf.util.VerifyMap;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
@@ -39,19 +39,19 @@ public class JSONQuickTests {
 	
 	@Test public void doubleeffecttest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
-		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("a1"), true);
 		w1.put(new FormulaString("a2"), false);
 		w1.put(new FormulaString("a3"), false);
 		w1.put(new FormulaString("b1"), true);
 		
-		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
 		w2.put(new FormulaString("a1"), false);
 		w2.put(new FormulaString("a2"), true);
 		w2.put(new FormulaString("a3"), false);
 		w2.put(new FormulaString("b1"), true);
 
-		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
 		w3.put(new FormulaString("a1"), false);
 		w3.put(new FormulaString("a2"), false);
 		w3.put(new FormulaString("a3"), true);
@@ -81,19 +81,19 @@ public class JSONQuickTests {
 	
 	@Test public void utilitariantest() {
 		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
-		VerifyMap<Formula,Boolean> w1 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("a1"), true);
 		w1.put(new FormulaString("a2"), false);
 		w1.put(new FormulaString("a3"), false);
 		w1.put(new FormulaString("b1"), true);
 		
-		VerifyMap<Formula,Boolean> w2 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w2 = new HashMap<Formula,Boolean>();
 		w2.put(new FormulaString("a1"), false);
 		w2.put(new FormulaString("a2"), true);
 		w2.put(new FormulaString("a3"), false);
 		w2.put(new FormulaString("b1"), true);
 
-		VerifyMap<Formula,Boolean> w3 = new VerifyMap<Formula,Boolean>();
+		HashMap<Formula,Boolean> w3 = new HashMap<Formula,Boolean>();
 		w3.put(new FormulaString("a1"), false);
 		w3.put(new FormulaString("a2"), false);
 		w3.put(new FormulaString("a3"), true);

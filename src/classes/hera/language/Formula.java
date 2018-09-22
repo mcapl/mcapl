@@ -1,26 +1,26 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2018 Louise A. Dennis, Martin Mose Bentzen, Michael Fisher 
-// 
-// This file is part of HERA Java Implementation
-// 
-// HERA Java is free software; you can redistribute it and/or
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
+//
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 // 
-// HERA Java is distributed in the hope that it will be useful,
+// Juno is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with HERA Java; if not, write to the Free Software
+// License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
-//
 //----------------------------------------------------------------------------
+
 
 package hera.language;
 
@@ -31,7 +31,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import ail.syntax.GBelief;
-import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Predicate;
 import gov.nasa.jpf.vm.MJIEnv;
@@ -39,25 +38,31 @@ import hera.parser.HeraLanguageVisitor;
 import hera.parser.HeraLexer;
 import hera.parser.HeraParser;
 
+/**
+ * Formula class.
+ * @author louisedennis
+ *
+ */
 public class Formula implements Comparable<Object> {
+	// Most formulae have two subformulae.
 	public Formula f1;
 	public Formula f2;
 	
-	boolean rtp = false;
-	
-	public void restrictopatients() {
-		rtp = true;
-	}
-	
-	public boolean retrictedtopatients() {
-		return rtp;
-	}
-	
+	/**
+	 * Constructor
+	 * @param f1
+	 * @param f2
+	 */
 	public Formula(Formula f1, Formula f2) {
 		this.f1 = f1;
 		this.f2 = f2;
 	}
 	
+	/**
+	 * Create a conjunction from a set of formulae.
+	 * @param s
+	 * @return
+	 */
 	public static Formula makeConjunction(Set<Formula> s) {
 		Formula f = null;
 		for (Formula e : s) {
@@ -70,6 +75,11 @@ public class Formula implements Comparable<Object> {
 		return f;
 	}
 	
+	/**
+	 * Create a disjunction from a set of formulae.
+	 * @param s
+	 * @return
+	 */
 	public static Formula makeDisjunction(ArrayList<Formula> s) {
 		Formula f = null;
 		for (Formula e : s) {
@@ -82,6 +92,10 @@ public class Formula implements Comparable<Object> {
 		return f;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Formula) {
@@ -94,6 +108,10 @@ public class Formula implements Comparable<Object> {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		if (f2 != null) {
@@ -103,6 +121,10 @@ public class Formula implements Comparable<Object> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override 
 	public String toString() {
 		String f1s = "";
@@ -132,7 +154,7 @@ public class Formula implements Comparable<Object> {
 		}
 		
 		if (this instanceof And) {
-			return "\nAnd(" + f1s + ", " + f2s + ")";
+			return "And(" + f1s + ", " + f2s + ")";
 		}
 		
 		if (this instanceof Impl) {
@@ -222,6 +244,11 @@ public class Formula implements Comparable<Object> {
 		return "";
 	}
 	
+	/**
+	 * For Juno we need to be able to check context expressions against an agent's belief base.  
+	 * To do this we have to represent the formula as an object of class ail.syntax.Guard.
+	 * @return
+	 */
 	public Guard toAILGuard() {
 		Guard f1t = null;
 		Guard f2t = null;
@@ -262,6 +289,8 @@ public class Formula implements Comparable<Object> {
 			return new Guard(new Guard(Guard.GLogicalOp.not, f1t), Guard.GLogicalOp.or, f2t);
 		}
 		
+		// A lot of formulae shouldn't appear in these guard expressions.
+		// Only and, or and not.
 		if (this instanceof Affects) {
 			System.err.println("THIS FORMULA IS NOT A GUARD");
 		}
@@ -347,13 +376,28 @@ public class Formula implements Comparable<Object> {
 		return null;
 	}
 
+	// Because we can'd use the json parser in JPF we have to perform our initial
+	// parsing natively and then reconstruct the relevant objects in the JPF JVM.
+	// We store the formula as a string to enable this.
 	Formula fromStringFormula;
+	
+	/**
+	 * Create a formula from a string.
+	 * @param s
+	 * @return
+	 */
 	public  Formula fromString(String s) {
 		createFormulaFromString(s);
+		// Forcing the creation of a hashcode to help with state matching when model-checking.
 		fromStringFormula.hashCode();
 		return fromStringFormula;
 	}
 	
+	/**
+	 * We create a formula from a string by using a parser.  This has to occur natively 
+	 * when we are using the JPF JVM and so this method is intercepted (see peers folder).
+	 * @param s
+	 */
 	public void createFormulaFromString(String s) {
 		HeraLexer lexer = new HeraLexer(CharStreams.fromString(s));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -363,6 +407,10 @@ public class Formula implements Comparable<Object> {
 		fromStringFormula = formula;
 	}
 
+	/**
+	 * Get all the positive literals in a formula.
+	 * @return
+	 */
 	public ArrayList<Formula> getPosLiteralsEvent() {
 		ArrayList<Formula> r = new ArrayList<Formula>();
 		
@@ -379,6 +427,10 @@ public class Formula implements Comparable<Object> {
 		return r;
 	}
 	
+	/**
+	 * Get all the literals in a formula.
+	 * @return
+	 */
 	public ArrayList<Formula> getAllLiteralsEvent() {
 		if (this instanceof Not) {
 			ArrayList<Formula> r = new ArrayList<Formula>();
@@ -407,6 +459,10 @@ public class Formula implements Comparable<Object> {
 		return null;
 	}
 	
+	/**
+	 * Return a list of the atomic sub-formulae in this formula.
+	 * @return
+	 */
 	public ArrayList<Formula> stripParentsFromMechanism() {
 		if (f2 == null) {
 			if (f1 instanceof FormulaString) {
@@ -442,6 +498,12 @@ public class Formula implements Comparable<Object> {
 		return null;
 	}
 	
+	/**
+	 * If this object has been constructed in the native JVM during model-checking then
+	 * this method allows it to be recreated in the JPF JVM.
+	 * @param env
+	 * @return
+	 */
 	public int newJPFObject(MJIEnv env) {
 		if (this instanceof FormulaString) {
 			int ref = env.newObject("hera.language.FormulaString");
@@ -658,6 +720,14 @@ public class Formula implements Comparable<Object> {
 			return ref;
 		}
 		
+		if (this instanceof TermFormula) {
+			int ref = env.newObject("hera.language.TermFormula");
+			int tref = ((TermFormula) this).getTerm().newJPFObject(env);
+			env.setReferenceField(ref, "t", tref);
+			return ref;
+			
+		}
+		
 		return 0;
 		
 	}
@@ -690,6 +760,11 @@ public class Formula implements Comparable<Object> {
 	// K
 	// Consequence
 	// TermFormula
+	/**
+	 * This is largely redundant but at one point I thought we would need an ordering on formulae to 
+	 * assist state matching when model-checking.
+	 * @return
+	 */
 	private int ordernum() { 
 		if (this instanceof FormulaString) {
 			return 0;
@@ -748,6 +823,10 @@ public class Formula implements Comparable<Object> {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Formula) {
@@ -784,5 +863,17 @@ public class Formula implements Comparable<Object> {
 		}
 		return 1;
 	}
+	
+	// This is a hack to state that a universally quantified formula just quantifies 
+	// over moral patients.  This improves the effeciency of checking in the Kantian 
+	// reasoner with therefore a significant speed up in model-checking time.
+	boolean rtp = false;
+	public void restrictopatients() {
+		rtp = true;
+	}
+	public boolean retrictedtopatients() {
+		return rtp;
+	}
+
 
 }

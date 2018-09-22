@@ -1,5 +1,5 @@
 {
-    "description": "Evacuating the House Problem",
+    "description": "Lights, Games and Fire Problem",
     "actions": [
 	"turn_on_lights",
 	"evacuate_the_house",
@@ -8,8 +8,8 @@
 	"turn_on_video_game"
     ],
     "background": [
-	"people_can_see",
-	"people_are_safe",
+	"daylight",
+	"danger_in_house",
 	"children_are_quiet",
 	"mum_working",
 	"mum_wrapping_presents"
@@ -22,15 +22,17 @@
 	"children_are_quiet",
 	"children_play_game",
 	"mum_can_work",
-	"mum_wraps_presents"
+	"mum_wraps_presents",
+	"evacuation_attempt"
     ],
     "mechanisms": {
 	"children_play_game": "'turn_on_video_game'",
 	"children_are_quiet": "'children_play_game'",
-	"people_can_see": "'lights_are_on'",
+	"people_can_see": "Or('lights_are_on','daylight')",
 	"lights_are_on": "Or('turn_on_lights','turn_on_lights_and_evacuate_the_house')",
-	"people_are_safe": "And('people_can_see','people_leave_house')",
-	"people_leave_house": "Or('turn_on_lights_and_evacuate_the_house','evacuate_the_house')",
+	"people_are_safe": "Or('people_leave_house',Not('danger_in_house'))",
+        "people_leave_house": "And('evacuation_attempt','people_can_see')",
+	"evacuation_attempt": "Or('turn_on_lights_and_evacuate_the_house','evacuate_the_house')",
 	"mum_can_work": "And('children_are_quiet','mum_working')",
 	"mum_wraps_presents": "And('children_are_quiet','mum_wrapping_presents')"
     },
@@ -38,7 +40,8 @@
 	"people_are_safe": 10,
 	"lights_are_on": -1,
 	"people_leave_house": -1,
-	"children_play_game": -1
+	"children_play_game": -1,
+	"evacuation_attempt": -1
     },
     "intentions": {
 	"turn_on_lights": [
@@ -121,8 +124,8 @@
 	"people_can_see"
     ],
     "context_background": {
-	"'day'":"'people_can_see'",
-	"Not('fire')":"'people_are_safe'",
+	"'day'":"'daylight'",
+	"'fire'":"'danger_in_house'",
 	"'mum_working'":"'mum_working'",
 	"'mum_wrapping_presents'":"'mum_wrapping_presents'",
 	"Not('children_noisy')":"'children_are_quiet'"
@@ -133,7 +136,8 @@
 	    "children_play_game":0
 	}
 	"'fire'": {
-	    "people_leave_house":0
+	    "people_leave_house":0,
+	    "evacuation_attempt":0
 	}
 	"'mum_working'":{
 	    "children_are_quiet":3
