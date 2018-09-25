@@ -63,6 +63,7 @@ public class CausalModel extends Model {
 		public HashMap<Formula,Boolean> world;
 		protected HashMap<Formula,Boolean> intervention = new HashMap<Formula,Boolean>();
 		
+		// In a bid to speed things up we introduce a cache of direct consequences of the world, so this is only called once on a model.
 		ArrayList<Formula> directconsequencescache = null;
 		
 		/**
@@ -232,6 +233,11 @@ public class CausalModel extends Model {
 			}
 		}
 		
+		/**
+		 * Given a list of variables reset their values in the current
+		 * intervention to their original values.
+		 * @param variables
+		 */
 		@SuppressWarnings("unchecked")
 		public void setInterventionWithVariablesFixedToOriginal(Set<Formula> variables) {
 			HashMap<Formula,Boolean> intervention_backup = (HashMap<Formula,Boolean>) intervention.clone();
@@ -343,10 +349,9 @@ public class CausalModel extends Model {
 		 * @return
 		 */
 		public ArrayList<Formula> getDirectConsequences() {
-			if (directconsequencescache != null) {
-				System.err.println("f");
-				return directconsequencescache;
-			}
+			 if (directconsequencescache != null) {
+			 	return directconsequencescache;
+			 }
 			ArrayList<Formula> cs = new ArrayList<Formula>();
 			for (String c: consequences) {
 				if (models(new Causes(action, new FormulaString(c)))) {
@@ -413,14 +418,10 @@ public class CausalModel extends Model {
 		 * @param p
 		 * @return
 		 */
-		public Boolean evaluate(Principle p) {
+		public int evaluate(Principle p) {
 			p.init(this);
-			try {
-				boolean perm = p.permissible();
-				return perm;
-			} catch (NullPointerException e) {
-				return null;
-			}
+			int perm = p.permissible();
+			return perm;
 		}
 		
 		// Not at all sure this method is correct.  It's copied from Python implementation
@@ -447,9 +448,9 @@ public class CausalModel extends Model {
 			double prob_sum = 0;
 			double prob_perm = 0;
 			for (Model w: k_a) {
-				boolean p = ((CausalModel) w).evaluate(principle);
+				int p = ((CausalModel) w).evaluate(principle);
 				prob_sum = prob_sum + w.probability;
-				if (p) {
+				if (p == Principle.PERMISSIBLE) {
 					prob_perm = prob_perm + w.probability;
 				}
 			}
@@ -493,6 +494,22 @@ public class CausalModel extends Model {
 		 */
 		public void clearIntentions() {
 			intentions = new HashMap<String, ArrayList<String>>();
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see hera.semantics.Model#cacheFormula(boolean, hera.language.Formula)
+		 */
+		public void cacheFormula(boolean value, Formula f) {
+			// Only cache a formula if the intervention is empty -- i.e., we are not
+			// exploring some counterfactual
+			if (intervention.isEmpty()) {
+				if (value) {
+					cache.add(f);
+				} else {
+					falsecache.add(f);
+				}
+			}
 		}
 		
 		

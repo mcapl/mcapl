@@ -93,7 +93,9 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 			removePercept(new Predicate("mum_wrapping_presents"));
 			addPercept(new Predicate("night"));		
 			System.err.println("Night");
-			noise++;
+			if (noise < 3) {
+				noise++;
+			}
 		} else {
 			time = DAY;
 			removePercept(new Predicate("night"));
@@ -106,7 +108,7 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 			System.err.println("Day");
 			if (noise == 1) {
 				CHILDREN_NOISY = 1;
-				System.err.println("CHILDREN_NOISY!");
+				System.err.println("CHILDREN NOISY!");
 				addPercept(new Predicate("children_noisy"));
 			}
 		}

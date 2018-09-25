@@ -87,9 +87,14 @@ public class UtilitarianPrinciple extends Principle {
 	 * @see hera.principles.Principle#permissible()
 	 */
 	@Override
-	public Boolean permissible() {
+	public int permissible() {
 		_check();
-		return result.get(result.size() - 1);
+		boolean perm = result.get(result.size() - 1);
+		if (perm) {
+			return PERMISSIBLE;
+		} else {
+			return NOT_PERMISSIBLE;
+		}
 	}
 
 }

@@ -40,6 +40,10 @@ public abstract class Principle {
 	String label;
 	String action;
 	
+	public static int NOT_PERMISSIBLE = 0;
+	public static int PERMISSIBLE = 1;
+	public static int NOT_APPLICABLE = 2;
+	
 	/**
 	 * Priniciples are initialised with a model.
 	 * @param m
@@ -59,20 +63,23 @@ public abstract class Principle {
 	
 	/**
 	 * Checks whether some causal model is permissible according to the ethical principle.
+	 * 
+	 * Switched to an int in contrast to the Python versions true/false + null because
+	 * JPF doesn't like NullPointerExceptions.
 	 * @return
 	 */
-	public abstract Boolean permissible();
+	public abstract int permissible();
 	
 	/**
 	 * Text explanation for the result.
 	 * @return
 	 */
 	public String explain() {
-		Boolean pd = permissible();
+		int pd = permissible();
 		String result = "";
-		if (pd == null) {
+		if (pd == NOT_APPLICABLE) {
 			result = "The " + label + " is not applicable to this instance!";
-		} else if (pd == true) {
+		} else if (pd == PERMISSIBLE) {
 			result = "According to the "+ label + ", the action " + action + " is permissible!"; 
 		} else {
 			result = result + "According to the " + label + " principle, the action " + action +" is not permissible!\n";

@@ -876,4 +876,16 @@ public class Formula implements Comparable<Object> {
 	}
 
 
+	// This is a hack to state that a universally quantified formula just quantifies 
+	// over events (actions and consequences).  This improves the effeciency of checking in the Kantian 
+	// reasoner with therefore a significant speed up in model-checking time.
+	boolean rte = false;
+	public void restrictoevents() {
+		rte = true;
+	}
+	public boolean retrictedtoevents() {
+		return rte;
+	}
+
+
 }

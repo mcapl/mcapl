@@ -20,57 +20,16 @@
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
-package juno;
 
+// JPF configuration for verifying a Kantian reasoner with the games example.
 
-import ail.mas.MAS;
-import ail.mas.MASBuilder;
+@using = mcapl
 
-import juno.semantics.JunoAgent;
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/juno/smarthome/games_kantian.ail,src/examples/juno/smarthome/fire_and_games.psl,1
 
-/**
- * Utility class.  Builds a Juno MAS by parsing a string or a file.
- * @author louiseadennis
- *
- */
-public class JunoMASBuilder implements MASBuilder {
-	MAS mas;
-	
-	public JunoMASBuilder() {};
-	
-	public JunoMASBuilder(String masstring, boolean filename) {
-		JunoAgent juno = parsefile(masstring);
-		mas = new MAS();
-		mas.addAg(juno);
-     }
-	
-	
-	public JunoAgent parsefile(String masstring) {
-		try {
-			JunoAgent juno = new JunoAgent(masstring);
-    		return juno;
-      	} catch (Exception e) {
-     		e.printStackTrace();
-    	}
-		return null;
-		
-	}
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,juno.smarthome.FireVerificationEnvironment,ajpf.product.Product
 
-	/**
-	 * Getter method for the resulting MAS.
-	 * @return
-	 */
-	public MAS getMAS() {
-		return mas;
-	}
-	
-	public MAS getMAS(String filename) {
-		JunoAgent juno = parsefile(filename);
-		mas = new MAS();
-		mas.addAg(juno);
-
-		return mas;
-	}
-	
-
-}
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

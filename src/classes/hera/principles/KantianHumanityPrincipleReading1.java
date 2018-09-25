@@ -86,9 +86,13 @@ public class KantianHumanityPrincipleReading1 extends Principle {
 	 * @see hera.principles.Principle#permissible()
 	 */
 	@Override
-	public Boolean permissible() {
+	public int permissible() {
 		_check();
-		return result.get(0).equals(true);
+		if ( result.get(0).equals(true) ) {
+			return PERMISSIBLE;
+		} else {
+			return NOT_PERMISSIBLE;
+		}
 	}
 
 }

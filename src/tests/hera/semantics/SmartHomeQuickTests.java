@@ -22,7 +22,6 @@
 //----------------------------------------------------------------------------
 package hera.semantics;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
 import hera.principles.KantianHumanityPrincipleReading1;
+import hera.principles.Principle;
 import hera.principles.UtilitarianPrinciple;
 
 public class SmartHomeQuickTests {
@@ -71,16 +71,17 @@ public class SmartHomeQuickTests {
 		m2.setAlternatives(alternatives);
 		m3.setAlternatives(alternatives);
 		
-		Boolean b1 = m1.evaluate(new DoubleEffectPrinciple());
-		Boolean b2 = m2.evaluate(new DoubleEffectPrinciple());
-		Boolean b3 = m3.evaluate(new DoubleEffectPrinciple());
-		assertFalse(b1);
-		assertFalse(b2);
-		assertTrue(b3 == null); // Not Applicable because refrain has no consequences
+		int b1 = m1.evaluate(new DoubleEffectPrinciple());
+		int b2 = m2.evaluate(new DoubleEffectPrinciple());
+		int b3 = m3.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b1 == Principle.NOT_PERMISSIBLE);
+		assertTrue(b2 == Principle.NOT_PERMISSIBLE);
+		assertTrue(b3 == Principle.NOT_APPLICABLE); // Not Applicable because refrain has no consequences
 	}
 	
 	@Test public void utilitariantest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String rel_file = "/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String file = MCAPLcontroller.getAbsFilename(rel_file);
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
@@ -110,16 +111,17 @@ public class SmartHomeQuickTests {
 		m2.setAlternatives(alternatives);
 		m3.setAlternatives(alternatives);
 		
-		Boolean b1 = m1.evaluate(new UtilitarianPrinciple());
-		Boolean b2 = m2.evaluate(new UtilitarianPrinciple());
-		Boolean b3 = m3.evaluate(new UtilitarianPrinciple());
-		assertTrue(b1);
-		assertTrue(b2);
-		assertFalse(b3);
+		int b1 = m1.evaluate(new UtilitarianPrinciple());
+		int b2 = m2.evaluate(new UtilitarianPrinciple());
+		int b3 = m3.evaluate(new UtilitarianPrinciple());
+		assertTrue(b1 == Principle.PERMISSIBLE);
+		assertTrue(b2 == Principle.PERMISSIBLE);
+		assertTrue(b3 == Principle.NOT_PERMISSIBLE);
 	}
 	
 	@Test public void kantiantest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String rel_file = "/src/examples/hera/smarthome/keeping_children_quiet_v2.json";
+		String file = MCAPLcontroller.getAbsFilename(rel_file);
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("turn_on_video_game"), true);
 		w1.put(new FormulaString("turn_on_video_game_and_remind_mom_about_Christmas_presents"), false);
@@ -149,12 +151,12 @@ public class SmartHomeQuickTests {
 		m2.setAlternatives(alternatives);
 		m3.setAlternatives(alternatives);
 		
-		Boolean b1 = m1.evaluate(new KantianHumanityPrincipleReading1());
-		Boolean b2 = m2.evaluate(new KantianHumanityPrincipleReading1());
-		Boolean b3 = m3.evaluate(new KantianHumanityPrincipleReading1());
-		assertFalse(b1);
-		assertTrue(b2);
-		assertFalse(b3);
+		int b1 = m1.evaluate(new KantianHumanityPrincipleReading1());
+		int b2 = m2.evaluate(new KantianHumanityPrincipleReading1());
+		int b3 = m3.evaluate(new KantianHumanityPrincipleReading1());
+		assertTrue(b1 == Principle.NOT_PERMISSIBLE);
+		assertTrue(b2 == Principle.PERMISSIBLE);
+		assertTrue(b3 == Principle.PERMISSIBLE);
 	}
 
 

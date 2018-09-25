@@ -48,6 +48,8 @@ import hera.semantics.Model;
 public class DoubleEffectPrinciple extends Principle {
 	ArrayList<Formula> cons;
 	
+	public boolean notapplicable = false;
+	
 	/**
 	 * Constructor.
 	 */
@@ -70,7 +72,9 @@ public class DoubleEffectPrinciple extends Principle {
 	
 	public Formula _condition2a() {
 		FormulaString x = new FormulaString("__x__");
-		return new Forall(x, new Impl(new I(x), new Geq(new U(x), new IntegerTerm(0))));
+		Formula f = new Forall(x, new Impl(new I(x), new Geq(new U(x), new IntegerTerm(0))));
+		f.restrictoevents(); 
+		return f;
 	}
 	
 	public Formula _condition2b() {
@@ -81,7 +85,11 @@ public class DoubleEffectPrinciple extends Principle {
 	public Formula _condition3() {
 		FormulaString x = new FormulaString("__x__");
 		FormulaString y = new FormulaString("__y__");
-		return new Forall(x, new Forall(y, new Impl(new And(new Causes(x, y), new Gt(new IntegerTerm(0), new U(x))), new Gt(new IntegerTerm(0), new U(y)))));
+		Formula f1 = new Forall(y, new Impl(new And(new Causes(x, y), new Gt(new IntegerTerm(0), new U(x))), new Gt(new IntegerTerm(0), new U(y))));
+		f1.restrictoevents();
+		Formula f = new Forall(x, f1);
+		f.restrictoevents();
+		return f;
 	}
 	
 	public Formula _condition4() {
@@ -141,8 +149,9 @@ public class DoubleEffectPrinciple extends Principle {
 		formulae.add(_condition4());
 		
 		if (cons.size() == 0) {
+			notapplicable = true;
 			result = null;
-			return null;
+			return new ArrayList<Boolean>();
 		}
 		for (Formula f: formulae) {
 			result.add(model.models(f));
@@ -157,9 +166,9 @@ public class DoubleEffectPrinciple extends Principle {
 	 * @see hera.principles.Principle#permissible()
 	 */
 	@Override
-	public Boolean permissible() {
+	public int permissible() {
 		_check();
-		if (result == null) return false;
+		if (result == null) return NOT_APPLICABLE;
 		else {
 			ArrayList<Boolean> trues = new ArrayList<Boolean>();
 			trues.add(true);
@@ -167,7 +176,11 @@ public class DoubleEffectPrinciple extends Principle {
 			trues.add(true);
 			trues.add(true);
 			trues.add(true);
-			return result.equals(trues);
+			if ( result.equals(trues) ) {
+				return PERMISSIBLE;
+			} else {
+				return NOT_PERMISSIBLE;
+			}
 		}
 	}
 

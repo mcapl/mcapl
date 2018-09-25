@@ -35,7 +35,6 @@ import ail.semantics.AILAgent;
 import ail.util.AILConfig;
 import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
-import ajpf.util.VerifyList;
 import ajpf.util.VerifyMap;
 import gov.nasa.jpf.annotation.FilterField;
 import hera.language.Formula;
@@ -78,10 +77,14 @@ public class JunoAgent extends AILAgent {
 	public static int DOUBLE_EFFECT = 1;
 	public static int KANTIAN = 2;
 	
-	FormulaString action = null;
+	FormulaString action = new FormulaString("refrain");
 	
 	public int ethical_system = UTILITARIAN;
 
+	/**
+	 * Construct an agent from a file.
+	 * @param file
+	 */
 	public JunoAgent(String file) {
 		super();
 		this.setAgName("juno");
@@ -90,6 +93,10 @@ public class JunoAgent extends AILAgent {
 		parseFromFile(file);
 	}
 	
+	/**
+	 * Support for json parsing -- largely the same as JSON parsing of HERA agents.
+	 * @param file
+	 */
 	public void parseFromFile(String file) {
 		JSONParser parser = new JSONParser();
 		try {
@@ -126,9 +133,7 @@ public class JunoAgent extends AILAgent {
 			
 			try {
 				JSONObject mechanisms = (JSONObject) model.get("mechanisms");
-				System.err.println("AAA");
 				for (Object s: mechanisms.keySet()) {
-					System.err.println(s);
 					String v = (String) mechanisms.get(s);
 					this.mechanisms.put((String) s, (Formula) new FormulaString("tmp").fromString(v));
 				}
@@ -136,21 +141,11 @@ public class JunoAgent extends AILAgent {
 				
 			}
 			
-			// try {
-			//	JSONObject intentions = (JSONObject) model.get("intentions");
-			//	JSONObjecttoHashList(intentions, this.intentions);
-			//} catch (Exception e) {
-			//	
-			//}
-
+			// Juno infers intentions and goals from a goalbase (so this is different to HERA).
 			try {
 				JSONArray goalbase = (JSONArray) model.get("goalbase");
 				JSONArraytoArrayListString(goalbase, this.goalbase);
 				default_goals = this.goalbase;
-				// JSONObject goals = (JSONObject) model.get("goals");
-				// if (goals != null) {
-				// 	JSONObjecttoHashList(goals, this.goals);
-				// }
 			} catch (Exception e) {
 				
 			}
@@ -175,13 +170,14 @@ public class JunoAgent extends AILAgent {
 				
 			}
 			
+			// JUNO can have context specific background, utilities and affects relations.
 			try {
 				JSONObject context_background = (JSONObject) model.get("context_background");
 				if (context_background != null) {
 					for (Object s: context_background.keySet()) {
 						String v = (String) context_background.get(s);
-						this.context_background.add(new Tuple((Formula) new FormulaString("tmp").fromString((String) s), 
-								                              (Formula) new FormulaString("tmp").fromString(v)));
+						this.context_background.add(new Tuple<Formula, FormulaString>((Formula) new FormulaString("tmp").fromString((String) s), 
+								                              (FormulaString) new FormulaString("tmp").fromString(v)));
 					}
 				}
 			} catch (Exception e) {
@@ -247,52 +243,102 @@ public class JunoAgent extends AILAgent {
 		
 	}
 	
+	/**
+	 * Getter for the actions (these are Hera Actions - not to be confused with AIL Actions).
+	 * @return
+	 */
 	public ArrayList<String> getHeraActions() {
 		return actions;
 	}
 	
+	/**
+	 * Getter for the context utilities.
+	 * @return
+	 */
 	public VerifyMap<Formula, VerifyMap<String, Double>> getContextUtilities() {
 		return context_utilities;
 	}
 	
+	/** 
+	 * Getter for the context goals.
+	 * @return
+	 */
 	public HashMap<Formula, ArrayList<String>> getContextGoals() {
 		return context_goals;
 	}
 	
+	/**
+	 * Getter for the context affects relation.
+	 * @return
+	 */
 	public VerifyMap<Formula, VerifyMap<String, ArrayList<Tuple<String, String>>>> getContextAffects() {
 		return context_affects;
 	}
 	
+	/**
+	 * Set the utilities.
+	 * @param utilities
+	 */
 	public void setUtilities(HashMap<String, Double> utilities) {
 		this.utilities = utilities;
 	}
 	
+	/**
+	 * Add a utility for some consequence.
+	 * @param s
+	 * @param u
+	 */
 	public void setUtility(String s, Double u) {
 		this.utilities.put(s, u);
 	}
 	
+	/**
+	 * Set the goal base.  NB.  This is a list of strings, not an AIL goalbase.
+	 * @param goals
+	 */
 	public void setGoals(ArrayList<String>  goals) {
 		this.goalbase = goals;
 	}
 	
+	/**
+	 * Add a goal to the goalbase.  NB.  This is a list of strings, not an AIL goalbase.
+	 * @param goal
+	 */
 	public void setNewGoal(String goal) {
 		this.goalbase.add(goal);
 	}
 	
+	/**
+	 * Set the affects relation.
+	 * @param affs
+	 */
 	public void setAffects(HashMap<String, ArrayList<Tuple<String, String>>> affs) {
 		this.affects = affs;
 	}
 	
+	/**
+	 * Add a mapping to the affects relation.
+	 * @param s
+	 * @param affs
+	 */
 	public void setAffect(String s, ArrayList<Tuple<String, String>> affs) {
 		this.affects.put(s, affs);
 	}
 	
+	/**
+	 * Remove the affects of some consequence.
+	 * @param s
+	 */
 	public void removeAffect(String s) {
 		if (affects.keySet().contains(s)) {
 			affects.remove(s);
 		}
 	}
 	
+	/**
+	 * Return the default utilities.  Clone them to keep avoid them being altered.
+	 * @return
+	 */
 	public HashMap<String, Double> defaultUtilities() {
 		HashMap<String, Double> us_clone = new HashMap<String, Double>();
 		for (String s: default_utilities.keySet()) {
@@ -301,6 +347,10 @@ public class JunoAgent extends AILAgent {
 		return us_clone;
 	}
 	
+	/**
+	 * Return the default goal base.  Clone it to avoid it being altered.
+	 * @return
+	 */
 	public ArrayList<String> defaultGoals() {
 		ArrayList<String> g_clone = new ArrayList<String>();
 		for (String s: default_goals) {
@@ -309,63 +359,97 @@ public class JunoAgent extends AILAgent {
 		return g_clone;
 	}
 
+	/**
+	 * Return the default affects relation.  Cloned to avoid alteration.
+	 * @return
+	 */
 	public HashMap<String, ArrayList<Tuple<String,String>>> defaultAffects() {
 		HashMap<String, ArrayList<Tuple<String,String>>> us_clone = new HashMap<String, ArrayList<Tuple<String,String>>>();
 		for (String s: default_affects.keySet()) {
 			ArrayList<Tuple<String, String>> aff_list = default_affects.get(s);
 			ArrayList<Tuple<String, String>> new_aff_list = new ArrayList<Tuple<String, String>>();
 			for (Tuple<String, String> t: aff_list) {
-				new_aff_list.add(new Tuple(t.getLeft(), t.getRight()));
+				new_aff_list.add(new Tuple<String, String>(t.getLeft(), t.getRight()));
 			}
 			us_clone.put(s, new_aff_list);
 		}
 		return us_clone;
 	}
 
+	/**
+	 * Getter for the utilities.
+	 * @return
+	 */
 	public HashMap<String, Double> getUtilities() {
 		return this.utilities;
 	}
 	
+	/**
+	 * Getter for the moral patients.
+	 * @return
+	 */
 	public ArrayList<String> getPatients() {
 		return this.patients;
 	}
 	
+	/**
+	 * Getter for the desciription.
+	 * @return
+	 */
 	public String getDescription() {
 		return this.description;
 	}
 	
+	/**
+	 * Getter for the possible consequenecs.
+	 * @return
+	 */
 	public ArrayList<String> getConsequences() {
 		return this.consequences;
 	}
 	
+	/**
+	 * Getter for the possible background facts.
+	 * @return
+	 */
 	public ArrayList<String> getBackground() {
 		return this.background;
 	}
 	
+	/**
+	 * Getter for the mechanism.
+	 * @return
+	 */
 	public HashMap<String, Formula> getMechanisms() {
 		return this.mechanisms;
 	}
 	
-	
+	/**
+	 * Getter for the goal base.  NB.  This is a list of strings, not an AIL Goalbase.
+	 * @return
+	 */
 	public ArrayList<String> getHeraGoalBase() {
 		return this.goalbase;
 	}
 	
+	/**
+	 * Getter for the affects relation.
+	 * @return
+	 */
 	public HashMap<String, ArrayList<Tuple<String, String>>> getAffects() {
 		return this.affects;
 	}
 	
+	/**
+	 * Getter for the context related background facts.
+	 * @return
+	 */
 	public ArrayList<Tuple<Formula, FormulaString>> getContextBackground() {
 		return context_background;
 	}
 	
-	public void clearBackground() {
-		background = new ArrayList<String>();
-	}
+	// Support functions to help parsing.
 	
-	public void addToBackground(FormulaString s) {
-		background.add(s.getString());
-	}
 	
 	private void JSONArraytoArrayListString(JSONArray ja, ArrayList<String> a) {
 		for (Object s: ja) {
@@ -375,6 +459,7 @@ public class JunoAgent extends AILAgent {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <T> void JSONObjecttoHashDouble(JSONObject jo, HashMap<String, Double> map) {
 		Set<Object> keySet = (Set<Object>) jo.keySet();
 		for (Object s: keySet) {
@@ -384,36 +469,8 @@ public class JunoAgent extends AILAgent {
 		}
 		
 	}
-	
-	private <T> void JSONObjecttoHashList(JSONObject jo, HashMap<String, ArrayList<T>> a) {
-		Set<Object> keySet = (Set<Object>) jo.keySet();
-		for (Object s: keySet) {
-			JSONArray list = (JSONArray) jo.get(s);
-			ArrayList<T> arrayl = new ArrayList<T>();
-			for (Object o: list) {
-				arrayl.add((T) o);
-			}
-			a.put((String) s, arrayl); 
-		}
-	
-	}
-	
-	private void JSONArraytoVerifyListString(JSONArray ja, VerifyList<String> a) {
-		for (Object s: ja) {
-			String constant = (String) s;
-			a.add(constant);
-		}
 		
-	}
-	
-	private void JSONArraytoVerifyListFormula(JSONArray ja, VerifyList<Formula> a) {
-		for (Object s: ja) {
-			Formula constant = new FormulaString(s.toString());
-			a.add(constant);
-		}
-		
-	}
-	
+	@SuppressWarnings("unchecked")
 	private <T> void JSONObjecttoVerifyHashDouble(JSONObject jo, VerifyMap<String, Double> map) {
 		Set<Object> keySet = (Set<Object>) jo.keySet();
 		for (Object s: keySet) {
@@ -424,8 +481,10 @@ public class JunoAgent extends AILAgent {
 		
 	}
 
-
-	
+	/**
+	 * Get the ethical system for this agent.
+	 * @return
+	 */
 	public Principle getEthicalPrinciple() {
 		if (ethical_system == UTILITARIAN) {
 			return new UtilitarianPrinciple();
@@ -436,18 +495,34 @@ public class JunoAgent extends AILAgent {
 		}
 	}
 	
+	/**
+	 * Set the ethical principle for this agent.
+	 * @param principle
+	 */
 	public void setEthicalPrinciple(int principle) {
 		ethical_system = principle;
 	}
 	
+	/**
+	 * Set the chosen action.
+	 * @param a
+	 */
 	public void setAction(FormulaString a) {
 		action = a;
 	}
 	
+	/**
+	 * Get the chosen action.
+	 * @return
+	 */
 	public FormulaString getAction() {
 		return action;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.AILAgent#configure(ail.util.AILConfig)
+	 */
 	@Override
 	public void configure(AILConfig c) {
 		if (c.containsKey("hera.principle")) {
@@ -463,6 +538,10 @@ public class JunoAgent extends AILAgent {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.AILAgent#toString()
+	 */
 	@Override
  	public String toString() {
  		StringBuilder is = new StringBuilder();

@@ -1,0 +1,84 @@
+{
+  "description": "Keeping children quiet problem",
+  "actions": [
+    "turn_on_video_game",
+    "turn_on_video_game_and_remind_mom_about_Christmas_presents",
+    "refrain"
+  ],
+  "background": [],
+  "consequences": [
+    "children_play_game",
+    "children_quiet",
+    "mom_reminded_about_Christmas",
+    "mom_wraps_presents",
+    "mom_watches_television"
+  ],
+  "mechanisms": {
+    "children_play_game": "Or('turn_on_video_game_and_remind_mom_about_Christmas_presents', 'turn_on_video_game')",
+    "mom_reminded_about_Christmas": "'turn_on_video_game_and_remind_mom_about_Christmas_presents'",
+    "children_quiet": "'children_play_game'",
+    "mom_wraps_presents": "And('children_quiet', 'mom_reminded_about_Christmas')",
+    "mom_watches_television": "And('children_quiet', Not('mom_reminded_about_Christmas'))"
+  },
+  "utilities": {
+    
+    "turn_on_video_game": 0,
+    "turn_on_video_game_and_remind_mom_about_Christmas_presents": 0,
+    "refrain": 0,
+    "children_play_game": -1,
+    "children_quiet": 0,
+    "mom_reminded_about_Christmas": 0,
+    "mom_watches_television": 2,
+    "mom_wraps_presents": 2
+  },
+  "intentions": {
+    "turn_on_video_game": [
+      "turn_on_video_game",
+      "children_play_game",
+      "children_quiet",
+      "mom_watches_television"
+    ],
+    "turn_on_video_game_and_remind_mom_about_Christmas_presents": [
+      "turn_on_video_game_and_remind_mom_about_Christmas_presents",
+      "mom_reminded_about_Christmas",
+      "children_play_game",
+      "children_quiet",
+      "mom_wraps_presents"
+    ],
+    "refrain": [
+      "refrain"
+    ]
+  },
+  "patients": [
+    "Mom",
+    "Child"
+  ],
+  "affects": {
+    "children_play_game": [
+      [
+        "Child",
+        "-"
+      ]
+    ],
+    "mom_watches_television": [
+      [
+        "Mom",
+        "+"
+      ]
+    ],
+    "mom_wraps_presents": [
+      [
+        "Child",
+        "+"
+      ]
+    ]
+  },
+  "goals": {
+    "turn_on_video_game": [
+      "mom_watches_television"
+    ],
+    "turn_on_video_game_and_remind_mom_about_Christmas_presents": [
+      "mom_wraps_presents"
+    ]
+  }
+}

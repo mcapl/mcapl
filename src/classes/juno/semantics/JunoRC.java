@@ -1,10 +1,31 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Felix Lindner, Martin Moze Bentzen, Michael Fisher
+//
+// This file is part of Juno
+//
+// Juno is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Juno is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
 package juno.semantics;
 
 import ail.semantics.AILAgent;
 import ail.semantics.RCStage;
 import ail.semantics.ReasoningCycle;
 import ail.semantics.operationalrules.DirectPerception;
-import ail.semantics.operationalrules.GenerateApplicablePlans;
 import gov.nasa.jpf.annotation.FilterField;
 import juno.semantics.operationalrules.HandleHeraAction;
 import juno.semantics.operationalrules.ReasonAboutActions;
@@ -13,6 +34,11 @@ import juno.semantics.operationalrules.UpdateBackground;
 import juno.semantics.operationalrules.UpdateGoals;
 import juno.semantics.operationalrules.UpdateUtilities;
 
+/**
+ * A Reasoning Cycle for a Juno Agent.
+ * @author louisedennis
+ *
+ */
 public class JunoRC implements ReasoningCycle {
 	private JunoRCStage currentstage;
 	
@@ -27,6 +53,9 @@ public class JunoRC implements ReasoningCycle {
 	@FilterField
 	private boolean stopandcheck = false;
 
+	/**
+	 * Sets up a reasoning cycle of perception, followed by updating the model, reasoning using the model and then enacting the chosen action.
+	 */
 	public JunoRC() {
 		currentstage = Perception;
 		
@@ -55,20 +84,32 @@ public class JunoRC implements ReasoningCycle {
 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#setStopandCheck(boolean)
+	 */
 	@Override
 	public void setStopandCheck(boolean b) {
 		stopandcheck = b;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#stopandcheck()
+	 */
 	@Override
 	public boolean stopandcheck() {
-		// TODO Auto-generated method stub
 		return stopandcheck;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#cycle(ail.semantics.AILAgent)
+	 */
 	@Override
 	public void cycle(AILAgent ag) {
 		if (currentstage == Perception) {
+			setStopandCheck(true);
 			currentstage = UpdateModelUtilities;
 		} else if (currentstage == UpdateModelUtilities) {
 			currentstage = UpdateModelBackground;
@@ -81,25 +122,34 @@ public class JunoRC implements ReasoningCycle {
 		} else if (currentstage == EthicalReasoning) {
 			currentstage = Act;
 		} else {
-			setStopandCheck(true);
 			currentstage = Perception;
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#getStage()
+	 */
 	@Override
 	public RCStage getStage() {
-		// TODO Auto-generated method stub
 		return currentstage;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#setCurrentStage(ail.semantics.RCStage)
+	 */
 	@Override
 	public void setCurrentStage(RCStage rcs) {
 		currentstage = (JunoRCStage) rcs;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see ail.semantics.ReasoningCycle#not_interrupted()
+	 */
 	@Override
 	public boolean not_interrupted() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

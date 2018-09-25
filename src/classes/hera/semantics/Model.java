@@ -36,8 +36,11 @@ public class Model {
 	public ArrayList<Model> alternatives = new ArrayList<Model>();
 	ArrayList<Model> epistemic = new ArrayList<Model>();
 	protected Checker checker;
-	ArrayList<Formula> cache = new ArrayList<Formula>();
-	ArrayList<Formula> falsecache = new ArrayList<Formula>();
+	
+	// Introducing caches of formulae known to be true or false in the model in an attempt to improve efficiency.
+	// NB.  Did not seem to improve efficiency much but can not, at this point, be bothered to remove them.
+	protected ArrayList<Formula> cache = new ArrayList<Formula>();
+	protected ArrayList<Formula> falsecache = new ArrayList<Formula>();
 	
 	public boolean models(Formula f) {
 		return checker.models(this, f);
@@ -92,5 +95,12 @@ public class Model {
 	public void setProbability(double p) {
 		probability = p;
 	}
+	
+	/**
+	 * Cache a formula as either true or false.  By default this does nothing.
+	 * @param b
+	 * @param f
+	 */
+	public void cacheFormula(boolean b, Formula f) {};
 
 }

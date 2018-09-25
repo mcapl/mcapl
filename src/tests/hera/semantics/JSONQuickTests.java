@@ -30,15 +30,18 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
+import ajpf.MCAPLcontroller;
 import hera.language.Formula;
 import hera.language.FormulaString;
 import hera.principles.DoubleEffectPrinciple;
+import hera.principles.Principle;
 import hera.principles.UtilitarianPrinciple;
 
 public class JSONQuickTests {
 	
 	@Test public void doubleeffecttest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
+		String rel_file = "/src/examples/hera/rescuerobot/rescuerobot.json";
+		String file = MCAPLcontroller.getAbsFilename(rel_file);
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("a1"), true);
 		w1.put(new FormulaString("a2"), false);
@@ -71,16 +74,17 @@ public class JSONQuickTests {
 		m2.setAlternatives(alternatives);
 		m3.setAlternatives(alternatives);
 		
-		boolean b1 = m1.evaluate(new DoubleEffectPrinciple());
-		assertTrue(b1);
-		boolean b2 = m2.evaluate(new DoubleEffectPrinciple());
-		assertTrue(b2);
-		Boolean b3 = m3.evaluate(new DoubleEffectPrinciple());
-		assertTrue(b3 == null);
+		int b1 = m1.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b1 == Principle.PERMISSIBLE);
+		int b2 = m2.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b2 == Principle.PERMISSIBLE);
+		int b3 = m3.evaluate(new DoubleEffectPrinciple());
+		assertTrue(b3 == Principle.NOT_APPLICABLE);
 	}
 	
 	@Test public void utilitariantest() {
-		String file = "/Users/louiseadennis/Eclipse/mcapl/src/examples/hera/rescuerobot/rescuerobot.json";
+		String rel_file = "/src/examples/hera/rescuerobot/rescuerobot.json";
+		String file = MCAPLcontroller.getAbsFilename(rel_file);
 		HashMap<Formula,Boolean> w1 = new HashMap<Formula,Boolean>();
 		w1.put(new FormulaString("a1"), true);
 		w1.put(new FormulaString("a2"), false);
@@ -113,12 +117,12 @@ public class JSONQuickTests {
 		m2.setAlternatives(alternatives);
 		m3.setAlternatives(alternatives);
 		
-		boolean b1 = m1.evaluate(new UtilitarianPrinciple());
-		assertTrue(b1);
-		boolean b2 = m2.evaluate(new UtilitarianPrinciple());
-		assertTrue(b2);
-		boolean b3 = m3.evaluate(new UtilitarianPrinciple());
-		assertFalse(b3);
+		int b1 = m1.evaluate(new UtilitarianPrinciple());
+		assertTrue(b1 == Principle.PERMISSIBLE);
+		int b2 = m2.evaluate(new UtilitarianPrinciple());
+		assertTrue(b2 == Principle.PERMISSIBLE);
+		int b3 = m3.evaluate(new UtilitarianPrinciple());
+		assertTrue(b3 == Principle.NOT_PERMISSIBLE);
 	}
 
 

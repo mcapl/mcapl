@@ -76,6 +76,8 @@ public class CausalModelChecker extends Checker {
 	 * @return
 	 */
 	public static boolean _intended(ArrayList<String> intentions, Formula formula) {
+		// System.err.println(intentions);
+		// System.err.println(formula);
 		if (formula instanceof FormulaString) {
 			return intentions.contains(((FormulaString) formula).getString());
 		} else if (formula instanceof And) {
@@ -210,7 +212,7 @@ public class CausalModelChecker extends Checker {
 	}
 	
 	/**
-	 * Is there a path in the model between a literal in e and a literal in p?
+	 * Is there a path in the model between a literal in e and all literals in p?
 	 * @param model
 	 * @param p
 	 * @param e
@@ -226,6 +228,13 @@ public class CausalModelChecker extends Checker {
 		return processLiterals(model, pLit, e);
 	}
 	
+	/**
+	 * Are all the literals in p are "caused" (i.e. there is a path in the model) by some literal in e.
+	 * @param model
+	 * @param p
+	 * @param e
+	 * @return
+	 */
 	public static boolean _allAreIndirectParentsSet(CausalModel model, HashSet<Formula> p, Formula e) {
 		ArrayList<Formula> pLit = new ArrayList<Formula>();
 		for (Formula pf: p) {
@@ -235,7 +244,7 @@ public class CausalModelChecker extends Checker {
 	}
 
 	/**
-	 * Is there a path in the model between a literal in pLit and a literal in e?
+	 * Is there a path in the model between some literal in e and every literal in pLit?
 	 * @param model
 	 * @param pLit
 	 * @param e
@@ -292,6 +301,9 @@ public class CausalModelChecker extends Checker {
 			if (w.size() == 0 || _allAreIndirectParentsSet(model, w, formula.f2)) {
 				model.setInterventionWithVariablesFixedToOriginal(w);
 				boolean check = models(model, formula.f2);
+				
+				// This is from the Python implementation but I'm not at all sure
+				// we should clear the intervention at this point since we are in a loop.
 				model.clearIntervention();
 				
 				if (check == false) {
@@ -384,162 +396,123 @@ public class CausalModelChecker extends Checker {
 	 */
 	@Override
 	public boolean models(Model m, Formula formula) {
-		if (m.cache.contains(formula)) {
-			return true;
-		} else if (m.falsecache.contains(formula)) {
-			return false;
-		}
 		// System.err.println(formula);
 		CausalModel model = (CausalModel) m;
+		if (m.cache.contains(formula) && model.intervention.isEmpty()) {
+		 	return true;
+		} else if (m.falsecache.contains(formula) && model.intervention.isEmpty()) {
+		 	return false;
+		}
+		
 		if (formula instanceof BooleanFormula) {
 			boolean b =  ((BooleanFormula) formula).getBoolean();
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof FormulaString) {
 			if (model.intervention.containsKey(formula)) {
 				boolean b = model.intervention.get(formula);
-				if (b) {
-					m.cache.add(formula);
-				} else {
-					m.falsecache.add(formula);
-				}
 				return b;
 			}
 			if (model.world.containsKey(formula)) {
 				boolean b =  model.world.get(formula);
-				if (b) {
-					m.cache.add(formula);
-				} else {
-					m.falsecache.add(formula);
-				}
 				return b;
 			}
 			if (model.mechanisms.containsKey(((FormulaString) formula).getString())) {
 				boolean b =  models(model, model.mechanisms.get(((FormulaString) formula).getString()));
-				if (b) {
-					m.cache.add(formula);
-				} else {
-					m.falsecache.add(formula);
-				}
+				model.cacheFormula(b, formula);
 				return b;
 			}
 		}
 		
 		if (formula instanceof Not) {
 			boolean b = ! models(model, formula.f1);
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof Or) {
 			boolean b = (models(model, formula.f1) || models(model, formula.f2));
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof And) {
 			boolean b = (models(model, formula.f1) && models(model, formula.f2));
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof Impl) {
 			if (! models(model, formula.f1)) {
-				m.cache.add(formula);
+				model.cacheFormula(true, formula);
 				return true;
 			} else if (models(model, formula.f2)) {
-				m.cache.add(formula);
+				model.cacheFormula(true, formula);
 				return true;
 			} else {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 		}
 		
 		if (formula instanceof I) {
-			boolean b =  _intended(model.intentions.get(model.action.getString()), formula.f1);
-			if (b) {
-				m.cache.add(formula);
+			// System.err.println(model.intentions);
+			if (! model.intentions.isEmpty()) {
+				boolean b =  _intended(model.intentions.get(model.action.getString()), formula.f1);
+				model.cacheFormula(b, formula);
+				return b;
 			} else {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
+				return false;
 			}
-			return b;
 		}
 		
 		if (formula instanceof Affects) {
 			if (model.affects.containsKey(((FormulaString) formula.f1).getString())) {
 				boolean b =  _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+") || _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
-				if (b) {
-					m.cache.add(formula);
-				} else {
-					m.falsecache.add(formula);
-				}
+				model.cacheFormula(b, formula);
 				return b;
 			} else {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 		}
 		
 		if (formula instanceof AffectsPos) {
 			boolean b =  _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "+");
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof AffectsNeg) {
 			boolean b = _affects(model.affects.get(((FormulaString) formula.f1).getString()), formula.f2, "-");
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof Causes) {
 			if (models(model, formula.f1)  && models(model, formula.f2)) {
 				if (formula.f1.equals(formula.f2)) {
-					m.cache.add(formula);
+					model.cacheFormula(true, formula);
 					return true;
 				}
 				if (formula.f1.equals(new Not(formula.f2))) {
-					m.falsecache.add(formula);
+					model.cacheFormula(false, formula);
 					return false;
 				}
 				if (! _allAreIndirectParents(model, formula.f1, formula.f2)) {
-					m.falsecache.add(formula);
+					model.cacheFormula(false, formula);
 					return false;
 				}
 				
 				Tuple<Boolean, ArrayList<Formula>> bw = _findWitness(model, (Causes) formula);
 				if (bw.getLeft()) {
-					m.cache.add(formula);
+					model.cacheFormula(true, formula);
 					return true;
 				}
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 		}
@@ -547,17 +520,13 @@ public class CausalModelChecker extends Checker {
 		if (formula instanceof PCauses) {
 			Tuple<Boolean, Formula> bc = _partialCause(model, (PCauses) formula);
 			boolean b = bc.getLeft();
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof SCauses) {
 			if (!models(model, formula.f1) || !models(model, formula.f2)) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 			
@@ -577,12 +546,12 @@ public class CausalModelChecker extends Checker {
 			}
 			
 			if (!b_c) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 			
 			if (!models(model, new K(new Intervention(formula.f1, formula.f2)))) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 			
@@ -600,7 +569,7 @@ public class CausalModelChecker extends Checker {
 			}
 			
 			if (!found) {
-				m.cache.add(formula);
+				model.cacheFormula(true, formula);
 				return true;
 			}
 			return false;
@@ -623,17 +592,17 @@ public class CausalModelChecker extends Checker {
 				}
 				
 				if (models(model, new Causes(formula.f1, f))) {
-					m.cache.add(formula);
+					model.cacheFormula(true, formula);
 					return true;
 				}
 			}
-			m.falsecache.add(formula);
+			model.cacheFormula(false, formula);
 			return false;
 		}
 		
 		if (formula instanceof Explains) {
 			if (! _sufficientCauseInEveryModel(model, formula.f1, formula.f2)) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 			
@@ -648,15 +617,15 @@ public class CausalModelChecker extends Checker {
 			// EX2 - don't understand
 			
 			if (model.getEpistemicAlternatives(new And(formula.f1, formula.f2)).size() == 0) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
 			
 			if (! (models(model, new Not(new K(formula.f1))))) {
-				m.falsecache.add(formula);
+				model.cacheFormula(false, formula);
 				return false;
 			}
-			m.cache.add(formula);
+			model.cacheFormula(true, formula);
 			return true;
 		}
 		
@@ -670,11 +639,7 @@ public class CausalModelChecker extends Checker {
 			model.setNewIntervention(i);
 			boolean b = models(model, formula.f2);
 			model.clearIntervention();
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
@@ -682,31 +647,19 @@ public class CausalModelChecker extends Checker {
 		
 		if (formula instanceof Gt) {
 			boolean b = evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) > evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof Geq) {
 			boolean result = evaluateTerm(model, ((TermFormula) formula.f1).getTerm()) >= evaluateTerm(model, ((TermFormula) formula.f2).getTerm());
-			if (result) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(result, formula);
 			return result;
 		}
 		
 		if (formula instanceof K) {
 			boolean b = _trueInEveryAlternative(model, formula.f1);
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
@@ -714,12 +667,12 @@ public class CausalModelChecker extends Checker {
 			boolean foundPos = false;
 			for (String i: model.goals.get(model.action.getString())) {
 				if (models(model, new AffectsNeg(new FormulaString(i), formula.f1))) {
-					m.falsecache.add(formula);
+					model.cacheFormula(false, formula);
 					return false;
 				}
 				
 				if (!foundPos && models(model, new AffectsPos(new FormulaString(i), formula.f1))) {
-					m.cache.add(formula);
+					model.cacheFormula(true, formula);
 					foundPos = true;
 				}
 			}
@@ -727,21 +680,17 @@ public class CausalModelChecker extends Checker {
 		}
 		
 		if (formula instanceof Means) {
-			System.err.println("a" + formula.f2);
+			// System.err.println("a" + formula.f2);
 			ArrayList<Formula> l = new ArrayList<Formula>();
 			l.add(model.action);
-			System.err.println("d");
 			l.addAll(model.getDirectConsequences());
-			System.err.println("e");
 			for (Formula i: l) {
-				System.err.println(i);
 				if (((FormulaString) formula.f1).getString().equals("Reading-1")) {
 					if (model.goals.containsKey(model.action.getString())) {
 						for (String g: model.goals.get(model.action.getString())) {
-							System.err.println(g);
+							// System.err.println(g);
 							if (models(model, new And(new Affects(i, formula.f2), new Causes(i, new FormulaString(g))))) {
-								m.cache.add(formula);
-								System.err.println("b");
+								model.cacheFormula(true, formula);
 								return true;
 							}
 						}
@@ -750,19 +699,18 @@ public class CausalModelChecker extends Checker {
 				
 				if (((FormulaString) formula.f1).getString().equals("Reading-2")) {
 					if (models(model, new Affects(i, formula.f2))) {
-						m.cache.add(formula);
+						model.cacheFormula(true, formula);
 						return true;
 					}
 				}
 			}
-			m.falsecache.add(formula);
-			System.err.println("c");
+			model.cacheFormula(false, formula);
 			return false;
 		}
 		
 		if (formula instanceof Forall) {
 			Formula f = null;
-			if (!formula.retrictedtopatients()) {
+			if (!formula.retrictedtopatients() && ! formula.retrictedtoevents()) {
 				for (String e: model.domainOfQuantification) {
 					Formula s = substituteVariable(formula.f1, e, formula.f2);
 					if (f == null) {
@@ -771,8 +719,21 @@ public class CausalModelChecker extends Checker {
 						f = new And(s, f);
 					}
 				}
-			} else {
+			} else if (formula.retrictedtopatients()) {
 				for (String e: model.patients) {
+					Formula s = substituteVariable(formula.f1, e, formula.f2);
+					if (f == null) {
+						f = s;
+					} else {
+						f = new And(s, f);
+					}
+				}
+			} else {
+				ArrayList<String> events = new ArrayList<String>();
+				events.addAll(model.actions);
+				events.addAll(model.background);
+				events.addAll(model.consequences);
+				for (String e: events) {
 					Formula s = substituteVariable(formula.f1, e, formula.f2);
 					if (f == null) {
 						f = s;
@@ -782,32 +743,20 @@ public class CausalModelChecker extends Checker {
 				}
 			}
 			boolean result = models(model, f);
-			if (result) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(result, formula);
 			return result;
 		}
 		
 		if (formula instanceof Exists) {
 			Formula f = new Not(new Forall(formula.f1, new Not(formula.f2)));
 			boolean b = models(model, f);
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		
 		if (formula instanceof Consequence) {
 			boolean b = model.consequences.contains(formula.toString());
-			if (b) {
-				m.cache.add(formula);
-			} else {
-				m.falsecache.add(formula);
-			}
+			model.cacheFormula(b, formula);
 			return b;
 		}
 		

@@ -64,10 +64,14 @@ public class ReasonAboutActions implements OSRule {
 	@Override
 	public void apply(AILAgent a) {
 		JunoAgent juno = (JunoAgent) a;
+		// System.err.println("Calling Hera Actions");
 		List<FormulaString> actions = filterActions(juno.getHeraActions(), juno, juno.ethical_system);
 		
 		if (actions.isEmpty()) {
-			juno.setAction(null);
+			// If there are no options refrain (i.e., do nothing)
+			// Not sure this is quite right since doing nothing may
+			// have been deemed impermissible.
+			juno.setAction(new FormulaString("refrain"));
 		} else {
 			// If we have more than one choice and are not reasoning using utilitarianism, then
 			// further refine selection using utilitarian reasoning.
@@ -81,11 +85,12 @@ public class ReasonAboutActions implements OSRule {
 				actions = filterActions(action_strings, juno, JunoAgent.UTILITARIAN);
 			}
 			if (actions.isEmpty()) {
-				juno.setAction(null);
+				juno.setAction(new FormulaString("refrain"));
 			} else {
 				juno.setAction(actions.get(0));
 			}
 		}
+		// System.err.println("Actions Chosen");
 		
 
 	}
@@ -133,9 +138,10 @@ public class ReasonAboutActions implements OSRule {
 		ArrayList<FormulaString> actions = new ArrayList<FormulaString>();
 		for (Model model: models) {
 			model.setAlternatives(models);
-			
-			Boolean b = ((CausalModel) model).evaluate(getPrinciple(ethical_system));
-			if (b != null && b) {
+			// System.err.println("Calling Evaluate");
+			int b = ((CausalModel) model).evaluate(getPrinciple(ethical_system));
+			// System.err.println("Evaluate Returned");
+			if (b == Principle.PERMISSIBLE) {
 				actions.add(((CausalModel) model).getAction());
 			}
 			

@@ -28,7 +28,7 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class SmartHomeQuickTests extends TestJPF {
+public class SmartHomeTests extends TestJPF {
 	
 	static final String[] JPF_ARGS = {};
 
@@ -37,51 +37,39 @@ public class SmartHomeQuickTests extends TestJPF {
 		  runTestsOfThisClass(args);
 	}
 	
-	@Test public void sanitytest() {
+	@Test public void firepdetest() {
 		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/lights_and_fire_utilitarian.ail";
+			String file = "/src/examples/juno/smarthome/verif_pde_fire.ail";
 	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
 	    	String[] args = new String[3];
 	    	args[0] = file;
 	    	args[1] = prop_filename;
-	    	args[2] = "sanity";
-	    	AJPF_w_AIL.run(args);
-		} else {
-			
-		}
-	}
-	
-	@Test public void pdetest() {
-		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/lights_and_fire_pde.ail";
-	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-	    	String[] args = new String[3];
-	    	args[0] = file;
-	    	args[1] = prop_filename;
-	    	args[2] = "2";
+	    	args[2] = "5";
 	    	AJPF_w_AIL.run(args);
 		} else {
 			
 		}
 	}
 
-	@Test public void kantiantest() {
+	  @Test //----------------------------------------------------------------------
+	  public void pde_invalid () {
+		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)) {
+				String file = "/src/examples/juno/smarthome/verif_pde_fire.ail";
+		    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
+		    	String[] args = new String[3];
+		    	args[0] = file;
+		    	args[1] = prop_filename;
+		    	args[2] = "1";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			  
+		  }
+	  }
+
+	
+	@Test public void firekantiantest() {
 		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/games_kantian.ail";
-	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-	    	String[] args = new String[3];
-	    	args[0] = file;
-	    	args[1] = prop_filename;
-	    	args[2] = "3";
-	    	AJPF_w_AIL.run(args);
-		} else {
-			
-		}
-	}
-		
-	@Test public void fireutilitariantest() {
-		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/verif_utilitarian_fire.ail";
+			String file = "/src/examples/juno/smarthome/verif_kantian_fire.ail";
 	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
 	    	String[] args = new String[3];
 	    	args[0] = file;
@@ -93,23 +81,6 @@ public class SmartHomeQuickTests extends TestJPF {
 		}
 	}
 	
-	
-	  
-	  @Test //----------------------------------------------------------------------
-	  public void utilitarian_invalid () {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)) {
-				String file = "/src/examples/juno/smarthome/verif_utilitarian_fire.ail";
-		    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-		    	String[] args = new String[3];
-		    	args[0] = file;
-		    	args[1] = prop_filename;
-		    	args[2] = "6";
-		    	AJPF_w_AIL.run(args);
-		  } else {
-			  
-		  }
-	  }
-
 
 
 }

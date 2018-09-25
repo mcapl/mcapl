@@ -34,3 +34,5 @@ sanity: [] (~B(juno, bad))
 4: [](B(juno, day) -> ~D(juno, turn_on_video_game))
 
 5: []((B(juno, fire) & B(juno, day)) -> <> D(juno, evacuate_the_house))
+
+6: [](B(juno, fire) -> <>(D(juno, something_else)))
