@@ -43,6 +43,8 @@ import java.util.logging.Level;
 public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
+	
+	static String version = "MCAPL Framework 2018: Development Version";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
@@ -84,7 +86,10 @@ public class AIL {
 	 * @return
 	 */
 	public static MAS AILSetup(AILConfig config, MCAPLcontroller control) {
-		
+		if (! config.containsKey("suppress_version") || config.get("suppress_version").equals("false")) {
+			print_version_info();
+		}
+
 		// First we need to build the multi-agent system
 		MAS mas = buildMAS(config);
 		mas.setController(control);
@@ -235,6 +240,14 @@ public class AIL {
 				AJPFLogger.setHandlerFormatAsOutput();
 			}
 		}
+	}
+	
+	public static void print_version_info() {
+		System.out.println(get_version_info());
+	}
+	
+	public static String get_version_info() {
+		return version;
 	}
 
 }

@@ -45,7 +45,7 @@ import gov.nasa.jpf.JPF;
  *
  */
 public class SpinComparisonPaperSpinTests {
-	 static final String[] JPF_ARGS = {  };
+	 static final String[] JPF_ARGS = { "suppress_version = true" };
 
 	  //--- test methods
 

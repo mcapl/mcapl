@@ -38,7 +38,7 @@ import java.io.PrintStream;
  */
 public class Tutorial9QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = {  "-show" , "suppress_version = true"
   };
 
   // General framework for testing print statements.  Stolen from stackOverflow.
@@ -65,7 +65,9 @@ public class Tutorial9QuickTests extends TestJPF {
   public void string_w_space () {
 	  setUpStreams();
 	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/strings.ail");
-	  assertEquals("hello world\n", outContent.toString());
+	  String version_info = AIL.get_version_info();
+	  String output = version_info + "\nhello world\n";
+	  assertEquals(output, outContent.toString());
 	  cleanUpStreams();
   }
   
@@ -86,7 +88,7 @@ public class Tutorial9QuickTests extends TestJPF {
   public void ex3 () {
 	  setUpStreams();
 	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/answers/equation.ail");
-	  String expectedOutput = "3 is less than 5\n3 is less than 4.8\n3 is equal to 3\n4.8 is less than 5\n3 is less than 5\n3 is less than 4.8\n";
+	  String expectedOutput = AIL.get_version_info() + "\n3 is less than 5\n3 is less than 4.8\n3 is equal to 3\n4.8 is less than 5\n3 is less than 5\n3 is less than 4.8\n";
 	  assertEquals(expectedOutput, outContent.toString());
 	  cleanUpStreams();
 
