@@ -151,6 +151,26 @@ public class SendAction extends Action {
 		return this.getTerm(1);
 	}
 	
+	public String getRecieverAsString() {
+		Term r = getReceiver();
+		if (r instanceof VarTerm) {
+			if (r.isGround()) {
+				Term rg = ((VarTerm) r).getValue();
+				if (rg instanceof StringTerm) {
+					return ((StringTerm) rg).getString();
+				} else {
+					return r.toString();
+				}
+			}
+			return r.toString();
+		} else if (r instanceof StringTerm) {
+			StringTerm rs = (StringTerm) r;
+			return rs.getString();
+		} else {
+			return r.toString();
+		}
+	}
+	
 	/**
 	 * Getter for the thread id.
 	 * @return
@@ -186,11 +206,11 @@ public class SendAction extends Action {
 		if (msg == null) {
 			if (getThId() != null) {
 				msg = new Message(getILF(), agName, 
-					 getReceiver().toString(), getContent(), getThId());
+					 getRecieverAsString(), getContent(), getThId());
 			
 			} else {
 			msg = new Message(getILF(), agName, 
-					  getReceiver().toString(), getContent());
+					  getRecieverAsString(), getContent());
 			}
 		}
 

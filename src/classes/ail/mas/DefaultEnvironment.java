@@ -273,7 +273,22 @@ public class DefaultEnvironment implements AILEnv {
 	   	if (act.getFunctor().equals("print")) {
 	   		String s = "";
 	   		 for (Term t: act.getTerms()) {
-	   			 s += t.toString();
+	   			 if (t instanceof VarTerm) {
+	   				 if (t.isGround()) {
+	   					 Term tg = ((VarTerm) t).getValue();
+	   					 if (tg instanceof StringTerm) {
+	   						 s += ((StringTerm) tg).getString();
+	   					 } else {
+	   						 s += tg.toString();
+	   					 }
+	   				 } else {
+	   					 s += t.toString();
+	   				 }
+	   			 } else if (t instanceof StringTerm) {
+	   				 s += ((StringTerm) t).getString();
+	   			 } else {
+	   				 s += t.toString();
+	   			 }
 	   		 }
 	    	 // Term content = (Term) act.getTerm(0);
 	    	 System.out.println(s);
@@ -348,7 +363,7 @@ public class DefaultEnvironment implements AILEnv {
      		String s = "send(" + ilfString(sa.getILF()) + sa.getContent().toString() + ", " + sa.getReceivers().toString() + ")";
     		return s;
     	}
-
+    	
     	return act.toString();
 
     }

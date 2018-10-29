@@ -125,8 +125,8 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
      * @see java.lang.Object#toString()
      */
 	public String toString() {
-	//	return "\""+fValue+"\"";
-		return fValue;
+		return "\""+fValue+"\"";
+	//	return fValue;
 	}
 	
 	public String fullstring() {
