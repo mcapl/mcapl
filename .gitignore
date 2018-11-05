@@ -26,4 +26,4 @@ a.out
 *.orig
 *~
 /bin/
-/bin/
+/.settings/org.eclipse.jdt.ui.prefs
