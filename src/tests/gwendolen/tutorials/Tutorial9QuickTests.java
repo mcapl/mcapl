@@ -66,7 +66,8 @@ public class Tutorial9QuickTests extends TestJPF {
 	  setUpStreams();
 	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/strings.ail");
 	  String version_info = AIL.get_version_info();
-	  String output = version_info + "\nhello world\n";
+	  String nl = System.lineSeparator();
+	  String output = version_info + nl + "hello world" + nl;
 	  assertEquals(output, outContent.toString());
 	  cleanUpStreams();
   }
@@ -88,7 +89,10 @@ public class Tutorial9QuickTests extends TestJPF {
   public void ex3 () {
 	  setUpStreams();
 	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/answers/equation.ail");
-	  String expectedOutput = AIL.get_version_info() + "\n3 is less than 5\n3 is less than 4.8\n3 is equal to 3\n4.8 is less than 5\n3 is less than 5\n3 is less than 4.8\n";
+	  String nl = System.lineSeparator();
+	  String expectedOutput = AIL.get_version_info() + nl +"3 is less than 5"
+			  + nl + "3 is less than 4.8" + nl + "3 is equal to 3" + nl + "4.8 is less than 5"
+			  + nl + "3 is less than 5" + nl + "3 is less than 4.8" + nl;
 	  assertEquals(expectedOutput, outContent.toString());
 	  cleanUpStreams();
 
