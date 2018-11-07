@@ -2,6 +2,7 @@
 *.class
 *.tokens
 bin/*
+*.synctex.gz
 
 # Test Outputs #
 bin/TEST*
