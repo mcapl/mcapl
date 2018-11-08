@@ -36,6 +36,10 @@ public class ModificationEvent extends AbstractEvent {
 
 	@Override
 	public String getDescription() {
+		return toString();
+	}
+
+	public String toString() {
 		return this.update.toString();
 	}
 

@@ -62,11 +62,27 @@ public class ModificationAction {
 			break;
 		}
 	}
+	
 
 	@Override
-	public String toString() {
-		return "ModificationAction[base=" + base + ", selector=" + selector + ", added=" + added + ", removed="
-				+ removed + "]"; // FIXME
+	public String toString() { // FIXME
+		StringBuilder builder = new StringBuilder();
+		builder.append("Modification[base=");
+		builder.append(getBase());
+		if (selector != null && !selector.isEmpty()) {
+			builder.append(", selector=");
+			builder.append(selector);
+		}
+		if (added != null && !added.isEmpty()) {
+			builder.append(", added=");
+			builder.append(added);
+		}
+		if (removed != null && !removed.isEmpty()) {
+			builder.append(", removed=");
+			builder.append(removed);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 
 	@Override

@@ -120,6 +120,11 @@ public class AIL {
 	 */
 	public static MAS buildMAS(AILConfig config) {
 		MAS mas = new MAS();
+		String tracing = (String) config.getOrDefault("tracing.enabled", "1"); // FIXME: put 0 as the default
+		if (tracing.equals("1")) {
+			String dir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
+			mas.setTraceDir(dir);
+		}
 		// We've been given the name of a file and a mas builder
 		if (config.containsKey("mas.file") && config.containsKey("mas.builder")) {
 			
