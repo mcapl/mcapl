@@ -9,6 +9,7 @@ bin/TEST*
 
 # Debugging Files #
 tmp/*
+*.db
 
 # Replay Records #
 records/*.txt
