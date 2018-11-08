@@ -1969,6 +1969,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// EXPLANATION EVENT: The scheduler is informed that this agent has completely finished executing and is not to be scheduled again.
 	 	fRunning = false;
 	 	getEnv().getScheduler().doNotSchedule(getAgName());
+		if (trace != null) {
+			trace.finish(true);
+		}
 	}
 	
 

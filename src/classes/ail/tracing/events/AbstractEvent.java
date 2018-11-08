@@ -15,14 +15,14 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent> {
 		conf.setForceSerializable(true);
 		conf.getStreamCoderFactory().getInput().set(new FSTObjectInput(conf));
 		conf.getStreamCoderFactory().getOutput().set(new FSTObjectOutput(conf));
-		//conf.registerClass(); TODO
+		// conf.registerClass(); TODO
 		return conf;
 	}
 
 	abstract public List<String> getLookupData();
 
 	abstract public String getDescription();
-	
+
 	abstract public void execute(final AILAgent agent, final boolean reverse);
 
 	@Override

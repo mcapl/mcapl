@@ -37,10 +37,13 @@ public class EventStorageWriter implements Runnable {
 		this.queue.add(value);
 	}
 
-	public void finish() throws InterruptedException {
+	public void finish() {
 		while (this.queue != null && !this.queue.isEmpty()) {
 			synchronized (this) {
-				wait();
+				try {
+					wait();
+				} catch (InterruptedException ignore) {
+				}
 			}
 		}
 		this.queue = null;
