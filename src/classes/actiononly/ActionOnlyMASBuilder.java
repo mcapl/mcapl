@@ -24,16 +24,15 @@
 
 package actiononly;
 
-import ail.mas.MAS;
-import ail.syntax.ast.Abstract_MAS;
-import ail.mas.MASBuilder;
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import actiononly.parser.ActionOnlyAILVisitor;
 import actiononly.parser.ActionOnlyLexer;
 import actiononly.parser.ActionOnlyParser;
+import ail.mas.MAS;
+import ail.mas.MASBuilder;
+import ail.syntax.ast.Abstract_MAS;
 
 /**
  * Utility class.  Builds an Action Only MAS by parsing a string or a file.
@@ -53,7 +52,7 @@ public class ActionOnlyMASBuilder implements MASBuilder {
 		} else {
 			parse(masstring);
 		}
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(null);
      }
 	
 	
@@ -87,10 +86,10 @@ public class ActionOnlyMASBuilder implements MASBuilder {
 		return mas;
 	}
 	
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 
-		return amas.toMCAPL();
+		return amas.toMCAPL(tracedir);
 	}
 	
 

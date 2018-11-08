@@ -25,7 +25,6 @@ package juno;
 
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
-
 import juno.semantics.JunoAgent;
 
 /**
@@ -64,9 +63,10 @@ public class JunoMASBuilder implements MASBuilder {
 		return mas;
 	}
 	
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		JunoAgent juno = parsefile(filename);
 		mas = new MAS();
+		mas.setTraceDir(tracedir);
 		mas.addAg(juno);
 
 		return mas;

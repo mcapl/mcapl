@@ -27,7 +27,6 @@ package ail.syntax.ast;
 import java.util.ArrayList;
 
 import ail.mas.MAS;
-
 import gov.nasa.jpf.vm.MJIEnv;
 
 /**
@@ -110,8 +109,9 @@ public class Abstract_MAS  {
     * Create a concrete version of the MAS.
     * @return
     */
-   public MAS toMCAPL() {
+   public MAS toMCAPL(String tracedir) {
 	   MAS mas = new MAS();
+	   mas.setTraceDir(tracedir);
 	   if (agents != null) {
 		   for (Abstract_Agent ag: agents) {
 			   mas.addAg(ag.toMCAPL(mas));

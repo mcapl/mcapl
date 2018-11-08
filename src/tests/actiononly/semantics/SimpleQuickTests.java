@@ -23,21 +23,20 @@
 //----------------------------------------------------------------------------
 package actiononly.semantics;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import actiononly.ActionOnlyMASBuilder;
-import ajpf.MCAPLcontroller;
-import ail.mas.MAS;
 import actiononly.goal.GoalEnv;
+import ail.mas.MAS;
+import ajpf.MCAPLcontroller;
+import junit.framework.Assert;
 
 public class SimpleQuickTests {
 	@Test public void simpleagent() {
 		try {
 			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			ActionOnlyMASBuilder builder = new ActionOnlyMASBuilder();
-			MAS mas = builder.getMAS(abs_filename);
+			MAS mas = builder.getMAS(abs_filename, null);
 			GoalEnv env = new GoalEnv();
 			mas.setEnv(env);
 			env.init_before_adding_agents();
