@@ -375,7 +375,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     
 	// TODO: Louise has to do some Pathfinder magic here
 	protected void initializeTracing(String directory) {
-		this.trace = new EventStorage(fAgName, directory);
+		if (directory != null) {
+			this.trace = new EventStorage(fAgName, directory);
+		}
 	}
     
     
