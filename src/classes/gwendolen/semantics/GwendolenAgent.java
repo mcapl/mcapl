@@ -99,6 +99,7 @@ public class GwendolenAgent extends AILAgent {
 	 */
 	@Override
 	public void configure(AILConfig config) {
+		super.configure(config);
 		if (config.containsKey("ail.store_sent_messages")) {
 			String store_sent_messages = config.getProperty("ail.store_sent_messages");
 			if (store_sent_messages.equals("true")) {
@@ -107,9 +108,5 @@ public class GwendolenAgent extends AILAgent {
 				setStoreSentMessages(false);
 			}
 		}
-		
 	}
-	
-
-
 }

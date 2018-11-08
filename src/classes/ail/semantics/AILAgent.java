@@ -323,7 +323,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     public AILAgent(String name) {
     	this();
     	fAgName = name;
-    	trace = new EventStorage(name); // FIXME: only call if we actually want to trace -Vincent
      }
     
 
@@ -2228,14 +2227,23 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void MCAPLtellawake() {
 		tellawake();
-	}	
+	}
 	
+	// TODO: Louise has to do some Pathfinder magic here
+	protected void initializeTracing(String directory) {
+		this.trace = new EventStorage(fAgName, directory);
+	}
+
 	/**
 	 * Configure the agent.
+	 * 
 	 * @param c
 	 */
-	public void configure(AILConfig c) {};
-
-
-  
+	public void configure(AILConfig c) {
+		String tracing = (String) c.getOrDefault("tracing.enabled", "1"); // FIXME: put 0 as the default
+		if (tracing.equals("1")) {
+			String dir = (String) c.getOrDefault("tracing.directory", System.getProperty("user.dir"));
+			initializeTracing(dir);
+		}
+	}
 }

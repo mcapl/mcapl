@@ -25,11 +25,11 @@ public class EventStorage {
 	private final EventStorageWriter writer;
 	private int counter;
 
-	public EventStorage(final String agent) {
-		final File datafile = new File(agent + "_" + format.format(new Date()) + ".db"); // TODO: right dir?
-		// if (!datafile.getParentFile().exists()) {
-		// datafile.getParentFile().mkdirs();
-		// }
+	public EventStorage(final String agent, final String directory) {
+		final File datafile = new File(directory + File.separator + agent + "_" + format.format(new Date()) + ".db");
+		if (!datafile.getParentFile().exists()) {
+			datafile.getParentFile().mkdirs();
+		}
 		this.datafile = datafile;
 		// single-threaded memory-mapped file containing the event list
 		final DB database = DBMaker.fileDB(datafile).fileMmapEnable().fileMmapPreclearDisable().cleanerHackEnable()
