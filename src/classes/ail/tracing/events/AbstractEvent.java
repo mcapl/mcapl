@@ -6,6 +6,8 @@ import org.nustaq.serialization.FSTConfiguration;
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
 
+import ail.semantics.AILAgent;
+
 public abstract class AbstractEvent implements Comparable<AbstractEvent> {
 	@SuppressWarnings("unchecked")
 	public static FSTConfiguration getSerialization() {
@@ -20,6 +22,8 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent> {
 	abstract public List<String> getLookupData();
 
 	abstract public String getDescription();
+	
+	abstract public void execute(final AILAgent agent, final boolean reverse);
 
 	@Override
 	abstract public boolean equals(final Object other);

@@ -15,6 +15,7 @@ import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.IndexTreeList;
 
+import ail.semantics.AILAgent;
 import ail.tracing.events.AbstractEvent;
 
 public class EventStorage {
@@ -24,11 +25,11 @@ public class EventStorage {
 	private final EventStorageWriter writer;
 	private int counter;
 
-	protected EventStorage(final String agent) {
+	public EventStorage(final String agent) {
 		final File datafile = new File(agent + "_" + format.format(new Date()) + ".db"); // TODO: right dir?
-		if (!datafile.getParentFile().exists()) {
-			datafile.getParentFile().mkdirs();
-		}
+		//if (!datafile.getParentFile().exists()) {
+		//	datafile.getParentFile().mkdirs();
+		//}
 		this.datafile = datafile;
 		// single-threaded memory-mapped file containing the event list
 		final DB database = DBMaker.fileDB(datafile).fileMmapEnable().fileMmapPreclearDisable().cleanerHackEnable()
@@ -74,6 +75,30 @@ public class EventStorage {
 		if (close) {
 			this.storage.getStore().close();
 		}
+	}
+
+	public AbstractEvent oneStepBack(final AILAgent agent) {
+		if (this.counter > 0) {
+			final AbstractEvent previous = this.storage.get(--this.counter);
+			previous.execute(agent, true);
+			return previous;
+		} else {
+			throw new RuntimeException("cannot step back any further.");
+		}
+	}
+
+	public AbstractEvent oneStepForward(final AILAgent agent) {
+		if (this.counter < getMax()) {
+			final AbstractEvent next = this.storage.get(this.counter++);
+			next.execute(agent, false);
+			return next;
+		} else {
+			throw new RuntimeException("cannot step ahead any further.");
+		}
+	}
+
+	public AbstractEvent getCurrent() {
+		return this.storage.get(this.counter);
 	}
 
 	public List<AbstractEvent> getAll() {

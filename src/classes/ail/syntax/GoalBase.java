@@ -81,7 +81,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
      * Add a goal to the goal base.
      * 
      */
-    public void add(Goal gin) {
+    public boolean add(Goal gin) {
        	Goal g = (Goal) gin.strip_varterm();
          
        	Set<Goal> entry = goalMap.get(g.getPredicateIndicator());
@@ -89,11 +89,11 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
        		entry = new VerifySet<Goal>();
        		goalMap.put(g.getPredicateIndicator(), entry);
        	}
-       	int entrysize = entry.size();
-       	entry.add(g); 
-       	if (entry.size() != entrysize) {
+       	boolean added = entry.add(g); 
+       	if (added) {
        		size++;
        	}
+       	return added;
      }
 
     /**
