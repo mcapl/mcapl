@@ -508,6 +508,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * 
 	 */
 	public void addBel(Literal bel, AILAnnotation s) {
+		// EXPLANATION EVENT: A belief bel with annotation s is added to the default belief base.
 		bel.addAnnot(s);   
 		getBB().add(bel);
 	}
@@ -517,6 +518,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param bel
 	 */
 	public void delBel(Literal bel) {
+		// EXPLANATION EVENT: A belief bel is removed from the default belief base.
+		// NB. no check that the belief was in the belief base.
 		getBB().remove(bel);
 	}
 
@@ -526,6 +529,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param bel
 	 */
 	public void delBel(StringTerm dbnum, Literal bel) {
+		// EXPLANATION EVENT: A belief bel is removed from beliefbase dbnum
+		// NB. no check that the belief was in the belief base
 		getBB(dbnum).remove(bel);
 	}
 	   
@@ -536,6 +541,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param n
 	 */
 	public void addBel(Literal bel, AILAnnotation s, String n) {
+		// EXPLANATION EVENT: a belief bel with annotation s is added to belief base n.
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
@@ -544,12 +550,13 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	}
   
 	/**
-	 * Adds a belief to teh belief base indexed by n.
+	 * Adds a belief to the belief base indexed by n.
 	 * @param bel
 	 * @param s
 	 * @param n
 	 */
 	public void addBel(Literal bel, AILAnnotation s, StringTerm n) {
+		// EXPLANATION EVENT: a belief bel with annotation s is added to belief base n.
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
@@ -602,6 +609,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	//--Goals
 	
 	public void addGoal(Goal g) {
+		// EXAPLANATION EVENT: goal g is added to a goalbase (which is encoded in the Goal object itself)
 		StringTerm goalbase = g.getGoalBase();
 		if (gbmap.containsKey(goalbase.getString())) {
 			gbmap.get(goalbase.getString()).add(g);
@@ -690,6 +698,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param g
 	 */
 	public void removeGoal(Goal g) {
+		// EXPLANATION EVENT: Goal g is removed from its goal base.
 		GoalBase gb = gbmap.get(g.getGoalBase().getString());
 		if (gb != null) {
 			gb.remove(g);
@@ -723,6 +732,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
  	 * @param ap
  	 */
  	public void setApplicableCapabilities(Iterator<Capability> cs) {
+ 		// EXPLANATION EVENT: Create a list of currently applicable capabilities.
+ 		// Hardly anything uses capabilities at the moment, let alone reasons about their applicability.
+ 		// This is not a priorty.
  		AC = cs;
  	}
  	
@@ -797,6 +809,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @throws AILexception
 	 */
 	public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
+		// EXPLANATION EVENT: Theoretically plans can be added during execution.  In practice this is never used.
+		// Leaving note here as a placeholder but don't think this is a priority
 		p.setSource(s);
 		getPL().add(p);
 	}
@@ -808,6 +822,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @throws AILexception
 	 */
 	public void addPlan(Plan p) throws AILexception {
+		// EXPLANATION EVENT: Theoretically plans can be added during execution.  In practice this is never used.
+		// Leaving note here as a placeholder but don't think this is a priority
 		p.setSource(refertoself());
 		getPL().add(p);
 	}
@@ -839,6 +855,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
  	 * @param ap
  	 */
  	public void setApplicablePlans(Iterator<ApplicablePlan> ap) {
+ 		// EXPLANATION EVENT: Set the list of plans that are applicable to the current agent mental state
+ 		// One of these will be chosen in the next step, but this iterator of actually applicable ones is
+ 		// potentially useful to know in debugging - unfortunately its an iterator not a list :(
  		AP = ap;
  	}
  	
@@ -908,6 +927,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param i the new current intention.
 	 */
 	public void setIntention(Intention i) {
+		// EXPLANATION EVENT: i has been chosen as the current intention.
 		I = i;
 	}
    
@@ -926,6 +946,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param is  return the set of intentions.
 	 */
 	public void setIntentions(ArrayList<Intention> is) {
+		// EXPLANATION EVENT: set is as the list of all intentions except the current one.
 		Is = is;
 	}
 	
@@ -952,6 +973,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param s The agent to be added.
      */
     public void addContent(String s) {
+    	// EXPLANATION EVENT: Set a new content for the agent
+    	// Nothing uses this machinery at present - ignore.
     	if (! getContent().contains(s)) {
     		content.add(s);
     	}
@@ -962,6 +985,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param s the agent to be removed.
      */
     public void removeContent(String s) {
+    	// EXPLANATION EVENT: Remove content s from the agent.
+    	// Nothing uses this machinery at present - ignore.
     	content.remove(s);
     }
     
@@ -978,6 +1003,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param s the agent's context.
      */
     public void setContext(List<String> s) {
+    	// EXPLANATION EVENT: Set a new context for the agent
+    	// Nothing uses this machinery at present - ignore.
     	context = s;
     }
     
@@ -996,6 +1023,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param s the agent to remove.
      */
     public void removeContext(String s) {
+       	// EXPLANATION EVENT: Remove the agent from context s.
+    	// Nothing uses this machinery at present - ignore.
     	context.remove(s);
     }
     
@@ -1069,6 +1098,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param msgs the new messages for the inbox.
 	 */
 	public void newMessages(Set<Message> msgs) {
+		// EXPLANATION EVENT: Add a list of messages to the inbox.
 		Inbox.addAll(msgs);
 		// This seems pointless but improves state matching in model checking.
 		// Otherwise the Inbox is represented as an array list of nulls.
@@ -1082,6 +1112,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *
 	 */
 	public void clearInbox() {
+		// EXPLANATION EVENT: Clear the inbox.
 		Inbox = new ArrayList<Message>();
 	}
 	
@@ -1099,6 +1130,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param msgs
 	 */
 	public void setOutbox(List<Message> msgs) {
+		// EXPLANATION EVENT: Add a list of messages to the outbox.
+		// Might not want the event here but in newSentMessages
 		Outbox = msgs;
 	}
 	
@@ -1133,6 +1166,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 					done = true;
 					break;
 				} else if (msg.compareTo(msgl.get(i)) < 0) {
+					// EXPLANATION EVENT:  if msg was a genuinely new message it is added to the set of messages in the outbox.
 					msgl.add(i, msg);
 					done = true;
 					break;
@@ -1331,6 +1365,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param g the new initial Goal.
      */
     public void addInitialGoal(Goal g) {
+    	// EXPLANATION EVENT: Add an initial goal - not sure if this is necessary since it should only be invoked at the start.
     	Intention i = new Intention(g, refertoself());
     	getIntentions().add(i);
     }
@@ -1341,7 +1376,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param b the new belief.
      */
     public void addInitialBel(Literal b) {
-    	b.addAnnot(refertoself());
+       	// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary since it should only be invoked at the start.
+   	b.addAnnot(refertoself());
     	GroundPredSets.check_add(b);
     	getBB().add(b);
     }
@@ -1352,6 +1388,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param s
      */
     public void addInitialBel(Literal b, String s) {
+       	// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary since it should only be invoked at the start.
     	b.addAnnot(refertoself());
     	GroundPredSets.check_add(b);
     	getBB().add(b);
@@ -1379,6 +1416,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @param i
      */
     public void addNewIntention(Intention i) {
+    	// EXPLANATION EVENT: Add a new intention to the set of non-current intention.
     	getIntentions().add(i);
     }
     
@@ -1396,6 +1434,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
     	while (ii.hasNext()) {
     		Intention ip = ii.next();
+    		// Remove empty/redundant intentions.
     		// Need a more principled way to handle this with select intention
     		if (!(ip == null) && (ip.empty() || ip.suspended())) {
      			ii.remove();
@@ -1405,6 +1444,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     		}
     	}
         
+    	// EXPLANATION EVENT: Having performed a little tidying on intentions above, we now select
+    	// i as the new candidate current intention - it is the first in the list of intentions unless that
+    	// list is empty in which case it is null.  This isn't actually made the current intention here - that
+    	// happens in the object representing the transition - but this is where the selection takes place which
+    	// may (or may not) be important.
     	Intention i;
     	if (intentions.isEmpty()) {
     		i = null;
@@ -1439,6 +1483,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *
 	 */
 	public void unsuspendintentions() {
+		// EXPLANATION EVENT: All intentions are unsuspended.  We may want to know when this happens but it is probably low priority.
 		if (I != null) {
 			I.unsuspend();
 		}
@@ -1483,6 +1528,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @return
      */
     public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
+    	// EXPLANATION EVENT: This is where a plan is chosen from the list of applicable plans.
+    	// Usually this is just the first plan returned by the iterator (see else statement) but
+    	// we have had applications where we tried to be more clever - I suggest this is a lower 
+    	// priority however.
     	if (trackplanusage) {
     		int currentvalue = 0;	
     		ApplicablePlan candidate = null;
@@ -1590,6 +1639,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      * @return A linked list of all plans that are applicable.
      */
     public final Iterator<ApplicablePlan> appPlans(final Intention i) {
+    	// EXPLANATION EVENT: This is where the iterator of applicable plans is created.
+    	// Not sure how useful it is an event but it could be important but it may be
+    	// more important to look in matchPlans and continuePlans.
     	if (i!= null && !i.empty()) {
     		
     		return new Iterator<ApplicablePlan>() {
@@ -1640,6 +1692,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      *         the agent's current plans.
      */
 	private final ArrayList<ApplicablePlan> continuePlans(Intention i) {
+		// EXPLANATION EVENT: This method generates an iterature of applicable plans
+		// which represent continuing processing of an existing intention.
 		ArrayList<ApplicablePlan> cp = new ArrayList<ApplicablePlan>();
 		
 		Deed d = (Deed) i.hdD().clone();
@@ -1696,6 +1750,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *         to the intention.
 	 */
 	private final Iterator<ApplicablePlan> matchPlans(Intention i) {
+		// EXPLANATION EVENT: Creating an iterator of all new plans that apply to the current intention
+		// in general this means the current intention has a top deed that represents "no plan yet" and
+		// in general intentions are created from events as having "no plan yet".
 		boolean realintention = true;
 		if (i != null && i.empty()) {
 			realintention = false;
@@ -1705,14 +1762,13 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return mp.iterator();
 		}
 		Event ple = null;
-	//	Unifier vc = new Unifier();
 		if (realintention) {
 			ple = i.hdE();
-			//plec.apply(i.hdU());
-		//	pl = getAllRelevantPlans(ple).iterator();
-		//	vc = i.hdU().varClusters();
+			// If there is an event get all plans which are relevant to the event
+			// This usually means that they have the same predicate/arity key as the event.
 			return getAllRelevantPlans(ple);
 		} else {
+			// If there isn't a specific event then return all plans that don't refer to a specific event.
 			ple = new Event(Event.AILAddition, new Goal("Any", Goal.achieveGoal));
 			return getAllReactivePlans(ple);
 		//	pl = getAllReactivePlans(ple).iterator();
@@ -1814,6 +1870,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				
 					if (rule.checkPreconditions(this)) {
 						stagerulefound = true;
+						// EXPLANATION EVENT: A transition in the reasoning cycle occurs.
 						rule.apply(this);
 						lastruleexecuted = rule.getName();
 						if (AJPFLogger.ltFine(logname)) {
@@ -1843,6 +1900,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * Stop the agent completely.
 	 */
 	public void stop() {
+		// EXPLANATION EVENT: The scheduler is informed that this agent has completely finished executing and is not to be scheduled again.
 	 	fRunning = false;
 	 	getEnv().getScheduler().doNotSchedule(getAgName());
 	}
