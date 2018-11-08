@@ -625,7 +625,7 @@ public class PlanLibrary {
     		if (lc != null) {
     			lc.remove(p);
     			if (lc.size() == 0) {
-    				relPlans.remove(lc);
+    				relPlans.remove(pi);
     			}
     	    }  		
     	}
