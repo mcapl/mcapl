@@ -14,6 +14,7 @@ import java.util.Set;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.IndexTreeList;
+import org.mapdb.Store;
 
 import ail.semantics.AILAgent;
 import ail.tracing.events.AbstractEvent;
@@ -72,8 +73,9 @@ public class EventStorage {
 		if (this.writer != null) {
 			this.writer.finish();
 		}
-		if (close) {
-			this.storage.getStore().close();
+		Store store = this.storage.getStore();
+		if (close && !store.isClosed()) {
+			store.close();
 		}
 	}
 
