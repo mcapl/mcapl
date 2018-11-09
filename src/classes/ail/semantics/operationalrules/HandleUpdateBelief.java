@@ -29,10 +29,13 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Literal;
 import ail.syntax.PredicateIndicator;
 import ail.syntax.PredicateTerm;
-
+import ail.syntax.StringTerm;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -68,22 +71,23 @@ public class HandleUpdateBelief extends HandleBelief {
 	 */
 	public void apply(AILAgent a) {
 		i.tlI(a);
-		Iterator<PredicateTerm> bl = a.getBB(topdeed.getDBnum()).iterator();
+		StringTerm db = topdeed.getDBnum();
+		Iterator<PredicateTerm> bl = a.getBB(db).iterator();
 		PredicateIndicator pi = b.getPredicateIndicator();
-		
 		while (bl.hasNext()) {
 			// Since this comes from a belief base it should be a literal, but there really ought to be some kind of a check here.
 			Literal bp = (Literal) bl.next();
 			Unifier un = new Unifier();
 			PredicateIndicator bpi = bp.getPredicateIndicator();
-						
 			if (a.relevant(bp, b)) {
 				if (bpi.equals(pi)) {
-					a.delBel(topdeed.getDBnum(), bp);
+					if (a.delBel(db, bp)) {
+						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
+						a.trace(new ModificationEvent(delBel));
+					}
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
-								
 					thetahd.compose(un);
 				}
 			}
@@ -93,7 +97,10 @@ public class HandleUpdateBelief extends HandleBelief {
 		i.compose(thetahd);
 		b.apply(thetahd);
 	
-		a.addBel(b, AILAgent.refertoself(), topdeed.getDBnum());
+		if (a.addBel(b, AILAgent.refertoself(), db)) {
+			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, db.toString(), b, null);
+			a.trace(new ModificationEvent(addBel));
+		}
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, a.getAgName() + " added " + b);
 		}

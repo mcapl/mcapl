@@ -21,9 +21,10 @@ public abstract class AbstractEvent implements Comparable<AbstractEvent> {
 
 	abstract public List<String> getLookupData();
 
-	abstract public String getDescription();
-
 	abstract public void execute(final AILAgent agent, final boolean reverse);
+
+	@Override
+	abstract public String toString();
 
 	@Override
 	abstract public boolean equals(final Object other);

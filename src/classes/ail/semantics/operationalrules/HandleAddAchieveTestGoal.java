@@ -28,6 +28,9 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Goal;
 
 
@@ -62,18 +65,22 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
-		
+		Iterator<Unifier> ui2 = a.believes(g.achievedBelief(), new Unifier());
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
-			
 			i.tlI(a);
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
 			i.compose(thetahd);
-			a.removeGoal((Goal) topdeed.getContent());
+			if (a.removeGoal(g)) {
+				ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
+				a.trace(new ModificationEvent(removeGoal));
+			}
 		} else {
-			a.addGoal((Goal) topdeed.getContent());
+			if (a.addGoal(g)) {
+				ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
+				a.trace(new ModificationEvent(addGoal));
+			}
 			i.tlI(a);
 			thetahd.compose(thetab);
 			i.compose(thetahd);

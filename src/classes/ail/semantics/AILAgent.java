@@ -29,13 +29,10 @@ package ail.semantics;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
@@ -68,6 +65,7 @@ import ail.syntax.VarTerm;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
 import ail.tracing.EventStorage;
+import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.BaseType;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
@@ -379,6 +377,12 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			this.trace = new EventStorage(fAgName, directory);
 		}
 	}
+	
+	public void trace(AbstractEvent event) {
+		if (this.trace != null) {
+			this.trace.write(event);
+		}
+	}
     
     
     /**
@@ -519,28 +523,20 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * Adds a belief to the belief base annotating it with a source.
 	 * 
 	 */
-	public void addBel(Literal bel, AILAnnotation s) {
+	public boolean addBel(Literal bel, AILAnnotation s) {
 		// EXPLANATION EVENT: A belief bel with annotation s is added to the default belief base.
 		bel.addAnnot(s);   
-		boolean success = getBB().add(bel);
-		if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, bel, null);
-			trace.write(new ModificationEvent(addBel));
-		}
+		return getBB().add(bel);
 	}
    
 	/**
 	 * Remove a literal from the default belief base.
 	 * @param bel
 	 */
-	public void delBel(Literal bel) {
+	public boolean delBel(Literal bel) {
 		// EXPLANATION EVENT: A belief bel is removed from the default belief base.
 		// NB. no check that the belief was in the belief base.
-		boolean success = getBB().remove(bel);
-		if (success && trace != null) {
-			ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, bel);
-			trace.write(new ModificationEvent(delBel));
-		}
+		return getBB().remove(bel);
 	}
 
 	/** 
@@ -548,14 +544,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param dbnum
 	 * @param bel
 	 */
-	public void delBel(StringTerm dbnum, Literal bel) {
+	public boolean delBel(StringTerm dbnum, Literal bel) {
 		// EXPLANATION EVENT: A belief bel is removed from beliefbase dbnum
 		// NB. no check that the belief was in the belief base
-		boolean success = getBB(dbnum).remove(bel);
-		if (success && trace != null) {
-			ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, dbnum.getString(), null, bel);
-			trace.write(new ModificationEvent(delBel));
-		}
+		return getBB(dbnum).remove(bel);
 	}
 	   
 	/**
@@ -564,17 +556,13 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param s
 	 * @param n
 	 */
-	public void addBel(Literal bel, AILAnnotation s, String n) {
+	public boolean addBel(Literal bel, AILAnnotation s, String n) {
 		// EXPLANATION EVENT: a belief bel with annotation s is added to belief base n.
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
 		bel.addAnnot(s);   
-		boolean success = getBB(n).add(bel);
-		if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, n, bel, null);
-			trace.write(new ModificationEvent(addBel));
-		}
+		return getBB(n).add(bel);
 	}
   
 	/**
@@ -583,17 +571,13 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param s
 	 * @param n
 	 */
-	public void addBel(Literal bel, AILAnnotation s, StringTerm n) {
+	public boolean addBel(Literal bel, AILAnnotation s, StringTerm n) {
 		// EXPLANATION EVENT: a belief bel with annotation s is added to belief base n.
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
 		bel.addAnnot(s);   
-		boolean success = getBB(n.getString()).add(bel);
-		if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, n.getString(), bel, null);
-			trace.write(new ModificationEvent(addBel));
-		}
+		return getBB(n.getString()).add(bel);
 	}
 
 	/**
@@ -640,19 +624,14 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 	//--Goals
 	
-	public void addGoal(Goal g) {
+	public boolean addGoal(Goal g) {
 		// EXPLANATION EVENT: goal g is added to a goalbase (which is encoded in the Goal object itself)
 		StringTerm goalbase = g.getGoalBase();
-		boolean success = false;
 		if (gbmap.containsKey(goalbase.getString())) {
-			success = gbmap.get(goalbase.getString()).add(g);
+			return gbmap.get(goalbase.getString()).add(g);
 		} else {
 			gbmap.put(goalbase.getString(), new GoalBase());
-			success = gbmap.get(goalbase.getString()).add(g);			
-		}
-		if (success && trace != null) {
-			ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
-			trace.write(new ModificationEvent(addGoal));
+			return gbmap.get(goalbase.getString()).add(g);			
 		}
 	}
 	
@@ -665,7 +644,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		for (GoalBase g: gbmap.values()) {
 			gs.addAll(g.getAll());
 		}
-		
 		return gs.iterator();
 	}
 	
@@ -734,18 +712,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * Remove a Goal.
 	 * @param g
 	 */
-	public void removeGoal(Goal g) {
+	public boolean removeGoal(Goal g) {
 		// EXPLANATION EVENT: Goal g is removed from its goal base.
 		StringTerm goalbase = g.getGoalBase();
 		GoalBase gb = gbmap.get(goalbase.getString());
-		boolean success = false;
-		if (gb != null) {
-			success = gb.remove(g);
-		}
-		if (success && trace != null) {
-			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
-			trace.write(new ModificationEvent(removeGoal));
-		}
+		return (gb == null) ? false : gb.remove(g);
 	}
 	
 	//--Capabilities
@@ -1142,16 +1113,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void newMessages(Set<Message> msgs) {
 		// EXPLANATION EVENT: Add a list of messages to the inbox.
-		Set<Message> addList = Sets.difference(msgs, new HashSet<>(Inbox));
-		boolean success = !addList.isEmpty() && Inbox.addAll(addList);
-		if (success && trace != null) {
-			List<Predicate> predicates = new ArrayList<>(addList.size());
-			for (Message msg : addList) {
-				predicates.add(msg.toTerm());
-			} // FIXME: you'd only want the actual new messages here
-			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
-			trace.write(new ModificationEvent(newMessages));
-		}
+		Inbox.addAll(msgs);
 		// This seems pointless but improves state matching in model checking.
 		// Otherwise the Inbox is represented as an array list of nulls.
 		if (Inbox.isEmpty()) {
@@ -1165,14 +1127,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void clearInbox() {
 		// EXPLANATION EVENT: Clear the inbox.
-		if (!Inbox.isEmpty() && trace != null) {
-			List<Predicate> predicates = new ArrayList<>(Inbox.size());
-			for (Message msg : Inbox) {
-				predicates.add(msg.toTerm());
-			}
-			ModificationAction removeMessages = new ModificationAction(BaseType.INBOX, null, null, predicates);
-			trace.write(new ModificationEvent(removeMessages));
-		}
 		Inbox = new ArrayList<Message>();
 	}
 	
@@ -1214,8 +1168,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * 
 	 * @param msg The new sent message.
 	 */
-	public void newSentMessage(Message msg) {
-		boolean success = false;
+	public boolean newSentMessage(Message msg) {
+		boolean stored = false;
 		if (store_sent_messages) {
 			List<Message> msgl = getOutbox();
 			boolean done = false;
@@ -1227,7 +1181,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				} else if (msg.compareTo(msgl.get(i)) < 0) {
 					// EXPLANATION EVENT: if msg was a genuinely new message it is added to the set of messages in the outbox.
 					msgl.add(i, msg);
-					success = true;
+					stored = true;
 					done = true;
 					break;
 				}
@@ -1240,10 +1194,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			
 			Outbox = msgl;
 		}
-		if (success && trace != null) {
-			ModificationAction newMessage = new ModificationAction(BaseType.OUTBOX, null, msg.toTerm(), null);
-			trace.write(new ModificationEvent(newMessage));
-		}
+		return stored;
 	}
     
 	//--- Reasoning Cycle
@@ -1430,7 +1381,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
      */
     public void addInitialGoal(Goal g) {
     	// EXPLANATION EVENT: Add an initial goal - not sure if this is necessary since it should only be invoked at the start.
-    	// This only creates the intention to add a goal? -Vincent
+    	// TODO: this only creates the intention to add a goal? -Vincent
     	Intention i = new Intention(g, refertoself());
     	getIntentions().add(i);
     }
@@ -1446,8 +1397,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     	GroundPredSets.check_add(b);
     	boolean success = getBB().add(b);
     	if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
-			trace.write(new ModificationEvent(addBel));
+			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
+			trace(new ModificationEvent(initBel));
 		}
     }
 
@@ -1462,8 +1413,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     	GroundPredSets.check_add(b);
     	boolean success = getBB(s).add(b);
     	if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, s, b, null);
-			trace.write(new ModificationEvent(addBel));
+			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, s, b, null);
+			trace(new ModificationEvent(initBel));
 		}
     }
     

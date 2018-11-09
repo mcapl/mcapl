@@ -33,6 +33,9 @@ import ail.syntax.Goal;
 import ail.syntax.Intention;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Event;
 import ail.syntax.Guard;
 import ail.syntax.DefaultAILStructure;
@@ -99,7 +102,10 @@ public class ApplyApplicablePlans implements OSRule {
                             gcloned.apply(i.hdU());
                             i.dropP(p.getN());
                             if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
-                                    a.removeGoal(gcloned);
+                            	if (a.removeGoal(gcloned)) {
+                        			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, gcloned);
+                        			a.trace(new ModificationEvent(removeGoal));
+                        		}
                             }
                     } else {
                             i.dropP(p.getN());

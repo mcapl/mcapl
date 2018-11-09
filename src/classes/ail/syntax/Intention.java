@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import ail.syntax.annotation.SourceAnnotation;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.semantics.AILAgent;
 
 /**
@@ -728,7 +731,10 @@ public class Intention implements Comparable<Intention>{
 			gcloned.apply(hdU());
 			dropP(1);
 			if (empty() || !hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
-				ag.removeGoal(gcloned);
+				if (ag.removeGoal(gcloned)) {
+					ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, gcloned);
+					ag.trace(new ModificationEvent(removeGoal));
+				}
 			}
 		} else {
 			dropP(1);

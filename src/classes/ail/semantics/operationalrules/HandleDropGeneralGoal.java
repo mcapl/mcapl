@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import ail.semantics.AILAgent;
 import ail.syntax.Goal;
 import ail.syntax.Unifier;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Event;
 import ail.syntax.Intention;
 
@@ -120,9 +123,9 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 					if (!flag) {
 						if (thetae.matchesNG(e3, goal_addition_event)) {
 							flag = true;
-							}
 						}
 					}
+				}
 				
 				
 				if (flag) {
@@ -138,10 +141,11 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 			i.tlI(a);
 		}
 		
-	//	a.removeGoal(g);
 		for (Goal sg: subgoals) {
-			a.removeGoal(sg);
+			if (a.removeGoal(sg)) {
+				ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, sg);
+				a.trace(new ModificationEvent(removeGoal));
+			}
 		}
-
 	}
 }

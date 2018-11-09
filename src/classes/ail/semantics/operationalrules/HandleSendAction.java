@@ -29,6 +29,9 @@ import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Action;
 import ail.syntax.SendAction;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Event;
 
 /**
@@ -71,7 +74,10 @@ public class HandleSendAction extends HandleActionwProblem {
 		if (succeeded) {
 			Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
 			a.getIntentions().add(i);
-			a.newSentMessage(varless_msg);
+			if (a.newSentMessage(varless_msg)) {
+				ModificationAction newMessage = new ModificationAction(BaseType.OUTBOX, null, msg.toTerm(), null);
+				a.trace(new ModificationEvent(newMessage));
+			}
 		}
 	}
 }

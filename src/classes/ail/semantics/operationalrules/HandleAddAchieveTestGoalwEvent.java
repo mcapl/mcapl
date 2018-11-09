@@ -30,6 +30,9 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.GBelief;
@@ -68,11 +71,9 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
-		
+		Iterator<Unifier> ui2 = a.believes(g.achievedBelief(), new Unifier());
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
-			
 			i.tlI(a);
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
@@ -85,21 +86,22 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			for (Intention ip: is) {
 				for (Event e3: ip.eventsUnified()) {
 					if (!flag & e3.referstoGoal()) {
-						if (thetahd.matchesNG((Goal) e3.getContent(), (Goal) topdeed.getContent())) {
+						if (thetahd.matchesNG((Goal) e3.getContent(), g)) {
 							flag = true;
 							break;
 						}
 					}
 				}
-				
 				if (flag) {
 					break;
 				}
-				
 			}
 
-			if (!flag ) {
-				a.removeGoal((Goal) topdeed.getContent());
+			if (!flag) {
+				if (a.removeGoal(g)) {
+					ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
+					a.trace(new ModificationEvent(removeGoal));
+				}
 			}
 		} else {
 			Iterator<Goal> goal_it = a.getGoals();
@@ -117,7 +119,10 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 				}
 			}
 
-			a.addGoal((Goal) topdeed.getContent());
+			if (a.addGoal(g)) {
+				ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
+				a.trace(new ModificationEvent(addGoal));
+			}
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 		}	
 	}

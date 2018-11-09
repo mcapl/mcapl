@@ -75,11 +75,12 @@ public class EventStorage {
 		}
 		Store store = this.storage.getStore();
 		if (close && !store.isClosed()) {
+			//System.out.println(storage);
 			store.close();
 		}
 	}
 
-	public AbstractEvent oneStepBack(final AILAgent agent) { // agent.trace needs to be null!
+	public AbstractEvent oneStepBack(final AILAgent agent) {
 		if (this.counter > 0) {
 			final AbstractEvent previous = this.storage.get(--this.counter);
 			previous.execute(agent, true);
@@ -89,7 +90,7 @@ public class EventStorage {
 		}
 	}
 
-	public AbstractEvent oneStepForward(final AILAgent agent) { // agent.trace needs to be null!
+	public AbstractEvent oneStepForward(final AILAgent agent) {
 		if (this.counter < getMax()) {
 			final AbstractEvent next = this.storage.get(this.counter++);
 			next.execute(agent, false);

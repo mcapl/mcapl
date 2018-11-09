@@ -29,10 +29,13 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.Literal;
 import ail.syntax.Event;
 import ail.syntax.PredicateTerm;
-
+import ail.syntax.StringTerm;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -58,7 +61,8 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 	 * @see ail.semantics.operationalrules.HandleDropBelief#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {	
-		Iterator<PredicateTerm> bl = a.getBB().getRelevant(b, AILAgent.SelectionOrder.LINEAR);
+		StringTerm db = topdeed.getDBnum();
+		Iterator<PredicateTerm> bl = a.getBB(db).getRelevant(b, AILAgent.SelectionOrder.LINEAR);
 				
 		while (bl.hasNext()) {
 			Literal bp = (Literal) bl.next();
@@ -66,18 +70,18 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 						
 			if (a.relevant(bp, b)) {
 				if (un.sunifies(b, bp)) {
-					a.delBel(topdeed.getDBnum(), bp);
+					a.delBel(db, bp);
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
+					ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
+					a.trace(new ModificationEvent(delBel));
 					a.getIntentions().add(new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself()));
 					thetahd.compose(thetab);
 					thetahd.compose(un);
-
 				}
 			}
 		}
-		
 		
 		i.tlI(a);
 		i.compose(thetahd);

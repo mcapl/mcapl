@@ -25,8 +25,12 @@
 package ail.semantics.operationalrules;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
+
+import com.google.common.collect.Sets;
 
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
@@ -37,6 +41,9 @@ import ail.syntax.Event;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ail.syntax.BeliefBase;
 
 import ajpf.util.AJPFLogger;
@@ -87,7 +94,6 @@ public class DirectPerceptionwEvents implements OSRule {
 		}
 				
 		if (percepts != null) {
-
 			// First work through the agents current perceptions.
 			// Create an intention to remove any no longer perceived.
 			// Any literal in percepts which was previously perceived, discard to avoid duplication.
@@ -101,7 +107,10 @@ public class DirectPerceptionwEvents implements OSRule {
 				if (! percepts.contains(l)) {
 					Literal lit = new Literal(true, new PredicatewAnnotation(l));
 					lit.addAnnot(BeliefBase.TPercept);
-					a.delBel(lit);
+					if (a.delBel(lit)) {
+						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
+						a.trace(new ModificationEvent(delBel));
+					}
 					a.addNewIntention(new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept()));
 					a.tellawake();
 					if (AJPFLogger.ltFine(logname)) {
@@ -118,7 +127,10 @@ public class DirectPerceptionwEvents implements OSRule {
 			for (Predicate l: percepts) {
 				Literal k = new Literal(true, new PredicatewAnnotation(l.clone()));
 				additions = true;
-				a.addBel(k, AILAgent.refertopercept());
+				if (a.addBel(k, AILAgent.refertopercept())) {
+					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, k, null);
+					a.trace(new ModificationEvent(addBel));
+				}
 				// Don't let new intention get dropped totally if things change.
 				a.addNewIntention(new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself()));
 				a.tellawake();
@@ -138,6 +150,16 @@ public class DirectPerceptionwEvents implements OSRule {
 			}
 		}
 		
+		Set<Message> previous = new TreeSet<>(a.getInbox());
+		Set<Message> addList = Sets.difference(messages, previous);
 		a.newMessages(messages);
+		if (!addList.isEmpty()) {
+			List<Predicate> predicates = new ArrayList<>(addList.size());
+			for (Message msg : addList) {
+				predicates.add(msg.toTerm());
+			}
+			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
+			a.trace(new ModificationEvent(newMessages));
+		}
 	}
 } 

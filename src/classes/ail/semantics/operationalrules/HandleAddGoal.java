@@ -25,6 +25,9 @@
 package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 
 /**
  * Abstract class for  handling deeds of the form +!g where the type of g is unknown.
@@ -58,8 +61,9 @@ public class HandleAddGoal extends HandleGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		a.addGoal(g);
+		if (a.addGoal(g)) {
+			ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
+			a.trace(new ModificationEvent(addGoal));
+		}
 	}
-
-
 }

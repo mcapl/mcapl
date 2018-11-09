@@ -26,7 +26,13 @@ package ail.semantics.operationalrules;
 
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.google.common.collect.Sets;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
@@ -35,6 +41,9 @@ import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 
 
 /**
@@ -78,7 +87,6 @@ public class DirectPerception implements OSRule {
 		// if percepts == null then there is no change in the agent's perceptions.
 		// System.err.println(percepts);
 		if (percepts != null) {
-
 			// First work through the agents current perceptions.
 			// Remove any no longer perceived.
 			// Any literal in percepts which was previously perceived, discard to avoid duplication.
@@ -86,9 +94,11 @@ public class DirectPerception implements OSRule {
 			Set<Literal> removed_percepts = new TreeSet<Literal>();
 			while (percept_iterator.hasNext()) {
 				Literal l = percept_iterator.next();
-				if (! percepts.contains(l)) {
-														
-					a.delBel(l);
+				if (! percepts.contains(l)) {		
+					if (a.delBel(l)) {
+						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
+						a.trace(new ModificationEvent(delBel));
+					}
 					a.tellawake();
 					removed_percepts.add(l);
 				} else {
@@ -98,10 +108,14 @@ public class DirectPerception implements OSRule {
 		
 			// Add all the remaining perceptions (i.e., the new ones) as intentions.
 			boolean additions = false;
-			for (Predicate l: percepts) {
+			for (Predicate l : percepts) {
 				Predicate k = (Predicate) l.clone();
 				additions = true;
-				a.addBel(new Literal(k), AILAgent.refertopercept());
+				Literal add = new Literal(k);
+				if (a.addBel(add, AILAgent.refertopercept())) {
+					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, add, null);
+					a.trace(new ModificationEvent(addBel));
+				}
 				a.tellawake();
 			}
 			
@@ -113,10 +127,17 @@ public class DirectPerception implements OSRule {
 
 		}
 		
-		Set<Message> msglist = new TreeSet<Message>();
-
-		msglist.addAll(messages);
+		Set<Message> previous = new TreeSet<>(a.getInbox());
+		Set<Message> msglist = new TreeSet<>(messages);
+		Set<Message> addList = Sets.difference(msglist, previous);
 		a.newMessages(msglist);
-		
+		if (!addList.isEmpty()) {
+			List<Predicate> predicates = new ArrayList<>(addList.size());
+			for (Message msg : addList) {
+				predicates.add(msg.toTerm());
+			}
+			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
+			a.trace(new ModificationEvent(newMessages));
+		}
 	}
 } 

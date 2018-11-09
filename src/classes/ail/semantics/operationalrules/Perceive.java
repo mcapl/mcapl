@@ -24,26 +24,30 @@
 
 package ail.semantics.operationalrules;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Iterator;
+
+import com.google.common.collect.Sets;
 
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
+import ail.syntax.Deed;
+import ail.syntax.Event;
+import ail.syntax.GBelief;
+import ail.syntax.Guard;
 import ail.syntax.Intention;
+import ail.syntax.Literal;
+import ail.syntax.Message;
+import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
-import ail.syntax.Message;
-import ail.syntax.Literal;
-import ail.syntax.Event;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
-import ail.syntax.GBelief;
-import ail.syntax.Predicate;
-
+import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
 
@@ -132,9 +136,18 @@ public class Perceive implements OSRule {
 			}
 		}
 		
-		Set<Message> msglist = new TreeSet<Message>();			
-		msglist.addAll(messages);
+		Set<Message> previous = new TreeSet<>(a.getInbox());
+		Set<Message> msglist = new TreeSet<>(messages);
+		Set<Message> addList = Sets.difference(msglist, previous);
 		a.newMessages(msglist);
+		if (!addList.isEmpty()) {
+			List<Predicate> predicates = new ArrayList<>(addList.size());
+			for (Message msg : addList) {
+				predicates.add(msg.toTerm());
+			}
+			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
+			a.trace(new ModificationEvent(newMessages));
+		}
 		if (! messages.isEmpty()) {
 			a.tellawake();
 		}
