@@ -79,7 +79,7 @@ public class EventStorage {
 		}
 	}
 
-	public AbstractEvent oneStepBack(final AILAgent agent) {
+	public AbstractEvent oneStepBack(final AILAgent agent) { // agent.trace needs to be null!
 		if (this.counter > 0) {
 			final AbstractEvent previous = this.storage.get(--this.counter);
 			previous.execute(agent, true);
@@ -89,7 +89,7 @@ public class EventStorage {
 		}
 	}
 
-	public AbstractEvent oneStepForward(final AILAgent agent) {
+	public AbstractEvent oneStepForward(final AILAgent agent) { // agent.trace needs to be null!
 		if (this.counter < getMax()) {
 			final AbstractEvent next = this.storage.get(this.counter++);
 			next.execute(agent, false);

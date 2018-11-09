@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.AILAnnotation;
+import ail.syntax.Goal;
+import ail.syntax.Literal;
 import ail.syntax.Predicate;
+import ail.syntax.StringTerm;
+import ail.syntax.StringTermImpl;
 
 public class ModificationAction {
 	private final int base;
@@ -47,22 +52,56 @@ public class ModificationAction {
 	}
 
 	public void execute(final AILAgent agent, final boolean reverse) {
+		StringTerm n = (selector == null) ? null : new StringTermImpl(selector);
 		switch (getBase()) {
 		case BELIEFS:
-			// TODO
+			for (Predicate add : added) {
+				Literal bel = (Literal) add;
+				if (reverse) {
+					agent.delBel(n, bel);
+				} else {
+					AILAnnotation annot = bel.getAnnot();
+					bel.setAnnot(null);
+					agent.addBel(bel, annot, selector);
+				}
+			}
+			for (Predicate rem : removed) {
+				Literal bel = (Literal) rem;
+				if (reverse) {
+					AILAnnotation annot = bel.getAnnot();
+					bel.setAnnot(null);
+					agent.addBel(bel, annot, selector);
+				} else {
+					agent.delBel(n, bel);
+				}
+			}
 			break;
 		case GOALS:
-			// TODO
+			for (Predicate add : added) {
+				Goal goal = (Goal) add;
+				if (reverse) {
+					agent.removeGoal(goal);
+				} else {
+					agent.addGoal(goal);
+				}
+			}
+			for (Predicate rem : removed) {
+				Goal goal = (Goal) rem;
+				if (reverse) {
+					agent.addGoal(goal);
+				} else {
+					agent.removeGoal(goal);
+				}
+			}
 			break;
 		case INBOX:
-			// TODO
+			// TODO: will require new functions in AILAgent
 			break;
 		case OUTBOX:
-			// TODO
+			// TODO: will require new functions in AILAgent
 			break;
 		}
 	}
-	
 
 	@Override
 	public String toString() { // FIXME

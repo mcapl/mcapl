@@ -524,7 +524,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		bel.addAnnot(s);   
 		boolean success = getBB().add(bel);
 		if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, "", bel, null);
+			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, bel, null);
 			trace.write(new ModificationEvent(addBel));
 		}
 	}
@@ -538,7 +538,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// NB. no check that the belief was in the belief base.
 		boolean success = getBB().remove(bel);
 		if (success && trace != null) {
-			ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, "", null, bel);
+			ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, bel);
 			trace.write(new ModificationEvent(delBel));
 		}
 	}
@@ -651,7 +651,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			success = gbmap.get(goalbase.getString()).add(g);			
 		}
 		if (success && trace != null) {
-			ModificationAction addGoal = new ModificationAction(BaseType.GOALS, goalbase.getString(), g, null);
+			ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
 			trace.write(new ModificationEvent(addGoal));
 		}
 	}
@@ -743,7 +743,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			success = gb.remove(g);
 		}
 		if (success && trace != null) {
-			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, goalbase.getString(), null, g);
+			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
 			trace.write(new ModificationEvent(removeGoal));
 		}
 	}
@@ -1149,7 +1149,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			} // FIXME: you'd only want the actual new messages here
-			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, "", predicates, null);
+			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
 			trace.write(new ModificationEvent(newMessages));
 		}
 		// This seems pointless but improves state matching in model checking.
@@ -1170,7 +1170,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			for (Message msg : Inbox) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction removeMessages = new ModificationAction(BaseType.INBOX, "", null, predicates);
+			ModificationAction removeMessages = new ModificationAction(BaseType.INBOX, null, null, predicates);
 			trace.write(new ModificationEvent(removeMessages));
 		}
 		Inbox = new ArrayList<Message>();
@@ -1241,7 +1241,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			Outbox = msgl;
 		}
 		if (success && trace != null) {
-			ModificationAction newMessage = new ModificationAction(BaseType.OUTBOX, "", msg.toTerm(), null);
+			ModificationAction newMessage = new ModificationAction(BaseType.OUTBOX, null, msg.toTerm(), null);
 			trace.write(new ModificationEvent(newMessage));
 		}
 	}
@@ -1446,7 +1446,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     	GroundPredSets.check_add(b);
     	boolean success = getBB().add(b);
     	if (success && trace != null) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, "", b, null);
+			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
 			trace.write(new ModificationEvent(addBel));
 		}
     }
