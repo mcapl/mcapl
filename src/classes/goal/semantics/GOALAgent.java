@@ -167,7 +167,9 @@ public class GOALAgent extends AILAgent {
 	@Override
 	public void setAgName(String name) {
 		super.setAgName(name);
-		ms.setAgName(name);
+		if (ms != null) {
+			ms.setAgName(name);
+		}
 	}
 
 	/**
