@@ -1396,10 +1396,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     	b.addAnnot(refertoself());
     	GroundPredSets.check_add(b);
     	boolean success = getBB().add(b);
-    	if (success && trace != null) {
-			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
-			trace(new ModificationEvent(initBel));
-		}
+    	//if (success && trace != null) {
+		//	ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
+		//	trace(new ModificationEvent(initBel));
+		//}
     }
 
     /**
