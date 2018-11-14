@@ -106,21 +106,20 @@ public class ModificationAction {
 	@Override
 	public String toString() { // FIXME
 		StringBuilder builder = new StringBuilder();
-		builder.append("Modification[base=");
-		builder.append(getBase());
-		if (selector != null && !selector.isEmpty()) {
-			builder.append(", selector=");
-			builder.append(selector);
-		}
 		if (added != null && !added.isEmpty()) {
-			builder.append(", added=");
-			builder.append(added);
+			builder.append("added ").append(added).append(" to ");
 		}
 		if (removed != null && !removed.isEmpty()) {
-			builder.append(", removed=");
-			builder.append(removed);
+			if (builder.length() > 0) {
+				builder.append(" and ");
+			}
+			builder.append("removed ").append(removed).append(" from ");
 		}
-		builder.append("]");
+		builder.append("the agent's ").append(getBase().toString().toLowerCase());
+		if (selector != null && !selector.isEmpty()) {
+			builder.append(" (").append(selector).append(")");
+		}
+		builder.append(".");
 		return builder.toString();
 	}
 

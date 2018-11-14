@@ -6,17 +6,16 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 
-public class SetIntentionEvent extends AbstractEvent {
+public class SelectIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
-	public SetIntentionEvent(final Intention intention) {
+	public SelectIntentionEvent(final Intention intention) {
 		this.intention = intention;
 	}
 
 	@Override
 	public List<String> getLookupData() {
-		return new ArrayList<>(0); // FIXME: is this ok?
-		// should we even trace setting intentions? is it maybe like executing an actioncombo in GOAL?
+		return new ArrayList<>(0);
 	}
 
 	@Override
@@ -27,9 +26,8 @@ public class SetIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("SetIntention[");
-		builder.append(intention);
-		builder.append("]");
+		// TODO: no nice descriptor available for intentions?
+		builder.append("selected intention ").append(System.identityHashCode(intention)).append(".");
 		return builder.toString();
 	}
 
@@ -42,10 +40,10 @@ public class SetIntentionEvent extends AbstractEvent {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj == null || !(obj instanceof SetIntentionEvent)) {
+		} else if (obj == null || !(obj instanceof SelectIntentionEvent)) {
 			return false;
 		}
-		SetIntentionEvent other = (SetIntentionEvent) obj;
+		SelectIntentionEvent other = (SelectIntentionEvent) obj;
 		return (this.intention == other.intention);
 	}
 }

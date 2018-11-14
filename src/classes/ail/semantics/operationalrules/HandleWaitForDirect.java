@@ -29,7 +29,7 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
-import ail.tracing.events.SetIntentionEvent;
+import ail.tracing.events.SelectIntentionEvent;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
@@ -124,7 +124,7 @@ public class HandleWaitForDirect extends DirectPerception {
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
 			a.setIntention(i);
-			a.trace(new SetIntentionEvent(i));
+			a.trace(new SelectIntentionEvent(i));
 		} else {
 			i.suspendFor(waitingfor);
 			i.hdE().apply(thetahd);
@@ -133,10 +133,10 @@ public class HandleWaitForDirect extends DirectPerception {
 				//a.sleep();
 				Intention empty = new Intention();
 				a.setIntention(empty);
-				a.trace(new SetIntentionEvent(empty));
+				a.trace(new SelectIntentionEvent(empty));
 			} else {
 				a.setIntention(i);
-				a.trace(new SetIntentionEvent(i));
+				a.trace(new SelectIntentionEvent(i));
 			}
 			a.sortIntentions();
 		}

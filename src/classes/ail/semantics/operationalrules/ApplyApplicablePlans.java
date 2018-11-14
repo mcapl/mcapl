@@ -37,7 +37,7 @@ import ail.tracing.events.BaseType;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.SelectPlanEvent;
-import ail.tracing.events.SetIntentionEvent;
+import ail.tracing.events.SelectIntentionEvent;
 import ail.syntax.Event;
 import ail.syntax.Guard;
 import ail.syntax.DefaultAILStructure;
@@ -97,7 +97,7 @@ public class ApplyApplicablePlans implements OSRule {
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone());
 				a.setIntention(set);
-				a.trace(new SetIntentionEvent(set));
+				a.trace(new SelectIntentionEvent(set));
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
                 if (p.getPrefix().size() == 0) {

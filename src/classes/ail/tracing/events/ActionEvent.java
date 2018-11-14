@@ -28,9 +28,7 @@ public class ActionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Action[");
-		builder.append(action);
-		builder.append("]");
+		builder.append("performed ").append(action).append(".");
 		return builder.toString();
 	}
 

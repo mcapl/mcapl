@@ -34,9 +34,7 @@ public class GuardEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Guard[");
-		builder.append(guard);
-		builder.append("]");
+		builder.append("evaluated the guard ").append(guard).append(".");
 		return builder.toString();
 	}
 

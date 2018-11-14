@@ -464,6 +464,36 @@ public class Intention implements Comparable<Intention>{
     	return ds;
     }
     
+    public ArrayList<Guard> guards() {
+    	ArrayList<Guard> gs = new ArrayList<Guard>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		ArrayList<Guard> gsp = i.next().guards();
+    		ListIterator<Guard> gi = gsp.listIterator();
+    		while (gi.hasNext()) {
+   		   			gs.add(gi.next());
+    		} 
+    	}
+    	
+    	return gs;
+    }
+    
+    public ArrayList<Unifier> unifiers() {
+    	ArrayList<Unifier> us = new ArrayList<Unifier>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		ArrayList<Unifier> usp = i.next().unifiers();
+    		ListIterator<Unifier> ui = usp.listIterator();
+    		while (ui.hasNext()) {
+   		   			us.add(ui.next());
+    		} 
+    	}
+    	
+    	return us;
+    }
+    
     /**
      * The event stack of the intention.
      * 
@@ -933,6 +963,14 @@ public class Intention implements Comparable<Intention>{
 			IntentionRow ir = intentionRows.get(i);
 			varnames.addAll(ir.getVarNames());
 			ir.trimUnifiers(varnames);
+		}
+	}
+	
+	public Intention clone() {
+		if(intentionRows.isEmpty()) {
+			return new Intention();
+		} else {
+			return new Intention(events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
 		}
 	}
 

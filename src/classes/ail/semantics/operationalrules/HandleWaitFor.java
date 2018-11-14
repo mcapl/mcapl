@@ -30,7 +30,7 @@ import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
-import ail.tracing.events.SetIntentionEvent;
+import ail.tracing.events.SelectIntentionEvent;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
@@ -120,7 +120,7 @@ public class HandleWaitFor implements OSRule {
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
 			a.setIntention(i);
-			a.trace(new SetIntentionEvent(i));
+			a.trace(new SelectIntentionEvent(i));
 		} else {
 			i.suspendFor(waitingfor);
 			i.hdE().apply(thetahd);
@@ -129,10 +129,10 @@ public class HandleWaitFor implements OSRule {
 				a.sleep();
 				Intention empty = new Intention();
 				a.setIntention(empty);
-				a.trace(new SetIntentionEvent(empty));
+				a.trace(new SelectIntentionEvent(empty));
 			} else {
 				a.setIntention(i);
-				a.trace(new SetIntentionEvent(i));
+				a.trace(new SelectIntentionEvent(i));
 			}
 			a.sortIntentions();
 		}

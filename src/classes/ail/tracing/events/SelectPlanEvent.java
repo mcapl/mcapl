@@ -15,9 +15,7 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(1);
-		data.add(plan.getEvent().getPredicateIndicator().toString());
-		return data;
+		return new ArrayList<>(0);
 	}
 
 	@Override
@@ -28,9 +26,8 @@ public class SelectPlanEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("SelectPlan[");
-		builder.append(plan);
-		builder.append("]");
+		// TODO: plans with ID 0 seem generated, otherwise it's from the code...
+		builder.append("selected plan ").append(plan.getID()).append(".");
 		return builder.toString();
 	}
 
