@@ -946,7 +946,10 @@ public class Intention implements Comparable<Intention>{
 	@Override
 	public int hashCode() {
 		final int PRIME = 7;
-		int result = PRIME * getSource().hashCode() + getAnnotation().hashCode();
+		int result = PRIME * getSource().hashCode();
+		if (getAnnotation() != null) {
+			result = PRIME * result + getAnnotation().hashCode();
+		}
 		
 		for (IntentionRow ir: intentionRows) {
 			result = PRIME * result + ir.hashCode();
