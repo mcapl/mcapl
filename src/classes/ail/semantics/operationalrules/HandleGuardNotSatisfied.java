@@ -29,6 +29,7 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.GuardEvent;
 
 /**
  * Do nothing if the intention's guard is not satisfied.
@@ -53,6 +54,7 @@ public class HandleGuardNotSatisfied extends DoNothing {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		Intention I = a.getIntention();
+		a.trace(new GuardEvent(I.hdG()));
 		if (!I.deeds().isEmpty()) {
 			Unifier thetahd = I.hdU();
 			Iterator<Unifier> ui = a.believes(I.hdG(), thetahd);		

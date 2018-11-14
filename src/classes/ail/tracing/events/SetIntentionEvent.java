@@ -16,6 +16,7 @@ public class SetIntentionEvent extends AbstractEvent {
 	@Override
 	public List<String> getLookupData() {
 		return new ArrayList<>(0); // FIXME: is this ok?
+		// should we even trace setting intentions? is it maybe like executing an actioncombo in GOAL?
 	}
 
 	@Override
