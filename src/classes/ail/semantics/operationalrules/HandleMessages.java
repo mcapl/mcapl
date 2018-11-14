@@ -35,6 +35,7 @@ import ail.syntax.Event;
 import ail.syntax.Predicate;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 
@@ -75,6 +76,7 @@ public class HandleMessages implements OSRule {
 			sender.addTerm(new Predicate(m.getSender()));
 			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender));
 			is.add(i);
+			a.trace(new CreateIntentionEvent(i));
 		}
 		
 		List<Message> inbox = a.getInbox();

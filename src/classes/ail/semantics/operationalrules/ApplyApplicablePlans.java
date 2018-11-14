@@ -34,6 +34,7 @@ import ail.syntax.Intention;
 import ail.syntax.GBelief;
 import ail.syntax.Literal;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.SelectPlanEvent;
@@ -96,6 +97,7 @@ public class ApplyApplicablePlans implements OSRule {
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone());
+				a.trace(new CreateIntentionEvent(set));
 				a.setIntention(set);
 				a.trace(new SelectIntentionEvent(set));
 			} else {

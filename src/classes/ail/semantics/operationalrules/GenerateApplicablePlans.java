@@ -24,12 +24,16 @@
 
 package ail.semantics.operationalrules;
 
-import gov.nasa.jpf.annotation.FilterField;
-import ail.semantics.OSRule;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 
 import ail.semantics.AILAgent;
+import ail.semantics.OSRule;
+//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
+import ail.syntax.ApplicablePlan;
+import ail.tracing.events.GeneratePlansEvent;
+import gov.nasa.jpf.annotation.FilterField;
 
 /**
  * Generate all applicable plans for an agent.
@@ -62,8 +66,8 @@ public class GenerateApplicablePlans implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-  		
-		a.setApplicablePlans(a.filterPlans(a.appPlans(a.getIntention())));
-		
+  		List<ApplicablePlan> plans = Lists.newArrayList(a.filterPlans(a.appPlans(a.getIntention())));
+		a.setApplicablePlans(plans.iterator());
+		a.trace(new GeneratePlansEvent(plans));
 	}
 }

@@ -6,11 +6,11 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
 
-public class SelectPlanEvent extends AbstractEvent {
-	private final ApplicablePlan plan;
+public class GeneratePlansEvent extends AbstractEvent {
+	private final List<ApplicablePlan> plans;
 
-	public SelectPlanEvent(final ApplicablePlan plan) {
-		this.plan = plan;
+	public GeneratePlansEvent(final List<ApplicablePlan> plans) {
+		this.plans = plans;
 	}
 
 	@Override
@@ -26,25 +26,24 @@ public class SelectPlanEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: plans with ID 0 seem generated, otherwise it's from the code...
-		// but how to nicely describe plans? same in GeneratePlansEvent
-		builder.append("selected plan ").append(plan.getID()).append(".");
+		// TODO: improve (plan details? same problem as SelectPlanEvent)
+		builder.append("generated ").append(plans.size()).append(" applicable plans.");
 		return builder.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return this.plan.hashCode();
+		return this.plans.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj == null || !(obj instanceof SelectPlanEvent)) {
+		} else if (obj == null || !(obj instanceof GeneratePlansEvent)) {
 			return false;
 		}
-		SelectPlanEvent other = (SelectPlanEvent) obj;
-		return (this.plan == other.plan);
+		GeneratePlansEvent other = (GeneratePlansEvent) obj;
+		return (this.plans == other.plans);
 	}
 }

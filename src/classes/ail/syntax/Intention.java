@@ -968,13 +968,12 @@ public class Intention implements Comparable<Intention>{
 			ir.trimUnifiers(varnames);
 		}
 	}
-	
+
 	public Intention clone() {
-		if(intentionRows.isEmpty()) {
+		if (intentionRows.isEmpty()) {
 			return new Intention();
 		} else {
 			return new Intention(events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
 		}
 	}
-
 }

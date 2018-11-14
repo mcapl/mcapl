@@ -28,6 +28,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Event;
 import ail.syntax.Literal;
+import ail.tracing.events.CreateIntentionEvent;
 
 /**
  * Add an agent to the Content set and register and event to note the fact.
@@ -53,6 +54,8 @@ public class HandleAddContentwEvent extends HandleAddContent {
 	public void apply(AILAgent a) {
 		super.apply(a);
 
-		a.getIntentions().add(new Intention(new Event(Event.AILAddition, Event.AILContent, (Literal) topdeed.getContent()), AILAgent.refertoself()));
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILContent, (Literal) topdeed.getContent()), AILAgent.refertoself());
+		a.getIntentions().add(i);
+		a.trace(new CreateIntentionEvent(i));
 	}
 }

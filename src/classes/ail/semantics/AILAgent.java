@@ -67,6 +67,7 @@ import ail.syntax.ast.GroundPredSets;
 import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILConfig;
@@ -1384,6 +1385,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
     	// TODO: this only creates the intention to add a goal? -Vincent
     	Intention i = new Intention(g, refertoself());
     	getIntentions().add(i);
+		trace(new CreateIntentionEvent(i));
     }
     
     /**

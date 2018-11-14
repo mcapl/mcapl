@@ -26,6 +26,7 @@ package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.syntax.Event;
 
 /**
@@ -52,6 +53,9 @@ public class HandleUpdateBeliefwEvent extends HandleUpdateBelief {
 	 */
 	public void apply(AILAgent a) {
 		super.apply(a);
-		a.getIntentions().add(new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself()));
+		
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself());
+		a.getIntentions().add(i);
+		a.trace(new CreateIntentionEvent(i));
 	}
 }

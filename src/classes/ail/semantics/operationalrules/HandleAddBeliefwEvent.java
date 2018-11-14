@@ -26,6 +26,7 @@ package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.syntax.Event;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
@@ -61,7 +62,9 @@ public class HandleAddBeliefwEvent extends HandleAddBelief {
 
 		// Add a new intention noting the belief change
 		if (!alreadybelieved) {
-			a.getIntentions().add(new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself()));
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself());
+			a.getIntentions().add(i);
+			a.trace(new CreateIntentionEvent(i));
 		}
 	}
 }

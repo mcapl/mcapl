@@ -26,7 +26,7 @@ public class SelectIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: no nice descriptor available for intentions?
+		// TODO: no nice descriptor available for intentions? (same in CreateIntentionEvent)
 		builder.append("selected intention ").append(System.identityHashCode(intention)).append(".");
 		return builder.toString();
 	}

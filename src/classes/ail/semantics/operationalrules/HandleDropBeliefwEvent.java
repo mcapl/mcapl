@@ -30,6 +30,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.syntax.Literal;
@@ -76,7 +77,9 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 					}
 					ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
 					a.trace(new ModificationEvent(delBel));
-					a.getIntentions().add(new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself()));
+					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself());
+					a.getIntentions().add(i);
+					a.trace(new CreateIntentionEvent(i));
 					thetahd.compose(thetab);
 					thetahd.compose(un);
 				}

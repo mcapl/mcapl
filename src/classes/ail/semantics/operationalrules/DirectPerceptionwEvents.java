@@ -42,6 +42,7 @@ import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.syntax.BeliefBase;
@@ -111,7 +112,9 @@ public class DirectPerceptionwEvents implements OSRule {
 						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
-					a.addNewIntention(new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept()));
+					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept());
+					a.addNewIntention(i);
+					a.trace(new CreateIntentionEvent(i));
 					a.tellawake();
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + l);
@@ -132,7 +135,9 @@ public class DirectPerceptionwEvents implements OSRule {
 					a.trace(new ModificationEvent(addBel));
 				}
 				// Don't let new intention get dropped totally if things change.
-				a.addNewIntention(new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself()));
+				Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself());
+				a.addNewIntention(i);
+				a.trace(new CreateIntentionEvent(i));
 				a.tellawake();
 				if (AJPFLogger.ltFine(logname)) {
 					AJPFLogger.fine(logname, a.getAgName() + " added " + k);

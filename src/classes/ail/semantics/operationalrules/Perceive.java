@@ -46,6 +46,7 @@ import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
 import ail.tracing.events.BaseType;
+import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
@@ -109,6 +110,7 @@ public class Perceive implements OSRule {
 					Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
 					if (! is.contains(i)) {
 						is.add(i);
+						a.trace(new CreateIntentionEvent(i));
 					}
 					a.tellawake();
 					
@@ -131,6 +133,7 @@ public class Perceive implements OSRule {
 				Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
 				if (! is.contains(i)) {
 					is.add(i);
+					a.trace(new CreateIntentionEvent(i));
 				}
 				a.tellawake();
 			}
