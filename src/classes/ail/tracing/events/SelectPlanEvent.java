@@ -1,10 +1,12 @@
 package ail.tracing.events;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Guard;
+import ail.syntax.GuardAtom;
 
 public class SelectPlanEvent extends AbstractEvent {
 	private final ApplicablePlan plan;
@@ -15,7 +17,17 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		return new ArrayList<>(0);
+		List<String> data = new LinkedList<>();
+		data.add(plan.getEvent().getPredicateIndicator().toString());
+		for(Guard guard : plan.getGuard()) {
+			if(guard.getLHS() instanceof GuardAtom<?>) {
+				data.add(((GuardAtom<?>)guard.getLHS()).getPredicateIndicator().toString());
+			}
+			if(guard.getRHS() instanceof GuardAtom<?>) {
+				data.add(((GuardAtom<?>)guard.getLHS()).getPredicateIndicator().toString());
+			}
+		}
+		return data;
 	}
 
 	@Override

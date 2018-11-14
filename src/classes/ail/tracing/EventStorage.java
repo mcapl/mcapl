@@ -75,7 +75,9 @@ public class EventStorage {
 		}
 		Store store = this.storage.getStore();
 		if (close && !store.isClosed()) {
-			//System.out.println(storage);
+			//for (AbstractEvent event : this.storage) {
+			//	System.out.println(event);
+			//}
 			store.close();
 		}
 	}

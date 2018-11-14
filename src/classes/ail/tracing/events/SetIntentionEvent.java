@@ -15,7 +15,7 @@ public class SetIntentionEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		return new ArrayList<>(0);
+		return new ArrayList<>(0); // FIXME: is this ok?
 	}
 
 	@Override
