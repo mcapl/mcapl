@@ -36,6 +36,8 @@ import ail.syntax.Literal;
 import ail.tracing.events.BaseType;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.SelectPlanEvent;
+import ail.tracing.events.SetIntentionEvent;
 import ail.syntax.Event;
 import ail.syntax.Guard;
 import ail.syntax.DefaultAILStructure;
@@ -79,6 +81,7 @@ public class ApplyApplicablePlans implements OSRule {
 		Iterator<ApplicablePlan> aps = a.getApplicablePlans();
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
+		a.trace(new SelectPlanEvent(p));
 		
 		//if (! p.noChangePlan()) {
 		
@@ -92,7 +95,9 @@ public class ApplyApplicablePlans implements OSRule {
 				Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
-				a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
+				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone());
+				a.setIntention(set);
+				a.trace(new SetIntentionEvent(set));
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
                 if (p.getPrefix().size() == 0) {

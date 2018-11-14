@@ -25,6 +25,7 @@
 package ail.semantics.operationalrules;
 
 import ail.syntax.Intention;
+import ail.tracing.events.SetIntentionEvent;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 
@@ -62,5 +63,6 @@ public class DropIntention implements OSRule {
 	public void apply(AILAgent a) {
 		Intention iprime = a.selectIntention(a.getIntentions());
 		a.setIntention(iprime);
+		a.trace(new SetIntentionEvent(iprime));
 	}
 }
