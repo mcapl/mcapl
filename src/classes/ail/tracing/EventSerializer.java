@@ -35,9 +35,4 @@ public class EventSerializer extends GroupSerializerObjectArray<AbstractEvent> {
 			in.close();
 		}
 	}
-
-	@Override
-	public int compare(final AbstractEvent first, final AbstractEvent second) {
-		return first.compareTo(second);
-	}
 }

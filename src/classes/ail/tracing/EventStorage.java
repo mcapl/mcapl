@@ -64,7 +64,7 @@ public class EventStorage {
 
 	public void write(final AbstractEvent event) {
 		if (this.writer != null) {
-			//System.out.println(event);
+			System.out.println(event);
 			this.writer.write(event);
 			++this.counter;
 		}
