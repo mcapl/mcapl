@@ -11,7 +11,7 @@ public class CreateIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
 	public CreateIntentionEvent(final Intention intention) {
-		this.intention = intention;
+		this.intention = intention;//.clone();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CreateIntentionEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		List<Event> event = intention.events();
-		if (!event.isEmpty()) { // TODO: would like more detailed events
+		if (!event.isEmpty()) { // TODO: would like the 'start' event to be more detailed
 			builder.append("for the event ").append(event).append(", ");
 		}
 		// TODO: no nice descriptor available for intentions? (same in SelectIntentionEvent)
