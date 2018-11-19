@@ -95,7 +95,7 @@ public class DirectPerception implements OSRule {
 			while (percept_iterator.hasNext()) {
 				Literal l = percept_iterator.next();
 				if (! percepts.contains(l)) {		
-					if (a.delBel(l)) {
+					if (a.delBel(l) && a.shouldTrace()) {
 						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
@@ -112,7 +112,7 @@ public class DirectPerception implements OSRule {
 				Predicate k = (Predicate) l.clone();
 				additions = true;
 				Literal add = new Literal(k);
-				if (a.addBel(add, AILAgent.refertopercept())) {
+				if (a.addBel(add, AILAgent.refertopercept()) && a.shouldTrace()) {
 					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, add, null);
 					a.trace(new ModificationEvent(addBel));
 				}
@@ -131,7 +131,7 @@ public class DirectPerception implements OSRule {
 		Set<Message> msglist = new TreeSet<>(messages);
 		Set<Message> addList = Sets.difference(msglist, previous);
 		a.newMessages(msglist);
-		if (!addList.isEmpty()) {
+		if (!addList.isEmpty() && a.shouldTrace()) {
 			List<Predicate> predicates = new ArrayList<>(addList.size());
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());

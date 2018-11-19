@@ -121,7 +121,9 @@ public class HandleWaitFor implements OSRule {
 			thetahd.compose(beliefs.next());
 			i.compose(thetahd);
 			a.setIntention(i);
-			a.trace(new SelectIntentionEvent(i));
+			if (a.shouldTrace()) {
+				a.trace(new SelectIntentionEvent(i));
+			}
 		} else {
 			i.suspendFor(waitingfor);
 			i.hdE().apply(thetahd);
@@ -129,12 +131,18 @@ public class HandleWaitFor implements OSRule {
 				a.getIntentions().add(i);
 				a.sleep();
 				Intention empty = new Intention();
-				a.trace(new CreateIntentionEvent(empty));
+				if (a.shouldTrace()) {
+					a.trace(new CreateIntentionEvent(empty));
+				}
 				a.setIntention(empty);
-				a.trace(new SelectIntentionEvent(empty));
+				if (a.shouldTrace()) {
+					a.trace(new SelectIntentionEvent(empty));
+				}
 			} else {
 				a.setIntention(i);
-				a.trace(new SelectIntentionEvent(i));
+				if (a.shouldTrace()) {
+					a.trace(new SelectIntentionEvent(i));
+				}
 			}
 			a.sortIntentions();
 		}

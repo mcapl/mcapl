@@ -81,7 +81,7 @@ public class HandleUpdateBelief extends HandleBelief {
 			PredicateIndicator bpi = bp.getPredicateIndicator();
 			if (a.relevant(bp, b)) {
 				if (bpi.equals(pi)) {
-					if (a.delBel(db, bp)) {
+					if (a.delBel(db, bp) && a.shouldTrace()) {
 						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
 						a.trace(new ModificationEvent(delBel));
 					}
@@ -97,7 +97,7 @@ public class HandleUpdateBelief extends HandleBelief {
 		i.compose(thetahd);
 		b.apply(thetahd);
 	
-		if (a.addBel(b, AILAgent.refertoself(), db)) {
+		if (a.addBel(b, AILAgent.refertoself(), db) && a.shouldTrace()) {
 			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, db.toString(), b, null);
 			a.trace(new ModificationEvent(addBel));
 		}

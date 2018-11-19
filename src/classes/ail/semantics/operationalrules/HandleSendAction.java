@@ -75,8 +75,10 @@ public class HandleSendAction extends HandleActionwProblem {
 		if (succeeded) {
 			Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
 			a.getIntentions().add(i);
-			a.trace(new CreateIntentionEvent(i));
-			if (a.newSentMessage(varless_msg)) {
+			if (a.shouldTrace()) {
+				a.trace(new CreateIntentionEvent(i));
+			}
+			if (a.newSentMessage(varless_msg) && a.shouldTrace()) {
 				ModificationAction newMessage = new ModificationAction(BaseType.OUTBOX, null, msg.toTerm(), null);
 				a.trace(new ModificationEvent(newMessage));
 			}

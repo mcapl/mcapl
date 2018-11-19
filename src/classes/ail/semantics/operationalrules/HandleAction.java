@@ -77,7 +77,9 @@ public class HandleAction extends HandleTopDeed {
 				thetahd.compose(thetab);
 				act.apply(thetahd);
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
-				a.trace(new ActionEvent(act));
+				if (a.shouldTrace()) {
+					a.trace(new ActionEvent(act));
+				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				a.getReasoningCycle().setStopandCheck(true);

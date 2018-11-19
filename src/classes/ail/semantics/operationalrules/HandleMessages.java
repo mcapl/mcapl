@@ -76,11 +76,13 @@ public class HandleMessages implements OSRule {
 			sender.addTerm(new Predicate(m.getSender()));
 			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender));
 			is.add(i);
-			a.trace(new CreateIntentionEvent(i));
+			if (a.shouldTrace()) {
+				a.trace(new CreateIntentionEvent(i));
+			}
 		}
 		
 		List<Message> inbox = a.getInbox();
-		if (!inbox.isEmpty()) {
+		if (!inbox.isEmpty() && a.shouldTrace()) {
 			List<Predicate> predicates = new ArrayList<>(inbox.size());
 			for (Message msg : inbox) {
 				predicates.add(msg.toTerm());

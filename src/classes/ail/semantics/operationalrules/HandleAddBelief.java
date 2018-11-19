@@ -78,7 +78,7 @@ public class HandleAddBelief extends HandleBelief {
 			sa = i.getSource();
 		}
 
-		if (a.addBel(b, sa, topdeed.getDBnum())) {
+		if (a.addBel(b, sa, db) && a.shouldTrace()) {
 			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, db.toString(), b, null);
 			a.trace(new ModificationEvent(addBel));
 		}

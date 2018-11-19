@@ -59,7 +59,7 @@ public class HandleDropGoal extends HandleGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		if (a.removeGoal(g)) {
+		if (a.removeGoal(g) && a.shouldTrace()) {
 			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
 			a.trace(new ModificationEvent(removeGoal));
 		}

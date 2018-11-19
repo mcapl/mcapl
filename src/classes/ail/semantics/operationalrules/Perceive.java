@@ -110,7 +110,9 @@ public class Perceive implements OSRule {
 					Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
 					if (! is.contains(i)) {
 						is.add(i);
-						a.trace(new CreateIntentionEvent(i));
+						if (a.shouldTrace()) {
+							a.trace(new CreateIntentionEvent(i));
+						}
 					}
 					a.tellawake();
 					
@@ -133,7 +135,9 @@ public class Perceive implements OSRule {
 				Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
 				if (! is.contains(i)) {
 					is.add(i);
-					a.trace(new CreateIntentionEvent(i));
+					if (a.shouldTrace()) {
+						a.trace(new CreateIntentionEvent(i));
+					}
 				}
 				a.tellawake();
 			}
@@ -143,7 +147,7 @@ public class Perceive implements OSRule {
 		Set<Message> msglist = new TreeSet<>(messages);
 		Set<Message> addList = Sets.difference(msglist, previous);
 		a.newMessages(msglist);
-		if (!addList.isEmpty()) {
+		if (!addList.isEmpty() && a.shouldTrace()) {
 			List<Predicate> predicates = new ArrayList<>(addList.size());
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());

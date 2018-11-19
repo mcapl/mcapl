@@ -63,6 +63,8 @@ public class DropIntention implements OSRule {
 	public void apply(AILAgent a) {
 		Intention iprime = a.selectIntention(a.getIntentions());
 		a.setIntention(iprime);
-		a.trace(new SelectIntentionEvent(iprime));
+		if (a.shouldTrace()) {
+			a.trace(new SelectIntentionEvent(iprime));
+		}
 	}
 }

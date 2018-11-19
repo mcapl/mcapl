@@ -61,7 +61,7 @@ public class HandleAddGoal extends HandleGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		if (a.addGoal(g)) {
+		if (a.addGoal(g) && a.shouldTrace()) {
 			ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
 			a.trace(new ModificationEvent(addGoal));
 		}

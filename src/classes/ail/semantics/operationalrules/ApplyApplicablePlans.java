@@ -82,7 +82,9 @@ public class ApplyApplicablePlans implements OSRule {
 		Iterator<ApplicablePlan> aps = a.getApplicablePlans();
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
-		a.trace(new SelectPlanEvent(p));
+		if (a.shouldTrace()) {
+			a.trace(new SelectPlanEvent(p));
+		}
 		
 		//if (! p.noChangePlan()) {
 		
@@ -97,9 +99,13 @@ public class ApplyApplicablePlans implements OSRule {
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
 				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone());
-				a.trace(new CreateIntentionEvent(set));
+				if (a.shouldTrace()) {
+					a.trace(new CreateIntentionEvent(set));
+				}
 				a.setIntention(set);
-				a.trace(new SelectIntentionEvent(set));
+				if (a.shouldTrace()) {
+					a.trace(new SelectIntentionEvent(set));
+				}
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
                 if (p.getPrefix().size() == 0) {
@@ -109,7 +115,7 @@ public class ApplyApplicablePlans implements OSRule {
                             gcloned.apply(i.hdU());
                             i.dropP(p.getN());
                             if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
-                            	if (a.removeGoal(gcloned)) {
+                            	if (a.removeGoal(gcloned) && a.shouldTrace()) {
                         			ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, gcloned);
                         			a.trace(new ModificationEvent(removeGoal));
                         		}

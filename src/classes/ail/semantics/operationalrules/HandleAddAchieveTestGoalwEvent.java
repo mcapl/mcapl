@@ -98,7 +98,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			}
 
 			if (!flag) {
-				if (a.removeGoal(g)) {
+				if (a.removeGoal(g) & a.shouldTrace()) {
 					ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
 					a.trace(new ModificationEvent(removeGoal));
 				}
@@ -119,7 +119,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 				}
 			}
 
-			if (a.addGoal(g)) {
+			if (a.addGoal(g) && a.shouldTrace()) {
 				ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
 				a.trace(new ModificationEvent(addGoal));
 			}

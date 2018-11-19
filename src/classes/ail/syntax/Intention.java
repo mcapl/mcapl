@@ -761,7 +761,7 @@ public class Intention implements Comparable<Intention>{
 			gcloned.apply(hdU());
 			dropP(1);
 			if (empty() || !hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
-				if (ag.removeGoal(gcloned)) {
+				if (ag.removeGoal(gcloned) && ag.shouldTrace()) {
 					ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, gcloned);
 					ag.trace(new ModificationEvent(removeGoal));
 				}

@@ -24,6 +24,7 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -66,8 +67,15 @@ public class GenerateApplicablePlans implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-  		List<ApplicablePlan> plans = Lists.newArrayList(a.filterPlans(a.appPlans(a.getIntention())));
-		a.setApplicablePlans(plans.iterator());
-		a.trace(new GeneratePlansEvent(plans));
+		Iterator<ApplicablePlan> iterator = a.filterPlans(a.appPlans(a.getIntention()));
+		List<ApplicablePlan> plans = null;
+		if (a.shouldTrace()) { // this is bad, but don't see how to do it otherwise
+			plans = Lists.newArrayList(a.filterPlans(a.appPlans(a.getIntention())));
+			iterator = plans.iterator();
+		}
+		a.setApplicablePlans(iterator);
+		if (a.shouldTrace()) {
+			a.trace(new GeneratePlansEvent(plans));
+		}
 	}
 }

@@ -79,69 +79,72 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
 import gov.nasa.jpf.annotation.FilterField;
 
-
 /**
- * Workhorse class that implements AIL Agent State. We expect this to be subclassed
- * in many situations.  Agent State components are as described in various AIL 
- * technical reports.  Based on the Jason Agent class implemented by Rafael H. Bordini 
- * and Jomi F. Hubner.
+ * Workhorse class that implements AIL Agent State. We expect this to be
+ * subclassed in many situations. Agent State components are as described in
+ * various AIL technical reports. Based on the Jason Agent class implemented by
+ * Rafael H. Bordini and Jomi F. Hubner.
  * 
  * Note that an AILAgent must first be created using the constructors but then
- * the init method must be called before its initial state is transformed into 
- * intentions etc.,  This allows initialisation methods to create the agent and
+ * the init method must be called before its initial state is transformed into
+ * intentions etc., This allows initialisation methods to create the agent and
  * then add initial beliefs and goals separately.
  * 
  * @author louiseadennis
  *
  */
 public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
-	 /**
+	/**
 	 * The environment.
 	 */
 	@FilterField
-    protected AILEnv	fEnv = null;
-	
+	protected AILEnv fEnv = null;
+
 	/**
 	 * The Multi-agent system.
 	 */
 	@FilterField
-    protected MAS       fMAS = null;
+	protected MAS fMAS = null;
 
-    /**
+	/**
 	 * The agent's name.
 	 */
 	protected String fAgName = null;
 
 	/**
-	 * This is a map from strings to belief bases.  In general an agent only has one belief base (accessed by AILdefaultBBname) but this
-	 * structure allows for languages in which agents can maintain multiple belief bases.
+	 * This is a map from strings to belief bases. In general an agent only has one
+	 * belief base (accessed by AILdefaultBBname) but this structure allows for
+	 * languages in which agents can maintain multiple belief bases.
 	 */
 	protected Map<String, BeliefBase> bbmap = new VerifyMap<String, BeliefBase>();
-	
-	
+
 	/**
-	 * This is a map from strings to rule bases which allow deductive reasoning.  In general an agent only has one rules base (accessed by AILdefaultRBname) but this
-	 * structure allows for languages in which agents can maintain multiple rule bases.
+	 * This is a map from strings to rule bases which allow deductive reasoning. In
+	 * general an agent only has one rules base (accessed by AILdefaultRBname) but
+	 * this structure allows for languages in which agents can maintain multiple
+	 * rule bases.
 	 */
 	protected Map<String, RuleBase> rbmap = new VerifyMap<String, RuleBase>();
-	
+
 	/**
-	 * This is a map from strings to goal bases.  In general an agent only has one goal base (accessed by AILdefaultGBname) but this
-	 * structure allows for languages in which agents can maintain multiple goal bases.
+	 * This is a map from strings to goal bases. In general an agent only has one
+	 * goal base (accessed by AILdefaultGBname) but this structure allows for
+	 * languages in which agents can maintain multiple goal bases.
 	 */
 	protected Map<String, GoalBase> gbmap = new VerifyMap<String, GoalBase>();
-	
+
 	/**
 	 * THis is a map from strings to capability libraries.
 	 */
 	protected Map<String, CapabilityLibrary> clmap = new VerifyMap<String, CapabilityLibrary>();
-	
+
 	/**
-	 * This is a map from strings to plan libraries.  In general an agent only has one plan library (accessed by AILdefaultPLname) but this
-	 * structure allows for languages in which agents can maintain multiple plan libraries.
+	 * This is a map from strings to plan libraries. In general an agent only has
+	 * one plan library (accessed by AILdefaultPLname) but this structure allows for
+	 * languages in which agents can maintain multiple plan libraries.
 	 */
 	protected Map<String, PlanLibrary> plmap = new VerifyMap<String, PlanLibrary>();
-		
+
 	/**
 	 * The current intention.
 	 */
@@ -150,317 +153,320 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/**
 	 * Other intentions.
 	 */
-    protected ArrayList<Intention> Is = new ArrayList<Intention>();
+	protected ArrayList<Intention> Is = new ArrayList<Intention>();
 
-    /**
-     * Currently applicable plans.
-     */
-    protected Iterator<ApplicablePlan> AP = new ArrayList<ApplicablePlan>().iterator();
-    
-    /**
-     * Currently applicable capabilties.
-     */
-    protected Iterator<Capability> AC = new ArrayList<Capability>().iterator();
- 
-    /**
-     * Language specific annotations.  Unused by any AIL methods but may be
-     * important when these methods are over-ridden.
-     */
-    protected List<AILAnnotation> Anns = null;
-
-    /**
-     * Actions performed during planning (or at least theoretically performed).
-     */
-    @FilterField
-    protected List<Action> Actions = new ArrayList<Action>();
-       
-    /**
-     * An inbox of messages received (emptied as messages are processed).
-     */
-    protected List<Message> Inbox = new ArrayList<Message>();
-    
-    /**
-     * An outbox of messages sent.
-     */
-    protected List<Message> Outbox = new ArrayList<Message>();
-    
-    /**
-     * The content of the agent.
-     */
-    protected List<String> content = new ArrayList<String>();
-    
-    /**
-     * The context of the agent.
-     */
-    protected List<String> context = new ArrayList<String>();
-    
-    /**
-     * The reasoning cycle used by the agent.  AIL itself provides no classes
-     * that implement this interface.
-     */
-    protected ReasoningCycle RC;
-
-    /**
-     * Flag used to indicate the agent intends to sleep if no events are pending
-     * next time it exits the reasoning cycle.
-     */
-	private boolean wanttosleep = false;
-	
 	/**
-	 * Keeps track of how many times each plan has been used.  Useful for writing
+	 * Currently applicable plans.
+	 */
+	protected Iterator<ApplicablePlan> AP = new ArrayList<ApplicablePlan>().iterator();
+
+	/**
+	 * Currently applicable capabilties.
+	 */
+	protected Iterator<Capability> AC = new ArrayList<Capability>().iterator();
+
+	/**
+	 * Language specific annotations. Unused by any AIL methods but may be important
+	 * when these methods are over-ridden.
+	 */
+	protected List<AILAnnotation> Anns = null;
+
+	/**
+	 * Actions performed during planning (or at least theoretically performed).
+	 */
+	@FilterField
+	protected List<Action> Actions = new ArrayList<Action>();
+
+	/**
+	 * An inbox of messages received (emptied as messages are processed).
+	 */
+	protected List<Message> Inbox = new ArrayList<Message>();
+
+	/**
+	 * An outbox of messages sent.
+	 */
+	protected List<Message> Outbox = new ArrayList<Message>();
+
+	/**
+	 * The content of the agent.
+	 */
+	protected List<String> content = new ArrayList<String>();
+
+	/**
+	 * The context of the agent.
+	 */
+	protected List<String> context = new ArrayList<String>();
+
+	/**
+	 * The reasoning cycle used by the agent. AIL itself provides no classes that
+	 * implement this interface.
+	 */
+	protected ReasoningCycle RC;
+
+	/**
+	 * Flag used to indicate the agent intends to sleep if no events are pending
+	 * next time it exits the reasoning cycle.
+	 */
+	private boolean wanttosleep = false;
+
+	/**
+	 * Keeps track of how many times each plan has been used. Useful for writing
 	 * selection heuristics.
 	 */
 	protected VerifyMap<String, Integer> generated = new VerifyMap<String, Integer>();
-	
+
 	/**
-	 * Should plan usage be tracked?  If you don't track plan usage more states
-	 * in the agent will match.
+	 * Should plan usage be tracked? If you don't track plan usage more states in
+	 * the agent will match.
 	 */
 	boolean trackplanusage = false;
-	
-    /**
-     * Is the agent running.
-     */
-    private boolean		fRunning = true;
 
-    /**
-     * The name of the last rule executed.  Used in pretty printing but potentially also
-     * useful in building reasoning cycles.
-     */
-    @FilterField
-    public String lastruleexecuted;
-    
-    /**
-     * The default Belief Base name for AIL;
-     */
-    public static final String AILdefaultBBname = "";
-    
-    /*
-     * The default belief base name for this agent;
-     */
-    protected String defaultbbname = AILdefaultBBname;
-     
-    /**
-     * The default Goal Base name for AIL;
-     */
-    public static final String AILdefaultGBname = "";
-    
-    /*
-     * The default goal base name for this agent;
-     */
-    protected String defaultgbname = AILdefaultGBname;
- 
-    /**
-     * The default Rule Base name for AIL;
-     */
-    public static final String AILdefaultRBname = "";
-    
-    /*
-     * The default rule base name for this agent;
-     */
-    protected String defaultrbname = AILdefaultRBname;
+	/**
+	 * Is the agent running.
+	 */
+	private boolean fRunning = true;
 
-    /**
-     * The default Plan Library name for AIL;
-     */
-    public static final String AILdefaultPLname = "";
-    
-    /*
-     * The default plan library name for this agent;
-     */
-    protected String defaultplname = AILdefaultPLname;
- 
-    /**
-     * The default Constraint Library name for AIL;
-     */
-    public static final String AILdefaultCLname = "";
-    
-    /**
-     * The default Capability Base name for AIL;
-     */
-    public static final String AILdefaultCBname = "";
-    
-    /*
-     * The default constraint library name for this agent;
-     */
-    protected String defaultclname = AILdefaultCLname;
-    
-    /* The default log name for this class */
-    protected String logname = "ail.semantics.AILAgent";
-    
-    public enum SelectionOrder {
-    	LINEAR, RANDOM;
-    }
-    /* Should a record be kept of sent messages */
-    public boolean store_sent_messages = true;
-    
-    /* -Vincent */
-    protected EventStorage trace = null;
-    
-    
-     //-----------------CONSTRUCTORS---------------//
- 
-    /**
-     * Constructor
-     * 
-     * Create an agent.
-     */
-    public AILAgent() {
-       	setBeliefBase(new BeliefBase());
-    	setRuleBase(new RuleBase());
-    	setPlanLibrary(new PlanLibrary());
-    	setCapabilityLibrary(new CapabilityLibrary());
-    	setGoalBase(new GoalBase());
-     }
-    
+	/**
+	 * The name of the last rule executed. Used in pretty printing but potentially
+	 * also useful in building reasoning cycles.
+	 */
+	@FilterField
+	public String lastruleexecuted;
 
-    /**
-     * Constructor
-     * 
-     * Create an agent with just a name.
-     */
-    public AILAgent(String name) {
-    	this();
+	/**
+	 * The default Belief Base name for AIL;
+	 */
+	public static final String AILdefaultBBname = "";
+
+	/*
+	 * The default belief base name for this agent;
+	 */
+	protected String defaultbbname = AILdefaultBBname;
+
+	/**
+	 * The default Goal Base name for AIL;
+	 */
+	public static final String AILdefaultGBname = "";
+
+	/*
+	 * The default goal base name for this agent;
+	 */
+	protected String defaultgbname = AILdefaultGBname;
+
+	/**
+	 * The default Rule Base name for AIL;
+	 */
+	public static final String AILdefaultRBname = "";
+
+	/*
+	 * The default rule base name for this agent;
+	 */
+	protected String defaultrbname = AILdefaultRBname;
+
+	/**
+	 * The default Plan Library name for AIL;
+	 */
+	public static final String AILdefaultPLname = "";
+
+	/*
+	 * The default plan library name for this agent;
+	 */
+	protected String defaultplname = AILdefaultPLname;
+
+	/**
+	 * The default Constraint Library name for AIL;
+	 */
+	public static final String AILdefaultCLname = "";
+
+	/**
+	 * The default Capability Base name for AIL;
+	 */
+	public static final String AILdefaultCBname = "";
+
+	/*
+	 * The default constraint library name for this agent;
+	 */
+	protected String defaultclname = AILdefaultCLname;
+
+	/* The default log name for this class */
+	protected String logname = "ail.semantics.AILAgent";
+
+	public enum SelectionOrder {
+		LINEAR, RANDOM;
+	}
+
+	/* Should a record be kept of sent messages */
+	public boolean store_sent_messages = true;
+
+	/* -Vincent */
+	protected EventStorage trace = null;
+
+	// -----------------CONSTRUCTORS---------------//
+
+	/**
+	 * Constructor
+	 * 
+	 * Create an agent.
+	 */
+	public AILAgent() {
+		setBeliefBase(new BeliefBase());
+		setRuleBase(new RuleBase());
+		setPlanLibrary(new PlanLibrary());
+		setCapabilityLibrary(new CapabilityLibrary());
+		setGoalBase(new GoalBase());
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * Create an agent with just a name.
+	 */
+	public AILAgent(String name) {
+		this();
 		setAgName(name);
-     }
-    
+	}
 
-    /**
-     * Constructor.
-     * 
-     * @param mas The multi-agent system within which the agent finds itself.
-     * @param name The name of the agent.
-     */
-    public AILAgent(MAS mas, String name) {
-    	this(name);
-     	fEnv = mas.getEnv();
-    	fMAS = mas;
+	/**
+	 * Constructor.
+	 * 
+	 * @param mas  The multi-agent system within which the agent finds itself.
+	 * @param name The name of the agent.
+	 */
+	public AILAgent(MAS mas, String name) {
+		this(name);
+		fEnv = mas.getEnv();
+		fMAS = mas;
 		initializeTracing(mas.getTraceDir());
- 	}
-      
-     
-     /**
-     * Constructor.
-     * 
-     * @param arch The Agent Architecture that links the agent with the environment
-     *             and multi-agent system.  NB. improperly caught exception.
-     * @param name The name of the agent.
-     * @param ig   The agent's initial goals.
-     * @param ib   The agent's initial beliefs.
-     * @param pl   The agent's plans.
-     */
-    public AILAgent(MAS mas, String name, List<Goal> ig, List<Literal> ib, List<Plan> pl) {
-    	this(mas, name);
-    	
-    	for (Literal b: ib) {
-    		addInitialBel(b);
-    	}
-    	
-    	for (Goal g: ig) {
-    		addInitialGoal(g);
-    	}
-    	
-    	for (Plan p: pl) {
-    		try {
-    			addPlan(p, refertoself());
-    		} catch (Exception e) {
-    			AJPFLogger.severe(logname, e.getMessage());
-    		}
-    	}
-    }
-    
-    
-    //----------------------GETTERS,  SETTERS and ADDING and REMOVING THINGS -------------//
-    
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param arch The Agent Architecture that links the agent with the environment
+	 *             and multi-agent system. NB. improperly caught exception.
+	 * @param name The name of the agent.
+	 * @param ig   The agent's initial goals.
+	 * @param ib   The agent's initial beliefs.
+	 * @param pl   The agent's plans.
+	 */
+	public AILAgent(MAS mas, String name, List<Goal> ig, List<Literal> ib, List<Plan> pl) {
+		this(mas, name);
+
+		for (Literal b : ib) {
+			addInitialBel(b);
+		}
+
+		for (Goal g : ig) {
+			addInitialGoal(g);
+		}
+
+		for (Plan p : pl) {
+			try {
+				addPlan(p, refertoself());
+			} catch (Exception e) {
+				AJPFLogger.severe(logname, e.getMessage());
+			}
+		}
+	}
+
+	// ----------------------GETTERS, SETTERS and ADDING and REMOVING THINGS
+	// -------------//
+
 	// TODO: Louise has to do some Pathfinder magic here
 	protected void initializeTracing(String directory) {
 		if (directory != null) {
 			this.trace = new EventStorage(fAgName, directory);
 		}
 	}
-	
-	public void trace(AbstractEvent event) {
-		if (this.trace != null) {
-			this.trace.write(event);
-		}
+
+	public boolean shouldTrace() {
+		return (this.trace != null);
 	}
-    
-    
-    /**
-     * Setter for the MAS an agent is within.
-     * @param mas
-     */
-    public void setMAS(MAS mas) {
-    	fEnv = mas.getEnv();
-    	fMAS = mas;
-    }
-    
+
+	public void trace(AbstractEvent event) {
+		this.trace.write(event);
+	}
+
+	/**
+	 * Setter for the MAS an agent is within.
+	 * 
+	 * @param mas
+	 */
+	public void setMAS(MAS mas) {
+		fEnv = mas.getEnv();
+		fMAS = mas;
+	}
+
 	/**
 	 * Getter method for the multi-agent system.
-     * 
-     * @return the Multi-Agen system.
-     */
-    public MAS getMAS() {
-    	return fMAS;
-    }
-    
-    /**
+	 * 
+	 * @return the Multi-Agen system.
+	 */
+	public MAS getMAS() {
+		return fMAS;
+	}
+
+	/**
 	 * Getter for last rule executed.
+	 * 
 	 * @return
 	 */
 	public String getNameOfLastRule() {
 		return lastruleexecuted;
 	}
-	
+
 	/**
 	 * Set agent name.
+	 * 
 	 * @param name
 	 */
 	public void setAgName(String name) {
 		fAgName = name;
 		fAgName.hashCode();
 	}
-	
+
 	/**
-     * Getter method for the agent's name.
-     * @return the name of the agent.
-     */
-    public String getAgName() {
-    	return fAgName;
-    }
-    
+	 * Getter method for the agent's name.
+	 * 
+	 * @return the name of the agent.
+	 */
+	public String getAgName() {
+		return fAgName;
+	}
 
 	/**
 	 * Setter method for trackplanusage.
+	 * 
 	 * @param b
 	 */
 	public void setTrackPlanUsage(boolean b) {
 		trackplanusage = b;
 	}
-	
+
 	/**
 	 * Getter for trackplanusage.
+	 * 
 	 * @return
 	 */
 	public boolean getTrackPlanUsage() {
 		return trackplanusage;
 	}
-	
-	
+
 	// --- Beliefs
-	
-    /**
-    * Getter method for the agent's belief base.
-    * 
-    * @return the Belief Base.
-    */
+
+	/**
+	 * Getter method for the agent's belief base.
+	 * 
+	 * @return the Belief Base.
+	 */
 	public BeliefBase getBB() {
 		return bbmap.get(getDefaultBBName());
 	}
-   
+
 	/**
-	 * Get a Beliefbase indexed by a number.  It is preferable to use the
-	 * string version of this.
+	 * Get a Beliefbase indexed by a number. It is preferable to use the string
+	 * version of this.
+	 * 
 	 * @param dbnum
 	 * @return
 	 */
@@ -471,9 +477,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return bbmap.get(Integer.toString(dbnum));
 		}
 	}
-   
+
 	/**
 	 * Get a Beliefbase indexed by a stringterm.
+	 * 
 	 * @param dbnumt
 	 * @return
 	 */
@@ -488,10 +495,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return bbmap.get(dbnum);
 		}
 	}
-   
+
 	/**
 	 * Get a Beliefbase indexed by a string.
-	 *	 @param dbnum
+	 * 
+	 * @param dbnum
 	 * @return
 	 */
 	public BeliefBase getBB(String dbnum) {
@@ -501,9 +509,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return bbmap.get(dbnum);
 		}
 	}
-   
+
 	/**
 	 * Get the index names for all the non-primary belief bases.
+	 * 
 	 * @return
 	 */
 	@Override
@@ -519,19 +528,21 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public void setBeliefBase(BeliefBase bb) {
 		bbmap.put(getDefaultBBName(), bb);
 	}
-	
+
 	/**
 	 * Adds a belief to the belief base annotating it with a source.
 	 * 
 	 */
 	public boolean addBel(Literal bel, AILAnnotation s) {
-		// EXPLANATION EVENT: A belief bel with annotation s is added to the default belief base.
-		bel.addAnnot(s);   
+		// EXPLANATION EVENT: A belief bel with annotation s is added to the default
+		// belief base.
+		bel.addAnnot(s);
 		return getBB().add(bel);
 	}
-   
+
 	/**
 	 * Remove a literal from the default belief base.
+	 * 
 	 * @param bel
 	 */
 	public boolean delBel(Literal bel) {
@@ -540,8 +551,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		return getBB().remove(bel);
 	}
 
-	/** 
+	/**
 	 * Remove a belief from belief base, dbnum.
+	 * 
 	 * @param dbnum
 	 * @param bel
 	 */
@@ -550,9 +562,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// NB. no check that the belief was in the belief base
 		return getBB(dbnum).remove(bel);
 	}
-	   
+
 	/**
 	 * Adds a belief to the belief base indexed by n.
+	 * 
 	 * @param bel
 	 * @param s
 	 * @param n
@@ -562,12 +575,13 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
-		bel.addAnnot(s);   
+		bel.addAnnot(s);
 		return getBB(n).add(bel);
 	}
-  
+
 	/**
 	 * Adds a belief to the belief base indexed by n.
+	 * 
 	 * @param bel
 	 * @param s
 	 * @param n
@@ -577,34 +591,37 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		if (bel instanceof VarTerm) {
 			bel = varterm_to_literal((VarTerm) bel);
 		}
-		bel.addAnnot(s);   
+		bel.addAnnot(s);
 		return getBB(n.getString()).add(bel);
 	}
 
 	/**
-	 * Helper method necessary for inserting instantiated VarTerms into the belief base without causing problems 
-	 * for unification (particularly of annotations).  Essentially this replaces a VarTerm object with an 
-	 * object of the class stored as its value.
+	 * Helper method necessary for inserting instantiated VarTerms into the belief
+	 * base without causing problems for unification (particularly of annotations).
+	 * Essentially this replaces a VarTerm object with an object of the class stored
+	 * as its value.
+	 * 
 	 * @param v
 	 * @return
 	 */
 	private Literal varterm_to_literal(VarTerm v) {
-     	Literal l = v;
-    	Term belcontents = v.getValue();
- 		if (belcontents instanceof Literal) {
- 			l = (Literal) belcontents;
- 		} else if (belcontents instanceof PredicatewAnnotation) {
- 			l = new Literal(! v.negated(), (PredicatewAnnotation) belcontents);
- 		} else if (belcontents instanceof Predicate) {
-    		l = new Literal(! v.negated(), new PredicatewAnnotation((Predicate) belcontents, null));
-    		l.setAnnot(v.getAnnot());
- 		}
- 		return l;
-   	
-     } 
+		Literal l = v;
+		Term belcontents = v.getValue();
+		if (belcontents instanceof Literal) {
+			l = (Literal) belcontents;
+		} else if (belcontents instanceof PredicatewAnnotation) {
+			l = new Literal(!v.negated(), (PredicatewAnnotation) belcontents);
+		} else if (belcontents instanceof Predicate) {
+			l = new Literal(!v.negated(), new PredicatewAnnotation((Predicate) belcontents, null));
+			l.setAnnot(v.getAnnot());
+		}
+		return l;
+
+	}
 
 	/**
 	 * Adds a belief to the belief base indexed by n.
+	 * 
 	 * @param bb
 	 * @param n
 	 */
@@ -616,6 +633,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 	/**
 	 * Adds a new belief base with a particular index.
+	 * 
 	 * @param bb
 	 * @param s
 	 */
@@ -623,36 +641,38 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		bbmap.put(s, bb);
 	}
 
-	//--Goals
-	
+	// --Goals
+
 	public boolean addGoal(Goal g) {
-		// EXPLANATION EVENT: goal g is added to a goalbase (which is encoded in the Goal object itself)
+		// EXPLANATION EVENT: goal g is added to a goalbase (which is encoded in the
+		// Goal object itself)
 		StringTerm goalbase = g.getGoalBase();
 		if (gbmap.containsKey(goalbase.getString())) {
 			return gbmap.get(goalbase.getString()).add(g);
 		} else {
 			gbmap.put(goalbase.getString(), new GoalBase());
-			return gbmap.get(goalbase.getString()).add(g);			
+			return gbmap.get(goalbase.getString()).add(g);
 		}
 	}
-	
+
 	/**
 	 * Get a list of the goals (goals appearing in intentions).
+	 * 
 	 * @return a list of the agent's goals.
 	 */
 	public Iterator<Goal> getGoals() {
 		ArrayList<Goal> gs = new ArrayList<Goal>();
-		for (GoalBase g: gbmap.values()) {
+		for (GoalBase g : gbmap.values()) {
 			gs.addAll(g.getAll());
 		}
 		return gs.iterator();
 	}
-	
+
 	public GoalBase getGoalBase() {
 		return gbmap.get(getDefaultGBName());
-		
+
 	}
-	
+
 	public GoalBase getGoalBase(StringTerm dbnumt) {
 		String dbnum = getDefaultGBName();
 		if (dbnumt.getString() != null) {
@@ -664,10 +684,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return gbmap.get(dbnum);
 		}
 	}
-   
+
 	/**
 	 * Get a Beliefbase indexed by a string.
-	 *	 @param dbnum
+	 * 
+	 * @param dbnum
 	 * @return
 	 */
 	public GoalBase getGoalBase(String dbnum) {
@@ -677,9 +698,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return gbmap.get(dbnum);
 		}
 	}
-   
+
 	/**
 	 * Get the index names for all the non-primary belief bases.
+	 * 
 	 * @return
 	 */
 	@Override
@@ -693,24 +715,26 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 	/**
 	 * Get a list of the goals (goals appearing in intentions) of a particular type.
+	 * 
 	 * @return a list of the agent's goals.
 	 */
 	public Iterator<Goal> getGoals(int type) {
 		ArrayList<Goal> gs = new ArrayList<Goal>();
-		for (GoalBase gb: gbmap.values()) {
-			for (Goal g: gb.getAll()) {
+		for (GoalBase gb : gbmap.values()) {
+			for (Goal g : gb.getAll()) {
 				if (g.getGoalType() == type) {
 					gs.add(g);
 				}
-				
+
 			}
 		}
-		
+
 		return gs.iterator();
 	}
-	
+
 	/**
 	 * Remove a Goal.
+	 * 
 	 * @param g
 	 */
 	public boolean removeGoal(Goal g) {
@@ -719,9 +743,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GoalBase gb = gbmap.get(goalbase.getString());
 		return (gb == null) ? false : gb.remove(g);
 	}
-	
-	//--Capabilities
-	
+
+	// --Capabilities
+
 	/**
 	 * Setter method for the Plan Library;
 	 * 
@@ -731,7 +755,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		clmap.put(getDefaultCBName(), pl);
 	}
 
-	
 	/**
 	 * Get he default capability library.
 	 * 
@@ -740,45 +763,48 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public CapabilityLibrary getCL() {
 		return clmap.get(getDefaultCBName());
 	}
-	
-    /**
- 	 * Setter method for the currently applicable capabilities.
- 	 * 
- 	 * @param ap
- 	 */
- 	public void setApplicableCapabilities(Iterator<Capability> cs) {
- 		// EXPLANATION EVENT: Create a list of currently applicable capabilities.
- 		// Hardly anything uses capabilities at the moment, let alone reasons about their applicability.
- 		// This is not a priority.
- 		AC = cs;
- 	}
- 	
- 	/**
- 	 * Getter method for currently applicable capabilities.
- 	 * @return
- 	 */
- 	public Iterator<Capability> getApplicableCapabilities() {
- 		return AC;
- 	}
- 	
- 	/**
- 	 * Clear the currently applicable capabilities - presumably one has been chosen or the situation has changed.
- 	 */
- 	public void clearApplicableCapabilities() {
- 		AC = new ArrayList<Capability>().iterator();
- 	}
- 	
- 	/**
- 	 * Add a capability to the agent.
- 	 * @param c
- 	 */
- 	public void addCapability(Capability c) {
- 		getCL().add(c);
- 	}
 
+	/**
+	 * Setter method for the currently applicable capabilities.
+	 * 
+	 * @param ap
+	 */
+	public void setApplicableCapabilities(Iterator<Capability> cs) {
+		// EXPLANATION EVENT: Create a list of currently applicable capabilities.
+		// Hardly anything uses capabilities at the moment, let alone reasons about
+		// their applicability.
+		// This is not a priority.
+		AC = cs;
+	}
 
-     //--Plans
-	
+	/**
+	 * Getter method for currently applicable capabilities.
+	 * 
+	 * @return
+	 */
+	public Iterator<Capability> getApplicableCapabilities() {
+		return AC;
+	}
+
+	/**
+	 * Clear the currently applicable capabilities - presumably one has been chosen
+	 * or the situation has changed.
+	 */
+	public void clearApplicableCapabilities() {
+		AC = new ArrayList<Capability>().iterator();
+	}
+
+	/**
+	 * Add a capability to the agent.
+	 * 
+	 * @param c
+	 */
+	public void addCapability(Capability c) {
+		getCL().add(c);
+	}
+
+	// --Plans
+
 	/**
 	 * Get the default plan library.
 	 * 
@@ -787,9 +813,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public PlanLibrary getPL() {
 		return plmap.get(getDefaultPLName());
 	}
-   
+
 	/**
 	 * Get a specific plan library.
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -805,9 +832,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public void setPlanLibrary(PlanLibrary pl) {
 		plmap.put(getDefaultPLName(), pl);
 	}
-   
+
 	/**
 	 * Add a plan to a specific library.
+	 * 
 	 * @param pl
 	 * @param key
 	 */
@@ -815,21 +843,22 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		pl.setLibId(key);
 		plmap.put(key, pl);
 	}
-   
+
 	/**
 	 * Adds a plan to the plan library.
-	 *	 
+	 * 
 	 * @param p The plan to be added.
 	 * @param s The source of the plan.
 	 * @throws AILexception
 	 */
 	public void addPlan(Plan p, SourceAnnotation s) throws AILexception {
-		// EXPLANATION EVENT: Theoretically plans can be added during execution.  In practice this is never used.
+		// EXPLANATION EVENT: Theoretically plans can be added during execution. In
+		// practice this is never used.
 		// Leaving note here as a placeholder but don't think this is a priority
 		p.setSource(s);
 		getPL().add(p);
 	}
-   
+
 	/**
 	 * Adds a plan from itself to the library.
 	 * 
@@ -837,87 +866,95 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @throws AILexception
 	 */
 	public void addPlan(Plan p) throws AILexception {
-		// EXPLANATION EVENT: Theoretically plans can be added during execution.  In practice this is never used.
+		// EXPLANATION EVENT: Theoretically plans can be added during execution. In
+		// practice this is never used.
 		// Leaving note here as a placeholder but don't think this is a priority
 		p.setSource(refertoself());
 		getPL().add(p);
 	}
-	
+
 	/**
 	 * Remove a plan from the plan Library.
+	 * 
 	 * @param p
 	 */
 	public void removePlan(Plan p) {
 		getPL().remove(p);
 	}
-	
-	//--- Applicable Plans
+
+	// --- Applicable Plans
 
 	/**
-	 * Getter method for the currently applicable plans.
-	 * These are stored as an iterator to be more efficient (hopefully)
-	 * when choosing them.
+	 * Getter method for the currently applicable plans. These are stored as an
+	 * iterator to be more efficient (hopefully) when choosing them.
 	 * 
 	 * @return the currently applicable plans.
 	 */
 	public Iterator<ApplicablePlan> getApplicablePlans() {
 		return AP;
 	}
-	
-    /**
- 	 * Setter method for the currently applicable plans.
- 	 * 
- 	 * @param ap
- 	 */
- 	public void setApplicablePlans(Iterator<ApplicablePlan> ap) {
- 		// EXPLANATION EVENT: Set the list of plans that are applicable to the current agent mental state
- 		// One of these will be chosen in the next step, but this iterator of actually applicable ones is
- 		// potentially useful to know in debugging - unfortunately its an iterator not a list :(
- 		AP = ap;
- 	}
- 	
-	//--- Rules
-	
+
+	/**
+	 * Setter method for the currently applicable plans.
+	 * 
+	 * @param ap
+	 */
+	public void setApplicablePlans(Iterator<ApplicablePlan> ap) {
+		// EXPLANATION EVENT: Set the list of plans that are applicable to the current
+		// agent mental state
+		// One of these will be chosen in the next step, but this iterator of actually
+		// applicable ones is
+		// potentially useful to know in debugging - unfortunately its an iterator not a
+		// list :(
+		AP = ap;
+	}
+
+	// --- Rules
+
 	/**
 	 * Setter method for the inference rules.
+	 * 
 	 * @param rs
 	 */
 	public void setRuleBase(RuleBase rs) {
 		rbmap.put(getDefaultRBName(), rs);
 	}
-   
+
 	/**
 	 * Getter method for the RuleBase.
+	 * 
 	 * @return
 	 */
 	public RuleBase getRuleBase() {
 		return rbmap.get(getDefaultRBName());
 	}
-   
+
 	/**
 	 * Add a rule to the rule base.
+	 * 
 	 * @param r
 	 */
 	public void addRule(Rule r) {
 		getRuleBase().add(r);
 	}
-		
-	//--- Capabilities
-	
-	
+
+	// --- Capabilities
+
 	/**
 	 * Add a capability.
+	 * 
 	 * @param c
 	 */
 	public void addCap(Capability c) {
 		getCL().add(c);
 	}
-	   
-	//--- Constraints
-	
+
+	// --- Constraints
+
 	/**
-	 * There may be additional mechanisms for constraining plan applicability.  These should
-	 * over-ride this method.
+	 * There may be additional mechanisms for constraining plan applicability. These
+	 * should over-ride this method.
+	 * 
 	 * @param p
 	 * @param u
 	 * @return
@@ -925,8 +962,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public Iterator<Unifier> check_constraints(Plan p, Iterator<Unifier> u) {
 		return u;
 	}
-	
-	//--- Intentions
+
+	// --- Intentions
 	/**
 	 * Getter method for the current intention.
 	 * 
@@ -935,7 +972,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public Intention getIntention() {
 		return I;
 	}
-   
+
 	/**
 	 * Setter method for the current intention.
 	 * 
@@ -945,7 +982,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// EXPLANATION EVENT: i has been chosen as the current intention.
 		I = i;
 	}
-   
+
 	/**
 	 * Getter method for all intentions apart from the current one.
 	 * 
@@ -954,159 +991,164 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public ArrayList<Intention> getIntentions() {
 		return Is;
 	}
-   
+
 	/**
 	 * Setter method for the set of intentions.
 	 * 
-	 * @param is  return the set of intentions.
+	 * @param is return the set of intentions.
 	 */
 	public void setIntentions(ArrayList<Intention> is) {
-		// EXPLANATION EVENT: set is as the list of all intentions except the current one.
+		// EXPLANATION EVENT: set is as the list of all intentions except the current
+		// one.
 		Is = is;
 	}
-	
-	//--- Content/Context
-	
-    /**
-     * Getter method for the agent content.
-     * @return the agent content.
-     */
-    public List<String> getContent() {
-    	return content;
-    }
-    
-    /** 
-     * Setter method for the agent content.
-     * @param s the agent content.
-     */
-    public void setContent(List<String> s) {
-    	content = s;
-    }
-    
-    /**
-     * Add a new agent to the content.
-     * @param s The agent to be added.
-     */
-    public void addContent(String s) {
-    	// EXPLANATION EVENT: Set a new content for the agent
-    	// Nothing uses this machinery at present - ignore.
-    	if (! getContent().contains(s)) {
-    		content.add(s);
-    	}
-    }
-    
-    /**
-     * Remove an agent from the content.
-     * @param s the agent to be removed.
-     */
-    public void removeContent(String s) {
-    	// EXPLANATION EVENT: Remove content s from the agent.
-    	// Nothing uses this machinery at present - ignore.
-    	content.remove(s);
-    }
-    
-    /**
-     * Getter for the agent's context.
-     * @return the agent's context.
-     */
-    public List<String> getContext() {
-    	return context;
-    }
-    
-    /**
-     * Setter for the agent's context.
-     * @param s the agent's context.
-     */
-    public void setContext(List<String> s) {
-    	// EXPLANATION EVENT: Set a new context for the agent
-    	// Nothing uses this machinery at present - ignore.
-    	context = s;
-    }
-    
-    /**
-     * Adds an agent name to the context.
-     * @param s agent to add.
-     */
-    public void addContext(String s) {
-    	if (! getContext().contains(s)) {
-    		context.add(s);
-    	}
-    }
-    
-    /**
-     * Removes an agent from the context.
-     * @param s the agent to remove.
-     */
-    public void removeContext(String s) {
-       	// EXPLANATION EVENT: Remove the agent from context s.
-    	// Nothing uses this machinery at present - ignore.
-    	context.remove(s);
-    }
-    
-    
-    //--- Annotations
- 	
- 	/**
- 	 * Getter method for the annotations.
- 	 * 
- 	 * @return the annotations.
- 	 */
- 	public List<AILAnnotation> getAnnotations() {
- 		return Anns;
- 	}
- 	
- 	
- 	/**
- 	 * Setter method for the annotations.  Note, unlike most of the
- 	 * other setters we do not ensure the incoming list is thread safe.  This
- 	 * is the responsibiliy of those calling this method.
- 	 * 
- 	 * @param anns the new annotations.
- 	 */
- 	public void setAnnotations(List<AILAnnotation> anns) {
- 		Anns = anns;
- 	}
- 	
- 	
- 	//--- Actions
- 	/**
- 	 * Getter method for the Actions.
- 	 * 
- 	 * @return the new actions.
- 	 */
- 	public List<Action> getActions() {
- 		return Actions;
- 	}
- 	
- 	/**
- 	 * Setter method for the Actions.
- 	 * 
- 	 * @param acts the new action list.
- 	 */
- 	public void setActions(List<Action> acts) {
- 		Actions = acts;
- 	}
- 	
 
- 	//-- Inbox
- 	/**
- 	 * Getter message for the agent's inbox.
- 	 * 
- 	 * @return
- 	 */
- 	public List<Message> getInbox() {
- 		return Inbox;
- 	}
- 	
- 	/**
- 	 * Setter message for the agent's inbox.
- 	 * 
- 	 * @param msgs
- 	 */
- 	//public void setInbox(List<Message> msgs) {
-  	//	Inbox = msgs;
- 	//}
- 	
+	// --- Content/Context
+
+	/**
+	 * Getter method for the agent content.
+	 * 
+	 * @return the agent content.
+	 */
+	public List<String> getContent() {
+		return content;
+	}
+
+	/**
+	 * Setter method for the agent content.
+	 * 
+	 * @param s the agent content.
+	 */
+	public void setContent(List<String> s) {
+		content = s;
+	}
+
+	/**
+	 * Add a new agent to the content.
+	 * 
+	 * @param s The agent to be added.
+	 */
+	public void addContent(String s) {
+		// EXPLANATION EVENT: Set a new content for the agent
+		// Nothing uses this machinery at present - ignore.
+		if (!getContent().contains(s)) {
+			content.add(s);
+		}
+	}
+
+	/**
+	 * Remove an agent from the content.
+	 * 
+	 * @param s the agent to be removed.
+	 */
+	public void removeContent(String s) {
+		// EXPLANATION EVENT: Remove content s from the agent.
+		// Nothing uses this machinery at present - ignore.
+		content.remove(s);
+	}
+
+	/**
+	 * Getter for the agent's context.
+	 * 
+	 * @return the agent's context.
+	 */
+	public List<String> getContext() {
+		return context;
+	}
+
+	/**
+	 * Setter for the agent's context.
+	 * 
+	 * @param s the agent's context.
+	 */
+	public void setContext(List<String> s) {
+		// EXPLANATION EVENT: Set a new context for the agent
+		// Nothing uses this machinery at present - ignore.
+		context = s;
+	}
+
+	/**
+	 * Adds an agent name to the context.
+	 * 
+	 * @param s agent to add.
+	 */
+	public void addContext(String s) {
+		if (!getContext().contains(s)) {
+			context.add(s);
+		}
+	}
+
+	/**
+	 * Removes an agent from the context.
+	 * 
+	 * @param s the agent to remove.
+	 */
+	public void removeContext(String s) {
+		// EXPLANATION EVENT: Remove the agent from context s.
+		// Nothing uses this machinery at present - ignore.
+		context.remove(s);
+	}
+
+	// --- Annotations
+
+	/**
+	 * Getter method for the annotations.
+	 * 
+	 * @return the annotations.
+	 */
+	public List<AILAnnotation> getAnnotations() {
+		return Anns;
+	}
+
+	/**
+	 * Setter method for the annotations. Note, unlike most of the other setters we
+	 * do not ensure the incoming list is thread safe. This is the responsibiliy of
+	 * those calling this method.
+	 * 
+	 * @param anns the new annotations.
+	 */
+	public void setAnnotations(List<AILAnnotation> anns) {
+		Anns = anns;
+	}
+
+	// --- Actions
+	/**
+	 * Getter method for the Actions.
+	 * 
+	 * @return the new actions.
+	 */
+	public List<Action> getActions() {
+		return Actions;
+	}
+
+	/**
+	 * Setter method for the Actions.
+	 * 
+	 * @param acts the new action list.
+	 */
+	public void setActions(List<Action> acts) {
+		Actions = acts;
+	}
+
+	// -- Inbox
+	/**
+	 * Getter message for the agent's inbox.
+	 * 
+	 * @return
+	 */
+	public List<Message> getInbox() {
+		return Inbox;
+	}
+
+	/**
+	 * Setter message for the agent's inbox.
+	 * 
+	 * @param msgs
+	 */
+	// public void setInbox(List<Message> msgs) {
+	// Inbox = msgs;
+	// }
+
 	/**
 	 * Add new messages to the agent's inbox.
 	 * 
@@ -1121,7 +1163,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			clearInbox();
 		}
 	}
-	
+
 	/**
 	 * Clear the inbox.
 	 *
@@ -1130,34 +1172,38 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// EXPLANATION EVENT: Clear the inbox.
 		Inbox = new ArrayList<Message>();
 	}
-	
- 	//--- Outbox
+
+	// --- Outbox
 	/**
 	 * Getter method fo the agent's outbox.
+	 * 
 	 * @return
 	 */
 	public List<Message> getOutbox() {
 		return Outbox;
 	}
-	
+
 	/**
 	 * Setter method for the agent's outbox.
+	 * 
 	 * @param msgs
 	 */
-	//public void setOutbox(List<Message> msgs) {
-	//	Outbox = msgs;
-	//}
-	
+	// public void setOutbox(List<Message> msgs) {
+	// Outbox = msgs;
+	// }
+
 	/**
-	 * Setter  for the storing of sent messages.
+	 * Setter for the storing of sent messages.
+	 * 
 	 * @param value
 	 */
 	public void setStoreSentMessages(boolean value) {
 		store_sent_messages = value;
 	}
-	
+
 	/**
 	 * Are we storing sent messages in an outbox?
+	 * 
 	 * @return
 	 */
 	public boolean getStoreSentMessages() {
@@ -1180,7 +1226,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 					done = true;
 					break;
 				} else if (msg.compareTo(msgl.get(i)) < 0) {
-					// EXPLANATION EVENT: if msg was a genuinely new message it is added to the set of messages in the outbox.
+					// EXPLANATION EVENT: if msg was a genuinely new message it is added to the set
+					// of messages in the outbox.
 					msgl.add(i, msg);
 					stored = true;
 					done = true;
@@ -1188,311 +1235,333 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				}
 				i++;
 			}
-			
-			if (! done) {
+
+			if (!done) {
 				msgl.add(i, msg);
 			}
-			
+
 			Outbox = msgl;
 		}
 		return stored;
 	}
-    
-	//--- Reasoning Cycle
-	
+
+	// --- Reasoning Cycle
+
 	/**
 	 * Getter method for the reasoning cycle.
 	 * 
 	 * @return the reasoning cycle.
 	 */
-    public ReasoningCycle getReasoningCycle() {
-    	return RC;
-    }
-   
-    /**
-     * Setter method for the reasoning cycle.
-     * 
-     * @param R the reasoning cycle.
-     */	
-    public void setReasoningCycle(ReasoningCycle R) {
-    	RC = R;
-    }
-
-    /**
-     * Setter method for the stage of the Reasoning Cycle.
-     * @param rcs
-     */
-     public void setCurrentStage(RCStage rcs) {
-    	getReasoningCycle().setCurrentStage(rcs);
-    }
-
-     //--- Environment
-    /**
-     * Getter method for the Environment.
-     * 
-     * @return the Environment.
-     */
-    public AILEnv getEnv() {
-    	return fEnv;
-    }
-   
-    /**
-     * Setter method for the Environment
-     * @param env
-     */
-    public void setEnv(AILEnv env) {
-    	fEnv = env;
-    }
-
-
- //--- Default database names    
-    /**
-     * Set the name of the default belief base.  This is the belief base that will be used if no belief base is specified.
-     * By default this name is the empty string.
-     * @param s
-     */
-     public void setDefaultBBName(String s) {
-    	 defaultbbname = s;
-     }
-     
-     /**
-      * Get the name of the default belief base.
-      * @return
-      */
-     public String getDefaultBBName() {
-    	 return defaultbbname;
-     }
-		
-     /**
-     * Set the name of the default goal base.  This is the goal base that will be used if no goal base is specified.
-     * By default this name is the empty string.
-     * @param s
-     */
-    public void setDefaultGBName(String s) {
-    	 defaultgbname = s;
-     }
-    
-    /**
-     * Get the name of the default capability base.
-     * @return
-     */
-    public String getDefaultCBName() {
-    	return defaultclname;
-    }
-     
-    /**
-     * Get the name of the default goal base.
-     * @return
-     */
-     public String getDefaultGBName() {
-    	 return defaultgbname;
-     }
-
-     /**
-     * Set the name of the default rule base.  This is the rule base that will be used if no rule base is specified.
-     * By default this name is the empty string.
-     * @param s
-     */
-    public void setDefaultRBName(String s) {
-    	 defaultrbname = s;
-     }
-     
-    /**
-     * Get the name of the default rule base.
-     * @return
-     */
-     public String getDefaultRBName() {
-    	 return defaultrbname;
-     }
-
-     /**
-     * Set the name of the default plan library.  This is the plan library that will be used if no plan library is specified.
-     * By default this name is the empty string.
-     * @param s
-     */
-     public void setDefaultPLName(String s) {
-    	 defaultplname = s;
-     }
-     
-     /**
-      * Set the name of the default plan library.
-      * @return
-      */
-     public String getDefaultPLName() {
-    	 return defaultplname;
-     }
-
-     /**
-     * Set the name of the default constraint library.  This is the constraint library that will be used if no constraint library is specified.
-     * By default this name is the empty string.
-     * @param s
-     */
-     public void setDefaultCLName(String s) {
-    	 defaultclname = s;
-     }
-     
-     /**
-      * Get the name of the default constraint library
-      * @return
-      */
-     public String getDefaultCLName() {
-    	 return defaultclname;
-     }
-
-
-	//---------------------STATIC SUPPORT METHODS ------------------//
+	public ReasoningCycle getReasoningCycle() {
+		return RC;
+	}
 
 	/**
-     * Returns a "self" Atom used in ascribing the sources of beliefs and 
-     * intentions.
-     * 
-     * @return a self atom.
-     */
-    public static SourceAnnotation refertoself() {
-     	return BeliefBase.TSelf;
-    }
+	 * Setter method for the reasoning cycle.
+	 * 
+	 * @param R the reasoning cycle.
+	 */
+	public void setReasoningCycle(ReasoningCycle R) {
+		RC = R;
+	}
 
-    /**
-     * Returns a "percept" Atom used in ascribing the sources of beliefs and 
-     * intentions.
-     * 
-     * @return a self atom.
-     */
-    public static SourceAnnotation refertopercept() {
-    	return BeliefBase.TPercept;
-    }
-    
-    
-    //-------------------Initialisation Methods-------------------------
+	/**
+	 * Setter method for the stage of the Reasoning Cycle.
+	 * 
+	 * @param rcs
+	 */
+	public void setCurrentStage(RCStage rcs) {
+		getReasoningCycle().setCurrentStage(rcs);
+	}
 
-    /**
-     * Initialises the Agent
-     */
-    public void initAg() {
-    	// Set the current intention
-    	if (! Is.isEmpty()) {
-    		setIntention(getIntentions().remove(0));
-    	}
-     }
+	// --- Environment
+	/**
+	 * Getter method for the Environment.
+	 * 
+	 * @return the Environment.
+	 */
+	public AILEnv getEnv() {
+		return fEnv;
+	}
 
-    /**
-     * Adds a new initial goal.
-     * 
-     * @param g the new initial Goal.
-     */
-    public void addInitialGoal(Goal g) {
-    	// EXPLANATION EVENT: Add an initial goal - not sure if this is necessary since it should only be invoked at the start.
-    	// TODO: this only creates the intention to add a goal? -Vincent
-    	Intention i = new Intention(g, refertoself());
-    	getIntentions().add(i);
-		trace(new CreateIntentionEvent(i));
-    }
-    
-    /**
-     * Add a new inital belief to the default belief base.
-     * 
-     * @param b the new belief.
-     */
-    public void addInitialBel(Literal b) {
-       	// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary since it should only be invoked at the start.
-    	b.addAnnot(refertoself());
-    	GroundPredSets.check_add(b);
-    	boolean success = getBB().add(b);
-    	if (success) {
+	/**
+	 * Setter method for the Environment
+	 * 
+	 * @param env
+	 */
+	public void setEnv(AILEnv env) {
+		fEnv = env;
+	}
+
+	// --- Default database names
+	/**
+	 * Set the name of the default belief base. This is the belief base that will be
+	 * used if no belief base is specified. By default this name is the empty
+	 * string.
+	 * 
+	 * @param s
+	 */
+	public void setDefaultBBName(String s) {
+		defaultbbname = s;
+	}
+
+	/**
+	 * Get the name of the default belief base.
+	 * 
+	 * @return
+	 */
+	public String getDefaultBBName() {
+		return defaultbbname;
+	}
+
+	/**
+	 * Set the name of the default goal base. This is the goal base that will be
+	 * used if no goal base is specified. By default this name is the empty string.
+	 * 
+	 * @param s
+	 */
+	public void setDefaultGBName(String s) {
+		defaultgbname = s;
+	}
+
+	/**
+	 * Get the name of the default capability base.
+	 * 
+	 * @return
+	 */
+	public String getDefaultCBName() {
+		return defaultclname;
+	}
+
+	/**
+	 * Get the name of the default goal base.
+	 * 
+	 * @return
+	 */
+	public String getDefaultGBName() {
+		return defaultgbname;
+	}
+
+	/**
+	 * Set the name of the default rule base. This is the rule base that will be
+	 * used if no rule base is specified. By default this name is the empty string.
+	 * 
+	 * @param s
+	 */
+	public void setDefaultRBName(String s) {
+		defaultrbname = s;
+	}
+
+	/**
+	 * Get the name of the default rule base.
+	 * 
+	 * @return
+	 */
+	public String getDefaultRBName() {
+		return defaultrbname;
+	}
+
+	/**
+	 * Set the name of the default plan library. This is the plan library that will
+	 * be used if no plan library is specified. By default this name is the empty
+	 * string.
+	 * 
+	 * @param s
+	 */
+	public void setDefaultPLName(String s) {
+		defaultplname = s;
+	}
+
+	/**
+	 * Set the name of the default plan library.
+	 * 
+	 * @return
+	 */
+	public String getDefaultPLName() {
+		return defaultplname;
+	}
+
+	/**
+	 * Set the name of the default constraint library. This is the constraint
+	 * library that will be used if no constraint library is specified. By default
+	 * this name is the empty string.
+	 * 
+	 * @param s
+	 */
+	public void setDefaultCLName(String s) {
+		defaultclname = s;
+	}
+
+	/**
+	 * Get the name of the default constraint library
+	 * 
+	 * @return
+	 */
+	public String getDefaultCLName() {
+		return defaultclname;
+	}
+
+	// ---------------------STATIC SUPPORT METHODS ------------------//
+
+	/**
+	 * Returns a "self" Atom used in ascribing the sources of beliefs and
+	 * intentions.
+	 * 
+	 * @return a self atom.
+	 */
+	public static SourceAnnotation refertoself() {
+		return BeliefBase.TSelf;
+	}
+
+	/**
+	 * Returns a "percept" Atom used in ascribing the sources of beliefs and
+	 * intentions.
+	 * 
+	 * @return a self atom.
+	 */
+	public static SourceAnnotation refertopercept() {
+		return BeliefBase.TPercept;
+	}
+
+	// -------------------Initialisation Methods-------------------------
+
+	/**
+	 * Initialises the Agent
+	 */
+	public void initAg() {
+		// Set the current intention
+		if (!Is.isEmpty()) {
+			setIntention(getIntentions().remove(0));
+		}
+	}
+
+	/**
+	 * Adds a new initial goal.
+	 * 
+	 * @param g the new initial Goal.
+	 */
+	public void addInitialGoal(Goal g) {
+		// EXPLANATION EVENT: Add an initial goal - not sure if this is necessary since
+		// it should only be invoked at the start.
+		// TODO: this only creates the intention to add a goal? -Vincent
+		Intention i = new Intention(g, refertoself());
+		getIntentions().add(i);
+		if (shouldTrace()) {
+			trace(new CreateIntentionEvent(i));
+		}
+	}
+
+	/**
+	 * Add a new inital belief to the default belief base.
+	 * 
+	 * @param b the new belief.
+	 */
+	public void addInitialBel(Literal b) {
+		// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary
+		// since it should only be invoked at the start.
+		b.addAnnot(refertoself());
+		GroundPredSets.check_add(b);
+		boolean success = getBB().add(b);
+		if (success && shouldTrace()) {
 			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
 			trace(new ModificationEvent(initBel));
 		}
-    }
+	}
 
-    /**
-     * Add and initial belief to belief base s.
-     * @param b
-     * @param s
-     */
-    public void addInitialBel(Literal b, String s) {
-       	// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary since it should only be invoked at the start.
-    	b.addAnnot(refertoself());
-    	GroundPredSets.check_add(b);
-    	boolean success = getBB(s).add(b);
-    	if (success) {
+	/**
+	 * Add and initial belief to belief base s.
+	 * 
+	 * @param b
+	 * @param s
+	 */
+	public void addInitialBel(Literal b, String s) {
+		// EXPLANATION EVENT: Add an initial belief - not sure if this is necessary
+		// since it should only be invoked at the start.
+		b.addAnnot(refertoself());
+		GroundPredSets.check_add(b);
+		boolean success = getBB(s).add(b);
+		if (success && shouldTrace()) {
 			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, s, b, null);
 			trace(new ModificationEvent(initBel));
 		}
-    }
-    
-    
-    //------------------- WORKING WITH BELIEFS --------------------
-    
-    /**
-     * Whether a literal is consistent with the agent's belief base.  Defaults
-     * to true.
-     * 
-     * @param l The literal for checking.
-     * @return whether this literal is consistent with the agent's belief base.
-     */
-    public boolean consistent(Literal l) {
-    	return true;
-    }
-   
-    
-    //------------------- WORKING WITH INTENTIONS --------------------
-   
-    /**
-     * Adds a new intention.
-     * @param i
-     */
-    public void addNewIntention(Intention i) {
-    	// EXPLANATION EVENT: Add a new intention to the set of non-current intention.
-    	getIntentions().add(i);
-    }
-    
-    /**
-     * Select an intention from a linked list of intentions.
-     * 
-     * @param intentions
-     * @return the selected intention.
-     */
-    public Intention selectIntention(List<Intention> intentions) {
-        // make sure the selected Intention is removed from 'intentions'
-        // and make sure no intention will "starve"!!!
-    	Iterator<Intention> ii = intentions.iterator();
-    	ArrayList<Intention> iiprime = new ArrayList<Intention>();
+	}
 
-    	while (ii.hasNext()) {
-    		Intention ip = ii.next();
-    		// Remove empty/redundant intentions.
-    		// Need a more principled way to handle this with select intention
-    		if (!(ip == null) && (ip.empty() || ip.suspended())) {
-     			ii.remove();
-     			if (! ip.empty()) {
-     				iiprime.add(ip);
-     			}
-    		}
-    	}
-        
-    	// EXPLANATION EVENT: Having performed a little tidying on intentions above, we now select
-    	// i as the new candidate current intention - it is the first in the list of intentions unless that
-    	// list is empty in which case it is null.  This isn't actually made the current intention here - that
-    	// happens in the object representing the transition - but this is where the selection takes place which
-    	// may (or may not) be important.
-    	Intention i;
-    	if (intentions.isEmpty()) {
-    		i = null;
-    	} else {
-    		i = intentions.remove(0);
-    	}
-    	intentions.addAll(iiprime);
+	// ------------------- WORKING WITH BELIEFS --------------------
 
-    	return i;
-    }
-    
-    /**
-     * Sort intentions to assist state matching while model checking.
-     */
+	/**
+	 * Whether a literal is consistent with the agent's belief base. Defaults to
+	 * true.
+	 * 
+	 * @param l The literal for checking.
+	 * @return whether this literal is consistent with the agent's belief base.
+	 */
+	public boolean consistent(Literal l) {
+		return true;
+	}
+
+	// ------------------- WORKING WITH INTENTIONS --------------------
+
+	/**
+	 * Adds a new intention.
+	 * 
+	 * @param i
+	 */
+	public void addNewIntention(Intention i) {
+		// EXPLANATION EVENT: Add a new intention to the set of non-current intention.
+		getIntentions().add(i);
+	}
+
+	/**
+	 * Select an intention from a linked list of intentions.
+	 * 
+	 * @param intentions
+	 * @return the selected intention.
+	 */
+	public Intention selectIntention(List<Intention> intentions) {
+		// make sure the selected Intention is removed from 'intentions'
+		// and make sure no intention will "starve"!!!
+		Iterator<Intention> ii = intentions.iterator();
+		ArrayList<Intention> iiprime = new ArrayList<Intention>();
+
+		while (ii.hasNext()) {
+			Intention ip = ii.next();
+			// Remove empty/redundant intentions.
+			// Need a more principled way to handle this with select intention
+			if (!(ip == null) && (ip.empty() || ip.suspended())) {
+				ii.remove();
+				if (!ip.empty()) {
+					iiprime.add(ip);
+				}
+			}
+		}
+
+		// EXPLANATION EVENT: Having performed a little tidying on intentions above, we
+		// now select
+		// i as the new candidate current intention - it is the first in the list of
+		// intentions unless that
+		// list is empty in which case it is null. This isn't actually made the current
+		// intention here - that
+		// happens in the object representing the transition - but this is where the
+		// selection takes place which
+		// may (or may not) be important.
+		Intention i;
+		if (intentions.isEmpty()) {
+			i = null;
+		} else {
+			i = intentions.remove(0);
+		}
+		intentions.addAll(iiprime);
+
+		return i;
+	}
+
+	/**
+	 * Sort intentions to assist state matching while model checking.
+	 */
 	public void sortIntentions() {
 		ArrayList<Intention> unsuspended = new ArrayList<Intention>();
 		ArrayList<Intention> suspended = new ArrayList<Intention>();
-		for (Intention i: Is) {
+		for (Intention i : Is) {
 			if (i.suspended()) {
 				suspended.add(i);
 			} else {
@@ -1502,22 +1571,23 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		Collections.sort(suspended);
 		setIntentions(unsuspended);
 		Is.addAll(suspended);
-	} 
+	}
 
 	/**
 	 * Unsuspends all intentions.
 	 *
 	 */
 	public void unsuspendintentions() {
-		// EXPLANATION EVENT: All intentions are unsuspended.  We may want to know when this happens but it is probably low priority.
+		// EXPLANATION EVENT: All intentions are unsuspended. We may want to know when
+		// this happens but it is probably low priority.
 		if (I != null) {
 			I.unsuspend();
 		}
-		for (Intention i: Is) {
+		for (Intention i : Is) {
 			i.unsuspend();
 		}
 	}
-	
+
 	/**
 	 * True if all the agent's intentions are suspended.
 	 * 
@@ -1525,100 +1595,105 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public boolean allintentionssuspended() {
 		if (getIntention() == null || getIntention().empty() || getIntention().suspended()) {
-			for (Intention i: getIntentions()) {
+			for (Intention i : getIntentions()) {
 				if (!i.suspended()) {
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	//----------------------- WORKING WITH PLANS
-    
-    /**
-     * Returns a chosen plan in a list of applicable plans.  We use
-     * this rather than selectPlan as the desired overridable function since it allows
-     * rules to reason about which intention generated the chosen plan.
-     * 
-     * By default, if trackplanusage is enabled, this prefers the plan with the highest
-     * score.
-     * 
-     * Note this may return null;
-     * 
-     * @param appPlans
-     * @param i
-     * @return
-     */
-    public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
-    	// EXPLANATION EVENT: This is where a plan is chosen from the list of applicable plans.
-    	// Usually this is just the first plan returned by the iterator (see else statement) but
-    	// we have had applications where we tried to be more clever - I suggest this is a lower 
-    	// priority however.
-    	if (trackplanusage) {
-    		int currentvalue = 0;	
-    		ApplicablePlan candidate = null;
-		
+	// ----------------------- WORKING WITH PLANS
+
+	/**
+	 * Returns a chosen plan in a list of applicable plans. We use this rather than
+	 * selectPlan as the desired overridable function since it allows rules to
+	 * reason about which intention generated the chosen plan.
+	 * 
+	 * By default, if trackplanusage is enabled, this prefers the plan with the
+	 * highest score.
+	 * 
+	 * Note this may return null;
+	 * 
+	 * @param appPlans
+	 * @param i
+	 * @return
+	 */
+	public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
+		// EXPLANATION EVENT: This is where a plan is chosen from the list of applicable
+		// plans.
+		// Usually this is just the first plan returned by the iterator (see else
+		// statement) but
+		// we have had applications where we tried to be more clever - I suggest this is
+		// a lower
+		// priority however.
+		if (trackplanusage) {
+			int currentvalue = 0;
+			ApplicablePlan candidate = null;
+
 			while (aps.hasNext()) {
 				ApplicablePlan p = aps.next();
 				if (candidate == null) {
 					currentvalue = scoreplan(p);
 					candidate = p;
 				} else {
-				int value = scoreplan(p);
+					int value = scoreplan(p);
 					if (value < currentvalue) {
 						currentvalue = value;
 						candidate = p;
 					}
 				}
 			}
-			
+
 			updatePlanUsage(candidate);
 			return candidate;
-    	} else { 
-    		return aps.next();
-    	}
-    }
-    
-    /**
-     * Select a plan applicable to an intention from a linked list of plans.  Uses choosePlan.
-     * Strongly recommend subclassing choose plan as opposed to this method.
-     * 
-     * @param appPlans A linked list of plans applicable to the intention.
-     * @param i The intention under consideration.
-     * @return One applicable plan.
-     */
-    public ApplicablePlan selectPlan(Iterator<ApplicablePlan> appPlans, Intention i) {
-    	ApplicablePlan p = choosePlan(appPlans, i);
-    	return p;
-    }
-    
-    /**
-     * Updates an records of plan usage.
-     * 
-     * By default, if trackplanusage is enabled, this sets the usage to
-     * zero.
-     * @param p the plan used.
-     */
-    public void updatePlanUsage(ApplicablePlan p) {
-       	if (getTrackPlanUsage()) {
-       		if (p != null ) { //&& !p.noChangePlan()) {
-       			String ps = p.keyString();
-       			generated.put(ps, 0);
-       		}
-       	}
-    }
-        
-    /**
-     * Overridable function for scoring a plan.  By default, if trackplanusage
-     * is enabled, this gives the highest score to the plan which has been
-     * considered most often, but not chosen.
-     * @param p
-     * @return
-     */
+		} else {
+			return aps.next();
+		}
+	}
+
+	/**
+	 * Select a plan applicable to an intention from a linked list of plans. Uses
+	 * choosePlan. Strongly recommend subclassing choose plan as opposed to this
+	 * method.
+	 * 
+	 * @param appPlans A linked list of plans applicable to the intention.
+	 * @param i        The intention under consideration.
+	 * @return One applicable plan.
+	 */
+	public ApplicablePlan selectPlan(Iterator<ApplicablePlan> appPlans, Intention i) {
+		ApplicablePlan p = choosePlan(appPlans, i);
+		return p;
+	}
+
+	/**
+	 * Updates an records of plan usage.
+	 * 
+	 * By default, if trackplanusage is enabled, this sets the usage to zero.
+	 * 
+	 * @param p the plan used.
+	 */
+	public void updatePlanUsage(ApplicablePlan p) {
+		if (getTrackPlanUsage()) {
+			if (p != null) { // && !p.noChangePlan()) {
+				String ps = p.keyString();
+				generated.put(ps, 0);
+			}
+		}
+	}
+
+	/**
+	 * Overridable function for scoring a plan. By default, if trackplanusage is
+	 * enabled, this gives the highest score to the plan which has been considered
+	 * most often, but not chosen.
+	 * 
+	 * @param p
+	 * @return
+	 */
 	protected int scoreplan(ApplicablePlan p) {
 		if (getTrackPlanUsage()) {
 			String ps = p.keyString();
@@ -1631,110 +1706,110 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				generated.put(ps, 1);
 				return 0;
 			}
-		} 
+		}
 		return 0;
 	}
- 
-	
+
 	/**
-     * Filter out plans from a list of applicable plans.  Identity unless over-ridden.
-     * 
-     * @param aps A linked list of applicable plans.
-     * @return A linked list of applicable plans from which some may have been
-     *         filtered.
-     */
-   public Iterator<ApplicablePlan> filterPlans(Iterator<ApplicablePlan> aps) {
-	   return aps;
-    }
-    
-   /**
-    * Clear the applicable plan set.
-    */
-    public void clearApplicablePlans() {
-    	AP = new ArrayList<ApplicablePlan>().iterator();
-    }
-    
-    /**
-     * Generates a list of all the plans AIL considers applicable to the
-     * intention.  This list generated using continuePlans and matchPlans
-     * as described in AIL technical reports.  final to prevent the meaning
-     * of an applicable plan being changed by sub-classing.  If an APL has
-     * a different meaning then its own equivalent of appPlans must be used.
-     * 
-     * @param i The intention for which applicable plans are sought.
-     * @return A linked list of all plans that are applicable.
-     */
-    public final Iterator<ApplicablePlan> appPlans(final Intention i) {
-    	// EXPLANATION EVENT: This is where the iterator of applicable plans is created.
-    	// Not sure how useful it is an event but it could be important but it may be
-    	// more important to look in matchPlans and continuePlans.
-    	if (i!= null && !i.empty()) {
-    		
-    		return new Iterator<ApplicablePlan>() {
-    			Iterator <ApplicablePlan> continueplans = continuePlans(i).iterator();
-    			boolean cp = true;
-    			Iterator<ApplicablePlan> matchplans = matchPlans(i);
-    			
-    			public void remove() {};
-    			
-    			public boolean hasNext() {
-    				if (cp) {
-    					if (continueplans.hasNext()) {
-    						return true;
-    					} else {
-    						cp = false;
-    					}
-    				}
+	 * Filter out plans from a list of applicable plans. Identity unless
+	 * over-ridden.
+	 * 
+	 * @param aps A linked list of applicable plans.
+	 * @return A linked list of applicable plans from which some may have been
+	 *         filtered.
+	 */
+	public Iterator<ApplicablePlan> filterPlans(Iterator<ApplicablePlan> aps) {
+		return aps;
+	}
+
+	/**
+	 * Clear the applicable plan set.
+	 */
+	public void clearApplicablePlans() {
+		AP = new ArrayList<ApplicablePlan>().iterator();
+	}
+
+	/**
+	 * Generates a list of all the plans AIL considers applicable to the intention.
+	 * This list generated using continuePlans and matchPlans as described in AIL
+	 * technical reports. final to prevent the meaning of an applicable plan being
+	 * changed by sub-classing. If an APL has a different meaning then its own
+	 * equivalent of appPlans must be used.
+	 * 
+	 * @param i The intention for which applicable plans are sought.
+	 * @return A linked list of all plans that are applicable.
+	 */
+	public final Iterator<ApplicablePlan> appPlans(final Intention i) {
+		// EXPLANATION EVENT: This is where the iterator of applicable plans is created.
+		// Not sure how useful it is an event but it could be important but it may be
+		// more important to look in matchPlans and continuePlans.
+		if (i != null && !i.empty()) {
+
+			return new Iterator<ApplicablePlan>() {
+				Iterator<ApplicablePlan> continueplans = continuePlans(i).iterator();
+				boolean cp = true;
+				Iterator<ApplicablePlan> matchplans = matchPlans(i);
+
+				public void remove() {
+				};
+
+				public boolean hasNext() {
+					if (cp) {
+						if (continueplans.hasNext()) {
+							return true;
+						} else {
+							cp = false;
+						}
+					}
 					return matchplans.hasNext();
-    			}
-    			
-    			public ApplicablePlan next() {
-    				if (cp) {
-    					if (continueplans.hasNext()) {
-    						return continueplans.next();
-    					} else {
-    						cp = false;
-    					}
-    				}
-    				
+				}
+
+				public ApplicablePlan next() {
+					if (cp) {
+						if (continueplans.hasNext()) {
+							return continueplans.next();
+						} else {
+							cp = false;
+						}
+					}
+
 					return matchplans.next();
 
-    			}
-    			
-    			
-    		};
-    	
-    	} else {
-    		return matchPlans(i);
-    	}
- 	}
-	
-    /**
-     * Generates all the applicable plans that imply continued processing of 
-     * the current intention.
-     * 
-     * @param i  The intention for which plans are required.
-     * @return A listed of applicable plans generated by continuing to process
-     *         the agent's current plans.
-     */
+				}
+
+			};
+
+		} else {
+			return matchPlans(i);
+		}
+	}
+
+	/**
+	 * Generates all the applicable plans that imply continued processing of the
+	 * current intention.
+	 * 
+	 * @param i The intention for which plans are required.
+	 * @return A listed of applicable plans generated by continuing to process the
+	 *         agent's current plans.
+	 */
 	private final ArrayList<ApplicablePlan> continuePlans(Intention i) {
 		// EXPLANATION EVENT: This method generates an iterature of applicable plans
 		// which represent continuing processing of an existing intention.
 		ArrayList<ApplicablePlan> cp = new ArrayList<ApplicablePlan>();
-		
+
 		Deed d = (Deed) i.hdD().clone();
-		if (! d.isNPY()) {
+		if (!d.isNPY()) {
 			Iterator<Unifier> ui = believes(i.hdG(), i.hdU());
 			ApplicablePlan ap;
-		
+
 			while (ui.hasNext()) {
 				Unifier theta = ui.next();
-				if (! theta.equals(i.hdU())) {
+				if (!theta.equals(i.hdU())) {
 					theta.compose(i.hdU());
-				} 
+				}
 				ArrayList<Deed> ds = new ArrayList<Deed>();
 				ArrayList<Guard> gs = new ArrayList<Guard>();
-					
+
 				ds.add(i.hdD());
 				gs.add(i.hdG());
 				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname);
@@ -1742,24 +1817,25 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				cp.add(ap);
 			}
 		}
-		
+
 		return cp;
 	}
-	
+
 	/**
-	 * Overridable method to fetch all reactive plans.  Contains
-	 * some simple comparisons of guards and the current belief base
-	 * to try to limit the number of plans fetcehd.
+	 * Overridable method to fetch all reactive plans. Contains some simple
+	 * comparisons of guards and the current belief base to try to limit the number
+	 * of plans fetcehd.
+	 * 
 	 * @param ple
 	 * @return
 	 */
 	protected Iterator<ApplicablePlan> getAllReactivePlans(Event ple) {
 		return getPL().getAllReactivePlans(this);
 	}
-	
+
 	/**
-	 * Overridable method which decides which plans are relevant to a trigger
-	 * event.
+	 * Overridable method which decides which plans are relevant to a trigger event.
+	 * 
 	 * @param ple
 	 * @return
 	 */
@@ -1768,16 +1844,18 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	}
 
 	/**
-	 * Generates all the applicable plans generated by applying plans from the
-	 * plan library to the current intention.
+	 * Generates all the applicable plans generated by applying plans from the plan
+	 * library to the current intention.
 	 * 
 	 * @param i the intention to be planned.
-	 * @return All the applicable plans generated by applying the plan library
-	 *         to the intention.
+	 * @return All the applicable plans generated by applying the plan library to
+	 *         the intention.
 	 */
 	private final Iterator<ApplicablePlan> matchPlans(Intention i) {
-		// EXPLANATION EVENT: Creating an iterator of all new plans that apply to the current intention
-		// in general this means the current intention has a top deed that represents "no plan yet" and
+		// EXPLANATION EVENT: Creating an iterator of all new plans that apply to the
+		// current intention
+		// in general this means the current intention has a top deed that represents
+		// "no plan yet" and
 		// in general intentions are created from events as having "no plan yet".
 		boolean realintention = true;
 		if (i != null && i.empty()) {
@@ -1794,51 +1872,50 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			// This usually means that they have the same predicate/arity key as the event.
 			return getAllRelevantPlans(ple);
 		} else {
-			// If there isn't a specific event then return all plans that don't refer to a specific event.
+			// If there isn't a specific event then return all plans that don't refer to a
+			// specific event.
 			ple = new Event(Event.AILAddition, new Goal("Any", Goal.achieveGoal));
 			return getAllReactivePlans(ple);
-		//	pl = getAllReactivePlans(ple).iterator();
+			// pl = getAllReactivePlans(ple).iterator();
 		}
 
 	}
-   
-	//---------------------- WORKING WITH ANNOTATIONS
-	
-    /**
-     * Whether one source is relevant to another.  Defaults to true.
-     * 
-     * @param t1 A Source, is the other source relevant to this?
-     * @param t2 A Source, is it relevant to the other?
-     * @return whether the second source is relevant to the first.
-     */
-    public boolean relevant(Term t1, Term t2) {
-    	return true;
-    }
-    
 
-	
-	//---------------------- LOGICAL CONSEQUENCE AND REASONING ABOUT GUARDS
-	
-	   /**
-     * Checks if the agent believes a guard.  At present this just checks
-     * the literals in the belief base.  Prolog-style belief reasoning to 
-     * be added.
-     * 
-     * @param g The guard to be checked.
-     * @param un A Unifier already to be applied to the guard.
-     * @return An iterator over candidate unifiers for the guard.  The agent
-     *         does not believe the guard if this iterator is empty.
-     */
-    public Iterator<Unifier> believes(Guard g, Unifier un) {
-    	return believes(g, un, SelectionOrder.LINEAR);
-    }
-    
-    public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
-    	return g.logicalConsequence(this, un, g.getVarNames(), so);
-    }
- 
-    /**
+	// ---------------------- WORKING WITH ANNOTATIONS
+
+	/**
+	 * Whether one source is relevant to another. Defaults to true.
+	 * 
+	 * @param t1 A Source, is the other source relevant to this?
+	 * @param t2 A Source, is it relevant to the other?
+	 * @return whether the second source is relevant to the first.
+	 */
+	public boolean relevant(Term t1, Term t2) {
+		return true;
+	}
+
+	// ---------------------- LOGICAL CONSEQUENCE AND REASONING ABOUT GUARDS
+
+	/**
+	 * Checks if the agent believes a guard. At present this just checks the
+	 * literals in the belief base. Prolog-style belief reasoning to be added.
+	 * 
+	 * @param g  The guard to be checked.
+	 * @param un A Unifier already to be applied to the guard.
+	 * @return An iterator over candidate unifiers for the guard. The agent does not
+	 *         believe the guard if this iterator is empty.
+	 */
+	public Iterator<Unifier> believes(Guard g, Unifier un) {
+		return believes(g, un, SelectionOrder.LINEAR);
+	}
+
+	public Iterator<Unifier> believes(Guard g, Unifier un, SelectionOrder so) {
+		return g.logicalConsequence(this, un, g.getVarNames(), so);
+	}
+
+	/**
 	 * Yes or no, does the agent believe a guard.
+	 * 
 	 * @param gu the guard in question.
 	 * @param un the current unifier.
 	 * @return whether the agent believes the guard.
@@ -1851,9 +1928,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Does an event entail the trigger of this plan.
+	 * 
 	 * @param e
 	 * @param p
 	 * @param un
@@ -1864,36 +1942,35 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		return (e.unifies(p.getTriggerEvent(), un));
 	}
 
-	//---------------------- REASON
-	
+	// ---------------------- REASON
+
 	/**
-	 * Call the reasoning cycle.  This method relies heavily on the implementation
-	 * of the reasoning cycle and OSRule interface.  While the Reasoning Cycle does
-	 * not indicate a stop point (which should be a stop point appropriate to
-	 * model checking) the method gets the rules for the current stage of the 
-	 * cycle.  It processes these rules in turn until is finds one whose 
-	 * preconditions succeed.  It the applies the rule and cycles the reasoning
-	 * cycle.  
+	 * Call the reasoning cycle. This method relies heavily on the implementation of
+	 * the reasoning cycle and OSRule interface. While the Reasoning Cycle does not
+	 * indicate a stop point (which should be a stop point appropriate to model
+	 * checking) the method gets the rules for the current stage of the cycle. It
+	 * processes these rules in turn until is finds one whose preconditions succeed.
+	 * It the applies the rule and cycles the reasoning cycle.
 	 */
 	public void reason() {
 		if (RC.not_interrupted()) {
 			RC.setStopandCheck(false);
-	
-			while(! RC.stopandcheck()) {
+
+			while (!RC.stopandcheck()) {
 				RCStage stage = RC.getStage();
 				if (AJPFLogger.ltFiner(logname)) {
 					AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 				}
-			
+
 				Iterator<OSRule> rules = stage.getStageRules();
-			
+
 				boolean stagerulefound = false;
-				while(rules.hasNext()) {
+				while (rules.hasNext()) {
 					OSRule rule = rules.next();
 					if (AJPFLogger.ltFiner(logname)) {
 						AJPFLogger.finer(logname, "checking " + rule.getName());
 					}
-				
+
 					if (rule.checkPreconditions(this)) {
 						stagerulefound = true;
 						// EXPLANATION EVENT: A transition in the reasoning cycle occurs.
@@ -1906,37 +1983,36 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 						RC.cycle(this);
 						break;
 					}
-			
+
 				}
-			
+
 				if (!stagerulefound) {
 					RC.cycle(this);
 				}
 			}
 		}
 		// MCAPLcontroller.force_transition();
-	
+
 	}
-	
-	
-	//------------------ STOPPING, SLEEPING AND WAKING
-	
-		
+
+	// ------------------ STOPPING, SLEEPING AND WAKING
+
 	/**
 	 * Stop the agent completely.
 	 */
 	public void stop() {
-		// EXPLANATION EVENT: The scheduler is informed that this agent has completely finished executing and is not to be scheduled again.
-	 	fRunning = false;
-	 	getEnv().getScheduler().doNotSchedule(getAgName());
+		// EXPLANATION EVENT: The scheduler is informed that this agent has completely
+		// finished executing and is not to be scheduled again.
+		fRunning = false;
+		getEnv().getScheduler().doNotSchedule(getAgName());
 		if (trace != null) {
 			trace.finish(true);
 		}
 	}
-	
 
 	/**
-	 * Send the agent to sleep - stop processing the reasoning cycle until notified otherwise.
+	 * Send the agent to sleep - stop processing the reasoning cycle until notified
+	 * otherwise.
 	 *
 	 */
 	public void sleep() {
@@ -1946,16 +2022,15 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		RC.setStopandCheck(true);
 		wanttosleep = true;
 	}
-	
 
 	/**
 	 * Getter method for wanting to sleep.
+	 * 
 	 * @return whether the agent wants to sleep.
 	 */
 	public boolean wantstosleep() {
 		return (wanttosleep);
 	}
-	
 
 	/**
 	 * Sets the agent's fields for it to be awake.
@@ -1968,77 +2043,76 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		wanttosleep = false;
 		// unsuspendintentions();
 	}
-		
-    /** Checks whether the agent is running 
-     * 
-     * @return whether the agent is running.
-     */
-     public boolean isRunning() {
-    	 if (AJPFLogger.ltFine(logname)) {
-    		 AJPFLogger.fine(logname, "isRunning: " + fRunning);   	 
-    	 }
-     	return fRunning;
-    }
-     
-            	
-    //------------------- PRINTING AND LOGGING
-     
- 	/**
- 	 * Print the agent.
- 	 *
- 	 */
- 	public void printagentstate() {
-  		if (AJPFLogger.ltFine(logname)) {
- 			AJPFLogger.fine(logname, toString());
- 		}
- 		
- 		if (AJPFLogger.ltFiner(logname)) {
- 			AJPFLogger.finer(logname, getPL().toString());
- 		}
 
-  	}
- 	
- 	/*
- 	 * (non-Javadoc)
- 	 * @see java.lang.Object#toString()
- 	 */
- 	public String toString() {
- 		StringBuilder is = new StringBuilder();
- 		if (getIntention() != null) {
- 				is.append(getIntention().toString());
- 		}
- 		
- 		StringBuilder s1 = new StringBuilder();
- 		s1.append(getAgName());
- 		s1.append("\n=============\n");
- 		s1.append("After Stage ");
- 		s1.append(RC.getStage().getStageName()); 
- 		s1.append(" :\n");
- 		s1.append(getBB().toString());
- 		s1.append("\n");
+	/**
+	 * Checks whether the agent is running
+	 * 
+	 * @return whether the agent is running.
+	 */
+	public boolean isRunning() {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, "isRunning: " + fRunning);
+		}
+		return fRunning;
+	}
+
+	// ------------------- PRINTING AND LOGGING
+
+	/**
+	 * Print the agent.
+	 *
+	 */
+	public void printagentstate() {
+		if (AJPFLogger.ltFine(logname)) {
+			AJPFLogger.fine(logname, toString());
+		}
+
+		if (AJPFLogger.ltFiner(logname)) {
+			AJPFLogger.finer(logname, getPL().toString());
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuilder is = new StringBuilder();
+		if (getIntention() != null) {
+			is.append(getIntention().toString());
+		}
+
+		StringBuilder s1 = new StringBuilder();
+		s1.append(getAgName());
+		s1.append("\n=============\n");
+		s1.append("After Stage ");
+		s1.append(RC.getStage().getStageName());
+		s1.append(" :\n");
+		s1.append(getBB().toString());
+		s1.append("\n");
 		s1.append(getGoalBase().toString());
- 		s1.append("\n");
- 		s1.append(getOutbox().toString());
- 		s1.append("\n");
+		s1.append("\n");
+		s1.append(getOutbox().toString());
+		s1.append("\n");
 		s1.append(is);
 		s1.append("\n");
 		s1.append(Is);
 		String s = s1.toString();
- 		return s;
- 	}
+		return s;
+	}
 
-    
-    //-------------------- MCAPL Interface Methods
-      
-    /**
-     * One reasoning step from the point of view of the model checker.  
-     * Implemented as one full turn of the agent's reasoning cycle.
-     * 
-     */
+	// -------------------- MCAPL Interface Methods
+
+	/**
+	 * One reasoning step from the point of view of the model checker. Implemented
+	 * as one full turn of the agent's reasoning cycle.
+	 * 
+	 */
 	public void MCAPLreason() {
 		reason();
 	}
-	
 
 	/**
 	 * Whether the agent should keep reasoning.
@@ -2046,9 +2120,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @return Whether the agent should keep reasoning.
 	 */
 	public boolean MCAPLcontinueRunning() {
-		 return (isRunning());
+		return (isRunning());
 	}
-	
 
 	/**
 	 * Returns the name of the agent.
@@ -2058,36 +2131,34 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public String getMCAPLAgName() {
 		return getAgName();
 	}
-	
 
 	/**
-	 * Whether the agent believes a formula.  We interpret a MCAPLFormula
-	 * as a Literal but we may want to generalise this.  We convert the literal
-	 * into a guard (which are what AIL agents check as beliefs) and then check
-	 * if the agent's belief method can return one (or more) unifiers for this
-	 * guard.
+	 * Whether the agent believes a formula. We interpret a MCAPLFormula as a
+	 * Literal but we may want to generalise this. We convert the literal into a
+	 * guard (which are what AIL agents check as beliefs) and then check if the
+	 * agent's belief method can return one (or more) unifiers for this guard.
 	 * 
-	 * @param  A MCAPLFormula for belief checking.  In AIL this is a Literal.
+	 * @param A MCAPLFormula for belief checking. In AIL this is a Literal.
 	 * @return Whether the agent can find a unifier for the literal among its
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {
- 		if (AJPFLogger.ltFine("property_logging")) {
- 			AJPFLogger.fine("property_logging", "checking agent beliefs");
- 		}
-		GBelief  gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
+		if (AJPFLogger.ltFine("property_logging")) {
+			AJPFLogger.fine("property_logging", "checking agent beliefs");
+		}
+		GBelief gb = new GBelief(new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla)));
 		Guard gu = new Guard(gb);
 		Unifier un = new Unifier();
-		boolean return_value =  believesyn(gu, un);
- 		if (return_value & AJPFLogger.ltFine("property_logging")) {
- 			AJPFLogger.fine("property_logging", "Unifier for property " + fmla + " is " + un);
- 		}
+		boolean return_value = believesyn(gu, un);
+		if (return_value & AJPFLogger.ltFine("property_logging")) {
+			AJPFLogger.fine("property_logging", "Unifier for property " + fmla + " is " + un);
+		}
 		return return_value;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see mcapl.MCAPLLanguageAgent#MCAPLhasGoal(mcapl.psl.MCAPLFormula)
 	 */
 	public boolean MCAPLhasGoal(MCAPLFormula fmla) {
@@ -2096,31 +2167,22 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			if (gi.next().contentequals(new PredicatewAnnotation((MCAPLPredicate) fmla))) {
 				return true;
 			}
-			
+
 		}
 		return false;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see mcapl.MCAPLLanguageAgent#MCAPLhasIntention(mcapl.psl.MCAPLFormula)
 	 */
-	// We give this the semantics that fmla is an event that has had some planning associated with it.  i.e, it has been comittee to.
+	// We give this the semantics that fmla is an event that has had some planning
+	// associated with it. i.e, it has been comittee to.
 	public boolean MCAPLhasIntention(MCAPLFormula fmla) {
 		Literal fmla_lit = new Literal(Literal.LPos, new PredicatewAnnotation((MCAPLPredicate) fmla));
 		if (getIntention() != null) {
-		for (Event e: getIntention().getPlannedUnifiedEvents()) {
-			if (e.referstoGoal() && e.isAddition()) {
-				if (((Goal) e.getContent()).contentequals(fmla_lit)) {
-					return true;
-				}
-			}
-		}
-		}
-
-		for (Intention i: getIntentions()) {
-			for (Event e: i.getPlannedUnifiedEvents()) {
+			for (Event e : getIntention().getPlannedUnifiedEvents()) {
 				if (e.referstoGoal() && e.isAddition()) {
 					if (((Goal) e.getContent()).contentequals(fmla_lit)) {
 						return true;
@@ -2128,12 +2190,23 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				}
 			}
 		}
-		
+
+		for (Intention i : getIntentions()) {
+			for (Event e : i.getPlannedUnifiedEvents()) {
+				if (e.referstoGoal() && e.isAddition()) {
+					if (((Goal) e.getContent()).contentequals(fmla_lit)) {
+						return true;
+					}
+				}
+			}
+		}
+
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see ajpf.MCAPLLanguageAgent#MCAPLintendsToDo(ajpf.psl.MCAPLFormula)
 	 */
 	@Override
@@ -2149,9 +2222,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		} else {
 			action = new Action(new Predicate((MCAPLPredicate) fmla), Action.normalAction);
 		}
-		
+
 		if (getIntention() != null) {
-			for (Deed d: getIntention().deeds()) {
+			for (Deed d : getIntention().deeds()) {
 				if (d.getCategory() == Deed.DAction) {
 					if (d.getContent().unifies(action, new Unifier())) {
 						return true;
@@ -2159,31 +2232,31 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				}
 			}
 		}
-		
-		for (Intention i: getIntentions()) {
-			for (Deed d: i.deeds()) {
+
+		for (Intention i : getIntentions()) {
+			for (Deed d : i.deeds()) {
 				if (d.getCategory() == Deed.DAction && d.getContent().equals(action)) {
 					return true;
 				}
-			}			
+			}
 		}
 
 		return false;
-		
+
 	}
-	
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see mcapl.MCAPLLanguageAgent#MCAPLwantstosleep()
 	 */
 	public boolean MCAPLwantstosleep() {
 		return wantstosleep();
 	}
-	
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see mcapl.MCAPLLanguageAgent#MCAPLtellawake()
 	 */
 	public void MCAPLtellawake() {

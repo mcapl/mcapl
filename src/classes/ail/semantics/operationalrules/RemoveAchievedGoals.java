@@ -68,7 +68,7 @@ public class RemoveAchievedGoals implements OSRule {
 		while(goals.hasNext()) {
 			Goal g = goals.next();
 			if (g.getGoalType() == Goal.achieveGoal && a.believesyn(g.achievedBelief(), new Unifier())) {
-				if (a.removeGoal(g)) {
+				if (a.removeGoal(g) && a.shouldTrace()) {
 					ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
 					a.trace(new ModificationEvent(removeGoal));
 				}

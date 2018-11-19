@@ -108,13 +108,15 @@ public class DirectPerceptionwEvents implements OSRule {
 				if (! percepts.contains(l)) {
 					Literal lit = new Literal(true, new PredicatewAnnotation(l));
 					lit.addAnnot(BeliefBase.TPercept);
-					if (a.delBel(lit)) {
+					if (a.delBel(lit) && a.shouldTrace()) {
 						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept());
 					a.addNewIntention(i);
-					a.trace(new CreateIntentionEvent(i));
+					if (a.shouldTrace()) {
+						a.trace(new CreateIntentionEvent(i));
+					}
 					a.tellawake();
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + l);
@@ -130,14 +132,16 @@ public class DirectPerceptionwEvents implements OSRule {
 			for (Predicate l: percepts) {
 				Literal k = new Literal(true, new PredicatewAnnotation(l.clone()));
 				additions = true;
-				if (a.addBel(k, AILAgent.refertopercept())) {
+				if (a.addBel(k, AILAgent.refertopercept()) && a.shouldTrace()) {
 					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, k, null);
 					a.trace(new ModificationEvent(addBel));
 				}
 				// Don't let new intention get dropped totally if things change.
 				Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself());
 				a.addNewIntention(i);
-				a.trace(new CreateIntentionEvent(i));
+				if (a.shouldTrace()) {
+					a.trace(new CreateIntentionEvent(i));
+				}
 				a.tellawake();
 				if (AJPFLogger.ltFine(logname)) {
 					AJPFLogger.fine(logname, a.getAgName() + " added " + k);
@@ -158,7 +162,7 @@ public class DirectPerceptionwEvents implements OSRule {
 		Set<Message> previous = new TreeSet<>(a.getInbox());
 		Set<Message> addList = Sets.difference(messages, previous);
 		a.newMessages(messages);
-		if (!addList.isEmpty()) {
+		if (!addList.isEmpty() && a.shouldTrace()) {
 			List<Predicate> predicates = new ArrayList<>(addList.size());
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());

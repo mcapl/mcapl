@@ -90,7 +90,9 @@ public class SelectIntention implements OSRule {
 
 			a.setIntentions(Is);
 			a.setIntention(iprime);
-			a.trace(new SelectIntentionEvent(iprime));
+			if (a.shouldTrace()) {
+				a.trace(new SelectIntentionEvent(iprime));
+			}
 		} 
   		Is = new ArrayList<Intention>();
   		iprime = null;

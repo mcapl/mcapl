@@ -11,7 +11,7 @@ public class GuardEvent extends AbstractEvent {
 	private final Guard guard;
 
 	public GuardEvent(final Guard guard) {
-		this.guard = guard;
+		this.guard = guard; // TODO: is clone needed here?
 	}
 
 	@Override

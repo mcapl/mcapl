@@ -142,7 +142,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 		}
 		
 		for (Goal sg: subgoals) {
-			if (a.removeGoal(sg)) {
+			if (a.removeGoal(sg) && a.shouldTrace()) {
 				ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, sg);
 				a.trace(new ModificationEvent(removeGoal));
 			}

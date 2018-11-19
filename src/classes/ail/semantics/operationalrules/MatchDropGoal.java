@@ -93,6 +93,8 @@ public class MatchDropGoal implements OSRule {
 						
 		Intention ipp = a.selectIntention(Is);
 		a.setIntention(ipp);
-		a.trace(new SelectIntentionEvent(ipp));
+		if (a.shouldTrace()) {
+			a.trace(new SelectIntentionEvent(ipp));
+		}
 	} 
 }

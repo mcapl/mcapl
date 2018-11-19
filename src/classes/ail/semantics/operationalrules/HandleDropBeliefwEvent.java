@@ -75,11 +75,15 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
-					ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
-					a.trace(new ModificationEvent(delBel));
+					if (a.shouldTrace()) {
+						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
+						a.trace(new ModificationEvent(delBel));
+					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself());
 					a.getIntentions().add(i);
-					a.trace(new CreateIntentionEvent(i));
+					if (a.shouldTrace()) {
+						a.trace(new CreateIntentionEvent(i));
+					}
 					thetahd.compose(thetab);
 					thetahd.compose(un);
 				}

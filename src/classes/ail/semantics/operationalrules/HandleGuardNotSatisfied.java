@@ -54,7 +54,9 @@ public class HandleGuardNotSatisfied extends DoNothing {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		Intention I = a.getIntention();
-		a.trace(new GuardEvent(I.hdG()));
+		if (a.shouldTrace()) {
+			a.trace(new GuardEvent(I.hdG()));
+		}
 		if (!I.deeds().isEmpty()) {
 			Unifier thetahd = I.hdU();
 			Iterator<Unifier> ui = a.believes(I.hdG(), thetahd);		

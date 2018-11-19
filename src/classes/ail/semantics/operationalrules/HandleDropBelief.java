@@ -81,8 +81,10 @@ public class HandleDropBelief extends HandleBelief {
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
-					ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
-					a.trace(new ModificationEvent(delBel));							
+					if (a.shouldTrace()) {
+						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
+						a.trace(new ModificationEvent(delBel));
+					}
 					thetahd.compose(thetab);
 					thetahd.compose(un);
 				}
