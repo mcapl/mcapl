@@ -15,7 +15,9 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		return new ArrayList<>(0);
+		List<String> data = new ArrayList<>(1);
+		data.add("plan " + plan.getID());
+		return data;
 	}
 
 	@Override

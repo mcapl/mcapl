@@ -17,11 +17,16 @@ public class GuardEvent extends AbstractEvent {
 	@Override
 	public List<String> getLookupData() {
 		List<String> data = new ArrayList<>(2);
-		if(guard.getLHS() instanceof GuardAtom<?>) {
-			data.add(((GuardAtom<?>)guard.getLHS()).getPredicateIndicator().toString());
+		// TODO: probably not only atoms in there?
+		if (guard.getLHS() == null) {
+			data.add("True");
+		} else if (guard.getLHS() instanceof GuardAtom<?>) {
+			data.add(((GuardAtom<?>) guard.getLHS()).getPredicateIndicator().toString());
 		}
-		if(guard.getRHS() instanceof GuardAtom<?>) {
-			data.add(((GuardAtom<?>)guard.getRHS()).getPredicateIndicator().toString());
+		if (guard.getRHS() == null) {
+			data.add("True");
+		} else if (guard.getRHS() instanceof GuardAtom<?>) {
+			data.add(((GuardAtom<?>) guard.getRHS()).getPredicateIndicator().toString());
 		}
 		return data;
 	}

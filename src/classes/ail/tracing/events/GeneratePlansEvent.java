@@ -15,7 +15,11 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		return new ArrayList<>(0);
+		List<String> data = new ArrayList<>(plans.size());
+		for (ApplicablePlan plan : plans) {
+			data.add("plan " + plan.getID());
+		}
+		return data;
 	}
 
 	@Override
