@@ -28,8 +28,7 @@ public class SelectPlanEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: plans with ID 0 seem generated, otherwise it's from the code...
-		// but how to nicely describe plans? same in GeneratePlansEvent
+		// TODO: how to nicely describe plans? same in GeneratePlansEvent
 		builder.append("selected plan ").append(plan.getID()).append(".");
 		return builder.toString();
 	}

@@ -31,7 +31,17 @@ public class GeneratePlansEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		// TODO: improve (plan details? same problem in SelectPlanEvent)
-		builder.append("generated ").append(plans.size()).append(" applicable plans.");
+		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ");
+		boolean first = true;
+		for (ApplicablePlan plan : plans) {
+			if(first) {
+				first = false;
+			} else {
+				builder.append(", ");
+			}
+			builder.append("plan " + plan.getID());
+		}
+		builder.append(".");
 		return builder.toString();
 	}
 

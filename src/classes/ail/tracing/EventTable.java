@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -44,14 +44,14 @@ public class EventTable extends JXTable {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-				chooser.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
-				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
+				picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
+				if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					final JLabel header = new JLabel();
 					header.setVerticalAlignment(SwingConstants.TOP);
 					header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 					final JTextComponent description = new JTextField();
-					final EventTable table = new EventTable(chooser.getSelectedFile(), header, description);
+					final EventTable table = new EventTable(picker.getSelectedFile(), header, description);
 					final JFrame frame = new JFrame();
 					frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 					frame.setLayout(new BorderLayout());
@@ -97,12 +97,13 @@ public class EventTable extends JXTable {
 		}, new SortedList<Map<String, String>>(this.rows, null), TableComparatorChooser.SINGLE_COLUMN);
 		addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent evt) {
+			public void mouseClicked(final MouseEvent evt) {
 				final int col = EventTable.this.columnAtPoint(evt.getPoint());
 				final AbstractEvent event = data.get(col);
 				description.setText(col + ": " + event.toString());
 			}
 		});
+		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
 	private void process(final List<AbstractEvent> data) {
@@ -114,7 +115,7 @@ public class EventTable extends JXTable {
 				final Integer existing = this.index.get(signature);
 				if (existing == null) {
 					this.index.put(signature, this.rows.size());
-					final Map<String, String> row = new HashMap<>();
+					final Map<String, String> row = new LinkedHashMap<>();
 					row.put(index, getDescription(event));
 					this.rows.add(row); // TODO: sorting on type?! (i.e.
 										// action signatures first)
@@ -129,7 +130,7 @@ public class EventTable extends JXTable {
 		}
 	}
 
-	private static String getDescription(AbstractEvent event) {
+	private static String getDescription(final AbstractEvent event) {
 		return event.getClass().getSimpleName().replace("Event", "");// .substring(0, 1);
 	}
 }
