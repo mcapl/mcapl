@@ -21,15 +21,14 @@ public class GuardEvent extends AbstractEvent {
 	public List<String> getLookupData() {
 		List<String> data = new ArrayList<>(2);
 		// TODO: probably not only atoms in there?
-		if (guard.getLHS() == null) {
-			data.add("True");
-		} else if (guard.getLHS() instanceof GuardAtom<?>) {
+		if (guard.getLHS() instanceof GuardAtom<?>) {
 			data.add(((GuardAtom<?>) guard.getLHS()).getPredicateIndicator().toString());
 		}
-		if (guard.getRHS() == null) {
-			data.add("True");
-		} else if (guard.getRHS() instanceof GuardAtom<?>) {
+		if (guard.getRHS() instanceof GuardAtom<?>) {
 			data.add(((GuardAtom<?>) guard.getRHS()).getPredicateIndicator().toString());
+		}
+		if (data.isEmpty()) {
+			data.add("True/0");
 		}
 		return data;
 	}

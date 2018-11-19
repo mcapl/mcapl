@@ -132,6 +132,5 @@ completeMission [achieve]
 								
 // if we're having a problem with "complete mission", and we are routing and landed, then take off
 // be careful with this.. it might cause an issue when we actually complete the mission								
--!completeMission [achieve]: {B routing(R,T,U), B flightPhase(landed)} 
-					<- +.lock, send(fcs,takeOff), -flightPhase(L), +flightPhase(flying), -.lock;
-								
+-!completeMission [achieve]: {B routing(R,T,U), B flightPhase(landed)}
+					<- +.lock, send(fcs,takeOff), -flightPhase(L), +flightPhase(flying), -!completeMission [achieve], -.lock;

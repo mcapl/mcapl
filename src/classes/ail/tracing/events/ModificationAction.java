@@ -21,8 +21,8 @@ public class ModificationAction {
 			final List<Predicate> removed) {
 		this.base = base.ordinal();
 		this.selector = selector;
-		this.added = added;
-		this.removed = removed;
+		this.added = (added == null) ? new ArrayList<>(0) : added;
+		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
 	}
 
 	public ModificationAction(final BaseType base, final String selector, final Predicate added,
