@@ -27,6 +27,7 @@ package gwendolen.semantics;
 
 import ail.util.AILConfig;
 import ail.util.AILexception;
+import gwendolen.util.GwendolenPrettyPrinter;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 
@@ -49,6 +50,7 @@ public class GwendolenAgent extends AILAgent {
 	public GwendolenAgent(MAS mas, String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(mas, name);
+		this.setPretty(new GwendolenPrettyPrinter());
 		
       //  try {
     //        ((DefaultEnvironment) fEnv).addPerceptListener(this);

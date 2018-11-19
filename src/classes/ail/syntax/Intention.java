@@ -36,6 +36,7 @@ import ail.syntax.annotation.SourceAnnotation;
 import ail.tracing.events.BaseType;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
+import ail.util.AILPrettyPrinter;
 import ail.semantics.AILAgent;
 
 /**
@@ -80,6 +81,11 @@ public class Intention implements Comparable<Intention>{
      * The condition that needs to be true to unsuspend the intention
      */
     protected Literal suspendedfor;
+    
+    /**
+     * A pretty printer - tells the intention how to pretty print itself;
+     */
+    public AILPrettyPrinter pretty_printer = new AILPrettyPrinter();
 
     /**
      * Constructor.  Does nothing except create an empty intention.
@@ -432,22 +438,11 @@ public class Intention implements Comparable<Intention>{
      */
     @Override
     public String toString() {
-         String s = "";
-         if (suspended) {
-        	 s += "SUSPENDED\n";
-         }
-         s += source.toString() + ":: ";
-         if (annotation != null) {
-        	 s += annotation.toString();
-         }
-         s+="\n";
-
-         String s1 = "";
-         for (IntentionRow ir : intentionRows) {
-        	s1 = "   *  " + ir.toString() + s1;
-        }
-         s+= s1;
-         return s.toString();
+    	return pretty_printer.prettyIntention(this);
+    }
+    
+    public void addPretty(AILPrettyPrinter pretty) {
+    	pretty_printer = pretty;
     }
 
     // The operations on intentions defined in the AIL technical reports //
@@ -579,6 +574,13 @@ public class Intention implements Comparable<Intention>{
     	return es;
    	
     }
+   
+   /**
+    * The rows of the intention;
+    */
+   public ArrayList<IntentionRow> getRows() {
+	   return intentionRows;
+   }
 
     
     /**
@@ -979,9 +981,13 @@ public class Intention implements Comparable<Intention>{
 
 	public Intention clone() {
 		if (intentionRows.isEmpty()) {
-			return new Intention();
+			Intention i = new Intention();
+			i.addPretty(pretty_printer);
+			return i;
 		} else {
-			return new Intention(events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
+			Intention i =  new Intention(events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
+			i.addPretty(pretty_printer);
+			return i;
 		}
 	}
 }

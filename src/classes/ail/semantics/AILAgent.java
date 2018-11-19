@@ -71,6 +71,7 @@ import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILConfig;
+import ail.util.AILPrettyPrinter;
 import ail.util.AILexception;
 import ajpf.MCAPLLanguageAgent;
 import ajpf.psl.MCAPLFormula;
@@ -300,6 +301,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 	/* -Vincent */
 	protected EventStorage trace = null;
+	
+	public AILPrettyPrinter pretty_printer = new AILPrettyPrinter();
 
 	// -----------------CONSTRUCTORS---------------//
 
@@ -432,6 +435,14 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public String getAgName() {
 		return fAgName;
+	}
+	
+	/**
+	 * 
+	 * @param pretty
+	 */
+	public void setPretty(AILPrettyPrinter pretty) {
+		this.pretty_printer = pretty;
 	}
 
 	/**
@@ -980,6 +991,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void setIntention(Intention i) {
 		// EXPLANATION EVENT: i has been chosen as the current intention.
+		if (i != null) {
+			i.addPretty(pretty_printer);
+		}
 		I = i;
 	}
 
@@ -1508,6 +1522,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void addNewIntention(Intention i) {
 		// EXPLANATION EVENT: Add a new intention to the set of non-current intention.
+		i.addPretty(this.getPrettyPrinter());
 		getIntentions().add(i);
 	}
 
@@ -2057,6 +2072,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	}
 
 	// ------------------- PRINTING AND LOGGING
+	
+	public AILPrettyPrinter getPrettyPrinter() {
+		return pretty_printer;
+	}
 
 	/**
 	 * Print the agent.
