@@ -11,7 +11,7 @@ public class CreateIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
 	public CreateIntentionEvent(final Intention intention) {
-		this.intention = intention; // TODO: is clone needed here?
+		this.intention = intention.clone();
 	}
 
 	@Override

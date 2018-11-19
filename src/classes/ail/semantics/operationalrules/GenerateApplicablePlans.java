@@ -70,7 +70,7 @@ public class GenerateApplicablePlans implements OSRule {
 		Iterator<ApplicablePlan> iterator = a.filterPlans(a.appPlans(a.getIntention()));
 		List<ApplicablePlan> plans = null;
 		if (a.shouldTrace()) { // this is bad, but don't see how to do it otherwise
-			plans = Lists.newArrayList(a.filterPlans(a.appPlans(a.getIntention())));
+			plans = Lists.newArrayList(iterator);
 			iterator = plans.iterator();
 		}
 		a.setApplicablePlans(iterator);

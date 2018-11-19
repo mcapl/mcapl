@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Unifier;
 
 public class GeneratePlansEvent extends AbstractEvent {
 	private final List<ApplicablePlan> plans;
@@ -34,12 +35,16 @@ public class GeneratePlansEvent extends AbstractEvent {
 		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ");
 		boolean first = true;
 		for (ApplicablePlan plan : plans) {
-			if(first) {
+			if (first) {
 				first = false;
 			} else {
 				builder.append(", ");
 			}
-			builder.append("plan " + plan.getID());
+			builder.append("plan ").append(plan.getID());
+			Unifier u = plan.getUnifier();
+			if (u.size() > 0) {
+				builder.append(" with ").append(plan.getUnifier());
+			}
 		}
 		builder.append(".");
 		return builder.toString();

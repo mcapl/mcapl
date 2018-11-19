@@ -10,7 +10,7 @@ public class SelectIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
 	public SelectIntentionEvent(final Intention intention) {
-		this.intention = intention; // TODO: is clone needed here?
+		this.intention = intention.clone();
 	}
 
 	@Override
