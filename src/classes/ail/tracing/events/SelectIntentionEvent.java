@@ -8,17 +8,15 @@ import ail.syntax.Intention;
 
 public class SelectIntentionEvent extends AbstractEvent {
 	private final Intention intention;
-	private final int id;
 
 	public SelectIntentionEvent(final Intention intention) {
-		this.intention = intention.clone();
-		this.id = System.identityHashCode(intention);
+		this.intention = intention; // TODO: is clone needed here?
 	}
 
 	@Override
 	public List<String> getLookupData() {
 		List<String> data = new ArrayList<>(1);
-		data.add("intention " + id);
+		data.add("intention " + intention.getID());
 		return data;
 	}
 
@@ -30,9 +28,9 @@ public class SelectIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: no nice descriptor available for intentions? (same in
-		// CreateIntentionEvent)
-		builder.append("selected intention ").append(id).append(".");
+		// TODO: no nice descriptor available for intentions?
+		// (same problem in CreateIntentionEvent)
+		builder.append("selected intention ").append(intention.getID()).append(".");
 		return builder.toString();
 	}
 

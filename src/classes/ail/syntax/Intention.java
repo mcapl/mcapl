@@ -47,6 +47,8 @@ import ail.semantics.AILAgent;
  *
  */
 public class Intention implements Comparable<Intention>{
+	private static volatile int idCounter = 0;
+	protected final int id;
 	/**
 	 * The rows of the intention.  NB. an intention row is not implemented
 	 * as a single event, deed, guard, unifier tuple.  but as a tuple of
@@ -84,6 +86,7 @@ public class Intention implements Comparable<Intention>{
      *
      */
     public Intention() {
+    	id = idCounter++;
     	source = new SourceAnnotation(new Predicate("empty"));
     }
     
@@ -99,9 +102,8 @@ public class Intention implements Comparable<Intention>{
      */
     public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
     	this();
-    	
-    	this.iConcat(e, ds, gu, theta);
-    	this.setSource(s);
+    	iConcat(e, ds, gu, theta);
+    	setSource(s);
     	trimUnifiers();
     }
     
@@ -160,8 +162,7 @@ public class Intention implements Comparable<Intention>{
    	 	IntentionRow ir = new IntentionRow(new Event(Event.Estart), gs, ds, us);
    	 	intentionRows.add(ir);
     	
-    	this.setSource(s);
-    	
+    	setSource(s);
     }
     
     /**
@@ -193,7 +194,14 @@ public class Intention implements Comparable<Intention>{
    	 	IntentionRow ir = new IntentionRow(e, gs, ds, us);
    	 	intentionRows.add(ir);
     	
-    	this.setSource(s);
+    	setSource(s);
+    }
+    
+    /**
+     * Get the ID of the intention; right now this is a count of the how-manieth intention this is.
+     */
+    public int getID() {
+    	return id;
     }
     
     /**

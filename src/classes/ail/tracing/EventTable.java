@@ -2,6 +2,7 @@ package ail.tracing;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -57,6 +58,8 @@ public class EventTable extends JXTable {
 					frame.add(header, BorderLayout.WEST);
 					frame.add(new JScrollPane(table), BorderLayout.CENTER);
 					frame.add(description, BorderLayout.SOUTH);
+					frame.setPreferredSize(
+							GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
 					frame.pack();
 					frame.setVisible(true);
 				}
@@ -97,7 +100,7 @@ public class EventTable extends JXTable {
 			public void mouseClicked(MouseEvent evt) {
 				final int col = EventTable.this.columnAtPoint(evt.getPoint());
 				final AbstractEvent event = data.get(col);
-				description.setText(event.toString());
+				description.setText(col + ": " + event.toString());
 			}
 		});
 	}

@@ -30,7 +30,7 @@ public class GeneratePlansEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: improve (plan details? same problem as SelectPlanEvent)
+		// TODO: improve (plan details? same problem in SelectPlanEvent)
 		builder.append("generated ").append(plans.size()).append(" applicable plans.");
 		return builder.toString();
 	}

@@ -9,17 +9,15 @@ import ail.syntax.Intention;
 
 public class CreateIntentionEvent extends AbstractEvent {
 	private final Intention intention;
-	private final int id;
 
 	public CreateIntentionEvent(final Intention intention) {
-		this.intention = intention.clone();
-		this.id = System.identityHashCode(intention);
+		this.intention = intention; // TODO: is clone needed here?
 	}
 
 	@Override
 	public List<String> getLookupData() {
 		List<String> data = new LinkedList<>();
-		data.add("intention " + id);
+		data.add("intention " + intention.getID());
 		for (Event event : intention.events()) {
 			data.add(event.getPredicateIndicator().toString());
 		}
@@ -38,9 +36,9 @@ public class CreateIntentionEvent extends AbstractEvent {
 		if (!event.isEmpty()) { // TODO: would like the 'start' event to be more detailed
 			builder.append("for the event ").append(event).append(", ");
 		}
-		// TODO: no nice descriptor available for intentions? (same in
-		// SelectIntentionEvent)
-		builder.append("created intention ").append(id).append(".");
+		// TODO: no nice descriptor available for intentions?
+		// (same problem in  SelectIntentionEvent)
+		builder.append("created intention ").append(intention.getID()).append(".");
 		return builder.toString();
 	}
 
