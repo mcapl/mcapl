@@ -6,12 +6,15 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.syntax.Guard;
 import ail.syntax.GuardAtom;
+import ail.syntax.Unifier;
 
 public class GuardEvent extends AbstractEvent {
 	private final Guard guard;
+	private final List<Unifier> solutions;
 
-	public GuardEvent(final Guard guard) {
-		this.guard = guard; // TODO: is clone needed here?
+	public GuardEvent(final Guard guard, final List<Unifier> solutions) {
+		this.guard = guard.clone();
+		this.solutions = solutions;
 	}
 
 	@Override
@@ -39,7 +42,7 @@ public class GuardEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("evaluated the guard ").append(guard).append(".");
+		builder.append("evaluated the guard '").append(guard).append("': ").append(solutions).append(".");
 		return builder.toString();
 	}
 

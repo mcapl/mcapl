@@ -25,8 +25,12 @@
 package ail.semantics.operationalrules;
 
 import java.util.Iterator;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.tracing.events.GuardEvent;
@@ -54,18 +58,14 @@ public class HandleGuardNotSatisfied extends DoNothing {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		Intention I = a.getIntention();
-		if (a.shouldTrace()) {
-			a.trace(new GuardEvent(I.hdG()));
-		}
 		if (!I.deeds().isEmpty()) {
 			Unifier thetahd = I.hdU();
 			Iterator<Unifier> ui = a.believes(I.hdG(), thetahd);		
-			
 			if (! ui.hasNext()) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }
