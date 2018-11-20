@@ -34,7 +34,7 @@ public class SelectPlanEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		// TODO: how to nicely describe plans? same in GeneratePlansEvent
-		builder.append("selected plan ").append(plan.getID());
+		builder.append("selected plan ").append(plan.toString());
 		Unifier u = plan.getUnifier();
 		if (u.size() > 0) {
 			builder.append(" with ").append(plan.getUnifier());

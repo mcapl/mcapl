@@ -72,7 +72,7 @@ public class GenerateApplicablePlansEmptyProblemGoal extends GenerateApplicableP
 
 			ds.add(new Deed(Deed.Dnpy));
 			gs.add(new Guard(new GBelief()));
-			Plp.add(new ApplicablePlan(e, ds, gs, 0, I.hdU(), 0, AILAgent.AILdefaultPLname));
+			Plp.add(new ApplicablePlan(e, ds, gs, 0, I.hdU(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 			a.setApplicablePlans(Plp.iterator());
 
 			AJPFLogger.warning(logname, "Warning no applicable plan for goal " + I.hdE().getContent() );

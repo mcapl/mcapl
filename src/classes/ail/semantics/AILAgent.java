@@ -1827,7 +1827,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 				ds.add(i.hdD());
 				gs.add(i.hdG());
-				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname);
+				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname, getPrettyPrinter());
 
 				cp.add(ap);
 			}

@@ -73,10 +73,10 @@ public class GenerateApplicablePlansEmpty implements OSRule {
 		ArrayList<ApplicablePlan> Plp = new ArrayList<ApplicablePlan>();
 		
 		if ((! I.empty()) && I.noplan()) {
-			Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 1, new Unifier(), 0, AILAgent.AILdefaultPLname));
+			Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 1, new Unifier(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 		} else {
 			if (!I.empty()) {
-				Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 0, new Unifier(), 0, AILAgent.AILdefaultPLname));
+				Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 0, new Unifier(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 			} 
 		}
 		

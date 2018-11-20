@@ -23,6 +23,11 @@
 //----------------------------------------------------------------------------
 package ail.util;
 
+import java.util.ListIterator;
+
+import ail.syntax.ApplicablePlan;
+import ail.syntax.Deed;
+import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.IntentionRow;
 
@@ -45,6 +50,28 @@ public class AILPrettyPrinter {
 	    }
 	   	s+= s1;
 	    return s.toString();
+	}
+	
+	public String prettyAppPlan(ApplicablePlan p) {
+		//if (nochange) {
+		//	return new String("NO CHANGE");
+		//} else {
+			String triggers = p.getEvent().toString();
+			StringBuilder s = new StringBuilder();
+		
+			ListIterator<Guard> gi = p.getGuard().listIterator();
+			ListIterator<Deed> di = p.getPrefix().listIterator();
+			String us = p.getUnifier().toString();
+		
+			while (gi.hasNext()) {
+				Guard gu = gi.next();
+				Deed d = di.next();
+
+				s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
+			}
+		
+			return s.toString();
+		//}
 	}
 
 

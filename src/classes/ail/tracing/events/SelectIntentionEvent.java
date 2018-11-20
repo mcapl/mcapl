@@ -34,8 +34,7 @@ public class SelectIntentionEvent extends AbstractEvent {
 		StringBuilder builder = new StringBuilder();
 		// TODO: no nice descriptor available for intentions?
 		// (same problem in CreateIntentionEvent)
-		builder.append("selected intention ").append(intention.getID()).append(": ");
-		builder.append(intention.toString()).append(".");
+		builder.append("selected intention ").append(intention.toString()).append(".");
 		return builder.toString();
 	}
 

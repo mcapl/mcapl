@@ -496,7 +496,7 @@ public class PlanLibrary {
     				}
     					
     				if (iun != null && iun.hasNext()) {
-     					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
+     					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID(), a.getPrettyPrinter());
     				} else {
     					current = null;
     					return;
