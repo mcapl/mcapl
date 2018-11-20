@@ -488,7 +488,9 @@ public class PlanLibrary {
     						if (a.shouldTrace()) { // this is bad, but don't see how to do it otherwise
 								List<Unifier> data = Lists.newArrayList(iun);
 								iun = data.iterator();
-								a.trace(new GuardEvent(g, data));
+								ApplicablePlan mock = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(),
+										cp.getContext(), appplanlength, data.get(0), cp.getID(), cp.getLibID());
+								a.trace(new GuardEvent(intention, mock, g, data));
     						}
     					}
     				}

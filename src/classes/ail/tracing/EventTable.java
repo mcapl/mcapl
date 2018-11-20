@@ -26,7 +26,10 @@ import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXTable;
 
+import ail.syntax.Action;
 import ail.tracing.events.AbstractEvent;
+import ail.tracing.explanations.Reason;
+import ail.tracing.explanations.WhyQuestions;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.SortedList;
@@ -104,6 +107,16 @@ public class EventTable extends JXTable {
 			}
 		});
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		final WhyQuestions questions = new WhyQuestions(data);
+		questions.process();
+		for (Action action : questions.getAllActions()) {
+			System.out.println("WHY " + action + "?");
+			final List<Reason> reasons = questions.whyAction(action);
+			for (int i = 1; i <= reasons.size(); ++i) {
+				System.out.println(i + ": " + reasons.get(i - 1));
+			}
+		}
 	}
 
 	private void process(final List<AbstractEvent> data) {

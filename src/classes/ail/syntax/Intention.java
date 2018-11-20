@@ -113,6 +113,19 @@ public class Intention implements Comparable<Intention>{
     	trimUnifiers();
     }
     
+    // Used for cloning (i.e. when we want to keep the same ID)
+    private Intention(int ID) {
+    	id = ID;
+    	source = new SourceAnnotation(new Predicate("empty"));
+    }
+    
+    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
+    	this(ID);
+    	iConcat(e, ds, gu, theta);
+    	setSource(s);
+    	trimUnifiers();
+    }
+    
     /**
      * Constructor
      * @param e
@@ -981,11 +994,11 @@ public class Intention implements Comparable<Intention>{
 
 	public Intention clone() {
 		if (intentionRows.isEmpty()) {
-			Intention i = new Intention();
+			Intention i = new Intention(id);
 			i.addPretty(pretty_printer);
 			return i;
 		} else {
-			Intention i =  new Intention(events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
+			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
 			i.addPretty(pretty_printer);
 			return i;
 		}
