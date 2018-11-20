@@ -3,6 +3,8 @@ package ail.tracing;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -15,9 +17,11 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -58,8 +62,12 @@ public class EventTable extends JXTable {
 					final JFrame frame = new JFrame();
 					frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 					frame.setLayout(new BorderLayout());
-					frame.add(header, BorderLayout.WEST);
-					frame.add(new JScrollPane(table), BorderLayout.CENTER);
+					final JScrollPane scroll1 = new JScrollPane(header, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					final JScrollPane scroll2 = new JScrollPane(table);
+					new VerticalScrollSynchronizer(scroll1, scroll2);
+					frame.add(scroll1, BorderLayout.WEST);
+					frame.add(scroll2, BorderLayout.CENTER);
 					frame.add(description, BorderLayout.SOUTH);
 					frame.setPreferredSize(
 							GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
@@ -145,5 +153,22 @@ public class EventTable extends JXTable {
 
 	private static String getDescription(final AbstractEvent event) {
 		return event.getClass().getSimpleName().replace("Event", "");// .substring(0, 1);
+	}
+
+	private final static class VerticalScrollSynchronizer implements AdjustmentListener {
+		private final JScrollBar v1, v2;
+
+		VerticalScrollSynchronizer(final JScrollPane sp1, final JScrollPane sp2) {
+			v1 = sp1.getVerticalScrollBar();
+			v2 = sp2.getVerticalScrollBar();
+			v1.addAdjustmentListener(this);
+			v2.addAdjustmentListener(this);
+		}
+
+		public void adjustmentValueChanged(final AdjustmentEvent e) {
+			final JScrollBar scrollBar = (JScrollBar) e.getSource();
+			final JScrollBar target = (scrollBar == v1) ? v2 : v1;
+			target.setValue(scrollBar.getValue());
+		}
 	}
 }
