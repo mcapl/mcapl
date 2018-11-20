@@ -489,7 +489,7 @@ public class PlanLibrary {
 								List<Unifier> data = Lists.newArrayList(iun);
 								iun = data.iterator();
 								ApplicablePlan mock = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(),
-										cp.getContext(), appplanlength, data.get(0), cp.getID(), cp.getLibID(), a.getPrettyPrinter());
+										cp.getContext(), appplanlength, data.isEmpty() ? null : data.get(0), cp.getID(), cp.getLibID(), a.getPrettyPrinter());
 								a.trace(new GuardEvent(intention, mock, g, data));
     						}
     					}

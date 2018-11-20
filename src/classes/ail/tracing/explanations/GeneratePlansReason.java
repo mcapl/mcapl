@@ -35,7 +35,7 @@ public class GeneratePlansReason extends Reason {
 		for (Integer planID : this.event.getPlanIDs()) {
 			plans.add(Integer.toString(planID));
 		}
-		string.append("the plans generated in state ").append(this.state).append(" ").append(plans);
+		string.append("the applicable plans generated in state ").append(this.state).append(" ").append(plans);
 		if (this.parent != null) {
 			string.append(", because ").append(this.parent);
 		} else {
