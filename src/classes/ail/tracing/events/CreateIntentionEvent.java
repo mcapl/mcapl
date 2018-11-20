@@ -14,6 +14,15 @@ public class CreateIntentionEvent extends AbstractEvent {
 		this.intention = intention.clone();
 	}
 
+	public Intention getIntention() {
+		return this.intention;
+	}
+
+	public Event getEvent() {
+		List<Event> events = this.intention.events();
+		return (events.isEmpty()) ? null : this.intention.events().get(0);
+	}
+
 	@Override
 	public List<String> getLookupData() {
 		List<String> data = new LinkedList<>();
@@ -32,12 +41,12 @@ public class CreateIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		List<Event> event = intention.events();
-		if (!event.isEmpty()) { // TODO: would like the 'start' event to be more detailed
-			builder.append("for the event ").append(event).append(", ");
+		Event event = getEvent();
+		if (event != null) { // TODO: would like the 'start' event to be more detailed
+			builder.append("for the event '").append(event).append("', ");
 		}
 		// TODO: no nice descriptor available for intentions?
-		// (same problem in  SelectIntentionEvent)
+		// (same problem in SelectIntentionEvent)
 		builder.append("created intention ").append(intention.getID()).append(": ");
 		builder.append(intention.toString()).append(".");
 		return builder.toString();

@@ -13,6 +13,10 @@ public class SelectPlanEvent extends AbstractEvent {
 	public SelectPlanEvent(final ApplicablePlan plan) {
 		this.plan = plan;
 	}
+	
+	public ApplicablePlan getPlan() {
+		return this.plan;
+	}
 
 	@Override
 	public List<String> getLookupData() {

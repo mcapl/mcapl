@@ -1,20 +1,44 @@
 package ail.tracing.events;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.ApplicablePlan;
 import ail.syntax.Guard;
 import ail.syntax.GuardAtom;
+import ail.syntax.Intention;
 import ail.syntax.Unifier;
 
 public class GuardEvent extends AbstractEvent {
+	private final Intention forIntention;
+	private final ApplicablePlan forPlan;
 	private final Guard guard;
 	private final List<Unifier> solutions;
 
-	public GuardEvent(final Guard guard, final List<Unifier> solutions) {
+	public GuardEvent(final Intention forIntention, final ApplicablePlan forPlan, final Guard guard,
+			final List<Unifier> solutions) {
+		this.forIntention = forIntention.clone();
+		this.forPlan = forPlan;
 		this.guard = guard.clone();
 		this.solutions = solutions;
+	}
+
+	public Intention getIntention() {
+		return this.forIntention;
+	}
+
+	public ApplicablePlan getPlan() {
+		return this.forPlan;
+	}
+
+	public Guard getGuard() {
+		return this.guard;
+	}
+
+	public List<Unifier> getSolutions() {
+		return Collections.unmodifiableList(this.solutions);
 	}
 
 	@Override
@@ -41,7 +65,8 @@ public class GuardEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("evaluated the guard '").append(guard).append("': ").append(solutions).append(".");
+		builder.append("evaluated the guard of plan").append(forPlan.getID()).append(" '").append(guard).append("': ")
+				.append(solutions).append(".");
 		return builder.toString();
 	}
 

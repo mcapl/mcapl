@@ -12,6 +12,10 @@ public class ActionEvent extends AbstractEvent {
 	public ActionEvent(final Action action) {
 		this.action = action;
 	}
+	
+	public Action getAction() {
+		return this.action;
+	}
 
 	@Override
 	public List<String> getLookupData() {

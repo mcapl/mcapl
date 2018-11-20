@@ -13,6 +13,10 @@ public class SelectIntentionEvent extends AbstractEvent {
 		this.intention = intention.clone();
 	}
 
+	public Intention getIntention() {
+		return this.intention;
+	}
+
 	@Override
 	public List<String> getLookupData() {
 		List<String> data = new ArrayList<>(1);
