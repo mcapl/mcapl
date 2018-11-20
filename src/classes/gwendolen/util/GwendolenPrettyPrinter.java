@@ -48,7 +48,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	    		first = false;
 	    	}
 	    	
-	    	s1 += d.toString() + s1;
+	    	s1 = d.toString() + s1;
 	    }
 	   	s+= s1;
 	    return s.toString();

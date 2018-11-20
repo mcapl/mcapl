@@ -119,13 +119,14 @@ public class Intention implements Comparable<Intention>{
     }
     
     // Used for cloning (i.e. when we want to keep the same ID)
-    private Intention(int ID) {
+    private Intention(int ID, AILPrettyPrinter pretty) {
     	id = ID;
     	source = new SourceAnnotation(new Predicate("empty"));
+    	pretty_printer = pretty;
     }
     
-    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
-    	this(ID);
+    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(ID, pretty);
     	iConcat(e, ds, gu, theta);
     	setSource(s);
     	trimUnifiers();
@@ -999,12 +1000,12 @@ public class Intention implements Comparable<Intention>{
 
 	public Intention clone() {
 		if (intentionRows.isEmpty()) {
-			Intention i = new Intention(id);
-			i.addPretty(pretty_printer);
+			Intention i = new Intention(id, pretty_printer);
+			// i.addPretty(pretty_printer);
 			return i;
 		} else {
-			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
-			i.addPretty(pretty_printer);
+			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source, pretty_printer);
+			// i.addPretty(pretty_printer);
 			return i;
 		}
 	}
