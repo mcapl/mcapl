@@ -130,6 +130,7 @@ public class WhyQuestions {
 					}
 				}
 			} else if (event instanceof GuardEvent) {
+				// a plan is only generated if its guard was evaluated at some point
 				final GuardEvent ge = (GuardEvent) event;
 				final ApplicablePlan plan = ge.getPlan();
 				for (final ActionReason current : stack) {
@@ -143,6 +144,7 @@ public class WhyQuestions {
 					}
 				}
 			} else if (event instanceof SelectIntentionEvent) {
+				// a guard is evaluated because of some intention selection event
 				final SelectIntentionEvent sie = (SelectIntentionEvent) event;
 				final Intention intention = sie.getIntention();
 				for (final ActionReason current : stack) {
@@ -151,7 +153,6 @@ public class WhyQuestions {
 						final GeneratePlansReason gpr = spr.getParent();
 						if (gpr != null) {
 							final GuardReason gr = gpr.getParent();
-							System.out.println(intention.getID() + " == " + gr.getEvent().getIntention().getID());
 							if (gr != null && gr.getParent() == null
 									&& intention.getID() == gr.getEvent().getIntention().getID()) {
 								final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
@@ -161,6 +162,7 @@ public class WhyQuestions {
 					}
 				}
 			} else if (event instanceof CreateIntentionEvent) {
+				// an intention can only be selected if it was created for an event sometime
 				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
 				final Intention intention = cie.getIntention();
 				for (final ActionReason current : stack) {

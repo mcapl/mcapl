@@ -19,7 +19,7 @@ public class EventStorageWriter implements Runnable {
 			@Override
 			public Thread newThread(final Runnable r) {
 				final Thread t = new Thread(r);
-				t.setPriority(Thread.MIN_PRIORITY); // 1 less than the runtime
+				t.setPriority(Thread.MIN_PRIORITY);
 				return t;
 			}
 		});

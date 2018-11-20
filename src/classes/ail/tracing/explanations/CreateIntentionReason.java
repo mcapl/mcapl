@@ -10,7 +10,7 @@ public class CreateIntentionReason extends Reason {
 		super(state);
 		this.event = event;
 	}
-	
+
 	@Override
 	public CreateIntentionEvent getEvent() {
 		return this.event;
@@ -24,8 +24,7 @@ public class CreateIntentionReason extends Reason {
 	@Override
 	public String toString() {
 		final StringBuilder string = new StringBuilder();
-		string.append("intention ").append(this.event.getIntention().getID()).append(" was created in state ")
-				.append(this.state);
+		string.append("it was created in state ").append(this.state);
 		Event event = this.event.getEvent();
 		if (event != null) {
 			string.append(" for the event '").append(event).append("'");
