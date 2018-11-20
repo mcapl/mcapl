@@ -134,7 +134,7 @@ public class HandleWaitForDirect extends DirectPerception {
 			if (a.allintentionssuspended()) {
 				a.getIntentions().add(i);
 				//a.sleep();
-				Intention empty = new Intention();
+				Intention empty = new Intention(a.getPrettyPrinter());
 				if (a.shouldTrace()) {
 					a.trace(new CreateIntentionEvent(empty));
 				}

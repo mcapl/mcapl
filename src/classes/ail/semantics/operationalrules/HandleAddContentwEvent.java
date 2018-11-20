@@ -54,7 +54,7 @@ public class HandleAddContentwEvent extends HandleAddContent {
 	public void apply(AILAgent a) {
 		super.apply(a);
 
-		Intention i = new Intention(new Event(Event.AILAddition, Event.AILContent, (Literal) topdeed.getContent()), AILAgent.refertoself());
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILContent, (Literal) topdeed.getContent()), AILAgent.refertoself(), a.getPrettyPrinter());
 		a.getIntentions().add(i);
 		if (a.shouldTrace()) {
 			a.trace(new CreateIntentionEvent(i));
