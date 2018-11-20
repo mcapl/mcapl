@@ -112,7 +112,7 @@ public class DirectPerceptionwEvents implements OSRule {
 						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
-					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept());
+					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept(), a.getPrettyPrinter());
 					a.addNewIntention(i);
 					if (a.shouldTrace()) {
 						a.trace(new CreateIntentionEvent(i));
@@ -137,7 +137,7 @@ public class DirectPerceptionwEvents implements OSRule {
 					a.trace(new ModificationEvent(addBel));
 				}
 				// Don't let new intention get dropped totally if things change.
-				Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself());
+				Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself(), a.getPrettyPrinter());
 				a.addNewIntention(i);
 				if (a.shouldTrace()) {
 					a.trace(new CreateIntentionEvent(i));

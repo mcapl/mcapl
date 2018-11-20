@@ -29,6 +29,7 @@ import org.junit.Assert;
 
 import ail.syntax.Literal;
 import ail.syntax.VarTerm;
+import ail.util.AILPrettyPrinter;
 import ail.syntax.GBelief;
 import ail.syntax.Unifier;
 import ail.syntax.Guard;
@@ -64,7 +65,7 @@ public class DroppingNonGroundGoalQuickTests {
 		l2.addTerm(new Literal("term"));
 		
 		
-		Intention i = new Intention(l1, AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -99,7 +100,7 @@ public class DroppingNonGroundGoalQuickTests {
 		l2.addTerm(new VarTerm("V2"));
 		
 		
-		Intention i = new Intention(l1, AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -132,7 +133,7 @@ public class DroppingNonGroundGoalQuickTests {
 		l2.addTerm(new VarTerm("V2"));
 		
 		
-		Intention i = new Intention(l1, AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();
@@ -163,7 +164,7 @@ public class DroppingNonGroundGoalQuickTests {
 		l2.addTerm(new Literal("V2"));
 		
 		
-		Intention i = new Intention(l1, AILAgent.refertoself());
+		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
 		AILAgent a = new AILAgent("ag");
 		a.setIntention(i);
 		HandleAddAchieveTestGoalwEvent addgoal = new HandleAddAchieveTestGoalwEvent();

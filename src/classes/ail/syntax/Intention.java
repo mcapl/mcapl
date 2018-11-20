@@ -95,9 +95,10 @@ public class Intention implements Comparable<Intention>{
      * Constructor.  Does nothing except create an empty intention.
      *
      */
-    public Intention() {
+    public Intention(AILPrettyPrinter pretty) {
     	id = idCounter++;
     	source = new SourceAnnotation(new Predicate("empty"));
+    	pretty_printer = pretty;
     }
     
      /**
@@ -110,21 +111,22 @@ public class Intention implements Comparable<Intention>{
      * @param theta The unifier
      * @param s The source.
      */
-    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
-    	this();
+    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
     	iConcat(e, ds, gu, theta);
     	setSource(s);
     	trimUnifiers();
     }
     
     // Used for cloning (i.e. when we want to keep the same ID)
-    private Intention(int ID) {
+    private Intention(int ID, AILPrettyPrinter pretty) {
     	id = ID;
     	source = new SourceAnnotation(new Predicate("empty"));
+    	pretty_printer = pretty;
     }
     
-    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
-    	this(ID);
+    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(ID, pretty);
     	iConcat(e, ds, gu, theta);
     	setSource(s);
     	trimUnifiers();
@@ -137,8 +139,8 @@ public class Intention implements Comparable<Intention>{
      * @param gu
      * @param theta
      */
-    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta) {
-    	this(e, ds, gu, theta, AILAgent.refertoself());
+    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, AILPrettyPrinter pretty) {
+    	this(e, ds, gu, theta, AILAgent.refertoself(), pretty);
      }
 
     /**
@@ -150,8 +152,8 @@ public class Intention implements Comparable<Intention>{
      * @param u the unifier.
      * @param s the source for the intention.
      */
-    public Intention(Event e, Unifier u, SourceAnnotation s) {
-    	this(e, s);
+    public Intention(Event e, Unifier u, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(e, s, pretty);
     	compose(u);
     	trimUnifiers();
     }
@@ -165,8 +167,8 @@ public class Intention implements Comparable<Intention>{
      * @param gl  The goal.
      * @param s  The source.
      */
-    public Intention(Goal gl, SourceAnnotation s) {
-    	this();
+    public Intention(Goal gl, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
  
     	ArrayList<Guard> gs = new ArrayList<Guard>();
 		GBelief gtrue = new GBelief();
@@ -197,8 +199,8 @@ public class Intention implements Comparable<Intention>{
      * @param e  The event.
      * @param s  The source
      */
-    public Intention(Event e, SourceAnnotation s) {
-    	this();
+    public Intention(Event e, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
     	
     	ArrayList<Guard> gs = new ArrayList<Guard>();
 		GBelief gtrue = new GBelief();
@@ -998,12 +1000,12 @@ public class Intention implements Comparable<Intention>{
 
 	public Intention clone() {
 		if (intentionRows.isEmpty()) {
-			Intention i = new Intention(id);
-			i.addPretty(pretty_printer);
+			Intention i = new Intention(id, pretty_printer);
+			// i.addPretty(pretty_printer);
 			return i;
 		} else {
-			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source);
-			i.addPretty(pretty_printer);
+			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source, pretty_printer);
+			// i.addPretty(pretty_printer);
 			return i;
 		}
 	}

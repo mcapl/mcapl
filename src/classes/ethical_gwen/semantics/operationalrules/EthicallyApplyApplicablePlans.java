@@ -77,7 +77,7 @@ public class EthicallyApplyApplicablePlans extends ApplyApplicablePlans {
 			Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 			// change the head of the guardstack to trivial - we've already checked it holds
 			guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
-			a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
+			a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone(), a.getPrettyPrinter()));
 		} else {
 			// This plan has been triggered by an event and should be added to the intention associated with that event.
 			i.dropP(p.getN());

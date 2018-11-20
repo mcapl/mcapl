@@ -98,7 +98,7 @@ public class ApplyApplicablePlans implements OSRule {
 				Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
-				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone());
+				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone(), a.getPrettyPrinter());
 				if (a.shouldTrace()) {
 					a.trace(new CreateIntentionEvent(set));
 				}

@@ -149,7 +149,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/**
 	 * The current intention.
 	 */
-	protected Intention I = new Intention();
+	protected Intention I = new Intention(new AILPrettyPrinter());
 
 	/**
 	 * Other intentions.
@@ -1458,7 +1458,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// EXPLANATION EVENT: Add an initial goal - not sure if this is necessary since
 		// it should only be invoked at the start.
 		// TODO: this only creates the intention to add a goal? -Vincent
-		Intention i = new Intention(g, refertoself());
+		Intention i = new Intention(g, refertoself(), getPrettyPrinter());
 		getIntentions().add(i);
 		if (shouldTrace()) {
 			trace(new CreateIntentionEvent(i));

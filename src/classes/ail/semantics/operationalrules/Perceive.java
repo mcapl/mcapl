@@ -107,7 +107,7 @@ public class Perceive implements OSRule {
 				
 					ds.add(new Deed(Deed.AILDeletion, Deed.AILBel, l));
 					gs.add(new Guard(new GBelief()));
-					Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
+					Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept(), a.getPrettyPrinter());
 					if (! is.contains(i)) {
 						is.add(i);
 						if (a.shouldTrace()) {
@@ -132,7 +132,7 @@ public class Perceive implements OSRule {
 				}
 				ds.add(new Deed(Deed.AILAddition, Deed.AILBel, new Literal(Literal.LPos, new PredicatewAnnotation((Predicate) l))));
 				gs.add(new Guard(new GBelief()));
-				Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
+				Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept(), a.getPrettyPrinter());
 				if (! is.contains(i)) {
 					is.add(i);
 					if (a.shouldTrace()) {

@@ -139,7 +139,7 @@ public class UnificationQuickTests {
 		iguards.add(new Guard(new GBelief()));
 		ArrayList<Deed> ideeds = new ArrayList<Deed>();
 		ideeds.add(new Deed(Deed.Dnpy));
-		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, new Literal("someevent")), ideeds, iguards, u1);
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, new Literal("someevent")), ideeds, iguards, u1, a.getPrettyPrinter());
 		a.setIntention(i);
 		
 		try {

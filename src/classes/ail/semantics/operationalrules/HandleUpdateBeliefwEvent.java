@@ -54,7 +54,7 @@ public class HandleUpdateBeliefwEvent extends HandleUpdateBelief {
 	public void apply(AILAgent a) {
 		super.apply(a);
 		
-		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself());
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, b), AILAgent.refertoself(), a.getPrettyPrinter());
 		a.getIntentions().add(i);
 		if (a.shouldTrace()) {
 			a.trace(new CreateIntentionEvent(i));

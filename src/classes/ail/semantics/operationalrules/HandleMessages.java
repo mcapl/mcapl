@@ -74,7 +74,7 @@ public class HandleMessages implements OSRule {
 		for (Message m: msgs) {
 			Predicate sender = new Predicate("source");
 			sender.addTerm(new Predicate(m.getSender()));
-			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender));
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender), a.getPrettyPrinter());
 			is.add(i);
 			if (a.shouldTrace()) {
 				a.trace(new CreateIntentionEvent(i));

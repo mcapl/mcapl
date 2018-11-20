@@ -43,12 +43,13 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	    boolean first = true;
 	    for (Deed d : i.deeds()) {
 	    	if (!first) {
-	    		s1 += ";";
+	    		s1 = d.toString() + ";" + s1;
 	    	} else {
 	    		first = false;
+	    		s1 = d.toString();
 	    	}
 	    	
-	    	s1 += d.toString() + s1;
+	    	// s1 = d.toString() + s1;
 	    }
 	   	s+= s1;
 	    return s.toString();

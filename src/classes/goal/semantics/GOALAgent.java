@@ -794,7 +794,7 @@ public class GOALAgent extends AILAgent {
 
 	public void setFocusGoal(Goal goal) {
 		if (goal != null) {
-			setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself()));
+			setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself(), getPrettyPrinter()));
 		}
 	}
 
