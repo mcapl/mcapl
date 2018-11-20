@@ -28,10 +28,10 @@ public class GuardReason extends Reason {
 	@Override
 	public String toString() {
 		final StringBuilder string = new StringBuilder();
-		string.append("the guard '").append(this.event.getGuard()).append("' held with ")
+		string.append("its guard '").append(this.event.getGuard()).append("' held with ")
 				.append(this.event.getSolutions()).append(" in state ").append(this.state);
 		if (this.parent != null) {
-			string.append(", because ").append(this.parent);
+			string.append(", which was evaluated because ").append(this.parent);
 		} else {
 			string.append(".");
 		}
