@@ -37,6 +37,7 @@ import ail.tracing.events.BaseType;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILPrettyPrinter;
+import gov.nasa.jpf.annotation.FilterField;
 import ail.semantics.AILAgent;
 
 /**
@@ -48,7 +49,10 @@ import ail.semantics.AILAgent;
  *
  */
 public class Intention implements Comparable<Intention>{
+	@FilterField
 	private static volatile int idCounter = 0;
+
+	@FilterField
 	protected final int id;
 	/**
 	 * The rows of the intention.  NB. an intention row is not implemented

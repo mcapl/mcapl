@@ -22,7 +22,11 @@
 //----------------------------------------------------------------------------
 package gwendolen.util;
 
+import java.util.ListIterator;
+
+import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
+import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.IntentionRow;
 import ail.util.AILPrettyPrinter;
@@ -30,25 +34,57 @@ import ail.util.AILPrettyPrinter;
 public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	public String prettyIntention(Intention i) {
 		String s = "";
-		//s += "GWENDOLEN INTENTION";
-	    //if (i.suspended()) {
-	   	// s += "SUSPENDED\n";
-	    //}
-	    //s += i.getSource().toString() + ":: ";
-	    //if (i.getAnnotation() != null) {
-	   	// 	s += i.getAnnotation().toString();
-	    //}
-	    //s+="\n";
 		
+		s += "Intention " + i.getID() + ": ";
 		s += i.hdE().toString();
-		s += "||";
+		s += " --- ";
 	
-	    String s1 = ".";
+	    String s1 = "";
+	    boolean first = true;
 	    for (Deed d : i.deeds()) {
-	    	s1 = ";  " + d.toString() + s1;
+	    	if (!first) {
+	    		s1 += ";";
+	    	} else {
+	    		first = false;
+	    	}
+	    	
+	    	s1 += d.toString() + s1;
 	    }
 	   	s+= s1;
 	    return s.toString();
+	}
+	
+	public String prettyAppPlan(ApplicablePlan p) {
+		//if (nochange) {
+		//	return new String("NO CHANGE");
+		//} else {
+			String triggers = p.getEvent().toString();
+			StringBuilder s = new StringBuilder();
+			s.append("Plan ");
+			s.append(p.getID());
+				s.append(": ");
+			s.append(triggers);
+			s.append(" {");
+			
+			if (! p.getGuard().isEmpty()) {
+				Guard g = p.getGuard().get(0);
+				s.append(g.toString());
+			}
+			s.append("} <- ");
+		
+			ListIterator<Deed> di = p.getPrefix().listIterator();
+			//String us = p.getUnifier().toString();
+		
+			while (di.hasNext()) {
+
+				Deed d = di.next();
+
+				s.append(d.toString());
+				s.append("; ");
+			}
+		
+			return s.toString();
+		//}
 	}
 
 }
