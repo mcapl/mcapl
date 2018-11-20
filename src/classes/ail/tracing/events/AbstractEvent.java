@@ -11,6 +11,7 @@ import ail.syntax.Action;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Guard;
 import ail.syntax.Intention;
+import ail.syntax.Unifier;
 
 public abstract class AbstractEvent {
 	@SuppressWarnings("unchecked")
@@ -20,8 +21,8 @@ public abstract class AbstractEvent {
 		conf.getStreamCoderFactory().getInput().set(new FSTObjectInput(conf));
 		conf.getStreamCoderFactory().getOutput().set(new FSTObjectOutput(conf));
 		conf.registerClass(ActionEvent.class, Action.class, CreateIntentionEvent.class, Intention.class,
-				GeneratePlansEvent.class, ApplicablePlan.class, GuardEvent.class, Guard.class, ModificationAction.class,
-				ModificationEvent.class, SelectIntentionEvent.class, SelectPlanEvent.class);
+				GeneratePlansEvent.class, ApplicablePlan.class, GuardEvent.class, Guard.class, Unifier.class,
+				ModificationAction.class, ModificationEvent.class, SelectIntentionEvent.class, SelectPlanEvent.class);
 		return conf;
 	}
 
