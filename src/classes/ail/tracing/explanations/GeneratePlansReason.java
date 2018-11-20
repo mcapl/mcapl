@@ -5,7 +5,7 @@ import java.util.List;
 
 import ail.tracing.events.GeneratePlansEvent;
 
-public class GeneratePlansReason extends Reason {
+public class GeneratePlansReason extends AbstractReason {
 	private final GeneratePlansEvent event;
 	private GuardReason parent;
 

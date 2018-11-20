@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import ail.semantics.AILAgent;
 import ail.syntax.Goal;
 import ail.syntax.Unifier;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.syntax.Event;
@@ -143,7 +143,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 		
 		for (Goal sg: subgoals) {
 			if (a.removeGoal(sg) && a.shouldTrace()) {
-				ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, sg);
+				ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, sg);
 				a.trace(new ModificationEvent(removeGoal));
 			}
 		}

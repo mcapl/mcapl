@@ -66,7 +66,7 @@ import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
 import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
@@ -1477,7 +1477,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB().add(b);
 		if (success && shouldTrace()) {
-			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, null, b, null);
+			ModificationAction initBel = new ModificationAction(ModificationBase.BELIEFS, null, b, null);
 			trace(new ModificationEvent(initBel));
 		}
 	}
@@ -1495,7 +1495,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB(s).add(b);
 		if (success && shouldTrace()) {
-			ModificationAction initBel = new ModificationAction(BaseType.BELIEFS, s, b, null);
+			ModificationAction initBel = new ModificationAction(ModificationBase.BELIEFS, s, b, null);
 			trace(new ModificationEvent(initBel));
 		}
 	}

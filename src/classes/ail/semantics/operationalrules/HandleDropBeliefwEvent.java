@@ -29,7 +29,7 @@ import java.util.Iterator;
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
@@ -76,7 +76,7 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
 					if (a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, db.toString(), null, bp);
+						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, db.toString(), null, bp);
 						a.trace(new ModificationEvent(delBel));
 					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself(), a.getPrettyPrinter());

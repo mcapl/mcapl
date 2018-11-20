@@ -2,7 +2,7 @@ package ail.tracing.explanations;
 
 import ail.tracing.events.SelectIntentionEvent;
 
-public class SelectIntentionReason extends Reason {
+public class SelectIntentionReason extends AbstractReason {
 	private final SelectIntentionEvent event;
 	private CreateIntentionReason parent;
 

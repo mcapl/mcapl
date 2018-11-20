@@ -22,7 +22,7 @@ import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 
 /**
- * Supports generating explanations ({@link Reason}s) from an agent trace based
+ * Supports generating explanations ({@link AbstractReason}s) from an agent trace based
  * on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
 public class WhyQuestions {
@@ -100,7 +100,7 @@ public class WhyQuestions {
 	 *         executed) explaining why this action was executed (each entry
 	 *         corresponds to one successful execution).
 	 */
-	public List<Reason> whyAction(final Action action) {
+	public List<AbstractReason> whyAction(final Action action) {
 		final Stack<ActionReason> stack = new Stack<>();
 		for (int i = (this.trace.size() - 1); i >= 0; --i) {
 			final AbstractEvent event = this.trace.get(i);

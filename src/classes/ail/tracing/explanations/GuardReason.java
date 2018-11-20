@@ -2,7 +2,7 @@ package ail.tracing.explanations;
 
 import ail.tracing.events.GuardEvent;
 
-public class GuardReason extends Reason {
+public class GuardReason extends AbstractReason {
 	private final GuardEvent event;
 	private SelectIntentionReason parent;
 

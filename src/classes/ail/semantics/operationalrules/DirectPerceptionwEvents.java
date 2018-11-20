@@ -41,7 +41,7 @@ import ail.syntax.Event;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
@@ -109,7 +109,7 @@ public class DirectPerceptionwEvents implements OSRule {
 					Literal lit = new Literal(true, new PredicatewAnnotation(l));
 					lit.addAnnot(BeliefBase.TPercept);
 					if (a.delBel(lit) && a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
+						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept(), a.getPrettyPrinter());
@@ -133,7 +133,7 @@ public class DirectPerceptionwEvents implements OSRule {
 				Literal k = new Literal(true, new PredicatewAnnotation(l.clone()));
 				additions = true;
 				if (a.addBel(k, AILAgent.refertopercept()) && a.shouldTrace()) {
-					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, k, null);
+					ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, null, k, null);
 					a.trace(new ModificationEvent(addBel));
 				}
 				// Don't let new intention get dropped totally if things change.
@@ -167,7 +167,7 @@ public class DirectPerceptionwEvents implements OSRule {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
+			ModificationAction newMessages = new ModificationAction(ModificationBase.INBOX, null, predicates, null);
 			a.trace(new ModificationEvent(newMessages));
 		}
 	}

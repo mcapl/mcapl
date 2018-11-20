@@ -28,7 +28,7 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.syntax.Goal;
@@ -73,12 +73,12 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 			thetahd.compose(thetag);
 			i.compose(thetahd);
 			if (a.removeGoal(g) && a.shouldTrace()) {
-				ModificationAction removeGoal = new ModificationAction(BaseType.GOALS, null, null, g);
+				ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, g);
 				a.trace(new ModificationEvent(removeGoal));
 			}
 		} else {
 			if (a.addGoal(g) && a.shouldTrace()) {
-				ModificationAction addGoal = new ModificationAction(BaseType.GOALS, null, g, null);
+				ModificationAction addGoal = new ModificationAction(ModificationBase.GOALS, null, g, null);
 				a.trace(new ModificationEvent(addGoal));
 			}
 			i.tlI(a);

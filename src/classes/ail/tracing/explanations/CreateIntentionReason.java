@@ -3,7 +3,7 @@ package ail.tracing.explanations;
 import ail.syntax.Event;
 import ail.tracing.events.CreateIntentionEvent;
 
-public class CreateIntentionReason extends Reason {
+public class CreateIntentionReason extends AbstractReason {
 	private final CreateIntentionEvent event;
 
 	public CreateIntentionReason(final int state, final CreateIntentionEvent event) {
@@ -17,7 +17,7 @@ public class CreateIntentionReason extends Reason {
 	}
 
 	@Override
-	public Reason getParent() {
+	public AbstractReason getParent() {
 		return null;
 	}
 

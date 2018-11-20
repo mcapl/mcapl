@@ -1,5 +1,5 @@
 package ail.tracing.events;
 
-public enum BaseType {
+public enum ModificationBase {
 	BELIEFS, GOALS, INBOX, OUTBOX;
 }

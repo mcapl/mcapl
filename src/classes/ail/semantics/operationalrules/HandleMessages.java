@@ -34,7 +34,7 @@ import ail.syntax.Intention;
 import ail.syntax.Event;
 import ail.syntax.Predicate;
 import ail.syntax.annotation.SourceAnnotation;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
@@ -87,7 +87,7 @@ public class HandleMessages implements OSRule {
 			for (Message msg : inbox) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction removeMessages = new ModificationAction(BaseType.INBOX, null, null, predicates);
+			ModificationAction removeMessages = new ModificationAction(ModificationBase.INBOX, null, null, predicates);
 			a.trace(new ModificationEvent(removeMessages));
 		}
 		a.clearInbox();

@@ -32,7 +32,7 @@ import org.jdesktop.swingx.JXTable;
 
 import ail.syntax.Action;
 import ail.tracing.events.AbstractEvent;
-import ail.tracing.explanations.Reason;
+import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.WhyQuestions;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
@@ -106,6 +106,7 @@ public class EventTable extends JXTable {
 				return (value == null) ? "" : value;
 			}
 		}, new SortedList<Map<String, String>>(this.rows, null), TableComparatorChooser.SINGLE_COLUMN);
+		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent evt) {
@@ -114,13 +115,13 @@ public class EventTable extends JXTable {
 				description.setText(col + ": " + event.toString());
 			}
 		});
-		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+		// TODO: move this functionality into the interface
 		final WhyQuestions questions = new WhyQuestions(data);
 		questions.process();
 		for (Action action : questions.getAllActions()) {
 			System.out.println("WHY " + action + "?");
-			final List<Reason> reasons = questions.whyAction(action);
+			final List<AbstractReason> reasons = questions.whyAction(action);
 			for (int i = 1; i <= reasons.size(); ++i) {
 				System.out.println(i + ": " + reasons.get(i - 1));
 			}
@@ -138,8 +139,7 @@ public class EventTable extends JXTable {
 					this.index.put(signature, this.rows.size());
 					final Map<String, String> row = new LinkedHashMap<>();
 					row.put(index, getDescription(event));
-					this.rows.add(row); // TODO: sorting on type?! (i.e.
-										// action signatures first)
+					this.rows.add(row); // TODO: grouping on type?!
 				} else {
 					final Map<String, String> row = this.rows.get(existing);
 					row.put(index, getDescription(event));
@@ -152,7 +152,7 @@ public class EventTable extends JXTable {
 	}
 
 	private static String getDescription(final AbstractEvent event) {
-		return event.getClass().getSimpleName().replace("Event", "");// .substring(0, 1);
+		return event.getClass().getSimpleName().replace("Event", "");
 	}
 
 	private final static class VerticalScrollSynchronizer implements AdjustmentListener {

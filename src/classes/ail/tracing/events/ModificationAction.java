@@ -17,7 +17,7 @@ public class ModificationAction {
 	private final List<Predicate> added;
 	private final List<Predicate> removed;
 
-	public ModificationAction(final BaseType base, final String selector, final List<Predicate> added,
+	public ModificationAction(final ModificationBase base, final String selector, final List<Predicate> added,
 			final List<Predicate> removed) {
 		this.base = base.ordinal();
 		this.selector = selector;
@@ -25,7 +25,7 @@ public class ModificationAction {
 		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
 	}
 
-	public ModificationAction(final BaseType base, final String selector, final Predicate added,
+	public ModificationAction(final ModificationBase base, final String selector, final Predicate added,
 			final Predicate removed) {
 		this.base = base.ordinal();
 		this.selector = selector;
@@ -39,8 +39,8 @@ public class ModificationAction {
 		}
 	}
 
-	public BaseType getBase() {
-		return BaseType.values()[this.base];
+	public ModificationBase getBase() {
+		return ModificationBase.values()[this.base];
 	}
 
 	public List<Predicate> getAdded() {

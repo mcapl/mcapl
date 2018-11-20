@@ -29,7 +29,7 @@ import ail.syntax.Event;
 import ail.syntax.Intention;
 import ail.syntax.StringTerm;
 import ail.syntax.annotation.SourceAnnotation;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
@@ -79,7 +79,7 @@ public class HandleAddBelief extends HandleBelief {
 		}
 
 		if (a.addBel(b, sa, db) && a.shouldTrace()) {
-			ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, db.toString(), b, null);
+			ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, db.toString(), b, null);
 			a.trace(new ModificationEvent(addBel));
 		}
 		if (AJPFLogger.ltFine(logname)) {

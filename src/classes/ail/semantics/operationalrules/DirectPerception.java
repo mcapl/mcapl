@@ -41,7 +41,7 @@ import ail.syntax.Intention;
 import ail.syntax.Message;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
-import ail.tracing.events.BaseType;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 
@@ -96,7 +96,7 @@ public class DirectPerception implements OSRule {
 				Literal l = percept_iterator.next();
 				if (! percepts.contains(l)) {		
 					if (a.delBel(l) && a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(BaseType.BELIEFS, null, null, l);
+						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, null, null, l);
 						a.trace(new ModificationEvent(delBel));
 					}
 					a.tellawake();
@@ -113,7 +113,7 @@ public class DirectPerception implements OSRule {
 				additions = true;
 				Literal add = new Literal(k);
 				if (a.addBel(add, AILAgent.refertopercept()) && a.shouldTrace()) {
-					ModificationAction addBel = new ModificationAction(BaseType.BELIEFS, null, add, null);
+					ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, null, add, null);
 					a.trace(new ModificationEvent(addBel));
 				}
 				a.tellawake();
@@ -136,7 +136,7 @@ public class DirectPerception implements OSRule {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction newMessages = new ModificationAction(BaseType.INBOX, null, predicates, null);
+			ModificationAction newMessages = new ModificationAction(ModificationBase.INBOX, null, predicates, null);
 			a.trace(new ModificationEvent(newMessages));
 		}
 	}

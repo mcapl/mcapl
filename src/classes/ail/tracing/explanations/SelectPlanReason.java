@@ -2,7 +2,7 @@ package ail.tracing.explanations;
 
 import ail.tracing.events.SelectPlanEvent;
 
-public class SelectPlanReason extends Reason {
+public class SelectPlanReason extends AbstractReason {
 	private final SelectPlanEvent event;
 	private GeneratePlansReason parent;
 
