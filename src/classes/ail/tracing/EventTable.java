@@ -3,20 +3,26 @@ package ail.tracing;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -51,11 +57,12 @@ public class EventTable extends JXTable {
 				final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
 				picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
 				if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					final List<AbstractEvent> data = new EventStorage(picker.getSelectedFile()).getAll();
 					final JLabel header = new JLabel();
 					header.setVerticalAlignment(SwingConstants.TOP);
 					header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 					final JTextComponent description = new JTextField();
-					final EventTable table = new EventTable(picker.getSelectedFile(), header, description);
+					final EventTable table = new EventTable(data, header, description);
 					final JFrame frame = new JFrame();
 					frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 					frame.setLayout(new BorderLayout());
@@ -66,6 +73,7 @@ public class EventTable extends JXTable {
 					frame.add(scroll1, BorderLayout.WEST);
 					frame.add(scroll2, BorderLayout.CENTER);
 					frame.add(description, BorderLayout.SOUTH);
+					frame.add(new WhyButton(frame, data), BorderLayout.EAST);
 					frame.setPreferredSize(
 							GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
 					frame.pack();
@@ -75,8 +83,7 @@ public class EventTable extends JXTable {
 		});
 	}
 
-	public EventTable(final File datafile, final JLabel headers, final JTextComponent description) {
-		final List<AbstractEvent> data = new EventStorage(datafile).getAll();
+	public EventTable(final List<AbstractEvent> data, final JLabel headers, final JTextComponent description) {
 		this.columns = new LinkedList<>();
 		this.rows = GlazedLists.eventList(new LinkedList<Map<String, String>>());
 		this.index = new LinkedHashMap<>();
@@ -112,17 +119,6 @@ public class EventTable extends JXTable {
 				description.setText(col + ": " + event.toString());
 			}
 		});
-
-		// TODO: move this functionality into the interface
-		final WhyQuestions questions = new WhyQuestions(data);
-		questions.process();
-		for (Action action : questions.getAllActions()) {
-			System.out.println("WHY " + action + "?");
-			final List<AbstractReason> reasons = questions.whyAction(action);
-			for (int i = 1; i <= reasons.size(); ++i) {
-				System.out.println(i + ": " + reasons.get(i - 1));
-			}
-		}
 	}
 
 	private void process(final List<AbstractEvent> data) {
@@ -150,5 +146,39 @@ public class EventTable extends JXTable {
 
 	private static String getDescription(final AbstractEvent event) {
 		return event.getClass().getSimpleName().replace("Event", "");
+	}
+
+	private static final class WhyButton extends JButton {
+		private static final long serialVersionUID = 1L;
+		private final WhyQuestions questions;
+
+		WhyButton(final JFrame parent, final List<AbstractEvent> data) {
+			this.questions = new WhyQuestions(data);
+			setText("WHY?");
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					WhyButton.this.questions.process();
+					final Set<Action> actions = WhyButton.this.questions.getAllActions();
+					final JComboBox<Action> select = new JComboBox<>(actions.toArray(new Action[actions.size()]));
+					final int result = JOptionPane.showConfirmDialog(parent, select, "Why did you execute this action?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.OK_OPTION) {
+						final Action action = (Action) select.getSelectedItem();
+						final List<AbstractReason> reasons = questions.whyAction(action);
+						final StringBuilder answer = new StringBuilder();
+						for (int i = 1; i <= reasons.size(); ++i) {
+							answer.append(i).append(": ").append(reasons.get(i - 1)).append("\n");
+						}
+						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
+						msg.setEditable(false);
+						msg.setLineWrap(true);
+						msg.setWrapStyleWord(true);
+						JOptionPane.showMessageDialog(parent, new JScrollPane(msg),
+								"Why did you execute " + action + "?", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+		}
 	}
 }
