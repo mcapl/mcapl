@@ -26,7 +26,7 @@ public class GuardReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		string.append("its guard '").append(this.event.getGuard()).append("' held with ")
 				.append(this.event.getSolutions()).append(" in state ").append(this.state);

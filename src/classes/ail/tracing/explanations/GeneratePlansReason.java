@@ -29,7 +29,7 @@ public class GeneratePlansReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		List<String> plans = new LinkedList<>();
 		for (Integer planID : this.event.getPlanIDs()) {

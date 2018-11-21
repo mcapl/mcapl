@@ -26,7 +26,7 @@ public class SelectIntentionReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		string.append("intention ").append(this.event.getIntention().getID()).append(" was selected in state ")
 				.append(this.state);

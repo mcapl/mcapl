@@ -13,6 +13,9 @@ public abstract class AbstractReason {
 
 	public abstract AbstractReason getParent();
 
-	@Override
-	public abstract String toString();
+	public abstract String getExplanation(ExplanationLevel level);
+
+	public final String toString() {
+		return getExplanation(ExplanationLevel.FINEST);
+	}
 }

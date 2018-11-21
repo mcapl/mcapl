@@ -26,7 +26,7 @@ public class ActionReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		string.append(this.event.getAction()).append(" was executed in state ").append(this.state);
 		if (this.parent != null) {

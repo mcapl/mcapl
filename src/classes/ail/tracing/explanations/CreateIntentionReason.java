@@ -22,7 +22,7 @@ public class CreateIntentionReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		string.append("it was created in state ").append(this.state);
 		Event event = this.event.getEvent();

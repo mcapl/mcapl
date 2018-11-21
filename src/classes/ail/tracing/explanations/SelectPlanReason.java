@@ -26,7 +26,7 @@ public class SelectPlanReason extends AbstractReason {
 	}
 
 	@Override
-	public String toString() {
+	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
 		string.append("plan ").append(this.event.getPlan().getID()).append(" was selected in state ")
 				.append(this.state);
