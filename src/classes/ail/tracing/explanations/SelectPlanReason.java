@@ -37,7 +37,7 @@ public class SelectPlanReason extends AbstractReason {
 			}
 			break;
 		default:
-			string.append("it is part of plan ").append(this.event.getPlan().getID());
+			string.append("plan ").append(this.event.getPlan().getID());
 			if (this.parent != null) {
 				string.append(", ").append(this.parent.getExplanation(level));
 			}
