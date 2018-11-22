@@ -85,12 +85,15 @@ public class EventTable extends JXTable {
 					final EventTable table = new EventTable(data, header, description);
 
 					// initialize the why-buttons at the right
+					// TODO: the code for the buttons contains quite some duplication
 					final JPanel buttons = new JPanel();
 					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
 					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
 					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
 					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
 					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
+					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
+					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
 
 					// initialize the frame itself
 					final JFrame frame = new JFrame();
@@ -275,6 +278,44 @@ public class EventTable extends JXTable {
 						msg.setLineWrap(true);
 						msg.setWrapStyleWord(true);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you insert " + belief + "?",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+		}
+	}
+
+	private static final class WhyGoalButton extends JButton {
+		private static final long serialVersionUID = 1L;
+		private final WhyQuestions questions;
+
+		WhyGoalButton(final WhyQuestions questions, final ExplanationLevel level) {
+			this.questions = questions;
+			setText("WHY GOAL?");
+			setToolTipText(level.toString());
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(final ActionEvent e) {
+					// list all beliefs that there were in the trace,
+					// and request which one we should explain.
+					final Set<Predicate> goals = WhyGoalButton.this.questions.getAllGoals();
+					final JComboBox<Predicate> select = new JComboBox<>(goals.toArray(new Predicate[goals.size()]));
+					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you adopt this goal?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.OK_OPTION) {
+						// for the selected belief, fetch its explanation...
+						final Predicate goal = (Predicate) select.getSelectedItem();
+						final List<ModificationReason> reasons = questions.whyGoal(goal);
+						final StringBuilder answer = new StringBuilder();
+						for (int i = 1; i <= reasons.size(); ++i) {
+							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+						}
+						// ... and show it in a new dialog
+						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
+						msg.setEditable(false);
+						msg.setLineWrap(true);
+						msg.setWrapStyleWord(true);
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you adopt " + goal + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
