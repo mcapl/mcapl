@@ -1,6 +1,7 @@
 package ail.tracing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
@@ -111,6 +112,7 @@ public class EventTable extends JXTable {
 			}
 		}, new SortedList<Map<String, String>>(this.rows, null), TableComparatorChooser.SINGLE_COLUMN);
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		setGridColor(Color.GRAY);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent evt) {
