@@ -33,14 +33,16 @@ import ail.util.AILPrettyPrinter;
 
 public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	public String prettyIntention(Intention i) {
+		// System.err.println(super.prettyIntention(i));
 		String s = "";
 		
 		s += "Intention " + i.getID() + ": ";
-		s += i.hdE().toString();
-		s += " --- ";
+		// s += i.hdE().toString();
+		// s += " --- ";
 	
 	    String s1 = "";
 	    boolean first = true;
+	    int rownum = 0;
 	    for (Deed d : i.deeds()) {
 	    	if (!first) {
 	    		s1 = d.toString() + ";" + s1;
@@ -48,6 +50,11 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	    		first = false;
 	    		s1 = d.toString();
 	    	}
+	    	
+	    	if (d.getCategory() == Deed.Dnpy) {
+	    		s1 = i.events().get(rownum).toString() +  " -- " + s1;
+	    	}
+	    	rownum++;
 	    	
 	    	// s1 = d.toString() + s1;
 	    }

@@ -125,12 +125,12 @@ public class Intention implements Comparable<Intention>{
     	pretty_printer = pretty;
     }
     
-    private Intention(int ID, Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
-    	this(ID, pretty);
-    	iConcat(e, ds, gu, theta);
-    	setSource(s);
-    	trimUnifiers();
-    }
+    //private Intention(int ID, ArrayList<Event> es, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    //	this(ID, pretty);
+    //	iConcat(e, ds, gu, theta);
+    //	setSource(s);
+   // 	trimUnifiers();
+   // }
     
     /**
      * Constructor
@@ -1004,7 +1004,11 @@ public class Intention implements Comparable<Intention>{
 			// i.addPretty(pretty_printer);
 			return i;
 		} else {
-			Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source, pretty_printer);
+			Intention i = new Intention(id, pretty_printer);
+			for (IntentionRow ir: getRows()) {
+				i.push(ir.clone());
+			}
+			//Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source, pretty_printer);
 			// i.addPretty(pretty_printer);
 			return i;
 		}

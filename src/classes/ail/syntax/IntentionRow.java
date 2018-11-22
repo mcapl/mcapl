@@ -39,7 +39,7 @@ import java.util.ListIterator;
  * @author louiseadennise
  *
  */
-public class IntentionRow {
+public class IntentionRow implements Cloneable {
 	/**
 	 * The trigger event for the intention row.
 	 */
@@ -360,4 +360,7 @@ public class IntentionRow {
 
 	}
 
+	public IntentionRow clone() {
+		return new IntentionRow(getEvent().clone(), guardstack, body, unif);
+	}
 }
