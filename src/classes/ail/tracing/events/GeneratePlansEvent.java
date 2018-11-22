@@ -5,7 +5,6 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
-import ail.syntax.Unifier;
 
 public class GeneratePlansEvent extends AbstractEvent {
 	private final List<ApplicablePlan> plans;
@@ -51,11 +50,7 @@ public class GeneratePlansEvent extends AbstractEvent {
 			if (plan.getID() == 0) {
 				builder.append("continue processing intention");
 			} else {
-				builder.append("plan ").append(plan.getID());
-				Unifier u = plan.getUnifier();
-				if (u.size() > 0) {
-					builder.append(" with ").append(plan.getUnifier());
-				}
+				builder.append(plan);
 			}
 		}
 		builder.append(".");

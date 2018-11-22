@@ -42,13 +42,10 @@ public class CreateIntentionEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		Event event = getEvent();
-		if (event != null) { // TODO: would like the 'start' event to be more detailed
+		if (event != null) {
 			builder.append("for the event '").append(event).append("', ");
 		}
-		// TODO: no nice descriptor available for intentions?
-		// (same problem in SelectIntentionEvent)
-		builder.append("created intention ").append(intention.getID()).append(": ");
-		builder.append(intention.toString()).append(".");
+		builder.append("created ").append(intention).append(".");
 		return builder.toString();
 	}
 

@@ -85,7 +85,6 @@ public class EventTable extends JXTable {
 					final EventTable table = new EventTable(data, header, description);
 
 					// initialize the why-buttons at the right
-					// TODO: the code for the buttons contains quite some duplication
 					final JPanel buttons = new JPanel();
 					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
 					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));

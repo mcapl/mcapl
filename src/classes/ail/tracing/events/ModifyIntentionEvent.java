@@ -1,10 +1,9 @@
 package ail.tracing.events;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Event;
 import ail.syntax.Intention;
 
 public class ModifyIntentionEvent extends AbstractEvent {
@@ -18,18 +17,10 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		return this.intention;
 	}
 
-	//public Event getEvent() {
-	//	List<Event> events = this.intention.events();
-	//	return (events.isEmpty()) ? null : this.intention.events().get(0);
-	//}
-
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new LinkedList<>();
+		List<String> data = new ArrayList<>(1);
 		data.add("intention " + intention.getID());
-		//for (Event event : intention.events()) {
-		//	data.add(event.getPredicateIndicator().toString());
-		//}
 		return data;
 	}
 
@@ -41,14 +32,7 @@ public class ModifyIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// Event event = getEvent();
-		//if (event != null) { // TODO: would like the 'start' event to be more detailed
-		//	builder.append("for the event '").append(event).append("', ");
-		//}
-		// TODO: no nice descriptor available for intentions?
-		// (same problem in SelectIntentionEvent)
-		builder.append("modified intention ").append(intention.getID()).append(": ");
-		builder.append(intention.toString()).append(".");
+		builder.append("modified ").append(intention).append(".");
 		return builder.toString();
 	}
 

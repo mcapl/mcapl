@@ -5,7 +5,6 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
-import ail.syntax.Unifier;
 
 public class SelectPlanEvent extends AbstractEvent {
 	private final ApplicablePlan plan;
@@ -13,7 +12,7 @@ public class SelectPlanEvent extends AbstractEvent {
 	public SelectPlanEvent(final ApplicablePlan plan) {
 		this.plan = plan;
 	}
-	
+
 	public ApplicablePlan getPlan() {
 		return this.plan;
 	}
@@ -33,13 +32,7 @@ public class SelectPlanEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: how to nicely describe plans? same in GeneratePlansEvent
-		builder.append("selected plan ").append(plan.toString());
-		Unifier u = plan.getUnifier();
-		if (u.size() > 0) {
-			builder.append(" with ").append(plan.getUnifier());
-		}
-		builder.append(".");
+		builder.append("selected ").append(plan).append(".");
 		return builder.toString();
 	}
 
