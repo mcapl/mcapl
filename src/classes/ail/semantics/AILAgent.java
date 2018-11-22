@@ -1809,7 +1809,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *         agent's current plans.
 	 */
 	private final ArrayList<ApplicablePlan> continuePlans(Intention i) {
-		// EXPLANATION EVENT: This method generates an iterature of applicable plans
+		// EXPLANATION EVENT: This method generates an iterator of applicable plans
 		// which represent continuing processing of an existing intention.
 		ArrayList<ApplicablePlan> cp = new ArrayList<ApplicablePlan>();
 

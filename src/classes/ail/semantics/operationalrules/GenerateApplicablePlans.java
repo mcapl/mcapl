@@ -46,6 +46,9 @@ public class GenerateApplicablePlans implements OSRule {
 	@FilterField
 	private static final String name = "Generate Applicable Plans";
 	
+	// This might be instantiated in some subclasses.
+	protected Iterator<ApplicablePlan> iterator;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.semantics.operationalrules.OSRule#getName()
@@ -67,7 +70,9 @@ public class GenerateApplicablePlans implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<ApplicablePlan> iterator = a.filterPlans(a.appPlans(a.getIntention()));
+		if (iterator == null) {
+			iterator = a.filterPlans(a.appPlans(a.getIntention()));
+		}
 		List<ApplicablePlan> plans = null;
 		if (a.shouldTrace()) { // this is bad, but don't see how to do it otherwise
 			plans = Lists.newArrayList(iterator);
