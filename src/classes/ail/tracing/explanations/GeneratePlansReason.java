@@ -1,8 +1,5 @@
 package ail.tracing.explanations;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import ail.tracing.events.GeneratePlansEvent;
 
 public class GeneratePlansReason extends AbstractReason {
@@ -33,11 +30,8 @@ public class GeneratePlansReason extends AbstractReason {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
-			final List<String> plans = new LinkedList<>();
-			for (final Integer planID : this.event.getPlanIDs()) {
-				plans.add(Integer.toString(planID));
-			}
-			string.append("the applicable plans generated in state ").append(this.state).append(" ").append(plans);
+			string.append("the applicable plans generated in state ").append(this.state).append(" ")
+					.append(event.getPlans());
 			if (this.parent != null) {
 				string.append(", because ").append(this.parent.getExplanation(level));
 			}

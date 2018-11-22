@@ -92,6 +92,8 @@ public class WhyQuestions {
 	public Set<Action> getAllActions() {
 		return Collections.unmodifiableSet(this.actions);
 	}
+	
+	// TODO: we are missing the new intention modification events here now
 
 	/**
 	 * @param action An action from which we want to know why it was excuted.

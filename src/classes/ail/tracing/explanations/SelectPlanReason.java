@@ -30,14 +30,13 @@ public class SelectPlanReason extends AbstractReason {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
-			string.append("plan ").append(this.event.getPlan().getID()).append(" was selected in state ")
-					.append(this.state);
+			string.append(this.event.getPlan()).append(" was selected in state ").append(this.state);
 			if (this.parent != null) {
 				string.append(", because it was included in ").append(this.parent.getExplanation(level));
 			}
 			break;
 		default:
-			string.append("plan ").append(this.event.getPlan().getID());
+			string.append(this.event.getPlan());
 			if (this.parent != null) {
 				string.append(", ").append(this.parent.getExplanation(level));
 			}

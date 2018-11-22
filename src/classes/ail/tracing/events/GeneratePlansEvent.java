@@ -1,6 +1,7 @@
 package ail.tracing.events;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ail.semantics.AILAgent;
@@ -11,6 +12,10 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	public GeneratePlansEvent(final List<ApplicablePlan> plans) {
 		this.plans = plans;
+	}
+
+	public List<ApplicablePlan> getPlans() {
+		return Collections.unmodifiableList(plans);
 	}
 
 	public List<Integer> getPlanIDs() {
@@ -39,21 +44,7 @@ public class GeneratePlansEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		// TODO: improve (plan details? same problem in SelectPlanEvent)
-		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ");
-		boolean first = true;
-		for (ApplicablePlan plan : plans) {
-			if (first) {
-				first = false;
-			} else {
-				builder.append(", ");
-			}
-			if (plan.getID() == 0) {
-				builder.append("continue processing intention");
-			} else {
-				builder.append(plan);
-			}
-		}
-		builder.append(".");
+		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ").append(plans).append(".");
 		return builder.toString();
 	}
 

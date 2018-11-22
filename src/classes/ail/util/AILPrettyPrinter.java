@@ -53,9 +53,9 @@ public class AILPrettyPrinter {
 	}
 	
 	public String prettyAppPlan(ApplicablePlan p) {
-		//if (nochange) {
-		//	return new String("NO CHANGE");
-		//} else {
+		if (p.getID() == 0) {
+			return "continue processing intention";
+		} else {
 			String triggers = p.getEvent().toString();
 			StringBuilder s = new StringBuilder();
 		
@@ -71,7 +71,7 @@ public class AILPrettyPrinter {
 			}
 		
 			return s.toString();
-		//}
+		}
 	}
 
 
