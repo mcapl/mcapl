@@ -44,6 +44,10 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	
 	    String s1 = "";
 	    boolean first = true;
+	    
+	    if (i.empty()) {
+	    	s1 = "the intention is now empty and will be removed";
+	    }
 	    int rownum = 0;
 	    for (Deed d : i.deeds()) {
 	    	if (!first) {

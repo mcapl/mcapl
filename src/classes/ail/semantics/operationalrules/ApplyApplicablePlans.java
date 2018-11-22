@@ -37,6 +37,7 @@ import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.syntax.Event;
@@ -137,6 +138,10 @@ public class ApplyApplicablePlans implements OSRule {
 					i.iConcat(p.getEvent(), p.getPrefix(), guardstack, p.getUnifier().clone());
 				} else if(! i.empty()) {
 					i.hdU().compose(p.getUnifier().clone());
+				}
+				
+				if (a.shouldTrace()) {
+					a.trace(new ModifyIntentionEvent(i));
 				}
 			}
 		//}
