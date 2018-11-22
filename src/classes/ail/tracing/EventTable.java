@@ -235,10 +235,7 @@ public class EventTable extends JXTable {
 							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
 						}
 						// ... and show it in a new dialog
-						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
-						msg.setEditable(false);
-						msg.setLineWrap(true);
-						msg.setWrapStyleWord(true);
+						final AnswerArea msg = new AnswerArea(answer.toString());
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you execute " + action + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -273,10 +270,7 @@ public class EventTable extends JXTable {
 							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
 						}
 						// ... and show it in a new dialog
-						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
-						msg.setEditable(false);
-						msg.setLineWrap(true);
-						msg.setWrapStyleWord(true);
+						final AnswerArea msg = new AnswerArea(answer.toString());
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you insert " + belief + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -311,15 +305,23 @@ public class EventTable extends JXTable {
 							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
 						}
 						// ... and show it in a new dialog
-						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
-						msg.setEditable(false);
-						msg.setLineWrap(true);
-						msg.setWrapStyleWord(true);
+						final AnswerArea msg = new AnswerArea(answer.toString());
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you adopt " + goal + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
+		}
+	}
+
+	private static final class AnswerArea extends JTextArea {
+		private static final long serialVersionUID = 1L;
+
+		AnswerArea(final String answer) {
+			super(answer, 10, 50);
+			setEditable(false);
+			setLineWrap(true);
+			setWrapStyleWord(true);
 		}
 	}
 }
