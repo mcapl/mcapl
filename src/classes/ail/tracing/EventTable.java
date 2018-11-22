@@ -2,6 +2,7 @@ package ail.tracing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
@@ -39,9 +40,11 @@ import javax.swing.text.JTextComponent;
 import org.jdesktop.swingx.JXTable;
 
 import ail.syntax.Action;
+import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
-import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ActionReason;
 import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.ModificationReason;
 import ail.tracing.explanations.WhyQuestions;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
@@ -60,15 +63,39 @@ public class EventTable extends JXTable {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				// request a .db file, i.e. a trace
 				final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
 				picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
 				if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					// initialize the trace and the question-asking
 					final List<AbstractEvent> data = new EventStorage(picker.getSelectedFile()).getAll();
+					final WhyQuestions questions = new WhyQuestions(data);
+					questions.process();
+
+					// initialize the headers before each table row (filled by the EventTable)
 					final JLabel header = new JLabel();
 					header.setVerticalAlignment(SwingConstants.TOP);
 					header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+
+					// initialize the description of the selected column (shown at the bottom)
+					// it is actually linked in the EventTable constructor
 					final JTextComponent description = new JTextField();
+
+					// initialize the table itself
 					final EventTable table = new EventTable(data, header, description);
+
+					// initialize the why-buttons at the right
+					// TODO: the code for the buttons contains quite some duplication
+					final JPanel buttons = new JPanel();
+					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
+					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
+					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
+					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
+					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
+					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
+
+					// initialize the frame itself
 					final JFrame frame = new JFrame();
 					frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 					frame.setLayout(new BorderLayout());
@@ -76,16 +103,15 @@ public class EventTable extends JXTable {
 							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					final JScrollPane scroll2 = new JScrollPane(table);
 					scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
-					final JPanel buttons = new JPanel();
-					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-					buttons.add(new WhyButton(frame, data, ExplanationLevel.FINEST));
-					buttons.add(new WhyButton(frame, data, ExplanationLevel.FINE));
 					frame.add(scroll1, BorderLayout.WEST);
 					frame.add(scroll2, BorderLayout.CENTER);
 					frame.add(description, BorderLayout.SOUTH);
 					frame.add(buttons, BorderLayout.EAST);
-					frame.setPreferredSize(
-							GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
+
+					// show the frame (full-screen)
+					final Dimension fullscreen = GraphicsEnvironment.getLocalGraphicsEnvironment()
+							.getMaximumWindowBounds().getSize();
+					frame.setPreferredSize(fullscreen);
 					frame.pack();
 					frame.setVisible(true);
 				}
@@ -97,12 +123,16 @@ public class EventTable extends JXTable {
 		this.columns = new LinkedList<>();
 		this.rows = GlazedLists.eventList(new LinkedList<Map<String, String>>());
 		this.index = new LinkedHashMap<>();
-		process(data);
+		process(data); // here we fill the columns/rows/index fields
+
+		// actually create the row-headers
 		String headersTxt = "<html><br>";
 		for (String header : this.index.keySet()) {
 			headersTxt += header + "<br>";
 		}
 		headers.setText(headersTxt + "</html>");
+
+		// initialize the table using some libraries
 		JXTableSupport.<Map<String, String>>install(EventTable.this, this.rows, new TableFormat<Map<String, String>>() {
 			@Override
 			public int getColumnCount() {
@@ -120,8 +150,12 @@ public class EventTable extends JXTable {
 				return (value == null) ? "" : value;
 			}
 		}, new SortedList<Map<String, String>>(this.rows, null), TableComparatorChooser.SINGLE_COLUMN);
+
+		// visual stuff
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		setGridColor(Color.GRAY);
+
+		// show a description at the bottom based on the currently selected cell
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(final MouseEvent evt) {
@@ -175,38 +209,119 @@ public class EventTable extends JXTable {
 		return event.getClass().getSimpleName().replace("Event", "");
 	}
 
-	private static final class WhyButton extends JButton {
+	private static final class WhyActionButton extends JButton {
 		private static final long serialVersionUID = 1L;
 		private final WhyQuestions questions;
 
-		WhyButton(final JFrame parent, final List<AbstractEvent> data, final ExplanationLevel level) {
-			this.questions = new WhyQuestions(data);
-			setText("WHY?");
+		WhyActionButton(final WhyQuestions questions, final ExplanationLevel level) {
+			this.questions = questions;
+			setText("WHY ACTION?");
 			setToolTipText(level.toString());
 			addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					WhyButton.this.questions.process();
-					final Set<Action> actions = WhyButton.this.questions.getAllActions();
+				public void actionPerformed(final ActionEvent e) {
+					// list all actions that there were in the trace,
+					// and request which one we should explain.
+					final Set<Action> actions = WhyActionButton.this.questions.getAllActions();
 					final JComboBox<Action> select = new JComboBox<>(actions.toArray(new Action[actions.size()]));
-					final int result = JOptionPane.showConfirmDialog(parent, select, "Why did you execute this action?",
+					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you execute this action?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
+						// for the selected action, fetch its explanation...
 						final Action action = (Action) select.getSelectedItem();
-						final List<AbstractReason> reasons = questions.whyAction(action);
+						final List<ActionReason> reasons = questions.whyAction(action);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
 							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
 						}
-						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
-						msg.setEditable(false);
-						msg.setLineWrap(true);
-						msg.setWrapStyleWord(true);
-						JOptionPane.showMessageDialog(parent, new JScrollPane(msg),
-								"Why did you execute " + action + "?", JOptionPane.INFORMATION_MESSAGE);
+						// ... and show it in a new dialog
+						final AnswerArea msg = new AnswerArea(answer.toString());
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you execute " + action + "?",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
+		}
+	}
+
+	private static final class WhyBeliefButton extends JButton {
+		private static final long serialVersionUID = 1L;
+		private final WhyQuestions questions;
+
+		WhyBeliefButton(final WhyQuestions questions, final ExplanationLevel level) {
+			this.questions = questions;
+			setText("WHY BELIEF?");
+			setToolTipText(level.toString());
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(final ActionEvent e) {
+					// list all beliefs that there were in the trace,
+					// and request which one we should explain.
+					final Set<Predicate> beliefs = WhyBeliefButton.this.questions.getAllBeliefs();
+					final JComboBox<Predicate> select = new JComboBox<>(beliefs.toArray(new Predicate[beliefs.size()]));
+					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you insert this belief?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.OK_OPTION) {
+						// for the selected belief, fetch its explanation...
+						final Predicate belief = (Predicate) select.getSelectedItem();
+						final List<ModificationReason> reasons = questions.whyBelief(belief);
+						final StringBuilder answer = new StringBuilder();
+						for (int i = 1; i <= reasons.size(); ++i) {
+							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+						}
+						// ... and show it in a new dialog
+						final AnswerArea msg = new AnswerArea(answer.toString());
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you insert " + belief + "?",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+		}
+	}
+
+	private static final class WhyGoalButton extends JButton {
+		private static final long serialVersionUID = 1L;
+		private final WhyQuestions questions;
+
+		WhyGoalButton(final WhyQuestions questions, final ExplanationLevel level) {
+			this.questions = questions;
+			setText("WHY GOAL?");
+			setToolTipText(level.toString());
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(final ActionEvent e) {
+					// list all beliefs that there were in the trace,
+					// and request which one we should explain.
+					final Set<Predicate> goals = WhyGoalButton.this.questions.getAllGoals();
+					final JComboBox<Predicate> select = new JComboBox<>(goals.toArray(new Predicate[goals.size()]));
+					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you adopt this goal?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.OK_OPTION) {
+						// for the selected belief, fetch its explanation...
+						final Predicate goal = (Predicate) select.getSelectedItem();
+						final List<ModificationReason> reasons = questions.whyGoal(goal);
+						final StringBuilder answer = new StringBuilder();
+						for (int i = 1; i <= reasons.size(); ++i) {
+							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+						}
+						// ... and show it in a new dialog
+						final AnswerArea msg = new AnswerArea(answer.toString());
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you adopt " + goal + "?",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+		}
+	}
+
+	private static final class AnswerArea extends JTextArea {
+		private static final long serialVersionUID = 1L;
+
+		AnswerArea(final String answer) {
+			super(answer, 10, 50);
+			setEditable(false);
+			setLineWrap(true);
+			setWrapStyleWord(true);
 		}
 	}
 }

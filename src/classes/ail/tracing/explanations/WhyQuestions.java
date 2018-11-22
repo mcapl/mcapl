@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.Stack;
 
 import ail.syntax.Action;
-import ail.syntax.ApplicablePlan;
-import ail.syntax.Intention;
 import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ActionEvent;
@@ -17,13 +15,14 @@ import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.GeneratePlansEvent;
 import ail.tracing.events.GuardEvent;
 import ail.tracing.events.ModificationAction;
+import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 
 /**
- * Supports generating explanations ({@link AbstractReason}s) from an agent trace based
- * on the 'Debugging is Explaining' paper (Hindriks 2012).
+ * Supports generating explanations ({@link AbstractReason}s) from an agent
+ * trace based on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
 public class WhyQuestions {
 	private final List<AbstractEvent> trace;
@@ -100,7 +99,7 @@ public class WhyQuestions {
 	 *         executed) explaining why this action was executed (each entry
 	 *         corresponds to one successful execution).
 	 */
-	public List<AbstractReason> whyAction(final Action action) {
+	public List<ActionReason> whyAction(final Action action) {
 		final Stack<ActionReason> stack = new Stack<>();
 		for (int i = (this.trace.size() - 1); i >= 0; --i) {
 			final AbstractEvent event = this.trace.get(i);
@@ -121,68 +120,185 @@ public class WhyQuestions {
 			} else if (event instanceof GeneratePlansEvent) {
 				// a plan selection follows from the plan being generated at some point
 				final GeneratePlansEvent gpe = (GeneratePlansEvent) event;
-				final List<Integer> planIDs = gpe.getPlanIDs();
 				for (final ActionReason current : stack) {
-					final SelectPlanReason spr = current.getParent();
-					if (spr != null && spr.getParent() == null && planIDs.contains(spr.getEvent().getPlan().getID())) {
-						final GeneratePlansReason gpr = new GeneratePlansReason(i, gpe);
-						spr.setParent(gpr);
-					}
+					processGPE(i, gpe, current.getParent());
 				}
 			} else if (event instanceof GuardEvent) {
 				// a plan is only generated if its guard was evaluated at some point
 				final GuardEvent ge = (GuardEvent) event;
-				final ApplicablePlan plan = ge.getPlan();
 				for (final ActionReason current : stack) {
-					final SelectPlanReason spr = current.getParent();
-					if (spr != null && plan.getID() == spr.getEvent().getPlan().getID()) {
-						final GeneratePlansReason gpr = spr.getParent();
-						if (gpr != null && gpr.getParent() == null) {
-							final GuardReason gr = new GuardReason(i, ge);
-							gpr.setParent(gr);
-						}
-					}
+					processGE(i, ge, current.getParent());
 				}
 			} else if (event instanceof SelectIntentionEvent) {
 				// a guard is evaluated because of some intention selection event
 				final SelectIntentionEvent sie = (SelectIntentionEvent) event;
-				final Intention intention = sie.getIntention();
 				for (final ActionReason current : stack) {
-					final SelectPlanReason spr = current.getParent();
-					if (spr != null) {
-						final GeneratePlansReason gpr = spr.getParent();
-						if (gpr != null) {
-							final GuardReason gr = gpr.getParent();
-							if (gr != null && gr.getParent() == null
-									&& intention.getID() == gr.getEvent().getIntention().getID()) {
-								final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
-								gr.setParent(sir);
-							}
-						}
-					}
+					processSIE(i, sie, current.getParent());
 				}
 			} else if (event instanceof CreateIntentionEvent) {
 				// an intention can only be selected if it was created for an event sometime
 				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
-				final Intention intention = cie.getIntention();
 				for (final ActionReason current : stack) {
-					final SelectPlanReason spr = current.getParent();
-					if (spr != null) {
-						final GeneratePlansReason gpr = spr.getParent();
-						if (gpr != null) {
-							final GuardReason gr = gpr.getParent();
-							if (gr != null && intention.getID() == gr.getEvent().getIntention().getID()) {
-								final SelectIntentionReason sir = gr.getParent();
-								if (sir != null && sir.getParent() == null) {
-									final CreateIntentionReason cir = new CreateIntentionReason(i, cie);
-									sir.setParent(cir);
-								}
-							}
-						}
-					}
+					processCIE(i, cie, current.getParent());
 				}
 			}
 		}
 		return new ArrayList<>(stack);
+	}
+
+	/**
+	 * @param belief A belief {@link Predicate} from which we want to know why it
+	 *               was inserted.
+	 * @return One or more {@link ModificationReason}s (if the belief was actually
+	 *         inserted) explaining why this belief was inserted (each entry
+	 *         corresponds to one successful non-duplicate insertion).
+	 */
+	public List<ModificationReason> whyBelief(final Predicate belief) {
+		final Stack<ModificationReason> stack = new Stack<>();
+		for (int i = (this.trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = this.trace.get(i);
+			if (event instanceof ModificationEvent) {
+				// match the requested predicate
+				final ModificationEvent me = (ModificationEvent) event;
+				if (me.getUpdate().getBase() == ModificationBase.BELIEFS
+						&& me.getUpdate().getAdded().contains(belief)) {
+					stack.push(new ModificationReason(i, me));
+				}
+			} else if (event instanceof SelectPlanEvent && !stack.empty()) {
+				// an insertion follows directly from a plan selection
+				final ModificationReason current = stack.peek();
+				if (current.getParent() == null) {
+					final SelectPlanEvent spe = (SelectPlanEvent) event;
+					final SelectPlanReason spr = new SelectPlanReason(i, spe);
+					current.setParent(spr);
+				}
+			} else if (event instanceof GeneratePlansEvent) {
+				// a plan selection follows from the plan being generated at some point
+				final GeneratePlansEvent gpe = (GeneratePlansEvent) event;
+				for (final ModificationReason current : stack) {
+					processGPE(i, gpe, current.getParent());
+				}
+			} else if (event instanceof GuardEvent) {
+				// a plan is only generated if its guard was evaluated at some point
+				final GuardEvent ge = (GuardEvent) event;
+				for (final ModificationReason current : stack) {
+					processGE(i, ge, current.getParent());
+				}
+			} else if (event instanceof SelectIntentionEvent) {
+				// a guard is evaluated because of some intention selection event
+				final SelectIntentionEvent sie = (SelectIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processSIE(i, sie, current.getParent());
+				}
+			} else if (event instanceof CreateIntentionEvent) {
+				// an intention can only be selected if it was created for an event sometime
+				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processCIE(i, cie, current.getParent());
+				}
+			}
+		}
+		return new ArrayList<>(stack);
+	}
+
+	/**
+	 * @param goal A goal {@link Predicate} from which we want to know why it was
+	 *             adopted.
+	 * @return One or more {@link ModificationReason}s (if the goal was actually
+	 *         adopted) explaining why this goal was adopted (each entry corresponds
+	 *         to one successful non-duplicate adoption).
+	 */
+	public List<ModificationReason> whyGoal(final Predicate goal) {
+		final Stack<ModificationReason> stack = new Stack<>();
+		for (int i = (this.trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = this.trace.get(i);
+			if (event instanceof ModificationEvent) {
+				// match the requested predicate
+				final ModificationEvent me = (ModificationEvent) event;
+				if (me.getUpdate().getBase() == ModificationBase.GOALS && me.getUpdate().getAdded().contains(goal)) {
+					stack.push(new ModificationReason(i, me));
+				}
+			} else if (event instanceof SelectPlanEvent && !stack.empty()) {
+				// an adoption follows directly from a plan selection
+				final ModificationReason current = stack.peek();
+				if (current.getParent() == null) {
+					final SelectPlanEvent spe = (SelectPlanEvent) event;
+					final SelectPlanReason spr = new SelectPlanReason(i, spe);
+					current.setParent(spr);
+				}
+			} else if (event instanceof GeneratePlansEvent) {
+				// a plan selection follows from the plan being generated at some point
+				final GeneratePlansEvent gpe = (GeneratePlansEvent) event;
+				for (final ModificationReason current : stack) {
+					processGPE(i, gpe, current.getParent());
+				}
+			} else if (event instanceof GuardEvent) {
+				// a plan is only generated if its guard was evaluated at some point
+				final GuardEvent ge = (GuardEvent) event;
+				for (final ModificationReason current : stack) {
+					processGE(i, ge, current.getParent());
+				}
+			} else if (event instanceof SelectIntentionEvent) {
+				// a guard is evaluated because of some intention selection event
+				final SelectIntentionEvent sie = (SelectIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processSIE(i, sie, current.getParent());
+				}
+			} else if (event instanceof CreateIntentionEvent) {
+				// an intention can only be selected if it was created for an event sometime
+				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processCIE(i, cie, current.getParent());
+				}
+			}
+		}
+		return new ArrayList<>(stack);
+	}
+
+	private static void processGPE(final int i, final GeneratePlansEvent gpe, final SelectPlanReason spr) {
+		if (spr != null && spr.getParent() == null && gpe.getPlanIDs().contains(spr.getEvent().getPlan().getID())) {
+			final GeneratePlansReason gpr = new GeneratePlansReason(i, gpe);
+			spr.setParent(gpr);
+		}
+	}
+
+	private static void processGE(final int i, final GuardEvent ge, final SelectPlanReason spr) {
+		if (spr != null && ge.getPlan().getID() == spr.getEvent().getPlan().getID()) {
+			final GeneratePlansReason gpr = spr.getParent();
+			if (gpr != null && gpr.getParent() == null) {
+				final GuardReason gr = new GuardReason(i, ge);
+				gpr.setParent(gr);
+			}
+		}
+	}
+
+	private static void processSIE(final int i, final SelectIntentionEvent sie, final SelectPlanReason spr) {
+		if (spr != null) {
+			final GeneratePlansReason gpr = spr.getParent();
+			if (gpr != null) {
+				final GuardReason gr = gpr.getParent();
+				if (gr != null && gr.getParent() == null
+						&& sie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+					final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
+					gr.setParent(sir);
+				}
+			}
+		}
+	}
+
+	private static void processCIE(final int i, final CreateIntentionEvent cie, final SelectPlanReason spr) {
+		if (spr != null) {
+			final GeneratePlansReason gpr = spr.getParent();
+			if (gpr != null) {
+				final GuardReason gr = gpr.getParent();
+				if (gr != null && cie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+					final SelectIntentionReason sir = gr.getParent();
+					if (sir != null && sir.getParent() == null) {
+						final CreateIntentionReason cir = new CreateIntentionReason(i, cie);
+						sir.setParent(cir);
+					}
+				}
+			}
+		}
 	}
 }
