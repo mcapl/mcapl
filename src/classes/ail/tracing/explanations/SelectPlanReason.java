@@ -28,11 +28,21 @@ public class SelectPlanReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
-		string.append("plan ").append(this.event.getPlan().getID()).append(" was selected in state ")
-				.append(this.state);
-		if (this.parent != null) {
-			string.append(", because it was included in ").append(this.parent);
-		} else {
+		switch (level) {
+		case FINEST:
+			string.append("plan ").append(this.event.getPlan().getID()).append(" was selected in state ")
+					.append(this.state);
+			if (this.parent != null) {
+				string.append(", because it was included in ").append(this.parent.getExplanation(level));
+			}
+			break;
+		default:
+			string.append("it is part of plan ").append(this.event.getPlan().getID());
+			if (this.parent != null) {
+				string.append(", ").append(this.parent.getExplanation(level));
+			}
+		}
+		if (this.parent == null) {
 			string.append(".");
 		}
 		return string.toString();
