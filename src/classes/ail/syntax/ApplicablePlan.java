@@ -91,7 +91,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @param g the stack of guards that replace the guards in the top rows of the intention.
 	 * @param nu the number of rows to be dropped.
 	 * @param th the unifier.
-	 * @paran id an id number.
+	 * @param id an id number.
 	 */
 	public ApplicablePlan(Event e, ArrayList<Deed> p, ArrayList<Guard> g, int nu, Unifier th, int id, String libid, AILPrettyPrinter pretty) {
 		event = e;

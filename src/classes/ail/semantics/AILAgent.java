@@ -68,6 +68,7 @@ import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.GuardEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILConfig;
@@ -1828,6 +1829,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				ds.add(i.hdD());
 				gs.add(i.hdG());
 				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname, getPrettyPrinter());
+				
+				// this traces the continuation happened -Vincent
+				trace(new GuardEvent(i, ap, null, null));
 
 				cp.add(ap);
 			}

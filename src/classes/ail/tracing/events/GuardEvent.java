@@ -21,7 +21,7 @@ public class GuardEvent extends AbstractEvent {
 			final List<Unifier> solutions) {
 		this.forIntention = forIntention.clone();
 		this.forPlan = forPlan;
-		this.guard = guard.clone();
+		this.guard = (guard == null) ? null : guard.clone();
 		this.solutions = solutions;
 	}
 
@@ -45,10 +45,10 @@ public class GuardEvent extends AbstractEvent {
 	public List<String> getLookupData() {
 		List<String> data = new ArrayList<>(2);
 		// TODO: probably not only atoms in there?
-		if (guard.getLHS() instanceof GuardAtom<?>) {
+		if (guard != null && guard.getLHS() instanceof GuardAtom<?>) {
 			data.add(((GuardAtom<?>) guard.getLHS()).getPredicateIndicator().toString());
 		}
-		if (guard.getRHS() instanceof GuardAtom<?>) {
+		if (guard != null && guard.getRHS() instanceof GuardAtom<?>) {
 			data.add(((GuardAtom<?>) guard.getRHS()).getPredicateIndicator().toString());
 		}
 		if (data.isEmpty()) {
@@ -65,8 +65,13 @@ public class GuardEvent extends AbstractEvent {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("evaluated the guard of plan").append(forPlan.getID()).append(" '").append(guard).append("': ")
-				.append(solutions).append(".");
+		if (guard == null) {
+			builder.append("continued the plan ").append(forPlan.getID());
+		} else {
+			builder.append("evaluated the guard of plan ").append(forPlan.getID()).append(" '").append(guard)
+					.append("': ").append(solutions);
+		}
+		builder.append(".");
 		return builder.toString();
 	}
 
