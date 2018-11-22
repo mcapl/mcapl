@@ -54,7 +54,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	    	}
 	    	
 	    	if (d.getCategory() == Deed.Dnpy) {
-	    		s1 = i.events().get(rownum).toString() +  " " + s1;
+	    		s1 = "respond to event " + i.events().get(rownum).toString() +  " " + s1;
 	    	}
 	    	rownum++;
 	    	
@@ -70,7 +70,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		//} else {
 		if (p.getID() == 0) {
 			StringBuilder s = new StringBuilder();
-			s.append("Continue processing intention: ");
+			s.append("continue processing intention: ");
 			ListIterator<Deed> di = p.getPrefix().listIterator();
 			//String us = p.getUnifier().toString();
 		
