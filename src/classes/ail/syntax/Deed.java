@@ -292,7 +292,10 @@ public class Deed extends DefaultAILStructure {
 			s.append("lock");
 		}
 		
-		s.append("(").append(getDBnum().toString()).append(")");
+		// Again need to generalise to all types of evaluation base.
+		if (getDBnum().getString() != AILAgent.AILdefaultBBname) {
+			s.append(" from base ").append(getDBnum().toString()).append(" ");
+		}
 		return s.toString();
 	}
 	
