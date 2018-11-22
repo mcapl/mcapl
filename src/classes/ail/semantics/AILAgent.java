@@ -1823,15 +1823,19 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				if (!theta.equals(i.hdU())) {
 					theta.compose(i.hdU());
 				}
-				ArrayList<Deed> ds = new ArrayList<Deed>();
-				ArrayList<Guard> gs = new ArrayList<Guard>();
+				ArrayList<Deed> ds = new ArrayList<>(1);
+				ArrayList<Guard> gs = new ArrayList<>(1);
 
 				ds.add(i.hdD());
 				gs.add(i.hdG());
 				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname, getPrettyPrinter());
 				
-				// this traces the continuation happened -Vincent
-				trace(new GuardEvent(i, ap, null, null));
+				
+				if(shouldTrace()) { // this traces the continuation happened -Vincent
+					List<Unifier> us = new ArrayList<>(1);
+					us.add(theta);
+					trace(new GuardEvent(i, ap, gs.get(0), us, true));
+				}
 
 				cp.add(ap);
 			}

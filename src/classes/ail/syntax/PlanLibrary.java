@@ -490,7 +490,7 @@ public class PlanLibrary {
 								iun = data.iterator();
 								ApplicablePlan mock = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(),
 										cp.getContext(), appplanlength, data.isEmpty() ? null : data.get(0), cp.getID(), cp.getLibID(), a.getPrettyPrinter());
-								a.trace(new GuardEvent(intention, mock, g, data));
+								a.trace(new GuardEvent(intention, mock, g, data, false));
     						}
     					}
     				}
