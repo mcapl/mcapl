@@ -24,10 +24,19 @@ public class CreateIntentionReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
-		string.append("it was created in state ").append(this.state);
-		Event event = this.event.getEvent();
-		if (event != null) {
-			string.append(" for the event '").append(event).append("'");
+		final Event event = this.event.getEvent();
+		switch (level) {
+		case FINEST:
+			string.append("it was created in state ").append(this.state);
+			if (event != null) {
+				string.append(" for the event '").append(event).append("'");
+			}
+			break;
+		default:
+			if (event != null) {
+				string.append("which was created for the event '").append(event).append("'");
+			}
+			break;
 		}
 		string.append(".");
 		return string.toString();

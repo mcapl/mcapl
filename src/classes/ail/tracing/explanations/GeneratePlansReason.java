@@ -31,14 +31,24 @@ public class GeneratePlansReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
-		List<String> plans = new LinkedList<>();
-		for (Integer planID : this.event.getPlanIDs()) {
-			plans.add(Integer.toString(planID));
+		switch (level) {
+		case FINEST:
+			final List<String> plans = new LinkedList<>();
+			for (final Integer planID : this.event.getPlanIDs()) {
+				plans.add(Integer.toString(planID));
+			}
+			string.append("the applicable plans generated in state ").append(this.state).append(" ").append(plans);
+			if (this.parent != null) {
+				string.append(", because ").append(this.parent.getExplanation(level));
+			}
+			break;
+		default:
+			if (this.parent != null) {
+				string.append(this.parent.getExplanation(level));
+			}
+			break;
 		}
-		string.append("the applicable plans generated in state ").append(this.state).append(" ").append(plans);
-		if (this.parent != null) {
-			string.append(", because ").append(this.parent);
-		} else {
+		if (this.parent == null) {
 			string.append(".");
 		}
 		return string.toString();

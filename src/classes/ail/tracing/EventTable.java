@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -15,12 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -37,6 +41,7 @@ import org.jdesktop.swingx.JXTable;
 import ail.syntax.Action;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
 import ail.tracing.explanations.WhyQuestions;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
@@ -71,10 +76,14 @@ public class EventTable extends JXTable {
 							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					final JScrollPane scroll2 = new JScrollPane(table);
 					scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
+					final JPanel buttons = new JPanel();
+					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+					buttons.add(new WhyButton(frame, data, ExplanationLevel.FINEST));
+					buttons.add(new WhyButton(frame, data, ExplanationLevel.FINE));
 					frame.add(scroll1, BorderLayout.WEST);
 					frame.add(scroll2, BorderLayout.CENTER);
 					frame.add(description, BorderLayout.SOUTH);
-					frame.add(new WhyButton(frame, data), BorderLayout.EAST);
+					frame.add(buttons, BorderLayout.EAST);
 					frame.setPreferredSize(
 							GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
 					frame.pack();
@@ -115,10 +124,26 @@ public class EventTable extends JXTable {
 		setGridColor(Color.GRAY);
 		addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(final MouseEvent evt) {
-				final int col = EventTable.this.columnAtPoint(evt.getPoint());
+			public void mouseReleased(final MouseEvent evt) {
+				final int col = EventTable.this.getSelectedColumn();
 				final AbstractEvent event = data.get(col);
 				description.setText(col + ": " + event.toString());
+			}
+		});
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(final KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				switch (keyCode) {
+				case KeyEvent.VK_UP:
+				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_RIGHT:
+					final int col = EventTable.this.getSelectedColumn();
+					final AbstractEvent event = data.get(col);
+					description.setText(col + ": " + event.toString());
+					break;
+				}
 			}
 		});
 	}
@@ -154,9 +179,10 @@ public class EventTable extends JXTable {
 		private static final long serialVersionUID = 1L;
 		private final WhyQuestions questions;
 
-		WhyButton(final JFrame parent, final List<AbstractEvent> data) {
+		WhyButton(final JFrame parent, final List<AbstractEvent> data, final ExplanationLevel level) {
 			this.questions = new WhyQuestions(data);
 			setText("WHY?");
+			setToolTipText(level.toString());
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -170,7 +196,7 @@ public class EventTable extends JXTable {
 						final List<AbstractReason> reasons = questions.whyAction(action);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1)).append("\n");
+							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
 						}
 						final JTextArea msg = new JTextArea(answer.toString(), 10, 50);
 						msg.setEditable(false);

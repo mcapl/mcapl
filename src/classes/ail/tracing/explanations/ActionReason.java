@@ -28,10 +28,21 @@ public class ActionReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
-		string.append(this.event.getAction()).append(" was executed in state ").append(this.state);
-		if (this.parent != null) {
-			string.append(", because ").append(this.parent);
-		} else {
+		switch (level) {
+		case FINEST:
+			string.append(this.event.getAction()).append(" was executed in state ").append(this.state);
+			if (this.parent != null) {
+				string.append(", because ").append(this.parent.getExplanation(level));
+			}
+			break;
+		default:
+			string.append(this.event.getAction()).append(" was executed");
+			if (this.parent != null) {
+				string.append(" because ").append(this.parent.getExplanation(level));
+			}
+			break;
+		}
+		if (this.parent == null) {
 			string.append(".");
 		}
 		return string.toString();

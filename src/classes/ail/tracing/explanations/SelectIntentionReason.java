@@ -28,11 +28,21 @@ public class SelectIntentionReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level) {
 		final StringBuilder string = new StringBuilder();
-		string.append("intention ").append(this.event.getIntention().getID()).append(" was selected in state ")
-				.append(this.state);
-		if (this.parent != null) {
-			string.append(", because ").append(this.parent);
-		} else {
+		switch (level) {
+		case FINEST:
+			string.append("intention ").append(this.event.getIntention().getID()).append(" was selected in state ")
+					.append(this.state);
+			if (this.parent != null) {
+				string.append(", because ").append(this.parent.getExplanation(level));
+			}
+			break;
+		default:
+			if (this.parent != null) {
+				string.append(this.parent.getExplanation(level));
+			}
+			break;
+		}
+		if (this.parent == null) {
 			string.append(".");
 		}
 		return string.toString();
