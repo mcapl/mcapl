@@ -44,6 +44,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 */
 	@FilterField
 	public static final byte	Estart = 10;
+	
+	@FilterField
+	public static final byte    FromPercept = 11;
 
 	/**
 	 * String for fast lookup.  Not used at the moment but I expect we will
@@ -116,6 +119,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		return (getCategory() == Estart);
 	}
 	
+	public boolean fromPercept() {
+		return (getCategory() == FromPercept);
+	}
 
 	/**
 	 * Get a predicateindicator for the event.
@@ -126,6 +132,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
             String s = "";
             if (isStart()) {
             	piCache = new PredicateIndicator("start", 0);
+             } else if (fromPercept()) {
+            	 piCache = new PredicateIndicator("from perception", 0);
              } else {
             	if (isAddition())
             		s += "+";
@@ -183,7 +191,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		StringBuilder s = new StringBuilder();
 		if (isStart()) {
 			s.append("start");
-		} else {
+		} else if (fromPercept()) {
+			s.append("perceived");
+		}		else {
 			if (isAddition())
 				s.append("+");
 			else
@@ -225,6 +235,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		Event e1 = (Event) e;
 		
 		if (isStart()) {
+			return sameType(e1);
+		} else if (fromPercept()) {
 			return sameType(e1);
 		} else {
 			return sameType(e1) && u.unifies(getContent(), e1.getContent());
