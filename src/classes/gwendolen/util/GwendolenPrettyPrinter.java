@@ -24,6 +24,8 @@ package gwendolen.util;
 
 import java.util.ListIterator;
 
+import org.checkerframework.checker.units.qual.s;
+
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
@@ -52,7 +54,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	    	}
 	    	
 	    	if (d.getCategory() == Deed.Dnpy) {
-	    		s1 = i.events().get(rownum).toString() +  " -- " + s1;
+	    		s1 = i.events().get(rownum).toString() +  " " + s1;
 	    	}
 	    	rownum++;
 	    	
@@ -66,6 +68,22 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		//if (nochange) {
 		//	return new String("NO CHANGE");
 		//} else {
+		if (p.getID() == 0) {
+			StringBuilder s = new StringBuilder();
+			s.append("Continue processing intention: ");
+			ListIterator<Deed> di = p.getPrefix().listIterator();
+			//String us = p.getUnifier().toString();
+		
+			while (di.hasNext()) {
+
+				Deed d = di.next();
+
+				s.append(d.toString());
+				s.append("; ");
+			}
+			return s.toString();
+			
+		} else {
 			String triggers = p.getEvent().toString();
 			StringBuilder s = new StringBuilder();
 			s.append("Plan ");
@@ -92,7 +110,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 			}
 		
 			return s.toString();
-		//}
+		}
 	}
 
 }

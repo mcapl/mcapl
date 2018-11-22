@@ -283,7 +283,7 @@ public class Deed extends DefaultAILStructure {
 		} else if (hasContent()) {
 			s.append(getContent().toString());
 		} else if (isNPY()) {
-			s.append("npy");
+			s.append(" which has no plan yet");
 		} else if (isBacktrack()) {
 			s.append("backtrack");
 		} else if (isNull()) {

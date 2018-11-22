@@ -72,8 +72,9 @@ public class GuardEvent extends AbstractEvent {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		if (continuation) {
-			builder.append("continued plan ").append(forPlan.getID()).append(" with the guard '").append(guard)
-					.append("': ");
+			builder.append("continued processing the intention");
+			//builder.append("continued plan ").append(forPlan.getID()).append(" with the guard '").append(guard)
+			//		.append("': ");
 		} else {
 			builder.append("evaluated the guard of plan ").append(forPlan.getID()).append(" '").append(guard)
 					.append("': ");
