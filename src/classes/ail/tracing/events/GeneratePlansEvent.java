@@ -37,13 +37,11 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// TODO: improve (plan details? same problem in SelectPlanEvent)
 		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ").append(plans).append(".");
 		return builder.toString();
 	}

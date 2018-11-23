@@ -26,7 +26,6 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override

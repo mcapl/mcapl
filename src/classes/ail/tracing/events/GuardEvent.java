@@ -65,14 +65,13 @@ public class GuardEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// nothing to do here...
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		if (continuation) {
-			builder.append("confirmed the intention can still be processed");
+			builder.append("confirmed ").append(forIntention).append(" can still be processed");
 		} else {
 			builder.append("evaluating the guard of ").append(forPlan).append(" resulted in ").append(solutions);
 		}

@@ -26,7 +26,6 @@ public class ActionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// nothing to do here...
 	}
 
 	@Override

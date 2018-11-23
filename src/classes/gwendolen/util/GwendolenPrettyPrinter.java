@@ -22,99 +22,72 @@
 //----------------------------------------------------------------------------
 package gwendolen.util;
 
-import java.util.ListIterator;
-
-import org.checkerframework.checker.units.qual.s;
-
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
-import ail.syntax.Guard;
 import ail.syntax.Intention;
-import ail.syntax.IntentionRow;
 import ail.util.AILPrettyPrinter;
 
 public class GwendolenPrettyPrinter extends AILPrettyPrinter {
+
 	public String prettyIntention(Intention i) {
-		// System.err.println(super.prettyIntention(i));
-		String s = "";
-		
-		s += "Intention " + i.getID() + ": ";
-		// s += i.hdE().toString();
-		// s += " --- ";
-	
-	    String s1 = "";
-	    boolean first = true;
-	    
-	    if (i.empty()) {
-	    	s1 = "the intention is now empty and will be removed";
-	    }
-	    int rownum = 0;
-	    for (Deed d : i.deeds()) {
-	    	if (!first) {
-	    		s1 = d.toString() + ";" + s1;
-	    	} else {
-	    		first = false;
-	    		s1 = d.toString();
-	    	}
-	    	
-	    	if (d.getCategory() == Deed.Dnpy) {
-	    		s1 = "respond to event " + i.events().get(rownum).toString() +  " " + s1;
-	    	}
-	    	rownum++;
-	    	
-	    	// s1 = d.toString() + s1;
-	    }
-	   	s+= s1;
-	    return s.toString();
-	}
-	
-	public String prettyAppPlan(ApplicablePlan p) {
-		//if (nochange) {
-		//	return new String("NO CHANGE");
-		//} else {
-		if (p.getID() == 0) {
-			StringBuilder s = new StringBuilder();
-			s.append("continue processing intention: ");
-			ListIterator<Deed> di = p.getPrefix().listIterator();
-			//String us = p.getUnifier().toString();
-		
-			while (di.hasNext()) {
+		StringBuilder s = new StringBuilder();
 
-				Deed d = di.next();
+		s.append("Intention ").append(i.getID()).append(": ");
 
-				s.append(d.toString());
-				s.append("; ");
+		String s1 = "";
+		if (i.empty()) {
+			s1 = "the intention is now empty and will be removed";
+		}
+		boolean first = true;
+		int rownum = 0;
+		for (Deed d : i.deeds()) {
+			if (first) {
+				first = false;
+				s1 = d + "";
+			} else {
+				s1 = d + ";" + s1;
 			}
-			return s.toString();
-			
+
+			if (d.getCategory() == Deed.Dnpy) {
+				s1 = "respond to event " + i.events().get(rownum) + " " + s1;
+			}
+			rownum++;
+		}
+		s.append(s1);
+		
+		return s.toString();
+	}
+
+	public String prettyAppPlan(ApplicablePlan p) {
+		StringBuilder s = new StringBuilder();
+		
+		if (p.getID() == 0) {
+			s.append("continue processing intention: ");
 		} else {
-			String triggers = p.getEvent().toString();
-			StringBuilder s = new StringBuilder();
-			s.append("Plan ");
-			s.append(p.getID());
-				s.append(": ");
-			s.append(triggers);
-			s.append(" {");
-			
-			if (! p.getGuard().isEmpty()) {
-				Guard g = p.getGuard().get(0);
-				s.append(g.toString());
+			s.append("Plan ").append(p.getID()).append(": ").append(p.getEvent()).append(" {");
+			if (!p.getGuard().isEmpty()) {
+				s.append(p.getGuard().get(0));
 			}
 			s.append("} <- ");
-		
-			ListIterator<Deed> di = p.getPrefix().listIterator();
-			//String us = p.getUnifier().toString();
-		
-			while (di.hasNext()) {
-
-				Deed d = di.next();
-
-				s.append(d.toString());
-				s.append("; ");
-			}
-		
-			return s.toString();
 		}
+
+		String s1 = "";
+		boolean first = true;
+		for (Deed d : p.getPrefix()) {
+			if (first) {
+				first = false;
+				s1 = d + "";
+			} else {
+				s1 = d + ";" + s1;
+			}
+		}
+		s.append(s1);
+
+		if (p.getUnifier() != null && p.getUnifier().size() > 0) {
+			s.append(" with ").append(p.getUnifier());
+		}
+
+		return s.toString();
 	}
 
 }

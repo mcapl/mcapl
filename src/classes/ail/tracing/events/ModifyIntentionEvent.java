@@ -26,11 +26,10 @@ public class ModifyIntentionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
-	public String toString() {
+	public String toString() { // TODO: not always clear what changed?
 		StringBuilder builder = new StringBuilder();
 		builder.append("modified ").append(intention).append(".");
 		return builder.toString();

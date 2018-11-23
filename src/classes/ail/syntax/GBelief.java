@@ -188,7 +188,11 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 		StringBuilder s = new StringBuilder();
 
 		if (!isTrue()) {
-			s.append(super.toString()).append("(").append(getEB().toString()).append(")");
+			s.append(super.toString());
+			String num = getEB().toString();
+			if (num.length() > 2) { // more than just quotes
+				s.append("(").append(num).append(")");
+			}
 		}  else {
 			s.append("True");
 		}

@@ -32,47 +32,44 @@ import ail.syntax.Intention;
 import ail.syntax.IntentionRow;
 
 public class AILPrettyPrinter {
-	
+
 	public String prettyIntention(Intention i) {
-		String s = "";
-	    if (i.suspended()) {
-	   	 s += "SUSPENDED\n";
-	    }
-	    s += i.getSource().toString() + ":: ";
-	    if (i.getAnnotation() != null) {
-	   	 	s += i.getAnnotation().toString();
-	    }
-	    s+="\n";
-	
-	    String s1 = "";
-	    for (IntentionRow ir : i.getRows()) {
-	    	s1 = "   *  " + ir.toString() + s1;
-	    }
-	   	s+= s1;
-	    return s.toString();
-	}
-	
-	public String prettyAppPlan(ApplicablePlan p) {
-		if (p.getID() == 0) {
-			return "continue processing intention";
-		} else {
-			String triggers = p.getEvent().toString();
-			StringBuilder s = new StringBuilder();
-		
-			ListIterator<Guard> gi = p.getGuard().listIterator();
-			ListIterator<Deed> di = p.getPrefix().listIterator();
-			String us = p.getUnifier().toString();
-		
-			while (gi.hasNext()) {
-				Guard gu = gi.next();
-				Deed d = di.next();
-
-				s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
-			}
-		
-			return s.toString();
+		StringBuilder s = new StringBuilder();
+		if (i.suspended()) {
+			s.append("SUSPENDED\n");
 		}
+		s.append(i.getSource()).append(":: ");
+		if (i.getAnnotation() != null) {
+			s.append(i.getAnnotation());
+		}
+		s.append("\n");
+
+		String s1 = "";
+		for (IntentionRow ir : i.getRows()) {
+			s1 = "   *  " + ir + s1;
+		}
+		s.append(s1);
+		
+		return s.toString();
 	}
 
+	public String prettyAppPlan(ApplicablePlan p) {
+		StringBuilder s = new StringBuilder();
+
+		ListIterator<Guard> gi = p.getGuard().listIterator();
+		ListIterator<Deed> di = p.getPrefix().listIterator();
+		String triggers = p.getEvent().toString();
+		String us = p.getUnifier().toString();
+
+		while (gi.hasNext()) {
+			Guard gu = gi.next();
+			Deed d = di.next();
+
+			s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu).append("||").append(d)
+					.append("||").append(us).append("\n");
+		}
+
+		return s.toString();
+	}
 
 }

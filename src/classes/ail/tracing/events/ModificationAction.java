@@ -104,7 +104,7 @@ public class ModificationAction {
 	}
 
 	@Override
-	public String toString() { // FIXME
+	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		if (added != null && !added.isEmpty()) {
 			builder.append("added ").append(added).append(" to ");
@@ -116,7 +116,7 @@ public class ModificationAction {
 			builder.append("removed ").append(removed).append(" from ");
 		}
 		builder.append("the agent's ").append(getBase().toString().toLowerCase());
-		if (selector != null && !selector.isEmpty()) {
+		if (selector != null && selector.length() > 2) { // not just quotes
 			builder.append(" (").append(selector).append(")");
 		}
 		builder.append(".");

@@ -35,7 +35,6 @@ public class CreateIntentionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
