@@ -21,10 +21,10 @@ public class PredicateDescriptions {
 	public String getDescription(final Predicate predicate) {
 		for (final Predicate description : descriptions.keySet()) {
 			final Unifier u = new Unifier();
-			if (description.unifies(predicate, u)) {
+			if (description.match(predicate, u)) {
 				return descriptions.get(description); // TODO: apply unification to string
 			}
 		}
-		return null;
+		return predicate.toString();
 	}
 }
