@@ -37,10 +37,14 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.JTextComponent;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.jdesktop.swingx.JXTable;
 
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ail.syntax.ast.Abstract_PredicateDescription;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.explanations.ActionReason;
 import ail.tracing.explanations.ExplanationLevel;
@@ -52,6 +56,8 @@ import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.JXTableSupport;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
+import gwendolen.parser.GwendolenSubLexer;
+import gwendolen.parser.GwendolenSubParser;
 
 public class EventTable extends JXTable {
 	private static final long serialVersionUID = 1L;
@@ -60,6 +66,12 @@ public class EventTable extends JXTable {
 	private final Map<String, Integer> index;
 
 	public static void main(final String[] args) {
+		CharStream charstream = CharStreams.fromString("test(X) : \"tests X\"", "");
+		GwendolenSubLexer lexer = new GwendolenSubLexer(charstream);
+		GwendolenSubParser parser = new GwendolenSubParser(new CommonTokenStream(lexer));
+		List<Abstract_PredicateDescription> descriptions = parser.descriptions().ds;
+		System.out.println(descriptions); // TEMP TEST CODE
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
