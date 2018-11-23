@@ -38,7 +38,7 @@ public class ActionReason extends AbstractReason {
 		default:
 			string.append(this.event.getAction()).append(" was executed");
 			if (this.parent != null) {
-				string.append(" because it is part of ").append(this.parent.getExplanation(level));
+				string.append(" because it was part of ").append(this.parent.getExplanation(level));
 			}
 			break;
 		}

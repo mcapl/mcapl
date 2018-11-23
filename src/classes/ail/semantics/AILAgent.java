@@ -1830,7 +1830,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				gs.add(i.hdG());
 				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname, getPrettyPrinter());
 				
-				
 				if(shouldTrace()) { // this traces the continuation happened -Vincent
 					List<Unifier> us = new ArrayList<>(1);
 					us.add(theta);

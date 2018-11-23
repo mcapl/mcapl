@@ -31,12 +31,10 @@ public class GuardReason extends AbstractReason {
 		switch (level) {
 		case FINEST:
 			if (event.isContinuation()) {
-				string.append("it was continued in state ").append(this.state).append(" as earlier ");
-			}
-			string.append("its guard '").append(this.event.getGuard()).append("' held with ")
-					.append(this.event.getSolutions());
-			if (!event.isContinuation()) {
-				string.append(" in state ").append(this.state);
+				string.append("it was continued in state ").append(this.state);
+			} else {
+				string.append("its guard '").append(this.event.getGuard()).append("' held with ")
+						.append(this.event.getSolutions()).append(" in state ").append(this.state);
 			}
 			if (this.parent != null) {
 				string.append(", ");
@@ -47,10 +45,15 @@ public class GuardReason extends AbstractReason {
 			}
 			break;
 		default:
-			string.append("of which the guard '").append(this.event.getGuard()).append("' held with ")
-					.append(this.event.getSolutions());
+			if (!event.isContinuation()) {
+				string.append("of which the guard '").append(this.event.getGuard()).append("' held with ")
+						.append(this.event.getSolutions());
+			}
 			if (this.parent != null) {
-				string.append(", and ").append(this.parent.getExplanation(level));
+				if (!event.isContinuation()) {
+					string.append(", and ");
+				}
+				string.append(this.parent.getExplanation(level));
 			}
 			break;
 		}
