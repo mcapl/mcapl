@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import ail.tracing.explanations.PredicateDescriptions;
+
 
 /**
  * A class for an intention row which associates an event with a stack of guards,
@@ -131,8 +133,7 @@ public class IntentionRow implements Cloneable {
 	 * 
 	 * @return the intention row as a string.
 	 */
-	public  String toString() {
-		String triggers = trigger.toString();
+	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
 		ListIterator<Guard> gi = guardstack.listIterator();
@@ -140,6 +141,7 @@ public class IntentionRow implements Cloneable {
 		ListIterator<Unifier> ui = unif.listIterator();
 		
 		StringBuilder s1 = new StringBuilder();
+		String triggers = trigger.toString();
 		while (gi.hasNext()) {
 			StringBuilder ir = new StringBuilder();
 			Guard gu = gi.next();
@@ -147,14 +149,44 @@ public class IntentionRow implements Cloneable {
 			Unifier u = ui.next();
 			
 			ir.append("      ");
-			ir.append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(u.toString()).append("\n");
+			ir.append(triggers).append("||").append(gu).append("||").append(d).append("||").append(u).append("\n");
 			ir.append(s1);
 			s1 = ir;
 		}
 		s.append(s1.substring(6));
 		
 		if (annotation != null) {
-			s.append(annotation.toString());
+			s.append(annotation);
+		}
+		
+		return s.toString();
+	}
+	
+	public String toString(PredicateDescriptions descriptions) {
+		StringBuilder s = new StringBuilder();
+		
+		ListIterator<Guard> gi = guardstack.listIterator();
+		ListIterator<Deed> di = body.listIterator();
+		ListIterator<Unifier> ui = unif.listIterator();
+		
+		StringBuilder s1 = new StringBuilder();
+		String triggers = trigger.toString(descriptions);
+		while (gi.hasNext()) {
+			StringBuilder ir = new StringBuilder();
+			Guard gu = gi.next();
+			Deed d = di.next();
+			Unifier u = ui.next();
+			
+			ir.append("      ");
+			ir.append(triggers).append("||").append(gu.toString(descriptions)).append("||");
+			ir.append(d.toString(descriptions)).append("||").append(u).append("\n");
+			ir.append(s1);
+			s1 = ir;
+		}
+		s.append(s1.substring(6));
+		
+		if (annotation != null) {
+			s.append(annotation);
 		}
 		
 		return s.toString();

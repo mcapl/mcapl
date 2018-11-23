@@ -36,6 +36,7 @@ import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -259,23 +260,47 @@ public class Guard implements GLogicalFormula {
 	public String toString() {
 		if (op == GLogicalOp.none) {
 			if (rhs != null) {
-				return rhs.toString();
+				return "" + rhs;
 			} else {
 				return "True";
 			}
 		} else if (op == GLogicalOp.not) {
 			if (rhs != null) {
-				return "~" + rhs.toString();
+				return "~" + rhs;
 			} else {
 				return "False";
 			}
 			
 		} else if (op == GLogicalOp.and) {
-			return lhs.toString() + " & " + rhs.toString();
+			return lhs + " & " + rhs;
 		} else if (op == GLogicalOp.forall) {
-			return " forall (" + lhs.toString() + ", " + rhs.toString() + ")";
+			return " forall (" + lhs + ", " + rhs + ")";
 		} else {
-			return lhs.toString() + " || " + rhs.toString();
+			return lhs + " || " + rhs;
+		}
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (op == GLogicalOp.none) {
+			if (rhs != null) {
+				return rhs.toString(descriptions);
+			} else {
+				return "True";
+			}
+		} else if (op == GLogicalOp.not) {
+			if (rhs != null) {
+				return "~" + rhs.toString(descriptions);
+			} else {
+				return "False";
+			}
+			
+		} else if (op == GLogicalOp.and) {
+			return lhs.toString(descriptions) + " & " + rhs.toString(descriptions);
+		} else if (op == GLogicalOp.forall) {
+			return " forall (" + lhs.toString(descriptions) + ", " + rhs.toString(descriptions) + ")";
+		} else {
+			return lhs.toString(descriptions) + " || " + rhs.toString(descriptions);
 		}
 	}
 

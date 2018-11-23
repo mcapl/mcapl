@@ -25,9 +25,17 @@ package gwendolen.util;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
 import ail.syntax.Intention;
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.AILPrettyPrinter;
 
 public class GwendolenPrettyPrinter extends AILPrettyPrinter {
+	public GwendolenPrettyPrinter() {
+		super();
+	}
+
+	public GwendolenPrettyPrinter(PredicateDescriptions descriptions) {
+		super(descriptions);
+	}
 
 	public String prettyIntention(Intention i) {
 		StringBuilder s = new StringBuilder();
@@ -43,30 +51,31 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		for (Deed d : i.deeds()) {
 			if (first) {
 				first = false;
-				s1 = d + "";
+				s1 = d.toString(descriptions);
 			} else {
-				s1 = d + ";" + s1;
+				s1 = d.toString(descriptions) + ";" + s1;
 			}
 
 			if (d.getCategory() == Deed.Dnpy) {
-				s1 = "respond to event " + i.events().get(rownum) + " " + s1;
+				s1 = "respond to event " + i.events().get(rownum).toString(descriptions) + " " + s1;
 			}
 			rownum++;
 		}
 		s.append(s1);
-		
+
 		return s.toString();
 	}
 
 	public String prettyAppPlan(ApplicablePlan p) {
 		StringBuilder s = new StringBuilder();
-		
+
 		if (p.getID() == 0) {
 			s.append("continue processing intention: ");
 		} else {
-			s.append("Plan ").append(p.getID()).append(": ").append(p.getEvent()).append(" {");
+			s.append("Plan ").append(p.getID()).append(": ");
+			s.append(p.getEvent().toString(descriptions)).append(" {");
 			if (!p.getGuard().isEmpty()) {
-				s.append(p.getGuard().get(0));
+				s.append(p.getGuard().get(0).toString(descriptions));
 			}
 			s.append("} <- ");
 		}
@@ -76,9 +85,9 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		for (Deed d : p.getPrefix()) {
 			if (first) {
 				first = false;
-				s1 = d + "";
+				s1 = d.toString(descriptions);
 			} else {
-				s1 = d + ";" + s1;
+				s1 = d.toString(descriptions) + ";" + s1;
 			}
 		}
 		s.append(s1);

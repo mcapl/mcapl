@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 
 import ail.syntax.annotation.SourceAnnotation;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -427,24 +428,43 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return toASString();
-    }
-    
-    /** returns this plan in a string compliant with AS syntax */
-    private String toASString() {
     	StringBuilder s = new StringBuilder();
-    	s.append(keynum);
-    	s.append(" :: ");
-    	s.append(event.toString());
+    	s.append(keynum).append(" :: ").append(event);
     	s.append((prefix.size() == 0) ? "" : " + ");
-    	s.append((prefix.size() == 0) ? "" : prefix.toString());
+    	s.append((prefix.size() == 0) ? "" : prefix);
     	s.append((context.size() == 0) ? "" : " : ");
-    	s.append((context.size() == 0) ? "" : context.toString());
+    	s.append((context.size() == 0) ? "" : context);
     	s.append((body.size() == 0) ? "" : " <- ");
-    	s.append((body.size() == 0) ? "" : body.toString());
+    	s.append((body.size() == 0) ? "" : body);
     	s.append(".");
     	return s.toString();
      }
+    
+    @Override
+	public String toString(PredicateDescriptions descriptions) {
+    	StringBuilder s = new StringBuilder();
+		s.append(keynum).append(" :: ").append(event.toString(descriptions));
+		if (!prefix.isEmpty()) {
+			s.append(" + ");
+			for (Deed pre : prefix) {
+				s.append(pre.toString(descriptions)).append(" ");
+			}
+		}
+		if (!context.isEmpty()) {
+			s.append(" : ");
+			for (Guard con : context) {
+				s.append(con.toString(descriptions)).append(" ");
+			}
+		}
+		if (!body.isEmpty()) {
+			s.append(" <- ");
+			for (Deed bod : body) {
+				s.append(bod.toString(descriptions)).append(" ");
+			}
+		}
+		s.append(".");
+		return s.toString();
+    }
     
     /*
      * (non-Javadoc)

@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
+
 /**
  * Capabilities represent what an agent can do and are very closely related to actions.  So closely related that for a long
  * time the AIL managed without capabilities using, instead, a combination of actions and plans.  However in some situations
@@ -263,6 +265,16 @@ public class Capability implements Unifiable,
 		s += pre;
 		s += "} " + cap + " {";
 		s += post;
+		s += "}";
+		return s;
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		String s = "{";
+		s += pre.toString(descriptions);
+		s += "} " + cap.toString(descriptions) + " {";
+		s += post.toString(descriptions);
 		s += "}";
 		return s;
 	}

@@ -24,13 +24,24 @@
 
 package gwendolen.semantics;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
-import ail.util.AILConfig;
-import ail.util.AILexception;
-import gwendolen.util.GwendolenPrettyPrinter;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
-
+import ail.syntax.ast.Abstract_PredicateDescription;
+import ail.tracing.explanations.PredicateDescriptions;
+import ail.util.AILConfig;
+import ail.util.AILexception;
+import ajpf.MCAPLcontroller;
+import ajpf.util.AJPFException;
+import gwendolen.parser.GwendolenSubLexer;
+import gwendolen.parser.GwendolenSubParser;
+import gwendolen.util.GwendolenPrettyPrinter;
 
 /**
  * A Gwendolen Agent - a demonstration of how to subclass an AIL Agent and
@@ -39,7 +50,7 @@ import ail.semantics.AILAgent;
  * @author louiseadennis
  *
  */
-public class GwendolenAgent extends AILAgent { 
+public class GwendolenAgent extends AILAgent {
 
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
@@ -50,24 +61,21 @@ public class GwendolenAgent extends AILAgent {
 	public GwendolenAgent(MAS mas, String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(mas, name);
-		this.setPretty(new GwendolenPrettyPrinter());
-		
-      //  try {
-    //        ((DefaultEnvironment) fEnv).addPerceptListener(this);
-    //} catch (Exception e) {
-    //        throw new AILexception("AIL: error creating the agent architecture! - " + e);
-    //}
 
-    // Then we construct Gwendolen's reasoning cycle, starting with
-		// an empty reasoning cycle.  See the GwendolenRC class for how
-		// to create a language specific reasoning cycle.  NB. this will
+		// try {
+		// ((DefaultEnvironment) fEnv).addPerceptListener(this);
+		// } catch (Exception e) {
+		// throw new AILexception("AIL: error creating the agent architecture! - " + e);
+		// }
+
+		// Then we construct Gwendolen's reasoning cycle, starting with
+		// an empty reasoning cycle. See the GwendolenRC class for how
+		// to create a language specific reasoning cycle. NB. this will
 		// change when we get the rules to return state change objects.
 		// setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
-
-
-		
 	}
+
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
@@ -77,26 +85,24 @@ public class GwendolenAgent extends AILAgent {
 	public GwendolenAgent(String name) throws AILexception {
 		// first we create an AIL Agent.
 		super(name);
-		
-      //  try {
-    //        ((DefaultEnvironment) fEnv).addPerceptListener(this);
-    //} catch (Exception e) {
-    //        throw new AILexception("AIL: error creating the agent architecture! - " + e);
-    //}
 
-    // Then we construct Gwendolen's reasoning cycle, starting with
-		// an empty reasoning cycle.  See the GwendolenRC class for how
-		// to create a language specific reasoning cycle.  NB. this will
+		// try {
+		// ((DefaultEnvironment) fEnv).addPerceptListener(this);
+		// } catch (Exception e) {
+		// throw new AILexception("AIL: error creating the agent architecture! - " + e);
+		// }
+
+		// Then we construct Gwendolen's reasoning cycle, starting with
+		// an empty reasoning cycle. See the GwendolenRC class for how
+		// to create a language specific reasoning cycle. NB. this will
 		// change when we get the rules to return state change objects.
-	//	setTrackPlanUsage(false);
+		// setTrackPlanUsage(false);
 		setReasoningCycle(new GwendolenRC());
-
-
-		
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see ail.semantics.AILAgent#configure(ail.util.AILConfig)
 	 */
 	@Override
@@ -108,6 +114,18 @@ public class GwendolenAgent extends AILAgent {
 				setStoreSentMessages(true);
 			} else {
 				setStoreSentMessages(false);
+			}
+		}
+		setPretty(new GwendolenPrettyPrinter());
+		if (config.containsKey("tracing.descriptions")) {
+			try {
+				String descriptionsfile = MCAPLcontroller.getFilename(config.getProperty("tracing.descriptions"));
+				GwendolenSubLexer lexer = new GwendolenSubLexer(CharStreams.fromFileName(descriptionsfile));
+				GwendolenSubParser parser = new GwendolenSubParser(new CommonTokenStream(lexer));
+				List<Abstract_PredicateDescription> descriptions = parser.descriptions().ds;
+				setPretty(new GwendolenPrettyPrinter(new PredicateDescriptions(descriptions)));
+			} catch (final AJPFException | IOException e) {
+				e.printStackTrace(); // FIXME
 			}
 		}
 	}

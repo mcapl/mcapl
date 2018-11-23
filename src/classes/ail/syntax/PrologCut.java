@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 
 /**
  * Note that a Prolog Cut is not a Logical Formula, but appears in the position of one in Prolog programs so I'm hoping this will not cause too
@@ -174,4 +175,8 @@ public class PrologCut implements LogicalFormula {
 		return "!";
 	}
 
+	@Override
+    public String toString(PredicateDescriptions descriptions ) {
+    	return toString();
+    }
 }

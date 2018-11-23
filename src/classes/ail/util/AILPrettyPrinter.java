@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 package ail.util;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import ail.syntax.ApplicablePlan;
@@ -30,8 +31,22 @@ import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.IntentionRow;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class AILPrettyPrinter {
+	protected final PredicateDescriptions descriptions;
+
+	public AILPrettyPrinter() {
+		this.descriptions = new PredicateDescriptions(new ArrayList<>(0));
+	}
+
+	public AILPrettyPrinter(PredicateDescriptions descriptions) {
+		this.descriptions = descriptions;
+	}
+
+	public PredicateDescriptions getPredicateDescriptions() {
+		return this.descriptions;
+	}
 
 	public String prettyIntention(Intention i) {
 		StringBuilder s = new StringBuilder();
@@ -46,10 +61,10 @@ public class AILPrettyPrinter {
 
 		String s1 = "";
 		for (IntentionRow ir : i.getRows()) {
-			s1 = "   *  " + ir + s1;
+			s1 = "   *  " + ir.toString(descriptions) + s1;
 		}
 		s.append(s1);
-		
+
 		return s.toString();
 	}
 
@@ -58,15 +73,13 @@ public class AILPrettyPrinter {
 
 		ListIterator<Guard> gi = p.getGuard().listIterator();
 		ListIterator<Deed> di = p.getPrefix().listIterator();
-		String triggers = p.getEvent().toString();
+		String triggers = p.getEvent().toString(descriptions);
 		String us = p.getUnifier().toString();
-
 		while (gi.hasNext()) {
 			Guard gu = gi.next();
 			Deed d = di.next();
-
-			s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu).append("||").append(d)
-					.append("||").append(us).append("\n");
+			s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu.toString(descriptions));
+			s.append("||").append(d.toString(descriptions)).append("||").append(us).append("\n");
 		}
 
 		return s.toString();

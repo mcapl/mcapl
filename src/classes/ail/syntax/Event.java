@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -200,9 +201,31 @@ public class Event extends DefaultAILStructure implements Unifiable {
 				s.append("x");
 			if (referstoGoal()) {
 				s.append("!");
-				s.append(getContent().toString());
+				s.append(getContent());
 			} else {
-				s.append(getContent().toString());
+				s.append(getContent());
+			}
+		}
+		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		StringBuilder s = new StringBuilder();
+		if (isStart()) {
+			s.append("start");
+		} else if (fromPercept()) {
+			s.append("perceived");
+		} else {
+			if (isAddition())
+				s.append("+");
+			else
+				s.append("x");
+			if (referstoGoal()) {
+				s.append("!");
+				s.append(getContent().toString(descriptions));
+			} else {
+				s.append(getContent().toString(descriptions));
 			}
 		}
 		return s.toString();

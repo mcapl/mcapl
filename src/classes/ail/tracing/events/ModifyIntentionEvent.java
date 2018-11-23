@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModifyIntentionEvent extends AbstractEvent {
 	private final Intention intention;
@@ -29,7 +30,8 @@ public class ModifyIntentionEvent extends AbstractEvent {
 	}
 
 	@Override
-	public String toString() { // TODO: not always clear what changed?
+	public String toString(final PredicateDescriptions descriptions) {
+		// TODO: not (always) clear what actually changed?
 		StringBuilder builder = new StringBuilder();
 		builder.append("modified ").append(intention).append(".");
 		return builder.toString();

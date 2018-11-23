@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
+
 /** 
  * Immutable class for string terms.
  * 
@@ -131,6 +133,10 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
 	
 	public String fullstring() {
 		return "STI:" + toString();
+	}
+	
+	public String toString(PredicateDescriptions descriptions ) {
+		return toString();
 	}
 
     /*

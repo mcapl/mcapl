@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.AJPFLogger;
 
 /** 
@@ -326,6 +327,15 @@ public class LogExpr implements LogicalFormula {
 			return op+"("+rhs+")";
 		} else {
 			return "("+lhs+op+rhs+")";
+		}
+	}
+	
+	@Override
+    public String toString(PredicateDescriptions descriptions ) {
+		if (lhs == null) {
+			return op+"("+rhs.toString(descriptions)+")";
+		} else {
+			return "("+lhs.toString(descriptions)+op+rhs.toString(descriptions)+")";
 		}
 	}
     

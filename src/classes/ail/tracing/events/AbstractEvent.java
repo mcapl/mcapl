@@ -1,5 +1,6 @@
 package ail.tracing.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.nustaq.serialization.FSTConfiguration;
@@ -12,6 +13,7 @@ import ail.syntax.ApplicablePlan;
 import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public abstract class AbstractEvent {
 	@SuppressWarnings("unchecked")
@@ -30,8 +32,12 @@ public abstract class AbstractEvent {
 
 	abstract public void execute(final AILAgent agent, final boolean reverse);
 
+	abstract public String toString(final PredicateDescriptions descriptions);
+
 	@Override
-	abstract public String toString();
+	public final String toString() {
+		return toString(new PredicateDescriptions(new ArrayList<>(0)));
+	}
 
 	@Override
 	abstract public boolean equals(final Object other);

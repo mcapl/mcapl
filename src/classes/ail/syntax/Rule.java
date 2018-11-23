@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 
 /**
  * A rule is a Literal (head) with an optional body, as in "a :- b &amp; c".
@@ -138,9 +139,18 @@ public class Rule implements LogicalFormula {
      */
     public String toString() {
     	if (body != null) {
-    		return head.toString() + " :- " + body;
+    		return head + " :- " + body;
     	} else {
-    		return head.toString();
+    		return head + "";
+    	}
+    }
+    
+    @Override
+	public String toString(PredicateDescriptions descriptions) {
+    	if (body != null) {
+    		return head.toString(descriptions) + " :- " + body;
+    	} else {
+    		return head.toString(descriptions);
     	}
     }
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent.SelectionOrder;
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.semantics.AgentMentalState;
 
 public class Is extends AILComparison {
@@ -241,9 +242,11 @@ public class Is extends AILComparison {
 	 */
 	@Override
 	public String toString() {
-		String s = variable.toString();
-		s += " is " + value.toString();
-		return s;
+		return variable + " is " + value;
 	}
-
+	
+	@Override
+    public String toString(PredicateDescriptions descriptions ) {
+		return variable.toString(descriptions) + " is " + value.toString(descriptions);
+    }
 }
