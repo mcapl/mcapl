@@ -21,11 +21,12 @@ import ail.semantics.AILAgent;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.explanations.PredicateDescriptions;
+import ail.util.AILPrettyPrinter;
 
 public class EventStorage {
 	private static final DateFormat format = new SimpleDateFormat("yy-MM-dd_HH-mm-ss-SSS");
 	private final File datafile;
-	private final PredicateDescriptions descriptions;
+	private PredicateDescriptions descriptions;
 	private final IndexTreeList<AbstractEvent> storage;
 	private final EventStorageWriter writer;
 	private int counter;
@@ -36,7 +37,7 @@ public class EventStorage {
 		if (!this.datafile.getParentFile().exists()) {
 			this.datafile.getParentFile().mkdirs();
 		}
-		this.descriptions = agent.getPrettyPrinter().getPredicateDescriptions();
+		setPrettyPrinter(agent.getPrettyPrinter());
 		// single-threaded memory-mapped file containing the event list
 		final DB database = DBMaker.fileDB(datafile).fileMmapEnable().fileMmapPreclearDisable().cleanerHackEnable()
 				.concurrencyDisable().transactionEnable().closeOnJvmShutdown().make();
@@ -62,6 +63,10 @@ public class EventStorage {
 			}
 		}
 		this.descriptions = get;
+	}
+
+	public void setPrettyPrinter(final AILPrettyPrinter printer) {
+		this.descriptions = printer.getPredicateDescriptions();
 	}
 
 	public File getDataFile() {

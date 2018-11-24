@@ -444,6 +444,12 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void setPretty(AILPrettyPrinter pretty) {
 		this.pretty_printer = pretty;
+		for (Intention i : Is) {
+			i.pretty_printer = pretty;
+		}
+		if(trace != null) {
+			trace.setPrettyPrinter(pretty);
+		}
 	}
 
 	/**
