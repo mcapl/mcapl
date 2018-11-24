@@ -1,1 +1,2 @@
 holding(rubble) : "the robot is holding rubble"
+at(X,Y) : "the robot is at [%X,%Y]"

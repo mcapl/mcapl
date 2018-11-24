@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ail.syntax.Predicate;
+import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
 import ail.syntax.ast.Abstract_PredicateDescription;
 
@@ -18,11 +19,20 @@ public class PredicateDescriptions {
 		}
 	}
 
-	public String getDescription(final Predicate predicate) {
-		for (final Predicate description : descriptions.keySet()) {
+	public String getDescription(Predicate predicate) {
+		if (predicate instanceof PredicatewAnnotation) {
+			// Strip info to make sure we match as much as possible below!
+			predicate = new Predicate(predicate);
+			// TODO: use info from annotation (and e.g. goaltype)?
+		}
+		for (final Predicate described : descriptions.keySet()) {
 			final Unifier u = new Unifier();
-			if (description.match(predicate, u)) {
-				return descriptions.get(description); // TODO: apply unification to string
+			if (predicate.match(described, u)) {
+				String description = descriptions.get(described);
+				for (final String var : u.getVarNames()) {
+					description = description.replace("%" + var, u.get(var).toString());
+				}
+				return description;
 			}
 		}
 		return predicate.toString();

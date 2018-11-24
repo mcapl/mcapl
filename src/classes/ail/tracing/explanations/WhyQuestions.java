@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ActionEvent;
 import ail.tracing.events.CreateIntentionEvent;
@@ -25,13 +26,13 @@ import ail.tracing.events.SelectPlanEvent;
  * trace based on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
 public class WhyQuestions {
-	private final List<AbstractEvent> trace;
+	private final EventStorage storage;
 	private Set<Predicate> beliefs;
 	private Set<Predicate> goals;
 	private Set<Action> actions;
 
-	public WhyQuestions(final List<AbstractEvent> trace) {
-		this.trace = trace;
+	public WhyQuestions(final EventStorage storage) {
+		this.storage = storage;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class WhyQuestions {
 		this.beliefs = new LinkedHashSet<>();
 		this.goals = new LinkedHashSet<>();
 		this.actions = new LinkedHashSet<>();
-		for (final AbstractEvent event : this.trace) {
+		for (final AbstractEvent event : this.storage.getAll()) {
 			if (event instanceof ModificationEvent) {
 				final ModificationAction modification = ((ModificationEvent) event).getUpdate();
 				switch (modification.getBase()) {
@@ -92,7 +93,7 @@ public class WhyQuestions {
 	public Set<Action> getAllActions() {
 		return Collections.unmodifiableSet(this.actions);
 	}
-	
+
 	// TODO: we are missing the new intention modification events here now
 
 	/**
@@ -103,8 +104,9 @@ public class WhyQuestions {
 	 */
 	public List<ActionReason> whyAction(final Action action) {
 		final Stack<ActionReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ActionEvent) {
 				// match the requested action
 				final ActionEvent ae = (ActionEvent) event;
@@ -157,8 +159,9 @@ public class WhyQuestions {
 	 */
 	public List<ModificationReason> whyBelief(final Predicate belief) {
 		final Stack<ModificationReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
@@ -212,8 +215,9 @@ public class WhyQuestions {
 	 */
 	public List<ModificationReason> whyGoal(final Predicate goal) {
 		final Stack<ModificationReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;

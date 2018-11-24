@@ -3,6 +3,7 @@ package ail.tracing;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -18,20 +19,24 @@ import org.mapdb.Store;
 
 import ail.semantics.AILAgent;
 import ail.tracing.events.AbstractEvent;
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class EventStorage {
 	private static final DateFormat format = new SimpleDateFormat("yy-MM-dd_HH-mm-ss-SSS");
 	private final File datafile;
+	private final PredicateDescriptions descriptions;
 	private final IndexTreeList<AbstractEvent> storage;
 	private final EventStorageWriter writer;
 	private int counter;
 
-	public EventStorage(final String agent, final String directory) {
-		final File datafile = new File(directory + File.separator + agent + "_" + format.format(new Date()) + ".db");
-		if (!datafile.getParentFile().exists()) {
-			datafile.getParentFile().mkdirs();
+	public EventStorage(final AILAgent agent, final String directory) {
+		this.datafile = new File(
+				directory + File.separator + agent.getAgName() + "_" + format.format(new Date()) + ".db");
+		if (!this.datafile.getParentFile().exists()) {
+			this.datafile.getParentFile().mkdirs();
 		}
-		this.datafile = datafile;
+		this.descriptions = agent.getPrettyPrinter().getPredicateDescriptions();
 		// single-threaded memory-mapped file containing the event list
 		final DB database = DBMaker.fileDB(datafile).fileMmapEnable().fileMmapPreclearDisable().cleanerHackEnable()
 				.concurrencyDisable().transactionEnable().closeOnJvmShutdown().make();
@@ -48,10 +53,22 @@ public class EventStorage {
 		this.storage = database.indexTreeList("", new EventSerializer()).open();
 		this.counter = this.storage.size();
 		this.writer = null;
+		PredicateDescriptions get = new PredicateDescriptions(new ArrayList<>(0));
+		for (final AbstractEvent event : this.storage) {
+			if (event instanceof CreateIntentionEvent) {
+				get = ((CreateIntentionEvent) event).getIntention().pretty_printer.getPredicateDescriptions();
+				break;
+			}
+		}
+		this.descriptions = get;
 	}
 
 	public File getDataFile() {
 		return this.datafile;
+	}
+
+	public PredicateDescriptions getDescriptions() {
+		return this.descriptions;
 	}
 
 	public int getIndex() {
@@ -64,7 +81,7 @@ public class EventStorage {
 
 	public void write(final AbstractEvent event) {
 		if (this.writer != null) {
-			System.out.println(event);
+			System.out.println(event.toString(this.descriptions));
 			this.writer.write(event);
 			++this.counter;
 		}
