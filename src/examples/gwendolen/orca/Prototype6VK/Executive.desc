@@ -1,0 +1,4 @@
+completeMission : "Complete the mission"
+prioritise(X) : "The UAV is prioritising %X"
+flightPhase(P) : "The UAV is in flight phase %P"
+target(T) : "The UAV is targeting %T"

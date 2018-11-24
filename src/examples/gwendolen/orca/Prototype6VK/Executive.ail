@@ -5,3 +5,6 @@ mas.builder = gwendolen.GwendolenMASBuilder
 
 //ajpf.record = true
 //log.fine = ail.semantics.AILAgent
+
+tracing.enabled = true
+tracing.descriptions = /src/examples/gwendolen/orca/Prototype6VK/Executive.desc
