@@ -120,8 +120,8 @@ public class AIL {
 	 */
 	public static MAS buildMAS(AILConfig config) {
 		String tracedir = null;
-		String tracing = (String) config.getOrDefault("tracing.enabled", "1"); // FIXME: put 0 as the default
-		if (tracing.equals("1")) {
+		String tracing = (String) config.getOrDefault("tracing.enabled", "true"); // FIXME: put false as the default
+		if (tracing.equals("true")) {
 			tracedir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
 		}
 

@@ -29,4 +29,5 @@ env = gwendolen.tutorials.SearchAndRescueEnv
 log.info = ail.mas.DefaultEnvironment
 log.format = brief
 
+tracing.enabled = true
 tracing.descriptions = /src/examples/gwendolen/tutorials/tutorial2/pickuprubble_achieve.desc
