@@ -26,19 +26,19 @@ public class GeneratePlansReason extends AbstractReason {
 	}
 
 	@Override
-	public String getExplanation(final ExplanationLevel level) {
+	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
 			string.append("the applicable plans generated in state ").append(this.state).append(" ")
 					.append(event.getPlans());
 			if (this.parent != null) {
-				string.append(", because ").append(this.parent.getExplanation(level));
+				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		default:
 			if (this.parent != null) {
-				string.append(this.parent.getExplanation(level));
+				string.append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}

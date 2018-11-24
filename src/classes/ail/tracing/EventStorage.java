@@ -54,7 +54,8 @@ public class EventStorage {
 		this.counter = this.storage.size();
 		this.writer = null;
 		PredicateDescriptions get = new PredicateDescriptions(new ArrayList<>(0));
-		for (final AbstractEvent event : this.storage) {
+		for (int i = (this.counter - 1); i >= 0; --i) { // initial intentions might have empty descriptions
+			final AbstractEvent event = this.storage.get(i);
 			if (event instanceof CreateIntentionEvent) {
 				get = ((CreateIntentionEvent) event).getIntention().pretty_printer.getPredicateDescriptions();
 				break;

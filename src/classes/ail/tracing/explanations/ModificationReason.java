@@ -1,5 +1,6 @@
 package ail.tracing.explanations;
 
+import ail.syntax.Predicate;
 import ail.tracing.events.ModificationEvent;
 
 public class ModificationReason extends AbstractReason {
@@ -39,6 +40,20 @@ public class ModificationReason extends AbstractReason {
 		}
 	}
 
+	private String getAdded(final PredicateDescriptions descriptions) {
+		final StringBuilder s = new StringBuilder();
+		boolean first = true;
+		for (final Predicate p : event.getUpdate().getAdded()) {
+			if (first) {
+				first = false;
+			} else {
+				s.append(", ");
+			}
+			s.append(p.toString(descriptions));
+		}
+		return s.toString();
+	}
+
 	private String getActionDescriptor() {
 		switch (event.getUpdate().getBase()) {
 		case BELIEFS:
@@ -54,21 +69,20 @@ public class ModificationReason extends AbstractReason {
 	}
 
 	@Override
-	public String getExplanation(final ExplanationLevel level) {
+	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
+		string.append("the ").append(getPredicateDescriptor()).append(" ").append(getAdded(descriptions))
+				.append(" were ").append(getActionDescriptor());
 		switch (level) {
 		case FINEST:
-			string.append("the ").append(getPredicateDescriptor()).append(" ").append(event.getUpdate().getAdded())
-					.append(" were ").append(getActionDescriptor()).append(" in state ").append(this.state);
+			string.append(" in state ").append(this.state);
 			if (this.parent != null) {
-				string.append(", because ").append(this.parent.getExplanation(level));
+				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		default:
-			string.append("the ").append(getPredicateDescriptor()).append(" ").append(event.getUpdate().getAdded())
-					.append(" were ").append(getActionDescriptor());
 			if (this.parent != null) {
-				string.append(" as part of ").append(this.parent.getExplanation(level));
+				string.append(" as part of ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}

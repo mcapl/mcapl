@@ -26,18 +26,18 @@ public class SelectIntentionReason extends AbstractReason {
 	}
 
 	@Override
-	public String getExplanation(final ExplanationLevel level) {
+	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
 			string.append(this.event.getIntention()).append(" was selected in state ").append(this.state);
 			if (this.parent != null) {
-				string.append(", because ").append(this.parent.getExplanation(level));
+				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		default:
 			if (this.parent != null) {
-				string.append(this.parent.getExplanation(level));
+				string.append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}

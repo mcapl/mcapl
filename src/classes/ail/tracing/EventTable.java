@@ -233,7 +233,9 @@ public class EventTable extends JXTable {
 						final List<ActionReason> reasons = questions.whyAction(action);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyActionButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -267,7 +269,9 @@ public class EventTable extends JXTable {
 						final List<ModificationReason> reasons = questions.whyBelief(belief);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyBeliefButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -301,7 +305,9 @@ public class EventTable extends JXTable {
 						final List<ModificationReason> reasons = questions.whyGoal(goal);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyGoalButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());

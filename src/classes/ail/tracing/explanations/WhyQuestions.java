@@ -35,6 +35,10 @@ public class WhyQuestions {
 		this.storage = storage;
 	}
 
+	public PredicateDescriptions getDescriptions() {
+		return this.storage.getDescriptions();
+	}
+
 	/**
 	 * Call this to update the info returned by {@link #getAllActions()},
 	 * {@link #getAllBeliefs()}, and {@link #getAllGoals()}.

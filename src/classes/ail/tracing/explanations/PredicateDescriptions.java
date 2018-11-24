@@ -37,4 +37,26 @@ public class PredicateDescriptions {
 		}
 		return predicate.toString();
 	}
+
+	@Override
+	public String toString() {
+		return descriptions.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return descriptions.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof PredicateDescriptions)) {
+			return false;
+		}
+		PredicateDescriptions other = (PredicateDescriptions) obj;
+		return descriptions.equals(other.descriptions);
+	}
 }
