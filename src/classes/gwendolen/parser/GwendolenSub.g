@@ -103,7 +103,7 @@ DOUBLEQUOTE
 		:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
 NOT		:	'~';
 
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
+STRING	:	{stringterm}?=> ~[\r\n"]*;
 CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 VAR		:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
