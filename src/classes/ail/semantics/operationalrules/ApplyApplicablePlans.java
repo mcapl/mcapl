@@ -123,10 +123,14 @@ public class ApplyApplicablePlans implements OSRule {
                             }
                     } else {
                             i.dropP(p.getN());
+                            if (a.shouldTrace()) {
+        						a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.DELETE_TOP_DEEDS, p));
+        					}
                     }
                 } else {
             
                     i.dropP(p.getN());
+                    // Don't record modify intention here because it will by handled by p.getPrefix().size() != 0 below
                 }
 			
 				// NOTE HACK - top of guardstack presumably already tested!
@@ -136,13 +140,14 @@ public class ApplyApplicablePlans implements OSRule {
 			
 				if (p.getPrefix().size() != 0) {			
 					i.iConcat(p.getEvent(), p.getPrefix(), guardstack, p.getUnifier().clone());
+					if (a.shouldTrace() && p.getID() != 0) {
+						a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.MERGE_PLAN, p));
+					}
 				} else if(! i.empty()) {
 					i.hdU().compose(p.getUnifier().clone());
 				}
 				
-				if (a.shouldTrace()) {
-					a.trace(new ModifyIntentionEvent(i));
-				}
+				
 			}
 		//}
 		

@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.ApplicablePlan;
 import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModifyIntentionEvent extends AbstractEvent {
 	private final Intention intention;
+	private final ApplicablePlan p;
+	
+	public static int DELETE_TOP_DEEDS = 1;
+	public static int MERGE_PLAN = 2;
+	
+	private int category = MERGE_PLAN;
 
-	public ModifyIntentionEvent(final Intention intention) {
+	public ModifyIntentionEvent(final Intention intention, int category, ApplicablePlan p) {
 		this.intention = intention.clone();
+		this.category = category;
+		this.p = p;
 	}
 
 	public Intention getIntention() {
@@ -33,7 +42,11 @@ public class ModifyIntentionEvent extends AbstractEvent {
 	public String toString(final PredicateDescriptions descriptions) {
 		// TODO: not (always) clear what actually changed?
 		StringBuilder builder = new StringBuilder();
-		builder.append("modified ").append(intention).append(".");
+		if (category == DELETE_TOP_DEEDS) {
+			builder.append("modified intention by removing top of intention to become ").append(intention).append(".");
+		} else if (category == MERGE_PLAN) {
+			builder.append("modified intention by replacing top with selected plan to become  ").append(intention).append(".");
+		}
 		return builder.toString();
 	}
 
