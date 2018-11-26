@@ -306,19 +306,17 @@ public class Deed extends DefaultAILStructure {
 		StringBuilder s = new StringBuilder();
 		if (hasTrigType()) {
 			if (isAddition())	
-				s.append("+");
+				s.append("add ");
 			else if (isDeletion())
-				s.append("-");
+				s.append("delete ");
 			else if (isUpdate())
-				s.append("+-");
+				s.append("update ");
 		}
 			
 		if (referstoGoal()) {
-			s.append("!");
-			s.append(getContent().toString(descriptions));
+			s.append("the goal ").append(getContent().toString(descriptions));
 		} else if (getCategory() == Dwaitfor) {
-			s.append("*...");
-			s.append(getContent().toString(descriptions));
+			s.append("wait for ").append(getContent().toString(descriptions));
 		} else if (hasContent()) {
 			s.append(getContent().toString(descriptions));
 		} else if (isNPY()) {

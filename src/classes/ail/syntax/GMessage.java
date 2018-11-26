@@ -401,8 +401,7 @@ public class GMessage implements GuardAtom<Message> {
 	   @Override
 		public String toString(PredicateDescriptions descriptions) {
 		    StringBuilder s = new StringBuilder();
-	        s.append("<").append(threadId).append(",").append(sender).append(",").append(performative);
-	        s.append(",").append(receiver).append(",").append(content.toString(descriptions)).append(">");
+		    s.append("a message from ").append(sender).append(": ").append(content.toString(descriptions));
 	        return s.toString();
 	   }
 

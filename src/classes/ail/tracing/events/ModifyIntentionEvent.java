@@ -9,22 +9,29 @@ import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModifyIntentionEvent extends AbstractEvent {
-	private final Intention intention;
-	private final ApplicablePlan p;
-	
 	public static int DELETE_TOP_DEEDS = 1;
 	public static int MERGE_PLAN = 2;
-	
-	private int category = MERGE_PLAN;
 
-	public ModifyIntentionEvent(final Intention intention, int category, ApplicablePlan p) {
+	private final Intention intention;
+	private final int category;
+	private final ApplicablePlan plan;
+
+	public ModifyIntentionEvent(final Intention intention, final int category, final ApplicablePlan plan) {
 		this.intention = intention.clone();
 		this.category = category;
-		this.p = p;
+		this.plan = plan;
 	}
 
 	public Intention getIntention() {
 		return this.intention;
+	}
+
+	public int getCategory() {
+		return this.category;
+	}
+
+	public ApplicablePlan getPlan() {
+		return this.plan;
 	}
 
 	@Override
@@ -40,13 +47,13 @@ public class ModifyIntentionEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		// TODO: not (always) clear what actually changed?
 		StringBuilder builder = new StringBuilder();
 		if (category == DELETE_TOP_DEEDS) {
-			builder.append("modified intention by removing top of intention to become ").append(intention).append(".");
+			builder.append("modified intention by removing top of intention to become ").append(intention);
 		} else if (category == MERGE_PLAN) {
-			builder.append("modified intention by replacing top with selected plan to become  ").append(intention).append(".");
+			builder.append("modified intention by replacing top with selected plan to become ").append(intention);
 		}
+		builder.append(".");
 		return builder.toString();
 	}
 

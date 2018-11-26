@@ -194,7 +194,7 @@ public class Event extends DefaultAILStructure implements Unifiable {
 			s.append("start");
 		} else if (fromPercept()) {
 			s.append("perceived");
-		}		else {
+		} else {
 			if (isAddition())
 				s.append("+");
 			else
@@ -218,15 +218,13 @@ public class Event extends DefaultAILStructure implements Unifiable {
 			s.append("perceived");
 		} else {
 			if (isAddition())
-				s.append("+");
+				s.append("added ");
 			else
-				s.append("x");
+				s.append("deleted ");
 			if (referstoGoal()) {
-				s.append("!");
-				s.append(getContent().toString(descriptions));
-			} else {
-				s.append(getContent().toString(descriptions));
+				s.append("the goal ");
 			}
+			s.append(getContent().toString(descriptions));
 		}
 		return s.toString();
 	}

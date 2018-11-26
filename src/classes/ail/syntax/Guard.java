@@ -290,17 +290,17 @@ public class Guard implements GLogicalFormula {
 			}
 		} else if (op == GLogicalOp.not) {
 			if (rhs != null) {
-				return "~" + rhs.toString(descriptions);
+				return "NOT " + rhs.toString(descriptions);
 			} else {
 				return "False";
 			}
 			
 		} else if (op == GLogicalOp.and) {
-			return lhs.toString(descriptions) + " & " + rhs.toString(descriptions);
+			return lhs.toString(descriptions) + " AND " + rhs.toString(descriptions);
 		} else if (op == GLogicalOp.forall) {
 			return " forall (" + lhs.toString(descriptions) + ", " + rhs.toString(descriptions) + ")";
 		} else {
-			return lhs.toString(descriptions) + " || " + rhs.toString(descriptions);
+			return lhs.toString(descriptions) + " OR " + rhs.toString(descriptions);
 		}
 	}
 
