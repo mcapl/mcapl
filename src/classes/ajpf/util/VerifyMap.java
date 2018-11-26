@@ -294,7 +294,7 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 		 * @see java.lang.Object#toString()
 		 */
 		public String toString() {
-			String s = key.toString() + "-" + value.toString();
+			String s = key.toString() + "=" + value.toString();
 			return s;
 		}
 		
