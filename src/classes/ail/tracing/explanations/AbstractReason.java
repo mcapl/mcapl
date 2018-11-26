@@ -1,5 +1,7 @@
 package ail.tracing.explanations;
 
+import java.util.ArrayList;
+
 import ail.tracing.events.AbstractEvent;
 
 public abstract class AbstractReason {
@@ -13,9 +15,10 @@ public abstract class AbstractReason {
 
 	public abstract AbstractReason getParent();
 
-	public abstract String getExplanation(ExplanationLevel level);
+	public abstract String getExplanation(ExplanationLevel level, PredicateDescriptions descriptions);
 
+	@Override
 	public final String toString() {
-		return getExplanation(ExplanationLevel.FINEST);
+		return getExplanation(ExplanationLevel.FINEST, new PredicateDescriptions(new ArrayList<>(0)));
 	}
 }

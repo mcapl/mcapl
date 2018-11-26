@@ -10,6 +10,7 @@ import ail.syntax.Literal;
 import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModificationAction {
 	private final int base;
@@ -103,24 +104,48 @@ public class ModificationAction {
 		}
 	}
 
-	@Override
-	public String toString() { // FIXME
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
 		if (added != null && !added.isEmpty()) {
-			builder.append("added ").append(added).append(" to ");
+			builder.append("added ");
+			boolean first = true;
+			for (Predicate add : added) {
+				if (first) {
+					first = false;
+				} else {
+					builder.append(", ");
+				}
+				builder.append(add.toString(descriptions));
+			}
+			builder.append(" to ");
 		}
 		if (removed != null && !removed.isEmpty()) {
 			if (builder.length() > 0) {
 				builder.append(" and ");
 			}
-			builder.append("removed ").append(removed).append(" from ");
+			builder.append("removed ");
+			boolean first = true;
+			for (Predicate rem : removed) {
+				if (first) {
+					first = false;
+				} else {
+					builder.append(", ");
+				}
+				builder.append(rem.toString(descriptions));
+			}
+			builder.append(" from ");
 		}
 		builder.append("the agent's ").append(getBase().toString().toLowerCase());
-		if (selector != null && !selector.isEmpty()) {
+		if (selector != null && selector.length() > 2) { // not just quotes
 			builder.append(" (").append(selector).append(")");
 		}
 		builder.append(".");
 		return builder.toString();
+	}
+
+	@Override
+	public String toString() {
+		return toString(new PredicateDescriptions(new ArrayList<>(0)));
 	}
 
 	@Override

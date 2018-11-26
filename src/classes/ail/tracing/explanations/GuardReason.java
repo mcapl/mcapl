@@ -26,31 +26,34 @@ public class GuardReason extends AbstractReason {
 	}
 
 	@Override
-	public String getExplanation(final ExplanationLevel level) {
+	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
 			if (event.isContinuation()) {
-				string.append("it was continued in state ").append(this.state).append(" as earlier ");
-			}
-			string.append("its guard '").append(this.event.getGuard()).append("' held with ")
-					.append(this.event.getSolutions());
-			if (!event.isContinuation()) {
-				string.append(" in state ").append(this.state);
+				string.append("it was continued in state ").append(this.state);
+			} else {
+				string.append("its guard '").append(this.event.getGuard().toString(descriptions)).append("'");
+				string.append(" held with ").append(this.event.getSolutions()).append(" in state ").append(this.state);
 			}
 			if (this.parent != null) {
 				string.append(", ");
 				if (!event.isContinuation()) {
 					string.append("which was evaluated ");
 				}
-				string.append("because ").append(this.parent.getExplanation(level));
+				string.append("because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		default:
-			string.append("of which the guard '").append(this.event.getGuard()).append("' held with ")
-					.append(this.event.getSolutions());
+			if (!event.isContinuation()) {
+				string.append("of which the guard '").append(this.event.getGuard().toString(descriptions)).append("'");
+				string.append(" held with ").append(this.event.getSolutions());
+			}
 			if (this.parent != null) {
-				string.append(", and ").append(this.parent.getExplanation(level));
+				if (!event.isContinuation()) {
+					string.append(", and ");
+				}
+				string.append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}

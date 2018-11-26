@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -276,12 +277,12 @@ public class Deed extends DefaultAILStructure {
 			
 		if (referstoGoal()) {
 			s.append("!");
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (getCategory() == Dwaitfor) {
 			s.append("*...");
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (hasContent()) {
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (isNPY()) {
 			s.append("which has no plan yet");
 		} else if (isBacktrack()) {
@@ -292,10 +293,49 @@ public class Deed extends DefaultAILStructure {
 			s.append("lock");
 		}
 		
-		// Again need to generalise to all types of evaluation base.
-		if (getDBnum().getString() != AILAgent.AILdefaultBBname) {
-			s.append(" from base ").append(getDBnum().toString()).append(" ");
+		String num = getDBnum().toString();
+		if (num.length() > 2) { // more than just quotes
+			s.append("(").append(num).append(")");
 		}
+		
+		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		StringBuilder s = new StringBuilder();
+		if (hasTrigType()) {
+			if (isAddition())	
+				s.append("+");
+			else if (isDeletion())
+				s.append("-");
+			else if (isUpdate())
+				s.append("+-");
+		}
+			
+		if (referstoGoal()) {
+			s.append("!");
+			s.append(getContent().toString(descriptions));
+		} else if (getCategory() == Dwaitfor) {
+			s.append("*...");
+			s.append(getContent().toString(descriptions));
+		} else if (hasContent()) {
+			s.append(getContent().toString(descriptions));
+		} else if (isNPY()) {
+			s.append("which has no plan yet");
+		} else if (isBacktrack()) {
+			s.append("backtrack");
+		} else if (isNull()) {
+			s.append("null");
+		} else {
+			s.append("lock");
+		}
+		
+		String num = getDBnum().toString();
+		if (num.length() > 2) { // more than just quotes
+			s.append("(").append(num).append(")");
+		}
+		
 		return s.toString();
 	}
 	

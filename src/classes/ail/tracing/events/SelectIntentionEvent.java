@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class SelectIntentionEvent extends AbstractEvent {
 	private final Intention intention;
@@ -26,11 +27,10 @@ public class SelectIntentionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
-	public String toString() {
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("selected ").append(intention).append(".");
 		return builder.toString();

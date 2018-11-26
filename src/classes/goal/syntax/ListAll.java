@@ -42,6 +42,7 @@ import ail.syntax.Term;
 import ail.syntax.Unifiable;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ListAll implements GLogicalFormula {
 	ListTerm list;
@@ -221,10 +222,18 @@ public class ListAll implements GLogicalFormula {
 	@Override
 	public String toString() {
 		String s = "listall ";
-		s += list.toString();
+		s += list;
 		s+= " <- ";
-		s += mental_state.toString();
+		s += mental_state;
 		return s;
 	}
-
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		String s = "listall ";
+		s += list.toString(descriptions);
+		s+= " <- ";
+		s += mental_state.toString(descriptions);
+		return s;
+	}
 }

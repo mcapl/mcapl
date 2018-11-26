@@ -6,6 +6,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class GeneratePlansEvent extends AbstractEvent {
 	private final List<ApplicablePlan> plans;
@@ -37,14 +38,22 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
-	public String toString() {
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
-		// TODO: improve (plan details? same problem in SelectPlanEvent)
-		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ").append(plans).append(".");
+		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ");
+		boolean first = true;
+		for (ApplicablePlan plan : plans) {
+			if (first) {
+				first = false;
+			} else {
+				builder.append(", ");
+			}
+			builder.append(plan);
+		}
+		builder.append(".");
 		return builder.toString();
 	}
 

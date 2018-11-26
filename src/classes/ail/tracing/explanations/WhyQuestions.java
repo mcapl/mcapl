@@ -2,13 +2,15 @@ package ail.tracing.explanations;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ActionEvent;
 import ail.tracing.events.CreateIntentionEvent;
@@ -17,6 +19,7 @@ import ail.tracing.events.GuardEvent;
 import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 
@@ -25,13 +28,17 @@ import ail.tracing.events.SelectPlanEvent;
  * trace based on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
 public class WhyQuestions {
-	private final List<AbstractEvent> trace;
+	private final EventStorage storage;
 	private Set<Predicate> beliefs;
 	private Set<Predicate> goals;
 	private Set<Action> actions;
 
-	public WhyQuestions(final List<AbstractEvent> trace) {
-		this.trace = trace;
+	public WhyQuestions(final EventStorage storage) {
+		this.storage = storage;
+	}
+
+	public PredicateDescriptions getDescriptions() {
+		return this.storage.getDescriptions();
 	}
 
 	/**
@@ -42,7 +49,7 @@ public class WhyQuestions {
 		this.beliefs = new LinkedHashSet<>();
 		this.goals = new LinkedHashSet<>();
 		this.actions = new LinkedHashSet<>();
-		for (final AbstractEvent event : this.trace) {
+		for (final AbstractEvent event : this.storage.getAll()) {
 			if (event instanceof ModificationEvent) {
 				final ModificationAction modification = ((ModificationEvent) event).getUpdate();
 				switch (modification.getBase()) {
@@ -92,7 +99,7 @@ public class WhyQuestions {
 	public Set<Action> getAllActions() {
 		return Collections.unmodifiableSet(this.actions);
 	}
-	
+
 	// TODO: we are missing the new intention modification events here now
 
 	/**
@@ -102,16 +109,17 @@ public class WhyQuestions {
 	 *         corresponds to one successful execution).
 	 */
 	public List<ActionReason> whyAction(final Action action) {
-		final Stack<ActionReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final Deque<ActionReason> stack = new LinkedList<>();
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ActionEvent) {
 				// match the requested action
 				final ActionEvent ae = (ActionEvent) event;
 				if (action.equals(ae.getAction())) {
 					stack.push(new ActionReason(i, ae));
 				}
-			} else if (event instanceof SelectPlanEvent && !stack.empty()) {
+			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
 				// an action follows directly from a plan selection
 				final ActionReason current = stack.peek();
 				if (current.getParent() == null) {
@@ -137,6 +145,11 @@ public class WhyQuestions {
 				for (final ActionReason current : stack) {
 					processSIE(i, sie, current.getParent());
 				}
+			} else if (event instanceof ModifyIntentionEvent) {
+				final ModifyIntentionEvent mie = (ModifyIntentionEvent) event;
+				for (final ActionReason current : stack) {
+					processMIE(i, mie, current.getParent());
+				}
 			} else if (event instanceof CreateIntentionEvent) {
 				// an intention can only be selected if it was created for an event sometime
 				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
@@ -156,9 +169,10 @@ public class WhyQuestions {
 	 *         corresponds to one successful non-duplicate insertion).
 	 */
 	public List<ModificationReason> whyBelief(final Predicate belief) {
-		final Stack<ModificationReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final Deque<ModificationReason> stack = new LinkedList<>();
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
@@ -166,7 +180,7 @@ public class WhyQuestions {
 						&& me.getUpdate().getAdded().contains(belief)) {
 					stack.push(new ModificationReason(i, me));
 				}
-			} else if (event instanceof SelectPlanEvent && !stack.empty()) {
+			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
 				// an insertion follows directly from a plan selection
 				final ModificationReason current = stack.peek();
 				if (current.getParent() == null) {
@@ -192,6 +206,11 @@ public class WhyQuestions {
 				for (final ModificationReason current : stack) {
 					processSIE(i, sie, current.getParent());
 				}
+			} else if (event instanceof ModifyIntentionEvent) {
+				final ModifyIntentionEvent mie = (ModifyIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processMIE(i, mie, current.getParent());
+				}
 			} else if (event instanceof CreateIntentionEvent) {
 				// an intention can only be selected if it was created for an event sometime
 				final CreateIntentionEvent cie = (CreateIntentionEvent) event;
@@ -211,16 +230,17 @@ public class WhyQuestions {
 	 *         to one successful non-duplicate adoption).
 	 */
 	public List<ModificationReason> whyGoal(final Predicate goal) {
-		final Stack<ModificationReason> stack = new Stack<>();
-		for (int i = (this.trace.size() - 1); i >= 0; --i) {
-			final AbstractEvent event = this.trace.get(i);
+		final Deque<ModificationReason> stack = new LinkedList<>();
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
 				if (me.getUpdate().getBase() == ModificationBase.GOALS && me.getUpdate().getAdded().contains(goal)) {
 					stack.push(new ModificationReason(i, me));
 				}
-			} else if (event instanceof SelectPlanEvent && !stack.empty()) {
+			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
 				// an adoption follows directly from a plan selection
 				final ModificationReason current = stack.peek();
 				if (current.getParent() == null) {
@@ -245,6 +265,11 @@ public class WhyQuestions {
 				final SelectIntentionEvent sie = (SelectIntentionEvent) event;
 				for (final ModificationReason current : stack) {
 					processSIE(i, sie, current.getParent());
+				}
+			} else if (event instanceof ModifyIntentionEvent) {
+				final ModifyIntentionEvent mie = (ModifyIntentionEvent) event;
+				for (final ModificationReason current : stack) {
+					processMIE(i, mie, current.getParent());
 				}
 			} else if (event instanceof CreateIntentionEvent) {
 				// an intention can only be selected if it was created for an event sometime
@@ -283,6 +308,21 @@ public class WhyQuestions {
 						&& sie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
 					final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
 					gr.setParent(sir);
+				}
+			}
+		}
+	}
+
+	private static void processMIE(final int i, final ModifyIntentionEvent mie, final SelectPlanReason spr) {
+		if (spr != null) {
+			final GeneratePlansReason gpr = spr.getParent();
+			if (gpr != null) {
+				final GuardReason gr = gpr.getParent();
+				if (gr != null && mie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+					final SelectIntentionReason sir = gr.getParent();
+					if (sir != null) {
+						sir.addModification(mie);
+					}
 				}
 			}
 		}

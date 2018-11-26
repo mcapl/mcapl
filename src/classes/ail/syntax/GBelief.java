@@ -189,9 +189,15 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 
 		if (!isTrue()) {
 			s.append(super.toString());
+<<<<<<< HEAD
 			// Need to somehow generalise this to goals bases etc.
 			if (getEB().getString() != AILAgent.AILdefaultBBname) {
 				s.append("(").append(getEB().toString()).append(")");
+=======
+			String num = getEB().toString();
+			if (num.length() > 2) { // more than just quotes
+				s.append("(").append(num).append(")");
+>>>>>>> origin/omniscient
 			}
 		}  else {
 			s.append("True");

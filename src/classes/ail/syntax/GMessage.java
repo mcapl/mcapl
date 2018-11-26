@@ -31,6 +31,7 @@ import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AILAgent.SelectionOrder;
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.semantics.AgentMentalState;
 
 /**
@@ -394,9 +395,16 @@ public class GMessage implements GuardAtom<Message> {
 			StringBuilder s = new StringBuilder();
 	        s.append("<").append(threadId).append(",").append(sender).append(",").append(performative);
 	        s.append(",").append(receiver).append(",").append(content).append(">");
-	        String s1 = s.toString();
-	        return s1;
+	        return s.toString();
 	    }
+	   
+	   @Override
+		public String toString(PredicateDescriptions descriptions) {
+		    StringBuilder s = new StringBuilder();
+	        s.append("<").append(threadId).append(",").append(sender).append(",").append(performative);
+	        s.append(",").append(receiver).append(",").append(content.toString(descriptions)).append(">");
+	        return s.toString();
+	   }
 
 	/* @Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag,

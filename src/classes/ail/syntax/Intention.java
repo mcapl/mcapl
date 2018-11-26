@@ -1001,15 +1001,12 @@ public class Intention implements Comparable<Intention>{
 	public Intention clone() {
 		if (intentionRows.isEmpty()) {
 			Intention i = new Intention(id, pretty_printer);
-			// i.addPretty(pretty_printer);
 			return i;
 		} else {
 			Intention i = new Intention(id, pretty_printer);
-			for (IntentionRow ir: getRows()) {
+			for (IntentionRow ir : getRows()) {
 				i.push(ir.clone());
 			}
-			//Intention i =  new Intention(id, events().get(0).clone(), deeds(), guards(), unifiers().get(0).clone(), source, pretty_printer);
-			// i.addPretty(pretty_printer);
 			return i;
 		}
 	}

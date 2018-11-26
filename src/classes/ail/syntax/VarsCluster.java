@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.AJPFLogger;
 import gov.nasa.jpf.annotation.FilterField;
     
@@ -198,6 +199,10 @@ public class VarsCluster extends DefaultTerm implements Iterable<VarTerm> {
 	
 	public String fullstring() {
 		return toString();
+	}
+	
+	public String toString(PredicateDescriptions descriptions) {
+		return toString(); // TODO: ok?
 	}
 	
 	/*

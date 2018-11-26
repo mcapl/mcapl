@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 package ail.util;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import ail.syntax.ApplicablePlan;
@@ -30,49 +31,58 @@ import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.IntentionRow;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class AILPrettyPrinter {
-	
+	protected final PredicateDescriptions descriptions;
+
+	public AILPrettyPrinter() {
+		this.descriptions = new PredicateDescriptions(new ArrayList<>(0));
+	}
+
+	public AILPrettyPrinter(PredicateDescriptions descriptions) {
+		this.descriptions = descriptions;
+	}
+
+	public PredicateDescriptions getPredicateDescriptions() {
+		return this.descriptions;
+	}
+
 	public String prettyIntention(Intention i) {
-		String s = "";
-	    if (i.suspended()) {
-	   	 s += "SUSPENDED\n";
-	    }
-	    s += i.getSource().toString() + ":: ";
-	    if (i.getAnnotation() != null) {
-	   	 	s += i.getAnnotation().toString();
-	    }
-	    s+="\n";
-	
-	    String s1 = "";
-	    for (IntentionRow ir : i.getRows()) {
-	    	s1 = "   *  " + ir.toString() + s1;
-	    }
-	   	s+= s1;
-	    return s.toString();
-	}
-	
-	public String prettyAppPlan(ApplicablePlan p) {
-		if (p.getID() == 0) {
-			return "continue processing intention";
-		} else {
-			String triggers = p.getEvent().toString();
-			StringBuilder s = new StringBuilder();
-		
-			ListIterator<Guard> gi = p.getGuard().listIterator();
-			ListIterator<Deed> di = p.getPrefix().listIterator();
-			String us = p.getUnifier().toString();
-		
-			while (gi.hasNext()) {
-				Guard gu = gi.next();
-				Deed d = di.next();
-
-				s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
-			}
-		
-			return s.toString();
+		StringBuilder s = new StringBuilder();
+		if (i.suspended()) {
+			s.append("SUSPENDED\n");
 		}
+		s.append(i.getSource()).append(":: ");
+		if (i.getAnnotation() != null) {
+			s.append(i.getAnnotation());
+		}
+		s.append("\n");
+
+		String s1 = "";
+		for (IntentionRow ir : i.getRows()) {
+			s1 = "   *  " + ir.toString(descriptions) + s1;
+		}
+		s.append(s1);
+
+		return s.toString();
 	}
 
+	public String prettyAppPlan(ApplicablePlan p) {
+		StringBuilder s = new StringBuilder();
+
+		ListIterator<Guard> gi = p.getGuard().listIterator();
+		ListIterator<Deed> di = p.getPrefix().listIterator();
+		String triggers = p.getEvent().toString(descriptions);
+		String us = p.getUnifier().toString();
+		while (gi.hasNext()) {
+			Guard gu = gi.next();
+			Deed d = di.next();
+			s.append(p.getID()).append(" :: ").append(triggers).append("||").append(gu.toString(descriptions));
+			s.append("||").append(d.toString(descriptions)).append("||").append(us).append("\n");
+		}
+
+		return s.toString();
+	}
 
 }

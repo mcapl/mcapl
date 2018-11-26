@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Predicate;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModificationEvent extends AbstractEvent {
 	private final ModificationAction update;
@@ -35,8 +36,8 @@ public class ModificationEvent extends AbstractEvent {
 	}
 
 	@Override
-	public String toString() {
-		return this.update.toString();
+	public String toString(final PredicateDescriptions descriptions) {
+		return this.update.toString(descriptions);
 	}
 
 	@Override

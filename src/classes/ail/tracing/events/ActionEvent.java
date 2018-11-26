@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Action;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ActionEvent extends AbstractEvent {
 	private final Action action;
@@ -12,7 +13,7 @@ public class ActionEvent extends AbstractEvent {
 	public ActionEvent(final Action action) {
 		this.action = action;
 	}
-	
+
 	public Action getAction() {
 		return this.action;
 	}
@@ -26,13 +27,12 @@ public class ActionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// nothing to do here...
 	}
 
 	@Override
-	public String toString() {
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("performed ").append(action).append(".");
+		builder.append("performed ").append(action.toString(descriptions)).append(".");
 		return builder.toString();
 	}
 

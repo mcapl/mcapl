@@ -187,18 +187,15 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder s1 = new StringBuilder("_");
-		s1.append(typeString());
-		s1.append(super.toString());
+		StringBuilder s = new StringBuilder("_");
+		s.append(typeString()).append(super.toString());
 		
-		String goalbase = getGoalBase().getString();
-		if (goalbase != AILAgent.AILdefaultGBname) {
-			s1.append(" in Goal Base ");
-			s1.append(getGoalBase().toString());
-			s1.append(" ");
+		String name = getGoalBase().toString();
+		if (name.length() > 2) { // more than just quotes
+			s.append("(").append(name).append(")");
 		}
-		String s = s1.toString();
-		return (s);
+		
+		return s.toString();
 	}
 	
 	/*

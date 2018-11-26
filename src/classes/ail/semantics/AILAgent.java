@@ -379,7 +379,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	// TODO: Louise has to do some Pathfinder magic here
 	protected void initializeTracing(String directory) {
 		if (directory != null) {
-			this.trace = new EventStorage(fAgName, directory);
+			this.trace = new EventStorage(this, directory);
 		}
 	}
 
@@ -444,6 +444,12 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void setPretty(AILPrettyPrinter pretty) {
 		this.pretty_printer = pretty;
+		for (Intention i : Is) {
+			i.pretty_printer = pretty;
+		}
+		if(trace != null) {
+			trace.setPrettyPrinter(pretty);
+		}
 	}
 
 	/**
@@ -1829,7 +1835,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				ds.add(i.hdD());
 				gs.add(i.hdG());
 				ap = new ApplicablePlan(i.hdE(), ds, gs, 1, theta, 0, AILdefaultPLname, getPrettyPrinter());
-				
 				
 				if(shouldTrace()) { // this traces the continuation happened -Vincent
 					List<Unifier> us = new ArrayList<>(1);

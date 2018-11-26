@@ -68,8 +68,8 @@ public class EventTable extends JXTable {
 				picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
 				if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					// initialize the trace and the question-asking
-					final List<AbstractEvent> data = new EventStorage(picker.getSelectedFile()).getAll();
-					final WhyQuestions questions = new WhyQuestions(data);
+					final EventStorage storage = new EventStorage(picker.getSelectedFile());
+					final WhyQuestions questions = new WhyQuestions(storage);
 					questions.process();
 
 					// initialize the headers before each table row (filled by the EventTable)
@@ -82,16 +82,18 @@ public class EventTable extends JXTable {
 					final JTextComponent description = new JTextField();
 
 					// initialize the table itself
-					final EventTable table = new EventTable(data, header, description);
+					final EventTable table = new EventTable(storage, header, description);
 
 					// initialize the why-buttons at the right
 					final JPanel buttons = new JPanel();
 					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+					buttons.add(new JLabel("FINEST"));
 					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
-					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
 					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
-					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
 					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
+					buttons.add(new JLabel("FINE"));
+					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
+					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
 					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
 
 					// initialize the frame itself
@@ -118,10 +120,11 @@ public class EventTable extends JXTable {
 		});
 	}
 
-	public EventTable(final List<AbstractEvent> data, final JLabel headers, final JTextComponent description) {
+	public EventTable(final EventStorage storage, final JLabel headers, final JTextComponent description) {
 		this.columns = new LinkedList<>();
 		this.rows = GlazedLists.eventList(new LinkedList<Map<String, String>>());
 		this.index = new LinkedHashMap<>();
+		final List<AbstractEvent> data = storage.getAll();
 		process(data); // here we fill the columns/rows/index fields
 
 		// actually create the row-headers
@@ -160,7 +163,7 @@ public class EventTable extends JXTable {
 			public void mouseReleased(final MouseEvent evt) {
 				final int col = EventTable.this.getSelectedColumn();
 				final AbstractEvent event = data.get(col);
-				description.setText(col + ": " + event.toString());
+				description.setText(col + ": " + event.toString(storage.getDescriptions()));
 			}
 		});
 		addKeyListener(new KeyAdapter() {
@@ -174,7 +177,7 @@ public class EventTable extends JXTable {
 				case KeyEvent.VK_RIGHT:
 					final int col = EventTable.this.getSelectedColumn();
 					final AbstractEvent event = data.get(col);
-					description.setText(col + ": " + event.toString());
+					description.setText(col + ": " + event.toString(storage.getDescriptions()));
 					break;
 				}
 			}
@@ -215,7 +218,6 @@ public class EventTable extends JXTable {
 		WhyActionButton(final WhyQuestions questions, final ExplanationLevel level) {
 			this.questions = questions;
 			setText("WHY ACTION?");
-			setToolTipText(level.toString());
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -231,7 +233,9 @@ public class EventTable extends JXTable {
 						final List<ActionReason> reasons = questions.whyAction(action);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyActionButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -250,7 +254,6 @@ public class EventTable extends JXTable {
 		WhyBeliefButton(final WhyQuestions questions, final ExplanationLevel level) {
 			this.questions = questions;
 			setText("WHY BELIEF?");
-			setToolTipText(level.toString());
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -266,7 +269,9 @@ public class EventTable extends JXTable {
 						final List<ModificationReason> reasons = questions.whyBelief(belief);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyBeliefButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -285,7 +290,6 @@ public class EventTable extends JXTable {
 		WhyGoalButton(final WhyQuestions questions, final ExplanationLevel level) {
 			this.questions = questions;
 			setText("WHY GOAL?");
-			setToolTipText(level.toString());
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -301,7 +305,9 @@ public class EventTable extends JXTable {
 						final List<ModificationReason> reasons = questions.whyGoal(goal);
 						final StringBuilder answer = new StringBuilder();
 						for (int i = 1; i <= reasons.size(); ++i) {
-							answer.append(i).append(": ").append(reasons.get(i - 1).getExplanation(level)).append("\n");
+							final String reason = reasons.get(i - 1).getExplanation(level,
+									WhyGoalButton.this.questions.getDescriptions());
+							answer.append(i).append(": ").append(reason).append("\n");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());

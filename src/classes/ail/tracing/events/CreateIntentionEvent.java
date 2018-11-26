@@ -6,6 +6,7 @@ import java.util.List;
 import ail.semantics.AILAgent;
 import ail.syntax.Event;
 import ail.syntax.Intention;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class CreateIntentionEvent extends AbstractEvent {
 	private final Intention intention;
@@ -35,15 +36,14 @@ public class CreateIntentionEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
-	public String toString() {
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
 		Event event = getEvent();
 		if (event != null) {
-			builder.append("for the event '").append(event).append("', ");
+			builder.append("for the event '").append(event.toString(descriptions)).append("', ");
 		}
 		builder.append("created ").append(intention).append(".");
 		return builder.toString();

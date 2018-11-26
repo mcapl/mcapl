@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class SelectPlanEvent extends AbstractEvent {
 	private final ApplicablePlan plan;
@@ -26,11 +27,10 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public void execute(final AILAgent agent, final boolean reverse) {
-		// TODO
 	}
 
 	@Override
-	public String toString() {
+	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("selected ").append(plan).append(".");
 		return builder.toString();

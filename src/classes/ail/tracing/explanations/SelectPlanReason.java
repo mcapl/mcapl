@@ -26,19 +26,19 @@ public class SelectPlanReason extends AbstractReason {
 	}
 
 	@Override
-	public String getExplanation(final ExplanationLevel level) {
+	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
+		string.append(this.event.getPlan());
 		switch (level) {
 		case FINEST:
-			string.append(this.event.getPlan()).append(" was selected in state ").append(this.state);
+			string.append(" was selected in state ").append(this.state);
 			if (this.parent != null) {
-				string.append(", because it was included in ").append(this.parent.getExplanation(level));
+				string.append(", because it was included in ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		default:
-			string.append(this.event.getPlan());
 			if (this.parent != null) {
-				string.append(", ").append(this.parent.getExplanation(level));
+				string.append(", ").append(this.parent.getExplanation(level, descriptions));
 			}
 		}
 		if (this.parent == null) {

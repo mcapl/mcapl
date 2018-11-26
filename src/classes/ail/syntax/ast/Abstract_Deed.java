@@ -275,7 +275,11 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
 			s.append("lock");
 		}
 		
-		s.append("(").append(getDBnum().toString()).append(")");
+		String num = getDBnum().toString();
+		if (num.length() > 2) { // more than just quotes
+			s.append("(").append(num).append(")");
+		}
+		
 		return s.toString();
 	}
 	
