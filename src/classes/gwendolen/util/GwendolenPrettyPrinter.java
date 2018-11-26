@@ -53,7 +53,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + ";" + s1;
+				s1 = d.toString(descriptions) + "; " + s1;
 			}
 
 			if (d.getCategory() == Deed.Dnpy) {
@@ -87,7 +87,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + ";" + s1;
+				s1 = d.toString(descriptions) + "; " + s1;
 			}
 		}
 		s.append(s1);
