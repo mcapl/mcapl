@@ -22,6 +22,9 @@
 //----------------------------------------------------------------------------
 package gwendolen.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
 import ail.syntax.Intention;
@@ -70,16 +73,19 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	public String prettyAppPlan(ApplicablePlan p) {
 		StringBuilder s = new StringBuilder();
 
+		Set<String> vars = new HashSet<>(0);
 		if (p.getID() == 0) {
 			s.append("continue processing intention: ");
 		} else {
 			s.append("Plan ").append(p.getID()).append(": in response to an event ");
 			s.append(p.getEvent().toString(descriptions)).append(" do ");
+			vars = p.getEvent().getVarNames();
 		}
 
 		String s1 = "";
 		boolean first = true;
 		for (Deed d : p.getPrefix()) {
+			vars.addAll(d.getVarNames());
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
@@ -90,7 +96,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		s.append(s1);
 
 		Unifier pruned = (p.getUnifier() == null) ? new Unifier() : p.getUnifier().clone();
-		pruned.pruneRedundantNames(p.getEvent().getVarNames());
+		pruned.pruneRedundantNames(vars);
 		if (pruned.size() > 0) {
 			s.append(" with ").append(p.getUnifier());
 		}
