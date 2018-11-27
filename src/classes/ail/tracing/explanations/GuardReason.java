@@ -1,5 +1,8 @@
 package ail.tracing.explanations;
 
+import java.util.List;
+
+import ail.syntax.Unifier;
 import ail.tracing.events.GuardEvent;
 
 public class GuardReason extends AbstractReason {
@@ -25,6 +28,17 @@ public class GuardReason extends AbstractReason {
 		return this.parent;
 	}
 
+	private String solutions() {
+		final List<Unifier> solutions = this.event.getSolutions();
+		if (solutions.isEmpty()) {
+			return "False";
+		} else if (solutions.size() == 1 && solutions.get(0).size() == 0) {
+			return "True";
+		} else {
+			return solutions.toString();
+		}
+	}
+
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
@@ -34,8 +48,7 @@ public class GuardReason extends AbstractReason {
 				string.append("it was continued in state ").append(this.state);
 			} else {
 				string.append("its guard ").append(inCourier(this.event.getGuard().toString(descriptions)));
-				string.append(" held with ").append(inCourier(this.event.getSolutions())).append(" in state ")
-						.append(this.state);
+				string.append(" held with ").append(inCourier(solutions())).append(" in state ").append(this.state);
 			}
 			if (this.parent != null) {
 				string.append(", ");
@@ -48,7 +61,7 @@ public class GuardReason extends AbstractReason {
 		default:
 			if (!event.isContinuation()) {
 				string.append("of which the guard ").append(inCourier(this.event.getGuard().toString(descriptions)));
-				string.append(" held with ").append(inCourier(this.event.getSolutions()));
+				string.append(" held with ").append(inCourier(solutions()));
 			}
 			if (this.parent != null) {
 				if (!event.isContinuation()) {

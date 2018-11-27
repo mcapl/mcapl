@@ -70,7 +70,14 @@ public class GuardEvent extends AbstractEvent {
 		if (continuation) {
 			builder.append("confirmed ").append(forIntention).append(" can still be processed");
 		} else {
-			builder.append("evaluating the guard of ").append(forPlan).append(" resulted in ").append(solutions);
+			builder.append("evaluating the guard of ").append(forPlan).append(" resulted in ");
+			if (solutions.isEmpty()) {
+				builder.append("False");
+			} else if (solutions.size() == 1 && solutions.get(0).size() == 0) {
+				builder.append("True");
+			} else {
+				builder.append(solutions);
+			}
 		}
 		builder.append(".");
 		return builder.toString();
