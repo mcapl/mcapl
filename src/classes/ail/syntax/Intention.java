@@ -28,7 +28,7 @@
 package ail.syntax;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.ListIterator;
 import java.util.Set;
 
@@ -589,7 +589,6 @@ public class Intention implements Comparable<Intention>{
     	}
     	
     	return es;
-   	
     }
    
    /**
@@ -621,7 +620,6 @@ public class Intention implements Comparable<Intention>{
     	}
     	
     	throw new IndexOutOfBoundsException("No Such Deed");
-    	
     }
     
     /**
@@ -679,14 +677,6 @@ public class Intention implements Comparable<Intention>{
 	 *              for the intention row.
 	 */
 	public   void iConcat(Event e, ArrayList<Deed> ds, ArrayList<Guard> gs, Unifier theta) {
-		List<String> varnames = getVarNames();
-		varnames.addAll(e.getVarNames());
-		for (Deed d: ds) {
-			varnames.addAll(d.getVarNames());
-		}
-		for (Guard g: gs) {
-			varnames.addAll(g.getVarNames());
-		}
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		trimUnifiers();
 		
@@ -720,7 +710,6 @@ public class Intention implements Comparable<Intention>{
 				
 		intentionRows.trimToSize();
 		trimUnifiers();
-		
 	}
 	
 	/**
@@ -842,7 +831,7 @@ public class Intention implements Comparable<Intention>{
 	 * 
 	 * @param theta the new unifier.
 	 */
-	public   void compose (Unifier theta) {
+	public void compose (Unifier theta) {
 		if (! empty()) {
 			Event e = hdE();
 			Deed d = hdD();
@@ -858,12 +847,11 @@ public class Intention implements Comparable<Intention>{
 	}
 	
 	/**
-	 * Get a list of all the variable names mentioned in the intention.  Useful when standardising
-	 * apart.
+	 * Get a set of all the variable names mentioned in the intention.
 	 * @return
 	 */
-	public List<String> getVarNames() {
-     	ArrayList<String> varnames = new ArrayList<String>();
+	private Set<String> getVarNames() {
+     	Set<String> varnames = new HashSet<String>();
      	for (IntentionRow ir: intentionRows) {
      		varnames.addAll(ir.getVarNames());
      	}
@@ -987,7 +975,7 @@ public class Intention implements Comparable<Intention>{
 	 * Remove unused variable names from unifiers.
 	 */
 	public void trimUnifiers() {
-		ArrayList<String> varnames = new ArrayList<String>();
+		Set<String> varnames = new HashSet<String>();
 		for (int i = 0; i < size(); i++) {
 			IntentionRow ir = intentionRows.get(i);
 			varnames.addAll(ir.getVarNames());

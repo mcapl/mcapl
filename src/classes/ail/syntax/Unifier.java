@@ -757,10 +757,10 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     }
     
     /**
-     * Prune any variable names not mentioned in this list.
+     * Prune any variable names not mentioned in this set.
      * @param varnames
      */
-    public void pruneRedundantNames(List<String> varnames) {
+    public void pruneRedundantNames(Set<String> varnames) {
     	List<VarTerm> vars = new ArrayList<VarTerm>();
     	for (VarTerm v: function.keySet()) {
     		if (! varnames.contains(v.getFunctor())) {

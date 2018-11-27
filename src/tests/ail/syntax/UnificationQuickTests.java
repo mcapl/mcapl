@@ -25,11 +25,13 @@
 package ail.syntax;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 import ail.semantics.AILAgent;
 import ail.util.AILexception;
@@ -101,7 +103,7 @@ public class UnificationQuickTests {
 		u2.unifies(p, plan);
 		
 		
-		ArrayList<String> relevantNames = new ArrayList<String>();
+		Set<String> relevantNames = new HashSet<String>();
 		relevantNames.add("P1");
 		
 		u1.compose(u2);

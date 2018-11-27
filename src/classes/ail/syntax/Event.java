@@ -216,13 +216,26 @@ public class Event extends DefaultAILStructure implements Unifiable {
 			s.append("perceived");
 		} else {
 			if (isAddition())
-				s.append("added ");
+				s.append("added the ");
 			else
-				s.append("deleted ");
-			if (referstoGoal()) {
-				s.append("the goal ");
+				s.append("deleted the ");
+			switch (getCategory()) {
+			case DefaultAILStructure.AILBel:
+				s.append("belief");
+				break;
+			case DefaultAILStructure.AILGoal:
+				s.append("goal");
+				break;
+			case DefaultAILStructure.AILReceived:
+				s.append("received message");
+				break;
+			case DefaultAILStructure.AILSent:
+				s.append("sent message");
+				break;
+			default:
+				break;
 			}
-			s.append(getContent().toString(descriptions));
+			s.append(" ").append(getContent().toString(descriptions));
 		}
 		return s.toString();
 	}

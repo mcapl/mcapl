@@ -25,6 +25,7 @@ package gwendolen.util;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Deed;
 import ail.syntax.Intention;
+import ail.syntax.Unifier;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.AILPrettyPrinter;
 
@@ -53,7 +54,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " ; " + s1;
+				s1 = d.toString(descriptions) + " AND " + s1;
 			}
 
 			if (d.getCategory() == Deed.Dnpy) {
@@ -72,12 +73,8 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		if (p.getID() == 0) {
 			s.append("continue processing intention: ");
 		} else {
-			s.append("Plan ").append(p.getID()).append(": ");
-			s.append(p.getEvent().toString(descriptions)).append(" {");
-			if (!p.getGuard().isEmpty()) {
-				s.append(p.getGuard().get(0).toString(descriptions));
-			}
-			s.append("} <- ");
+			s.append("Plan ").append(p.getID()).append(": in response to an event ");
+			s.append(p.getEvent().toString(descriptions)).append(" do ");
 		}
 
 		String s1 = "";
@@ -87,12 +84,14 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " ; " + s1;
+				s1 = d.toString(descriptions) + " AND " + s1;
 			}
 		}
 		s.append(s1);
 
-		if (p.getUnifier() != null && p.getUnifier().size() > 0) {
+		Unifier pruned = (p.getUnifier() == null) ? new Unifier() : p.getUnifier().clone();
+		pruned.pruneRedundantNames(p.getEvent().getVarNames());
+		if (pruned.size() > 0) {
 			s.append(" with ").append(p.getUnifier());
 		}
 

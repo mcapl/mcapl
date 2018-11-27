@@ -87,7 +87,7 @@ public class ModificationReason extends AbstractReason {
 			break;
 		}
 		if (this.parent == null) {
-			string.append(".");
+			string.append(" upon starting the agent.");
 		}
 		return string.toString();
 	}

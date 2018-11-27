@@ -30,6 +30,7 @@ package ail.syntax;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import ail.tracing.explanations.PredicateDescriptions;
 
@@ -381,7 +382,7 @@ public class IntentionRow implements Cloneable {
 	 * Remove unused variable names from the unifier/
 	 * @param varnames
 	 */
-	public void trimUnifiers(ArrayList<String> varnames) {
+	public void trimUnifiers(Set<String> varnames) {
 		varnames.addAll(trigger.getVarNames());
 		for (int i = body.size(); i > 0; i--) {
 			varnames.addAll(body.get(i - 1).getVarNames());
