@@ -25,8 +25,6 @@
 package ail.syntax;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import ail.tracing.explanations.PredicateDescriptions;
@@ -136,16 +134,16 @@ public class Event extends DefaultAILStructure implements Unifiable {
              } else if (fromPercept()) {
             	 piCache = new PredicateIndicator("from perception", 0);
              } else {
-            	if (isAddition())
-            		s += "+";
-            	else if (isDeletion())
-            		s += "-";
-            	else if (isUpdate())
-            		s += "+-";
+            	//if (isAddition())
+            	//	s += "+";
+            	//else if (isDeletion())
+            	//	s += "-";
+            	//else if (isUpdate())
+            	//	s += "+-";
             	if (getContent() instanceof PredicateTerm) {
-            		if (getContent() instanceof Goal) {
-            			s += "!";
-            		}
+            		//if (getContent() instanceof Goal) {
+            		//	s += "!";
+            		//}
             		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
             	} else if (getContent() instanceof HasTermRepresentation) {
             		Term t = ((HasTermRepresentation) getContent()).toTerm();

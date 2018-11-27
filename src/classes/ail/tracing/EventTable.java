@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -238,8 +237,7 @@ public class EventTable extends JXTable {
 						final Action action = (Action) select.getSelectedItem();
 						final List<AbstractReason> reasons = questions.whyAction(action);
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
-						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you execute " + action + "?",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
@@ -265,8 +263,7 @@ public class EventTable extends JXTable {
 						final Predicate belief = (Predicate) select.getSelectedItem();
 						final List<AbstractReason> reasons = questions.whyBelief(belief);
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
-						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you insert " + belief + "?",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
@@ -292,8 +289,7 @@ public class EventTable extends JXTable {
 						final Predicate goal = (Predicate) select.getSelectedItem();
 						final List<AbstractReason> reasons = questions.whyGoal(goal);
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
-						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you adopt " + goal + "?",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
@@ -304,8 +300,8 @@ public class EventTable extends JXTable {
 		private static final long serialVersionUID = 1L;
 		private final WhyQuestions questions;
 		private final ExplanationLevel level;
-		private final Map<String, Predicate> beliefs = new HashMap<>();
-		private final Map<String, Predicate> goals = new HashMap<>();
+		private final Map<String, Predicate> beliefs = new LinkedHashMap<>();
+		private final Map<String, Predicate> goals = new LinkedHashMap<>();
 
 		AnswerArea(final List<AbstractReason> reasons, final ExplanationLevel level, final WhyQuestions questions) {
 			this.questions = questions;
