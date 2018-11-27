@@ -32,8 +32,9 @@ public class GuardReason extends AbstractReason {
 		final List<Unifier> solutions = this.event.getSolutions();
 		if (solutions.isEmpty()) {
 			return "False";
-		} else if (solutions.size() == 1 && solutions.get(0).size() == 0) {
-			return "True";
+		} else if (solutions.size() == 1) {
+			final Unifier solution = solutions.get(0);
+			return (solution.size() == 0) ? "True" : solution.toString();
 		} else {
 			return solutions.toString();
 		}

@@ -45,9 +45,7 @@ import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
@@ -152,8 +150,7 @@ public class Perceive implements OSRule {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction newMessages = new ModificationAction(ModificationBase.INBOX, null, predicates, null);
-			a.trace(new ModificationEvent(newMessages));
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, predicates, null));
 		}
 		if (! messages.isEmpty()) {
 			a.tellawake();

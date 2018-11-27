@@ -23,6 +23,13 @@ import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.AILPrettyPrinter;
 
+/**
+ * A holder for all {@link AbstractEvent}s. This class ensures the MapDB is
+ * initialized properly, and allows events to be read from and written to it
+ * (using a {@link EventStorageWriter} for the latter). This class can also
+ * cycle an agent through the recorded events, modifying the state of that agent
+ * to 'revert' it to as it were at that point in the execution.
+ */
 public class EventStorage {
 	private static final DateFormat format = new SimpleDateFormat("yy-MM-dd_HH-mm-ss-SSS");
 	private final File datafile;
@@ -31,6 +38,14 @@ public class EventStorage {
 	private final EventStorageWriter writer;
 	private int counter;
 
+	/**
+	 * Create a new, empty database for a given agent. Needs to be closed at some
+	 * point!
+	 * 
+	 * @param agent
+	 * @param directory The directory to store the database file in. The filename is
+	 *                  set automatically (agent name + datetimestamp).
+	 */
 	public EventStorage(final AILAgent agent, final String directory) {
 		this.datafile = new File(
 				directory + File.separator + agent.getAgName() + "_" + format.format(new Date()) + ".db");
@@ -47,6 +62,11 @@ public class EventStorage {
 		this.writer = new EventStorageWriter(this.storage);
 	}
 
+	/**
+	 * Load in an existing database file. NOTE: no writer is created in this case.
+	 * 
+	 * @param datafile
+	 */
 	public EventStorage(final File datafile) {
 		this.datafile = datafile;
 		final DB database = DBMaker.fileDB(datafile).fileMmapEnable().fileMmapPreclearDisable().cleanerHackEnable()
@@ -55,8 +75,7 @@ public class EventStorage {
 		this.counter = this.storage.size();
 		this.writer = null;
 		PredicateDescriptions get = new PredicateDescriptions(new ArrayList<>(0));
-		for (int i = (this.counter - 1); i >= 0; --i) { // initial intentions might have empty descriptions
-			final AbstractEvent event = this.storage.get(i);
+		for (final AbstractEvent event : this.storage) {
 			if (event instanceof CreateIntentionEvent) {
 				get = ((CreateIntentionEvent) event).getIntention().pretty_printer.getPredicateDescriptions();
 				break;
@@ -65,44 +84,76 @@ public class EventStorage {
 		this.descriptions = get;
 	}
 
+	/**
+	 * When an agent and thus its EventStorage is created, its appropriate pretty
+	 * printer might not have been set yet. This allows setting it correctly
+	 * afterwards. When reading a datafile, this is not necessary.
+	 * 
+	 * @param printer
+	 */
 	public void setPrettyPrinter(final AILPrettyPrinter printer) {
 		this.descriptions = printer.getPredicateDescriptions();
-	}
-
-	public File getDataFile() {
-		return this.datafile;
 	}
 
 	public PredicateDescriptions getDescriptions() {
 		return this.descriptions;
 	}
 
+	/**
+	 * @return The state index we are currently at (see oneStepForward and
+	 *         oneStepBack).
+	 */
 	public int getIndex() {
 		return this.counter;
 	}
 
+	/**
+	 * @return The maximum state index (i.e. the amount of events recorded).
+	 */
 	public int getMax() {
 		return this.storage.size();
 	}
 
+	/**
+	 * Record an event (asynchronously through the {@link EventStorageWriter}).
+	 * 
+	 * @param event
+	 */
 	public void write(final AbstractEvent event) {
 		if (this.writer != null) {
-			System.out.println(event.toString(this.descriptions));
+			System.out.println(event.toString(this.descriptions)); // FIXME
 			this.writer.write(event);
 			++this.counter;
 		}
 	}
 
-	public void finish(boolean close) {
+	/**
+	 * Makes sure all events queued for writing have been written to the trace, and
+	 * that no more events can be written to the trace afterwards. Required to be
+	 * called as otherwise events can be lost due to the asynchronous event writing!
+	 * 
+	 * @param close Iff true, the database will be unloaded from memory, thus not
+	 *              allowing any read operations anymore either.
+	 */
+	public void finish(final boolean close) {
 		if (this.writer != null) {
 			this.writer.finish();
 		}
-		Store store = this.storage.getStore();
+		final Store store = this.storage.getStore();
 		if (close && !store.isClosed()) {
 			store.close();
 		}
 	}
 
+	/**
+	 * Take one step back in the trace from the current index (see
+	 * {@link #getIndex()}). The state of the agent is modified to UNDO the current
+	 * event on it.
+	 * 
+	 * @param agent
+	 * @return The event which was reversed.
+	 * @throws RuntimeException if we cannot step back any further (index is 0).
+	 */
 	public AbstractEvent oneStepBack(final AILAgent agent) {
 		if (this.counter > 0) {
 			final AbstractEvent previous = this.storage.get(--this.counter);
@@ -113,6 +164,16 @@ public class EventStorage {
 		}
 	}
 
+	/**
+	 * Take one step forward in the trace from the current index (see
+	 * {@link #getIndex()}). The state of the agent is modified to APPLY the current
+	 * event on it.
+	 * 
+	 * @param agent
+	 * @return The event which was applied.
+	 * @throws RuntimeException if we cannot step any further (index is at
+	 *                          {@link #getMax()}).
+	 */
 	public AbstractEvent oneStepForward(final AILAgent agent) {
 		if (this.counter < getMax()) {
 			final AbstractEvent next = this.storage.get(this.counter++);
@@ -123,14 +184,23 @@ public class EventStorage {
 		}
 	}
 
+	/**
+	 * @return The current event (see {@link #getIndex()}).
+	 */
 	public AbstractEvent getCurrent() {
 		return this.storage.get(this.counter);
 	}
 
+	/**
+	 * @return The full list of events. Do not modify!
+	 */
 	public List<AbstractEvent> getAll() {
 		return this.storage;
 	}
 
+	/**
+	 * @return See {@link AbstractEvent#getLookupData()}
+	 */
 	public Set<String> getAllLookupData() {
 		final Set<String> result = new LinkedHashSet<>();
 		for (final AbstractEvent event : this.storage) {
@@ -149,6 +219,11 @@ public class EventStorage {
 		}
 	}
 
+	/**
+	 * @param signatures
+	 * @return All events (at their respective state number) that are related to the
+	 *         given signature(s), see {@link AbstractEvent#getLookupData()}.
+	 */
 	public Map<Integer, AbstractEvent> onlyAllMatching(final Set<String> signatures) {
 		final Map<Integer, AbstractEvent> result = new LinkedHashMap<>();
 		for (int i = 0; i < getMax(); ++i) {
@@ -162,6 +237,12 @@ public class EventStorage {
 		return result;
 	}
 
+	/**
+	 * @param signatures
+	 * @return At most one event (at its respective state number) that is the first
+	 *         to be found in the trace related to the given signature(s), see
+	 *         {@link AbstractEvent#getLookupData()}.
+	 */
 	public Map<Integer, AbstractEvent> onlyFirstMatching(final Set<String> signatures) {
 		final Map<Integer, AbstractEvent> result = new LinkedHashMap<>();
 		boolean hadFirst = false;
@@ -177,6 +258,12 @@ public class EventStorage {
 		return result;
 	}
 
+	/**
+	 * @param signatures
+	 * @return At most one event (at its respective state number) that is the last
+	 *         to be found in the trace related to the given signature(s), see
+	 *         {@link AbstractEvent#getLookupData()}.
+	 */
 	public Map<Integer, AbstractEvent> onlyLastMatching(final Set<String> signatures) {
 		final Map<Integer, AbstractEvent> subresult = new LinkedHashMap<>();
 		boolean hadLast = false;

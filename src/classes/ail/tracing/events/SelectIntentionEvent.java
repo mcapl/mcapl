@@ -7,6 +7,9 @@ import ail.semantics.AILAgent;
 import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * An {@link Intention} has been selected.
+ */
 public class SelectIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
@@ -20,7 +23,7 @@ public class SelectIntentionEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(1);
+		final List<String> data = new ArrayList<>(1);
 		data.add("intention " + intention.getID());
 		return data;
 	}
@@ -31,24 +34,8 @@ public class SelectIntentionEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("selected ").append(intention).append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.intention.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof SelectIntentionEvent)) {
-			return false;
-		}
-		SelectIntentionEvent other = (SelectIntentionEvent) obj;
-		return (this.intention == other.intention);
 	}
 }

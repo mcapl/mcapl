@@ -25,15 +25,10 @@
 package ail.semantics.operationalrules;
 
 import java.util.Iterator;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
-import ail.tracing.events.GuardEvent;
 
 /**
  * Do nothing if the intention's guard is not satisfied.

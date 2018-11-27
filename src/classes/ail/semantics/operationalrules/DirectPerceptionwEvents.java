@@ -24,10 +24,10 @@
 
 package ail.semantics.operationalrules;
 
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import com.google.common.collect.Sets;
@@ -35,18 +35,15 @@ import com.google.common.collect.Sets;
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-import ail.syntax.Intention;
-import ail.syntax.Message;
+import ail.syntax.BeliefBase;
 import ail.syntax.Event;
+import ail.syntax.Intention;
 import ail.syntax.Literal;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
-import ail.syntax.BeliefBase;
-
 import ajpf.util.AJPFLogger;
 
 /**
@@ -109,8 +106,7 @@ public class DirectPerceptionwEvents implements OSRule {
 					Literal lit = new Literal(true, new PredicatewAnnotation(l));
 					lit.addAnnot(BeliefBase.TPercept);
 					if (a.delBel(lit) && a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, null, null, l);
-						a.trace(new ModificationEvent(delBel));
+						a.trace(new ModificationEvent(ModificationEvent.BELIEFS, null, null, l));
 					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, lit), AILAgent.refertopercept(), a.getPrettyPrinter());
 					a.addNewIntention(i);
@@ -133,8 +129,7 @@ public class DirectPerceptionwEvents implements OSRule {
 				Literal k = new Literal(true, new PredicatewAnnotation(l.clone()));
 				additions = true;
 				if (a.addBel(k, AILAgent.refertopercept()) && a.shouldTrace()) {
-					ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, null, k, null);
-					a.trace(new ModificationEvent(addBel));
+					a.trace(new ModificationEvent(ModificationEvent.BELIEFS, null, k, null));
 				}
 				// Don't let new intention get dropped totally if things change.
 				Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, k), AILAgent.refertoself(), a.getPrettyPrinter());
@@ -167,8 +162,7 @@ public class DirectPerceptionwEvents implements OSRule {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction newMessages = new ModificationAction(ModificationBase.INBOX, null, predicates, null);
-			a.trace(new ModificationEvent(newMessages));
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, predicates, null));
 		}
 	}
 } 

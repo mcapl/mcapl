@@ -17,8 +17,6 @@ import ail.tracing.events.ActionEvent;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.GeneratePlansEvent;
 import ail.tracing.events.GuardEvent;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
@@ -52,9 +50,9 @@ public class WhyQuestions {
 		this.actions = new LinkedHashSet<>();
 		for (final AbstractEvent event : this.storage.getAll()) {
 			if (event instanceof ModificationEvent) {
-				final ModificationAction modification = ((ModificationEvent) event).getUpdate();
+				final ModificationEvent modification = (ModificationEvent) event;
 				switch (modification.getBase()) {
-				case BELIEFS:
+				case "beliefs":
 					for (Predicate bel : modification.getAdded()) {
 						if (bel instanceof PredicatewAnnotation) {
 							bel = new Predicate(bel);
@@ -62,7 +60,7 @@ public class WhyQuestions {
 						this.beliefs.add(bel);
 					}
 					break;
-				case GOALS:
+				case "goals":
 					for (Predicate goal : modification.getAdded()) {
 						if (goal instanceof PredicatewAnnotation) {
 							goal = new Predicate(goal);
@@ -185,7 +183,7 @@ public class WhyQuestions {
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
-				if (me.getUpdate().getBase() == ModificationBase.BELIEFS && me.getUpdate().contains(belief, true)) {
+				if (me.getBase().equals("beliefs") && me.contains(belief, true)) {
 					stack.push(new ModificationReason(i, me));
 				}
 			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
@@ -245,7 +243,7 @@ public class WhyQuestions {
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
-				if (me.getUpdate().getBase() == ModificationBase.GOALS && me.getUpdate().contains(goal, true)) {
+				if (me.getBase().equals("goals") && me.contains(goal, true)) {
 					stack.push(new ModificationReason(i, me));
 				}
 			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {

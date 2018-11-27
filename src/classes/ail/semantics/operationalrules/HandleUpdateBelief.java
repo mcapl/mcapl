@@ -28,14 +28,12 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
-import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationEvent;
 import ail.syntax.Literal;
 import ail.syntax.PredicateIndicator;
 import ail.syntax.PredicateTerm;
 import ail.syntax.StringTerm;
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -82,8 +80,7 @@ public class HandleUpdateBelief extends HandleBelief {
 			if (a.relevant(bp, b)) {
 				if (bpi.equals(pi)) {
 					if (a.delBel(db, bp) && a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, db.toString(), null, bp);
-						a.trace(new ModificationEvent(delBel));
+						a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), null, bp));
 					}
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
@@ -98,8 +95,7 @@ public class HandleUpdateBelief extends HandleBelief {
 		b.apply(thetahd);
 	
 		if (a.addBel(b, AILAgent.refertoself(), db) && a.shouldTrace()) {
-			ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, db.toString(), b, null);
-			a.trace(new ModificationEvent(addBel));
+			a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), b, null));
 		}
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, a.getAgName() + " added " + b);

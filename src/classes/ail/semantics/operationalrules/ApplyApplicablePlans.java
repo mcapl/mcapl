@@ -25,27 +25,24 @@
 package ail.semantics.operationalrules;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.ApplicablePlan;
-import ail.syntax.Goal;
-import ail.syntax.Intention;
+import ail.syntax.Deed;
+import ail.syntax.DefaultAILStructure;
+import ail.syntax.Event;
 import ail.syntax.GBelief;
+import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Intention;
 import ail.syntax.Literal;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.ModifyIntentionEvent;
-import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.events.SelectIntentionEvent;
-import ail.syntax.Event;
-import ail.syntax.Guard;
-import ail.syntax.DefaultAILStructure;
-import ail.syntax.Deed;
-
-import java.util.Iterator;
+import ail.tracing.events.SelectPlanEvent;
 
 
 /**
@@ -117,8 +114,7 @@ public class ApplyApplicablePlans implements OSRule {
                             i.dropP(p.getN());
                             if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
                             	if (a.removeGoal(gcloned) && a.shouldTrace()) {
-                        			ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, gcloned);
-                        			a.trace(new ModificationEvent(removeGoal));
+                        			a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, gcloned));
                         		}
                             }
                     } else {

@@ -66,10 +66,8 @@ import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
 import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.GuardEvent;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILConfig;
 import ail.util.AILPrettyPrinter;
@@ -383,10 +381,20 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		}
 	}
 
+	/**
+	 * For optimization reasons, this should be checked before creating actual trace events.
+	 * 
+	 * @return True iff the trace function should be called at all.
+	 */
 	public boolean shouldTrace() {
 		return (this.trace != null);
 	}
 
+	/**
+	 * Note: check shouldTrace() before calling this function!
+	 * 
+	 * @param event The event to write to the trace (asynchronously).
+	 */
 	public void trace(AbstractEvent event) {
 		this.trace.write(event);
 	}
@@ -1484,8 +1492,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB().add(b);
 		if (success && shouldTrace()) {
-			ModificationAction initBel = new ModificationAction(ModificationBase.BELIEFS, null, b, null);
-			trace(new ModificationEvent(initBel));
+			trace(new ModificationEvent(ModificationEvent.BELIEFS, null, b, null));
 		}
 	}
 
@@ -1502,8 +1509,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB(s).add(b);
 		if (success && shouldTrace()) {
-			ModificationAction initBel = new ModificationAction(ModificationBase.BELIEFS, s, b, null);
-			trace(new ModificationEvent(initBel));
+			trace(new ModificationEvent(ModificationEvent.BELIEFS, s, b, null));
 		}
 	}
 

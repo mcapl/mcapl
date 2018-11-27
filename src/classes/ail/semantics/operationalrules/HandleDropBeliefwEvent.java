@@ -27,16 +27,14 @@ package ail.semantics.operationalrules;
 import java.util.Iterator;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Intention;
-import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.CreateIntentionEvent;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationEvent;
-import ail.syntax.Literal;
 import ail.syntax.Event;
+import ail.syntax.Intention;
+import ail.syntax.Literal;
 import ail.syntax.PredicateTerm;
 import ail.syntax.StringTerm;
+import ail.syntax.Unifier;
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -76,8 +74,7 @@ public class HandleDropBeliefwEvent extends HandleDropBelief {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
 					}
 					if (a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, db.toString(), null, bp);
-						a.trace(new ModificationEvent(delBel));
+						a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), null, bp));
 					}
 					Intention i = new Intention(new Event(Event.AILDeletion, Event.AILBel, b), AILAgent.refertoself(), a.getPrettyPrinter());
 					a.getIntentions().add(i);

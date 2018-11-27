@@ -12,6 +12,13 @@ import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * A {@link Guard} has been evaluated (resulting in a possible empty list of
+ * {@link Unifier}s). We keep track of the intention and plan this guard was
+ * relevant for as well in order to be able to link to related events in
+ * explanations. The continuation of a plan is a special case that for
+ * simplicity is modelled as a GuardEvent as well (but explicitly marked).
+ */
 public class GuardEvent extends AbstractEvent {
 	private final Intention forIntention;
 	private final ApplicablePlan forPlan;
@@ -50,8 +57,8 @@ public class GuardEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new LinkedList<>();
-		for (GuardAtom<?> atom : guard.getAllAtoms()) {
+		final List<String> data = new LinkedList<>();
+		for (final GuardAtom<?> atom : guard.getAllAtoms()) {
 			if (!atom.isVar()) {
 				data.add(atom.getPredicateIndicator().toString());
 			}
@@ -68,36 +75,21 @@ public class GuardEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (continuation) {
 			builder.append("confirmed ").append(forIntention).append(" can still be processed");
 		} else {
 			builder.append("evaluating the guard of ").append(forPlan).append(" resulted in ");
 			if (solutions.isEmpty()) {
 				builder.append("False");
-			} else if (solutions.size() == 1 && solutions.get(0).size() == 0) {
-				builder.append("True");
+			} else if (solutions.size() == 1) {
+				final Unifier solution = solutions.get(0);
+				builder.append((solution.size() == 0) ? "True" : solution);
 			} else {
 				builder.append(solutions);
 			}
 		}
 		builder.append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.guard.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof GuardEvent)) {
-			return false;
-		}
-		GuardEvent other = (GuardEvent) obj;
-		return (this.guard == other.guard);
 	}
 }

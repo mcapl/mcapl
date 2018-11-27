@@ -7,6 +7,9 @@ import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * An {@link ApplicablePlan} has been selected.
+ */
 public class SelectPlanEvent extends AbstractEvent {
 	private final ApplicablePlan plan;
 
@@ -20,7 +23,7 @@ public class SelectPlanEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(1);
+		final List<String> data = new ArrayList<>(1);
 		data.add("plan " + plan.getID());
 		return data;
 	}
@@ -34,21 +37,5 @@ public class SelectPlanEvent extends AbstractEvent {
 		StringBuilder builder = new StringBuilder();
 		builder.append("selected ").append(plan).append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.plan.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof SelectPlanEvent)) {
-			return false;
-		}
-		SelectPlanEvent other = (SelectPlanEvent) obj;
-		return (this.plan == other.plan);
 	}
 }

@@ -61,6 +61,12 @@ import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.JXTableSupport;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
+/**
+ * A space-time view (see "Omniscient Debugging for Cognitive Agent Programs",
+ * Koeman et. al 2017) for a trace (i.e. {@link EventStorage}). The main method
+ * of this class requests a trace file to be loaded in, and shows the table
+ * along with explanation buttons (see {@link WhyQuestions}).
+ */
 public class EventTable extends JXTable {
 	private static final long serialVersionUID = 1L;
 	private final List<String> columns;
@@ -128,6 +134,13 @@ public class EventTable extends JXTable {
 		});
 	}
 
+	/**
+	 * @param storage     The trace
+	 * @param headers     A container at the left side of the table that can be used
+	 *                    to show a header for each row.
+	 * @param description A container at the bottom of the table that can be used to
+	 *                    show details (i.e. of the event) for a selected column.
+	 */
 	public EventTable(final EventStorage storage, final JLabel headers, final JTextComponent description) {
 		this.columns = new LinkedList<>();
 		this.rows = GlazedLists.eventList(new LinkedList<Map<String, String>>());
@@ -137,7 +150,7 @@ public class EventTable extends JXTable {
 
 		// actually create the row-headers
 		String headersTxt = "<html><br>";
-		for (String header : this.index.keySet()) {
+		for (final String header : this.index.keySet()) {
 			headersTxt += header + "<br>";
 		}
 		headers.setText(headersTxt + "</html>");
@@ -218,6 +231,13 @@ public class EventTable extends JXTable {
 		return event.getClass().getSimpleName().replace("Event", "");
 	}
 
+	/**
+	 * This class entails a button that, once pressed, requests the user to select
+	 * one of the actions present in a given trace (through
+	 * {@link WhyQuestions#getAllActions()}). Once selected, the answer(s) to why
+	 * that action was executed are shown (see {@link AnswerArea}), respecting the
+	 * given {@link ExplanationLevel}.
+	 */
 	private static final class WhyActionButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
@@ -244,6 +264,13 @@ public class EventTable extends JXTable {
 		}
 	}
 
+	/**
+	 * This class entails a button that, once pressed, requests the user to select
+	 * one of the beliefs present in a given trace (through
+	 * {@link WhyQuestions#getAllBeliefs()}). Once selected, the answer(s) to why
+	 * that belief was inserted are shown (see {@link AnswerArea}), respecting the
+	 * given {@link ExplanationLevel}.
+	 */
 	private static final class WhyBeliefButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
@@ -270,6 +297,13 @@ public class EventTable extends JXTable {
 		}
 	}
 
+	/**
+	 * This class entails a button that, once pressed, requests the user to select
+	 * one of the goals present in a given trace (through
+	 * {@link WhyQuestions#getAllBeliefs()}). Once selected, the answer(s) to why
+	 * that goal was adopted are shown (see {@link AnswerArea}), respecting the
+	 * given {@link ExplanationLevel}.
+	 */
 	private static final class WhyGoalButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
@@ -296,6 +330,12 @@ public class EventTable extends JXTable {
 		}
 	}
 
+	/**
+	 * This class does some post-processing on the result of a {@link WhyQuestions}
+	 * query, i.e., one or more {@link AbstractReason}s, and then shows it.
+	 * Extending JEditorPane allows for styled and interactive (i.e. through
+	 * hyperlinks) HTML output.
+	 */
 	private static final class AnswerArea extends JEditorPane implements HyperlinkListener {
 		private static final long serialVersionUID = 1L;
 		private final WhyQuestions questions;

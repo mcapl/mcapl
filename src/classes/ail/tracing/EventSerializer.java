@@ -9,6 +9,10 @@ import org.nustaq.serialization.FSTConfiguration;
 
 import ail.tracing.events.AbstractEvent;
 
+/**
+ * This class allows the MapDB database to directly store
+ * {@link AbstractEvent}s. This is done using the FST serialization library.
+ */
 public class EventSerializer extends GroupSerializerObjectArray<AbstractEvent> {
 	private final FSTConfiguration serialization;
 

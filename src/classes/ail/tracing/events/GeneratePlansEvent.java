@@ -8,6 +8,9 @@ import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * The list of current {@link ApplicablePlans} has been finalized.
+ */
 public class GeneratePlansEvent extends AbstractEvent {
 	private final List<ApplicablePlan> plans;
 
@@ -20,8 +23,8 @@ public class GeneratePlansEvent extends AbstractEvent {
 	}
 
 	public List<Integer> getPlanIDs() {
-		List<Integer> IDs = new ArrayList<>(plans.size());
-		for (ApplicablePlan plan : plans) {
+		final List<Integer> IDs = new ArrayList<>(plans.size());
+		for (final ApplicablePlan plan : plans) {
 			IDs.add(plan.getID());
 		}
 		return IDs;
@@ -29,8 +32,8 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(plans.size());
-		for (ApplicablePlan plan : plans) {
+		final List<String> data = new ArrayList<>(plans.size());
+		for (final ApplicablePlan plan : plans) {
 			data.add("plan " + plan.getID());
 		}
 		return data;
@@ -42,10 +45,10 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("generated ").append(plans.size()).append(" applicable plan(s): ");
 		boolean first = true;
-		for (ApplicablePlan plan : plans) {
+		for (final ApplicablePlan plan : plans) {
 			if (first) {
 				first = false;
 			} else {
@@ -55,21 +58,5 @@ public class GeneratePlansEvent extends AbstractEvent {
 		}
 		builder.append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.plans.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof GeneratePlansEvent)) {
-			return false;
-		}
-		GeneratePlansEvent other = (GeneratePlansEvent) obj;
-		return (this.plans == other.plans);
 	}
 }

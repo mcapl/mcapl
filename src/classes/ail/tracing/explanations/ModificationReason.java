@@ -27,13 +27,13 @@ public class ModificationReason extends AbstractReason {
 	}
 
 	private String getPredicateDescriptor() {
-		switch (event.getUpdate().getBase()) {
-		case BELIEFS:
+		switch (event.getBase()) {
+		case "beliefs":
 			return "belief(s)";
-		case GOALS:
+		case "goals":
 			return "goal(s)";
-		case INBOX:
-		case OUTBOX:
+		case "inbox":
+		case "outbox":
 			return "message(s)";
 		default:
 			return "";
@@ -43,7 +43,7 @@ public class ModificationReason extends AbstractReason {
 	private String getAdded(final PredicateDescriptions descriptions) {
 		final StringBuilder s = new StringBuilder();
 		boolean first = true;
-		for (final Predicate p : event.getUpdate().getAdded()) {
+		for (final Predicate p : event.getAdded()) {
 			if (first) {
 				first = false;
 			} else {
@@ -55,13 +55,13 @@ public class ModificationReason extends AbstractReason {
 	}
 
 	private String getActionDescriptor() {
-		switch (event.getUpdate().getBase()) {
-		case BELIEFS:
-		case GOALS:
+		switch (event.getBase()) {
+		case "beliefs":
+		case "goals":
 			return "added";
-		case INBOX:
+		case "inbox":
 			return "received";
-		case OUTBOX:
+		case "outbox":
 			return "sent";
 		default:
 			return "";

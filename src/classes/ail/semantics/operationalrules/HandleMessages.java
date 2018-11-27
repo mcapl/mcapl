@@ -29,14 +29,12 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-import ail.syntax.Message;
-import ail.syntax.Intention;
 import ail.syntax.Event;
+import ail.syntax.Intention;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.annotation.SourceAnnotation;
-import ail.tracing.events.ModificationBase;
 import ail.tracing.events.CreateIntentionEvent;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 
 /**
@@ -87,8 +85,7 @@ public class HandleMessages implements OSRule {
 			for (Message msg : inbox) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction removeMessages = new ModificationAction(ModificationBase.INBOX, null, null, predicates);
-			a.trace(new ModificationEvent(removeMessages));
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, null, predicates));
 		}
 		a.clearInbox();
 	}

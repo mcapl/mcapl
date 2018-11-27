@@ -28,16 +28,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Intention;
-import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationEvent;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.GBelief;
-import ail.syntax.Guard;
 import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Intention;
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 
 
 /**
@@ -99,8 +97,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 
 			if (!flag) {
 				if (a.removeGoal(g) & a.shouldTrace()) {
-					ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, g);
-					a.trace(new ModificationEvent(removeGoal));
+					a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
 				}
 			}
 		} else {
@@ -120,8 +117,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			}
 
 			if (a.addGoal(g) && a.shouldTrace()) {
-				ModificationAction addGoal = new ModificationAction(ModificationBase.GOALS, null, g, null);
-				a.trace(new ModificationEvent(addGoal));
+				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
 			}
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 		}	

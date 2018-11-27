@@ -8,14 +8,24 @@ import ail.syntax.ApplicablePlan;
 import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * An {@link Intention} has been modified; either its top deed has been deleted,
+ * or a plan has been added as its top deed.
+ */
 public class ModifyIntentionEvent extends AbstractEvent {
-	public static int DELETE_TOP_DEEDS = 1;
-	public static int MERGE_PLAN = 2;
+	public static final int DELETE_TOP_DEEDS = 1;
+	public static final int MERGE_PLAN = 2;
 
 	private final Intention intention;
 	private final int category;
-	private final ApplicablePlan plan;
+	private final ApplicablePlan plan; // TODO: currently unused
 
+	/**
+	 * @param intention The intention that has been modified.
+	 * @param category  A constant from this class, indicating the kind of
+	 *                  modication that happened.
+	 * @param plan      The plan directly relevant to the modification.
+	 */
 	public ModifyIntentionEvent(final Intention intention, final int category, final ApplicablePlan plan) {
 		this.intention = intention.clone();
 		this.category = category;
@@ -26,8 +36,15 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		return this.intention;
 	}
 
-	public int getCategory() {
-		return this.category;
+	public String getCategory() {
+		switch (this.category) {
+		case DELETE_TOP_DEEDS:
+			return "removing the top of the intention";
+		case MERGE_PLAN:
+			return "replacing the top of the intention with the selected plan";
+		default:
+			return "";
+		}
 	}
 
 	public ApplicablePlan getPlan() {
@@ -36,7 +53,7 @@ public class ModifyIntentionEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(1);
+		final List<String> data = new ArrayList<>(1);
 		data.add("intention " + intention.getID());
 		return data;
 	}
@@ -47,29 +64,9 @@ public class ModifyIntentionEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		StringBuilder builder = new StringBuilder();
-		if (category == DELETE_TOP_DEEDS) {
-			builder.append("modified intention by removing top of intention to become ").append(intention);
-		} else if (category == MERGE_PLAN) {
-			builder.append("modified intention by replacing top with selected plan to become ").append(intention);
-		}
-		builder.append(".");
+		final StringBuilder builder = new StringBuilder();
+		builder.append("modified intention by ").append(getCategory());
+		builder.append(" to become ").append(intention).append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.intention.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof ModifyIntentionEvent)) {
-			return false;
-		}
-		ModifyIntentionEvent other = (ModifyIntentionEvent) obj;
-		return (this.intention == other.intention);
 	}
 }

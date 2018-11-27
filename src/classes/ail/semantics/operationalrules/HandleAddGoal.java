@@ -25,8 +25,6 @@
 package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 
 /**
@@ -62,8 +60,7 @@ public class HandleAddGoal extends HandleGoal {
 	 */
 	public void apply(AILAgent a) {
 		if (a.addGoal(g) && a.shouldTrace()) {
-			ModificationAction addGoal = new ModificationAction(ModificationBase.GOALS, null, g, null);
-			a.trace(new ModificationEvent(addGoal));
+			a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
 		}
 	}
 }

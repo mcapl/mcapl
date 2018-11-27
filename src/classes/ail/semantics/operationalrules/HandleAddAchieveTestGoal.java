@@ -27,11 +27,9 @@ package ail.semantics.operationalrules;
 import java.util.Iterator;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationEvent;
 import ail.syntax.Goal;
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 
 
 /**
@@ -73,13 +71,11 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 			thetahd.compose(thetag);
 			i.compose(thetahd);
 			if (a.removeGoal(g) && a.shouldTrace()) {
-				ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, g);
-				a.trace(new ModificationEvent(removeGoal));
+				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
 			}
 		} else {
 			if (a.addGoal(g) && a.shouldTrace()) {
-				ModificationAction addGoal = new ModificationAction(ModificationBase.GOALS, null, g, null);
-				a.trace(new ModificationEvent(addGoal));
+				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
 			}
 			i.tlI(a);
 			thetahd.compose(thetab);

@@ -24,25 +24,21 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Intention;
-import ail.syntax.Message;
 import ail.syntax.Literal;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 
 
@@ -96,8 +92,7 @@ public class DirectPerception implements OSRule {
 				Literal l = percept_iterator.next();
 				if (! percepts.contains(l)) {		
 					if (a.delBel(l) && a.shouldTrace()) {
-						ModificationAction delBel = new ModificationAction(ModificationBase.BELIEFS, null, null, l);
-						a.trace(new ModificationEvent(delBel));
+						a.trace(new ModificationEvent(ModificationEvent.BELIEFS, null, null, l));
 					}
 					a.tellawake();
 					removed_percepts.add(l);
@@ -113,8 +108,7 @@ public class DirectPerception implements OSRule {
 				additions = true;
 				Literal add = new Literal(k);
 				if (a.addBel(add, AILAgent.refertopercept()) && a.shouldTrace()) {
-					ModificationAction addBel = new ModificationAction(ModificationBase.BELIEFS, null, add, null);
-					a.trace(new ModificationEvent(addBel));
+					a.trace(new ModificationEvent(ModificationEvent.BELIEFS, null, add, null));
 				}
 				a.tellawake();
 			}
@@ -136,8 +130,7 @@ public class DirectPerception implements OSRule {
 			for (Message msg : addList) {
 				predicates.add(msg.toTerm());
 			}
-			ModificationAction newMessages = new ModificationAction(ModificationBase.INBOX, null, predicates, null);
-			a.trace(new ModificationEvent(newMessages));
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, predicates, null));
 		}
 	}
 } 

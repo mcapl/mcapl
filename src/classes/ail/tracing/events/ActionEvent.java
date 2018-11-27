@@ -7,6 +7,9 @@ import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * An {@link Action} has been executed.
+ */
 public class ActionEvent extends AbstractEvent {
 	private final Action action;
 
@@ -31,24 +34,8 @@ public class ActionEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("performed ").append(action.toString(descriptions)).append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.action.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof ActionEvent)) {
-			return false;
-		}
-		ActionEvent other = (ActionEvent) obj;
-		return (this.action == other.action);
 	}
 }

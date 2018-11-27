@@ -8,6 +8,9 @@ import ail.syntax.Event;
 import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
+/**
+ * An {@link Intention} has been created (based upon a certain {@link Event}).
+ */
 public class CreateIntentionEvent extends AbstractEvent {
 	private final Intention intention;
 
@@ -20,15 +23,15 @@ public class CreateIntentionEvent extends AbstractEvent {
 	}
 
 	public Event getEvent() {
-		List<Event> events = this.intention.events();
+		final List<Event> events = this.intention.events();
 		return (events.isEmpty()) ? null : this.intention.events().get(0);
 	}
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new LinkedList<>();
+		final List<String> data = new LinkedList<>();
 		data.add("intention " + intention.getID());
-		for (Event event : intention.events()) {
+		for (final Event event : intention.events()) {
 			data.add(event.getPredicateIndicator().toString());
 		}
 		return data;
@@ -47,21 +50,5 @@ public class CreateIntentionEvent extends AbstractEvent {
 		}
 		builder.append("created ").append(intention).append(".");
 		return builder.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.intention.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj == null || !(obj instanceof CreateIntentionEvent)) {
-			return false;
-		}
-		CreateIntentionEvent other = (CreateIntentionEvent) obj;
-		return (this.intention == other.intention);
 	}
 }

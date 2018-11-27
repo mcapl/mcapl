@@ -24,19 +24,16 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Goal;
-import ail.syntax.Unifier;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
-import ail.tracing.events.ModificationEvent;
 import ail.syntax.Event;
+import ail.syntax.Goal;
 import ail.syntax.Intention;
-
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -143,8 +140,7 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 		
 		for (Goal sg: subgoals) {
 			if (a.removeGoal(sg) && a.shouldTrace()) {
-				ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, sg);
-				a.trace(new ModificationEvent(removeGoal));
+				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, sg));
 			}
 		}
 	}

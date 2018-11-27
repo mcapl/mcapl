@@ -27,18 +27,16 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.ArrayList;
 import java.util.Set;
 
+import ail.semantics.AILAgent;
 import ail.syntax.annotation.SourceAnnotation;
-import ail.tracing.events.ModificationBase;
-import ail.tracing.events.ModificationAction;
 import ail.tracing.events.ModificationEvent;
 import ail.util.AILPrettyPrinter;
 import gov.nasa.jpf.annotation.FilterField;
-import ail.semantics.AILAgent;
 
 /**
  * Class for an AIL Intention - a matrix structure consisting of several
@@ -791,8 +789,7 @@ public class Intention implements Comparable<Intention>{
 			dropP(1);
 			if (empty() || !hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
 				if (ag.removeGoal(gcloned) && ag.shouldTrace()) {
-					ModificationAction removeGoal = new ModificationAction(ModificationBase.GOALS, null, null, gcloned);
-					ag.trace(new ModificationEvent(removeGoal));
+					ag.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, gcloned));
 				}
 			}
 		} else {

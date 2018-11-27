@@ -11,6 +11,15 @@ import org.mapdb.IndexTreeList;
 
 import ail.tracing.events.AbstractEvent;
 
+/**
+ * This class ensures {@link AbstractEvent}s are actually written to the MapDB
+ * that underlies the {@link EventStorage}. It does so using a pool of threads
+ * (at most 1 thread per agent) that are set at the lowest possible priority in
+ * order to intervene with execution as little as possible. A busy waiting loop
+ * is used to allow more events to be written away at once than with e.g. a
+ * wait-notify structure (this relies on the low thread priority).
+ * {@link #finish()} guarantees all queued events have been written.
+ */
 public class EventStorageWriter implements Runnable {
 	private final static ThreadPoolExecutor pool;
 	static {
@@ -42,7 +51,7 @@ public class EventStorageWriter implements Runnable {
 			synchronized (this) {
 				try {
 					wait();
-				} catch (InterruptedException ignore) {
+				} catch (final InterruptedException ignore) {
 				}
 			}
 		}

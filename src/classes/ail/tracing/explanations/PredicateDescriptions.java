@@ -49,14 +49,14 @@ public class PredicateDescriptions {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
 		if (!(obj instanceof PredicateDescriptions)) {
 			return false;
 		}
-		PredicateDescriptions other = (PredicateDescriptions) obj;
+		final PredicateDescriptions other = (PredicateDescriptions) obj;
 		return descriptions.equals(other.descriptions);
 	}
 }
