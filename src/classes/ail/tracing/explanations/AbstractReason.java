@@ -21,4 +21,8 @@ public abstract class AbstractReason {
 	public final String toString() {
 		return getExplanation(ExplanationLevel.FINEST, new PredicateDescriptions(new ArrayList<>(0)));
 	}
+
+	protected static String inCourier(final Object string) {
+		return "<font face=\"Courier New\">" + string + "</font>";
+	}
 }

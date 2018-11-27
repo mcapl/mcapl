@@ -71,7 +71,7 @@ public class ModificationReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append("the ").append(getPredicateDescriptor()).append(" ").append(getAdded(descriptions))
+		string.append("the ").append(getPredicateDescriptor()).append(" ").append(inCourier(getAdded(descriptions)))
 				.append(" were ").append(getActionDescriptor());
 		switch (level) {
 		case FINEST:

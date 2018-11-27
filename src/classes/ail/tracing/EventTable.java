@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,7 +29,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -235,7 +235,7 @@ public class EventTable extends JXTable {
 						for (int i = 1; i <= reasons.size(); ++i) {
 							final String reason = reasons.get(i - 1).getExplanation(level,
 									WhyActionButton.this.questions.getDescriptions());
-							answer.append(i).append(": ").append(reason).append("\n");
+							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -271,7 +271,7 @@ public class EventTable extends JXTable {
 						for (int i = 1; i <= reasons.size(); ++i) {
 							final String reason = reasons.get(i - 1).getExplanation(level,
 									WhyBeliefButton.this.questions.getDescriptions());
-							answer.append(i).append(": ").append(reason).append("\n");
+							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -307,7 +307,7 @@ public class EventTable extends JXTable {
 						for (int i = 1; i <= reasons.size(); ++i) {
 							final String reason = reasons.get(i - 1).getExplanation(level,
 									WhyGoalButton.this.questions.getDescriptions());
-							answer.append(i).append(": ").append(reason).append("\n");
+							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
 						}
 						// ... and show it in a new dialog
 						final AnswerArea msg = new AnswerArea(answer.toString());
@@ -319,14 +319,13 @@ public class EventTable extends JXTable {
 		}
 	}
 
-	private static final class AnswerArea extends JTextArea {
+	private static final class AnswerArea extends JEditorPane {
 		private static final long serialVersionUID = 1L;
 
 		AnswerArea(final String answer) {
-			super(answer, 10, 50);
+			super("text/html", "<html>" + answer + "</html>");
 			setEditable(false);
-			setLineWrap(true);
-			setWrapStyleWord(true);
+			setPreferredSize(new Dimension(600, 300));
 		}
 	}
 }

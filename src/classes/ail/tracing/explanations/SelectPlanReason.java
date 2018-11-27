@@ -28,7 +28,7 @@ public class SelectPlanReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append(this.event.getPlan());
+		string.append(inCourier(this.event.getPlan()));
 		switch (level) {
 		case FINEST:
 			string.append(" was selected in state ").append(this.state);

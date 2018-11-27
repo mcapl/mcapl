@@ -31,7 +31,7 @@ public class GeneratePlansReason extends AbstractReason {
 		switch (level) {
 		case FINEST:
 			string.append("the applicable plans generated in state ").append(this.state).append(" ")
-					.append(event.getPlans());
+					.append(inCourier(this.event.getPlans()));
 			if (this.parent != null) {
 				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
 			}

@@ -29,12 +29,12 @@ public class CreateIntentionReason extends AbstractReason {
 		case FINEST:
 			string.append("it was created in state ").append(this.state);
 			if (event != null) {
-				string.append(" for the event '").append(event.toString(descriptions)).append("'");
+				string.append(" for the event ").append(inCourier(event.toString(descriptions)));
 			}
 			break;
 		default:
 			if (event != null) {
-				string.append("which was created for the event '").append(event.toString(descriptions)).append("'");
+				string.append("which was created for the event ").append(inCourier(event.toString(descriptions)));
 			}
 			break;
 		}

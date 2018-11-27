@@ -40,8 +40,8 @@ public class SelectIntentionReason extends AbstractReason {
 		final StringBuilder string = new StringBuilder();
 		switch (level) {
 		case FINEST:
-			string.append(this.event.getIntention()).append(" was selected in state ").append(this.state);
-			//string.append(" ").append(modifications); TODO
+			string.append(inCourier(this.event.getIntention())).append(" was selected in state ").append(this.state);
+			// string.append(" ").append(modifications); TODO
 			if (this.parent != null) {
 				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
 			}
