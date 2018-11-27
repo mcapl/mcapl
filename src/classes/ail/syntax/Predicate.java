@@ -641,5 +641,13 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
 	}       
-
+    
+    /*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
+    @Override
+	public boolean isVar() {
+		return Character.isUpperCase(getFunctor().charAt(0));
+	}
 }

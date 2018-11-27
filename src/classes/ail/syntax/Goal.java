@@ -26,6 +26,7 @@ package ail.syntax;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 
 import java.util.Iterator;
 import java.util.List;
@@ -207,18 +208,41 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return toString();
 	}
 	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		String pre;
+		switch (getGoalType()) {
+		case achieveGoal:
+			pre = "ACHIEVE";
+			break;
+		case performGoal:
+			pre = "PERFORM";
+			break;
+		case testGoal:
+			pre = "TEST";
+			break;
+		default:
+		case maintainGoal:
+			pre = "MAINTAIN";
+			break;
+		}
+		return pre + " " + super.toString(descriptions);
+	}
+	
 	/**
 	 * Generate a string for the goal type.
 	 * @return a string representing the goal type.
 	 */
 	public String typeString() {
-		if (getGoalType() == achieveGoal) {
+		switch (getGoalType()) {
+		case achieveGoal:
 			return "a";
-		} else if (getGoalType() == performGoal) {
+		case performGoal:
 			return "p";
-		} else if (getGoalType() == testGoal) {
+		case testGoal:
 			return "t";
-		} else {
+		default:
+		case maintainGoal:
 			return "m";
 		}
 	}

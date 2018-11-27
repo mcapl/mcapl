@@ -23,16 +23,15 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
-import ail.semantics.AILAgent.SelectionOrder;
-import ail.tracing.explanations.PredicateDescriptions;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 
 /**
  * A Reference to a message that may appear in a Guard.  It extends Message purely to make type matching work with the 
@@ -401,7 +400,7 @@ public class GMessage implements GuardAtom<Message> {
 	   @Override
 		public String toString(PredicateDescriptions descriptions) {
 		    StringBuilder s = new StringBuilder();
-		    s.append("a message from ").append(sender).append(": ").append(content.toString(descriptions));
+		    s.append("MESSAGE ").append(sender).append(": ").append(content.toString(descriptions));
 	        return s.toString();
 	   }
 

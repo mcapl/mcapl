@@ -25,13 +25,11 @@
 package ail.syntax;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
-import ail.syntax.annotation.BeliefBaseAnnotation;
-import ajpf.util.AJPFLogger;
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -197,6 +195,11 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 			s.append("True");
 		}
 		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		return "BELIEVE " + super.toString(descriptions);
 	}
 
 	/**
