@@ -8,8 +8,10 @@ import ail.syntax.AILAnnotation;
 import ail.syntax.Goal;
 import ail.syntax.Literal;
 import ail.syntax.Predicate;
+import ail.syntax.PredicatewAnnotation;
 import ail.syntax.StringTerm;
 import ail.syntax.StringTermImpl;
+import ail.syntax.Unifier;
 import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModificationAction {
@@ -50,6 +52,22 @@ public class ModificationAction {
 
 	public List<Predicate> getRemoved() {
 		return this.removed;
+	}
+
+	public boolean contains(Predicate predicate, boolean positive) {
+		if (predicate instanceof PredicatewAnnotation) {
+			predicate = new Predicate(predicate);
+		}
+		final List<Predicate> predicates = positive ? this.added : this.removed;
+		for (Predicate added : predicates) {
+			if (added instanceof PredicatewAnnotation) {
+				added = new Predicate(added);
+			}
+			if (added.match(predicate, new Unifier())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void execute(final AILAgent agent, final boolean reverse) {

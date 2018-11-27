@@ -10,6 +10,7 @@ import java.util.Set;
 
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ail.syntax.PredicatewAnnotation;
 import ail.tracing.EventStorage;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ActionEvent;
@@ -54,12 +55,20 @@ public class WhyQuestions {
 				final ModificationAction modification = ((ModificationEvent) event).getUpdate();
 				switch (modification.getBase()) {
 				case BELIEFS:
-					this.beliefs.addAll(modification.getAdded());
-					this.beliefs.addAll(modification.getRemoved());
+					for (Predicate bel : modification.getAdded()) {
+						if (bel instanceof PredicatewAnnotation) {
+							bel = new Predicate(bel);
+						}
+						this.beliefs.add(bel);
+					}
 					break;
 				case GOALS:
-					this.goals.addAll(modification.getAdded());
-					this.goals.addAll(modification.getRemoved());
+					for (Predicate goal : modification.getAdded()) {
+						if (goal instanceof PredicatewAnnotation) {
+							goal = new Predicate(goal);
+						}
+						this.goals.add(goal);
+					}
 					break;
 				default:
 					break;
@@ -108,7 +117,7 @@ public class WhyQuestions {
 	 *         executed) explaining why this action was executed (each entry
 	 *         corresponds to one successful execution).
 	 */
-	public List<ActionReason> whyAction(final Action action) {
+	public List<AbstractReason> whyAction(final Action action) {
 		final Deque<ActionReason> stack = new LinkedList<>();
 		final List<AbstractEvent> trace = this.storage.getAll();
 		for (int i = (trace.size() - 1); i >= 0; --i) {
@@ -168,7 +177,7 @@ public class WhyQuestions {
 	 *         inserted) explaining why this belief was inserted (each entry
 	 *         corresponds to one successful non-duplicate insertion).
 	 */
-	public List<ModificationReason> whyBelief(final Predicate belief) {
+	public List<AbstractReason> whyBelief(final Predicate belief) {
 		final Deque<ModificationReason> stack = new LinkedList<>();
 		final List<AbstractEvent> trace = this.storage.getAll();
 		for (int i = (trace.size() - 1); i >= 0; --i) {
@@ -176,8 +185,7 @@ public class WhyQuestions {
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
-				if (me.getUpdate().getBase() == ModificationBase.BELIEFS
-						&& me.getUpdate().getAdded().contains(belief)) {
+				if (me.getUpdate().getBase() == ModificationBase.BELIEFS && me.getUpdate().contains(belief, true)) {
 					stack.push(new ModificationReason(i, me));
 				}
 			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
@@ -229,7 +237,7 @@ public class WhyQuestions {
 	 *         adopted) explaining why this goal was adopted (each entry corresponds
 	 *         to one successful non-duplicate adoption).
 	 */
-	public List<ModificationReason> whyGoal(final Predicate goal) {
+	public List<AbstractReason> whyGoal(final Predicate goal) {
 		final Deque<ModificationReason> stack = new LinkedList<>();
 		final List<AbstractEvent> trace = this.storage.getAll();
 		for (int i = (trace.size() - 1); i >= 0; --i) {
@@ -237,7 +245,7 @@ public class WhyQuestions {
 			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
-				if (me.getUpdate().getBase() == ModificationBase.GOALS && me.getUpdate().getAdded().contains(goal)) {
+				if (me.getUpdate().getBase() == ModificationBase.GOALS && me.getUpdate().contains(goal, true)) {
 					stack.push(new ModificationReason(i, me));
 				}
 			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {

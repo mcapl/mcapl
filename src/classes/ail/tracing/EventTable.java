@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,17 +35,25 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.JTextComponent;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.jdesktop.swingx.JXTable;
 
 import ail.syntax.Action;
+import ail.syntax.GBelief;
+import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.GuardAtom;
 import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
-import ail.tracing.explanations.ActionReason;
+import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
-import ail.tracing.explanations.ModificationReason;
+import ail.tracing.explanations.GuardReason;
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.tracing.explanations.WhyQuestions;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
@@ -158,6 +167,7 @@ public class EventTable extends JXTable {
 		setGridColor(Color.GRAY);
 
 		// show a description at the bottom based on the currently selected cell
+		final int mouseIndex = getMouseListeners().length;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(final MouseEvent evt) {
@@ -175,9 +185,7 @@ public class EventTable extends JXTable {
 				case KeyEvent.VK_DOWN:
 				case KeyEvent.VK_LEFT:
 				case KeyEvent.VK_RIGHT:
-					final int col = EventTable.this.getSelectedColumn();
-					final AbstractEvent event = data.get(col);
-					description.setText(col + ": " + event.toString(storage.getDescriptions()));
+					getMouseListeners()[mouseIndex].mouseReleased(null);
 					break;
 				}
 			}
@@ -213,32 +221,23 @@ public class EventTable extends JXTable {
 
 	private static final class WhyActionButton extends JButton {
 		private static final long serialVersionUID = 1L;
-		private final WhyQuestions questions;
 
 		WhyActionButton(final WhyQuestions questions, final ExplanationLevel level) {
-			this.questions = questions;
 			setText("WHY ACTION?");
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
 					// list all actions that there were in the trace,
 					// and request which one we should explain.
-					final Set<Action> actions = WhyActionButton.this.questions.getAllActions();
+					final Set<Action> actions = questions.getAllActions();
 					final JComboBox<Action> select = new JComboBox<>(actions.toArray(new Action[actions.size()]));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you execute this action?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
-						// for the selected action, fetch its explanation...
+						// for the selected action, fetch and show its explanation(s)
 						final Action action = (Action) select.getSelectedItem();
-						final List<ActionReason> reasons = questions.whyAction(action);
-						final StringBuilder answer = new StringBuilder();
-						for (int i = 1; i <= reasons.size(); ++i) {
-							final String reason = reasons.get(i - 1).getExplanation(level,
-									WhyActionButton.this.questions.getDescriptions());
-							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
-						}
-						// ... and show it in a new dialog
-						final AnswerArea msg = new AnswerArea(answer.toString());
+						final List<AbstractReason> reasons = questions.whyAction(action);
+						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you execute " + action + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -249,32 +248,23 @@ public class EventTable extends JXTable {
 
 	private static final class WhyBeliefButton extends JButton {
 		private static final long serialVersionUID = 1L;
-		private final WhyQuestions questions;
 
 		WhyBeliefButton(final WhyQuestions questions, final ExplanationLevel level) {
-			this.questions = questions;
 			setText("WHY BELIEF?");
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
 					// list all beliefs that there were in the trace,
 					// and request which one we should explain.
-					final Set<Predicate> beliefs = WhyBeliefButton.this.questions.getAllBeliefs();
+					final Set<Predicate> beliefs = questions.getAllBeliefs();
 					final JComboBox<Predicate> select = new JComboBox<>(beliefs.toArray(new Predicate[beliefs.size()]));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you insert this belief?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
-						// for the selected belief, fetch its explanation...
+						// for the selected belief, fetch and show its explanation(s)
 						final Predicate belief = (Predicate) select.getSelectedItem();
-						final List<ModificationReason> reasons = questions.whyBelief(belief);
-						final StringBuilder answer = new StringBuilder();
-						for (int i = 1; i <= reasons.size(); ++i) {
-							final String reason = reasons.get(i - 1).getExplanation(level,
-									WhyBeliefButton.this.questions.getDescriptions());
-							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
-						}
-						// ... and show it in a new dialog
-						final AnswerArea msg = new AnswerArea(answer.toString());
+						final List<AbstractReason> reasons = questions.whyBelief(belief);
+						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you insert " + belief + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -285,32 +275,23 @@ public class EventTable extends JXTable {
 
 	private static final class WhyGoalButton extends JButton {
 		private static final long serialVersionUID = 1L;
-		private final WhyQuestions questions;
 
 		WhyGoalButton(final WhyQuestions questions, final ExplanationLevel level) {
-			this.questions = questions;
 			setText("WHY GOAL?");
 			addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
-					// list all beliefs that there were in the trace,
+					// list all goals that there were in the trace,
 					// and request which one we should explain.
-					final Set<Predicate> goals = WhyGoalButton.this.questions.getAllGoals();
+					final Set<Predicate> goals = questions.getAllGoals();
 					final JComboBox<Predicate> select = new JComboBox<>(goals.toArray(new Predicate[goals.size()]));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you adopt this goal?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
-						// for the selected belief, fetch its explanation...
+						// for the selected goal, fetch and show its explanation(s)
 						final Predicate goal = (Predicate) select.getSelectedItem();
-						final List<ModificationReason> reasons = questions.whyGoal(goal);
-						final StringBuilder answer = new StringBuilder();
-						for (int i = 1; i <= reasons.size(); ++i) {
-							final String reason = reasons.get(i - 1).getExplanation(level,
-									WhyGoalButton.this.questions.getDescriptions());
-							answer.append("<b>").append(i).append(":</b> ").append(reason).append("<br>");
-						}
-						// ... and show it in a new dialog
-						final AnswerArea msg = new AnswerArea(answer.toString());
+						final List<AbstractReason> reasons = questions.whyGoal(goal);
+						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "Why did you adopt " + goal + "?",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -319,13 +300,71 @@ public class EventTable extends JXTable {
 		}
 	}
 
-	private static final class AnswerArea extends JEditorPane {
+	private static final class AnswerArea extends JEditorPane implements HyperlinkListener {
 		private static final long serialVersionUID = 1L;
+		private final WhyQuestions questions;
+		private final ExplanationLevel level;
+		private final Map<String, Predicate> beliefs = new HashMap<>();
+		private final Map<String, Predicate> goals = new HashMap<>();
 
-		AnswerArea(final String answer) {
-			super("text/html", "<html>" + answer + "</html>");
+		AnswerArea(final List<AbstractReason> reasons, final ExplanationLevel level, final WhyQuestions questions) {
+			this.questions = questions;
+			this.level = level;
+			setContentType("text/html");
+			setText(answerString(reasons, level));
 			setEditable(false);
 			setPreferredSize(new Dimension(600, 300));
+			addHyperlinkListener(this);
+		}
+
+		@Override
+		public void hyperlinkUpdate(final HyperlinkEvent e) {
+			if (e.getInputEvent() instanceof MouseEvent
+					&& ((MouseEvent) e.getInputEvent()).getButton() == MouseEvent.BUTTON1) {
+				final String url = e.getDescription(); // automatically decoded
+				if (url.startsWith("belief://")) {
+					final Predicate belief = beliefs.get(url.substring(9));
+					final List<AbstractReason> reasons = questions.whyBelief(belief);
+					setText(answerString(reasons, level));
+				} else if (url.startsWith("goal://")) {
+					final Predicate goal = goals.get(url.substring(7));
+					final List<AbstractReason> reasons = questions.whyGoal(goal);
+					setText(answerString(reasons, level));
+				}
+			}
+		}
+
+		private String answerString(final List<AbstractReason> reasons, final ExplanationLevel level) {
+			final PredicateDescriptions descriptions = questions.getDescriptions();
+			for (final AbstractReason main : reasons) {
+				AbstractReason current = main;
+				while (current != null) {
+					if (current instanceof GuardReason) {
+						final Guard guard = ((GuardReason) current).getEvent().getGuard();
+						for (final GuardAtom<?> atom : guard.getAllAtoms()) {
+							if (atom.isVar()) {
+								continue;
+							} else if (atom instanceof GBelief) {
+								beliefs.put(atom.toString(descriptions), (GBelief) atom);
+							} else if (atom instanceof Goal) {
+								goals.put(atom.toString(descriptions), (Goal) atom);
+							}
+						}
+					}
+					current = current.getParent();
+				}
+			}
+			final StringBuilder answer = new StringBuilder();
+			for (int i = 1; i <= reasons.size(); ++i) {
+				final String reason = reasons.get(i - 1).getExplanation(level, descriptions);
+				answer.append("<p><b>").append(i).append(":</b> ").append(reason).append("</p>");
+			}
+			String result = answer.toString();
+			for (final String rawbelief : beliefs.keySet()) {
+				final String belief = StringEscapeUtils.escapeHtml4(rawbelief);
+				result = result.replace(belief, "<a href=\"belief://" + belief + "\">" + belief + "</a>");
+			}
+			return "<html>" + result.replace("because", "<i>because</i>") + "</html>";
 		}
 	}
 }
