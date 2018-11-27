@@ -52,7 +52,9 @@ public class GuardEvent extends AbstractEvent {
 	public List<String> getLookupData() {
 		List<String> data = new LinkedList<>();
 		for (GuardAtom<?> atom : guard.getAllAtoms()) {
-			data.add(atom.getPredicateIndicator().toString());
+			if (!atom.isVar()) {
+				data.add(atom.getPredicateIndicator().toString());
+			}
 		}
 		if (data.isEmpty()) {
 			data.add("True/0");
