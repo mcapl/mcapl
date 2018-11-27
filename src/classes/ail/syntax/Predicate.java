@@ -186,7 +186,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
             Predicate tAsStruct = (Predicate)t;
 
             // if t is a VarTerm, uses var's equals
-            if (tAsStruct.isVar()) {
+            if (tAsStruct instanceof VarTerm) {
                 return ((VarTerm)t).equals(this);
             }
             
