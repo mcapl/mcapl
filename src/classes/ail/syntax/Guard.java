@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -141,6 +142,21 @@ public class Guard implements GLogicalFormula {
 	 */
 	public GLogicalFormula getRHS() {
 		return rhs;
+	}
+	
+	public List<GuardAtom<?>> getAllAtoms() {
+		List<GuardAtom<?>> result = new LinkedList<>();
+		if(this.lhs instanceof Guard) {
+			result.addAll(((Guard)this.lhs).getAllAtoms());
+		} else if(this.lhs instanceof GuardAtom<?>) {
+			result.add((GuardAtom<?>)this.lhs);
+		}
+		if(this.rhs instanceof Guard) {
+			result.addAll(((Guard)this.rhs).getAllAtoms());
+		} else if(this.rhs instanceof GuardAtom<?>) {
+			result.add((GuardAtom<?>)this.rhs);
+		}
+		return result;
 	}
 	
 	/*

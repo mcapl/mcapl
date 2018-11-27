@@ -2,6 +2,8 @@ package ail.tracing.explanations;
 
 import java.util.ArrayList;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import ail.tracing.events.AbstractEvent;
 
 public abstract class AbstractReason {
@@ -23,6 +25,6 @@ public abstract class AbstractReason {
 	}
 
 	protected static String inCourier(final Object string) {
-		return "<font face=\"Courier New\">" + string + "</font>";
+		return "<font face=\"Courier New\">" + StringEscapeUtils.escapeHtml4(string.toString()) + "</font>";
 	}
 }

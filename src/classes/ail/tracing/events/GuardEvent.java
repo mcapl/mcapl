@@ -1,7 +1,7 @@
 package ail.tracing.events;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
@@ -50,13 +50,9 @@ public class GuardEvent extends AbstractEvent {
 
 	@Override
 	public List<String> getLookupData() {
-		List<String> data = new ArrayList<>(2);
-		// TODO: probably not only atoms in there?
-		if (guard.getLHS() instanceof GuardAtom<?>) {
-			data.add(((GuardAtom<?>) guard.getLHS()).getPredicateIndicator().toString());
-		}
-		if (guard.getRHS() instanceof GuardAtom<?>) {
-			data.add(((GuardAtom<?>) guard.getRHS()).getPredicateIndicator().toString());
+		List<String> data = new LinkedList<>();
+		for (GuardAtom<?> atom : guard.getAllAtoms()) {
+			data.add(atom.getPredicateIndicator().toString());
 		}
 		if (data.isEmpty()) {
 			data.add("True/0");
