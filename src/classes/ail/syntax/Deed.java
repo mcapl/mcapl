@@ -25,8 +25,6 @@
 package ail.syntax;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
@@ -303,6 +301,10 @@ public class Deed extends DefaultAILStructure {
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		
 		StringBuilder s = new StringBuilder();
 		if (hasTrigType()) {
 			if (isAddition())	

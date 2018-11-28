@@ -286,9 +286,13 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
-		StringBuilder s = new StringBuilder();
-		s.append("from ").append(sender).append(": ").append(propCont.toString(descriptions));
-		return s.toString();
+		if (descriptions.isEmpty()) {
+			return toString();
+		} else {
+			StringBuilder s = new StringBuilder();
+			s.append("from ").append(sender).append(": ").append(propCont.toString(descriptions));
+			return s.toString();
+		}
 	}
 		
 	/**

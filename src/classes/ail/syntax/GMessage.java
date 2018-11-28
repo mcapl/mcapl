@@ -399,9 +399,13 @@ public class GMessage implements GuardAtom<Message> {
 	   
 	   @Override
 		public String toString(PredicateDescriptions descriptions) {
-		    StringBuilder s = new StringBuilder();
-		    s.append("MESSAGE ").append(sender).append(": ").append(content.toString(descriptions));
-	        return s.toString();
+			if (descriptions.isEmpty()) {
+				return toString();
+			} else {
+				StringBuilder s = new StringBuilder();
+				s.append("MESSAGE ").append(sender).append(": ").append(content.toString(descriptions));
+				return s.toString();
+			}
 	   }
 
 	/* @Override

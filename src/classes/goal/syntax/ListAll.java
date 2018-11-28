@@ -22,13 +22,9 @@
 //----------------------------------------------------------------------------
 package goal.syntax;
 
-import goal.syntax.ast.Abstract_MentalState;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent.SelectionOrder;
@@ -43,6 +39,7 @@ import ail.syntax.Unifiable;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.tracing.explanations.PredicateDescriptions;
+import goal.syntax.ast.Abstract_MentalState;
 
 public class ListAll implements GLogicalFormula {
 	ListTerm list;
@@ -223,7 +220,7 @@ public class ListAll implements GLogicalFormula {
 	public String toString() {
 		String s = "listall ";
 		s += list;
-		s+= " <- ";
+		s += " <- ";
 		s += mental_state;
 		return s;
 	}
@@ -232,7 +229,7 @@ public class ListAll implements GLogicalFormula {
 	public String toString(PredicateDescriptions descriptions) {
 		String s = "listall ";
 		s += list.toString(descriptions);
-		s+= " <- ";
+		s += " <- ";
 		s += mental_state.toString(descriptions);
 		return s;
 	}

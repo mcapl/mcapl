@@ -210,6 +210,9 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
 		String pre;
 		switch (getGoalType()) {
 		case achieveGoal:

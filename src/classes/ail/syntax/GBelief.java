@@ -199,7 +199,7 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
-		return "BELIEVE " + super.toString(descriptions);
+		return descriptions.isEmpty() ? toString() : ("BELIEVE " + super.toString(descriptions));
 	}
 
 	/**

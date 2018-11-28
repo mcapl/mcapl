@@ -19,6 +19,10 @@ public class PredicateDescriptions {
 		}
 	}
 
+	public boolean isEmpty() {
+		return this.descriptions.isEmpty();
+	}
+
 	public String getDescription(Predicate predicate) {
 		if (predicate instanceof PredicatewAnnotation) {
 			// Strip info to make sure we match as much as possible below!

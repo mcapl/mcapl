@@ -298,6 +298,9 @@ public class Guard implements GLogicalFormula {
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
 		if (op == GLogicalOp.none) {
 			if (rhs != null) {
 				return rhs.toString(descriptions);

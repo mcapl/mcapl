@@ -31,6 +31,7 @@ import ail.semantics.OSRule;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.GeneratePlansEvent;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 
@@ -81,6 +82,9 @@ public class GenerateApplicablePlansEmpty implements OSRule {
 		}
 		
 		a.setApplicablePlans(Plp.iterator());
+		if (a.shouldTrace()) {
+			a.trace(new GeneratePlansEvent(Plp, GeneratePlansEvent.NO_APPLICABLE_PLANS));
+		}
 	}
 		
 }

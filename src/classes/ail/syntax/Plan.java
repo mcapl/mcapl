@@ -29,7 +29,6 @@ package ail.syntax;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ail.syntax.annotation.SourceAnnotation;
@@ -442,6 +441,9 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
     
     @Override
 	public String toString(PredicateDescriptions descriptions) {
+    	if (descriptions.isEmpty()) {
+			return toString();
+		}
     	StringBuilder s = new StringBuilder();
 		s.append(keynum).append(" :: ").append(event.toString(descriptions));
 		if (!prefix.isEmpty()) {

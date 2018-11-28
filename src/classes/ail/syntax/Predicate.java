@@ -471,8 +471,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     }
     
     public String fullstring() {
-    	String s = toString();
-    	return "Predicate-" + s;
+    	return "Predicate-" + toString();
     }
     
     public String toString(PredicateDescriptions descriptions) {
