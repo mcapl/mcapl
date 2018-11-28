@@ -15,6 +15,7 @@ import ail.tracing.explanations.PredicateDescriptions;
 public class ModifyIntentionEvent extends AbstractEvent {
 	public static final int DELETE_TOP_DEEDS = 1;
 	public static final int MERGE_PLAN = 2;
+	public static final int POST_EVENT = 3;
 
 	private final Intention intention;
 	private final int category;
@@ -32,6 +33,12 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		this.plan = plan;
 	}
 
+	public ModifyIntentionEvent(final Intention intention, final int category) {
+		this.intention = intention.clone();
+		this.category = category;
+		this.plan = null;
+	}
+
 	public Intention getIntention() {
 		return this.intention;
 	}
@@ -42,6 +49,8 @@ public class ModifyIntentionEvent extends AbstractEvent {
 			return "removing the top of the intention";
 		case MERGE_PLAN:
 			return "replacing the top of the intention with the selected plan";
+		case POST_EVENT:
+			return "posting an event ";
 		default:
 			return "";
 		}

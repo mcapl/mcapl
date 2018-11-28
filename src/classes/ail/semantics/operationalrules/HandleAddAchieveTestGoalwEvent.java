@@ -36,6 +36,7 @@ import ail.syntax.Guard;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.ModifyIntentionEvent;
 
 
 /**
@@ -120,6 +121,9 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
 			}
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
+			if (a.shouldTrace()) {
+				a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.POST_EVENT));
+			}
 		}	
 	}
 }
