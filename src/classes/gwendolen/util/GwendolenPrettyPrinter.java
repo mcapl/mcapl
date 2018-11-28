@@ -42,7 +42,6 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	}
 
 	public String prettyIntention(Intention i) {
-		// System.err.println(super.prettyIntention(i));
 		StringBuilder s = new StringBuilder();
 
 		s.append("Intention ").append(i.getID()).append(": ");

@@ -50,7 +50,7 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		case MERGE_PLAN:
 			return "replacing the top of the intention with the selected plan";
 		case POST_EVENT:
-			return "posting an event ";
+			return "posting an event";
 		default:
 			return "";
 		}
