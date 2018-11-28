@@ -47,13 +47,12 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		s.append("Intention ").append(i.getID()).append(": ");
 
 		String s1 = "";
-		if (i.empty()) {
-			s1 = "the intention is now empty and will be removed";
-		}
 		boolean first = true;
 		int rownum = 0;
 		final String and = descriptions.isEmpty() ? " ; " : " AND ";
-		for (Deed d : i.deeds()) {
+		for (Deed d : i.deeds()) { // TODO: with descriptions enabled,
+			// we might want to filter the deeds (e.g. only print actions?)
+			// or even allow developers to provide a single general descriptions of them
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
@@ -64,7 +63,11 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				s1 = "respond to the event " + i.events().get(rownum++).toString(descriptions) + " " + s1;
 			}
 		}
-		s.append(s1);
+		if (first) {
+			s.append("the intention is now empty and will be removed");
+		} else {
+			s.append(s1);
+		}
 
 		return s.toString();
 	}
@@ -90,7 +93,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		String s1 = "";
 		boolean first = true;
 		final String and = descriptions.isEmpty() ? " ; " : " AND ";
-		for (Deed d : p.getPrefix()) {
+		for (Deed d : p.getPrefix()) { // TODO: see printing intention deeds
 			vars.addAll(d.getVarNames());
 			if (first) {
 				first = false;
