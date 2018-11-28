@@ -27,9 +27,7 @@
 
 package ail.syntax;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ail.tracing.explanations.PredicateDescriptions;
@@ -289,7 +287,7 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
 		StringBuilder s = new StringBuilder();
-		s.append("a message from ").append(sender).append(": ").append(propCont.toString(descriptions));
+		s.append("from ").append(sender).append(": ").append(propCont.toString(descriptions));
 		return s.toString();
 	}
 		
