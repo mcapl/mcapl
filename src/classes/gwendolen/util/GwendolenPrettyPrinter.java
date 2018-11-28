@@ -74,7 +74,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 
 		Set<String> vars = new HashSet<>(0);
 		if (p.getID() == 0) {
-			s.append("continue processing intention: ");
+			s.append("continue processing: ");
 		} else {
 			s.append("Plan ").append(p.getID()).append(": ");
 			if (!descriptions.isEmpty()) {
@@ -99,7 +99,11 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				s1 = d.toString(descriptions) + and + s1;
 			}
 		}
-		s.append(s1);
+		if (first) { // no deed processed
+			s.append("<empty>");
+		} else {
+			s.append(s1);
+		}
 
 		Unifier pruned = (p.getUnifier() == null) ? new Unifier() : p.getUnifier().clone();
 		pruned.pruneRedundantNames(vars);
