@@ -216,17 +216,17 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		String pre;
 		switch (getGoalType()) {
 		case achieveGoal:
-			pre = "ACHIEVE";
+			pre = "achieve";
 			break;
 		case performGoal:
-			pre = "PERFORM";
+			pre = "perform";
 			break;
 		case testGoal:
-			pre = "TEST";
+			pre = "test";
 			break;
 		default:
 		case maintainGoal:
-			pre = "MAINTAIN";
+			pre = "maintain";
 			break;
 		}
 		return pre + " " + super.toString(descriptions);

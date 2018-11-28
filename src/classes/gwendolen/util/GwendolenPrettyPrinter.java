@@ -78,7 +78,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		} else {
 			s.append("Plan ").append(p.getID()).append(": ");
 			if (!descriptions.isEmpty()) {
-				s.append(" in response to an event ");
+				s.append("in response to an event ");
 			}
 			s.append(p.getEvent().toString(descriptions));
 			s.append(descriptions.isEmpty() ? " <- " : " do ");
