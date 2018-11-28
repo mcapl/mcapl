@@ -52,18 +52,17 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		}
 		boolean first = true;
 		int rownum = 0;
+		final String and = descriptions.isEmpty() ? " ; " : " AND ";
 		for (Deed d : i.deeds()) {
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " AND " + s1;
+				s1 = d.toString(descriptions) + and + s1;
 			}
-
 			if (d.getCategory() == Deed.Dnpy) {
-				s1 = "respond to the event " + i.events().get(rownum).toString(descriptions) + " " + s1;
+				s1 = "respond to the event " + i.events().get(rownum++).toString(descriptions) + " " + s1;
 			}
-			rownum++;
 		}
 		s.append(s1);
 
@@ -77,20 +76,27 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		if (p.getID() == 0) {
 			s.append("continue processing intention: ");
 		} else {
-			s.append("Plan ").append(p.getID()).append(": in response to an event ");
-			s.append(p.getEvent().toString(descriptions)).append(" do ");
+			s.append("Plan ").append(p.getID()).append(": ");
+			if (!descriptions.isEmpty()) {
+				s.append(" in response to an event ");
+			}
+			s.append(p.getEvent().toString(descriptions));
+			s.append(descriptions.isEmpty() ? " <- " : " do ");
 			vars = p.getEvent().getVarNames();
 		}
+		// I left out guards here now because those are printed on their own as well,
+		// usually very near the printing of the plan -Vincent
 
 		String s1 = "";
 		boolean first = true;
+		final String and = descriptions.isEmpty() ? " ; " : " AND ";
 		for (Deed d : p.getPrefix()) {
 			vars.addAll(d.getVarNames());
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " AND " + s1;
+				s1 = d.toString(descriptions) + and + s1;
 			}
 		}
 		s.append(s1);
