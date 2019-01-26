@@ -209,6 +209,10 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		
 		StringBuilder s = new StringBuilder();
 		if (isStart()) {
 			s.append("start");

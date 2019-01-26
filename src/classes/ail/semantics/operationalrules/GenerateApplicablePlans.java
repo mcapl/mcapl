@@ -80,7 +80,7 @@ public class GenerateApplicablePlans implements OSRule {
 		}
 		a.setApplicablePlans(iterator);
 		if (a.shouldTrace()) {
-			a.trace(new GeneratePlansEvent(plans));
+			a.trace(new GeneratePlansEvent(plans, GeneratePlansEvent.FOR_EVENT));
 		}
 	}
 }

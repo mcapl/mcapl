@@ -164,6 +164,10 @@ public class IntentionRow implements Cloneable {
 	}
 	
 	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		
 		StringBuilder s = new StringBuilder();
 		
 		ListIterator<Guard> gi = guardstack.listIterator();

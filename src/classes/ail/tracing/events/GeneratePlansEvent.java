@@ -12,14 +12,33 @@ import ail.tracing.explanations.PredicateDescriptions;
  * The list of current {@link ApplicablePlans} has been finalized.
  */
 public class GeneratePlansEvent extends AbstractEvent {
-	private final List<ApplicablePlan> plans;
+	public final static int FOR_EVENT = 1;
+	public final static int NO_APPLICABLE_PLANS = 2;
+	public final static int NO_APPLICABLE_PLANS_FOR_GOAL = 3;
 
-	public GeneratePlansEvent(final List<ApplicablePlan> plans) {
+	private final List<ApplicablePlan> plans;
+	private final int category;
+
+	public GeneratePlansEvent(final List<ApplicablePlan> plans, final int category) {
 		this.plans = plans;
+		this.category = category;
 	}
 
 	public List<ApplicablePlan> getPlans() {
 		return Collections.unmodifiableList(plans);
+	}
+
+	public String getCategory() {
+		switch (this.category) {
+		case FOR_EVENT:
+			return "for an event";
+		case NO_APPLICABLE_PLANS:
+			return "because there were no applicable plans";
+		case NO_APPLICABLE_PLANS_FOR_GOAL:
+			return "because there were no applicable plans for a goal";
+		default:
+			return "";
+		}
 	}
 
 	public List<Integer> getPlanIDs() {
@@ -56,7 +75,7 @@ public class GeneratePlansEvent extends AbstractEvent {
 			}
 			builder.append(plan);
 		}
-		builder.append(".");
+		builder.append(" ").append(getCategory()).append(".");
 		return builder.toString();
 	}
 }

@@ -44,10 +44,6 @@ public class CreateIntentionEvent extends AbstractEvent {
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
 		StringBuilder builder = new StringBuilder();
-		Event event = getEvent();
-		if (event != null) {
-			builder.append("for the event '").append(event.toString(descriptions)).append("', ");
-		}
 		builder.append("created ").append(intention).append(".");
 		return builder.toString();
 	}

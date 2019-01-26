@@ -42,31 +42,32 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 	}
 
 	public String prettyIntention(Intention i) {
-		// System.err.println(super.prettyIntention(i));
 		StringBuilder s = new StringBuilder();
 
 		s.append("Intention ").append(i.getID()).append(": ");
 
 		String s1 = "";
-		if (i.empty()) {
-			s1 = "the intention is now empty and will be removed";
-		}
 		boolean first = true;
 		int rownum = 0;
-		for (Deed d : i.deeds()) {
+		final String and = descriptions.isEmpty() ? " ; " : " AND ";
+		for (Deed d : i.deeds()) { // TODO: with descriptions enabled,
+			// we might want to filter the deeds (e.g. only print actions?)
+			// or even allow developers to provide a single general descriptions of them
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " AND " + s1;
+				s1 = d.toString(descriptions) + and + s1;
 			}
-
 			if (d.getCategory() == Deed.Dnpy) {
-				s1 = "respond to the event " + i.events().get(rownum).toString(descriptions) + " " + s1;
+				s1 = "respond to the event " + i.events().get(rownum++).toString(descriptions) + " " + s1;
 			}
-			rownum++;
 		}
-		s.append(s1);
+		if (first) {
+			s.append("the intention is now empty and will be removed");
+		} else {
+			s.append(s1);
+		}
 
 		return s.toString();
 	}
@@ -76,25 +77,36 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 
 		Set<String> vars = new HashSet<>(0);
 		if (p.getID() == 0) {
-			s.append("continue processing intention: ");
+			s.append("continue processing: ");
 		} else {
-			s.append("Plan ").append(p.getID()).append(": in response to an event ");
-			s.append(p.getEvent().toString(descriptions)).append(" do ");
+			s.append("Plan ").append(p.getID()).append(": ");
+			if (!descriptions.isEmpty()) {
+				s.append("in response to an event ");
+			}
+			s.append(p.getEvent().toString(descriptions));
+			s.append(descriptions.isEmpty() ? " <- " : " do ");
 			vars = p.getEvent().getVarNames();
 		}
+		// I left out guards here now because those are printed on their own as well,
+		// usually very near the printing of the plan -Vincent
 
 		String s1 = "";
 		boolean first = true;
-		for (Deed d : p.getPrefix()) {
+		final String and = descriptions.isEmpty() ? " ; " : " AND ";
+		for (Deed d : p.getPrefix()) { // TODO: see printing intention deeds
 			vars.addAll(d.getVarNames());
 			if (first) {
 				first = false;
 				s1 = d.toString(descriptions);
 			} else {
-				s1 = d.toString(descriptions) + " AND " + s1;
+				s1 = d.toString(descriptions) + and + s1;
 			}
 		}
-		s.append(s1);
+		if (first) { // no deed processed
+			s.append("<empty>");
+		} else {
+			s.append(s1);
+		}
 
 		Unifier pruned = (p.getUnifier() == null) ? new Unifier() : p.getUnifier().clone();
 		pruned.pruneRedundantNames(vars);
