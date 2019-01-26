@@ -129,7 +129,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
        		}
        		
       		
-      		// Get a reference for the specification (the class that callde createAutomaton) held in the JVM
+      		// Get a reference for the specification (the class that called createAutomaton) held in the JVM
            	int objref = ti.getThis();
        		specRef = objref;
        		ElementInfo ei = vm.getElementInfo(specRef);

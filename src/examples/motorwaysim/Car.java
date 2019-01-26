@@ -23,6 +23,8 @@
 //----------------------------------------------------------------------------
 package motorwaysim;
 
+import java.awt.Color;
+
 /**
  * A class for a car on a simple motorway simulation that may be controlled by an agent.
  * @author lad
@@ -34,13 +36,18 @@ public class Car {
 	private double xaccel = 0;
 	private double yaccel = 0;
 	
-	private int INITIAL_X, INITIAL_Y, B_WIDTH, B_HEIGHT;
+	private int INITIAL_X, INITIAL_Y, B_WIDTH, MIN_Y, MAX_Y;
+	private double DEFAULT_ACCELERATION = 0.01;
+	private double DEFAULT_BRAKE = -0.1;
 	
 	private boolean controlled;
 	private boolean include_total_distance;
 	private int started = 0;
 	@SuppressWarnings("unused")
 	private int carnum = 1;
+	
+	Color color = Color.BLACK;
+	double pref_y = 0.0;
 
 	/**
 	 * Constructor.
@@ -51,7 +58,7 @@ public class Car {
 	 * @param externalcontrol
 	 * @param carnum
 	 */
-	public Car (int xi, int yi, int bw, int bh, boolean externalcontrol, int carnum) {
+	public Car (int xi, int yi, int bw, int miny, int bh, boolean externalcontrol, int carnum) {
 		x = xi;
 		y = yi;
 		xrel = xi;
@@ -59,7 +66,8 @@ public class Car {
 		INITIAL_X = xi;
 		INITIAL_Y = yi;
 		B_WIDTH = bw;
-		B_HEIGHT = bh;
+		MAX_Y = bh;
+		MIN_Y = miny;
 		controlled = externalcontrol;
 		this.carnum = carnum;
 
@@ -70,7 +78,7 @@ public class Car {
 	 * @return
 	 */
 	public double getX() {
-		return xrel;
+		return x;
 	}
 	
 	/**
@@ -78,7 +86,7 @@ public class Car {
 	 * @return
 	 */
 	public double getY() {
-		return yrel;
+		return y;
 	}
 	
 	/**
@@ -121,6 +129,22 @@ public class Car {
 		ydot = speed;
 	}
 	
+	public void setSpeedPref(double speed) {
+		pref_y = speed;
+	}
+	
+	public double getSpeedPref() {
+		return pref_y;
+	}
+	
+	/**
+	 * Setter for the x speed.
+	 * @param speed
+	 */
+	public void setXDot(double speed) {
+		xdot = speed;
+	}
+
 	/**
 	 * Getter for total distance in the y direction.
 	 * @return
@@ -159,12 +183,7 @@ public class Car {
 	public void calculatePos() {
 		xdot += xaccel;
 		ydot += yaccel;
-		
-		
-		if (xdot < 0) {
-			xdot = 0;
-		}
-		
+				
 		if (ydot < 0) {
 			ydot = 0;
 		}
@@ -175,8 +194,8 @@ public class Car {
 		yrel += ydot;
 
 		
-		if (yrel > B_HEIGHT) {
-			yrel = INITIAL_Y;
+		if (yrel > MAX_Y) {
+			yrel = MIN_Y;
 		}
 		
 		if (xrel > B_WIDTH) {
@@ -226,5 +245,21 @@ public class Car {
 	 */
 	public int started() {
 		return started;
+	}
+	
+	public void accelerate() {
+		setYAccel(DEFAULT_ACCELERATION);
+	}
+	
+	public void brake() {
+		setYAccel(DEFAULT_BRAKE);
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color c) {
+		color = c;
 	}
 }

@@ -29,6 +29,7 @@ import java.util.TreeSet;
 
 import eass.mas.verification.EASSVerificationEnvironment;
 import eass.semantics.EASSAgent;
+import ail.syntax.Action;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ail.syntax.Message;
@@ -36,7 +37,7 @@ import ail.syntax.Message;
 /**
  * An environment for verifying a simple car reasoning engine.
  * @author louiseadennis
- *
+ * 
  */
 public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 			
@@ -46,7 +47,7 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_sharedbeliefs()
 	 */
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		boolean assert_at_speed_limit = random_bool_generator.nextBoolean();
 		if (assert_at_speed_limit) {
@@ -63,7 +64,7 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 	 * (non-Javadoc)
 	 * @see eass.mas.verification.EASSVerificationEnvironment#generate_messages()
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String agName, Action act) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		
 		boolean assert_start = random_bool_generator.nextBoolean();
@@ -74,7 +75,6 @@ public class VerificationEnvironmentEx2 extends EASSVerificationEnvironment {
 			AJPFLogger.info(logname, "Not asserting start");
 		}
 		return messages;
-	};
+	}
 
-	
 }

@@ -30,6 +30,7 @@ import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_GuardAtom;
 import ail.syntax.ast.Abstract_Literal;
 
+@SuppressWarnings("deprecation")
 public class PBDIRuleConditionVisitor extends RuleConditionBaseVisitor<Abstract_Guard> {
 	
 	@Override public Abstract_Guard visitAnd_expr(RuleConditionParser.And_exprContext ctx) {
@@ -51,7 +52,7 @@ public class PBDIRuleConditionVisitor extends RuleConditionBaseVisitor<Abstract_
 		}
 	}
 	
-	@Override public Abstract_Guard visitBelief_expression(@NotNull RuleConditionParser.Belief_expressionContext ctx) {
+	@Override public Abstract_Guard visitBelief_expression(@SuppressWarnings("deprecation") @NotNull RuleConditionParser.Belief_expressionContext ctx) {
 		Abstract_GBelief gb = new Abstract_GBelief(new Abstract_Literal(ctx.WORD().getText()));
 		return new Abstract_Guard(gb);
 	}

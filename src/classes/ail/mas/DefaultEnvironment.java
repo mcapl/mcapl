@@ -8,16 +8,16 @@
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
-// 
+//
 // The AIL is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-// 
+//
 // To contact the authors:
 // http://www.csc.liv.ac.uk/~lad
 //
@@ -55,16 +55,19 @@ import ajpf.util.VerifyMap;
 import ajpf.PerceptListener;
 import ajpf.MCAPLScheduler;
 import ajpf.util.AJPFLogger;
+import monitor.Monitor;
+import monitor.Monitorable;
+import ail.syntax.PredicatewAnnotation;
 
 
 /**
- * A more or less straightforward implementation of AILEnv.  Intended for use in languages 
+ * A more or less straightforward implementation of AILEnv.  Intended for use in languages
  * which don't require a specific environment and sub-classable for specific applications.
- * 
+ *
  * @author louiseadennis
  *
  */
-public class DefaultEnvironment implements AILEnv { 
+public class DefaultEnvironment implements AILEnv {
 
 	/**
 	 * List of things that all agents can perceive
@@ -72,57 +75,63 @@ public class DefaultEnvironment implements AILEnv {
 	protected VerifySet<Predicate> percepts = new VerifySet<Predicate>();
 	/**
 	 * List of things only some agents can percieve indexed by agent.
-	 */ 
+	 */
 	protected Map<String,VerifySet<Predicate>>  agPercepts = new VerifyMap<String, VerifySet<Predicate>>();
 	/**
 	 * List of agents who have already "collected" the current set of percepts.
 	 */
 	protected VerifySet<String> uptodateAgs = new VerifySet<String>();
-	
+
 	/**
 	 * A map of agents to their pending messages.
 	 */
 	private Map<String, VerifySet<Message>> agMessages = new VerifyMap<String, VerifySet<Message>>();
-			  
+
 	/**
 	 * The list of percept listeners.
 	 */
 	@FilterField
 	private static List<PerceptListener> perceptListeners = new ArrayList<PerceptListener>();
-	
+
 	/**
 	 * Maps agent names to their objects - useful for print outs.
 	 */
 	public Map<String, AILAgent> agentmap = new VerifyMap<String, AILAgent>();
-		
+
 	/**
 	 * The last agent to do an action.
 	 */
 	@FilterField
 	public String lastAgent;
-	
+
 	/**
 	 * The last action performed.
 	 */
 	@FilterField
 	public Action lastAction;
-		
+
 	/**
 	 * The scheduler associated with this environment
 	 */
 	protected MCAPLScheduler scheduler;
-	
+
 	/**
 	 * The multi-agent system this environment is part of.
 	 */
 	protected MAS mas;
-	
+
+	private Monitor monitor;
+
+	private String lastEvent;
+
+	private boolean consistent = true;
+
 	/**
 	 * Name for logging.
 	 */
 	@FilterField
 	String logname = "ail.mas.DefaultEnvironment";
-	
+
 	/**
 	 * Create a new Default Environment and set the scheduler as an Action Scheduler.
 	 */
@@ -132,6 +141,14 @@ public class DefaultEnvironment implements AILEnv {
 		addPerceptListener(s);
 	}
 	
+	public void initialise_monitor() {
+		if(this instanceof Monitorable){
+			Monitorable monMe = (Monitorable) this;
+			monitor = new Monitor(monMe.getTraceExpressionPath());
+			monitor.initialize(monMe.getLogFilePath(), monMe.getProtocolName());
+		}
+	}
+
 	/**
 	 * Add an agent to the list the environment knows about.
 	 * @param a
@@ -161,7 +178,7 @@ public class DefaultEnvironment implements AILEnv {
 		}
 		perceptListeners.add(l);
 	 }
-	
+
 	/**
 	 * Remove a percept listener from the environment.
 	 * @param l
@@ -169,8 +186,8 @@ public class DefaultEnvironment implements AILEnv {
 	public void removePerceptListener(PerceptListener l) {
 	 		perceptListeners.remove(l);
 	}
-	
-	
+
+
 	/**
 	 * The conditions under which an agent reasoning cycle should be stopped
 	 * and conditions checked.
@@ -182,26 +199,26 @@ public class DefaultEnvironment implements AILEnv {
 			agentmap.get(agName).getReasoningCycle().setStopandCheck(true);
 		}
 	}
-	   
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.AILEnv#executeAction(java.lang.String, ail.syntax.Structure)
 	 */
     public Unifier executeAction(String agName, Action act) throws AILexception {
- 
+
     	decidetostop(agName, act);
     	if (!act.getFunctor().equals("print")) {
     		lastAgent = agName;
     		lastAction = act;
     	}
     	Unifier u = new Unifier();
-    	
+
     	// Some basic actions you might expect all environments to support
     	if (act instanceof SendAction) {
     		executeSendAction(agName, (SendAction) act);
-    	} 
-    	
+    	}
+
     	if (act.getFunctor().equals("sum")) {
     		NumberTerm x = (NumberTerm) act.getTerm(0);
     		NumberTerm y = (NumberTerm) act.getTerm(1);
@@ -234,7 +251,7 @@ public class DefaultEnvironment implements AILEnv {
     		NumberTermImpl z = new NumberTermImpl(d);
     		u.unifies(sum, z);
     	}
-   	
+
     	if (act.getFunctor().equals("append")) {
     		StringTerm x = (StringTerm) act.getTerm(0);
     		StringTerm y = (StringTerm) act.getTerm(1);
@@ -243,20 +260,35 @@ public class DefaultEnvironment implements AILEnv {
     		StringTermImpl z = new StringTermImpl(append);
     		u.unifies(result, z);
     	}
-    	
+
     	if (act.getFunctor().equals("toString")) {
     		Term x = act.getTerm(0);
-    		
+
     		String s = x.toString();
     		VarTerm result = (VarTerm) act.getTerm(1);
-    		
+
     		u.unifies(result, new StringTermImpl(s));
     	}
-    	    	
+
 	   	if (act.getFunctor().equals("print")) {
 	   		String s = "";
 	   		 for (Term t: act.getTerms()) {
-	   			 s += t.toString();
+	   			 if (t instanceof VarTerm) {
+	   				 if (t.isGround()) {
+	   					 Term tg = ((VarTerm) t).getValue();
+	   					 if (tg instanceof StringTerm) {
+	   						 s += ((StringTerm) tg).getString();
+	   					 } else {
+	   						 s += tg.toString();
+	   					 }
+	   				 } else {
+	   					 s += t.toString();
+	   				 }
+	   			 } else if (t instanceof StringTerm) {
+	   				 s += ((StringTerm) t).getString();
+	   			 } else {
+	   				 s += t.toString();
+	   			 }
 	   		 }
 	    	 // Term content = (Term) act.getTerm(0);
 	    	 System.out.println(s);
@@ -266,30 +298,56 @@ public class DefaultEnvironment implements AILEnv {
 	   	if (act.getFunctor().equals("printstate") || act.getFunctor().equals("printagentstate")) {
 	   		System.out.println(agentmap.get(agName).toString());
 	   		act.setLogLevel(AJPFLogger.FINER);
-	   	} 
- 
+	   	}
+
 	   	if (AJPFLogger.ltInfo(logname)) {
 	   		if (act.getLogLevel() == AJPFLogger.INFO) {
 	   			AJPFLogger.info(logname, agName + " done " + printAction(act));
 	   		} else if (act.getLogLevel() == AJPFLogger.FINE) {
 	   			AJPFLogger.fine(logname, agName + " done " + printAction(act));
 	   		} else if (act.getLogLevel() == AJPFLogger.FINER) {
-	   			AJPFLogger.finer(logname, agName + " done " + printAction(act));		   		
+	   			AJPFLogger.finer(logname, agName + " done " + printAction(act));
 	   		} else if (act.getLogLevel() == AJPFLogger.FINEST) {
 	   			AJPFLogger.finest(logname, agName + " done " + printAction(act));
 	   		}
-	   	} 
-	   	
+	   	}
+
 	   	if (act.getLogLevel() == AJPFLogger.SEVERE) {
 	   		AJPFLogger.severe(logname, agName + " done " + printAction(act));
 	   	} else if (act.getLogLevel() == AJPFLogger.WARNING) {
 	   		AJPFLogger.warning(logname, agName + " done " + printAction(act));
-	   	} 
-	   
-	   	
+	   	}
+
+
+			if(this instanceof Monitorable && consistent){
+				Monitorable monMe = (Monitorable) this;
+
+				if (act instanceof SendAction) {
+					Message m = ((SendAction)act).getMessage(agName);
+					if(!monitor.check("msg(" + m.getIlForce() + ", " + agName + ", " + m.getReceiver() + ", " + m.getPropCont() + ")")){
+						monMe.manageProtocolViolation();
+					}
+				} else{
+
+				//for(String event : monMe.getEventsToCatch()){
+					//if (act.getFunctor().equals(event)) {
+					if(!("event(" + agName + ", " + act.toString() + ")").equals(lastEvent)){
+						lastEvent = "event(" + agName + ", " + act.toString() + ")";
+						if(!monitor.check("event(" + agName + ", " + act.toString() + ")")){
+							consistent = false;
+							monMe.manageProtocolViolation();
+						}
+					}
+						//break;
+					//}
+				//}
+				}
+			}
+
+
 	   	return (u);
     }
-    
+
     /**
      * Helper method for pretty printing actions during logging.
      * @param act
@@ -305,9 +363,9 @@ public class DefaultEnvironment implements AILEnv {
      		String s = "send(" + ilfString(sa.getILF()) + sa.getContent().toString() + ", " + sa.getReceivers().toString() + ")";
     		return s;
     	}
-    		
-    	return act.toString();
     	
+    	return act.toString();
+
     }
 
      /**
@@ -318,9 +376,9 @@ public class DefaultEnvironment implements AILEnv {
      public void executeSendAction(String agName, SendAction act) {
  		Message m = act.getMessage(agName);
  		String r = m.getReceiver();
- 		addMessage(r, m);   	 
+ 		addMessage(r, m);
      }
-     
+
     /**
      * Overridable method for printing illocutionary forces.
      * @param ilf
@@ -330,7 +388,7 @@ public class DefaultEnvironment implements AILEnv {
     	String s = ilf + ":";
     	return s;
     }
-       
+
     /*
      * (non-Javadoc)
      * @see ail.others.AILEnv#getPercepts(java.lang.String)
@@ -348,23 +406,23 @@ public class DefaultEnvironment implements AILEnv {
     	if (update) {
     		uptodateAgs.add(agName);
     	}
-    		
+
     	Set<Predicate> agl = agPercepts.get(agName);
     	Set<Predicate> p = new HashSet<Predicate>();
-    		
+
     	if (! percepts.isEmpty()) { // has global perception?
     		for (Predicate per: percepts) {
     			p.add((Predicate) per.clone());
     		}
     	}
-    				
+
     	if (agl != null) { // add agent personal perception
     		p.addAll(agl);
     	}
      	return p;
      }
-    
-    
+
+
     /*
      * (non-Javadoc)
      * @see ail.others.AILEnv#getMessages(java.lang.String)
@@ -376,15 +434,15 @@ public class DefaultEnvironment implements AILEnv {
 
     	Set<Message> agl = agMessages.get(agName);
      	VerifySet<Message> p = new VerifySet<Message>();
-		
+
     	if (agl != null) {
     		p.addAll(agl);
     		clearMessages(agName);
     	}
-		
+
     	return p;
     }
-    
+
     /**
      * Notify the listeners that the perceptions have changed.
      *
@@ -400,7 +458,7 @@ public class DefaultEnvironment implements AILEnv {
 
     /**
      * Notify the listeners that a particular agent's perceptions have changed.
-     * 
+     *
      * @param s the name of the agent whose perceptions have changed.
      */
     @Override
@@ -413,9 +471,9 @@ public class DefaultEnvironment implements AILEnv {
     			}
     		}
     	}
-     	
+
     }
-    
+
     /**
      * Add a general percept
      * @param per
@@ -429,7 +487,7 @@ public class DefaultEnvironment implements AILEnv {
   		}
 		notifyListeners();
 	}
-  	
+
   	/*
   	 * (non-Javadoc)
   	 * @see ail.mas.AILEnv#agentIsUpToDate(java.lang.String)
@@ -450,10 +508,10 @@ public class DefaultEnvironment implements AILEnv {
   			boolean b =  percepts.remove(per);
   			notifyListeners();
   			return b;
-  		} 
+  		}
   		return false;
 	}
-	
+
 
   	/**
   	 * Remove a percept that unifies with the one given.
@@ -472,14 +530,14 @@ public class DefaultEnvironment implements AILEnv {
 						rper = p;
 					}
 				}
-				
+
 				if (rper != null) {
 					notifyListeners(agName);
 					b = agl.remove(rper);
 				}
 			return b;
 			}
-		} 
+		}
 		return false;
 	}
 
@@ -498,16 +556,16 @@ public class DefaultEnvironment implements AILEnv {
 					rper = p;
 				}
 			}
-				
+
 			if (rper != null) {
 				b = percepts.remove(rper);
 			}
 			notifyListeners();
 			return b;
-		} 
+		}
 		return false;
 	}
-		
+
 	/** Clears the list of global perceptions */
 	public synchronized void clearPercepts() {
 		if (!percepts.isEmpty()) {
@@ -515,8 +573,8 @@ public class DefaultEnvironment implements AILEnv {
 			percepts.clear();
 		}
 	}
-	
-	
+
+
 	/** Adds a perception for a specific agent */
 	public void addMessage(String agName, Message msg) {
 		if (msg != null && agName != null) {
@@ -541,7 +599,7 @@ public class DefaultEnvironment implements AILEnv {
 		notifyListeners(agName);
 	}
 
-	
+
 	/** Adds a perception for a specific agent */
 	public void addPercept(String agName, Predicate per) {
 		if (per != null && agName != null) {
@@ -560,7 +618,7 @@ public class DefaultEnvironment implements AILEnv {
 		}
 		notifyListeners(agName);
 	}
-	
+
 	/** Removes a perception for one agent */
 	public boolean removePercept(String agName, Predicate per) {
 		if (per != null && agName != null) {
@@ -576,7 +634,7 @@ public class DefaultEnvironment implements AILEnv {
 				}
 			}
 		}
-		
+
 		notifyListeners(agName);
 		return false;
 	}
@@ -592,7 +650,7 @@ public class DefaultEnvironment implements AILEnv {
 			}
 		}
 	}
-	
+
 	/** Clears the list of  messages of a specific agent */
 	private void clearMessages(String agName) {
 			if (agName != null) {
@@ -602,7 +660,7 @@ public class DefaultEnvironment implements AILEnv {
 				}
 			}
 	 }
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Thread#toString()
@@ -613,26 +671,26 @@ public class DefaultEnvironment implements AILEnv {
 				s.append(l.toString()).append(", ");
 			}
 			percepts.toString();
-		
+
 			for (String sAg : agPercepts.keySet()) {
 				s.append("\n").append(sAg).append(":");
 				for (Predicate l : agPercepts.get(sAg)) {
 					s.append(l.toString()).append(", ");
 				}
 			}
-		
+
 			for (String sAg : agMessages.keySet()) {
 				s.append("\n").append(sAg).append(":");
 				for (Message l : agMessages.get(sAg)) {
 					s.append(l.toString()).append(", ");
 				}
 			}
-			
+
 			s.append("\n").append("Up to date:").append(uptodateAgs);
 
 			return s.toString();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.AILEnv#done()
@@ -658,7 +716,7 @@ public class DefaultEnvironment implements AILEnv {
 	public Action lastAction() {
 		return lastAction;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.others.AILEnv#lastActionby()
@@ -666,14 +724,14 @@ public class DefaultEnvironment implements AILEnv {
 	public String lastActionby(){
 		return lastAgent;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#configure(ail.util.AILConfig)
 	 */
 	public void configure(AILConfig config) {
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#init_before_adding_agents()
@@ -701,7 +759,7 @@ public class DefaultEnvironment implements AILEnv {
 	public MCAPLScheduler getScheduler() {
 		return scheduler;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#setScheduler(ajpf.MCAPLScheduler)
@@ -709,7 +767,7 @@ public class DefaultEnvironment implements AILEnv {
 	public void setScheduler(MCAPLScheduler s) {
 		scheduler = s;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#executing(java.lang.String, ail.syntax.Action)
@@ -717,7 +775,7 @@ public class DefaultEnvironment implements AILEnv {
 	public boolean executing(String agName, Action act) {
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.AILEnv#actionResult(java.lang.String, ail.syntax.Action)
@@ -725,7 +783,7 @@ public class DefaultEnvironment implements AILEnv {
 	public Unifier actionResult(String agName, Action act) {
 		return null;
 	}
-	
+
 	/**
 	 * A crude method for stopping all agents.  Use with caution.
 	 */
@@ -744,7 +802,7 @@ public class DefaultEnvironment implements AILEnv {
 	public void setMAS(MAS m) {
 		mas = m;
 	}
-	
+
 	public static void setup_scheduler(AILEnv env, MCAPLScheduler s) {
 		env.setScheduler(s);
 		env.addPerceptListener(s);

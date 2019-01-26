@@ -979,4 +979,8 @@ public class Product {
 		}
 
 	}
+	
+	public BuchiAutomaton getBuchi() {
+		return b;
+	}
 }

@@ -27,8 +27,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import ail.parser.FOFVisitor;
-import ail.syntax.Action;
-import ail.syntax.Deed;
 import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Literal;

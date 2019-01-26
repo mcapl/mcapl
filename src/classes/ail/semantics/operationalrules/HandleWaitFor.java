@@ -107,7 +107,7 @@ public class HandleWaitFor implements OSRule {
 		Iterator<Unifier> beliefs;
 		Literal wf_clone = waitingfor.clone();
 		if (waitingfor.negated()) {
-			wf_clone.setNegated(true);
+			wf_clone.setNegated(false);
 			GBelief wfgb = new GBelief(wf_clone);
 			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
 		} else {

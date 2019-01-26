@@ -25,11 +25,6 @@ package pbdi.syntax.ast;
 
 import java.util.ArrayList;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-
-import ail.parser.FOFVisitor;
-import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.Goal;
@@ -37,15 +32,6 @@ import ail.syntax.Guard;
 import ail.syntax.Plan;
 import ail.syntax.Predicate;
 import ail.syntax.VarTerm;
-import ail.syntax.ast.Abstract_GBelief;
-import ail.syntax.ast.Abstract_GLogicalFormula;
-import ail.syntax.ast.Abstract_Guard;
-import ail.syntax.ast.Abstract_Literal;
-import ail.syntax.ast.Abstract_Predicate;
-import ail.syntax.ast.Abstract_Term;
-import ail.syntax.ast.Abstract_VarTerm;
-import ajpf.psl.parser.LogicalFmlasLexer;
-import ajpf.psl.parser.LogicalFmlasParser;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonFunc {

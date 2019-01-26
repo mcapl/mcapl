@@ -338,4 +338,12 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 	public String toString() {
 		return tuplearray.toString();
 	}
+	
+	public VerifyMap<K, V> clone() {
+		VerifyMap<K, V> clone = new VerifyMap();
+		for (K k: keySet()) {
+			clone.put(k, get(k));
+		}
+		return clone;
+	}
 } ///:~

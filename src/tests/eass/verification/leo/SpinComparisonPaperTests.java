@@ -36,7 +36,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  *
  */
 public class SpinComparisonPaperTests extends TestJPF {
-	 static final String[] ARGS = {};
+	 static final String[] ARGS = {  };
 	
 	  @Test //----------------------------------------------------------------------
 	  public void thmSpin0() {

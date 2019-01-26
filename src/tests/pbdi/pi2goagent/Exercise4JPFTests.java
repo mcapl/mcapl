@@ -25,7 +25,6 @@ package pbdi.pi2goagent;
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
-import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Exercise4JPFTests extends TestJPF {
@@ -41,7 +40,7 @@ public class Exercise4JPFTests extends TestJPF {
 	  //--- test methods
 
 	  @Test //----------------------------------------------------------------------
-	  public void exercise3 () {
+	  public void exercise4 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/pbdi/pi2goagent/exercise4.ail";
 	    	String prop_filename =  "/src/examples/pbdi/pi2goagent/pi2go.psl";

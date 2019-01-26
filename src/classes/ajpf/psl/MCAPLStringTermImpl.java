@@ -22,7 +22,6 @@
 //----------------------------------------------------------------------------
 package ajpf.psl;
 
-import ail.syntax.StringTerm;
 
 public class MCAPLStringTermImpl extends MCAPLTermImpl implements MCAPLStringTerm {
 	String fValue;

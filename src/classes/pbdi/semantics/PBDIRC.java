@@ -30,8 +30,6 @@ import ail.semantics.ReasoningCycle;
 import ail.semantics.RCStage;
 import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.*;
-import ail.syntax.Action;
-import ail.syntax.Goal;
 
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;

@@ -70,7 +70,12 @@ public class Chapter6QuickTests {
 		// Begin!
 		mccontrol.begin(); 
 		mas.cleanup();
-		String expectedOutput = "goal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b1,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b2,table)\ngoal_agent attempting move(b4,b3)\ngoal_agent attempting move(b5,b2)\ngoal_agent attempting move(b1,b5)\ngoal_agent attempting move(b6,b4)\n";
+		String nl = System.lineSeparator();
+		String expectedOutput = "goal_agent attempting move(b4,b3)" + nl + "goal_agent attempting move(b2,table)"
+				+ nl + "goal_agent attempting move(b1,table)" + nl + "goal_agent attempting move(b4,b3)" 
+				+ nl + "goal_agent attempting move(b2,table)" + nl + "goal_agent attempting move(b4,b3)"
+				+ nl + "goal_agent attempting move(b5,b2)" + nl + "goal_agent attempting move(b1,b5)"
+				+ nl + "goal_agent attempting move(b6,b4)" + nl;
 		Assert.assertEquals(expectedOutput, errContent.toString());
 		cleanUpStreams();
 	  }

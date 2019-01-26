@@ -228,6 +228,24 @@ public class Abstract_TermImpl implements Abstract_MCAPLTerm {
 	        }
 	        return s.toString();
 	    }
+	   
+	   
+	   @Override
+	   public boolean equals(Object p) {
+		   if (p instanceof Abstract_TermImpl) {
+			   Abstract_TermImpl t = (Abstract_TermImpl) p;
+			   if (t.functor.equals(functor)) {
+				   for (int i = 0; i < terms.length; i++) {
+					   if (!t.getTerms()[i].equals(terms[i])) {
+						   return false;
+					   }
+				   }
+				   return true;
+			   }
+		   }
+		   
+		   return false;
+	   }
 	    
 
 }

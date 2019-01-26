@@ -247,7 +247,7 @@ public class LEOVerificationEnvironment extends EASSVerificationEnvironment {
 	/**
 	 * Randomly determine the messages received by the agent.
 	 */
-	public Set<Message> generate_messages() {
+	public Set<Message> generate_messages(String AgName, Action act) {
 		TreeSet<Message> messages = new TreeSet<Message>();
 		if (agName.equals("ag1")) {
 			if (change_message_ag1) {
@@ -474,7 +474,7 @@ public class LEOVerificationEnvironment extends EASSVerificationEnvironment {
 	/**
 	 * Randomly determine the percepts received by the agent.
 	 */
-	public Set<Predicate> generate_sharedbeliefs() {
+	public Set<Predicate> generate_sharedbeliefs(String AgName, Action Act) {
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		boolean ag1_close_to_middle = false;
 		boolean ag1_plan_to_middle = false;
@@ -737,6 +737,7 @@ public class LEOVerificationEnvironment extends EASSVerificationEnvironment {
 			}
 		}
 	}
+
 
 
 }

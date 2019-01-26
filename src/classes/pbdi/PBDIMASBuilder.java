@@ -30,8 +30,6 @@ import org.antlr.v4.runtime.Token;
 
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
-import ail.semantics.AILAgent;
-import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_MAS;
 import pbdi.parser.P3BDIVisitor;
 import pbdi.parser.Python3Lexer;

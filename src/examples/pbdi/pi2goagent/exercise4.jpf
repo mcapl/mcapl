@@ -25,10 +25,10 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args =src/examples/pbdi/pi2goagent/exercise4.ail,src/examples/pbdi/pi2goagent/pi2go.psl,5
+target.args =src/examples/pbdi/pi2goagent/exercise4.ail,src/examples/pbdi/pi2goagent/pi2go.psl,4
 
 log.info = ail.mas.DefaultEnvironment,pbdi.mas.verification.VerificationEnvironment,pbdi.pi2goagent.Pi2GoAgentEnv,ajpf.product.Product
-
+log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

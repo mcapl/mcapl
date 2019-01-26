@@ -212,12 +212,12 @@ public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
-					// Set<Predicate> percepts = generate_sharedbeliefs();
-					Set<Message> messages = generate_messages();
-					// clearPercepts();
+//					Set<Predicate> percepts = generate_sharedbeliefs();
+//					Set<Message> messages = generate_messages();
+					clearPercepts();
 					
-					for (Predicate p: percepts) {
-						 // addPercept(p);
+/*					for (Predicate p: percepts) {
+						// addPercept(p);
 					}
 					
 					// Set<PythonCalculation> calcs = generate_calcs();
@@ -231,7 +231,7 @@ public boolean done() {
 						for (Message m: messages) {
 						//	addMessage(agName, m);
 						}
-					}
+					} */
 					final_turn = 2;
 					return false;
 				} else if (final_turn == 0){

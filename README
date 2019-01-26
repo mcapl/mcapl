@@ -26,6 +26,20 @@ src/peers contains alternative implementations for some methods and classes for 
    
 src/tests contains regression tests.
 
-Documentation including installation instructions can be found in the doc folder
+Documentation including installation instructions can be found in the doc folder.
 
+Problems and Contributions
+==========================
 
+Bug reports and contributions are always welcome.
+
+Please contact Louise Dennis, L.A.Dennis@liverpool.ac.uk, by email to make a bug report.
+
+To contribute to the MCAPL code base please fork the git repository and then submit a pull request.  We value interaction with other people working on the code base and so would welcome contact from potential contributors to discuss their ideas and plans, though this is not a requirement for contribution.  Please email Louise Dennis, L.A.Dennis@liverpool.ac.uk, if you want to discuss working on the MCAPL code base.
+
+Publications/Repository/Archival Copies
+=======================================
+
+This software is published by the Journal of Open Source Software
+
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00617/status.svg)](https://doi.org/10.21105/joss.00617)

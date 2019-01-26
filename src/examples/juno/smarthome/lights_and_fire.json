@@ -1,0 +1,101 @@
+{
+    "description": "Lights and Fire Problem",
+    "actions": [
+	"turn_on_lights",
+	"evacuate_the_house",
+	"turn_on_lights_and_evacuate_the_house",
+	"refrain"
+    ],
+    "background": [
+	"daylight",
+	"danger_in_house"
+    ],
+    "consequences": [
+	"people_can_see",
+	"lights_are_on",
+	"people_are_safe",
+	"people_leave_house",
+	"evacuation_attempt"
+    ],
+    "mechanisms": {
+	"people_can_see": "Or('lights_are_on','daylight')",
+	"lights_are_on": "Or('turn_on_lights','turn_on_lights_and_evacuate_the_house')",
+	"people_are_safe": "Or('people_leave_house',Not('danger_in_house'))",
+        "people_leave_house": "And('evacuation_attempt','people_can_see')",
+	"evacuation_attempt": "Or('turn_on_lights_and_evacuate_the_house','evacuate_the_house')",
+    },
+    "utilities": {
+	"people_are_safe": 10,
+	"lights_are_on": -1,
+	"people_leave_house": -1
+    },
+    "intentions": {
+	"turn_on_lights": [
+	    "turn_on_lights",
+	    "lights_are_on",
+	    "people_can_see"
+	],
+	"evacuate_the_house": [
+	    "evacuate_the_house",
+	    "people_are_safe"
+	],
+	"turn_on_lights_and_evacuate_the_house": [
+	    "turn_on_lights_and_evacuate_the_house",
+	    "lights_are_on",
+	    "people_are_safe"
+	],
+	"refrain": [
+	    "refrain"
+	]
+    },
+    "patients": [
+	"Residents"
+    ],
+    "affects": {
+	"people_are_safe": [
+	    [
+		"Residents",
+		"+"
+	    ]
+	],
+	"people_can_see": [
+	    [
+		"Residents",
+		"+"
+	    ]
+	],
+	"lights_are_on": [
+	    [
+		"Residents",
+		"+"
+	    ]
+	]
+    },
+    "goals": {
+	"evacuate_the_house": [
+	    "people_are_safe"
+	],
+	"turn_on_lights": [
+	    "people_can_see"
+	]
+	"turn_on_lights_and_evacuate_the_house": [
+	    "people_are_safe"
+	]
+    },
+    "goalbase": [
+	"people_are_safe",
+	"people_can_see"
+    ],
+    "context_background": {
+	"'day'":"'daylight'",
+	"'fire'":"'danger_in_house'"
+    },
+    "context_utilities": {
+	"'evening'": {
+	    "people_can_see":2
+	}
+	"'fire'": {
+	    "people_leave_house":0
+	}
+    }
+}

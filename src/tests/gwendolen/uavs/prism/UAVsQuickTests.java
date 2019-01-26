@@ -23,7 +23,7 @@ import ail.util.AJPF_w_AIL;
 import ajpf.MCAPLcontroller;
 
 public class UAVsQuickTests extends TestJPF {
-	 static final String[] JPF_ARGS = {  };
+	 static final String[] JPF_ARGS = { "suppress_version = true" };
 	
 	// General framework for testing print statements.  Stolen from stackOverflow.
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();

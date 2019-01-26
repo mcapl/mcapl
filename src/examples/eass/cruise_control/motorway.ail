@@ -39,7 +39,7 @@ mas.agent.4.builder = eass.EASSAgentBuilder
 mas.agent.4.name = abstraction_car1
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
-log.info = eass.mas.DefaultEnvironment,eass.cruise_control.MotorWayEnv
+log.info = eass.mas.DefaultEnvironment,eass.cruise_control.ThreeLaneMotorWay
 log.format = brief
 
 # Eass Specific stuff

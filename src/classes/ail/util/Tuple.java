@@ -61,6 +61,7 @@ public class Tuple<K, L> {
 	public String toString() {
 		String s = "<" + left + ", " + right + ">";
 		return s;
-	} 
+	}
+
 
 }

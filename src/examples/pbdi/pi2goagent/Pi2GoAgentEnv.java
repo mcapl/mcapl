@@ -26,13 +26,9 @@ package pbdi.pi2goagent;
 import java.util.Set;
 import java.util.TreeSet;
 
-import ail.mas.DefaultEnvironment;
-import ail.mas.scheduling.SingleAgentScheduler;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
-import ajpf.util.choice.UniformBoolChoice;
-import ajpf.util.choice.UniformIntChoice;
 import pbdi.mas.verification.PBDIVerificationEnvironment;
 import pbdi.syntax.PythonCalculation;
 
