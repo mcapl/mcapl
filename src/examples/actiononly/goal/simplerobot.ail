@@ -26,4 +26,7 @@ env = actiononly.goal.GoalEnv
 mas.file = src/examples/actiononly/goal/simplerobot.ao
 mas.builder = actiononly.ActionOnlyMASBuilder
 
-log.info = ail.mas.DefaultEnvironment
+tracing.enabled = true
+
+
+// log.info = ail.mas.DefaultEnvironment

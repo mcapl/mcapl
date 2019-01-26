@@ -74,7 +74,10 @@ public class AILPrettyPrinter {
 		ListIterator<Guard> gi = p.getGuard().listIterator();
 		ListIterator<Deed> di = p.getPrefix().listIterator();
 		String triggers = p.getEvent().toString(descriptions);
-		String us = p.getUnifier().toString();
+		String us = "[]";
+		if (!  (p.getUnifier() == null)) {
+			us = p.getUnifier().toString();
+		}
 		while (gi.hasNext()) {
 			Guard gu = gi.next();
 			Deed d = di.next();
