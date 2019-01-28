@@ -32,6 +32,11 @@ import ail.syntax.Guard;
 import ail.syntax.Plan;
 import ail.syntax.Predicate;
 import ail.syntax.VarTerm;
+import ail.syntax.ast.Abstract_GBelief;
+import ail.syntax.ast.Abstract_GLogicalFormula;
+import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_Term;
+import ail.syntax.ast.Abstract_VarTerm;
 import gov.nasa.jpf.vm.MJIEnv;
 
 public class Abstract_PythonFunc {
