@@ -26,7 +26,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args =src/examples/pbdi/naoagent/ethical_engine/myversion.ail,src/examples/pbdi/naoagent/ethical_engine/ethical_nao.psl,6
+target.args =src/examples/pbdi/naoagent/ethical_engine/2plan_case.ail,src/examples/pbdi/naoagent/ethical_engine/ethical_nao.psl,7
 
 log.info = ail.mas.DefaultEnvironment,pbdi.naoagent.ethical_engine.EthicalEngineEnv,ajpf.MCAPLAgent,ajpf.product.Product
 

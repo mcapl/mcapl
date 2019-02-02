@@ -368,7 +368,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 						 if (config.getProperty("ajpf.target_modelchecker").equals("spin")) {
 							 try {
 								 String property_file = "prop.txt";
-								 if (config.containsKey("ajpf.spin.property_file")) {
+							 	 if (config.containsKey("ajpf.spin.property_file")) {
 									 property_file = config.getProperty("ajpf.spin.property_file");
 								 }
 								 String spin_path = "";

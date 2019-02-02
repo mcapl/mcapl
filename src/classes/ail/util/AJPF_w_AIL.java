@@ -69,7 +69,7 @@ public class AJPF_w_AIL {
 		MCAPLcontroller mccontrol = new MCAPLcontroller(config, propertystring);
 		// mccontrol.setProperty(propertystring);
 		MAS mas = AIL.AILSetup(config, mccontrol);
-		System.err.println(mas);
+		// System.err.println(mas);
 		// Get the property to be checked.
 		
 		// Run the system.

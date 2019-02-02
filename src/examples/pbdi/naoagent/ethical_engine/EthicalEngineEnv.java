@@ -329,7 +329,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 			boolean safe_to_add2 = add(hypothetical2, new Tuple(b, a));
 			
 			if (!safe_to_add1 && !safe_to_add2) {
-				System.err.println("c");
+				// System.err.println("c");
 				return 6;
 			} 
 
@@ -339,18 +339,18 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 							consistent(hypothetical, robot_obj_order, robot_danger_order, wait_time_order)) {
 						if (consistent(hypothetical2, robot_obj_order, robot_danger_order, walking_time_order) && 
 							consistent(hypothetical2, robot_obj_order, robot_danger_order, wait_time_order)) {
-								System.err.println("f");
+								// System.err.println("f");
 								return 5;
 							} else {
-								System.err.println("g");
+								//System.err.println("g");
 								return 4;
 							}
 					} else {
 						if (!consistent(hypothetical2, robot_obj_order, robot_danger_order, walking_time_order) || !consistent(hypothetical2, robot_obj_order, robot_danger_order, wait_time_order)) {
-							System.err.println("h");
+							// System.err.println("h");
 							return 6;
 						}
-						System.err.println("i");
+						// System.err.println("i");
 						return 3;
 					}
 				} else if (order_num == 2) {
@@ -642,7 +642,7 @@ public class EthicalEngineEnv extends PBDIVerificationEnvironment {
 				PythonCalculation worse_rod = new PythonCalculation(new Literal("much_worse_plan1_plan2_robot_obj_dist_"));
 				PythonCalculation worse_rod_flip = new PythonCalculation(new Literal("much_worse_plan2_plan1_robot_obj_dist_"));
 				int robot_obj_int = order.check_constraints_robot_obj(plan1_string, plan2_string);
-				System.err.println("ROBOT OBJ" + robot_obj_int);
+				// System.err.println("ROBOT OBJ" + robot_obj_int);
 				if (robot_obj_int == 1) {
 					worse_rod.addTerm(new Literal(plan1_string));
 					worse_rod.addTerm(new Literal(plan2_string));

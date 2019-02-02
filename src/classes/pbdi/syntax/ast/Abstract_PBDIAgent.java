@@ -102,7 +102,7 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 		System.err.println("entered addstructures");
 		for (int i = 0; i < rules.length; i++) {
 			for (int j = 0; j < funcs.length; j++) {
-				if (funcs[j].getName().equals(rules[i].getName())) {
+				if (equal_modulo_self(funcs[j].getName(), rules[i].getName())) {
 					if (rules[i] instanceof Abstract_PBDIBestRule) {
 						Abstract_Guard g1 = rules[i].getGuard();
 						Abstract_PBDIBestRule best_rule = (Abstract_PBDIBestRule) rules[i];
@@ -124,6 +124,23 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 			}
 		}
 		
+	}
+	
+	public boolean equal_modulo_self(String s1, String s2) {
+		if (s1.equals(s2)) {
+			return true;
+		} 
+		
+		if (s1.equals("self." + s2)) {
+			return true;
+		}
+		
+		String s1self = "self." + s1;
+		if (s1self.equals(s2)) {
+			return true;
+		}
+		
+		return false;
 	}
 	
     public int newJPFObject(MJIEnv env) {

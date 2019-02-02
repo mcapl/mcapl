@@ -11,6 +11,6 @@ def stop_rule():
 	agent.done()
 	return
 
-agent.add_condition_rule(agent.believe('switch_pressed'), stop_rule)
-agent.add_rule(print_obstacle_rule)
+agent.add_condition_rule(agent.believe('switch_pressed'), self.stop_rule)
+agent.add_rule(self.print_obstacle_rule)
 agent.run_agent()

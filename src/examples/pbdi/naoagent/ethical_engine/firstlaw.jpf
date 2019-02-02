@@ -28,11 +28,11 @@
 target = ail.util.AJPF_w_AIL
 target.args =src/examples/pbdi/naoagent/ethical_engine/firstlaw.ail,src/examples/pbdi/naoagent/ethical_engine/ethical_nao.psl,5
 
-log.info = ail.mas.DefaultEnvironment,pbdi.naoagent.ethical_engine.EthicalEngineEnv,ajpf.MCAPLAgent,ajpf.product.Product,ajpf.psl.buchi.BuchiAutomaton
-log.fine = ail.semantics.AILAgent
+// log.info = ail.mas.DefaultEnvironment,pbdi.naoagent.ethical_engine.EthicalEngineEnv,ajpf.MCAPLAgent,ajpf.product.Product,ajpf.psl.buchi.BuchiAutomaton
+// log.fine = ail.semantics.AILAgent
+log.info = ajpf.product.Product
 
-
-listener+=,.listener.ExecTracker
+// listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
 

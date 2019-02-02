@@ -22,8 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
-env = pbdi.naoagent.ethical_engine.EthicalEngineEnv
-mas.file = src/examples/pbdi/naoagent/ethical_engine/incremental.pbdi
+env = pbdi.naoagent.ethical_engine.EthicalEngineEnv_Unconstrained_3Plans
+mas.file = src/examples/pbdi/naoagent/ethical_engine/october2017_agentonly.pbdi
 mas.builder = pbdi.PBDIMASBuilder
 
-log.info = pbdi.naoagent.ethical_engine.EthicalEngineEnv,pbdi.mas.verification.PBDIVerificationEnv
+log.info = pbdi.naoagent.ethical_engine.EthicalEngineEnv,pbdi.mas.verification.PBDIVerificationEnv,
+log.fine = ail.syntax.EvaluationAndRuleBaseIterator,ail.semantics.AILAgent

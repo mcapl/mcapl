@@ -101,16 +101,16 @@ public class AIL {
 				env.configure(config);
 				env.init_before_adding_agents();
 				mas.setEnv(env);
-				System.err.println("setting env");
+				// System.err.println("setting env");
 				control.setMAS(mas);
-				System.err.println("a");
+				// System.err.println("a");
 				env.init_after_adding_agents();
-				System.err.println("b");
-				System.err.println(mas);
+				// System.err.println("b");
+				// System.err.println(mas);
 				control.initialiseSpec();
-				System.err.println("c");
+				// System.err.println("c");
 				env.setMAS(mas);
-				System.err.println("set mas");
+				// System.err.println("set mas");
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
