@@ -174,6 +174,11 @@ public class PrologCut implements LogicalFormula {
 	public String toString() {
 		return "!";
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		return this;
+	}
 
 	@Override
     public String toString(PredicateDescriptions descriptions ) {

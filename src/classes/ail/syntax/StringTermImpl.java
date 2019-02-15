@@ -179,5 +179,12 @@ public final class StringTermImpl extends DefaultTerm implements StringTerm {
 	public void makeVarsAnnon() {
 		
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) return subst;
+		
+		else return this;
+	}
   
 }

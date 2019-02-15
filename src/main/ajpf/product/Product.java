@@ -531,6 +531,7 @@ public class Product {
 						log.fine("This state is accepting");
 						S2.add(x);
 						while (! S2.isEmpty()) {
+							log.fine("S2 isn't empty");
 							ProductState v = S2.get(S2.size() - 1);
 							if (v.getSuccessorNums().contains(x.getNum())) {
 								List<ProductState> acceptingpath = new ArrayList<ProductState>();
@@ -541,6 +542,7 @@ public class Product {
 								}
 								return acceptingpath;
 							} else {
+								log.fine("v's successors do not contain x" + S2);
 								Iterator<ProductState> m2iterator = M2it.get(v.getNum());
 								if (m2iterator.hasNext()) {
 									ProductState w = m2iterator.next();
@@ -549,6 +551,7 @@ public class Product {
 								}	else {
 									S2.remove(S2.size() - 1);
 								}
+								log.fine("S2" + S2);
 							}
 						}
 					}
@@ -815,7 +818,7 @@ public class Product {
 		 * tuples with the same buchi state when were are searching for accepting paths.
 		 */
 		public boolean equals(Object o) {
-			System.err.println("calling equals");
+			// System.err.println("calling equals");
 			if (o instanceof ProductState) {
 				ProductState t = (ProductState) o;
 				return hashCode() == t.hashCode();

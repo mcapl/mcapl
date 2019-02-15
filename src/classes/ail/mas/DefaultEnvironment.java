@@ -396,6 +396,7 @@ public class DefaultEnvironment implements AILEnv {
     public Set<Predicate> getPercepts(String agName, boolean update) {
 		// check whether this agent needs to access the perception lists
     	// or whether it is uptodate
+    	// System.err.println("HERE");
     	if (uptodateAgs.contains(agName)) {
     		return null;
 		}

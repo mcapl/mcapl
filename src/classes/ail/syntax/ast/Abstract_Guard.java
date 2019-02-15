@@ -70,6 +70,7 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 	public static int none = 0;
 	public static int not = 1;
 	public static int and = 2;
+	public static int or = 3;
 	
 	/**
 	 * The LHS and RHS of the expression.
@@ -130,6 +131,18 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 		return add(gb, true);
 	}
 	
+	public Abstract_GLogicalFormula getLHS() {
+		return lhs;
+	}
+	
+	public Abstract_GLogicalFormula getRHS() {
+		return rhs;
+	}
+	
+	public int getOp() {
+		return op;
+	}
+	
 	/**
      * Operators must also be converted to the relevant concrete class.
      * @return
@@ -140,6 +153,9 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
     	}
     	if (op == not) {
     		return Guard.GLogicalOp.not;
+    	}
+    	if (op == or) {
+    		return Guard.GLogicalOp.or;
     	}
     	
     	return Guard.GLogicalOp.and;
@@ -206,8 +222,8 @@ public class Abstract_Guard implements Abstract_GLogicalFormula {
 			} else if (op == not) {
 				op = none;
 			} else {
-				op = not;
 				rhs = new Abstract_Guard(lhs, op, rhs);
+				op =  not;
 				lhs = null;
 			}
 		}

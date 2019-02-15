@@ -156,7 +156,7 @@ public class Abstract_Literal extends Abstract_Pred {
 	 */
 	public Abstract_Literal clone() {
 		Abstract_Pred p = super.clone();
-		Abstract_Literal l = (Abstract_Literal) p;
+		Abstract_Literal l = new Abstract_Literal(p);
 		l.setType(getType());
 		return l;
 	}

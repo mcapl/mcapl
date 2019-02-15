@@ -373,6 +373,15 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 			}
 	
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (hasContent()) {
+			return getContent().substitute(term, subst);
+		} else {
+			return null;
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

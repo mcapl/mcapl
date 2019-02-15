@@ -38,16 +38,22 @@ import ail.mas.DefaultEnvironment;
 import ail.mas.MAS;
 import ail.mas.scheduling.SingleAgentScheduler;
 import ajpf.util.AJPFLogger;
+import ajpf.util.VerifySet;
 import ajpf.util.choice.UniformBoolChoice;
 import ajpf.util.choice.UniformIntChoice;
+import pbdi.mas.PBDIEnv;
+import pbdi.semantics.PBDIAgent;
+import pbdi.syntax.PythonCalculation;
 
 /**
  * An environment for verifying a single PBDI Reasoning engine.
  * @author louiseadennis
  *
  */
-public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
+public abstract class PBDIVerificationEnvironment extends DefaultEnvironment implements PBDIEnv {
 	String logname = "pbdi.mas.verification.PBDIVerificationEnvironment";
+	
+	Set<PythonCalculation> python_calculations = new VerifySet<PythonCalculation>();
 
 	protected UniformBoolChoice random_bool_generator;
 	protected UniformIntChoice random_int_generator;
@@ -56,6 +62,7 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 	// when actions are taken.
 	public boolean at_start_percepts = true;
 	public boolean at_start_messages = true;
+	public boolean at_start_calcs = true;
 	
 	/**
 	 * Constructor.
@@ -70,6 +77,8 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
 	 */
 	public Set<Predicate> getPercepts(String agName, boolean update) {
+		// System.err.println("In Correct Get Percepts");
+		// System.err.println("UPDATE IS:" + update);
 		TreeSet<Predicate> percepts = new TreeSet<Predicate>();
 		// At the start we generate this set, after that we use percepts.
 		if (at_start_percepts && mas != null) {
@@ -85,10 +94,38 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 		if (ps != null ) {
 			percepts.addAll(ps);
 		} else {
-			return null;
+			// return null;
 		}		
+		
+		// As part of model checking we're also letting calculations count as percepts
+		if (!update) {
+			percepts.addAll(((PBDIAgent) this.agentmap.get(agName)).getPCs());
+			// System.err.println(percepts);
+		}
 		return percepts;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
+	 */
+	@Override
+	public Set<PythonCalculation> getCalculations(String agName, boolean update) {
+		// System.err.println("A");
+		TreeSet<PythonCalculation> percepts = new TreeSet<PythonCalculation>();
+		// At the start we generate this set, after that we use percepts.
+		if (at_start_calcs) {
+			// System.err.println("B");
+			percepts.addAll(generate_calcs());
+			python_calculations.addAll(percepts);
+			at_start_calcs = false;
+			uptodateAgs.clear();
+			return percepts;
+		} else {
+			return python_calculations;
+		}
+	}
+
 	
 	/**
 	 * 
@@ -115,6 +152,8 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 	 * @return
 	 */
 	public abstract Set<Message> generate_messages();
+	
+	public abstract Set<PythonCalculation> generate_calcs();
 
 	/**
 	 * Action execution simply causes the random generation of perceptions and messages.
@@ -128,6 +167,7 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 	   	if (!act.getFunctor().equals("print")) {
 			Set<Predicate> percepts = generate_sharedbeliefs();
 			Set<Message> messages = generate_messages();
+			Set<PythonCalculation> calcs = generate_calcs();
 			clearPercepts();
 			
 			for (Predicate p: percepts) {
@@ -136,6 +176,13 @@ public abstract class PBDIVerificationEnvironment extends DefaultEnvironment {
 			
 			for (Message m: messages) {
 				addMessage(agName, m);
+			}
+			
+			// System.err.println("Clearing Python Calculations");
+			python_calculations.clear();
+			for (PythonCalculation p: calcs) {
+				python_calculations.add(p);
+				uptodateAgs.clear();
 			}
 		}
 		
@@ -172,6 +219,13 @@ public boolean done() {
 /*					for (Predicate p: percepts) {
 						// addPercept(p);
 					}
+					
+					// Set<PythonCalculation> calcs = generate_calcs();
+					// python_calculations.clear();
+					//for (PythonCalculation p: calcs) {
+					//	python_calculations.add(p);
+					//	uptodateAgs.clear();
+					// }
 					
 					for (String agName: agentmap.keySet()) {
 						for (Message m: messages) {

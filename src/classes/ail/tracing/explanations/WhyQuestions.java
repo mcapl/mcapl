@@ -110,7 +110,7 @@ public class WhyQuestions {
 	// TODO: we are missing the new intention modification events here now
 
 	/**
-	 * @param action An action from which we want to know why it was excuted.
+	 * @param action An action from which we want to know why it was executed.
 	 * @return One or more {@link ActionReason}s (if the action was actually
 	 *         executed) explaining why this action was executed (each entry
 	 *         corresponds to one successful execution).

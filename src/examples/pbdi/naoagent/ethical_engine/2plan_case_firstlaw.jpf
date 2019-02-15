@@ -1,0 +1,181 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2019 Louise A. Dennis and Michael Fisher
+//
+// This file is part of the Python BDI Agent Model (PBDI) Library.
+// 
+// The PBDI Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The PBDI Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the PBDI Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/pbdi/naoagent/ethical_engine/2plan_case.ail,src/examples/pbdi/naoagent/ethical_engine/ethical_nao.psl,5
+
+log.info = ail.mas.DefaultEnvironment,pbdi.naoagent.ethical_engine.EthicalEngineEnv,ajpf.MCAPLAgent,ajpf.product.Product
+
+
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+
+// 2 Plan unconstrained results
+
+// property 5
+
+// ====================================================== results
+// no errors detected
+
+// ====================================================== statistics
+// elapsed time:       00:00:43
+// states:             new=1192,visited=215,backtracked=1407,end=216
+// search:             maxDepth=12,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1191
+// heap:               new=3976160,released=3954641,maxLive=2542,gcCycles=1407
+// instructions:       246978516
+// max memory:         515MB
+// loaded code:        classes=295,methods=4688
+// 
+// ====================================================== search finished: 21/11/17 13:00
+
+// property 7
+
+// ====================================================== results
+// no errors detected
+
+// ====================================================== statistics
+// elapsed time:       00:00:48
+// states:             new=1192,visited=215,backtracked=1407,end=216
+// search:             maxDepth=12,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1191
+// heap:               new=4568864,released=4547322,maxLive=2565,gcCycles=1407
+// instructions:       262170248
+// max memory:         359MB
+// loaded code:        classes=295,methods=4688
+
+// ====================================================== search finished: 21/11/17 13:01
+
+// property 8
+
+// ====================================================== results
+// no errors detected
+
+// ====================================================== statistics
+// elapsed time:       00:00:52
+// states:             new=1192,visited=215,backtracked=1407,end=216
+// search:             maxDepth=12,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1191
+// heap:               new=5160426,released=5138861,maxLive=2588,gcCycles=1407
+// instructions:       277250510
+// max memory:         516MB
+// loaded code:        classes=295,methods=4688
+// 
+// ====================================================== search finished: 21/11/17 13:03
+
+
+// 3 plan (always finds plan) on Macbook----------
+
+//====================================================== results
+//no errors detected
+
+//====================================================== statistics
+//elapsed time:       60:55:31
+//states:             new=187875,visited=304040,backtracked=491915,end=0
+//search:             maxDepth=16,constraints=0
+//choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=187875
+//heap:               new=18411742734,released=18402675392,maxLive=2740,gcCycles=491915
+//instructions:       1228150947257
+//max memory:         1015MB
+//loaded code:        classes=297,methods=4706
+
+//====================================================== search finished: 17/11/17 08:21
+
+//------- 3 plan iMAC
+
+// property 8
+
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       76:19:07
+// states:             new=1708076,visited=304039,backtracked=2012115,end=304040
+// search:             maxDepth=22,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1708075
+// heap:               new=32674492400,released=32669073619,maxLive=2790,gcCycles=2012115
+// instructions:       1536915092764
+// max memory:         4069MB
+// loaded code:        classes=299,methods=4722
+// 
+// ====================================================== search finished: 24/11/17 17:36
+
+// property 7
+
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       72:33:22
+// states:             new=1708076,visited=304039,backtracked=2012115,end=304040
+// search:             maxDepth=22,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1708075
+// heap:               new=28874465386,released=28869046628,maxLive=2767,gcCycles=2012115
+// instructions:       1453501650576
+// max memory:         4339MB
+// loaded code:        classes=299,methods=4722
+// 
+// ====================================================== search finished: 30/11/17 10:01
+
+
+// property 5
+
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       64:10:23
+// states:             new=1708076,visited=304039,backtracked=2012115,end=304040
+// search:             maxDepth=22,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1708075
+// heap:               new=25070266222,released=25064847487,maxLive=2744,gcCycles=2012115
+// instructions:       1369684201348
+// max memory:         6187MB
+// loaded code:        classes=299,methods=4722
+// 
+// ====================================================== search finished: 08/12/17 01:43
+
+
+// property 6
+
+// ====================================================== results
+// no errors detected
+// 
+// ====================================================== statistics
+// elapsed time:       52:51:47
+// states:             new=187875,visited=304040,backtracked=491915,end=0
+// search:             maxDepth=16,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=187875
+// heap:               new=18411742634,released=18402675436,maxLive=2740,gcCycles=491915
+// instructions:       1228088669168
+// max memory:         892MB
+// loaded code:        classes=297,methods=4705
+// 
+// ====================================================== search finished: 10/12/17 14:34

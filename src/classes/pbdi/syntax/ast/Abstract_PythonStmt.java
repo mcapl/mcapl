@@ -37,7 +37,7 @@ import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import gov.nasa.jpf.vm.MJIEnv;
 
-public class Abstract_PythonStmt {
+public class Abstract_PythonStmt implements Abstract_PythonS {
 	String statementstring;
 	Abstract_Deed statement;
 	
@@ -70,11 +70,14 @@ public class Abstract_PythonStmt {
 		LogicalFmlasParser fof_parser = fofparser(s);
 		FOFVisitor fof_visitor = new FOFVisitor();
 		Abstract_Predicate p1 = (Abstract_Predicate) fof_visitor.visitFunction(fof_parser.function());
-		if (p1.getFunctor().equals("add_belief")) {
+		if (p1.getFunctor().equals("add_belief") || p1.getFunctor().equals(".add_belief")) {
 			Abstract_Term arg = (Abstract_Term) p1.getTerm(0);
 			Abstract_Literal p2;
 			if (arg instanceof Abstract_StringTermImpl) {
 				p2 = new Abstract_Literal(((Abstract_StringTermImpl) arg).getString());
+				if (p1.getTermSize() > 1) {
+					p2.addTerm(p1.getTerm(1));
+				}
 			} else {
 				p2 = (Abstract_Literal) arg;
 			}

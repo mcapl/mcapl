@@ -149,6 +149,13 @@ public class Is extends AILComparison {
 	public boolean apply(Unifier theta) {
 		return (variable.apply(theta) && value.apply(theta));
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) return subst;
+		
+		return new Is((Term) variable.substitute(term, subst), (Predicate) value.substitute(term, subst));
+	}
 
 	/*
 	 * (non-Javadoc)

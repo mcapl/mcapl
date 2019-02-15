@@ -60,7 +60,7 @@ public class MatchDropGoal implements OSRule {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		Intention I = a.getIntention();
-		if (!I.empty() && I.hdE().referstoGoal() && I.hdE().isDeletion() &&  I.noplan()) {
+		if (I != null && !I.empty() && I.hdE().referstoGoal() && I.hdE().isDeletion() &&  I.noplan()) {
 			return true;
 		} else {
 			return false;

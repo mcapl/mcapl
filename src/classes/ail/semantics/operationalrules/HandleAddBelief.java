@@ -72,7 +72,7 @@ public class HandleAddBelief extends HandleBelief {
 		
 		StringTerm db = topdeed.getDBnum();
 		SourceAnnotation sa = AILAgent.refertoself();
-		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty() && (e.getCategory() == Event.Estart || (e.getCategory() == Event.AILBel && e.getContent().equals(b)))) {
+		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty() && (e.getCategory() == Event.Estart || e.getCategory() == Event.FromPercept || (e.getCategory() == Event.AILBel && e.getContent().equals(b)))) {
 			sa = i.getSource();
 		}
 

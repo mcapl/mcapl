@@ -467,6 +467,13 @@ public class LogExpr implements LogicalFormula {
 		
 		return false;
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) return subst;
+		
+		return new LogExpr((LogicalFormula) getLHS().substitute(term, subst), getOp(), (LogicalFormula) getRHS().substitute(term, subst));
+	}
 
 	/*
 	 * (non-Javadoc)

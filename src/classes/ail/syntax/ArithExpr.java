@@ -189,10 +189,10 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
         getRHS().apply(u);
 
         if (isGround()) {
-        	evaluate();
+        		evaluate();
         }
         
-    	return true;
+        return true;
     }
         
     /** make a hard copy of the terms */
@@ -455,7 +455,24 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
 		   lhs.makeVarsAnnon();
 		   rhs.makeVarsAnnon();
 		   hashCodeCache = null;
-    }	 
+    }
+
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (isEvaluated()) {
+			if (equals(term)) {
+				return subst;
+			}
+		}
+    	
+        ArithExpr new_arith =  new ArithExpr((NumberTerm) getLHS().substitute(term, subst), op, (NumberTerm) getRHS().substitute(term, subst));
+
+        if (new_arith.isGround()) {
+        		evaluate();
+        }
+        
+        return new_arith;
+	}	 
 
 
 }

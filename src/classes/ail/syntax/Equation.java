@@ -83,6 +83,14 @@ public class Equation extends AILComparison {
 	public boolean apply(Unifier un) {
 		return (lhs.apply(un) & rhs.apply(un));
 	}
+	
+	@Override 
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) {
+			return subst;
+		}
+		return new Equation((NumberTerm) lhs.substitute(term, subst), getOp(), (NumberTerm) rhs.substitute(term, subst));
+	}
     
 	/*
 	 * (non-Javadoc)

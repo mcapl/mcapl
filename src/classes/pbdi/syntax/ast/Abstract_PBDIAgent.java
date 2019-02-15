@@ -26,6 +26,8 @@ package pbdi.syntax.ast;
 import ail.mas.MAS;
 import ail.syntax.Guard;
 import ail.syntax.ast.Abstract_Agent;
+import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_VarTerm;
 import gov.nasa.jpf.vm.MJIEnv;
 import pbdi.semantics.PBDIAgent;
 
@@ -97,23 +99,53 @@ public class Abstract_PBDIAgent extends Abstract_Agent {
 	}
 
 	public void addStructures(PBDIAgent pbdi) throws Exception {
+		System.err.println("entered addstructures");
 		for (int i = 0; i < rules.length; i++) {
 			for (int j = 0; j < funcs.length; j++) {
-				if (funcs[j].getName().equals(rules[i].getName())) {
-					Guard g = new Guard();
-					if (rules[i].getGuard() != null) {
-						g = rules[i].getGuard().toMCAPL();
+				if (equal_modulo_self(funcs[j].getName(), rules[i].getName())) {
+					if (rules[i] instanceof Abstract_PBDIBestRule) {
+						Abstract_Guard g1 = rules[i].getGuard();
+						Abstract_PBDIBestRule best_rule = (Abstract_PBDIBestRule) rules[i];
+						for (int k = 0; k < funcs.length; k++) {
+							if (funcs[k].getName().equals(best_rule.getCompare())) {
+								Abstract_VarTerm v = new Abstract_VarTerm("X");
+								Abstract_Guard best_guard = funcs[k].toGuard(g1, v);
+								pbdi.addPlan(funcs[j].toPlan(best_guard.toMCAPL(), v));
+							}
+						}
+					} else {
+						Guard g = new Guard();
+						if (rules[i].getGuard() != null) {
+							g = rules[i].getGuard().toMCAPL();
+						}
+						pbdi.addPlan(funcs[j].toPlan(g));
 					}
-					pbdi.addPlan(funcs[j].toPlan(g));
 				}
 			}
 		}
 		
 	}
 	
+	public boolean equal_modulo_self(String s1, String s2) {
+		if (s1.equals(s2)) {
+			return true;
+		} 
+		
+		if (s1.equals("self." + s2)) {
+			return true;
+		}
+		
+		String s1self = "self." + s1;
+		if (s1self.equals(s2)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
     public int newJPFObject(MJIEnv env) {
-    	int objref = env.newObject("pbdi.syntax.ast.Abstract_PBDIAgent");
-    	env.setReferenceField(objref, "fAgName", env.newString(fAgName));
+    		int objref = env.newObject("pbdi.syntax.ast.Abstract_PBDIAgent");
+    		env.setReferenceField(objref, "fAgName", env.newString(fAgName));
        	int rRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PythonFunc", funcs.length);
        	int cRef = env.newObjectArray("pbdi.syntax.ast.Abstract_PBDIRule", rules.length);
      	for (int i = 0; i < funcs.length; i++) {

@@ -219,11 +219,12 @@ public class ListAll implements GLogicalFormula {
 	@Override
 	public String toString() {
 		String s = "listall ";
-		s += list;
-		s += " <- ";
-		s += mental_state;
+
+		s += list.toString();
+		s+= " <- ";
+		s += mental_state.toString();
 		return s;
-	}
+	}	
 	
 	@Override
 	public String toString(PredicateDescriptions descriptions) {
@@ -233,4 +234,16 @@ public class ListAll implements GLogicalFormula {
 		s += mental_state.toString(descriptions);
 		return s;
 	}
+
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (this.equals(term)) {
+			return subst;
+		} else {
+			ListTerm l = (ListTerm) list.substitute(term, subst);
+			Guard g = (Guard) mental_state.substitute(term, subst);
+			return new ListAll(l, g);
+		}
+	}
+
 }

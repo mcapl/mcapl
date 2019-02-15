@@ -49,6 +49,7 @@ public class HandleEmptyDeedStack extends DoNothing {
 	 * @see ail.semantics.operationalrules.DoNothing#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
+		if (a.getIntention() == null) return false;
 		return (a.getIntention().deeds().isEmpty());
 	}
 }

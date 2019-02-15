@@ -26,6 +26,13 @@ package pbdi.semantics;
 
 
 import ail.util.AILexception;
+import ajpf.util.VerifyList;
+import ajpf.util.VerifyMap;
+import pbdi.syntax.PythonCalculation;
+
+import java.util.List;
+import java.util.Set;
+
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
 
@@ -37,6 +44,11 @@ import ail.semantics.AILAgent;
  *
  */
 public class PBDIAgent extends AILAgent { 
+	public VerifyMap<String,Object> pythonstate;
+	
+	public VerifyList<PythonCalculation> python_calculations = new VerifyList<PythonCalculation>();
+	
+	
 	/**
 	 * Construct a PBDI agent from an architecture and a name.
 	 * 
@@ -68,6 +80,59 @@ public class PBDIAgent extends AILAgent {
 
 		
 	}
+	
+	public void updateState(String variable, Object value) {
+		pythonstate.put(variable, value);
+	}
+	
+	public Object getState(String variable) throws Exception {
+		if (pythonstate.containsKey(variable)) {
+			return pythonstate.get(variable);
+		} else {
+			throw new Exception("Null value returned");
+		}
+	}
+
+	public List<PythonCalculation> getPCs() {
+		return python_calculations;
+	}
+	
+	public void setCalcs(Set<PythonCalculation> calcs) {
+		python_calculations.clear();
+		for (PythonCalculation calc: calcs) {
+			python_calculations.add(calc);
+		}
+	}
+	
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * @see java.lang.Object#toString()
+ 	 */
+	@Override
+ 	public String toString() {
+ 		StringBuilder is = new StringBuilder();
+ 		if (getIntention() != null) {
+ 				is.append(getIntention().toString());
+ 		}
+ 		
+ 		StringBuilder s1 = new StringBuilder();
+ 		s1.append(getAgName());
+ 		s1.append("\n=============\n");
+ 		s1.append("After Stage ");
+ 		s1.append(RC.getStage().getStageName()); 
+ 		s1.append(" :\n");
+ 		s1.append(getBB().toString());
+ 		s1.append("\n");
+		s1.append(getGoalBase().toString());
+ 		s1.append("\n");
+ 		s1.append(python_calculations.toString());
+ 		s1.append("\n");
+		s1.append(is);
+		s1.append("\n");
+		s1.append(Is);
+		String s = s1.toString();
+ 		return s;
+ 	}
 
 
 

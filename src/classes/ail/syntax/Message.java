@@ -328,6 +328,13 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		return(flag);
 	}
 	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (equals(term)) return subst;
+		
+		return new Message(ilForce, sender, receiver, (Term) getPropCont().substitute(term, subst), (StringTerm) getMsgId().substitute(term, subst), (StringTerm) getThreadId().substitute(term, subst));
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()

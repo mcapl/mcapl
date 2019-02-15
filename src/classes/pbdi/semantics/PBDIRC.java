@@ -33,6 +33,7 @@ import ail.semantics.operationalrules.*;
 
 //import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
+import pbdi.semantics.operational_rules.PythonCalculations;
 /**
  * An EASS Reasonning Cycle. 
  * 
@@ -48,11 +49,13 @@ public class PBDIRC implements ReasoningCycle {
 	/**
 	 * Set up the reasoning cycle stages.
 	 */
+	private PBDIRCStage Sleep = new PBDIRCStage(6, "Sleep");
 	private PBDIRCStage Perception = new PBDIRCStage(0, "Perception");
-	private PBDIRCStage ManageGoals = new PBDIRCStage(1, "ManageGoals");
-	private PBDIRCStage SelectRule = new PBDIRCStage(2, "SelectRule");
-	private PBDIRCStage ApplyRule = new PBDIRCStage(3, "ApplyRule");
-	private PBDIRCStage ExecuteRule = new PBDIRCStage(4, "ExecuteRule");
+	private PBDIRCStage Calculation = new PBDIRCStage(1, "Calculations");
+	private PBDIRCStage ManageGoals = new PBDIRCStage(2, "ManageGoals");
+	private PBDIRCStage SelectRule = new PBDIRCStage(3, "SelectRule");
+	private PBDIRCStage ApplyRule = new PBDIRCStage(4, "ApplyRule");
+	private PBDIRCStage ExecuteRule = new PBDIRCStage(5, "ExecuteRule");
 
 	/**
 	 * Flag indicating whether this is a point where the properties of the 
@@ -70,13 +73,15 @@ public class PBDIRC implements ReasoningCycle {
 		
 		// Create Rules
 		DirectPerception rule1 = new DirectPerception();
+		PythonCalculations rule1a = new PythonCalculations();
 		MatchDropGoal rule2 = new MatchDropGoal();
 		GenerateApplicablePlansIfNonEmpty rule3 = new GenerateApplicablePlansIfNonEmpty();
 		ApplyApplicablePlans rule4 = new ApplyApplicablePlans();
 
 		
 		// Then we set these rules to the appropriate stage in the reasoning cycle.
-		getPerception().setRule(rule1);  
+		getPerception().setRule(rule1);
+		getCalculation().setRule(rule1a);
 		getManageGoals().setRule(rule2);
 		getSelectRule().setRule(rule3);
 		getApplyRule().setRule(rule4);
@@ -103,6 +108,10 @@ public class PBDIRC implements ReasoningCycle {
 		StageD.setRule(rule9);
 		StageD.setRule(rule10);
 		StageD.setRule(rule11);
+		
+		SleepIfEmpty sleep_rule = new SleepIfEmpty();
+		getSleep().setRule(sleep_rule);
+		
 	}
 
 	/*
@@ -111,6 +120,8 @@ public class PBDIRC implements ReasoningCycle {
 	 */
 	public void cycle(AILAgent ag) {
 		if (currentstage  == Perception) {
+			currentstage = Calculation;
+		} else if (currentstage == Calculation) {
 			currentstage = ManageGoals;
 		} else if (currentstage == ManageGoals) {
 			currentstage = SelectRule;
@@ -121,11 +132,16 @@ public class PBDIRC implements ReasoningCycle {
 		} else if (currentstage == ExecuteRule) {
 			if (ag.getIntention() != null && ag.getIntention().empty() && (ag.getIntentions().isEmpty() || ag.allintentionssuspended())) {
 				setStopandCheck(true);
-				currentstage = Perception;
+				currentstage = Sleep;
+			} else if (ag.getIntention() == null ) {
+				setStopandCheck(true);
+				currentstage = Sleep;
 			} else {
 				setStopandCheck(true);
 				currentstage = ExecuteRule;
 			} 			
+		} else if (currentstage == Sleep) {
+			currentstage = Perception;
 		}
 
 	}
@@ -159,6 +175,9 @@ public class PBDIRC implements ReasoningCycle {
 	public RCStage getPerception() {
 		return Perception;
 	}
+	public RCStage getCalculation() {
+		return Calculation;
+	}
 	public RCStage getManageGoals() {
 		return ManageGoals;
 	}
@@ -170,6 +189,9 @@ public class PBDIRC implements ReasoningCycle {
 	}
 	public RCStage getApplyRule() {
 		return ApplyRule;
+	}
+	public RCStage getSleep() {
+		return Sleep;
 	}
 
 	/*

@@ -729,6 +729,12 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 		}
 		return false;
 	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		// too complicated implement later
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)

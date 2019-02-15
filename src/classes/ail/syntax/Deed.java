@@ -120,7 +120,7 @@ public class Deed extends DefaultAILStructure {
      * @param l the literal contained in the deed.
      */
     public Deed(int t, byte b, Unifiable l) {
-    	super(t, b, l);
+    		super(t, b, l);
     }
         
     /**
@@ -362,6 +362,15 @@ public class Deed extends DefaultAILStructure {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public Unifiable substitute(Unifiable term, Unifiable subst) {
+		if (isAction()) {
+			return new Deed(new Action((Predicate) ((Action) getContent()).substitute(term, subst), ((Action) getContent()).actiontype));
+		} else {
+			return new Deed(this.getTrigType(), getCategory(), super.substitute(term, subst));
+		}
 	}
 		
 	/*

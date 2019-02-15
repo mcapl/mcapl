@@ -102,6 +102,7 @@ public class Abstract_MCAPLStringTermImpl implements Abstract_MCAPLStringTerm {
 
 	@Override
 	public String getString() {
+		System.err.println(fValue);
 		return fValue;
 	}
 

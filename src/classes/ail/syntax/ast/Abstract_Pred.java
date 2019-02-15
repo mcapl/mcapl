@@ -86,7 +86,7 @@ public class Abstract_Pred extends Abstract_Predicate {
 	 */
 	public Abstract_Pred clone() {
 		Abstract_Predicate s = super.clone();
-		return (Abstract_Pred) s;
+		return new Abstract_Pred(s);
 	}
 	
 	/*

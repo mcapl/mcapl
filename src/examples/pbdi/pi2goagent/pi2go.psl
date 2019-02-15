@@ -26,7 +26,7 @@
 
 2: [](D(agent,done) -> B(agent, bad))
 
-3: [](D(agent,done) -> B(agent, switch_pressed))
+3: [](B(agent, switch_pressed) -> <> D(agent,done))
 
 4: [](ItD(agent,pi2go.forward(20)) -> ~B(agent,switch_pressed))
 

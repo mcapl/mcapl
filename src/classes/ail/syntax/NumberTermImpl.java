@@ -138,6 +138,12 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 		} 
 		return false;
 	}
+    
+    public Unifiable substitute(Unifiable term, Unifiable subst) {
+    		if (equals(term)) return subst;
+    		
+    		return this;
+    }
 
     /*
      * (non-Javadoc)

@@ -89,12 +89,18 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
      * @param b
      */
     public Abstract_GBelief() {
-    	super("true");
-    	category = GTrue;
+    		super("true");
+    		category = GTrue;
     }
     
     public Abstract_GBelief(Abstract_Literal l) {
     	super(l);
+    }
+    
+    @Override
+    public Abstract_GBelief clone() {
+    	Abstract_Literal l = super.clone();
+    	return new Abstract_GBelief(l);
     }
     
     /**

@@ -226,16 +226,29 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
         // do not use iterator! (see ListTermImpl class)
         final int tss = getTermsSize();
         for (int i = 0; i < tss; i++) {
-        	Term t = getTerm(i);
-        	if (t instanceof VarTerm && u.swaps_vars() & u.get(t) instanceof VarTerm) {
-        		setTerm(i, u.get(t));
-        		r = true;
-        	} else {
-        		boolean tr = getTerm(i).apply(u); 
-        		r = r || tr;
-        	}
+	        	Term t = getTerm(i);
+	        	if (t instanceof VarTerm && u.swaps_vars() & u.get(t) instanceof VarTerm) {
+	        		setTerm(i, u.get(t));
+	        		r = true;
+	        	} else {
+	        		boolean tr = getTerm(i).apply(u); 
+	        		r = r || tr;
+	        	}
         }
         return r;
+    }
+    
+    @Override
+    public Unifiable substitute(Unifiable term, Unifiable subst) {
+    		if (equals(term)) return subst;
+    		
+    		final int tss = getTermsSize();
+    		Predicate p = new Predicate(getFunctor());
+    		for (int i = 0;  i < tss; i++) {
+    			Term t = (Term) getTerm(i).substitute(term, subst);
+    			p.addTerm(t);
+    		}
+    		return p;
     }
 
     /** make a deep copy of the terms */

@@ -1,0 +1,61 @@
+# ----------------------------------------------------------------------------
+# Copyright (C) 2019 Louise A. Dennis, Paul Bremner, Alan F. Winfield and Michael Fisher
+#
+# This file is part of the Python BDI Agent Model (PBDI) Library.
+# 
+# The PBDI Library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+# 
+# The PBDI Library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with the PBDI Library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+# 
+# To contact the authors:
+# http://www.csc.liv.ac.uk/~lad
+#
+#----------------------------------------------------------------------------
+
+self.agent = nao_agent.NaoAgent()
+
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.B('danger_close')), self.compare_plans_asimov_WD, self.update_plan_rule)
+self.agent.add_pick_best_rule(self.agent.AND(self.agent.B('plans'), self.agent.NOT(self.agent.B('danger_close'))), self.compare_plans_asimov_WT, self.update_plan_rule)
+
+def compare_plans_asimov_WD(self, plan1, plan2):
+	if ((plan1.robot_walking_dist < plan2.robot_walking_dist) and not (much_worse(plan1, plan2, 'robot_danger_dist')) and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+		return 1;
+	else:
+		if (much_worse(plan2, plan1, 'human_danger_dist')):
+			return 1;
+		else:
+			if (much_worse(plan2, plan1, 'robot_obj_dist') and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+				return 1;
+			else:
+				if (much_worse(plan2, plan1, 'robot_danger_dist') and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+					return 1;
+				else:
+					return 0;
+		
+def compare_plans_asimov_WT(self, plan1, plan2):
+	if ((plan1.wait_time < plan2.wait_time) and not (much_worse(plan1, plan2, 'robot_danger_dist')) and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+		return 1;
+	else:
+		if (much_worse(plan2, plan1, 'human_danger_dist')):
+				return 1;
+			else:
+				if (much_worse(plan2, plan1, 'robot_obj_dist') and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+					return 1;
+				else:
+					if (much_worse(plan2, plan1, 'robot_danger_dist') and not (much_worse(plan1, plan2, 'robot_obj_dist')) and not (much_worse(plan1, plan2, 'human_danger_dist'))):
+						return 1;
+					else:
+						return 0;
+		
+def update_plan_rule(self, plan):
+	self.agent.add_belief('current_plan', plan);
