@@ -60,8 +60,9 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				s1 = d.toString(descriptions) + and + s1;
 			}
 			if (d.getCategory() == Deed.Dnpy) {
-				s1 = "respond to the event " + i.events().get(rownum++).toString(descriptions) + " " + s1;
+				s1 = "respond to the event " + i.events().get(rownum).toString(descriptions) + " " + s1;
 			}
+			rownum++;
 		}
 		if (first) {
 			s.append("the intention is now empty and will be removed");
