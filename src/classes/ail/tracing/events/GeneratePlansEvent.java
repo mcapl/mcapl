@@ -6,6 +6,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Event;
 import ail.tracing.explanations.PredicateDescriptions;
 
 /**
@@ -18,14 +19,30 @@ public class GeneratePlansEvent extends AbstractEvent {
 
 	private final List<ApplicablePlan> plans;
 	private final int category;
+	private Event event;
+	private int iid;
 
-	public GeneratePlansEvent(final List<ApplicablePlan> plans, final int category) {
+	public GeneratePlansEvent(final List<ApplicablePlan> plans, final int category, int intention_id) {
 		this.plans = plans;
 		this.category = category;
+		this.iid = intention_id;
+	}
+	
+	public GeneratePlansEvent(final List<ApplicablePlan> plans, final int category, int intention_id, Event e) {
+		this(plans, category, intention_id);
+		this.event = e;
 	}
 
 	public List<ApplicablePlan> getPlans() {
 		return Collections.unmodifiableList(plans);
+	}
+	
+	public Event getEvent() {
+		return event;
+	}
+	
+	public int getIID() {
+		return iid;
 	}
 
 	public String getCategory() {

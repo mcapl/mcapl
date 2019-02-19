@@ -2,17 +2,18 @@ package ail.tracing.explanations;
 
 import ail.syntax.Event;
 import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModifyIntentionEvent;
 
-public class CreateIntentionReason extends AbstractReason {
-	private final CreateIntentionEvent event;
+public class ModifyIntentionReason extends AbstractReason {
+	private final ModifyIntentionEvent event;
 
-	public CreateIntentionReason(final int state, final CreateIntentionEvent event) {
+	public ModifyIntentionReason(final int state, final ModifyIntentionEvent event) {
 		super(state);
 		this.event = event;
 	}
 
 	@Override
-	public CreateIntentionEvent getEvent() {
+	public ModifyIntentionEvent getEvent() {
 		return this.event;
 	}
 
@@ -27,10 +28,10 @@ public class CreateIntentionReason extends AbstractReason {
 		final Event event = this.event.getEvent();
 		switch (level) {
 		case FINEST:
+			string.append("it was created in state ").append(this.state);
 			if (event != null) {
-				string.append(" event ").append(inCourier(event.toString(descriptions)));
+				string.append(" for the event ").append(inCourier(event.toString(descriptions)));
 			}
-			string.append(" was posted in state ").append(this.state);
 			break;
 		default:
 			if (event != null) {

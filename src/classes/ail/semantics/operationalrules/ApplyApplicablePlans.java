@@ -81,7 +81,7 @@ public class ApplyApplicablePlans implements OSRule {
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
 		if (a.shouldTrace()) {
-			a.trace(new SelectPlanEvent(p));
+			a.trace(new SelectPlanEvent(p, i.getID()));
 		}
 		
 		//if (! p.noChangePlan()) {

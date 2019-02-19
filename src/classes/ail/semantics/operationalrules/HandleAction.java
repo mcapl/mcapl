@@ -78,7 +78,7 @@ public class HandleAction extends HandleTopDeed {
 				act.apply(thetahd);
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
 				if (a.shouldTrace()) {
-					a.trace(new ActionEvent(act));
+					a.trace(new ActionEvent(act, i_id));
 				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {

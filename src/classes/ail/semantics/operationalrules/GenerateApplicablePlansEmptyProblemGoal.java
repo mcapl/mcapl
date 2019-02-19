@@ -78,7 +78,7 @@ public class GenerateApplicablePlansEmptyProblemGoal extends GenerateApplicableP
 
 			AJPFLogger.warning(logname, "Warning no applicable plan for goal " + I.hdE().getContent() );
 			if (a.shouldTrace()) {
-				a.trace(new GeneratePlansEvent(Plp, GeneratePlansEvent.NO_APPLICABLE_PLANS_FOR_GOAL));
+				a.trace(new GeneratePlansEvent(Plp, GeneratePlansEvent.NO_APPLICABLE_PLANS_FOR_GOAL, a.getIntention().getID()));
 			}
 		} else {
 			super.apply(a);

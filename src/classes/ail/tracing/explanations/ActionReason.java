@@ -1,5 +1,6 @@
 package ail.tracing.explanations;
 
+import ail.syntax.Action;
 import ail.tracing.events.ActionEvent;
 
 public class ActionReason extends AbstractReason {
@@ -46,5 +47,13 @@ public class ActionReason extends AbstractReason {
 			string.append(".");
 		}
 		return string.toString();
+	}
+	
+	public Action getAction() {
+		return this.event.getAction();
+	}
+	
+	public int getIID() {
+		return event.getIID();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
+import ail.syntax.Event;
 import ail.syntax.Intention;
 import ail.tracing.explanations.PredicateDescriptions;
 
@@ -77,5 +78,10 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		builder.append("modified intention by ").append(getCategory());
 		builder.append(" to become ").append(intention).append(".");
 		return builder.toString();
+	}
+	
+	public Event getEvent() {
+		final List<Event> events = this.intention.events();
+		return (events.isEmpty()) ? null : this.intention.events().get(0);
 	}
 }

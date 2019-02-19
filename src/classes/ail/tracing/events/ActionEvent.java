@@ -12,13 +12,19 @@ import ail.tracing.explanations.PredicateDescriptions;
  */
 public class ActionEvent extends AbstractEvent {
 	private final Action action;
+	private final int intentionID;
 
-	public ActionEvent(final Action action) {
+	public ActionEvent(final Action action, final int IntentionID) {
 		this.action = action;
+		this.intentionID = IntentionID;
 	}
 
 	public Action getAction() {
 		return this.action;
+	}
+	
+	public int getIID() {
+		return this.intentionID;
 	}
 
 	@Override

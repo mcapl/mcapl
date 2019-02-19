@@ -49,7 +49,7 @@ public class GuardReason extends AbstractReason {
 				string.append("it was continued in state ").append(this.state);
 			} else {
 				string.append("its guard ").append(inCourier(this.event.getGuard().toString(descriptions)));
-				string.append(" held with ").append(inCourier(solutions())).append(" in state ").append(this.state);
+				string.append(" held with ").append(inCourier(solutions()));
 			}
 			if (this.parent != null) {
 				string.append(", ");

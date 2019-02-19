@@ -47,6 +47,9 @@ public abstract class HandleTopDeed implements OSRule {
 	protected Intention i;
 	
 	@FilterField
+	protected int i_id;
+	
+	@FilterField
 	protected Unifier thetahd;
 	
 	@FilterField
@@ -72,6 +75,7 @@ public abstract class HandleTopDeed implements OSRule {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		i  = a.getIntention();
+		i_id = i.getID();
 
 		if (i != null && (! i.deeds().isEmpty())) {
 			thetahd = i.hdU();

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import ail.syntax.Action;
+import ail.syntax.Deed;
+import ail.syntax.Event;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.tracing.EventStorage;
@@ -129,6 +131,77 @@ public class WhyQuestions {
 			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
 				// an action follows directly from a plan selection
 				final ActionReason current = stack.peek();
+				if (current.getParent() == null
+						&& !((SelectPlanEvent) event).isContinue() 
+						// && ((SelectPlanEvent) event).contains(new Deed(current.getAction()))
+						&& (current.getIID() == ((SelectPlanEvent) event).getIID())) {
+					final SelectPlanEvent spe = (SelectPlanEvent) event;
+					final SelectPlanReason spr = new SelectPlanReason(i, spe);
+					current.setParent(spr);
+					
+					whySelectPlan(spe, spr, trace, i);
+				}
+			} 
+		}
+		return new ArrayList<>(stack);
+	}
+	
+	public void whySelectPlan(final SelectPlanEvent spe, SelectPlanReason spr, List<AbstractEvent> trace, int n) {
+		for (int i = n; i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
+			if (event instanceof GeneratePlansEvent) {
+				if (spr.getParent() == null) {
+					final GeneratePlansReason gpr = new GeneratePlansReason(i, (GeneratePlansEvent) event);
+					spr.setParent(gpr);
+					whyGeneratePlans((GeneratePlansEvent) event, gpr, trace, i, spe.getPlan().getID());
+				}
+			}
+		}
+	}
+	
+	public void whyGeneratePlans(final GeneratePlansEvent gpe, GeneratePlansReason gpr, List<AbstractEvent> trace, int n, int plan_id) {
+			boolean eventfound = false;
+			for (int i = n; i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
+			Event postevent = gpe.getEvent();
+			if  (event instanceof GuardEvent) {
+				if (gpr.getParent() == null && ((GuardEvent) event).getPlan().getID() == plan_id) {
+					final GuardReason ger = new GuardReason(i, (GuardEvent) event);
+					gpr.setParent(ger);
+				}
+			} else if (event instanceof ModifyIntentionEvent) {
+				ModifyIntentionEvent me = (ModifyIntentionEvent) event;
+				if (!eventfound && !me.getIntention().events().isEmpty() && me.getIntention().hdE() != null && me.getIntention().hdE() == postevent && me.getIntention().getID() == gpe.getIID()) {
+					final ModifyIntentionReason mer = new ModifyIntentionReason(i, me);
+					gpr.setPostEvent(mer);
+					eventfound = true;
+				}
+			} else if (event instanceof CreateIntentionEvent) {
+				CreateIntentionEvent ce = (CreateIntentionEvent) event;
+				if (!eventfound 
+						&& ce.getIntention().hdE().equals(postevent)
+						&& ce.getIntention().getID() == gpe.getIID()) {
+					final CreateIntentionReason cer = new CreateIntentionReason(i, ce);
+					gpr.setPostEvent(cer);
+					eventfound = true;
+				}
+			}
+		}
+	}
+	/* public List<AbstractReason> whyAction(final Action action) {
+		final Deque<ActionReason> stack = new LinkedList<>();
+		final List<AbstractEvent> trace = this.storage.getAll();
+		for (int i = (trace.size() - 1); i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
+			if (event instanceof ActionEvent) {
+				// match the requested action
+				final ActionEvent ae = (ActionEvent) event;
+				if (action.equals(ae.getAction())) {
+					stack.push(new ActionReason(i, ae));
+				}
+			} else if (event instanceof SelectPlanEvent && !stack.isEmpty()) {
+				// an action follows directly from a plan selection
+				final ActionReason current = stack.peek();
 				if (current.getParent() == null) {
 					final SelectPlanEvent spe = (SelectPlanEvent) event;
 					final SelectPlanReason spr = new SelectPlanReason(i, spe);
@@ -166,7 +239,7 @@ public class WhyQuestions {
 			}
 		}
 		return new ArrayList<>(stack);
-	}
+	} */
 
 	/**
 	 * @param belief A belief {@link Predicate} from which we want to know why it
