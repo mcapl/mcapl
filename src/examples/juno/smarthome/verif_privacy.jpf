@@ -21,28 +21,17 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-// Properties for the fire and games examples.
+// JPF configuration for verifying fire+lights example.
 
-sanity: [] (~B(juno, bad))
+@using = mcapl
 
-1: [](B(juno, fire) -> <>(D(juno, evacuate_the_house) || D(juno, turn_on_lights_and_evacuate_the_house)))
+target = ail.util.AJPF_w_AIL
+target.args =src/examples/juno/smarthome/verif_privacy.ail,src/examples/juno/smarthome/fire_and_games.psl,8sanity
 
-2: [](~D(juno, turn_on_lights))
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,juno.smarthome.FireVerificationEnvironment,ajpf.product.Product
 
-3: [](B(juno, mum_working) -> ~D(juno, turn_on_video_game))
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
 
-4: [](B(juno, day) -> ~D(juno, turn_on_video_game))
-
-5: []((B(juno, fire) & B(juno, day)) -> <> D(juno, evacuate_the_house))
-
-6: [](B(juno, fire) -> <>(D(juno, something_else)))
-
-7: [](<>B(juno, evening)) -> []( B(juno, pending_public_reminder) -> <>(~B(juno, pending_public_reminder)) ) 
-			 
-7sanity: [] (B(juno, pending_public_reminder) -> <>(~B(juno, pending_public_reminder)))
-
-8: []( B(juno, pending_private_reminder) ->  ( <>( D(juno, deliver_reminder) & ~B(juno, resident_with_visitors) )
-			|| [](~(D(juno, deliver_reminder) ) )  )  ) 
-
-8sanity: []( B(juno, pending_public_reminder) ->  ( <>( D(juno, deliver_reminder) & ~B(juno, resident_with_visitors) )
-			|| [](~(D(juno, deliver_reminder) ) )  )  ) 
+// vm.storage.class=gov.nasa.jpf.vm.DebugJenkinsStateSet

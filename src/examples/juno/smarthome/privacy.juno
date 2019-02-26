@@ -1,0 +1,10 @@
+{ src/examples/juno/smarthome/privacy.json }
+
++set_reminder(public, morning) {pending_morning_reminder, pending_public_reminder}
++set_reminder(public, afternoon) {pending_afternoon_reminder, pending_public_reminder}
++set_reminder(public, evening) {pending_evening_reminder, pending_public_reminder}
++set_reminder(private, morning) {pending_morning_reminder, pending_private_reminder}
++set_reminder(private, afternoon) {pending_afternoon_reminder, pending_private_reminder}
++set_reminder(private, evening) {pending_evening_reminder, pending_private_reminder}
+
+deliver_reminder {-pending_morning_reminder, -pending_public_reminder, -pending_afternoon_reminder, -pending_private_reminder, -pending_evening_reminder}

@@ -25,6 +25,7 @@ package juno.semantics;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -43,6 +44,8 @@ import hera.principles.DoubleEffectPrinciple;
 import hera.principles.KantianHumanityPrincipleReading1;
 import hera.principles.Principle;
 import hera.principles.UtilitarianPrinciple;
+import juno.syntax.JunoActionRule;
+import juno.syntax.JunoBeliefRule;
 
 public class JunoAgent extends AILAgent {
 	String description = "Juno Agent";
@@ -80,6 +83,11 @@ public class JunoAgent extends AILAgent {
 	FormulaString action = new FormulaString("refrain");
 	
 	public int ethical_system = UTILITARIAN;
+	
+	/*******************************************/
+	
+	List<JunoBeliefRule> brules = new ArrayList<JunoBeliefRule>();
+	List<JunoActionRule> arules = new ArrayList<JunoActionRule>();
 
 	/**
 	 * Construct an agent from a file.
@@ -194,7 +202,7 @@ public class JunoAgent extends AILAgent {
 					}
 				}
 			} catch (Exception e) {
-				
+				System.err.println(e);
 			}
 			
 			try {
@@ -571,6 +579,21 @@ public class JunoAgent extends AILAgent {
 		String s = s1.toString();
  		return s;
  	}
+	
+	public void add_brule(JunoBeliefRule b) {
+		brules.add(b);
+	}
+	
+	public void add_arule(JunoActionRule a) {
+		arules.add(a);
+	}
 
+	public List<JunoBeliefRule> getBeliefRules() {
+		return brules;
+	}
+	
+	public List<JunoActionRule> getActionRules() {
+		return arules;
+	}
 
 }

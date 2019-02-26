@@ -31,6 +31,7 @@ import juno.semantics.operationalrules.HandleHeraAction;
 import juno.semantics.operationalrules.ReasonAboutActions;
 import juno.semantics.operationalrules.UpdateAffects;
 import juno.semantics.operationalrules.UpdateBackground;
+import juno.semantics.operationalrules.UpdateBeliefRule;
 import juno.semantics.operationalrules.UpdateGoals;
 import juno.semantics.operationalrules.UpdateUtilities;
 
@@ -43,6 +44,7 @@ public class JunoRC implements ReasoningCycle {
 	private JunoRCStage currentstage;
 	
 	private JunoRCStage Perception = new JunoRCStage(0, "Perception");
+	private JunoRCStage UpdateBeliefs = new JunoRCStage(7, "UpdateBeliefs");
 	private JunoRCStage UpdateModelUtilities = new JunoRCStage(1, "UpdateModelU");
 	private JunoRCStage UpdateModelBackground = new JunoRCStage(2, "UpdateModelB");
 	private JunoRCStage UpdateModelAffects = new JunoRCStage(3, "UpdateModelA");
@@ -62,6 +64,9 @@ public class JunoRC implements ReasoningCycle {
 		// Create Rules
 		DirectPerception rule1 = new DirectPerception();
 		Perception.setRule(rule1);
+		
+		UpdateBeliefRule rule2a = new UpdateBeliefRule();
+		UpdateBeliefs.setRule(rule2a);
 		
 		UpdateUtilities rule2 = new UpdateUtilities();
 		UpdateModelUtilities.setRule(rule2);
@@ -110,8 +115,11 @@ public class JunoRC implements ReasoningCycle {
 	public void cycle(AILAgent ag) {
 		if (currentstage == Perception) {
 			setStopandCheck(true);
+			currentstage = UpdateBeliefs;
+		} else if (currentstage == UpdateBeliefs) {
 			currentstage = UpdateModelUtilities;
-		} else if (currentstage == UpdateModelUtilities) {
+		}
+		else if (currentstage == UpdateModelUtilities) {
 			currentstage = UpdateModelBackground;
 		} else if (currentstage == UpdateModelBackground) {
 			currentstage = UpdateModelAffects;

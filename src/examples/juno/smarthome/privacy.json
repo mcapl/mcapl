@@ -1,0 +1,118 @@
+{
+    "description": "Privacy and Reminders",
+    "actions": [
+	"deliver_reminder",
+	"refrain"
+    ],
+    "background": [
+	"morning",
+	"evening",
+	"afternoon",
+	"resident_with_group",
+	"resident_with_visitors",
+	"pending_private_reminder",
+	"pending_restricted_reminder",
+	"pending_public_reminder",
+	"pending_morning_reminder",
+	"pending_afternoon_reminder",
+	"pending_evening_reminder"
+    ],
+    "consequences": [
+	"resident_is_reminded",
+	"group_know_reminder",
+	"visitor_knows_reminder"
+    ],
+    "mechanisms": {
+	"resident_is_reminded": "'deliver_reminder'",
+	"group_know_reminder": "And('deliver_reminder','resident_with_group')",
+	"visitor_knows_reminder": "And('deliver_reminder','resident_with_visitors')"
+    },
+    "utilities": {
+	"resident_is_reminded": -1,
+	"group_know_reminder": -1,
+	"visitor_knows_reminder": -1
+    },
+    "intentions": {
+	"deliver_reminder": [
+	    "resident_is_reminded"
+	    ]
+    },
+    "patients": [
+	"Resident",
+	"Group",
+	"Visitor"
+    ],
+    "affects": {
+	"resident_is_reminded": [
+	    [
+		"Resident",
+		"+"
+	    ]
+	],
+    },
+    "goals": {
+	"deliver_reminder": [
+	    "resident_is_reminded"
+	],
+    },
+    "context_background": {
+	"'morning'":"'morning'",
+	"'evening'":"'evening'",
+	"'afternoon'":"'afternoon'",
+	"'resident_with_group'":"'resident_with_group'",
+	"'resident_with_visitors'":"'resident_with_visitors'",
+	"'pending_private_reminder'":"'pending_private_reminder'",
+	"'pending_restricted_reminder'":"'pending_restricted_reminder'",
+	"'pending_public_reminder'":"'pending_public_reminder'",
+	"'pending_morning_reminder'":"'pending_morning_reminder'",
+	"'pending_afternoon_reminder'":"'pending_afternoon_reminder'",
+	"'pending_evening_reminder'":"'pending_evening_reminder'"
+    },
+    "context_utilities": {
+	"And('morning','pending_morning_reminder')": {
+	    "resident_is_reminded":10
+	}
+	"And('afternoon','pending_afternoon_reminder')": {
+	    "resident_is_reminded":10
+	}
+	"And('evening','pending_evening_reminder')": {
+	    "resident_is_reminded":10
+	}
+	"'pending_private_reminder'": {
+	    "group_know_reminder":-11,
+	    "visitor_knows_reminder":-12
+	}
+	"'pending_restricted_reminder'": {
+	    "visitor_knows_reminder":-11
+	}
+    }
+    "context_affects": {
+	"'pending_private_reminder'": {
+	    "visitor_knows_reminder": [
+		[
+		    "Resident",
+		    "-"
+		]
+	    ],
+	    "group_know_reminder": [
+		[
+		    "Resident",
+		    "-"
+		]
+	    ]
+	}
+	"'pending_restricted_reminder'": {
+	    "group_know_reminder": [
+		[
+		    "Resident",
+		    "-"
+		]
+	    ]
+	}
+    }
+    "context_goals": {
+	"'pending_private_reminder'":["resident_reminded"],
+	"'pending_public_reminder'":["resident_reminded"],
+	"'pending_restricted_reminder'":["resident_reminded"]
+    }
+}

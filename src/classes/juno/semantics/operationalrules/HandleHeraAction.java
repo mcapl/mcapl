@@ -26,9 +26,14 @@ package juno.semantics.operationalrules;
 import ail.util.AILexception;
 import hera.language.FormulaString;
 import juno.semantics.JunoAgent;
+import juno.syntax.JunoActionRule;
+
+import java.util.List;
+
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Action;
+import ail.syntax.Literal;
 
 /**
  * Handle a Hera action.  
@@ -78,10 +83,21 @@ public class HandleHeraAction implements OSRule {
 		// but assumes that reasoning can start afresh each cycle and does not 
 		// involve any persistent beliefs.  This may be a suspect assumption in some 
 		// settings.
-		juno.getBB().clear();
+		// juno.getBB().clear();
 
 		try {
 			a.getEnv().executeAction(a.getAgName(), act);
+			
+			List<JunoActionRule> rules = ((JunoAgent) a).getActionRules();
+			for (JunoActionRule rule: rules) {
+				if (rule.getTrigger().equals(act)) {
+					List<Literal> beliefs = rule.getbeliefs();
+					for (Literal b: beliefs) {
+						a.delBel(b);
+					}
+				}
+			}
+			
 		} catch (AILexception e) {
 			
 		}

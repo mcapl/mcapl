@@ -23,10 +23,17 @@
 package juno;
 
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
 
 import juno.semantics.JunoAgent;
+import juno.syntax.ast.Abstract_JunoAgent;
+import juno.syntax.parser.JunoAILVisitor;
+import juno.syntax.parser.JunoLexer;
+import juno.syntax.parser.JunoParser;
 
 /**
  * Utility class.  Builds a Juno MAS by parsing a string or a file.
@@ -35,24 +42,31 @@ import juno.semantics.JunoAgent;
  */
 public class JunoMASBuilder implements MASBuilder {
 	MAS mas;
+	Abstract_JunoAgent a_juno;
 	
 	public JunoMASBuilder() {};
 	
 	public JunoMASBuilder(String masstring, boolean filename) {
-		JunoAgent juno = parsefile(masstring);
+		parsefile(masstring);
+		JunoAgent juno = a_juno.toMCAPL();
 		mas = new MAS();
 		mas.addAg(juno);
      }
 	
 	
-	public JunoAgent parsefile(String masstring) {
+	public void parsefile(String masstring) {
 		try {
-			JunoAgent juno = new JunoAgent(masstring);
-    		return juno;
+			JunoLexer lexer = new JunoLexer(CharStreams.fromFileName(masstring));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			JunoParser parser = new JunoParser(tokens);
+			JunoAILVisitor visitor = new JunoAILVisitor();
+			a_juno = (Abstract_JunoAgent) visitor.visitJunoAgent(parser.junoAgent());
+			//JunoAgent juno = ajuno.toMCAPL();
+    		//return juno;
       	} catch (Exception e) {
      		e.printStackTrace();
     	}
-		return null;
+		//return null;
 		
 	}
 
@@ -65,8 +79,9 @@ public class JunoMASBuilder implements MASBuilder {
 	}
 	
 	public MAS getMAS(String filename) {
-		JunoAgent juno = parsefile(filename);
+		parsefile(filename);
 		mas = new MAS();
+		JunoAgent juno = a_juno.toMCAPL();
 		mas.addAg(juno);
 
 		return mas;
