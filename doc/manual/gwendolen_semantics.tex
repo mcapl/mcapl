@@ -3,7 +3,7 @@
 %
 
 This chapter duplicates the operational semantics for \gwendolen\ 
-presented in~\cite{dennis17gwen}.\index{gwendolen!semantics}
+presented in~\cite{dennis17gwen}.\index{Gwendolen!semantics}
 
 \section{Intentions}
 \label{sec:intentions}
@@ -123,7 +123,7 @@ This would transform the intention to:
 \index{plan!applicable}
 
 Applicable plans are an interim data structure that describe
-how a plan from an agent's plan library\index{plan library}\index{plan!library} changes
+how a plan from an agent's plan library\index{plan!library} changes
 the current intention\index{current intention}\index{intention!current}.  An
 applicable plan describes the
 new rows that will replace the top row of the intention.  The new rows are
@@ -170,7 +170,7 @@ $\AILintention$,
 $\INThddeed(\AILintention)$ is the top deed, and
 $\INThdunifier{\AILintention}$ is the top unifier.
 
-In the case where the top deed on the intention is $\AILnpy$\index{no plan let}, \AILappPlans\ generates the set
+In the case where the top deed on the intention is $\AILnpy$\index{no plan yet}, \AILappPlans\ generates the set
 \begin{equation}
 \begin{array}{l}
   \{( p_{\AILevent}, p_{\AILdeed},
@@ -207,7 +207,7 @@ A feature of BDI agent programming languages is that BDI programs do not, in gen
 This means the semantics of some rules will
 depend upon the environment used.  Environments offer various functions -- executing agent actions, supplying sets of perceptions etc.  The execution of these functions may also induce a change in the environment itself according to its own semantics.
 
-We represent the environment as $\xi$.  Table~\ref{table:env} summarises the functions that all environments are required to offer by the \gwendolen\ semantics.  Some environments only change when one of these functions is called but others may be independently dynamic (e.g., because other agents, not programmed in \gwendolen\ are acting in them).  We therefore also allow a transition relation on environments $\xi$: $\xi \rightarrow_{\xi} \xi'$  and represent the transitions caused by the functions in table~\ref{table:env} as $\xi \xrightarrow{\AILdo(\AILaction)}_{\xi} \xi'$, $\xi \xrightarrow{\AILgetmessages}_{\xi} \xi'$ and $\xi \xrightarrow{\AILpercepts(\AILagent)}_{\xi} \xi'$.  $done$ does not change the environment.\index{environment}\index{gwendolen!semantics}
+We represent the environment as $\xi$.  Table~\ref{table:env} summarises the functions that all environments are required to offer by the \gwendolen\ semantics.  Some environments only change when one of these functions is called but others may be independently dynamic (e.g., because other agents, not programmed in \gwendolen\ are acting in them).  We therefore also allow a transition relation on environments $\xi$: $\xi \rightarrow_{\xi} \xi'$  and represent the transitions caused by the functions in table~\ref{table:env} as $\xi \xrightarrow{\AILdo(\AILaction)}_{\xi} \xi'$, $\xi \xrightarrow{\AILgetmessages}_{\xi} \xi'$ and $\xi \xrightarrow{\AILpercepts(\AILagent)}_{\xi} \xi'$.  $done$ does not change the environment.\index{environment}\index{Gwendolen!semantics}
 
 \begin{table}
 \begin{tabular}{llp{5cm}}
@@ -232,9 +232,9 @@ $\xi.done$ & True if the environment is incapable of \\
 
 \section{Multi-Agent System Semantics, Scheduling, Reasoning Cycle}
 
-A \gwendolen agent is executed as part of a multi-agent system which includes an environment and a \emph{scheduler}.  The scheduler is specific to the application and so its policy for the order in which agents (and where relevant the environment) are executed varies.  \index{scheduler}\index{gwendolen!semantics}
+A \gwendolen agent is executed as part of a multi-agent system which includes an environment and a \emph{scheduler}.  The scheduler is specific to the application and so its policy for the order in which agents (and where relevant the environment) are executed varies.  \index{scheduler}\index{Gwendolen!semantics}
 
-We represent the operational semantics of the multi-agent system a set of transition rules.  The first rules, $\rightarrow_s$ operate on tuples of the environment, a set of agents and the scheduler and represents how the scheduler chooses the next agent for execution.  The agent then transitions through stages in a \emph{reasoning cycle} (represented with $\rightarrow_a$).  At each stage in the reasoning cycle specific rules are selected which cause transitions on the agent (and sometimes also on the environment).\index{gwendolen!reasoning cycle}
+We represent the operational semantics of the multi-agent system a set of transition rules.  The first rules, $\rightarrow_s$ operate on tuples of the environment, a set of agents and the scheduler and represents how the scheduler chooses the next agent for execution.  The agent then transitions through stages in a \emph{reasoning cycle} (represented with $\rightarrow_a$).  At each stage in the reasoning cycle specific rules are selected which cause transitions on the agent (and sometimes also on the environment).\index{Gwendolen!reasoning cycle}
 
 We assume the existence of the following functions: $next\_job(s)$ returns a tuple of an agent (or the environment) and an updated version of the scheduler depending on the scheduler policy; \emph{sleeping(a, s)} returns true if the scheduler lists $a$ as asleep; $sleep(a)$ returns true if the agent's status is that it has no further reasoning at the moment and $sleep(a, s)$ returns an updated scheduler that lists $a$ as sleeping.  $\rightarrow_a^*$ represents the transitive closure of the semantics on an agent's reasoning cycle so $\langle \xi, a, \textbf{A} \rangle \rightarrow_a^* \langle \xi', a', \textbf{F} \rangle$ represents the effect of a run of the agent's reasoning cycle (from stage \textbf{A} to \textbf{F} -- see below) on both the agent and the environment.  $\xi \rightarrow_\xi \xi'$ represents an update of the environment according to its own semantics (not considered here).
 
@@ -270,7 +270,7 @@ The following rules represent the operation of the scheduler.
 \end{equation}
 It should be noted that, among other things, $next\_job(s)$ can change the internal state of the scheduler, for instance altering the set of agents marked as sleeping if, for instance, new perceptions are available in the environment that might mean  the agent now has something to do.\index{scheduler}
 
-The \gwendolen\ reasoning cycle is a set consisting of size stages (\textbf{A, B, C, D, E,} and \textbf{F}).  Each stage is a list of rules which are discussed in section~\ref{sec:stage_rules}.  The agent reasoning cycle transitions, $\rightarrow_a$, by picking the first applicable rule, $r$, from the list in the current reasoning stage, $RS$, transitioning the agent (and in some cases environment) according to the rule $\rightarrow_r$ and then moving the reasoning cycle on according to the function $next$ (see~\eqref{def:next}).  \index{gwendolen!reasoning cycle}
+The \gwendolen\ reasoning cycle is a set consisting of size stages (\textbf{A, B, C, D, E,} and \textbf{F}).  Each stage is a list of rules which are discussed in section~\ref{sec:stage_rules}.  The agent reasoning cycle transitions, $\rightarrow_a$, by picking the first applicable rule, $r$, from the list in the current reasoning stage, $RS$, transitioning the agent (and in some cases environment) according to the rule $\rightarrow_r$ and then moving the reasoning cycle on according to the function $next$ (see~\eqref{def:next}).  \index{Gwendolen!reasoning cycle}
 
 \begin{equation}
 \frac{\exists r \in rules(RS). \: \langle \xi, a \rangle \rightarrow_r \langle \xi', a' \rangle}
@@ -283,7 +283,7 @@ The \gwendolen\ reasoning cycle is a set consisting of size stages (\textbf{A, B
 \end{equation}
 
 A \gwendolen\ agent is a tuple $\langle \mathit{ag}, i, I, P, \mathit{Pl}, B, \mathit{R}, \mathit{In}, \mathit{Out}, S \rangle$ of an identifier, current intention, intention set, plan library, applicable plan set, belief base, rule base, inbox, outbox and sleep flag (more in this in section~\ref{sec:stage_rules}). 
-The definition of $next$ in~\eqref{def:next} sometimes uses the current intention, $i$, and intention set, $I$, to compute the next reasoning stage.  In these cases we represent the agent $a$ as $\langle \ldots i \ldots \rangle$ or $\langle \ldots i, I \ldots \rangle$ as appropriate.\index{agent!gwendolen}\index{gwendolen!agent}
+The definition of $next$ in~\eqref{def:next} sometimes uses the current intention, $i$, and intention set, $I$, to compute the next reasoning stage.  In these cases we represent the agent $a$ as $\langle \ldots i \ldots \rangle$ or $\langle \ldots i, I \ldots \rangle$ as appropriate.\index{agent!gwendolen}\index{Gwendolen!agent}
 
 \begin{eqnarray}
   \label{def:next}
@@ -306,7 +306,7 @@ where $\AILsuspended(\AILintention)$ is true if the intention, $\AILintention$, 
 \label{sec:stage_rules}
 
 We represent an agent as a tuple $\langle \mathit{ag}, i, I, P, \mathit{Pl}, B, R,
-\mathit{In}, \mathit{Out}, S \rangle$ where:\index{gwendolen!agent}\index{gwendolen!semantics}
+\mathit{In}, \mathit{Out}, S \rangle$ where:\index{Gwendolen!agent}\index{Gwendolen!semantics}
 
 \begin{itemize}
 \itemsep1pt
@@ -427,9 +427,9 @@ intention as unlocked. \\
 \label{table:intentions}
 \end{table}
 
-It is generally unwieldy to present the full agent tuple in the description of a transition rule.  As a result we restrict ourselves to presenting only those parts of the intention that are changed by the rule as we did in~\eqref{def:next}.\index{gwendolen!semantics}
+It is generally unwieldy to present the full agent tuple in the description of a transition rule.  As a result we restrict ourselves to presenting only those parts of the intention that are changed by the rule as we did in~\eqref{def:next}.\index{Gwendolen!semantics}
 
-We now discuss each stage of the reasoning cycle in turn.\index{gwendolen!reasoning cycle}
+We now discuss each stage of the reasoning cycle in turn.\index{Gwendolen!reasoning cycle}
 \subsection{Stage A}
 
 Stage A of the \gwendolen\ reasoning cycle consists of a list of three rules which are focused around managing intention selection:
@@ -573,7 +573,7 @@ where $\INTtl(\AILintention)$ represents intention, $\AILintention$, with its to
 Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.
 
 This rule selects a plan from the agent's\index{plan!selection}
-applicable plans as determined by the application specific $\AILselectplan$ (by default this is the first applicable plan found in the plan library and, where a unifier is required, this is the first returned by checking against the agents internal state (this lists beliefs and goals, etc., in alphabetical order)).  The plan is represented as a tuple of the trigger event, the plan's deed
+applicable plans as determined by the application specific $\AILselectplan$ (by default this is the first applicable plan found in the plan library\index{plan!library} and, where a unifier is required, this is the first returned by checking against the agents internal state (this lists beliefs and goals, etc., in alphabetical order)).  The plan is represented as a tuple of the trigger event, the plan's deed
 stack and unifier.  The top row of the current intention is dropped and the 
 applicable plan is ``glued'' in its place.
 
@@ -1014,7 +1014,7 @@ $\xi.\AILgetmessages(\AILagent)$ returns a set of new messages to the agent.
 $\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier.  In this case the event is a special distinguished event $\texttt{start}$ which is used to indicate an intention with no trigger.
 
 This rule\index{perception!operational rules for} adds all
-messages\index{messages} to the inbox\index{inbox}.  It also creates 
+messages\index{message} to the inbox\index{inbox}.  It also creates 
 new intentions, each triggered by the event of acquiring or losing
 a percept\index{intentions!changes in perception}.  A key part of the working of the rule depends on \ail{}'s annotation of all beliefs in the belief base with a source and its use of a special annotation for beliefs whose source is perception\index{beliefs!source}.  If some change is bought about either to the agent's inbox or to its intentions then the agent's sleep flag is set to true (i.e., the agent will  not sleep at the end of this reasoning cycle).
 
