@@ -46,3 +46,6 @@ sanity: [] (~B(juno, bad))
 
 8sanity: []( B(juno, pending_public_reminder) ->  ( <>( D(juno, deliver_reminder) & ~B(juno, resident_with_visitors) )
 			|| [](~(D(juno, deliver_reminder) ) )  )  ) 
+			
+9: [] (B(juno, pending_morning_reminder) -> ( <>( D(juno, deliver_reminder)) || 
+             [] (~B(juno, morning) || ( B(juno, pending_private_remidner)  & B(juno, resident_with_visitors) ) ) )
