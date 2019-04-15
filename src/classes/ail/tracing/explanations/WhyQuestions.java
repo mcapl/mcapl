@@ -14,6 +14,7 @@ import ail.syntax.Event;
 import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.tracing.EventStorage;
+import ail.tracing.EventTable;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.ActionEvent;
 import ail.tracing.events.CreateIntentionEvent;
@@ -111,6 +112,17 @@ public class WhyQuestions {
 
 	// TODO: we are missing the new intention modification events here now
 
+	
+	// From paper:
+	// 1.  why(selp((e, ds), i_k)N, T) = bel((e, ds), g, theta, i'_k)_N' and crei(((e, npy)_k)_N'' or add((e, npy), i''_k)_N'')
+	// 2.  why(b_N, T) = crei((e, +b)_N'' because why(crei((e, +b))_N', T) or addb(b, start)
+	// 3.  why(!g_N, T) = add((+!g, npy), i)_N' because why(add((+!g, npy), i)_N', T) or crei ((e, +!g), i)_N' because why(crei((e, +!g), i)_N', T)
+	// 4.  why(add((+!g, npy), i_k)_N, T) = selp((e, ds), i'_k)_N' because why(selp(e, ds), i'_k)_N', T) and +!g \in ds or crei((e, +!g)_k)_N' because why(crei((e, +!g)_k)_N', T)
+	// 5.  why(act(a, i_k)_N, T) = selp((e, ds), i'_k)_N' because why(selp((e, ds), i'_k)_N', T) and a \in ds
+	// 6.  why(crei((start, d))_N, T) = start
+	// 7.  why(crei((perecept, d))_N, T) = percept
+	// 8.  why(crei((e, npy)_k)_N, T) - selp((e, ds), i_k)_N' because why(selp((e, ds), i_k)_N', T) and e \in ds
+	
 	/**
 	 * @param action An action from which we want to know why it was executed.
 	 * @return One or more {@link ActionReason}s (if the action was actually
@@ -154,39 +166,41 @@ public class WhyQuestions {
 					final GeneratePlansReason gpr = new GeneratePlansReason(i, (GeneratePlansEvent) event);
 					spr.setParent(gpr);
 					whyGeneratePlans((GeneratePlansEvent) event, gpr, trace, i, spe.getPlan().getID());
+				} else {
+					break;
 				}
 			}
-		}
+		} 
 	}
 	
 	public void whyGeneratePlans(final GeneratePlansEvent gpe, GeneratePlansReason gpr, List<AbstractEvent> trace, int n, int plan_id) {
 			boolean eventfound = false;
 			for (int i = n; i >= 0; --i) {
-			final AbstractEvent event = trace.get(i);
-			Event postevent = gpe.getEvent();
-			if  (event instanceof GuardEvent) {
-				if (gpr.getParent() == null && ((GuardEvent) event).getPlan().getID() == plan_id) {
-					final GuardReason ger = new GuardReason(i, (GuardEvent) event);
-					gpr.setParent(ger);
-				}
-			} else if (event instanceof ModifyIntentionEvent) {
-				ModifyIntentionEvent me = (ModifyIntentionEvent) event;
-				if (!eventfound && !me.getIntention().events().isEmpty() && me.getIntention().hdE() != null && me.getIntention().hdE() == postevent && me.getIntention().getID() == gpe.getIID()) {
-					final ModifyIntentionReason mer = new ModifyIntentionReason(i, me);
-					gpr.setPostEvent(mer);
-					eventfound = true;
-				}
-			} else if (event instanceof CreateIntentionEvent) {
-				CreateIntentionEvent ce = (CreateIntentionEvent) event;
-				if (!eventfound 
+				final AbstractEvent event = trace.get(i);
+				Event postevent = gpe.getEvent();
+				if  (event instanceof GuardEvent) {
+					if (gpr.getParent() == null && ((GuardEvent) event).getPlan().getID() == plan_id) {
+						final GuardReason ger = new GuardReason(i, (GuardEvent) event);
+						gpr.setParent(ger);
+					}
+				} else if (event instanceof ModifyIntentionEvent) {
+					ModifyIntentionEvent me = (ModifyIntentionEvent) event;
+					if (!eventfound && !me.getIntention().events().isEmpty() && me.getIntention().hdE() != null && me.getIntention().hdE() == postevent && me.getIntention().getID() == gpe.getIID()) {
+						final ModifyIntentionReason mer = new ModifyIntentionReason(i, me);
+						gpr.setPostEvent(mer);
+						eventfound = true;
+					}
+				} else if (event instanceof CreateIntentionEvent) {
+					CreateIntentionEvent ce = (CreateIntentionEvent) event;
+					if (!eventfound 
 						&& ce.getIntention().hdE().equals(postevent)
 						&& ce.getIntention().getID() == gpe.getIID()) {
-					final CreateIntentionReason cer = new CreateIntentionReason(i, ce);
-					gpr.setPostEvent(cer);
-					eventfound = true;
+						final CreateIntentionReason cer = new CreateIntentionReason(i, ce);
+						gpr.setPostEvent(cer);
+						eventfound = true;
+					}
 				}
 			}
-		}
 	}
 	/* public List<AbstractReason> whyAction(final Action action) {
 		final Deque<ActionReason> stack = new LinkedList<>();
@@ -421,5 +435,14 @@ public class WhyQuestions {
 				}
 			}
 		}
+	}
+	
+	public String toString() {
+		String s = "";
+		for (final AbstractEvent event : this.storage.getAll()) {
+			s += EventTable.getDescription(event);
+			s += "\n";
+		}
+		return s;
 	}
 }

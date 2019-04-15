@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis, and Michael Fisher.
+// Copyright (C) 2014 Louise A. Dennis and Michael Fisher
 // 
 // This file is part of Gwendolen
 //
@@ -21,10 +21,26 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial2/pickuprubble_achieve.gwen
-mas.builder = gwendolen.GwendolenMASBuilder
+GWENDOLEN
 
-env = gwendolen.tutorials.SearchAndRescueEnv
+:name: robot
 
-log.info = ail.mas.DefaultEnvironment
-log.format = brief
+:Initial Beliefs:
+
+possible_rubble(1, 1)
+possible_rubble(3, 3)
+possible_rubble(5, 5)
+
+:Initial Goals:
+
+holding(rubble) [achieve]
+
+:Plans:
+
++!holding(rubble) [achieve] : {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
+
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
+
++rubble(X, Y): {B at(X, Y)} <- lift_rubble;
+
++holding(rubble): {True} <- print(done);

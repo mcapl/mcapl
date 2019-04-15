@@ -9,7 +9,6 @@ bin/TEST*
 
 # Debugging Files #
 tmp/*
-*.db
 *.wal.0
 
 # Replay Records #

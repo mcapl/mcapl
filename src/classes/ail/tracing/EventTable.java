@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -54,6 +55,7 @@ import ail.tracing.explanations.ExplanationLevel;
 import ail.tracing.explanations.GuardReason;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.tracing.explanations.WhyQuestions;
+import ajpf.MCAPLcontroller;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.SortedList;
@@ -77,59 +79,70 @@ public class EventTable extends JXTable {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				File file = null;
+				if (args.length == 0) {
 				// request a .db file, i.e. a trace
-				final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
-				picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
-				if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					// initialize the trace and the question-asking
-					final EventStorage storage = new EventStorage(picker.getSelectedFile());
-					final WhyQuestions questions = new WhyQuestions(storage);
-					questions.process();
-
-					// initialize the headers before each table row (filled by the EventTable)
-					final JLabel header = new JLabel();
-					header.setVerticalAlignment(SwingConstants.TOP);
-					header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
-
-					// initialize the description of the selected column (shown at the bottom)
-					// it is actually linked in the EventTable constructor
-					final JTextComponent description = new JTextField();
-
-					// initialize the table itself
-					final EventTable table = new EventTable(storage, header, description);
-
-					// initialize the why-buttons at the right
-					final JPanel buttons = new JPanel();
-					buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-					buttons.add(new JLabel("FINEST"));
-					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
-					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
-					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
-					buttons.add(new JLabel("FINE"));
-					buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
-					buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
-					buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
-
-					// initialize the frame itself
-					final JFrame frame = new JFrame();
-					frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-					frame.setLayout(new BorderLayout());
-					final JScrollPane scroll1 = new JScrollPane(header, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					final JScrollPane scroll2 = new JScrollPane(table);
-					scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
-					frame.add(scroll1, BorderLayout.WEST);
-					frame.add(scroll2, BorderLayout.CENTER);
-					frame.add(description, BorderLayout.SOUTH);
-					frame.add(buttons, BorderLayout.EAST);
-
-					// show the frame (full-screen)
-					final Dimension fullscreen = GraphicsEnvironment.getLocalGraphicsEnvironment()
-							.getMaximumWindowBounds().getSize();
-					frame.setPreferredSize(fullscreen);
-					frame.pack();
-					frame.setVisible(true);
+					final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
+					picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
+					if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+						file = picker.getSelectedFile();
+					}
+				} else {
+					try {
+						file = new File(MCAPLcontroller.getFilename(args[0]));
+					} catch (Exception e) {
+						System.err.println(e);
+						System.exit(0);
+					}
 				}
+				// initialize the trace and the question-asking
+				final EventStorage storage = new EventStorage(file);
+				final WhyQuestions questions = new WhyQuestions(storage);
+				questions.process();
+	
+				// initialize the headers before each table row (filled by the EventTable)
+				final JLabel header = new JLabel();
+				header.setVerticalAlignment(SwingConstants.TOP);
+				header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+				
+				// initialize the description of the selected column (shown at the bottom)
+				// it is actually linked in the EventTable constructor
+				final JTextComponent description = new JTextField();
+				
+				// initialize the table itself
+				final EventTable table = new EventTable(storage, header, description);
+	
+				// initialize the why-buttons at the right
+				final JPanel buttons = new JPanel();
+				buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+				buttons.add(new JLabel("FINEST"));
+				buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
+				buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
+				buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
+				buttons.add(new JLabel("FINE"));
+				buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
+				buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
+				buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
+	
+				// initialize the frame itself
+				final JFrame frame = new JFrame();
+				frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				frame.setLayout(new BorderLayout());
+				final JScrollPane scroll1 = new JScrollPane(header, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				final JScrollPane scroll2 = new JScrollPane(table);
+				scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
+				frame.add(scroll1, BorderLayout.WEST);
+				frame.add(scroll2, BorderLayout.CENTER);
+				frame.add(description, BorderLayout.SOUTH);
+				frame.add(buttons, BorderLayout.EAST);
+	
+				// show the frame (full-screen)
+				final Dimension fullscreen = GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().getSize();
+				frame.setPreferredSize(fullscreen);
+				frame.pack();
+				frame.setVisible(true);
 			}
 		});
 	}
@@ -227,7 +240,7 @@ public class EventTable extends JXTable {
 		}
 	}
 
-	private static String getDescription(final AbstractEvent event) {
+	public static String getDescription(final AbstractEvent event) {
 		return event.getClass().getSimpleName().replace("Event", "");
 	}
 

@@ -25,6 +25,7 @@
 package ail.mas;
 
 import ail.util.AILConfig;
+import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
@@ -126,9 +127,17 @@ public class AIL {
 	 */
 	public static MAS buildMAS(AILConfig config) {
 		String tracedir = null;
-		String tracing = (String) config.getOrDefault("tracing.enabled", "true"); // FIXME: put false as the default
+		String tracing = (String) config.getOrDefault("tracing.enabled", "false");
 		if (tracing.equals("true")) {
 			tracedir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
+			if (! tracedir.equals(System.getProperty("user.dir"))) {
+				try {
+					tracedir = ajpf.MCAPLcontroller.getFilename(tracedir);
+				} catch (AJPFException e) {
+					System.err.println(e.getMessage());
+					System.exit(0);
+				}
+			}
 		}
 
 		MAS mas = new MAS();
