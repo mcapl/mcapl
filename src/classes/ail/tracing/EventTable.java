@@ -55,6 +55,7 @@ import ail.tracing.explanations.ExplanationLevel;
 import ail.tracing.explanations.GuardReason;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.tracing.explanations.WhyQuestions;
+import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.GlazedLists;
@@ -261,19 +262,41 @@ public class EventTable extends JXTable {
 				public void actionPerformed(final ActionEvent e) {
 					// list all actions that there were in the trace,
 					// and request which one we should explain.
-					final Set<Action> actions = questions.getAllActions();
-					final JComboBox<Action> select = new JComboBox<>(actions.toArray(new Action[actions.size()]));
+					final Set<Tuple<Action, Integer>> actions = questions.getAllActions();
+					final JComboBox<ActionPlusInt> select = new JComboBox<>(EventTable.toActionArray(actions));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you execute this action?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
 						// for the selected action, fetch and show its explanation(s)
-						final Action action = (Action) select.getSelectedItem();
-						final List<AbstractReason> reasons = questions.whyAction(action);
+						final ActionPlusInt action = (ActionPlusInt) select.getSelectedItem();
+						final List<AbstractReason> reasons = questions.whyAction(action.getAction(), action.getIndex());
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
+		}
+	}
+	
+	private static class ActionPlusInt {
+		Action action;
+		int index;
+		
+		public ActionPlusInt(Action a, int i) {
+			this.action = a;
+			this.index = i;
+		}
+		
+		public String toString() {
+			return action.toString();
+		}
+		
+		public Action getAction() {
+			return action;
+		}
+		
+		public int getIndex() {
+			return index;
 		}
 	}
 
@@ -294,8 +317,8 @@ public class EventTable extends JXTable {
 				public void actionPerformed(final ActionEvent e) {
 					// list all beliefs that there were in the trace,
 					// and request which one we should explain.
-					final Set<Predicate> beliefs = questions.getAllBeliefs();
-					final JComboBox<Predicate> select = new JComboBox<>(beliefs.toArray(new Predicate[beliefs.size()]));
+					final Set<Tuple<Predicate, Integer>> beliefs = questions.getAllBeliefs();
+					final JComboBox<Predicate> select = new JComboBox<>(EventTable.toPredicateArray(beliefs));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you insert this belief?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
@@ -327,8 +350,14 @@ public class EventTable extends JXTable {
 				public void actionPerformed(final ActionEvent e) {
 					// list all goals that there were in the trace,
 					// and request which one we should explain.
-					final Set<Predicate> goals = questions.getAllGoals();
-					final JComboBox<Predicate> select = new JComboBox<>(goals.toArray(new Predicate[goals.size()]));
+					final List<Tuple<Predicate, Integer>> goals = questions.getAllGoals();
+					nonGenericTuple[] array = new nonGenericTuple[goals.size()];
+					int index = 0;
+					for (Tuple<Predicate, Integer> goal: goals) {
+						array[index] = new EventTable.nonGenericTuple(goal);
+						index++;
+					}
+					final JComboBox<nonGenericTuple> select = new JComboBox<nonGenericTuple>(array);
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you adopt this goal?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
@@ -340,6 +369,28 @@ public class EventTable extends JXTable {
 					}
 				}
 			});
+		}
+	}
+	
+	private static class nonGenericTuple {
+		Predicate pred = null;
+		Integer step;
+		
+		nonGenericTuple(Tuple<Predicate, Integer> tuple) {
+			pred = tuple.getLeft();
+			step = tuple.getRight();
+		}
+		
+		public String toString() {
+			return pred.toString();
+		}
+		
+		public Predicate getLeft() {
+			return pred;
+		}
+		
+		public Integer getRight() {
+			return step;
 		}
 	}
 
@@ -415,5 +466,28 @@ public class EventTable extends JXTable {
 			}
 			return "<html>" + result.replace("because", "<i>because</i>") + "</html>";
 		}
+		
 	}
+	
+	private static Predicate[] toPredicateArray(Set<Tuple<Predicate, Integer>> set) {
+		Predicate[] array = new Predicate[set.size()];
+		int index = 0;
+		for (Tuple<Predicate, Integer> tuple: set) {
+			array[index] = tuple.getLeft();
+			index++;
+		}
+		return array;
+	}
+	
+	private static ActionPlusInt[] toActionArray(Set<Tuple<Action, Integer>> set) {
+		ActionPlusInt[] array = new ActionPlusInt[set.size()];
+		int index = 0;
+		for (Tuple<Action, Integer> tuple: set) {
+			array[index] = new ActionPlusInt(tuple.getLeft(), tuple.getRight());
+			index++;
+		}
+		return array;
+	}
+
+
 }

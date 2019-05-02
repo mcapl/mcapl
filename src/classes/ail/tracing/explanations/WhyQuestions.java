@@ -24,6 +24,7 @@ import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
+import ail.util.Tuple;
 
 /**
  * Supports generating explanations ({@link AbstractReason}s) from an agent
@@ -31,9 +32,9 @@ import ail.tracing.events.SelectPlanEvent;
  */
 public class WhyQuestions {
 	private final EventStorage storage;
-	private Set<Predicate> beliefs;
-	private Set<Predicate> goals;
-	private Set<Action> actions;
+	private Set<Tuple<Predicate, Integer>> beliefs;
+	private List<Tuple<Predicate, Integer>> goals;
+	private Set<Tuple<Action, Integer>> actions;
 
 	public WhyQuestions(final EventStorage storage) {
 		this.storage = storage;
@@ -49,8 +50,9 @@ public class WhyQuestions {
 	 */
 	public void process() {
 		this.beliefs = new LinkedHashSet<>();
-		this.goals = new LinkedHashSet<>();
+		this.goals = new ArrayList<>();
 		this.actions = new LinkedHashSet<>();
+		int step = 0;
 		for (final AbstractEvent event : this.storage.getAll()) {
 			if (event instanceof ModificationEvent) {
 				final ModificationEvent modification = (ModificationEvent) event;
@@ -60,7 +62,7 @@ public class WhyQuestions {
 						if (bel instanceof PredicatewAnnotation) {
 							bel = new Predicate(bel);
 						}
-						this.beliefs.add(bel);
+						this.beliefs.add(new Tuple(bel, step));
 					}
 					break;
 				case "goals":
@@ -68,7 +70,7 @@ public class WhyQuestions {
 						if (goal instanceof PredicatewAnnotation) {
 							goal = new Predicate(goal);
 						}
-						this.goals.add(goal);
+						this.goals.add(new Tuple(goal, step));
 					}
 					break;
 				default:
@@ -77,9 +79,10 @@ public class WhyQuestions {
 			} else if (event instanceof ActionEvent) {
 				final Action executed = ((ActionEvent) event).getAction();
 				if (executed != null) {
-					this.actions.add(executed);
+					this.actions.add(new Tuple(executed, step));
 				}
 			}
+			step++;
 		}
 	}
 
@@ -88,7 +91,7 @@ public class WhyQuestions {
 	 *         either queried or actually believed at some point. Call
 	 *         {@link #process()} first to update the returned beliefs.
 	 */
-	public Set<Predicate> getAllBeliefs() {
+	public Set<Tuple<Predicate, Integer>> getAllBeliefs() {
 		return Collections.unmodifiableSet(this.beliefs);
 	}
 
@@ -97,8 +100,8 @@ public class WhyQuestions {
 	 *         either queried or actually to be achieved at some point. Call
 	 *         {@link #process()} first to update the returned goals.
 	 */
-	public Set<Predicate> getAllGoals() {
-		return Collections.unmodifiableSet(this.goals);
+	public List<Tuple<Predicate, Integer>> getAllGoals() {
+		return Collections.unmodifiableList(this.goals);
 	}
 
 	/**
@@ -106,7 +109,7 @@ public class WhyQuestions {
 	 *         either tried or actually executed at some point. Call
 	 *         {@link #process()} first to update the returned actions.
 	 */
-	public Set<Action> getAllActions() {
+	public Set<Tuple<Action, Integer>> getAllActions() {
 		return Collections.unmodifiableSet(this.actions);
 	}
 
@@ -129,7 +132,7 @@ public class WhyQuestions {
 	 *         executed) explaining why this action was executed (each entry
 	 *         corresponds to one successful execution).
 	 */
-	public List<AbstractReason> whyAction(final Action action) {
+	public List<AbstractReason> whyAction(final Action action, int tindex) {
 		final Deque<ActionReason> stack = new LinkedList<>();
 		final List<AbstractEvent> trace = this.storage.getAll();
 		for (int i = (trace.size() - 1); i >= 0; --i) {
@@ -158,10 +161,47 @@ public class WhyQuestions {
 		return new ArrayList<>(stack);
 	}
 	
+	// 1.  why(selp((e, ds), i_k)N, T) = bel((e, ds), g, theta, i'_k)_N' and crei(((e, npy)_k)_N'' or add((e, npy), i''_k)_N'')
 	public void whySelectPlan(final SelectPlanEvent spe, SelectPlanReason spr, List<AbstractEvent> trace, int n) {
+		int intention_id = spe.getIID();
 		for (int i = n; i >= 0; --i) {
 			final AbstractEvent event = trace.get(i);
-			if (event instanceof GeneratePlansEvent) {
+			if (event instanceof GuardEvent) {
+				GuardEvent g_event = (GuardEvent) event;
+				// I don't think we need this check since generate plans goes straight to select plans
+				// without switching intentions.  But just in case.
+				spr.setParent(new GuardReason(i, g_event));
+				if (intention_id == g_event.getIntention().getID()) {
+					for (int j = i; j >= 0; --j) {
+						final AbstractEvent e2 = trace.get(j);
+						if (e2 instanceof CreateIntentionEvent) {
+							CreateIntentionEvent crei = (CreateIntentionEvent) e2;
+							if (intention_id == crei.getIntention().getID() && crei.getIntention().hdE().equals(spe.getPlan().getEvent())) {
+								CreateIntentionReason crer = new CreateIntentionReason(j, crei);
+								// whyCreateIntention(crei, crer, trace, j);
+								spr.setParent2(crer);
+								break;
+							} else {
+								
+							}
+						} else if (e2 instanceof ModifyIntentionEvent) {
+							ModifyIntentionEvent add = (ModifyIntentionEvent) e2;
+							if (intention_id == add.getIntention().getID() && add.getIntention().hdE().equals(spe.getPlan().getEvent())) {
+								ModifyIntentionReason addr = new ModifyIntentionReason(j, add);
+								// whyModifyIntention(add, addr, trace, j);
+								spr.setParent2(addr);
+								break;
+							} else {
+								
+							}
+						}
+					}
+					break;
+				} else {
+					
+				}
+			}
+			/* if (event instanceof GeneratePlansEvent) {
 				if (spr.getParent() == null) {
 					final GeneratePlansReason gpr = new GeneratePlansReason(i, (GeneratePlansEvent) event);
 					spr.setParent(gpr);
@@ -169,7 +209,7 @@ public class WhyQuestions {
 				} else {
 					break;
 				}
-			}
+			} */
 		} 
 	}
 	
@@ -378,69 +418,89 @@ public class WhyQuestions {
 	private static void processGPE(final int i, final GeneratePlansEvent gpe, final SelectPlanReason spr) {
 		if (spr != null && spr.getParent() == null && gpe.getPlanIDs().contains(spr.getEvent().getPlan().getID())) {
 			final GeneratePlansReason gpr = new GeneratePlansReason(i, gpe);
-			spr.setParent(gpr);
+			// spr.setParent(gpr);
 		}
 	}
 
 	private static void processGE(final int i, final GuardEvent ge, final SelectPlanReason spr) {
 		if (spr != null && ge.getPlan().getID() == spr.getEvent().getPlan().getID()) {
-			final GeneratePlansReason gpr = spr.getParent();
-			if (gpr != null && gpr.getParent() == null) {
-				final GuardReason gr = new GuardReason(i, ge);
-				gpr.setParent(gr);
-			}
+			//final GeneratePlansReason gpr = spr.getParent();
+			//if (gpr != null && gpr.getParent() == null) {
+			//	final GuardReason gr = new GuardReason(i, ge);
+			//	gpr.setParent(gr);
+			//}
 		}
 	}
 
 	private static void processSIE(final int i, final SelectIntentionEvent sie, final SelectPlanReason spr) {
 		if (spr != null) {
-			final GeneratePlansReason gpr = spr.getParent();
-			if (gpr != null) {
-				final GuardReason gr = gpr.getParent();
-				if (gr != null && gr.getParent() == null
-						&& sie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
-					final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
-					gr.setParent(sir);
-				}
-			}
+			// final GeneratePlansReason gpr = spr.getParent();
+			//if (gpr != null) {
+			//	final GuardReason gr = gpr.getParent();
+			//	if (gr != null && gr.getParent() == null
+			//			&& sie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+			//		final SelectIntentionReason sir = new SelectIntentionReason(i, sie);
+			//		gr.setParent(sir);
+			//	}
+			//}
 		}
 	}
 
 	private static void processMIE(final int i, final ModifyIntentionEvent mie, final SelectPlanReason spr) {
 		if (spr != null) {
-			final GeneratePlansReason gpr = spr.getParent();
-			if (gpr != null) {
-				final GuardReason gr = gpr.getParent();
-				if (gr != null && mie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
-					final SelectIntentionReason sir = gr.getParent();
-					if (sir != null) {
-						sir.addModification(mie);
-					}
-				}
-			}
+			//final GeneratePlansReason gpr = spr.getParent();
+			//if (gpr != null) {
+			//	final GuardReason gr = gpr.getParent();
+			//	if (gr != null && mie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+			//		final SelectIntentionReason sir = gr.getParent();
+			//		if (sir != null) {
+			//			sir.addModification(mie);
+			//		}
+			//	}
+			//}
 		}
 	}
 
 	private static void processCIE(final int i, final CreateIntentionEvent cie, final SelectPlanReason spr) {
 		if (spr != null) {
-			final GeneratePlansReason gpr = spr.getParent();
-			if (gpr != null) {
-				final GuardReason gr = gpr.getParent();
-				if (gr != null && cie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
-					final SelectIntentionReason sir = gr.getParent();
-					if (sir != null && sir.getParent() == null) {
-						final CreateIntentionReason cir = new CreateIntentionReason(i, cie);
-						sir.setParent(cir);
-					}
-				}
-			}
+		//	final GeneratePlansReason gpr = spr.getParent();
+		//	if (gpr != null) {
+		//		final GuardReason gr = gpr.getParent();
+		//		if (gr != null && cie.getIntention().getID() == gr.getEvent().getIntention().getID()) {
+		//			final SelectIntentionReason sir = gr.getParent();
+		//			if (sir != null && sir.getParent() == null) {
+		//				final CreateIntentionReason cir = new CreateIntentionReason(i, cie);
+		//				sir.setParent(cir);
+		//			}
+		//		}
+		//	}
 		}
+	}
+	
+	public AbstractEvent getEvent(int i) {
+		return this.storage.getAll().get(i);
+	}
+	
+	public List<AbstractEvent> getTrace() {
+		return this.storage.getAll();
 	}
 	
 	public String toString() {
 		String s = "";
 		for (final AbstractEvent event : this.storage.getAll()) {
 			s += EventTable.getDescription(event);
+			s += "\n";
+		}
+		return s;
+	}
+	
+	public String verboseString() {
+		String s = "";
+		int i = 0;
+		for (final AbstractEvent event: this.storage.getAll()) {
+			s += i + ". ";
+			i++;
+			s += event.toString();
 			s += "\n";
 		}
 		return s;

@@ -49,7 +49,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		String s1 = "";
 		boolean first = true;
 		int rownum = 0;
-		final String and = descriptions.isEmpty() ? " ; " : " AND ";
+		final String and = descriptions.isEmpty() ? " ; " : " THEN ";
 		for (Deed d : i.deeds()) { // TODO: with descriptions enabled,
 			// we might want to filter the deeds (e.g. only print actions?)
 			// or even allow developers to provide a single general descriptions of them
@@ -60,7 +60,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 				s1 = d.toString(descriptions) + and + s1;
 			}
 			if (d.getCategory() == Deed.Dnpy) {
-				s1 = "respond to the event " + i.events().get(rownum).toString(descriptions) + " " + s1;
+				s1 = "respond to the event " + i.getEventforDeed(rownum).toString(descriptions) + " " + s1;
 			}
 			rownum++;
 		}
@@ -82,7 +82,7 @@ public class GwendolenPrettyPrinter extends AILPrettyPrinter {
 		} else {
 			s.append("Plan ").append(p.getID()).append(": ");
 			if (!descriptions.isEmpty()) {
-				s.append("in response to an event ");
+				s.append("in response to the event: ");
 			}
 			s.append(p.getEvent().toString(descriptions));
 			s.append(descriptions.isEmpty() ? " <- " : " do ");

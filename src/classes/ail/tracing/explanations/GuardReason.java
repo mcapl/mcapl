@@ -49,7 +49,11 @@ public class GuardReason extends AbstractReason {
 				string.append("it was continued in state ").append(this.state);
 			} else {
 				string.append("its guard ").append(inCourier(this.event.getGuard().toString(descriptions)));
-				string.append(" held with ").append(inCourier(solutions()));
+				if (!solutions().equals("True")) {
+					string.append(" held with possible solution(s) ").append(inCourier(solutions()));
+				} else {
+					string.append(" held ");
+				}
 			}
 			if (this.parent != null) {
 				string.append(", ");
@@ -62,7 +66,7 @@ public class GuardReason extends AbstractReason {
 		default:
 			if (!event.isContinuation()) {
 				string.append("of which the guard ").append(inCourier(this.event.getGuard().toString(descriptions)));
-				string.append(" held with ").append(inCourier(solutions()));
+				string.append(" held with possible solution(s) ").append(inCourier(solutions()));
 			}
 			if (this.parent != null) {
 				if (!event.isContinuation()) {
@@ -73,7 +77,7 @@ public class GuardReason extends AbstractReason {
 			break;
 		}
 		if (this.parent == null) {
-			string.append(".");
+			// string.append(".");
 		}
 		return string.toString();
 	}

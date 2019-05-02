@@ -530,6 +530,22 @@ public class Intention implements Comparable<Intention>{
     	return es;
     }
     
+    public Event getEventforDeed(int i) {
+    	int j = 0;
+    	ListIterator<IntentionRow> intn = intentionRows.listIterator();
+    	while (intn.hasNext()) {
+    		IntentionRow intentionR = intn.next();
+    		ArrayList<Deed> ds = intentionR.deeds();
+    		for (Deed d: ds) {
+    			if (j == i) {
+    				return intentionR.getEvent();
+    			}
+    			j++;
+    		}
+    	}
+    	return null;
+    }
+    
     /**
      * The event stack of the intention.
      * 

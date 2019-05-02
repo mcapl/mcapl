@@ -4,7 +4,10 @@ import ail.tracing.events.SelectPlanEvent;
 
 public class SelectPlanReason extends AbstractReason {
 	private final SelectPlanEvent event;
-	private GeneratePlansReason parent;
+	// private GeneratePlansReason parent;
+	private GuardReason guard;
+	private CreateIntentionReason crei = null;
+	private ModifyIntentionReason add = null;
 
 	public SelectPlanReason(final int state, final SelectPlanEvent event) {
 		super(state);
@@ -16,13 +19,22 @@ public class SelectPlanReason extends AbstractReason {
 		return this.event;
 	}
 
-	public void setParent(final GeneratePlansReason parent) {
-		this.parent = parent;
+	public void setParent(final GuardReason parent) {
+		this.guard = parent;
+	//	this.parent = parent;
 	}
 
 	@Override
-	public GeneratePlansReason getParent() {
-		return this.parent;
+	public GuardReason getParent() {
+		return this.guard;
+	}
+	
+	public void setParent2(CreateIntentionReason c) {
+		crei = c;
+	}
+	
+	public void setParent2(ModifyIntentionReason add) {
+		this.add = add;
 	}
 
 	@Override
@@ -32,17 +44,34 @@ public class SelectPlanReason extends AbstractReason {
 		switch(level) {
 		case FINEST:
 			string.append(" was selected in state ").append(this.state);
-			if (this.parent != null) {
+			if (this.guard != null) {
 			//	string.append(", because it was included in ").append(this.parent.getExplanation(level, descriptions));
-				string.append(this.parent.getExplanation(level, descriptions));
+				string.append(this.guard.getExplanation(level, descriptions));
+				string.append(" and ");
+				if (crei != null) {
+					string.append(this.crei.getExplanation(level, descriptions));
+				} else {
+					string.append(this.add.getExplanation(level, descriptions));
+				}
 			}
 			break;
 		default:
-			if (this.parent != null) {
-				string.append(", ").append(this.parent.getExplanation(level, descriptions));
+			string.append(" was selected in state ").append(this.state);
+			if (this.guard != null) {
+				string.append(" because ");
+				if (!this.guard.getEvent().isContinuation()) {
+					string.append(this.guard.toString());
+					// string.append(" held");
+					string.append(" and ");
+				}
+				if (crei != null) {
+					string.append(this.crei.toString());
+				} else {
+					string.append(this.add.toString() + " in state " + this.add.state);
+				}
 			}
 		}
-		if (this.parent == null) {
+		if (this.guard == null) {
 			string.append(".");
 		}
 		return string.toString();
