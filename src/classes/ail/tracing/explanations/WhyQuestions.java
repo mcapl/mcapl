@@ -302,6 +302,7 @@ public class WhyQuestions {
 	 *         inserted) explaining why this belief was inserted (each entry
 	 *         corresponds to one successful non-duplicate insertion).
 	 */
+	// 2.  why(b_N, T) = crei((e, +b)_N'' because why(crei((e, +b))_N', T) or addb(b, start)
 	public List<AbstractReason> whyBelief(final Predicate belief) {
 		final Deque<ModificationReason> stack = new LinkedList<>();
 		final List<AbstractEvent> trace = this.storage.getAll();
