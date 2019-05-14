@@ -7,6 +7,7 @@ import ail.tracing.events.ModifyIntentionEvent;
 
 public class ModifyIntentionReason extends AbstractReason {
 	private final ModifyIntentionEvent event;
+	AbstractReason parent;
 
 	public ModifyIntentionReason(final int state, final ModifyIntentionEvent event) {
 		super(state);
@@ -20,9 +21,13 @@ public class ModifyIntentionReason extends AbstractReason {
 
 	@Override
 	public AbstractReason getParent() {
-		return null;
+		return parent;
 	}
-
+	
+	public void setParent(AbstractReason r) {
+		parent = r;
+	}
+	
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
@@ -37,7 +42,16 @@ public class ModifyIntentionReason extends AbstractReason {
 			break;
 		default:
 			if (i_event != null) {
-				string.append("which was created for the event ").append(inCourier(i_event.toString(descriptions)));
+				string.append("Event: ");
+				string.append(i_event.toString(descriptions));
+				string.append(" was posted because ");
+				if (this.getParent() instanceof CreateIntentionReason) {
+					string.append(((CreateIntentionReason) this.getParent()).getExplanation(level, descriptions));
+				} else if (this.getParent() instanceof SelectPlanReason) {
+					string.append(((SelectPlanReason) this.getParent()).getExplanation(level, descriptions));
+				} else {
+					string.append("it appeared next in intention ").append(this.event.getIntention().getID());
+				}
 			}
 			break;
 		}

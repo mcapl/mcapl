@@ -84,4 +84,8 @@ public class ModifyIntentionEvent extends AbstractEvent {
 		final List<Event> events = this.intention.events();
 		return (events.isEmpty()) ? null : this.intention.events().get(0);
 	}
+
+	public int getIID() {
+		return intention.getID();
+	}
 }

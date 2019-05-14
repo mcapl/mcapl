@@ -52,6 +52,7 @@ import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.GoalReason;
 import ail.tracing.explanations.GuardReason;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.tracing.explanations.WhyQuestions;
@@ -269,8 +270,8 @@ public class EventTable extends JXTable {
 					if (result == JOptionPane.OK_OPTION) {
 						// for the selected action, fetch and show its explanation(s)
 						final ActionPlusInt action = (ActionPlusInt) select.getSelectedItem();
-						final List<AbstractReason> reasons = questions.whyAction(action.getAction(), action.getIndex());
-						final AnswerArea msg = new AnswerArea(reasons, level, questions);
+						final AbstractReason reason = questions.whyAction(action.getAction(), action.getIndex());
+						final AnswerArea msg = new AnswerArea(reason, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
@@ -318,20 +319,43 @@ public class EventTable extends JXTable {
 					// list all beliefs that there were in the trace,
 					// and request which one we should explain.
 					final Set<Tuple<Predicate, Integer>> beliefs = questions.getAllBeliefs();
-					final JComboBox<Predicate> select = new JComboBox<>(EventTable.toPredicateArray(beliefs));
+					final JComboBox<PredicatePlusInt> select = new JComboBox<>(EventTable.toPredicateArray(beliefs));
 					final int result = JOptionPane.showConfirmDialog(null, select, "Why did you insert this belief?",
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
 						// for the selected belief, fetch and show its explanation(s)
-						final Predicate belief = (Predicate) select.getSelectedItem();
-						final List<AbstractReason> reasons = questions.whyBelief(belief);
-						final AnswerArea msg = new AnswerArea(reasons, level, questions);
+						final PredicatePlusInt belief = (PredicatePlusInt) select.getSelectedItem();
+						final AbstractReason reason = questions.whyBelief(belief.getPredicate(), belief.getIndex());
+						final AnswerArea msg = new AnswerArea(reason, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			});
 		}
 	}
+	
+	private static class PredicatePlusInt {
+		Predicate pred;
+		int index;
+		
+		public PredicatePlusInt(Predicate a, int i) {
+			this.pred = a;
+			this.index = i;
+		}
+		
+		public String toString() {
+			return pred.toString();
+		}
+		
+		public Predicate getPredicate() {
+			return pred;
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+	}
+
 
 	/**
 	 * This class entails a button that, once pressed, requests the user to select
@@ -362,8 +386,8 @@ public class EventTable extends JXTable {
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.OK_OPTION) {
 						// for the selected goal, fetch and show its explanation(s)
-						final Predicate goal = (Predicate) select.getSelectedItem();
-						final List<AbstractReason> reasons = questions.whyGoal(goal);
+						final nonGenericTuple goal = (nonGenericTuple) select.getSelectedItem();
+						final GoalReason reasons = questions.whyGoal(goal.getLeft(), goal.getRight());
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -407,11 +431,11 @@ public class EventTable extends JXTable {
 		private final Map<String, Predicate> beliefs = new LinkedHashMap<>();
 		private final Map<String, Predicate> goals = new LinkedHashMap<>();
 
-		AnswerArea(final List<AbstractReason> reasons, final ExplanationLevel level, final WhyQuestions questions) {
+		AnswerArea(final AbstractReason reason, final ExplanationLevel level, final WhyQuestions questions) {
 			this.questions = questions;
 			this.level = level;
 			setContentType("text/html");
-			setText(answerString(reasons, level));
+			setText(answerString(reason, level));
 			setEditable(false);
 			setPreferredSize(new Dimension(600, 300));
 			addHyperlinkListener(this);
@@ -424,21 +448,21 @@ public class EventTable extends JXTable {
 				final String url = e.getDescription(); // automatically decoded
 				if (url.startsWith("belief://")) {
 					final Predicate belief = beliefs.get(url.substring(9));
-					final List<AbstractReason> reasons = questions.whyBelief(belief);
+					final AbstractReason reasons = questions.whyBelief(belief, 0);
 					setText(answerString(reasons, level));
 				} else if (url.startsWith("goal://")) {
 					final Predicate goal = goals.get(url.substring(7));
-					final List<AbstractReason> reasons = questions.whyGoal(goal);
+					final GoalReason reasons = questions.whyGoal(goal, 0);
 					setText(answerString(reasons, level));
 				}
 			}
 		}
 
-		private String answerString(final List<AbstractReason> reasons, final ExplanationLevel level) {
+		private String answerString(final AbstractReason main, final ExplanationLevel level) {
 			final PredicateDescriptions descriptions = questions.getDescriptions();
-			for (final AbstractReason main : reasons) {
+			//for (final AbstractReason main : reason2) {
 				AbstractReason current = main;
-				while (current != null) {
+			/*	while (current != null) {
 					if (current instanceof GuardReason) {
 						final Guard guard = ((GuardReason) current).getEvent().getGuard();
 						for (final GuardAtom<?> atom : guard.getAllAtoms()) {
@@ -452,28 +476,30 @@ public class EventTable extends JXTable {
 						}
 					}
 					current = current.getParent();
-				}
-			}
+				} */
+			//}
 			final StringBuilder answer = new StringBuilder();
-			for (int i = 1; i <= reasons.size(); ++i) {
-				final String reason = reasons.get(i - 1).getExplanation(level, descriptions);
+			/* for (int i = 1; i <= reason2.size(); ++i) {
+				final String reason = reason2.get(i - 1).getExplanation(level, descriptions);
 				answer.append("<p><b>").append(i).append(":</b> ").append(reason).append("</p>");
-			}
+			} */
+			final String reason = current.getExplanation(level, descriptions);
+			answer.append(reason);
 			String result = answer.toString();
-			for (final String rawbelief : beliefs.keySet()) {
+			/* for (final String rawbelief : beliefs.keySet()) {
 				final String belief = StringEscapeUtils.escapeHtml4(rawbelief);
 				result = result.replace(belief, "<a href=\"belief://" + belief + "\">" + belief + "</a>");
-			}
+			} */
 			return "<html>" + result.replace("because", "<i>because</i>") + "</html>";
 		}
 		
 	}
 	
-	private static Predicate[] toPredicateArray(Set<Tuple<Predicate, Integer>> set) {
-		Predicate[] array = new Predicate[set.size()];
+	private static PredicatePlusInt[] toPredicateArray(Set<Tuple<Predicate, Integer>> set) {
+		PredicatePlusInt[] array = new PredicatePlusInt[set.size()];
 		int index = 0;
 		for (Tuple<Predicate, Integer> tuple: set) {
-			array[index] = tuple.getLeft();
+			array[index] = new PredicatePlusInt(tuple.getLeft(), tuple.getRight());
 			index++;
 		}
 		return array;

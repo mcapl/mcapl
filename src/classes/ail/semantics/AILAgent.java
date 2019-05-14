@@ -1492,7 +1492,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB().add(b);
 		if (success && shouldTrace()) {
-			trace(new ModificationEvent(ModificationEvent.BELIEFS, null, b, null));
+			trace(new ModificationEvent(ModificationEvent.BELIEFS, null, b, null, true));
 		}
 	}
 
@@ -1509,7 +1509,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		GroundPredSets.check_add(b);
 		boolean success = getBB(s).add(b);
 		if (success && shouldTrace()) {
-			trace(new ModificationEvent(ModificationEvent.BELIEFS, s, b, null));
+			trace(new ModificationEvent(ModificationEvent.BELIEFS, s, b, null, true));
 		}
 	}
 

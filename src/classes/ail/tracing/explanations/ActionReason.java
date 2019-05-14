@@ -29,7 +29,7 @@ public class ActionReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append(inCourier(this.event.getAction().toString(descriptions))).append(" was executed");
+		string.append(inCourier(this.event.getAction().toString(descriptions))).append(" was executed because ");
 		switch (level) {
 		case FINEST:
 			string.append(" in state ").append(this.state);

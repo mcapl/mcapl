@@ -30,6 +30,7 @@ public class ModificationEvent extends AbstractEvent {
 	private final String selector;
 	private final List<Predicate> added;
 	private final List<Predicate> removed;
+	private boolean initial = false;
 
 	/**
 	 * @param base     A constant from this class, indicating which base was
@@ -47,6 +48,16 @@ public class ModificationEvent extends AbstractEvent {
 		this.added = (added == null) ? new ArrayList<>(0) : added;
 		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
 	}
+	
+	public ModificationEvent(final int base, final String selector, final List<Predicate> added,
+			final List<Predicate> removed, boolean start) {
+		this.base = base;
+		this.selector = selector;
+		this.added = (added == null) ? new ArrayList<>(0) : added;
+		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
+		this.initial = start;
+	}
+
 
 	/**
 	 * Convience constructor for single-item modifications.
@@ -70,6 +81,21 @@ public class ModificationEvent extends AbstractEvent {
 		}
 	}
 
+	public ModificationEvent(final int base, final String selector, final Predicate added, final Predicate removed, boolean start) {
+		this.base = base;
+		this.selector = selector;
+		this.added = (added == null) ? new ArrayList<>(0) : new ArrayList<>(1);
+		if (added != null) {
+			this.added.add(added);
+		}
+		this.removed = (removed == null) ? new ArrayList<>(0) : new ArrayList<>(1);
+		if (removed != null) {
+			this.removed.add(removed);
+		}
+		this.initial = start;
+	}
+
+	
 	public String getBase() {
 		switch (this.base) {
 		case BELIEFS:
@@ -83,6 +109,10 @@ public class ModificationEvent extends AbstractEvent {
 		default:
 			return "";
 		}
+	}
+	
+	public boolean isInitial() {
+		return initial;
 	}
 
 	public List<Predicate> getAdded() {

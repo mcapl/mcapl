@@ -6,6 +6,7 @@ import ail.tracing.events.CreateIntentionEvent;
 
 public class CreateIntentionReason extends AbstractReason {
 	private final CreateIntentionEvent event;
+	public SelectPlanReason parent = null;
 
 	public CreateIntentionReason(final int state, final CreateIntentionEvent event) {
 		super(state);
@@ -19,7 +20,11 @@ public class CreateIntentionReason extends AbstractReason {
 
 	@Override
 	public AbstractReason getParent() {
-		return null;
+		return parent;
+	}
+	
+	public void setParent(SelectPlanReason r) {
+		parent = r;
 	}
 
 	@Override
@@ -37,8 +42,15 @@ public class CreateIntentionReason extends AbstractReason {
 			string.append(" was posted in state ").append(this.state);
 			break;
 		default:
+			string.append(this.event.toString(descriptions)).append(" was created in state ").append(state).append(" because ");
 			if (event != null) {
-				string.append("which was created for the event ").append(inCourier(event.toString(descriptions)));
+				if (event.getCategory() == Event.FromPercept) {
+					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was perceived");
+				} else if (event.getCategory() == Event.Estart) {
+					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was an initial belief");
+				} else {
+					string.append(parent.getExplanation(level, descriptions));
+				}
 			}
 			break;
 		}
