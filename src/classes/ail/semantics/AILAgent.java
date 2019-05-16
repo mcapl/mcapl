@@ -1476,6 +1476,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		Intention i = new Intention(g, refertoself(), getPrettyPrinter());
 		getIntentions().add(i);
 		if (shouldTrace()) {
+			i.addPretty(pretty_printer);
 			trace(new CreateIntentionEvent(i));
 		}
 	}

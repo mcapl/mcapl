@@ -1,11 +1,14 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import java.util.List;
 
 import ail.syntax.Unifier;
 import ail.tracing.events.GuardEvent;
+import ail.tracing.explanations.AbstractGuardReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
-public class GuardReason extends AbstractReason {
+public class GuardReason extends AbstractGuardReason {
 	private final GuardEvent event;
 	private SelectIntentionReason parent;
 

@@ -1,9 +1,12 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import ail.syntax.Event;
 import ail.syntax.Intention;
 import ail.tracing.events.CreateIntentionEvent;
 import ail.tracing.events.ModifyIntentionEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModifyIntentionReason extends AbstractReason {
 	private final ModifyIntentionEvent event;
@@ -44,7 +47,7 @@ public class ModifyIntentionReason extends AbstractReason {
 			if (i_event != null) {
 				string.append("Event: ");
 				string.append(i_event.toString(descriptions));
-				string.append(" was posted because ");
+				string.append(" was posted in state ").append(state).append(" because ");
 				if (this.getParent() instanceof CreateIntentionReason) {
 					string.append(((CreateIntentionReason) this.getParent()).getExplanation(level, descriptions));
 				} else if (this.getParent() instanceof SelectPlanReason) {

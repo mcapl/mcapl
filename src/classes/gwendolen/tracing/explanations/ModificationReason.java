@@ -1,7 +1,10 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import ail.syntax.Predicate;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModificationReason extends AbstractReason {
 	private final ModificationEvent event;
@@ -29,7 +32,7 @@ public class ModificationReason extends AbstractReason {
 	private String getPredicateDescriptor() {
 		switch (event.getBase()) {
 		case "beliefs":
-			return "belief(s)";
+			return "belief";
 		case "goals":
 			return "goal(s)";
 		case "inbox":
@@ -72,7 +75,7 @@ public class ModificationReason extends AbstractReason {
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
 		string.append("the ").append(getPredicateDescriptor()).append(" ").append(inCourier(getAdded(descriptions)))
-				.append(" were ").append(getActionDescriptor());
+				.append(" was ").append(getActionDescriptor());
 		switch (level) {
 		case FINEST:
 			string.append(" in state ").append(this.state);

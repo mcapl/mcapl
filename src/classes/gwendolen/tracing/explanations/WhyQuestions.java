@@ -1,4 +1,4 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,94 +26,22 @@ import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.EmptyWhyQuestions;
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.Tuple;
 
 /**
  * Supports generating explanations ({@link AbstractReason}s) from an agent
  * trace based on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
-public class WhyQuestions {
-	private final EventStorage storage;
-	private Set<Tuple<Predicate, Integer>> beliefs;
-	private List<Tuple<Predicate, Integer>> goals;
-	private Set<Tuple<Action, Integer>> actions;
+public class WhyQuestions extends EmptyWhyQuestions {
 
 	public WhyQuestions(final EventStorage storage) {
-		this.storage = storage;
+		super(storage);
 	}
 
-	public PredicateDescriptions getDescriptions() {
-		return this.storage.getDescriptions();
-	}
 
-	/**
-	 * Call this to update the info returned by {@link #getAllActions()},
-	 * {@link #getAllBeliefs()}, and {@link #getAllGoals()}.
-	 */
-	public void process() {
-		this.beliefs = new LinkedHashSet<>();
-		this.goals = new ArrayList<>();
-		this.actions = new LinkedHashSet<>();
-		int step = 0;
-		for (final AbstractEvent event : this.storage.getAll()) {
-			if (event instanceof ModificationEvent) {
-				final ModificationEvent modification = (ModificationEvent) event;
-				switch (modification.getBase()) {
-				case "beliefs":
-					for (Predicate bel : modification.getAdded()) {
-						if (bel instanceof PredicatewAnnotation) {
-							bel = new Predicate(bel);
-						}
-						this.beliefs.add(new Tuple(bel, step));
-					}
-					break;
-				case "goals":
-					for (Predicate goal : modification.getAdded()) {
-						if (goal instanceof PredicatewAnnotation) {
-							goal = new Predicate(goal);
-						}
-						this.goals.add(new Tuple(goal, step));
-					}
-					break;
-				default:
-					break;
-				}
-			} else if (event instanceof ActionEvent) {
-				final Action executed = ((ActionEvent) event).getAction();
-				if (executed != null) {
-					this.actions.add(new Tuple(executed, step));
-				}
-			}
-			step++;
-		}
-	}
-
-	/**
-	 * @return All beliefs (instantiated or not) that can be found in the trace,
-	 *         either queried or actually believed at some point. Call
-	 *         {@link #process()} first to update the returned beliefs.
-	 */
-	public Set<Tuple<Predicate, Integer>> getAllBeliefs() {
-		return Collections.unmodifiableSet(this.beliefs);
-	}
-
-	/**
-	 * @return All goals (instantiated or not) that can be found in the trace,
-	 *         either queried or actually to be achieved at some point. Call
-	 *         {@link #process()} first to update the returned goals.
-	 */
-	public List<Tuple<Predicate, Integer>> getAllGoals() {
-		return Collections.unmodifiableList(this.goals);
-	}
-
-	/**
-	 * @return All actions (instantiated or not) that can be found in the trace,
-	 *         either tried or actually executed at some point. Call
-	 *         {@link #process()} first to update the returned actions.
-	 */
-	public Set<Tuple<Action, Integer>> getAllActions() {
-		return Collections.unmodifiableSet(this.actions);
-	}
 
 	// TODO: we are missing the new intention modification events here now
 
@@ -231,7 +159,7 @@ public class WhyQuestions {
 			final AbstractEvent event = trace.get(i);
 			if (event instanceof SelectPlanEvent) {
 				SelectPlanEvent spe = (SelectPlanEvent) event;
-				if (spe.getIID() == intention_id) {
+				if (spe.getIID() == intention_id  && !spe.isContinue()) {
 					List<Deed> deeds = spe.getPlan().getPrefix();
 					for (Deed d: deeds) {
 						if (d.getContent().equals(g)) {
@@ -248,7 +176,7 @@ public class WhyQuestions {
 				}
 			} else if (event instanceof CreateIntentionEvent){
 				CreateIntentionEvent crei = (CreateIntentionEvent) event;
-				if (crei.getIntention().hdD().getContent().equals(g)) {
+				if (crei.getIntention().getID() == intention_id && crei.getIntention().hdD().getContent().equals(g)) {
 					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
 					whyCreateIntention(crei, crer, trace, i);
 					mir.setParent(crer);

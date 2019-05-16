@@ -1,10 +1,13 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class SelectIntentionReason extends AbstractReason {
 	private final SelectIntentionEvent event;

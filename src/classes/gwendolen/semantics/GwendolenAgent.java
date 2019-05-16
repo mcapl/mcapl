@@ -116,7 +116,7 @@ public class GwendolenAgent extends AILAgent {
 				setStoreSentMessages(false);
 			}
 		}
-		setPretty(new GwendolenPrettyPrinter());
+		// setPretty(new GwendolenPrettyPrinter());
 		if (config.containsKey("tracing.descriptions")) {
 			try {
 				String descriptionsfile = MCAPLcontroller.getFilename(config.getProperty("tracing.descriptions"));

@@ -1,7 +1,10 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.events.GeneratePlansEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class GeneratePlansReason extends AbstractReason {
 	private final GeneratePlansEvent event;

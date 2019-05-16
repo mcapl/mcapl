@@ -1,6 +1,9 @@
-package ail.tracing.explanations;
+package gwendolen.tracing.explanations;
 
 import ail.tracing.events.SelectPlanEvent;
+import ail.tracing.explanations.AbstractReason;
+import ail.tracing.explanations.ExplanationLevel;
+import ail.tracing.explanations.PredicateDescriptions;
 
 public class SelectPlanReason extends AbstractReason {
 	private final SelectPlanEvent event;
@@ -59,15 +62,15 @@ public class SelectPlanReason extends AbstractReason {
 			string.append(" was selected in state ").append(this.state);
 			if (this.guard != null) {
 				string.append(" because ");
-				if (!this.guard.getEvent().isContinuation()) {
+				if (!this.guard.getEvent().isContinuation() && !this.guard.getEvent().getGuard().isTrivial()) {
 					string.append(this.guard.toString());
 					// string.append(" held");
 					string.append(" and ");
 				}
 				if (crei != null) {
-					string.append(this.crei.toString());
+					string.append(this.crei.toString(descriptions));
 				} else {
-					string.append(this.add.toString() + " in state " + this.add.state);
+					string.append(this.add.toString(descriptions) + " in state " + this.add.state);
 				}
 			}
 		}

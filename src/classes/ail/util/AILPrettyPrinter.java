@@ -34,7 +34,7 @@ import ail.syntax.IntentionRow;
 import ail.tracing.explanations.PredicateDescriptions;
 
 public class AILPrettyPrinter {
-	protected final PredicateDescriptions descriptions;
+	protected PredicateDescriptions descriptions;
 
 	public AILPrettyPrinter() {
 		this.descriptions = new PredicateDescriptions(new ArrayList<>(0));
@@ -46,6 +46,10 @@ public class AILPrettyPrinter {
 
 	public PredicateDescriptions getPredicateDescriptions() {
 		return this.descriptions;
+	}
+	
+	public void setDescriptions(PredicateDescriptions des) {
+		descriptions = des;
 	}
 
 	public String prettyIntention(Intention i) {

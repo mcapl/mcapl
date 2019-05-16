@@ -36,6 +36,7 @@ import ail.syntax.ast.Abstract_Rule;
 import ail.mas.DefaultEnvironment;
 import gov.nasa.jpf.vm.MJIEnv;
 import gwendolen.semantics.GwendolenAgent;
+import gwendolen.util.GwendolenPrettyPrinter;
 
 
 /**
@@ -74,6 +75,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 	public GwendolenAgent toMCAPL(MAS mas) {
 		try {
 			GwendolenAgent ag = new GwendolenAgent(mas, fAgName);
+			ag.setPretty(new GwendolenPrettyPrinter());
 			addStructures(ag);
 			return ag;
 		} catch (Exception e) {

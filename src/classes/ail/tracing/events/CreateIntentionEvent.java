@@ -43,6 +43,7 @@ public class CreateIntentionEvent extends AbstractEvent {
 
 	@Override
 	public String toString(final PredicateDescriptions descriptions) {
+		intention.pretty_printer.setDescriptions(descriptions);
 		StringBuilder builder = new StringBuilder();
 		builder.append("created ").append(intention).append(".");
 		return builder.toString();

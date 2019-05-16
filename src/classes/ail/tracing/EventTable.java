@@ -52,10 +52,10 @@ import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
-import ail.tracing.explanations.GoalReason;
-import ail.tracing.explanations.GuardReason;
+import ail.tracing.explanations.AbstractGoalReason;
+import ail.tracing.explanations.AbstractGuardReason;
 import ail.tracing.explanations.PredicateDescriptions;
-import ail.tracing.explanations.WhyQuestions;
+import ail.tracing.explanations.EmptyWhyQuestions;
 import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
 import ca.odell.glazedlists.EventList;
@@ -76,77 +76,93 @@ public class EventTable extends JXTable {
 	private final List<String> columns;
 	private final EventList<Map<String, String>> rows;
 	private final Map<String, Integer> index;
+	// initialize the description of the selected column (shown at the bottom)
+	// it is actually linked in the EventTable constructor
+	public final static JTextComponent description = new JTextField();
+	public final static JLabel header = new JLabel();
 
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				File file = null;
-				if (args.length == 0) {
-				// request a .db file, i.e. a trace
-					final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
-					picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
-					if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						file = picker.getSelectedFile();
-					}
-				} else {
-					try {
-						file = new File(MCAPLcontroller.getFilename(args[0]));
-					} catch (Exception e) {
-						System.err.println(e);
-						System.exit(0);
-					}
-				}
 				// initialize the trace and the question-asking
+				File file = getFile(args);
 				final EventStorage storage = new EventStorage(file);
-				final WhyQuestions questions = new WhyQuestions(storage);
-				questions.process();
-	
-				// initialize the headers before each table row (filled by the EventTable)
-				final JLabel header = new JLabel();
-				header.setVerticalAlignment(SwingConstants.TOP);
-				header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
-				
-				// initialize the description of the selected column (shown at the bottom)
-				// it is actually linked in the EventTable constructor
-				final JTextComponent description = new JTextField();
-				
-				// initialize the table itself
-				final EventTable table = new EventTable(storage, header, description);
-	
-				// initialize the why-buttons at the right
-				final JPanel buttons = new JPanel();
-				buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-				buttons.add(new JLabel("FINEST"));
-				buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
-				buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
-				buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
-				buttons.add(new JLabel("FINE"));
-				buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
-				buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
-				buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
-	
-				// initialize the frame itself
-				final JFrame frame = new JFrame();
-				frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				frame.setLayout(new BorderLayout());
-				final JScrollPane scroll1 = new JScrollPane(header, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				final JScrollPane scroll2 = new JScrollPane(table);
-				scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
-				frame.add(scroll1, BorderLayout.WEST);
-				frame.add(scroll2, BorderLayout.CENTER);
-				frame.add(description, BorderLayout.SOUTH);
-				frame.add(buttons, BorderLayout.EAST);
-	
-				// show the frame (full-screen)
-				final Dimension fullscreen = GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().getSize();
-				frame.setPreferredSize(fullscreen);
-				frame.pack();
-				frame.setVisible(true);
+				final EmptyWhyQuestions questions = new EmptyWhyQuestions(storage);
+				EventTable table = new EventTable(storage, header, description);
+				setUp(table, questions);
 			}
 		});
+	}
+	
+/*	public static EventTable createTable(EventStorage storage, EmptyWhyQuestions questions) {
+		questions.process();
+		
+		
+		// initialize the description of the selected column (shown at the bottom)
+		// it is actually linked in the EventTable constructor
+		// final JTextComponent description = new JTextField();
+		
+		// initialize the table itself
+		final EventTable table = new EventTable(storage, header, description);
+		return table;
+	} */
+	
+	public static void setUp(EventTable table, EmptyWhyQuestions questions) {
+
+		// initialize the why-buttons at the right
+		final JPanel buttons = new JPanel();
+		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+		buttons.add(new JLabel("FINEST"));
+		buttons.add(new WhyActionButton(questions, ExplanationLevel.FINEST));
+		buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINEST));
+		buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINEST));
+		buttons.add(new JLabel("FINE"));
+		buttons.add(new WhyActionButton(questions, ExplanationLevel.FINE));
+		buttons.add(new WhyBeliefButton(questions, ExplanationLevel.FINE));
+		buttons.add(new WhyGoalButton(questions, ExplanationLevel.FINE));
+
+		// initialize the frame itself
+		final JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		final JScrollPane scroll1 = new JScrollPane(header, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		final JScrollPane scroll2 = new JScrollPane(table);
+		scroll1.getVerticalScrollBar().setModel(scroll2.getVerticalScrollBar().getModel());
+		frame.add(scroll1, BorderLayout.WEST);
+		frame.add(scroll2, BorderLayout.CENTER);
+		frame.add(description, BorderLayout.SOUTH);
+		frame.add(buttons, BorderLayout.EAST);
+
+		// show the frame (full-screen)
+		final Dimension fullscreen = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getMaximumWindowBounds().getSize();
+		frame.setPreferredSize(fullscreen);
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+	
+	public static File getFile(String[] args) {
+		File file = null;
+		if (args.length == 0) {
+		// request a .db file, i.e. a trace
+			final JFileChooser picker = new JFileChooser(System.getProperty("user.dir"));
+			picker.setFileFilter(new FileNameExtensionFilter("AIL Trace File", "db"));
+			if (picker.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				file = picker.getSelectedFile();
+			}
+		} else {
+			try {
+				file = new File(MCAPLcontroller.getFilename(args[0]));
+			} catch (Exception e) {
+				System.err.println(e);
+				System.exit(0);
+			}
+		}
+		return file;
+		
 	}
 
 	/**
@@ -157,6 +173,10 @@ public class EventTable extends JXTable {
 	 *                    show details (i.e. of the event) for a selected column.
 	 */
 	public EventTable(final EventStorage storage, final JLabel headers, final JTextComponent description) {
+		// initialize the headers before each table row (filled by the EventTable)
+		headers.setVerticalAlignment(SwingConstants.TOP);
+		headers.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+
 		this.columns = new LinkedList<>();
 		this.rows = GlazedLists.eventList(new LinkedList<Map<String, String>>());
 		this.index = new LinkedHashMap<>();
@@ -256,7 +276,7 @@ public class EventTable extends JXTable {
 	private static final class WhyActionButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyActionButton(final WhyQuestions questions, final ExplanationLevel level) {
+		WhyActionButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
 			setText("WHY ACTION?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -311,7 +331,7 @@ public class EventTable extends JXTable {
 	private static final class WhyBeliefButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyBeliefButton(final WhyQuestions questions, final ExplanationLevel level) {
+		WhyBeliefButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
 			setText("WHY BELIEF?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -367,7 +387,7 @@ public class EventTable extends JXTable {
 	private static final class WhyGoalButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyGoalButton(final WhyQuestions questions, final ExplanationLevel level) {
+		WhyGoalButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
 			setText("WHY GOAL?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -387,7 +407,7 @@ public class EventTable extends JXTable {
 					if (result == JOptionPane.OK_OPTION) {
 						// for the selected goal, fetch and show its explanation(s)
 						final nonGenericTuple goal = (nonGenericTuple) select.getSelectedItem();
-						final GoalReason reasons = questions.whyGoal(goal.getLeft(), goal.getRight());
+						final AbstractReason reasons = questions.whyGoal(goal.getLeft(), goal.getRight());
 						final AnswerArea msg = new AnswerArea(reasons, level, questions);
 						JOptionPane.showMessageDialog(null, new JScrollPane(msg), "", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -426,12 +446,12 @@ public class EventTable extends JXTable {
 	 */
 	private static final class AnswerArea extends JEditorPane implements HyperlinkListener {
 		private static final long serialVersionUID = 1L;
-		private final WhyQuestions questions;
+		private final EmptyWhyQuestions questions;
 		private final ExplanationLevel level;
 		private final Map<String, Predicate> beliefs = new LinkedHashMap<>();
 		private final Map<String, Predicate> goals = new LinkedHashMap<>();
 
-		AnswerArea(final AbstractReason reason, final ExplanationLevel level, final WhyQuestions questions) {
+		AnswerArea(final AbstractReason reason, final ExplanationLevel level, final EmptyWhyQuestions questions) {
 			this.questions = questions;
 			this.level = level;
 			setContentType("text/html");
@@ -452,7 +472,7 @@ public class EventTable extends JXTable {
 					setText(answerString(reasons, level));
 				} else if (url.startsWith("goal://")) {
 					final Predicate goal = goals.get(url.substring(7));
-					final GoalReason reasons = questions.whyGoal(goal, 0);
+					final AbstractReason reasons = questions.whyGoal(goal, 0);
 					setText(answerString(reasons, level));
 				}
 			}

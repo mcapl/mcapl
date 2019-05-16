@@ -2,7 +2,7 @@ package ail.tracing;
 
 import java.io.File;
 
-import ail.tracing.explanations.WhyQuestions;
+import gwendolen.tracing.explanations.WhyQuestions;
 
 public class EventTableTestRig {
 	final EventStorage storage;
