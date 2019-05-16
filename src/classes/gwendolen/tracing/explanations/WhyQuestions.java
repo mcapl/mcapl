@@ -27,7 +27,7 @@ import ail.tracing.events.ModifyIntentionEvent;
 import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.explanations.AbstractReason;
-import ail.tracing.explanations.EmptyWhyQuestions;
+import ail.tracing.explanations.WhyQuestionsBase;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.Tuple;
 
@@ -35,7 +35,7 @@ import ail.util.Tuple;
  * Supports generating explanations ({@link AbstractReason}s) from an agent
  * trace based on the 'Debugging is Explaining' paper (Hindriks 2012).
  */
-public class WhyQuestions extends EmptyWhyQuestions {
+public class WhyQuestions extends WhyQuestionsBase {
 
 	public WhyQuestions(final EventStorage storage) {
 		super(storage);

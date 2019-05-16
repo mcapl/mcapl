@@ -161,7 +161,7 @@ public class DroppingNonGroundGoalQuickTests {
 		Goal l2 = new Goal("goal");
 		
 		l1.addTerm(v1);
-		l2.addTerm(new Literal("V2"));
+		l2.addTerm(new VarTerm("V2"));
 		
 		
 		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
@@ -180,7 +180,7 @@ public class DroppingNonGroundGoalQuickTests {
 		dropgoal.apply(a);
 		
 		
-		Assert.assertFalse(i.empty());
+		Assert.assertTrue(i.empty());
 
 	}
 

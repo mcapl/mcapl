@@ -1,3 +1,26 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Michael Fisher, and Vincent Koeman
+//
+// This file is part of the Agent Infrastructure Layer (AIL)
+// 
+// The AIL is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The AIL is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package ail.tracing;
 
 import java.awt.BorderLayout;
@@ -40,22 +63,15 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.JTextComponent;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.jdesktop.swingx.JXTable;
 
 import ail.syntax.Action;
-import ail.syntax.GBelief;
-import ail.syntax.Goal;
-import ail.syntax.Guard;
-import ail.syntax.GuardAtom;
 import ail.syntax.Predicate;
 import ail.tracing.events.AbstractEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
-import ail.tracing.explanations.AbstractGoalReason;
-import ail.tracing.explanations.AbstractGuardReason;
 import ail.tracing.explanations.PredicateDescriptions;
-import ail.tracing.explanations.EmptyWhyQuestions;
+import ail.tracing.explanations.WhyQuestionsBase;
 import ail.util.Tuple;
 import ajpf.MCAPLcontroller;
 import ca.odell.glazedlists.EventList;
@@ -70,6 +86,8 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
  * Koeman et. al 2017) for a trace (i.e. {@link EventStorage}). The main method
  * of this class requests a trace file to be loaded in, and shows the table
  * along with explanation buttons (see {@link WhyQuestions}).
+ * 
+ * Generic version for languages with no implementation of explanations.
  */
 public class EventTable extends JXTable {
 	private static final long serialVersionUID = 1L;
@@ -88,27 +106,15 @@ public class EventTable extends JXTable {
 				// initialize the trace and the question-asking
 				File file = getFile(args);
 				final EventStorage storage = new EventStorage(file);
-				final EmptyWhyQuestions questions = new EmptyWhyQuestions(storage);
+				final WhyQuestionsBase questions = new WhyQuestionsBase(storage);
 				EventTable table = new EventTable(storage, header, description);
 				setUp(table, questions);
 			}
 		});
 	}
 	
-/*	public static EventTable createTable(EventStorage storage, EmptyWhyQuestions questions) {
-		questions.process();
-		
-		
-		// initialize the description of the selected column (shown at the bottom)
-		// it is actually linked in the EventTable constructor
-		// final JTextComponent description = new JTextField();
-		
-		// initialize the table itself
-		final EventTable table = new EventTable(storage, header, description);
-		return table;
-	} */
 	
-	public static void setUp(EventTable table, EmptyWhyQuestions questions) {
+	public static void setUp(EventTable table, WhyQuestionsBase questions) {
 
 		// initialize the why-buttons at the right
 		final JPanel buttons = new JPanel();
@@ -276,7 +282,7 @@ public class EventTable extends JXTable {
 	private static final class WhyActionButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyActionButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
+		WhyActionButton(final WhyQuestionsBase questions, final ExplanationLevel level) {
 			setText("WHY ACTION?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -331,7 +337,7 @@ public class EventTable extends JXTable {
 	private static final class WhyBeliefButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyBeliefButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
+		WhyBeliefButton(final WhyQuestionsBase questions, final ExplanationLevel level) {
 			setText("WHY BELIEF?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -387,7 +393,7 @@ public class EventTable extends JXTable {
 	private static final class WhyGoalButton extends JButton {
 		private static final long serialVersionUID = 1L;
 
-		WhyGoalButton(final EmptyWhyQuestions questions, final ExplanationLevel level) {
+		WhyGoalButton(final WhyQuestionsBase questions, final ExplanationLevel level) {
 			setText("WHY GOAL?");
 			addActionListener(new ActionListener() {
 				@Override
@@ -446,12 +452,12 @@ public class EventTable extends JXTable {
 	 */
 	private static final class AnswerArea extends JEditorPane implements HyperlinkListener {
 		private static final long serialVersionUID = 1L;
-		private final EmptyWhyQuestions questions;
+		private final WhyQuestionsBase questions;
 		private final ExplanationLevel level;
 		private final Map<String, Predicate> beliefs = new LinkedHashMap<>();
 		private final Map<String, Predicate> goals = new LinkedHashMap<>();
 
-		AnswerArea(final AbstractReason reason, final ExplanationLevel level, final EmptyWhyQuestions questions) {
+		AnswerArea(final AbstractReason reason, final ExplanationLevel level, final WhyQuestionsBase questions) {
 			this.questions = questions;
 			this.level = level;
 			setContentType("text/html");
