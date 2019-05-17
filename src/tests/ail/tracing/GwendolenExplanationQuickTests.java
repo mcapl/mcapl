@@ -52,14 +52,14 @@ import ajpf.MCAPLcontroller;
 public class GwendolenExplanationQuickTests {
 	
 	@Test public void readInTest() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		System.err.println(whys.verboseString());
 	}
 	
 	@Test public void selectContinuePlanTest() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		SelectPlanEvent spe = (SelectPlanEvent) whys.getEvent(28);
@@ -73,7 +73,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void selectPlanTest() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		SelectPlanEvent spe = (SelectPlanEvent) whys.getEvent(84);
@@ -87,7 +87,7 @@ public class GwendolenExplanationQuickTests {
 	}
 
 	@Test public void selectPlanModifyIntentionTest() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		SelectPlanEvent spe = (SelectPlanEvent) whys.getEvent(148);
@@ -101,7 +101,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whyBeliefCreated() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		Predicate at11 = new Predicate("at");
@@ -116,7 +116,7 @@ public class GwendolenExplanationQuickTests {
 	}
 
 	@Test public void whyInitialBelief() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		Predicate at11 = new Predicate("possible_rubble");
@@ -131,7 +131,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whyInitialGoal() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		Predicate at11 = new Predicate("rubble");
@@ -146,7 +146,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whySubGoal() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		Predicate at11 = new Predicate("holding");
@@ -161,7 +161,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whyAddInitialGoal() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		ModifyIntentionEvent mie = (ModifyIntentionEvent) whys.getEvent(9);
@@ -175,7 +175,7 @@ public class GwendolenExplanationQuickTests {
 	}
 
 	@Test public void whyAddSubGoal() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		ModifyIntentionEvent mie = (ModifyIntentionEvent) whys.getEvent(126);
@@ -189,7 +189,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whyAction() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		Action drop = new Action("drop");
@@ -201,8 +201,24 @@ public class GwendolenExplanationQuickTests {
 		assertTrue(b);
 	}
 	
+	@Test public void whyMove11() {
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
+		EventTableTestRig test_rig = new EventTableTestRig(example_file);
+		WhyQuestions whys = test_rig.getTrace();
+		Action move = new Action("move_to");
+		move.addTerm(new NumberTermImpl(1));	
+		move.addTerm(new NumberTermImpl(1));
+		AbstractReason reason = whys.whyAction(move, 22);
+		String s = "<font face=\"Courier New\">move_to(1,1)</font> was executed because  because it was part of <font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(1,1)</font> was selected in state 20 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[[X=1, Y=1], [X=3, Y=3], [X=5, Y=5]]</font> and  the event <font face=\"Courier New\">added the goal achieve &quot;the robot is holding rubble&quot;</font> was posted because it appeared next in intention 1 in state 16";
+		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
+		//System.err.println(s2);
+		Boolean b = s2.equals(s);
+		assertTrue(b);
+	}
+
+	
 	@Test public void whyCreateIStart() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		CreateIntentionEvent cie = (CreateIntentionEvent) whys.getEvent(3);
@@ -217,7 +233,7 @@ public class GwendolenExplanationQuickTests {
 	}
 	
 	@Test public void whyCreateFromPercept() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		CreateIntentionEvent cie = (CreateIntentionEvent) whys.getEvent(205);
@@ -232,7 +248,7 @@ public class GwendolenExplanationQuickTests {
 	}
 
 	@Test public void whyCreateIOther() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-16_00-59-25-389.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		CreateIntentionEvent cie = (CreateIntentionEvent) whys.getEvent(44);

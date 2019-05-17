@@ -482,5 +482,10 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return this;
 	}
 
+	@Override
+	public PredicateIndicator getPurePredicateIndicator() {
+		return getPredicateIndicator();
+	}
+
 
 }

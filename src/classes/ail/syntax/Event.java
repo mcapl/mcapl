@@ -134,16 +134,16 @@ public class Event extends DefaultAILStructure implements Unifiable {
              } else if (fromPercept()) {
             	 piCache = new PredicateIndicator("from perception", 0);
              } else {
-            	//if (isAddition())
-            	//	s += "+";
-            	//else if (isDeletion())
-            	//	s += "-";
-            	//else if (isUpdate())
-            	//	s += "+-";
+            	if (isAddition())
+            		s += "+";
+            	else if (isDeletion())
+            		s += "-";
+            	else if (isUpdate())
+            		s += "+-";
             	if (getContent() instanceof PredicateTerm) {
-            		//if (getContent() instanceof Goal) {
-            		//	s += "!";
-            		//}
+            		if (getContent() instanceof Goal) {
+            			s += "!";
+            		}
             		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
             	} else if (getContent() instanceof HasTermRepresentation) {
             		Term t = ((HasTermRepresentation) getContent()).toTerm();
@@ -155,6 +155,38 @@ public class Event extends DefaultAILStructure implements Unifiable {
         }
         return piCache;
     }
+	
+	public PredicateIndicator getPurePredicateIndicator() {
+        if (piCache == null) {
+            String s = "";
+            if (isStart()) {
+            	piCache = new PredicateIndicator("start", 0);
+             } else if (fromPercept()) {
+            	 piCache = new PredicateIndicator("from perception", 0);
+             } else {
+            /*	if (isAddition())
+            		s += "+";
+            	else if (isDeletion())
+            		s += "-";
+            	else if (isUpdate())
+            		s += "+-"; 
+            	if (getContent() instanceof PredicateTerm) {
+            		if (getContent() instanceof Goal) {
+            			s += "!";
+            		}
+            		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
+            	} else */
+            	if (getContent() instanceof HasTermRepresentation) {
+            		Term t = ((HasTermRepresentation) getContent()).toTerm();
+            		piCache = new PredicateIndicator(s + t.getFunctor(), t.getTermsSize());
+            	} else {
+            		piCache = new PredicateIndicator(s + "not_a_predicate", 0);
+            	}
+            }
+        }
+        return piCache;
+    }
+
 	
 	/*
 	 * (non-Javadoc)

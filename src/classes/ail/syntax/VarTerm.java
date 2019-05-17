@@ -340,6 +340,11 @@ public class VarTerm extends Literal implements NumberTerm, ListTerm, StringTerm
         }
         return predicateIndicatorCache;
     }
+    
+    @Override
+    public PredicateIndicator getPurePredicateIndicator() {
+    	return getPredicateIndicator();
+    }
 
     /*
      * (non-Javadoc)

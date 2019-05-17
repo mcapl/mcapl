@@ -660,6 +660,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	 */
     @Override
 	public boolean isVar() {
-		return Character.isUpperCase(getFunctor().charAt(0));
+    	return false;
+		//return Character.isUpperCase(getFunctor().charAt(0));
 	}
 }

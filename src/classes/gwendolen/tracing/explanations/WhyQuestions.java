@@ -1,19 +1,36 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2018 Louise A. Dennis, Michael Fisher, and Vincent Koeman
+//
+// This file is part of the Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the AIL; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
 package gwendolen.tracing.explanations;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.Goal;
 import ail.syntax.Predicate;
-import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
 import ail.tracing.EventStorage;
 import ail.tracing.EventTable;
@@ -24,12 +41,9 @@ import ail.tracing.events.GeneratePlansEvent;
 import ail.tracing.events.GuardEvent;
 import ail.tracing.events.ModificationEvent;
 import ail.tracing.events.ModifyIntentionEvent;
-import ail.tracing.events.SelectIntentionEvent;
 import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.WhyQuestionsBase;
-import ail.tracing.explanations.PredicateDescriptions;
-import ail.util.Tuple;
 
 /**
  * Supports generating explanations ({@link AbstractReason}s) from an agent
@@ -77,6 +91,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 						&& (current.getIID() == ((SelectPlanEvent) r_event).getIID())) {
 					ArrayList<Deed> deeds = ((SelectPlanEvent) r_event).getPlan().getPrefix();
 					for (Deed d: deeds) {
+						d.apply(((SelectPlanEvent) r_event).getPlan().getUnifier());
 						if (d.getContent().equals(action)) {
 							final SelectPlanEvent spe = (SelectPlanEvent) r_event;
 							final SelectPlanReason spr = new SelectPlanReason(i, spe);
@@ -192,7 +207,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 	// 7.  why(crei((percept, d))_N, T) = percept
 	// 8.  why(crei((e, npy)_k)_N, T) = selp((e, ds), i_k)_N' because why(selp((e, ds), i_k)_N', T) and e \in ds
 	public void whyCreateIntention(final CreateIntentionEvent crei, CreateIntentionReason crer, List<AbstractEvent> trace, int n) {
-		int intention_id = crei.getIntention().getID();
+		// int intention_id = crei.getIntention().getID();
 		Event trigger = crei.getIntention().hdE();
 		
 		if (trigger.getCategory() == Event.Estart || trigger.getCategory() == Event.FromPercept) {
@@ -432,7 +447,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		return new ArrayList<>(stack); */
 	}
 
-	private static void processGPE(final int i, final GeneratePlansEvent gpe, final SelectPlanReason spr) {
+/*	private static void processGPE(final int i, final GeneratePlansEvent gpe, final SelectPlanReason spr) {
 		if (spr != null && spr.getParent() == null && gpe.getPlanIDs().contains(spr.getEvent().getPlan().getID())) {
 			final GeneratePlansReason gpr = new GeneratePlansReason(i, gpe);
 			// spr.setParent(gpr);
@@ -492,7 +507,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		//		}
 		//	}
 		}
-	}
+	} */
 	
 	public AbstractEvent getEvent(int i) {
 		return this.storage.getAll().get(i);

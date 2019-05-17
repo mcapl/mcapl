@@ -161,6 +161,11 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
         return piCache;
     }
 	
+	@Override
+	public PredicateIndicator getPurePredicateIndicator() {
+       	return getPredicateIndicator();		
+	}
+	
 	/**
 	 * Clone this GBelief - useful when propagating guards through intention structures.
 	 */

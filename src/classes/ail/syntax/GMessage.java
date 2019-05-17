@@ -176,6 +176,10 @@ public class GMessage implements GuardAtom<Message> {
 		return null;
 	}
 	
+    @Override
+    public PredicateIndicator getPurePredicateIndicator() {
+    	return null;
+    }
 	/**
 	 * Return the sender as a term.
 	 * @return

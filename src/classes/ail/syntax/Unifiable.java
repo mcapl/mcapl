@@ -27,7 +27,7 @@
 
 package ail.syntax;
 
-import java.util.List;
+
 import java.util.Set;
 
 import ail.tracing.explanations.PredicateDescriptions;

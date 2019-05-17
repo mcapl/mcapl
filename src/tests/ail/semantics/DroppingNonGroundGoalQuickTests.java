@@ -154,6 +154,9 @@ public class DroppingNonGroundGoalQuickTests {
 	}
 
 
+	/**
+	 * Think this is a test for some situation where a predicate is ground but capitalised???
+	 */
 	@Test public void DropGeneralGoalNeitherGround() {
 		VarTerm v1 = new VarTerm("V1");
 		
@@ -161,7 +164,7 @@ public class DroppingNonGroundGoalQuickTests {
 		Goal l2 = new Goal("goal");
 		
 		l1.addTerm(v1);
-		l2.addTerm(new VarTerm("V2"));
+		l2.addTerm(new Literal("V2"));
 		
 		
 		Intention i = new Intention(l1, AILAgent.refertoself(), new AILPrettyPrinter());
@@ -180,7 +183,7 @@ public class DroppingNonGroundGoalQuickTests {
 		dropgoal.apply(a);
 		
 		
-		Assert.assertTrue(i.empty());
+		Assert.assertFalse(i.empty());
 
 	}
 
