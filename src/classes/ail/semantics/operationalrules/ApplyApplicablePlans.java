@@ -114,7 +114,7 @@ public class ApplyApplicablePlans implements OSRule {
                             i.dropP(p.getN());
                             if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
                             	if (a.removeGoal(gcloned) && a.shouldTrace()) {
-                        			a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, gcloned));
+                        			a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, gcloned));
                         		}
                             }
                     } else {

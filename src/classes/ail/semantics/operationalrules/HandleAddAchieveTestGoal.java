@@ -71,11 +71,11 @@ public class HandleAddAchieveTestGoal extends HandleAddGoal {
 			thetahd.compose(thetag);
 			i.compose(thetahd);
 			if (a.removeGoal(g) && a.shouldTrace()) {
-				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
+				a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, g));
 			}
 		} else {
 			if (a.addGoal(g) && a.shouldTrace()) {
-				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
+				a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, g, null));
 			}
 			i.tlI(a);
 			thetahd.compose(thetab);

@@ -8,3 +8,4 @@ mas.builder = gwendolen.GwendolenMASBuilder
 
 tracing.enabled = true
 tracing.descriptions = /src/examples/gwendolen/orca/Prototype6VK/Executive.desc
+tracing.directory = /src/examples/gwendolen/orca/Prototype6VK/traces

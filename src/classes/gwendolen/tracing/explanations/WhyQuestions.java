@@ -203,6 +203,44 @@ public class WhyQuestions extends WhyQuestionsBase {
 		}
 	}
 	
+	// NEW: 	// 2.  why(((+b, npy), i)_N', T) = crei((e, +b)_N'' because why(crei((e, +b))_N', T) or addb(b, start) or selp((e, ds), i'_k)_N' because why(selp(e, ds), i'_k)_N', T) and +b \in ds 
+	public void whyAddBelief(final ModificationEvent age, ModificationReason mir, List<AbstractEvent> trace, int n, Predicate b) {
+		int intention_id = age.getIID();
+		//Predicate b = (Predicate) age.getIntention().hdE().getContent();
+		for (int i = n; i >= 0; --i) {
+			final AbstractEvent event = trace.get(i);
+			if (event instanceof SelectPlanEvent) {
+				SelectPlanEvent spe = (SelectPlanEvent) event;
+				if (spe.getIID() == intention_id  && !spe.isContinue()) {
+					List<Deed> deeds = spe.getPlan().getPrefix();
+					for (Deed d: deeds) {
+						if (d.getContent().equals(b)) {
+							SelectPlanReason spr = new SelectPlanReason(i, spe);
+							whySelectPlan(spe, spr, trace, i);
+							mir.setParent(spr);
+							break;
+						}
+					}
+					
+					if (mir.getParent() != null) {
+						break;
+					}
+				}
+			} else if (event instanceof CreateIntentionEvent){
+				CreateIntentionEvent crei = (CreateIntentionEvent) event;
+				if (crei.getIntention().getID() == intention_id && crei.getIntention().hdD().getContent().equals(b)) {
+					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
+					whyCreateIntention(crei, crer, trace, i);
+					mir.setParent(crer);
+					break;
+				} else {
+					
+				}
+			}
+		}
+	}
+
+	
 	// 6.  why(crei((start, d))_N, T) = start
 	// 7.  why(crei((percept, d))_N, T) = percept
 	// 8.  why(crei((e, npy)_k)_N, T) = selp((e, ds), i_k)_N' because why(selp((e, ds), i_k)_N', T) and e \in ds
@@ -323,7 +361,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 	 *         inserted) explaining why this belief was inserted (each entry
 	 *         corresponds to one successful non-duplicate insertion).
 	 */
-	// 2.  why(b_N, T) = crei((e, +b)_N'' because why(crei((e, +b))_N', T) or addb(b, start)
+	// 2.  why(b_N, T) = crei((e, +b)_N'' because why(crei((e, +b))_N', T) or addb(b, start) or why(add(+b, npy, i)_N', T)
 	public BeliefReason whyBelief(final Predicate belief, int n) {
 		// final Deque<AbstractReason> stack = new LinkedList<>();
 		final BeliefReason br = new BeliefReason(belief, n);
@@ -345,6 +383,8 @@ public class WhyQuestions extends WhyQuestionsBase {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
 				if (me.getBase().equals("beliefs") && me.contains(belief, true) && me.isInitial()) {
+					ModificationReason mir = new ModificationReason(i, me);
+					whyAddBelief(me, mir, trace, i, belief);
 					br.setParent(new ModificationReason(i, me));
 					//return new ModificationReason(i, me);
 					// return me;

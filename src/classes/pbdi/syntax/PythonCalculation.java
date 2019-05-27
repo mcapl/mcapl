@@ -10,7 +10,7 @@ import ail.syntax.EvaluationBaseIterator;
 import ail.syntax.GuardAtom;
 import ail.syntax.ListEvaluationBase;
 import ail.syntax.Literal;
-import ail.syntax.LogicalFormula;
+//import ail.syntax.LogicalFormula;
 import ail.syntax.PredicateIndicator;
 import ail.syntax.PredicateTerm;
 import ail.syntax.StringTerm;

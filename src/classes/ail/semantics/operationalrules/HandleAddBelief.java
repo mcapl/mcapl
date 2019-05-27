@@ -77,7 +77,7 @@ public class HandleAddBelief extends HandleBelief {
 		}
 
 		if (a.addBel(b, sa, db) && a.shouldTrace()) {
-			a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), b, null));
+			a.trace(new ModificationEvent(i.getID(), ModificationEvent.BELIEFS, db.toString(), b, null));
 		}
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, a.getAgName() + " added " + b);

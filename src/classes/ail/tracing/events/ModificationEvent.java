@@ -54,6 +54,7 @@ public class ModificationEvent extends AbstractEvent {
 	private final List<Predicate> added;
 	private final List<Predicate> removed;
 	private boolean initial = false;
+	private int intention_id;
 
 	/**
 	 * @param base     A constant from this class, indicating which base was
@@ -70,6 +71,16 @@ public class ModificationEvent extends AbstractEvent {
 		this.selector = selector;
 		this.added = (added == null) ? new ArrayList<>(0) : added;
 		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
+		// this.intention_id = intention_id;
+	}
+
+	public ModificationEvent(final int intention_id, final int base, final String selector, final List<Predicate> added,
+			final List<Predicate> removed) {
+		this.base = base;
+		this.selector = selector;
+		this.added = (added == null) ? new ArrayList<>(0) : added;
+		this.removed = (removed == null) ? new ArrayList<>(0) : removed;
+		this.intention_id = intention_id;
 	}
 	
 	public ModificationEvent(final int base, final String selector, final List<Predicate> added,
@@ -102,6 +113,21 @@ public class ModificationEvent extends AbstractEvent {
 		if (removed != null) {
 			this.removed.add(removed);
 		}
+		// this.intention_id = intention_id;
+	}
+
+	public ModificationEvent(final int intention_id, final int base, final String selector, final Predicate added, final Predicate removed) {
+		this.base = base;
+		this.selector = selector;
+		this.added = (added == null) ? new ArrayList<>(0) : new ArrayList<>(1);
+		if (added != null) {
+			this.added.add(added);
+		}
+		this.removed = (removed == null) ? new ArrayList<>(0) : new ArrayList<>(1);
+		if (removed != null) {
+			this.removed.add(removed);
+		}
+		this.intention_id = intention_id;
 	}
 
 	public ModificationEvent(final int base, final String selector, final Predicate added, final Predicate removed, boolean start) {
@@ -144,6 +170,10 @@ public class ModificationEvent extends AbstractEvent {
 
 	public List<Predicate> getRemoved() {
 		return this.removed;
+	}
+	
+	public int getIID() {
+		return intention_id;
 	}
 
 	/**

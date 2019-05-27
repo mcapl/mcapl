@@ -247,6 +247,22 @@ public class GwendolenExplanationQuickTests {
 		
 	}
 
+	@Test public void whyNoRubble11() {
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
+		EventTableTestRig test_rig = new EventTableTestRig(example_file);
+		WhyQuestions whys = test_rig.getTrace();
+		Predicate at11 = new Predicate("no_rubble");
+		at11.addTerm(new NumberTermImpl(1));
+		at11.addTerm(new NumberTermImpl(1));
+		AbstractReason reason = whys.whyBelief(at11, 45);
+		String s = "Belief \"the robot is at [1,1]\" was believed in state 36 because Intention 2: add \"the robot is at [1,1]\" was created in state 24 because \"the robot is at [1,1]\" was perceived";
+		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
+		System.err.println(s2);
+		//Boolean b = s2.equals(s);
+		//assertTrue(b);
+		
+	}
+
 	@Test public void whyCreateIOther() {
 		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-17_15-13-50-003.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);

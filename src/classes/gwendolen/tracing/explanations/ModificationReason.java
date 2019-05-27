@@ -31,7 +31,7 @@ import ail.tracing.explanations.PredicateDescriptions;
 
 public class ModificationReason extends AbstractReason {
 	private final ModificationEvent event;
-	private SelectPlanReason parent;
+	private AbstractReason parent;
 
 	public ModificationReason(final int state, final ModificationEvent event) {
 		super(state);
@@ -43,12 +43,12 @@ public class ModificationReason extends AbstractReason {
 		return this.event;
 	}
 
-	public void setParent(final SelectPlanReason parent) {
+	public void setParent(final AbstractReason parent) {
 		this.parent = parent;
 	}
 
 	@Override
-	public SelectPlanReason getParent() {
+	public AbstractReason getParent() {
 		return this.parent;
 	}
 

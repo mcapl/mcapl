@@ -80,7 +80,7 @@ public class HandleUpdateBelief extends HandleBelief {
 			if (a.relevant(bp, b)) {
 				if (bpi.equals(pi)) {
 					if (a.delBel(db, bp) && a.shouldTrace()) {
-						a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), null, bp));
+						a.trace(new ModificationEvent(i.getID(), ModificationEvent.BELIEFS, db.toString(), null, bp));
 					}
 					if (AJPFLogger.ltFine(logname)) {
 						AJPFLogger.fine(logname, a.getAgName() + " dropped " + bp);
@@ -95,7 +95,7 @@ public class HandleUpdateBelief extends HandleBelief {
 		b.apply(thetahd);
 	
 		if (a.addBel(b, AILAgent.refertoself(), db) && a.shouldTrace()) {
-			a.trace(new ModificationEvent(ModificationEvent.BELIEFS, db.toString(), b, null));
+			a.trace(new ModificationEvent(i.getID(), ModificationEvent.BELIEFS, db.toString(), b, null));
 		}
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, a.getAgName() + " added " + b);

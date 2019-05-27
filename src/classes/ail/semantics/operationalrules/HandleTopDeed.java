@@ -75,7 +75,9 @@ public abstract class HandleTopDeed implements OSRule {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		i  = a.getIntention();
-		i_id = i.getID();
+		if (i != null) {
+			i_id = i.getID();
+		}
 
 		if (i != null && (! i.deeds().isEmpty())) {
 			thetahd = i.hdU();

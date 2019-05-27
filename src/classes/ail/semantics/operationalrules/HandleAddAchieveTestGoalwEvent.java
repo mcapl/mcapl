@@ -98,7 +98,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 
 			if (!flag) {
 				if (a.removeGoal(g) & a.shouldTrace()) {
-					a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
+					a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, g));
 				}
 			}
 		} else {
@@ -118,7 +118,7 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			}
 
 			if (a.addGoal(g) && a.shouldTrace()) {
-				a.trace(new ModificationEvent(ModificationEvent.GOALS, null, g, null));
+				a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, g, null));
 			}
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
 			if (a.shouldTrace()) {
