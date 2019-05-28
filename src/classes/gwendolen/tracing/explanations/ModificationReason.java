@@ -108,7 +108,7 @@ public class ModificationReason extends AbstractReason {
 			break;
 		default:
 			if (this.parent != null) {
-				string.append(" as part of ").append(this.parent.getExplanation(level, descriptions));
+				string.append(" because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}

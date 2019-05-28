@@ -76,8 +76,10 @@ public class CreateIntentionReason extends AbstractReason {
 			if (event != null) {
 				if (event.getCategory() == Event.FromPercept) {
 					string.append(this.event.getIntention().hdD().getContent().toString(descriptions)).append(" was perceived");
-				} else if (event.getCategory() == Event.Estart) {
+				} else if (event.getCategory() == Event.Estart && this.event.getIntention().hdD().getCategory() == Deed.AILBel) {
 					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was an initial belief");
+				} else if (event.getCategory() == Event.Estart && this.event.getIntention().hdD().getCategory() == Deed.AILGoal) {
+					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was an initial goal.");
 				} else {
 					string.append(parent.getExplanation(level, descriptions));
 				}

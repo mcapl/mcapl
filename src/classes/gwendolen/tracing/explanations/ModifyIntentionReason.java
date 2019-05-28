@@ -61,7 +61,8 @@ public class ModifyIntentionReason extends AbstractReason {
 			// string.append("it was created in state ").append(this.state);
 			if (i_event != null) {
 				string.append(" the event ").append(inCourier(i_event.toString(descriptions)));
-				string.append(" was posted because it appeared next in intention ").append(this.event.getIntention().getID());
+				string.append(" was posted ");
+				// string.append(" was posted because it appeared next in intention ").append(this.event.getIntention().getID());
 			}
 			break;
 		default:

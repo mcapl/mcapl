@@ -177,6 +177,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				if (spe.getIID() == intention_id  && !spe.isContinue()) {
 					List<Deed> deeds = spe.getPlan().getPrefix();
 					for (Deed d: deeds) {
+						d.getContent().apply(spe.getPlan().getUnifier());
 						if (d.getContent().equals(g)) {
 							SelectPlanReason spr = new SelectPlanReason(i, spe);
 							whySelectPlan(spe, spr, trace, i);
@@ -214,6 +215,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				if (spe.getIID() == intention_id  && !spe.isContinue()) {
 					List<Deed> deeds = spe.getPlan().getPrefix();
 					for (Deed d: deeds) {
+						d.getContent().apply(spe.getPlan().getUnifier());
 						if (d.getContent().equals(b)) {
 							SelectPlanReason spr = new SelectPlanReason(i, spe);
 							whySelectPlan(spe, spr, trace, i);
@@ -383,9 +385,16 @@ public class WhyQuestions extends WhyQuestionsBase {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
 				if (me.getBase().equals("beliefs") && me.contains(belief, true) && me.isInitial()) {
+					//ModificationReason mir = new ModificationReason(i, me);
+					//whyAddBelief(me, mir, trace, i, belief);
+					br.setParent(new ModificationReason(i, me));
+					//return new ModificationReason(i, me);
+					// return me;
+					break;
+				} else if (me.getBase().equals("beliefs") && me.contains(belief, true)) {
 					ModificationReason mir = new ModificationReason(i, me);
 					whyAddBelief(me, mir, trace, i, belief);
-					br.setParent(new ModificationReason(i, me));
+					br.setParent(mir);
 					//return new ModificationReason(i, me);
 					// return me;
 					break;

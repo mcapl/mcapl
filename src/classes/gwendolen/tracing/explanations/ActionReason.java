@@ -55,7 +55,7 @@ public class ActionReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append(inCourier(this.event.getAction().toString(descriptions))).append(" was executed because ");
+		string.append(inCourier(this.event.getAction().toString(descriptions))).append(" was executed ");
 		switch (level) {
 		case FINEST:
 			string.append(" in state ").append(this.state);
@@ -65,7 +65,7 @@ public class ActionReason extends AbstractReason {
 			break;
 		default:
 			if (this.parent != null) {
-				string.append(" because it was part of ").append(this.parent.getExplanation(level, descriptions));
+				string.append("because ").append(this.parent.getExplanation(level, descriptions));
 			}
 			break;
 		}
