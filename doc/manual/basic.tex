@@ -3,7 +3,7 @@
 
 All of the languages implemented using the Agent Infrastructure Layer (AIL)\index{AIL} come provided with a parser which allows files written in that language to be read in and executed.  Examples of programs can be found in the \texttt{src/examples} directory and the tutorials for some of the languages can be found in Part 2 of this manual.
 
-However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL!class} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} Eclipse Run Configuration.\index{Eclipse}
+However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL (class)} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} Eclipse Run Configuration.\index{Eclipse}
 
 Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF}\index{RunJPF (class)} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)}. 
 
@@ -11,12 +11,18 @@ Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{
 {\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in you CLASSPATH\index{Java (class)path}\index{Unix}
 
 \begin{verbatim}
+lib/3rdparty/antlr-4.7-complete.jar
+lib/3rdparty/commons-io-2.4.jar
+lib/3rdparty/eis-0.5.0.jar
 lib/3rdparty/ev3classes.jar
 lib/3rdparty/ev3tools.jar
-lib/3rdparty/junit-4.10.jar
-lib/3rdparty/eis-0.5.0.jar
 lib/3rdparty/java-prolog-parser.jar
 lib/3rdparty/jpf.jar
+lib/3rdparty/jpf-annotations.jar
+lib/3rdparty/jpf-classes.jar
+lib/3rdparty/jpl.jar
+lib/3rdparty/json-simple-1.1.1.jar
+lib/3rdparty/junit-4.10.jar
 lib/3rdparty/system-rules-1.16.0.jar
 \end{verbatim}
 
@@ -34,9 +40,8 @@ You can run the simple agent \texttt{pickupagent.gwen} whose code you will find 
 You should see output similar to:
 
 \noindent \begin{lstlisting}
- Jun 25, 2012 11:57:24 AM ajpf.util.AJPFLogger info
- INFO: loading property file: /Users/lad/Eclipse/ajpf2018/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail
- done
+MCAPL Framework 2019
+done
 \end{lstlisting}
 \medskip
  
@@ -68,15 +73,16 @@ You should see output similar to:
 \noindent \begin{lstlisting}
 ----------------------------------- search started
       [skipping static init instructions]
-JavaPathfinder core system v8.0 (rev 32) - (C) 2005-2014 United States Government. All rights reserved.
+JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 28/04/17 14:42
+====================================================== search started: 14/03/19 19:30
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-		 # garbage collection
+MCAPL Framework 2019
+ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
 		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
@@ -106,16 +112,16 @@ ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:00
+elapsed time:       00:00:01
 states:             new=3,visited=1,backtracked=4,end=0
 search:             maxDepth=3,constraints=0
 choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
-heap:               new=7563,released=4373,maxLive=3134,gcCycles=4
-instructions:       905783
-max memory:         155MB
-loaded code:        classes=319,methods=4995
+heap:               new=7577,released=4383,maxLive=3138,gcCycles=4
+instructions:       907061
+max memory:         245MB
+loaded code:        classes=319,methods=5027
 
-====================================================== search finished: 28/04/17 14:42
+====================================================== search finished: 14/03/19 19:30
 \end{lstlisting}
 
 \subsection{In Eclipse}

@@ -16,31 +16,32 @@ As mentioned \intutorial{\ajpf}{1}{tutorial:ajpf:psl}, \jpf\ had an extensive se
 In the tutorial directory you will find a simple \gwendolen\ program, \texttt{twopickupagents.gwen}\index{example!twopickupagents}.  This contains two agents, one holding a block and one holding a flag.  Each agent puts down what they are holding.  If the agent with the block puts it down before the agent with the flag puts the flag down, then the agent with the flag will pick up the box.  The agent with the flag also performs an action with random consequences after it puts down the flag.
 \end{sloppypar}
 
-\subsection{TwoPickUpAgents\_basic.jpf}\index{example!twopickupagents} \texttt{TwoPickUpAgents\_basic.jpf} is a minimal configuration file containing only options discussed \intutorial{\ajpf}{1}{tutorial:ajpf:psl}.  This generates the following output:
+\subsection{TwoPickUpAgents\_basic.jpf}\index{example!twopickupagents} \texttt{TwoPickUpAgents\_basic.jpf} is a minimal configuration file containing only options discussed \intutorial{\ajpf}{1}{tutorial:ajpf:psl}.  This generates the following output (ignoring some initial system information):
 
 \begin{verbatim}
-JavaPathfinder core system v8.0 (rev ${version}) - (C) 2005-2014 United States Government. All rights reserved.
+JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
-ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
+ail.util.AJPF_w_AIL.main("/Users/louisedennis/eclipse-workspace/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail","/Users/louisedennis/eclipse-workspace/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl","1")
 
-====================================================== search started: 27/02/15 16:59
-
+====================================================== search started: 15/03/19 11:45
+MCAPL Framework 2019
+ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7
 ====================================================== results
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:03
-states:             new=13,visited=10,backtracked=23,end=0
-search:             maxDepth=5,constraints=0
-choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=13
-heap:               new=84557,released=80981,maxLive=3504,gcCycles=23
-instructions:       7938974
-max memory:         309MB
-loaded code:        classes=309,methods=4795
+elapsed time:       00:00:05
+states:             new=31,visited=32,backtracked=63,end=0
+search:             maxDepth=7,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=31
+heap:               new=412761,released=409463,maxLive=3827,gcCycles=63
+instructions:       28180407
+max memory:         437MB
+loaded code:        classes=326,methods=5084
 
-====================================================== search finished: 27/02/15 16:59
+====================================================== search finished: 15/03/19 11:45
 \end{verbatim}
 
 This is obviously fine as output in situations where the model checking completes quickly and with \texttt{no errors detected} but gives the user very little to go on if there is a problem or the model checking is taking a long time and they are not sure whether to kill the attempt or not.
@@ -271,7 +272,7 @@ The property has created a very simple B\"{u}chi Automaton\index{B\"{u}chi Autom
 
 \begin{figure}[htb]
 \begin{center}
-%\includegraphics[width=2in]{images/property_automata.pdf}
+\includegraphics[width=2in]{images/property_automata.pdf}
 \end{center}
 \caption{The Property Automaton\index{B\"{u}chi Automaton} for $\neg \sometime \lbelief{ag2}{hold(block)}$}
 \label{fig:automaton}
