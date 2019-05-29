@@ -52,7 +52,7 @@ import ajpf.MCAPLcontroller;
 public class GwendolenExplanationQuickTests {
 	
 	@Test public void readInTest() {
-		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/tracing/traces/robot_19-05-28_17-06-15-054.db"));
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/orca/Prototype6VK/traces/executive_19-05-28_18-11-31-199.db"));
 		EventTableTestRig test_rig = new EventTableTestRig(example_file);
 		WhyQuestions whys = test_rig.getTrace();
 		System.err.println(whys.verboseString());
@@ -215,6 +215,22 @@ public class GwendolenExplanationQuickTests {
 		Boolean b = s2.equals(s);
 		assertTrue(b);
 	}
+
+	// Doesn't work because we haven't yet considered goal deletion
+	/* @Test public void whySendTaskAgent() {
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/orca/Prototype6VK/traces/executive_19-05-28_18-11-31-199.db"));
+		EventTableTestRig test_rig = new EventTableTestRig(example_file);
+		WhyQuestions whys = test_rig.getTrace();
+		Action send = new Action("send");
+		send.addTerm(new Predicate("taskAgent"));	
+		send.addTerm(new Predicate("targetRequest"));
+		AbstractReason reason = whys.whyAction(send, 47);
+		String s = "<font face=\"Courier New\">move_to(1,1)</font> was executed because <font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(1,1)</font> was selected in state 20 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[[X=1, Y=1], [X=3, Y=3], [X=5, Y=5]]</font> and  the event <font face=\"Courier New\">added the goal achieve &quot;the robot is holding rubble&quot;</font> was posted  in state 16";
+		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
+		System.err.println(s2);
+		Boolean b = s2.equals(s);
+		assertTrue(b);
+	} */
 
 	
 	@Test public void whyCreateIStart() {
