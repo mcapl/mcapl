@@ -143,10 +143,12 @@ public class MentalState {
 		ownModel.addRB(r);
 	}
 	
-	public void adopt(ConjGoal g) {
+	public boolean adopt(ConjGoal g) {
 		if (! g.getAsGuard().logicalConsequence(ownModel, new Unifier(), g.getVarNames(), AILAgent.SelectionOrder.LINEAR).hasNext()) {
 			ownModel.adopt(g);
+			return true; // FIXME: migth want further checks
 		}
+		return false;
 	}
 
 	public void focus(ConjGoalBase newAttentionSet) {

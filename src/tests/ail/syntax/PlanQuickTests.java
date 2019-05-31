@@ -34,6 +34,7 @@ import org.junit.Test;
 
 import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.*;
+import ail.util.AILPrettyPrinter;
 
 /**
  * Regression tests involving plans.
@@ -52,7 +53,7 @@ public class PlanQuickTests {
 			Literal received = new Literal("received");
 			received.addTerm(new Literal("goal"));
 			
-			Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, received), AILAgent.refertoself());
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILBel, received), AILAgent.refertoself(), new AILPrettyPrinter());
 			AILAgent a = new AILAgent("ag");
 			a.setIntention(i);
 			a.addPlan(plan);

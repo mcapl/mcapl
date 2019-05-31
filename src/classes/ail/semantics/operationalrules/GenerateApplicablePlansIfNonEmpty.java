@@ -49,7 +49,8 @@ public class GenerateApplicablePlansIfNonEmpty extends GenerateApplicablePlans {
 	 * @see ail.semantics.operationalrules.GenerateApplicablePlans#checkPreconditions(ail.semantics.AILAgent)
 	 */
 	public boolean checkPreconditions(AILAgent a) {
-			return (a.filterPlans(a.appPlans(a.getIntention())).hasNext());
+		this.iterator = a.filterPlans(a.appPlans(a.getIntention()));
+		return iterator.hasNext();
 	}
 	
 

@@ -23,16 +23,14 @@
 
 package goal;
 
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
 import ail.syntax.ast.Abstract_MAS;
-
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
+import mcaplantlr.runtime.ANTLRFileStream;
+import mcaplantlr.runtime.ANTLRStringStream;
+import mcaplantlr.runtime.CommonTokenStream;
 
 /**
  * Utility class.  Builds a GOALC MAS by parsing a string or a file.
@@ -52,7 +50,7 @@ public class GOALMASBuilder implements MASBuilder {
 		} else {
 			parse(masstring);
 		}
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(null);
 	}
 
 		
@@ -79,9 +77,9 @@ public class GOALMASBuilder implements MASBuilder {
 
 	}
 	
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(tracedir);
 		return mas;
 	}
 	

@@ -28,8 +28,8 @@
 package ail.mas;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
@@ -37,15 +37,14 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.ast.GroundPredSets;
 import ail.util.AILConfig;
-import ajpf.MCAPLmas;
 import ajpf.MCAPLLanguageAgent;
+import ajpf.MCAPLScheduler;
+import ajpf.MCAPLcontroller;
+import ajpf.MCAPLmas;
 import ajpf.PerceptListener;
 import ajpf.psl.MCAPLFormula;
-import ajpf.util.VerifyMap;
-import ajpf.MCAPLScheduler;
 import ajpf.psl.MCAPLPredicate;
-import ajpf.psl.MCAPLTerm;
-import ajpf.MCAPLcontroller;
+import ajpf.util.VerifyMap;
 
 /**
  * AIL's view of a multi-agent system.  Based on the Jason MAS class written by
@@ -70,6 +69,11 @@ public class MAS implements MCAPLmas {
      * The overall controller this MAS is running in.
      */
     MCAPLcontroller controller;
+    
+    /**
+     * The directory to store traces in, if any (null if we should not trace)
+     */
+    String traceDir = null;
     	   
  
     /**
@@ -85,6 +89,20 @@ public class MAS implements MCAPLmas {
     public MAS(AILEnv env) {
     	fEnv = env;
     }
+    
+    /**
+     * @return The directory to store traces in, if any (null if we should not trace)
+     */
+    public String getTraceDir() {
+    	return traceDir;
+    }
+    
+    /**
+     * @param dir The directory to store traces in, if any (null if we should not trace)
+     */
+	public void setTraceDir(String dir) {
+		traceDir = dir;
+	}
      
 	   
 	/** 

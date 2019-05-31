@@ -25,6 +25,7 @@
 package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
+import ail.tracing.events.ModificationEvent;
 
 /**
  * Abstract class - rule preconditions for checking this is -!g of unknown type.
@@ -56,6 +57,8 @@ public class HandleDropGoal extends HandleGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		a.removeGoal(g);
+		if (a.removeGoal(g) && a.shouldTrace()) {
+			a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
+		}
 	}
 }

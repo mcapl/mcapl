@@ -28,6 +28,7 @@
 package ail.syntax;
 
 import ail.semantics.AILAgent;
+import ail.tracing.events.GuardEvent;
 import ail.util.MergeIterator;
 import ajpf.util.VerifyMap;
 
@@ -35,6 +36,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -475,16 +479,24 @@ public class PlanLibrary {
     					
     				if (plan_is_applicable) {
     					if (iun == null) {
+    						Guard g = cp.getContext().get(cp.getContext().size() - 1);
     						if (random == true) {
-    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.RANDOM);
+    							iun = a.believes(g, un, AILAgent.SelectionOrder.RANDOM);
     						} else {
-    							iun = a.believes(cp.getContext().get(cp.getContext().size() - 1), un, AILAgent.SelectionOrder.LINEAR);
+    							iun = a.believes(g, un, AILAgent.SelectionOrder.LINEAR);
+    						}
+    						if (a.shouldTrace()) { // this is bad, but don't see how to do it otherwise
+								List<Unifier> data = Lists.newArrayList(iun);
+								iun = data.iterator();
+								ApplicablePlan mock = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(),
+										cp.getContext(), appplanlength, null, cp.getID(), cp.getLibID(), a.getPrettyPrinter());
+								a.trace(new GuardEvent(intention, mock, g, data, false));
     						}
     					}
     				}
     					
     				if (iun != null && iun.hasNext()) {
-     					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID());
+     					current = new ApplicablePlan(cp.getTriggerEvent(), cp.getBody(), cp.getContext(), appplanlength, iun.next(), cp.getID(), cp.getLibID(), a.getPrettyPrinter());
     				} else {
     					current = null;
     					return;
@@ -625,7 +637,7 @@ public class PlanLibrary {
     		if (lc != null) {
     			lc.remove(p);
     			if (lc.size() == 0) {
-    				relPlans.remove(lc);
+    				relPlans.remove(pi);
     			}
     	    }  		
     	}

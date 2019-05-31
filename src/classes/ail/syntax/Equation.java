@@ -35,6 +35,7 @@ import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 
 /** 
  *  represents an (in)equality. 
@@ -264,6 +265,15 @@ public class Equation extends AILComparison {
 			return op+"("+rhs+")";
 		} else {
 			return "("+lhs+op+rhs+")";
+		}
+	}
+	
+	@Override
+    public String toString(PredicateDescriptions descriptions ) {
+		if (lhs == null) {
+			return op+"("+rhs.toString(descriptions)+")";
+		} else {
+			return "("+lhs.toString(descriptions)+op+rhs.toString(descriptions)+")";
 		}
 	}
     

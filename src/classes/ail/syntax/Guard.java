@@ -31,11 +31,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -140,6 +142,21 @@ public class Guard implements GLogicalFormula {
 	 */
 	public GLogicalFormula getRHS() {
 		return rhs;
+	}
+	
+	public List<GuardAtom<?>> getAllAtoms() {
+		List<GuardAtom<?>> result = new LinkedList<>();
+		if(this.lhs instanceof Guard) {
+			result.addAll(((Guard)this.lhs).getAllAtoms());
+		} else if(this.lhs instanceof GuardAtom<?>) {
+			result.add((GuardAtom<?>)this.lhs);
+		}
+		if(this.rhs instanceof Guard) {
+			result.addAll(((Guard)this.rhs).getAllAtoms());
+		} else if(this.rhs instanceof GuardAtom<?>) {
+			result.add((GuardAtom<?>)this.rhs);
+		}
+		return result;
 	}
 	
 	/*
@@ -259,23 +276,50 @@ public class Guard implements GLogicalFormula {
 	public String toString() {
 		if (op == GLogicalOp.none) {
 			if (rhs != null) {
-				return rhs.toString();
+				return "" + rhs;
 			} else {
 				return "True";
 			}
 		} else if (op == GLogicalOp.not) {
 			if (rhs != null) {
-				return "~" + rhs.toString();
+				return "~" + rhs;
 			} else {
 				return "False";
 			}
 			
 		} else if (op == GLogicalOp.and) {
-			return lhs.toString() + " & " + rhs.toString();
+			return lhs + " & " + rhs;
 		} else if (op == GLogicalOp.forall) {
-			return " forall (" + lhs.toString() + ", " + rhs.toString() + ")";
+			return " forall (" + lhs + ", " + rhs + ")";
 		} else {
-			return lhs.toString() + " || " + rhs.toString();
+			return lhs + " || " + rhs;
+		}
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		if (op == GLogicalOp.none) {
+			if (rhs != null) {
+				return rhs.toString(descriptions);
+			} else {
+				return "True";
+			}
+		} else if (op == GLogicalOp.not) {
+			if (rhs != null) {
+				return "NOT " + rhs.toString(descriptions);
+			} else {
+				return "False";
+			}
+			
+		} else if (op == GLogicalOp.and) {
+			return lhs.toString(descriptions) + " AND " + rhs.toString(descriptions);
+		} else if (op == GLogicalOp.forall) {
+			return " forall (" + lhs.toString(descriptions) + ", " + rhs.toString(descriptions) + ")";
+		} else {
+			return lhs.toString(descriptions) + " OR " + rhs.toString(descriptions);
 		}
 	}
 

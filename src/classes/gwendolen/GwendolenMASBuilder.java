@@ -24,17 +24,14 @@
 
 package gwendolen;
 
+import ail.mas.MAS;
+import ail.mas.MASBuilder;
+import ail.syntax.ast.Abstract_MAS;
+import gwendolen.parser.GwendolenLexer;
+import gwendolen.parser.GwendolenParser;
 import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
-
-import ail.mas.MAS;
-import ail.syntax.ast.Abstract_MAS;
-import ail.syntax.ast.Abstract_VarTerm;
-import ail.mas.MASBuilder;
-
-import gwendolen.parser.GwendolenLexer;
-import gwendolen.parser.GwendolenParser;
 
 /**
  * Utility class.  Builds a Gwendolen MAS by parsing a string or a file.
@@ -54,7 +51,7 @@ public class GwendolenMASBuilder implements MASBuilder {
 		} else {
 			parse(masstring);
 		}
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(null);
      }
 	
 	
@@ -89,10 +86,10 @@ public class GwendolenMASBuilder implements MASBuilder {
 		return mas;
 	}
 	
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 
-		return amas.toMCAPL();
+		return amas.toMCAPL(tracedir);
 	}
 	
 

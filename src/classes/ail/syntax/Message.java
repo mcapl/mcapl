@@ -27,11 +27,10 @@
 
 package ail.syntax;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.AILexception;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -282,9 +281,19 @@ public class Message implements Comparable<Message>, Unifiable, HasTermRepresent
 		StringBuilder s = new StringBuilder();
         s.append("<").append(msgId).append(",").append(threadId).append(",").append(sender).append(",").append(ilForce);
         s.append(",").append(receiver).append(",").append(propCont).append(">");
-        String s1 = s.toString();
-        return s1;
+        return s.toString();
     }
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		} else {
+			StringBuilder s = new StringBuilder();
+			s.append("from ").append(sender).append(": ").append(propCont.toString(descriptions));
+			return s.toString();
+		}
+	}
 		
 	/**
 	 * Produce a term to represent the message.

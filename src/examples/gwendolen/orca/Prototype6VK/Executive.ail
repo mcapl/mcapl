@@ -1,0 +1,11 @@
+
+env = gwendolen.orca.Prototype6VK.ORCAEnv
+mas.file = /src/examples/gwendolen/orca/Prototype6VK/Executive.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+//ajpf.record = true
+//log.fine = ail.semantics.AILAgent
+
+tracing.enabled = true
+tracing.descriptions = /src/examples/gwendolen/orca/Prototype6VK/Executive.desc
+tracing.directory = /src/examples/gwendolen/orca/Prototype6VK/traces

@@ -24,12 +24,11 @@
 
 package actiononly.parser;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import actiononly.ActionOnlyMASBuilder;
 import ajpf.MCAPLcontroller;
+import junit.framework.Assert;
 
 /**
  * Tests of the action only parser.
@@ -41,7 +40,7 @@ public class ParsingQuickTests {
 		try {
 			String abs_filename = MCAPLcontroller.getFilename("/src/examples/actiononly/goal/simplerobot.ao");
 			ActionOnlyMASBuilder builder = new ActionOnlyMASBuilder();
-			builder.getMAS(abs_filename);
+			builder.getMAS(abs_filename, null);
 		} catch (Exception e) {
 			System.err.println(e);
 			Assert.assertTrue(false);

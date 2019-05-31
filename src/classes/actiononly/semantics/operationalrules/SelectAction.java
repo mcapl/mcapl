@@ -66,7 +66,7 @@ public class SelectAction implements OSRule {
 		ArrayList<Guard> gs = new ArrayList<Guard>();
 		gs.add(new Guard());
 		
-		Intention i = new Intention(new Event(Event.Estart), ds, gs, new Unifier());
+		Intention i = new Intention(new Event(Event.Estart), ds, gs, new Unifier(), a.getPrettyPrinter());
 		a.setIntention(i);
 		
 		a.clearApplicableCapabilities();

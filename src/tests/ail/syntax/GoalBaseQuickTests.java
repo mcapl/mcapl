@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.HandleDropGeneralGoal;
+import ail.util.AILPrettyPrinter;
 
 /**
  * Regression tests involving goal bases.
@@ -45,7 +46,7 @@ public class GoalBaseQuickTests {
 		Goal g2 = new Goal("goal2", Goal.achieveGoal);
 		Goal g1p = new Goal("goal1", Goal.achieveGoal);
 
-		Intention i = new Intention(g1, AILAgent.refertoself());
+		Intention i = new Intention(g1, AILAgent.refertoself(), new AILPrettyPrinter());
 		AILAgent a = new AILAgent("ag");
 		
 		a.addGoal(g1);

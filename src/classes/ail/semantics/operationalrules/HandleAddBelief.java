@@ -27,6 +27,9 @@ package ail.semantics.operationalrules;
 import ail.semantics.AILAgent;
 import ail.syntax.Event;
 import ail.syntax.Intention;
+import ail.syntax.StringTerm;
+import ail.syntax.annotation.SourceAnnotation;
+import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
 
@@ -67,13 +70,15 @@ public class HandleAddBelief extends HandleBelief {
 		i.compose(thetahd);
 		b.apply(thetahd);
 		
-		
-		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty() && (e.getCategory() == Event.Estart || (e.getCategory() == Event.AILBel && e.getContent().equals(b)))) {
-			a.addBel(b, i.getSource(), topdeed.getDBnum());
-		} else {
-			a.addBel(b, AILAgent.refertoself(), topdeed.getDBnum());
+		StringTerm db = topdeed.getDBnum();
+		SourceAnnotation sa = AILAgent.refertoself();
+		if (i.getSource().equals(AILAgent.refertopercept()) && i.empty() && (e.getCategory() == Event.Estart || e.getCategory() == Event.FromPercept || (e.getCategory() == Event.AILBel && e.getContent().equals(b)))) {
+			sa = i.getSource();
 		}
-		
+
+		if (a.addBel(b, sa, db) && a.shouldTrace()) {
+			a.trace(new ModificationEvent(i.getID(), ModificationEvent.BELIEFS, db.toString(), b, null));
+		}
 		if (AJPFLogger.ltFine(logname)) {
 			AJPFLogger.fine(logname, a.getAgName() + " added " + b);
 		}

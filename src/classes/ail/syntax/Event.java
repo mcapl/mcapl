@@ -25,10 +25,9 @@
 package ail.syntax;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -44,6 +43,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	 */
 	@FilterField
 	public static final byte	Estart = 10;
+	
+	@FilterField
+	public static final byte    FromPercept = 11;
 
 	/**
 	 * String for fast lookup.  Not used at the moment but I expect we will
@@ -116,6 +118,9 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		return (getCategory() == Estart);
 	}
 	
+	public boolean fromPercept() {
+		return (getCategory() == FromPercept);
+	}
 
 	/**
 	 * Get a predicateindicator for the event.
@@ -126,6 +131,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
             String s = "";
             if (isStart()) {
             	piCache = new PredicateIndicator("start", 0);
+             } else if (fromPercept()) {
+            	 piCache = new PredicateIndicator("from perception", 0);
              } else {
             	if (isAddition())
             		s += "+";
@@ -148,6 +155,38 @@ public class Event extends DefaultAILStructure implements Unifiable {
         }
         return piCache;
     }
+	
+	public PredicateIndicator getPurePredicateIndicator() {
+        if (piCache == null) {
+            String s = "";
+            if (isStart()) {
+            	piCache = new PredicateIndicator("start", 0);
+             } else if (fromPercept()) {
+            	 piCache = new PredicateIndicator("from perception", 0);
+             } else {
+            /*	if (isAddition())
+            		s += "+";
+            	else if (isDeletion())
+            		s += "-";
+            	else if (isUpdate())
+            		s += "+-"; 
+            	if (getContent() instanceof PredicateTerm) {
+            		if (getContent() instanceof Goal) {
+            			s += "!";
+            		}
+            		piCache = new PredicateIndicator(s + ((PredicateTerm) getContent()).getFunctor(), ((PredicateTerm) getContent()).getTermsSize());
+            	} else */
+            	if (getContent() instanceof HasTermRepresentation) {
+            		Term t = ((HasTermRepresentation) getContent()).toTerm();
+            		piCache = new PredicateIndicator(s + t.getFunctor(), t.getTermsSize());
+            	} else {
+            		piCache = new PredicateIndicator(s + "not_a_predicate", 0);
+            	}
+            }
+        }
+        return piCache;
+    }
+
 	
 	/*
 	 * (non-Javadoc)
@@ -183,6 +222,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		StringBuilder s = new StringBuilder();
 		if (isStart()) {
 			s.append("start");
+		} else if (fromPercept()) {
+			s.append("perceived");
 		} else {
 			if (isAddition())
 				s.append("+");
@@ -190,10 +231,47 @@ public class Event extends DefaultAILStructure implements Unifiable {
 				s.append("x");
 			if (referstoGoal()) {
 				s.append("!");
-				s.append(getContent().toString());
+				s.append(getContent());
 			} else {
-				s.append(getContent().toString());
+				s.append(getContent());
 			}
+		}
+		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		
+		StringBuilder s = new StringBuilder();
+		if (isStart()) {
+			s.append("start");
+		} else if (fromPercept()) {
+			s.append("perceived");
+		} else {
+			if (isAddition())
+				s.append("added the ");
+			else
+				s.append("deleted the ");
+			switch (getCategory()) {
+			case DefaultAILStructure.AILBel:
+				s.append("belief");
+				break;
+			case DefaultAILStructure.AILGoal:
+				s.append("goal");
+				break;
+			case DefaultAILStructure.AILReceived:
+				s.append("received message");
+				break;
+			case DefaultAILStructure.AILSent:
+				s.append("sent message");
+				break;
+			default:
+				break;
+			}
+			s.append(" ").append(getContent().toString(descriptions));
 		}
 		return s.toString();
 	}
@@ -225,6 +303,8 @@ public class Event extends DefaultAILStructure implements Unifiable {
 		Event e1 = (Event) e;
 		
 		if (isStart()) {
+			return sameType(e1);
+		} else if (fromPercept()) {
 			return sameType(e1);
 		} else {
 			return sameType(e1) && u.unifies(getContent(), e1.getContent());

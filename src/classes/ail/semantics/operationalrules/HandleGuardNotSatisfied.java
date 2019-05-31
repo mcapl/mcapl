@@ -56,12 +56,11 @@ public class HandleGuardNotSatisfied extends DoNothing {
 		if (!I.deeds().isEmpty()) {
 			Unifier thetahd = I.hdU();
 			Iterator<Unifier> ui = a.believes(I.hdG(), thetahd);		
-			
 			if (! ui.hasNext()) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

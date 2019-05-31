@@ -25,11 +25,10 @@
 package ail.syntax;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -276,14 +275,14 @@ public class Deed extends DefaultAILStructure {
 			
 		if (referstoGoal()) {
 			s.append("!");
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (getCategory() == Dwaitfor) {
 			s.append("*...");
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (hasContent()) {
-			s.append(getContent().toString());
+			s.append(getContent());
 		} else if (isNPY()) {
-			s.append("npy");
+			s.append("which has no plan yet");
 		} else if (isBacktrack()) {
 			s.append("backtrack");
 		} else if (isNull()) {
@@ -292,7 +291,51 @@ public class Deed extends DefaultAILStructure {
 			s.append("lock");
 		}
 		
-		s.append("(").append(getDBnum().toString()).append(")");
+		String num = getDBnum().toString();
+		if (num.length() > 2) { // more than just quotes
+			s.append("(").append(num).append(")");
+		}
+		
+		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		
+		StringBuilder s = new StringBuilder();
+		if (hasTrigType()) {
+			if (isAddition())	
+				s.append("add ");
+			else if (isDeletion())
+				s.append("delete ");
+			else if (isUpdate())
+				s.append("update ");
+		}
+			
+		if (referstoGoal()) {
+			s.append("the goal ").append(getContent().toString(descriptions));
+		} else if (getCategory() == Dwaitfor) {
+			s.append("wait for ").append(getContent().toString(descriptions));
+		} else if (hasContent()) {
+			s.append(getContent().toString(descriptions));
+		} else if (isNPY()) {
+			s.append("which has no plan yet");
+		} else if (isBacktrack()) {
+			s.append("backtrack");
+		} else if (isNull()) {
+			s.append("null");
+		} else {
+			s.append("lock");
+		}
+		
+		String num = getDBnum().toString();
+		if (num.length() > 2) { // more than just quotes
+			s.append("(").append(num).append(")");
+		}
+		
 		return s.toString();
 	}
 	

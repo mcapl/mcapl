@@ -25,6 +25,7 @@
 package ail.mas;
 
 import ail.util.AILConfig;
+import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
@@ -125,7 +126,23 @@ public class AIL {
 	 * @return
 	 */
 	public static MAS buildMAS(AILConfig config) {
+		String tracedir = null;
+		String tracing = (String) config.getOrDefault("tracing.enabled", "false");
+		if (tracing.equals("true")) {
+			tracedir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
+			if (! tracedir.equals(System.getProperty("user.dir"))) {
+				try {
+					tracedir = ajpf.MCAPLcontroller.getFilename(tracedir);
+				} catch (AJPFException e) {
+					System.err.println(e.getMessage());
+					System.exit(0);
+				}
+			}
+		}
+
 		MAS mas = new MAS();
+		mas.setTraceDir(tracedir);
+		
 		// We've been given the name of a file and a mas builder
 		if (config.containsKey("mas.file") && config.containsKey("mas.builder")) {
 			
@@ -140,7 +157,7 @@ public class AIL {
 			
 			try {
 				MASBuilder masbuilder = (MASBuilder) (Class.forName(config.getProperty("mas.builder"))).newInstance();
-				mas = masbuilder.getMAS(abs_filename);
+				mas = masbuilder.getMAS(abs_filename, tracedir);
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
