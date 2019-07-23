@@ -66,9 +66,12 @@ public class SelectPlanReason extends AbstractReason {
 	@Override
 	public String getExplanation(final ExplanationLevel level, final PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append(inCourier(this.event.getPlan()));
+		if (!this.event.isContinue()) {
+			string.append(inCourier(this.event.getPlan()));
+		}
 		switch(level) {
-		case FINEST:
+		/* case FINEST:
+			System.err.println("1A");
 			string.append(" was selected in state ").append(this.state);
 			if (this.guard != null) {
 			//	string.append(", because it was included in ").append(this.parent.getExplanation(level, descriptions));
@@ -80,20 +83,25 @@ public class SelectPlanReason extends AbstractReason {
 					string.append(this.add.getExplanation(level, descriptions));
 				}
 			}
-			break;
+			break; */
 		default:
-			string.append(" was selected in state ").append(this.state);
+			//System.err.println("1B");
+			if (!this.event.isContinue()) {
+				string.append(" was selected in state ").append(this.state).append(" ");
+			}
 			if (this.guard != null) {
-				string.append(" because ");
+				string.append("because ");
 				if (!this.guard.getEvent().isContinuation() && !this.guard.getEvent().getGuard().isTrivial()) {
 					string.append(this.guard.toString());
 					// string.append(" held");
 					string.append(" and ");
 				}
 				if (crei != null) {
+					// System.err.println("1B1");
 					string.append(this.crei.toString(descriptions));
 				} else {
-					string.append(this.add.toString(descriptions) + " in state " + this.add.state);
+					//System.err.println("1B2");
+					string.append(this.add.toString(descriptions)); // + " in state " + this.add.state + " because it was an initial goal.");
 				}
 			}
 		}

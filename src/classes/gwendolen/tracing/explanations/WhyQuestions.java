@@ -96,7 +96,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 							final SelectPlanEvent spe = (SelectPlanEvent) r_event;
 							final SelectPlanReason spr = new SelectPlanReason(i, spe);
 							current.setParent(spr);
-						
+							// System.err.println("5");
 							whySelectPlan(spe, spr, trace, i);
 							break;
 							
@@ -131,21 +131,23 @@ public class WhyQuestions extends WhyQuestionsBase {
 							plan_event.apply(plan_unifier);
 							if (intention_id == crei.getIntention().getID() && crei.getIntention().hdE().equals(plan_event)) {
 								CreateIntentionReason crer = new CreateIntentionReason(j, crei);
+								// System.err.println("1.1");
 								whyCreateIntention(crei, crer, trace, j);
 								spr.setParent2(crer);
 								break;
 							} else {
-								
+								// System.err.println("1.?1");
 							}
 						} else if (e2 instanceof ModifyIntentionEvent) {
 							ModifyIntentionEvent add = (ModifyIntentionEvent) e2;
 							if (intention_id == add.getIntention().getID() && add.getIntention().hdE().equals(spe.getPlan().getEvent())) {
 								ModifyIntentionReason addr = new ModifyIntentionReason(j, add);
+								// System.err.println("1.2");
 								whyAddGoal(add, addr, trace, j);
 								spr.setParent2(addr);
 								break;
 							} else {
-								
+								// System.err.println("1.?2");
 							}
 						}
 					}
@@ -179,8 +181,12 @@ public class WhyQuestions extends WhyQuestionsBase {
 					for (Deed d: deeds) {
 						d.getContent().apply(spe.getPlan().getUnifier());
 						if (d.getContent().equals(g)) {
+							// System.err.println("4.1");
 							SelectPlanReason spr = new SelectPlanReason(i, spe);
-							whySelectPlan(spe, spr, trace, i);
+							if (spe.isContinue()) {
+								// System.err.println("4.1.1");
+								whySelectPlan(spe, spr, trace, i);
+							} 
 							mir.setParent(spr);
 							break;
 						}
@@ -194,6 +200,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				CreateIntentionEvent crei = (CreateIntentionEvent) event;
 				if (crei.getIntention().getID() == intention_id && crei.getIntention().hdD().getContent().equals(g)) {
 					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
+					// System.err.println("4.2");
 					whyCreateIntention(crei, crer, trace, i);
 					mir.setParent(crer);
 					break;
@@ -218,6 +225,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 						d.getContent().apply(spe.getPlan().getUnifier());
 						if (d.getContent().equals(b)) {
 							SelectPlanReason spr = new SelectPlanReason(i, spe);
+							// System.err.println("2n.3");
 							whySelectPlan(spe, spr, trace, i);
 							mir.setParent(spr);
 							break;
@@ -232,6 +240,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				CreateIntentionEvent crei = (CreateIntentionEvent) event;
 				if (crei.getIntention().getID() == intention_id && crei.getIntention().hdD().getContent().equals(b)) {
 					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
+					// System.err.println("2n.1");
 					whyCreateIntention(crei, crer, trace, i);
 					mir.setParent(crer);
 					break;
@@ -251,6 +260,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		Event trigger = crei.getIntention().hdE();
 		
 		if (trigger.getCategory() == Event.Estart || trigger.getCategory() == Event.FromPercept) {
+			// System.err.println("6&7");
 			return;
 		} else {
 			for (int i = n; i >= 0; --i) {
@@ -262,6 +272,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 						for (Deed d: deeds) {
 							d.getContent().apply(spe.getPlan().getUnifier());
 							if (d.getContent().equals(trigger.getContent())) {
+								// System.err.println("8");
 								SelectPlanReason spr = new SelectPlanReason(i, spe);
 								whySelectPlan(spe, spr, trace, i);
 								crer.setParent(spr);
@@ -283,12 +294,14 @@ public class WhyQuestions extends WhyQuestionsBase {
 					if (gpr.getParent() == null && ((GuardEvent) event).getPlan().getID() == plan_id) {
 						final GuardReason ger = new GuardReason(i, (GuardEvent) event);
 						gpr.setParent(ger);
+						System.err.println("?.1");
 					}
 				} else if (event instanceof ModifyIntentionEvent) {
 					ModifyIntentionEvent me = (ModifyIntentionEvent) event;
 					if (!eventfound && !me.getIntention().events().isEmpty() && me.getIntention().hdE() != null && me.getIntention().hdE() == postevent && me.getIntention().getID() == gpe.getIID()) {
 						final ModifyIntentionReason mer = new ModifyIntentionReason(i, me);
 						gpr.setPostEvent(mer);
+						System.err.println("?.2");
 						eventfound = true;
 					}
 				} else if (event instanceof CreateIntentionEvent) {
@@ -298,6 +311,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 						&& ce.getIntention().getID() == gpe.getIID()) {
 						final CreateIntentionReason cer = new CreateIntentionReason(i, ce);
 						gpr.setPostEvent(cer);
+						System.err.println("?.3");
 						eventfound = true;
 					}
 				}
@@ -376,6 +390,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				if (d.getCategory() == Deed.AILBel && d.getTrigType() == Deed.AILAddition && d.getContent().equals(belief)) {
 					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
 					// whyCreateIntention(crei, crer, trace, j);
+					// System.err.println("2.1");
 					br.setParent(crer);
 					// return crer;
 					break;
@@ -387,12 +402,14 @@ public class WhyQuestions extends WhyQuestionsBase {
 				if (me.getBase().equals("beliefs") && me.contains(belief, true) && me.isInitial()) {
 					//ModificationReason mir = new ModificationReason(i, me);
 					//whyAddBelief(me, mir, trace, i, belief);
+					//System.err.println("2.2");
 					br.setParent(new ModificationReason(i, me));
 					//return new ModificationReason(i, me);
 					// return me;
 					break;
 				} else if (me.getBase().equals("beliefs") && me.contains(belief, true)) {
 					ModificationReason mir = new ModificationReason(i, me);
+					// System.err.println("2.3");
 					whyAddBelief(me, mir, trace, i, belief);
 					br.setParent(mir);
 					//return new ModificationReason(i, me);
@@ -423,6 +440,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				Deed d = crei.getIntention().hdD();
 				if (d.getCategory() == Deed.AILGoal && d.getTrigType() == Deed.AILAddition && d.getContent().equals(new Goal(goal, Goal.achieveGoal))) {
 					CreateIntentionReason crer = new CreateIntentionReason(i, crei);
+					//System.err.println("3.2");
 					whyCreateIntention(crei, crer, trace, i);
 					gr.setParent(crer);
 					// return crer;
@@ -435,6 +453,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				Event trigger = me.getIntention().hdE();
 				if (trigger.referstoGoal() && trigger.getTrigType() == Event.AILAddition && trigger.getContent().equals(new Goal(goal, Goal.achieveGoal))) {
 					ModifyIntentionReason mir = new ModifyIntentionReason(i, me);
+					// System.err.println("3.1");
 					whyAddGoal(me, mir, trace, i);
 					gr.setParent(mir);
 					//return new ModificationReason(i, me);

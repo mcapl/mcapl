@@ -25,6 +25,7 @@ package gwendolen.tracing.explanations;
 
 import ail.syntax.Event;
 import ail.tracing.events.ModifyIntentionEvent;
+import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
 import ail.tracing.explanations.PredicateDescriptions;
@@ -57,14 +58,14 @@ public class ModifyIntentionReason extends AbstractReason {
 		final StringBuilder string = new StringBuilder();
 		final Event i_event = this.event.getIntention().hdE();
 		switch (level) {
-		case FINEST:
+		/* case FINEST:
 			// string.append("it was created in state ").append(this.state);
 			if (i_event != null) {
 				string.append(" the event ").append(inCourier(i_event.toString(descriptions)));
 				string.append(" was posted ");
 				// string.append(" was posted because it appeared next in intention ").append(this.event.getIntention().getID());
 			}
-			break;
+			break; */
 		default:
 			if (i_event != null) {
 				string.append("Event: ");
@@ -73,7 +74,13 @@ public class ModifyIntentionReason extends AbstractReason {
 				if (this.getParent() instanceof CreateIntentionReason) {
 					string.append(((CreateIntentionReason) this.getParent()).getExplanation(level, descriptions));
 				} else if (this.getParent() instanceof SelectPlanReason) {
-					string.append(((SelectPlanReason) this.getParent()).getExplanation(level, descriptions));
+					SelectPlanReason spr = (SelectPlanReason) this.getParent();
+					SelectPlanEvent spe = spr.getEvent();
+					if (spe.isContinue()) {
+						string.append(((SelectPlanReason) this.getParent()).getExplanation(level, descriptions));
+					} else {
+						string.append(inCourier(spe.getPlan())).append(" was selected in state ").append(spr.state);
+					}
 				} else {
 					string.append("it appeared next in intention ").append(this.event.getIntention().getID());
 				}
