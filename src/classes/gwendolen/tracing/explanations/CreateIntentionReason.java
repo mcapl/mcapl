@@ -32,7 +32,7 @@ import ail.tracing.explanations.PredicateDescriptions;
 
 public class CreateIntentionReason extends AbstractReason {
 	private final CreateIntentionEvent event;
-	public SelectPlanReason parent = null;
+	public AbstractReason parent = null;
 
 	public CreateIntentionReason(final int state, final CreateIntentionEvent event) {
 		super(state);
@@ -49,7 +49,7 @@ public class CreateIntentionReason extends AbstractReason {
 		return parent;
 	}
 	
-	public void setParent(SelectPlanReason r) {
+	public void setParent(AbstractReason r) {
 		parent = r;
 	}
 
@@ -82,6 +82,8 @@ public class CreateIntentionReason extends AbstractReason {
 					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was an initial belief");
 				} else if (event.getCategory() == Event.Estart && this.event.getIntention().hdD().getCategory() == Deed.AILGoal) {
 					string.append(this.event.getIntention().hdD().toString(descriptions)).append(" was an initial goal.");
+				} else if (this.event.getIntention().hdE().getCategory() == Event.AILReceived) {
+					string.append(" the message ").append(this.event.getIntention().hdE().getContent().toString()).append(" was received in state ").append(this.state);
 				} else {
 					string.append(parent.getExplanation(level, descriptions));
 				}

@@ -27,5 +27,6 @@ mas.file = src/examples/pbdi/pi2goagent/exercise3.pbdi
 mas.builder = pbdi.PBDIMASBuilder
 
 tracing.enabled = true
+tracing.directory = /src/examples/pbdi/pi2goagent/traces
 
 //log.info = pbdi.pi2goagent.Pi2GoAgentEnv,pbdi.mas.verification.PBDIVerificationEnv

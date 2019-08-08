@@ -57,7 +57,7 @@ public class BeliefReason extends AbstractReason {
 	@Override
 	public String getExplanation(ExplanationLevel level, PredicateDescriptions descriptions) {
 		final StringBuilder string = new StringBuilder();
-		string.append("Belief ").append(belief.toString(descriptions)).append(" was believed in state ").append(state).append(" because ");
+		string.append(belief.toString(descriptions)).append(" was believed in state ").append(state).append(" because ");
 		string.append(getParent().getExplanation(level, descriptions));
 		return string.toString();
 	}

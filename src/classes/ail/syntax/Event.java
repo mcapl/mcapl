@@ -319,7 +319,10 @@ public class Event extends DefaultAILStructure implements Unifiable {
 	@Override
 	public boolean isVar() {
 		if (hasContent()) {
-			return ((Term) getContent()).isVar();
+			if (getContent() instanceof Term) {
+				return ((Term) getContent()).isVar();
+			}
+			return false;
 		} else {
 			return false;
 		}

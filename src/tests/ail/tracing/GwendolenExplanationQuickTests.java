@@ -81,7 +81,7 @@ public class GwendolenExplanationQuickTests {
 		SelectPlanEvent spe = (SelectPlanEvent) whys.getEvent(84);
 		SelectPlanReason spr = new SelectPlanReason(84, spe);
 		whys.whySelectPlan(spe, spr, whys.getTrace(), 84);
-		String s = "<font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [3,3]&quot; do add no_rubble(X,Y) with [X=3, X0=3, Y=3, Y0=3]</font> was selected in state 84 because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=3, X0=3, Y=3, Y0=3]</font> and because \"the robot is at [3,3]\" was perceived in state 53";
+		String s = "<font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [3,3]&quot; do add no_rubble(X,Y) with [X=3, X0=3, Y=3, Y0=3]</font> was selected in state 84 because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=3, X0=3, Y=3, Y0=3]</font> and \"the robot is at [3,3]\" was perceived in state 53";
 		String s2 = spr.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -96,7 +96,7 @@ public class GwendolenExplanationQuickTests {
 		SelectPlanEvent spe = (SelectPlanEvent) whys.getEvent(148);
 		SelectPlanReason spr = new SelectPlanReason(148, spe);
 		whys.whySelectPlan(spe, spr, whys.getTrace(), 148);
-		String s = "<font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(X,Y) with [X=5, Y=5]</font> was selected in state 148 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=5, Y=5]</font> and Event: added the goal achieve \"the robot is holding rubble\" was posted in state 126 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
+		String s = "<font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(X,Y) with [X=5, Y=5]</font> was selected in state 148 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=5, Y=5]</font> and added the goal achieve \"the robot is holding rubble\" was posted in state 126 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
 		String s2 = spr.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -112,7 +112,7 @@ public class GwendolenExplanationQuickTests {
 		at11.addTerm(new NumberTermImpl(1));
 		at11.addTerm(new NumberTermImpl(1));
 		AbstractReason reason = whys.whyBelief(at11, 36);
-		String s = "Belief \"the robot is at [1,1]\" was believed in state 36 because the belief <font face=\"Courier New\">&quot;the robot is at [1,1]&quot;</font> was added because \"the robot is at [1,1]\" was perceived in state 24"; 
+		String s = "\"the robot is at [1,1]\" was believed in state 36 because the belief <font face=\"Courier New\">&quot;the robot is at [1,1]&quot;</font> was added because \"the robot is at [1,1]\" was perceived in state 24"; 
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -128,7 +128,7 @@ public class GwendolenExplanationQuickTests {
 		at11.addTerm(new NumberTermImpl(1));
 		at11.addTerm(new NumberTermImpl(1));
 		AbstractReason reason = whys.whyBelief(at11, 36);
-		String s = "Belief possible_rubble(1,1) was believed in state 36 because the belief <font face=\"Courier New\">possible_rubble(1,1)</font> was added upon starting the agent.";
+		String s = "possible_rubble(1,1) was believed in state 36 because the belief <font face=\"Courier New\">possible_rubble(1,1)</font> was added upon starting the agent.";
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -144,7 +144,7 @@ public class GwendolenExplanationQuickTests {
 		at11.addTerm(new NumberTermImpl(2));
 		at11.addTerm(new NumberTermImpl(2));
 		AbstractReason reason = whys.whyGoal(at11, 10);
-		String s = "rubble(2,2) was a goal in state 10 because Event: added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
+		String s = "rubble(2,2) was a goal in state 10 because added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -160,7 +160,7 @@ public class GwendolenExplanationQuickTests {
 		at11.addTerm(new Predicate("rubble"));
 		// at11.addTerm(new NumberTermImpl(2));
 		AbstractReason reason = whys.whyGoal(at11, 37);
-		String s = "\"the robot is holding rubble\" was a goal in state 37 because Event: added the goal achieve \"the robot is holding rubble\" was posted in state 37 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
+		String s = "\"the robot is holding rubble\" was a goal in state 37 because added the goal achieve \"the robot is holding rubble\" was posted in state 37 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		//System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -175,7 +175,7 @@ public class GwendolenExplanationQuickTests {
 		ModifyIntentionEvent mie = (ModifyIntentionEvent) whys.getEvent(9);
 		ModifyIntentionReason mir = new ModifyIntentionReason(9, mie);
 		whys.whyAddGoal(mie, mir, whys.getTrace(), 9);
-		String s = "Event: added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
+		String s = "added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
 		String s2 = mir.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		//System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -190,7 +190,7 @@ public class GwendolenExplanationQuickTests {
 		ModifyIntentionEvent mie = (ModifyIntentionEvent) whys.getEvent(126);
 		ModifyIntentionReason mir = new ModifyIntentionReason(126, mie);
 		whys.whyAddGoal(mie, mir, whys.getTrace(), 126);
-		String s = "Event: added the goal achieve \"the robot is holding rubble\" was posted in state 126 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
+		String s = "added the goal achieve \"the robot is holding rubble\" was posted in state 126 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13";
 		String s2 = mir.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -204,7 +204,7 @@ public class GwendolenExplanationQuickTests {
 		WhyQuestions whys = test_rig.getTrace();
 		Action drop = new Action("drop");
 		AbstractReason reason = whys.whyAction(drop, 202);
-		String s = "<font face=\"Courier New\">drop</font> was executed because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13 because Event: added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
+		String s = "<font face=\"Courier New\">drop</font> was executed because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13 because added the goal achieve rubble(2,2) was posted in state 9 because add the goal achieve rubble(2,2) was an initial goal."; 
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -220,7 +220,7 @@ public class GwendolenExplanationQuickTests {
 		move.addTerm(new NumberTermImpl(1));	
 		move.addTerm(new NumberTermImpl(1));
 		AbstractReason reason = whys.whyAction(move, 22);
-		String s = "<font face=\"Courier New\">move_to(1,1)</font> was executed because <font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(1,1)</font> was selected in state 20 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[[X=1, Y=1], [X=3, Y=3], [X=5, Y=5]]</font> and Event: added the goal achieve \"the robot is holding rubble\" was posted in state 16 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13"; 
+		String s = "<font face=\"Courier New\">move_to(1,1)</font> was executed because <font face=\"Courier New\">Plan 2: in response to the event: added the goal achieve &quot;the robot is holding rubble&quot; do move_to(1,1)</font> was selected in state 20 because its guard <font face=\"Courier New\">possible_rubble(X,Y) &amp; ~no_rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[[X=1, Y=1], [X=3, Y=3], [X=5, Y=5]]</font> and added the goal achieve \"the robot is holding rubble\" was posted in state 16 because <font face=\"Courier New\">Plan 1: in response to the event: added the goal achieve rubble(2,2) do add the goal achieve &quot;the robot is holding rubble&quot; AND move_to(2,2) AND drop</font> was selected in state 13"; 
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s2.equals(s);
@@ -242,6 +242,24 @@ public class GwendolenExplanationQuickTests {
 		Boolean b = s2.equals(s);
 		assertTrue(b);
 	} */
+	
+	@Test public void whyEnactRoute() {
+		File example_file = new File(MCAPLcontroller.getAbsFilename("/src/examples/gwendolen/orca/Prototype6VK/traces/executive_19-05-28_18-11-31-199.db"));
+		EventTableTestRig test_rig = new EventTableTestRig(example_file);
+		WhyQuestions whys = test_rig.getTrace();
+		Action send = new Action("send");
+		send.addTerm(new Predicate("routePlanner"));	
+		send.addTerm(new Predicate("enactRoute"));
+		send.addTerm(new Predicate("route2"));
+		send.addTerm(new Predicate("t2"));
+		send.addTerm(new Predicate("safety"));
+		AbstractReason reason = whys.whyAction(send, 183);
+		String s = "<font face=\"Courier New\">&quot;Request the Route Planner to enact route2 with target t2 and prioritisation safety&quot;</font> was executed because <font face=\"Courier New\">Plan 6: in response to the event: added the belief &quot;The UAV has 3 possible routes&quot; do &quot;Request the Route Planner to enact route2 with target t2 and prioritisation safety&quot; AND delete &quot;The UAV requested a route towards t2 prioritising safety&quot;</font> was selected in state 181 because its guard <font face=\"Courier New\">prioritise(safety) &amp; requestedRoute(T,U) &amp; route1(A1,B1,C1) &amp; route2(A2,B2,C2) &amp; route3(A3,B3,C3) &amp; (C2&lt;C1) &amp; (C2&lt;C3)</font> held with possible solution(s) <font face=\"Courier New\">[A1=324, A2=345, A3=410, B1=28099, B2=28545, B3=24848, C1=4, C2=2, C3=3, T=t2, U=safety]</font> and <font face=\"Courier New\">Plan 1: in response to the event: added the received message &quot;The Route Planner replied with routesSent(3)&quot; do add &quot;The UAV has 3 possible routes&quot;</font> was selected in state 138 because its guard <font face=\"Courier New\">~M</font> held with possible solution(s) <font face=\"Courier New\">[From=routePlanner, From0=routePlanner, M=routesSent(3), M0=routesSent(3), To=executive, To0=executive]</font> and  the message <\"mid\",\"thid\",routePlanner,1,executive,routesSent(3)> was received in state 102"; 
+		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
+		// System.err.println(s2);
+		Boolean b = s2.equals(s);
+		assertTrue(b);
+	}
 
 	// Test 12
 	@Test public void whyCreateIStart() {
@@ -284,9 +302,10 @@ public class GwendolenExplanationQuickTests {
 		at11.addTerm(new NumberTermImpl(1));
 		at11.addTerm(new NumberTermImpl(1));
 		AbstractReason reason = whys.whyBelief(at11, 45);
-		String s = "Belief no_rubble(1,1) was believed in state 45 because the belief <font face=\"Courier New\">no_rubble(1,1)</font> was added because <font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [1,1]&quot; do add no_rubble(1,1)</font> was selected in state 41 because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=1, X0=1, Y=1, Y0=1]</font> and because \"the robot is at [1,1]\" was perceived in state 24";
+		String s = "no_rubble(1,1) was believed in state 45 because the belief <font face=\"Courier New\">no_rubble(1,1)</font> was added because <font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [1,1]&quot; do add no_rubble(1,1)</font> was selected in state 41"; //  because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=1, X0=1, Y=1, Y0=1]</font> and \"the robot is at [1,1]\" was perceived in state 24";
 		String s2 = reason.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
-		// System.err.println(s2);
+		//System.err.println(s);
+		//System.err.println(s2);
 		Boolean b = s2.equals(s);
 		assertTrue(b);
 		
@@ -300,7 +319,7 @@ public class GwendolenExplanationQuickTests {
 		CreateIntentionEvent cie = (CreateIntentionEvent) whys.getEvent(44);
 		CreateIntentionReason cier = new CreateIntentionReason(44, cie);
 		whys.whyCreateIntention(cie, cier, whys.getTrace(), 44);
-		String s = "<font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [1,1]&quot; do add no_rubble(1,1)</font> was selected in state 41 because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=1, X0=1, Y=1, Y0=1]</font> and because \"the robot is at [1,1]\" was perceived in state 24";
+		String s = "<font face=\"Courier New\">Plan 3: in response to the event: added the belief &quot;the robot is at [1,1]&quot; do add no_rubble(1,1)</font> was selected in state 41 because its guard <font face=\"Courier New\">~rubble(X,Y)</font> held with possible solution(s) <font face=\"Courier New\">[X=1, X0=1, Y=1, Y0=1]</font> and \"the robot is at [1,1]\" was perceived in state 24";
 		String s2 = cier.getExplanation(ExplanationLevel.FINE, whys.getDescriptions());
 		// System.err.println(s2);
 		Boolean b = s.equals(s2);

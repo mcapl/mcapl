@@ -30,6 +30,7 @@ import ail.syntax.Action;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.Goal;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.tracing.EventStorage;
@@ -121,7 +122,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 				// I don't think we need this check since generate plans goes straight to select plans
 				// without switching intentions.  But just in case.
 				spr.setParent(new GuardReason(i, g_event));
-				if (intention_id == g_event.getIntention().getID()) {
+				if (intention_id == g_event.getIntention().getID() && spe.getPlan().getID() == g_event.getPlan().getID()) {
 					for (int j = i; j >= 0; --j) {
 						final AbstractEvent e2 = trace.get(j);
 						if (e2 instanceof CreateIntentionEvent) {
@@ -129,12 +130,26 @@ public class WhyQuestions extends WhyQuestionsBase {
 							Event plan_event = spe.getPlan().getEvent();
 							Unifier plan_unifier = spe.getPlan().getUnifier();
 							plan_event.apply(plan_unifier);
-							if (intention_id == crei.getIntention().getID() && crei.getIntention().hdE().equals(plan_event)) {
-								CreateIntentionReason crer = new CreateIntentionReason(j, crei);
+							if (intention_id == crei.getIntention().getID()) {
+								if (crei.getIntention().hdE().equals(plan_event)) {
+									CreateIntentionReason crer = new CreateIntentionReason(j, crei);
 								// System.err.println("1.1");
-								whyCreateIntention(crei, crer, trace, j);
-								spr.setParent2(crer);
-								break;
+									whyCreateIntention(crei, crer, trace, j);
+									spr.setParent2(crer);
+									break;
+								}
+								Event trigger = crei.getIntention().hdE();
+								if (trigger.hasContent() && trigger.getContent() instanceof Message) {
+									Predicate trig_term = ((Message) trigger.getContent()).toTerm();
+									if (trig_term.equals(plan_event.getContent())) {
+										CreateIntentionReason crer = new CreateIntentionReason(j, crei);
+										// System.err.println("1.1a");
+											whyCreateIntention(crei, crer, trace, j);
+											spr.setParent2(crer);
+											break;
+									}
+								}
+
 							} else {
 								// System.err.println("1.?1");
 							}
@@ -259,7 +274,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		// int intention_id = crei.getIntention().getID();
 		Event trigger = crei.getIntention().hdE();
 		
-		if (trigger.getCategory() == Event.Estart || trigger.getCategory() == Event.FromPercept) {
+		if (trigger.getCategory() == Event.Estart || trigger.getCategory() == Event.FromPercept  || trigger.getCategory() == Event.AILReceived) {
 			// System.err.println("6&7");
 			return;
 		} else {
@@ -267,19 +282,31 @@ public class WhyQuestions extends WhyQuestionsBase {
 				final AbstractEvent event = trace.get(i);
 				if (event instanceof SelectPlanEvent) {
 					SelectPlanEvent spe = (SelectPlanEvent) event;
-					//if (spe.getIID() == intention_id) {
+					if (!spe.isContinue()) {
+						//if (spe.getIID() == intention_id) {
 						List<Deed> deeds = spe.getPlan().getPrefix();
 						for (Deed d: deeds) {
-							d.getContent().apply(spe.getPlan().getUnifier());
-							if (d.getContent().equals(trigger.getContent())) {
-								// System.err.println("8");
-								SelectPlanReason spr = new SelectPlanReason(i, spe);
-								whySelectPlan(spe, spr, trace, i);
-								crer.setParent(spr);
-								break;
+							if (d.hasContent()) {
+								d.getContent().apply(spe.getPlan().getUnifier());
+								if (d.getContent().equals(trigger.getContent())) {
+									// System.err.println("8");
+									SelectPlanReason spr = new SelectPlanReason(i, spe);
+									whySelectPlan(spe, spr, trace, i);
+									crer.setParent(spr);
+									break;
+								}
 							}
 						}
-					//}
+					}
+				} else if (event instanceof CreateIntentionEvent) {
+					CreateIntentionEvent crei2 = (CreateIntentionEvent) event;
+					if (crei2.getIntention().hdD().getContent() != null && crei2.getIntention().hdD().getContent().equals(crei.getIntention().hdE().getContent())) {
+						CreateIntentionReason crer2 = new CreateIntentionReason(i, crei2);
+						// System.err.println("2n.1");
+						whyCreateIntention(crei2, crer2, trace, i);	
+						crer.setParent(crer2);
+						break;
+					}
 				}
 			}
 		}
@@ -384,7 +411,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		final List<AbstractEvent> trace = this.storage.getAll();
 		for (int i = n; i >= 0; --i) {
 			final AbstractEvent event = trace.get(i);
-			if (event instanceof CreateIntentionEvent) {
+			/*if (event instanceof CreateIntentionEvent) {
 				CreateIntentionEvent crei = (CreateIntentionEvent) event;
 				Deed d = crei.getIntention().hdD();
 				if (d.getCategory() == Deed.AILBel && d.getTrigType() == Deed.AILAddition && d.getContent().equals(belief)) {
@@ -396,18 +423,20 @@ public class WhyQuestions extends WhyQuestionsBase {
 					break;
 					
 				}
-			} else if (event instanceof ModificationEvent) {
+			} else */
+			if (event instanceof ModificationEvent) {
 				// match the requested predicate
 				final ModificationEvent me = (ModificationEvent) event;
-				if (me.getBase().equals("beliefs") && me.contains(belief, true) && me.isInitial()) {
+				//if (me.getBase().equals("beliefs") && me.contains(belief, true) && me.isInitial()) {
 					//ModificationReason mir = new ModificationReason(i, me);
 					//whyAddBelief(me, mir, trace, i, belief);
 					//System.err.println("2.2");
-					br.setParent(new ModificationReason(i, me));
+					//br.setParent(new ModificationReason(i, me));
 					//return new ModificationReason(i, me);
 					// return me;
-					break;
-				} else if (me.getBase().equals("beliefs") && me.contains(belief, true)) {
+					//break;
+				//} else 
+				if (me.getBase().equals("beliefs") && me.contains(belief, true)) {
 					ModificationReason mir = new ModificationReason(i, me);
 					// System.err.println("2.3");
 					whyAddBelief(me, mir, trace, i, belief);
@@ -435,7 +464,7 @@ public class WhyQuestions extends WhyQuestionsBase {
 		for (int i = n; i >= 0; --i) {
 			final AbstractEvent event = trace.get(i);
 			
-			if (event instanceof CreateIntentionEvent) {
+			/* if (event instanceof CreateIntentionEvent) {
 				CreateIntentionEvent crei = (CreateIntentionEvent) event;
 				Deed d = crei.getIntention().hdD();
 				if (d.getCategory() == Deed.AILGoal && d.getTrigType() == Deed.AILAddition && d.getContent().equals(new Goal(goal, Goal.achieveGoal))) {
@@ -447,7 +476,8 @@ public class WhyQuestions extends WhyQuestionsBase {
 					break;
 					
 				}
-			} else if (event instanceof ModifyIntentionEvent) {
+			} else */
+			if (event instanceof ModifyIntentionEvent) {
 				// match the requested predicate
 				final ModifyIntentionEvent me = (ModifyIntentionEvent) event;
 				Event trigger = me.getIntention().hdE();

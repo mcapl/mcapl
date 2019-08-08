@@ -68,7 +68,7 @@ public class ModifyIntentionReason extends AbstractReason {
 			break; */
 		default:
 			if (i_event != null) {
-				string.append("Event: ");
+				// string.append("Event: ");
 				string.append(i_event.toString(descriptions));
 				string.append(" was posted in state ").append(state).append(" because ");
 				if (this.getParent() instanceof CreateIntentionReason) {

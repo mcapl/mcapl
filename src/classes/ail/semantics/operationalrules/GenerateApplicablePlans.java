@@ -79,7 +79,7 @@ public class GenerateApplicablePlans implements OSRule {
 			iterator = plans.iterator();
 		}
 		a.setApplicablePlans(iterator);
-		if (a.shouldTrace()) {
+		if (a.shouldTrace()  && !a.getIntention().empty()) {
 			a.trace(new GeneratePlansEvent(plans, GeneratePlansEvent.FOR_EVENT, a.getIntention().getID(), a.getIntention().hdE()));
 		}
 	}
