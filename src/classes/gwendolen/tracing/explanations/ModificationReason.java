@@ -25,6 +25,7 @@ package gwendolen.tracing.explanations;
 
 import ail.syntax.Predicate;
 import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.SelectPlanEvent;
 import ail.tracing.explanations.AbstractReason;
 import ail.tracing.explanations.ExplanationLevel;
 import ail.tracing.explanations.PredicateDescriptions;
@@ -100,21 +101,37 @@ public class ModificationReason extends AbstractReason {
 		string.append("the ").append(getPredicateDescriptor()).append(" ").append(inCourier(getAdded(descriptions)))
 				.append(" was ").append(getActionDescriptor());
 		switch (level) {
-		case FINEST:
-			string.append(" in state ").append(this.state);
-			if (this.parent != null) {
-				string.append(", because ").append(this.parent.getExplanation(level, descriptions));
-			}
-			break;
+		//case FINEST:
+		//	string.append(" in state ").append(this.state);
+		//	if (this.parent != null) {
+		//		string.append(", because ").append(this.parent.getExplanation(level, descriptions));
+		//	}
+		//	break;
 		default:
 			if (this.parent != null) {
-				string.append(" because ").append(this.parent.getExplanation(level, descriptions));
+				string.append(" because ");
+			//	string.append(" because ").append(this.parent.getExplanation(level, descriptions));
+			//}
+				if (this.getParent() instanceof CreateIntentionReason) {
+					string.append(((CreateIntentionReason) this.getParent()).getExplanation(level, descriptions));
+				} else if (this.getParent() instanceof SelectPlanReason) {
+					SelectPlanReason spr = (SelectPlanReason) this.getParent();
+					SelectPlanEvent spe = spr.getEvent();
+					if (spe.isContinue()) {
+						string.append(((SelectPlanReason) this.getParent()).getExplanation(level, descriptions));
+					} else {
+						string.append(inCourier(spe.getPlan())).append(" was selected in state ").append(spr.state);
+					}
+				} 
+				break;
 			}
-			break;
+			if (this.parent == null) {
+				string.append(" upon starting the agent.");
+			}
 		}
-		if (this.parent == null) {
-			string.append(" upon starting the agent.");
-		}
+		//if (this.parent == null) {
+		//	string.append(" upon starting the agent.");
+		//}
 		return string.toString();
 	}
 }
