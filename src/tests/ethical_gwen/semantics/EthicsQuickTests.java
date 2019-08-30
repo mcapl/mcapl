@@ -88,8 +88,8 @@ public class EthicsQuickTests {
 			a.addPlan(p1);
 			a.addPlan(p2);
 			a.addBel(new Literal("context"), BeliefBase.TSelf);
-			ApplicablePlan ap1 = new ApplicablePlan(p1.getTriggerEvent(), p1.getBody(), p1.getContext(), 1, new Unifier(), p1.getID(), p1.getLibID());
-			ApplicablePlan ap2 = new ApplicablePlan(p2.getTriggerEvent(), p2.getBody(), p2.getContext(), 1, new Unifier(), p2.getID(), p2.getLibID());
+			ApplicablePlan ap1 = new ApplicablePlan(p1.getTriggerEvent(), p1.getBody(), p1.getContext(), 1, new Unifier(), p1.getID(), p1.getLibID(), a.getPrettyPrinter());
+			ApplicablePlan ap2 = new ApplicablePlan(p2.getTriggerEvent(), p2.getBody(), p2.getContext(), 1, new Unifier(), p2.getID(), p2.getLibID(), a.getPrettyPrinter());
 			
 			Assert.assertFalse(a.compareEthics(ap1, ap2));
 			

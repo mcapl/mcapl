@@ -27,13 +27,16 @@
 
 package ail.syntax;
 
-import java.util.List;
-import java.util.ListIterator;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.ListIterator;
 import java.util.Set;
 
-import ail.syntax.annotation.SourceAnnotation;
 import ail.semantics.AILAgent;
+import ail.syntax.annotation.SourceAnnotation;
+import ail.tracing.events.ModificationEvent;
+import ail.util.AILPrettyPrinter;
+import gov.nasa.jpf.annotation.FilterField;
 
 /**
  * Class for an AIL Intention - a matrix structure consisting of several
@@ -44,6 +47,11 @@ import ail.semantics.AILAgent;
  *
  */
 public class Intention implements Comparable<Intention>{
+	@FilterField
+	private static volatile int idCounter = 0;
+
+	@FilterField
+	protected final int id;
 	/**
 	 * The rows of the intention.  NB. an intention row is not implemented
 	 * as a single event, deed, guard, unifier tuple.  but as a tuple of
@@ -75,13 +83,20 @@ public class Intention implements Comparable<Intention>{
      * The condition that needs to be true to unsuspend the intention
      */
     protected Literal suspendedfor;
+    
+    /**
+     * A pretty printer - tells the intention how to pretty print itself;
+     */
+    public AILPrettyPrinter pretty_printer = new AILPrettyPrinter();
 
     /**
      * Constructor.  Does nothing except create an empty intention.
      *
      */
-    public Intention() {
+    public Intention(AILPrettyPrinter pretty) {
+    	id = idCounter++;
     	source = new SourceAnnotation(new Predicate("empty"));
+    	pretty_printer = pretty;
     }
     
      /**
@@ -94,13 +109,26 @@ public class Intention implements Comparable<Intention>{
      * @param theta The unifier
      * @param s The source.
      */
-    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s) {
-    	this();
-    	
-    	this.iConcat(e, ds, gu, theta);
-    	this.setSource(s);
+    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
+    	iConcat(e, ds, gu, theta);
+    	setSource(s);
     	trimUnifiers();
     }
+    
+    // Used for cloning (i.e. when we want to keep the same ID)
+    private Intention(int ID, AILPrettyPrinter pretty) {
+    	id = ID;
+    	source = new SourceAnnotation(new Predicate("empty"));
+    	pretty_printer = pretty;
+    }
+    
+    //private Intention(int ID, ArrayList<Event> es, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, SourceAnnotation s, AILPrettyPrinter pretty) {
+    //	this(ID, pretty);
+    //	iConcat(e, ds, gu, theta);
+    //	setSource(s);
+   // 	trimUnifiers();
+   // }
     
     /**
      * Constructor
@@ -109,8 +137,8 @@ public class Intention implements Comparable<Intention>{
      * @param gu
      * @param theta
      */
-    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta) {
-    	this(e, ds, gu, theta, AILAgent.refertoself());
+    public Intention(Event e, ArrayList<Deed> ds, ArrayList<Guard> gu, Unifier theta, AILPrettyPrinter pretty) {
+    	this(e, ds, gu, theta, AILAgent.refertoself(), pretty);
      }
 
     /**
@@ -122,8 +150,8 @@ public class Intention implements Comparable<Intention>{
      * @param u the unifier.
      * @param s the source for the intention.
      */
-    public Intention(Event e, Unifier u, SourceAnnotation s) {
-    	this(e, s);
+    public Intention(Event e, Unifier u, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(e, s, pretty);
     	compose(u);
     	trimUnifiers();
     }
@@ -137,8 +165,8 @@ public class Intention implements Comparable<Intention>{
      * @param gl  The goal.
      * @param s  The source.
      */
-    public Intention(Goal gl, SourceAnnotation s) {
-    	this();
+    public Intention(Goal gl, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
  
     	ArrayList<Guard> gs = new ArrayList<Guard>();
 		GBelief gtrue = new GBelief();
@@ -157,8 +185,7 @@ public class Intention implements Comparable<Intention>{
    	 	IntentionRow ir = new IntentionRow(new Event(Event.Estart), gs, ds, us);
    	 	intentionRows.add(ir);
     	
-    	this.setSource(s);
-    	
+    	setSource(s);
     }
     
     /**
@@ -170,8 +197,8 @@ public class Intention implements Comparable<Intention>{
      * @param e  The event.
      * @param s  The source
      */
-    public Intention(Event e, SourceAnnotation s) {
-    	this();
+    public Intention(Event e, SourceAnnotation s, AILPrettyPrinter pretty) {
+    	this(pretty);
     	
     	ArrayList<Guard> gs = new ArrayList<Guard>();
 		GBelief gtrue = new GBelief();
@@ -190,7 +217,14 @@ public class Intention implements Comparable<Intention>{
    	 	IntentionRow ir = new IntentionRow(e, gs, ds, us);
    	 	intentionRows.add(ir);
     	
-    	this.setSource(s);
+    	setSource(s);
+    }
+    
+    /**
+     * Get the ID of the intention; right now this is a count of the how-manieth intention this is.
+     */
+    public int getID() {
+    	return id;
     }
     
     /**
@@ -421,22 +455,11 @@ public class Intention implements Comparable<Intention>{
      */
     @Override
     public String toString() {
-         String s = "";
-         if (suspended) {
-        	 s += "SUSPENDED\n";
-         }
-         s += source.toString() + ":: ";
-         if (annotation != null) {
-        	 s += annotation.toString();
-         }
-         s+="\n";
-
-         String s1 = "";
-         for (IntentionRow ir : intentionRows) {
-        	s1 = "   *  " + ir.toString() + s1;
-        }
-         s+= s1;
-         return s.toString();
+    	return pretty_printer.prettyIntention(this);
+    }
+    
+    public void addPretty(AILPrettyPrinter pretty) {
+    	pretty_printer = pretty;
     }
 
     // The operations on intentions defined in the AIL technical reports //
@@ -461,6 +484,36 @@ public class Intention implements Comparable<Intention>{
     	return ds;
     }
     
+    public ArrayList<Guard> guards() {
+    	ArrayList<Guard> gs = new ArrayList<Guard>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		ArrayList<Guard> gsp = i.next().guards();
+    		ListIterator<Guard> gi = gsp.listIterator();
+    		while (gi.hasNext()) {
+   		   			gs.add(gi.next());
+    		} 
+    	}
+    	
+    	return gs;
+    }
+    
+    public ArrayList<Unifier> unifiers() {
+    	ArrayList<Unifier> us = new ArrayList<Unifier>();
+    	
+    	ListIterator<IntentionRow> i = intentionRows.listIterator();
+    	while (i.hasNext()) {
+    		ArrayList<Unifier> usp = i.next().unifiers();
+    		ListIterator<Unifier> ui = usp.listIterator();
+    		while (ui.hasNext()) {
+   		   			us.add(ui.next());
+    		} 
+    	}
+    	
+    	return us;
+    }
+    
     /**
      * The event stack of the intention.
      * 
@@ -475,6 +528,22 @@ public class Intention implements Comparable<Intention>{
     	}
     	
     	return es;
+    }
+    
+    public Event getEventforDeed(int i) {
+    	int j = 0;
+    	ListIterator<IntentionRow> intn = intentionRows.listIterator();
+    	while (intn.hasNext()) {
+    		IntentionRow intentionR = intn.next();
+    		ArrayList<Deed> ds = intentionR.deeds();
+    		for (Deed d: ds) {
+    			if (j == i) {
+    				return intentionR.getEvent();
+    			}
+    			j++;
+    		}
+    	}
+    	return null;
     }
     
     /**
@@ -536,8 +605,14 @@ public class Intention implements Comparable<Intention>{
     	}
     	
     	return es;
-   	
     }
+   
+   /**
+    * The rows of the intention;
+    */
+   public ArrayList<IntentionRow> getRows() {
+	   return intentionRows;
+   }
 
     
     /**
@@ -561,7 +636,6 @@ public class Intention implements Comparable<Intention>{
     	}
     	
     	throw new IndexOutOfBoundsException("No Such Deed");
-    	
     }
     
     /**
@@ -619,14 +693,6 @@ public class Intention implements Comparable<Intention>{
 	 *              for the intention row.
 	 */
 	public   void iConcat(Event e, ArrayList<Deed> ds, ArrayList<Guard> gs, Unifier theta) {
-		List<String> varnames = getVarNames();
-		varnames.addAll(e.getVarNames());
-		for (Deed d: ds) {
-			varnames.addAll(d.getVarNames());
-		}
-		for (Guard g: gs) {
-			varnames.addAll(g.getVarNames());
-		}
 		IntentionRow ir = new IntentionRow(e, gs, ds, theta);
 		trimUnifiers();
 		
@@ -660,7 +726,6 @@ public class Intention implements Comparable<Intention>{
 				
 		intentionRows.trimToSize();
 		trimUnifiers();
-		
 	}
 	
 	/**
@@ -728,7 +793,9 @@ public class Intention implements Comparable<Intention>{
 			gcloned.apply(hdU());
 			dropP(1);
 			if (empty() || !hdE().referstoGoal() || (Goal) hdE().getContent() != g) {
-				ag.removeGoal(gcloned);
+				if (ag.removeGoal(gcloned) && ag.shouldTrace()) {
+					ag.trace(new ModificationEvent(getID(), ModificationEvent.GOALS, null, null, gcloned));
+				}
 			}
 		} else {
 			dropP(1);
@@ -780,7 +847,7 @@ public class Intention implements Comparable<Intention>{
 	 * 
 	 * @param theta the new unifier.
 	 */
-	public   void compose (Unifier theta) {
+	public void compose (Unifier theta) {
 		if (! empty()) {
 			Event e = hdE();
 			Deed d = hdD();
@@ -796,12 +863,11 @@ public class Intention implements Comparable<Intention>{
 	}
 	
 	/**
-	 * Get a list of all the variable names mentioned in the intention.  Useful when standardising
-	 * apart.
+	 * Get a set of all the variable names mentioned in the intention.
 	 * @return
 	 */
-	public List<String> getVarNames() {
-     	ArrayList<String> varnames = new ArrayList<String>();
+	private Set<String> getVarNames() {
+     	Set<String> varnames = new HashSet<String>();
      	for (IntentionRow ir: intentionRows) {
      		varnames.addAll(ir.getVarNames());
      	}
@@ -910,7 +976,10 @@ public class Intention implements Comparable<Intention>{
 	@Override
 	public int hashCode() {
 		final int PRIME = 7;
-		int result = PRIME * getSource().hashCode() + getAnnotation().hashCode();
+		int result = PRIME * getSource().hashCode();
+		if (getAnnotation() != null) {
+			result = PRIME * result + getAnnotation().hashCode();
+		}
 		
 		for (IntentionRow ir: intentionRows) {
 			result = PRIME * result + ir.hashCode();
@@ -922,7 +991,7 @@ public class Intention implements Comparable<Intention>{
 	 * Remove unused variable names from unifiers.
 	 */
 	public void trimUnifiers() {
-		ArrayList<String> varnames = new ArrayList<String>();
+		Set<String> varnames = new HashSet<String>();
 		for (int i = 0; i < size(); i++) {
 			IntentionRow ir = intentionRows.get(i);
 			varnames.addAll(ir.getVarNames());
@@ -930,4 +999,16 @@ public class Intention implements Comparable<Intention>{
 		}
 	}
 
+	public Intention clone() {
+		if (intentionRows.isEmpty()) {
+			Intention i = new Intention(id, pretty_printer);
+			return i;
+		} else {
+			Intention i = new Intention(id, pretty_printer);
+			for (IntentionRow ir : getRows()) {
+				i.push(ir.clone());
+			}
+			return i;
+		}
+	}
 }

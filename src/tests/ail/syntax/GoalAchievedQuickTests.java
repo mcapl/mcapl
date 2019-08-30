@@ -46,7 +46,7 @@ public class GoalAchievedQuickTests {
 		
 		Goal emptyg = new Goal("empty");
 		
-		Intention i = new Intention(emptyg, AILAgent.refertoself());
+		Intention i = new Intention(emptyg, AILAgent.refertoself(), ag.getPrettyPrinter());
 		ag.setIntention(i);
 
 		HandleAddAchieveTestGoal addgoal = new HandleAddAchieveTestGoal();

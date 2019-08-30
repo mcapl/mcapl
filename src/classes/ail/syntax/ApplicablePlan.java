@@ -27,6 +27,7 @@ package ail.syntax;
 import ail.syntax.Event;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
+import ail.util.AILPrettyPrinter;
 
 import java.util.ListIterator;
 import java.util.ArrayList;
@@ -74,6 +75,8 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	@FilterField
 	protected String libname;
 	
+	protected AILPrettyPrinter pretty_printer;
+	
 	/**
 	 * Constructor for the special case where a plan is to make no change to the intention.
 	 */
@@ -88,9 +91,9 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @param g the stack of guards that replace the guards in the top rows of the intention.
 	 * @param nu the number of rows to be dropped.
 	 * @param th the unifier.
-	 * @paran id an id number.
+	 * @param id an id number.
 	 */
-	public ApplicablePlan(Event e, ArrayList<Deed> p, ArrayList<Guard> g, int nu, Unifier th, int id, String libid) {
+	public ApplicablePlan(Event e, ArrayList<Deed> p, ArrayList<Guard> g, int nu, Unifier th, int id, String libid, AILPrettyPrinter pretty) {
 		event = e;
 		prefix = p;
 		guards = g;
@@ -98,6 +101,7 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 		keynum = id;
 		libname = libid;
 		theta = th;
+		pretty_printer = pretty;
 	}
 		
 	/**
@@ -263,25 +267,8 @@ public class ApplicablePlan implements Comparable<ApplicablePlan> {
 	 * @return the plan as a string.
 	 */
 	public String toString() {
-		//if (nochange) {
-		//	return new String("NO CHANGE");
-		//} else {
-			String triggers = event.toString();
-			StringBuilder s = new StringBuilder();
-		
-			ListIterator<Guard> gi = guards.listIterator();
-			ListIterator<Deed> di = prefix.listIterator();
-			String us = theta.toString();
-		
-			while (gi.hasNext()) {
-				Guard gu = gi.next();
-				Deed d = di.next();
+		return pretty_printer.prettyAppPlan(this);
 
-				s.append(keynum).append(" :: ").append(triggers).append("||").append(gu.toString()).append("||").append(d.toString()).append("||").append(us).append("\n");
-			}
-		
-			return s.toString();
-		//}
 	}
 
 	/**

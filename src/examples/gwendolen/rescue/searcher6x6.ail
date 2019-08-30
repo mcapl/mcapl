@@ -27,6 +27,7 @@ env = gwendolen.rescue.RobotEnv
 mas.file = /src/examples/gwendolen/rescue/searcher6x6.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
-log.info = gwendolen.rescue.RobotEnv, ail.semantics.AILAgent
+// log.info = gwendolen.rescue.RobotEnv, ail.semantics.AILAgent
+tracing.enabled = true
 
 withsearcher=true

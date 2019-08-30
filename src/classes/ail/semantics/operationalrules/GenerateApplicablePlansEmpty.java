@@ -31,6 +31,7 @@ import ail.semantics.OSRule;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.GeneratePlansEvent;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 
@@ -73,14 +74,17 @@ public class GenerateApplicablePlansEmpty implements OSRule {
 		ArrayList<ApplicablePlan> Plp = new ArrayList<ApplicablePlan>();
 		
 		if ((! I.empty()) && I.noplan()) {
-			Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 1, new Unifier(), 0, AILAgent.AILdefaultPLname));
+			Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 1, new Unifier(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 		} else {
 			if (!I.empty()) {
-				Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 0, new Unifier(), 0, AILAgent.AILdefaultPLname));
+				Plp.add(new ApplicablePlan(I.hdE(), new ArrayList<Deed>(), new ArrayList<Guard>(), 0, new Unifier(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 			} 
 		}
 		
 		a.setApplicablePlans(Plp.iterator());
+		if (a.shouldTrace()) {
+			a.trace(new GeneratePlansEvent(Plp, GeneratePlansEvent.NO_APPLICABLE_PLANS, a.getIntention().getID()));
+		}
 	}
 		
 }

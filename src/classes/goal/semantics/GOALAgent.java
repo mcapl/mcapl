@@ -167,7 +167,9 @@ public class GOALAgent extends AILAgent {
 	@Override
 	public void setAgName(String name) {
 		super.setAgName(name);
-		ms.setAgName(name);
+		if (ms != null) {
+			ms.setAgName(name);
+		}
 	}
 
 	/**
@@ -218,26 +220,28 @@ public class GOALAgent extends AILAgent {
     /**
      * Adds a belief to the belief base indexed by n.
      */
-    public void addBel(Literal bel, AILAnnotation s, StringTerm n) {
+    public boolean addBel(Literal bel, AILAnnotation s, StringTerm n) {
  		bel.addAnnot(s);   
 		if (! bbmap.containsKey(n.getString()) && n.getString() != "") {
 			BeliefBase bbnew = new BeliefBase();
 			addBeliefBase(bbnew, n.getString());
 		}
+		boolean success = false;
 		if (bel.negated()) {
 			Literal belpos = (Literal) bel.clone();
 			belpos.setNegated(true);
-			getBB(n.getString()).remove(belpos);
+			success = getBB(n.getString()).remove(belpos);
 		//   	getPL().delBel(bel, n);
 	    //	getPL("2").delBel(bel, n);
 		} else {
-			getBB(n.getString()).add(bel);
+			success = getBB(n.getString()).add(bel);
 		 //  	getPL().addBel(bel, n);
 	    //	getPL("2").addBel(bel, n);
 		}
 		// actionPerformed();
     	ms.updateGoalState();
 //		removeachievedgoals();
+    	return success;
     }	  
 
     /**
@@ -270,10 +274,10 @@ public class GOALAgent extends AILAgent {
     }
     
     @Override
-    public void addGoal(Goal g) {
+    public boolean addGoal(Goal g) {
     	ConjGoal gl = new ConjGoal();
     	gl.addConj(g.getLogicalContent());
-    	ms.adopt(gl);
+    	return ms.adopt(gl);
     }
  
     /**
@@ -633,8 +637,8 @@ public class GOALAgent extends AILAgent {
     } */
 
     
-    public void delBel(Literal bel) {
-       	super.delBel(bel);
+    public boolean delBel(Literal bel) {
+       	return super.delBel(bel);
        	// actionPerformed();
     //	getPL().delBel(bel);
     //	getPL("2").delBel(bel);
@@ -790,7 +794,7 @@ public class GOALAgent extends AILAgent {
 
 	public void setFocusGoal(Goal goal) {
 		if (goal != null) {
-			setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself()));
+			setIntention(new Intention(new Event(goal), new Unifier(), AILAgent.refertoself(), getPrettyPrinter()));
 		}
 	}
 

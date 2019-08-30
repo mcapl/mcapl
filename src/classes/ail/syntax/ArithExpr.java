@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -412,6 +413,11 @@ public class ArithExpr extends DefaultTerm implements NumberTerm {
      */
     @Override
     public String fullstring() {
+    	return toString();
+    }
+    
+    @Override
+    public String toString(PredicateDescriptions descriptions ) {
     	return toString();
     }
     

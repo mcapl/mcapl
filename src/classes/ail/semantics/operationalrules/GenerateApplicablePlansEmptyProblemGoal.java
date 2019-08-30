@@ -27,6 +27,7 @@ package ail.semantics.operationalrules;
 import ail.semantics.AILAgent;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.Intention;
+import ail.tracing.events.GeneratePlansEvent;
 import ail.syntax.Event;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
@@ -72,10 +73,13 @@ public class GenerateApplicablePlansEmptyProblemGoal extends GenerateApplicableP
 
 			ds.add(new Deed(Deed.Dnpy));
 			gs.add(new Guard(new GBelief()));
-			Plp.add(new ApplicablePlan(e, ds, gs, 0, I.hdU(), 0, AILAgent.AILdefaultPLname));
+			Plp.add(new ApplicablePlan(e, ds, gs, 0, I.hdU(), 0, AILAgent.AILdefaultPLname, a.getPrettyPrinter()));
 			a.setApplicablePlans(Plp.iterator());
 
 			AJPFLogger.warning(logname, "Warning no applicable plan for goal " + I.hdE().getContent() );
+			if (a.shouldTrace()) {
+				a.trace(new GeneratePlansEvent(Plp, GeneratePlansEvent.NO_APPLICABLE_PLANS_FOR_GOAL, a.getIntention().getID()));
+			}
 		} else {
 			super.apply(a);
 		}

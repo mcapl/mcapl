@@ -25,16 +25,14 @@
 
 package eass;
 
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
 import ail.syntax.ast.Abstract_MAS;
-
 import eass.parser.EASSLexer;
 import eass.parser.EASSParser;
+import mcaplantlr.runtime.ANTLRFileStream;
+import mcaplantlr.runtime.ANTLRStringStream;
+import mcaplantlr.runtime.CommonTokenStream;
 
 /**
  * Utility class.  Builds an EASS MAS by parsing a string or a file.
@@ -49,9 +47,9 @@ public class EASSMASBuilder implements MASBuilder {
 	public EASSMASBuilder() {
 	}
 	
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(tracedir);
 		return mas;
 	}
 
@@ -61,7 +59,7 @@ public class EASSMASBuilder implements MASBuilder {
 		} else {
 			parse(masstring);
 		}
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(null);
 	}
 	
 	public void parsefile(String masstring) {

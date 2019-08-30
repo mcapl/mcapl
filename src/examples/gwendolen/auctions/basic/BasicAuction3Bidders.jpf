@@ -25,39 +25,11 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/auctions/basic/BasicAuction3Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,0
+target.args = ${mcapl}/src/examples/gwendolen/auctions/basic/BasicAuction3Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,1
 
-log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
-
-#
-#====================================================== results
-#no errors detected
-#
-#====================================================== statistics
-#elapsed time:       00:00:40
-#states:             new=238, visited=272, backtracked=509, end=0
-#search:             maxDepth=17, constraints hit=0
-#choice generators:  thread=239 (signal=78, lock=160, shared ref=0), data=0
-#heap:               new=2480576, released=2363819, max live=28809, gc-cycles=483
-#instructions:       97316393
-#max memory:         81MB
-#loaded code:        classes=309, methods=4076
-
-# Previous System!
-#====================================================== results
-#no errors detected
-#
-#====================================================== statistics
-##elapsed time:       0:00:17
-#states:             new=62, visited=32, backtracked=93, end=0
-#search:             maxDepth=7, constraints=0
-#choice generators:  thread=63, data=0
-#heap:               gc=563, new=285711, free=276841
-#instructions:       23606578
-#max memory:         81MB
-#loaded code:        classes=290, methods=4135
 

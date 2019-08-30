@@ -1,0 +1,136 @@
+// ---------------------------------------------------------------------------------------------------------
+// Executive agent for the ORCA rotorcraft scenario. Version sent to Vincent Koeman (for explainable AI).
+// This version can choose the safest or quickest route.
+// Matt Webster, University of Liverpool, matt@liverpool.ac.uk
+//----------------------------------------------------------------------------------------------------------
+
+GWENDOLEN
+:name: executive 
+
+:Initial Beliefs: 
+
+// Uncomment one of the following lines to set the priority to "safety" or "time"
+prioritise(safety) // choose the safest route from the route planner	
+//prioritise(time) // choose the quickest route from the route planner	
+
+:Initial Goals: 
+
+// when the agent starts executing, it just wants to complete its mission
+// it should have no beliefs as it knows nothing at first (no assumptions).
+// anything it then comes to believe is based on communication with sensor systems, 
+// or systems with sensors.			
+completeMission [achieve] 
+
+
+:Plans: 
+
+// if I receive a tell message, then add it to my belief base
++.received(:tell, M) : {~B M} <- +M;
+			
+// request the flight status from the flight control system			
++!completeMission [achieve] : {~B flightPhase(P)} <- send(fcs,requestStatus); 		
+			
+// If we want to complete the mission, and we don't believe we have an asset target,
+// then send a message to the task agent requesting a target			
+-!completeMission [achieve] : {B flightPhase(P), ~B target(T)} <- send(taskAgent,targetRequest), doNothing;
+
+// if we have a target, but no route, then request one from the planner with the current prioritisation mode  
+-!completeMission [achieve] : {B flightPhase(landed), ~B route(R), B target(T), B prioritise(U), ~B requestedRoute(T,U),
+								~B routing(A1,B1,C1)} 
+	<- +.lock, +requestedRoute(T,U), send(routePlanner, requestRoute, T, U), -.lock;
+
+// if we have 3 routes and we're prioritising safety, then choose the least risky one			
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C1<C2, C1<C3 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C2<C1, C2<C3 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C3<C1, C3<C2 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C1==C2, C1<C3 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C1==C2, C3<C1 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C2==C3, C1<C2 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C2==C3, C2<C1 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C1==C3, C1<C2 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C1==C3, C2<C1 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(safety), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), C3==C2, C3==C1 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 								
+
+
+// if we have 3 routes and we're prioritising time, then choose the quickest one
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B1<B2, B1<B3 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B2<B1, B2<B3 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B3<B1, B3<B2 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B1==B2, B1<B3 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 								
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B1==B2, B3<B1 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B2==B3, B1<B2 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B2==B3, B2<B1 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B1==B3, B1<B2 } 
+								<- send(routePlanner, enactRoute, route1, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B1==B3, B2<B1 } 
+								<- send(routePlanner, enactRoute, route2, T, U), -requestedRoute(T,U); 	
+
++routesSent(3) : { B prioritise(time), B requestedRoute(T,U), B route1(A1,B1,C1), B route2(A2,B2,C2), 
+								B route3(A3,B3,C3), B3==B2, B3==B1 } 
+								<- send(routePlanner, enactRoute, route3, T, U), -requestedRoute(T,U); 								
+
+
+
+
+
+// tidy up the beliefs once we're routing to the target
++routing(R,T,U) : {B route1(B1,C1,D1), B route2(B2,C2,D2), B route3(B3,C3,D3), B routesSent(X)} 
+					<- -route1(B1,C1,D1), -route2(B2,C2,D2), -route3(B3,C3,D3), -routesSent(X);		
+								
+// if we're having a problem with "complete mission", and we are routing and landed, then take off
+// be careful with this.. it might cause an issue when we actually complete the mission								
+-!completeMission [achieve]: {B routing(R,T,U), B flightPhase(landed)}
+					<- +.lock, send(fcs,takeOff), -flightPhase(L), +flightPhase(flying), -!completeMission [achieve], -.lock;

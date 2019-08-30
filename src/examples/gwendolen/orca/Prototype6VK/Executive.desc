@@ -1,0 +1,18 @@
+completeMission : "Complete the mission"
+prioritise(X) : "The UAV is prioritising %X"
+flightPhase(P) : "The UAV is in flight phase %P"
+target(T) : "The UAV is targeting %T"
+requestedRoute(T,U) : "The UAV requested a route towards %T prioritising %U"
+route(R) : "The UAV received %R from the the Flight Control System"
+routing(R,T,U) : "The UAV is following %R towards target %T whilst prioritising %U"
+routesSent(N) : "The UAV has %N possible routes"
+
+send(fcs,requestStatus) : "Request the flight status from the Flight Control System"
+send(taskAgent,targetRequest) : "Request a target from the Task Agent"
+send(routePlanner,requestRoute,T,U) : "Request a route from the Route Planner with target %T and prioritising %U"
+send(routePlanner,enactRoute,R,T,U) : "Request the Route Planner to enact %R with target %T and prioritisation %U"
+send(fcs,takeOff) : "Request a take-off from the Flight Control System"
+
+message(A,B,fcs,C,D,M) : "The Flight Control System replied with %M"
+message(A,B,taskAgent,C,D,M) : "The Task Agent replied with %M" 
+message(A,B,routePlanner,C,D,M) : "The Route Planner replied with %M"

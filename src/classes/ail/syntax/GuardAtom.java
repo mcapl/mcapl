@@ -46,6 +46,12 @@ public interface GuardAtom<K extends Unifiable> extends GLogicalFormula, EBCompa
 	 * @return
 	 */
 	public PredicateIndicator getPredicateIndicator();
+	
+	/**
+	 * A predicate indicator stripped of syntactic stuff that indicates additions/deletions/goals etc.
+	 * @return
+	 */
+	public PredicateIndicator getPurePredicateIndicator();
 		
 	/**
 	 * Is this trivial?  I.e. simply equivalent to true.

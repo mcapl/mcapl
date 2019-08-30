@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
 // Copyright (C) 2012 Louise A. Dennis, and  Michael Fisher 
 //
-// This file is part of the Agent Infrastructure Layer (AIL)
+// This file is part of Gwendolen
 // 
-// The AIL is free software; you can redistribute it and/or
+// Gwendolen is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
@@ -32,7 +32,6 @@ import mcaplantlr.runtime.ANTLRFileStream;
 import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
-import ail.mas.MAS;
 
 public class GwendolenAgentBuilder implements AgentBuilder {
 	GwendolenAgent agent;

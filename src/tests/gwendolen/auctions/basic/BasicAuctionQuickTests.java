@@ -56,7 +56,7 @@ public class BasicAuctionQuickTests extends TestJPF {
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "0";
+    	args[2] = "1";
     	AJPF_w_AIL.run(args);
  	 }
   }

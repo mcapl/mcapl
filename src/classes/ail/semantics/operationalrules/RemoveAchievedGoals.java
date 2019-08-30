@@ -28,8 +28,9 @@ import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-import ail.syntax.Unifier;
 import ail.syntax.Goal;
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 
 
 /**
@@ -62,11 +63,12 @@ public class RemoveAchievedGoals implements OSRule {
 	 */
 	public void apply(AILAgent a) {
 		Iterator<Goal> goals = a.getGoals();
-		
 		while(goals.hasNext()) {
 			Goal g = goals.next();
 			if (g.getGoalType() == Goal.achieveGoal && a.believesyn(g.achievedBelief(), new Unifier())) {
-				a.removeGoal(g);
+				if (a.removeGoal(g) && a.shouldTrace()) {
+					a.trace(new ModificationEvent(ModificationEvent.GOALS, null, null, g));
+				}
 			}
 		}
 		

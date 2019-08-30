@@ -24,15 +24,18 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-import ail.syntax.Message;
-import ail.syntax.Intention;
 import ail.syntax.Event;
+import ail.syntax.Intention;
+import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.annotation.SourceAnnotation;
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModificationEvent;
 
 /**
  * A Rule that converts the agent's inbox into intentions.
@@ -69,10 +72,21 @@ public class HandleMessages implements OSRule {
 		for (Message m: msgs) {
 			Predicate sender = new Predicate("source");
 			sender.addTerm(new Predicate(m.getSender()));
-			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender));
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILReceived, m), new SourceAnnotation(sender), a.getPrettyPrinter());
 			is.add(i);
+			if (a.shouldTrace()) {
+				a.trace(new CreateIntentionEvent(i));
+			}
 		}
 		
+		List<Message> inbox = a.getInbox();
+		if (!inbox.isEmpty() && a.shouldTrace()) {
+			List<Predicate> predicates = new ArrayList<>(inbox.size());
+			for (Message msg : inbox) {
+				predicates.add(msg.toTerm());
+			}
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, null, predicates));
+		}
 		a.clearInbox();
 	}
 

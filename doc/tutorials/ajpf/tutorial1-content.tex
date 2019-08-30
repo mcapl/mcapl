@@ -26,31 +26,48 @@ We strongly recommend that you also set up an environment variable, \texttt{\$AJ
 
 To run \ajpf\ you need to run the program \texttt{gov.jpf.tool.RunJPF}\index{RunJPF (class)}\index{model checking} which is contained in \texttt{lib/3rdparty/RunJPF.jar} in the \mcapl\ distribution.  Alternatively you can use the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse\index{Eclipse}.
 
-You need to supply a JPF Configuration\index{configuration!JPF}\index{JPF!configuration} file as an argument.  You will find a sample file in \texttt{src/examples/gwendolen/ajpf\_tutorials/lifterandmedic.jpf}\index{example!lifterandmedic}.  If you run this you should see output like the following:
+You need to supply a JPF Configuration\index{configuration!JPF}\index{JPF!configuration} file as an argument.  You will find a sample file in \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial1/lifterandmedic.jpf}\index{example!lifterandmedic}.  If you run this you should see output like the following:
 
 \begin{verbatim}
-JavaPathfinder v7.0 (rev ${version}) - (C) RIACS/NASA Ames Research Center
+loading property file: /Users/louisedennis/.jpf/site.properties
+loading property file: /Users/louisedennis/eclipse-workspace/mcapl/jpf.properties
+loading property file: /Users/louisedennis/eclipse-workspace/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.jpf
+collected native_classpath=/Users/louisedennis/eclipse-workspace/mcapl/bin,/Users/louisedennis/eclipse-workspace/mcapl/lib/3rdparty/jpf.jar,/Users/louisedennis/eclipse-workspace/mcapl/lib/3rdparty/jpf-annotations.jar,/Users/louisedennis/eclipse-workspace/mcapl/lib/3rdparty/junit-4.10.jar,/Users/louisedennis/eclipse-workspace/mcapl/lib/3rdparty/antlr-4.7-complete.jar
+collected native_libraries=null
+JPF build information:
+	os.arch = x86_64
+	date.tip = 2012-01-13 13:30 -0800
+	java.version = 1.6.0_26
+	user.country = US
+	author = Peter Mehlitz <Peter.C.Mehlitz@nasa.gov>
+	os.version = 10.5.8
+	os.name = Mac OS X
+	upstream = http://babelfish.arc.nasa.gov/hg/jpf/jpf-core
+	repository = file://flyer/Users/pmehlitz/projects/eclipse/jpf-core
+	revision = 647:b8b86ac8f503
+JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
-ail.util.AJPF_w_AIL.main("/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail","/Users/louiseadennis/Eclipse/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl","1")
+ail.util.AJPF_w_AIL.main("/Users/louisedennis/eclipse-workspace/mcapl/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail","/Users/louisedennis/eclipse-workspace/mcapl/src/examples/gwendolen/ajpf_tutorials/tutorial1/lifterandmedic.psl","1")
 
-====================================================== search started: 02/02/15 08:16
-
+====================================================== search started: 15/03/19 11:39
+MCAPL Framework 2019
+ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7
 ====================================================== results
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:12
-states:             new=96, visited=116, backtracked=212, end=3
-search:             maxDepth=16, constraints hit=0
-choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=95
-heap:               new=761483, released=752805, max live=4582, gc-cycles=212
-instructions:       122799365
-max memory:         495MB
-loaded code:        classes=316, methods=4705
+elapsed time:       00:00:23
+states:             new=2055,visited=210,backtracked=2265,end=3
+search:             maxDepth=111,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=2054
+heap:               new=1389501,released=1381487,maxLive=4968,gcCycles=2265
+instructions:       157093037
+max memory:         1835MB
+loaded code:        classes=339,methods=5328
 
-====================================================== search finished: 02/02/15 08:16
+====================================================== search finished: 15/03/19 11:40
 \end{verbatim}
 
 Note this will take several seconds to generate.  We will discuss in future tutorials how to get more detailed output from the model checker.
@@ -78,7 +95,7 @@ We explain each line of this below.
 \begin{sloppypar}
 \begin{description}
 \item[@using = mcapl] Means that the proof is using the home directory for \texttt{mcapl} that you set up in \texttt{.jpf/site.properties}\index{site.properties}.
-\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  If you are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL (class)}\index{AIL!class}
+\item[target = ail.util.AJPF\_w\_AIL] This is the Java file containing the main method for the program to be model checked.  By default when model checking a program implemented using the \ail, you should use \texttt{ail.util.AJPF\_w\_AIL} as the target.  If you are familiar with running programs in the \ail, this class is very similar to \texttt{ail.mas.AIL} but with a few tweaks to set up and optimise model checking.\index{AJPF\_w\_AIL (class)}\index{AIL (class)}
 \item[target.args =...] This sets up the arguments to be passed to \texttt{ail.util.AJPF\_w\_AIL}.  \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)} takes three arguments.  In the configuration file these all have to appear on one line, separated by commas (but \emph{no spaces}).  This means you can not see them all in the file print out above.  In order the arguments are:
 \begin{enumerate}
 \item The first is an \ail\ configuration  file.  In this example the file is \texttt{\$\{mcapl\}/src/examples/gwendolen/ail\_tutorials/tutorial1/answers/ex2.ail} which is a configuration file for a multi-agent system written in the \gwendolen\ language.

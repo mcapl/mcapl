@@ -24,17 +24,31 @@
 
 GWENDOLEN
 
-:name: ag1
+:name: auctioneer
 
 :Initial Beliefs:
-
 
 :Initial Goals:
 
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+bid(Z, A) : {B bid(X1, ag2), B bid(X2, ag3), B bid(X3, ag4), B bid(200, Ag), ~ .sent(Ag, ag1, :tell, win)} <- .send(Ag, :tell, win);
++bid(Z, A) : {B bid(X1, ag1), B bid(X2, ag2), B bid(X3, ag3), B bid(200, Ag), ~ .sent(Ag, auctioneer, :tell, win)} <- .send(Ag, :tell, win);
+
+:name: ag1
+
+:Initial Beliefs:
+
+my_name(ag1)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(100, Name))} <- .send(auctioneer, :tell, bid(100, Name));
 
 :name: ag2
 
@@ -49,7 +63,7 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(100, Name))} <- .send(ag1, :tell, bid(100, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(200, Name))} <- .send(auctioneer, :tell, bid(200, Name));
 
 :name: ag3
 
@@ -64,19 +78,4 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));
-
-:name: ag4
-
-:Initial Beliefs:
-
-my_name(ag4)
-
-:Initial Goals:
-
-bid [perform]
-
-:Plans:
-
-+.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(150, Name))} <- .send(auctioneer, :tell, bid(150, Name));

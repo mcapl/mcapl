@@ -33,7 +33,8 @@ public interface MASBuilder {
 	/**
 	 * Return a multi-agent system specified in a file.
 	 * @param filename
+	 * @param tracedir
 	 * @return
 	 */
-	public MAS getMAS(String filename);
+	public MAS getMAS(String filename, String tracedir);
 }
