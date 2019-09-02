@@ -153,11 +153,16 @@ public class Abstract_GBelief extends Abstract_Literal implements Abstract_Guard
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 
-		if (!isTrivial()) {
-			s.append(super.toString()).append("(").append(getDBnum().toString()).append(")");
-		}  else {
+		if (isTrivial()) {
 			s.append("True");
+		} else {
+			s.append(super.toString());
+			String num = getDBnum().toString();
+			if (num.length() > 2) { // more than just quotes
+				s.append("(").append(num).append(")");
+			}
 		}
+		
 		return s.toString();
 	}
 	

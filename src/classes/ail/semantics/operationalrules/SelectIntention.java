@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
 import ail.syntax.Intention;
+import ail.tracing.events.SelectIntentionEvent;
 import ail.semantics.OSRule;
 
 import gov.nasa.jpf.annotation.FilterField;
@@ -89,6 +90,9 @@ public class SelectIntention implements OSRule {
 
 			a.setIntentions(Is);
 			a.setIntention(iprime);
+			if (a.shouldTrace()) {
+				a.trace(new SelectIntentionEvent(iprime));
+			}
 		} 
   		Is = new ArrayList<Intention>();
   		iprime = null;

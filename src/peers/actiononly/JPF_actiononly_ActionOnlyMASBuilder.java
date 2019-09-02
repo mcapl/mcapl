@@ -63,6 +63,7 @@ public class JPF_actiononly_ActionOnlyMASBuilder extends NativePeer {
 		
 	}
 
+	  @MJI
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
  		try {

@@ -23,15 +23,15 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
-import ail.semantics.AILAgent.SelectionOrder;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 
 /**
  * A Reference to a message that may appear in a Guard.  It extends Message purely to make type matching work with the 
@@ -176,6 +176,10 @@ public class GMessage implements GuardAtom<Message> {
 		return null;
 	}
 	
+    @Override
+    public PredicateIndicator getPurePredicateIndicator() {
+    	return null;
+    }
 	/**
 	 * Return the sender as a term.
 	 * @return
@@ -401,9 +405,19 @@ public class GMessage implements GuardAtom<Message> {
 			StringBuilder s = new StringBuilder();
 	        s.append("<").append(threadId).append(",").append(sender).append(",").append(performative);
 	        s.append(",").append(receiver).append(",").append(content).append(">");
-	        String s1 = s.toString();
-	        return s1;
+	        return s.toString();
 	    }
+	   
+	   @Override
+		public String toString(PredicateDescriptions descriptions) {
+			if (descriptions.isEmpty()) {
+				return toString();
+			} else {
+				StringBuilder s = new StringBuilder();
+				s.append("MESSAGE ").append(sender).append(": ").append(content.toString(descriptions));
+				return s.toString();
+			}
+	   }
 
 	/* @Override
 	public Iterator<Unifier> logicalConsequence(AgentMentalState ag,

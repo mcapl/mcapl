@@ -70,7 +70,7 @@
 % ------------------------------------
 
 
-\newcommand{\ajpfversion}{ajpf2018}
+\newcommand{\ajpfversion}{mcapl2019}
 
 % ------------------------------------
 % editing macros
@@ -213,7 +213,7 @@
 \newcommand{\AILplan}{\ensuremath{\mathit{p}}}
 \newcommand{\AILplanlibrary}{\ensuremath{\mathit{P}}}
 \newcommand{\AILappplans}{\ensuremath{\mathit{Pl}}}
-\newcommand{\AILplansyntax}[4]{\ensuremath{\mathit{#1:#2:#3:#4}}}
+\newcommand{\AILplansyntax}[3]{\ensuremath{\mathit{#1: \{#2\} \leftarrow #3}}}
 % intention:
 \newcommand{\AILintention}{\ensuremath{\mathit{i}}}
 \newcommand{\AILwait}{{\tt wait}}
@@ -332,6 +332,8 @@
 \newcommand{\AILisempty}{\ensuremath{{\tt empty}}}
 % environment
 \newcommand{\AILenv}{\ensuremath{\mathit{\xi}}}
+\newcommand{\AILTrue}{\ensuremath{\top}}
+\newcommand{\AILpercept}{{\tt percept}}
 
 % ------------------------------------
 % AgentSpeak macros
@@ -470,6 +472,15 @@
 \begin{tabular}{l|l|l|l} 
 \hline
 event & guard & deed & unifier \\ 
+\hline \hline} {
+\cr \hline 
+\end{tabular}
+}
+\newenvironment{stacksg}{
+\smaller
+\begin{tabular}{l|l|l} 
+\hline
+event & deed & unifier \\ 
 \hline \hline} {
 \cr \hline 
 \end{tabular}

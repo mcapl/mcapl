@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.util.VerifyMap;
 import ajpf.psl.MCAPLFormula;
 import ajpf.psl.MCAPLTerm;
@@ -185,7 +186,7 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
             Predicate tAsStruct = (Predicate)t;
 
             // if t is a VarTerm, uses var's equals
-            if (tAsStruct.isVar()) {
+            if (tAsStruct instanceof VarTerm) {
                 return ((VarTerm)t).equals(this);
             }
             
@@ -467,12 +468,9 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
             	try {
             		Term it = (Term) i.next();
             		if (!it.isGround()) {
-            			Term it2 = (Term) it.clone();
-            			String is = it2.toString();
-                		s.append(is);
-            		} else {
-            			s.append(it.toString());
+            			it = (Term) it.clone();
             		}
+            		s.append(it);
             	} catch (Exception e) {
             		s.append(terms);
             		break;
@@ -486,9 +484,40 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
     }
     
     public String fullstring() {
-    	String s = toString();
-    	return "Predicate-" + s;
+    	return "Predicate-" + toString();
     }
+    
+    public String toString(PredicateDescriptions descriptions) {
+		String full = descriptions.getDescription(this);
+		if (full == null) {
+			StringBuilder s = new StringBuilder();
+			if (functor != null) {
+				s.append(functor);
+			}
+			if (terms != null) {
+				s.append("(");
+				Iterator<Term> i = terms.iterator();
+				while (i.hasNext()) {
+					try {
+						Term it = (Term) i.next();
+						if (!it.isGround()) {
+							it = (Term) it.clone();
+						}
+						s.append(it.toString(descriptions));
+					} catch (Exception e) {
+						s.append(terms);
+						break;
+					}
+					if (i.hasNext())
+						s.append(",");
+				}
+				s.append(")");
+			}
+			return s.toString();
+		} else {
+			return full;
+		}
+   }
       
         
     /*
@@ -624,5 +653,14 @@ public class Predicate extends DefaultTerm implements PredicateTerm, MCAPLFormul
 	public boolean unifieswith(PredicateTerm obj, Unifier u, String ebname) {
 		return unifies(obj, u);
 	}       
-
+    
+    /*
+	 * (non-Javadoc)
+	 * @see ail.syntax.DefaultTerm#isVar()
+	 */
+    @Override
+	public boolean isVar() {
+    	return false;
+		//return Character.isUpperCase(getFunctor().charAt(0));
+	}
 }

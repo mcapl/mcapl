@@ -25,11 +25,13 @@
 package ail.semantics.operationalrules;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Action;
+import ail.syntax.Event;
 import ail.syntax.Intention;
 import ail.syntax.Message;
-import ail.syntax.Action;
 import ail.syntax.SendAction;
-import ail.syntax.Event;
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModificationEvent;
 
 /**
  * Handle a send action.  Calls immediately executeAction in the environment but also
@@ -69,9 +71,14 @@ public class HandleSendAction extends HandleActionwProblem {
 		Message varless_msg = (Message) msg.strip_varterm();
 		super.apply(a);
 		if (succeeded) {
-			Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself());
+			Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, varless_msg), thetahd, AILAgent.refertoself(), a.getPrettyPrinter());
 			a.getIntentions().add(i);
-			a.newSentMessage(varless_msg);
+			if (a.shouldTrace()) {
+				a.trace(new CreateIntentionEvent(i));
+			}
+			if (a.newSentMessage(varless_msg) && a.shouldTrace()) {
+				a.trace(new ModificationEvent(ModificationEvent.OUTBOX, null, msg.toTerm(), null));
+			}
 		}
 	}
 }

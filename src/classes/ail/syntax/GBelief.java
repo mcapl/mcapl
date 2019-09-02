@@ -25,13 +25,11 @@
 package ail.syntax;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
-import ail.syntax.annotation.BeliefBaseAnnotation;
-import ajpf.util.AJPFLogger;
+import ail.tracing.explanations.PredicateDescriptions;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -163,6 +161,11 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
         return piCache;
     }
 	
+	@Override
+	public PredicateIndicator getPurePredicateIndicator() {
+       	return getPredicateIndicator();		
+	}
+	
 	/**
 	 * Clone this GBelief - useful when propagating guards through intention structures.
 	 */
@@ -188,11 +191,20 @@ public class GBelief extends Literal implements GuardAtom<PredicateTerm> {
 		StringBuilder s = new StringBuilder();
 
 		if (!isTrue()) {
-			s.append(super.toString()).append("(").append(getEB().toString()).append(")");
+			s.append(super.toString());
+			String num = getEB().toString();
+			if (num.length() > 2) { // more than just quotes
+				s.append("(").append(num).append(")");
+			}
 		}  else {
 			s.append("True");
 		}
 		return s.toString();
+	}
+	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		return descriptions.isEmpty() ? toString() : ("BELIEVE " + super.toString(descriptions));
 	}
 
 	/**

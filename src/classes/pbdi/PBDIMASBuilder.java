@@ -46,7 +46,7 @@ public class PBDIMASBuilder implements MASBuilder {
 	public PBDIMASBuilder(String masstring, boolean filename) {
 		parsefile(masstring);
 		
-		mas = amas.toMCAPL();
+		mas = amas.toMCAPL(null);
 	}
 
 
@@ -72,10 +72,10 @@ public class PBDIMASBuilder implements MASBuilder {
 	}
 
 	@Override
-	public MAS getMAS(String filename) {
+	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 		
-		return amas.toMCAPL();
+		return amas.toMCAPL(tracedir);
 	}
 	
 

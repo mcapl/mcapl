@@ -27,6 +27,7 @@ package ail.semantics.operationalrules;
 import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
+import ail.tracing.events.ActionEvent;
 import ail.syntax.Action;
 import ail.syntax.Event;
 import ail.syntax.Goal;
@@ -80,18 +81,19 @@ public class HandleActionwProblem extends HandleTopDeed {
 
 		try {
 			Unifier thetaa = a.getEnv().actionResult(a.getAgName(), act);
-			
 			if (thetaa == null) {
 				thetahd.compose(thetab);
 				act.apply(thetahd);
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
+				if (a.shouldTrace()) {
+					a.trace(new ActionEvent(act, i_id));
+				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
 				i.tlI(a);
 				thetahd.compose(thetaa);
-			
 				i.compose(thetahd);
 			}
 		} catch (AILexception ex) {

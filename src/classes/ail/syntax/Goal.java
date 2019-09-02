@@ -26,6 +26,7 @@ package ail.syntax;
 
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
+import ail.tracing.explanations.PredicateDescriptions;
 
 import java.util.Iterator;
 import java.util.List;
@@ -187,14 +188,15 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder s1 = new StringBuilder("_");
-		s1.append(typeString());
-		s1.append(super.toString());
-		s1.append("(");
-		s1.append(getGoalBase().toString());
-		s1.append(")");
-		String s = s1.toString();
-		return (s);
+		StringBuilder s = new StringBuilder("_");
+		s.append(typeString()).append(super.toString());
+		
+		String name = getGoalBase().toString();
+		if (name.length() > 2) { // more than just quotes
+			s.append("(").append(name).append(")");
+		}
+		
+		return s.toString();
 	}
 	
 	/*
@@ -206,18 +208,44 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return toString();
 	}
 	
+	@Override
+	public String toString(PredicateDescriptions descriptions) {
+		if (descriptions.isEmpty()) {
+			return toString();
+		}
+		String pre;
+		switch (getGoalType()) {
+		case achieveGoal:
+			pre = "achieve";
+			break;
+		case performGoal:
+			pre = "perform";
+			break;
+		case testGoal:
+			pre = "test";
+			break;
+		default:
+		case maintainGoal:
+			pre = "maintain";
+			break;
+		}
+		return pre + " " + super.toString(descriptions);
+	}
+	
 	/**
 	 * Generate a string for the goal type.
 	 * @return a string representing the goal type.
 	 */
 	public String typeString() {
-		if (getGoalType() == achieveGoal) {
+		switch (getGoalType()) {
+		case achieveGoal:
 			return "a";
-		} else if (getGoalType() == performGoal) {
+		case performGoal:
 			return "p";
-		} else if (getGoalType() == testGoal) {
+		case testGoal:
 			return "t";
-		} else {
+		default:
+		case maintainGoal:
 			return "m";
 		}
 	}
@@ -452,6 +480,11 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
     
 	public Predicate getLogicalContent() {
 		return this;
+	}
+
+	@Override
+	public PredicateIndicator getPurePredicateIndicator() {
+		return getPredicateIndicator();
 	}
 
 

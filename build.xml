@@ -55,6 +55,7 @@
     	<include name="lib/3rdparty/jpl.jar"/>
     	<include name="lib/3rdparty/system-rules-1.16.0.jar"/>
     	<include name="lib/3rdparty/json-simple-1.1.1.jar"/>
+    	<include name="lib/3rdparty/mapdbWrapper.jar"/>
    </fileset>
 
 

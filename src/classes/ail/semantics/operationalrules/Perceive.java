@@ -24,26 +24,29 @@
 
 package ail.semantics.operationalrules;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Iterator;
+
+import com.google.common.collect.Sets;
 
 import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
+import ail.syntax.Deed;
+import ail.syntax.Event;
+import ail.syntax.GBelief;
+import ail.syntax.Guard;
 import ail.syntax.Intention;
+import ail.syntax.Literal;
+import ail.syntax.Message;
+import ail.syntax.Predicate;
 import ail.syntax.PredicatewAnnotation;
 import ail.syntax.Unifier;
-import ail.syntax.Message;
-import ail.syntax.Literal;
-import ail.syntax.Event;
-import ail.syntax.Deed;
-import ail.syntax.Guard;
-import ail.syntax.GBelief;
-import ail.syntax.Predicate;
-
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModificationEvent;
 import ajpf.util.AJPFLogger;
 
 
@@ -102,9 +105,12 @@ public class Perceive implements OSRule {
 				
 					ds.add(new Deed(Deed.AILDeletion, Deed.AILBel, l));
 					gs.add(new Guard(new GBelief()));
-					Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
+					Intention i = new Intention(new Event(Event.FromPercept), ds, gs, u, AILAgent.refertopercept(), a.getPrettyPrinter());
 					if (! is.contains(i)) {
 						is.add(i);
+						if (a.shouldTrace()) {
+							a.trace(new CreateIntentionEvent(i));
+						}
 					}
 					a.tellawake();
 					
@@ -124,17 +130,28 @@ public class Perceive implements OSRule {
 				}
 				ds.add(new Deed(Deed.AILAddition, Deed.AILBel, new Literal(Literal.LPos, new PredicatewAnnotation((Predicate) l))));
 				gs.add(new Guard(new GBelief()));
-				Intention i = new Intention(new Event(Event.Estart), ds, gs, u, AILAgent.refertopercept());
+				Intention i = new Intention(new Event(Event.FromPercept), ds, gs, u, AILAgent.refertopercept(), a.getPrettyPrinter());
 				if (! is.contains(i)) {
 					is.add(i);
+					if (a.shouldTrace()) {
+						a.trace(new CreateIntentionEvent(i));
+					}
 				}
 				a.tellawake();
 			}
 		}
 		
-		Set<Message> msglist = new TreeSet<Message>();			
-		msglist.addAll(messages);
+		Set<Message> previous = new TreeSet<>(a.getInbox());
+		Set<Message> msglist = new TreeSet<>(messages);
+		Set<Message> addList = Sets.difference(msglist, previous);
 		a.newMessages(msglist);
+		if (!addList.isEmpty() && a.shouldTrace()) {
+			List<Predicate> predicates = new ArrayList<>(addList.size());
+			for (Message msg : addList) {
+				predicates.add(msg.toTerm());
+			}
+			a.trace(new ModificationEvent(ModificationEvent.INBOX, null, predicates, null));
+		}
 		if (! messages.isEmpty()) {
 			a.tellawake();
 		}

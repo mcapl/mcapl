@@ -28,13 +28,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Intention;
-import ail.syntax.Unifier;
 import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.GBelief;
-import ail.syntax.Guard;
 import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Intention;
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.ModifyIntentionEvent;
 
 
 /**
@@ -68,11 +70,9 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 	 * @see ail.semantics.operationalrules.HandleTopDeed#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
-		Iterator<Unifier> ui2 = a.believes(((Goal) topdeed.getContent()).achievedBelief(), new Unifier());
-		
+		Iterator<Unifier> ui2 = a.believes(g.achievedBelief(), new Unifier());
 		if (ui2.hasNext()) {
 			Unifier thetag = ui2.next();
-			
 			i.tlI(a);
 			thetahd.compose(thetab);
 			thetahd.compose(thetag);
@@ -85,21 +85,21 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 			for (Intention ip: is) {
 				for (Event e3: ip.eventsUnified()) {
 					if (!flag & e3.referstoGoal()) {
-						if (thetahd.matchesNG((Goal) e3.getContent(), (Goal) topdeed.getContent())) {
+						if (thetahd.matchesNG((Goal) e3.getContent(), g)) {
 							flag = true;
 							break;
 						}
 					}
 				}
-				
 				if (flag) {
 					break;
 				}
-				
 			}
 
-			if (!flag ) {
-				a.removeGoal((Goal) topdeed.getContent());
+			if (!flag) {
+				if (a.removeGoal(g) & a.shouldTrace()) {
+					a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, g));
+				}
 			}
 		} else {
 			Iterator<Goal> goal_it = a.getGoals();
@@ -117,8 +117,13 @@ public class HandleAddAchieveTestGoalwEvent extends HandleAddAchieveTestGoal {
 				}
 			}
 
-			a.addGoal((Goal) topdeed.getContent());
+			if (a.addGoal(g) && a.shouldTrace()) {
+				a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, g, null));
+			}
 			i.iCons(new Event(Event.AILAddition, g), new Deed(Deed.Dnpy), new Guard(new GBelief()), thetahd);
+			if (a.shouldTrace()) {
+				a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.POST_EVENT));
+			}
 		}	
 	}
 }

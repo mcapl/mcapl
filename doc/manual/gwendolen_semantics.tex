@@ -1,0 +1,1054 @@
+\chapter{\textsc{Gwendolen} Semantics}
+\label{chap:gwendolen_semantics}
+%
+
+This chapter duplicates the operational semantics for \gwendolen\ 
+presented in~\cite{dennis17gwen}.\index{Gwendolen!semantics}
+
+\section{Intentions}
+\label{sec:intentions}
+
+Intentions are crucial to understanding \gwendolen.  BDI languages use intentions to
+store the \emph{intended means} for achieving goals -- this is
+generally represented as some from of {\em deed stack} (deeds include
+actions, belief updates, and the commitment to
+goals)\index{deed!stack}.  Intention structures 
+also maintain information about the (sub-)goal they are intended to
+achieve or the event that triggered them. \gwendolen\ aggregates
+this information: an intention becomes a stack of tuples of an
+event\index{event}, a deed\index{deed}, and a
+unifier\index{unifier}.  This tuple is most
+simply viewed as a matrix structure consisting of three columns in
+which we record events (new perceptions, goals committed to and so
+forth), deeds (a plan of future actions, belief updates, goal
+commitments, etc.), and unifiers. These columns form an event stack, a deed
+stack, and a unifier stack.  Rows associate a
+particular deed with the event that has caused the deed to be placed
+on the intention, and a unifier. New events are associated with an empty
+deed, $\AILnpy$\index{$\AILnpy$}\index{empty deed}\index{no plan yet}.
+
+\paragraph{Example} The following shows the full structure for a
+single intention to clean a room.  We use a standard BDI syntax: $!g$
+to indicate the goal $g$, and $+!g$ to indicate the commitment to
+achieve that goal (i.e., a new goal that $g$ becomes true is
+adopted)\index{goal!commitment}. Constants are shown starting with lower case letters, and
+variables with upper case letters.
+\begin{center}
+        \begin{stacksg}
+                \inlinecode{+!clean()} & \inlinecode{+!goto(Room)} &
+                \inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & \inlinecode{+!vacuum(Room)} & \inlinecode{Room = room1} 
+        \end{stacksg}
+\end{center}
+This intention\index{intention!in gwendolen} has been triggered by a goal to clean --- the
+commitment to the goal
+$clean()$ is the trigger event for both rows in the intention.  An
+intention is processed from top to bottom so we see here that the
+agent first intends to commit to the goal $goto(Room)$, where $Room$
+is to be unified with $room1$.   Once it has committed
+to that goal it then commits to the goal $\mathit{vacuum}(Room)$.  In \gwendolen\ the process of committing to a goal causes an expansion of
+the intention stack, pushing more deeds\index{deed} on it to be processed.  So
+$goto(Room)$ is expanded
+\emph{before} the agent commits to vacuuming the room and
+the above intention becomes
+\begin{center}
+        \begin{stacksg}
+                \inlinecode{+!goto(Room)} &
+\inlinecode{+!planRoute(Room, Route)} &
+                \inlinecode{Room = room1} \\
+                \inlinecode{+!goto(Room)} &
+\inlinecode{+!follow(Route)} & \inlinecode{Room = room1} \\
+                \inlinecode{+!goto(Room)} & \inlinecode{+!enter(Room)} &
+                 \inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & \inlinecode{+!vacuum(Room)} & \inlinecode{Room = room1} 
+        \end{stacksg}
+\end{center}\index{intention!in gwendolen}
+
+At any moment, we assume there is a \emph{current intention}\index{intention!in gwendolen} which is
+the one being processed at that time. 
+The stacks that form the intention are further paired with two booleans, \emph{suspended}\index{intention!suspension}, and \emph{locked}\index{intention!locking}
+which indicate the intention's status.
+A suspended intention is, by default, \emph{not}
+selected at the intention selection phase of the agent's reasoning.  Typically an intention will remain
+suspended until some belief condition occurs, normally that a belief is acquired via perception or from the receipt of a message.  If an intention is locked, conversely, then it must be selected at the intention selection phase.
+
+\section{Plans, Applicable Plans and Intentions}
+\label{sec:plans}\index{plan!in gwendolen}\index{plan!applicable}\index{intention!in gwendolen}
+A \gwendolen\ agent also has a \emph{plan library}\index{plan!library} which is an ordered list of plans.  Plans are matched
+against intentions and manipulate them.  There are three main components to a plan,
+\begin{enumerate}
+\item A \emph{trigger event} which may match the top event of an intention.\index{event!trigger}
+\item A \emph{guard}: the  guard is checked against the agent's\index{guard}
+state for plan applicability.
+\item A \emph{body} which is the new deed stack that the plan proposes\index{plan!body}
+for execution.
+\end{enumerate}
+We use the syntax \AILplansyntax{trigger}{guard}{body} to represent plans.
+%
+
+Plans only match intentions which contain\index{plan!in gwendolen}\index{intention!in gwendolen}
+unplanned goals (i.e., those associated with the ``no plan yet'' deed,
+$\AILnpy$).  For instance after a commitment to
+\texttt{goto(Room)} the above intention might appear as:
+\begin{center}
+  \begin{stacksg}
+    \inlinecode{+!goto(Room)} & $\AILnpy$ &
+    \inlinecode{Room = room1} \\
+    \inlinecode{+!clean()} & \inlinecode{+!goto(Room)}  & \inlinecode{Room = room1} \\
+    \inlinecode{+!clean()} & \inlinecode{+!vacuum(Room)} &
+    \inlinecode{Room = room1}
+  \end{stacksg}
+\end{center}
+which would match the plan
+
+\AILplansyntax{+!goto(Room)}{upstairs(Room)}{+!goto(stairs);+!goto(Room)}
+
+\noindent This plan says that  in order to achieve the goal $goto(Room)$ in the case where the room is upstairs, ($upstairs(Room)$), first the goal $goto(stairs)$ must be achieved and then the goal $goto(Room)$ achieved.
+
+This would transform the intention to:
+\begin{center}
+        \begin{stacksg}
+\inlinecode{+!goto(Room)} & \inlinecode{+!goto(stairs)} &
+         \inlinecode{Room = room1} \\
+\inlinecode{+!goto(Room)} & \inlinecode{+!goto(Room)}  &
+\inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & \inlinecode{+!goto(Room)} &
+                \inlinecode{Room = room1} \\
+                \inlinecode{+!clean()} & \inlinecode{+!vacuum(Room)} & \inlinecode{Room = room1} 
+        \end{stacksg}
+\end{center}
+\bigskip
+
+\subsection{Applicable Plans}
+\index{plan!applicable}
+
+Applicable plans are an interim data structure that describe
+how a plan from an agent's plan library\index{plan!library} changes
+the current intention\index{current intention}\index{intention!current}.  An
+applicable plan describes the
+new rows that will replace the top row of the intention.  The new rows are
+generated from an event, a unifier and a stack of
+deeds.  The new
+intention rows are generated by creating a row for each deed and 
+associating the event and unifier with each of
+those rows (so the event and unifier are duplicated several
+times).
+
+Therefore, an applicable plan is a tuple, $( p_e, p_{ds}, p_{\theta} )$,\index{plan!applicable}
+of an event\index{event} $p_e$, a deed stack $p_{ds}$\index{deed!stack}, and a
+unifier $p_{\theta}$\index{unifier}. The
+applicable plan in the example above would be
+\begin{equation}
+( +!goto(Room), [+!goto(stairs);+!goto(Room)], \{Room = room1\} )
+\end{equation}
+%
+Applicable plans are used because \gwendolen\ first
+determines a list of applicable plans and
+then picks one plan to be applied.  The
+function $\AILselectplan$ \index{plan!selection}
+is used to select \emph{one} applicable plan from a set.  By default,
+this treats the set as a list and picks the first plan, but it may be
+overridden by specific applications.
+
+\paragraph{Applicable Plan Generation Method}
+
+The function \AILappPlans, generates a set of applicable plans from the current intention, $\AILintention$, and an
+agent's internal state.\index{plan!applicable}
+
+There are two cases.  In the first case the top deed on the intention is not $\AILnpy$ (i.e., no planning is  needed).  In this case the set of applicable plans is for\index{no plan yet}
+continuing to process intention $\AILintention$ without any
+changes (i.e., it represents the top row of the intention\index{intention}).  So the set of applicable plans is the singleton:
+\begin{equation}
+\{( \INThdevent(\AILintention), 
+\INThddeed(\AILintention), 
+\INThdunifier{\AILintention} ) \quad |   \quad
+ \INThddeed(\AILintention) \neq \AILnpy
+\}
+\end{equation}
+where $\INThdevent(\AILintention)$ is the top event in
+$\AILintention$, 
+$\INThddeed(\AILintention)$ is the top deed, and
+$\INThdunifier{\AILintention}$ is the top unifier.
+
+In the case where the top deed on the intention is $\AILnpy$\index{no plan yet}, \AILappPlans\ generates the set
+\begin{equation}
+\begin{array}{l}
+  \{( p_{\AILevent}, p_{\AILdeed},
+  \INThdunifier{\AILintention} \cup \AILunifier ) \quad | \\
+  \quad {\AILplansyntax{p_{\AILevent}}{p_{\AILguard}}{p_{\AILdeed}}}
+  \in \AILplanlibrary \: \land  \:
+  \INThdevent(\AILintention)\INThdunifier{\AILintention} \models p_{\AILevent}, \theta' \: \land \:
+  \AILagent \models p_{\AILguard}\theta',
+  \AILunifier \}
+\end{array}
+\end{equation}
+%
+where $\AILplanlibrary$ is the agent's library of  plans.
+$\INThdevent(\AILintention) \models p_{\AILevent}, \theta'$ means that the
+plan's trigger event follows from the top event on the current
+intention returning a unifier, $\theta'$.  This allows for Prolog-style reasoning on plan triggers.\index{plan!trigger event}
+
+The notation
+$\AILagent \models g, \AILunifier$ means that the guard, $g$, is\index{guard}
+satisfied by agent $\AILagent$ given unifier $\AILunifier$.  Again this allows Prolog-style reasoning.  Plan guards may refer to the agent's belief base, goal base or outbox.  For instance ${\cal B} b$ means some belief, $b$ should follow by logical inference from the agent's belief base and ${\cal G} g$ means  that some goal $g$ should follows by logical inference from the goal base.
+
+The
+notation $t\AILunifier$ indicates the application of unifier
+$\AILunifier$ to term $t$.  So, for instance, 
+$\INThdevent(\AILintention)\INThdunifier{\AILintention}$ is
+the result of applying the unifier
+$\INThdunifier{\AILintention}$ to the top event on the intention.
+
+
+\section{The Environment}
+\label{sec:environment}
+
+A feature of BDI agent programming languages is that BDI programs do not, in general, stand alone but exist within a computational environment\index{environment}.  \gwendolen\ programs expect to interact with environments programmed in \java which implement a specific interface.
+This means the semantics of some rules will
+depend upon the environment used.  Environments offer various functions -- executing agent actions, supplying sets of perceptions etc.  The execution of these functions may also induce a change in the environment itself according to its own semantics.
+
+We represent the environment as $\xi$.  Table~\ref{table:env} summarises the functions that all environments are required to offer by the \gwendolen\ semantics.  Some environments only change when one of these functions is called but others may be independently dynamic (e.g., because other agents, not programmed in \gwendolen\ are acting in them).  We therefore also allow a transition relation on environments $\xi$: $\xi \rightarrow_{\xi} \xi'$  and represent the transitions caused by the functions in table~\ref{table:env} as $\xi \xrightarrow{\AILdo(\AILaction)}_{\xi} \xi'$, $\xi \xrightarrow{\AILgetmessages}_{\xi} \xi'$ and $\xi \xrightarrow{\AILpercepts(\AILagent)}_{\xi} \xi'$.  $done$ does not change the environment.\index{environment}\index{Gwendolen!semantics}
+
+\begin{table}
+\begin{tabular}{llp{5cm}}
+Notation &  Description \\ \hline
+$\xi.\AILdo(\AILaction)$ & 
+Executes an action.  Returns a unifier.\index{action} \\
+
+$\xi.\AILgetmessages(\AILagent)$  & Returns a set of 
+new messages for agent $\AILagent$.\index{message} \\
+
+$\xi.\AILpercepts(\AILagent)$ & Returns a set of new perceptions (logical formulae) for \\
+& agent, $\AILagent$.\index{perception}\\
+
+$\xi.done$ & True if the environment is incapable of \\
+ & further independent action. \\
+
+\end{tabular}
+\caption{Methods implemented by \gwendolen\ Environments}
+\label{table:env}
+\end{table}
+
+
+\section{Multi-Agent System Semantics, Scheduling, Reasoning Cycle}
+
+A \gwendolen agent is executed as part of a multi-agent system which includes an environment and a \emph{scheduler}.  The scheduler is specific to the application and so its policy for the order in which agents (and where relevant the environment) are executed varies.  \index{scheduler}\index{Gwendolen!semantics}
+
+We represent the operational semantics of the multi-agent system a set of transition rules.  The first rules, $\rightarrow_s$ operate on tuples of the environment, a set of agents and the scheduler and represents how the scheduler chooses the next agent for execution.  The agent then transitions through stages in a \emph{reasoning cycle} (represented with $\rightarrow_a$).  At each stage in the reasoning cycle specific rules are selected which cause transitions on the agent (and sometimes also on the environment).\index{Gwendolen!reasoning cycle}
+
+We assume the existence of the following functions: $next\_job(s)$ returns a tuple of an agent (or the environment) and an updated version of the scheduler depending on the scheduler policy; \emph{sleeping(a, s)} returns true if the scheduler lists $a$ as asleep; $sleep(a)$ returns true if the agent's status is that it has no further reasoning at the moment and $sleep(a, s)$ returns an updated scheduler that lists $a$ as sleeping.  $\rightarrow_a^*$ represents the transitive closure of the semantics on an agent's reasoning cycle so $\langle \xi, a, \textbf{A} \rangle \rightarrow_a^* \langle \xi', a', \textbf{F} \rangle$ represents the effect of a run of the agent's reasoning cycle (from stage \textbf{A} to \textbf{F} -- see below) on both the agent and the environment.  $\xi \rightarrow_\xi \xi'$ represents an update of the environment according to its own semantics (not considered here).
+
+The following rules represent the operation of the scheduler.
+
+\begin{equation}
+\frac{\neg \xi.done \quad next\_job(a) = \langle \xi, s' \rangle \quad  \xi \rightarrow_{\xi} \xi'}{
+\langle \xi, A, s \rangle \rightarrow_s \langle \xi', A, s' \rangle}
+\end{equation}
+
+\begin{equation}
+  \frac{
+    \begin{array}{c}
+    \exists a \in A. \neg sleeping(a, s) \quad
+    next\_job(s) = \langle a, s' \rangle \\
+    \langle \xi, a, \textbf{A} \rangle \rightarrow_{a}^* \langle \xi', a', \textbf{F} \rangle \quad
+    \neg sleep(a')
+    \end{array}
+  }{
+\langle \xi, A, s \rangle \rightarrow_s \langle \xi', A[a \backslash a'], s' \rangle}
+\end{equation}
+
+\begin{equation}
+  \frac{
+    \begin{array}{c}
+    \exists a \in A. \neg sleeping(a, A) \quad
+    next\_job(s) = \langle a, s' \rangle \\
+    \langle \xi, a, \textbf{A} \rangle \rightarrow_{a}^* \langle \xi', a', \textbf{F} \rangle
+    \quad  sleep(a')
+\end{array}
+    }{
+\langle \xi, A, s \rangle \rightarrow_s \langle \xi', A[a \backslash a'], sleep(a', s') \rangle}
+\end{equation}
+It should be noted that, among other things, $next\_job(s)$ can change the internal state of the scheduler, for instance altering the set of agents marked as sleeping if, for instance, new perceptions are available in the environment that might mean  the agent now has something to do.\index{scheduler}
+
+The \gwendolen\ reasoning cycle is a set consisting of size stages (\textbf{A, B, C, D, E,} and \textbf{F}).  Each stage is a list of rules which are discussed in section~\ref{sec:stage_rules}.  The agent reasoning cycle transitions, $\rightarrow_a$, by picking the first applicable rule, $r$, from the list in the current reasoning stage, $RS$, transitioning the agent (and in some cases environment) according to the rule $\rightarrow_r$ and then moving the reasoning cycle on according to the function $next$ (see~\eqref{def:next}).  \index{Gwendolen!reasoning cycle}
+
+\begin{equation}
+\frac{\exists r \in rules(RS). \: \langle \xi, a \rangle \rightarrow_r \langle \xi', a' \rangle}
+{\langle \xi, a, RS \rangle \rightarrow_a \langle \xi', a', next(a', RS) \rangle}
+\end{equation}
+
+\begin{equation}
+\frac{\neg \exists r \in rules(RS). \: \langle \xi, a \rangle \rightarrow_r \langle \xi', a' \rangle}
+{\langle \xi, a, RS \rangle \rightarrow_a \langle \xi, a, next(a, RS) \rangle}
+\end{equation}
+
+A \gwendolen\ agent is a tuple $\langle \mathit{ag}, i, I, P, \mathit{Pl}, B, \mathit{R}, \mathit{In}, \mathit{Out}, S \rangle$ of an identifier, current intention, intention set, plan library, applicable plan set, belief base, rule base, inbox, outbox and sleep flag (more in this in section~\ref{sec:stage_rules}). 
+The definition of $next$ in~\eqref{def:next} sometimes uses the current intention, $i$, and intention set, $I$, to compute the next reasoning stage.  In these cases we represent the agent $a$ as $\langle \ldots i \ldots \rangle$ or $\langle \ldots i, I \ldots \rangle$ as appropriate.\index{agent!gwendolen}\index{Gwendolen!agent}
+
+\begin{eqnarray}
+  \label{def:next}
+next(\langle \ldots i, I \ldots \rangle, \textbf{A}) & = & \begin{cases} \textbf{E}  & i = [] \wedge \forall i' \in I.\: \AILsuspended(i') \\
+  \textbf{B} & i \neq [] \vee \exists i' \in I. \: \neg \AILsuspended(i') \nonumber \\
+  \end{cases}  \\
+next(a, \textbf{B}) & = & \textbf{C}  \\
+next(\langle \ldots i \ldots \rangle, \textbf{C}) & = &
+\begin{cases}
+  \textbf{E} & i = [] \nonumber \\
+  \textbf{D}  & i \neq []\nonumber \\
+  \end{cases}  \\
+next(a, \textbf{D}) & = & \textbf{E}\nonumber \\
+next(a, \textbf{E}) & = & \textbf{F}\nonumber \\
+next(a, \textbf{F}) & = & \textbf{A} \nonumber
+\end{eqnarray}
+where $\AILsuspended(\AILintention)$ is true if the intention, $\AILintention$, is suspended.\index{intention!suspension}
+
+\section{Stage Rules: The Agent Reasoning Cycle}
+\label{sec:stage_rules}
+
+We represent an agent as a tuple $\langle \mathit{ag}, i, I, P, \mathit{Pl}, B, R,
+\mathit{In}, \mathit{Out}, S \rangle$ where:\index{Gwendolen!agent}\index{Gwendolen!semantics}
+
+\begin{itemize}
+\itemsep1pt
+\item $\mathit{ag}$ is a unique identifier for the agent (it's name);
+\item $i$ is the current intention (see section~\ref{sec:intentions});  Note that there can be no current intention which we will indicate with the expression $i = null$.  
+\item $I$ is a stack of intentions $\lbrace i,i',..\rbrace$;
+\item $P$ is an ordered list of the agent's plans (see section~\ref{sec:plans});
+\item $\mathit{Pl}$ is a set of currently applicable plans (see section~\ref{sec:plans});
+\item $B$ is a set of the agent's beliefs which are pairs of ground first-order formulae and a string indicating the \emph{source} of the belief.  In \gwendolen\ all beliefs are automatically assigned the source \texttt{self} unless they are acquired by perception in which case they are assigned the source \texttt{percept};
+  \item $R$ is a set of Prolog-style rules used in reasoning;
+\item $\mathit{In}$ is the agent inbox. Elements of inbox have the form $\recmessage{id,\mathit{ilf}}m$ where $\mathit{id}$ is the identifier of the sender, $\mathit{ilf}$ is the illocutionary force of the message and can be \emph{tell}, \emph{perform}, or \emph{achieve}, and $m$ is the message content, a ground first-order formula. 
+\item $\mathit{Out}$ is the agent outbox. Messages in this set have the format $\sentmessage{id,\mathit{ilf}}m$ where $id$ is the identifier of the recipient, $\mathit{ilf}$ is the illocutionary force and $m$ is the message content, a ground first-order formula.
+\item $S$ is a boolean indicating whether the agent should be \emph{slept} by the scheduler or not.
+\end{itemize}
+In its initial state the current intention is $null$, the intention set consists of one intention for each of the initial goals provided by the programmer.  These intentions are of the form $(\texttt{start}, +!_{\AILgoaltype}\AILgoal, \emptyset)$ where $\texttt{start}$ is a special event used for intentions with no specific trigger.   Its plan library is a set of plans provided by a programmer.  The applicable plans are empty.  The belief base and rule base are as defined by the programmer.  The inbox and outbox are empty and the sleep flag is false.\index{intention!current}\index{plan!library}\index{goal!initial}\index{belief!initial}
+
+Many of the transition rules make a check on a deed to see what type\index{deed!in gwendolen}
+it is (e.g. the addition of a belief, the deletion of a goal).  We
+represent these checks implicitly using the notation shown in table~\ref{table:deeds}.  Many of the rules also check intentions for various properties and manipulate them.  Table~\ref{table:intentions} summarises various operations on intentions that are used in the rules.
+
+\begin{table}
+\begin{tabular}{ll} \hline
+$\AILaction$ & An action. \\
+
+$\AILbelief$ & A belief. \\
+
+$+\AILbelief$ & A belief addition. \\
+
+$-\AILbelief$ & A belief removal. \\
+
+$\AILbelief\{\tAILsrc\}$ & A belief, from source $\tAILsrc$. \\
+
+$!_{\tau}\AILgoal$ & A goal of type $\tau$\index{goal type}. \\
+
+$\AILaddgoal{\tau}{g}$ & A goal addition. \\
+
+$\AILdel !_{\tau}{g}$ & A goal drop. \\
+
+$\AILproblemgoal{\tau}{g}$ & A goal which can't be planned. \\
+
+$\AILlock$ & An lock. \\
+
+$\AILunlock$ & An unlock. \\
+
+$\sentmessage{\AILagent,\mathit{ilf}}{\AILmessage}$ & A message $\AILmessage$ sent
+to $\AILagent$. \\
+
+$\recmessage{\AILagent,\mathit{ilf}}{\AILmessage}$ & A message $\AILmessage$ received
+from $\AILagent$. \\
+
+$\AILTrue$ & An structure who's logical content is trivially
+true. \\
+
+$\AILnpy$ & A special marker indicating that some event has no plan yet. \\ \hline
+
+\end{tabular}
+\caption{Notations for deed type checks}
+\label{table:deeds}
+\end{table}
+
+
+\begin{table}
+\begin{tabular}{llp{7cm}}
+Notation  & Description \\ \hline
+$\INTmergeunifier$ &  Compose a unifier with the top
+unifier on the intention. \\
+
+%% $\AILdrop(\AILgoal)$ & dropGoal\index{Intention!dropGoal} & Drop all
+%% rows from the intention until one is reached with
+%% $\AILaddgoal{\tau}{\AILgoal}$ as it's event. \\
+
+$\AILisempty(\AILintention)$ & The deed stack of the intention
+is empty. \\
+
+$\INTevents(\AILintention)$ & The
+stack of events associated with intention $i$. \\
+
+$\INThdevent(\AILintention)$ & The top
+event on the intention\index{intention!top event}. \\
+
+$\INThddeed(\AILintention)$ & The top
+deed on the intention\index{intention!top deed}. \\
+
+%% $\INThdguard(\AILintention)$ & The top
+%% guard on the intention\index{intention!top guard}. \\
+
+$\INThdunifier{\AILintention}$ & The top
+unifier on the intention. \\
+
+$\AILconcat$ & Add a new event, deed stack, and unifier \\
+ & to
+the top of the intention. \\
+
+$\INTcons$ & Add a new event, deed, and unifier \\
+ & as the
+top row of the intention. \\
+
+$\INTtl(\AILintention)$ & Drop the top row of the intention. \\
+
+$\AILdrop_E(\AILevent, \AILintention)$ & Drop all rows in the intention above and including the \\
+& first appearance of $\AILevent$ as a trigger. \\
+
+$\INTlock(\AILintention)$ &  Mark the
+intention as locked. \\
+
+$\INTlocked(\AILintention)$ & The
+intention is locked\index{intention!locked}. \\
+
+$\AILsuspend(\AILintention)$ & Mark
+the intention as suspended. \\
+
+$\AILsuspended(\AILintention)$ & The intention is suspended. \\
+
+$\INTunlock(\AILintention)$ & Mark the
+intention as unlocked. \\
+\end{tabular}
+\caption{Operations on Intentions}
+\label{table:intentions}
+\end{table}
+
+It is generally unwieldy to present the full agent tuple in the description of a transition rule.  As a result we restrict ourselves to presenting only those parts of the intention that are changed by the rule as we did in~\eqref{def:next}.\index{Gwendolen!semantics}
+
+We now discuss each stage of the reasoning cycle in turn.\index{Gwendolen!reasoning cycle}
+\subsection{Stage A}
+
+Stage A of the \gwendolen\ reasoning cycle consists of a list of three rules which are focused around managing intention selection:
+
+$[ {\tt select\_intention}, {\tt sleep}, {\tt drop\_intention} ]$
+
+\subsubsection*{Select Intention (\tt{select\_intention})}
+\index{SelectIntentionNotUnplannedProblemGoal}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+\neg \AILisempty(\AILintention)
+\quad
+\neg \INTlocked(\AILintention) \quad
+\exists i'' \in I \cup \{i\}. \: \neg \AILsuspended(i'') \\
+\AILselectintention(\AILintset \cup \{\AILintention\}) = (\AILintention', \AILintset') 
+\quad \INThdevent(\AILintention') \neq
+\AILdelgoal{\AILgoaltype}{\AILgoal} \vee 
+\INThddeed(\AILintention') \neq \AILnpy
+\end{array}
+}{
+\langle \xi, \langle \ldots \AILintention, \AILintset \ldots \rangle \rangle
+\rightarrow_{\tt select\_intention} \langle \xi, \langle \ldots \AILintention', \AILintset' \ldots \rangle \rangle
+}
+\end{equation}\index{intention!selection}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+\neg \AILisempty(\AILintention)
+\quad
+\INTlocked(\AILintention) 
+\quad \INThdevent(\AILintention) \neq
+\AILdelgoal{\AILgoaltype}{\AILgoal} \vee 
+\INThddeed(\AILintention) \neq \AILnpy
+\\
+\exists i'' \in I \cup \{i\}. \: \neg \AILsuspended(i'') 
+\end{array}
+}{
+\langle \xi, \langle \ldots \AILintention, \AILintset \ldots \rangle \rangle
+\rightarrow_{\tt select\_intention} \langle \xi, \langle \ldots \AILintention, \AILintset \ldots \rangle \rangle
+}
+\end{equation}
+where $\AILisempty(\AILintention)$ is true if intention $\AILintention$ has an empty deed stack,
+$\INTlocked(\AILintention)$ is true if intention $\AILintention$ is locked,
+and $\AILsuspended(\AILintention)$ is true if intention $\AILintention$ is suspended.
+Table~\ref{table:intentions} summarises all the operations on intentions.
+
+This rule has two cases, one for when the current intention isn't locked and one for when it is.  When the intention isn't locked the system uses the application specific selection function $\AILselectintention$ to pick a new current intention (by default this treats the intention set $\AILintset$ as a LIFO queue and selects the first unsuspended intention from the queue).  The rule is inapplicable if the current intention is empty or the selected intention's trigger is a drop goal event.\index{intention!locking}
+
+\subsubsection*{Sleep ({\tt sleep})}
+\index{SleepIfEmpty}
+
+\begin{equation}
+\frac{
+ (\AILintention = null \vee \AILisempty(\AILintention) \vee \AILsuspended(\AILintention)) \quad
+ \forall i' \in \AILintset. \: \AILsuspended(i')
+}{
+\langle \xi,  \langle \ldots \AILintention, \AILintset, \ldots S \rangle \rangle
+ \rightarrow_{\tt sleep} \langle \xi, \langle \ldots, \AILintention, \AILintset, \ldots \top \rangle \rangle
+}
+\end{equation}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.
+
+This rule sets an agent's sleep flag if all its intentions are empty or suspended\index{sleep}\index{agent!sleep}.  The agent will then be marked as sleeping by the scheduler once the reasoning cycle is concluded.\index{scheduler}
+
+\subsubsection*{Drop Intention ({\tt drop\_intention})}
+\index{DropIntentionIfEmpty}
+\begin{equation}
+\frac{\AILintention \neq null \quad \AILisempty(\AILintention) \quad
+\AILintset \neq \emptyset 
+\quad
+\AILselectintention{\AILintset} = (\AILintention', \AILintset')
+}{\langle \xi, \langle \ldots \AILintention, \AILintset \ldots \rangle \rangle
+\rightarrow_{\tt drop\_intention} \langle \xi, \langle \ldots \AILintention', \AILintset' \ldots \rangle \rangle}
+\end{equation}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.\index{intention!drop}
+
+This rule 
+drops the intention $\AILintention$ if it is empty and
+selects a new current intention from the intention set.  The
+additional $i \neq null$ is necessary since a few rules can leave the
+agent state with no current intention.
+
+\subsection{Stage B}
+
+Stage B of the \gwendolen\ reasoning cycle consists of a list of two rules based on generating a set of applicable plans: $[ {\tt generate\_plan}, {\tt no\_plan} ]$\index{plan!applicable}
+
+\subsubsection*{Generate Plan ({\tt generate\_plan})}
+\index{GenerateApplicablePlansIfNonEmpty}
+
+\begin{equation}
+  \frac{\AILappPlans(\AILintention) \neq \emptyset}{
+    \langle \xi, \langle \ldots \AILintention, \AILappplans \ldots \rangle \rangle \rightarrow_{\tt generate\_plan}
+\langle \xi, \langle \ldots \AILintention, \AILappPlans(\AILintention) \ldots \rangle \rangle}
+\end{equation}
+
+$\AILappPlans$ is as described in section~\ref{sec:plans}.
+
+\subsubsection*{No Applicable Plans ({\tt no\_plan})}
+\index{GenerateApplicablePlansEmptyProblemGoal}
+
+\begin{equation}
+\frac{\AILappPlans(\AILintention) = \emptyset
+\hspace{0.5cm}
+\INThdevent(\AILintention) = \AILaddgoal{\tau}{\AILgoal}
+}{\langle \xi, \langle \ldots \AILintention, \AILappplans \ldots \rangle \rangle \rightarrow_{\tt no\_plan} 
+\langle \xi, \langle \ldots \AILintention, [(\AILprobgoal{\tau}{\AILgoal}, [\AILnpy], \INThdunifier{\AILintention})] \ldots \rangle \rangle}
+\end{equation}
+
+\begin{equation}
+\frac{\AILappPlans(\AILintention) = \emptyset
+\hspace{0.5cm}
+\neg \INThdevent(\AILintention) = \AILaddgoal{\tau}{\AILgoal}
+}{\langle \xi, \langle \ldots \AILintention, \AILappplans \ldots \rangle \rangle \rightarrow_{\tt no\_plan} 
+\langle \xi, \langle \ldots \AILintention, [(\INThdevent(\AILintention), [], \emptyset)] \ldots \rangle \rangle}
+\end{equation}
+
+
+$\AILappPlans(\AILintention)$ is empty if there is no plan applicable to the current intention.  This rule differentiates between whether the intention trigger is a goal commitment (in which case the rule creates an applicable plans consisting of an unplanned ``problem goal'' event ($\AILprobgoal{\tau}{\AILgoal}$) (which might, for instance, be responded to by suspending the intention until the agent's beliefs have changed and some plan does become applicable).  Otherwise it generates an applicable plan with an empty deed stack.  This will have the effect of removing the top row of the intention and replacing it by nothing -- i.e., it ignores the event that had no applicable plan for handling it.  The reasoning behind this is that such events (notifications of beliefs acquired or dropped generally only require a planning response in special cases and can normally be ignored).\index{plan!applicable}
+
+
+\subsection{Stage C}
+
+Stage C of the \gwendolen\ reasoning cycle consists of a list of a single rule for modifying the current intention according to the applicable plan: $[ {\tt apply\_plan} ]$\index{plan!applicable}
+
+\subsubsection*{Apply Plan ({\tt apply\_plan})}\index{ApplyApplicablePlans}
+
+\begin{equation}
+\frac{
+( e, Ds, \theta )  = \AILselectplan(\AILappplans)
+}
+{\langle \xi, \langle \ldots \AILintention \ldots \AILappplans \ldots \rangle \rangle
+\rightarrow
+\langle \xi, \langle \ldots (e, Ds, \theta) \AILconcat \INTtl(\AILintention) \ldots
+\emptyset \ldots \rangle \rangle
+}
+\end{equation}
+where $\INTtl(\AILintention)$ represents intention, $\AILintention$, with its top row removed and $(e, Ds, \theta) \AILconcat \INTtl(\AILintention)$ represents the applicable plan $(e, Ds, \theta)$ expanded and added to the top of the intention, $\AILintention$ in place of  its top row as described in section~\ref{sec:plans}.
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.
+
+This rule selects a plan from the agent's\index{plan!selection}
+applicable plans as determined by the application specific $\AILselectplan$ (by default this is the first applicable plan found in the plan library\index{plan!library} and, where a unifier is required, this is the first returned by checking against the agents internal state (this lists beliefs and goals, etc., in alphabetical order)).  The plan is represented as a tuple of the trigger event, the plan's deed
+stack and unifier.  The top row of the current intention is dropped and the 
+applicable plan is ``glued'' in its place.
+
+\subsection{Stage D}
+
+Stage D of the \gwendolen\ reasoning cycle consists of a list of rules for processing the top deed on the current intention:\index{intention!current}
+
+$  \begin{array}{l}
+  [ {\tt empty}, {\tt add\_achieve\_goal}, {\tt add\_perform\_goal}, {\tt drop\_goal}, {\tt add\_belief}, \\
+    \quad {\tt drop\_belief}, {\tt lock\_unlock}, {\tt wait\_for}, {\tt problem\_goal}, {\tt action}, {\tt send}, \\
+          \quad {\tt null} ]
+  \end{array}$
+
+\subsubsection*{Handle Empty Deed Stack ({\tt empty})}
+\index{HandleEmptyDeedStack}
+
+\begin{equation}
+\frac{\AILisempty(\AILintention)}{\langle \xi, \langle \ldots \AILintention \ldots \rangle \rightarrow_{\tt empty} \langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle}
+\end{equation}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.
+
+This rule does nothing if the current intention's deed stack is empty (which can occur if there is no plan for handling the intention's trigger event).  This leaves the intention unchanged and it will be removed during the select intention phase (Stage A).\index{deed!stack}
+
+
+\subsubsection*{Handle Add Achieve Goal ({\tt add\_achieve\_goal})}
+\index{HandleAddAchieveTestGoalwEvent}
+
+\begin{equation}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention} = +!_{a}\AILgoal
+\quad B, R \models  \AILgoal, \AILunifier_g
+}{
+  \begin{array}{c}
+\langle \xi, \langle \ldots  \AILintention \ldots B, R \ldots \rangle \rangle\\ \rightarrow_{\tt add\_achieve\_goal}  \\
+\langle \xi, \langle \ldots \INTtl(\AILintention) \: \INTmergeunifier \:
+\AILunifier_g \ldots B, R \ldots \rangle \rangle 
+\end{array}
+}
+\end{equation}
+
+
+\begin{equation}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention} = +!_{a}\AILgoal
+\quad B, R \not \models \AILgoal 
+}{
+  \begin{array}{c}
+\langle \xi, \langle \ldots  \AILintention \ldots B, R \ldots \rangle \rangle \\ \rightarrow_{\tt add\_achieve\_goal} \\
+\langle \xi, \langle \ldots (+!_{a}\AILgoal, \AILnpy, \INThdunifier{\AILintention}) \INTcons \AILintention \ldots B, R \ldots \rangle \rangle 
+\end{array}
+}
+\end{equation}
+where $B, R \models  \AILgoal, \theta_g$ means that the
+formula $\AILgoal$ (which is the goal with the top unifier from the intention applied to it) follows using Prolog-style reasoning from the agent's belief base when the additional unifier $\theta_{\AILgoal}$ is applied.  $\INTtl(\AILintention) \: \INTmergeunifier \: \AILunifier_g$ indicates the union of unifier $\AILunifier_g$ with the unifier on the top of the intention $\INTtl(\AILintention)$.  $(e, d, \theta) \INTcons \AILintention$ represents the addition of a row $(e, d, \theta)$ to the top of an intention $\AILintention$.  Table~\ref{table:intentions} summarises all the operations on intentions such as $\AILisempty$ etc,.\index{goal!achieve}
+
+\gwendolen\ recognises two types of goal, \emph{achieve} goals and \emph{perform} goals (goal types $a$ and $p$ respectively).  This rule handles the commitment to an achieve goal\index{goal!achieve}\index{goal!test}.  An achieve goal is one that triggers a plan if it not already believed but\index{goal!perform}\index{goal!achieve}
+does no more than set a unifier if it is.  If it is to trigger a plan,
+then we register the  commitment to planning the goal as an event on the top of the
+intention stack.\index{goal!commitment}\index{event!trigger}
+In this case the top row of the intention is not dropped so the deed intending a commitment to the goal remains.  This means that if, after execution of the plan, the goal  is not achieved then it will be replanned.
+
+
+
+\subsubsection*{Handle Add Perform Goal ({\tt add\_perform\_goal})}
+\index{HandleAddPerformGoal}
+
+\begin{equation}\index{goal!perform}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention} = +!_{p}\AILgoal
+}{
+  \begin{array}{c}
+\langle \xi, \langle \ldots  \AILintention \ldots \rangle \rangle \\ \rightarrow_{\tt add\_perform\_goal} \\
+\langle \xi, \langle \ldots (+!_{p}\AILgoal, \AILnpy, \INThdunifier{\AILintention}) \INTcons (\INThdevent(\AILintention), \AILnullaction,
+\INThdunifier{\AILintention}) \INTcons \INTtl(\AILintention) \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+where $(e, d, \theta) \INTcons \AILintention$ represents the addition of a row $(e, d, \theta)$ to the top of an intention $\AILintention$.  Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+Perform goals always trigger planning but are not replanned if they fail to achieve some state of the world.  This being the case we replace the top deed (the request to commit to the goal) on the intention with $\AILnullaction$ so that this is automatically processed once the system reaches that row of the intention.  We then add a new top row with the trigger event of the new goal and a no plan yet deed.
+
+\subsubsection*{Handle Drop Goal ({\tt drop\_goal})}
+\index{HandleDropGeneralGoal}\index{goal!drop}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILdel !_{\AILgoaltype} \AILgoal \quad
+\exists \AILevent \in \INTevents(\AILintention). \AILsunify(\AILevent, \AILadd !_{\AILgoaltype}\AILgoal)
+\end{array}
+}{\langle \xi, \langle \ldots  \AILintention \ldots
+\rangle \rangle \rightarrow_{\tt drop\_goal} \langle \xi, \langle \ldots 
+\INTtl(\AILdrop_E(\AILevent, \AILintention)) \ldots \rangle \rangle
+}
+\end{equation}
+where $\AILsunify(e_1, e_2)$ indicates that two events can be unified.  $\AILdrop_E(\AILevent, \AILintention)$ is a function that recurses through an intention dropping every row after the first occurrence of $\AILevent$ -- i.e. it prunes the intention back to the point where the event first occurred.    Table~\ref{table:intentions} summarises all the operations on intentions such as $\INTevents$ etc,.
+
+This rule searches the current intention for the most earliest add goal event that unifies with the goal to be dropped and then deletes all rows on the intention above that.  It then deletes the new top row which will be he one that contains the instruction to commit to the goal (if an achieve goal) or $\AILnullaction$ (if a perform goal). 
+
+\subsubsection*{Handle Add Belief ({\tt add\_belief})}
+\index{HandleAddBeliefwEvent}\index{belief!addition}
+
+\begin{equation}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention}  = +\AILbelief
+}{
+\begin{array}{c}
+\langle \xi, \langle \ldots \AILintention, \AILintset, \AILbeliefbase \ldots \rangle \rangle \rightarrow_{\tt add\_belief} \\
+\langle \xi, \langle \ldots
+\INTtl(\AILintention) \: \INTmergeunifier \: 
+\INThdunifier{\AILintention}, 
+\AILunsuspend(\AILintset, \AILbelief) \cup \INTnew(\AILadd \AILbelief, \AILnpy, \emptyset), \\
+\AILbeliefbase \cup \{\AILbelief\}, \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+where $\AILunsuspend(\AILintset, \AILbelief)$ unsuspends all suspended intentions in $\AILintset$ that are waiting for $\AILbelief$ to become true.  $\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier. 
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+This rule adds new belief to the belief base and a new intention noting the appearance of the new belief.  At the same time it unsuspends all intentions which are waiting for $b$ to be achieved as part of their suspend condition.
+
+\subsubsection*{Handle Drop Belief ({\tt drop\_belief})}
+\index{HandleDropBeliefwEvent}\index{belief!drop}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = -\AILbelief \quad
+B^1 = \{\AILbelief' | \AILbelief' \in \AILbeliefbase \wedge
+\AILsunify(\AILbelief', \AILbelief)\}
+\end{array}
+}{
+\begin{array}{c}
+\langle \xi, \langle \ldots \AILintention, \AILintset, \AILbeliefbase \ldots \rangle \rangle \rightarrow_{\tt drop\_belief} \\
+\langle \xi, \langle \ldots
+\INTtl(\AILintention)\: \INTmergeunifier \:
+\INThdunifier{\AILintention},
+\AILintset \cup \INTnew(\AILdel \AILbelief, \AILnpy, \emptyset) ,
+\AILbeliefbase \backslash B^1, \ldots \rangle  \rangle
+\end{array}
+}
+\end{equation}
+where $\AILsunify(b', b)$ means that $b'$ and $b$ unify with each other.   $\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier.  Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+This rule drops a belief from the belief base.  At the same time it generates a new intention containing the event that the belief has been dropped.  Appropriate handling of this event can allow the agent to form plans in reaction to it.
+
+
+\subsubsection*{Handle Lock and Unlock ({\tt lock\_unlock})}
+\index{HandleLockUnlock}\index{intention!locking}
+
+\begin{equation}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILlock
+}{\langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle \rightarrow_{\tt lock\_unlock}
+  \langle \xi, \langle
+\ldots, \INTlock(\INTtl(\AILintention) \: \INTmergeunifier \: \INThdunifier{\AILintention}) \ldots \rangle \rangle }
+\end{equation}
+
+\begin{equation}
+\frac{\INThddeed(\AILintention)\INThdunifier{\AILintention}  =  \AILunlock
+}{\langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle \rightarrow_{\tt lock\_unlock}
+  \langle \xi, \langle \ldots
+ \INTunlock(\INTtl(\AILintention) \INTmergeunifier \INThdunifier{\AILintention}) \ldots \rangle \rangle }
+\end{equation}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+This allows an intention to be ``locked'' as the
+current intention, for instance to allow a complete sequence of belief
+changes be processed before any other reasoning takes place.
+\index{locking}Once 
+finished the intention has to be unlocked. 
+
+\subsubsection*{Handle Wait For}
+\index{HandleWaitFor}\index{wait for}
+
+\begin{equation}
+\frac{\begin{array}{c}
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILwaitfor{\AILbelief}
+\quad B, R \models \AILbelief, \AILunifier_b
+\end{array}
+}{
+\begin{array}{c}
+  \langle \xi, \langle \ldots \AILintention \ldots \AILbeliefbase, R \ldots \rangle \rangle
+\rightarrow_{\tt wait\_for} \\
+\langle \xi, \langle \ldots
+\INTtl(\AILintention) \: \INTmergeunifier \: (\INThdunifier{\AILintention} \cup \AILunifier_b)
+\ldots \AILbeliefbase, R \ldots \rangle ) \rangle
+\end{array}
+}
+\end{equation}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+  \INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILwaitfor{\AILbelief}
+\quad B, R \not \models \AILbelief, \AILunifier_b
+\quad \exists i' \in I. \: \neg \AILsuspended(i')
+\end{array}
+}{
+\begin{array}{c}
+  \langle \xi, \langle \ldots \AILintention, \AILintset, \AILbeliefbase, R \ldots \rangle \rangle
+\rightarrow_{\tt wait\_for} \\
+\langle \xi', \langle \ldots
+\AILsuspend(\AILintention\INThdunifier{\AILintention}),
+\AILintset, \AILbeliefbase, R \ldots
+\rangle  \rangle
+\end{array}
+}
+\end{equation}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+  \INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILwaitfor{\AILbelief}
+\quad B, R \not \models \AILbelief, \AILunifier_b
+\quad \forall i' \in I. \AILsuspended(i') 
+\end{array}
+}{
+\begin{array}{c}
+  \langle \xi, \langle \ldots \AILintention, \AILintset, \AILbeliefbase \ldots \AILinbox \ldots S \rangle \rangle
+\rightarrow_{\tt wait\_for} \\
+\langle \xi', \langle \ldots null,  \AILintset \cup \{\AILsuspend(\AILintention\INThdunifier{\AILintention})\},
+\AILbeliefbase, R
+\ldots \top \rangle \rangle
+\end{array}
+}
+\end{equation}
+where $B, R \models b, \theta_b$ means that the
+formula $b$ follows using Prolog-style reasoning from the agent's belief base and Prolog rule-base when the additional unifier $\theta_b$ is applied.  $\INTtl(\AILintention) \: \INTmergeunifier \: (\INThdunifier{\AILintention} \cup \AILunifier_b)$ indicates the union of unifier $(\INThdunifier{\AILintention} \cup \AILunifier_b)$ with the unifier on the top of the intention $\INTtl(\AILintention)$.  $\AILsuspend(\AILintention)$ suspends an intention. \index{intention!suspension}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+If an intention is waiting for some belief, $b$, to become true then if that belief is now true the intention continues processing.  Otherwise
+the intention is suspended.  If all intentions are suspended then the agent is told to sleep at the next opportunity.
+
+\subsubsection*{Ignore Unplanned Problem Goal ({\tt problem\_goal})}
+\index{IgnoreUnplannedProblemGoal}
+
+\begin{equation}
+\frac{\INThdevent(\AILintention)= \AILprobgoal{\AILgoaltype}{\AILgoal}
+\quad \INThddeed(\AILintention) = \AILnpy
+}
+{\langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle \rightarrow_{\tt problem\_goal}
+\langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle
+}
+\end{equation}
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.\index{goal!problem}
+
+This rule ignores an unplanned problem goal.  \index{goal!goal deletion}  It simply does nothing but allows the reasoning cycle of the agent to continue processing on the assumption that planning of the goal may become possible later.
+
+
+
+\subsubsection*{Handle General Action ({\tt action})}
+\index{HandleGeneralAction}\index{action}
+
+\begin{equation}
+  \frac{
+    \INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILaction
+\quad \xi \xrightarrow{\AILdo(\AILaction)} \xi' 
+\quad \xi.\AILdo(\AILaction) = \AILunifier_a
+\quad \AILaction \neq \sentmessage{\AILagent,ilf}{\AILmessage}
+}{
+\langle \xi, \langle \ldots \AILintention \ldots \rangle \rangle \rightarrow_{\tt action} 
+\langle \xi', \langle \ldots \INTtl(\AILintention) \: \INTmergeunifier \: (\INThdunifier{\AILintention} \cup \AILunifier_a) \ldots \rangle \rangle
+}
+\end{equation}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+  \INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILaction
+  \quad \xi \xrightarrow{\AILdo(\AILaction)} \xi'
+\quad \neg \xi.\AILdo(\AILaction) 
+\quad \INThdevent(\AILintention) = +!_{\AILgoaltype}\AILgoal \\
+\AILaction \neq \sentmessage{\AILagent,ilf}{\AILmessage}
+\end{array}
+}{
+\langle \xi, \langle \ldots  \AILintention \ldots \rangle \rangle \rightarrow_{\tt action} 
+\langle \xi', \langle \ldots 
+(\AILprobgoal{\AILgoaltype}{\AILgoal}, \AILnpy, {\INThdunifier{\AILintention} \cup \AILunifier_a}) \INTcons \AILintention \ldots \rangle \rangle }
+\end{equation}
+
+\begin{equation}
+\frac{
+\begin{array}{c}
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = \AILaction \quad
+\xi \xrightarrow{\AILdo(\AILaction)} \xi' 
+\quad \neg \xi.\AILdo(\AILaction) 
+\quad \INThdevent(\AILintention) \neq +!_{\AILgoaltype}\AILgoal \\
+\AILaction \neq \sentmessage{\AILagent,ilf}{\AILmessage}
+\end{array}
+}{
+\langle \xi, \langle \ldots  \AILintention \ldots \rangle \rangle \rightarrow_{\tt action} 
+\langle \xi', \langle \ldots
+\INTtl(\AILintention) \: \INTmergeunifier \: \INThdunifier{\AILintention}
+\ldots \rangle \rangle }
+\end{equation}
+where $\xi.\AILdo(\AILaction\INThdunifier{\AILintention}) = \theta_a$ means that the environment successfully executes $\AILaction$ returning unifier $\theta_a$.
+$\INTtl(\AILintention) \: \INTmergeunifier \: \AILunifier_g$ indicates the union of unifier $\AILunifier_g$ with the unifier on the top of the intention $\INTtl(\AILintention)$.
+$(e, d, \theta) \INTcons \AILintention$ represents the addition of a row $(e, d, \theta)$ to the top of an intention $\AILintention$.
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+In this rule, the agent attempts the action (unless it is a send action -- $\sentmessage{\AILagent,ilf}{\AILmessage}$).  If the action succeeds it returns a unifier and the environment updates.  Otherwise, if the trigger event at the top of the intention is a goal then this is generates a problem goal event for handling by some plan.
+
+\subsubsection*{Handle Send Action ({\tt send})}
+\index{HandleSendAction}\index{message!send}
+\begin{equation}
+\frac{\xi \xrightarrow{\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})} \xi' \quad
+\INThddeed(\AILintention)\INThdunifier{\AILintention} =
+\sentmessage{\AILagent',ilf}{\AILmessage}
+\quad \xi.\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent}) = \AILunifier_a
+}{
+\begin{array}{c}
+\langle \xi, \langle \AILagent,  \AILintention, \AILintset \ldots \AILoutbox \ldots \rangle \rangle \rightarrow_{\tt send} \\
+\langle \xi', \langle \AILagent, 
+\INTtl(\AILintention) \: \INTmergeunifier \:
+(\INThdunifier{\AILintention} \cup \AILunifier_a), 
+\AILintset \cup
+\{\INTnew(+\sentmessage{\AILagent',ilf}{\AILmessage}, 
+\AILnpy, \emptyset)\}, \\
+\ldots \AILoutbox \cup \{\sentmessage{\AILagent',ilf}{\AILmessage}\} \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+
+\begin{equation}
+    \frac{
+  \begin{array}{c}
+      \xi \xrightarrow{\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})} \xi' \\
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = 
+\sentmessage{\AILagent',ilf}{\AILmessage}
+\quad \neg \xi.\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})
+\quad \INThdevent(\AILintention) = +!_{\AILgoaltype}\AILgoal
+\end{array}
+}{
+\begin{array}{c}
+\langle \xi, \langle \AILagent,  \AILintention, \AILintset \ldots \AILoutbox \ldots \rangle \rangle \rightarrow_{\tt send} \\
+\langle \xi', \langle \AILagent, 
+(\AILprobgoal{\AILgoaltype}{\AILgoal}, \AILnpy,
+\INThdunifier{\AILintention} \cup \INThdunifier{\AILintention}) \INTcons
+\AILintention,  
+\AILintset \ldots \AILoutbox \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+
+\begin{equation}
+  \frac{
+    \begin{array}{c}
+    \xi \xrightarrow{\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})} \xi' \\
+\INThddeed(\AILintention)\INThdunifier{\AILintention} = 
+\sentmessage{\AILagent',ilf}{\AILmessage}
+\quad \neg \xi.\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})
+\quad \neg \INThdevent(\AILintention) = +!_{\AILgoaltype}\AILgoal
+\end{array}
+}{
+\begin{array}{c}
+\langle \xi, \langle \AILagent,  \AILintention, \AILintset \ldots \AILoutbox \ldots \rangle \rangle \rightarrow_{\tt send} \\
+\langle \xi', \langle \AILagent, 
+\INTtl{\AILintention} \: \INTmergeunifier \: \INThdunifier{\AILintention},
+ \AILintset 
+\ldots \AILoutbox \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+where $\xi.\AILdo(\sentmessage{\AILagent',ilf}{\AILmessage}_{\AILagent})$ is the environment executing the sending of a message, $\AILmessage$, from $\AILagent$ to $\AILagent'$ with illocutionary force $\mathit{ilf}$.
+$\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier (in this case the event is the sending of a message to $\AILagent'$).
+$\INTtl(\AILintention) \: \INTmergeunifier \: \AILunifier_g$ indicates the union of unifier $\AILunifier_g$ with the unifier on the top of the intention $\INTtl(\AILintention)$.
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+This rule behaves much as the rule for handling general actions with the exception that when a send action succeeds a new intention is generated registering the event that a message was sent and the message itself is added to the agent's outbox.
+
+\subsubsection*{Handle Null ({\tt null})}
+\index{HandleNull}
+
+\begin{equation}
+\frac{
+\INThddeed(\AILintention)\INThdunifier{\AILintention}  =  \AILnullaction
+}{\langle \xi, \langle \ldots  \AILintention \ldots \rangle \rangle \rightarrow_{\tt null}
+\langle \xi, \langle \ldots \INTtl(\AILintention) \: \INTmergeunifier \:
+\INThdunifier{\AILintention} \ldots \rangle \rangle
+}
+\end{equation}
+where $\INTtl(\AILintention) \: \INTmergeunifier \: \AILunifier_g$ indicates the union of unifier $\AILunifier_g$ with the unifier on the top of the intention $\INTtl(\AILintention)$.
+Table~\ref{table:intentions} summarises all the operations on intentions such as $\INThdunifier{\AILintention}$ etc,.
+
+The null action\index{null action} is used as a
+place holder to note, when a perform goal has been committed to, a record of the relevant trigger event in
+an intention stack.  This rule simply ignores the null action when it
+is encountered and deletes that row from the intention.\index{Deed!Dnull}
+
+\subsection{Stage E}
+
+Stage E of the \gwendolen\ reasoning cycle consists of a list of a single rule for handling perception: $[ {\tt perceive} ]$\index{perception!in gwendolen}
+
+\subsubsection*{Perceive}
+\index{Perceive}
+\begin{equation}
+  \frac{\begin{array}{c}
+      \xi \xrightarrow{\AILpercepts(\AILagent)}_{\xi} \xi_1
+\quad \xi_1 \xrightarrow{\AILgetmessages(\AILagent)}_{\xi} \xi'
+\\
+P = \xi.\AILpercepts(\AILagent) \\
+OP = \{ b \mid b \in B \backslash P \wedge \mathit{source\_of}(b) =  \AILpercept\} \\
+P \backslash B \cup OP \cup \xi.\AILgetmessages(\AILagent) \neq \emptyset
+\end{array}
+}{
+\begin{array}{c}
+\langle \xi, \langle \ldots  \AILintset, \AILbeliefbase \ldots \AILinbox \ldots S \rangle \rangle
+\rightarrow_{\tt perceive} \\
+\langle \xi', \langle \ldots \\
+\AILintset \cup \{\INTnew(\texttt{start}, \AILadd \AILbelief, \emptyset) \mid \AILbelief \in P \backslash \AILbeliefbase\} \cup
+\{\INTnew(\texttt{start}, \AILdel \AILbelief, \emptyset) \mid \AILbelief \in
+OP\}, \\ \AILbeliefbase \ldots 
+\AILinbox \cup \xi.\AILgetmessages(\AILagent) \ldots
+\top \rangle \rangle
+\end{array}
+}
+\end{equation}
+
+\begin{equation}
+  \frac{\begin{array}{c}
+      \xi \xrightarrow{\AILpercepts(\AILagent)}_{\xi} \xi_1
+\quad \xi_1 \xrightarrow{\AILgetmessages(\AILagent)}_{\xi} \xi'
+\\
+P = \xi.\AILpercepts(\AILagent) \\
+OP = \{ b \mid b \in B \backslash P \wedge \mathit{source\_of}(b) =  \AILpercept\} \\
+P \backslash B \cup OP \cup \xi.\AILgetmessages(\AILagent) = \emptyset
+\end{array}
+}{
+\begin{array}{c}
+\langle \xi, \langle \ldots  \AILintset, \AILbeliefbase \ldots \AILinbox \ldots \rangle \rangle
+\rightarrow_{\tt perceive} 
+\langle \xi', \langle \ldots
+\AILintset, \AILbeliefbase \ldots 
+\AILinbox \ldots
+\rangle \rangle
+\end{array}
+}
+\end{equation}
+where $\xi.\AILpercepts(\AILagent)$ returns a set of new beliefs to the agent which are all annotated as coming from the source $\AILpercept$.
+$\mathit{source\_of}(\AILbelief)$ returns the source of a belief $\AILbelief$.
+$\xi.\AILgetmessages(\AILagent)$ returns a set of new messages to the agent.
+$\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier.  In this case the event is a special distinguished event $\texttt{start}$ which is used to indicate an intention with no trigger.
+
+This rule\index{perception!operational rules for} adds all
+messages\index{message} to the inbox\index{inbox}.  It also creates 
+new intentions, each triggered by the event of acquiring or losing
+a percept\index{intentions!changes in perception}.  A key part of the working of the rule depends on \ail{}'s annotation of all beliefs in the belief base with a source and its use of a special annotation for beliefs whose source is perception\index{beliefs!source}.  If some change is bought about either to the agent's inbox or to its intentions then the agent's sleep flag is set to true (i.e., the agent will  not sleep at the end of this reasoning cycle).
+
+Note that in the {\sc EASS} variant of \gwendolen\ the perception rule also updates the belief base directly, unlike this rule which creates intentions to update the belief base and leaves these to later reasoning cycles for execution.
+
+\subsection{Stage F}
+
+Stage F of the \gwendolen\ reasoning cycle consists of a list of a single rule for processing messages in the inbox: $[ {\tt messages} ]$\index{message!in gwendolen}
+
+\subsubsection*{Handle Messages (\texttt{messages})}
+\index{HandleMessages}
+\begin{equation}
+\frac{
+}{
+\begin{array}{c}
+\langle \xi, \langle \ldots \AILintset \ldots \AILinbox \ldots \rangle \rangle 
+\rightarrow_{\tt messages} \\
+\langle \xi, \langle \ldots \AILintset \cup \{\INTnew(+received(ag,\mathit{ilf}, m),\AILnpy,\emptyset) \mid \recmessage{ag,ilf}{m}  \in \AILinbox\} \ldots
+[] \ldots \rangle \rangle
+\end{array}
+}
+\end{equation}
+where $\INTnew(\AILevent, \AILdeed, \AILunifier)$ creates a new intention from an event, deed and unifier.  In this case the event is a belief that the agent has received message $m$ from agent, $ag$ with illocutionary force, $\mathit{ilf}$.  It is up to the programmer to decide how messages should be  handled, there is no default mechanism for handling messages of any particular illocutionary force (unlike many BDI languages which give a specific semantics to such constructs).
+
+This rule does not poll the environment for
+messages\index{environment}\index{communication}.  It takes all
+messages currently in an agent's inbox\index{inbox} and converts them
+to intentions (triggered by a perception that the message has been
+received), emptying the inbox in the process.  It should be noted that
+it does not store the message anywhere once the inbox is emptied.  It
+assumes that some plan will act appropriately to the message received
+event.  If this does not happen then the message content may be
+lost.\index{plan}\index{perception} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

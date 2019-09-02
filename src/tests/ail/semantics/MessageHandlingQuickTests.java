@@ -56,7 +56,7 @@ public class MessageHandlingQuickTests {
 		SendAction sent = new SendAction(new StringTermImpl("ag1"), 0, new Literal("message"));
 		AILAgent a = new AILAgent();
 		Message msg = sent.getMessage("ag");
-		Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, msg), new Unifier(), AILAgent.refertoself());
+		Intention i = new Intention(new Event(Event.AILAddition, Event.AILSent, msg), new Unifier(), AILAgent.refertoself(), a.getPrettyPrinter());
 		a.getIntentions().add(i);
 		a.newSentMessage(msg);
 		
@@ -68,7 +68,7 @@ public class MessageHandlingQuickTests {
 		ArrayList<Guard> guards = new ArrayList<Guard>();
 		guards.add(g);
 		
-		Intention current = new Intention(new Event(Event.AILAddition, Event.AILBel, new Literal("something")), deeds, guards, new Unifier());
+		Intention current = new Intention(new Event(Event.AILAddition, Event.AILBel, new Literal("something")), deeds, guards, new Unifier(), a.getPrettyPrinter());
 		a.setIntention(current);
 		
 		a.addBel(new Literal("goal"), AILAgent.refertoself());

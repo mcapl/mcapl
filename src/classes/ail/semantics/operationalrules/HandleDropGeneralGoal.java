@@ -24,16 +24,16 @@
 
 package ail.semantics.operationalrules;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
-import ail.syntax.Goal;
-import ail.syntax.Unifier;
 import ail.syntax.Event;
+import ail.syntax.Goal;
 import ail.syntax.Intention;
-
+import ail.syntax.Unifier;
+import ail.tracing.events.ModificationEvent;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -120,9 +120,9 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 					if (!flag) {
 						if (thetae.matchesNG(e3, goal_addition_event)) {
 							flag = true;
-							}
 						}
 					}
+				}
 				
 				
 				if (flag) {
@@ -138,10 +138,10 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 			i.tlI(a);
 		}
 		
-	//	a.removeGoal(g);
 		for (Goal sg: subgoals) {
-			a.removeGoal(sg);
+			if (a.removeGoal(sg) && a.shouldTrace()) {
+				a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, sg));
+			}
 		}
-
 	}
 }

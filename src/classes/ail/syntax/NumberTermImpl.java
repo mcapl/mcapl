@@ -27,10 +27,10 @@
 
 package ail.syntax;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.psl.MCAPLNumberTermImpl;
 import ajpf.util.AJPFLogger;
 import eis.iilang.Parameter;
@@ -197,6 +197,11 @@ public final class NumberTermImpl extends DefaultTerm implements NumberTerm {
 	public String fullstring() {
 		return "NTI:" + toString();
 	}
+    
+    @Override
+    public String toString(PredicateDescriptions descriptions ) {
+    	return toString();
+    }
      
     /*
      * (non-Javadoc)

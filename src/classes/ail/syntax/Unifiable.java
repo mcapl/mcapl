@@ -27,8 +27,10 @@
 
 package ail.syntax;
 
-import java.util.List;
+
 import java.util.Set;
+
+import ail.tracing.explanations.PredicateDescriptions;
 
 /**
  * Interface for things which can be unified.
@@ -124,4 +126,5 @@ public interface Unifiable extends Cloneable {
 	
 	public Unifiable substitute(Unifiable term, Unifiable subst);
 
+	public String toString(PredicateDescriptions descriptions);
 }

@@ -25,20 +25,24 @@
 package ail.semantics.operationalrules;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.ApplicablePlan;
-import ail.syntax.Goal;
-import ail.syntax.Intention;
-import ail.syntax.GBelief;
-import ail.syntax.Literal;
-import ail.syntax.Event;
-import ail.syntax.Guard;
-import ail.syntax.DefaultAILStructure;
 import ail.syntax.Deed;
-
-import java.util.Iterator;
+import ail.syntax.DefaultAILStructure;
+import ail.syntax.Event;
+import ail.syntax.GBelief;
+import ail.syntax.Goal;
+import ail.syntax.Guard;
+import ail.syntax.Intention;
+import ail.syntax.Literal;
+import ail.tracing.events.CreateIntentionEvent;
+import ail.tracing.events.ModificationEvent;
+import ail.tracing.events.ModifyIntentionEvent;
+import ail.tracing.events.SelectIntentionEvent;
+import ail.tracing.events.SelectPlanEvent;
 
 
 /**
@@ -76,6 +80,9 @@ public class ApplyApplicablePlans implements OSRule {
 		Iterator<ApplicablePlan> aps = a.getApplicablePlans();
 		
 		ApplicablePlan p = a.selectPlan(aps, i);
+		if (a.shouldTrace()) {
+			a.trace(new SelectPlanEvent(p, i.getID()));
+		}
 		
 		//if (! p.noChangePlan()) {
 		
@@ -89,7 +96,14 @@ public class ApplyApplicablePlans implements OSRule {
 				Event state = new Event(Deed.AILAddition, DefaultAILStructure.AILBel, state_literal);
 				// change the head of the guardstack to trivial - we've already checked it holds
 				guardstack.set(guardstack.size() - 1, new Guard(new GBelief()));
-				a.setIntention(new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone()));
+				Intention set = new Intention(state, p.getPrefix(), guardstack, p.getUnifier().clone(), a.getPrettyPrinter());
+				if (a.shouldTrace()) {
+					a.trace(new CreateIntentionEvent(set));
+				}
+				a.setIntention(set);
+				if (a.shouldTrace()) {
+					a.trace(new SelectIntentionEvent(set));
+				}
 			} else {
 				// This plan has been triggered by an event and should be added to the intention associated with that event.
                 if (p.getPrefix().size() == 0) {
@@ -99,14 +113,20 @@ public class ApplyApplicablePlans implements OSRule {
                             gcloned.apply(i.hdU());
                             i.dropP(p.getN());
                             if (!i.hdE().referstoGoal() || (Goal) i.hdE().getContent() != g) {
-                                    a.removeGoal(gcloned);
+                            	if (a.removeGoal(gcloned) && a.shouldTrace()) {
+                        			a.trace(new ModificationEvent(i.getID(), ModificationEvent.GOALS, null, null, gcloned));
+                        		}
                             }
                     } else {
                             i.dropP(p.getN());
+                            if (a.shouldTrace()) {
+        						a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.DELETE_TOP_DEEDS, p));
+        					}
                     }
                 } else {
             
                     i.dropP(p.getN());
+                    // Don't record modify intention here because it will by handled by p.getPrefix().size() != 0 below
                 }
 			
 				// NOTE HACK - top of guardstack presumably already tested!
@@ -116,9 +136,14 @@ public class ApplyApplicablePlans implements OSRule {
 			
 				if (p.getPrefix().size() != 0) {			
 					i.iConcat(p.getEvent(), p.getPrefix(), guardstack, p.getUnifier().clone());
+					if (a.shouldTrace() && p.getID() != 0) {
+						a.trace(new ModifyIntentionEvent(i, ModifyIntentionEvent.MERGE_PLAN, p));
+					}
 				} else if(! i.empty()) {
 					i.hdU().compose(p.getUnifier().clone());
 				}
+				
+				
 			}
 		//}
 		

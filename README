@@ -14,6 +14,10 @@ This software distribution consists of:
 
 - A Declarative Ethical Governor (DEG) Implementation
 
+- The Juno Context Sensitive version of the HERA system (Juno)
+
+- Verification for BDIPython (PBDI)
+
 - A Really Simple Motorway Simulation (RSMS)
 
 src/classes and src/main contains the core classes for each of these libraries 

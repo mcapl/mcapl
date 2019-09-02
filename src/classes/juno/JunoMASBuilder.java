@@ -28,7 +28,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
-
 import juno.semantics.JunoAgent;
 import juno.syntax.ast.Abstract_JunoAgent;
 import juno.syntax.parser.JunoAILVisitor;
@@ -80,8 +79,11 @@ public class JunoMASBuilder implements MASBuilder {
 	
 	public MAS getMAS(String filename) {
 		parsefile(filename);
+	public MAS getMAS(String filename, String tracedir) {
+		JunoAgent juno = parsefile(filename);
 		mas = new MAS();
 		JunoAgent juno = a_juno.toMCAPL();
+		mas.setTraceDir(tracedir);
 		mas.addAg(juno);
 
 		return mas;

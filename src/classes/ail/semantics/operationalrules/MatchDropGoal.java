@@ -31,6 +31,7 @@ import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.Intention;
 import ail.syntax.Unifier;
+import ail.tracing.events.SelectIntentionEvent;
 import ail.syntax.Deed;
 import ail.syntax.Guard;
 import ail.syntax.GBelief;
@@ -92,5 +93,8 @@ public class MatchDropGoal implements OSRule {
 						
 		Intention ipp = a.selectIntention(Is);
 		a.setIntention(ipp);
+		if (a.shouldTrace()) {
+			a.trace(new SelectIntentionEvent(ipp));
+		}
 	} 
 }
