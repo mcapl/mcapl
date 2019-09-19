@@ -24,7 +24,7 @@
 
 GWENDOLEN
 
-:name: ag1
+:name: auctioneer
 
 :Initial Beliefs:
 
@@ -35,20 +35,20 @@ GWENDOLEN
 
 +.received(:tell, bid(D, From)) : {B bid(From, E)} <- -bid(From, E), +multiple_bidder(From), +bid(From, D);
 +.received(:tell, bid(D, From)) : {True, ~ B bid(From, E)} <- +bid(From, D);
-+bid(Z, A) : {B bid(ag2, Am1), B bid(ag3, Am2), B bid(ag4, Am3), B bid(ag5, Am4), ~ B winning_amount(Am), Am2 < Am1, Am3 < Am1, Am4 < Am1} <- +winning_amount(Am1), win(ag2, Am1);
-+bid(Z, A) : {B bid(ag2, Am1), B bid(ag3, Am2), B bid(ag4, Am3), B bid(ag5, Am4), ~ B winning_amount(Am), Am1 < Am2, Am3 < Am2, Am4 < Am2} <- +winning_amount(Am2), win(ag3, Am2);
-+bid(Z, A) : {B bid(ag2, Am1), B bid(ag3, Am2), B bid(ag4, Am3), B bid(ag5, Am4), ~ B winning_amount(Am), Am2 < Am3, Am1 < Am3, Am4 < Am3} <- +winning_amount(Am3), win(ag4, Am3);
-+bid(Z, A) : {B bid(ag2, Am1), B bid(ag3, Am2), B bid(ag4, Am3), B bid(ag5, Am4), ~ B winning_amount(Am), Am2 < Am4, Am1 < Am4, Am3 < Am4} <- +winning_amount(Am4), win(ag5, Am4);
++bid(Z, A) : {B bid(ag1, Am1), B bid(ag2, Am2), B bid(ag3, Am3), B bid(ag4, Am4), ~ B winning_amount(Am), Am2 < Am1, Am3 < Am1, Am4 < Am1} <- +winning_amount(Am1), win(ag1, Am1);
++bid(Z, A) : {B bid(ag1, Am1), B bid(ag2, Am2), B bid(ag3, Am3), B bid(ag4, Am4), ~ B winning_amount(Am), Am1 < Am2, Am3 < Am2, Am4 < Am2} <- +winning_amount(Am2), win(ag2, Am2);
++bid(Z, A) : {B bid(ag1, Am1), B bid(ag2, Am2), B bid(ag3, Am3), B bid(ag4, Am4), ~ B winning_amount(Am), Am2 < Am3, Am1 < Am3, Am4 < Am3} <- +winning_amount(Am3), win(ag3, Am3);
++bid(Z, A) : {B bid(ag1, Am1), B bid(ag2, Am2), B bid(ag3, Am3), B bid(ag4, Am4), ~ B winning_amount(Am), Am2 < Am4, Am1 < Am4, Am3 < Am4} <- +winning_amount(Am4), win(ag4, Am4);
 +bid(Z, A) : {B winning_amount(Am), Am < A} <- -winning_amount(Am), +winning_amount(A), win(Z, A);
 +bid(Z, A) : {B multiple_bidder(Z), B winning_amount(Am), A < Am} <- .send(Z, :tell, failed_bid);
 
-:name: ag2
+:name: ag1
 
 :Initial Beliefs:
 
-my_name(ag2)
+my_name(ag1)
+trust(ag3)
 trust(ag4)
-trust(ag5)
 
 :Initial Goals:
 
@@ -57,10 +57,25 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(150, Name))} <- .send(auctioneer, :tell, bid(150, Name));
 +win(A, Am) : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), ~ B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag);
 +failed_bid : {B my_name(Name), ~ B win(Name, Y), B trust(Ag), B formed_coalition(AgB), ~ .sent(Ag, Name, :tell, coalition(Name))} <- .send(Ag, :tell, coalition(Name)), +formed_coalition(Ag), -trust(AgB);
-+agree(A, Am) : {True} <- .send(ag1, :tell, bid((Am + 150), ag2));
++agree(A, Am) : {True} <- .send(auctioneer, :tell, bid((Am + 150), ag1));
+
+:name: ag2
+
+:Initial Beliefs:
+
+my_name(ag2)
+
+:Initial Goals:
+
+bid [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(200, Name))} <- .send(auctioneer, :tell, bid(200, Name));
 
 :name: ag3
 
@@ -75,7 +90,8 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(25, Name))} <- .send(auctioneer, :tell, bid(25, Name));
++coalition(A) : { B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 25))} <- .send(A, :tell, agree(Name, 25));
 
 :name: ag4
 
@@ -90,21 +106,5 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(25, Name))} <- .send(ag1, :tell, bid(25, Name));
-+coalition(A) : { B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 25))} <- .send(A, :tell, agree(Name, 25));
-
-:name: ag5
-
-:Initial Beliefs:
-
-my_name(ag5)
-
-:Initial Goals:
-
-bid [perform]
-
-:Plans:
-
-+.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(150, Name))} <- .send(auctioneer, :tell, bid(150, Name));
 +coalition(A) : { B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 150))} <- .send(A, :tell, agree(Name, 150));
