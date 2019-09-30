@@ -31,3 +31,20 @@ max memory:         4592MB
 loaded code:        classes=373,methods=5687
 
 ====================================================== search finished: 12/09/19 23:11
+
+6 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       23:20:02
+states:             new=1716198,visited=394818,backtracked=2111016,end=0
+search:             maxDepth=291,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1716198
+heap:               new=2642664735,released=2665382072,maxLive=8916,gcCycles=2111016
+instructions:       516704744024
+max memory:         7438MB
+loaded code:        classes=373,methods=5687
+
+====================================================== search finished: 29/09/19 11:11
