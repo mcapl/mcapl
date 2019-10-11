@@ -91,7 +91,7 @@
 	"'fire'":"'danger_in_house'"
     },
     "context_utilities": {
-	"'evening'": {
+	"'awake'": {
 	    "people_can_see":2
 	}
 	"'fire'": {
