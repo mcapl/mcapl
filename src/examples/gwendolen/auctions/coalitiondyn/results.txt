@@ -84,3 +84,91 @@ loaded code:        classes=388,methods=5854
 
 ====================================================== search finished: 21/09/19 23:11
 
+Coalition Property
+
+3 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:02:44
+states:             new=7667,visited=934,backtracked=8601,end=0
+search:             maxDepth=92,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=7667
+heap:               new=6211577,released=6237508,maxLive=6611,gcCycles=8601
+instructions:       743433330
+max memory:         1010MB
+loaded code:        classes=385,methods=5835
+
+====================================================== search finished: 30/09/19 15:02
+
+3 Bidders, 2 Coalitions
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:02:38
+states:             new=7667,visited=934,backtracked=8601,end=0
+search:             maxDepth=92,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=7667
+heap:               new=6452871,released=6468476,maxLive=6797,gcCycles=8601
+instructions:       768406108
+max memory:         1010MB
+loaded code:        classes=385,methods=5835
+
+====================================================== search finished: 30/09/19 15:05
+
+4 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:19:19
+states:             new=50719,visited=7682,backtracked=58401,end=0
+search:             maxDepth=124,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=50719
+heap:               new=42820910,released=43197982,maxLive=7401,gcCycles=58401
+instructions:       5377232423
+max memory:         1016MB
+loaded code:        classes=385,methods=5835
+
+====================================================== search finished: 30/09/19 15:25
+
+4 Bidders, 2 Coalitions
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:38:44
+states:             new=50719,visited=7682,backtracked=58401,end=0
+search:             maxDepth=124,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=50719
+heap:               new=44262794,released=44578786,maxLive=7641,gcCycles=58401
+instructions:       5532562599
+max memory:         1015MB
+loaded code:        classes=385,methods=5835
+
+====================================================== search finished: 30/09/19 16:16
+
+5 Bidders
+
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       02:28:18
+states:             new=392515,visited=64667,backtracked=457182,end=0
+search:             maxDepth=162,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=392515
+heap:               new=326500244,released=330015288,maxLive=8141,gcCycles=457182
+instructions:       42393098665
+max memory:         2686MB
+loaded code:        classes=385,methods=5835
+
+====================================================== search finished: 30/09/19 18:46
+
