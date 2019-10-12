@@ -114,7 +114,6 @@ public class JunoRC implements ReasoningCycle {
 	@Override
 	public void cycle(AILAgent ag) {
 		if (currentstage == Perception) {
-			setStopandCheck(true);
 			currentstage = UpdateBeliefs;
 		} else if (currentstage == UpdateBeliefs) {
 			currentstage = UpdateModelUtilities;
@@ -128,6 +127,7 @@ public class JunoRC implements ReasoningCycle {
 		} else if (currentstage == UpdateModelGoals) {
 			currentstage = EthicalReasoning;
 		} else if (currentstage == EthicalReasoning) {
+			setStopandCheck(true);
 			currentstage = Act;
 		} else {
 			currentstage = Perception;

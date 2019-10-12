@@ -48,16 +48,19 @@ public class FireAndGamesVerificationEnvironment extends EASSVerificationEnviron
 	@Override
 	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
 		Set<Predicate> predicates = new TreeSet<Predicate>();
-		int time_of_day = random_int_generator.nextInt(3);
+		int time_of_day = random_int_generator.nextInt(2);
 		if  (time_of_day == 0) {
 			predicates.add(new Predicate("day"));
 			AJPFLogger.info(logname, "Daytime");
 		} else if (time_of_day == 1) {
 			predicates.add(new Predicate("evening"));
 			AJPFLogger.info(logname, "Evening");
-		} else {
-			predicates.add(new Predicate("night"));
-			AJPFLogger.info(logname, "Night");
+		} 
+		
+		int awake = random_int_generator.nextInt(2);
+		if (awake == 0) {
+			predicates.add(new Predicate("awake"));
+			AJPFLogger.info(logname, "Awake");
 		}
 		
 		int  fire = random_int_generator.nextInt(2);

@@ -77,8 +77,9 @@ public class FireEnv extends DefaultEnvironment implements MCAPLJobber {
 		if (time == DAY) {
 			time = EVENING;
 			removePercept(new Predicate("day"));
-			addPercept(new Predicate("evening"));
+			addPercept(new Predicate("night"));
 			System.err.println("Evening");
+			addPercept(new Predicate("awake"));
 			if (fires == 1) {
 				FIRE = 0;
 				removePercept(new Predicate("fire"));
@@ -86,7 +87,7 @@ public class FireEnv extends DefaultEnvironment implements MCAPLJobber {
 			}
 		} else if (time == EVENING) {
 			time = NIGHT;
-			removePercept(new Predicate("evening"));
+			removePercept(new Predicate("awake"));
 			addPercept(new Predicate("night"));		
 			System.err.println("Night");
 			if (fires == 0) {
