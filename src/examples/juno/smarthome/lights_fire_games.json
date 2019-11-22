@@ -131,11 +131,9 @@
 	"Not('children_noisy')":"'children_are_quiet'"
     },
     "context_utilities": {
-	"'evening'": {
-	    "children_play_game":0
-	}
     "'And('awake','night')": {
         "people_can_see":2
+        "children_play_game":0
     }
 	"'fire'": {
 	    "people_leave_house":0,

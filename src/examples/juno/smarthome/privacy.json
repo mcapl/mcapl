@@ -102,7 +102,7 @@
 	    ]
 	}
 	"'pending_restricted_reminder'": {
-	    "group_know_reminder": [
+	    "visitor_know_reminder": [
 		[
 		    "Resident",
 		    "-"

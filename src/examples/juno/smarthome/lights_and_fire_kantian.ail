@@ -23,6 +23,10 @@
 
 // A Kantian reasoner for the Fire (no games) examples
 
+// Note this choose to evacuate the house when it is night time and there is no fire because it assumes this has no effect
+// at this point I can't be bothered to tweak the model to say something like evacuating the house is noisy and will wake
+// people up, so I'm just going with it.
+
 env = juno.smarthome.FireEnv
 mas.file = src/examples/juno/smarthome/lights_and_fire.json
 mas.builder = juno.JunoMASBuilder

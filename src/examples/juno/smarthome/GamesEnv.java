@@ -50,7 +50,7 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 	int time = DAY;
 	static int CHILDREN_NOISY = 0;
 	int noise = 0;
-	int switch1 = 0;
+	int switch1 = 1;
 	
 	/**
 	 * Constructor.
@@ -85,9 +85,9 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 			addPercept(new Predicate("night"));
 			addPercept(new Predicate("awake"));
 			System.err.println("Evening");
-			if (noise == 2) {
+			/* if (noise == 2) {
 				System.err.println("Mum Wrapping Presents");
-			}
+			} */
 		} else if (time == EVENING && switch1 == 1) {
 			time = NIGHT;
 			removePercept(new Predicate("awake"));
@@ -104,8 +104,10 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 			addPercept(new Predicate("awake"));
 			if (noise < 2) {
 				addPercept(new Predicate("mum_working"));
+				System.err.println("Mum Working");
 			} else {
 				addPercept(new Predicate("mum_wrapping_presents"));
+				System.err.println("Mum Wrapping Presents");
 			}
 			addPercept(new Predicate("day"));
 			System.err.println("Day");
@@ -116,11 +118,6 @@ public class GamesEnv extends DefaultEnvironment implements MCAPLJobber {
 			}
 		}
 		
-		if (switch1 == 1) {
-			switch1 = 0;
-		} else {
-			switch1 = 1;
-		}
 	}
 
 	/*

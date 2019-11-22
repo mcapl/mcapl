@@ -53,8 +53,8 @@ public class FireAndGamesVerificationEnvironment extends EASSVerificationEnviron
 			predicates.add(new Predicate("day"));
 			AJPFLogger.info(logname, "Daytime");
 		} else if (time_of_day == 1) {
-			predicates.add(new Predicate("evening"));
-			AJPFLogger.info(logname, "Evening");
+			predicates.add(new Predicate("night"));
+			AJPFLogger.info(logname, "Night");
 		} 
 		
 		int awake = random_int_generator.nextInt(2);

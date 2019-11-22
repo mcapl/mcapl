@@ -127,7 +127,7 @@ public class JunoRC implements ReasoningCycle {
 		} else if (currentstage == UpdateModelGoals) {
 			currentstage = EthicalReasoning;
 		} else if (currentstage == EthicalReasoning) {
-			setStopandCheck(true);
+			// setStopandCheck(true);
 			currentstage = Act;
 		} else {
 			currentstage = Perception;
