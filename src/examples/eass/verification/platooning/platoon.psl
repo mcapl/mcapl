@@ -1,0 +1,243 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2015 Louise A. Dennis, Michael Fisher, Maryam Kamali, Owen McAree 
+// and Sandor Veres
+// 
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+small_model_generation: G(follower3, platoon_m(follower3, follower1)) &
+				ItD(follower3, send(leader, 1, message(follower3, 1, follower1)))  &
+				B(follower3, join_agreement(follower3, follower1)) &
+				D(follower3, perf(join_ok(1))) & 
+				B(follower3, changed_lane) &
+				D(follower3, perf(speed_controller(1))) &
+				B(follower3, initial_distance) &
+				D(follower3, perf(steering_controller(1))) &
+				ItD(follower3, send(leader, 1, message(follower3, 2)))  &
+				B(follower3, platoon_m) &
+				B(follower3, platoon_ok) &
+				G(follower1, set_spacing(17)) &
+				ItD(follower3, send(leader, 1, set_spacing_from(follower3)))  &
+				B(follower3, ack_spacing(17)) &
+				B(follower3, spacing) &
+				D(follower3, perf(speed_controller(0))) &
+				D(follower3, perf(steering_controller(0))) &
+				D(follower3, perf(join_ok(0)))  
+
+
+
+model_generation: G(follower3, platoon_m(follower3, follower1)) &
+				B(follower3, ready_to_join) &
+				ItD(follower3, send(leader, 1, message(follower3, 1, follower1)))  &
+				B(follower3, join_agreement(follower3, follower1)) &
+				D(follower3, perf(join_ok(1))) & 
+				ItD(vehicle3, send(follower3, 1, vehicle_failed)) &
+				B(follower3, vehicle_failed) &
+				B(follower3, changed_lane) &
+				D(follower3, perf(speed_controller(1))) &
+				B(follower3, initial_distance) &
+				D(follower3, perf(steering_controller(1))) &
+				ItD(follower3, send(leader, 1, message(follower3, 2)))  &
+				B(follower3, platoon_m) &
+				B(follower3, platoon_ok) &
+				B(follower3, ready_to_leave) &
+				G(follower3, set_spacing(17)) &
+				ItD(follower3, send(leader, 1, set_spacing_from(follower3)))  &
+				B(follower3, ack_spacing(17)) &
+				B(follower3, spacing) &
+				G(follower3, leave_platoon) & 
+				ItD(follower3, send(leader, 1, message(follower3, 0)))  &
+				B(follower3, leave_agreement(follower3)) &
+				D(follower3, perf(speed_controller(0))) &
+				D(follower3, perf(steering_controller(0))) &
+				D(follower3, perf(join_ok(0))) & 
+				B(follower3, no_platoon_m) &
+				B(follower3, leave_ok) 
+
+full_model: [] ~B(follower3, bad)
+
+// ============================================================= REQUIREMENT 1 ===========================================================
+// =================== A vehicle must only initiate joining a platoon once it has received confirmation from the leader ==================
+// ========================================== req1_1: liveness and req1-2: safety property ===============================================
+
+req1_1_verified_prop3_in_paper: [](  
+		(
+			G(follower3, platoon_m(follower3, follower1))
+			&
+			[] (ItD(follower3, send(leader, 1, message(follower3, 1, follower1))) -> <>B(follower3, join_agreement(follower3, follower1)))
+			&
+			~B(follower3, changed_lane)
+		)
+		->
+		<>D(follower3, perf(join_ok(1)))  
+		)
+		
+req1_2_verified_prop1and2_in_paper: [](
+		(
+			G(follower3, platoon_m(follower3, follower1))
+			&
+			[]~B (follower3, join_agreement(follower3, follower1))
+		)
+		-> 
+		[](~D(follower3, perf(join_ok(1))))
+		)
+
+// ============================================================= REQUIREMENT 2 ===========================================================
+// ======= A vehicle must only initiate joining a platoon after positively identifying the preceding vehicle which it is to follow =======
+// ========================================================= is not in agent level =======================================================
+
+// ============================================================= REQUIREMENT 3 ===========================================================
+// ====== Before autonomous control is enabled, a joining vehicle must approach the preceding vehicle, in the correct lane, ==============
+// ======================================= under human control (or supervised automatic control) =========================================
+// ========================================== req3_1: liveness and req3-2, req3-3: safety property =======================================
+
+
+req3_1_verified: []( 
+			(D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane))
+			&
+			B(follower3, join_agreement(follower3, follower1))		
+		-> 
+			<>D(follower3, perf(speed_controller(1)))
+		)
+
+
+req3_2_verified_prop4_in_paper: [](
+		(
+			G(follower3, platoon_m(follower3, follower1))
+			&
+	 		[]~B(follower3, changed_lane)
+	 	)
+		->
+	  	[]~D(follower3, speed_controller(1))
+		)
+		
+		
+req3_3_verified_prop5_in_paper: [] (
+		(
+			G(follower3, platoon_m(follower3, follower1)) 
+			& 
+			[]~B(follower3, join_agreement(follower3, follower1))
+		)
+		->
+		[] ~D(follower3, speed_controller(1))
+		)
+
+req3_3_verified: [] (
+		(G(follower3, platoon_m(follower3, follower1)) & 
+		~B(follower3, join_agreement(follower3, follower1)))
+		->
+		[] ~D(follower3, speed_controller(1))
+		)
+
+// ============================================================= REQUIREMENT 4 ===========================================================
+// ============ Autonomous control must only be enabled once the joining vehicle is sufficiently close to the preceding vehicle===========
+// ============================================ req4_1: liveness and req4-2: safety property =============================================
+
+req4_1_verified: []( 
+			[]( D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane) )
+			&
+			B(follower3, join_agreement(follower3, follower1))
+			& 
+			[]( D(follower3, perf(speed_controller(1)))-> <>B(follower3, initial_distance) )
+		->
+		<> D(follower3, perf(steering_controller(1)))
+		)
+
+
+req4_2_verified_prop6_in_paper: [] (
+		(
+			G(follower3, platoon_m(follower3, follower1)) 
+			& 
+			~B(follower3, initial_distance))
+		->
+		[] ~D(follower3, steering_controller(1))
+		)
+
+			
+
+// ========================================================= END OF JOINING REQUIREMENTS ================================================
+
+
+// =============================================================== PLATOONING ======================================================	
+
+
+
+// ============================================================ REQUIREMENT 7 ==========================================================
+// ============================================= Acknowledge to the leader after a request has been fullfilled =========================
+// ================ At the end of joining procedure, a joining vehicle is in a correct lane with automatic control =====================
+// ====================================== and already sent an acknowledgement to the leader ============================================
+// ========================================================= joining acknowledgement ===================================================
+	
+	
+req7_1_verified:   []( D(follower3, perf(join_ok(1)))-> <>B(follower3, changed_lane) )
+		&
+		B(follower3, join_agreement(follower3, follower1))
+		& 
+		[]( D(follower3, perf(speed_controller(1)))-> <>B(follower3, initial_distance) )
+		->
+		<> B(follower3, platoon_ok)
+	
+	
+// ================ If a vehicle has changed its lane and switched to manual control, then it eventually sends =========================
+// ============================================== an acknowledgement to the leader =====================================================
+// ========================================================= leaving acknowledgement ===================================================
+req7_2_verified:	[](
+		G(follower3, leave_platoon)
+	 	& 
+	 	D(follower3, perf(steering_controller(0)))
+		&
+		D(follower3, perf(join_ok(0)))-> <>B(follower3, changed_lane))
+		->
+		<>ItD(follower3, send(leader, 1, message(follower3, 0)))
+		)
+	
+
+// =============================================================== LEAVING PLATOON ======================================================	
+
+// ============================================================= REQUIREMENT 14 ===========================================================
+// =============== Except in emergency cases, a vehicle must not leave the platoon without authorisation from the leader ================	
+// ============================================ req14_1: liveness and req14-2: safety property ============================================
+req14_2_verified_pror7_in_paper: [](
+			~B(follower3, leave_agreement(follower3))
+			&
+			G(follower3, leave_platoon) 
+		)
+		->
+		[]~D(follower3, perf(speed_controller(0)))
+		
+// ============================================================= REQUIREMENT 15 ===========================================================
+// ========== When authorized to leave, autonomous control should not be disabled until the maximum allowable =============================
+// ================================================== platoon spacing has been achieved ===================================================
+// ======= The leader authorizes to leave if and only if the maximum allowable platoon spacing has already been achieved ==================
+// ================== In a vehicle REQ 14 and REQ 15 are equivalent. This property should be verified in the leader =======================
+
+
+// ========================================================= END OF LEAVING REQUIREMENTS ==================================================
+  
+
+req14_1_verified: []( G(follower3, leave_platoon)
+		  &
+		  []( ItD(follower3, send(leader, 1, message(follower3, 0))) -> B(follower3, leave_agreement(follower3)) )
+		  &
+		  B(follower3, speed_controller(1))		
+		  ->
+		  <>D(follower3, perf(speed_controller(0)))
+		)		
