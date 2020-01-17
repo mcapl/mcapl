@@ -31,7 +31,7 @@ target.args =src/examples/eass/verification/platooning/platoon.ail,src/examples/
 // target.args =src/examples/eass/verification/platoon/modelExtractionForVerification6Jan17/platoon.ail,src/examples/eass/verification/platoon/modelExtractionForVerification6Jan17/platoon.psl,req1_1
 
 log.info = ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment,eass.verification.platooning.PlatoonEnvironment,ajpf.product.Product
-//log.fine = ail.semantics.AILAgent
+// log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

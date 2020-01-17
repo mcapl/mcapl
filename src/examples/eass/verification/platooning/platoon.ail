@@ -29,13 +29,13 @@ mas.agent.1.file= /src/examples/eass/verification/platooning/follower.eass
 mas.agent.1.builder= eass.EASSAgentBuilder
 mas.agent.1.name= follower3
 
-mas.agent.2.file= /src/examples/eass/verification/platooning/leader.eass
-mas.agent.2.builder= eass.EASSAgentBuilder
-mas.agent.2.name= leader
+//mas.agent.2.file= /src/examples/eass/verification/platooning/leader.eass
+//mas.agent.2.builder= eass.EASSAgentBuilder
+//mas.agent.2.name= leader
 
-mas.agent.3.file= /src/examples/eass/verification/platooning/vehicle.eass
-mas.agent.3.builder= eass.EASSAgentBuilder
-mas.agent.3.name= vehicle3
+//mas.agent.3.file= /src/examples/eass/verification/platooning/vehicle.eass
+//mas.agent.3.builder= eass.EASSAgentBuilder
+//mas.agent.3.name= vehicle3
 
 ajpf.transition_every_reasoning_cycle = false
 ail.store_sent_messages = false
