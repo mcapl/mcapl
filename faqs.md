@@ -35,6 +35,15 @@
 ### Planning
 ###### What strategies are you planning to explore to reduce the planning time and ensure that the modified actions that you explore lead you to a valid solution?
 ###### What is the difference between reconfiguration and learning a new action?
+
 ### Examples
 ###### Better explain why the systems will no longer perform as expected.
 ###### The paper should discuss explicitly in which context learning from failures is feasible. - Where failure is serious – is the answer just to stop the system? And not use our approach?
+
+### Evaluation
+###### How am I evaluating success?
+
+### General
+###### What do you mean by _____?
+###### How does this relate to _____?
+###### Is this approach similar to _____?
