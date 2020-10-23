@@ -54,6 +54,18 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 	@FilterField
 	public final static int maintainGoal = 3;
 		
+    /**
+     * Whether the goal is suspended.  i.e, forced not to be the current 
+     * until some condition is met.
+     */
+    protected boolean suspended = false;
+
+    /**
+     * The condition that needs to be true to unsuspend the goal
+     */
+    protected Literal suspendedfor;
+    
+	
 	/**
 	 * By default a goal is an achieve goal.
 	 */
@@ -487,5 +499,82 @@ public class Goal extends Literal implements GuardAtom<PredicateTerm> {
 		return getPredicateIndicator();
 	}
 
+    
+    /**
+     * Suspends the goal.
+     *
+     */
+    public void suspend() {
+    	suspended = true;
+    }
+    
+    /**
+     * Allows a condition to be set for the unsuspension of the goal.
+     * @param beliefcondition
+     */
+    public void suspendFor(Literal beliefcondition) {
+    	suspendedfor = beliefcondition.clone();
+    	suspend();
+    }
+    
+    /**
+     * Is the goal suspended?
+     * @return whether the goal is suspended.
+     */
+    public boolean suspended() {
+    	return suspended;
+    }
+    
+    /**
+     * Unsuspend the goal.
+     *
+     */
+    public void unsuspend() {
+    	suspended = false;
+    }
+ 
+    /**
+     * Unsuspend the goal if it's condition is met by the new belief
+     * @param beliefcondition
+     */
+    public void unsuspendFor(Literal beliefcondition) {
+    	if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
+    		suspendedfor = null;
+    		unsuspend();
+    	}
+    }
+    
+    /**
+     * Unsuspend the goal if it's condition is met by the new belief
+     * @param beliefcondition
+     */
+    public void unsuspendFor(Predicate beliefcondition) {
+    	if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
+    		suspendedfor = null;
+    		unsuspend();
+    	} 
+    }
 
+    /**
+     * Unsuspend the goal if it's condition met by the changes in perception
+     * @param newbeliefs
+     * @param oldbeliefs
+     */
+    public void unsuspendFor(Set<Predicate> newbeliefs, Set<Literal> oldbeliefs) {
+    	if (suspended) {
+    		for (Predicate p: newbeliefs) {
+    			unsuspendFor(p);
+    		}
+    	}
+    	if (suspended) {
+    		for (Literal l: oldbeliefs) {
+   				Literal l1 = l.clone();
+   				if (! l.negated()) {
+    				l1.setNegated(false);
+    			}
+    			unsuspendFor(l1);
+    		}
+    	}
+    }
+	
 }
