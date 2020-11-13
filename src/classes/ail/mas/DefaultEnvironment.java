@@ -85,7 +85,7 @@ public class DefaultEnvironment implements AILEnv {
 	/**
 	 * A map of agents to their pending messages.
 	 */
-	private Map<String, VerifySet<Message>> agMessages = new VerifyMap<String, VerifySet<Message>>();
+	protected Map<String, VerifySet<Message>> agMessages = new VerifyMap<String, VerifySet<Message>>();
 
 	/**
 	 * The list of percept listeners.

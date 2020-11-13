@@ -25,25 +25,28 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction5Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,2
+target.args = ${mcapl}/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction4Bidders2Coalitions.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,7
 
-log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
 
-// ====================================================== results
-// no errors detected
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
 
-// ====================================================== statistics
-// elapsed time:       07:45:50
-// states:             new=403019,visited=88161,backtracked=491180,end=0
-// search:             maxDepth=257,constraints=0
-// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=403019
-// heap:               new=722509628,released=727692274,maxLive=8225,gcCycles=491180
-// instructions:       173542235637
-// max memory:         4496MB
-// loaded code:        classes=373,methods=5687
+# ====================================================== results
+# no errors detected
 
-// ====================================================== search finished: 03/08/20 19:44
+# ====================================================== statistics
+# elapsed time:       01:05:37
+# states:             new=199135,visited=38199,backtracked=237334,end=0
+# search:             maxDepth=182,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=199135
+# heap:               new=147856575,released=149460991,maxLive=7809,gcCycles=237334
+# instructions:       16068886035
+# max memory:         1494MB
+# loaded code:        classes=385,methods=5835
+# 
+# ====================================================== search finished: 02/08/20 19:30
+

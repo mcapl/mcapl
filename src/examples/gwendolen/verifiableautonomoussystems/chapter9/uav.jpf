@@ -1,0 +1,29 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav.ail,${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/certification.psl,1
+
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,ajpf.MCAPLcontroller,gwendolen.verifiableautonomoussystems.chapter9.UAV
+// log.fine = ail.semantics.AILAgent
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+// vm.storage.class=gov.nasa.jpf.vm.DebugJenkinsStateSet
+
+// Round Robin Schendule
+// ====================================================== results
+//no errors detected
+//
+//====================================================== statistics
+//elapsed time:       15:24:17
+//states:             new=1327232,visited=498112,backtracked=1825344,end=9
+//search:             maxDepth=4856,constraints=0
+//choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1327230
+//heap:               new=1098130721,released=1098104319,maxLive=8454,gcCycles=1825344
+//instructions:       187972037449
+//max memory:         9940MB
+//loaded code:        classes=367,methods=5749
+
+// ====================================================== search finished: 18/07/20 10:57

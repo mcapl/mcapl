@@ -37,16 +37,15 @@ et.show_shared=false
 
 # ====================================================== results
 # no errors detected
-
+# 
 # ====================================================== statistics
-# elapsed time:       00:14:33
-# states:             new=2489, visited=3928, backtracked=6417, end=0
-# search:             maxDepth=21, constraints hit=0
-# choice generators:  thread=1 (signal=0, lock=1, shared ref=0), data=2489
-# heap:               new=36711165, released=36672762, max live=53551, gc-cycles=6417
-# instructions:       5603258121
-# max memory:         87MB
-# loaded code:        classes=340, methods=4221
-
-# ====================================================== search finished: 6/14/13 5:23 PM
-
+# elapsed time:       00:10:55
+# states:             new=30329,visited=4583,backtracked=34912,end=0
+# search:             maxDepth=151,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=30329
+# heap:               new=24668303,released=24882392,maxLive=6846,gcCycles=34912
+# instructions:       2495967345
+# max memory:         1510MB
+# loaded code:        classes=388,methods=5854
+# 
+# ====================================================== search finished: 02/08/20 13:06

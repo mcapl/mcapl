@@ -36,6 +36,7 @@ import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_PredicateDescription;
 import ail.tracing.explanations.PredicateDescriptions;
 import ail.util.AILConfig;
+import ail.util.AILPrettyPrinter;
 import ail.util.AILexception;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
@@ -127,6 +128,13 @@ public class GwendolenAgent extends AILAgent {
 			} catch (final AJPFException | IOException e) {
 				e.printStackTrace(); // FIXME
 			}
+		}
+		
+		if (config.containsKey("pretty")) {
+			String printer = config.getProperty("pretty");
+			if (printer.equals("ail")) {
+				setPretty(new AILPrettyPrinter());
+			} 
 		}
 	}
 }

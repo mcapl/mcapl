@@ -33,3 +33,19 @@ listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
 
+# ====================================================== results
+# no errors detected
+
+# ====================================================== statistics
+# elapsed time:       00:04:58
+# states:             new=12685,visited=3144,backtracked=15829,end=0
+# search:             maxDepth=65,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=12685
+# heap:               new=13150123,released=13245058,maxLive=5967,gcCycles=15829
+# instructions:       1359194231
+# max memory:         707MB
+# loaded code:        classes=346,methods=5474
+
+# ====================================================== search finished: 01/08/20 17:22
+
+

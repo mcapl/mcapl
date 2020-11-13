@@ -7,12 +7,11 @@
 
 package gwendolen.uavs.certification;
 
-import ail.mas.DefaultEnvironment;
 import ail.mas.DefaultEnvironmentwRandomness;
 import ail.mas.MAS;
 import ail.util.AILexception;
-import ajpf.util.choice.UniformBoolChoice;
-import ajpf.util.choice.UniformIntChoice;
+// import ajpf.util.choice.UniformBoolChoice;
+// import ajpf.util.choice.UniformIntChoice;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 

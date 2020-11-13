@@ -32,3 +32,18 @@ log.info = ail.mas.DefaultEnvironment,ajpf.product.Product
 listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
+
+// ====================================================== results
+// no errors detected
+
+// ====================================================== statistics
+// elapsed time:       00:43:22
+// states:             new=65816,visited=12976,backtracked=78792,end=0
+// search:             maxDepth=188,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=65816
+// heap:               new=85441275,released=86103885,maxLive=7313,gcCycles=78792
+// instructions:       14944572321
+// max memory:         3515MB
+// loaded code:        classes=373,methods=5687
+
+// ====================================================== search finished: 03/08/20 11:48

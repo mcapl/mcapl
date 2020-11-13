@@ -27,3 +27,6 @@
 2: <>(B(ag2, win(ag2, 300)))
 3: <>(B(ag2, win(ag3, 350)))
 4: <>(B(ag3, win(ag3, 310)))
+5: <>(G(ag2, coalition(ag4)))
+6: <>(G(ag3, coalition(ag4)))
+7: <>(G(ag3, coalition(ag5)))
