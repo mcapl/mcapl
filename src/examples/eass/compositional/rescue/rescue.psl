@@ -1,0 +1,1 @@
+1: [] B(goalreas,recharge) -> <>(D(goalreas, set_goal(1, 1)) || ~B(goalreas, new_goal))
