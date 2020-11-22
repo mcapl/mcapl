@@ -404,6 +404,7 @@ public class DefaultEnvironment implements AILEnv {
     	// add agName to the set of uptodate agents
     	// only happens if its the agent checking - not the property automata
     	if (update) {
+    		// System.out.println(uptodateAgs)
     		uptodateAgs.add(agName);
     	}
 
@@ -493,6 +494,7 @@ public class DefaultEnvironment implements AILEnv {
   	 * @see ail.mas.AILEnv#agentIsUpToDate(java.lang.String)
   	 */
   	public boolean agentIsUpToDate(String agName) {
+  		// System.out.println(uptodateAgs.contains(agName));
   		return (uptodateAgs.contains(agName) && agMessages.get(agName).isEmpty());
   	}
 

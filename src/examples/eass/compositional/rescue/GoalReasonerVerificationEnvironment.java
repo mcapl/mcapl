@@ -10,6 +10,7 @@ import ail.syntax.Predicate;
 import eass.mas.verification.EASSVerificationEnvironment;
 
 public class GoalReasonerVerificationEnvironment extends EASSVerificationEnvironment {
+	public String logname = "eass.compositional.rescue.GoalReasonerVerificationEnvironment";
 
 	@Override
 	public Set<Predicate> generate_sharedbeliefs(String agName, Action act) {
@@ -21,9 +22,10 @@ public class GoalReasonerVerificationEnvironment extends EASSVerificationEnviron
 			System.out.println("needs recharging");
 			percepts.add(new Literal("recharge"));
 		} else {
-			System.out.println("Doesn't");
+			System.out.println("Doesn't need recharging");
 		}
 		
+		System.out.println(percepts);
 		return percepts;
 	}
 

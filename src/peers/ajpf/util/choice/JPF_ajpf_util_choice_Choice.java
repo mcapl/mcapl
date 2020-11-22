@@ -71,6 +71,7 @@ public class JPF_ajpf_util_choice_Choice<O extends Object> extends NativePeer {
 		} else {
 			myChoice = 0;
 		}
+		// System.err.println("Returning " + myChoice);
 		return myChoice;
 
 	}
