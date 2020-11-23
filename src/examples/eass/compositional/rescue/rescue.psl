@@ -1,5 +1,9 @@
-1: [] ( B(goalreas,recharge) -> 
-		<>(D(goalreas, set_goal(1, 1)) || ~B(goalreas, new_goal) ) )
-3: []( B(car, at_speed_limit) -> 
-       <>(D(car, perf(maintain_speed)))
-       )
+1: [] ( (B(goalreas,recharge) & B(goalreas,new_goal) ) -> 
+		<>(D(goalreas, set_goal(1, 1)) )
+2: [] (
+	( (~B(goalreas,recharge) & B(goalreas,location(3,4,5)) ) 
+	 & ( B(goalreas,new_goal) & ~B(goalreas,init_pos(3, 4)) )
+    ) -> 
+		<>(D(goalreas, set_goal(3, 4)) )
+3: []( ( B(goalreas,atGoal) & B(goalreas,init_pos(2, 3))
+		-> <> ~B (goalreas, location(2, 3, 4)))
