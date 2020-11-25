@@ -23,11 +23,11 @@
 //----------------------------------------------------------------------------
 
 0: <>(B(ag1, win))
-0: <>(B(ag3, win))
 1: <>(B(ag2, win))
-2: <>(B(ag2, win(ag2, 300)))
-3: <>(B(ag2, win(ag3, 350)))
-4: <>(B(ag3, win(ag3, 310)))
-5: <>(G(ag2, coalition(ag4)))
-6: <>(G(ag3, coalition(ag4)))
+2: <>(B(ag1, win(ag1, 300)))
+3: <>(B(ag2, win(ag2, 350)))
+4: <>(B(ag2, win(ag2, 310)))
+5: <>(G(ag1, coalition(ag3)))
+6: <>(G(ag2, coalition(ag4)))
 7: <>(G(ag3, coalition(ag5)))
+8: <>(G(ag1, coalition(ag3)))
