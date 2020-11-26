@@ -1592,12 +1592,12 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		ArrayList<Intention> suspended = new ArrayList<Intention>();
 		for (Intention i : Is) {
 			if (i.suspended()) {
-				suspended.add(i);
+				Intention.add_intention_to_sorted(i, suspended);
 			} else {
 				unsuspended.add(i);
 			}
 		}
-		Collections.sort(suspended);
+		// Collections.sort(suspended);
 		setIntentions(unsuspended);
 		Is.addAll(suspended);
 	}

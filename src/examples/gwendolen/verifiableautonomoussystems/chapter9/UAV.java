@@ -34,6 +34,18 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 	private String lastMsgSu = "";
 	
 	VerifyList<Message> exec_pending_messages = new VerifyList<Message>();
+	
+	public String toString() {
+		String s = "Environment:\n";
+		s += "At Sumburgh: " + at_sumburgh + "\n";
+		s += "Landed: " + landed + "\n";
+		s += "Last Status Update: " + lastMsgSu + "\n";
+		s += "Vehicle Status: " + vehicleStatus + "\n";
+		for (Message m: agMessages.get("exec")) {
+			s += "Current messages in Environment: " + m + "\n";
+		}
+		return s;
+	}
 
 	public UAV() {
 		super();
@@ -61,17 +73,18 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		for (Message m: exec_pending_messages) {
 			addMessage("exec", m);
 			AJPFLogger.fine(logname, "Sent Message: " + m);
-			System.err.println("Sent Message: " + m);
 		}
 		exec_pending_messages.clear();	
 		
 		
 		if ((vehicleStatus.equals("cruise")  && !at_sumburgh) || (vehicleStatus.equals("approach") && !landed)) {
+			// RANDOM CHOICE
 			boolean result = random_booleans.get_choice(); 
+			// boolean result = true;
 			if (result) {
-				System.out.println("At Sumburgh or Landed True");
+				AJPFLogger.info(logname, "At Sumburgh or Landed True");
 			} else {
-				System.out.println("At Sumburgh or Landed False");
+				AJPFLogger.info(logname, "At Sumburgh or Landed False");
 			}
 			
 			
@@ -98,16 +111,16 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		if (! agMessages.isEmpty()) {
 			scheduler.perceptChanged();
 			for (Message m: agMessages.get("exec")) {
-				System.out.println(m);
+				AJPFLogger.fine(logname, "Current messages in Environment: " + m);
 			}
 		}
 		
 		if (exec_pending_messages.isEmpty() && !vehicleStatus.equals("cruise") && !vehicleStatus.equals("approach")) {
-			System.out.println("Nothing changed in Environment");
+			AJPFLogger.fine(logname, "Nothing changed in Environment");
 			scheduler.notActive(this.getName());
 		}
 		
-		AJPFLogger.info( logname, "VEHICLE: " + vehicleStatus);
+		AJPFLogger.info( logname, this.toString());
 		
 	}
 	
@@ -143,7 +156,10 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 			s.addTerm(new Literal("1"));
 			exec_pending_messages.add(new Message(1,"env","exec",s));
 	   	} else if (act.getFunctor().equals("requestTaxiClearance") || act.getFunctor().equals("requestLineUpClearance") || act.getFunctor().equals("requestTakeOffClearance")) {
-	   		if (random_booleans.get_choice()) {
+	   		// RANDOM CHOICE
+	   		// boolean choice = random_booleans.get_choice()
+	   		boolean choice = true;
+	   		if (choice) {
 	   			Predicate predFromLine = new Predicate("atc");
 	   			if (act.getFunctor().equals("requestTaxiClearance")) {
 	   				Predicate tcg = new Literal("taxiClearanceGiven");
@@ -157,7 +173,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 	   				predFromLine.addTerm(lug);
 	   			}
 				exec_pending_messages.add(new Message(1,"env","exec",predFromLine));
-				System.out.println("Adding message: " + predFromLine.toString());
+				// AJPFLogger.fine(logname, "Adding message: " + predFromLine.toString());
 	   		} else {
 	   			Predicate predFromLine = new Predicate("atc");
 	   			if (act.getFunctor().equals("requestTaxiClearance")) {
@@ -194,7 +210,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 			exec_pending_messages.add(new Message(1,"env","exec",s));
 
 	   	} else if (act.getFunctor().equals("requestEmergencyAvoid")) {
-			System.out.println("!!! emergAvoid");
+			AJPFLogger.info(logname, "!!! emergAvoid");
 			Predicate s = new Predicate("enacting");
 			s.addTerm(new Literal("emergencyAvoid")); 
 							
@@ -275,22 +291,33 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 	private void setVehicleStatus(String status)
 	{
 		vehicleStatus = status;
-		AJPFLogger.info( logname, "VEHICLE: " + status);
+		AJPFLogger.info( logname, "Setting VEHICLE: " + status);
 	}
 	
 	private void detectAndAvoidSensor() {
-		Predicate s;
+		Predicate s_o;
+		Predicate s_500;
 
-		s = new Predicate("das");
+		s_o = new Predicate("das");
+		s_500 = new Predicate("das");
+		s_o.addTerm(new Literal("objectApproaching"));
+		s_500.addTerm(new Literal("alert500"));
+		Message s_o_m = new Message(1,"env","exec",s_o);
+		Message s_500_m = new Message(1,"env","exec",s_500);
 		
-		System.out.println("!!! das " + lastMsgSu + " " + vehicleStatus);
+		AJPFLogger.fine(logname, "das last message status update: " + lastMsgSu + " vehicle status: " + vehicleStatus);
 		// if the last message was "object Approaching", the object is now passed. (maybe introduce a delay here , i.e., object appr can be sent again?)
 		// otherwise, send either object approaching or nothing to report. 
-		if ( lastMsgSu.equals("objectApproaching") || lastMsgSu.equals("alert500") )
+		if ( ( lastMsgSu.equals("objectApproaching") && ! (agMessages.get("exec")).contains(s_o_m)) 
+				|| (lastMsgSu.equals("alert500") && ! (agMessages.get("exec")).contains(s_500_m) ) )
 		{
-			if (prob_choice.get_choice()) {
+			// RANDOM Choice
+			boolean choice = prob_choice.get_choice();
+			// boolean choice = false;
+			if (choice) {
+				Predicate s = new Predicate("das");
 				if (lastMsgSu.equals("objectApproaching")) {
-					System.out.println("!!! das objectApproaching last msg");
+					System.out.println("!!! das objectApproaching last msg"); 
 				} else {
 					System.out.println("!!! das alert500 last msg");
 				}
@@ -299,30 +326,38 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				addMessage("exec", new Message(1,"env","exec",s));
 				lastMsgSu = "";
 			} else {
-				System.out.println("No Object Passed");
+				AJPFLogger.info(logname, "No Object Passed");
 			}
 		} else if (! (vehicleStatus.equals("emergencyAvoid"))  && lastMsgSu == "")
 		{
-			if (prob_choice.get_choice())  // 0.5
+			// RANDOM Choice
+			boolean choice = prob_choice.get_choice();
+			// boolean choice = false;
+			if (choice)  // 0.5
 			{
-				System.out.println("!!! das objectApproaching");
+				AJPFLogger.info(logname, "!!! das objectApproaching");
 				//s.addTerm(new NumberTermImpl(d));
-				s.addTerm(new Literal("objectApproaching"));
-				addMessage("exec", new Message(1,"env","exec",s));
+				//s.addTerm(new Literal("objectApproaching"));
+				addMessage("exec",s_o_m);
 				lastMsgSu = "objectApproaching";
+				return;
 			}
-			else if (prob_choice.get_choice()) 
-			{
-				System.out.println("!!! das alert500");
-				s.addTerm(new Literal("alert500"));
-				addMessage("exec", new Message(1,"env","exec",s));
-				lastMsgSu = "alert500";
-			} else {
-				System.out.println("No Alerts");
+			else {
+				// RANDOM Choice
+				choice = prob_choice.get_choice();
+				// choice = false;
+				if (choice) {
+					AJPFLogger.info(logname, "!!! das alert500");
+					//s.addTerm(new Literal("alert500"));
+					addMessage("exec", s_500_m);
+					lastMsgSu = "alert500";
+					return;
+				}
 			}
 
-			
+			AJPFLogger.info(logname, "No Alerts");
 		}
+
 		
 	}
 	

@@ -143,7 +143,7 @@ GWENDOLEN
 			-store(flightPhase, To),
 			-flightPhase(emergencyAvoid),
 			+flightPhase(To),
-			updateFlightPhase(F),
+			updateFlightPhase(To),
 			-.lock;
 			
 		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant} <-
