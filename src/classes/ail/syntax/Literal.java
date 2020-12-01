@@ -253,6 +253,7 @@ public class Literal extends PredicatewAnnotation {
 			}
 			index ++;
 		}
+		list.add(index, lit);
 	}
 
     

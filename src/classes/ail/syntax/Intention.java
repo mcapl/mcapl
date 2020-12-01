@@ -1025,6 +1025,7 @@ public class Intention implements Comparable<Intention>{
 			}
 			index ++;
 		}
+		list.add(index, i);
 	}
 
 }

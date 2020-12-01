@@ -3,7 +3,6 @@ package gwendolen.verifiableautonomoussystems.chapter9;
 import ail.mas.DefaultEnvironmentwRandomness;
 import ail.mas.MAS;
 import ail.mas.scheduling.ActionScheduler;
-import ail.mas.scheduling.RoundRobinScheduler;
 import ail.syntax.Action;
 import ail.syntax.Literal;
 import ail.syntax.Message;
@@ -13,7 +12,6 @@ import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
-import ajpf.PerceptListener;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyList;
 import ajpf.util.choice.ProbBoolChoice;
@@ -54,7 +52,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
-		this.setVehicleStatus("waitingAtRamp");
+		this.setVehicleStatus("cruise");
 	}
 	
 	public String getName() {
@@ -79,8 +77,8 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		
 		if ((vehicleStatus.equals("cruise")  && !at_sumburgh) || (vehicleStatus.equals("approach") && !landed)) {
 			// RANDOM CHOICE
-			boolean result = random_booleans.get_choice(); 
-			// boolean result = true;
+			// boolean result = random_booleans.get_choice(); 
+			boolean result = true;
 			if (result) {
 				AJPFLogger.info(logname, "At Sumburgh or Landed True");
 			} else {
@@ -105,6 +103,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				addMessage("exec", new Message(1,"env","exec",s));
 			}
 			
+			
 		}
 		
 		detectAndAvoidSensor();
@@ -119,6 +118,10 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 			AJPFLogger.fine(logname, "Nothing changed in Environment");
 			scheduler.notActive(this.getName());
 		}
+		
+		// Give agent a chance to react to changes.
+		this.getScheduler().notActive(this.getName());
+					
 		
 		AJPFLogger.info( logname, this.toString());
 		
@@ -291,7 +294,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 	private void setVehicleStatus(String status)
 	{
 		vehicleStatus = status;
-		AJPFLogger.info( logname, "Setting VEHICLE: " + status);
+		AJPFLogger.info(logname, "Setting VEHICLE: " + status);
 	}
 	
 	private void detectAndAvoidSensor() {
