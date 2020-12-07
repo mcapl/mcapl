@@ -45,7 +45,7 @@ public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
 	
-	static String version = "MCAPL Framework 2020";
+	static String version = "MCAPL Development Version 2020";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
