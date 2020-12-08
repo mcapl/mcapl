@@ -1,0 +1,50 @@
+4 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:42:01
+states:             new=65828,visited=13000,backtracked=78828,end=0
+search:             maxDepth=193,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=65828
+heap:               new=85477668,released=86140366,maxLive=7313,gcCycles=78828
+instructions:       14948045301
+max memory:         3471MB
+loaded code:        classes=373,methods=5687
+
+====================================================== search finished: 12/09/19 15:59
+
+5 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       07:10:21
+states:             new=403115,visited=88425,backtracked=491540,end=0
+search:             maxDepth=263,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=403115
+heap:               new=722635650,released=727866733,maxLive=8225,gcCycles=491540
+instructions:       173533798208
+max memory:         4592MB
+loaded code:        classes=373,methods=5687
+
+====================================================== search finished: 12/09/19 23:11
+
+6 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       23:20:02
+states:             new=1716198,visited=394818,backtracked=2111016,end=0
+search:             maxDepth=291,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=1716198
+heap:               new=2642664735,released=2665382072,maxLive=8916,gcCycles=2111016
+instructions:       516704744024
+max memory:         7438MB
+loaded code:        classes=373,methods=5687
+
+====================================================== search finished: 29/09/19 11:11

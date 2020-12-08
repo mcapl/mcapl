@@ -1,0 +1,68 @@
+3 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:03:35
+states:             new=8711,visited=1419,backtracked=10130,end=0
+search:             maxDepth=122,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=8711
+heap:               new=8388425,released=8422034,maxLive=6017,gcCycles=10130
+instructions:       1045097559
+max memory:         1513MB
+loaded code:        classes=362,methods=5606
+
+====================================================== search finished: 02/09/19 19:40
+
+4 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       00:27:27
+states:             new=39211,visited=7536,backtracked=46747,end=0
+search:             maxDepth=150,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=39211
+heap:               new=56861818,released=57119210,maxLive=6827,gcCycles=46747
+instructions:       10551692126
+max memory:         1497MB
+loaded code:        classes=362,methods=5606
+
+====================================================== search finished: 02/09/19 20:08
+
+5 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       04:43:44
+states:             new=198275,visited=41079,backtracked=239354,end=0
+search:             maxDepth=178,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=198275
+heap:               new=465861683,released=467558105,maxLive=7691,gcCycles=239354
+instructions:       124330304865
+max memory:         3526MB
+loaded code:        classes=362,methods=5606
+
+====================================================== search finished: 03/09/19 00:52
+
+6 Bidders
+
+====================================================== results
+no errors detected
+
+====================================================== statistics
+elapsed time:       34:07:22
+states:             new=927285,visited=209075,backtracked=1136360,end=0
+search:             maxDepth=206,constraints=0
+choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=927285
+heap:               new=2537474033,released=2546483287,maxLive=8585,gcCycles=1136360
+instructions:       738130214106
+max memory:         5985MB
+loaded code:        classes=362,methods=5606
+
+====================================================== search finished: 23/09/19 09:26
+

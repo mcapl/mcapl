@@ -24,7 +24,7 @@
 
 GWENDOLEN
 
-:name: ag1
+:name: auctioneer
 
 :Initial Beliefs: 
 
@@ -34,7 +34,24 @@ GWENDOLEN
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+bid(Z, A) : {B bid(X1, ag2), B bid(X2, ag3), B bid(X3, ag4), B bid(250, Ag), ~.sent(Ag, Me, :tell, win)} <- .send(Ag, :tell, win);
++bid(Z, A) : {B bid(X1, ag1), B bid(X2, ag2), B bid(X3, ag3), B bid(250, Ag), ~.sent(Ag, Me, :tell, win)} <- .send(Ag, :tell, win);
+
+:name: ag1
+
+:Initial Beliefs:
+
+my_name(ag1)
+
+:Initial Goals:
+
+coalition [perform]
+
+:Plans:
+
++.received(:tell, B): {True} <- +B;   
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(250, Name))} <- .send(auctioneer, :tell, bid(250, Name));
++!coalition [perform] : {B my_name(Ag), ~ .sent(ag3, Ag, :tell, coalition(Ag))} <- .send(ag3, :tell, coalition(Ag));
++agree(A, X) : {True} <- +!bid [perform];
 
 :name: ag2
 
@@ -44,14 +61,12 @@ my_name(ag2)
 
 :Initial Goals:
 
-coalition [perform]
+bid [perform]
 
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(250, Name))} <- .send(ag1, :tell, bid(250, Name));
-+!coalition [perform] : {B my_name(Ag), ~ .sent(ag4, Ag, :tell, coalition(Ag))} <- .send(ag4, :tell, coalition(Ag));
-+agree(A, X) : {True} <- +!bid [perform];
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(200, Name))} <- .send(auctioneer, :tell, bid(200, Name));
 
 :name: ag3
 
@@ -66,20 +81,5 @@ bid [perform]
 :Plans:
 
 +.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(200, Name))} <- .send(ag1, :tell, bid(200, Name));
-
-:name: ag4
-
-:Initial Beliefs:
-
-my_name(ag4)
-
-:Initial Goals:
-
-bid [perform]
-
-:Plans:
-
-+.received(:tell, B): {True} <- +B;   
-+!bid [perform] : {B my_name(Name), ~ .sent(ag1, Name, :tell, bid(150, Name))} <- .send(ag1, :tell, bid(150, Name));
++!bid [perform] : {B my_name(Name), ~ .sent(auctioneer, Name, :tell, bid(150, Name))} <- .send(auctioneer, :tell, bid(150, Name));
 +coalition(A) : { B my_name(Name), ~ .sent(A, Name, :tell, agree(Name, 150))} <- .send(A, :tell, agree(Name, 150));
