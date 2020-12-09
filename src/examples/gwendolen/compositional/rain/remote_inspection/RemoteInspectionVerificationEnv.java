@@ -15,7 +15,7 @@ public class RemoteInspectionVerificationEnv extends VerificationofAutonomousSys
 		Set<Predicate> beliefs = new HashSet<Predicate>();
 		
 		boolean reached_location = random_bool_generator.nextBoolean();
-		int radiation = random_int_generator.nextInt(2);
+		int radiation = random_int_generator.nextInt(3);
 		
 		if (reached_location) {
 			Predicate movebase_result = new Predicate("movebase_result");
@@ -27,9 +27,13 @@ public class RemoteInspectionVerificationEnv extends VerificationofAutonomousSys
 		
 		if (radiation == 0) {
 			beliefs.add(new Predicate("danger_red"));
+			System.err.println("Radiation Red");
 		}  else if (radiation == 1){
 			beliefs.add(new Predicate("danger_orange"));
-		}	
+			System.err.println("Radiation Orange");
+		}	else {
+			System.err.println("Radiation Green");
+		}
 		
 		return beliefs;
 

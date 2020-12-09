@@ -3,19 +3,7 @@ GWENDOLEN
 :name: jackal
 
 :Initial Beliefs:
-location(door)
-location(bigtankfront)
-location(bigtankside)
-location(tank1top)
-location(tank1right)
-location(tank1bottom)
-location(tank2top)
-location(tank2left)
-location(tank2bottom)
-location(tankset)
-location(pipes)
-location(dangerroom)
-location(stairs)
+
 
 location_coordinate(door,-8.18,-3.16,0.0)
 location_coordinate(bigtankfront,-4.07,-7.24,0.0)
@@ -45,6 +33,8 @@ next_location(stairs,door)
 
 :Reasoning Rules:
 
+safe :- ~ danger_red, ~danger_orange, ~going(door);
+
 :Initial Goals:
 
 inspect(bigtankfront) [perform]
@@ -53,15 +43,28 @@ inspect(bigtankfront) [perform]
 
 +!inspect(Location) [perform] : { ~B danger_red, ~B danger_orange, ~B going(door), B location_coordinate(Location,X,Y,Z) } 
 	<- +going(Location), move(X,Y,Z);
++!inspect(Location) [perform] : { B danger_red} 
+	<- *safe,
+	+!inspect(Location) [perform];
++!inspect(Location) [perform] : { B danger_orange} 
+	<- *safe,
+	+!inspect(Location) [perform];
++!inspect(Location) [perform] : { B going(door)} 
+	<- *safe,
+	+!inspect(Location) [perform];
+	
 
-+movebase_result(Seg,3) : { B going(L1), B next_location(L1, L2) } <- -going(L1), 
++movebase_result(Seg,3) : { B going(L1), B next_location(L1, L2) } <- 
+						-going(L1), 
 						print("Movement to location "),
 						print(L1),
 						print(" ended with success."),
 						inspect,
 						+! inspect(L2) [perform];
 						
-+movebase_result(Seq,3) : { True } <-print("Wait for decontamination to proceed."),do_nothing;
++movebase_result(Seq,3) : { B going(door) } <-print("Wait for decontamination to proceed."),do_nothing;
+
++movebase_result(Seg,3) : {~B going(L) } <- -movebase_result(Seg, 3);
 
 +movebase_result(Seq,2) : { B going(Location) } <- print("Movement to location ",Location," ended with failure.");
 

@@ -1,4 +1,5 @@
 1: [] (B(jackal,danger_red) -> <> B(jackal,going(door)))
-2: [] ((G(jackal,inspect(tank1bottom)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange)) -> <> B(jackal,going(tank1bottom)))
-3: [] ((B(jackal,going(tank1right)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange)) -> <> G(jackal,inspect(tank1bottom)))
-4: [] ((B(jackal,going(tank1right)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange)) -> <> D(jackal,inspect))
+2: [] ((G(jackal,inspect(tank1bottom)) &  (~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(door))) -> <> B(jackal,going(tank1bottom)))
+3: [] ((B(jackal,going(tank1right)) & B (jackal, movebase_result(seg, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(door))) -> <> G(jackal,inspect(tank1bottom)))
+4: [] ((B(jackal,going(tank1right)) & B (jackal, movebase_result(seg, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(door))) -> <> D(jackal,inspect))
+5: [] ((B(jackal,going(tank1right)) & B (jackal, movebase_result(seg, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(door))) -> <> D(jackal,move(_,_,_))))

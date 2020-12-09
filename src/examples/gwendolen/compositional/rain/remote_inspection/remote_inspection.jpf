@@ -1,10 +1,10 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args =src/examples/gwendolen/compositional/rain/remote_inspection/remote_inspection.ail,src/examples/gwendolen/compositional/rain/remote_inspection/remote_inspection.psl,4
+target.args =src/examples/gwendolen/compositional/rain/remote_inspection/remote_inspection.ail,src/examples/gwendolen/compositional/rain/remote_inspection/remote_inspection.psl,2
 
 log.info = ajpf.MCAPLcontroller,ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
-# log.fine = ail.semantics.AILAgent
+// log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

@@ -4,4 +4,5 @@ mas.file = src/examples/gwendolen/compositional/rain/remote_inspection/remote_in
 mas.builder = gwendolen.GwendolenMASBuilder
 
 log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+// log.fine = ail.semantics.AILAgent
 log.format = brief
