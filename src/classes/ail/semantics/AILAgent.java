@@ -36,6 +36,9 @@ import java.util.Set;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
+import ail.semantics.heuristics.PrioritiseWaitFor;
+import ail.semantics.heuristics.PruneRedundantIntentions;
+import ail.semantics.heuristics.SelectIntentionHeuristic;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Action;
 import ail.syntax.ApplicablePlan;
@@ -316,6 +319,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		setPlanLibrary(new PlanLibrary());
 		setCapabilityLibrary(new CapabilityLibrary());
 		setGoalBase(new GoalBase());
+		//heuristics.add(new PruneRedundantIntentions());
+		//heuristics.add(new PrioritiseWaitFor());
 	}
 
 	/**
@@ -1540,6 +1545,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		getIntentions().add(i);
 	}
 
+	ArrayList<SelectIntentionHeuristic> heuristics = new ArrayList<SelectIntentionHeuristic>();
 	/**
 	 * Select an intention from a linked list of intentions.
 	 * 
@@ -1573,11 +1579,30 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// happens in the object representing the transition - but this is where the
 		// selection takes place which
 		// may (or may not) be important.
-		Intention i;
+		Intention i = null;
 		if (intentions.isEmpty()) {
 			i = null;
 		} else {
-			i = intentions.remove(0);
+			if (! heuristics.isEmpty()) {
+				for (SelectIntentionHeuristic h: heuristics) {
+					for (int j = 0; j < intentions.size(); j++) {
+						if (h.applies(this, intentions.get(j))) {
+							i = intentions.remove(j);
+							break;
+						}
+					}
+					if (i != null) {
+						break;
+					}
+				}
+				
+				if (i == null) {
+					i = intentions.remove(0);
+				}
+				
+			} else {
+				i = intentions.remove(0);
+			}
 		}
 		intentions.addAll(iiprime);
 
@@ -1874,7 +1899,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * @param ple
 	 * @return
 	 */
-	protected Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
+	public Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
 		return getPL().getAllRelevant(ple.getPredicateIndicator(), this);
 	}
 

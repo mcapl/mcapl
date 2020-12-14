@@ -68,6 +68,8 @@ public class AILConfig extends Properties {
 			  AJPFLogger.severe(logname, e.getMessage());
 			  System.exit(0);
 		  }
+		  
+		  //System.out.println(this.toString());
 	  }
 	
 	/**

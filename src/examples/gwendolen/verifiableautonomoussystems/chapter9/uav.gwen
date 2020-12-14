@@ -3,7 +3,7 @@ GWENDOLEN
 		:name: exec 
 
 		:Initial Beliefs:
-			flightPhase(cruise) 
+			flightPhase(unknown) 
 			destination(sumburgh) 
 			
 		:Reasoning Rules:
@@ -19,15 +19,17 @@ GWENDOLEN
 		stationary :- flightPhase(holding);
 		stationary :- flightPhase(linedup);
 		stationary :- flightPhase(landed);
+		stationary :- flightPhase(unknown);
 		on_ground :- stationary;
 		on_ground :- flightPhase(taxying);
-		on_gorund :- flightPhase(lineup);
+		on_ground :- flightPhase(lineup);
+		on_ground :- veh(landed,_);
 		das_alert_irrelevant :- on_ground, das(alert500);
 		das_alert_irrelevant :- stationary;
 		environment_flight_phase(linedup);
 		environment_flight_phase(holding);
 		environment_flight_phase(cruise);
-		environment_flight_phase(waitingAtRampe);
+		environment_flight_phase(waitingAtRamp);
 		
 		routes_stored_for_enaction :- enactRoute(taxi, N), enactRoute(cruise, N1);
 		missionComplete :- destination(L), location(L), flightPhase(waitingAtRamp);
@@ -70,8 +72,7 @@ GWENDOLEN
 			+position(Lat, Lon, Alt),
 			-.lock;
 		+.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform]};
-		+enacting(emergencyAvoid) : {~B store(flightPhase, F), B enacting(emergencyAvoid), ~G reactToAlert [perform]} <-
-			-enacting(emergencyAvoid);
+		
 		
 		+.received(:tell, M): { ~ B flightPhase_message(M), ~B atc_message(M), ~B fuel_level_message(M), ~B position_message(M)} <- 
 			+M;
@@ -206,9 +207,7 @@ GWENDOLEN
 				+.lock,
 				+!changeFlightPhase(takeOff) [perform],
 				-.lock,
-				*flightPhase(cruise);
-				
-		+flightPhase(cruise) : {B enactRoute(cruise, R), B enactRoute(taxi, N)} <-
+				*flightPhase(cruise),
 				+.lock,
 				-enactRoute(cruise, R),
 				-enactRoute(taxi, N),
@@ -216,6 +215,59 @@ GWENDOLEN
 				-route(cruise, R, T1, F1, S1),
 				-atc(takeOffClearanceGiven),
 				-.lock;
+				
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), ~B location(L), ~B das_alert} <-
+			*location(L);
+		
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B fuel(level, F), ~B das_alert} <-
+			*fuel(level, F);
+
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B position(Lat, Lon, Alt), ~B das_alert} <-
+			*position(Lat, Lon, Alt);
+			
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B fuel(level, F), B position(Lat, Lon, Alt), ~B appr(N, T, F1, S), ~B das_alert} <-
+			requestApproach,
+			*appr(N, T, F1, S);
+					
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B appr(N, T, F, S), ~B enactAppr(N), ~B das_alert} <-
+			enactApproach(N),
+			*enactAppr(N);
+
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B enactAppr(N), ~B das_alert} <-
+			+.lock,
+			-appr(N, T, F, S),
+			-enactAppr(N),
+			+!changeFlightPhase(approach) [perform],
+			-.lock;
+						
+		+!missionComplete [achieve] : {B flightPhase(approach), B destination(L), ~B das_alert} <-
+			*veh(landed,L),
+			+.lock,
+			-fuel(level, F),
+			-position(Lat, Lon, Alt),
+			+!changeFlightPhase(landed) [perform],
+			-.lock,
+			requestFuelStatus,
+			requestPosition;
+			// +!completeLandingChecks [achieve];
+					
+		+!missionComplete [achieve] : {B flightPhase(landed), ~B fuel(level, F)} <-
+			*fuel(level, F);
+			
+		+!missionComplete [achieve] : {B flightPhase(landed), ~B position(Lat, Lon, Alt)} <-
+			*position(Lat, Lon, Alt);
+			
+		+!missionComplete [achieve] : {B flightPhase(landed), B fuel(level, F), B position(Lat, Lon, Alt), ~B route(taxi, Num, Time, Fuel, Safety)} <-
+			requestTaxiRoute(destination, Lat, Lon, F),
+			*enactRoute(taxi, Num);
+				
+		
+		+!missionComplete [achieve] : {B flightPhase(landed), B enactRoute(taxi, Num), ~B das(objectApproacahing)} <-
+			+.lock,
+			+!changeFlightPhase(taxying) [perform],
+ 			-.lock,
+			*flightPhase(waitingAtRamp);
+
  				
 		// das message handling
 		+das(objectApproaching) : {~B flightPhase(emergencyAvoid), ~ B stationary, ~G reactToAlert [perform]} <- 
@@ -256,6 +308,10 @@ GWENDOLEN
 			+.lock,
 			+! changeFlightPhase(emergencyAvoid) [perform],
 			-.lock;
+			
+		+enacting(emergencyAvoid) : {~B store(flightPhase, F), B enacting(emergencyAvoid), ~G reactToAlert [perform]} <-
+			-enacting(emergencyAvoid);
+		
 					
 			
 		+!missionComplete [achieve] : {B das_alert, B store(flightPhase, F), ~B flightPhase(F)} <-
@@ -270,30 +326,6 @@ GWENDOLEN
 
 		// Reached destination
 		
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), ~B location(L), ~B das_alert} <-
-			*location(L);
-		
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B fuel(level, F), ~B das_alert} <-
-			*fuel(level, F);
-
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B position(Lat, Lon, Alt), ~B das_alert} <-
-			*position(Lat, Lon, Alt);
-			
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B fuel(level, F), B position(Lat, Lon, Alt), ~B appr(N, T, F1, S), ~B das_alert} <-
-			requestApproach,
-			*appr(N, T, F1, S);
-					
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B appr(N, T, F, S), ~B enactAppr(N), ~B das_alert} <-
-			enactApproach(N),
-			*enactAppr(N);
-
-		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B enactAppr(N), ~B das_alert} <-
-			+.lock,
-			-appr(N, T, F, S),
-			-enactAppr(N),
-			+!changeFlightPhase(approach) [perform],
-			-.lock,
-			*flightPhase(approach);
 
 		+veh(location,L) : {B destination(L)} <- 
 			+.lock, 
@@ -307,37 +339,7 @@ GWENDOLEN
 		
 		
 		// Landing
-		
-		+!missionComplete [achieve] : {B flightPhase(approach), ~B das_alert} <-
-			*flightPhase(landed);
-		
-		+!missionComplete [achieve] : {B flightPhase(landed), ~B fuel(level, F)} <-
-			*fuel(level, F);
 			
-		+!missionComplete [achieve] : {B flightPhase(landed), ~B position(Lat, Lon, Alt)} <-
-			*position(Lat, Lon, Alt);
-			
-		+!missionComplete [achieve] : {B flightPhase(landed), B fuel(level, F), B position(Lat, Lon, Alt), ~B route(taxi, Num, Time, Fuel, Safety)} <-
-			requestTaxiRoute(destination, Lat, Lon, F),
-			*enactRoute(taxi, Num);
-				
-		
-		+!missionComplete [achieve] : {B flightPhase(landed), B enactRoute(taxi, Num), ~B das(objectApproacahing)} <-
-			+.lock,
-			+!changeFlightPhase(taxying) [perform],
- 			-.lock,
-			*flightPhase(waitingAtRamp);
-		
-
-		+veh(landed,L) : {True} <- 
-			+.lock,
-			-fuel(level, F),
-			-position(Lat, Lon, Alt),
-			+!changeFlightPhase(landed) [perform],
-			-.lock,
-			requestFuelStatus,
-			requestPosition,
-			+!completeLandingChecks [achieve];
 					
 		+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B fuel(level, L)} <-
 			*fuel(level, L);

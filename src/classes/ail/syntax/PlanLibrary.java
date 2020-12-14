@@ -465,7 +465,11 @@ public class PlanLibrary {
     				boolean plan_is_applicable = false;
     				
     				if (prefixsize > 0) {
-    					if (a.goalEntails(intention.hdE(), cp, un)) {
+    					/* if (intention.events().size() < 1) {
+    						System.err.println("EHY");
+    						System.err.println(intention.toString());
+    					} */
+    					if (intention != null && !intention.empty() && a.goalEntails(intention.hdE(), cp, un)) {
     							// WE DON'T HAVE ANY EXAMPLES THAT UNIFY PREFIXES - COMMENTED OUT UNTIL WE DO
     						plan_is_applicable = true;
     					} 

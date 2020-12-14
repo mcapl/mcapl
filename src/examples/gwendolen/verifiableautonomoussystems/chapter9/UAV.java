@@ -52,7 +52,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		s.addJobber(this);
 		setScheduler(s);
 		addPerceptListener(s);
-		this.setVehicleStatus("cruise");
+		this.setVehicleStatus("waitingAtRamp");
 	}
 	
 	public String getName() {
@@ -77,8 +77,8 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		
 		if ((vehicleStatus.equals("cruise")  && !at_sumburgh) || (vehicleStatus.equals("approach") && !landed)) {
 			// RANDOM CHOICE
-			// boolean result = random_booleans.get_choice(); 
-			boolean result = true;
+			boolean result = random_booleans.get_choice(); 
+			// boolean result = true;
 			if (result) {
 				AJPFLogger.info(logname, "At Sumburgh or Landed True");
 			} else {
@@ -160,8 +160,8 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 			exec_pending_messages.add(new Message(1,"env","exec",s));
 	   	} else if (act.getFunctor().equals("requestTaxiClearance") || act.getFunctor().equals("requestLineUpClearance") || act.getFunctor().equals("requestTakeOffClearance")) {
 	   		// RANDOM CHOICE
-	   		// boolean choice = random_booleans.get_choice()
-	   		boolean choice = true;
+	   		boolean choice = random_booleans.get_choice();
+	   		// boolean choice = true;
 	   		if (choice) {
 	   			Predicate predFromLine = new Predicate("atc");
 	   			if (act.getFunctor().equals("requestTaxiClearance")) {
