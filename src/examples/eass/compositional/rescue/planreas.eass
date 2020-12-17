@@ -1,20 +1,12 @@
-GWENDOLEN
+EASS
 
 :name: planreasoner
 
 :Initial Beliefs:
 
-// plans received from the planner
-plan([move(0,1),move(0,2),move(1,2),move(1,3)],4)
-plan([move(1,0),move(2,0),move(2,1),move(2,2),move(2,3),move(1,3)],6)
-
-// current battery 
-battery(50)
-
-// simulation of the magic batteryLow function
-// threshold is defined by the maximum amount of move actions in the grid (nxn)
-// assumes a grid 5x5, minus one for the position of the rover, minus one because gwendolen cannot represent less/greater or equal to
 threshold(23)
+chargePos(1, 1)
+battery(30)
 
 :Reasoning Rules:
 
@@ -22,9 +14,23 @@ threshold(23)
 
 :Initial Goals:
 
-select_plan [perform]
 
 :Plans:
+
++select_plan : {True} <-
+	+!select_plan_check [perform];
+	
++!select_plan_check [perform] : { B battery_low, B chargePos(X, Y), ~B current_goal(X, Y) } <-
+	-battery_low,
+	inform_recharge;
++!select_plan_check [perform] : { B battery_low, B chargePos(X, Y), B current_goal(X, Y) } <-
+	+!select_plan [perform];
++!select_plan_check [perform] : { ~B battery_low} <-
+	+!select_plan [perform];
+	
++!select_plan [perform] : {~ B plan(P, L), ~B plan_selected(_,_)} <-
+	-select_plan,
+	check_for_plans;
 
 +!select_plan [perform] : {B plan(P,L), ~B plan_selected(_,_)} <-
 	-plan(P,L),
@@ -44,9 +50,17 @@ select_plan [perform]
 +!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L), B battery(Bt)} <- 
 	minus(Bt, L, ExpectedBattery),
 	+!select_plan(ExpectedBattery) [perform];
-+!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery} <-
++!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery, B plan_selected(P, _)} <-
 	print("Sending the plan to be executed"),
-	+execute;
-+!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T} <-
+	-battery_low,
+	execute(P);
++!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), B current_goal(X, Y), B plan_selected(P, _), B battery_low} <-
+	print("Sending the plan to be executed"),
+	-battery_low,
+	execute(P);
++!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), ~ B current_goal(X, Y), B plan_selected(P, _), B battery_low} <-
+	print("Error"),
+	errorgener;
++!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T, ~B battery_low} <-
 	print("Not enough battery"),
-	+recharge;
+	inform_recharge;
