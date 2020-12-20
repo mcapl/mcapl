@@ -116,11 +116,11 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		
 		if (exec_pending_messages.isEmpty() && !vehicleStatus.equals("cruise") && !vehicleStatus.equals("approach")) {
 			AJPFLogger.fine(logname, "Nothing changed in Environment");
-			scheduler.notActive(this.getName());
+			// scheduler.notActive(this.getName());
 		}
 		
 		// Give agent a chance to react to changes.
-		this.getScheduler().notActive(this.getName());
+		// this.getScheduler().notActive(this.getName());
 					
 		
 		AJPFLogger.info( logname, this.toString());
