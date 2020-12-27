@@ -11,7 +11,6 @@ battery(30)
 :Reasoning Rules:
 
 
-
 :Initial Goals:
 
 
@@ -21,25 +20,33 @@ battery(30)
 	+!select_plan_check [perform];
 	
 +!select_plan_check [perform] : { B battery_low, B chargePos(X, Y), ~B current_goal(X, Y) } <-
+	+.lock,
 	-battery_low,
+	-select_plan,
+	-.lock,
 	inform_recharge;
 +!select_plan_check [perform] : { B battery_low, B chargePos(X, Y), B current_goal(X, Y) } <-
 	+!select_plan [perform];
 +!select_plan_check [perform] : { ~B battery_low} <-
 	+!select_plan [perform];
 	
+	
 +!select_plan [perform] : {~ B plan(P, L), ~B plan_selected(_,_)} <-
 	-select_plan,
 	check_for_plans;
 
 +!select_plan [perform] : {B plan(P,L), ~B plan_selected(_,_)} <-
+	+.lock,
 	-plan(P,L),
 	+plan_selected(P,L),
+	-.lock,
 	+!select_plan [perform];
 +!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L1 < L2} <-
+	+.lock,
 	-plan(P1,L1),
 	-plan_selected(P2,L2),
 	+plan_selected(P1,L1),
+	-.lock,
 	+!select_plan [perform];
 +!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L2 < L1} <-
 	-plan(P1,L1),
@@ -47,20 +54,31 @@ battery(30)
 +!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L2 == L1} <-
 	-plan(P1,L1),
 	+!select_plan [perform] ;
-+!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L), B battery(Bt)} <- 
-	minus(Bt, L, ExpectedBattery),
-	+!select_plan(ExpectedBattery) [perform];
-+!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery, B plan_selected(P, _)} <-
-	print("Sending the plan to be executed"),
-	-battery_low,
-	execute(P);
-+!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), B current_goal(X, Y), B plan_selected(P, _), B battery_low} <-
-	print("Sending the plan to be executed"),
-	-battery_low,
-	execute(P);
-+!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), ~ B current_goal(X, Y), B plan_selected(P, _), B battery_low} <-
-	print("Error"),
-	errorgener;
-+!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T, ~B battery_low} <-
-	print("Not enough battery"),
-	inform_recharge;
+ +!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L)} <-
+ 	+.lock,
+ 	-plan_selected(P, L),
+ 	-battery_low,
+ 	-select_plan,
+ 	-.lock,
+ 	execute(P);
+// +!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L), B battery(Bt)} <- 
+//	minus(Bt, L, ExpectedBattery),
+//	+!select_plan(ExpectedBattery) [perform];
+//+!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery, B plan_selected(P, L)} <-
+//	print("Sending the plan to be executed"),
+//	-select_plan,
+//	-plan_selected(P, L),
+//	execute(P);
+//+!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), B current_goal(X, Y), B plan_selected(P, L), B battery_low} <-
+//	print("Sending the plan to be executed"),
+//	-battery_low,
+//	-select_plan,
+//	-plan_selected(P, L),
+//	execute(P);
+//	print("Error"),
+//	error;
+//+!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T, B plan_selected(P, L), ~B battery_low, } <-
+//	print("Not enough battery"),
+//	-plan_selected(P, L),
+//	-select_plan,
+//	inform_recharge;
