@@ -69,7 +69,7 @@ public class Choice<O extends Object> {
 			int i = pickChoice(choicelist.size() - 1);
 			thischoice = choicelist.get(i).getProb();
 			if (control.recordMode()) {
-				System.out.println("HERE");
+				// System.out.println("HERE");
 				control.getRecord().add(i);
 			}
 			return i;

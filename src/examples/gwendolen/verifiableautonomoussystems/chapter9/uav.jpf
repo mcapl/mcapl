@@ -3,11 +3,10 @@
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav.ail,${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/certification.psl,1
 
-// ajpf.record = true
 
-// log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent,ajpf.MCAPLcontroller,gwendolen.verifiableautonomoussystems.chapter9.UAV
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent,ajpf.MCAPLcontroller,gwendolen.verifiableautonomoussystems.chapter9.UAV
 // log.fine = ail.semantics.AILAgent
-log.fine = ajpf.util.choice.ChoiceRecord
+// log.fine = ajpf.util.choice.ChoiceRecord
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

@@ -1,5 +1,8 @@
 package gwendolen.verifiableautonomoussystems.chapter9;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ail.mas.DefaultEnvironmentwRandomness;
 import ail.mas.MAS;
 import ail.mas.scheduling.ActionScheduler;
@@ -16,8 +19,10 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyList;
 import ajpf.util.choice.ProbBoolChoice;
 import gov.nasa.jpf.annotation.FilterField;
+import gwendolen.mas.VerificationofAutonomousSystemsEnvironment;
 
-public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
+public class UAV extends
+	VerificationofAutonomousSystemsEnvironment {
 
 	@FilterField
 	private String vehicleStatus;
@@ -48,28 +53,29 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 	public UAV() {
 		super();
 		//RoundRobinScheduler s = new RoundRobinScheduler();
-		ActionScheduler s = new ActionScheduler();
-		s.addJobber(this);
-		setScheduler(s);
-		addPerceptListener(s);
+		//ActionScheduler s = new ActionScheduler();
+		//s.addJobber(this);
+		//setScheduler(s);
+		//addPerceptListener(s);
 		this.setVehicleStatus("waitingAtRamp");
-	}
+	} 
 	
 	public String getName() {
 		return "UAV";
 	}
-
+	
 	@Override
-	public int compareTo(MCAPLJobber o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Set<Predicate> generate_percepts() {
+		return new HashSet<Predicate>();
 	}
 
+
 	@Override
-	public void do_job() {
+	public Set<Message> generate_messages() {
 		System.err.println("Environment Acting");
+		Set<Message> messages = new HashSet<Message>();
 		for (Message m: exec_pending_messages) {
-			addMessage("exec", m);
+			messages.add(m);
 			AJPFLogger.fine(logname, "Sent Message: " + m);
 		}
 		exec_pending_messages.clear();	
@@ -77,7 +83,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		
 		if ((vehicleStatus.equals("cruise")  && !at_sumburgh) || (vehicleStatus.equals("approach") && !landed)) {
 			// RANDOM CHOICE
-			boolean result = random_booleans.get_choice(); 
+			boolean result = random_bool_generator.get_choice(); 
 			// boolean result = true;
 			if (result) {
 				AJPFLogger.info(logname, "At Sumburgh or Landed True");
@@ -92,7 +98,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				Predicate s = new Predicate("veh");
 				s.addTerm(new Literal("location"));
 				s.addTerm(new Literal("sumburgh"));
-				addMessage("exec", new Message(1,"env","exec",s));
+				messages.add(new Message(1,"env","exec",s));
 			}
 			else if (vehicleStatus.equals("approach") & result & !landed)
 			{
@@ -100,17 +106,17 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				Predicate s = new Predicate("veh");
 				s.addTerm(new Literal("landed"));
 				s.addTerm(new Literal("sumburgh"));
-				addMessage("exec", new Message(1,"env","exec",s));
+				messages.add(new Message(1,"env","exec",s));
 			}
 			
 			
 		}
 		
-		detectAndAvoidSensor();
+		detectAndAvoidSensor(messages);
 		if (! agMessages.isEmpty()) {
 			scheduler.perceptChanged();
-			for (Message m: agMessages.get("exec")) {
-				AJPFLogger.fine(logname, "Current messages in Environment: " + m);
+			for (Message m: messages) {
+				AJPFLogger.fine(logname, "Messages returned by Environment: " + m);
 			}
 		}
 		
@@ -124,6 +130,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 					
 		
 		AJPFLogger.info( logname, this.toString());
+		return messages;
 		
 	}
 	
@@ -160,7 +167,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 			exec_pending_messages.add(new Message(1,"env","exec",s));
 	   	} else if (act.getFunctor().equals("requestTaxiClearance") || act.getFunctor().equals("requestLineUpClearance") || act.getFunctor().equals("requestTakeOffClearance")) {
 	   		// RANDOM CHOICE
-	   		boolean choice = random_booleans.get_choice();
+	   		boolean choice = random_bool_generator.get_choice();
 	   		// boolean choice = true;
 	   		if (choice) {
 	   			Predicate predFromLine = new Predicate("atc");
@@ -297,7 +304,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 		AJPFLogger.info(logname, "Setting VEHICLE: " + status);
 	}
 	
-	private void detectAndAvoidSensor() {
+	private void detectAndAvoidSensor(Set<Message> messages) {
 		Predicate s_o;
 		Predicate s_500;
 
@@ -326,7 +333,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				}
 				//s.addTerm(new NumberTermImpl(d));
 				s.addTerm(new Literal("objectPassed"));
-				addMessage("exec", new Message(1,"env","exec",s));
+				messages.add(new Message(1,"env","exec",s));
 				lastMsgSu = "";
 			} else {
 				AJPFLogger.info(logname, "No Object Passed");
@@ -341,7 +348,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				AJPFLogger.info(logname, "!!! das objectApproaching");
 				//s.addTerm(new NumberTermImpl(d));
 				//s.addTerm(new Literal("objectApproaching"));
-				addMessage("exec",s_o_m);
+				messages.add(s_o_m);
 				lastMsgSu = "objectApproaching";
 				return;
 			}
@@ -352,7 +359,7 @@ public class UAV extends DefaultEnvironmentwRandomness implements MCAPLJobber {
 				if (choice) {
 					AJPFLogger.info(logname, "!!! das alert500");
 					//s.addTerm(new Literal("alert500"));
-					addMessage("exec", s_500_m);
+					messages.add(s_500_m);
 					lastMsgSu = "alert500";
 					return;
 				}
