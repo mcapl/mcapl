@@ -1,5 +1,11 @@
-1: []( B(exec,das(objectApproaching)) & B(exec, flightPhase(cruise)) 
-    -> <>(B(exec,enacting(emergencyAvoid)) || B(exec,flightPhase(emergencyAvoid)) || B(exec, das(objectPassed)) || B(exec, flightPhase(landed) ) 
+1: []( ( B(exec,das(objectApproaching)) & B(exec, flightPhase(cruise)) 
+       )
+    -> <>(B(exec,enacting(emergencyAvoid)) 
+    		|| B(exec,flightPhase(emergencyAvoid)) 
+    		|| ~B(exec, das(objectApproaching)) 
+    		|| B(exec, flightPhase(landed))
+    	) 
+    )
 
 2: [](B(exec,flightPhase(taxying)) -> B(exec,atc(tcg))
 3: [](B(exec,flightPhase(lineUp)) -> B(exec,atc(lucg))

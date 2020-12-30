@@ -276,11 +276,15 @@ GWENDOLEN
 			-das(objectApproaching);
 		+das(objectApproaching) : {G reactToAlert [perform]} <- 
 			-das(objectApproaching);
+		//+das(objectApproaching) : {~B flightPhase(emergencyAvoid), B stationary} <- 
+		//	-das(objectApproaching);
 			
 		+das(alert500) : {~B flightPhase(emergencyAvoid), ~ B on_ground, ~G reactToAlert [perform]} <- 
 			+!reactToAlert [perform];
 		+das(alert500) : {B flightPhase(emergencyAvoid)} <- 
 			-das(alert(500));
+		// +das(alert500) : {B on_ground} <- 
+		//	-das(alert(500));
 		+das(alert500) : {G reactToAlert [perform]} <- 
 			-das(alert(500));
 			
@@ -290,7 +294,7 @@ GWENDOLEN
 			-das(alert500),
 			-enacting(emergencyAvoid),
 			-das(objectPassed), 
-			updateFlightPhase(F),
+			+! changeFlightPhase(F) [perform],
 			-.lock;
 		
 		+das(objectPassed) : {~ B flightPhase(emergencyAvoid) } <-

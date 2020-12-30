@@ -32,6 +32,12 @@ public class UAV extends
 	boolean at_sumburgh = false;
 	boolean landed = false;
 	
+	boolean requesting_flight_phase = false;
+	boolean requesting_fuel = false;
+	boolean requesting_position = false;
+	
+	String atc = "";
+	
 	ProbBoolChoice prob_choice;
 
 	private String lastMsgSu = "";
@@ -44,6 +50,16 @@ public class UAV extends
 		s += "Landed: " + landed + "\n";
 		s += "Last Status Update: " + lastMsgSu + "\n";
 		s += "Vehicle Status: " + vehicleStatus + "\n";
+		if (requesting_flight_phase) {
+			s += "Requesting Flight Phase\n";
+		}
+		if (requesting_fuel) {
+			s += "Requesting Fuel\n";
+		}
+		if (requesting_position) {
+			s += "Requesting Position\n";
+		}
+		s += "atc waiting: " + atc + "\n";
 		for (Message m: agMessages.get("exec")) {
 			s += "Current messages in Environment: " + m + "\n";
 		}
@@ -52,11 +68,6 @@ public class UAV extends
 
 	public UAV() {
 		super();
-		//RoundRobinScheduler s = new RoundRobinScheduler();
-		//ActionScheduler s = new ActionScheduler();
-		//s.addJobber(this);
-		//setScheduler(s);
-		//addPerceptListener(s);
 		this.setVehicleStatus("waitingAtRamp");
 	} 
 	
@@ -72,7 +83,6 @@ public class UAV extends
 
 	@Override
 	public Set<Message> generate_messages() {
-		System.err.println("Environment Acting");
 		Set<Message> messages = new HashSet<Message>();
 		for (Message m: exec_pending_messages) {
 			messages.add(m);
@@ -113,22 +123,81 @@ public class UAV extends
 		}
 		
 		detectAndAvoidSensor(messages);
-		if (! agMessages.isEmpty()) {
-			scheduler.perceptChanged();
-			for (Message m: messages) {
-				AJPFLogger.fine(logname, "Messages returned by Environment: " + m);
+		
+		if (requesting_flight_phase) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				AJPFLogger.info(logname, "Flight Phase Returned");
+				Predicate s = new Predicate("veh");
+				s.addTerm(new Literal("status"));
+				s.addTerm(new Literal(vehicleStatus));
+				messages.add(new Message(1,"env","exec",s));
+				requesting_flight_phase = false;
+			}
+		}	
+		
+		if (requesting_fuel) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				AJPFLogger.info(logname, "Fuel Returned");
+		   		Predicate s = new Predicate("fuel");
+				s.addTerm(new Literal("level"));
+				s.addTerm(new Literal("200"));
+				messages.add(new Message(1,"env","exec",s));
+				requesting_fuel = false;
 			}
 		}
 		
-		if (exec_pending_messages.isEmpty() && !vehicleStatus.equals("cruise") && !vehicleStatus.equals("approach")) {
-			AJPFLogger.fine(logname, "Nothing changed in Environment");
-			// scheduler.notActive(this.getName());
+		if (requesting_position) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				AJPFLogger.info(logname, "Position Returned");
+				Predicate s = new Predicate("position");
+				s.addTerm(new Literal("52"));
+				s.addTerm(new Literal("0"));
+				s.addTerm(new Literal("1"));
+				messages.add(new Message(1,"env","exec",s));
+				requesting_position = false;
+			}
 		}
 		
-		// Give agent a chance to react to changes.
-		// this.getScheduler().notActive(this.getName());
-					
+		if (! atc.equals("")) {
+	   		// RANDOM CHOICE
+	   		boolean choice = random_bool_generator.get_choice();
+	   		// boolean choice = true;
+	   		if (choice) {
+	   			Predicate predFromLine = new Predicate("atc");
+	   			if (atc.equals("requestTaxiClearance")) {
+	   				Predicate tcg = new Literal("taxiClearanceGiven");
+	   				tcg.addTerm(new Literal("rwy090"));   // the runway to go to
+	   				predFromLine.addTerm(tcg);      // taxi clearance has been given
+	   			} else if (atc.equals("requestLineUpClearance")) {
+	   				Predicate lug = new Literal("lineUpClearanceGiven");
+	   				predFromLine.addTerm(lug);
+	   			} else {
+	   				Predicate lug = new Literal("takeOffClearanceGiven");
+	   				predFromLine.addTerm(lug);
+	   			}
+				messages.add(new Message(1,"env","exec",predFromLine));
+				atc="";
+				// AJPFLogger.fine(logname, "Adding message: " + predFromLine.toString());
+	   		} else {
+	   			Predicate predFromLine = new Predicate("atc");
+	   			if (atc.equals("requestTaxiClearance")) {
+	   				predFromLine.addTerm(new Literal("taxiClearanceDenied"));      // taxi clearance is denied
+	   			} else if (atc.equals("requestLineUpClearance")) {
+	   				predFromLine.addTerm(new Literal("lineUpClearanceDenied"));  
+	   			} else {
+	   				predFromLine.addTerm(new Literal("takeOffClearanceDenied"));  
+	   			}
+	   			messages.add(new Message(1,"env","exec",predFromLine));
+				// System.out.println("Adding message: " + predFromLine.toString());
+	   			atc="";
+	   		}
+
+		}
 		
+				
 		AJPFLogger.info( logname, this.toString());
 		return messages;
 		
@@ -138,64 +207,14 @@ public class UAV extends
 	   	Unifier theta = new Unifier();
 	   	
 	   	if (act.getFunctor().equals("requestFlightPhase")) {
-			Predicate s = new Predicate("veh");
-			s.addTerm(new Literal("status"));
-			s.addTerm(new Literal(vehicleStatus));
-			exec_pending_messages.add(new Message(1,"env","exec",s));
-			//addMessage("exec", new Message(1,"env","exec",s));
-			// System.out.println("sent message!" + s.toString());
-			
-			// if the vehicle has landed, then it's mission complete
-			//if (vehicleStatus.equals("land"))
-			//{
-			//	Literal lit = new Literal("missionComplete");
-			//	exec_pending_messages.add(new Message(1,"env","exec",lit));
-				// addMessage("exec", new Message(1,"env","exec",lit));
-				
-			//}
+	   		requesting_flight_phase = true;
 
 	   	} else if (act.getFunctor().equals("requestFuelStatus")) {
-	   		Predicate s = new Predicate("fuel");
-			s.addTerm(new Literal("level"));
-			s.addTerm(new Literal("200"));
-			exec_pending_messages.add(new Message(1,"env","exec",s));
+	   		requesting_fuel = true;
 	   	} else if (act.getFunctor().equals("requestPosition")) {
-	   		Predicate s = new Predicate("position");
-			s.addTerm(new Literal("52"));
-			s.addTerm(new Literal("0"));
-			s.addTerm(new Literal("1"));
-			exec_pending_messages.add(new Message(1,"env","exec",s));
+	   		requesting_position = true;
 	   	} else if (act.getFunctor().equals("requestTaxiClearance") || act.getFunctor().equals("requestLineUpClearance") || act.getFunctor().equals("requestTakeOffClearance")) {
-	   		// RANDOM CHOICE
-	   		boolean choice = random_bool_generator.get_choice();
-	   		// boolean choice = true;
-	   		if (choice) {
-	   			Predicate predFromLine = new Predicate("atc");
-	   			if (act.getFunctor().equals("requestTaxiClearance")) {
-	   				Predicate tcg = new Literal("taxiClearanceGiven");
-	   				tcg.addTerm(new Literal("rwy090"));   // the runway to go to
-	   				predFromLine.addTerm(tcg);      // taxi clearance has been given
-	   			} else if (act.getFunctor().equals("requestLineUpClearance")) {
-	   				Predicate lug = new Literal("lineUpClearanceGiven");
-	   				predFromLine.addTerm(lug);
-	   			} else {
-	   				Predicate lug = new Literal("takeOffClearanceGiven");
-	   				predFromLine.addTerm(lug);
-	   			}
-				exec_pending_messages.add(new Message(1,"env","exec",predFromLine));
-				// AJPFLogger.fine(logname, "Adding message: " + predFromLine.toString());
-	   		} else {
-	   			Predicate predFromLine = new Predicate("atc");
-	   			if (act.getFunctor().equals("requestTaxiClearance")) {
-	   				predFromLine.addTerm(new Literal("taxiClearanceDenied"));      // taxi clearance is denied
-	   			} else if (act.getFunctor().equals("requestLineUpClearance")) {
-	   				predFromLine.addTerm(new Literal("lineUpClearanceDenied"));  
-	   			} else {
-	   				predFromLine.addTerm(new Literal("takeOffClearanceDenied"));  
-	   			}
-	   			exec_pending_messages.add(new Message(1,"env","exec",predFromLine));
-				// System.out.println("Adding message: " + predFromLine.toString());
-	   		}
+	   		atc = act.getFunctor();
 	   	} else if (act.getFunctor().equals("requestTaxiRoute")) {
 	   		Predicate s = new Predicate("route");
 			s.addTerm(new Literal("taxi")); // taxi-type route
@@ -275,11 +294,7 @@ public class UAV extends
 	   	}
 	   	
 	   	theta = super.executeAction(agName, act);
-	   	
-	   	if (!exec_pending_messages.isEmpty()) {
-	   		scheduler.isActive(getName());
-	   	}
-	   	
+	   		   	
 	   	return theta;
 	}
 	
@@ -318,8 +333,7 @@ public class UAV extends
 		AJPFLogger.fine(logname, "das last message status update: " + lastMsgSu + " vehicle status: " + vehicleStatus);
 		// if the last message was "object Approaching", the object is now passed. (maybe introduce a delay here , i.e., object appr can be sent again?)
 		// otherwise, send either object approaching or nothing to report. 
-		if ( ( lastMsgSu.equals("objectApproaching") && ! (agMessages.get("exec")).contains(s_o_m)) 
-				|| (lastMsgSu.equals("alert500") && ! (agMessages.get("exec")).contains(s_500_m) ) )
+		if ( lastMsgSu.equals("objectApproaching") || lastMsgSu.equals("alert500"))
 		{
 			// RANDOM Choice
 			boolean choice = prob_choice.get_choice();
@@ -377,13 +391,13 @@ public class UAV extends
 		prob_choice = new ProbBoolChoice(m.getController(), 0.001);
 	}
 	
-	public boolean done() {
+/*	public boolean done() {
 		if ((vehicleStatus == "waitingAtRamp") && at_sumburgh && exec_pending_messages.isEmpty()) {
 			return true;
 		}
 		
 		return false;
-	}
+	} */
 
 
 
