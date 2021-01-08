@@ -66,7 +66,9 @@ public class Choice<O extends Object> {
 	 */
 	public int choose() {
 		if (! control.replayMode()) {
+			// System.err.println("choosing");
 			int i = pickChoice(choicelist.size() - 1);
+			//  System.err.println(i);
 			thischoice = choicelist.get(i).getProb();
 			if (control.recordMode()) {
 				// System.out.println("HERE");

@@ -1,0 +1,5 @@
+1: [] (B(jackal,danger_red) -> <> B(jackal,going(0)))
+2: [] ((G(jackal,inspect(5)) &  (~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> B(jackal,going(5)))
+3: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> G(jackal,inspect(5)))
+4: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(0))) -> <> D(jackal,inspect))
+5: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> D(jackal,move(_,_,_))))
