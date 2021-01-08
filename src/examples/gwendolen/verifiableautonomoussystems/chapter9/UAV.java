@@ -31,10 +31,18 @@ public class UAV extends
 	
 	boolean at_sumburgh = false;
 	boolean landed = false;
+	Predicate none_pred = new Predicate("none");
 	
 	boolean requesting_flight_phase = false;
 	boolean requesting_fuel = false;
 	boolean requesting_position = false;
+	boolean requesting_taxi_route = false;
+	boolean requesting_route = false;
+	boolean requesting_emergency_avoid = false;
+	Predicate requesting_enact_route = none_pred;
+	boolean requesting_approach = false;
+	Predicate requesting_enact_approach = none_pred;
+	Predicate updating_flight_phase = none_pred;
 	
 	String atc = "";
 	
@@ -59,10 +67,22 @@ public class UAV extends
 		if (requesting_position) {
 			s += "Requesting Position\n";
 		}
-		s += "atc waiting: " + atc + "\n";
-		for (Message m: agMessages.get("exec")) {
-			s += "Current messages in Environment: " + m + "\n";
+		if (requesting_taxi_route) {
+			s += "Requesting Taxi Route\n";
 		}
+		if (requesting_route) {
+			s += "Requesting Route\n";
+		}
+		if (requesting_emergency_avoid) {
+			s += "Requesting Emergency Avoid\n";
+		}
+		if (requesting_approach) {
+			s += "Requesting Approach\n";
+		}
+		s += "atc waiting: " + atc + "\n";
+		s += "route waiting: " + requesting_enact_route + "\n";
+		s += "route approach waiting: " + requesting_enact_approach + "\n";
+		s += "updating flight phase: " + updating_flight_phase + "\n";
 		return s;
 	}
 
@@ -93,7 +113,7 @@ public class UAV extends
 		
 		if ((vehicleStatus.equals("cruise")  && !at_sumburgh) || (vehicleStatus.equals("approach") && !landed)) {
 			// RANDOM CHOICE
-			boolean result = random_bool_generator.get_choice(); 
+			boolean result = random_bool_generator.nextBoolean(); 
 			// boolean result = true;
 			if (result) {
 				AJPFLogger.info(logname, "At Sumburgh or Landed True");
@@ -163,38 +183,156 @@ public class UAV extends
 		
 		if (! atc.equals("")) {
 	   		// RANDOM CHOICE
-	   		boolean choice = random_bool_generator.get_choice();
-	   		// boolean choice = true;
-	   		if (choice) {
-	   			Predicate predFromLine = new Predicate("atc");
-	   			if (atc.equals("requestTaxiClearance")) {
-	   				Predicate tcg = new Literal("taxiClearanceGiven");
-	   				tcg.addTerm(new Literal("rwy090"));   // the runway to go to
-	   				predFromLine.addTerm(tcg);      // taxi clearance has been given
-	   			} else if (atc.equals("requestLineUpClearance")) {
-	   				Predicate lug = new Literal("lineUpClearanceGiven");
-	   				predFromLine.addTerm(lug);
-	   			} else {
-	   				Predicate lug = new Literal("takeOffClearanceGiven");
-	   				predFromLine.addTerm(lug);
-	   			}
-				messages.add(new Message(1,"env","exec",predFromLine));
-				atc="";
-				// AJPFLogger.fine(logname, "Adding message: " + predFromLine.toString());
-	   		} else {
-	   			Predicate predFromLine = new Predicate("atc");
-	   			if (atc.equals("requestTaxiClearance")) {
-	   				predFromLine.addTerm(new Literal("taxiClearanceDenied"));      // taxi clearance is denied
-	   			} else if (atc.equals("requestLineUpClearance")) {
-	   				predFromLine.addTerm(new Literal("lineUpClearanceDenied"));  
-	   			} else {
-	   				predFromLine.addTerm(new Literal("takeOffClearanceDenied"));  
-	   			}
-	   			messages.add(new Message(1,"env","exec",predFromLine));
-				// System.out.println("Adding message: " + predFromLine.toString());
-	   			atc="";
-	   		}
+			boolean answer = random_bool_generator.nextBoolean();
+			if (answer) {
+				AJPFLogger.info(logname, "ATC Replies");
+		   		boolean choice = random_bool_generator.nextBoolean();
+		   		// boolean choice = true;
+		   		if (choice) {
+		   			Predicate predFromLine = new Predicate("atc");
+		   			if (atc.equals("requestTaxiClearance")) {
+		   				Predicate tcg = new Literal("taxiClearanceGiven");
+		   				tcg.addTerm(new Literal("rwy090"));   // the runway to go to
+		   				predFromLine.addTerm(tcg);      // taxi clearance has been given
+		   			} else if (atc.equals("requestLineUpClearance")) {
+		   				Predicate lug = new Literal("lineUpClearanceGiven");
+		   				predFromLine.addTerm(lug);
+		   			} else {
+		   				Predicate lug = new Literal("takeOffClearanceGiven");
+		   				predFromLine.addTerm(lug);
+		   			}
+					messages.add(new Message(1,"env","exec",predFromLine));
+					atc="";
+		   		} else {
+		   			Predicate predFromLine = new Predicate("atc");
+		   			if (atc.equals("requestTaxiClearance")) {
+		   				predFromLine.addTerm(new Literal("taxiClearanceDenied"));      // taxi clearance is denied
+		   			} else if (atc.equals("requestLineUpClearance")) {
+		   				predFromLine.addTerm(new Literal("lineUpClearanceDenied"));  
+		   			} else {
+		   				predFromLine.addTerm(new Literal("takeOffClearanceDenied"));  
+		   			}
+		   			messages.add(new Message(1,"env","exec",predFromLine));
+		   			atc="";
+		   		}
+			}
 
+		}
+		
+		if (requesting_taxi_route) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				Predicate s = new Predicate("route");
+				s.addTerm(new Literal("taxi")); // taxi-type route
+				s.addTerm(new Literal("0")); // route number
+				s.addTerm(new Literal("5")); // time in mins 
+				s.addTerm(new Literal("1")); // fuel in litres
+				s.addTerm(new Literal("90")); // safety as a percentage (?) with 100% being no unsafety
+				
+				// return information about a route. For the purposes of the model checking, the
+				// variables of the information are just placeholders. The agent 
+				messages.add(new Message(1,"env","exec",s));
+				requesting_taxi_route = false;
+			}
+		}
+		
+		if (requesting_route) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+		   		Predicate s = new Predicate("route");
+				s.addTerm(new Literal("cruise")); // taxi-type route
+				s.addTerm(new Literal("0")); // route number
+				s.addTerm(new Literal("200")); // time in mins 
+				s.addTerm(new Literal("100")); // fuel in litres
+				s.addTerm(new Literal("80")); // safety as a percentage (?) with 100% being no unsafety
+				
+				// return information about a route. For the purposes of the model checking, the
+				// variables of the information are just placeholders. The agent 
+				messages.add(new Message(1,"env","exec",s));
+				requesting_route = false;
+			}
+		}
+		
+		if (requesting_emergency_avoid) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				Predicate s = new Predicate("enacting");
+				s.addTerm(new Literal("emergencyAvoid")); 
+								
+				messages.add(new Message(1,"env","exec",s));
+
+				requesting_emergency_avoid = false;
+			}
+		}
+		
+		if (requesting_enact_route.getFunctor() != "none") {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+		   		Term type = requesting_enact_route.getTerm(0);
+		   		Term num = requesting_enact_route.getTerm(1);
+		   		Predicate s = new Predicate("enactRoute");
+		   		s.addTerm(type);
+		   		s.addTerm(num);
+		   		messages.add(new Message(1,"env","exec",s));
+		   		
+		   		requesting_enact_route = none_pred;
+			}
+		}
+		
+		if (requesting_approach) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				Predicate s = new Predicate("appr");
+				s.addTerm(new Literal("0")); // route number
+				s.addTerm(new Literal("240")); // time in mins 
+				s.addTerm(new Literal("100")); // fuel in litres
+				s.addTerm(new Literal("80")); // safety as a percentage (?) with 100% being no unsafety
+				
+				// return information about a route. For the purposes of the model checking, the
+				// variables of the information are just placeholders. The agent 
+				messages.add(new Message(1,"env","exec",s));
+				requesting_approach = false;
+			}
+		}
+
+		if (requesting_enact_approach.getFunctor() != "none") {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+		   		Predicate s = new Predicate("enactAppr");
+				s.addTerm(new Literal(requesting_enact_approach.getTerm(0).toString()));
+				messages.add(new Message(1,"env","exec",s));
+
+				requesting_enact_approach = none_pred;
+			}
+		}
+		
+		if (updating_flight_phase != none_pred) {
+			boolean message = random_bool_generator.nextBoolean();
+			if (message) {
+				String phase = updating_flight_phase.getTerm(0).getFunctor();
+		   		if (! phase.equals(vehicleStatus)) {
+			   		if (phase.equals("taxying")) {
+			   			if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
+			   				setVehicleStatus("holding");
+			   			} else {
+			   				setVehicleStatus("waitingAtRamp");
+			   			}
+			   		} else if (phase.equals("lineup")) {
+			   			setVehicleStatus("linedup");
+			   		} else if (phase.equals("takeOff")) {
+			   			setVehicleStatus("cruise");
+			   		} else {
+			   			setVehicleStatus(phase);
+			   		}
+			   		Predicate s = new Predicate("veh");
+					s.addTerm(new Literal("status"));
+					s.addTerm(new Literal(vehicleStatus));
+					// clear_flight_status_messages();
+					messages.add(new Message(1,"env","exec",s));
+		   		}
+		   		
+		   		updating_flight_phase = none_pred;
+			}
 		}
 		
 				
@@ -216,81 +354,19 @@ public class UAV extends
 	   	} else if (act.getFunctor().equals("requestTaxiClearance") || act.getFunctor().equals("requestLineUpClearance") || act.getFunctor().equals("requestTakeOffClearance")) {
 	   		atc = act.getFunctor();
 	   	} else if (act.getFunctor().equals("requestTaxiRoute")) {
-	   		Predicate s = new Predicate("route");
-			s.addTerm(new Literal("taxi")); // taxi-type route
-			s.addTerm(new Literal("0")); // route number
-			s.addTerm(new Literal("5")); // time in mins 
-			s.addTerm(new Literal("1")); // fuel in litres
-			s.addTerm(new Literal("90")); // safety as a percentage (?) with 100% being no unsafety
-			
-			// return information about a route. For the purposes of the model checking, the
-			// variables of the information are just placeholders. The agent 
-			exec_pending_messages.add(new Message(1,"env","exec",s));
+	   		requesting_taxi_route = true;
 	   	} else if (act.getFunctor().equals("requestRoute")) {
-	   		Predicate s = new Predicate("route");
-			s.addTerm(new Literal("cruise")); // taxi-type route
-			s.addTerm(new Literal("0")); // route number
-			s.addTerm(new Literal("200")); // time in mins 
-			s.addTerm(new Literal("100")); // fuel in litres
-			s.addTerm(new Literal("80")); // safety as a percentage (?) with 100% being no unsafety
-			
-			// return information about a route. For the purposes of the model checking, the
-			// variables of the information are just placeholders. The agent 
-			exec_pending_messages.add(new Message(1,"env","exec",s));
-
+	   		requesting_route = true;
 	   	} else if (act.getFunctor().equals("requestEmergencyAvoid")) {
-			AJPFLogger.info(logname, "!!! emergAvoid");
-			Predicate s = new Predicate("enacting");
-			s.addTerm(new Literal("emergencyAvoid")); 
-							
-			exec_pending_messages.add(new Message(1,"env","exec",s));
-
+	   		requesting_emergency_avoid = true;
 	   	} else if (act.getFunctor().equals("requestEnactRoute")) {
-	   		Term type = act.getTerm(0);
-	   		Term num = act.getTerm(1);
-	   		Predicate s = new Predicate("enactRoute");
-	   		s.addTerm(type);
-	   		s.addTerm(num);
-	   		exec_pending_messages.add(new Message(1,"env","exec",s));
+	   		requesting_enact_route = act;
 	   	} else if (act.getFunctor().equals("requestApproach")) {
-			Predicate s = new Predicate("appr");
-			s.addTerm(new Literal("0")); // route number
-			s.addTerm(new Literal("240")); // time in mins 
-			s.addTerm(new Literal("100")); // fuel in litres
-			s.addTerm(new Literal("80")); // safety as a percentage (?) with 100% being no unsafety
-			
-			// return information about a route. For the purposes of the model checking, the
-			// variables of the information are just placeholders. The agent 
-			exec_pending_messages.add(new Message(1,"env","exec",s));
-
+			requesting_approach = true;
 	   	} else if (act.getFunctor().equals("enactApproach")) {
-	   		Predicate s = new Predicate("enactAppr");
-			s.addTerm(new Literal(act.getTerm(0).toString()));
-			exec_pending_messages.add(new Message(1,"env","exec",s));
+	   		requesting_enact_approach = act;
 	   	} else if (act.getFunctor().equals("updateFlightPhase")) {
-	   		String phase = act.getTerm(0).getFunctor();
-	   		if (! phase.equals(vehicleStatus)) {
-		   		if (phase.equals("taxying")) {
-		   			if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
-		   				setVehicleStatus("holding");
-		   			} else {
-		   				setVehicleStatus("waitingAtRamp");
-		   			}
-		   		} else if (phase.equals("lineup")) {
-		   			setVehicleStatus("linedup");
-		   		} else if (phase.equals("takeOff")) {
-		   			setVehicleStatus("cruise");
-		   		} else {
-		   			setVehicleStatus(phase);
-		   		}
-		   		Predicate s = new Predicate("veh");
-				s.addTerm(new Literal("status"));
-				s.addTerm(new Literal(vehicleStatus));
-				clear_flight_status_messages();
-				exec_pending_messages.add(new Message(1,"env","exec",s));
-	   		}
-			//addMessage("exec", new Message(1,"env","exec",s));
-			// System.out.println("sent message!" + s.toString());
+	   		updating_flight_phase = act;
 	   	}
 	   	
 	   	theta = super.executeAction(agName, act);
@@ -298,7 +374,7 @@ public class UAV extends
 	   	return theta;
 	}
 	
-	private void clear_flight_status_messages() {
+	/* private void clear_flight_status_messages() {
 		VerifyList<Message> exec_pending_messages_tmp = new VerifyList<Message>();
 		for (Message m: exec_pending_messages) {
 			VarTerm status = new VarTerm("S");
@@ -311,7 +387,7 @@ public class UAV extends
 		}
 		exec_pending_messages.clear();
 		exec_pending_messages.addAll(exec_pending_messages_tmp);
-	}
+	} */
 	
 	private void setVehicleStatus(String status)
 	{

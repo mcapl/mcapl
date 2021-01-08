@@ -4,6 +4,7 @@
     		|| B(exec,flightPhase(emergencyAvoid)) 
     		|| ~B(exec, das(objectApproaching)) 
     		|| B(exec, flightPhase(landed))
+    		|| D(exec, requestEmergencyAvoid)
     	) 
     )
 
