@@ -5,7 +5,7 @@ target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapte
 
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent,ajpf.MCAPLcontroller,gwendolen.verifiableautonomoussystems.chapter9.UAV
-// log.fine = ail.semantics.AILAgent
+// log.fine = ail.semantics.AILAgent,
 log.fine = ajpf.util.choice.ChoiceRecord
 
 listener+=,.listener.ExecTracker

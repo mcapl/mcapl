@@ -247,6 +247,7 @@ public class MCAPLcontroller  {
 				AJPFLogger.fine("ajpf.MCAPLcontroller", "before checkend");
 			}
 			checkend = checkEnd();
+			
 		}
 		if (! transitionEveryReasoningCycle()) {
 			force_transition();

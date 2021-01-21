@@ -1,10 +1,10 @@
-1: []( ( B(exec,das(objectApproaching)) & B(exec, flightPhase(cruise)) 
+1: []( ( B(exec,das(objectApproaching)) & B(exec, flightPhase(cruise)) & 
+         [](D(exec, requestEmergencyAvoid) -> <> B(exec, enacting(emergencyAvoid)))
        )
     -> <>(B(exec,enacting(emergencyAvoid)) 
     		|| B(exec,flightPhase(emergencyAvoid)) 
     		|| ~B(exec, das(objectApproaching)) 
     		|| B(exec, flightPhase(landed))
-    		|| D(exec, requestEmergencyAvoid)
     	) 
     )
 

@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ail.semantics.AILAgent;
+import ail.syntax.Deed;
 import ail.syntax.Event;
 import ail.syntax.Goal;
 import ail.syntax.Intention;
@@ -132,6 +133,13 @@ public class HandleDropGeneralGoal extends HandleDropGoal {
 						ip.unsuspend();
 					}
 					subgoals = temp_subgoals;
+				} else {
+					if (ip.hdD().referstoGoal() && ip.hdD().isAddition()  && g.getGoalType() == Goal.performGoal) {
+						Deed goal_addition_deed = new Deed(Deed.AILAddition, g);
+						if (thetae.matchesNG(ip.hdD(), goal_addition_deed)) {
+							ip.tlI(a);
+						}
+					}
 				}
 			}
 			

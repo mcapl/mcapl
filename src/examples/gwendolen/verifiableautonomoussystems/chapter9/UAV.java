@@ -307,31 +307,41 @@ public class UAV extends
 		}
 		
 		if (updating_flight_phase != none_pred) {
-			boolean message = random_bool_generator.nextBoolean();
-			if (message) {
-				String phase = updating_flight_phase.getTerm(0).getFunctor();
-		   		if (! phase.equals(vehicleStatus)) {
-			   		if (phase.equals("taxying")) {
-			   			if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
-			   				setVehicleStatus("holding");
-			   			} else {
-			   				setVehicleStatus("waitingAtRamp");
-			   			}
-			   		} else if (phase.equals("lineup")) {
-			   			setVehicleStatus("linedup");
-			   		} else if (phase.equals("takeOff")) {
-			   			setVehicleStatus("cruise");
-			   		} else {
-			   			setVehicleStatus(phase);
+			if (updating_flight_phase.getTerm(0).getFunctor().equals("taxying") || updating_flight_phase.getTerm(0).getFunctor().equals("lineup") || updating_flight_phase.getTerm(0).getFunctor().equals("takeOff")) {
+				boolean message = random_bool_generator.nextBoolean();
+				if (message) {
+					String phase = updating_flight_phase.getTerm(0).getFunctor();
+			   		if (! phase.equals(vehicleStatus)) {
+				   		if (phase.equals("taxying")) {
+				   			if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
+				   				setVehicleStatus("holding");
+				   			} else {
+				   				setVehicleStatus("waitingAtRamp");
+				   			}
+				   		} else if (phase.equals("lineup")) {
+				   			setVehicleStatus("linedup");
+				   		} else if (phase.equals("takeOff")) {
+				   			setVehicleStatus("cruise");
+				   		} 
 			   		}
+			   		
 			   		Predicate s = new Predicate("veh");
 					s.addTerm(new Literal("status"));
 					s.addTerm(new Literal(vehicleStatus));
 					// clear_flight_status_messages();
 					messages.add(new Message(1,"env","exec",s));
-		   		}
-		   		
-		   		updating_flight_phase = none_pred;
+					
+					updating_flight_phase = none_pred;
+					
+				}
+				
+			} else {
+			   	Predicate s = new Predicate("veh");
+				s.addTerm(new Literal("status"));
+				s.addTerm(new Literal(vehicleStatus));
+				// clear_flight_status_messages();
+				messages.add(new Message(1,"env","exec",s));
+				updating_flight_phase = none_pred;
 			}
 		}
 		
@@ -366,7 +376,12 @@ public class UAV extends
 	   	} else if (act.getFunctor().equals("enactApproach")) {
 	   		requesting_enact_approach = act;
 	   	} else if (act.getFunctor().equals("updateFlightPhase")) {
-	   		updating_flight_phase = act;
+	   		if (act.getTerm(0).getFunctor().equals("taxying") || act.getTerm(0).getFunctor().equals("lineup") || act.getTerm(0).getFunctor().equals("takeOff")) {
+	   			updating_flight_phase = act;
+	   		} else {
+	   			updating_flight_phase = act;
+	   			setVehicleStatus(act.getTerm(0).getFunctor());
+	   		}
 	   	}
 	   	
 	   	theta = super.executeAction(agName, act);
@@ -425,6 +440,7 @@ public class UAV extends
 				s.addTerm(new Literal("objectPassed"));
 				messages.add(new Message(1,"env","exec",s));
 				lastMsgSu = "";
+				requesting_emergency_avoid = false;
 			} else {
 				AJPFLogger.info(logname, "No Object Passed");
 			}

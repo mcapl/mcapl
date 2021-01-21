@@ -175,8 +175,8 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 
 	int final_turn = 0;
 
-//	@Override
-public boolean done() {
+	//	@Override
+	public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
