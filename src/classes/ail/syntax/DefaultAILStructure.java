@@ -68,6 +68,10 @@ public abstract class DefaultAILStructure extends DefaultTerm implements AILStru
 	@FilterField
 	public final static int AILUpdate = 2;
 	@FilterField
+	public final static int AILSuspend = 3;
+	@FilterField
+	public final static int AILUnsuspend = 4;
+	@FilterField
 	protected PredicateIndicator predicateIndicatorCache = null; // to not compute it all the time (is is called many many times)
 	
 	/**
