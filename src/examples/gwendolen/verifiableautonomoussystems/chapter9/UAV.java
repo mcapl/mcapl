@@ -407,7 +407,7 @@ public class UAV extends
 	private void setVehicleStatus(String status)
 	{
 		vehicleStatus = status;
-		AJPFLogger.info(logname, "Setting VEHICLE: " + status);
+		AJPFLogger.fine(logname, "Setting VEHICLE: " + status);
 	}
 	
 	private void detectAndAvoidSensor(Set<Message> messages) {
@@ -432,9 +432,9 @@ public class UAV extends
 			if (choice) {
 				Predicate s = new Predicate("das");
 				if (lastMsgSu.equals("objectApproaching")) {
-					System.out.println("!!! das objectApproaching last msg"); 
+					AJPFLogger.info(logname, "Removing das objectApproaching"); 
 				} else {
-					System.out.println("!!! das alert500 last msg");
+					AJPFLogger.info(logname, "Removing das alert500");
 				}
 				//s.addTerm(new NumberTermImpl(d));
 				s.addTerm(new Literal("objectPassed"));
@@ -449,27 +449,26 @@ public class UAV extends
 			// RANDOM Choice
 			boolean choice = prob_choice.get_choice();
 			// boolean choice = false;
-			if (choice)  // 0.5
-			{
-				AJPFLogger.info(logname, "!!! das objectApproaching");
-				//s.addTerm(new NumberTermImpl(d));
-				//s.addTerm(new Literal("objectApproaching"));
-				messages.add(s_o_m);
-				lastMsgSu = "objectApproaching";
-				return;
-			}
-			else {
+			if (choice)  { // 0.001 normal course of things -- so unlikely to be an issue
 				// RANDOM Choice
-				choice = prob_choice.get_choice();
+				choice = random_bool_generator.nextBoolean();
 				// choice = false;
 				if (choice) {
-					AJPFLogger.info(logname, "!!! das alert500");
+					AJPFLogger.info(logname, "Adding das objectApproaching");
+					//s.addTerm(new NumberTermImpl(d));
+					//s.addTerm(new Literal("objectApproaching"));
+					messages.add(s_o_m);
+					lastMsgSu = "objectApproaching";
+					return;
+				}
+				else {
+					AJPFLogger.info(logname, "Adding das alert500");
 					//s.addTerm(new Literal("alert500"));
 					messages.add(s_500_m);
 					lastMsgSu = "alert500";
 					return;
 				}
-			}
+			} 
 
 			AJPFLogger.info(logname, "No Alerts");
 		}

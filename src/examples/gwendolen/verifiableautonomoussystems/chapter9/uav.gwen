@@ -8,10 +8,10 @@ GWENDOLEN
 			
 		:Reasoning Rules:
 		
-		atc_message(atc(M));
+		// atc_message(atc(M));
 		flightPhase_message(veh(status, F));
-		fuel_level_message(fuel(level, F));
-		position_message(position(Lat, Lon, Alt));
+		// fuel_level_message(fuel(level, F));
+		// position_message(position(Lat, Lon, Alt));
 		das_message(das(objectPassed));
 		das_message(das(objectApproaching));
 		das_message(das(alert500));
@@ -36,7 +36,7 @@ GWENDOLEN
 		
 		routes_stored_for_enaction :- enactRoute(taxi, N), enactRoute(cruise, N1);
 		missionComplete :- destination(L), location(L), flightPhase(waitingAtRamp);
-		completeLandingChecks :- fuel(level, L), position(Lat, Long, Alt), flightPhase(landed);
+		// completeLandingChecks :- fuel(level, L), position(Lat, Long, Alt), flightPhase(landed);
 
 		:Initial Goals: 
 			missionComplete [achieve] 
@@ -49,8 +49,8 @@ GWENDOLEN
 			+alertnoted,
 			-.lock,
 			+!reactToAlert [perform];
-		+.received(:tell, das(objectApproaching)) : {B flightPhase(emergencyAvoid),  ~B das(objectApproaching)} <-
-			+das(objectApproaching);
+		//+.received(:tell, das(objectApproaching)) : {B flightPhase(emergencyAvoid),  ~B das(objectApproaching)} <-
+		//	+das(objectApproaching);
 		+.received(:tell, das(objectApproaching)) : {B stationary,  ~B das(objectApproaching)} <-
 			+das(objectApproaching);
 		+.received(:tell, das(objectApproaching)) : {G reactToAlert [perform],  ~B das(objectApproaching)} <-
@@ -63,16 +63,16 @@ GWENDOLEN
 			+das(alert500),
 			-.lock,
 			+!reactToAlert [perform];
-		+.received(:tell, das(objectApproaching)) : {B flightPhase(emergencyAvoid),  ~B das(alert500)} <-
-			+das(alert500);
+		//+.received(:tell, das(alert500)) : {B flightPhase(emergencyAvoid),  ~B das(alert500)} <-
+		//	+das(alert500);
 		+.received(:tell, das(alert500)) : {B on_ground,  ~B das(alert500)} <-
-			+das(objectApproaching);
+			+das(alert500);
 		+.received(:tell, das(alert500)) : {G reactToAlert [perform],  ~B das(alert500)} <-
 			+das(alert500);
 		+.received(:tell, das(alert500)) : {B alertnoted,  ~B das(alert500)} <-
 			+das(alert500);
 		
-		+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), ~G reactToAlert [perform]} <- 
+		+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F)} <- 
 			+.lock, 
 			-alertnoted,
 			-! reactToAlert [perform],
@@ -81,16 +81,16 @@ GWENDOLEN
 			-enacting(emergencyAvoid),
 			+! changeFlightPhase(F) [perform],
 			-.lock;
-		+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), G reactToAlert [perform]} <- 
-			+.lock, 
-			-alertnoted,
-			-! reactToAlert [perform],
-			-das(objectApproaching),
-			-das(alert500),
-			-enacting(emergencyAvoid),
-			+! changeFlightPhase(F) [perform],
-			-.lock;
-		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), G reactToAlert [perform] } <-
+		//+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), G reactToAlert [perform]} <- 
+		//	+.lock, 
+		//	-alertnoted,
+		//	-! reactToAlert [perform],
+		//	-das(objectApproaching),
+		//	-das(alert500),
+		//	-enacting(emergencyAvoid),
+		//	+! changeFlightPhase(F) [perform],
+		//	-.lock;
+		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid) } <-
 			+.lock,
 			-alertnoted,
 			-! reactToAlert [perform],
@@ -98,52 +98,25 @@ GWENDOLEN
 			-das(alert500),
 			-enacting(emergencyAvoid),
 			-.lock;		
-		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), B alertnoted } <-
-			+.lock,
-			-alertnoted,
-			-! reactToAlert [perform],
-			-das(objectApproaching),
-			-das(alert500),
-			-enacting(emergencyAvoid),
-			-.lock;		
-		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), ~ G reactToAlert [perform] } <-
-			+.lock,
-			-das(objectApproaching),
-			-das(alert500),
-			-enacting(emergencyAvoid),
-			-.lock;		
+		//+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), B alertnoted } <-
+		//	+.lock,
+		//	-alertnoted,
+		//	-! reactToAlert [perform],
+		//	-das(objectApproaching),
+		//	-das(alert500),
+		//	-enacting(emergencyAvoid),
+		//	-.lock;		
+		//+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), ~ G reactToAlert [perform] } <-
+		//	+.lock,
+		//	-das(objectApproaching),
+		//	-das(alert500),
+		//	-enacting(emergencyAvoid),
+		//	-.lock;		
 
 		+.received(:tell, veh(status, NewFlightPhase)): {B flightPhase(OldFlightPhase), B environment_flight_phase(NewFlightPhase)} <- 
 			+.lock,
 			+!changeFlightPhase(NewFlightPhase) [perform],
 			-.lock;
-		//+.received(:tell, atc(M)) : {B atc(N)} <-
-		//	+.lock,
-		//	-atc(N),
-		//	+atc(M),
-		//	-.lock;
-		//+.received(:tell, atc(M)) : {~ B atc(N)} <-
-		//	+.lock,
-		//	+atc(M),
-		//	-.lock;
-		//+.received(:tell, fuel(level, M)) : {B fuel(level, N)} <-
-		//	+.lock,
-		//	-fuel(level, N),
-		//	+fuel(level, M),
-		//	-.lock;
-		//+.received(:tell, fuel(level, M)) : {~ B fuel(level, N)} <-
-		//	+.lock,
-		//	+fuel(level, M),
-		//	-.lock;
-		//+.received(:tell, position(Lat, Lon, Alt)) : { B position(Lat1, Lon1, Alt1)} <-
-		//	+.lock,
-		//	-position(Lat1, Lon1, Alt1),
-		//	+position(Lat, Lon, Alt),
-		//	-.lock;
-		//+.received(:tell, position(Lat, Lon, Alt)) : {~ B position(Lat1, Lon1, Alt1)} <-
-		//	+.lock,
-		//	+position(Lat, Lon, Alt),
-		//	-.lock;
 		+.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform]};
 		
 		
@@ -342,52 +315,6 @@ GWENDOLEN
 			*flightPhase(waitingAtRamp);
 
  				
-		// das message handling
-		//+das(objectApproaching) : {~B flightPhase(emergencyAvoid), ~ B stationary, B das(objectApproaching), ~G reactToAlert [perform]} <- 
-		//	+!reactToAlert [perform];
-		// +das(objectApproaching) : {B flightPhase(emergencyAvoid)} <- 
-		// 	-das(objectApproaching);
-		// +das(objectApproaching) : {G reactToAlert [perform]} <- 
-		//	-das(objectApproaching);
-		//+das(objectApproaching) : {~B flightPhase(emergencyAvoid), B stationary} <- 
-		//	-das(objectApproaching);
-			
-		//+das(alert500) : {~B flightPhase(emergencyAvoid), ~ B on_ground, B das(alert500), ~G reactToAlert [perform]} <- 
-		//	+!reactToAlert [perform];
-		//+das(alert500) : {B flightPhase(emergencyAvoid)} <- 
-		//	-das(alert(500));
-		// +das(alert500) : {B on_ground} <- 
-		//	-das(alert(500));
-		//+das(alert500) : {G reactToAlert [perform]} <- 
-		//	-das(alert(500));
-			
-		//+das(objectPassed) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), ~G reactToAlert [perform]} <- 
-		//	+.lock, 
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	-das(objectPassed), 
-		//	+! changeFlightPhase(F) [perform],
-		//	-.lock;
-
-		//+das(objectPassed) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), G reactToAlert [perform]} <- 
-		//	+.lock, 
-		//	-! reactToAlert [perform],
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	-das(objectPassed), 
-		//	+! changeFlightPhase(F) [perform],
-		//	-.lock;
-		
-		//+das(objectPassed) : {~ B flightPhase(emergencyAvoid) } <-
-		//	+.lock,
-		//	-! reactToAlert [perform],
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	-das(objectPassed), 
-		//	-.lock;		
 			
 		+!reactToAlert [perform] : {B das_alert, ~B das_alert_irrelevant} <-
 			+.lock,
@@ -401,8 +328,7 @@ GWENDOLEN
 			
 		+!reactToAlert [perform] : {~B das_alert};
 		+!reactToAlert [perform] : {B das_alert, B das_alert_irrelevant};
-		// +!reactToAlert [perform] : {G reactToAlert [perform]};
- 
+
  		+enacting(emergencyAvoid) : {~B store(flightPhase, F), B enacting(emergencyAvoid)} <-
 			-enacting(emergencyAvoid);
 		+enacting(emergencyAvoid) : {B das_alert_irrelevant, G reactToAlert[perform]} <-
@@ -449,19 +375,19 @@ GWENDOLEN
 		// Landing
 			
 					
-		+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B fuel(level, L)} <-
-			*fuel(level, L);
+		//+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B fuel(level, L)} <-
+		//	*fuel(level, L);
 
-		+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B position(Lat, Lon, Alt)} <-
-			*position(Lat, Lon, Alt);
+		//+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B position(Lat, Lon, Alt)} <-
+		//	*position(Lat, Lon, Alt);
 
-		+!completeLandingChecks [achieve] : {B flightPhase(emergencyAvoid), B store(flightPhase, F)} <- 
-			*flightPhase(F);
+		//+!completeLandingChecks [achieve] : {B flightPhase(emergencyAvoid), B store(flightPhase, F)} <- 
+		//	*flightPhase(F);
 		
-		+!completeLandingChecks [achieve] : {B das(objectApproaching), ~B flightPhase(emergencyAvoid)} <- 
-			*das(objectPassed);
+		//+!completeLandingChecks [achieve] : {B das(objectApproaching), ~B flightPhase(emergencyAvoid)} <- 
+		//	*das(objectPassed);
 			
-		+!completeLandingChecks [achieve] : {B completeLandingChecks};
+		//+!completeLandingChecks [achieve] : {B completeLandingChecks};
 
 		 
 		

@@ -163,7 +163,7 @@ public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {
-					System.err.println("1!!!!!!!!!!!!!!!!!");
+					//System.err.println("1!!!!!!!!!!!!!!!!!");
 					Set<Predicate> percepts = generate_percepts();
 					Set<Message> messages = generate_messages();
 					clearPercepts();
@@ -180,11 +180,11 @@ public boolean done() {
 					final_turn = 2;
 					return false;
 				} else if (final_turn == 0){
-					System.err.println("0!!!!!!!!!!!!!!!!!");
+					//System.err.println("0!!!!!!!!!!!!!!!!!");
 					final_turn++;
 					return false;
 				} else {
-					System.err.println("2+!!!!!!!!!!!!!!!!!");
+					//System.err.println("2+!!!!!!!!!!!!!!!!!");
 					return true;
 				} 
 			}

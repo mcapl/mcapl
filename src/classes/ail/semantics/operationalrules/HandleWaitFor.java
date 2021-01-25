@@ -105,12 +105,12 @@ public class HandleWaitFor implements OSRule {
 		// First perform perception
 		// super.apply(a);
 
-		Literal waitingfor = (Literal) topdeed.getContent();
+		Literal waitingfor = (Literal) topdeed.getContent().clone();
 		Iterator<Unifier> beliefs;
-		Literal wf_clone = waitingfor.clone();
+		// Literal wf_clone = waitingfor.clone();
 		if (waitingfor.negated()) {
-			wf_clone.setNegated(false);
-			GBelief wfgb = new GBelief(wf_clone);
+			waitingfor.setNegated(false);
+			GBelief wfgb = new GBelief(waitingfor);
 			beliefs = a.believes(new Guard(Guard.GLogicalOp.not, wfgb), thetab);
 		} else {
 			GBelief wfgb = new GBelief(waitingfor);
