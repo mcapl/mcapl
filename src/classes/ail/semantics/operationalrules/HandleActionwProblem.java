@@ -90,6 +90,15 @@ public class HandleActionwProblem extends HandleTopDeed {
 				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
+				
+				// --- Intention Suspending ---
+				//i = a.getIntention();
+				i.suspend();
+				// i.suspendFor(beliefcondition);
+				// update the agent? find out if i.suspend^ does this
+				a.setIntention(i);
+				// wait until action has completed.
+				
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
 				i.tlI(a);
