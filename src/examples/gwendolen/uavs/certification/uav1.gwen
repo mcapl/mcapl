@@ -25,6 +25,10 @@ GWENDOLEN
 					// then ask vehicle for flight phase
 					+!missionComplete [achieve] : {B flightPhase(unknown), ~B connectionOk} 
 						<- send(env,connect); 
+					+!missionComplete [achieve] : {~B flightPhase(unknown) }
+						<- *missionComplete;
+					+!missionComplete [achieve] : {B connectionOk }
+						<- *missionComplete;
 										
 					// if connection is ok, then do a poll cycle
 					+connectionOk : {~B sent(veh,reqfp), B flightPhase(unknown)} 

@@ -7,6 +7,4 @@ log.fine = ail.semantics.AILAgent,ajpf.util.choice.ChoiceRecord
 pretty = ail
 // ajpf.record = true
 
-uav.das_setting = cruise_only
-
 ajpf.transition_every_reasoning_cycle=false

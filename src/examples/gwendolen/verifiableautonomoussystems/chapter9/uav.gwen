@@ -4,14 +4,12 @@ GWENDOLEN
 
 		:Initial Beliefs:
 			flightPhase(unknown) 
+			// flightPhase(cruise)
 			destination(sumburgh) 
 			
 		:Reasoning Rules:
 		
-		// atc_message(atc(M));
 		flightPhase_message(veh(status, F));
-		// fuel_level_message(fuel(level, F));
-		// position_message(position(Lat, Lon, Alt));
 		das_message(das(objectPassed));
 		das_message(das(objectApproaching));
 		das_message(das(alert500));
@@ -49,8 +47,6 @@ GWENDOLEN
 			+alertnoted,
 			-.lock,
 			+!reactToAlert [perform];
-		//+.received(:tell, das(objectApproaching)) : {B flightPhase(emergencyAvoid),  ~B das(objectApproaching)} <-
-		//	+das(objectApproaching);
 		+.received(:tell, das(objectApproaching)) : {B stationary,  ~B das(objectApproaching)} <-
 			+das(objectApproaching);
 		+.received(:tell, das(objectApproaching)) : {G reactToAlert [perform],  ~B das(objectApproaching)} <-
@@ -63,8 +59,6 @@ GWENDOLEN
 			+das(alert500),
 			-.lock,
 			+!reactToAlert [perform];
-		//+.received(:tell, das(alert500)) : {B flightPhase(emergencyAvoid),  ~B das(alert500)} <-
-		//	+das(alert500);
 		+.received(:tell, das(alert500)) : {B on_ground,  ~B das(alert500)} <-
 			+das(alert500);
 		+.received(:tell, das(alert500)) : {G reactToAlert [perform],  ~B das(alert500)} <-
@@ -81,15 +75,6 @@ GWENDOLEN
 			-enacting(emergencyAvoid),
 			+! changeFlightPhase(F) [perform],
 			-.lock;
-		//+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F), G reactToAlert [perform]} <- 
-		//	+.lock, 
-		//	-alertnoted,
-		//	-! reactToAlert [perform],
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	+! changeFlightPhase(F) [perform],
-		//	-.lock;
 		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid) } <-
 			+.lock,
 			-alertnoted,
@@ -98,26 +83,14 @@ GWENDOLEN
 			-das(alert500),
 			-enacting(emergencyAvoid),
 			-.lock;		
-		//+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), B alertnoted } <-
-		//	+.lock,
-		//	-alertnoted,
-		//	-! reactToAlert [perform],
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	-.lock;		
-		//+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid), ~ G reactToAlert [perform] } <-
-		//	+.lock,
-		//	-das(objectApproaching),
-		//	-das(alert500),
-		//	-enacting(emergencyAvoid),
-		//	-.lock;		
 
-		+.received(:tell, veh(status, NewFlightPhase)): {B flightPhase(OldFlightPhase), B environment_flight_phase(NewFlightPhase)} <- 
+		+.received(:tell, veh(status, NewFlightPhase)): {B flightPhase(OldFlightPhase), B environment_flight_phase(NewFlightPhase), ~B waiting_confirmation(NewFlightPhase)} <- 
 			+.lock,
 			+!changeFlightPhase(NewFlightPhase) [perform],
 			-.lock;
-		+.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform]};
+		+.received(:tell, veh(status, NewFlightPhase)): {B waiting_confirmation(NewFlightPhase)} <- 
+			-waiting_confirmation(NewFlightPhase);
+		+.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform],~B waiting_confirmation(NewFlightPhase)};
 		
 		
 		+.received(:tell, M): { ~ B flightPhase_message(M), ~B das_message(M)} <- 
@@ -142,20 +115,15 @@ GWENDOLEN
 		// Trying to change to emergency Avoid
 		// Object no longer approaching - do nothing
 		+!changeFlightPhase(emergencyAvoid) [perform] : {~B das_alert, B flightPhase(F)} <- 
-		//	-enacting(emergencyAvoid), 
 			-store(flightPhase, F);
-		//	updateFlightPhase(F);
-  
+ 
 		// Stationary or (Grounded and alert500) - do nothing
 		+!changeFlightPhase(emergencyAvoid) [perform] : {B das_alert_irrelevant, B flightPhase(F), ~B flightPhase(emergencyAvoid)} <- 
-		//	-enacting(emergencyAvoid),
 			-store(flightPhase, F);
-		//	updateFlightPhase(F);
 
  
   		// Old flight phase not yet stored
   		+!changeFlightPhase(emergencyAvoid) [perform] : {B flightPhase(F1), B das_alert, ~B das_alert_irrelevant, ~B store(flightPhase, F1), ~B flightPhase(emergencyAvoid)} <-  
-			//-enacting(emergencyAvoid), 
 			+store(flightPhase,F1), 
 			-flightPhase(F1),
 			+flightPhase(emergencyAvoid),
@@ -163,7 +131,6 @@ GWENDOLEN
 			
   		// Old flight phase stored
   		+!changeFlightPhase(emergencyAvoid) [perform] : {B flightPhase(F1), B das_alert, ~B das_alert_irrelevant, B store(flightPhase, F1), ~B flightPhase(emergencyAvoid)} <- 
-			//-enacting(emergencyAvoid), 
 			-flightPhase(F1),
 			+flightPhase(emergencyAvoid),
 			updateFlightPhase(emergencyAvoid);
@@ -173,23 +140,30 @@ GWENDOLEN
 		// If this is happening, it's not because an attempt has been made to change out of emergencyAvoid since that refers explicitly to store
 		// so we need to store the new flight phase.
 		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, F), ~B equal(F, To)} <-
-			// -enacting(emergencyAvoid), 
 			-store(flightPhase, F),
 			+store(flightPhase, To);
 
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert} <-
-			-store(flightPhase, To),
-			-flightPhase(emergencyAvoid),
-			+flightPhase(To),
-			-enacting(emergencyAvoid), 			
-			updateFlightPhase(To);
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, B environment_flight_phase(To)} <-	
+			+waiting_confirmation(To),
+			+!subsidiary_flight_change(To) [perform];
 			
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant} <-
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, B environment_flight_phase(To)} <-
+			+waiting_confirmation(To),
+			+!subsidiary_flight_change(To) [perform];
+
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, ~B environment_flight_phase(To)} <-	
+			+!subsidiary_flight_change(To) [perform];
+			
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, ~B environment_flight_phase(To)} <-
+			+!subsidiary_flight_change(To) [perform];
+
+		+! subsidiary_flight_change(To) [perform] : {True} <-
 			-store(flightPhase, To),
 			-flightPhase(emergencyAvoid),
 			+flightPhase(To),
 			-enacting(emergencyAvoid), 
 			updateFlightPhase(To);
+			
 
 		// Can this even happen?  Trying to change out of emergencyAvoid while an object is approaching
 		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert};
@@ -372,24 +346,6 @@ GWENDOLEN
 			-.lock;    
 		
 		
-		// Landing
-			
-					
-		//+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B fuel(level, L)} <-
-		//	*fuel(level, L);
-
-		//+!completeLandingChecks [achieve] : {B flightPhase(landed),  ~B position(Lat, Lon, Alt)} <-
-		//	*position(Lat, Lon, Alt);
-
-		//+!completeLandingChecks [achieve] : {B flightPhase(emergencyAvoid), B store(flightPhase, F)} <- 
-		//	*flightPhase(F);
-		
-		//+!completeLandingChecks [achieve] : {B das(objectApproaching), ~B flightPhase(emergencyAvoid)} <- 
-		//	*das(objectPassed);
-			
-		//+!completeLandingChecks [achieve] : {B completeLandingChecks};
-
-		 
 		
 				
 		

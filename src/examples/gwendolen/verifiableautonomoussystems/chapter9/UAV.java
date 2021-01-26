@@ -13,6 +13,7 @@ import ail.syntax.Predicate;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
+import ail.util.AILConfig;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
@@ -49,6 +50,8 @@ public class UAV extends
 	ProbBoolChoice prob_choice;
 
 	private String lastMsgSu = "";
+	
+	private int das_setting = 0;
 	
 	VerifyList<Message> exec_pending_messages = new VerifyList<Message>();
 	
@@ -421,6 +424,7 @@ public class UAV extends
 		Message s_o_m = new Message(1,"env","exec",s_o);
 		Message s_500_m = new Message(1,"env","exec",s_500);
 		
+		
 		AJPFLogger.fine(logname, "das last message status update: " + lastMsgSu + " vehicle status: " + vehicleStatus);
 		// if the last message was "object Approaching", the object is now passed. (maybe introduce a delay here , i.e., object appr can be sent again?)
 		// otherwise, send either object approaching or nothing to report. 
@@ -447,6 +451,8 @@ public class UAV extends
 		} else if (! (vehicleStatus.equals("emergencyAvoid"))  && lastMsgSu == "")
 		{
 			// RANDOM Choice
+			if (vehicleStatus.equals("cruise") || das_setting == 0) {
+
 			boolean choice = prob_choice.get_choice();
 			// boolean choice = false;
 			if (choice)  { // 0.001 normal course of things -- so unlikely to be an issue
@@ -471,8 +477,8 @@ public class UAV extends
 			} 
 
 			AJPFLogger.info(logname, "No Alerts");
+			}
 		}
-
 		
 	}
 	
@@ -481,6 +487,20 @@ public class UAV extends
 		super.setMAS(m);
 		prob_choice = new ProbBoolChoice(m.getController(), 0.001);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see ail.mas.AILEnv#configure(ail.util.AILConfig)
+	 */
+	public void configure(AILConfig config) {
+		if (config.containsKey("uav.das_setting")) {
+			String setting = config.getProperty("uav.das_setting");
+			if (setting.equals("cruise_only"))  {
+				this.das_setting = 1;
+			}
+		}
+	}
+
 	
 /*	public boolean done() {
 		if ((vehicleStatus == "waitingAtRamp") && at_sumburgh && exec_pending_messages.isEmpty()) {
