@@ -34,20 +34,20 @@ EASS
 
 +.received(:tell, B): {True} <- +B;
 +.received(:perform, G): {True} <- +!G [perform];
-+! test [perform] : {True} <- test;
++.received(:achieve, G): {True} <- +!G [achieve];
+
 
 :name: ag1
 
 :Initial Beliefs:
 
+empty
+
 :Initial Goals:
 
-goal[perform]
+holding_block [perform]
 
 :Plans:
 
-+! goal [perform]: {True} <-
-   perf(test),
-   +done;
++!holding_block [perform] : {B empty} <- pickup, print(done), +done;
 
-   

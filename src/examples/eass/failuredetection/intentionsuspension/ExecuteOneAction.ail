@@ -23,8 +23,6 @@
 //----------------------------------------------------------------------------
 
 env = eass.failuredetection.MinimumEnv
-
 mas.file = /src/examples/eass/failuredetection/intentionsuspension/ExecuteOneAction.eass
 mas.builder = eass.EASSMASBuilder
-
 log.info = ail.semantics.AILAgent

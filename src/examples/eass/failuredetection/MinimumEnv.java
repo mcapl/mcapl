@@ -58,22 +58,16 @@ public class MinimumEnv extends DefaultEASSEnvironment {
 	 * for the agent - that its picked something up and its hands are now longer
 	 * empty.
 	 */
-   public Unifier executeAction(String agName, Action act) throws AILexception {
-	   	Unifier theta = new Unifier();
-
-	   	if (act.getFunctor().equals("test")) {
-	   		Predicate object = (Predicate) act.getTerm(0);
-     		removePercept(object);
-	   	}
-	   	
-	   	try {
-	   		theta = super.executeAction(agName, act);
-    	} catch (AILexception e) {
-    		throw e;
-    	}
-
-    	return theta;
-   }
+	public Unifier executeAction(String agName, Action act) throws AILexception {
+		Unifier u = new Unifier();
+		
+		if (act.getFunctor().equals("pickup")) {
+			addPercept(agName, new Predicate("holding_block"));
+		}
+		
+		super.executeAction(agName, act);
+		return u;
+	}
    
    /*
     * (non-Javadoc)
