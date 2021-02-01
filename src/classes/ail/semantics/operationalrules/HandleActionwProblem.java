@@ -78,26 +78,26 @@ public class HandleActionwProblem extends HandleTopDeed {
 		 * The action to be handled
 		 */
 		Action act = (Action) topdeed.getContent();
-
 		try {
 			Unifier thetaa = a.getEnv().actionResult(a.getAgName(), act);
 			if (thetaa == null) {
 				thetahd.compose(thetab);
 				act.apply(thetahd);
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
+				// --- Intention Suspending ---
+				//i = a.getIntention();
+				i.suspend();
+				//i.suspendFor(beliefcondition);
+				// update the agent? find out if i.suspend^ does this
+				a.setIntention(i);
+				// wait until action has completed.
 				if (a.shouldTrace()) {
 					a.trace(new ActionEvent(act, i_id));
 				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
 				
-				// --- Intention Suspending ---
-				//i = a.getIntention();
-				i.suspend();
-				// i.suspendFor(beliefcondition);
-				// update the agent? find out if i.suspend^ does this
-				a.setIntention(i);
-				// wait until action has completed.
+
 				
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
