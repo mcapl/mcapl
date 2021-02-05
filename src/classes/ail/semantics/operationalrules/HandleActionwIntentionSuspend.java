@@ -87,7 +87,7 @@ public class HandleActionwIntentionSuspend extends HandleTopDeed {
 				i.suspend();
 				// i.suspendFor(beliefcondition);
 				// update the agent? find out if i.suspend^ does this
-				a.setIntention(i);
+				//a.setIntention(i);
 				// wait until action has completed.
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
