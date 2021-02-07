@@ -34,7 +34,7 @@ GWENDOLEN
 		
 		routes_stored_for_enaction :- enactRoute(taxi, N), enactRoute(cruise, N1);
 		missionComplete :- destination(L), location(L), flightPhase(waitingAtRamp);
-		// completeLandingChecks :- fuel(level, L), position(Lat, Long, Alt), flightPhase(landed);
+	 	//missionComplete :- flightPhase(linedup);
 
 		:Initial Goals: 
 			missionComplete [achieve] 
@@ -90,7 +90,8 @@ GWENDOLEN
 			-.lock;
 		+.received(:tell, veh(status, NewFlightPhase)): {B waiting_confirmation(NewFlightPhase)} <- 
 			-waiting_confirmation(NewFlightPhase);
-		+.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform],~B waiting_confirmation(NewFlightPhase)};
+		// +.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform],~B waiting_confirmation(NewFlightPhase)};
+		+.received(:tell, enacting(emergencyAvoid)) : {~G reactToAlert [perform]};
 		
 		
 		+.received(:tell, M): { ~ B flightPhase_message(M), ~B das_message(M)} <- 
@@ -143,18 +144,18 @@ GWENDOLEN
 			-store(flightPhase, F),
 			+store(flightPhase, To);
 
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, B environment_flight_phase(To)} <-	
-			+waiting_confirmation(To),
-			+!subsidiary_flight_change(To) [perform];
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, B environment_flight_phase(To)} <-	
+			//+waiting_confirmation(To),
+		//	+!subsidiary_flight_change(To) [perform];
 			
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, B environment_flight_phase(To)} <-
-			+waiting_confirmation(To),
-			+!subsidiary_flight_change(To) [perform];
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, B environment_flight_phase(To)} <-
+			//+waiting_confirmation(To),
+		//	+!subsidiary_flight_change(To) [perform];
 
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, ~B environment_flight_phase(To)} <-	
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert} <-	
 			+!subsidiary_flight_change(To) [perform];
 			
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, ~B environment_flight_phase(To)} <-
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant} <-
 			+!subsidiary_flight_change(To) [perform];
 
 		+! subsidiary_flight_change(To) [perform] : {True} <-
@@ -166,8 +167,8 @@ GWENDOLEN
 			
 
 		// Can this even happen?  Trying to change out of emergencyAvoid while an object is approaching
-		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert};
-		+! changeFlightPhase(F2) [perform] : {B missionComplete};
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert};
+		//+! changeFlightPhase(F2) [perform] : {B missionComplete};
 		
 				
 		+!missionComplete [achieve] : {B flightPhase(unknown)} <- 

@@ -148,7 +148,8 @@ public class UAV extends
 		detectAndAvoidSensor(messages);
 		
 		if (requesting_flight_phase) {
-			boolean message = random_bool_generator.nextBoolean();
+			//boolean message = random_bool_generator.nextBoolean();
+			boolean message = true;
 			if (message) {
 				AJPFLogger.info(logname, "Flight Phase Returned");
 				Predicate s = new Predicate("veh");
@@ -160,7 +161,8 @@ public class UAV extends
 		}	
 		
 		if (requesting_fuel) {
-			boolean message = random_bool_generator.nextBoolean();
+			//boolean message = random_bool_generator.nextBoolean();
+			boolean message = true;
 			if (message) {
 				AJPFLogger.info(logname, "Fuel Returned");
 		   		Predicate s = new Predicate("fuel");
@@ -172,7 +174,8 @@ public class UAV extends
 		}
 		
 		if (requesting_position) {
-			boolean message = random_bool_generator.nextBoolean();
+			//boolean message = random_bool_generator.nextBoolean();
+			boolean message = true;
 			if (message) {
 				AJPFLogger.info(logname, "Position Returned");
 				Predicate s = new Predicate("position");
@@ -269,7 +272,8 @@ public class UAV extends
 		}
 		
 		if (requesting_enact_route.getFunctor() != "none") {
-			boolean message = random_bool_generator.nextBoolean();
+			//boolean message = random_bool_generator.nextBoolean();
+			boolean message = true;
 			if (message) {
 		   		Term type = requesting_enact_route.getTerm(0);
 		   		Term num = requesting_enact_route.getTerm(1);
@@ -299,7 +303,8 @@ public class UAV extends
 		}
 
 		if (requesting_enact_approach.getFunctor() != "none") {
-			boolean message = random_bool_generator.nextBoolean();
+			//boolean message = random_bool_generator.nextBoolean();
+			boolean message = true;
 			if (message) {
 		   		Predicate s = new Predicate("enactAppr");
 				s.addTerm(new Literal(requesting_enact_approach.getTerm(0).toString()));
@@ -314,9 +319,10 @@ public class UAV extends
 				boolean message = random_bool_generator.nextBoolean();
 				if (message) {
 					String phase = updating_flight_phase.getTerm(0).getFunctor();
-			   		if (! phase.equals(vehicleStatus)) {
+			   		//if (! phase.equals(vehicleStatus)) {
 				   		if (phase.equals("taxying")) {
-				   			if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
+				   			// if (vehicleStatus.equals("waitingAtRamp")  || vehicleStatus.equals("holding")) {
+				   			if (!at_sumburgh) {
 				   				setVehicleStatus("holding");
 				   			} else {
 				   				setVehicleStatus("waitingAtRamp");
@@ -326,7 +332,7 @@ public class UAV extends
 				   		} else if (phase.equals("takeOff")) {
 				   			setVehicleStatus("cruise");
 				   		} 
-			   		}
+			   		//}
 			   		
 			   		Predicate s = new Predicate("veh");
 					s.addTerm(new Literal("status"));
@@ -339,11 +345,11 @@ public class UAV extends
 				}
 				
 			} else {
-			   	Predicate s = new Predicate("veh");
-				s.addTerm(new Literal("status"));
-				s.addTerm(new Literal(vehicleStatus));
+			   	//Predicate s = new Predicate("veh");
+				//s.addTerm(new Literal("status"));
+				//s.addTerm(new Literal(vehicleStatus));
 				// clear_flight_status_messages();
-				messages.add(new Message(1,"env","exec",s));
+				//messages.add(new Message(1,"env","exec",s));
 				updating_flight_phase = none_pred;
 			}
 		}
@@ -370,7 +376,7 @@ public class UAV extends
 	   		requesting_taxi_route = true;
 	   	} else if (act.getFunctor().equals("requestRoute")) {
 	   		requesting_route = true;
-	   	} else if (act.getFunctor().equals("requestEmergencyAvoid")) {
+	   	} else if (act.getFunctor().equals("requestEmergencyAvoid") && !lastMsgSu.equals("")) {
 	   		requesting_emergency_avoid = true;
 	   	} else if (act.getFunctor().equals("requestEnactRoute")) {
 	   		requesting_enact_route = act;
@@ -379,12 +385,15 @@ public class UAV extends
 	   	} else if (act.getFunctor().equals("enactApproach")) {
 	   		requesting_enact_approach = act;
 	   	} else if (act.getFunctor().equals("updateFlightPhase")) {
-	   		if (act.getTerm(0).getFunctor().equals("taxying") || act.getTerm(0).getFunctor().equals("lineup") || act.getTerm(0).getFunctor().equals("takeOff")) {
-	   			updating_flight_phase = act;
-	   		} else {
+	   		//if (act.getTerm(0).getFunctor().equals("taxying") || act.getTerm(0).getFunctor().equals("lineup") || act.getTerm(0).getFunctor().equals("takeOff")) {
+	   		//	updating_flight_phase = act;
+	   		//} else {
 	   			updating_flight_phase = act;
 	   			setVehicleStatus(act.getTerm(0).getFunctor());
-	   		}
+	   			//if (! act.getTerm(0).getFunctor().equals("emergencyAvoid")) {
+	   			//	requesting_emergency_avoid = false;
+	   			//}
+	   		//}
 	   	}
 	   	
 	   	theta = super.executeAction(agName, act);
