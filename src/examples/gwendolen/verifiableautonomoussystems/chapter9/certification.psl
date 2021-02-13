@@ -26,3 +26,5 @@
 6: [] (D(exec,requestEnactRoute(taxi, _)) -> B(exec, fuel(level,_))) & 
 	[] (D(exec,requestEnactRoute(cruise, _)) -> B(exec, fuel(level,_))) & 
 	[] (D(exec,enactApproach(_)) -> B(exec, fuel(level,_))) 
+	
+7: [] ( ( B(exec, fuel(level, _)) & ~B (exec, veh(landed, _)) ) -> <> ~B(exec, fuel(level, _)))
