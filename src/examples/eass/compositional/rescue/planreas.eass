@@ -9,6 +9,10 @@ chargePos(1, 1)
 
 :Reasoning Rules:
 
+feasible_plan(P, R) :- current_goal(X, Y), chargePos(X, Y), plan(P, L);
+feasible_plan(P, R) :- plan(P, L), [L < R];
+
+cleanedup :- ~plan(P, L);
 
 :Initial Goals:
 
@@ -18,29 +22,25 @@ chargePos(1, 1)
 +select_plan : {B battery(Level), B threshold(T)} <-
 	minus(Level, T, Reserve),
 	+!select_plan(Reserve) [perform];
-	
-// +!select_plan_check(Reserve) [perform] : { B battery_low, B chargePos(X, Y), ~B current_goal(X, Y) } <-
-//	+.lock,
-//	-battery_low,
-//	-select_plan,
-//	-.lock,
-//	inform_recharge;
-//+!select_plan_check(Reserve) [perform] : { B battery_low, B chargePos(X, Y), B current_goal(X, Y) } <-
-//	+!select_plan [perform];
-//+!select_plan_check(Reserve) [perform] : { ~B battery_low} <-
-//	+!select_plan [perform];
-	
-	
+		
 +!select_plan(Reserve) [perform] : {~ B plan(P, L), ~B plan_selected(_,_)} <-
 	-select_plan,
 	check_for_plans;
 
-+!select_plan(Reserve) [perform] : {B plan(P,L), ~B plan_selected(_,_)} <-
++!select_plan(Reserve) [perform] : {B feasible_plan(P,Reserve), B plan(P, L), ~B plan_selected(_,_)} <-
 	+.lock,
 	-plan(P,L),
 	+plan_selected(P,L),
 	-.lock,
 	+!select_plan(Reserve) [perform];
++!select_plan(Reserve) [perform] : {B plan(_,_), ~B feasible_plan(_,Reserve)} <-
+	+.lock,
+ 	-battery(_),
+ 	-select_plan,
+ 	+!cleanedup [achieve],
+ 	-plan_selected(_, _),
+ 	-.lock,
+	inform_recharge;
 +!select_plan(Reserve) [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L1 < L2} <-
 	+.lock,
 	-plan(P1,L1),
@@ -68,38 +68,20 @@ chargePos(1, 1)
  	-select_plan,
  	-.lock,
  	execute(P);
- +!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve < L} <-
- 	+.lock,
- 	-plan_selected(P, L),
- 	-battery(_),
- 	-select_plan,
- 	-.lock,
- 	inform_recharge;
-+!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve == L} <-
- 	+.lock,
- 	-plan_selected(P, L),
- 	-battery(_),
- 	-select_plan,
- 	-.lock,
- 	inform_recharge;
-// +!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L), B battery(Bt)} <- 
-//	minus(Bt, L, ExpectedBattery),
-//	+!select_plan(ExpectedBattery) [perform];
-//+!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery, B plan_selected(P, L)} <-
-//	print("Sending the plan to be executed"),
-//	-select_plan,
-//	-plan_selected(P, L),
-//	execute(P);
-//+!select_plan(ExpectedBattery) [perform] : {B chargePos(X, Y), B current_goal(X, Y), B plan_selected(P, L), B battery_low} <-
-//	print("Sending the plan to be executed"),
-//	-battery_low,
-//	-select_plan,
-//	-plan_selected(P, L),
-//	execute(P);
-//	print("Error"),
-//	error;
-//+!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T, B plan_selected(P, L), ~B battery_low, } <-
-//	print("Not enough battery"),
-//	-plan_selected(P, L),
-//	-select_plan,
+// +!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve < L} <-
+// 	+.lock,
+// 	-plan_selected(P, L),
+// 	-battery(_),
+// 	-select_plan,
+// 	-.lock,
 //	inform_recharge;
+//+!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve == L} <-
+ //	+.lock,
+ //	-plan_selected(P, L),
+ //	-battery(_),
+// 	-select_plan,
+// 	-.lock,
+// 	inform_recharge;
+
++!cleanedup [achieve]: {B plan(P, L)} <-
+	-plan(P, L);

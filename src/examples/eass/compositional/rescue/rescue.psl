@@ -8,6 +8,6 @@
 3: []( ( B(goalreas,atGoal) & B(goalreas,init_pos(2, 3))
 		-> <> ~B (goalreas, location(2, 3, 4)))
 		
-4: []( (B(planreasoner,battery(24)) & ~ B(planreasoner,current_goal(1, 1))) -> <> D(planreasoner,inform_recharge))
+4: []( (~B(planreasoner,feasible_plan(_, _)) & B(planreasoner, plan(_, _)) & ~ B(planreasoner,current_goal(1, 1))) -> <> D(planreasoner,inform_recharge))
 
-5: [] ( (B(planreasoner,battery(24)) &  B(planreasoner,current_goal(1, 1)) & B(planreasoner,plan(_,_))) -> <> D(planreasoner,execute(_)))
+5: [] ( B(planreasoner,current_goal(1, 1)) & B(planreasoner,plan(_,_))) -> <> D(planreasoner,execute(_)))
