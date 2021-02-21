@@ -1,7 +1,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav2.ail,${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/certification.psl,7
+target.args = ${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav2.ail,${mcapl}/src/examples/gwendolen/verifiableautonomoussystems/chapter9/certification.psl,6
 
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent,ajpf.MCAPLcontroller,gwendolen.verifiableautonomoussystems.chapter9.UAV
