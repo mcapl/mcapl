@@ -1,5 +1,7 @@
 package ail.syntax;
 
+import gwendolen.GwendolenMASBuilder;
+import gwendolen.failuredetection.DurativeActionEnv;
 import org.junit.Test;
 
 import ail.mas.MAS;
@@ -7,15 +9,13 @@ import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.HandleActionwProblem;
 import ail.util.AILPrettyPrinter;
 import ajpf.MCAPLcontroller;
-import eass.EASSMASBuilder;
-import eass.failuredetection.MinimumEnv;
 import junit.framework.Assert;
 
 public class ActionSuspendsIntentionQuickTests {
 
 	
 	/*
-	 * Test that the preconditions of the rule are true wqhen required.
+	 * Test that the preconditions of the rule are true when required.
 	 */
 	
 	@Test
@@ -49,18 +49,18 @@ public class ActionSuspendsIntentionQuickTests {
 	 */
 	
 	@Test public void intentionSuspend() {
-    	String filename = "/src/examples/eass/failuredetection/intentionsuspension/ExecuteOneAction.eass";
+    	String filename = "/src/examples/gwendolen/failuredetection/intentionsuspension/ExecuteOneAction.gwen";
 		try {
     		String abs_filename = MCAPLcontroller.getFilename(filename);
-    		MAS mas = (new EASSMASBuilder(abs_filename, true)).getMAS();
-    		MinimumEnv env = new MinimumEnv();
+    		MAS mas = (new GwendolenMASBuilder(abs_filename, true)).getMAS();
+    		DurativeActionEnv env = new DurativeActionEnv();
 
     		mas.setEnv(env);
     		env.setMAS(mas);
     		env.init_after_adding_agents();
     		
     		// Get the active agent (Not EASS abstraction)
-    		AILAgent ag1 = env.getAgents().get(1);
+    		AILAgent ag1 = env.getAgents().get(0);
 
     		// Bit of a hack to cycle to action execution rule
     		ag1.reason();
@@ -68,7 +68,8 @@ public class ActionSuspendsIntentionQuickTests {
     		ag1.reason();
     		ag1.reason();
 
-    		Assert.assertTrue((ag1.getIntention()).suspended());
+
+			Assert.assertTrue((ag1.getIntention()).suspended());
     	} catch (Exception e) {
     		System.err.println(e.getMessage());
     		Assert.fail(e.getMessage());

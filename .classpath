@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/examples"/>
-	<classpathentry kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/classes"/>
+	<classpathentry kind="src" path="src/tests"/>
+	<classpathentry kind="src" path="src/examples"/>
 	<classpathentry kind="src" path="src/peers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="lib/3rdparty/antlr-4.7-complete.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/mapdbWrapper.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/mcapl"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -37,7 +37,7 @@ import ail.util.AILexception;
  * @author lad
  *
  */
-public class SearchAndRescueMASEnv extends DefaultEnvironment {
+public class 	SearchAndRescueMASEnv extends DefaultEnvironment {
 	String logname = "gwendolen.tutorials.SearchAndRescueEnv";
 	
 	double rubble1_x = 5;

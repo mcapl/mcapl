@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="mcapl">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/classes" />
+      <root url="file://$PROJECT_DIR$/src/examples" />
+      <root url="file://$PROJECT_DIR$/src/main" />
+      <root url="file://$PROJECT_DIR$/src/peers" />
+      <root url="file://$PROJECT_DIR$/src/tests" />
+    </SOURCES>
+  </library>
+</component>

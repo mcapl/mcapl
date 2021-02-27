@@ -24,6 +24,7 @@
 
 package eass.failuredetection;
 
+import ail.syntax.DurativeAction;
 import eass.mas.DefaultEASSEnvironment;
 import ail.util.AILexception;
 import ail.mas.MAS;
@@ -62,7 +63,8 @@ public class MinimumEnv extends DefaultEASSEnvironment {
 		Unifier u = new Unifier();
 		
 		if (act.getFunctor().equals("pickup")) {
-			addPercept(agName, new Predicate("holding_block"));
+			//addPercept(agName, new Predicate("holding_block"));
+			addPercept(agName, new DurativeAction(new Action("holding_block"), 10));
 		}
 		
 		super.executeAction(agName, act);

@@ -24,16 +24,10 @@
 
 package ail.semantics.operationalrules;
 
+import ail.syntax.*;
 import ail.util.AILexception;
 import ail.semantics.AILAgent;
-import ail.syntax.Unifier;
 import ail.tracing.events.ActionEvent;
-import ail.syntax.Action;
-import ail.syntax.Event;
-import ail.syntax.Goal;
-import ail.syntax.Guard;
-import ail.syntax.GBelief;
-import ail.syntax.Deed;
 
 /**
  * Handle an action.  Calls immediately executeAction in the environment but also
@@ -65,7 +59,6 @@ public class HandleActionwProblem extends HandleTopDeed {
 		if (super.checkPreconditions(a) && topdeed.getCategory() == Deed.DAction) {
 			return true;
 		}
-
 		return false;
 	}
 	
@@ -84,21 +77,15 @@ public class HandleActionwProblem extends HandleTopDeed {
 				thetahd.compose(thetab);
 				act.apply(thetahd);
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
-				// --- Intention Suspending ---
-				//i = a.getIntention();
-				i.suspend();
-				//i.suspendFor(beliefcondition);
-				// update the agent? find out if i.suspend^ does this
-				a.setIntention(i);
-				// wait until action has completed.
+				i.suspend(); // for the action duration
+				/*if (act.getActionType() == DurativeAction.durativeAction ) {
+					i.suspend(); // for the action duration
+				}*/
 				if (a.shouldTrace()) {
 					a.trace(new ActionEvent(act, i_id));
 				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
-				
-
-				
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
 				i.tlI(a);

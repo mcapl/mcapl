@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="junit-4.10.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/junit-4.10.jar!/"/>
+	</lib>
+	<lib name="jpf.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/jpf.jar!/"/>
+	</lib>
+	<lib name="RunJPF.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/RunJPF.jar!/"/>
+	</lib>
+	<lib name="java-prolog-parser.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/java-prolog-parser.jar!/"/>
+	</lib>
+	<lib name="ev3classes.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/ev3classes.jar!/"/>
+	</lib>
+	<lib name="ev3tools.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/ev3tools.jar!/"/>
+	</lib>
+	<lib name="eis-0.5.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/eis-0.5.0.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/commons-io-2.4.jar!/"/>
+	</lib>
+	<lib name="system-rules-1.16.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/system-rules-1.16.0.jar!/"/>
+	</lib>
+	<lib name="jpl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/jpl.jar!/"/>
+	</lib>
+	<lib name="antlr-4.7-complete.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/antlr-4.7-complete.jar!/"/>
+	</lib>
+	<lib name="json-simple-1.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/json-simple-1.1.1.jar!/"/>
+	</lib>
+	<lib name="mapdbWrapper.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/mapdbWrapper.jar!/"/>
+	</lib>
+	<levels>
+		<level name="mcapl" value="project"/>
+	</levels>
+</component>
