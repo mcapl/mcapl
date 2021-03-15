@@ -29,3 +29,4 @@ mas.builder = gwendolen.GwendolenMASBuilder
 log.finest = ail.mas.DefaultEnvironment
 log.finest = gwendolen.failuredetection.DurativeActionWaypointsEnv
 log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.Waypoints
+//log.fine = ail.semantics.AILAgent

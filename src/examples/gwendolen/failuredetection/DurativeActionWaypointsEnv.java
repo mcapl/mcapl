@@ -33,6 +33,9 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A Simple Blocks' World Environment.
@@ -48,97 +51,122 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 	int failureCount = 1;
 	protected boolean done = false;
 
+	// set robot start co-ords to (0,0)
+	double robot1_x = 0;
+	double robot1_y = 0;
+
 	UniformBoolChoice r;
 	CapabilityLibrary capLibrary = new CapabilityLibrary();
 
 	public DurativeActionWaypointsEnv() {
 		// Make environment
 		super();
-		AJPFLogger.info(logname, "Environment Created");
+		AJPFLogger.fine(logname, "Environment Created");
 
-		// Make capabilities
-/*
-		Capability moveW0W1 = new Capability(new GBelief(new Literal("at(waypoint0)")), new Action("moveW0W1"), new Guard(new GBelief(new Literal("-at(waypoint0)")), Guard.GLogicalOp.and, new GBelief(new Literal("at(waypoint1)"))));
-		Capability moveW1W2 = new Capability(new GBelief(new Literal("at(waypoint1)")), new Action("moveW0W2"), new Guard(new GBelief(new Literal("-at(waypoint1)")), Guard.GLogicalOp.and, new GBelief(new Literal("at(waypoint2)"))));
-		Capability moveW2W3 = new Capability(new GBelief(new Literal("at(waypoint2)")), new Action("moveW0W3"), new Guard(new GBelief(new Literal("-at(waypoint2)")), Guard.GLogicalOp.and, new GBelief(new Literal("at(waypoint3)"))));
-		Capability moveW3W4 = new Capability(new GBelief(new Literal("at(waypoint3)")), new Action("moveW0W4"), new Guard(new GBelief(new Literal("-at(waypoint3)")), Guard.GLogicalOp.and, new GBelief(new Literal("at(waypoint4)"))));
-*/
+		// Construct GBeliefs for grid
+		Literal at00 = new Literal("at");
+		at00.addTerm(new NumberTermImpl(0));
+		at00.addTerm(new NumberTermImpl(0));
 
-		Capability moveW0W1 = new Capability(new GBelief(new Literal("at(waypoint0)")), new Action("moveW0W1"), new GBelief(new Literal("at(waypoint1)")));
-		Capability moveW1W2 = new Capability(new GBelief(new Literal("at(waypoint1)")), new Action("moveW0W2"), new GBelief(new Literal("at(waypoint2)")));
-		Capability moveW2W3 = new Capability(new GBelief(new Literal("at(waypoint2)")), new Action("moveW0W3"), new GBelief(new Literal("at(waypoint3)")));
-		Capability moveW3W4 = new Capability(new GBelief(new Literal("at(waypoint3)")), new Action("moveW0W4"), new GBelief(new Literal("at(waypoint4)")));
+		Literal at01 = new Literal("at");
+		at01.addTerm(new NumberTermImpl(0));
+		at01.addTerm(new NumberTermImpl(1));
 
+		Literal at02 = new Literal("at");
+		at02.addTerm(new NumberTermImpl(0));
+		at02.addTerm(new NumberTermImpl(2));
+
+		Literal at03 = new Literal("at");
+		at03.addTerm(new NumberTermImpl(0));
+		at03.addTerm(new NumberTermImpl(3));
+
+		Literal at04 = new Literal("at");
+		at04.addTerm(new NumberTermImpl(0));
+		at04.addTerm(new NumberTermImpl(4));
+
+		Capability move_to01 = new Capability(new GBelief(at00), new Action("move_to01"), new GBelief(at01));
+		Capability move_to02 = new Capability(new GBelief(at01), new Action("move_to02"), new GBelief(at02));
+		Capability move_to03 = new Capability(new GBelief(at02), new Action("move_to03"), new GBelief(at03));
+		Capability move_to04 = new Capability(new GBelief(at03), new Action("move_to04"), new GBelief(at04));
 
 		// Add capabilities to environment
-		capLibrary.add(moveW0W1);
-		capLibrary.add(moveW1W2);
-		capLibrary.add(moveW2W3);
-		capLibrary.add(moveW3W4);
-
+		capLibrary.add(move_to01);
+		capLibrary.add(move_to02);
+		capLibrary.add(move_to03);
+		capLibrary.add(move_to04);
 	}
 
-	/**
-	 * When a pickup action is executed the environment stores new perceptions
-	 * for the agent - that its picked something up and its hands are now longer
-	 * empty.
-	 */
+
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-		AJPFLogger.info(logname, "Action execution attempted for " + act.getFunctor());
+		AJPFLogger.info(logname, "Action execution attempted for " + act.toPredicate().toString());
 		Unifier theta = new Unifier();
 		byte action_state;
+		//AJPFLogger.info(logname, act.getFunctor());
+		if (act.getFunctor().equals("move_to")) {
 
-		if (act.getFunctor().equals("moveW0W1")) {
-			DurativeAction moveW0W1 = new DurativeAction(act, 0, 3);
-			if (r.nextBoolean()) {
-				Predicate oldlocation = (Predicate) act.getTerm(0);
-				Predicate newlocation = new Predicate("at(waypoint1)");
-				removePercept(oldlocation);
-				addPercept(newlocation);
-			}
-			action_state = monitorActionState(agName, moveW0W1);
-			if (action_state == DurativeAction.actionSucceeded){ //done();
-			} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
-			} else if (action_state == DurativeAction.actionAbort) { done(); }
+			double x = ((NumberTerm) act.getTerm(0)).solve();
+			double y = ((NumberTerm) act.getTerm(1)).solve();
 
-		} else if (act.getFunctor().equals("moveW1W2")) {
-			DurativeAction moveW1W2 = new DurativeAction(act, 0, 3);
-			if (r.nextBoolean()) {
-				Predicate oldlocation = (Predicate) act.getTerm(0);
-				Predicate newlocation = new Predicate("at(waypoint2)");
-				removePercept(oldlocation);
-				addPercept(newlocation);
-			}
-			action_state = monitorActionState(agName, moveW1W2);
-			if (action_state == DurativeAction.actionSucceeded){ //done();
-			} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
-			} else if (action_state == DurativeAction.actionAbort) { done(); }
+		//	if (r.nextBoolean()) {
+		//		AJPFLogger.info(logname, "Random chance success!");
+				Predicate at = new Predicate("at");
+				at.addTerm(new NumberTermImpl(x));
+				at.addTerm(new NumberTermImpl(y));
 
-		} else if (act.getFunctor().equals("moveW2W3")) {
-			DurativeAction moveW2W3 = new DurativeAction(act, 0, 3);
-			if (r.nextBoolean()) {
-				Predicate oldlocation = (Predicate) act.getTerm(0);
-				Predicate newlocation = new Predicate("at(waypoint3)");
-				removePercept(oldlocation);
-				addPercept(newlocation);
-			}
-			action_state = monitorActionState(agName, moveW2W3);
-			if (action_state == DurativeAction.actionSucceeded){ //done();
-			} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
-			} else if (action_state == DurativeAction.actionAbort) { done(); }
+				Predicate old_pos = new Predicate("at");
 
-		} else if (act.getFunctor().equals("moveW3W4")) {
-			DurativeAction moveW3W4 = new DurativeAction(act, 0, 3);
-			if (r.nextBoolean()) {
-				Predicate oldlocation = (Predicate) act.getTerm(0);
-				Predicate newlocation = new Predicate("at(waypoint4)");
-				removePercept(oldlocation);
-				addPercept(newlocation);
+				double robot_x;
+				double robot_y;
+				double new_robot_x;
+				double new_robot_y;
+
+				robot_x = robot1_x;
+				robot_y = robot1_y;
+				robot1_x = x;
+				robot1_y = y;
+				new_robot_x = x;
+				new_robot_y = y;
+
+				old_pos.addTerm(new NumberTermImpl(robot_x));
+				old_pos.addTerm(new NumberTermImpl(robot_y));
+
+				removePercept(old_pos);
+				addPercept(at);
+		//	}
+
+
+
+			if (x == 0 && y == 1){
+				DurativeAction move_to01 = new DurativeAction(act, 5, 3);
+				action_state = monitorActionState(agName, move_to01);
+				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
+				} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
+				} else if (action_state == DurativeAction.actionAbort) { done(); }
 			}
-			action_state = monitorActionState(agName, moveW3W4);
-			if (action_state == DurativeAction.actionSucceeded){ //done();
-			} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
-			} else if (action_state == DurativeAction.actionAbort) { done(); }
+
+			if (x == 0 && y == 2){
+				DurativeAction move_to02 = new DurativeAction(act, 5, 3);
+				action_state = monitorActionState(agName, move_to02);
+				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
+				} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
+				} else if (action_state == DurativeAction.actionAbort) { done(); }
+			}
+
+			if (x == 0 && y == 3){
+				DurativeAction move_to03 = new DurativeAction(act, 5, 3);
+				action_state = monitorActionState(agName, move_to03);
+				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
+				} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
+				} else if (action_state == DurativeAction.actionAbort) { done(); }
+			}
+
+			if (x == 0 && y == 4){
+				DurativeAction move_to04 = new DurativeAction(act, 2, 1);
+				action_state = monitorActionState(agName, move_to04);
+				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
+				} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
+				} else if (action_state == DurativeAction.actionAbort) { done(); }
+			}
 		}
 
 		try {
@@ -172,7 +200,11 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 
 	public byte updateActionState(String agName, DurativeAction act) {
 		AILAgent a = agentmap.get(agName);
-		ArrayList<Literal> postConditions = capLibrary.getRelevant(act.toPredicate(), AILAgent.SelectionOrder.LINEAR).next().postConditionsToLiterals();
+		// messy way of getting cap names from actions..
+		Predicate actionPredicate = new Predicate(act.getFunctor() + act.getTerm(0) + act.getTerm(1));
+		ArrayList<Literal> postConditions = capLibrary.getRelevant(actionPredicate, AILAgent.SelectionOrder.LINEAR).next().postConditionsToLiterals();
+		//Need to ask Louise about why these two don't line up - for now, the hack is below (making them both sets of literals before comparing)
+		Set<Literal> perceptLiterals = perceptsToLiterals();
 
 		//cycle the clock and record time passed
 		int timepassed = clock();
@@ -185,8 +217,8 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 				act.setState(DurativeAction.actionPending);
 			}
 		}
-		if ((act.duration == 0 || act.duration == timepassed) && !percepts.containsAll(postConditions)) {
-			// if action postconditions =/= percepts
+		if ((act.duration == 0 || act.duration == timepassed) && !perceptLiterals.containsAll(postConditions)) {
+				// if action postconditions =/= percepts
 			act.setState(DurativeAction.actionFailed);
 			failureCount++;
 			agentmap.get(agName).getAFLog().put(act.getFunctor(), failureCount);
@@ -194,12 +226,11 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 			if (a.getAFLog().get(act.getFunctor()) > act.getThreshold(act)){
 				act.setState(DurativeAction.actionAbort);
 			}
-
-		} else if ((act.duration == 0 || act.duration == timepassed) && percepts.contains(postConditions)) {
+		} else if ((act.duration == 0 || act.duration == timepassed) && perceptLiterals.contains(postConditions)) {
 			// if action at least one postcondition is part of percepts
 			act.setState(DurativeAction.actionSucceededwithFailure);
 
-		} else if ((act.duration == 0 || act.duration == timepassed) && percepts.containsAll(postConditions)) {
+		} else if ((act.duration == 0 || act.duration == timepassed) && perceptLiterals.containsAll(postConditions)) {
 			// if action postconditions == percepts
 			act.setState(DurativeAction.actionSucceeded);
 		} else if (act.duration < timepassed && act.duration != 0) {
@@ -249,16 +280,14 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 		}
 	}
 
-/*
-
-	public boolean done() {
-		setDone(true);
-		return super.done();
+	public Set<Literal> perceptsToLiterals() {
+		Set<Literal> p = new HashSet<Literal>();
+		if (! percepts.isEmpty()) {
+			for (Predicate per: percepts) {
+				p.add(new Literal((Predicate) per.clone()));
+			}
+		}
+		return p;
 	}
-
-	public void setDone(boolean b) {
-		done = b;
-	}
-*/
 
 }
