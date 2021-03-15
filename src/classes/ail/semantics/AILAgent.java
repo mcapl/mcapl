@@ -27,12 +27,7 @@
 
 package ail.semantics;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
@@ -302,6 +297,12 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	protected EventStorage trace = null;
 	
 	public AILPrettyPrinter pretty_printer = new AILPrettyPrinter();
+
+	/*
+	 *	Primitive Failure Log - pws
+	 */
+	protected HashMap<String, Integer> actionFailureLog = new HashMap();
+
 
 	// -----------------CONSTRUCTORS---------------//
 
@@ -2309,4 +2310,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void configure(AILConfig c) {
 	}
+
+	public HashMap<String, Integer> getAFLog(){
+		return actionFailureLog;
+	}
+
 }

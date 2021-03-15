@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import ail.tracing.explanations.PredicateDescriptions;
+import ajpf.psl.MCAPLPredicate;
 
 /**
  * Capabilities represent what an agent can do and are very closely related to actions.  So closely related that for a long

@@ -22,8 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.failuredetection.DurativeActionEnv
+env = gwendolen.failuredetection.DurativeActionPickupEnv
 mas.file = /src/examples/gwendolen/failuredetection/intentionsuspension/ExecuteOneAction.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
-log.warning = ail.mas.DefaultEnvironment
+log.finest = ail.mas.DefaultEnvironment
+log.finest = gwendolen.failuredetection.DurativeActionPickupEnv
+log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.ExecuteOneAction

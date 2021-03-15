@@ -22,24 +22,10 @@
 //
 //----------------------------------------------------------------------------
 
-GWENDOLEN
+env = gwendolen.failuredetection.DurativeActionWaypointsEnv
+mas.file = /src/examples/gwendolen/failuredetection/intentionsuspension/Waypoints.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
 
-:name: ag1
-
-:Initial Beliefs:
-
-empty
-
-:Initial Goals:
-
-pickup [perform]
-
-:Plans:
-
-+!pickup [perform] : {B empty} <- pickup;
-
-+!putdown [perform] : {B holding_block} <- +done;
-
-+holding_block : {B holding_block} <- putdown, -empty;
-
-
+log.finest = ail.mas.DefaultEnvironment
+log.finest = gwendolen.failuredetection.DurativeActionWaypointsEnv
+log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.Waypoints

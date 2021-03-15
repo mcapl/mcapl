@@ -64,7 +64,7 @@ public class MinimumEnv extends DefaultEASSEnvironment {
 		
 		if (act.getFunctor().equals("pickup")) {
 			//addPercept(agName, new Predicate("holding_block"));
-			addPercept(agName, new DurativeAction(new Action("holding_block"), 10));
+			addPercept(agName, new DurativeAction(new Action("holding_block"), 10, 3));
 		}
 		
 		super.executeAction(agName, act);

@@ -11,6 +11,8 @@ public class DurativeAction extends Action {
 
     public int duration;
 
+    public int threshold;
+
     @FilterField
     public final static byte actionPending = 0;
     @FilterField
@@ -23,7 +25,8 @@ public class DurativeAction extends Action {
     public final static byte actionTimedout = 4;
     @FilterField
     public final static byte actionActive = 5;
-
+    @FilterField
+    public final static byte actionAbort = 6;
 
     @FilterField
     byte actionstate = 0;
@@ -35,10 +38,11 @@ public class DurativeAction extends Action {
      * @param a The action.
      * @param d The duration of the action.
      */
-    public DurativeAction(Action a, int d) {
+    public DurativeAction(Action a, int d, int t) {
         super(a);
         // duration = Duration.ofSeconds(d);
         duration = d;
+        threshold = t;
         actiontype = 5;
         actionstate = 0;
     }
@@ -49,6 +53,10 @@ public class DurativeAction extends Action {
 
     public int getDuration(DurativeAction a){
         return a.duration;
+    }
+
+    public int getThreshold(DurativeAction a){
+        return a.threshold;
     }
 
     public void setState(byte s){

@@ -24,22 +24,24 @@
 
 GWENDOLEN
 
-:name: ag1
+:name: robot
 
 :Initial Beliefs:
 
-empty
+at(waypoint0)
 
 :Initial Goals:
 
-pickup [perform]
+moveW0W1 [achieve]
 
 :Plans:
 
-+!pickup [perform] : {B empty} <- pickup;
++! moveW0W1 [achieve] : {B at(waypoint0)} <- moveW0W1, +at(waypoint1), -at(waypoint0);
 
-+!putdown [perform] : {B holding_block} <- +done;
++! moveW1W2 [achieve] : {B at(waypoint1)} <- moveW1W2, +at(waypoint2), -at(waypoint1);
 
-+holding_block : {B holding_block} <- putdown, -empty;
++! moveW2W3 [achieve] : {B at(waypoint2)} <- moveW2W3, +at(waypoint3), -at(waypoint2);
 
++! moveW3W4 [achieve] : {B at(waypoint3)} <- moveW3W4, +at(waypoint4), -at(waypoint3);
 
++ atW4 : {B at(waypoint4)} <- print(at(W4)), +done;
