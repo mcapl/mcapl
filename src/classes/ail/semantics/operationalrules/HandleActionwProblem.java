@@ -76,11 +76,8 @@ public class HandleActionwProblem extends HandleTopDeed {
 			if (thetaa == null) {
 				thetahd.compose(thetab);
 				act.apply(thetahd);
+				i.suspend();
 				thetaa = a.getEnv().executeAction(a.getAgName(), act);
-				i.suspend(); // for the action duration
-				/*if (act.getActionType() == DurativeAction.durativeAction ) {
-					i.suspend(); // for the action duration
-				}*/
 				if (a.shouldTrace()) {
 					a.trace(new ActionEvent(act, i_id));
 				}
