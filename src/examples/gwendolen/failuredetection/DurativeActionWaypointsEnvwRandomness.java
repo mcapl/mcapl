@@ -34,7 +34,6 @@ import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,7 +42,7 @@ import java.util.Set;
  * @author louiseadennis
  *
  */
-public class DurativeActionWaypointsEnv extends DefaultEnvironment {
+public class DurativeActionWaypointsEnvwRandomness extends DefaultEnvironment {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 
 	// temporarily required for clock
@@ -58,7 +57,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 	UniformBoolChoice r;
 	CapabilityLibrary capLibrary = new CapabilityLibrary();
 
-	public DurativeActionWaypointsEnv() {
+	public DurativeActionWaypointsEnvwRandomness() {
 		// Make environment
 		super();
 		AJPFLogger.fine(logname, "Environment Created");
@@ -107,8 +106,8 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 			double x = ((NumberTerm) act.getTerm(0)).solve();
 			double y = ((NumberTerm) act.getTerm(1)).solve();
 
-		//	if (r.nextBoolean()) {
-		//		AJPFLogger.info(logname, "Random chance success!");
+			//random chance of applying the move action's post-conds to global percepts.
+			if (r.nextBoolean()) {
 				Predicate at = new Predicate("at");
 				at.addTerm(new NumberTermImpl(x));
 				at.addTerm(new NumberTermImpl(y));
@@ -132,7 +131,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 
 				removePercept(old_pos);
 				addPercept(at);
-		//	}
+			}
 
 
 
