@@ -268,6 +268,8 @@ public class Intention implements Comparable<Intention>{
     	if (suspended && suspendedfor != null && suspendedfor.unifies(beliefcondition, new Unifier())) {
     		suspendedfor = null;
     		unsuspend();
+    	} else if (suspended && suspendedfor == null) {
+    		unsuspend();
     	}
     }
     
@@ -279,7 +281,9 @@ public class Intention implements Comparable<Intention>{
     	if (suspended && suspendedfor != null && suspendedfor.unifies(new Literal(true, beliefcondition), new Unifier())) {
     		suspendedfor = null;
     		unsuspend();
-    	} 
+    	} else if (suspended && suspendedfor == null) {
+    		unsuspend();
+    	}
     }
 
     /**

@@ -111,16 +111,16 @@ public class CapabilitiesinPlansQuickTests {
 			
 			Unifier u = new Unifier();
 			Capability c = a.getCL().findEquivalent(cap1, post, a.getRuleBase(), u);
-			Assert.assertTrue(c.getCap().unifies(cap2.getCap(), new Unifier()));
+			Assert.assertTrue(c.unifies(cap2, new Unifier()));
 			
 			cap1.apply(u);
 			
-			Iterator<Plan> plans = a.getPL().getPlansContainingCap(cap1.getCap());
+			Iterator<Plan> plans = a.getPL().getPlansContainingCap(cap1);
 			while (plans.hasNext()) {
 				Plan p = plans.next();
 				Plan newplan = (Plan) p.clone();
 				
-				newplan.replaceCap(cap1.getCap(), c, cap1);
+				newplan.replaceCap(cap1, c, cap1);
 				// newplan.apply(u);
 				newplan.resolveVarsClusters();
 				ArrayList<Deed> deeds = newplan.getBody();

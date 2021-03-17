@@ -23,7 +23,7 @@
 //----------------------------------------------------------------------------
 
 env = gwendolen.failuredetection.DurativeActionWaypointsEnv
-mas.file = /src/examples/gwendolen/failuredetection/intentionsuspension/Waypoints.gwen
+mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/Waypoints.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 log.finest = ail.mas.DefaultEnvironment

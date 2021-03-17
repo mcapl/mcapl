@@ -25,16 +25,20 @@
 package gwendolen.failuredetection;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.EnvWithCapLibrary;
 import ail.mas.MAS;
+import ail.mas.scheduling.RoundRobinScheduler;
 import ail.semantics.AILAgent;
 import ail.syntax.*;
 import ail.util.AILexception;
+import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -43,7 +47,7 @@ import java.util.Set;
  * @author louiseadennis
  *
  */
-public class DurativeActionWaypointsEnv extends DefaultEnvironment {
+public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MCAPLJobber, EnvWithCapLibrary {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 
 	// temporarily required for clock
@@ -54,6 +58,9 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 	// set robot start co-ords to (0,0)
 	double robot1_x = 0;
 	double robot1_y = 0;
+	
+	double robot_dest_x = 0;
+	double robot_dest_y = 0;
 
 	UniformBoolChoice r;
 	CapabilityLibrary capLibrary = new CapabilityLibrary();
@@ -67,6 +74,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 		Literal at00 = new Literal("at");
 		at00.addTerm(new NumberTermImpl(0));
 		at00.addTerm(new NumberTermImpl(0));
+		// addPercept(at00);
 
 		Literal at01 = new Literal("at");
 		at01.addTerm(new NumberTermImpl(0));
@@ -83,17 +91,80 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 		Literal at04 = new Literal("at");
 		at04.addTerm(new NumberTermImpl(0));
 		at04.addTerm(new NumberTermImpl(4));
+		
+		Literal move01 = new Literal("move_to");
+		move01.addTerm(new NumberTermImpl(0));
+		move01.addTerm(new NumberTermImpl(1));
+		Literal move02 = new Literal("move_to");
+		move02.addTerm(new NumberTermImpl(0));
+		move02.addTerm(new NumberTermImpl(2));
+		Literal move03 = new Literal("move_to");
+		move03.addTerm(new NumberTermImpl(0));
+		move03.addTerm(new NumberTermImpl(3));
+		Literal move04 = new Literal("move_to");
+		move04.addTerm(new NumberTermImpl(0));
+		move04.addTerm(new NumberTermImpl(4));
 
-		Capability move_to01 = new Capability(new GBelief(at00), new Action("move_to01"), new GBelief(at01));
-		Capability move_to02 = new Capability(new GBelief(at01), new Action("move_to02"), new GBelief(at02));
-		Capability move_to03 = new Capability(new GBelief(at02), new Action("move_to03"), new GBelief(at03));
-		Capability move_to04 = new Capability(new GBelief(at03), new Action("move_to04"), new GBelief(at04));
+		DurativeAction move_to01 = new DurativeAction(new Action(move01, Action.normalAction), 2, 3, new GBelief(at01), new GBelief(at03));
+		DurativeAction move_to02 = new DurativeAction(new Action(move02, Action.normalAction), 5, 3, new GBelief(at02), new GBelief(at04));
+		DurativeAction move_to03 = new DurativeAction(new Action(move03, Action.normalAction), 5, 3, new GBelief(at03), new GBelief(at01));
+		DurativeAction move_to04 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(at04), new GBelief(at02));
 
 		// Add capabilities to environment
 		capLibrary.add(move_to01);
 		capLibrary.add(move_to02);
 		capLibrary.add(move_to03);
 		capLibrary.add(move_to04);
+		
+		//RoundRobinScheduler scheduler = new RoundRobinScheduler();
+		//this.setScheduler(scheduler);
+		//addPerceptListener(scheduler);
+		
+		getScheduler().addJobber(this);
+
+	}
+
+	public void robotMovingTo(double x, double y) {
+		// This should be set up properly using the Choice class but no time...
+		Random r = new Random();
+		double f = r.nextDouble();
+		if (f < 0.1) {
+			Predicate at = new Predicate("at");
+			at.addTerm(new NumberTermImpl(x));
+			at.addTerm(new NumberTermImpl(y));
+	
+			Predicate old_pos = new Predicate("at");
+	
+			double robot_x;
+			double robot_y;
+			double new_robot_x;
+			double new_robot_y;
+	
+			robot_x = robot1_x;
+			robot_y = robot1_y;
+			robot1_x = x;
+			robot1_y = y;
+			new_robot_x = x;
+			new_robot_y = y;
+	
+			old_pos.addTerm(new NumberTermImpl(robot_x));
+			old_pos.addTerm(new NumberTermImpl(robot_y));
+	
+			removePercept(old_pos);
+			addPercept(at);
+		} else if (f < 0.7) {
+			Predicate at = new Predicate("at");
+			at.addTerm(new NumberTermImpl(0));
+			at.addTerm(new NumberTermImpl(3));
+			Predicate old_pos = new Predicate("at");
+			old_pos.addTerm(new NumberTermImpl(robot1_x));
+			old_pos.addTerm(new NumberTermImpl(robot1_y));
+	
+			robot1_x = 0;
+			robot1_y = 3;
+			removePercept(old_pos);
+			addPercept(at);
+		}
 	}
 
 
@@ -103,40 +174,22 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 		byte action_state;
 		//AJPFLogger.info(logname, act.getFunctor());
 		if (act.getFunctor().equals("move_to")) {
+			updateTimePassed(0);
 
 			double x = ((NumberTerm) act.getTerm(0)).solve();
 			double y = ((NumberTerm) act.getTerm(1)).solve();
+			robot_dest_x = x;
+			robot_dest_y = y;
+			robotMovingTo(x, y);
 
 		//	if (r.nextBoolean()) {
 		//		AJPFLogger.info(logname, "Random chance success!");
-				Predicate at = new Predicate("at");
-				at.addTerm(new NumberTermImpl(x));
-				at.addTerm(new NumberTermImpl(y));
-
-				Predicate old_pos = new Predicate("at");
-
-				double robot_x;
-				double robot_y;
-				double new_robot_x;
-				double new_robot_y;
-
-				robot_x = robot1_x;
-				robot_y = robot1_y;
-				robot1_x = x;
-				robot1_y = y;
-				new_robot_x = x;
-				new_robot_y = y;
-
-				old_pos.addTerm(new NumberTermImpl(robot_x));
-				old_pos.addTerm(new NumberTermImpl(robot_y));
-
-				removePercept(old_pos);
-				addPercept(at);
+				
 		//	}
 
 
 
-			if (x == 0 && y == 1){
+/*			if (x == 0 && y == 1){
 				DurativeAction move_to01 = new DurativeAction(act, 5, 3);
 				action_state = monitorActionState(agName, move_to01);
 				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
@@ -166,7 +219,14 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 				if (action_state == DurativeAction.actionSucceeded){ agentmap.get(agName).getIntention().unsuspend();
 				} else if (action_state == DurativeAction.actionFailed) { executeAction(agName, act);
 				} else if (action_state == DurativeAction.actionAbort) { done(); }
-			}
+			} */
+		} else if (act.getFunctor().equals("abort")) {
+			updateTimePassed(0);
+			robot_dest_x = 0;
+			robot_dest_y = 0;
+			System.err.println("ABORTING ACTION");
+		} else if (act.getFunctor().equals("printlogs")) {
+			agentmap.get(agName).printLogs();
 		}
 
 		try {
@@ -198,7 +258,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 
 // Set termination conditions here
 
-	public byte updateActionState(String agName, DurativeAction act) {
+/*	public byte updateActionState(String agName, DurativeAction act) {
 		AILAgent a = agentmap.get(agName);
 		// messy way of getting cap names from actions..
 		Predicate actionPredicate = new Predicate(act.getFunctor() + act.getTerm(0) + act.getTerm(1));
@@ -278,7 +338,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 			AJPFLogger.info(logname, "Error with action: " + act.getFunctor() + " - Action state pending.");
 			return action_state;
 		}
-	}
+	} */
 
 	public Set<Literal> perceptsToLiterals() {
 		Set<Literal> p = new HashSet<Literal>();
@@ -288,6 +348,55 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment {
 			}
 		}
 		return p;
+	}
+
+
+	@Override
+	public int compareTo(MCAPLJobber o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void do_job() {
+		
+		if (robot_dest_y != 0) {
+			int timepassed = clock();
+			updateTimePassed(timepassed);
+			
+			robotMovingTo(robot_dest_x, robot_dest_y);
+		} else {
+			addPercept(new Literal("something"));
+		}
+	}
+	
+	public boolean done() {
+		return (robot1_y == 4);
+	}
+	
+	public void updateTimePassed(int seconds) {
+		Literal oldtime = new Literal("timepassed");
+		oldtime.addTerm(new VarTerm("Any"));
+		removeUnifiesPercept(oldtime);
+		Literal time = new Literal("timepassed");
+		time.addTerm(new NumberTermImpl(seconds));
+		addPercept(time);
+		
+	}
+
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "WaypointEnv";
+	}
+
+
+	@Override
+	public CapabilityLibrary getCapabilityLibrary() {
+		return capLibrary;
+		
 	}
 
 }

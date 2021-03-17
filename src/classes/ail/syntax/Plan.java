@@ -843,7 +843,7 @@ public class Plan implements Cloneable, Comparable<Plan>, Unifiable {
 				Action a = (Action) d.getContent();
 				if (a.unifies(perf, new Unifier())) {
 					// WARNING: Can we be certain that unification of variables in c is correct???
-					a.setTerm(0, c.getCap());
+					a.setTerm(0, c);
 					newdeeds.add(d);
 					guards.add(context.get(i));
 					insertRowsHere(guards, context.get(i), newdeeds, c.getPre());

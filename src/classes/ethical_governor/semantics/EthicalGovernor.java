@@ -88,7 +88,7 @@ public class EthicalGovernor extends AILAgent {
 		clearSelectedActions();
 		
 		while (ic.hasNext()) {
-			Action a = new Action(ic.next().getCap(), Action.normalAction);
+			Action a = new Action(ic.next(), Action.normalAction);
 			applicable_actions.add(a);
 			Literal action_belief = new Literal("applicable_action");
 			action_belief.addTerm(a);

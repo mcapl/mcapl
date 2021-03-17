@@ -101,6 +101,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	@FilterField
 	protected MAS fMAS = null;
 
+	
+	
 	/**
 	 * The agent's name.
 	 */
@@ -301,7 +303,32 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/*
 	 *	Primitive Failure Log - pws
 	 */
-	protected HashMap<String, Integer> actionFailureLog = new HashMap();
+	public VerifyMap<Action,Integer> actionAbortLog = new VerifyMap<Action,Integer>();
+	public VerifyMap<Action,Integer> actionFailureLog = new VerifyMap<Action,Integer>();
+	public void logAbort(Action a) {
+		if (actionAbortLog.containsKey(a)) {
+			actionAbortLog.put(a, actionAbortLog.get(a) + 1);
+		} else {
+			actionAbortLog.put(a, 1);
+		}
+	}
+	public void logFail(Action a) {
+		if (actionFailureLog.containsKey(a)) {
+			actionFailureLog.put(a, actionFailureLog.get(a) + 1);
+		} else {
+			actionFailureLog.put(a, 1);
+		}
+	}
+	
+	public void printLog(String s, VerifyMap<Action, Integer> log) {
+		for (Action a: log.keySet()) {
+			System.out.println(s + ":" + a.toString() + " -- " +  log.get(a));
+		}
+	}
+	public void printLogs() {
+		printLog("Failures: ", actionFailureLog);
+		printLog("Aborts:", actionAbortLog);
+	}
 
 
 	// -----------------CONSTRUCTORS---------------//
@@ -2311,8 +2338,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public void configure(AILConfig c) {
 	}
 
-	public HashMap<String, Integer> getAFLog(){
-		return actionFailureLog;
-	}
+
 
 }

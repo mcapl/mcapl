@@ -48,7 +48,7 @@ public class ActionSpec extends Capability {
 	boolean internal;
 	
 	public ActionSpec(Capability c, boolean internal) {
-		super(c.getPre(), c.getCap(), c.getPost());
+		super(c.getPre(), c, c.getPost());
 		this.internal = internal;
 	};
 	

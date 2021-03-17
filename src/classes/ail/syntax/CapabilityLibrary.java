@@ -84,7 +84,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 	 * @param c
 	 */
 	public void add(Capability c) {
-		PredicateIndicator pi = c.getCap().getPredicateIndicator();
+		PredicateIndicator pi = c.getPredicateIndicator();
 		if (capMap.containsKey(pi)) {
 			capMap.get(pi).add(c);
 		} else {
@@ -108,7 +108,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 	 * @return
 	 */
 	public Capability findEquivalent(Capability oldcap, Predicate Post, RuleBase rb, Unifier u) {
-		Predicate capname = oldcap.getCap();
+		Predicate capname = oldcap;
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
 		GBelief pgb = new GBelief(Post);

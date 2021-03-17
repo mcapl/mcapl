@@ -38,12 +38,11 @@ import ajpf.psl.MCAPLPredicate;
  * @author lad
  *
  */
-public class Capability implements Unifiable,
-		Comparable<Capability> {
+public class Capability extends Action implements Unifiable {
 	
 	GLogicalFormula pre;
 	GLogicalFormula post;
-	Predicate cap;
+	// Predicate cap;
 	protected int keynum;
 	
 	/**
@@ -53,8 +52,9 @@ public class Capability implements Unifiable,
 	 * @param pt
 	 */
 	public Capability(GLogicalFormula pr, Predicate c, GLogicalFormula pt) {
+		super(c, 0);
 		pre = pr;
-		cap = c;
+		//cap = c;
 		post = pt;
 	}
 	
@@ -64,14 +64,15 @@ public class Capability implements Unifiable,
 	 */
 	@Override
 	public Capability clone() {
-		return new Capability(pre.clone(), cap.clone(), post.clone());
+		Action ac = super.clone();
+		return new Capability(pre.clone(), ac, post.clone());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	@Override
+	/* @Override
 	public int compareTo(Capability o) {
     	if (keynum == o.getID()) {
     		return 0;
@@ -80,7 +81,7 @@ public class Capability implements Unifiable,
     	} else {
     		return -1;
     	}
-	}
+	} */
 	
 	/**
 	 * Set a unique id for the capability.
@@ -102,9 +103,9 @@ public class Capability implements Unifiable,
 	 * Return the "action" part of the capability (represented as a predicate).
 	 * @return
 	 */
-	public Predicate getCap() {
-		return cap;
-	}
+	//public Predicate getCap() {
+	//	return cap;
+	//}
 	
 	/**
 	 * Get the capability's preconditions.
@@ -122,6 +123,11 @@ public class Capability implements Unifiable,
 		return post;
 	}
 
+	
+	public Action getAction() {
+		return new Action(this);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.syntax.Unifiable#unifies(ail.syntax.Unifiable, ail.syntax.Unifier)
@@ -130,8 +136,8 @@ public class Capability implements Unifiable,
 	public boolean unifies(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
-			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(this), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(c), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.unifies(oexpr, u);			
 		}
 		return false;
@@ -153,7 +159,7 @@ public class Capability implements Unifiable,
 	@Override
 	public Set<String> getVarNames() {
 		HashSet<String> varnames = new HashSet<String>();
-		varnames.addAll(cap.getVarNames());
+		varnames.addAll(super.getVarNames());
 		varnames.addAll(pre.getVarNames());
 		varnames.addAll(post.getVarNames());
 		return varnames;
@@ -165,7 +171,7 @@ public class Capability implements Unifiable,
 	 */
 	@Override
 	public void renameVar(String oldname, String newname) {
-		cap.renameVar(oldname, newname);
+		super.renameVar(oldname, newname);
 		pre.renameVar(oldname, newname);
 		post.renameVar(oldname, newname);
 	}
@@ -178,8 +184,8 @@ public class Capability implements Unifiable,
 	public boolean match(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
-			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(this), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(this), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.match(oexpr, u);			
 		}
 		return false;
@@ -193,8 +199,8 @@ public class Capability implements Unifiable,
 	public boolean matchNG(Unifiable t, Unifier u) {
 		if (t instanceof Capability) {
 			Capability c = (Capability) t;
-			Guard expr = new Guard(new GBelief(getCap()), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
-			Guard oexpr = new Guard(new GBelief(c.getCap()), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
+			Guard expr = new Guard(new GBelief(this), Guard.GLogicalOp.and, new Guard(getPre(), Guard.GLogicalOp.and, getPost()));
+			Guard oexpr = new Guard(new GBelief(this), Guard.GLogicalOp.and, new Guard(c.getPre(), Guard.GLogicalOp.and, c.getPost()));
 			return expr.matchNG(oexpr, u);			
 		}
 		return false;
@@ -206,7 +212,7 @@ public class Capability implements Unifiable,
 	 */
 	@Override
 	public boolean isGround() {
-		if (cap.isGround()) {
+		if (super.isGround()) {
 			if (pre.isGround()) {
 				return post.isGround();
 			}
@@ -221,7 +227,7 @@ public class Capability implements Unifiable,
 	 */
 	@Override
 	public boolean apply(Unifier theta) {
-		boolean c = cap.apply(theta);
+		boolean c = super.apply(theta);
 		boolean p1 = pre.apply(theta);
 		boolean p2 = post.apply(theta);
 		return (c || p1 || p2);
@@ -232,7 +238,7 @@ public class Capability implements Unifiable,
 		if (equals(term)) {
 			return subst;
 		} else {
-			return new Capability((GLogicalFormula) pre.substitute(term,  subst), (Predicate) cap.substitute(term, subst), (GLogicalFormula) post.substitute(term, subst));
+			return new Capability((GLogicalFormula) pre.substitute(term,  subst), (Predicate) super.substitute(term, subst), (GLogicalFormula) post.substitute(term, subst));
 		}
 	}
 
@@ -242,7 +248,7 @@ public class Capability implements Unifiable,
 	 */
 	@Override
 	public void makeVarsAnnon() {
-		cap.makeVarsAnnon();
+		super.makeVarsAnnon();
 		pre.makeVarsAnnon();
 		post.makeVarsAnnon();
 	}
@@ -252,8 +258,8 @@ public class Capability implements Unifiable,
 	 * @see ail.syntax.Unifiable#strip_varterm()
 	 */
 	@Override
-	public Unifiable strip_varterm() {
-		return new Capability((GLogicalFormula) pre.strip_varterm(), (Predicate) cap.strip_varterm(), (GLogicalFormula) post.strip_varterm());
+	public Term strip_varterm() {
+		return new Capability((GLogicalFormula) pre.strip_varterm(), (Predicate) super.strip_varterm(), (GLogicalFormula) post.strip_varterm());
 	}
 	
 	/*
@@ -261,8 +267,8 @@ public class Capability implements Unifiable,
 	 * @see ail.syntax.Unifiable#resolveVarsClusters()
 	 */
 	@Override
-	public Unifiable resolveVarsClusters() {
-		return new Capability((GLogicalFormula) pre.resolveVarsClusters(), (Predicate) cap.resolveVarsClusters(), (GLogicalFormula) post.resolveVarsClusters());
+	public Term resolveVarsClusters() {
+		return new Capability((GLogicalFormula) pre.resolveVarsClusters(), (Predicate) super.resolveVarsClusters(), (GLogicalFormula) post.resolveVarsClusters());
 	}
 
 	/*
@@ -273,7 +279,7 @@ public class Capability implements Unifiable,
 	public String toString() {
 		String s = "{";
 		s += pre;
-		s += "} " + cap + " {";
+		s += "} " + super.toString() + " {";
 		s += post;
 		s += "}";
 		return s;
@@ -283,7 +289,7 @@ public class Capability implements Unifiable,
 	public String toString(PredicateDescriptions descriptions) {
 		String s = "{";
 		s += pre.toString(descriptions);
-		s += "} " + cap.toString(descriptions) + " {";
+		s += "} " + super.toString(descriptions) + " {";
 		s += post.toString(descriptions);
 		s += "}";
 		return s;

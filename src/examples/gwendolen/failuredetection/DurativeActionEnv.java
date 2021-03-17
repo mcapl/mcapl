@@ -77,7 +77,7 @@ public class DurativeActionEnv extends DefaultEnvironment {
 	 */
 	public Unifier executeAction(String agName, DurativeAction act) throws AILexception {
 		Unifier theta = new Unifier();
-		if (act.getFunctor().equals("pickup")) {
+		/* if (act.getFunctor().equals("pickup")) {
 			DurativeAction pickup = new DurativeAction(act, 10, 3);
 			if (monitorActionState(agName, pickup) == DurativeAction.actionSucceeded){
 				addPercept(new Predicate("holding_block"));
@@ -88,7 +88,7 @@ public class DurativeActionEnv extends DefaultEnvironment {
 				addPercept(new Predicate("not_holding_block"));
 				done();
 			}
-		}
+		} */
 
 
 		try {

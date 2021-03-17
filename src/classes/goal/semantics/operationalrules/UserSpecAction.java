@@ -103,7 +103,7 @@ public class UserSpecAction extends ActionExecutor {
 		System.err.println(a.getAgName() + " attempting " + cap);
 		Unifier newu = new Unifier();
 		cap.standardise_apart(action, newu, new HashSet<String>());
-		cap.unifies(action.getCap(), newu);
+		cap.unifies(action, newu);
 		AILAgent.SelectionOrder order = AILAgent.SelectionOrder.LINEAR;
 		if (module.getRuleOrder() == GOALModule.RuleEvaluationOrder.RANDOM) {
 			order = AILAgent.SelectionOrder.RANDOM;
@@ -132,7 +132,7 @@ public class UserSpecAction extends ActionExecutor {
 		try {
 			action.apply(preiterator.next());
 			if (! action.isInternalAction()) {
-				a.getEnv().executeAction(a.getAgName(), new Action(action.getCap(), Action.normalAction));
+				a.getEnv().executeAction(a.getAgName(), new Action(action, Action.normalAction));
 			} else {
 				a.getEnv().notifyListeners();
 			}

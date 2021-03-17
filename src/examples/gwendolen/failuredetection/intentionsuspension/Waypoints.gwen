@@ -27,7 +27,6 @@ GWENDOLEN
 :name: robot
 
 :Initial Beliefs:
-
 at(0, 0)
 
 :Initial Goals:
@@ -37,9 +36,9 @@ gotowaypoint [perform]
 :Plans:
 
 +!gotowaypoint [perform] : {True} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform];
-+!goto01 [perform] : {B at(0, 0)} <- move_to(0, 1);
-+!goto02 [perform] : {B at(0, 1)} <- move_to(0, 2);
-+!goto03 [perform] : {B at(0, 2)} <- move_to(0, 3);
-+!goto04 [perform] : {B at(0, 3)} <- move_to(0, 4), +at_waypoint;
++!goto01 [perform] : {B at(0, 0)} <- -at(0, 0), move_to(0, 1);
++!goto02 [perform] : {True} <- move_to(0, 2);
++!goto03 [perform] : {True} <- move_to(0, 3);
++!goto04 [perform] : {True} <- move_to(0, 4), +at_waypoint;
 
-+at(0,4) : {B at_waypoint} <- print(arrived_at_waypoint);
++at_waypoint : {True} <- print(arrived_at_waypoint), printlogs;
