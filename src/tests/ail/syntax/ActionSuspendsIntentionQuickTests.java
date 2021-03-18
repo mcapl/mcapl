@@ -1,3 +1,4 @@
+/*
 package ail.syntax;
 
 import gwendolen.GwendolenMASBuilder;
@@ -14,9 +15,11 @@ import junit.framework.Assert;
 public class ActionSuspendsIntentionQuickTests {
 
 	
-	/*
+	*/
+/*
 	 * Test that the preconditions of the rule are true when required.
-	 */
+	 *//*
+
 	
 	@Test
 	public void preConditionsMet() {	
@@ -44,9 +47,11 @@ public class ActionSuspendsIntentionQuickTests {
 	}
 
 	
-	/*
+	*/
+/*
 	 * Test that the intention is suspended when an action is performed.
-	 */
+	 *//*
+
 	
 	@Test public void intentionSuspend() {
     	String filename = "/src/examples/gwendolen/failuredetection/intentionsuspension/ExecuteOneAction.gwen";
@@ -77,3 +82,4 @@ public class ActionSuspendsIntentionQuickTests {
 		
 	} 
 }
+*/

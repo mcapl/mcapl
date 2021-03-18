@@ -1,3 +1,4 @@
+/*
 package ail.syntax;
 
 import ail.mas.MAS;
@@ -15,10 +16,12 @@ import org.junit.Test;
 public class ActionSuspendsIntentionQuickTestsEASS {
 
 	
-	/*
+	*/
+/*
 	 * Test that the preconditions of the rule are true when required.
-	 */
-	
+	 *//*
+
+
 	@Test
 	public void preConditionsMet() {	
 		// --- Agent & Intention Setup ---
@@ -45,9 +48,11 @@ public class ActionSuspendsIntentionQuickTestsEASS {
 	}
 
 	
-	/*
+	*/
+/*
 	 * Test that the intention is suspended when an action is performed.
-	 */
+	 *//*
+
 	
 	@Test public void intentionSuspend() {
     	String filename = "/src/examples/eass/failuredetection/intentionsuspension/ExecuteOneAction.eass";
@@ -78,3 +83,4 @@ public class ActionSuspendsIntentionQuickTestsEASS {
 		
 	} 
 }
+*/

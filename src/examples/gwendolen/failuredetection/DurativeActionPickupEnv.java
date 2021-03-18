@@ -1,3 +1,4 @@
+/*
 // ----------------------------------------------------------------------------
 // Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
@@ -38,12 +39,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+*/
 /**
  * A Simple Blocks' World Environment.
  *
  * @author louiseadennis
  *
- */
+ *//*
+
 public class DurativeActionPickupEnv extends DefaultEnvironment {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 	// temporarily required for clock
@@ -73,11 +76,13 @@ public class DurativeActionPickupEnv extends DefaultEnvironment {
 
 	}
 
-	/**
+	*/
+/**
 	 * When a pickup action is executed the environment stores new perceptions
 	 * for the agent - that its picked something up and its hands are now longer
 	 * empty.
-	 */
+	 *//*
+
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		AJPFLogger.info(logname, "Action execution attempted for " + act.getFunctor());
 		Unifier theta = new Unifier();
@@ -114,10 +119,12 @@ public class DurativeActionPickupEnv extends DefaultEnvironment {
 		return theta;
 	}
 
-	/*
+	*/
+/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
+	 *//*
+
 	public void setMAS(MAS m) {
 		super.setMAS(m);
 		r = new UniformBoolChoice(m.getController());
@@ -219,4 +226,4 @@ public class DurativeActionPickupEnv extends DefaultEnvironment {
 		done = b;
 	}
 
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 // ----------------------------------------------------------------------------
 // Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
@@ -37,12 +38,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-/**
+*
  * A Simple Blocks' World Environment.
  *
  * @author louiseadennis
  *
- */
+
+
 public class DurativeActionEnv extends DefaultEnvironment {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 	// temporarily required for clock
@@ -70,14 +72,15 @@ public class DurativeActionEnv extends DefaultEnvironment {
 
 	}
 
-	/**
+*
 	 * When a pickup action is executed the environment stores new perceptions
 	 * for the agent - that its picked something up and its hands are now longer
 	 * empty.
-	 */
+
+
 	public Unifier executeAction(String agName, DurativeAction act) throws AILexception {
 		Unifier theta = new Unifier();
-		/* if (act.getFunctor().equals("pickup")) {
+ if (act.getFunctor().equals("pickup")) {
 			DurativeAction pickup = new DurativeAction(act, 10, 3);
 			if (monitorActionState(agName, pickup) == DurativeAction.actionSucceeded){
 				addPercept(new Predicate("holding_block"));
@@ -88,7 +91,8 @@ public class DurativeActionEnv extends DefaultEnvironment {
 				addPercept(new Predicate("not_holding_block"));
 				done();
 			}
-		} */
+		}
+
 
 
 		try {
@@ -100,10 +104,10 @@ public class DurativeActionEnv extends DefaultEnvironment {
 		return theta;
 	}
 
-	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
+
+
 	public void setMAS(MAS m) {
 		super.setMAS(m);
 		r = new UniformBoolChoice(m.getController());
@@ -195,3 +199,4 @@ public class DurativeActionEnv extends DefaultEnvironment {
 	}
 
 }
+*/

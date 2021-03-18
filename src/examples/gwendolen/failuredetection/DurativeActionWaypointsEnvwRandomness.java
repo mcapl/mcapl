@@ -1,3 +1,4 @@
+/*
 // ----------------------------------------------------------------------------
 // Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
 // Rafael H. Bordini.
@@ -36,12 +37,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+*/
 /**
  * A Simple Blocks' World Environment.
  *
  * @author louiseadennis
  *
- */
+ *//*
+
 public class DurativeActionWaypointsEnvwRandomness extends DefaultEnvironment {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 
@@ -177,10 +180,12 @@ public class DurativeActionWaypointsEnvwRandomness extends DefaultEnvironment {
 		return theta;
 	}
 
-	/*
+	*/
+/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
+	 *//*
+
 	public void setMAS(MAS m) {
 		super.setMAS(m);
 		r = new UniformBoolChoice(m.getController());
@@ -289,4 +294,4 @@ public class DurativeActionWaypointsEnvwRandomness extends DefaultEnvironment {
 		return p;
 	}
 
-}
+}*/
