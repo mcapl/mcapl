@@ -363,8 +363,9 @@ public class DefaultEnvironment implements AILEnv {
      		String s = "send(" + ilfString(sa.getILF()) + sa.getContent().toString() + ", " + sa.getReceivers().toString() + ")";
     		return s;
     	}
-    	
-    	return act.toString();
+    	//I will return this back to how it was after - changing solely for the purposes of nice formatting
+    	//return act.toString();
+		 return act.toPredicate().toString();
 
     }
 

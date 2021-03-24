@@ -24,6 +24,7 @@
 
 package ail.semantics.operationalrules;
 
+import ail.syntax.DurativeAction;
 import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.Unifier;
@@ -37,8 +38,8 @@ import ail.syntax.Deed;
  * @author lad
  *
  */
-public class HandleActionwIntentionSuspend extends HandleTopDeed {
-	private static final String name = "Handle Action";
+public class HandleDurativeAction extends HandleTopDeed {
+	private static final String name = "Handle Durative Action";
 
 	/*
 	 * (non-Javadoc)
@@ -69,7 +70,7 @@ public class HandleActionwIntentionSuspend extends HandleTopDeed {
 		/**
 		 * The action to be handled
 		 */
-		Action act = (Action) topdeed.getContent();
+		DurativeAction act = (DurativeAction) topdeed.getContent();
 
 		try {
 			Unifier thetaa = a.getEnv().actionResult(a.getAgName(), act);
@@ -82,13 +83,7 @@ public class HandleActionwIntentionSuspend extends HandleTopDeed {
 				}
 			} 
 			if (a.getEnv().executing(a.getAgName(), act)) {
-				// --- Intention Suspending ---
-				i = a.getIntention();
 				i.suspend();
-				// i.suspendFor(beliefcondition);
-				// update the agent? find out if i.suspend^ does this
-				//a.setIntention(i);
-				// wait until action has completed.
 				a.getReasoningCycle().setStopandCheck(true);
 			} else {	
 				i.tlI(a);

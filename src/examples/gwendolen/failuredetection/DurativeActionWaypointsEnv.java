@@ -56,10 +56,10 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 	protected boolean done = false;
 
 	// set robot start co-ords to (0,0)
-	double robot1_x = 0;
+	//double robot1_x = 0;
 	double robot1_y = 0;
 	
-	double robot_dest_x = 0;
+	//double robot_dest_x = 0;
 	double robot_dest_y = 0;
 
 	UniformBoolChoice r;
@@ -72,37 +72,37 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 
 		// Construct GBeliefs for grid
 		Literal at00 = new Literal("at");
-		at00.addTerm(new NumberTermImpl(0));
+		//at00.addTerm(new NumberTermImpl(0));
 		at00.addTerm(new NumberTermImpl(0));
 		// addPercept(at00);
 
 		Literal at01 = new Literal("at");
-		at01.addTerm(new NumberTermImpl(0));
+		//at01.addTerm(new NumberTermImpl(0));
 		at01.addTerm(new NumberTermImpl(1));
 
 		Literal at02 = new Literal("at");
-		at02.addTerm(new NumberTermImpl(0));
+		//at02.addTerm(new NumberTermImpl(0));
 		at02.addTerm(new NumberTermImpl(2));
 
 		Literal at03 = new Literal("at");
-		at03.addTerm(new NumberTermImpl(0));
+		//at03.addTerm(new NumberTermImpl(0));
 		at03.addTerm(new NumberTermImpl(3));
 
 		Literal at04 = new Literal("at");
-		at04.addTerm(new NumberTermImpl(0));
+		//at04.addTerm(new NumberTermImpl(0));
 		at04.addTerm(new NumberTermImpl(4));
 		
 		Literal move01 = new Literal("move_to");
-		move01.addTerm(new NumberTermImpl(0));
+		//move01.addTerm(new NumberTermImpl(0));
 		move01.addTerm(new NumberTermImpl(1));
 		Literal move02 = new Literal("move_to");
-		move02.addTerm(new NumberTermImpl(0));
+		//move02.addTerm(new NumberTermImpl(0));
 		move02.addTerm(new NumberTermImpl(2));
 		Literal move03 = new Literal("move_to");
-		move03.addTerm(new NumberTermImpl(0));
+		//move03.addTerm(new NumberTermImpl(0));
 		move03.addTerm(new NumberTermImpl(3));
 		Literal move04 = new Literal("move_to");
-		move04.addTerm(new NumberTermImpl(0));
+		//move04.addTerm(new NumberTermImpl(0));
 		move04.addTerm(new NumberTermImpl(4));
 
 		DurativeAction move_to01 = new DurativeAction(new Action(move01, Action.normalAction), 2, 3, new GBelief(at01), new GBelief(at03));
@@ -124,43 +124,46 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 
 	}
 
-	public void robotMovingTo(double x, double y) {
+	//public void robotMovingTo(double x, double y) {
+		public void robotMovingTo(double y) {
 		// This should be set up properly using the Choice class but no time...
 		Random r = new Random();
 		double f = r.nextDouble();
-		if (f < 0.1) {
+		//if (f < 0.1) {
+			if (f < 0.7) {
 			Predicate at = new Predicate("at");
-			at.addTerm(new NumberTermImpl(x));
+			//at.addTerm(new NumberTermImpl(x));
 			at.addTerm(new NumberTermImpl(y));
 	
 			Predicate old_pos = new Predicate("at");
 	
-			double robot_x;
+			//double robot_x;
 			double robot_y;
-			double new_robot_x;
+			//double new_robot_x;
 			double new_robot_y;
 	
-			robot_x = robot1_x;
+			//robot_x = robot1_x;
 			robot_y = robot1_y;
-			robot1_x = x;
+			//robot1_x = x;
 			robot1_y = y;
-			new_robot_x = x;
+			//new_robot_x = x;
 			new_robot_y = y;
 	
-			old_pos.addTerm(new NumberTermImpl(robot_x));
+			//old_pos.addTerm(new NumberTermImpl(robot_x));
 			old_pos.addTerm(new NumberTermImpl(robot_y));
 	
 			removePercept(old_pos);
 			addPercept(at);
-		} else if (f < 0.7) {
+		//} else if (f < 0.7) {
+		} else if (f < 1.0) {
 			Predicate at = new Predicate("at");
-			at.addTerm(new NumberTermImpl(0));
+			//at.addTerm(new NumberTermImpl(0));
 			at.addTerm(new NumberTermImpl(3));
 			Predicate old_pos = new Predicate("at");
-			old_pos.addTerm(new NumberTermImpl(robot1_x));
+			//old_pos.addTerm(new NumberTermImpl(robot1_x));
 			old_pos.addTerm(new NumberTermImpl(robot1_y));
 	
-			robot1_x = 0;
+			//robot1_x = 0;
 			robot1_y = 3;
 			removePercept(old_pos);
 			addPercept(at);
@@ -169,18 +172,23 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 
 
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-		AJPFLogger.info(logname, "Action execution attempted for " + act.toPredicate().toString());
+		if (!act.getFunctor().equals("abort")) {
+			AJPFLogger.info(logname, "Executing action: " + act.toPredicate().toString());
+		}
 		Unifier theta = new Unifier();
 		byte action_state;
 		//AJPFLogger.info(logname, act.getFunctor());
 		if (act.getFunctor().equals("move_to")) {
 			updateTimePassed(0);
 
-			double x = ((NumberTerm) act.getTerm(0)).solve();
-			double y = ((NumberTerm) act.getTerm(1)).solve();
-			robot_dest_x = x;
+			//double x = ((NumberTerm) act.getTerm(0)).solve();
+			//double y = ((NumberTerm) act.getTerm(1)).solve();
+			// the term is now in the 0 index position for non-coordinates
+			double y = ((NumberTerm) act.getTerm(0)).solve();
+			//robot_dest_x = x;
 			robot_dest_y = y;
-			robotMovingTo(x, y);
+			//robotMovingTo(x, y);
+			robotMovingTo(y);
 
 		//	if (r.nextBoolean()) {
 		//		AJPFLogger.info(logname, "Random chance success!");
@@ -222,9 +230,9 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 			} */
 		} else if (act.getFunctor().equals("abort")) {
 			updateTimePassed(0);
-			robot_dest_x = 0;
+			//robot_dest_x = 0;
 			robot_dest_y = 0;
-			System.err.println("ABORTING ACTION");
+			System.err.println("ABORTING ACTION - TIMED OUT");
 		} else if (act.getFunctor().equals("printlogs")) {
 			agentmap.get(agName).printLogs();
 		}
@@ -365,7 +373,8 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 			int timepassed = clock();
 			updateTimePassed(timepassed);
 			
-			robotMovingTo(robot_dest_x, robot_dest_y);
+			//robotMovingTo(robot_dest_x, robot_dest_y);
+			robotMovingTo(robot_dest_y);
 		} else {
 			addPercept(new Literal("something"));
 		}
