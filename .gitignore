@@ -29,3 +29,7 @@ a.out
 *~
 /bin/
 /.settings/org.eclipse.jdt.ui.prefs
+/.idea/misc.xml
+/.idea/uiDesigner.xml
+/.idea/workspace.xml
+/.idea/vcs.xml
