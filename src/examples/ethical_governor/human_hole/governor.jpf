@@ -25,7 +25,7 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/ethical_governor/human_hole/governor.ail,${mcapl}/src/examples/ethical_governor/human_hole/human_hole.psl,0
+target.args = ${mcapl}/src/examples/ethical_governor/human_hole/governor.ail,${mcapl}/src/examples/ethical_governor/human_hole/human_hole.psl,sanity
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ethical_governor.human_hole.HumanHoleGoalEnv
 # log.fine = ail.semantics.AILAgent
