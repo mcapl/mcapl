@@ -1,12 +1,18 @@
 1: [] ( (B(goalreas,recharge) & B(goalreas,new_goal) ) -> 
 		<>(D(goalreas, set_goal(1, 1)) )
+		
 2: [] (
 	( (~B(goalreas,recharge) & B(goalreas,location(3,4,5)) ) 
 	 & ( B(goalreas,new_goal) & ~B(goalreas,init_pos(3, 4)) )
     ) -> 
 		<>(D(goalreas, set_goal(3, 4)) )
+		
 3: []( ( B(goalreas,atGoal) & B(goalreas,init_pos(2, 3))
 		-> <> ~B (goalreas, location(2, 3, 4)))
+		
+6a: [] ( B(goalreas, current_selection(2, 3, _)) -> B(goalreas, location(2, 3, _)))
+
+7a: [] ( ( B(goalreas, current_selection(2, 3, _)) & ~B(goalreas, unchecked_location) ) -> <>D(goalreas, set_goal(2, 3)) )
 		
 4: []( (~B(planreasoner,feasible_plan(_, _)) & B(planreasoner, plan(_, _)) & ~ B(planreasoner,current_goal(1, 1))) -> <> D(planreasoner,inform_recharge))
 
