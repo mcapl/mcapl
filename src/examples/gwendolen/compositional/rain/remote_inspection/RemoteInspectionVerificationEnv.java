@@ -16,10 +16,11 @@ public class RemoteInspectionVerificationEnv extends VerificationofAutonomousSys
 		
 		boolean reached_location = random_bool_generator.nextBoolean();
 		int radiation = random_int_generator.nextInt(3);
+		int id = 0;
 		
 		if (reached_location) {
 			Predicate movebase_result = new Predicate("movebase_result");
-			movebase_result.addTerm(new Predicate("seg"));
+			movebase_result.addTerm(new NumberTermImpl(id++));
 			movebase_result.addTerm(new NumberTermImpl(3));
 			
 			beliefs.add(movebase_result);
