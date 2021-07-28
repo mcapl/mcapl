@@ -17,3 +17,9 @@
 4: []( (~B(planreasoner,feasible_plan(_, _)) & B(planreasoner, plan(_, _)) & ~ B(planreasoner,current_goal(1, 1))) -> <> D(planreasoner,inform_recharge))
 
 5: [] ( B(planreasoner,current_goal(1, 1)) & B(planreasoner,plan(_,_))) -> <> D(planreasoner,execute(_)))
+
+6: [] ( B(planreasoner, feasible_plan(p2, _)) -> <> D(planreasoner, execute(p2)) )
+
+7: [] ( ( B(planreasoner, feasible_plan(p3, _)) & ~B (planreasoner, feasible_plan(p2, _)) )  -> <> D(planreasoner, execute(p3)) )
+
+8: [] ( ( ( B(planreasoner, feasible_plan(p1, _)) & ~B (planreasoner, feasible_plan(p2, _)) ) & ~B (planreasoner, feasible_plan(p3, _)) ) -> <> D(planreasoner, execute(p1)) )
