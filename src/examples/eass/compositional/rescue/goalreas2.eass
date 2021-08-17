@@ -1,0 +1,59 @@
+EASS
+
+:name: goalreas
+
+:Initial Beliefs:
+
+chargePos(1,1)
+initPos(1, 1)
+location(1, 1, 5)
+
+:Reasoning Rules:
+
+unchecked_location :- location(X, Y, H), ~checked(X, Y, H);
+
+:Initial Goals:
+
+:Plans:
+
++new_goal : {True} <-
+	+! select_goal(X, Y) [achieve];
+
++!select_goal(X, Y) [achieve] : { B recharge, B chargePos(X, Y) } <-
+	+! update_goals [perform],
+	+select_goal(X, Y);
++!select_goal(A, B) [achieve] : { ~B recharge, B location(X, Y, H), ~B current_selection(X1, Y1, H1) } <-
+	+! update_goals [perform],
+	+ checked(X, Y, H),
+	+ current_selection(X, Y, H);
++!select_goal(A, B) [achieve] : { ~B recharge, B location(X, Y, H), ~B checked(X, Y, H), B current_selection(X1, Y1, H1), H1 < H} <-
+	- current_selection(X1, Y1, H1),
+	+ current_selection(X, Y, H),
+	+ checked(X, Y, H);
++!select_goal(A, B) [achieve] : { ~B recharge, B location(X, Y, H), ~B checked(X, Y, H), B current_selection(X1, Y1, H1), H < H1} <-
+	+ checked(X, Y, H);
++!select_goal(X1, Y1) [achieve] : { ~B recharge, ~B unchecked_location, B current_selection(X1, Y1, H1)} <-
+	+ select_goal(X1, Y1);
+	
++select_goal(X,  Y): {True} <-
+	+! cleanup [achieve],
+	set_goal(X, Y),
+	-select_goal(X, Y);
+	
++! update_goals [perform] : {B atGoal, B initPos(X, Y), ~B chargePos(X, Y)} <-
+	-location(X,Y, H),
+	remove_location(X, Y),
+	-cleanup,
+	print("Removed goal location");
++! update_goals [perform] : {B atGoal, B initPos(X, Y), B chargePos(X, Y)};
++! update_goals [perform] : {~B atGoal};
++! update_goals [perform] : {~B initPos(X, Y)};
+
+
++! cleanup [achieve] : {B checked(X, Y, H)} <-
+	-checked(X, Y, H);
++! cleanup [achieve] : {B current_selection(X, Y, H)} <-
+	-current_selection(X, Y, H);
++! cleanup [achieve] : {~B current_selection(X, Y, H), ~B checked(X, Y, H)} <-
+	-new_goal,
+	+cleanup;
