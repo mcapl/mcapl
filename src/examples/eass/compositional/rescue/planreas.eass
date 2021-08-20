@@ -68,20 +68,7 @@ cleanedup :- ~plan(P, L);
  	-select_plan,
  	-.lock,
  	execute(P);
-// +!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve < L} <-
-// 	+.lock,
-// 	-plan_selected(P, L),
-// 	-battery(_),
-// 	-select_plan,
-// 	-.lock,
-//	inform_recharge;
-//+!select_plan(Reserve) [perform] : {~B plan(_,_), B plan_selected(P,L), B chargePos(X, Y), ~B current_goal(X, Y), Reserve == L} <-
- //	+.lock,
- //	-plan_selected(P, L),
- //	-battery(_),
-// 	-select_plan,
-// 	-.lock,
-// 	inform_recharge;
+
 
 +!cleanedup [achieve]: {B plan(P, L)} <-
 	-plan(P, L);

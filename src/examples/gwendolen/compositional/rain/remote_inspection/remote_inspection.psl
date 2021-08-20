@@ -3,3 +3,4 @@
 3: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> G(jackal,inspect(5)))
 4: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(0))) -> <> D(jackal,inspect))
 5: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> D(jackal,move(_,_,_))))
+6: <> (B(jackal, danger_red) || (B(jackal, danger_orange) || B(jackal, going(1)) ) )

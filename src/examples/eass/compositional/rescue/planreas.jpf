@@ -4,9 +4,8 @@ target = ail.util.AJPF_w_AIL
 target.args =src/examples/eass/compositional/rescue/planreas.ail,src/examples/eass/compositional/rescue/rescue.psl,4
 
 log.info = ajpf.MCAPLcontroller,ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment
-// ,ajpf.product.Product
 // log.fine = ail.semantics.AILAgent,
-log.fine = ajpf.util.choice.ChoiceRecord
+// log.fine = ajpf.util.choice.ChoiceRecord,ajpf.product.Product,ajpf.psl.buchi.BuchiAutomaton
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

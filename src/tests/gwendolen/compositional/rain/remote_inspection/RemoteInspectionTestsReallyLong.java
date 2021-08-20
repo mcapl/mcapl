@@ -5,7 +5,7 @@ import org.junit.Test;
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class RemoteInspectionTests extends TestJPF {
+public class RemoteInspectionTestsReallyLong extends TestJPF {
 	  static final String[] JPF_ARGS = {  "-show" 
 	  };
 

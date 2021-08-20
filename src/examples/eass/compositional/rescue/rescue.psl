@@ -23,3 +23,5 @@
 7: [] ( ( B(planreasoner, feasible_plan(p3, _)) & ~B (planreasoner, feasible_plan(p2, _)) )  -> <> D(planreasoner, execute(p3)) )
 
 8: [] ( ( ( B(planreasoner, feasible_plan(p1, _)) & ~B (planreasoner, feasible_plan(p2, _)) ) & ~B (planreasoner, feasible_plan(p3, _)) ) -> <> D(planreasoner, execute(p1)) )
+
+9: <> (~ B (planreasoner, bad))
