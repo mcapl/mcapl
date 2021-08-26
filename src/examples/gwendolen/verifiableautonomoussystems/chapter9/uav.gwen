@@ -247,7 +247,7 @@ GWENDOLEN
 			*position(Lat, Lon, Alt);
 			
 		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B fuel(level, F), B position(Lat, Lon, Alt), ~B appr(N, T, F1, S), ~B das_alert} <-
-			requestApproach,
+			requestApproach(F),
 			*appr(N, T, F1, S);
 					
 		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B appr(N, T, F, S), ~B enactAppr(N), ~B das_alert} <-
