@@ -221,7 +221,7 @@
     <property name="junit.usefile" value="true"/>
 
     <junit printsummary="on" showoutput="off" haltonfailure="yes"
-           fork="yes" forkmode="perTest" maxmemory="1024m">
+           fork="yes" forkmode="perTest" maxmemory="10000m">
       <formatter type="plain" usefile="${junit.usefile}"/>
 
       <classpath>
@@ -327,7 +327,7 @@
     <property name="junit.usefile" value="true"/>
 
     <junit printsummary="on" showoutput="off" haltonfailure="yes"
-           fork="yes" forkmode="perTest" maxmemory="1024m">
+           fork="yes" forkmode="perTest" maxmemory="10000m">
       <formatter type="plain" usefile="${junit.usefile}"/>
 
       <classpath>
