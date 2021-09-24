@@ -89,6 +89,7 @@ public class GoalReasonerVerificationEnvironment extends EASSVerificationEnviron
 			cp.addTerm(new NumberTermImpl(1));
 			cp.addTerm(new NumberTermImpl(1));
 			cp.addTerm(new NumberTermImpl(0));
+			messages.add(new Message(EASSAgent.TELL, "vision", "goalreas", cp));
 			first = false;
 		}
 

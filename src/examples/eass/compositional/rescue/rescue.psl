@@ -1,5 +1,5 @@
 1: [] ( (B(goalreas,recharge) & B(goalreas,new_goal) ) -> 
-		<>(D(goalreas, set_goal(1, 1)) )
+		<>(D(goalreas, set_goal(1, 1)) ) )
 		
 2: [] (
 	( (~B(goalreas,recharge) & B(goalreas,location(3,4,5)) ) 
