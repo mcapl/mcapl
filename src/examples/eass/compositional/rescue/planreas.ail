@@ -1,0 +1,14 @@
+env = eass.compositional.rescue.PlanReasonerVerificationEnvironment
+// env=eass.tutorials.tutorial3.VerificationEnvironment
+
+mas.file = src/examples/eass/compositional/rescue/planreas.eass
+mas.builder = eass.EASSMASBuilder
+
+ajpf.record = true
+
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,eass.compositional.rescue.PlanReasonerVerificationEnvironment,
+log.format = brief
+log.fine = ail.semantics.AILAgent
+
+ajpf.transition_every_reasoning_cycle = false

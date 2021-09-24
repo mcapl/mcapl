@@ -25,13 +25,14 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/ethical_governor/human_hole/governor.ail,${mcapl}/src/examples/ethical_governor/human_hole/human_hole.psl,0
+target.args = ${mcapl}/src/examples/ethical_governor/human_hole/governor.ail,${mcapl}/src/examples/ethical_governor/human_hole/human_hole.psl,sanity
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ethical_governor.human_hole.HumanHoleGoalEnv
 # log.fine = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
+et.show_shared=false
 
 # this is a preemption boundary specifying the max number of instructions after which we
 # break the current transition if there are other runnable threads

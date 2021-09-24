@@ -25,5 +25,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="mcapl"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${resource_loc}&quot; -log -buildinfo"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="mcapl"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx10000m -ea"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx200G -ea"/>
 </launchConfiguration>
