@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.auctions.trust;
+package gwendolen.auctions.trustdyn;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class TrustAuctionTests extends TestJPF {
+public class TrustDynAuctionTestsVeryLong extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -48,10 +48,11 @@ public class TrustAuctionTests extends TestJPF {
   //--- test methods
 
  
+
   @Test //----------------------------------------------------------------------
-  public void test3bidders () {
+  public void test4bidders () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/trust/TrustAuction3Bidders.ail";
+    	String filename =  "/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction5Bidders.ail";
     	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
     	String[] args = new String[3];
     	args[0] = filename;
@@ -60,7 +61,6 @@ public class TrustAuctionTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-  
   
 
 
