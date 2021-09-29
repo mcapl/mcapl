@@ -1,0 +1,30 @@
+1: []( ( B(exec,das(objectApproaching)) & B(exec, flightPhase(cruise)) & 
+         [](D(exec, requestEmergencyAvoid) -> <> B(exec, enacting(emergencyAvoid)))
+       )
+    -> <>(B(exec,flightPhase(emergencyAvoid)) 
+    		|| ~B(exec, das(objectApproaching)) 
+    	) 
+    )
+    
+2: []( ( B(exec,das(alert500)) & B(exec, flightPhase(cruise)) & 
+         [](D(exec, requestEmergencyAvoid) -> <> B(exec, enacting(emergencyAvoid)))
+       )
+    -> <>(B(exec,flightPhase(emergencyAvoid)) 
+    		|| ~B(exec, das(alert500)) 
+    	) 
+    )
+    
+3:  []( (B(exec, flightPhase(taxying)) & ~B(exec, veh(landed,_))) -> B(exec, atc(taxiClearanceGiven(_)) ) ) &
+ 	( [] ( B(exec, flightPhase(lineUp)) -> B(exec, atc(lineUpClearanceGiven)) ) ) &
+	( [] ( B(exec, flightPhase(taxeOff)) -> B(exec, atc(takeOffClearanceGiven)) ) )
+
+
+4: ([]<> G(exec, missionComplete)) || ( <>G(exec, missionComplete) U B(exec, missionComplete))
+
+5: []( B(exec, missionComplete) -> <> ([] ( ~G(exec, missionComplete) & ~I(exec, missionComplete) ) ) )
+
+6: [] (D(exec,requestTaxiRoute(_, _,_, 200)) -> B(exec, fuel(level,200))) & 
+	[] (D(exec,requestRoute(_, _, _, 200)) -> B(exec, fuel(level,200))) & 
+	[] (D(exec,requestApproach(200)) -> B(exec, fuel(level,200))) 
+	
+7: [] ( ( B(exec, fuel(level, _)) & ~B (exec, veh(landed, _)) ) -> <> ~B(exec, fuel(level, _)))

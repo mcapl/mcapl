@@ -44,7 +44,7 @@ public class VerifyList<K extends Comparable<? super K>> implements List<K> {
 	public VerifyList() {
 		sortedlist.trimToSize();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.List#size()

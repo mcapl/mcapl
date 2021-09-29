@@ -25,10 +25,25 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction4Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,6
+target.args = ${mcapl}/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction4Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,2
 
 log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLListener,ajpf.MCAPLAgent,ajpf.product.Product
 
 listener+=,.listener.ExecTracker
 et.print_insn=false
 et.show_shared=false
+
+# ====================================================== results
+# no errors detected
+
+# ====================================================== statistics
+# elapsed time:       01:05:47
+# states:             new=199173,visited=38312,backtracked=237485,end=0
+# search:             maxDepth=179,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=199173
+# heap:               new=161803693,released=163867641,maxLive=7577,gcCycles=237485
+# instructions:       16609781388
+# max memory:         1501MB
+# # loaded code:        classes=388,methods=5854
+
+# ====================================================== search finished: 02/08/20 14:33

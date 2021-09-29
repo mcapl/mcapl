@@ -1,0 +1,9 @@
+env = eass.compositional.rescue.GoalReasonerVerificationEnvironment
+// env=eass.tutorials.tutorial3.VerificationEnvironment
+
+mas.file = src/examples/eass/compositional/rescue/goalreas.eass
+mas.builder = eass.EASSMASBuilder
+
+log.warning = ajpf.MCAPLAgent,ajpf.MCAPLcontroller
+log.info = eass.mas.DefaultEnvironment,eass.compositional.rescue.GoalReasonerVerificationEnvironment
+log.format = brief

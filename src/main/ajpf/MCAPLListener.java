@@ -54,7 +54,6 @@ import ajpf.psl.MCAPLProperty;
 import ajpf.psl.ast.Native_Proposition;
 import ajpf.psl.Proposition;
 import ajpf.util.AJPFException;
-import ajpf.util.ProbabilisticEdgeAnnotationException;
 
 /**
  * Special listener class for the MCAPL Project.
@@ -152,12 +151,12 @@ public class MCAPLListener extends PropertyListenerAdapter {
      		for (Proposition p: props) {
     			if (p instanceof Native_Proposition) {
     				Native_Proposition p1 = (Native_Proposition) p;
-    				int propRef = p1.createInJPF(vm);
+     				int propRef = p1.createInJPF(vm);
     				array_ei.setReferenceElement(index, propRef);
     				index++;
     			}
     		}
-    		
+     		
     		// Negate the property and initialise the product automataon
      		MCAPLProperty negprop = prop;
      		if (!model_only) {

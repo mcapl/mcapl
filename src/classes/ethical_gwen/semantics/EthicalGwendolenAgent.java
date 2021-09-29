@@ -189,7 +189,7 @@ public class EthicalGwendolenAgent extends GwendolenAgent {
 	 * @param ple
 	 * @return
 	 */
-	protected Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
+	public Iterator<ApplicablePlan> getAllRelevantPlans(Event ple) {
 		Iterator<ApplicablePlan> pl = getPL().getAllRelevant(ple.getPredicateIndicator(), this);
 		if (plmap.containsKey(ple.toString())) {
 			return new MergeIterator<ApplicablePlan>(pl, getPL(ple.toString()).getAllRelevant(ple.getPredicateIndicator(), this));

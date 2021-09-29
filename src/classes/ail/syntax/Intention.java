@@ -1011,4 +1011,21 @@ public class Intention implements Comparable<Intention>{
 			return i;
 		}
 	}
+	
+	public static void add_intention_to_sorted(Intention i, ArrayList<Intention> list) {
+		int index = 0;
+		if (list.isEmpty()) {
+			list.add(i);
+			return;
+		}
+		for (Intention in : list) {
+			if (i.compareTo(in) < 0) {
+				list.add(index, i);
+				return;
+			}
+			index ++;
+		}
+		list.add(index, i);
+	}
+
 }

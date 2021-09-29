@@ -1,0 +1,52 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis,  Michael Fisher, and Matt Webster
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders2Coalitions.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,8
+
+log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+# vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+
+# ====================================================== results
+# no errors detected
+
+# ====================================================== statistics
+# elapsed time:       00:09:40
+# states:             new=30372,visited=4572,backtracked=34944,end=0
+# search:             maxDepth=154,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=30372
+# heap:               new=22914306,released=23044071,maxLive=7024,gcCycles=34944
+# instructions:       2444273319
+# max memory:         1495MB
+# loaded code:        classes=385,methods=5835
+# 
+# ====================================================== search finished: 02/08/20 17:52
+

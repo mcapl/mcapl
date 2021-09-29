@@ -34,3 +34,17 @@ et.print_insn=false
 et.show_shared=false
 
 # vm.storage.class=gov.nasa.jpf.jvm.DebugJenkinsStateSet
+# ====================================================== results
+# no errors detected
+# 
+# ====================================================== statistics
+# elapsed time:       00:17:36
+# states:             new=44393,visited=11857,backtracked=56250,end=0
+# search:             maxDepth=77,constraints=0
+# choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=44393
+# heap:               new=45436720,released=45897948,maxLive=6244,gcCycles=56250
+#  instructions:       4593879790
+# max memory:         707MB
+# loaded code:        classes=346,methods=5474
+# 
+# ====================================================== search finished: 01/08/20 17:49

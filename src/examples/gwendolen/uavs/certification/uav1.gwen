@@ -1,0 +1,221 @@
+GWENDOLEN 
+
+					:name: exec 
+
+					:Initial Beliefs:
+
+					
+					flightPhase(unknown) 
+					direction(none) 
+					destination(sumburgh) 
+
+					:Initial Goals: 
+ 
+					startup [perform] 
+					
+
+					:Plans: 
+
+					+.received(:tell, B): {True} <- +B;    
+
+					+!startup [perform] : {True} <- 
+						+!missionComplete [achieve]; 
+					
+					// if we want to complete mission, but we don't know flight phase, 
+					// then ask vehicle for flight phase
+					+!missionComplete [achieve] : {B flightPhase(unknown), ~B connectionOk} 
+						<- send(env,connect); 
+					+!missionComplete [achieve] : {~B flightPhase(unknown) }
+						<- *missionComplete;
+					+!missionComplete [achieve] : {B connectionOk }
+						<- *missionComplete;
+										
+					// if connection is ok, then do a poll cycle
+					+connectionOk : {~B sent(veh,reqfp), B flightPhase(unknown)} 
+						<- +.lock, +polled(self), -.lock; 
+					
+					// if polled self, and flightphase is unknown, then request flight phase and poll
+					+poll(self) : {~B sent(veh,reqfp), B flightPhase(unknown)} <- 
+						+.lock, +sent(veh,reqfp), send(veh,reqfp), -poll(self), +polled(self), -.lock; 
+					
+					// if we're polled and have found out we're waiting at ramp, and flight phase is unknown and we have requested flight phase, then delete the previous flight phase
+					+poll(self)  : {B veh(status,waitingAtRamp), B flightPhase(unknown), B sent(veh,reqfp)} <- 
+						+.lock, -veh(status,waitingAtRamp), -poll(self), -sent(veh,reqfp), 
+						-flightPhase(unknown), +flightPhase(waitingAtRamp), 
+						send(fuel,reqfuelstatus), +waiting(fuel,reqfuelstatus), +polled(self), -.lock; 
+					// .. but if we haven't found out yet then poll again.
+					+poll(self)  : {~B veh(status,X), B flightPhase(unknown), B sent(veh,reqfp)} <- 
+						+.lock, -poll(self), +polled(self), -.lock; 
+					
+					// if we're polled, and we are waiting for fuel status and we have received the fuel status, then request position
+					+poll(self) : { B waiting(fuel,reqfuelstatus), B fuel(level,F) } <- 
+						+.lock, -poll(self), -waiting(fuel,reqfuelstatus), send(nav,reqposition), 
+						+waiting(nav,reqposition), +polled(self), -.lock; 
+					// .. but if we're still waiting for the fuel status then poll again. 
+					+poll(self) : { B waiting(fuel,reqfuelstatus), ~B fuel(level,F) } <- 
+						+.lock, -poll(self), +polled(self), -.lock;  
+					
+					// if polled, and we are waiting for position and have received the position, then request route from planner and poll again
+					+poll(self) : {B position(Lat,Lon,Alt), B fuel(level,F), B waiting(nav,reqposition)} <- 
+						+.lock, -poll(self), -waiting(nav,reqposition),  send(atc,reqtc), 
+						+waiting(atc,tc), +polled(self), -.lock;  
+					// .. but if we're still waiting for a position, poll again.
+					+poll(self) : {~B position(Lat,Lon,Alt), B fuel(level,F), B destination(D), 
+						B waiting(nav,reqposition)} <- 
+						+.lock, -poll(self), +polled(self), -.lock;  
+					
+					// if we're polled, and waiting at ramp and taxi clearance is given, then request a plan to the location R specified by ATC
+					+poll(self) : {B flightPhase(waitingAtRamp), 
+						B atc(tcg,R), B waiting(atc,tc), B position(Lat,Lon,Alt), B fuel(level,F)} <- 
+						+.lock, -poll(self), -waiting(atc,tc), send(planner,reqTaxiRoute,R,Lat,Lon,F), 
+						+waiting(planner,reqTaxiRoute), +polled(self), -.lock;  
+					// if we're polled and taxi clearance is denied, then request taxi clearance again and poll sensors
+					+poll(self) : {B flightPhase(waitingAtRamp), B atc(tcd), B waiting(atc,tc)} <- 
+						+.lock, -poll(self), -atc(tcd), send(atc,reqtc), +polled(self), -.lock;  
+					// if we're polled and we haven't heard back from atc, then poll sensors
+					+poll(self) : {B flightPhase(waitingAtRamp), ~B atc(tcg), ~B atc(tcd), B waiting(atc,tc)} <- +
+						.lock, -poll(self), +polled(self), -.lock;  
+					
+					
+					 
+					+poll(self) : {B route(taxi,Num,Time,Fuel,Safety), B fuel(level,F), 
+						B atc(tcg,D), B flightPhase(waitingAtRamp), B waiting(planner,reqTaxiRoute)} <- 
+						+.lock, -poll(self), -waiting(planner,reqTaxiRoute), 
+						send(planner,enactRoute,taxi,Num), +waiting(planner,enactRoute,taxi), +polled(self), -.lock;  
+					+poll(self) : {~B route(taxi,Num,Time,Fuel,Safety), B fuel(level,F), 
+						B atc(tcg,D), B flightPhase(waitingAtRamp), B waiting(planner,reqTaxiRoute)} <- 
+						+.lock, -poll(self), +polled(self), -.lock;  
+					
+					// note the following could cause a subtle error, depending on the implementation of the FCS, as the Fuel, Lat, Lon and Alt are not the same as they will be at the runway. 
+					+poll(self) : {B enactRoute(taxi,Num), B waiting(planner,enactRoute,taxi), 
+						B flightPhase(waitingAtRamp), B destination(D), 
+						B position(Lat,Lon,Alt), B fuel(level,F), G missionComplete [achieve]} <- 
+						+.lock, -waiting(planner,enactRoute,taxi), -poll(self), 
+						send(planner,reqRoute,D,Lat,Lon,F), +waiting(planner,reqRoute), +polled(self), -.lock; 
+					+poll(self) : {~B enactRoute(taxi,Num), B waiting(planner,enactRoute,taxi), 
+						B flightPhase(waitingAtRamp), G missionComplete [achieve]} <- 
+						+.lock, -poll(self), +polled(self), -.lock; 
+					
+					+poll(self) : {B route(cruise,Num,Time,Fuel,Safety), B waiting(planner,reqRoute), 
+						B fuel(level,F), B destination(D), B flightPhase(waitingAtRamp)} <- 
+						+.lock, -poll(self), -waiting(planner,reqRoute), 
+						send(planner,enactRoute,cruise,Num), +waiting(planner,enactRoute), +polled(self), -.lock;  
+					+poll(self) : {~B route(cruise,Num,Time,Fuel,Safety), B waiting(planner,reqRoute), 
+						B fuel(level,F), B destination(D), B flightPhase(waitingAtRamp)} <- 
+						+.lock, -poll(self), +polled(self), -.lock;  
+					
+					// if route is being enacted (on take off) by the planner, then send t/o request to atc, and poll sensors while waiting
+					+poll(self) : {B enactRoute(cruise,Num), B atc(tcg,R), B waiting(planner,enactRoute), 
+						B flightPhase(waitingAtRamp), G missionComplete [achieve]} <- 
+						+.lock, -poll(self), -waiting(planner,enactRoute), -flightPhase(waitingAtRamp), 
+						-atc(tcg,R), +flightPhase(taxying), send(veh,updatefp,taxying), +polled(self), -.lock; 
+					+poll(self) : {~B enactRoute(cruise,Num), B atc(tcg,R), B waiting(planner,enactRoute), 
+						B flightPhase(waitingAtRamp), G missionComplete [achieve]} <- 
+						+.lock, -poll(self), +polled(self), -.lock; 
+										
+					+poll(self) : {B veh(status,atRunwayHoldPosition), B flightPhase(taxying), 
+						G missionComplete [achieve]} <- 
+						+.lock, -veh(status,atRunwayHoldPosition), -poll(self), -flightPhase(taxying), 
+						+flightPhase(holding), send(veh,updatefp,holding), send(atc,reqluc), 
+						+waiting(atc,reqluc), +polled(self), -.lock;  
+					+poll(self) : {~B veh(status,atRunwayHoldPosition), B waiting(atc,reqluc), 
+						B flightPhase(taxying), G missionComplete [achieve]} <- 
+						+.lock, -poll(self), +polled(self),  -.lock;  
+					
+					
+					+poll(self)  : {B atc(lucg), B waiting(atc,reqluc), G missionComplete [achieve], 
+						B flightPhase(holding)} <- 
+						+.lock, -poll(self), -waiting(atc,reqluc), -atc(lucg), -flightPhase(holding), 
+						+flightPhase(lineup), send(veh,updatefp,lineup), +polled(self), -.lock;  
+					+poll(self)  : {B atc(lucd), B waiting(atc,reqluc), G missionComplete [achieve], 
+						B flightPhase(holding)} <- 
+						+.lock, -poll(self), +polled(self), -.lock;  
+					
+					+poll(self) : {B veh(status,linedup), B flightPhase(lineup), G missionComplete [achieve]} <- 
+						+.lock, -poll(self), -veh(status,linedup), -flightPhase(lineup), 
+						+flightPhase(linedup), +waiting(atc,reqtoc), send(atc,reqtoc), +polled(self), -.lock;  
+
+					+poll(self) : {B atc(tocg), B waiting(atc,reqtoc), G missionComplete [achieve], 
+						B flightPhase(linedup)} <- 
+						+.lock, -poll(self), -atc(tocg), -waiting(atc,reqtoc), 
+						-flightPhase(linedup), +flightPhase(takeOff), send(veh,updatefp,takeOff), 
+						+polled(self), -.lock;  
+					+poll(self) : {B atc(tocd), B waiting(atc,reqtoc), G missionComplete [achieve], 
+						B flightPhase(linedup)} <- +.lock, -poll(self), -atc(tocd), send(atc,reqtoc), -.lock;  
+
+					
+					+poll(self) : {B veh(status,cruise), B flightPhase(takeOff)} <- 
+						+.lock, -poll(self), -veh(status,cruise), -flightPhase(takeOff), 
+						+flightPhase(cruise), +polled(self), -.lock;     
+					+poll(self) : {~B veh(status,cruise), B flightPhase(takeOff)} <- 
+						+.lock, -poll(self), +polled(self), -.lock;     
+					
+					// if polled, and cruising, then carry on
+					+poll(self) : {B flightPhase(cruise)} <- +.lock, -poll(self), +polled(self), -.lock;     
+					// if polled, and approaching, then carry on
+					+poll(self) : {B flightPhase(approach)} <- +.lock, -poll(self), +polled(self), -.lock;     
+					// if polled, and approaching, then carry on
+					+poll(self) : {B flightPhase(taxyingDestination)} <- +.lock, -poll(self), +polled(self), -.lock;     
+					
+					+poll(self) : {B flightPhase(waitingAtRamp)} <- +.lock, -poll(self), +polled(self), -.lock;     
+					
+					+poll(self) : {B flightPhase(emergencyAvoid)} <- +.lock, -poll(self), +polled(self), -.lock;     
+					
+					
+					// null message handling. Null messages are sent by a SubSystem when the SubSystem has nothing to tell the Executive.  
+					+atc(null) : {True} <- +.lock, -atc(null), +polled(atc), -.lock;     
+					+env(null) : {True} <- +.lock, -env(null), +polled(env), -.lock;     
+					+fuel(null) : {True} <- +.lock, -fuel(null), +polled(fuel), -.lock;     
+					+nav(null) : {True} <- +.lock, -nav(null), +polled(nav), -.lock;     
+					+planner(null) : {True} <- +.lock, -planner(null), +polled(planner), -.lock;     
+					+veh(null) : {True} <- +.lock, -veh(null), +polled(veh), -.lock;     
+					
+					//// we poll in alphabetical order  -- we might not need to poll all these right now, but eventually (for VEC123) we will.
+					// we only poll the das when we are in the cruise or emergAvoid flight phase (i.e., when we are flying).
+					+polled(atc) : {B flightPhase(cruise)} <- +.lock, -polled(atc), poll(das), -.lock;     
+					+polled(atc) : {B flightPhase(emergencyAvoid)} <- +.lock, -polled(atc), poll(das), -.lock;     
+					+polled(atc) : {~B flightPhase(cruise), ~B flightPhase(emergencyAvoid)} <- +.lock, -polled(atc), poll(env), -.lock;     
+					+polled(das) : {True} <- +.lock, -polled(das), poll(env), -.lock;     
+					+polled(env) : {True} <- +.lock, -polled(env), poll(fuel), -.lock;     
+					+polled(fuel) : {True} <- +.lock, -polled(fuel), poll(nav), -.lock;     
+					+polled(nav) : {True} <- +.lock, -polled(nav), poll(planner), -.lock;     
+					+polled(planner) : {~B shelve(veh,S)} <- +.lock, -polled(planner), +poll(self), -.lock;       // note that +poll(self) is a belief addition, not an action, in the case of self.
+					+polled(self) : {True} <- +.lock, -polled(self), poll(veh), -.lock;        // go and poll the atc again.
+					+polled(veh) : {True} <- +.lock, -polled(veh), poll(atc), -.lock;        // go and poll the atc again.   
+
+					// if the planner is polled (i.e., it's the veh's turn to get polled), and we have a shelved message from the veh, then 
+					// unshelve the message but don't poll the vehicle this time. So, the shelved message from the veh will get processed,
+					// and the veh will be polled next time around. 
+					+polled(planner) : {B shelve(veh,S)} <- +.lock, -shelve(veh,S), +S, -.lock;     
+									
+					// das message handling
+					+das(objectApproaching) : {B flightPhase(F)} <- +.lock, -das(objectApproaching), send(planner,reqroute,emergAvoid,right), +sent(planner,reqroute,emergAvoid,right), -.lock;     
+					+das(alert500) : {B flightPhase(F)} <- +.lock, -das(alert500), send(planner,reqroute,emergAvoid,right), +sent(planner,reqroute,emergAvoid,right), -.lock;     
+					+enacting(emergencyAvoid) : {B flightPhase(F), B sent(planner,reqroute,emergAvoid,right)} <- +.lock, -enacting(emergencyAvoid), -flightPhase(F), +flightPhase(emergencyAvoid), +store(flightPhase,F), send(veh,updatefp,emergencyAvoid), -sent(planner,reqroute,emergAvoid,right), +polled(das), -.lock;     
+					+das(objectPassed) : {B flightPhase(emergencyAvoid), B store(flightPhase,F)} <- +.lock, -das(objectPassed), -flightPhase(emergencyAvoid), +flightPhase(F), -store(flightPhase,F), send(veh,updatefp,F), +polled(das), -.lock;     
+					+das(nothingToReport) : {True} <- +.lock, -das(nothingToReport), +polled(das), -.lock;     
+					// we add polled(das) when we have finished processing the data from the das, and we want to go on to the next agent to poll.
+					
+					// veh message handling -- arrival at destination aerodrome airspace
+					+veh(location,L) : {B destination(L), B flightPhase(cruise)} <- +.lock, -veh(location,L), send(fuel,reqfuelstatus), +location(L), +waiting(fuel,destination), -.lock;     
+					+fuel(level,F) : {B waiting(fuel,destination)} <- +.lock, -waiting(fuel,destination), send(nav,reqposition), +waiting(nav,destination), -.lock;     
+					+position(Lat,Lon,Alt) : {B destination(D), B waiting(nav,destination), B fuel(level,F)} <- +.lock, -waiting(nav,destination), send(planner,reqappr,D,Lat,Lon,F), +waiting(planner,destination), -fuel(level,F), -.lock;     
+					+appr(Num,Time,Fuel,Safety) : {B waiting(planner,destination)} <- +.lock, -waiting(planner,destination), send(planner,enactAppr,Num), +waiting(planner,enactAppr), -.lock;    
+					+enactAppr(Num) : {B waiting(planner,enactAppr), B flightPhase(cruise)} <- +.lock, -waiting(planner,enactAppr), -flightPhase(cruise), +flightPhase(approach), send(veh,updatefp,approach), -appr(Num,Time,Fuel,Safety), +polled(veh), -.lock;    
+			
+					// if we get a update on the location, and it's the destination, and we're in emergencyAvoid mode, then we will shelve the location update for later. 
+					+veh(location,L) : {B destination(L), B flightPhase(emergencyAvoid)} <- +.lock, -veh(location,L), +shelve(veh,veh(location,L)), +polled(veh), -.lock;     
+					
+					// if we get a update that the veh has landed, and it's the destination, and we're in emergencyAvoid mode, then we will shelve the location update for later. 
+					+veh(landed,L) : {B destination(L), B flightPhase(emergencyAvoid)} <- +.lock, -veh(location,L), +shelve(veh,veh(landed,L)), +polled(veh), -.lock;     
+					
+					
+					// veh message handling -- landed at destination aerodrome. 
+					+veh(landed,L) : {B destination(L), B flightPhase(approach)} <- +.lock, -veh(landed,L), -flightPhase(approach), +flightPhase(landed), send(veh,updatefp,landed),  send(fuel,reqfuelstatus), +waiting(fuel,landed), -.lock;     
+					+fuel(level,F) : {B waiting(fuel,landed)} <- +.lock, -waiting(fuel,landed), send(nav,reqposition), +waiting(nav,landed), -.lock;     
+					+position(Lat,Lon,Alt) : {B destination(D), B waiting(nav,landed), B fuel(level,F)} <- +.lock, -waiting(nav,landed), send(planner,reqtaxiDestination,D,Lat,Lon,F), +waiting(planner,landed), -fuel(level,F), -.lock;     
++taxi(Num,Time,Fuel,Safety) : {B waiting(planner,landed)} <- +.lock, -waiting(planner,landed), send(planner,enactTaxi,Num), +waiting(planner,enactTaxi), -.lock;    
++enactTaxi(Num) : {B waiting(planner,enactTaxi), B flightPhase(landed)} <- +.lock, -waiting(planner,enactTaxi), -flightPhase(landed), +flightPhase(taxyingDestination), send(veh,updatefp,taxyingDestination), -taxi(Num,Time,Fuel,Safety), +polled(veh), -.lock;
+					
++poll(self) : {B veh(status,waitingAtRamp), B destination(L), B location(L), B flightPhase(taxyingDestination)} <- +.lock, -veh(status,waitingAtRamp), -flightPhase(taxyingDestination), +flightPhase(waitingAtRamp), +polled(self), -.lock;
+					

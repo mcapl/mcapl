@@ -86,18 +86,18 @@ repairable(X, with(change_line(X))) :- thruster_line(X, 1);
 				
 
 +! in_position(Pos) [achieve] : {~ B in_position(Pos), ~ B have_plan(Pos, Plan)} <- 
-	.query(get_close_to(Pos, P)), 
+    .query(get_close_to(Pos, P)), 
     +have_plan(Pos, P), 
-	perf(execute(P)), 
-	*close_to(Pos), 
+    perf(execute(P)), 
+    *close_to(Pos), 
     +in_position(Pos); 
 +! in_position(Pos) [achieve] : {~ B in_position(Pos), B have_plan(Pos, P)} <- 
-	perf(execute(P)), 
-	*close_to(Pos), 
-   +in_position(Pos); 
+    perf(execute(P)), 
+    *close_to(Pos), 
+    +in_position(Pos); 
 			
 +! maintaining(Pos) [achieve] : {B in_position(Pos), B assuming_formation(F), ~B aborted(Reason), ~B broken(X)} <-  
-	perf(maintain_path), 
+    perf(maintain_path), 
     +maintaining(Pos), 
     +!cleanup [perform]; 
 +! maintaining(Pos) [achieve] : {~ B in_position(Pos), B assuming_formation(F), ~B aborted(Reason), ~B broken(X)} <-  

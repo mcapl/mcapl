@@ -1,0 +1,52 @@
+GWENDOLEN
+
+:name: planreasoner
+
+:Initial Beliefs:
+
+// plans received from the planner
+plan([move(0,1),move(0,2),move(1,2),move(1,3)],4)
+plan([move(1,0),move(2,0),move(2,1),move(2,2),move(2,3),move(1,3)],6)
+
+// current battery 
+battery(50)
+
+// simulation of the magic batteryLow function
+// threshold is defined by the maximum amount of move actions in the grid (nxn)
+// assumes a grid 5x5, minus one for the position of the rover, minus one because gwendolen cannot represent less/greater or equal to
+threshold(23)
+
+:Reasoning Rules:
+
+
+
+:Initial Goals:
+
+select_plan [perform]
+
+:Plans:
+
++!select_plan [perform] : {B plan(P,L), ~B plan_selected(_,_)} <-
+	-plan(P,L),
+	+plan_selected(P,L),
+	+!select_plan [perform];
++!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L1 < L2} <-
+	-plan(P1,L1),
+	-plan_selected(P2,L2),
+	+plan_selected(P1,L1),
+	+!select_plan [perform];
++!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L2 < L1} <-
+	-plan(P1,L1),
+	+!select_plan [perform];
++!select_plan [perform] : {B plan(P1,L1), B plan_selected(P2,L2), L2 == L1} <-
+	-plan(P1,L1),
+	+!select_plan [perform] ;
++!select_plan [perform] : {~B plan(_,_), B plan_selected(P,L), B battery(Bt)} <- 
+	minus(Bt, L, ExpectedBattery),
+	+!select_plan(ExpectedBattery) [perform];
++!select_plan(ExpectedBattery) [perform] : {B threshold(T), T < ExpectedBattery} <-
+	print("Sending the plan to be executed"),
+	+execute;
++!select_plan(ExpectedBattery) [perform] : {B threshold(T), ExpectedBattery < T} <-
+	print("Not enough battery"),
+	+recharge;

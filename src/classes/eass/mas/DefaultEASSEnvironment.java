@@ -329,13 +329,12 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				if (agl == null) {
 					agl = new ArrayList<Literal>();
 					uptodateAgs.remove(agName);
-					agl.add(per);
+					Literal.add_literal_to_sorted(per, agl);
 					agSharedBeliefs.put( agName, agl);
 				} else {
 					if (! agl.contains(per)) {
 						uptodateAgs.remove(agName);
-						agl.add(per);
-						Collections.sort(agl);
+						Literal.add_literal_to_sorted(per, agl);
 					}
 				}
 
@@ -347,13 +346,13 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				if (agl2 == null) {
 					agl2 = new ArrayList<Literal>();
 					uptodateAgs.remove(partneragent);
-					agl2.add(per);
+					Literal.add_literal_to_sorted(per, agl2);
 					agSharedBeliefs.put(partneragent, agl2);
 				} else {
 					if (! agl2.contains(per)) {
 						uptodateAgs.remove(partneragent);
-						agl2.add(per);
-						Collections.sort(agl2);
+						Literal.add_literal_to_sorted(per, agl);
+		
 					}
 				}
 				}
@@ -374,7 +373,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				try {
 					for (Literal l: agl) {
 						if (l.equals(per)) {
-							aglr.add(l);
+							Literal.add_literal_to_sorted(l, aglr);
 						}
 					}
 					result = agl.removeAll(aglr);
@@ -451,7 +450,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					b = sharedbeliefs.remove(rper);
 				}
 
-				Collections.sort(sharedbeliefs);
+				// Collections.sort(sharedbeliefs);
 
 				String partneragent = abstractionengines.get(agName);
 				uptodateAgs.remove(partneragent);
@@ -466,7 +465,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 					b = psharedbeliefs.remove(rper);
 				}
 
-				Collections.sort(psharedbeliefs);
+				// Collections.sort(psharedbeliefs);
 
 				return b;
 			}

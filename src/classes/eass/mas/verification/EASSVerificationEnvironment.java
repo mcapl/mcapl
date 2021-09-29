@@ -23,12 +23,10 @@
 //----------------------------------------------------------------------------
 package eass.mas.verification;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
 import ail.syntax.Action;
-import ail.syntax.Literal;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.SendAction;
@@ -177,8 +175,8 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 
 	int final_turn = 0;
 
-//	@Override
-public boolean done() {
+	//	@Override
+	public boolean done() {
 		try {
 			if (getScheduler() != null && getScheduler().getActiveJobbers().isEmpty()) {
 				if (final_turn == 1) {

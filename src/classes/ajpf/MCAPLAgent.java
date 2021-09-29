@@ -155,7 +155,7 @@ public class MCAPLAgent implements PerceptListener, MCAPLJobber {
 	}
 		
 	/**
-	 * Wakes up the agent and registers a notificaiton.
+	 * Wakes up the agent and registers a notification.
 	 *
 	 */
 	public void wakeUP() {

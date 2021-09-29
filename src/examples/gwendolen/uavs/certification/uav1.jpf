@@ -1,0 +1,10 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/uavs/certification/uav1.ail,${mcapl}/src/examples/gwendolen/uavs/certification/certification.psl,1
+
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false

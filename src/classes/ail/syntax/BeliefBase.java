@@ -194,8 +194,8 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
                 // check if it needs to be added in the percepts list
             	
                 if (l.hasAnnot(TPercept)) {
-                    percepts.add(bl);
-                    Collections.sort(percepts);
+                    Literal.add_literal_to_sorted(bl, percepts);
+                    // Collections.sort(percepts);
                 }
                 
                 return true;
@@ -211,12 +211,12 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
             // add it in the percepts list
             
             if (l.hasAnnot(TPercept)) {
-                percepts.add(l);
-                try {
-                	Collections.sort(percepts);
-                } catch (Exception e) {
-                	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
-                }
+                Literal.add_literal_to_sorted(l, percepts);
+                //try {
+                //	Collections.sort(percepts);
+                //} catch (Exception e) {
+                //	AJPFLogger.severe("ail.syntax.BeliefBase", e.getMessage());
+                //}
             }
             
             size++;

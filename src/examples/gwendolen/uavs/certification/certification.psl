@@ -1,0 +1,4 @@
+1: [](B(exec,das(objectApproaching)) -> <>(B(exec,flightPhase(emergencyAvoid))) ) )
+
+2: [](B(exec,flightPhase(taxying)) -> B(exec,atc(tcg)))
+3: [](B(exec,flightPhase(lineUp)) -> B(exec,atc(lucg))

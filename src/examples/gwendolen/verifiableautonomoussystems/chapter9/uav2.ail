@@ -1,0 +1,10 @@
+env =  gwendolen.verifiableautonomoussystems.chapter9.UAV
+mas.file = /src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLAgent,gwendolen.verifiableautonomoussystems.chapter9.UAV
+log.fine = ail.semantics.AILAgent,ajpf.util.choice.ChoiceRecord
+pretty = ail
+ajpf.record = true
+
+ajpf.transition_every_reasoning_cycle=false

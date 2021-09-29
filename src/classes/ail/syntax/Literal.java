@@ -27,6 +27,8 @@
 
 package ail.syntax;
 
+import java.util.ArrayList;
+
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -236,6 +238,22 @@ public class Literal extends PredicatewAnnotation {
 	@Override
 	public Unifiable substitute(Unifiable term, Unifiable subst) {
 		return new Literal((Predicate) super.substitute(term, subst));
+	}
+	
+	public static void add_literal_to_sorted(Literal lit, ArrayList<Literal> list) {
+		int index = 0;
+		if (list.isEmpty()) {
+			list.add(lit);
+			return;
+		}
+		for (Literal l : list) {
+			if (lit.compareTo(l) < 0) {
+				list.add(index, lit);
+				return;
+			}
+			index ++;
+		}
+		list.add(index, lit);
 	}
 
     

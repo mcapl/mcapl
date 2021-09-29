@@ -1,0 +1,353 @@
+GWENDOLEN 
+
+		:name: exec 
+
+		:Initial Beliefs:
+			flightPhase(unknown) 
+			// flightPhase(cruise)
+			destination(sumburgh) 
+			
+		:Reasoning Rules:
+		
+		flightPhase_message(veh(status, F));
+		das_message(das(objectPassed));
+		das_message(das(objectApproaching));
+		das_message(das(alert500));
+		equal(A, A);
+		das_alert :- das(objectApproaching);
+		das_alert :- das(alert500);
+		stationary :- flightPhase(waitingAtRamp);
+		stationary :- flightPhase(holding);
+		stationary :- flightPhase(linedup);
+		stationary :- flightPhase(landed);
+		stationary :- flightPhase(unknown);
+		on_ground :- stationary;
+		on_ground :- flightPhase(taxying);
+		on_ground :- flightPhase(lineup);
+		on_ground :- veh(landed,_);
+		das_alert_irrelevant :- on_ground, das(alert500);
+		das_alert_irrelevant :- stationary;
+		environment_flight_phase(linedup);
+		environment_flight_phase(holding);
+		environment_flight_phase(cruise);
+		environment_flight_phase(waitingAtRamp);
+		
+		routes_stored_for_enaction :- enactRoute(taxi, N), enactRoute(cruise, N1);
+		missionComplete :- destination(L), location(L), flightPhase(waitingAtRamp);
+	 	//missionComplete :- flightPhase(linedup);
+
+		:Initial Goals: 
+			missionComplete [achieve] 
+					
+		:Plans: 
+		
+		+.received(:tell, das(objectApproaching)) : {~B flightPhase(emergencyAvoid), ~B stationary, ~B das_alert, ~G reactToAlert [perform], ~B alertnoted} <-
+			+.lock,
+			+das(objectApproaching),
+			+alertnoted,
+			-.lock,
+			+!reactToAlert [perform];
+		+.received(:tell, das(objectApproaching)) : {B stationary,  ~B das(objectApproaching)} <-
+			+das(objectApproaching);
+		+.received(:tell, das(objectApproaching)) : {G reactToAlert [perform],  ~B das(objectApproaching)} <-
+			+das(objectApproaching);
+		+.received(:tell, das(objectApproaching)) : {B alertnoted,  ~B das(objectApproaching)} <-
+			+das(objectApproaching);
+		+.received(:tell, das(alert500)) : {~B flightPhase(emergencyAvoid), ~B on_ground, ~B das_alert, ~G reactToAlert [perform], ~B alertnoted} <-
+			+.lock,
+			+alertnoted,
+			+das(alert500),
+			-.lock,
+			+!reactToAlert [perform];
+		+.received(:tell, das(alert500)) : {B on_ground,  ~B das(alert500)} <-
+			+das(alert500);
+		+.received(:tell, das(alert500)) : {G reactToAlert [perform],  ~B das(alert500)} <-
+			+das(alert500);
+		+.received(:tell, das(alert500)) : {B alertnoted,  ~B das(alert500)} <-
+			+das(alert500);
+		
+		+.received(:tell, das(objectPassed)) : {B flightPhase(emergencyAvoid), B store(flightPhase,F)} <- 
+			+.lock, 
+			-alertnoted,
+			-! reactToAlert [perform],
+			-das(objectApproaching),
+			-das(alert500),
+			-enacting(emergencyAvoid),
+			+! changeFlightPhase(F) [perform],
+			-.lock;
+		+.received(:tell, das(objectPassed)) : {~ B flightPhase(emergencyAvoid) } <-
+			+.lock,
+			-alertnoted,
+			-! reactToAlert [perform],
+			-das(objectApproaching),
+			-das(alert500),
+			-enacting(emergencyAvoid),
+			-.lock;		
+
+		+.received(:tell, veh(status, NewFlightPhase)): {B flightPhase(OldFlightPhase), B environment_flight_phase(NewFlightPhase), ~B waiting_confirmation(NewFlightPhase)} <- 
+			+.lock,
+			+!changeFlightPhase(NewFlightPhase) [perform],
+			-.lock;
+		+.received(:tell, veh(status, NewFlightPhase)): {B waiting_confirmation(NewFlightPhase)} <- 
+			-waiting_confirmation(NewFlightPhase);
+		// +.received(:tell, enacting(emergencyAvoid)) : {~B store(flightPhase, F), ~G reactToAlert [perform],~B waiting_confirmation(NewFlightPhase)};
+		+.received(:tell, enacting(emergencyAvoid)) : {~G reactToAlert [perform]};
+		
+		
+		+.received(:tell, M): { ~ B flightPhase_message(M), ~B das_message(M)} <- 
+			+M;
+			
+			
+		// Redundant Update
+		+! changeFlightPhase(To) [perform] : {B flightPhase(To)};
+			
+		// Completely normal flight phase change - no emergencies - flight phase initiated by the environment.
+		+!changeFlightPhase(To) [perform] : {~B equal(To, emergencyAvoid), B environment_flight_phase(To), B flightPhase(From), ~B flightPhase(emergencyAvoid)} <-
+			-flightPhase(From),
+			+flightPhase(To);
+
+		// Completely normal flight phase change - no emergencies - flight phase initiated by agent.
+		+!changeFlightPhase(To) [perform] : {~B equal(To, emergencyAvoid), ~B environment_flight_phase(To), B flightPhase(From), ~B flightPhase(emergencyAvoid), ~B equal(To, From)} <-
+			-flightPhase(From),
+			+flightPhase(To),
+			-store(flightPhase, _), // Remove any randomly stored flight phases
+			updateFlightPhase(To);
+	
+		// Trying to change to emergency Avoid
+		// Object no longer approaching - do nothing
+		+!changeFlightPhase(emergencyAvoid) [perform] : {~B das_alert, B flightPhase(F)} <- 
+			-store(flightPhase, F);
+ 
+		// Stationary or (Grounded and alert500) - do nothing
+		+!changeFlightPhase(emergencyAvoid) [perform] : {B das_alert_irrelevant, B flightPhase(F), ~B flightPhase(emergencyAvoid)} <- 
+			-store(flightPhase, F);
+
+ 
+  		// Old flight phase not yet stored
+  		+!changeFlightPhase(emergencyAvoid) [perform] : {B flightPhase(F1), B das_alert, ~B das_alert_irrelevant, ~B store(flightPhase, F1), ~B flightPhase(emergencyAvoid)} <-  
+			+store(flightPhase,F1), 
+			-flightPhase(F1),
+			+flightPhase(emergencyAvoid),
+			updateFlightPhase(emergencyAvoid);
+			
+  		// Old flight phase stored
+  		+!changeFlightPhase(emergencyAvoid) [perform] : {B flightPhase(F1), B das_alert, ~B das_alert_irrelevant, B store(flightPhase, F1), ~B flightPhase(emergencyAvoid)} <- 
+			-flightPhase(F1),
+			+flightPhase(emergencyAvoid),
+			updateFlightPhase(emergencyAvoid);
+
+		// Trying to change from emergency Avoid
+		// This is not the stored flight phase
+		// If this is happening, it's not because an attempt has been made to change out of emergencyAvoid since that refers explicitly to store
+		// so we need to store the new flight phase.
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, F), ~B equal(F, To)} <-
+			-store(flightPhase, F),
+			+store(flightPhase, To);
+
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert, B environment_flight_phase(To)} <-	
+			//+waiting_confirmation(To),
+		//	+!subsidiary_flight_change(To) [perform];
+			
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant, B environment_flight_phase(To)} <-
+			//+waiting_confirmation(To),
+		//	+!subsidiary_flight_change(To) [perform];
+
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), ~B das_alert} <-	
+			+!subsidiary_flight_change(To) [perform];
+			
+		+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert_irrelevant} <-
+			+!subsidiary_flight_change(To) [perform];
+
+		+! subsidiary_flight_change(To) [perform] : {True} <-
+			-store(flightPhase, To),
+			-flightPhase(emergencyAvoid),
+			+flightPhase(To),
+			-enacting(emergencyAvoid), 
+			updateFlightPhase(To);
+			
+
+		// Can this even happen?  Trying to change out of emergencyAvoid while an object is approaching
+		//+! changeFlightPhase(To) [perform] : {B flightPhase(emergencyAvoid), B store(flightPhase, To), B das_alert};
+		//+! changeFlightPhase(F2) [perform] : {B missionComplete};
+		
+				
+		+!missionComplete [achieve] : {B flightPhase(unknown)} <- 
+				requestFlightPhase,
+				*flightPhase(waitingAtRamp); 
+				
+		+flightPhase(waitingAtRamp): { ~ B missionComplete} <-
+				requestFuelStatus,
+				requestPosition;
+				
+		+!missionComplete [achieve] : {B flightPhase(waitingAtRamp), ~B fuel(level, F)} <-
+				*fuel(level, F);
+				
+		+!missionComplete [achieve] : {B flightPhase(waitingAtRamp), ~B position(Lat, Lon, Alt)} <-
+				*position(Lat, Lon, Alt);
+				
+		+!missionComplete [achieve] : {B flightPhase(waitingAtRamp), ~B atc(taxiClearanceGiven(R))} <-
+				-atc(N),
+				requestTaxiClearance,
+				*atc(M);
+				
+		+!missionComplete [achieve] : {B flightPhase(waitingAtRamp), B destination(D), B fuel(level, F), B position(Lat, Lon, Alt), B atc(taxiClearanceGiven(R)), ~B routes_stored_for_enaction} <-
+				requestTaxiRoute(R, Lat, Lon, F),
+				requestRoute(D, Lat, Lon, F),
+				*enactRoute(taxi, NT),
+				*enactRoute(cruise, NC);
+				
+		+route(taxi, N, T, F, S) : {True} <-
+				requestEnactRoute(taxi, N);
+		+route(cruise, N, T, F, S) : { True } <-
+				requestEnactRoute(cruise, N);	
+				
+				
+		+!missionComplete [achieve] : {B flightPhase(waitingAtRamp), B atc(taxiClearanceGiven(R)), B enactRoute(taxi, Num), ~B das(objectApproaching)} <-
+				+.lock,
+				+!changeFlightPhase(taxying) [perform],
+				-.lock,
+				*flightPhase(holding);
+
+		+!missionComplete [achieve] : {B flightPhase(holding), B enactRoute(cruise, N), ~B atc(lineUpClearanceGiven)} <-
+				-atc(M1),
+				requestLineUpClearance,
+				*atc(M);
+		
+		+!missionComplete [achieve] : {B flightPhase(holding), B atc(lineUpClearanceGiven), ~B das_alert} <-
+				+.lock,
+				+!changeFlightPhase(lineup) [perform],
+				-.lock,
+				*flightPhase(linedup);
+
+		+!missionComplete [achieve] : {B enactRoute(cruise, R), B flightPhase(linedup), ~B atc(takeOffClearanceGiven)} <-
+				-atc(N),
+				requestTakeOffClearance,
+				*atc(M);
+				
+		+!missionComplete [achieve] : {B enactRoute(cruise, R), B flightPhase(linedup), B atc(takeOffClearanceGiven), ~B das_alert} <-
+				+.lock,
+				+!changeFlightPhase(takeOff) [perform],
+				-.lock,
+				*flightPhase(cruise),
+				+.lock,
+				-enactRoute(cruise, R),
+				-enactRoute(taxi, N),
+				-route(taxi, N, T, F, S),
+				-route(cruise, R, T1, F1, S1),
+				-atc(takeOffClearanceGiven),
+				-.lock;
+				
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), ~B location(L), ~B das_alert} <-
+			*location(L);
+		
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B fuel(level, F), ~B das_alert} <-
+			*fuel(level, F);
+
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), ~B position(Lat, Lon, Alt), ~B das_alert} <-
+			*position(Lat, Lon, Alt);
+			
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B fuel(level, F), B position(Lat, Lon, Alt), ~B appr(N, T, F1, S), ~B das_alert} <-
+			requestApproach(F),
+			*appr(N, T, F1, S);
+					
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B appr(N, T, F, S), ~B enactAppr(N), ~B das_alert} <-
+			enactApproach(N),
+			*enactAppr(N);
+
+		+!missionComplete [achieve] : {B flightPhase(cruise), B destination(L), B location(L), B enactAppr(N), ~B das_alert} <-
+			+.lock,
+			-appr(N, T, F, S),
+			-enactAppr(N),
+			+!changeFlightPhase(approach) [perform],
+			-.lock;
+						
+		+!missionComplete [achieve] : {B flightPhase(approach), B destination(L), ~B das_alert} <-
+			*veh(landed,L),
+			+.lock,
+			-fuel(level, F),
+			-position(Lat, Lon, Alt),
+			+!changeFlightPhase(landed) [perform],
+			-.lock,
+			requestFuelStatus,
+			requestPosition;
+			// +!completeLandingChecks [achieve];
+					
+		+!missionComplete [achieve] : {B flightPhase(landed), ~B fuel(level, F)} <-
+			*fuel(level, F);
+			
+		+!missionComplete [achieve] : {B flightPhase(landed), ~B position(Lat, Lon, Alt)} <-
+			*position(Lat, Lon, Alt);
+			
+		+!missionComplete [achieve] : {B flightPhase(landed), B fuel(level, F), B position(Lat, Lon, Alt), ~B route(taxi, Num, Time, Fuel, Safety)} <-
+			requestTaxiRoute(destination, Lat, Lon, F),
+			*enactRoute(taxi, Num);
+				
+		
+		+!missionComplete [achieve] : {B flightPhase(landed), B enactRoute(taxi, Num), ~B das_alert} <-
+			+.lock,
+			+!changeFlightPhase(taxying) [perform],
+ 			-.lock,
+			*flightPhase(waitingAtRamp);
+
+ 				
+			
+		+!reactToAlert [perform] : {B das_alert, ~B das_alert_irrelevant} <-
+			+.lock,
+			-alertnoted,
+			requestEmergencyAvoid,		
+			-.lock,
+			*enacting(emergencyAvoid),
+			+.lock,
+			+! changeFlightPhase(emergencyAvoid) [perform],
+			-.lock;
+			
+		+!reactToAlert [perform] : {~B das_alert};
+		+!reactToAlert [perform] : {B das_alert, B das_alert_irrelevant};
+
+ 		+enacting(emergencyAvoid) : {~B store(flightPhase, F), B enacting(emergencyAvoid)} <-
+			-enacting(emergencyAvoid);
+		+enacting(emergencyAvoid) : {B das_alert_irrelevant, G reactToAlert[perform]} <-
+			+.lock,
+			-alertnoted,
+			-! reactToAlert [perform],
+			-enacting(emergencyAvoid),
+			-.lock;
+		+enacting(emergencyAvoid) : {B das_alert_irrelevant, B alertnoted} <-
+			+.lock,
+			-alertnoted,
+			-! reactToAlert [perform],
+			-enacting(emergencyAvoid),
+			-.lock;
+		
+		
+					
+			
+		+!missionComplete [achieve] : {B das_alert, B store(flightPhase, F), ~B flightPhase(F)} <-
+			*flightPhase(F);
+		+!missionComplete [achieve] : {B flightPhase(emergencyAvoid), B store(flightPhase, F)} <-
+			*flightPhase(F);
+		+!missionComplete [achieve] : {B das(objectApproaching)} <-
+			*~das(objectApproaching);
+		+!missionComplete [achieve] : {B das(alert500)} <-
+			*~das(alert500);
+			
+
+
+		// Reached destination
+		
+
+		+veh(location,L) : {B destination(L)} <- 
+			+.lock, 
+			-veh(location,L), 
+			+location(L), 
+			-fuel(level, F),
+			-position(Lat, Lon, Alt),
+			requestFuelStatus,
+			requestPosition,
+			-.lock;    
+		
+		
+		
+				
+		
+				

@@ -1,0 +1,50 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2012 Louise A. Dennis,  Michael Fisher, and Matt Webster
+//
+// This file is part of Gwendolen
+// 
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction4Bidders.ail,${mcapl}/src/examples/gwendolen/auctions/auctions.psl,5
+
+log.info = ail.mas.DefaultEnvironment,ajpf.MCAPLListener,ajpf.MCAPLAgent,ajpf.product.Product
+
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+
+// ====================================================== results
+// no errors detected
+
+// ====================================================== statistics
+// elapsed time:       00:21:33
+// states:             new=50631,visited=7536,backtracked=58167,end=0
+// search:             maxDepth=111,constraints=0
+// choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=50631
+// heap:               new=42651341,released=43019369,maxLive=7401,gcCycles=58167
+// instructions:       5363534466
+// max memory:         1671MB
+// loaded code:        classes=385,methods=5835
+// 
+// ====================================================== search finished: 02/08/20 18:22
+
