@@ -63,20 +63,6 @@ public class TrustDynAuctionTests extends TestJPF {
   
   
 
-  @Test //----------------------------------------------------------------------
-  public void test4bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/trustdyn/DynamicTrustAuction5Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "2";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-
 
 
 }

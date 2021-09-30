@@ -38,7 +38,7 @@ import ail.util.AILConfig;
 import ail.util.AJPF_w_AIL;
 import ajpf.MCAPLcontroller;
 
-public class Chapter6QuickTests {
+public class Chapter6WindowTest {
 
 	  // General framework for testing print statements.  Stolen from stackOverflow.
 	  private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -53,6 +53,32 @@ public class Chapter6QuickTests {
 	      System.setErr(systemStdErr);
 	  }
 
+	  @Test //----------------------------------------------------------------------
+	  public void errorfreeeisconnection () {
+		  setUpStreams();
+		AILConfig config = new AILConfig("src/examples/goal/programming_guide/chapter6/table6_1.ail");
+		AIL.configureLogging(config);
+	
+		MCAPLcontroller mccontrol = new MCAPLcontroller(config, "");
+
+		// Create the initial state of the multi-agent program.
+		MAS mas = AIL.AILSetup(config, mccontrol);
+		
+		// Set up a controller
+		// mccontrol.setMAS(mas);
+		
+		// Begin!
+		mccontrol.begin(); 
+		mas.cleanup();
+		String nl = System.lineSeparator();
+		String expectedOutput = "goal_agent attempting move(b4,b3)" + nl + "goal_agent attempting move(b2,table)"
+				+ nl + "goal_agent attempting move(b1,table)" + nl + "goal_agent attempting move(b4,b3)" 
+				+ nl + "goal_agent attempting move(b2,table)" + nl + "goal_agent attempting move(b4,b3)"
+				+ nl + "goal_agent attempting move(b5,b2)" + nl + "goal_agent attempting move(b1,b5)"
+				+ nl + "goal_agent attempting move(b6,b4)" + nl;
+		Assert.assertEquals(expectedOutput, errContent.toString());
+		cleanUpStreams();
+	  }
 	  
 	  @Test //----------------------------------------------------------------------
 	  public void twoagents () {
@@ -79,6 +105,7 @@ public class Chapter6QuickTests {
 		//Assert.assertEquals(expectedOutput, errContent.toString());
 		//cleanUpStreams();
 	  }
+	  
 
 
 }

@@ -221,7 +221,7 @@
     <property name="junit.usefile" value="true"/>
 
     <junit printsummary="on" showoutput="off" haltonfailure="yes"
-           fork="yes" forkmode="perTest" maxmemory="1024m">
+           fork="yes" forkmode="perTest" maxmemory="10000m">
       <formatter type="plain" usefile="${junit.usefile}"/>
 
       <classpath>
@@ -292,6 +292,33 @@
 	    </junit>
 	   
 	  </target>
+	
+	   <target name="window-test" depends="compile"
+	          description="compile and run regression tests" if="have_tests">
+
+	    <property name="junit.usefile" value="true"/>
+
+	    <junit printsummary="on" showoutput="off" haltonfailure="yes"
+	           fork="yes" forkmode="perTest" maxmemory="1024m">
+	      <formatter type="plain" usefile="${junit.usefile}"/>
+
+	      <classpath>
+	        <path refid="lib.path"/>
+
+	        <pathelement location="bin"/>
+	 
+	      </classpath>
+
+	        <batchtest todir="bin">
+	          <fileset dir="bin">
+	              <include name="**/*WindowTest.class"/>
+	          </fileset>
+	        </batchtest>
+
+	    </junit>
+	   
+	  </target>
+
   
   
   <target name="fulltest" depends="compile"
@@ -300,7 +327,7 @@
     <property name="junit.usefile" value="true"/>
 
     <junit printsummary="on" showoutput="off" haltonfailure="yes"
-           fork="yes" forkmode="perTest" maxmemory="1024m">
+           fork="yes" forkmode="perTest" maxmemory="10000m">
       <formatter type="plain" usefile="${junit.usefile}"/>
 
       <classpath>

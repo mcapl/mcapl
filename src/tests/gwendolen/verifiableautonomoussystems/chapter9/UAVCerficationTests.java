@@ -12,7 +12,7 @@ public class UAVCerficationTests extends TestJPF {
 	  public void certification_ajpf () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)) {
 	    	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter9/uav.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/uavs/certification/certification.psl";
+	    	String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter9/certification.psl";
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
