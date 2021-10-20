@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run-AIL" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="mcapl " value=" $PROJECT_DIR$" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="ail.mas.AIL" />
+    <module name="mcapl" />
+    <option name="PROGRAM_PARAMETERS" value="$FilePathRelativeToProjectRoot$" />
+    <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

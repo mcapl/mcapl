@@ -31,32 +31,7 @@ import java.util.*;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
-import ail.syntax.AILAnnotation;
-import ail.syntax.Action;
-import ail.syntax.ApplicablePlan;
-import ail.syntax.BeliefBase;
-import ail.syntax.Capability;
-import ail.syntax.CapabilityLibrary;
-import ail.syntax.Deed;
-import ail.syntax.Event;
-import ail.syntax.GBelief;
-import ail.syntax.Goal;
-import ail.syntax.GoalBase;
-import ail.syntax.Guard;
-import ail.syntax.Intention;
-import ail.syntax.Literal;
-import ail.syntax.Message;
-import ail.syntax.Plan;
-import ail.syntax.PlanLibrary;
-import ail.syntax.Predicate;
-import ail.syntax.PredicatewAnnotation;
-import ail.syntax.Rule;
-import ail.syntax.RuleBase;
-import ail.syntax.SendAction;
-import ail.syntax.StringTerm;
-import ail.syntax.Term;
-import ail.syntax.Unifier;
-import ail.syntax.VarTerm;
+import ail.syntax.*;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
 import ail.tracing.EventStorage;
@@ -329,6 +304,18 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		printLog("Failures: ", actionFailureLog);
 		printLog("Aborts:", actionAbortLog);
 	}
+	/*
+	 *	More Advanced Action Log - pws
+	 */
+
+
+	public ActionLog al = new ActionLog();
+	public BeliefBase prebeliefs = new BeliefBase();
+
+	public void setPreBB(){ prebeliefs = getBB();}
+
+	public void printActionLog() { }
+
 
 
 	// -----------------CONSTRUCTORS---------------//

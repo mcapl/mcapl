@@ -27,6 +27,7 @@ package ail.semantics.operationalrules;
 import ail.syntax.*;
 import ail.util.AILexception;
 import ajpf.util.VerifyMap;
+import ail.syntax.ActionLog;
 
 import java.util.Iterator;
 
@@ -77,6 +78,9 @@ public class HandleActionwProblem extends HandleTopDeed {
 		 */
 		Action act = (Action) topdeed.getContent();
 		AILEnv env = a.getEnv();
+
+		// set pre belief base for keeping a note of beliefs before execution
+		a.setPreBB();
 		
 		// Bit of a hack this!
 		
@@ -108,25 +112,34 @@ public class HandleActionwProblem extends HandleTopDeed {
 			dact.apply(thetahd);
 			try {
 				Unifier thetaa = new Unifier();
+				// if the action isn't seen as executing: execute it, and mark it as executing.
 				if (! dact.isExecuting()) {
+					//take note of the currently held beliefs before execution.
+					a.setPreBB();
+					//execute
 					thetaa = a.getEnv().executeAction(a.getAgName(), dact);
 					dact.executing();
-				} 
-				
-				if (a.believesyn(new Guard((GBelief) dact.getSucess()), thetahd)) {
+				}
+				//if the agent believes the action's success conditions, log it, update action status and go to next deed.
+				if (a.believesyn(new Guard((GBelief) dact.getSuccess()), thetahd)) {
+					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionSucceeded));
 					i.tlI(a);
 					thetahd.compose(thetaa);
 					i.compose(thetahd);
 					dact.notExecuting();
+					//if the agent believes the action's failure conditions, log it, update action status and retry.
 				} else if (a.believesyn(new Guard((GBelief) dact.getFail()), thetahd)) {
-					// Do nothing retry
+					// Do nothing, retry
 					dact.notExecuting();
-					a.logFail(dact);
+					// Log it
+					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionFailed));
+					//remove action from intention stack
 					i.tlI(a);
+					// add action to top of intention stack again
 					i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);
 					thetahd.compose(thetaa);
 					i.compose(thetahd);
-					System.out.println("ACION FAILED RETRYING");
+					System.out.println("ACTION FAILED RETRYING");
 					
 				} else if (dact.abort(a)) {
 					// Abort retry
@@ -136,7 +149,8 @@ public class HandleActionwProblem extends HandleTopDeed {
 						a.getEnv().executeAction(a.getAgName(), new Action(abort, Action.normalAction));
 					}
 					dact.notExecuting();
-					a.logAbort(dact);
+					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionAbort));
+					//a.logAbort(dact);
 					i.tlI(a);
 					i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);
 					thetahd.compose(thetaa);

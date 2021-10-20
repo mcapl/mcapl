@@ -20,21 +20,6 @@ public class DurativeAction extends Capability {
     public int duration;
 
     public int threshold;
-
-    /* @FilterField
-    public final static byte actionPending = 0;
-    @FilterField
-    public final static byte actionSucceeded = 1;
-    @FilterField
-    public final static byte actionFailed = 2;
-    @FilterField
-    public final static byte actionSucceededwithFailure = 3;
-    @FilterField
-    public final static byte actionTimedout = 4;
-    @FilterField
-    public final static byte actionActive = 5;
-    @FilterField
-    public final static byte actionAbort = 6; */
     
     @FilterField
     public final static byte actionNotExecuting = 0;
@@ -92,7 +77,7 @@ public class DurativeAction extends Capability {
         return a.threshold;
     }
     
-    public GLogicalFormula getSucess() {
+    public GLogicalFormula getSuccess() {
     	return getPre();
     }
     
