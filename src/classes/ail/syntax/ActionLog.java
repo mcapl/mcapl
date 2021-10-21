@@ -40,7 +40,7 @@ import java.util.*;
 
 public class ActionLog {
 
-    ArrayList<ActionLogEntry> al = new ArrayList<ActionLogEntry>();
+    ArrayList<ActionLogEntry> al = new ArrayList<>();
 
     /**
      * Number of entries.
@@ -69,15 +69,15 @@ public class ActionLog {
      * Completely clear out this self model.
      */
     public void clear() {
-    	al = new ArrayList<ActionLogEntry>();
+    	al = new ArrayList<>();
     }
 
  
     /**
      * Check whether the self model contains something with a particular
      * predicate indicator.
-     * @param pi
-     * @return
+     * @param e Action Log Entry
+     * @return true if the entry is found in the action log, false if not.
      */
     public boolean contains(ActionLogEntry e) {
     	if (al == null) {

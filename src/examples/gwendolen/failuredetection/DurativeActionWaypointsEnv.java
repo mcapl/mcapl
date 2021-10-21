@@ -234,7 +234,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 			robot_dest_y = 0;
 			System.err.println("ABORTING ACTION - TIMED OUT");
 		} else if (act.getFunctor().equals("printlogs")) {
-			agentmap.get(agName).printLogs();
+			agentmap.get(agName).printActionLog();
 		}
 
 		try {

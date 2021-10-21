@@ -64,13 +64,14 @@ public class ActionFailureTestSuite {
 		/* Log an aborted action */
 		ag.al.add(a, new BeliefBase(), new BeliefBase(), ActionLogEntry.actionAbort);
 		/* Check if action log reflects the above log */
+
 		Assert.assertTrue(
 				ag.al.checkLogFor(ActionLogEntry.actionSucceeded) > 0 &&
 				ag.al.checkLogFor(ActionLogEntry.actionFailed) > 0 &&
 				ag.al.checkLogFor(ActionLogEntry.actionAbort) > 0
 				);
 		//log print
-		//System.out.print(ag.al.toString());
+		System.out.print(ag.al.toString());
 
 	}
 
@@ -105,7 +106,7 @@ public class ActionFailureTestSuite {
 		/* Log another action */
 		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
 		/* Check if post-condition has been updated OR if action has been marked as deprecated */
-		Assert.assertTrue(a.getSuccess() != originalConditions);
+		Assert.assertNotSame(a.getSuccess(), originalConditions);
 
 	}
 	

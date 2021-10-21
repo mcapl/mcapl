@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Special class for storing entries.  Each instance of a class
- * stores a number of literals with the same PredicateIndicator (i.e., the
- * same predicate name and arity).
+ * Special class for action log entries to be used in an action log.
+ *
+ * @author pws
  */
 public final class ActionLogEntry extends Object {
 
@@ -33,30 +33,25 @@ public final class ActionLogEntry extends Object {
     //BeliefBase prebeliefs;
     //BeliefBase postbeliefs;
     Set<Literal> newbeliefs;
-    byte actionoutcome = 0;
+    byte actionoutcome;
 
     /**
      * Constructor.
      *
-     * @param a
-     * @param preb
-     * @param postb
-     * @param s
+     * @param a Durative Action
+     * @param preb Beliefs held before action execution
+     * @param postb Beliefs held after action execution
+     * @param o The action's outcome, as set in HandleActionwProblem
      */
     //public ActionLogEntry(DurativeAction a, BeliefBase preb, BeliefBase postb, byte o) {
     public ActionLogEntry(DurativeAction a, BeliefBase preb, BeliefBase postb, byte o) {
+        newbeliefs = getComplement(preb, postb);
+        action = a;
+        actionoutcome = o;
+    }
 
-        //iterate through prebeliefs against postbeliefs and create a list of the changes.
-        Iterator<Literal> prebPercepts = preb.getPercepts();
-        Set<Literal> different = new TreeSet<Literal>();
-        while (prebPercepts.hasNext()) {
-            Literal l = prebPercepts.next();
-            if (! (postb.contains(l) != null)) {
-                different.add(l);
-            }
-        }
-
-        newbeliefs = different;
+    public ActionLogEntry(DurativeAction a, Set<Literal> c, byte o){
+        newbeliefs = c;
         action = a;
         actionoutcome = o;
     }
@@ -64,12 +59,24 @@ public final class ActionLogEntry extends Object {
     /**
      * Get the action's resultant beliefs.
      *
-     * @return
+     * @return the new beliefs held as a result of an action.
      */
     public Set<Literal> getBeliefs() {
         return newbeliefs;
     }
 
+    public Set<Literal> getComplement(BeliefBase preb, BeliefBase postb) {
+        //iterate through prebeliefs against postbeliefs and create a list of the changes.
+        Iterator<Literal> prebPercepts = preb.getPercepts();
+        Set<Literal> complement = new TreeSet<>();
+        while (prebPercepts.hasNext()) {
+            Literal l = prebPercepts.next();
+            if (postb.contains(l) == null) {
+                complement.add(l);
+            }
+        }
+        return complement;
+    }
 
     public byte getActionOutcome() {
         return actionoutcome;
@@ -77,7 +84,8 @@ public final class ActionLogEntry extends Object {
 
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(action.toString() + getBeliefs().toString() + "\n");
+        //21-10-21 find a way to translate byte back to text!
+        s.append(action.toString() + getBeliefs().toString() + getActionOutcome() + "\n");
         return s.toString();
     }
 

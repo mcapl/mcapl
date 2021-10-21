@@ -300,21 +300,22 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			System.out.println(s + ":" + a.toString() + " -- " +  log.get(a));
 		}
 	}
+
 	public void printLogs() {
 		printLog("Failures: ", actionFailureLog);
 		printLog("Aborts:", actionAbortLog);
 	}
+
 	/*
 	 *	More Advanced Action Log - pws
 	 */
-
-
 	public ActionLog al = new ActionLog();
 	public BeliefBase prebeliefs = new BeliefBase();
 
+	public ActionLog getActionLog(){return al;}
 	public void setPreBB(){ prebeliefs = getBB();}
 
-	public void printActionLog() { }
+	public void printActionLog() { System.out.println(getActionLog().toString()); }
 
 
 
@@ -359,7 +360,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/**
 	 * Constructor.
 	 * 
-	 * @param arch The Agent Architecture that links the agent with the environment
+	 * @param mas The Agent Architecture that links the agent with the environment
 	 *             and multi-agent system. NB. improperly caught exception.
 	 * @param name The name of the agent.
 	 * @param ig   The agent's initial goals.
@@ -808,7 +809,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/**
 	 * Setter method for the currently applicable capabilities.
 	 * 
-	 * @param ap
+	 * @param cs
 	 */
 	public void setApplicableCapabilities(Iterator<Capability> cs) {
 		// EXPLANATION EVENT: Create a list of currently applicable capabilities.
@@ -1663,8 +1664,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * 
 	 * Note this may return null;
 	 * 
-	 * @param appPlans
-	 * @param i
+	 * @param aps
+	 * @param inte
 	 * @return
 	 */
 	public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
@@ -2192,7 +2193,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * guard (which are what AIL agents check as beliefs) and then check if the
 	 * agent's belief method can return one (or more) unifiers for this guard.
 	 * 
-	 * @param A MCAPLFormula for belief checking. In AIL this is a Literal.
+	 * @param fmla MCAPLFormula for belief checking. In AIL this is a Literal.
 	 * @return Whether the agent can find a unifier for the literal among its
 	 *         beliefs.
 	 */
