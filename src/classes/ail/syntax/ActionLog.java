@@ -27,14 +27,7 @@
 
 package ail.syntax;
 
-import ail.semantics.AILAgent;
-import ail.syntax.annotation.SourceAnnotation;
-import ail.syntax.ast.GroundPredSets;
-import ajpf.util.AJPFLogger;
-import ajpf.util.VerifyList;
-import ajpf.util.VerifyMap;
 import gov.nasa.jpf.annotation.FilterField;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -50,6 +43,7 @@ public class ActionLog {
 
     /**
      * Getter for the number of entries.
+     *
      * @return number of entries.
      */
     public int size() {
@@ -69,46 +63,81 @@ public class ActionLog {
      * Completely clear out this self model.
      */
     public void clear() {
-    	al = new ArrayList<>();
+        al = new ArrayList<>();
     }
 
- 
+
     /**
      * Check whether the self model contains something with a particular
      * predicate indicator.
+     *
      * @param e Action Log Entry
      * @return true if the entry is found in the action log, false if not.
      */
     public boolean contains(ActionLogEntry e) {
-    	if (al == null) {
-    		return false;
-    	} else if (al.contains(e)){
-    		return true;
-    	} else {
-    	    return false;
+        if (al == null) {
+            return false;
+        } else if (al.contains(e)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
     /**
      * Convert the self model into a string for printing.
-     *
+     * @return a string of action log entries.
      */
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (ActionLogEntry a: al) {
+        for (ActionLogEntry a : al) {
             s.append(a.toString());
         }
-    	return s.toString();
-     }
+        return s.toString();
+    }
 
     public int checkLogFor(byte o) {
         int n = 0;
-        for (ActionLogEntry a: al) {
-            if (a.getActionOutcome() == o) {n++;}
+        for (ActionLogEntry a : al) {
+            if (a.getActionOutcome() == o) {
+                n++;
+            }
         }
         return n;
     }
 
+    public ActionLogEntry getLatestEntry() {
+        ActionLogEntry entry = null;
+        for (ActionLogEntry e : al) {
+            entry = e;
+        }
+        return entry;
     }
+
+    public ActionLog getLogsFor(ActionLogEntry actionLogEntry) {
+        ActionLog singleActionLog = null;
+        for (ActionLogEntry entry : al) {
+            if (entry.action == actionLogEntry.action) {
+                singleActionLog.add(entry);
+            }
+        }
+        return singleActionLog;
+    }
+
+    /** get the action log as an array list
+     *
+     * @return al the action log as an arraylist
+     */
+    public ArrayList<ActionLogEntry> getArrayList(){
+        return al;
+    }
+    
+    public void removeEntry(ActionLogEntry e){
+       if (al.contains(e)){
+           al.remove(e);
+       }
+    }
+
+}
 
 
