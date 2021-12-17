@@ -1,0 +1,25 @@
+GWENDOLEN
+
+:name: jackal
+
+:Initial Beliefs:
+location(random)
+
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+inspect(random) [perform]
+
+:Plans:
+
++!inspect(Location) [perform] : { True } 
+<- get_random_coordinates(X, Y), +going(Location), move(X,Y,0.0);
+
++movebase_result(Id,3) : { B going(L1) } <- 
+						-going(L1), 
+						print("Movement to location "),
+						print(L1),
+						print(" ended with success."),
+						inspect;

@@ -1,0 +1,9 @@
+mas.file = /src/examples/gwendolen/ros/rain/remote-inspection.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.rain.RosEnv
+
+log.info = ail.mas.DefaultEnvironment
+log.fine = ail.semantics.operationalrules
+log.warning = ajpf.MCAPLAgent
+log.format = brief

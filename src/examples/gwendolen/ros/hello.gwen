@@ -1,0 +1,16 @@
+GWENDOLEN
+
+:name: hello
+
+:Initial Beliefs:
+
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+test [perform]
+
+:Plans:
+
++!test [perform] : {True} <- hello_ros;

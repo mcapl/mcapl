@@ -1,0 +1,6 @@
+mas.file = /src/examples/gwendolen/ros/hello.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.RosEnv
+
+log.warning = ail.mas.DefaultEnvironment
