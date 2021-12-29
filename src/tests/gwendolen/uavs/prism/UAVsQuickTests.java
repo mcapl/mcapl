@@ -140,14 +140,21 @@ public class UAVsQuickTests extends TestJPF {
 		        // (e.g. 16 KBs) but care must be taken as InputStream.read(byte[])
 		        // does not neccessarily read a whole array!
 		        int data;
-		        while ((data = is1.read()) != -1)
-		            if (data != is2.read())
+		        while ((data = myread(is1)) != -1)
+		            if (data != myread(is2))
 		                return false;
 		    }
 
 		    return true;
 		}
 
+	  private int myread(InputStream is) throws IOException {
+		  int c;
+		  do {
+			  c = is.read();
+		  } while (c == '\n' || c == '\r');
+		  return c;
+	  }
 
 
 
