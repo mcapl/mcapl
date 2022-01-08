@@ -126,12 +126,12 @@ public class UAVsQuickTests extends TestJPF {
 	 	// }
 	  }
 	  boolean sameContent(Path file1, Path file2) throws IOException {
-		    final long size = Files.size(file1);
+		    /* final long size = Files.size(file1);
 		    if (size != Files.size(file2))
 		        return false;
 
 		    if (size < 4096)
-		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2));
+		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2)); */
 
 		    try (InputStream is1 = Files.newInputStream(file1);
 		         InputStream is2 = Files.newInputStream(file2)) {
