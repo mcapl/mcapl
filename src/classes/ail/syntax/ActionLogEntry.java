@@ -1,11 +1,8 @@
 package ail.syntax;
 
-import ail.tracing.events.ModificationEvent;
 import gov.nasa.jpf.annotation.FilterField;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Special class for action log entries to be used in an action log.
@@ -29,7 +26,7 @@ public final class ActionLogEntry extends Object {
     @FilterField
     public final static byte actionAbort = 6;
 
-    DurativeAction action;
+    Action action;
     //BeliefBase prebeliefs;
     //BeliefBase postbeliefs;
     Set<Literal> newbeliefs;
@@ -37,14 +34,13 @@ public final class ActionLogEntry extends Object {
 
     /**
      * Constructor.
-     *
-     * @param a Durative Action
+     *  @param a Durative Action
      * @param preb Beliefs held before action execution
      * @param postb Beliefs held after action execution
      * @param o The action's outcome, as set in HandleActionwProblem
      */
     //public ActionLogEntry(DurativeAction a, BeliefBase preb, BeliefBase postb, byte o) {
-    public ActionLogEntry(DurativeAction a, BeliefBase preb, BeliefBase postb, byte o) {
+    public ActionLogEntry(Capability a, BeliefBase preb, BeliefBase postb, byte o) {
         newbeliefs = getComplement(preb, postb);
         action = a;
         actionoutcome = o;
@@ -66,26 +62,44 @@ public final class ActionLogEntry extends Object {
     }
 
     public Set<Literal> getComplement(BeliefBase preb, BeliefBase postb) {
-        //iterate through prebeliefs against postbeliefs and create a list of the changes.
-        Iterator<Literal> prebPercepts = preb.getPercepts();
         Set<Literal> complement = new TreeSet<>();
-        while (prebPercepts.hasNext()) {
-            Literal l = prebPercepts.next();
-            if (postb.contains(l) == null) {
-                complement.add(l);
-            }
+        ArrayList<Literal> prebeliefs = preb.getAll();
+        ArrayList<Literal> postbeliefs = postb.getAll();
+        for (Literal l : postbeliefs)
+        if (!prebeliefs.contains(l)) {
+            complement.add(l);
         }
         return complement;
     }
+
+    public Action getAction(){
+        return action;
+    }
+
 
     public byte getActionOutcome() {
         return actionoutcome;
     }
 
+    public String getActionOutcomeToString(){
+        if (actionoutcome == actionSucceeded){ return "Succeeded"; }
+        if (actionoutcome == actionSucceededwithFailure){ return "Succeeded with Partial Failure"; }
+        if (actionoutcome == actionFailed){ return "Failed"; }
+        if (actionoutcome == actionAbort){ return "Aborted"; }
+        if (actionoutcome == actionPending){ return "Pending"; }
+        if (actionoutcome == actionTimedout){ return "Timed Out"; }
+        if (actionoutcome == actionActive){ return "Active"; }
+        return "Pending";
+    }
+
     public String toString() {
         StringBuilder s = new StringBuilder();
+        String beliefs = "";
         //21-10-21 find a way to translate byte back to text!
-        s.append(action.toString() + getBeliefs().toString() + getActionOutcome() + "\n");
+        for (Literal l: getBeliefs()){
+            beliefs = beliefs + "," + l.toString();
+        }
+        s.append(action.toString() + " | " + beliefs + " | " + getActionOutcomeToString() + "\n");
         return s.toString();
     }
 

@@ -128,7 +128,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 					i.compose(thetahd);
 					dact.notExecuting();
 					//if the agent believes the action's failure conditions, log it, update action status and retry.
-				} else if (a.believesyn(new Guard((GBelief) dact.getFail()), thetahd)) {
+				} else if (a.believesyn(new Guard((GLogicalFormula) dact.getFail()), thetahd)) {
 					// Do nothing, retry
 					dact.notExecuting();
 					// Log it
@@ -150,7 +150,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 					}
 					dact.notExecuting();
 					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionAbort));
-					//a.logAbort(dact);
+					a.log(dact, ActionLogEntry.actionAbort);
 					i.tlI(a);
 					i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);
 					thetahd.compose(thetaa);

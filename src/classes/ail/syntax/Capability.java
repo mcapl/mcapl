@@ -68,6 +68,15 @@ public class Capability extends Action implements Unifiable {
 		return new Capability(pre.clone(), ac, post.clone());
 	}
 
+	/**
+	 * Method for cloning existing capability and updating postconditions
+	 */
+
+	public Capability updatePost(GLogicalFormula newpc) {
+		Action ac = super.clone();
+		return new Capability(pre.clone(), ac, newpc);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)

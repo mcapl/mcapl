@@ -280,19 +280,21 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public VerifyMap<Action,Integer> actionAbortLog = new VerifyMap<Action,Integer>();
 	public VerifyMap<Action,Integer> actionFailureLog = new VerifyMap<Action,Integer>();
-	public void logAbort(Action a) {
-		if (actionAbortLog.containsKey(a)) {
+	public void logAbort(DurativeAction a) {
+/*		if (actionAbortLog.containsKey(a)) {
 			actionAbortLog.put(a, actionAbortLog.get(a) + 1);
 		} else {
 			actionAbortLog.put(a, 1);
-		}
+		}*/
+		al.add((DurativeAction) a, prebeliefs, getBB(), ActionLogEntry.actionAbort);
+
 	}
 	public void logFail(Action a) {
-		if (actionFailureLog.containsKey(a)) {
+/*		if (actionFailureLog.containsKey(a)) {
 			actionFailureLog.put(a, actionFailureLog.get(a) + 1);
 		} else {
 			actionFailureLog.put(a, 1);
-		}
+		}*/
 	}
 	
 	public void printLog(String s, VerifyMap<Action, Integer> log) {
@@ -313,8 +315,14 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	public BeliefBase prebeliefs = new BeliefBase();
 
 	public ActionLog getActionLog(){return al;}
+
 	public void setPreBB(){ prebeliefs = getBB();}
 
+	public void log(DurativeAction a, byte b){
+		//casting to a durative action might cause issues - this may need to change
+		al.add(a, prebeliefs, getBB(), b);
+
+	}
 	public void printActionLog() { System.out.println(getActionLog().toString()); }
 
 

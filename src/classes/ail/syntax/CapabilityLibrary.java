@@ -62,6 +62,11 @@ public class CapabilityLibrary implements Iterable<Capability> {
         }
 		
 	}
+
+	public void removeRelevant(Predicate cPred){
+		capMap.remove(cPred.getPredicateIndicator());
+		//System.out.print("Relevant capablities removed.\n");
+	}
 	
 	/**
 	 * An iterator of all the capabilities in the library.
@@ -164,4 +169,6 @@ public class CapabilityLibrary implements Iterable<Capability> {
 		return null;
 	}
 
+	public void remove(){
+	}
 }

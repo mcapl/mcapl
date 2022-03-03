@@ -104,17 +104,22 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 		Literal move04 = new Literal("move_to");
 		//move04.addTerm(new NumberTermImpl(0));
 		move04.addTerm(new NumberTermImpl(4));
+		Literal move00 = new Literal("move_to");
+		//move00.addTerm(new NumberTermImpl(0));
+		move04.addTerm(new NumberTermImpl(0));
 
-		DurativeAction move_to01 = new DurativeAction(new Action(move01, Action.normalAction), 2, 3, new GBelief(at01), new GBelief(at03));
-		DurativeAction move_to02 = new DurativeAction(new Action(move02, Action.normalAction), 5, 3, new GBelief(at02), new GBelief(at04));
-		DurativeAction move_to03 = new DurativeAction(new Action(move03, Action.normalAction), 5, 3, new GBelief(at03), new GBelief(at01));
-		DurativeAction move_to04 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(at04), new GBelief(at02));
+		DurativeAction move_to01 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(at01), new Guard(new GBelief(at02), Guard.GLogicalOp.or, new Guard(new GBelief(at03), Guard.GLogicalOp.or, new GBelief(at04))));
+		DurativeAction move_to02 = new DurativeAction(new Action(move02, Action.normalAction), 5, 1, new GBelief(at02), new Guard(new GBelief(at01), Guard.GLogicalOp.or, new Guard(new GBelief(at03), Guard.GLogicalOp.or, new GBelief(at04))));
+		DurativeAction move_to03 = new DurativeAction(new Action(move03, Action.normalAction), 5, 1, new GBelief(at03), new Guard(new GBelief(at01), Guard.GLogicalOp.or, new Guard(new GBelief(at02), Guard.GLogicalOp.or, new GBelief(at04))));
+		DurativeAction move_to04 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(at04), new Guard(new GBelief(at01), Guard.GLogicalOp.or, new Guard(new GBelief(at02), Guard.GLogicalOp.or, new GBelief(at03))));
+		DurativeAction move_to00 = new DurativeAction(new Action(move00, Action.normalAction), 2, 1, new GBelief(at00), new Guard(new GBelief(at01), Guard.GLogicalOp.or, new Guard(new GBelief(at02), Guard.GLogicalOp.or, new GBelief(at03))));
 
 		// Add capabilities to environment
 		capLibrary.add(move_to01);
 		capLibrary.add(move_to02);
 		capLibrary.add(move_to03);
 		capLibrary.add(move_to04);
+		capLibrary.add(move_to00);
 		
 		//RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		//this.setScheduler(scheduler);

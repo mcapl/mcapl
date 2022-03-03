@@ -86,6 +86,10 @@ public class Guard implements GLogicalFormula {
 	public Guard(GuardAtom<? extends Unifiable> g) {
 		add(g);
 	}
+ //
+	public Guard(GLogicalFormula g) {
+		add(g);
+	}
 
 	/**
 	 * Constructs a guard from a Guard Atom and a flag showing whether or not it 

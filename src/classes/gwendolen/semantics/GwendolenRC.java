@@ -129,6 +129,8 @@ public class GwendolenRC implements ReasoningCycle {
 		HandleGeneralAction rule15 = new HandleGeneralAction(excludedActions);
 		HandleSendAction rule15a = new HandleSendAction();
 		HandleNull rulehn = new HandleNull();
+
+		Learn rulel = new Learn();
 		
 		RCStage StageD = getStageD();
 		StageD.setRule(rule8);
@@ -144,11 +146,13 @@ public class GwendolenRC implements ReasoningCycle {
 		StageD.setRule(rulehwf);
 		StageD.setRule(rulehap);
 //		StageD.setRule(rulehac);
+		StageD.setRule(rulel);
+
 		StageD.setRule(rule15);
 		StageD.setRule(rule15a);
 		StageD.setRule(ruleiup);
 		StageD.setRule(rulehn);
-		
+
 		/* Stage E Rules */
 		
 		Perceive rule16 = new Perceive();

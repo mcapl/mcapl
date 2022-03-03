@@ -76,6 +76,8 @@ public class DurativeAction extends Capability {
     public int getThreshold(DurativeAction a){
         return a.threshold;
     }
+
+    public Predicate getActionPredicate(){ return super.getAction().toPredicate(); }
     
     public GLogicalFormula getSuccess() {
     	return getPre();

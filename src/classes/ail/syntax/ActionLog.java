@@ -27,35 +27,52 @@
 
 package ail.syntax;
 
+import ca.odell.glazedlists.impl.adt.CircularArrayList;
 import gov.nasa.jpf.annotation.FilterField;
+import org.apache.commons.collections15.buffer.CircularFifoBuffer;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ActionLog {
+   // ArrayList<ActionLogEntry> al = new ArrayList<>();
 
-    ArrayList<ActionLogEntry> al = new ArrayList<>();
+ ArrayList<ActionLogEntry> al = new ArrayList<ActionLogEntry>();
 
     /**
      * Number of entries.
      */
     @FilterField
-    private int size = 0;
+    private int sizelimit = 15;
 
     /**
-     * Getter for the number of entries.
+     * Setter for size limit of the action log
      *
-     * @return number of entries.
+     * Action Log size limit can be changed during execution, requiring a while loop for 'popping' logs to ensure the limit is corrected if changed.
      */
-    public int size() {
-        return size;
+    public void setSizeLimit(int i){
+        sizelimit = i;
+    }
+
+    /**
+     * Pops the log with index 0 in a loop until the size limit is met.
+     *
+     * Action Log size limit can be changed during execution, requiring a while loop for 'popping' logs to ensure the limit is corrected if changed.
+     */
+    public void pop() {
+        while (al.size() >= sizelimit) {
+            al.remove(0);
+        }
     }
 
     public void add(ActionLogEntry e) {
+        pop();
         al.add(e);
     }
 
     public void add(DurativeAction a, BeliefBase preb, BeliefBase postb, Byte s) {
         ActionLogEntry e = new ActionLogEntry(a, preb, postb, s);
+        pop();
         al.add(e);
     }
 
@@ -64,6 +81,7 @@ public class ActionLog {
      */
     public void clear() {
         al = new ArrayList<>();
+        sizelimit = 25;
     }
 
 
@@ -114,14 +132,44 @@ public class ActionLog {
         return entry;
     }
 
-    public ActionLog getLogsFor(ActionLogEntry actionLogEntry) {
-        ActionLog singleActionLog = null;
+    public ActionLog getLogsForAction(ActionLogEntry actionLogEntry) {
+        ActionLog singleActionLog = new ActionLog();
         for (ActionLogEntry entry : al) {
             if (entry.action == actionLogEntry.action) {
+                singleActionLog.add(entry);
+                if (entry.getActionOutcome() == ActionLogEntry.actionSucceeded) {
+                    singleActionLog.removeEntry(entry);
+                }
+            }
+        }
+        return singleActionLog;
+    }
+
+
+    public ActionLog getLogsFor(ActionLogEntry actionLogEntry) {
+        ActionLog singleActionLog = new ActionLog();
+        for (ActionLogEntry entry : al) {
+            if (entry == actionLogEntry) {
                 singleActionLog.add(entry);
             }
         }
         return singleActionLog;
+    }
+
+    /** get the logs for matching entries
+     *
+     * @param outcome
+     * @param actionLog
+     * @return action log containing only matching entries
+     */
+    public ActionLog getLogsFor(byte outcome, ActionLog actionLog){
+        ActionLog filteredLog = new ActionLog();
+        for (ActionLogEntry entry : actionLog.getArrayList()){
+            if (entry.getActionOutcome() == outcome){
+                filteredLog.add(entry);
+            }
+        }
+        return filteredLog;
     }
 
     /** get the action log as an array list
@@ -129,7 +177,11 @@ public class ActionLog {
      * @return al the action log as an arraylist
      */
     public ArrayList<ActionLogEntry> getArrayList(){
-        return al;
+        ArrayList arrayList = new ArrayList();
+        for (ActionLogEntry actionLogEntry: al){
+            arrayList.add(actionLogEntry);
+        }
+        return arrayList;
     }
     
     public void removeEntry(ActionLogEntry e){

@@ -22,9 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-//louise's file path
-//mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/Waypoints.gwen
-
 
 env = gwendolen.failuredetection.DurativeActionWaypointsEnv
 mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/Waypoints.gwen
