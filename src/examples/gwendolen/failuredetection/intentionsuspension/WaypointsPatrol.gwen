@@ -1,0 +1,46 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2013 Louise A. Dennis, and Michael Fisher
+// 
+// This file is part of the Engineering Autonomous Space Software (EASS) Library.
+// 
+// The EASS Library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// The EASS Library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with the EASS Library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: Rover
+
+:Initial Beliefs:
+at(0)
+
+:Initial Goals:
+
+gotowaypoint [perform]
+
+:Plans:
+
++!gotowaypoint [perform] : {True} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform], +!goto00 [perform], +!gotowaypoint [perform];
++!goto01 [perform] : {B at(0)} <- -at(0), move_to(1), +at(1);
++!goto02 [perform] : {B at(1)} <- -at(1), move_to(2), +at(2);
++!goto03 [perform] : {B at(2)} <- -at(2), move_to(3), +at(3);
++!goto04 [perform] : {B at(3)} <- -at(3), move_to(4), +at(4), +at_waypoint, printlogs;
++!goto00 [perform] : {B at(4)} <- -at(4), move_to(0), +at(0);
+
+
++at_waypoint : {True} <- print(at_collection_site), printlogs;

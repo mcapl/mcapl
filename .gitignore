@@ -33,3 +33,11 @@ a.out
 /.idea/uiDesigner.xml
 /.idea/workspace.xml
 /.idea/vcs.xml
+.classpath
+.gitignore
+/.idea/runConfigurations.xml
+mcapl.eml
+mcapl.iml
+/.idea*
+*.launch
+

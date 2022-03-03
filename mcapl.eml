@@ -41,6 +41,9 @@
 	<lib name="mapdbWrapper.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/mapdbWrapper.jar!/"/>
 	</lib>
+	<lib name="java_rosbridge_all.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/3rdparty/java_rosbridge_all.jar!/"/>
+	</lib>
 	<levels>
 		<level name="mcapl" value="project"/>
 	</levels>
