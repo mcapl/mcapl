@@ -22,22 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-GWENDOLEN
+//louise's file path
+//mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
 
-:name: Rover
 
-:Initial Beliefs:
-at(0)
+env = gwendolen.failuredetection.DurativeActionRouteEnv
+mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
 
-:Initial Goals:
-gotowaypoint [perform]
+//log.info = ail.mas.DefaultEnvironment
+//log.finest = gwendolen.failuredetection.DurativeActionRouteEnv
+//log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.RoutePatrol
+//log.info = ail.semantics.AILAgent
 
-:Plans:
-+!gotowaypoint [perform] : {True} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform], +!goto00 [perform], +!gotowaypoint [perform];
-+!goto01 [perform] : {B at(0)} <- -at(0), move_to(1), +at(1);
-+!goto02 [perform] : {B at(1)} <- -at(1), move_to(2), +at(2);
-+!goto03 [perform] : {B at(2)} <- -at(2), move_to(3), +at(3);
-+!goto04 [perform] : {B at(3)} <- -at(3), move_to(4), +at(4), +at_waypoint;
-+!goto00 [perform] : {B at(4)} <- -at(4), move_to(0), +at(0);
-
-+at_waypoint : {True} <- print(at_collection_site), printlogs;
+log.warning = ajpf.util.AJPFLogger

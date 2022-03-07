@@ -36,8 +36,8 @@ public class DurativeAction extends Capability {
      * @param a The action.
      * @param d The duration of the action.
      */
-    public DurativeAction(Action a, int d, int t, GLogicalFormula success, GLogicalFormula fail) {
-        super(success, a, fail);
+    public DurativeAction(Action a, int d, int t, GLogicalFormula pre, GLogicalFormula post) {
+        super(pre, a, post);
         // duration = Duration.ofSeconds(d);
         duration = d;
         threshold = t;
