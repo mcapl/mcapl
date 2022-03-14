@@ -58,8 +58,9 @@ public class GwendolenRC implements ReasoningCycle {
 	private GwendolenRCStage StageB = new GwendolenRCStage(1, "StageB");
 	private GwendolenRCStage StageC = new GwendolenRCStage(2, "StageC");
 	private GwendolenRCStage StageD = new GwendolenRCStage(3, "StageD");
-	private GwendolenRCStage StageE = new GwendolenRCStage(4, "StageE");
-	private GwendolenRCStage StageF = new GwendolenRCStage(5, "StageF");
+	private GwendolenRCStage StageD2 = new GwendolenRCStage(4, "StageD2");
+	private GwendolenRCStage StageE = new GwendolenRCStage(5, "StageE");
+	private GwendolenRCStage StageF = new GwendolenRCStage(6, "StageF");
 	/**
 	 * Flag indicating whether this is a point where the properties of the 
 	 * multi-agent system should be checked.
@@ -129,8 +130,6 @@ public class GwendolenRC implements ReasoningCycle {
 		HandleGeneralAction rule15 = new HandleGeneralAction(excludedActions);
 		HandleSendAction rule15a = new HandleSendAction();
 		HandleNull rulehn = new HandleNull();
-
-		Learn rulel = new Learn();
 		
 		RCStage StageD = getStageD();
 		StageD.setRule(rule8);
@@ -146,12 +145,19 @@ public class GwendolenRC implements ReasoningCycle {
 		StageD.setRule(rulehwf);
 		StageD.setRule(rulehap);
 //		StageD.setRule(rulehac);
-		StageD.setRule(rulel);
+
 
 		StageD.setRule(rule15);
 		StageD.setRule(rule15a);
 		StageD.setRule(ruleiup);
 		StageD.setRule(rulehn);
+
+		/* Stage D2 Rules */
+		Learn rulel = new Learn();
+
+		RCStage StageD2 = getStageD2();
+
+		StageD.setRule(rulel);
 
 		/* Stage E Rules */
 		
@@ -196,6 +202,8 @@ public class GwendolenRC implements ReasoningCycle {
 				setStopandCheck(true);
 			}
 			setStopandCheck(true);
+			currentstage = StageD2;
+		} else if (currentstage == StageD2) {
 			currentstage = StageE;
 		} else if (currentstage == StageE) {
 			currentstage = StageF;
@@ -238,6 +246,9 @@ public class GwendolenRC implements ReasoningCycle {
 	}
 	public RCStage getStageD() {
 		return StageD;
+	}
+	public RCStage getStageD2() {
+		return StageD2;
 	}
 	public RCStage getStageE() {
 		return StageE;

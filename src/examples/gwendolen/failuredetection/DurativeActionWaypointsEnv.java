@@ -106,7 +106,7 @@ public class DurativeActionWaypointsEnv extends DefaultEnvironment implements MC
 		move04.addTerm(new NumberTermImpl(4));
 		Literal move00 = new Literal("move_to");
 		//move00.addTerm(new NumberTermImpl(0));
-		move04.addTerm(new NumberTermImpl(0));
+		move00.addTerm(new NumberTermImpl(0));
 
 		DurativeAction move_to01 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(at01), new Guard(new GBelief(at02), Guard.GLogicalOp.or, new Guard(new GBelief(at03), Guard.GLogicalOp.or, new GBelief(at04))));
 		DurativeAction move_to02 = new DurativeAction(new Action(move02, Action.normalAction), 5, 1, new GBelief(at02), new Guard(new GBelief(at01), Guard.GLogicalOp.or, new Guard(new GBelief(at03), Guard.GLogicalOp.or, new GBelief(at04))));

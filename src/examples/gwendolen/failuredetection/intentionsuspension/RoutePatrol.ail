@@ -22,17 +22,17 @@
 //
 //----------------------------------------------------------------------------
 
-//louise's file path
+// --- Louise's file path ---
 //mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
 
-
+// --- Linux file paths ---
 env = gwendolen.failuredetection.DurativeActionRouteEnv
 mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
+// --- Logging ---
 //log.info = ail.mas.DefaultEnvironment
 //log.finest = gwendolen.failuredetection.DurativeActionRouteEnv
 //log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.RoutePatrol
-//log.info = ail.semantics.AILAgent
-
+log.info = ail.semantics.AILAgent
 log.warning = ajpf.util.AJPFLogger
