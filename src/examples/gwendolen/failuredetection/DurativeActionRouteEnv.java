@@ -31,6 +31,7 @@ import ail.syntax.*;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
+import ajpf.util.VerifyMap;
 import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.HashSet;
@@ -48,14 +49,14 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 
 	// temporarily required for clock
 	int seconds = 0;
-	int failureCount = 1;
+	int failureCount = 0;
 	protected boolean done = false;
 
 	// set robot start co-ords to (0,0)
-	//double robot1_x = 0;
+	double robot1_x = 0;
 	double robot1_y = 0;
 	
-	//double robot_dest_x = 0;
+	double robot_at_x = 0;
 	double robot_dest_y = 0;
 
 	UniformBoolChoice r;
@@ -84,6 +85,7 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		atW4.addTerm(new NumberTermImpl(4));
 
 		// --- MOVE ---
+		//to 0
 		Literal move1_0 = new Literal("move");
 		move1_0.addTerm(new NumberTermImpl(1));
 		move1_0.addTerm(new NumberTermImpl(0));
@@ -96,7 +98,7 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		Literal move4_0 = new Literal("move");
 		move4_0.addTerm(new NumberTermImpl(4));
 		move4_0.addTerm(new NumberTermImpl(0));
-
+		//to 1
 		Literal move0_1 = new Literal("move");
 		move0_1.addTerm(new NumberTermImpl(0));
 		move0_1.addTerm(new NumberTermImpl(1));
@@ -109,33 +111,71 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		Literal move4_1 = new Literal("move");
 		move4_1.addTerm(new NumberTermImpl(4));
 		move4_1.addTerm(new NumberTermImpl(1));
+		//to 2
+		Literal move0_2 = new Literal("move");
+		move0_2.addTerm(new NumberTermImpl(0));
+		move0_2.addTerm(new NumberTermImpl(2));
+		Literal move1_2 = new Literal("move");
+		move1_2.addTerm(new NumberTermImpl(1));
+		move1_2.addTerm(new NumberTermImpl(2));
+		Literal move3_2 = new Literal("move");
+		move3_2.addTerm(new NumberTermImpl(3));
+		move3_2.addTerm(new NumberTermImpl(2));
+		Literal move4_2 = new Literal("move");
+		move4_2.addTerm(new NumberTermImpl(4));
+		move4_2.addTerm(new NumberTermImpl(2));
+		//to 3
+		Literal move0_3 = new Literal("move");
+		move0_3.addTerm(new NumberTermImpl(0));
+		move0_3.addTerm(new NumberTermImpl(3));
+		Literal move1_3 = new Literal("move");
+		move1_3.addTerm(new NumberTermImpl(1));
+		move1_3.addTerm(new NumberTermImpl(3));
+		Literal move2_3 = new Literal("move");
+		move2_3.addTerm(new NumberTermImpl(2));
+		move2_3.addTerm(new NumberTermImpl(3));
+		Literal move4_3 = new Literal("move");
+		move4_3.addTerm(new NumberTermImpl(4));
+		move4_3.addTerm(new NumberTermImpl(3));
+		//to 4
+		Literal move0_4 = new Literal("move");
+		move0_4.addTerm(new NumberTermImpl(0));
+		move0_4.addTerm(new NumberTermImpl(4));
+		Literal move1_4 = new Literal("move");
+		move1_4.addTerm(new NumberTermImpl(1));
+		move1_4.addTerm(new NumberTermImpl(4));
+		Literal move2_4 = new Literal("move");
+		move2_4.addTerm(new NumberTermImpl(2));
+		move2_4.addTerm(new NumberTermImpl(4));
+		Literal move3_4 = new Literal("move");
+		move3_4.addTerm(new NumberTermImpl(3));
+		move3_4.addTerm(new NumberTermImpl(4));
 
 
+		DurativeAction moveW1W0 = new DurativeAction(new Action(move1_0, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW0)));
+		DurativeAction moveW2W0 = new DurativeAction(new Action(move2_0, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW0)));
+		DurativeAction moveW3W0 = new DurativeAction(new Action(move3_0, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW0)));
+		DurativeAction moveW4W0 = new DurativeAction(new Action(move4_0, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW0)));
 
-		DurativeAction moveW1W0 = new DurativeAction(new Action(move10, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW0)));
-		DurativeAction moveW2W0 = new DurativeAction(new Action(move20, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW0)));
-		DurativeAction moveW3W0 = new DurativeAction(new Action(move30, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW0)));
-		DurativeAction moveW4W0 = new DurativeAction(new Action(move40, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW0)));
+		DurativeAction moveW0W1 = new DurativeAction(new Action(move0_1, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW1)));
+		DurativeAction moveW2W1 = new DurativeAction(new Action(move2_1, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW1)));
+		DurativeAction moveW3W1 = new DurativeAction(new Action(move3_1, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW1)));
+		DurativeAction moveW4W1 = new DurativeAction(new Action(move4_1, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW1)));
 
-		DurativeAction moveW0W1 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW1)));
-		DurativeAction moveW2W1 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW1)));
-		DurativeAction moveW3W1 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW1)));
-		DurativeAction moveW4W1 = new DurativeAction(new Action(move01, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW1)));
+		DurativeAction moveW0W2 = new DurativeAction(new Action(move0_2, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW2)));
+		DurativeAction moveW1W2 = new DurativeAction(new Action(move1_2, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW2)));
+		DurativeAction moveW3W2 = new DurativeAction(new Action(move3_2, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW2)));
+		DurativeAction moveW4W2 = new DurativeAction(new Action(move4_2, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW2)));
 
-		DurativeAction moveW0W2 = new DurativeAction(new Action(move02, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW2)));
-		DurativeAction moveW1W2 = new DurativeAction(new Action(move02, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW2)));
-		DurativeAction moveW3W2 = new DurativeAction(new Action(move02, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW2)));
-		DurativeAction moveW4W2 = new DurativeAction(new Action(move02, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW2)));
+		DurativeAction moveW0W3 = new DurativeAction(new Action(move0_3, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW3)));
+		DurativeAction moveW1W3 = new DurativeAction(new Action(move1_3, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW3)));
+		DurativeAction moveW2W3 = new DurativeAction(new Action(move2_3, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW3)));
+		DurativeAction moveW4W3 = new DurativeAction(new Action(move4_3, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW3)));
 
-		DurativeAction moveW0W3 = new DurativeAction(new Action(move03, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW3)));
-		DurativeAction moveW1W3 = new DurativeAction(new Action(move03, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW3)));
-		DurativeAction moveW2W3 = new DurativeAction(new Action(move03, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW3)));
-		DurativeAction moveW4W3 = new DurativeAction(new Action(move03, Action.normalAction), 2, 1, new GBelief(atW4), new Guard(new GBelief(atW3)));
-
-		DurativeAction moveW0W4 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW4)));
-		DurativeAction moveW1W4 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW4)));
-		DurativeAction moveW2W4 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW4)));
-		DurativeAction moveW3W4 = new DurativeAction(new Action(move04, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW4)));
+		DurativeAction moveW0W4 = new DurativeAction(new Action(move0_4, Action.normalAction), 2, 1, new GBelief(atW0), new Guard(new GBelief(atW4)));
+		DurativeAction moveW1W4 = new DurativeAction(new Action(move1_4, Action.normalAction), 2, 1, new GBelief(atW1), new Guard(new GBelief(atW4)));
+		DurativeAction moveW2W4 = new DurativeAction(new Action(move2_4, Action.normalAction), 2, 1, new GBelief(atW2), new Guard(new GBelief(atW4)));
+		DurativeAction moveW3W4 = new DurativeAction(new Action(move3_4, Action.normalAction), 2, 1, new GBelief(atW3), new Guard(new GBelief(atW4)));
 
 
 		// Add capabilities to environment
@@ -174,48 +214,38 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 	}
 
 	//public void robotMovingTo(double x, double y) {
-		public void robotMovingTo(double y) {
+		public void robotMovingTo(double x, double y) {
 		// This should be set up properly using the Choice class but no time...
 		Random r = new Random();
 		double f = r.nextDouble();
 		if (true) {
 			//if (f < 0.7) {
-			Predicate at = new Predicate("at");
-			//at.addTerm(new NumberTermImpl(x));
-			at.addTerm(new NumberTermImpl(y));
+			Predicate new_position = new Predicate("at");
+			new_position.addTerm(new NumberTermImpl(y));
 	
-			Predicate old_pos = new Predicate("at");
-	
-			//double robot_x;
-			double robot_y;
-			//double new_robot_x;
-			double new_robot_y;
-	
-			//robot_x = robot1_x;
-			robot_y = robot1_y;
-			//robot1_x = x;
-			robot1_y = y;
-			//new_robot_x = x;
-			new_robot_y = y;
-	
-			//old_pos.addTerm(new NumberTermImpl(robot_x));
-			old_pos.addTerm(new NumberTermImpl(robot_y));
-	
-			removePercept(old_pos);
-			addPercept(at);
+			Predicate old_position = new Predicate("at");
+			old_position.addTerm(new NumberTermImpl(x));
+
+			double origin;
+			double destination;
+			origin = x;
+			destination = y;
+			robot1_x = origin;
+			robot1_y = destination;
+
+			removePercept(old_position);
+			addPercept(new_position);
 		} else if (false) {
 		//} else if (f < 1.0) {
-			Predicate at = new Predicate("at");
-			//at.addTerm(new NumberTermImpl(0));
-			at.addTerm(new NumberTermImpl(3));
-			Predicate old_pos = new Predicate("at");
-			//old_pos.addTerm(new NumberTermImpl(robot1_x));
-			old_pos.addTerm(new NumberTermImpl(robot1_y));
-	
-			//robot1_x = 0;
+			Predicate new_position = new Predicate("at");
+			new_position.addTerm(new NumberTermImpl(3));
+			Predicate old_position = new Predicate("at");
+			old_position.addTerm(new NumberTermImpl(x));
+
+			robot1_x = x;
 			robot1_y = 3;
-			removePercept(old_pos);
-			addPercept(at);
+			removePercept(old_position);
+			addPercept(new_position);
 		}
 	}
 
@@ -228,13 +258,15 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		//AJPFLogger.info(logname, act.getFunctor());
 		if (act.getFunctor().equals("move")) {
 			updateTimePassed(0);
+			double x = ((NumberTerm) act.getTerm(0)).solve();
 			double y = ((NumberTerm) act.getTerm(1)).solve();
+			robot_at_x = x;
 			robot_dest_y = y;
-			robotMovingTo(y);
+			robotMovingTo(x, y);
 
 		} else if (act.getFunctor().equals("abort")) {
 			updateTimePassed(0);
-			//robot_dest_x = 0;
+			robot_at_x = 0;
 			robot_dest_y = 0;
 			System.err.println("ABORTING ACTION - TIMED OUT");
 
@@ -291,7 +323,7 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 			updateTimePassed(timepassed);
 			
 			//robotMovingTo(robot_dest_x, robot_dest_y);
-			robotMovingTo(robot_dest_y);
+			robotMovingTo(robot_at_x, robot_dest_y);
 		} else {
 			addPercept(new Literal("something"));
 		}

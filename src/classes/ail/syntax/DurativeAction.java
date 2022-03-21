@@ -80,7 +80,7 @@ public class DurativeAction extends Capability {
     public Predicate getActionPredicate(){ return super.getAction().toPredicate(); }
     
     public GLogicalFormula getSuccess() {
-    	return getPre();
+    	return getPost();
     }
     
     public GLogicalFormula getFail() {
