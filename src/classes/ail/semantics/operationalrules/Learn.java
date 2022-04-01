@@ -30,9 +30,6 @@ import ail.semantics.OSRule;
 import ail.syntax.*;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
-import com.google.common.collect.Sets;
-import org.apache.commons.collections15.buffer.CircularFifoBuffer;
-
 import java.util.*;
 
 

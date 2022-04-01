@@ -34,6 +34,6 @@ mas.builder = gwendolen.GwendolenMASBuilder
 //log.info = ail.mas.DefaultEnvironment
 //log.finest = gwendolen.failuredetection.DurativeActionRouteEnv
 //log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.RoutePatrol
-//log.fine = ail.semantics.AILAgent
+log.fine = ail.semantics.AILAgent
 log.info = ail.semantics.AILAgent
 log.warning = ajpf.util.AJPFLogger

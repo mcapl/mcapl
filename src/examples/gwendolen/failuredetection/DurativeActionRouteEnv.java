@@ -208,7 +208,10 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		//RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		//this.setScheduler(scheduler);
 		//addPerceptListener(scheduler);
-		
+
+		// Add percept for start location (fixes annotation issue for initial beliefs)
+		addPercept(atW0);
+
 		getScheduler().addJobber(this);
 
 	}
@@ -218,8 +221,8 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		// This should be set up properly using the Choice class but no time...
 		Random r = new Random();
 		double f = r.nextDouble();
-		if (true) {
-			//if (f < 0.7) {
+		//if (true) {
+			if (f < 0.7) {
 			Predicate new_position = new Predicate("at");
 			new_position.addTerm(new NumberTermImpl(y));
 	
@@ -235,15 +238,15 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 
 			removePercept(old_position);
 			addPercept(new_position);
-		} else if (false) {
-		//} else if (f < 1.0) {
+		//;} else if (false) {
+		} else if (f < 1.0) {
 			Predicate new_position = new Predicate("at");
-			new_position.addTerm(new NumberTermImpl(3));
+			new_position.addTerm(new NumberTermImpl(0));
 			Predicate old_position = new Predicate("at");
 			old_position.addTerm(new NumberTermImpl(x));
 
 			robot1_x = x;
-			robot1_y = 3;
+			robot1_y = 0;
 			removePercept(old_position);
 			addPercept(new_position);
 		}

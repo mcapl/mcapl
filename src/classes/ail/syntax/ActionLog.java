@@ -29,9 +29,7 @@ package ail.syntax;
 
 import ca.odell.glazedlists.impl.adt.CircularArrayList;
 import gov.nasa.jpf.annotation.FilterField;
-import org.apache.commons.collections15.buffer.CircularFifoBuffer;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ActionLog {

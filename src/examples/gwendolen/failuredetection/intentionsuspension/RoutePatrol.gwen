@@ -26,36 +26,35 @@ GWENDOLEN
 :name: Rover
 
 :Initial Beliefs:
-at(0)
 
 :Initial Goals:
 routepatrol [perform]
 
 :Plans:
 +!routepatrol [perform] : {B at(0)} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform], +!goto00 [perform], +!printlogs [perform];
-+!printlogs [perform] : {B at(0)} <- printlogs, +!routepatrol [perform];
++!printlogs [perform] : {True} <- printlogs, +!routepatrol [perform];
 
 +!goto00 [perform] : {B at(1)} <- move(1,0);
 +!goto00 [perform] : {B at(2)} <- move(2,0);
 +!goto00 [perform] : {B at(3)} <- move(3,0);
 +!goto00 [perform] : {B at(4)} <- move(4,0);
 
-+!goto01 [perform] : {B at(0)} <- move(0,1), +at(1);
-+!goto01 [perform] : {B at(2)} <- move(2,1), +at(1);
-+!goto01 [perform] : {B at(3)} <- move(3,1), +at(1);
-+!goto01 [perform] : {B at(4)} <- move(4,1), +at(1);
++!goto01 [perform] : {B at(0)} <- move(0,1);
++!goto01 [perform] : {B at(2)} <- move(2,1);
++!goto01 [perform] : {B at(3)} <- move(3,1);
++!goto01 [perform] : {B at(4)} <- move(4,1);
 
-+!goto02 [perform] : {B at(0)} <- move(0,2), +at(2);
-+!goto02 [perform] : {B at(1)} <- move(1,2), +at(2);
-+!goto02 [perform] : {B at(3)} <- move(3,2), +at(2);
-+!goto02 [perform] : {B at(4)} <- move(4,2), +at(2);
++!goto02 [perform] : {B at(0)} <- move(0,2);
++!goto02 [perform] : {B at(1)} <- move(1,2);
++!goto02 [perform] : {B at(3)} <- move(3,2);
++!goto02 [perform] : {B at(4)} <- move(4,2);
 
-+!goto03 [perform] : {B at(0)} <- move(0,3), +at(3);
-+!goto03 [perform] : {B at(1)} <- move(1,3), +at(3);
-+!goto03 [perform] : {B at(2)} <- move(2,3), +at(3);
-+!goto03 [perform] : {B at(4)} <- move(4,3), +at(3);
++!goto03 [perform] : {B at(0)} <- move(0,3);
++!goto03 [perform] : {B at(1)} <- move(1,3);
++!goto03 [perform] : {B at(2)} <- move(2,3);
++!goto03 [perform] : {B at(4)} <- move(4,3);
 
-+!goto04 [perform] : {B at(0)} <- move(0,4), +at(4);
-+!goto04 [perform] : {B at(1)} <- move(1,4), +at(4);
-+!goto04 [perform] : {B at(2)} <- move(2,4), +at(4);
-+!goto04 [perform] : {B at(3)} <- move(3,4), +at(4);
++!goto04 [perform] : {B at(0)} <- move(0,4);
++!goto04 [perform] : {B at(1)} <- move(1,4);
++!goto04 [perform] : {B at(2)} <- move(2,4);
++!goto04 [perform] : {B at(3)} <- move(3,4);
