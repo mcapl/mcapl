@@ -32,8 +32,6 @@ import ajpf.psl.ast.Abstract_MCAPLPredicate;
 import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ajpf.psl.ast.Abstract_TermImpl;
-import ajpf.psl.parser.LogicalFmlasBaseVisitor;
-import ajpf.psl.parser.LogicalFmlasParser;
 
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 
@@ -88,15 +86,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return visitArithexpr(ctx.a);
 		}
 	}
-		
-	/* var 	returns [Abstract_VarTerm v]:	VAR {
-		if (variables.containsKey($VAR.getText())) {
-			$v = variables.get($VAR.getText());
-			} else {
-			$v = new Abstract_VarTerm($VAR.getText());
-			variables.put($VAR.getText(), $v);
-			}
-		}; */
+
 	@Override public Object visitVar( LogicalFmlasParser.VarContext ctx) {
 		if (ctx.VAR() != null) {
 			System.err.println("Error: Should be no variables");

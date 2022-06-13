@@ -32,222 +32,74 @@ gwendolenagents : GWENDOLEN (g=gwendolenagent)+;
 // Gwendolen Agent stuff
 gwendolenagent :  (GWENDOLEN?) 
 	NAME w=word 
-	BELIEFS (l=literal )*
-	(BELIEFRULES (r=brule )*)?
-	GOALS (gl=goal )*
+	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
+	BELIEFS ((bs=BELIEF_BLOCK)? IB_NEWLINE)*
+	// RR_BLOCKS should be rulelists from LogicalFmlas grammar
+	(BELIEFRULES (RR_NEWLINE)* (RR_BLOCK RR_NEWLINE) ((RR_BLOCK)? RR_NEWLINE)* )? 
+	(GOAL_RR | GOAL_IB) (GL_NEWLINE)* (gs=GOAL_BLOCK SQOPEN (ACHIVEGOAL | PERFORMGOAL) SQCLOSE GL_NEWLINE) ((GOAL_BLOCK)? GL_NEWLINE)*
 	PLANS (p=plan )*;
 	
 
-guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
-				GOAL gl=goal {$g = new Abstract_Goal($gl.g);} |
-				SENT OPEN {Abstract_StringTerm an1=agentname;} (s=agentnameterm {an1 = s;}) 
-				                        COMMA {Abstract_StringTerm agn = agentname;} (an2=agentnameterm 
-					COMMA {agn = an2;})? p=performative 
-					COMMA t=pred CLOSE {$g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, $p.b, $t.t);} |
-				eq = equation {$g = $eq.eq;} |
-				TRUE {$g = new Abstract_GBelief();} );
-				
+plan : e=event  
+		COLON CURLYOPEN  (NOT )? gb=guard_atom 
+		(COMMA  (NOT )? gb=guard_atom )* CURLYCLOSE (RULEARROW
+		d=deed  (COMMA d=deed )*)? 
+		SEMI ;
 
-goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
-			PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
-plan returns [Abstract_GPlan p]
-	: e=event  {ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>(); Abstract_Guard g = new Abstract_Guard();} 
-		COLON CURLYOPEN {boolean gneg=true;} (NOT {gneg=false;})? gb=guard_atom {g.add($gb.g, gneg);} 
-		(COMMA {gneg=true;} (NOT {gneg=false;})? gb=guard_atom {g.add($gb.g, gneg);})* CURLYCLOSE (RULEARROW
-	d=deed {deeds.add($d.d);} (COMMA d=deed {deeds.add($d.d);})*)? 
-	SEMI {$p = new Abstract_GPlan($e.e, g, deeds); $p.reverseBody(); variables.clear();};
+
+guard_atom  : (BELIEVE l=fof_expr |
+				GOAL gl=goal  |
+				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=pred CLOSE  |
+				eq = equation  |
+				TRUE  );
+				
 	
-event returns [Abstract_Event e] : (PLUS (RECEIVED OPEN p=performative COMMA t=pred CLOSE 
-					{Abstract_GMessage message = new Abstract_GMessage(new Abstract_VarTerm("From"), 
-						new Abstract_VarTerm("To"), $p.b, $t.t); 
-						$e = new Abstract_Event(Abstract_Event.AILAddition, 
-						Abstract_Event.AILReceived, message);}|
-				(l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILBel, $l.l);} |
-				SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILAddition, $g.g);}) |
-				ADD_CONTENT l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILContent, $l.l);} |
-				ADD_CONTEXT l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILContext, $l.l);}
+event : (PLUS (RECEIVED OPEN p=performative COMMA t=pred CLOSE |
+				(l=fof_expr  | SHRIEK g=goal ) |
+				ADD_CONTENT l=fof_expr  |
+				ADD_CONTEXT l=fof_expr 
 				) |
-			   MINUS (l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, $l.l);} |
-				SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILDeletion, $g.g);} |
-				ADD_CONTENT l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILContent, $l.l);} |
-				ADD_CONTEXT l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILContext, $l.l);}
+			   MINUS (l=fof_expr  |
+				SHRIEK g=goal |
+				ADD_CONTENT l=fof_expr  |
+				ADD_CONTEXT l=fof_expr 
 				));
 
-performative returns [int b] : (TELL {$b=1;} | PERFORM {$b=2;} | ACHIEVE {$b = 3;} | TELLHOW {$b = 4;} | CONSTRAINT {$b = 5;});
+performative  : (TELL  | PERFORM  | ACHIEVE| TELLHOW | CONSTRAINT );
 								
-deed returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
-				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
-				ADD_CONTENT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContent, $l.l);} |
-				ADD_CONTEXT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContext, $l.l);} |
-				ADD_PLAN p=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILPlan, $p.l);} |
-				ADD_CONSTRAINT c=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILConstraint, $c.l);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}) |
-			   MINUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, $l.l);} |
-				SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, $g.g);} |
-				ADD_CONTENT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILContent, $l.l);} |
-				ADD_CONTEXT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILContext, $l.l);} |
-				LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);}
+deed  : (((PLUS (l=fof_expr  | SHRIEK g=goal  |
+				ADD_CONTENT l=fof_expr  |
+				ADD_CONTEXT l=fof_expr  |
+				ADD_PLAN p=fof_expr |
+				ADD_CONSTRAINT c=fof_expr |
+				LOCK ) |
+		 MINUS (l=fof_expr  | SHRIEK g=goal |
+				ADD_CONTENT l=fof_expr  |
+				ADD_CONTEXT l=fof_expr  |
+				LOCK
 				)) |
-				a=action {$d = new Abstract_Deed($a.a);}) |
-				wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);}
+				a=action  |
+				wf=waitfor 
 				)
 				;
 					
-brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
+waitfor  :  MULT l=fof_expr ;
 
-logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
-               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
-notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SHRIEK {$f = new PrologCut();} |
-												  SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
-                                                  NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
-                                                  SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
-                                                                              	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
-subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
-	
+action  : 
+	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=pred CLOSE ) | 
+	t=pred;
 
-waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;};
 
-action returns [Abstract_Action a] : 
-	(SEND OPEN an=literal COMMA p=performative COMMA t=pred CLOSE {$a = new Abstract_SendAction($an.l, $p.b, $t.t);}) | 
-	t=pred {$a = new Abstract_Action($t.t, Abstract_Action.normalAction);};
-
-GWENDOLEN	:{curly_nesting == 0}?=>'GWENDOLEN' {gwendolen = true;};
-
-GOALS	:	':Initial Goals:' {belief_rules = 0;};
-BELIEFS	:	':Initial Beliefs:';
-BELIEFRULES 
-	:	':Reasoning Rules:' {belief_rules = 1;};
-PLANS	:	':Plans:';
-NAME	:	':name:';
-
-SEND	:	'.send';
-RECEIVED:	{gwendolen}?=> '.received';
-BELIEVE	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('B' | '.B') ;
-GOAL	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('G' | '.G') ;
-IN_CONTENT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('N') ;
-IN_CONTEXT	:	{curly_nesting > 0 && plain_nesting == 0}?=> ('X') ;
-SENT	:	{curly_nesting > 0 && plain_nesting == 0|| belief_rules==1}?=> '.sent';
-LOCK	:	'.lock';
-ADD_PLAN	:	'.plan';
-ADD_CONSTRAINT	: '.constraint';
-ADD_CONTENT
-	:	'.n';
-ADD_CONTEXT	:	'.x';
-
-TELL	:	':tell';
-PERFORM :	':perform';
-ACHIEVE :	':achieve';
-TELLHOW	:	':how';
-CONSTRAINT 
-	:	':constrain';
-
-ACHIEVEGOAL	: {sq_nesting > 0}?=> 'achieve';
-PERFORMGOAL	: {sq_nesting > 0}?=> 'perform';
-BRULEARROW 
-	:	':-';
-RULEARROW :	'<-';
-
-TRUE	:	{curly_nesting > 0 && plain_nesting == 0}?=> 'True';
 
 // General AIL Parsing stuff
 
-environment returns [String env] : w=classpath {$env = $w.s;};
-classpath returns [String s] : w=word {$s = $w.s;} (POINT w1=word {$s+="."; $s+=$w1.s;})+;                                                                                     
-word returns [String s] : (CONST {$s=$CONST.getText();} | VAR {$s=$VAR.getText();});                                                                                     
+environment : w=classpath;
+classpath : w=word (POINT w1=word )+;                                                                                     
+word  : (CONST  | VAR );                                                                                     
 
-agentnameterm returns [Abstract_StringTerm s] : CONST {$s = new Abstract_StringTermImpl($CONST.getText());} | v=var {$s = $v.v;};
+agentnameterm  : CONST  | v=var ;
 
-// littest returns [Literal l]: LITTEST literal;
-literal returns [Abstract_Literal l]:  (TRUE {$l = new Abstract_Literal(Abstract_Literal.LTrue);} | 
-				NOT nt=pred {
-				if ($nt.t instanceof Abstract_VarTerm) 
-					{$l = (Abstract_VarTerm) $nt.t; $l.setNegated(false);}
-					else { $l = new Abstract_Literal(Abstract_Literal.LNeg, new Abstract_Pred($nt.t));}}) | 
-				t=pred {if ($t.t instanceof Abstract_VarTerm) 
-				            {$l = (Abstract_VarTerm) $t.t;} 
-				            else {$l = new Abstract_Literal(Abstract_Literal.LPos, new Abstract_Pred($t.t));}};
-
-pred 	returns [Abstract_Predicate t]:	v=var {$t = $v.v;}| f=function {$t = $f.f;};
-function returns [Abstract_Predicate f]: CONST {$f = new Abstract_Predicate($CONST.getText());} (OPEN terms[$f] CLOSE)?;
-
-terms[Abstract_Predicate f] : t=term {$f.addTerm($t.t);} (COMMA terms[$f])? ;
-term	returns [Abstract_Term t]:  a = atom {$t = $a.t;} | 
-	s = stringterm {$t = $s.s;} | 
-	f=function {$t = $f.f;} |
-	l = listterm {$t = $l.l;};
-
-atom	returns [Abstract_NumberTerm t]	:	n = numberstring {$t = new Abstract_NumberTermImpl($n.s);}| 
-					v=var {$t = $v.v;} | OPEN a=arithexpr CLOSE {$t = $a.t;};
-
-stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE  STRING DOUBLEQUOTE {		 
-                   $s = new Abstract_StringTermImpl($STRING.getText());};
-                   
-listterm returns [Abstract_ListTerm l] : {$l = new Abstract_ListTermImpl();} SQOPEN (hl=listheads {$l.addAll($hl.tl);} (BAR v=var {$l.addTail($v.v);})?)? SQCLOSE; 
-
-listheads returns [ArrayList<Abstract_Term> tl]: t1 = term {$tl = new ArrayList<Abstract_Term>(); $tl.add($t1.t);} (COMMA tl2= term {$tl.add($tl2.t);})*;
+fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 
+	      | SQOPEN fof_expr (COMMASEP fof_expr)* SQCLOSE );
 
 
-var 	returns [Abstract_VarTerm v]:	(VAR {
-	if (variables.containsKey($VAR.getText())) {
-		$v = variables.get($VAR.getText());
-		} else {
-		$v = new Abstract_VarTerm($VAR.getText());
-		variables.put($VAR.getText(), $v);
-		}
-	} | UNNAMEDVAR {$v = new Abstract_UnnamedVar();});
-
-numberstring returns [String s] :	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}
-					(POINT {$s += ".";} n2=NUMBER {$s += $n2.getText();})?);
-equation returns[Abstract_Equation eq] : a1=arithexpr oper=eqoper a2=arithexpr  {$eq = new Abstract_Equation($a1.t, $oper.oper, $a2.t);};
-eqoper returns [int oper] : LESS {$oper=Abstract_Equation.less;} | EQ {$oper=Abstract_Equation.equal;};
-
-arithexpr returns [Abstract_NumberTerm t]	:	m=multexpr {$t = $m.t;} ( oper=addoper m1=multexpr {$t = new Abstract_ArithExpr($m.t, $oper.oper, $m1.t);})?;
-multexpr returns [Abstract_NumberTerm t]	:	a=atom {$t = $a.t;} (oper=multoper a1=atom {$t = new Abstract_ArithExpr($a.t, $oper.oper, $a1.t);})?;
-
-addoper	returns [int oper] :	(PLUS {$oper=Abstract_ArithExpr.plus;}| MINUS {$oper=Abstract_ArithExpr.minus;});
-multoper returns [int oper] : (MULT {$oper=Abstract_ArithExpr.times;} | DIV {$oper=Abstract_ArithExpr.div;} | MOD {$oper=Abstract_ArithExpr.mod;});
-
-// General AIL Lexing stuff
-COMMENT
-    : '/*' .* '*/' {$channel=HIDDEN;}
-    ;
-LINE_COMMENT
-    : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    ;
-NEWLINE:'\r'? '\n' {skip();} ;
-WS  :  {!stringterm}?=>(' '|'\t')+ {skip();} ;
-
-
-OPEN	: 	'(' {plain_nesting++;};
-CLOSE	:	')' {plain_nesting--;};
-SQOPEN	:	'[' {sq_nesting++;};
-SQCLOSE	:	']' {sq_nesting--;};
-CURLYOPEN	: '{' {curly_nesting++;};
-CURLYCLOSE	: '}' {curly_nesting--;};
-DOUBLEQUOTE
-	:	'"' {if (stringterm) {stringterm = false;} else {stringterm = true;}};
-NOT	:	'~';
-
-STRING	:	{stringterm}?=> ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|' '|'.')+;
-CONST 	: 	{!stringterm}?=>'a'..'z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-VAR	:	{!stringterm}?=>'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NUMBER	:	{!stringterm}?=>'0'..'9' ('0'..'9')*;
-UNNAMEDVAR
-	:	{!stringterm}?=>'_';
-
-
-LESS	:	'<';
-EQ	: 	'==';
-POINT	:	{!stringterm}?=>'.';
-MULT	:	'*';
-PLUS	:	'+';
-MINUS	:	'-';
-DIV	:	'/';
-MOD	:	'%';
-
-SHRIEK	:	'!';
-COMMA	:	',';
-SEMI	:	';';
-COLON	:	':';
-QUERY	:	'?';
-BAR	:	'|';
