@@ -65,7 +65,7 @@ PERFORMGOAL	:  'perform';
 SQOPEN : '[';
 SQCLOSE : ']';
 
-mode PLANS:
+mode PLANS_MODE;
 SEND	:	'.send';
 RECEIVED:	'.received';
 BELIEVE	:	('B' | '.B') ;
@@ -79,6 +79,11 @@ ADD_CONSTRAINT	: '.constraint';
 ADD_CONTENT
 	:	'.n';
 ADD_CONTEXT	:	'.x';
+
+ACHIEVEGOAL_PL	: 'achieve';
+PERFORMGOAL_PL	:  'perform';
+SQOPEN_PL : '[';
+SQCLOSE_PL : ']';
 
 TELL	:	':tell';
 PERFORM :	':perform';

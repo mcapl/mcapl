@@ -49,12 +49,13 @@ plan : e=event
 
 guard_atom  : (BELIEVE l=fof_expr |
 				GOAL gl=goal  |
-				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=pred CLOSE  |
-				eq = equation  |
+				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=fof_expr CLOSE  |
+				eq = fof_expr  |
 				TRUE  );
 				
+goal: gl=fof_expr SQOPEN_PL (ACHIEVEGOAL_PL | PERFORMGOAL_PL) SQCLOSE_PL;	
 	
-event : (PLUS (RECEIVED OPEN p=performative COMMA t=pred CLOSE |
+event : (PLUS (RECEIVED OPEN p=performative COMMA t=fof_expr CLOSE |
 				(l=fof_expr  | SHRIEK g=goal ) |
 				ADD_CONTENT l=fof_expr  |
 				ADD_CONTEXT l=fof_expr 
@@ -67,7 +68,7 @@ event : (PLUS (RECEIVED OPEN p=performative COMMA t=pred CLOSE |
 
 performative  : (TELL  | PERFORM  | ACHIEVE| TELLHOW | CONSTRAINT );
 								
-deed  : (((PLUS (l=fof_expr  | SHRIEK g=goal  |
+deed  : ((PLUS (l=fof_expr  | SHRIEK g=goal  |
 				ADD_CONTENT l=fof_expr  |
 				ADD_CONTEXT l=fof_expr  |
 				ADD_PLAN p=fof_expr |
@@ -86,8 +87,8 @@ deed  : (((PLUS (l=fof_expr  | SHRIEK g=goal  |
 waitfor  :  MULT l=fof_expr ;
 
 action  : 
-	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=pred CLOSE ) | 
-	t=pred;
+	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 
+	t=fof_expr;
 
 
 
@@ -97,7 +98,7 @@ environment : w=classpath;
 classpath : w=word (POINT w1=word )+;                                                                                     
 word  : (CONST  | VAR );                                                                                     
 
-agentnameterm  : CONST  | v=var ;
+agentnameterm  : CONST  | v=VAR ;
 
 fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 
 	      | SQOPEN fof_expr (COMMASEP fof_expr)* SQCLOSE );
