@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
-// Rafael H. Bordini.
+// Copyright (C) 2022 Louise A. Dennis
 // 
 // This file is part of Gwendolen
 //
@@ -24,53 +23,19 @@
 
 grammar Gwendolen;
 
-options {
-	k = 5;
-	}
-
-@header {
-package gwendolen.parser;
-
-import ail.syntax.ast.*;
-import gwendolen.syntax.ast.*;
-import java.util.HashMap;
-}
-
-@members {
-	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-	private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
-	}
-
-@lexer::header {
-package gwendolen.parser;
-}
-	
-@lexer::members {
-    public int plain_nesting = 0;
-    public int sq_nesting = 0;
-    public int curly_nesting = 0;
-    public boolean stringterm = false;
-    public boolean gwendolen = true;
-    public int belief_rules = 0;
-}
 
 // Mas involving Gwendolen Agents
-mas returns [Abstract_MAS mas] : {$mas = new Abstract_MAS();} 
-	glist=gwendolenagents {$mas.setAgs($glist.gags);};
+mas  : glist=gwendolenagents;
 
-gwendolenagents returns[ArrayList<Abstract_GwendolenAgent> gags]: GWENDOLEN 
-	{gags=new ArrayList<Abstract_GwendolenAgent>();} 
-	(g=gwendolenagent {gags.add($g.g);})+;
+gwendolenagents : GWENDOLEN (g=gwendolenagent)+;
 
 // Gwendolen Agent stuff
-gwendolenagent returns [Abstract_GwendolenAgent g] : 
-        (GWENDOLEN?) 
-	NAME w=word {try {$g = new Abstract_GwendolenAgent($w.s);} 
-		catch (Exception e) {System.err.println(e); agentname = new Abstract_StringTermImpl($w.s);}}
-	BELIEFS (l=literal {$g.addInitialBel($l.l);})*
-	(BELIEFRULES (r=brule {$g.addRule($r.r);})*)?
-	GOALS (gl=goal {$g.addInitialGoal($gl.g);})*
-	PLANS (p=plan {try {$g.addPlan($p.p);} catch (Exception e) {System.err.println(e);}})*;
+gwendolenagent :  (GWENDOLEN?) 
+	NAME w=word 
+	BELIEFS (l=literal )*
+	(BELIEFRULES (r=brule )*)?
+	GOALS (gl=goal )*
+	PLANS (p=plan )*;
 	
 
 guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new Abstract_GBelief($l.l);} |
