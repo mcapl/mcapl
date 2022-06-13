@@ -747,10 +747,19 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
     	}
     	List<VarTerm> vars = new ArrayList<VarTerm>();
     	for (VarTerm v: function.keySet()) {
+    		Term t = function.get(v);
+    		varnames.addAll(t.getVarNames());
+  
+    	}
+    	
+    	for (VarTerm v: function.keySet()) {
     		if (! varnames.contains(v.getFunctor())) {
     			vars.add(v);
     		}
     	}
+    	
+    	
+    	
     	for (VarTerm v1: vars) {
     		function.remove(v1);
     	}
@@ -761,6 +770,12 @@ public class Unifier implements Cloneable, Comparable<Unifier> {
      * @param varnames
      */
     public void pruneRedundantNames(Set<String> varnames) {
+    	for (VarTerm v: function.keySet()) {
+    		Term t = function.get(v);
+    		varnames.addAll(t.getVarNames());
+  
+    	}
+    	
     	List<VarTerm> vars = new ArrayList<VarTerm>();
     	for (VarTerm v: function.keySet()) {
     		if (! varnames.contains(v.getFunctor())) {
