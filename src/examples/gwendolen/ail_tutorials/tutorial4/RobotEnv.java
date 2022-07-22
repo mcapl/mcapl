@@ -53,14 +53,13 @@ public class RobotEnv extends DefaultEnvironment {
 	@FilterField
 	UniformBoolChoice random;
 	boolean canseehumanr = false;
-	
+
 	/**
 	 * Constructor.
 	 */
 	public RobotEnv() {
 		super();
 	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#getPercepts(java.lang.String, boolean)
@@ -89,7 +88,6 @@ public class RobotEnv extends DefaultEnvironment {
 	   	Unifier theta = new Unifier();	   	
 	   	change = true;
 	   	super.executeAction(agName, act);
-	   	 
     	return theta;
     }
    

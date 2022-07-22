@@ -26,8 +26,13 @@
 //mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
 
 // --- Linux file paths ---
+//env = gwendolen.failuredetection.DurativeActionRouteEnv
+//mas.file = /src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
+//mas.builder = gwendolen.GwendolenMASBuilder
+
+// --- Mac file paths ---
 env = gwendolen.failuredetection.DurativeActionRouteEnv
-mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
+mas.file = /Users/peterstringer/IdeaProjects/mcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 // --- Logging ---

@@ -24,6 +24,7 @@
 package gwendolen.tutorials;
 
 import ail.mas.DefaultEnvironment;
+import ail.semantics.AILAgent;
 import ail.syntax.Action;
 import ail.syntax.Unifier;
 import ail.syntax.NumberTerm;
@@ -40,7 +41,7 @@ import ajpf.util.AJPFLogger;
  */
 public class SearchAndRescueEnv extends DefaultEnvironment {
 	String logname = "gwendolen.tutorials.SearchAndRescueEnv";
-	
+
 	double rubble1_x = 5;
 	double rubble1_y = 5;
 	
@@ -65,7 +66,7 @@ public class SearchAndRescueEnv extends DefaultEnvironment {
 	
 	boolean warning_message = false;
 	boolean nowarning_message = false;
-	
+
 	public Unifier executeAction(String agName, Action act) throws AILexception {
 		Unifier u = new Unifier();
 		

@@ -1,0 +1,6 @@
++!gotowaypoint [perform] : {True} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform];
++!goto01 [perform] : {B at(0)} <- -at(0), move_to(1);
++!goto02 [perform] : {True} <- move_to(2);
++!goto03 [perform] : {True} <- move_to(3);
++!goto04 [perform] : {True} <- move_to(4), +at_waypoint;
++at_waypoint : {True} <- print(arrived_at_waypoint), printlogs;

@@ -310,11 +310,11 @@ public class PlanLibrary {
     	public Iterator<ApplicablePlan> get(AILAgent a, boolean random);
     	/**
     	 * Return an iterator over uninstantiated plans in this plan base.
-    	 * @param a
+		 * @param
     	 * @return
     	 */
     	public Iterator<Plan> getPlans();
-    	
+
     	/**
     	 * Get an iterator of instantiated plans for plan p given agent a;
     	 * @param a
@@ -614,7 +614,62 @@ public class PlanLibrary {
     	}
     	return cap_plans.iterator();
     }
+	/**
+	 * getPlansContainingCap returns an iterator of all the plans in the library that contain
+	 * an Action that unifies with a specific capability object. This works with Gwendolen agents.
+	 * Fixes an issue with not selecting plans that contain goals that also use the capability.
+	 * @param cap
+	 * @return
+	 */
+	public Iterator<Plan> getPlansContainingCap(Capability cap) {
+		// Get all the plans in the library
+		List<Plan> plans = getPlans();
+		// Make a new ArrayList for all the plans containing this cap
+		ArrayList<Plan> cap_plans = new ArrayList<Plan>();
+		// Make a List of the goals containing this cap to check after
+		ArrayList<Unifiable> cap_events = new ArrayList<>();
+		// For all the plans in our list of plans
+		for (Plan p: plans) {
+			// get the deeds in the plan bodies
+			ArrayList<Deed> body = p.getBody();
+			// for all of the deeds in the bodies
+			for (Deed d: body) {
+				// if the deed is an action
+				if (d.getCategory() == Deed.DAction) {
+					// get the action description
+					Action a = (Action) d.getContent();
+					// clone it
+					Action aclone = (Action) a.clone();
+					// check if it's the same as our cap
+					if (aclone.unifies(cap, new Unifier())) {
+						// keep a note of the events to check plans containing goals that contain the capability.
+						cap_events.add(p.getTriggerEvent().getContent());
+						// add to the plans list containing our cap
+						cap_plans.add(p);
+					}
+				}
 
+			}
+
+		}
+		// loop through plans again to check for events in plan bodies containing the capability
+		for (Plan p: plans) {
+			// get the deeds in the plan bodies
+			ArrayList<Deed> body = p.getBody();
+			// for all of the deeds in the bodies
+			for (Deed d : body) {
+				// if the deed isn't an action
+				if (d.getCategory() != Deed.AILAction) {
+					// check if the deed is in our list of plan triggers that contain the capability
+					if (cap_events.contains(d.getContent())) {
+						// if it is, add it to the plan list
+						cap_plans.add(p);
+					}
+				}
+			}
+		}
+		return cap_plans.iterator();
+	}
     
 	// Think I may need a new datatype here - or need guard plan to implement EBCompare
    	public Iterator<Plan> getRelevant(EBCompare<Plan> ga, AILAgent.SelectionOrder so) {
