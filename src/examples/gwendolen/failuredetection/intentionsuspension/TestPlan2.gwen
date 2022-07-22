@@ -1,0 +1,2 @@
++!gotowaypoint [perform] : {True} <- +!goto01 [perform], +!goto02 [perform], +!goto03 [perform], +!goto04 [perform];
++!goto01 [perform] : {B at(0)} <- move_to(2);

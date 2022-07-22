@@ -1,0 +1,9 @@
+mas.file = /src/examples/gwendolen/reconfigurability/mars/mars.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.reconfigurability.mars.Reconfig
+
+log.info = ail.mas.DefaultEnvironment
+log.fine = ail.semantics.operationalrules
+log.warning = ajpf.MCAPLAgent
+log.format = brief

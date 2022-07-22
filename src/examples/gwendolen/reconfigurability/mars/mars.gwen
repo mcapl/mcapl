@@ -1,0 +1,54 @@
+GWENDOLEN
+
+:name: mars
+
+:Initial Beliefs:
+at(waypoint1)
+
+:Reasoning Rules:
+
+:Initial Goals:
+
+mission1 [perform]
+
+:Plans:
++!mission1 [perform] :
+     { B at(waypoint1) }
+<-
+     moveW1W2,
+     *action_result(Result),
+     +!check_failure_mission1(Result) [perform];
+     
++!check_failure_mission1("true") [perform] :
+     { True }
+<-
+     collect_soil,
+     moveW2W5,
+     collect_rock;
++!check_failure_mission1("false") [perform] :
+     { True }
+<-
+     print("Executing reconfigured plan"),
+     moveW1W4,
+     collect_soil,
+     moveW4W5,
+     collect_rock;
+     
++!mission2 [perform] :
+     { B at(waypoint4) }
+<-
+     moveW4W1,
+     collect_rock,
+     moveW1W2,
+     take_image;
+     
++!mission3 [perform] :
+     { B at(waypoint3) }
+<-
+     moveW3W1,
+     moveW1W2,
+     collect_rock,
+     moveW2W5,
+     take_image;
+
++at(WP) : {True} <- print("I am at ",WP);
