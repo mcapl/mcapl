@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2022 Louise A. Dennis
+// Copyright (C) 2008-2012 Louise A. Dennis, Berndt Farwer, Michael Fisher and 
+// Rafael H. Bordini.
 // 
 // This file is part of Gwendolen
 //
@@ -21,17 +22,8 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-lexer grammar GwendolenLexer;
+env = gwendolen.simple.SimpleEnv
+mas.file = /src/examples/gwendolen/simple/PickUpAgent/parsetest.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
 
-
-GWENDOLEN	:'GWENDOLEN' ;
-
-NAME	:	':name:';
-AGNAME	:	'ag1';
-
-COMMENT : '/*' .*? '*/' -> skip ;
-LINE_COMMENT : '//' ~[\n]* -> skip ;
-NEWLINE:'\r'? '\n' -> skip  ;
-WS  :   (' '|'\t') -> skip ;
-
-
+log.warning = ail.mas.DefaultEnvironment

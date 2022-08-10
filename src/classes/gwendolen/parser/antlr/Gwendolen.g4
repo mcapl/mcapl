@@ -23,6 +23,7 @@
 
 grammar Gwendolen;
 
+options { tokenVocab = GwendolenLexer; }
 
 // Mas involving Gwendolen Agents
 mas  : glist=gwendolenagents;
@@ -31,76 +32,4 @@ gwendolenagents : GWENDOLEN (g=gwendolenagent)+;
 
 // Gwendolen Agent stuff
 gwendolenagent :  (GWENDOLEN?) 
-	NAME w=word 
-	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
-	BELIEFS ((bs=BELIEF_BLOCK)? IB_NEWLINE)*
-	// RR_BLOCKS should be rulelists from LogicalFmlas grammar
-	(BELIEFRULES (RR_NEWLINE)* (RR_BLOCK RR_NEWLINE) ((RR_BLOCK)? RR_NEWLINE)* )? 
-	(GOAL_RR | GOAL_IB) (GL_NEWLINE)* (gs=GOAL_BLOCK SQOPEN (ACHIVEGOAL | PERFORMGOAL) SQCLOSE GL_NEWLINE) ((GOAL_BLOCK)? GL_NEWLINE)*
-	PLANS (p=plan )*;
-	
-
-plan : e=event  
-		COLON CURLYOPEN  (NOT )? gb=guard_atom 
-		(COMMA  (NOT )? gb=guard_atom )* CURLYCLOSE (RULEARROW
-		d=deed  (COMMA d=deed )*)? 
-		SEMI ;
-
-
-guard_atom  : (BELIEVE l=fof_expr |
-				GOAL gl=goal  |
-				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=fof_expr CLOSE  |
-				eq = fof_expr  |
-				TRUE  );
-				
-goal: gl=fof_expr SQOPEN_PL (ACHIEVEGOAL_PL | PERFORMGOAL_PL) SQCLOSE_PL;	
-	
-event : (PLUS (RECEIVED OPEN p=performative COMMA t=fof_expr CLOSE |
-				(l=fof_expr  | SHRIEK g=goal ) |
-				ADD_CONTENT l=fof_expr  |
-				ADD_CONTEXT l=fof_expr 
-				) |
-			   MINUS (l=fof_expr  |
-				SHRIEK g=goal |
-				ADD_CONTENT l=fof_expr  |
-				ADD_CONTEXT l=fof_expr 
-				));
-
-performative  : (TELL  | PERFORM  | ACHIEVE| TELLHOW | CONSTRAINT );
-								
-deed  : ((PLUS (l=fof_expr  | SHRIEK g=goal  |
-				ADD_CONTENT l=fof_expr  |
-				ADD_CONTEXT l=fof_expr  |
-				ADD_PLAN p=fof_expr |
-				ADD_CONSTRAINT c=fof_expr |
-				LOCK ) |
-		 MINUS (l=fof_expr  | SHRIEK g=goal |
-				ADD_CONTENT l=fof_expr  |
-				ADD_CONTEXT l=fof_expr  |
-				LOCK
-				)) |
-				a=action  |
-				wf=waitfor 
-				)
-				;
-					
-waitfor  :  MULT l=fof_expr ;
-
-action  : 
-	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 
-	t=fof_expr;
-
-
-
-// General AIL Parsing stuff
-
-environment : w=classpath;
-classpath : w=word (POINT w1=word )+;                                                                                     
-word  : (CONST  | VAR );                                                                                     
-
-agentnameterm  : CONST  | v=VAR ;
-
-fof_expr: (CONST ( IDPUNCT CONST)* (OPEN (fof_expr | QUOTED_STRING) (COMMASEP (fof_expr | QUOTED_STRING))* CLOSE)? 
-	      | SQOPEN fof_expr (COMMASEP fof_expr)* SQCLOSE );
-
-
+	NAME w=AGNAME ;

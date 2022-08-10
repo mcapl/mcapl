@@ -28,7 +28,6 @@ import gov.nasa.jpf.annotation.FilterField;
 import gov.nasa.jpf.vm.Verify;
 
 import java.util.Properties;
-import java.util.Random;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;

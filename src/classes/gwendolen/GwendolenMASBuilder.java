@@ -24,14 +24,16 @@
 
 package gwendolen;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
 import ail.syntax.ast.Abstract_MAS;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
+import gwendolen.parser.GwendolenAILVisitor;
+
 
 /**
  * Utility class.  Builds a Gwendolen MAS by parsing a string or a file.
@@ -57,10 +59,12 @@ public class GwendolenMASBuilder implements MASBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			GwendolenLexer lexer = new GwendolenLexer(new ANTLRFileStream(masstring));
+			GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			GwendolenParser parser = new GwendolenParser(tokens);
-    		amas = parser.mas();
+			GwendolenAILVisitor visitor = new GwendolenAILVisitor();
+			
+    		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
       	} catch (Exception e) {
      		e.printStackTrace();
     	}
@@ -68,11 +72,13 @@ public class GwendolenMASBuilder implements MASBuilder {
 	}
 
 	public void parse(String masstring) {
-	   	GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(masstring));
-    	CommonTokenStream tokens = new CommonTokenStream(lexer);
-    	GwendolenParser parser = new GwendolenParser(tokens);
+		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(masstring));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		GwendolenParser parser = new GwendolenParser(tokens);
+		GwendolenAILVisitor visitor = new GwendolenAILVisitor();
+		
     	try {
-    		amas = parser.mas();
+    		amas = (Abstract_MAS) visitor.visitMas(parser.mas());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}
