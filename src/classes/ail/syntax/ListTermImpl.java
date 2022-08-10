@@ -399,7 +399,13 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	 */
 	@Override
 	public boolean add(Term o) {
-		return cons(o);
+		//return cons(o);
+		try {
+			add(size(), o);
+			return true;
+		} catch (IndexOutOfBoundsException e) {
+			return false;
+		}
 	}
 	
 	/*
@@ -409,7 +415,7 @@ public class ListTermImpl extends Predicate implements ListTerm {
 	@Override
 	public void add(int i, Term t) throws IndexOutOfBoundsException {
 		if (i == 0) {
-			add(t);
+			cons(t);
 		} else {
 			if (isEmpty()) {
 				throw new IndexOutOfBoundsException();
