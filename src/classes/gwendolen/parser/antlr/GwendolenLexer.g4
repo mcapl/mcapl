@@ -23,15 +23,100 @@
 
 lexer grammar GwendolenLexer;
 
+@lexer::members {
+    public int plain_nesting = 0;
+    public int sq_nesting = 0;
+    public int curly_nesting = 0;
+   // public boolean stringterm = false;
+   //public boolean gwendolen = true;
+   // public int belief_rules = 0;
+}
+
 
 GWENDOLEN	:'GWENDOLEN' ;
 
 NAME	:	':name:';
-AGNAME	:	'ag1';
+CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 
 COMMENT : '/*' .*? '*/' -> skip ;
 LINE_COMMENT : '//' ~[\n]* -> skip ;
 NEWLINE:'\r'? '\n' -> skip  ;
 WS  :   (' '|'\t') -> skip ;
+
+BELIEFS	:	':Initial Beliefs:' -> mode(INITIAL_BELIEFS);
+
+
+mode INITIAL_BELIEFS;
+// BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
+GOAL_IB	:	':Initial Goals:' -> mode(GOALS);
+IB_COMMENT : '/*' .*? '*/' -> skip ;
+IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
+IB_NEWLINE:'\r'? '\n' -> skip;
+IB_WS  :   (' '|'\t') -> skip ;
+BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
+
+mode REASONING_RULES;
+GOAL_RR	:	':Initial Goals:' -> mode(GOALS);
+RR_COMMENT : '/*' .*? '*/' -> skip ;
+RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
+RR_NEWLINE:'\r'? '\n'   ;
+RR_WS  :   (' '|'\t') -> skip ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' ')+;
+
+mode GOALS;
+PLANS	:	':Plans:' -> mode(PLANS_MODE);
+GL_COMMENT : '/*' .*? '*/' -> skip ;
+GL_LINE_COMMENT : '//' ~[\n]* -> skip ;
+GL_NEWLINE:'\r'? '\n' -> skip ;
+GL_WS  :   (' '|'\t') -> skip ;
+GL_ACHIEVEGOAL	:  {sq_nesting > 0}? 'achieve';
+GL_PERFORMGOAL	:   {sq_nesting > 0}? 'perform';
+GL_SQOPEN : '[' {sq_nesting++;};
+GL_SQCLOSE : ']'{sq_nesting--;};
+GOAL_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
+
+mode PLANS_MODE;
+PL_COMMENT : '/*' .*? '*/' -> skip ;
+PL_LINE_COMMENT : '//' ~[\n]* -> skip ;
+PL_NEWLINE:'\r'? '\n' -> skip ;
+PL_WS  :   (' '|'\t') -> skip ;
+// SEND	:	'.send';
+// RECEIVED: '.received';
+BELIEVE	:	{curly_nesting > 0}? ('B' | '.B') ;
+GOAL	:	{curly_nesting > 0}?  ('G' | '.G') ;
+// SENT	:	 '.sent';
+// LOCK	:	'.lock';
+// ADD_PLAN	:	'.plan';
+
+PL_ACHIEVEGOAL	: 'achieve';
+PL_PERFORMGOAL	:  'perform';
+PL_SQOPEN : '[';
+PL_SQCLOSE : ']';
+NOT	:	{curly_nesting > 0}? '~';
+COLON	:	':';
+CURLYOPEN	: '{' {curly_nesting++;};
+CURLYCLOSE	: '}' {curly_nesting--;};
+COMMA	:	',';
+SEMI	:	';';
+
+
+// TELL	:	':tell';
+
+SHRIEK	:	'!';
+OPEN	: 	'(' {plain_nesting++;};
+CLOSE	:	')' {plain_nesting--;};
+// MULT	:	'*';
+PLUS	:	'+';
+MINUS	:	'-';
+IDPUNCT : 	'.';
+
+
+RULEARROW :	'<-';
+
+// TRUE	:	 'True';
+PL_CONST	:	('a'..'z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+PL_VAR_CONST	:	{plain_nesting > 0}? ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+
+QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
 
 

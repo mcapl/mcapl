@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+import gwendolen.parser.GwendolenAILVisitor;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
@@ -94,11 +95,12 @@ public class MatchingAJPFSyntaxQuickTests {
 			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 			AILAgent a = new AILAgent("ag1");
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new mcaplantlr.runtime.ANTLRStringStream(inbeliefbase));
-			mcaplantlr.runtime.CommonTokenStream g_tokens = new mcaplantlr.runtime.CommonTokenStream(g_lexer);
+			GwendolenLexer g_lexer = new GwendolenLexer(CharStreams.fromString(inbeliefbase));
+			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
 			GwendolenParser g_parser = new GwendolenParser(g_tokens);
+			GwendolenAILVisitor g_visitor = new GwendolenAILVisitor();
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = (Abstract_Predicate) g_visitor.visitFof_expr(g_parser.fof_expr());
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();

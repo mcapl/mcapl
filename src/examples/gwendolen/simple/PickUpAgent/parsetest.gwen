@@ -26,3 +26,14 @@ GWENDOLEN
 
 :name: ag1
 
+:Initial Beliefs:
+
+empty
+
+:Initial Goals:
+
+pickup [achieve]
+
+:Plans:
+
++!pickup [achieve] : {B empty} <- +pickup, -empty, print(done);
