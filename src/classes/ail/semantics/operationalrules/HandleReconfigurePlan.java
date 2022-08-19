@@ -7,18 +7,14 @@ import java.util.List;
 import ail.syntax.Action;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
-import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFLogger;
-import com.google.common.collect.Lists;
 
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import ail.syntax.ApplicablePlan;
-import ail.tracing.events.GeneratePlansEvent;
 import gov.nasa.jpf.annotation.FilterField;
 import gwendolen.GwendolenPlanBuilder;
-import junit.framework.Assert;
+import gwendolen.reconfigurability.Reconfigure;
 
 /**
  * Generate all applicable plans for an agent.
@@ -64,6 +60,7 @@ public class HandleReconfigurePlan implements OSRule {
         Plan newplan = new Plan();
 
         // call reconfigure method
+        reconfig
 
         // wait until plan file is ready
         while (!(planfile.exists())) {

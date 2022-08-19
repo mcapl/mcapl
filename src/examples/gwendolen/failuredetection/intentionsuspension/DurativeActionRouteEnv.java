@@ -22,12 +22,11 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package gwendolen.failuredetection;
+package gwendolen.failuredetection.intentionsuspension;
 
 import ail.mas.DefaultEnvironment;
 import ail.mas.EnvWithCapLibrary;
 import ail.mas.MAS;
-import ail.semantics.AILAgent;
 import ail.syntax.*;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
@@ -49,23 +48,18 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 
 	// temporarily required for clock
 	int seconds = 0;
+	int failureCount = 0;
 	protected boolean done = false;
 
-	Capability capability;
+	// set robot start co-ords to (0,0)
+	double robot1_x = 0;
+	double robot1_y = 0;
+	
+	double robot_at_x = 0;
+	double robot_dest_y = 0;
 
 	UniformBoolChoice r;
 	CapabilityLibrary capLibrary = new CapabilityLibrary();
-
-	// Failure Bools for config
-	boolean W0toW1staysatW0 = false;
-	boolean W0toW1goestoW2 = false;
-	boolean W1toW2staysatW1 = false;
-	boolean W1toW2goestoW3 = false;
-	boolean W2toW3staysatW2 = false;
-	boolean W2toW3goestoW4 = false;
-	boolean W3toW4staysatW3 = false;
-	boolean W3toW4goestoW0 = false;
-	boolean failure = W0toW1staysatW0 || W0toW1goestoW2 || W1toW2staysatW1 || W1toW2goestoW3 || W2toW3staysatW2 || W2toW3goestoW4 || W3toW4staysatW3 || W3toW4goestoW0;
 
 	public DurativeActionRouteEnv() {
 		// Make environment
@@ -208,6 +202,7 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 		capLibrary.add(moveW1W4);
 		capLibrary.add(moveW2W4);
 		capLibrary.add(moveW3W4);
+
 		
 		//RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		//this.setScheduler(scheduler);
@@ -221,47 +216,39 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 	}
 
 	//public void robotMovingTo(double x, double y) {
-		public void robotProcessing(String agName, Capability capability) {
-			// wait for the duration allowed in the capability
-			// ----- logic here -----
-
-
-			// if (env.config == AIL.Config.PROGRAMMATIC) {
-			Action act = capability.getAction();
-			Term origin = act.getTerm(0);
-			Term destination = act.getTerm(1);
+		public void robotMovingTo(double x, double y) {
+		// This should be set up properly using the Choice class but no time...
+		Random r = new Random();
+		double f = r.nextDouble();
+		//if (true) {
+			if (f < 0.7) {
 			Predicate new_position = new Predicate("at");
+			new_position.addTerm(new NumberTermImpl(y));
+	
 			Predicate old_position = new Predicate("at");
-			if (failure) {
-				if (W0toW1staysatW0) {
-				}
-				if (W0toW1goestoW2) {
-					new_position.addTerm(new NumberTermImpl(2));
-					old_position.addTerm(origin);
-					removePercept(old_position);
-					addPercept(new_position);
-				}
-			} else {
-				new_position.addTerm(destination);
-				old_position.addTerm(origin);
-				removePercept(old_position);
-				addPercept(new_position);
-			}
-			// Logic for PHYSICAL deployment
-			// } else {
-			// removePercepts(at);
-			// addPercept(getPerceptfromSensor(agName));
-	}
+			old_position.addTerm(new NumberTermImpl(x));
 
+			double origin;
+			double destination;
+			origin = x;
+			destination = y;
+			robot1_x = origin;
+			robot1_y = destination;
 
-	public Predicate getPerceptfromSensor(String agName){
-		//scan for QR codes nearby
-		//set qr variable to the scan output
-		int qr = 1;
-		//if no output
-		Predicate position = new Predicate("at");
-		position.addTerm(new NumberTermImpl(qr));
-		return position;
+			removePercept(old_position);
+			addPercept(new_position);
+		//;} else if (false) {
+		} else if (f < 1.0) {
+			Predicate new_position = new Predicate("at");
+			new_position.addTerm(new NumberTermImpl(0));
+			Predicate old_position = new Predicate("at");
+			old_position.addTerm(new NumberTermImpl(x));
+
+			robot1_x = x;
+			robot1_y = 0;
+			removePercept(old_position);
+			addPercept(new_position);
+		}
 	}
 
 	public Unifier executeAction(String agName, Action act) throws AILexception {
@@ -269,17 +256,20 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 			AJPFLogger.info(logname, "Executing action: " + act.toPredicate().toString());
 		}
 		Unifier theta = new Unifier();
+		byte action_state;
+		//AJPFLogger.info(logname, act.getFunctor());
 		if (act.getFunctor().equals("move")) {
 			updateTimePassed(0);
-			// find the corresponding action in the caplibrary
-			if (capLibrary.getCapability(act) != null) {
-				Capability capability = capLibrary.getCapability(act);
-				robotProcessing(agName, capability);
-			}
+			double x = ((NumberTerm) act.getTerm(0)).solve();
+			double y = ((NumberTerm) act.getTerm(1)).solve();
+			robot_at_x = x;
+			robot_dest_y = y;
+			robotMovingTo(x, y);
+
 		} else if (act.getFunctor().equals("abort")) {
 			updateTimePassed(0);
-			//robot_at_x = 0;
-			//robot_dest_y = 0;
+			robot_at_x = 0;
+			robot_dest_y = 0;
 			System.err.println("ABORTING ACTION - TIMED OUT");
 
 		} else if (act.getFunctor().equals("printlogs")) {
@@ -329,22 +319,20 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 
 	@Override
 	public void do_job() {
-		// If at start, do the saved cap
-		Literal atW0 = new Literal("at");
-		atW0.addTerm(new NumberTermImpl(0));
-		if (agPercepts.containsValue(atW0)) {
+		
+		if (robot_dest_y != 0) {
 			int timepassed = clock();
 			updateTimePassed(timepassed);
-			robotProcessing(lastAgent, capability);
+			
+			//robotMovingTo(robot_dest_x, robot_dest_y);
+			robotMovingTo(robot_at_x, robot_dest_y);
 		} else {
 			addPercept(new Literal("something"));
 		}
 	}
 	
 	public boolean done() {
-		Literal atW4 = new Literal("at");
-		atW4.addTerm(new NumberTermImpl(4));
-		return (percepts.contains(atW4));
+		return (robot1_y == 4);
 	}
 	
 	public void updateTimePassed(int seconds) {

@@ -27,7 +27,6 @@ package gwendolen.failuredetection;
 import ail.mas.DefaultEnvironment;
 import ail.mas.EnvWithCapLibrary;
 import ail.mas.MAS;
-import ail.semantics.AILAgent;
 import ail.syntax.*;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
@@ -35,7 +34,6 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -44,7 +42,7 @@ import java.util.Set;
  * @author louiseadennis
  *
  */
-public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJobber, EnvWithCapLibrary {
+public class ReconfigurationWaypointsEnvironment extends DefaultEnvironment implements MCAPLJobber, EnvWithCapLibrary {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 
 	// temporarily required for clock
@@ -67,7 +65,7 @@ public class DurativeActionRouteEnv extends DefaultEnvironment implements MCAPLJ
 	boolean W3toW4goestoW0 = false;
 	boolean failure = W0toW1staysatW0 || W0toW1goestoW2 || W1toW2staysatW1 || W1toW2goestoW3 || W2toW3staysatW2 || W2toW3goestoW4 || W3toW4staysatW3 || W3toW4goestoW0;
 
-	public DurativeActionRouteEnv() {
+	public ReconfigurationWaypointsEnvironment() {
 		// Make environment
 		super();
 		AJPFLogger.fine(logname, "Environment Created");

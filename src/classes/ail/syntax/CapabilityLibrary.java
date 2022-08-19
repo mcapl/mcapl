@@ -39,53 +39,63 @@ public class CapabilityLibrary implements Iterable<Capability> {
 	// We index capabilities by their action predicate.
 	HashMap<PredicateIndicator, ArrayList<Capability>> capMap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
 
-	
+
 	/**
 	 * We get the capability that uses this action predicate - or several if there are several.
+	 *
 	 * @param cPred
 	 * @return
 	 */
 	public Iterator<Capability> getRelevant(Predicate cPred, AILAgent.SelectionOrder so) {
 		if (cPred.isVar()) {
 			ArrayList<Capability> out = new ArrayList<Capability>();
-			for (ArrayList<Capability> cl: capMap.values()) {
+			for (ArrayList<Capability> cl : capMap.values()) {
 				out.addAll(cl);
 			}
 			return out.iterator();
 		} else {
 			ArrayList<Capability> cList = capMap.get(cPred.getPredicateIndicator());
-            if (cList != null) {
-                 return cList.iterator();
-           } else {
-                return Collections.<Capability>emptyList().iterator();
-            }
-        }
-		
+			if (cList != null) {
+				return cList.iterator();
+			} else {
+				return Collections.<Capability>emptyList().iterator();
+			}
+		}
+
 	}
 
-	public void removeRelevant(Predicate cPred){
-		capMap.remove(cPred.getPredicateIndicator());
+	public void removeRelevant(Predicate cPred) {
+		ArrayList<Capability> relevantCaps = new ArrayList<>();
+		for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
+			for (Capability cap : capabilityArrayList) {
+				if (cap.getAction().equals(cPred)) {
+					relevantCaps.add(cap);
+				}
+			}
+		}
+		capMap.remove(cPred.getPredicateIndicator(), relevantCaps);
 		//System.out.print("Relevant capablities removed.\n");
 	}
-	
+
 	/**
 	 * An iterator of all the capabilities in the library.
+	 *
 	 * @return
 	 */
 	@Override
 	public Iterator<Capability> iterator() {
 		ArrayList<Capability> cs = new ArrayList<Capability>();
-		
-		for (ArrayList<Capability> cl: capMap.values()) {
+		for (ArrayList<Capability> cl : capMap.values()) {
 			cs.addAll(cl);
 		}
-		
+
 		return cs.iterator();
 
 	}
-	
+
 	/**
 	 * Add a capability to the library.
+	 *
 	 * @param c
 	 */
 	public void add(Capability c) {
@@ -98,77 +108,87 @@ public class CapabilityLibrary implements Iterable<Capability> {
 			capMap.put(pi, cl);
 		}
 	}
-	
+
 	/**
 	 * Preliminary implementation for finding a capability in a library that can be exchanged for some other capability in the library
 	 * on the assumption that certain preconditions hold and certain post-conditions are desired.
-	 * 
+	 * <p>
 	 * This needs to be compared to the use of planning techniques potentially over sequences of capabilities.
+	 *
 	 * @param oldcap
-	 * @param capname
-	 * @param Pre
 	 * @param Post
-	 * @param rb - A rulebase that may define reasoning involving the pre and post-conditions.
+	 * @param rb      - A rulebase that may define reasoning involving the pre and post-conditions.
 	 * @param u
 	 * @return
 	 */
 	public Capability findEquivalent(Capability oldcap, Predicate Post, RuleBase rb, Unifier u) {
 		Predicate capname = oldcap;
 		PredicateIndicator pi = capname.getPredicateIndicator();
-		
+
 		GBelief pgb = new GBelief(Post);
 
-		for (ArrayList<Capability> l: capMap.values()) {
-			
+		for (ArrayList<Capability> l : capMap.values()) {
+
 			Capability c = l.get(0);
-			
+
 			Capability cc = (Capability) c.clone();
 			cc.standardise_apart(oldcap, u, oldcap.getVarNames());
 			// NB we are assuming that capability names are unique here (give or take)
 
 			if (cc != capMap.get(pi).get(0)) {
-			
+
 				// We check first the preconditions.  Only tests with trivial preconditions.
-				EvaluationBasewNames<PredicateTerm> eb = 
-	     			 new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPre()), "precondition");
-				
+				EvaluationBasewNames<PredicateTerm> eb =
+						new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPre()), "precondition");
+
 				// NB. This needs to be generalised to GLogical Formulae in some way.
 				GBelief gb = (GBelief) cc.getPre();
-				
+
 				// The preconditions of the new capability are implied by the preconditions of the old capability
 				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR);
 
 				if (preuni.hasNext()) {
-				
+
 					u.compose(preuni.next());
-					
+
 					// Then we check postconditions.
-					EvaluationBasewNames<PredicateTerm> posteb = 
+					EvaluationBasewNames<PredicateTerm> posteb =
 							new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(cc.getPost()), "post");
 					Iterator<Unifier> postuni = pgb.logicalConsequence(posteb, rb, new Unifier(), c.getPost().getVarNames(), AILAgent.SelectionOrder.LINEAR);
 					if (postuni.hasNext()) {
 						u.compose(postuni.next());
 						cc.apply(u);
 						pgb.apply(u);
-						
+
 						EvaluationBasewNames<PredicateTerm> peb = new NamedEvaluationBase<PredicateTerm>(new ConjunctionFormulaEvaluationBase(oldcap.getPost()), "postcondition");
-						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new  Unifier(), Post.getVarNames(),  AILAgent.SelectionOrder.LINEAR);
+						Iterator<Unifier> pun = pgb.logicalConsequence(peb, rb, new Unifier(), Post.getVarNames(), AILAgent.SelectionOrder.LINEAR);
 						Unifier puni = pun.next();
-						
+
 						u.compose(puni);
 
 						return cc;
-						
-						
+
+
 					}
 				}
 			}
-			
+
 		}
-		
+
 		return null;
 	}
 
-	public void remove(){
+	public void remove() {
+	}
+
+	public Capability getCapability(Action act) {
+		for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
+			for (Capability cap : capabilityArrayList) {
+				if (cap.getAction().equals(act)) {
+					return cap;
+				}
+			}
+		}
+		return null;
 	}
 }

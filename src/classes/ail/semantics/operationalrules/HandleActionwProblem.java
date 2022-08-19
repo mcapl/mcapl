@@ -129,7 +129,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 					dact.notExecuting();
 					//if the agent believes the action's failure conditions, log it, update action status and retry.
 					//using - not+ the above if statement whilst I chance success+failure
-				} else if (!(a.believesyn(new Guard((GLogicalFormula) dact.getFail()), thetahd))) {
+				} else if (a.believesyn(new Guard((GLogicalFormula) dact.getFail()), thetahd)) {
 					// Do nothing, retry
 					dact.notExecuting();
 					// Log it
