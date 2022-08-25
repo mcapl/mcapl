@@ -29,6 +29,8 @@ public class HandleReconfigurePlan implements OSRule {
     // This might be instantiated in some subclasses.
     protected Iterator<ApplicablePlan> iterator;
 
+    protected Reconfigure reconfigure;
+
     /*
      * (non-Javadoc)
      * @see ail.semantics.operationalrules.OSRule#getName()
@@ -55,12 +57,13 @@ public class HandleReconfigurePlan implements OSRule {
         PlanLibrary planLibrary = a.getPL();
         Action lastaction = a.getEnv().lastAction();
         Iterator<Plan> oldplans = planLibrary.getPlansContainingCap(lastaction);
+        String actionString = lastaction.toString();
 
         // instantiate outputs
         Plan newplan = new Plan();
 
         // call reconfigure method
-        reconfig
+        reconfigure.reconfig(actionString);
 
         // wait until plan file is ready
         while (!(planfile.exists())) {
@@ -83,5 +86,6 @@ public class HandleReconfigurePlan implements OSRule {
             planLibrary.remove(oldplans.next());
         }
         // delete new plan file
+
     }
 }

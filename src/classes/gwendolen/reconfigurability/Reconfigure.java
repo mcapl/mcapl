@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Reconfigure {
 
-    private String capabilities = "./src/examples/gwendolen/reconfigurability/mars/capabilities.txt";
+    private String capabilities = "./src/classes/gwendolen/reconfigurability/capabilities.txt";
     // initial states, separate each state with empty space (eg. "at(waypoint1) obstacle(waypoint2)"; )
     private String initialState = "at(waypoint1)";
     // goal states, separate each state with empty space
@@ -38,7 +38,7 @@ public class Reconfigure {
 
 
     private void createProblem() {
-        File problemFile = new File("./src/examples/gwendolen/reconfigurability/mars/problem.pddl");
+        File problemFile = new File("./src/classes/gwendolen/reconfigurability/problem.pddl");
         try {
             problemFile.createNewFile();
             FileWriter problemFileWriter = new FileWriter(problemFile);
@@ -151,7 +151,7 @@ public class Reconfigure {
     }
 
     private void createDomain(String failedAction) {
-        File domainFile = new File("./src/examples/gwendolen/reconfigurability/mars/domain.pddl");
+        File domainFile = new File("./src/classes/gwendolen/reconfigurability/domain.pddl");
 
         try {
             domainFile.createNewFile();

@@ -23,12 +23,16 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.HashMap;
 
 import ail.semantics.AILAgent;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A class for libraries of capabilities.
@@ -191,4 +195,33 @@ public class CapabilityLibrary implements Iterable<Capability> {
 		}
 		return null;
 	}
+
+	public ArrayList getCapabilitiesArrayList() {
+		ArrayList<Capability> capabilities = new ArrayList<>();
+		for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
+			for (Capability cap : capabilityArrayList) {
+				capabilities.add(cap);
+				}
+			}
+		return capabilities;
+		}
+
+	public void exportLibrary(String filepath) {
+		File capabilitiesFile = new File(filepath);
+		ArrayList<Capability> capabilities = getCapabilitiesArrayList();
+		try {
+			capabilitiesFile.createNewFile();
+			FileWriter capabilitiesFileWriter = new FileWriter(capabilitiesFile);
+			for (Capability capability : capabilities) {
+				capabilitiesFileWriter.write(capability.toString());
+			}
+			capabilitiesFileWriter.flush();
+			capabilitiesFileWriter.close();
+		} catch (
+		IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+	}
+
 }
