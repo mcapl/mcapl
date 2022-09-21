@@ -26,15 +26,17 @@ package gwendolen.failuredetection;
 
 import ail.mas.DurativeActionEnvironment;
 import ail.mas.EnvWithCapLibrary;
-import ail.mas.MAS;
 import ail.syntax.*;
 import ail.util.AILexception;
 import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.fasterxml.jackson.databind.JsonNode;
+import ros.RosBridge;
+import ros.RosListenDelegate;
+import ros.SubscriptionRequestMsg;
+import ros.msgs.move_base_msgs.MoveBaseActionResult;
+import ros.tools.MessageUnpacker;
 
 /**
  * A Simple Blocks' World Environment.
@@ -42,7 +44,7 @@ import java.util.Set;
  * @author louiseadennis
  *
  */
-public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironment implements MCAPLJobber, EnvWithCapLibrary {
+public class RobotLabEnvironment extends DurativeActionEnvironment implements MCAPLJobber, EnvWithCapLibrary {
 	static String logname = "gwendolen.failuredetection.DurativeActionEnv";
 
 	// temporarily required for clock
@@ -65,10 +67,42 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 	boolean W3toW4goestoW0 = false;
 	boolean failure = W0toW1staysatW0 || W0toW1goestoW2 || W1toW2staysatW1 || W1toW2goestoW3 || W2toW3staysatW2 || W2toW3goestoW4 || W3toW4staysatW3 || W3toW4goestoW0;
 
-	public ReconfigurationWaypointsEnvironment() {
+	RosBridge bridge = new RosBridge();
+
+	public RobotLabEnvironment() {
 		// Make environment
 		super();
 		AJPFLogger.fine(logname, "Environment Created");
+
+
+		bridge.connect("ws://localhost:9090", true);
+		System.out.println("Environment started, connection with ROS established.");
+
+		bridge.subscribe(SubscriptionRequestMsg.generate("/move_base/result")
+						.setType("move_base_msgs/MoveBaseActionResult"),
+//				.setThrottleRate(1)
+//				.setQueueLength(1),
+				new RosListenDelegate() {
+					public void receive(JsonNode data, String stringRep) {
+						MessageUnpacker<MoveBaseActionResult> unpacker = new MessageUnpacker<MoveBaseActionResult>(MoveBaseActionResult.class);
+						MoveBaseActionResult msg = unpacker.unpackRosMessage(data);
+						clearPercepts();
+//					System.out.println("Frame id: "+msg.header.frame_id);
+//					System.out.println("Stamp sec: "+msg.header.stamp.secs);
+//					System.out.println("Seq: "+msg.header.seq);
+//					System.out.println("Goal: "+msg.status.goal_id.id);
+//					System.out.println("Stamp sec: "+msg.status.goal_id.stamp.secs);
+//					System.out.println("Status: "+msg.status.status);
+//					System.out.println("Text: "+msg.status.text);
+//
+//					System.out.println();
+						Literal movebase_result = new Literal("movebase_result");
+						movebase_result.addTerm(new NumberTermImpl(msg.header.seq));
+						movebase_result.addTerm(new NumberTermImpl(msg.status.status));
+						addPercept(movebase_result);
+					}
+				}
+		);
 
 		// Construct GBeliefs for grid
 		// --- AT ---
@@ -206,7 +240,7 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 		capLibrary.add(moveW1W4);
 		capLibrary.add(moveW2W4);
 		capLibrary.add(moveW3W4);
-		
+
 		//RoundRobinScheduler scheduler = new RoundRobinScheduler();
 		//this.setScheduler(scheduler);
 		//addPerceptListener(scheduler);
@@ -223,44 +257,15 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 		// wait for the duration allowed in the capability
 		// ----- logic here -----
 
-		// if (env.config == AIL.Config.PROGRAMMATIC) {
-		Action act = capability.getAction();
-		Term origin = act.getTerm(0);
-		Term destination = act.getTerm(1);
-		Predicate new_position = new Predicate("at");
-		Predicate old_position = new Predicate("at");
-		new_position.addTerm(destination);
-		old_position.addTerm(origin);
-		removePercept(old_position);
-		addPercept(new_position);
-
-		// Logic for PHYSICAL deployment
-		// } else {
 		// removePercepts(at);
+		// if movebase result == success then
 		// addPercept(getPerceptfromSensor(agName));
+		// else if movebase result == fail then
+		// go to next waypoint
+		// else abort
 	}
 
-	// Add the commented code to the failing version of reconfiguration environment
-//			if (failure) {
-//				if (W0toW1staysatW0) {
-//				}
-//				if (W0toW1goestoW2) {
-//					new_position.addTerm(new NumberTermImpl(2));
-//					old_position.addTerm(origin);
-//					removePercept(old_position);
-//					addPercept(new_position);
-//				}
-//			} else {
-//				new_position.addTerm(destination);
-//				old_position.addTerm(origin);
-//				removePercept(old_position);
-//				addPercept(new_position);
-//			}
-
-
-
-
-	public Predicate getPerceptfromSensor(String agName){
+	public Predicate getPerceptfromSensor(String agName) {
 		//scan for QR codes nearby
 		//set qr variable to the scan output
 		int qr = 1;
@@ -271,6 +276,7 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 	}
 
 	public Unifier executeAction(String agName, Action act) throws AILexception {
+		String actionname = act.getFunctor();
 		if (!act.getFunctor().equals("abort")) {
 			AJPFLogger.info(logname, "Executing action: " + act.toPredicate().toString());
 		}
@@ -290,46 +296,23 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 
 		} else if (act.getFunctor().equals("printlogs")) {
 			agentmap.get(agName).printActionLog();
-		}
 
-		try {
-			theta = super.executeAction(agName, act);
-		} catch (AILexception e) {
-			throw e;
-		}
-
-		return theta;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
-	public void setMAS(MAS m) {
-		super.setMAS(m);
-		r = new UniformBoolChoice(m.getController());
-	}
-
-	public int clock() {
-		seconds++;
-		return seconds;
-	}
-
-	public Set<Literal> perceptsToLiterals() {
-		Set<Literal> p = new HashSet<Literal>();
-		if (! percepts.isEmpty()) {
-			for (Predicate per: percepts) {
-				p.add(new Literal((Predicate) per.clone()));
+		} else if (actionname.equals("stop_moving")) {
+			//stop_moving();
+		} else if (actionname.equals("wait")) {
+			NumberTerm period = (NumberTerm) act.getTerm(0);
+			try {
+				Thread.sleep((int) period.solve());
+				theta = super.executeAction(agName, act);
+			} catch (AILexception e) {
+				throw e;
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
 			}
 		}
-		return p;
-	}
-	@Override
-	public int compareTo(MCAPLJobber o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		return theta;
 
+	}
 
 	@Override
 	public void do_job() {
@@ -350,29 +333,4 @@ public class ReconfigurationWaypointsEnvironment extends DurativeActionEnvironme
 		atW4.addTerm(new NumberTermImpl(4));
 		return (percepts.contains(atW4));
 	}
-
-	public void updateTimePassed(int seconds) {
-		Literal oldtime = new Literal("timepassed");
-		oldtime.addTerm(new VarTerm("Any"));
-		removeUnifiesPercept(oldtime);
-		Literal time = new Literal("timepassed");
-		time.addTerm(new NumberTermImpl(seconds));
-		addPercept(time);
-
-	}
-
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "WaypointEnv";
-	}
-
-
-	@Override
-	public CapabilityLibrary getCapabilityLibrary() {
-		return capLibrary;
-
-	}
-
 }

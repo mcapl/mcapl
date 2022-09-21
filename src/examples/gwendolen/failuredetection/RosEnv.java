@@ -1,8 +1,7 @@
-package gwendolen.ros.jackal.race;
+package gwendolen.failuredetection;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ail.mas.DefaultEnvironment;
 import ail.mas.DurativeActionEnvironment;
 import ail.syntax.Action;
 import ail.syntax.Literal;
