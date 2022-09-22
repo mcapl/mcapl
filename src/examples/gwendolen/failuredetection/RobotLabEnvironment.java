@@ -32,11 +32,16 @@ import ajpf.MCAPLJobber;
 import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 import com.fasterxml.jackson.databind.JsonNode;
+import eis.iilang.Percept;
+import ros.Publisher;
 import ros.RosBridge;
 import ros.RosListenDelegate;
 import ros.SubscriptionRequestMsg;
+import ros.msgs.geometry_msgs.Vector3;
 import ros.msgs.move_base_msgs.MoveBaseActionResult;
 import ros.tools.MessageUnpacker;
+
+import java.util.List;
 
 /**
  * A Simple Blocks' World Environment.
@@ -56,16 +61,7 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 	UniformBoolChoice r;
 	CapabilityLibrary capLibrary = new CapabilityLibrary();
 
-	// Failure Bools for config
-	boolean W0toW1staysatW0 = false;
-	boolean W0toW1goestoW2 = false;
-	boolean W1toW2staysatW1 = false;
-	boolean W1toW2goestoW3 = false;
-	boolean W2toW3staysatW2 = false;
-	boolean W2toW3goestoW4 = false;
-	boolean W3toW4staysatW3 = false;
-	boolean W3toW4goestoW0 = false;
-	boolean failure = W0toW1staysatW0 || W0toW1goestoW2 || W1toW2staysatW1 || W1toW2goestoW3 || W2toW3staysatW2 || W2toW3goestoW4 || W3toW4staysatW3 || W3toW4goestoW0;
+	List<Literal> Waypoints = null;
 
 	RosBridge bridge = new RosBridge();
 
@@ -250,29 +246,74 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 
 		getScheduler().addJobber(this);
 
+		// define the physical co-ordinates for the waypoints in the robot lab
+
+		Literal A = new Literal("A");
+		A.addTerm(new NumberTermImpl(1.0));
+		A.addTerm(new NumberTermImpl(1.0));
+		A.addTerm(new NumberTermImpl(0.0));
+
+		Literal B = new Literal("B");
+		A.addTerm(new NumberTermImpl(2.0));
+		A.addTerm(new NumberTermImpl(1.0));
+		A.addTerm(new NumberTermImpl(0.0));
+
+		Literal C = new Literal("C");
+		A.addTerm(new NumberTermImpl(3.0));
+		A.addTerm(new NumberTermImpl(1.0));
+		A.addTerm(new NumberTermImpl(0.0));
+
+		Literal D = new Literal("D");
+		A.addTerm(new NumberTermImpl(4.0));
+		A.addTerm(new NumberTermImpl(1.0));
+		A.addTerm(new NumberTermImpl(0.0));
+
+		Waypoints.add(A);
+		Waypoints.add(B);
+		Waypoints.add(C);
+		Waypoints.add(D);
 	}
 
 	public void processMovement(String agName, Capability capability) {
-		//gwendolen format required: move(term0, term1)
-		// wait for the duration allowed in the capability
-		// ----- logic here -----
+		Literal wpCoordinates = null;
+		Predicate movebase_result = null;
 
-		// removePercepts(at);
-		// if movebase result == success then
-		// addPercept(getPerceptfromSensor(agName));
-		// else if movebase result == fail then
-		// go to next waypoint
-		// else abort
+		for (Literal w: Waypoints) {
+				if (w == capability.getTerm(0)){
+					wpCoordinates = w;
+				}
+			}
+		NumberTerm lx = (NumberTerm) wpCoordinates.getTerm(0);
+		NumberTerm ly = (NumberTerm) wpCoordinates.getTerm(1);
+		NumberTerm lz =  (NumberTerm) wpCoordinates.getTerm(2);
+		move(lx.solve(),ly.solve(),lz.solve());
+		for (Predicate p: percepts){
+			if (p.getFunctor() == "movebase_result"){
+				movebase_result = p;
+			}
+		}
+
+		if (movebase_result.toString() == "Success"){
+			//remove percepts
+			//add percepts
+		} else if (movebase_result.toString() == "Failure") {
+			//remove percepts
+			//add percepts
+		}
+
 	}
 
-	public Predicate getPerceptfromSensor(String agName) {
-		//scan for QR codes nearby
-		//set qr variable to the scan output
-		int qr = 1;
-		//if no output
-		Predicate position = new Predicate("at");
-		position.addTerm(new NumberTermImpl(qr));
-		return position;
+	public Literal location(){
+
+		return null;
+	}
+
+	public void move(double lx, double ly, double lz) {
+		Publisher move_base = new Publisher("/gwendolen_to_move_base", "geometry_msgs/Vector3", bridge);
+		move_base.publish(new Vector3(lx,ly,lz));
+		// sleep here for action duration
+
+		// return result from movebase
 	}
 
 	public Unifier executeAction(String agName, Action act) throws AILexception {
