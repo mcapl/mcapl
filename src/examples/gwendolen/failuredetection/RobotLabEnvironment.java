@@ -33,6 +33,7 @@ import ajpf.util.AJPFLogger;
 import ajpf.util.choice.UniformBoolChoice;
 import com.fasterxml.jackson.databind.JsonNode;
 import eis.iilang.Percept;
+import hera.language.U;
 import ros.Publisher;
 import ros.RosBridge;
 import ros.RosListenDelegate;
@@ -40,6 +41,7 @@ import ros.SubscriptionRequestMsg;
 import ros.msgs.geometry_msgs.Vector3;
 import ros.msgs.move_base_msgs.MoveBaseActionResult;
 import ros.tools.MessageUnpacker;
+import ros.*;
 
 import java.util.List;
 
@@ -64,6 +66,11 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 	List<Literal> Waypoints = null;
 
 	RosBridge bridge = new RosBridge();
+
+	// movebase result terms for success failure and executing.
+	Term Executing = new NumberTermImpl(1);
+	Term Failure = new NumberTermImpl(2);
+	Term Success = new NumberTermImpl(3);
 
 	public RobotLabEnvironment() {
 		// Make environment
@@ -96,6 +103,33 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 						movebase_result.addTerm(new NumberTermImpl(msg.header.seq));
 						movebase_result.addTerm(new NumberTermImpl(msg.status.status));
 						addPercept(movebase_result);
+					}
+				}
+		);
+
+		bridge.subscribe(SubscriptionRequestMsg.generate("/geometry/Vector3")
+						.setType("geometry_msgs/Vector3"),
+//				.setThrottleRate(1)
+//				.setQueueLength(1),
+				new RosListenDelegate() {
+					public void receive(JsonNode data, String stringRep) {
+						MessageUnpacker<Vector3> unpacker = new MessageUnpacker<Vector3>(Vector3.class);
+						Vector3 msg = unpacker.unpackRosMessage(data);
+						clearPercepts();
+//					System.out.println("Frame id: "+msg.header.frame_id);
+//					System.out.println("Stamp sec: "+msg.header.stamp.secs);
+//					System.out.println("Seq: "+msg.header.seq);
+//					System.out.println("Goal: "+msg.status.goal_id.id);
+//					System.out.println("Stamp sec: "+msg.status.goal_id.stamp.secs);
+//					System.out.println("Status: "+msg.status.status);
+//					System.out.println("Text: "+msg.status.text);
+//
+//					System.out.println();
+						Literal geometry_result = new Literal("geometry_result");
+						geometry_result.addTerm(new NumberTermImpl(msg.x));
+						geometry_result.addTerm(new NumberTermImpl(msg.y));
+						geometry_result.addTerm(new NumberTermImpl(0));
+						addPercept(geometry_result);
 					}
 				}
 		);
@@ -274,33 +308,57 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 		Waypoints.add(D);
 	}
 
-	public void processMovement(String agName, Capability capability) {
+	public Unifier processMovement(String agName, Capability capability) throws AILexception {
+		Unifier theta = new Unifier();
 		Literal wpCoordinates = null;
 		Predicate movebase_result = null;
+		Predicate geometry_result = null;
 
-		for (Literal w: Waypoints) {
-				if (w == capability.getTerm(0)){
+		if (capability.getTermsSize() == 1) {
+			for (Literal w : Waypoints) {
+				if (w == capability.getTerm(0)) {
 					wpCoordinates = w;
 				}
 			}
+		} else {
+			wpCoordinates.addTerms(capability.getTerms());
+		}
 		NumberTerm lx = (NumberTerm) wpCoordinates.getTerm(0);
 		NumberTerm ly = (NumberTerm) wpCoordinates.getTerm(1);
 		NumberTerm lz =  (NumberTerm) wpCoordinates.getTerm(2);
 		move(lx.solve(),ly.solve(),lz.solve());
+
 		for (Predicate p: percepts){
 			if (p.getFunctor() == "movebase_result"){
 				movebase_result = p;
 			}
+			if (p.getFunctor() == "geometry_result"){
+				geometry_result = p;
+			}
 		}
+		if (movebase_result.getTerm(1) == Success){
+			//does this work?
+			Literal oldposition = new Literal("at");
+			Literal newposition = new Literal("at");
+			newposition.addTerm(capability.getTerm(0));
 
-		if (movebase_result.toString() == "Success"){
-			//remove percepts
-			//add percepts
-		} else if (movebase_result.toString() == "Failure") {
-			//remove percepts
-			//add percepts
+			removeUnifiesPercept(oldposition);
+			addPercept(newposition);
+		} else if (movebase_result.getTerm(1) == Failure) {
+			Literal oldposition = new Literal("at");
+			Literal newposition = new Literal("at");
+			newposition.addTerms(geometry_result.getTerms());
+
+			removeUnifiesPercept(oldposition);
+			addPercept(newposition);
+		} else if (movebase_result.getTerm(1) == Executing) {
+			try {
+				theta = super.executeAction(agName, capability);
+			}  catch (AILexception e) {
+				throw e;
+			}
 		}
-
+	return theta;
 	}
 
 	public Literal location(){
@@ -363,7 +421,11 @@ public class RobotLabEnvironment extends DurativeActionEnvironment implements MC
 		if (agPercepts.containsValue(atW0)) {
 			int timepassed = clock();
 			updateTimePassed(timepassed);
-			processMovement(lastAgent, capability);
+			try {
+				processMovement(lastAgent, capability);
+			} catch (AILexception e) {
+				e.printStackTrace();
+			}
 		} else {
 			addPercept(new Literal("something"));
 		}
