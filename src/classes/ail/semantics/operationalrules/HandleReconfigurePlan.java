@@ -1,20 +1,19 @@
 package ail.semantics.operationalrules;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
+import ail.semantics.AILAgent;
+import ail.semantics.OSRule;
 import ail.syntax.Action;
+import ail.syntax.ApplicablePlan;
 import ail.syntax.Plan;
 import ail.syntax.PlanLibrary;
 import ajpf.util.AJPFLogger;
-
-import ail.semantics.AILAgent;
-import ail.semantics.OSRule;
-import ail.syntax.ApplicablePlan;
 import gov.nasa.jpf.annotation.FilterField;
 import gwendolen.GwendolenPlanBuilder;
 import gwendolen.reconfigurability.Reconfigure;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Generate all applicable plans for an agent.
@@ -44,7 +43,12 @@ public class HandleReconfigurePlan implements OSRule {
      * @see ail.semantics.operationalrules.OSRule#checkPreconditions(ail.semantics.AILAgent)
      */
     public boolean checkPreconditions(AILAgent a) {
-        return true;
+        System.out.print("Performing Check Preconditions");
+        if (a.lastruleexecuted == "Learn") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /*
