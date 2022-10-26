@@ -63,15 +63,16 @@ public class JPF_gwendolen_GwendolenMASBuilder extends NativePeer {
 		
 	}
 
+	  @MJI
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
  		try {
- 			GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
+  			GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
  			CommonTokenStream tokens = new CommonTokenStream(lexer);
  			GwendolenParser parser = new GwendolenParser(tokens);
  			GwendolenAILVisitor visitor = new GwendolenAILVisitor();
  	   		Abstract_MAS amas = (Abstract_MAS) visitor.visitMas(parser.mas());
- 	   		//System.err.println("done parsing");
+ 	   		// System.err.println("done parsing");
 			int ref = amas.newJPFObject(env);
 			env.setReferenceField(objref, "amas", ref);
 		} catch (ClinitRequired e) {

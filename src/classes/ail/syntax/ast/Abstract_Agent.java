@@ -24,12 +24,10 @@
 
 package ail.syntax.ast;
 
-import java.util.ArrayList;
 
 import ail.util.AILexception;
 import ail.mas.MAS;
 import ail.semantics.AILAgent;
-import ail.syntax.Predicate;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.annotation.FilterField;
 
@@ -164,6 +162,7 @@ public class Abstract_Agent {
     * 
     */
    public void addGoal(Abstract_Goal goal) {
+	   //System.out.println("IN NEW GOAL");
    	int newsize = goals.length + 1;
    	Abstract_Goal[] newgoals = new Abstract_Goal[newsize];
    	for (int i = 0; i < goals.length; i++) {
@@ -171,7 +170,10 @@ public class Abstract_Agent {
    	}
    	newgoals[goals.length] = goal; 
    	goals = newgoals;
-    	
+   	if (goals == null) {
+   		System.out.println("HEY AGAIN");
+   	}
+   	
     }
    
    /**
@@ -268,6 +270,7 @@ public class Abstract_Agent {
     			
     		}
     	}
+
     	for (Abstract_Goal g: goals) {
     		ag.addGoal(g.toMCAPL());
     	}
@@ -301,7 +304,7 @@ public class Abstract_Agent {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
        	for (int i = 0; i < goals.length; i++) {
-       		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+         		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));

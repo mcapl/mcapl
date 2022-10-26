@@ -59,6 +59,7 @@ public class GwendolenMASBuilder implements MASBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
+			//System.out.println(masstring);
 			GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			GwendolenParser parser = new GwendolenParser(tokens);

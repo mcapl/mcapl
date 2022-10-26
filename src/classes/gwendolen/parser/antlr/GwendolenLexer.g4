@@ -80,7 +80,7 @@ PL_COMMENT : '/*' .*? '*/' -> skip ;
 PL_LINE_COMMENT : '//' ~[\n]* -> skip ;
 PL_NEWLINE:'\r'? '\n' -> skip ;
 PL_WS  :   (' '|'\t') -> skip ;
-// SEND	:	'.send';
+SEND	:	'.send';
 RECEIVED: '.received';
 BELIEVE	:	{curly_nesting > 0}? ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0}?  ('G' | '.G') ;

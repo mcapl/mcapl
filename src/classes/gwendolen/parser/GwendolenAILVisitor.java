@@ -101,6 +101,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			List<GwendolenParser.Initial_goalContext> goals = ctx.initial_goal();
 			for (GwendolenParser.Initial_goalContext gctx: goals) {
 				Abstract_Goal goal = (Abstract_Goal) visitInitial_goal(gctx);
+				// System.out.println("Addingin initial goal");
 				g.addInitialGoal(goal);
 			}
 			
@@ -311,12 +312,12 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 		LogicalFmlasParser fofparser = fofparser(ctx.t.getText());
 		FOFVisitor visitor = new FOFVisitor();
 		
-		Abstract_Predicate action_pred = (Abstract_Predicate) visitor.visitPred(fofparser.pred());
-		if (action_pred.getFunctor().equals("send")  && action_pred.getTermSize() == 3) {
-			Abstract_SendAction a = new Abstract_SendAction(action_pred);
-			return a;
-		}
+		if (ctx.SEND() != null) {
+			LogicalFmlasParser an_parser = fofparser(ctx.an.getText());
+			return new Abstract_SendAction((Abstract_Predicate) visitor.visitPred(an_parser.pred()), (Integer) visitPerformative(ctx.p), (Abstract_Predicate) visitor.visitPred(fofparser.pred()));
+		} 
 		
+		Abstract_Predicate action_pred = (Abstract_Predicate) visitor.visitPred(fofparser.pred());		
 		Abstract_Action a = new Abstract_Action(action_pred, Abstract_Action.normalAction);
 		return a;
 	}
