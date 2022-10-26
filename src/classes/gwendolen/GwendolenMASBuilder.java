@@ -68,7 +68,7 @@ public class GwendolenMASBuilder implements MASBuilder {
       	} catch (Exception e) {
      		e.printStackTrace();
     	}
-		
+		 
 	}
 
 	public void parse(String masstring) {

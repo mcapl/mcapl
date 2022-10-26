@@ -66,7 +66,7 @@ public class Abstract_Equation implements Abstract_GLogicalFormula, Abstract_Log
 	 */
 	public static int none = 0;
 	public static int less = 1;
-	public static int equal = 2;
+	public static int equal = 2; 
 
 	/**
 	 * It has a left and right hand side.

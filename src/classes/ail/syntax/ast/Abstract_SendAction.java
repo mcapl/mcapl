@@ -90,6 +90,15 @@ public class Abstract_SendAction extends Abstract_Action {
 		setActionType(Abstract_Action.sendAction);
 	}
 	
+	public Abstract_SendAction(Abstract_Predicate a) {
+		super("send");
+		this.addTerm(a.getTerm(2));
+		this.addTerm(a.getTerm(0));
+		Double d = ((Abstract_NumberTermImpl) a.getTerm(1)).getValue();
+		ilf = d.intValue();
+		setActionType(Abstract_Action.sendAction);
+	}
+	
 	public Abstract_SendAction() {
 		super("send");
 		setActionType(Abstract_Action.sendAction);

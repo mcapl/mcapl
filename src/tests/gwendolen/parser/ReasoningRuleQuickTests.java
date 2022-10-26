@@ -23,19 +23,21 @@
 //----------------------------------------------------------------------------
 package gwendolen.parser;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
 import junit.framework.Assert;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import ail.syntax.ast.Abstract_Rule;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.GBelief;
 import ail.syntax.Rule;
 import ail.syntax.Literal;
 import ail.syntax.NumberTermImpl;
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
 import ail.syntax.VarTerm;
 import ail.syntax.Guard;
@@ -52,23 +54,25 @@ import java.util.Iterator;
  *
  */
 public class ReasoningRuleQuickTests {
-	
+	 
 	/**
 	 * 
 	 */
 	@Test public void ruleUnificationTest() {
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("unchecked(X, Y) :- square(X, Y), ~ at(X, Y), ~ empty(X, Y), ~ human(X, Y);"));
+		LogicalFmlasLexer rule_lexer = new LogicalFmlasLexer(CharStreams.fromString("unchecked(X, Y) :- square(X, Y), ~ at(X, Y), ~ empty(X, Y), ~ human(X, Y);"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		LogicalFmlasParser rule_parser = new LogicalFmlasParser(rule_tokens);
+		FOFVisitor visitor = new FOFVisitor();
 		
-		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));"));
-		CommonTokenStream rule2_tokens = new CommonTokenStream(rule2_lexer);
-		GwendolenParser rule2_parser = new GwendolenParser(rule2_tokens);
+		LogicalFmlasLexer rule_lexer2 = new LogicalFmlasLexer(CharStreams.fromString("area_empty :- ~ (square(Xc, Y), ~ empty(Xc, Y));"));
+		CommonTokenStream rule2_tokens = new CommonTokenStream(rule_lexer2);
+		LogicalFmlasParser rule2_parser = new LogicalFmlasParser(rule2_tokens);
+		
 		try {
-			Abstract_Rule ast_rule = rule_parser.brule();
+			Abstract_Rule ast_rule = (Abstract_Rule) visitor.visitProlog_rule(rule_parser.prolog_rule());
 			Rule rule = ast_rule.toMCAPL();
 			
-			Abstract_Rule ast_rule2 = rule2_parser.brule();
+			Abstract_Rule ast_rule2 = (Abstract_Rule) visitor.visitProlog_rule(rule2_parser.prolog_rule());
 			Rule rule2 = ast_rule2.toMCAPL();
 
 			AILAgent ag = new AILAgent();
@@ -140,18 +144,20 @@ public class ReasoningRuleQuickTests {
 	@Test public void rulesWithNegationTest() {
 //		AJPFLogger.setLevel("ail.syntax.Guard", Level.FINE);
 //		AJPFLogger.setLevel("ail.syntax.EvaluationAndRuleBaseIterator", Level.FINE);
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("in_formation(F) :- ~ ( pos(F, P), ~ agent_at(P));"));
+		LogicalFmlasLexer rule_lexer = new LogicalFmlasLexer(CharStreams.fromString("in_formation(F) :- ~ ( pos(F, P), ~ agent_at(P));"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		LogicalFmlasParser rule_parser = new LogicalFmlasParser(rule_tokens);
+		FOFVisitor visitor = new FOFVisitor();
 		
-		GwendolenLexer rule2_lexer = new GwendolenLexer(new ANTLRStringStream("agent_at(Pos) :-   position(Ag, Pos), maintaining(Ag);"));
-		CommonTokenStream rule2_tokens = new CommonTokenStream(rule2_lexer);
-		GwendolenParser rule2_parser = new GwendolenParser(rule2_tokens);
+		LogicalFmlasLexer rule_lexer2 = new LogicalFmlasLexer(CharStreams.fromString("agent_at(Pos) :-   position(Ag, Pos), maintaining(Ag);"));
+		CommonTokenStream rule2_tokens = new CommonTokenStream(rule_lexer2);
+		LogicalFmlasParser rule2_parser = new LogicalFmlasParser(rule2_tokens);
+		
 		try {
-			Abstract_Rule ast_rule = rule_parser.brule();
+			Abstract_Rule ast_rule = ((Abstract_Rule) visitor.visitProlog_rule(rule_parser.prolog_rule()));
 			Rule rule = ast_rule.toMCAPL();
 			
-			Abstract_Rule ast_rule2 = rule2_parser.brule();
+			Abstract_Rule ast_rule2 = ((Abstract_Rule) visitor.visitProlog_rule(rule2_parser.prolog_rule()));
 			Rule rule2 = ast_rule2.toMCAPL();
 
 			AILAgent ag = new AILAgent();
@@ -189,12 +195,13 @@ public class ReasoningRuleQuickTests {
 	}
 	
 	@Test public void rulesWithEquationsTest() {
-		GwendolenLexer rule_lexer = new GwendolenLexer(new ANTLRStringStream("in_formation :- [F < P];"));
+		LogicalFmlasLexer rule_lexer = new LogicalFmlasLexer(CharStreams.fromString("in_formation :- [F < P];"));
 		CommonTokenStream rule_tokens = new CommonTokenStream(rule_lexer);
-		GwendolenParser rule_parser = new GwendolenParser(rule_tokens);
+		LogicalFmlasParser rule_parser = new LogicalFmlasParser(rule_tokens);
+		FOFVisitor visitor = new FOFVisitor();
 		
 		try {
-			Abstract_Rule rule = rule_parser.brule();
+			Abstract_Rule rule = (Abstract_Rule) visitor.visitProlog_rule(rule_parser.prolog_rule());
 			Assert.assertTrue(rule.getBody() instanceof Abstract_Equation);
 		} catch (Exception e) {
 			Assert.assertFalse(false);

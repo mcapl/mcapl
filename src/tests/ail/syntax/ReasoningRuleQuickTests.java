@@ -28,24 +28,32 @@ import java.util.Iterator;
 
 import junit.framework.Assert;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
+import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_Rule;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
+import gwendolen.parser.GwendolenAILVisitor;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
 public class ReasoningRuleQuickTests {
 	
 	@Test public void rule_head_test() {
-		GwendolenParser rule_head_parser = gwendolen_parser_for("this_is_a_rule(R, R)");
-		GwendolenParser to_check_parser = gwendolen_parser_for("this_is_a_rule(rule, R1)");
+		LogicalFmlasParser rule_head_parser = fofparser("this_is_a_rule(R, R)");
+		LogicalFmlasParser to_check_parser = fofparser("this_is_a_rule(rule, R1)");
+		FOFVisitor fofvisitor = new FOFVisitor();
+		
 		try {
-			Predicate head_rule_pred = (rule_head_parser.pred()).toMCAPL();
+			Predicate head_rule_pred = ((Abstract_Predicate) fofvisitor.visitPred(rule_head_parser.pred())).toMCAPL();
 			Rule head_rule = new Rule(head_rule_pred);
 			
-			Predicate to_check = (to_check_parser.pred()).toMCAPL();
+			Predicate to_check = ((Abstract_Predicate) fofvisitor.visitPred(to_check_parser.pred())).toMCAPL();
 			
 			AILAgent a = new AILAgent("agent");
 			a.addRule(head_rule);
@@ -64,26 +72,27 @@ public class ReasoningRuleQuickTests {
 	}
 	
 	@Test public void cut_test() {
-		GwendolenParser rule_head_parser = gwendolen_parser_for("a(A)");
-		GwendolenParser rule_body_parser = gwendolen_parser_for("b(B)");
-		GwendolenParser belief1_parser = gwendolen_parser_for("b(b1)");
-		GwendolenParser belief2_parser = gwendolen_parser_for("b(b2)");
-		GwendolenParser to_check_parser = gwendolen_parser_for("a(A1)");
+		LogicalFmlasParser rule_head_parser = fofparser("a(A)");
+		LogicalFmlasParser rule_body_parser = fofparser("b(B)");
+		LogicalFmlasParser belief1_parser = fofparser("b(b1)");
+		LogicalFmlasParser belief2_parser = fofparser("b(b2)");
+		LogicalFmlasParser to_check_parser = fofparser("a(A1)");
+		FOFVisitor fofvisitor = new FOFVisitor();
 		
 		try {
-			Predicate rule_head = (rule_head_parser.pred()).toMCAPL();
-			Predicate rule_body = (rule_body_parser.pred()).toMCAPL();
+			Predicate rule_head = ((Abstract_Predicate) fofvisitor.visitPred(rule_head_parser.pred())).toMCAPL(); 
+			Predicate rule_body = ((Abstract_Predicate) fofvisitor.visitPred(rule_body_parser.pred())).toMCAPL();
 			Rule rule = new Rule(rule_head, new LogExpr(rule_body, LogExpr.LogicalOp.and, new PrologCut()));
 				
-			Predicate b1 = (belief1_parser.pred()).toMCAPL();
-			Predicate b2 = (belief2_parser.pred()).toMCAPL();
+			Predicate b1 = ((Abstract_Predicate) fofvisitor.visitPred(belief1_parser.pred())).toMCAPL();
+			Predicate b2 = ((Abstract_Predicate) fofvisitor.visitPred(belief2_parser.pred())).toMCAPL();
 			
 			AILAgent a = new AILAgent("agent");
 			a.addRule(rule);
 			a.addBel(new Literal(true, b1), AILAgent.refertoself());
 			a.addBel(new Literal(true, b2), AILAgent.refertoself());
 			
-			Predicate to_check = (to_check_parser.pred()).toMCAPL();
+			Predicate to_check = ((Abstract_Predicate) fofvisitor.visitPred(to_check_parser.pred())).toMCAPL();
 			
 			Unifier un = new Unifier();
 			Iterator<Unifier> iun = a.believes(new Guard(new GBelief(to_check)), un);
@@ -99,21 +108,22 @@ public class ReasoningRuleQuickTests {
 	}
 	
 	@Test public void cut_test2() {
-		GwendolenParser rule_head_parser = gwendolen_parser_for("a(A)");
-		GwendolenParser rule_body_parser = gwendolen_parser_for("b(B)");
-		GwendolenParser rule2_parser = gwendolen_parser_for("a(A) :- c(A);");
-		GwendolenParser belief1_parser = gwendolen_parser_for("b(b1)");
-		GwendolenParser belief2_parser = gwendolen_parser_for("c(b2)");
-		GwendolenParser to_check_parser = gwendolen_parser_for("a(A1)");
+		LogicalFmlasParser  rule_head_parser = fofparser("a(A)");
+		LogicalFmlasParser  rule_body_parser = fofparser("b(B)");
+		LogicalFmlasParser rule2_parser = fofparser("a(A) :- c(A);");
+		LogicalFmlasParser  belief1_parser = fofparser("b(b1)");
+		LogicalFmlasParser  belief2_parser = fofparser("c(b2)");
+		LogicalFmlasParser  to_check_parser = fofparser("a(A1)");
+		FOFVisitor fofvisitor = new FOFVisitor();
 		
 		try {
-			Predicate rule_head = (rule_head_parser.pred()).toMCAPL();
-			Predicate rule_body = (rule_body_parser.pred()).toMCAPL();
+			Predicate rule_head = ((Abstract_Predicate) fofvisitor.visitPred(rule_head_parser.pred())).toMCAPL();
+			Predicate rule_body = ((Abstract_Predicate) fofvisitor.visitPred(rule_body_parser.pred())).toMCAPL();
 			Rule rule1 = new Rule(rule_head, new LogExpr(rule_body, LogExpr.LogicalOp.and, new PrologCut()));
-			Rule rule2 = (rule2_parser.brule()).toMCAPL();
+			Rule rule2 = ((Abstract_Rule) fofvisitor.visitProlog_rule(rule2_parser.prolog_rule())).toMCAPL();
 				
-			Predicate b1 = (belief1_parser.pred()).toMCAPL();
-			Predicate b2 = (belief2_parser.pred()).toMCAPL();
+			Predicate b1 = ((Abstract_Predicate) fofvisitor.visitPred(belief1_parser.pred())).toMCAPL();
+			Predicate b2 = ((Abstract_Predicate) fofvisitor.visitPred(belief2_parser.pred())).toMCAPL();
 			
 			AILAgent a = new AILAgent("agent");
 			a.addRule(rule1);
@@ -121,7 +131,7 @@ public class ReasoningRuleQuickTests {
 			a.addBel(new Literal(true, b1), AILAgent.refertoself());
 			a.addBel(new Literal(true, b2), AILAgent.refertoself());
 			
-			Predicate to_check = (to_check_parser.pred()).toMCAPL();
+			Predicate to_check = ((Abstract_Predicate) fofvisitor.visitPred(to_check_parser.pred())).toMCAPL();
 			
 			Unifier un = new Unifier();
 			Iterator<Unifier> iun = a.believes(new Guard(new GBelief(to_check)), un);
@@ -136,11 +146,19 @@ public class ReasoningRuleQuickTests {
 		
 	}
 
-	
 	private GwendolenParser gwendolen_parser_for(String s) {
-		GwendolenLexer lexer = new GwendolenLexer(new ANTLRStringStream(s));
+		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		return new GwendolenParser(tokens);
+		GwendolenParser parser = new GwendolenParser(tokens);
+		return parser;
 	}
+	
+	private LogicalFmlasParser fofparser(String s) {
+		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
+		return parser;
+	}
+
 
 }

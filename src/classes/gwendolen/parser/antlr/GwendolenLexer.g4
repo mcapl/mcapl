@@ -47,7 +47,7 @@ BELIEFS	:	':Initial Beliefs:' -> mode(INITIAL_BELIEFS);
 
 
 mode INITIAL_BELIEFS;
-// BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
+BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
 GOAL_IB	:	':Initial Goals:' -> mode(GOALS);
 IB_COMMENT : '/*' .*? '*/' -> skip ;
 IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
@@ -61,7 +61,7 @@ RR_COMMENT : '/*' .*? '*/' -> skip ;
 RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
 RR_NEWLINE:'\r'? '\n'   ;
 RR_WS  :   (' '|'\t') -> skip ;
-RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' ')+;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|';')+ ;
 
 mode GOALS;
 PLANS	:	':Plans:' -> mode(PLANS_MODE);
@@ -81,11 +81,11 @@ PL_LINE_COMMENT : '//' ~[\n]* -> skip ;
 PL_NEWLINE:'\r'? '\n' -> skip ;
 PL_WS  :   (' '|'\t') -> skip ;
 // SEND	:	'.send';
-// RECEIVED: '.received';
+RECEIVED: '.received';
 BELIEVE	:	{curly_nesting > 0}? ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0}?  ('G' | '.G') ;
 // SENT	:	 '.sent';
-// LOCK	:	'.lock';
+LOCK	:	'.lock';
 // ADD_PLAN	:	'.plan';
 
 PL_ACHIEVEGOAL	: 'achieve';
@@ -100,23 +100,27 @@ COMMA	:	',';
 SEMI	:	';';
 
 
-// TELL	:	':tell';
+TELL	:	':tell';
 
 SHRIEK	:	'!';
 OPEN	: 	'(' {plain_nesting++;};
 CLOSE	:	')' {plain_nesting--;};
-// MULT	:	'*';
+MULT	:	'*';
 PLUS	:	'+';
 MINUS	:	'-';
+LESS	:	'<';
+EQUAL	:	'==';
 IDPUNCT : 	'.';
 
 
 RULEARROW :	'<-';
 
-// TRUE	:	 'True';
+TRUE	:	 'True';
 PL_CONST	:	('a'..'z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
-PL_VAR_CONST	:	{plain_nesting > 0}? ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
+PL_VAR	:	('A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+NUMBER 	: 	('0'..'9')+;
 
 QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
+//PLAN_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'<'|'=')+;
 
 

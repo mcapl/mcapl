@@ -47,7 +47,7 @@ public class BasicQuickTests {
 		// Create the initial state of the multi-agent program.
 		MAS mas = AIL.AILSetup(config, mccontrol);
 		
-		// Set up a controller
+		// Set up a controller 
 		mccontrol.setMAS(mas);
 		
 		// Begin!

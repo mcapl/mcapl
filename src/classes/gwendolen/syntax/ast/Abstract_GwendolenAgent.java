@@ -93,7 +93,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		    	}
 		    	for (Abstract_Plan p: plans) {
 		    		try {
-		    			ag.addPlan(p.toMCAPL());
+		    			ag.addPlan(p.toMCAPL()); 
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
 		    		}
@@ -101,10 +101,10 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		    	for (Abstract_Goal g: goals) {
 		    		ag.addInitialGoal(g.toMCAPL());
 		    	}
-		    	try {
+		    	try { 
 		    		ag.initAg();
 		    	} catch (Exception e) {
-		    		e.printStackTrace();
+		    		e.printStackTrace(); 
 		    	}
 		   
 

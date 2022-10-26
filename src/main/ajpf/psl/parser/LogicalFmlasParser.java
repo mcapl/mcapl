@@ -1280,7 +1280,7 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 38, RULE_equation);
 		try {
 			enterOuterAlt(_localctx, 1);
-			{
+			{ 
 			setState(169);
 			((EquationContext)_localctx).a1 = arithexpr();
 			setState(170);

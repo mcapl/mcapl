@@ -24,11 +24,9 @@
 
 package ajpf.psl;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import org.junit.Test;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 
 import gwendolen.parser.GwendolenLexer;
@@ -59,7 +57,7 @@ public class PSLSyntaxQuickTests {
 		FalseProp f2 = new FalseProp();
 		TrueProp t1 = new TrueProp();
 		TrueProp t2 = new TrueProp();
-		
+		 
 		Release r1 = new Release(f1, t1);
 		Release r2 = new Release(f2, t2);
 		
@@ -111,11 +109,11 @@ public class PSLSyntaxQuickTests {
 		try {
 			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new ANTLRStringStream(inbeliefbase));
+			LogicalFmlasLexer g_lexer = new LogicalFmlasLexer(CharStreams.fromString(inbeliefbase));
 			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
-			GwendolenParser g_parser = new GwendolenParser(g_tokens);
+			LogicalFmlasParser g_parser = new LogicalFmlasParser(g_tokens);
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = ((Abstract_Predicate) visitor.visitPred(g_parser.pred()));
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();

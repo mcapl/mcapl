@@ -9,7 +9,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import ail.parser.FOFVisitor;
+import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_Deed;
+import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_Event;
 import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Goal;
@@ -17,12 +19,16 @@ import ail.syntax.ast.Abstract_GLogicalFormula;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_MAS;
+import ail.syntax.ast.Abstract_Pred;
+import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
+import ail.syntax.ast.Abstract_SendAction;
 import ail.syntax.ast.Abstract_StringTerm;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_VarTerm;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
+import gwendolen.syntax.ast.Abstract_GMessage;
 import gwendolen.syntax.ast.Abstract_GPlan;
 //import gwendolen.parser.GwendolenParser.Initial_goalContext;
 import gwendolen.syntax.ast.Abstract_GwendolenAgent;
@@ -81,7 +87,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 				}
 			} 
 			
-/*			if (ctx.BELIEFRULES() != null) {
+			if (ctx.rr != null) {
 				List<TerminalNode> rrblocks = ctx.RR_BLOCK();
 				for (TerminalNode rr: rrblocks) {
 					LogicalFmlasParser fofparser_brs = fofparser(rr.getText());
@@ -90,7 +96,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 						g.addRule(r);
 					}
 				}
-			} */
+			} 
 			
 			List<GwendolenParser.Initial_goalContext> goals = ctx.initial_goal();
 			for (GwendolenParser.Initial_goalContext gctx: goals) {
@@ -170,15 +176,21 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			eq = equation {$g = $eq.eq;} |
 			TRUE {$g = new Abstract_GBelief();} ); */
 	@Override public Object visitGuard_atom(GwendolenParser.Guard_atomContext ctx) {
+		FOFVisitor fofvisitor = new FOFVisitor();
 		if (ctx.BELIEVE() != null) {
 			LogicalFmlasParser fofparser_b = fofparser(ctx.l.getText());
-			FOFVisitor fofvisitor = new FOFVisitor();
 			
 			Abstract_Literal b_lit = (Abstract_Literal) fofvisitor.visitLiteral(fofparser_b.literal());
 			return new Abstract_GBelief(b_lit);
 		} else if (ctx.GOAL() != null) {
 			return visitGoal(ctx.gl);
-		} else {
+		} else if (ctx.TRUE() != null) {
+			return new Abstract_GBelief();
+		} else if (ctx.eq != null) {
+			LogicalFmlasParser fofparser_e = fofparser(ctx.eq.getText());
+			Abstract_Equation e = (Abstract_Equation) fofvisitor.visitEquation(fofparser_e.equation());
+			return e;
+		} 	else {
 			return null;
 		}
 	}
@@ -195,6 +207,118 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 		}
 
 		
+	}
+	
+	//event returns [Abstract_Event e] : (PLUS (RECEIVED OPEN p=performative COMMA t=pred CLOSE 
+	//		{Abstract_GMessage message = new Abstract_GMessage(new Abstract_VarTerm("From"), 
+	//			new Abstract_VarTerm("To"), $p.b, $t.t); 
+	//			$e = new Abstract_Event(Abstract_Event.AILAddition, 
+	//			Abstract_Event.AILReceived, message);}|
+	//	(l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILBel, $l.l);} |
+	//	SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILAddition, $g.g);}) |
+	//	ADD_CONTENT l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILContent, $l.l);} |
+	//	ADD_CONTEXT l=literal {$e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILContext, $l.l);}
+	//	) |
+	  // MINUS (l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, $l.l);} |
+	//	SHRIEK g=goal {$e = new Abstract_Event(Abstract_Event.AILDeletion, $g.g);} |
+	//	ADD_CONTENT l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILContent, $l.l);} |
+	//	ADD_CONTEXT l=literal {$e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILContext, $l.l);}
+	//	));
+
+	@Override public Object visitEvent(GwendolenParser.EventContext ctx) {
+		FOFVisitor visitor = new FOFVisitor();
+		if (ctx.PLUS() != null) {
+			if (ctx.SHRIEK() != null) {
+				return new Abstract_Event(Abstract_Event.AILAddition, (Abstract_Goal) visitGoal(ctx.goal()));
+			} else if (ctx.RECEIVED() != null ) {
+				LogicalFmlasParser fof_parser = fofparser(ctx.t.getText());
+				Abstract_GMessage message = new Abstract_GMessage(new Abstract_VarTerm("From"), new Abstract_VarTerm("To"), (int) visitPerformative(ctx.p), (Abstract_Predicate) visitor.visitPred(fof_parser.pred()));	
+				return new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILReceived, message);
+						
+			} else {
+				LogicalFmlasParser fof_parser = fofparser(ctx.l.getText());
+				return new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILBel, (Abstract_Literal) visitor.visitLiteral(fof_parser.literal())); 
+			}
+		} else if (ctx.MINUS() != null) {
+			if (ctx.SHRIEK() != null) {
+				return new Abstract_Event(Abstract_Event.AILDeletion, (Abstract_Goal) visitGoal(ctx.goal()));
+			} else {
+				LogicalFmlasParser fof_parser = fofparser(ctx.l.getText());
+				return new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, (Abstract_Literal) visitor.visitLiteral(fof_parser.literal())); 
+			}
+		}
+		return null;
+	}
+	
+	/* performative returns [int b] : (TELL {$b=1;} | PERFORM {$b=2;} | ACHIEVE {$b = 3;} | TELLHOW {$b = 4;} | CONSTRAINT {$b = 5;}); */
+	@Override public Object visitPerformative(GwendolenParser.PerformativeContext ctx) {
+		if (ctx.TELL() != null) {
+			return 1;
+		} else if (ctx.PL_PERFORMGOAL() != null) {
+			return 2;
+		} else {
+			return 3;
+		}
+	}
+
+	/* deed returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
+			SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
+			ADD_CONTENT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContent, $l.l);} |
+			ADD_CONTEXT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILContext, $l.l);} |
+			ADD_PLAN p=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILPlan, $p.l);} |
+			ADD_CONSTRAINT c=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILConstraint, $c.l);} |
+			LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}) |
+		   MINUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, $l.l);} |
+			SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, $g.g);} |
+			ADD_CONTENT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILContent, $l.l);} |
+			ADD_CONTEXT l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILContext, $l.l);} |
+			LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);}
+			)) |
+			a=action {$d = new Abstract_Deed($a.a);}) |
+			wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);}
+			)
+			; */
+	@Override public Object visitDeed(GwendolenParser.DeedContext ctx) {
+		if (ctx.PLUS() != null) {
+			if (ctx.SHRIEK() != null) {
+				return new Abstract_Deed(Abstract_Deed.AILAddition, (Abstract_Goal) visitGoal(ctx.g));
+			} else if (ctx.LOCK() != null) {
+				return new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);
+			} else {
+				LogicalFmlasParser fofparser = fofparser(ctx.l.getText());
+				FOFVisitor fofvisitor = new FOFVisitor();
+				return new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, (Abstract_Literal) fofvisitor.visitLiteral(fofparser.literal()));
+			}
+		} else if (ctx.MINUS() != null) {
+			if (ctx.SHRIEK() != null) {
+				return new Abstract_Deed(Abstract_Deed.AILDeletion, (Abstract_Goal) visitGoal(ctx.g));
+			} else if (ctx.LOCK() != null) {
+				return new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);
+			} else {
+				LogicalFmlasParser fofparser = fofparser(ctx.l.getText());
+				FOFVisitor fofvisitor = new FOFVisitor();
+				return new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, (Abstract_Literal) fofvisitor.visitLiteral(fofparser.literal()));
+			}
+		} else {
+			return new Abstract_Deed((Abstract_Action) visitAction(ctx.a));
+		}
+	}
+	
+	/* action returns [Abstract_Action a] : 
+		(SEND OPEN an=literal COMMA p=performative COMMA t=pred CLOSE {$a = new Abstract_SendAction($an.l, $p.b, $t.t);}) | 
+		t=pred {$a = new Abstract_Action($t.t, Abstract_Action.normalAction);}; */
+	@Override public Object visitAction(GwendolenParser.ActionContext ctx) {
+		LogicalFmlasParser fofparser = fofparser(ctx.t.getText());
+		FOFVisitor visitor = new FOFVisitor();
+		
+		Abstract_Predicate action_pred = (Abstract_Predicate) visitor.visitPred(fofparser.pred());
+		if (action_pred.getFunctor().equals("send")  && action_pred.getTermSize() == 3) {
+			Abstract_SendAction a = new Abstract_SendAction(action_pred);
+			return a;
+		}
+		
+		Abstract_Action a = new Abstract_Action(action_pred, Abstract_Action.normalAction);
+		return a;
 	}
 
 

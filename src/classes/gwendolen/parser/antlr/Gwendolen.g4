@@ -36,8 +36,8 @@ gwendolenagent :  (GWENDOLEN?)
 	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
 	BELIEFS (bs=BELIEF_BLOCK)*
 	// RR_BLOCKS should be rulelists from LogicalFmlas grammar
-//	(BELIEFRULES (RR_NEWLINE)* (RR_BLOCK RR_NEWLINE) ((RR_BLOCK)? RR_NEWLINE)* )? 
-	GOAL_IB (gs=initial_goal)*
+	(BELIEFRULES (RR_NEWLINE)* (rr=RR_BLOCK RR_NEWLINE) ((rr=RR_BLOCK)? RR_NEWLINE)* )? 
+	(GOAL_IB | GOAL_RR) (gs=initial_goal)*
 //	(GOAL_RR | GOAL_IB) (GL_NEWLINE)* (gs=initial_goal (GL_NEWLINE)*)+
 	PLANS (p=plan)+;
 	
@@ -51,29 +51,26 @@ plan : e=event
 		SEMI ;
 
 
-guard_atom  : (NOT)? (BELIEVE l=fof_expr
- 					|
-				GOAL gl=goal
-				);
+guard_atom  : ( (NOT)? (BELIEVE l=fof_expr | GOAL gl=goal | eq = fof_expr) 
 //				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=PLAN_BLOCK CLOSE  |
-//				eq = PLAN_BLOCK  |
-//				TRUE  );
+//				eq = fof_expr  |
+				| TRUE  );
 					
-event : //(PLUS (RECEIVED OPEN p=performative COMMA t=PLAN_BLOCK CLOSE |
-//				(l=PLAN_BLOCK  | 
-	    PLUS SHRIEK g=goal ;
-// ) 
-//				) |
-//			   MINUS (l=PLAN_BLOCK  |
-//				SHRIEK g=goal 
-//				));
+event : ( PLUS
+	  		(RECEIVED OPEN p=performative COMMA t=fof_expr CLOSE |
+	  			(l = fof_expr | SHRIEK g=goal)
+	   		) 
+		) |
+		( MINUS
+			(l = fof_expr | SHRIEK g=goal)
+	   	);
 
-//performative  : (TELL  | PERFORMGOAL_PL  | ACHIEVEGOAL_PL );
+performative  : (TELL  | PL_PERFORMGOAL  | PL_ACHIEVEGOAL );
 								
 deed  : (
-			((PLUS (l=fof_expr  | SHRIEK g=goal))
+			((PLUS (l=fof_expr  | SHRIEK g=goal | LOCK))
 				| 
-			(MINUS (l=fof_expr  | SHRIEK g=goal)))
+			(MINUS (l=fof_expr  | SHRIEK g=goal | LOCK)))
 				|
 			a=action
 		);
@@ -96,13 +93,16 @@ goal: g=fof_expr PL_SQOPEN (PL_ACHIEVEGOAL | PL_PERFORMGOAL) PL_SQCLOSE;
 //waitfor  :  MULT l=PLAN_BLOCK ;
 
 action  : 
-	// (SEND OPEN an=fof_expr COMMA p=performative COMMA t=PLAN_BLOCK CLOSE ) | 
+//	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 
 	t=fof_expr;
+	      
 
-fof_expr: (const_var ( IDPUNCT const_var)* (OPEN (fof_expr | QUOTED_STRING) (COMMA (fof_expr | QUOTED_STRING))* CLOSE)? 
+fof_expr: (NUMBER | PL_VAR) (oper (NUMBER | PL_VAR))? |
+		  (const_var ( IDPUNCT const_var)* (OPEN (fof_expr | QUOTED_STRING) (COMMA (fof_expr | QUOTED_STRING))* CLOSE)? 
 	      | PL_SQOPEN fof_expr (COMMA fof_expr)* PL_SQCLOSE );
 	      
-const_var: PL_CONST | PL_VAR_CONST;
+const_var: PL_CONST | PL_VAR;
+oper : EQUAL | LESS;
 
 // General AIL Parsing stuff
 
