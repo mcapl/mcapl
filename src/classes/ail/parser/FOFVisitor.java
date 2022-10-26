@@ -209,7 +209,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	
     //equation returns[Abstract_Equation eq] : a1=arithexpr oper=eqoper a2=arithexpr; //  {$eq = new Abstract_Equation($a1.t, $oper.oper, $a2.t);};
 	@Override public Object visitEquation(@NotNull LogicalFmlasParser.EquationContext ctx) {
-		return new Abstract_Equation((Abstract_ArithExpr) visitArithexpr(ctx.a1), (int) visitEqoper(ctx.oper), (Abstract_ArithExpr) visitArithexpr(ctx.a2));
+		return new Abstract_Equation((Abstract_NumberTerm) visitArithexpr(ctx.a1), (int) visitEqoper(ctx.oper), (Abstract_NumberTerm) visitArithexpr(ctx.a2));
 	}
 	
 	//eqoper returns [int oper] : LESS {$oper=Abstract_Equation.less;} | EQ {$oper=Abstract_Equation.equal;};
@@ -248,9 +248,10 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		if (ctx.multoper() != null) {
 			oper = (int) visitMultoper(ctx.multoper());
 			a2 = (Abstract_NumberTerm) visitAtom(ctx.a2);
+			return new Abstract_ArithExpr(a1, oper, a2);
 		}
 			
-		return new Abstract_ArithExpr(a1, oper, a2);
+		return a1;
 	
 		
 	}
@@ -263,8 +264,9 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		if (ctx.addoper() != null) {
 			oper = (int) visitAddoper(ctx.addoper());
 			m2 = (Abstract_NumberTerm) visitMultexpr(ctx.m2);
+			return new Abstract_ArithExpr(m1, oper, m2);
 		}
-		return new Abstract_ArithExpr(m1, oper, m2);
+		return m1;
 	}
 	
 	@Override public Object visitLitlist(@NotNull LogicalFmlasParser.LitlistContext ctx) {
