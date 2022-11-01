@@ -37,6 +37,8 @@ import ail.syntax.Goal;
 import ajpf.MCAPLcontroller;
 // import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
 import gov.nasa.jpf.annotation.FilterField;
+import org.junit.Test;
+
 /**
  * A Gwendolen Reasonning Cycle.  An Example of how to set up a language
  * specific reasoning cycle.  Likely to change as the implementation of
@@ -59,8 +61,9 @@ public class GwendolenRC implements ReasoningCycle {
 	private GwendolenRCStage StageC = new GwendolenRCStage(2, "StageC");
 	private GwendolenRCStage StageD = new GwendolenRCStage(3, "StageD");
 	private GwendolenRCStage StageD2 = new GwendolenRCStage(4, "StageD2");
-	private GwendolenRCStage StageE = new GwendolenRCStage(5, "StageE");
-	private GwendolenRCStage StageF = new GwendolenRCStage(6, "StageF");
+	private GwendolenRCStage StageD3 = new GwendolenRCStage(5, "StageD3");
+	private GwendolenRCStage StageE = new GwendolenRCStage(6, "StageE");
+	private GwendolenRCStage StageF = new GwendolenRCStage(7, "StageF");
 	/**
 	 * Flag indicating whether this is a point where the properties of the 
 	 * multi-agent system should be checked.
@@ -157,7 +160,16 @@ public class GwendolenRC implements ReasoningCycle {
 
 		RCStage StageD2 = getStageD2();
 
-		StageD.setRule(rulel);
+		StageD2.setRule(rulel);
+
+
+		/* Stage D3 Rules */
+		HandleReconfigurePlan ruler = new HandleReconfigurePlan();
+
+		RCStage StageD3 = getStageD3();
+
+		StageD3.setRule(ruler);
+
 
 		/* Stage E Rules */
 		
@@ -175,7 +187,7 @@ public class GwendolenRC implements ReasoningCycle {
 	 * @see ail.semantics.ReasoningCycle#cycle(ail.semantics.AILAgent)
 	 */
 	public void cycle(AILAgent ag) {
-		if (currentstage  == StageA) {
+		if (currentstage == StageA) {
 			if (ag.getIntention() != null && ag.getIntention().empty() && (ag.getIntentions().isEmpty() || ag.allintentionssuspended())) {
 				setStopandCheck(true);
 				currentstage = StageE;
@@ -204,13 +216,14 @@ public class GwendolenRC implements ReasoningCycle {
 			setStopandCheck(true);
 			currentstage = StageD2;
 		} else if (currentstage == StageD2) {
+			currentstage = StageD3;
+		} else if (currentstage == StageD3) {
 			currentstage = StageE;
 		} else if (currentstage == StageE) {
 			currentstage = StageF;
 		} else if (currentstage == StageF) {
 			currentstage = StageA;
 		}
-
 	}
 
 	/*
@@ -249,6 +262,9 @@ public class GwendolenRC implements ReasoningCycle {
 	}
 	public RCStage getStageD2() {
 		return StageD2;
+	}
+	public RCStage getStageD3() {
+		return StageD3;
 	}
 	public RCStage getStageE() {
 		return StageE;

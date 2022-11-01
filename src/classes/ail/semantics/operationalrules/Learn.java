@@ -28,8 +28,10 @@ import ail.mas.AILEnv;
 import ail.semantics.AILAgent;
 import ail.semantics.OSRule;
 import ail.syntax.*;
-import ajpf.util.AJPFLogger;
 import ajpf.util.VerifyMap;
+import gov.nasa.jpf.util.Pair;
+
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -60,37 +62,36 @@ public class Learn implements OSRule {
 	 */
 	public boolean checkPreconditions(AILAgent a) {
 		ActionLog al = a.getActionLog();
-		ActionLogEntry e = al.getLatestEntry();
-		// If the latest log is for a Durative Action, that has a final log of anything but success, and has been logged more than the threshold...
-		System.out.print("Performing Check Preconditions");
-		if (e != null) {
-			if ((e.getAction() instanceof DurativeAction)) {
-				System.out.print("Passed Check 1");
-				if ((e.getActionOutcomeToString() != "Succeeded")) {
-					System.out.print("Passed Check 2");
-					if ((al.getLogsForAction(e).getArrayList().size() >= ((DurativeAction) e.getAction()).threshold)) {
-						System.out.print("Passed Check 3");
-						return true;
-					}
-					System.out.print(al.getLogsForAction(e).getArrayList().size());
-					System.out.print(((DurativeAction) e.getAction()).threshold);
+		//ActionLogEntry e = al.getLatestEntry();
 
-					System.out.print("Failed Check 3");
+		// If the latest log is for a Durative Action, that has a final log of anything but success, and has been logged more than the threshold...
+		//System.out.print("Performing Check Preconditions");
+		if (!a.getDA().isEmpty()) {
+			DurativeAction dact = a.getDA().get(0);
+			ActionLogEntry e = al.getLogsForAction(dact).getLatestEntry();
+			if (e != null) {
+				if (dact instanceof DurativeAction) {
+					//System.out.print("Passed Check 1");
+					if ((e.getActionOutcomeToString() != "Succeeded")) {
+						//System.out.print("Passed Check 2");
+						if (al.getLogsForAction(e).getArrayList().size() >= dact.threshold) {
+							//System.out.print("Passed Check 3");
+							return true;
+						}
+						System.out.print(al.getLogsForAction(e).getArrayList().size());
+						System.out.print(dact.threshold);
+
+						System.out.print("Failed Check 3 - Action is a Success" + "\n");
+						return false;
+					}
+					//System.out.print(e.getActionOutcomeToString());
+					System.out.print("Failed Check 2 - Action is not Durative" + "\n");
 					return false;
 				}
-				System.out.print(e.getActionOutcomeToString());
-				System.out.print("Failed Check 2");
-				return false;
+				System.out.print("Failed Check 1 - Action Log is null" + "\n");
 			}
-			System.out.print("Failed Check 1");
 		}
 		return false;
-
-
-		//if ((e.getAction() instanceof DurativeAction) && (e.getActionOutcome() != ActionLogEntry.actionSucceeded) || (al.getLogsForAction(e).getArrayList().size() >= ((DurativeAction) e.getAction()).threshold)) {
-		//	return true;
-		//}
-		//return false;
 	}
 			
 	/*
@@ -98,27 +99,21 @@ public class Learn implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
+		CapabilityLibrary cl = a.getCL();
 		//get environment
 		AILEnv env = a.getEnv();
 		//init new action postconditions
 		Set<Literal> newpc = null;
 		//init current success postconditions
 		Set<Literal> oldpc;
-
-
-
 		// if Action Log for Agent is empty then nothing can be learned.
+		DurativeAction dact = a.getDA().get(0);
+		Guard postconditions = null;
 		if (a.getActionLog() != null) {
 			System.out.print("Learning new action description..." + "\n");
 			//separate actions into their own logs.
 			ActionLog al = a.getActionLog();
-			ArrayList<ActionLogEntry> singleActionLog = al.getLogsForAction(al.getLatestEntry()).getArrayList();
-
-
-			//get the durative action from the last log
-			DurativeAction dact = (DurativeAction) al.getLatestEntry().getAction();
-
-
+			ArrayList<ActionLogEntry> singleActionLog = al.getLogsForAction(dact).getArrayList();
 			// Loop through action log, until the action outcome is different to the stored one. If it is the same - break loop
 			ArrayList<ActionLogEntry> entriesToRemove = new ArrayList<>();
 
@@ -133,60 +128,75 @@ public class Learn implements OSRule {
 			// -- check if the failures are the same EXACT failure, if they are then update postconditions.
 			boolean allEqual = false;
 			for (ActionLogEntry e : singleActionLog) {
-				if (!e.equals(singleActionLog.get(0))){
+				if (!e.equals(singleActionLog.get(0))) {
 					allEqual = false;
 				}
 				allEqual = true;
 			}
-			newpc = singleActionLog.get(0).getBeliefs();
 			if (allEqual) {
-				// convert set of literals to GLogicalFormula - this can live somewhere else.
-				GLogicalFormula postconditions = new GBelief();
-				//System.out.print("All log entries are identical.");
-
-				if (false){
-					for (Literal l : newpc) {
-						postconditions = new GBelief(l);
-					}
-					//System.out.print("I am setting pcs");
-				} else {
-					for (Literal l : newpc) {
-						GLogicalFormula next = new GBelief(l);
-						//next means something in temporal logic dont use it as a varaiable name.
-						postconditions = new Guard(postconditions, Guard.GLogicalOp.and, next);
-						//I can perhaps remove the empty TRUE GBelief after this statement?
-					}
-				}
-
-				// change action description in agent's cap library
-				// get the action predicate
-				Predicate p = dact.getActionPredicate();
-				// make a new capability with new postconditions
-				Capability c = dact.updatePost(postconditions);
-				// remove existing capability from agent's caplibrary
-				a.getCL().removeRelevant(p);
-				// add new cap to library
-				System.out.print("New action description learned for" + p.toString() + "\n");
-				System.out.print(al.toString());
-				a.getCL().add(c);
+				newpc = singleActionLog.get(0).getBeliefs();
 			} else {
-				// if they aren't the same -- count up weights and set new action postconditions to highest scoring log.
-
-
 				//weight the log entries with most recent entries being worth more.
-				Map<Integer, ActionLogEntry> logMap = new VerifyMap<Integer, ActionLogEntry>();
-				int w = 0;
+				List<Pair<ActionLogEntry, Integer>> weightArray = new ArrayList<Pair<ActionLogEntry, Integer>>();
+				int index = 0;
+				int value = 0;
 				for (ActionLogEntry e : singleActionLog) {
-					++w;
-					logMap.put(w, e);
+					if (weightArray.contains(e)) {
+						for (Pair weightEntry : weightArray) {
+							index = weightArray.indexOf(e);
+						}
+						value = value + weightArray.get(index)._2;
+						weightArray.remove(e);
+						weightArray.set(index, new Pair(e, value));
+					} else {
+						weightArray.add(index, new Pair(e, value));
+					}
+					++index;
+					++value;
 				}
-
-				// then loop through again adding the weights up for the same action - making the confidence level.
-
-				//compare to currently stored action outcome
-
-				//OLD IDEA - might work with self model?  if confidence level is higher current stored action outcome - replace.
+				value = 0;
+				index = 0;
+				while (weightArray.size() > index){
+					if (weightArray.get(index)._2 > value) {
+						newpc = weightArray.get(index)._1.getBeliefs();
+					}
+				}
+			}
+			// set new postconditions
+			boolean firstloop = true;
+			for (Literal l : newpc) {
+				GLogicalFormula belief = new GBelief(l);
+				if (firstloop = true) {
+					postconditions = new Guard(belief);
+					firstloop = false;
+				} else {
+					postconditions = new Guard(postconditions, Guard.GLogicalOp.and, belief);
+				}
 			}
 		}
+
+		// change action description in agent's cap library
+		// get the action predicate
+		cl.removeCapability(dact);
+		//System.out.println(cl.getCapabilitiesArrayList());
+		Predicate p = dact.getActionPredicate();
+		// make a new capability with new postconditions
+		DurativeAction dactprime = dact.updatePost(postconditions);
+		// remove existing capability from agent's caplibrary
+
+		// add new cap to library
+		//System.out.print("New postcondition learned for" + " " + p.toString() + ": " + dactprime.getPost().toString() + "\n");
+		//System.out.print(al.toString());
+		a.getCL().add(dactprime);
+		a.addToLearnedActions(dactprime);
+		a.getSA().remove(dactprime);
+		a.getDA().remove(dactprime);
+		//System.out.println(a.getLA().toString());
+		//System.out.print(a.getBB().toString()+ "\n");
+		//a.getReasoningCycle().setStopandCheck(true);
 	}
-} 
+}
+			//compare to currently stored action outcome
+
+			//OLD IDEA - might work with self model?  if confidence level is higher current stored action outcome - replace.
+

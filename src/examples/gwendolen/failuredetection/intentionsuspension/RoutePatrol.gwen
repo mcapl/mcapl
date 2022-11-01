@@ -60,8 +60,8 @@ routepatrol [perform]
 +!goto04 [perform] : {B at(3)} <- move(3,4);
 
 +!goto00 [perform] : {B at(0)} <- move(0,0), print("Already at 0");
-+!goto01 [perform] : {B at(1)} <- move(1,1), print("Already at 0");
-+!goto02 [perform] : {B at(2)} <- move(2,2), print("Already at 0");
-+!goto03 [perform] : {B at(3)} <- move(3,3), print("Already at 0");
-+!goto04 [perform] : {B at(4)} <- move(4,4), print("Already at 0");
++!goto01 [perform] : {B at(1)} <- move(1,1), print("Already at 1");
++!goto02 [perform] : {B at(2)} <- move(2,2), print("Already at 2");
++!goto03 [perform] : {B at(3)} <- move(3,3), print("Already at 3");
++!goto04 [perform] : {B at(4)} <- move(4,4), print("Already at 4");
 

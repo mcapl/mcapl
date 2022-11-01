@@ -75,6 +75,10 @@ public class DirectPerception implements OSRule {
 	 * @see ail.semantics.operationalrules.OSRule#apply(ail.semantics.AILAgent)
 	 */
 	public void apply(AILAgent a) {
+		static_apply(a);
+	}
+
+	public static void static_apply(AILAgent a) {
 		AILEnv env = a.getEnv();
 		Set<Predicate> percepts = env.getPercepts(a.getAgName(), true);
 		Set<Message> messages = env.getMessages(a.getAgName());

@@ -1,0 +1,12 @@
+{at(waypoint1)} moveW1W2 {-at(waypoint1),+at(waypoint2)}
+{at(waypoint2)} moveW2W1 {-at(waypoint2),+at(waypoint1)}
+{at(waypoint1)} moveW1W3 {-at(waypoint1),+at(waypoint3)}
+{at(waypoint3)} moveW3W1 {-at(waypoint3),+at(waypoint1)}
+{at(waypoint3)} moveW3W2 {-at(waypoint3),+at(waypoint2)}
+{at(waypoint2)} moveW2W3 {-at(waypoint2),+at(waypoint3)}
+{at(waypoint1)} moveW1W4 {-at(waypoint1),+at(waypoint4)}
+{at(waypoint4)} moveW4W1 {-at(waypoint4),+at(waypoint1)}
+{at(waypoint2)} moveW2W5 {-at(waypoint2),+at(waypoint5)}
+{at(waypoint5)} moveW5W2 {-at(waypoint5),+at(waypoint2)}
+{at(waypoint5)} moveW5W4 {-at(waypoint5),+at(waypoint4)}
+{at(waypoint4)} moveW4W5 {-at(waypoint4),+at(waypoint5)}

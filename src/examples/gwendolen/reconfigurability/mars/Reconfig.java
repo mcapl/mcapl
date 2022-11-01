@@ -23,7 +23,7 @@ import ail.util.AILexception;
 
 
 public class Reconfig extends DefaultEnvironment{
-	static final String logname = "gwendolen.reconfigurability.Reconfigure";
+	static final String logname = "gwendolen.reconfigurability.mars.Reconfig";
 	
 	private String at = "waypoint1";
 	private boolean failure = true;
@@ -31,11 +31,12 @@ public class Reconfig extends DefaultEnvironment{
 	
 	// reconfigurability input file paths
 	// empty precondition or postcondition in capabilities have to be specified without any spaces, as {}
-	private String capabilities = "./src/classes/gwendolen/reconfigurability/capabilities.txt";
+	private String capabilities = "./src/examples/gwendolen/reconfigurability/mars/capabilities.txt";
 	// initial states, separate each state with empty space (eg. "at(waypoint1) obstacle(waypoint2)"; )
+
 	private String initialState = "at(waypoint1)";
 	// goal states, separate each state with empty space
-	private String goals = "at(waypoint5)";
+	private String goals = "at(waypoint2)";
 	
 	public Reconfig() {
 		super();

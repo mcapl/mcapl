@@ -219,6 +219,19 @@ public class Guard implements GLogicalFormula {
 	public boolean add(GLogicalFormula gb) {
 		return add(gb, true);
 	}
+
+	/**
+	 * Adds all the Guard Atoms from a list to the guard - by default all atoms are checked as true.
+	 * @param gbs
+	 * @return
+	 */
+	public void add(Set<GBelief> gbs) {
+		for (GBelief gb : gbs) {
+			add(gb, true);
+			System.out.print("Added " + gb.toString());
+
+		}
+	}
 	
 	/**
 	 * Add a Guard Atom to the guard with a flag showing whether or not it should be

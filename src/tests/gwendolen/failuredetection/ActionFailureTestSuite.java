@@ -32,6 +32,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -60,11 +61,11 @@ public class ActionFailureTestSuite {
 		/* Make a durative action from the capability */
 		DurativeAction a = new DurativeAction(c, 10, 10 );
 		/* Log a successful action */
-		ag.al.add(a, new BeliefBase(), new BeliefBase(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), new ArrayList(), ActionLogEntry.actionSucceeded);
 		/* Log a failed action */
-		ag.al.add(a, new BeliefBase(), new BeliefBase(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), new ArrayList(), ActionLogEntry.actionFailed);
 		/* Log an aborted action */
-		ag.al.add(a, new BeliefBase(), new BeliefBase(), ActionLogEntry.actionAbort);
+		ag.al.add(a, new ArrayList(), new ArrayList(), ActionLogEntry.actionAbort);
 		/* Check if action log reflects the above log */
 
 		Assert.assertTrue(
@@ -94,19 +95,19 @@ public class ActionFailureTestSuite {
 
 		/* Log a successful action */
 		ag.addBel(new Literal("at_entrance"), AILAgent.refertoself());
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		ag.delBel(new Literal("at_entrance"));
 		/* Log the threshold amount of failures with a different post condition*/
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
 		/* Trigger deductive learning on action log */
 		Learn learn = new Learn();
 
 		junit.framework.Assert.assertTrue(learn.checkPreconditions(ag));
 		learn.apply(ag);
 		/* Log another action */
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		/* Check if post-condition has been updated OR if action has been marked as deprecated */
 		Capability newc = ag.getCL().getRelevant(p, AILAgent.SelectionOrder.LINEAR).next();
 		System.out.print("\n");
@@ -133,21 +134,21 @@ public class ActionFailureTestSuite {
 		/* Log a successful action */
 		ag.addBel(new Literal("at_entrance"), AILAgent.refertoself());
 		ag.addBel(new Literal("photo_taken"), AILAgent.refertoself());
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		ag.delBel(new Literal("at_entrance"));
 		/* Add belief for only one postcondition of the action */
 		ag.addBel(new Literal("at_entrance"), AILAgent.refertoself());
 		/* Log the threshold amount of failures with a different post condition*/
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
 		/* Trigger deductive learning on action log */
 		Learn learn = new Learn();
 
 		junit.framework.Assert.assertTrue(learn.checkPreconditions(ag));
 		learn.apply(ag);
 		/* Log another action */
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		/* Check if post-condition has been updated OR if action has been marked as deprecated */
 		Capability newc = ag.getCL().getRelevant(p, AILAgent.SelectionOrder.LINEAR).next();
 		System.out.print("\n");
@@ -175,14 +176,14 @@ public class ActionFailureTestSuite {
 
 		/* Log a successful action */
 		ag.addBel(new Literal("at_entrance"), AILAgent.refertoself());
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		ag.delBel(new Literal("at_entrance"));
 		/* add a belief to show a different outcome is now happening after action execution*/
 		ag.addBel(new Literal("at_exit"), AILAgent.refertoself());
 		/* Log the threshold amount of failures with a different post condition*/
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
 		/* Trigger deductive learning on action log */
 		Learn learn = new Learn();
 
@@ -190,7 +191,7 @@ public class ActionFailureTestSuite {
 		learn.apply(ag);
 
 		/* Log another action */  ///******************* This needs to log an actionLog that is auto generated - NOT fixed like below.
-		ag.al.add(new ActionLogEntry(ag.getCL().getRelevant(a, AILAgent.SelectionOrder.LINEAR).next(), ag.prebeliefs, ag.getBB(), ActionLogEntry.actionSucceeded));
+		ag.al.add(new ActionLogEntry(ag.getCL().getRelevant(a, AILAgent.SelectionOrder.LINEAR).next(), ag.prebeliefs, ag.getBB().getAll(), ActionLogEntry.actionSucceeded));
 
 		/* Check if post-condition has been updated OR if action has been marked as deprecated */
 		Capability newc = ag.getCL().getRelevant(p, AILAgent.SelectionOrder.LINEAR).next();
@@ -220,19 +221,19 @@ public class ActionFailureTestSuite {
 		/* Make a durative action from the capability */
 		DurativeAction a = new DurativeAction(c, 10, 10 );
 		/* Log some successful actions */
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		/* add a belief to show a different outcome is now happening after action execution*/
 		//ag.addBel();
 		/* Log the threshold amount of failures with a different post condition*/
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionFailed);
 		/* Trigger deductive learning on action log */
 
 		/* Log another action */
-		ag.al.add(a, new BeliefBase(), ag.getBB(), ActionLogEntry.actionSucceeded);
+		ag.al.add(a, new ArrayList(), ag.getBB().getAll(), ActionLogEntry.actionSucceeded);
 		/* Check if post-condition has been updated OR if action has been marked as deprecated */
 		Assert.assertTrue(a.getPost() != post);
 

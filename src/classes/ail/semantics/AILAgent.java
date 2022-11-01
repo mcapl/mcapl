@@ -138,6 +138,22 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	protected Iterator<Capability> AC = new ArrayList<Capability>().iterator();
 
 	/**
+	 * Currently Suspect Actions.
+	 */
+	protected ArrayList<DurativeAction> SA = new ArrayList<DurativeAction>();
+
+	/**
+	 * Currently Deprecated Actions.
+	 */
+	protected ArrayList<DurativeAction> DA = new ArrayList<DurativeAction>();
+
+	/**
+	 * Currently Learned Actions.
+	 */
+	protected ArrayList<DurativeAction> LA = new ArrayList<DurativeAction>();
+
+
+	/**
 	 * Language specific annotations. Unused by any AIL methods but may be important
 	 * when these methods are over-ridden.
 	 */
@@ -286,7 +302,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		} else {
 			actionAbortLog.put(a, 1);
 		}*/
-		al.add((DurativeAction) a, prebeliefs, getBB(), ActionLogEntry.actionAbort);
+		al.add((DurativeAction) a, prebeliefs, getBB().getAll(), ActionLogEntry.actionAbort);
 
 	}
 	public void logFail(Action a) {
@@ -312,20 +328,22 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *	More Advanced Action Log - pws
 	 */
 	public ActionLog al = new ActionLog();
-	public BeliefBase prebeliefs = new BeliefBase();
+	public ArrayList<Literal> prebeliefs = new ArrayList<>();
 
 	public ActionLog getActionLog(){return al;}
 
-	public void setPreBB(){ prebeliefs = getBB();}
+	public void setPreBB(){ prebeliefs = getBB().getAll();}
 
 	public void log(DurativeAction a, byte b){
 		//casting to a durative action might cause issues - this may need to change
-		al.add(a, prebeliefs, getBB(), b);
+		al.add(a, prebeliefs, getBB().getAll(), b);
 
 	}
 	public void printActionLog() { System.out.println(getActionLog().toString()); }
 
-
+	public ArrayList<Literal> getPrebeliefs(){
+		return prebeliefs;
+	}
 
 	// -----------------CONSTRUCTORS---------------//
 
@@ -801,8 +819,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * 
 	 * @param pl the new plan library.
 	 */
-	public void setCapabilityLibrary(CapabilityLibrary pl) {
-		clmap.put(getDefaultCBName(), pl);
+	public void setCapabilityLibrary(CapabilityLibrary cl) {
+		clmap.put(getDefaultCBName(), cl);
 	}
 
 	/**
@@ -957,6 +975,36 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		// potentially useful to know in debugging - unfortunately its an iterator not a
 		// list :(
 		AP = ap;
+	}
+
+	public void addToSuspectActions(DurativeAction dact){
+		SA.add(dact);
+	}
+	public void addToDeprecatedActions(DurativeAction dact){
+		DA.add(dact);
+	}
+	public void addToLearnedActions(DurativeAction dact){
+		LA.add(dact);
+	}
+
+	public ArrayList<DurativeAction> getSA() {
+		return SA;
+	}
+
+	public ArrayList<DurativeAction> getDA() {
+		return DA;
+	}
+
+	public ArrayList<DurativeAction> getLA() {
+		return LA;
+	}
+
+	public void setLA(ArrayList<DurativeAction> l) {
+		LA = l;
+	}
+
+	public void removeAction(ArrayList arrayList, DurativeAction dact) {
+		arrayList.remove(dact);
 	}
 
 	// --- Rules

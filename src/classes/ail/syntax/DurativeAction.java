@@ -63,6 +63,17 @@ public class DurativeAction extends Capability {
     	return a;
     	
     }
+
+    /**
+     * Method for cloning existing Durative Action and updating postconditions
+     */
+
+    public DurativeAction updatePost(GLogicalFormula newpc) {
+        Capability c = super.updatePost(newpc);
+        DurativeAction a = new DurativeAction(c, duration, threshold);
+        a.actionstate = this.getActionState();
+        return a;
+    }
     
 
     public byte getActionState(){
@@ -80,10 +91,6 @@ public class DurativeAction extends Capability {
     public Predicate getActionPredicate(){ return super.getAction().toPredicate(); }
     
     public GLogicalFormula getSuccess() {
-    	return getPost();
-    }
-    
-    public GLogicalFormula getFail() {
     	return getPost();
     }
 

@@ -1,28 +1,41 @@
 package gwendolen.reconfigurability;
 
+import ail.semantics.AILAgent;
+import ail.syntax.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Reconfigure {
 
     private String capabilities = "./src/classes/gwendolen/reconfigurability/capabilities.txt";
     // initial states, separate each state with empty space (eg. "at(waypoint1) obstacle(waypoint2)"; )
-    private String initialState = "at(waypoint1)";
+    private String initialState = "at(0)";
     // goal states, separate each state with empty space
-    private String goals = "at(waypoint5)";
+    private String goals = "at(1)";
+    //To be adaptable, the goal needs to be read in from the learned action postconditions...
 
+    public Reconfigure(AILAgent a){
+    getCapabilitiesAsFile(a);
+    }
 
-    public void reconfig(String failedAction) {
+    public void setInitialState(Guard g){
+        initialState = g.toString();
+        //System.out.println(initialState);
+    }
+    public void setGoalState(Guard g){
+        goals.toString();
+        //System.out.println(goals);
+
+    }
+    public ArrayList<String> reconfig(String failedAction) {
         createDomain(failedAction);
         createProblem();
 
-        LinkedList<String> plan = null;
+        ArrayList<String> plan = null;
 
         try {
             plan = callPlanner();
@@ -30,12 +43,43 @@ public class Reconfigure {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        for (int i = 0; i < plan.size(); i++) {
-            System.out.println(i +" = "+plan.get(i));
+        if (plan != null) {
+            //System.out.println(plan.toString());
+            for (int i = 0; i < plan.size(); i++) {
+                //System.out.println(i + " = " + plan.get(i));
+            }
+        } else {
+            System.out.print("No plan resulted from Reconfiguration");
         }
+        return plan;
     }
 
+    private void getCapabilitiesAsFile(AILAgent a){
+        File capabilitiesFile = new File("./src/classes/gwendolen/reconfigurability/capabilities.txt");
+        ArrayList<DurativeAction> capabilitiesList = new ArrayList<>();
+        ArrayList<DurativeAction> learnedList = a.getLA();
+        //ArrayList<DurativeAction> libraryList = a.getCL().getCapabilitiesArrayList();
+        ArrayList<DurativeAction> libraryList = a.getCL().getCapabilitiesArrayListnew();
+        //capabilitiesList.addAll(learnedList);
+        capabilitiesList.addAll(libraryList);
+        try {
+            capabilitiesFile.createNewFile();
+            FileWriter capabilityFileWriter = new FileWriter(capabilitiesFile);
+            for (DurativeAction dact: capabilitiesList){
+                String pre = dact.getPre().toString();
+                String terms = "_" + dact.getTerm(0) + "-" + dact.getTerm(1) + "Q";
+                String action = dact.getFunctor() + terms;
+                String post = dact.getPost().toString();
+                post = StringUtils.substringBefore(post, "[");
+                capabilityFileWriter.write("{"+ pre + "}" + " " + action + " " + "{"+ post + "}" + "\n");
+            }
+            capabilityFileWriter.flush();
+            capabilityFileWriter.close();
+        } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        }
+    }
 
     private void createProblem() {
         File problemFile = new File("./src/classes/gwendolen/reconfigurability/problem.pddl");
@@ -298,38 +342,38 @@ public class Reconfigure {
         return list.toArray(simpleArray);
     }
 
-    private LinkedList<String> callPlanner() throws IOException, InterruptedException {
+    private ArrayList<String> callPlanner() throws IOException, InterruptedException {
         ProcessBuilder pb = null;
         pb = new ProcessBuilder("./run.sh", "domain.pddl", "problem.pddl");
-//
-        pb.directory(new File("./src/examples/gwendolen/reconfigurability/mars/"));
+        pb.directory(new File("./src/classes/gwendolen/reconfigurability/"));
         Process p = pb.start();
         p.waitFor();
 
         Scanner s = new Scanner(p.getInputStream());
 
-        LinkedList<String> plan = new LinkedList<String>();
-////		synchronized (EISArtifact.class) {
-//			FileWriter cachedPlan = new FileWriter("./planner/cache/");
-//
+        ArrayList<String> plans = new ArrayList<String>() ;
         while(s.hasNextLine()) {
+            String plan = "";
             String line = s.nextLine();
-//				cachedPlan.write(line + "\n");
             if(line.equals("NO PLAN")) {
                 s.close();
-//					cachedPlan.close();
                 return null;
             }
-            if (!line.contains("cost =")) {
-                plan.add(line);
+            String full = StringUtils.substringBetween(line, "(", ")");
+            String termsWithDash = StringUtils.substringBetween(full, "_", "q");
+            String terms = StringUtils.replace(termsWithDash, "-", ",");
+            String action = StringUtils.substringBetween(line, "(", "_");
+            plan = action + "(" + terms + ")";
+                if (s.hasNextLine()){
+                    plan.concat(",");
             }
-
+                plans.add(plan);
         }
 //			cachedPlan.close();
         s.close();
 //		}
-
-        return plan;
+       // System.out.println(plans.toString());
+		return plans;
 
     }
 

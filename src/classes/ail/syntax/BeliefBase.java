@@ -115,6 +115,18 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
     	return list;
     }
 
+    public ArrayList<Literal> getAllWithoutAnnot(){
+        ArrayList<Literal> list = new ArrayList<Literal>();
+        for (BelEntry b: belsMap.values()) {
+            for (Literal l : b.list) {
+                l.toString();
+                list.add(l);
+            }
+        }
+
+        return list;
+    }
+
     @SuppressWarnings("unchecked")
     /**
      * Get all the percepts in the belief base.

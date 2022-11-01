@@ -23,7 +23,7 @@
   <property file="local.properties"/>
   
   <!-- this is where we get the 'jpf.core' location from -->
-  <property file="${user.home}/.jpf/site.properties"/>
+  <property file="/home/m34885ps/.jpf/site.properties"/>
 
   <!-- if there is none, default to a 'jpf-core' peer dir -->
   <!-- <property name="jpf-core" value = "../jpf-core"/> -->

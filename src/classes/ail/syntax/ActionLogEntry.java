@@ -40,7 +40,7 @@ public final class ActionLogEntry extends Object {
      * @param o The action's outcome, as set in HandleActionwProblem
      */
     //public ActionLogEntry(DurativeAction a, BeliefBase preb, BeliefBase postb, byte o) {
-    public ActionLogEntry(Capability a, BeliefBase preb, BeliefBase postb, byte o) {
+    public ActionLogEntry(Capability a, ArrayList preb, ArrayList postb, byte o) {
         newbeliefs = getComplement(preb, postb);
         action = a;
         actionoutcome = o;
@@ -61,15 +61,21 @@ public final class ActionLogEntry extends Object {
         return newbeliefs;
     }
 
-    public Set<Literal> getComplement(BeliefBase preb, BeliefBase postb) {
+    public Set<Literal> getComplement(ArrayList preb, ArrayList postb) {
         Set<Literal> complement = new TreeSet<>();
-        ArrayList<Literal> prebeliefs = preb.getAll();
-        ArrayList<Literal> postbeliefs = postb.getAll();
-        for (Literal l : postbeliefs)
-        if (!prebeliefs.contains(l)) {
-            complement.add(l);
+        ArrayList<Literal> prebeliefs = preb;
+        ArrayList<Literal> postbeliefs = postb;
+        //System.out.print(prebeliefs);
+        //System.out.print(postbeliefs);
+        for (Literal l : postbeliefs) {
+            //System.out.print("Scanning Literals in postbeliefs");
+            if (!prebeliefs.contains(l)) {
+                //System.out.print("Literal is not in prebelief");
+                complement.add(l);
+            }
         }
         return complement;
+
     }
 
     public Action getAction(){

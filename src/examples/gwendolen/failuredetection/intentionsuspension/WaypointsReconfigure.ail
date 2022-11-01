@@ -22,25 +22,13 @@
 //
 //----------------------------------------------------------------------------
 
-// --- Louise's file path ---
-//mas.file = /Users/louisedennis/eclipse-workspace/petermcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
-
-// --- Linux file paths ---
-//env = gwendolen.failuredetection.DurativeActionRouteEnv
 env = gwendolen.failuredetection.ReconfigurationWaypointsEnvironmentwFailure
-mas.file = /src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
+mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/WaypointsReconfigure.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
-// --- Mac file paths ---
-//env = gwendolen.failuredetection.DurativeActionRouteEnv
-//env = gwendolen.failuredetection.ReconfigurationWaypointsEnvironmentwFailure
-//mas.file = /Users/peterstringer/IdeaProjects/mcapl/src/examples/gwendolen/failuredetection/intentionsuspension/RoutePatrol.gwen
-//mas.builder = gwendolen.GwendolenMASBuilder
-
-// --- Logging ---
 //log.info = ail.mas.DefaultEnvironment
-//log.finest = gwendolen.failuredetection.DurativeActionRouteEnv
-//log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.RoutePatrol
-//log.fine = ail.semantics.AILAgent
+//log.finest = gwendolen.failuredetection.DurativeActionWaypointsEnv
+//log.finest = src.examples.gwendolen.failuredetection.intentionsuspension.Waypoints
 //log.info = ail.semantics.AILAgent
-//log.warning = ajpf.util.AJPFLogger
+
+log.warning = ajpf.util.AJPFLogger

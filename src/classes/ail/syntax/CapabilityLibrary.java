@@ -81,6 +81,28 @@ public class CapabilityLibrary implements Iterable<Capability> {
 		//System.out.print("Relevant capablities removed.\n");
 	}
 
+	public void removeCapability(Capability cap) {
+		ArrayList<Capability> relevantCaps = new ArrayList<>();
+		HashMap<PredicateIndicator, ArrayList<Capability>> newhashmap = new HashMap<PredicateIndicator, ArrayList<Capability>>();
+		for (PredicateIndicator pi: capMap.keySet()) {
+			newhashmap.put(pi, new ArrayList<Capability>());
+			for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
+				for (Capability librarycap : capabilityArrayList) {
+					if (librarycap.getAction().equals(cap)) {
+
+						relevantCaps.add(librarycap);
+						//System.out.println("Adding library cap" + librarycap);
+					} else {
+						newhashmap.get(pi).add(librarycap);
+					}
+				}
+			}
+		}
+		capMap = newhashmap;
+		//capMap.remove(relevantCaps);
+		//System.out.print("Relevant capablities removed.\n");
+	}
+
 	/**
 	 * An iterator of all the capabilities in the library.
 	 *
@@ -200,11 +222,20 @@ public class CapabilityLibrary implements Iterable<Capability> {
 		ArrayList<Capability> capabilities = new ArrayList<>();
 		for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
 			for (Capability cap : capabilityArrayList) {
+				System.out.println(cap);
 				capabilities.add(cap);
 				}
 			}
 		return capabilities;
 		}
+
+	public ArrayList getCapabilitiesArrayListnew() {
+		ArrayList<Capability> capabilities = new ArrayList<>();
+		for (ArrayList<Capability> capabilityArrayList : capMap.values()) {
+		capabilities.addAll(capabilityArrayList);
+		}
+		return capabilities;
+	}
 
 	public void exportLibrary(String filepath) {
 		File capabilitiesFile = new File(filepath);

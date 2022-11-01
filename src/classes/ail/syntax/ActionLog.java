@@ -68,7 +68,7 @@ public class ActionLog {
         al.add(e);
     }
 
-    public void add(DurativeAction a, BeliefBase preb, BeliefBase postb, Byte s) {
+    public void add(DurativeAction a, ArrayList preb, ArrayList postb, Byte s) {
         ActionLogEntry e = new ActionLogEntry(a, preb, postb, s);
         pop();
         al.add(e);
@@ -134,6 +134,19 @@ public class ActionLog {
         ActionLog singleActionLog = new ActionLog();
         for (ActionLogEntry entry : al) {
             if (entry.action == actionLogEntry.action) {
+                singleActionLog.add(entry);
+                if (entry.getActionOutcome() == ActionLogEntry.actionSucceeded) {
+                    singleActionLog.removeEntry(entry);
+                }
+            }
+        }
+        return singleActionLog;
+    }
+
+    public ActionLog getLogsForAction(Action action) {
+        ActionLog singleActionLog = new ActionLog();
+        for (ActionLogEntry entry : al) {
+            if (entry.action == action) {
                 singleActionLog.add(entry);
                 if (entry.getActionOutcome() == ActionLogEntry.actionSucceeded) {
                     singleActionLog.removeEntry(entry);

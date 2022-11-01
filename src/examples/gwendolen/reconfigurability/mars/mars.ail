@@ -1,4 +1,4 @@
-mas.file = /examples/gwendolen/reconfigurability/mars/mars.gwen
+mas.file = src/examples/gwendolen/reconfigurability/mars/mars.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.reconfigurability.mars.Reconfig

@@ -29,6 +29,7 @@ import ail.util.AILexception;
 import ajpf.util.VerifyMap;
 import ail.syntax.ActionLog;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import ail.mas.AILEnv;
@@ -79,9 +80,6 @@ public class HandleActionwProblem extends HandleTopDeed {
 		Action act = (Action) topdeed.getContent();
 		AILEnv env = a.getEnv();
 
-		// set pre belief base for keeping a note of beliefs before execution
-		a.setPreBB();
-		
 		// Bit of a hack this!
 		
 		// NEW STUFF
@@ -105,43 +103,58 @@ public class HandleActionwProblem extends HandleTopDeed {
 		}
 		
 		if (act instanceof DurativeAction) {
-			
 			// We can (hopefully!) now assume act is a durative action.
 			DurativeAction dact = (DurativeAction) act;
 			thetahd.compose(thetab);
 			dact.apply(thetahd);
+			// set pre belief base for keeping a note of beliefs before execution
+			//a.setPreBB();
+			ArrayList<Literal> prebeliefs = a.getBB().getAllWithoutAnnot();
+
 			try {
 				Unifier thetaa = new Unifier();
 				// if the action isn't seen as executing: execute it, and mark it as executing.
 				if (! dact.isExecuting()) {
-					//take note of the currently held beliefs before execution.
-					a.setPreBB();
+
 					//execute
 					thetaa = a.getEnv().executeAction(a.getAgName(), dact);
 					dact.executing();
 				}
+				// TODO: Make sure this is the most sensible way of doing this.
+				DirectPerception percieve = new DirectPerception();
+				percieve.apply(a);
 				//if the agent believes the action's success conditions, log it, update action status and go to next deed.
 				if (a.believesyn(new Guard((GLogicalFormula) dact.getSuccess()), thetahd)) {
-					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionSucceeded));
+					a.al.add(new ActionLogEntry(dact, prebeliefs, a.getBB().getAllWithoutAnnot(), ActionLogEntry.actionSucceeded));
 					i.tlI(a);
 					thetahd.compose(thetaa);
 					i.compose(thetahd);
 					dact.notExecuting();
 					//if the agent believes the action's failure conditions, log it, update action status and retry.
-					//using - not+ the above if statement whilst I chance success+failure
-				} else if (a.believesyn(new Guard((GLogicalFormula) dact.getFail()), thetahd)) {
+					// 18-10-22 update: abort will never fire whilst using the negation of the above statement to trigger failure but need to use Guards for postconditions before I can get failure conditions from postconditions.
+				//} else if (!a.believesyn(new Guard((GLogicalFormula) dact.getSuccess()), thetahd)) {
+				} else if (!a.believesyn(new Guard((GLogicalFormula) dact.getSuccess()), thetahd)) {
 					// Do nothing, retry
 					dact.notExecuting();
 					// Log it
-					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionFailed));
+					a.al.add(new ActionLogEntry(dact, prebeliefs, a.getBB().getAllWithoutAnnot(), ActionLogEntry.actionFailed));
 					//remove action from intention stack
 					i.tlI(a);
-					// add action to top of intention stack again
-					i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);
-					thetahd.compose(thetaa);
-					i.compose(thetahd);
-					System.out.println("ACTION FAILED RETRYING");
-					
+					if ((a.al.getLogsForAction(dact).getArrayList().size() >= dact.threshold)) {
+						System.out.println("ACTION FAILURE THRESHOLD BREACHED");
+						a.addToDeprecatedActions(dact);
+					} else if ((a.al.getLogsForAction(dact).getArrayList().size() < dact.threshold)){
+						// add action to top of intention stack again
+						i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);
+						System.out.println("ACTION FAILED - RETRYING");
+						a.printActionLog();
+						if ((a.al.getLogsForAction(dact).getArrayList().size() >= (dact.threshold)/2)){
+							a.addToSuspectActions(dact);
+						}
+					}
+						thetahd.compose(thetaa);
+						i.compose(thetahd);
+
 				} else if (dact.abort(a)) {
 					// Abort retry
 					if (dact.isExecuting()) {
@@ -150,7 +163,7 @@ public class HandleActionwProblem extends HandleTopDeed {
 						a.getEnv().executeAction(a.getAgName(), new Action(abort, Action.normalAction));
 					}
 					dact.notExecuting();
-					a.al.add(new ActionLogEntry(dact, a.prebeliefs, a.getBB(), ActionLogEntry.actionAbort));
+					a.al.add(new ActionLogEntry(dact, prebeliefs, a.getBB().getAllWithoutAnnot(), ActionLogEntry.actionAbort));
 					a.log(dact, ActionLogEntry.actionAbort);
 					i.tlI(a);
 					i.iCons(i.hdE(), new Deed(dact), new Guard(new GBelief()), thetahd);

@@ -55,7 +55,7 @@ public class GwendolenAgent extends AILAgent {
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
-	 * @param arch the Agent Architecture.
+	 * @param mas the Agent Architecture.
 	 * @param name te name of the agent.
 	 */
 	public GwendolenAgent(MAS mas, String name) throws AILexception {
@@ -79,7 +79,6 @@ public class GwendolenAgent extends AILAgent {
 	/**
 	 * Construct a Gwendolen agent from an architecture and a name.
 	 * 
-	 * @param arch the Agent Architecture.
 	 * @param name te name of the agent.
 	 */
 	public GwendolenAgent(String name) throws AILexception {
