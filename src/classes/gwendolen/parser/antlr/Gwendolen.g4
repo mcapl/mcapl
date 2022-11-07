@@ -32,7 +32,7 @@ gwendolenagents : GWENDOLEN (g=gwendolenagent)+;
 
 // Gwendolen Agent stuff
 gwendolenagent :  (GWENDOLEN?) 
-	NAME w=CONST 
+	(NAME | NAME_PM) w=CONST 
 	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
 	BELIEFS (bs=BELIEF_BLOCK)*
 	// RR_BLOCKS should be rulelists from LogicalFmlas grammar

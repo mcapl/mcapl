@@ -76,6 +76,7 @@ GL_SQCLOSE : ']'{sq_nesting--;};
 GOAL_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' ')+;
 
 mode PLANS_MODE;
+NAME_PM : ':name' -> mode(DEFAULT_MODE);
 PL_COMMENT : '/*' .*? '*/' -> skip ;
 PL_LINE_COMMENT : '//' ~[\n]* -> skip ;
 PL_NEWLINE:'\r'? '\n' -> skip ;
