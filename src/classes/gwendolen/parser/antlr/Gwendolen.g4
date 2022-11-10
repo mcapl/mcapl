@@ -72,7 +72,8 @@ deed  : (
 				| 
 			(MINUS (l=fof_expr  | SHRIEK g=goal | LOCK)))
 				|
-			a=action
+			a=action |
+			wf=waitfor
 		);
 
 
@@ -90,7 +91,7 @@ deed  : (
 goal: g=fof_expr PL_SQOPEN (PL_ACHIEVEGOAL | PL_PERFORMGOAL) PL_SQCLOSE;
 
 					
-//waitfor  :  MULT l=PLAN_BLOCK ;
+waitfor  :  MULT l=fof_expr ;
 
 action  : 
 	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 

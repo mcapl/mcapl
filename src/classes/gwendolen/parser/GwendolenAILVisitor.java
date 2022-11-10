@@ -300,6 +300,8 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 				FOFVisitor fofvisitor = new FOFVisitor();
 				return new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, (Abstract_Literal) fofvisitor.visitLiteral(fofparser.literal()));
 			}
+		} else if (ctx.wf != null) {
+			return new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, (Abstract_Literal) visitWaitfor(ctx.wf));
 		} else {
 			return new Abstract_Deed((Abstract_Action) visitAction(ctx.a));
 		}
@@ -322,7 +324,14 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 		return a;
 	}
 
+/* waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;}; */
+	@Override public Object visitWaitfor(GwendolenParser.WaitforContext ctx) {
+		LogicalFmlasParser fofparser = fofparser(ctx.l.getText());
+		FOFVisitor visitor = new FOFVisitor();
 
+		Abstract_Literal l = (Abstract_Literal) visitor.visitLiteral(fofparser.literal());
+		return l;
+	}
 	
 	private LogicalFmlasParser fofparser(String s) {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));

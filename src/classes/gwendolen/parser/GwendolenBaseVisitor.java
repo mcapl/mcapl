@@ -87,6 +87,13 @@ public class GwendolenBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitWaitfor(GwendolenParser.WaitforContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitAction(GwendolenParser.ActionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

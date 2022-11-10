@@ -71,6 +71,12 @@ public interface GwendolenVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGoal(GwendolenParser.GoalContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GwendolenParser#waitfor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWaitfor(GwendolenParser.WaitforContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GwendolenParser#action}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
