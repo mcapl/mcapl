@@ -52,7 +52,7 @@ public class ListQuickTests {
 			Assert.assertFalse(true);
 		}
 		
-	}
+	} 
 	
 	@Test public void list2test() {
 		LogicalFmlasLexer list1_lexer = new LogicalFmlasLexer(CharStreams.fromString("[a,d,z,c]")); 

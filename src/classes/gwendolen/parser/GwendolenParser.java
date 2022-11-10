@@ -511,7 +511,7 @@ public class GwendolenParser extends Parser {
 			setState(91);
 			((PlanContext)_localctx).e = event();
 			setState(92);
-			match(COLON);
+			match(COLON); 
 			setState(93);
 			match(CURLYOPEN);
 			setState(94);

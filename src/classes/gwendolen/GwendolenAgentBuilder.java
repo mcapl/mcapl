@@ -62,7 +62,7 @@ public class GwendolenAgentBuilder implements AgentBuilder {
 			GwendolenAILVisitor visitor = new GwendolenAILVisitor();
     		abs_agent = (Abstract_GwendolenAgent) visitor.visitGwendolenagent(parser.gwendolenagent());
      	} catch (Exception e) {
-     		e.printStackTrace();
+     		e.printStackTrace(); 
     	}
 		
 	}

@@ -53,7 +53,7 @@ import gwendolen.syntax.ast.Abstract_GPlan;
  * @author louiseadennis
  *
  */
-public class ParsingQuickTests {
+public class ParsingQuickTests { 
 
 	
 	/*
@@ -147,6 +147,7 @@ public class ParsingQuickTests {
 	
 	GwendolenParser parser_for(String s) {
 		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
+		lexer.pushMode(GwendolenLexer.PLANS_MODE);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GwendolenParser parser = new GwendolenParser(tokens);
 		return parser;
