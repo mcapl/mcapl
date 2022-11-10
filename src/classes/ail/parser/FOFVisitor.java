@@ -156,9 +156,11 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	 */
 	@Override public Object visitListterm(LogicalFmlasParser.ListtermContext ctx) {
 		Abstract_ListTermImpl l = new Abstract_ListTermImpl();
-		l.addAll((ArrayList<Abstract_Term>) visitListheads(ctx.hl));
-		if (ctx.BAR() != null) {
-			l.addTail((Abstract_VarTerm) visitVar(ctx.v));
+		if (ctx.hl != null) {
+			l.addAll((ArrayList<Abstract_Term>) visitListheads(ctx.hl));
+			if (ctx.BAR() != null) {
+				l.addTail((Abstract_VarTerm) visitVar(ctx.v));
+			}
 		}
 		
 		return l;
@@ -166,7 +168,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	
 	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {
 		ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>();
-		tl.add((Abstract_Term) visitTerm(ctx.t1));
+		// tl.add((Abstract_Term) visitTerm(ctx.t1));
 		List<LogicalFmlasParser.TermContext> tl2s = ctx.term();
 		for (LogicalFmlasParser.TermContext tl2: tl2s) {
 			tl.add((Abstract_Term) visitTerm(tl2));

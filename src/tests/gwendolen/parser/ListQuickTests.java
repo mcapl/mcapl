@@ -44,7 +44,7 @@ public class ListQuickTests {
 		
 		try {
 			Abstract_ListTerm l = ((Abstract_ListTerm) visitor.visitListterm(list1_parser.listterm()));
-			ListTerm cl = (ListTerm) l.toMCAPL();
+			ListTerm cl = (ListTerm) l.toMCAPL(); 
 			
 			Assert.assertTrue(cl.isEmpty());
 		}  catch (Exception e) {
