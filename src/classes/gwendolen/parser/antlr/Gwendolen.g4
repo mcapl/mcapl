@@ -65,7 +65,7 @@ event : ( PLUS
 			(l = fof_expr | SHRIEK g=goal)
 	   	);
 
-performative  : (TELL  | PL_PERFORMGOAL  | PL_ACHIEVEGOAL );
+performative  : (TELL  | COLON PL_PERFORMGOAL  | COLON PL_ACHIEVEGOAL );
 								
 deed  : (
 			((PLUS (l=fof_expr  | SHRIEK g=goal | LOCK))

@@ -28,7 +28,7 @@ import org.junit.Test;
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial2QuickTests extends TestJPF {
+public class Tutorial2_2QuickTests extends TestJPF {
 	 static final String[] JPF_ARGS = {  "-show" 
 	  };
 
@@ -41,7 +41,7 @@ public class Tutorial2QuickTests extends TestJPF {
 
 	  //--- test methods
 
-	  @Test //----------------------------------------------------------------------
+	 /* @Test //----------------------------------------------------------------------
 	  public void ex1 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial2/answers/LuckyDip.ail";
@@ -52,9 +52,9 @@ public class Tutorial2QuickTests extends TestJPF {
 	    	args[2] = "11";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 	  
-	 /* @Test //----------------------------------------------------------------------
+	  @Test //----------------------------------------------------------------------
 	  public void ex2 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial2/answers/PickUpAgent.ail";
@@ -65,6 +65,6 @@ public class Tutorial2QuickTests extends TestJPF {
 	    	args[2] = "10";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  } */
+	  }
 
 }

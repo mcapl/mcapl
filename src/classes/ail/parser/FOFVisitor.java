@@ -321,10 +321,16 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	//               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*?;
 	               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
 	@Override public Object visitLogicalfmla(@NotNull LogicalFmlasParser.LogicalfmlaContext ctx) {
-		Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitNotfmla(ctx.n);
-		if (ctx.n2 != null) {
-			Abstract_LogicalFormula f2 = (Abstract_LogicalFormula) visitNotfmla(ctx.n2);
-			return new Abstract_LogExpr(f, Abstract_LogExpr.and, f2);
+		// Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitNotfmla(ctx.n);
+		List<LogicalFmlasParser.NotfmlaContext> subfmlas = ctx.notfmla();
+		Abstract_LogicalFormula f = null;
+		for (LogicalFmlasParser.NotfmlaContext n:subfmlas) {
+			Abstract_LogicalFormula f2 = (Abstract_LogicalFormula) visitNotfmla(n);
+			if (f == null) {
+				f = f2;
+			} else {
+				f = new Abstract_LogExpr(f, Abstract_LogExpr.and, f2);
+			}
 		}
 		return f;
 	}

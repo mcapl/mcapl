@@ -133,6 +133,37 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		}
 		return list;
 	}
+	
+	/* notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SHRIEK {$f = new PrologCut();} |
+			  SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+            NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
+            SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                        	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+	subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE; */
+	
+	/*@Override public Object visitNotfmla(LogicalFmlasParser.NotfmlaContext ctx) {
+		if (ctx.NOT() != null) {
+			Abstract_LogicalFormula f;
+			if (ctx.gb2 != null) {
+				f = (Abstract_Pred) visitPred(ctx.gb2);
+			} else if (ctx.eq != null) {
+				f = (Abstract_Equation) visitEquation(ctx.eq);
+			} else {
+				f = (Abstract_LogicalFormula) visitSubfmla(ctx.lf);
+			}
+			
+			return new Abstract_LogExpr(Abstract_LogExpr.not, f);
+		} else if (ctx.gb != null) {
+			return visitPred(ctx.gb);
+		} else if (ctx.eq != null) {
+			return visitEquation(ctx.eq);
+		} else if (ctx.cut != null) {
+			return new PrologCut();
+		} 
+		
+		return null;
+	} */
+
 
 
 }

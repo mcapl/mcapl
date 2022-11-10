@@ -29,3 +29,4 @@ mas.builder = gwendolen.GwendolenMASBuilder
 
 // Command used  in testing (ignore)
 ajpf.transition_every_reasoning_cycle = false
+// log.fine = ail.syntax.Guard
