@@ -43,12 +43,12 @@ import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class Tutorial3QuickTests {
+public class Tutorial3_prismQuickTests {
 	 static final String[] JPF_ARGS = { "suppress_version = true" };
 
 	  //--- test methods
 
-	  @Test //----------------------------------------------------------------------
+	  /* @Test //----------------------------------------------------------------------
 	  public void spin_output () {
 	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
 	    	String jpf_config = "src/examples/gwendolen/ajpf_tutorials/tutorial3/TwoPickUpAgents_SpinToFile.jpf";
@@ -81,9 +81,9 @@ public class Tutorial3QuickTests {
 	    	}
 
 	 	// }
-	  }
+	  } */
 	  
-	  /* @Test //----------------------------------------------------------------------
+	  @Test //----------------------------------------------------------------------
 	  public void prism_output () {
 	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
 	    	String jpf_config = "src/examples/gwendolen/ajpf_tutorials/tutorial3/TwoPickUpAgents_PrismToFile.jpf";
@@ -115,7 +115,7 @@ public class Tutorial3QuickTests {
 	    	}
 
 	 	// }
-	  } */
+	  }
 	  	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
 		    /* final long size = Files.size(file1);

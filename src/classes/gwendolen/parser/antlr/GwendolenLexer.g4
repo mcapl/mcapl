@@ -85,7 +85,7 @@ SEND	:	'.send';
 RECEIVED: '.received';
 BELIEVE	:	{curly_nesting > 0}? ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0}?  ('G' | '.G') ;
-// SENT	:	 '.sent';
+SENT	:	 '.sent';
 LOCK	:	'.lock';
 // ADD_PLAN	:	'.plan';
 

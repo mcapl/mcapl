@@ -53,7 +53,7 @@ public class Tutorial1QuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /*@Test //----------------------------------------------------------------------
 	  public void ex1 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
@@ -137,5 +137,5 @@ public class Tutorial1QuickTests extends TestJPF {
 	    	args[2] = "ex7";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 }

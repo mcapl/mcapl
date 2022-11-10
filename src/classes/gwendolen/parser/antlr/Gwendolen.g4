@@ -52,7 +52,7 @@ plan : e=event
 
 
 guard_atom  : ( (NOT)? (BELIEVE l=fof_expr | GOAL gl=goal | eq = fof_expr) 
-//				SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=PLAN_BLOCK CLOSE  |
+			|	SENT OPEN  (s=fof_expr )  COMMA  (an2=fof_expr COMMA )? p=performative COMMA t=fof_expr CLOSE  |
 //				eq = fof_expr  |
 				| TRUE  );
 					

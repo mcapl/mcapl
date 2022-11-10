@@ -55,7 +55,7 @@ public class Tutorial2QuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /*@Test //----------------------------------------------------------------------
 	  public void falseprop () {
 	    if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"),JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail";
@@ -66,6 +66,6 @@ public class Tutorial2QuickTests extends TestJPF {
 	    	args[2] = "2";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 
 }

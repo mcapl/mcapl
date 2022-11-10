@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import ail.parser.FOFVisitor;
 import ail.syntax.ast.Abstract_Action;
+import ail.syntax.ast.Abstract_BaseAILStructure;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Equation;
 import ail.syntax.ast.Abstract_Event;
@@ -17,8 +18,10 @@ import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_GLogicalFormula;
 import ail.syntax.ast.Abstract_Guard;
+import ail.syntax.ast.Abstract_GuardMessage;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_MAS;
+import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_SendAction;
@@ -190,7 +193,20 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			LogicalFmlasParser fofparser_e = fofparser(ctx.eq.getText());
 			Abstract_Equation e = (Abstract_Equation) fofvisitor.visitEquation(fofparser_e.equation());
 			return e;
-		} 	else {
+		} else if (ctx.SENT() != null) {
+			LogicalFmlasParser name1parser = fofparser(ctx.s.getText());
+			Abstract_StringTerm s = (Abstract_StringTerm) fofvisitor.visitStringterm(name1parser.stringterm());
+			Abstract_StringTerm an1 = agentname;
+			if (ctx.an2 != null) {
+				LogicalFmlasParser an1parser = fofparser(ctx.an2.getText());
+				an1 = (Abstract_StringTerm) fofvisitor.visitStringterm(an1parser.stringterm());
+			}
+			Integer p = (Integer) visitPerformative(ctx.p);
+			LogicalFmlasParser content_parser = fofparser(ctx.t.getText());
+			Abstract_Pred t = (Abstract_Pred) fofvisitor.visitPred(content_parser.pred());
+			Abstract_GuardMessage g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, s, an1, p, t);
+			return g;
+		} else {
 			return null;
 		}
 	}
