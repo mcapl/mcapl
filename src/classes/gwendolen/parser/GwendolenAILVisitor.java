@@ -81,7 +81,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 	
 			if (ctx.bs != null) {
 				List<TerminalNode> beliefblocks = ctx.BELIEF_BLOCK();
-				for (TerminalNode bb: beliefblocks) {
+				for (TerminalNode bb: beliefblocks) { 
 					LogicalFmlasParser fofparser_bs = fofparser(bb.getText());
 					ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_bs.litlist());
 					for (Abstract_Literal l: bs) {
@@ -188,7 +188,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			return new Abstract_GBelief(b_lit);
 		} else if (ctx.GOAL() != null) {
 			return visitGoal(ctx.gl);
-		} else if (ctx.TRUE() != null) {
+		} else if (ctx.TRUE() != null) { 
 			return new Abstract_GBelief();
 		} else if (ctx.eq != null) {
 			LogicalFmlasParser fofparser_e = fofparser(ctx.eq.getText());

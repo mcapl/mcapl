@@ -97,7 +97,7 @@ action  :
 	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 
 	t=fof_expr;
 	      
-fof_expr: (NUMBER | PL_VAR) (oper (NUMBER | PL_VAR))? |
+fof_expr: ((MINUS)? NUMBER | PL_VAR) (oper ((MINUS)? NUMBER | PL_VAR))? |
 		  (const_var ( IDPUNCT const_var)* (OPEN (fof_expr | QUOTED_STRING) (COMMA (fof_expr | QUOTED_STRING))* CLOSE)? 
 	      | PL_SQOPEN fof_expr (COMMA fof_expr)* PL_SQCLOSE );
 	      

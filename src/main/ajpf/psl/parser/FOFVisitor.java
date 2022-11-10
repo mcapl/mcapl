@@ -42,7 +42,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			@SuppressWarnings("unchecked")
 			ArrayList<Abstract_MCAPLTerm> visitTerms = (ArrayList<Abstract_MCAPLTerm>) visitTerms(ctx.terms());
 			for (Abstract_MCAPLTerm t: visitTerms) {
-				f.addTerm(t);
+				f.addTerm(t); 
 			}
 		}
 		return f;
@@ -64,8 +64,6 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitTerm(LogicalFmlasParser.TermContext ctx) {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
-		} else if (ctx.s != null) {
-			return visitStringterm(ctx.s);
 		} else if (ctx.l != null) {
 			return visitListterm(ctx.l);
 		} else {
@@ -81,6 +79,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return new Abstract_MCAPLNumberTermImpl((String) visitNumberstring(ctx.n));
 		} else if (ctx.v != null) {
 			return visitVar(ctx.v);
+		} else if (ctx.s != null) {
+			return visitStringterm(ctx.s); 
 		} else {
 			System.err.println("Error: Should be no arithmetical expressions");
 			return visitArithexpr(ctx.a);
@@ -118,7 +118,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitStringterm(LogicalFmlasParser.StringtermContext ctx) {
 		String s = ctx.QUOTED_STRING().getText();
 		String s1 = s.substring(1, s.length() - 1);
-		return new Abstract_MCAPLStringTermImpl(s1);
+		return new Abstract_MCAPLStringTermImpl(s1); 
 	}
 	
 	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {

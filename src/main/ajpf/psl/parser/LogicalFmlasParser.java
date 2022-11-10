@@ -822,14 +822,10 @@ public class LogicalFmlasParser extends Parser {
 
 	public static class TermContext extends ParserRuleContext {
 		public AtomContext a;
-		public StringtermContext s;
 		public FunctionContext f;
 		public ListtermContext l;
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
-		}
-		public StringtermContext stringterm() {
-			return getRuleContext(StringtermContext.class,0);
 		}
 		public FunctionContext function() {
 			return getRuleContext(FunctionContext.class,0);
@@ -852,10 +848,11 @@ public class LogicalFmlasParser extends Parser {
 		TermContext _localctx = new TermContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_term);
 		try {
-			setState(129);
+			setState(128);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case OPEN:
+			case QUOTED_STRING:
 			case VAR:
 			case NUMBER:
 			case UNNAMEDVAR:
@@ -866,24 +863,17 @@ public class LogicalFmlasParser extends Parser {
 				((TermContext)_localctx).a = atom();
 				}
 				break;
-			case QUOTED_STRING:
+			case CONST:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(126);
-				((TermContext)_localctx).s = stringterm();
-				}
-				break;
-			case CONST:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(127);
 				((TermContext)_localctx).f = function();
 				}
 				break;
 			case SQOPEN:
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(128);
+				setState(127);
 				((TermContext)_localctx).l = listterm();
 				}
 				break;
@@ -906,6 +896,7 @@ public class LogicalFmlasParser extends Parser {
 		public NumberstringContext n;
 		public VarContext v;
 		public ArithexprContext a;
+		public StringtermContext s;
 		public NumberstringContext numberstring() {
 			return getRuleContext(NumberstringContext.class,0);
 		}
@@ -916,6 +907,9 @@ public class LogicalFmlasParser extends Parser {
 		public TerminalNode CLOSE() { return getToken(LogicalFmlasParser.CLOSE, 0); }
 		public ArithexprContext arithexpr() {
 			return getRuleContext(ArithexprContext.class,0);
+		}
+		public StringtermContext stringterm() {
+			return getRuleContext(StringtermContext.class,0);
 		}
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -939,7 +933,7 @@ public class LogicalFmlasParser extends Parser {
 			case MINUS:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(131);
+				setState(130);
 				((AtomContext)_localctx).n = numberstring();
 				}
 				break;
@@ -947,19 +941,26 @@ public class LogicalFmlasParser extends Parser {
 			case UNNAMEDVAR:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(132);
+				setState(131);
 				((AtomContext)_localctx).v = var();
 				}
 				break;
 			case OPEN:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(133);
+				setState(132);
 				match(OPEN);
-				setState(134);
+				setState(133);
 				((AtomContext)_localctx).a = arithexpr();
-				setState(135);
+				setState(134);
 				match(CLOSE);
+				}
+				break;
+			case QUOTED_STRING:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(136);
+				((AtomContext)_localctx).s = stringterm();
 				}
 				break;
 			default:
@@ -1280,7 +1281,7 @@ public class LogicalFmlasParser extends Parser {
 		enterRule(_localctx, 38, RULE_equation);
 		try {
 			enterOuterAlt(_localctx, 1);
-			{ 
+			{
 			setState(169);
 			((EquationContext)_localctx).a1 = arithexpr();
 			setState(170);
@@ -1556,8 +1557,8 @@ public class LogicalFmlasParser extends Parser {
 		"B\n\4\3\5\3\5\3\5\7\5G\n\5\f\5\16\5J\13\5\3\6\3\6\3\6\3\6\3\6\5\6Q\n\6"+
 		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6[\n\6\5\6]\n\6\3\7\3\7\3\7\3\7\3\b"+
 		"\3\b\5\be\n\b\3\t\5\th\n\t\3\n\3\n\3\n\3\n\5\nn\n\n\3\13\3\13\5\13r\n"+
-		"\13\3\f\3\f\3\f\3\f\3\f\5\fy\n\f\3\r\3\r\3\r\5\r~\n\r\3\16\3\16\3\16\3"+
-		"\16\5\16\u0084\n\16\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u008c\n\17\3\20"+
+		"\13\3\f\3\f\3\f\3\f\3\f\5\fy\n\f\3\r\3\r\3\r\5\r~\n\r\3\16\3\16\3\16\5"+
+		"\16\u0083\n\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u008c\n\17\3\20"+
 		"\3\20\3\21\3\21\3\21\3\21\5\21\u0094\n\21\5\21\u0096\n\21\3\21\3\21\3"+
 		"\22\3\22\3\22\7\22\u009d\n\22\f\22\16\22\u00a0\13\22\3\23\3\23\3\24\5"+
 		"\24\u00a5\n\24\3\24\3\24\3\24\5\24\u00aa\n\24\3\25\3\25\3\25\3\25\3\26"+
@@ -1566,7 +1567,7 @@ public class LogicalFmlasParser extends Parser {
 		"\34\36 \"$&(*,.\60\62\2\6\4\2\21\21\23\23\3\2\25\26\3\2\31\32\4\2\30\30"+
 		"\33\34\2\u00c4\2\64\3\2\2\2\49\3\2\2\2\6;\3\2\2\2\bC\3\2\2\2\n\\\3\2\2"+
 		"\2\f^\3\2\2\2\16b\3\2\2\2\20g\3\2\2\2\22m\3\2\2\2\24q\3\2\2\2\26s\3\2"+
-		"\2\2\30z\3\2\2\2\32\u0083\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
+		"\2\2\30z\3\2\2\2\32\u0082\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
 		"\3\2\2\2\"\u0099\3\2\2\2$\u00a1\3\2\2\2&\u00a4\3\2\2\2(\u00ab\3\2\2\2"+
 		"*\u00af\3\2\2\2,\u00b1\3\2\2\2.\u00b7\3\2\2\2\60\u00bd\3\2\2\2\62\u00bf"+
 		"\3\2\2\2\64\66\5\6\4\2\65\67\5\2\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67\3"+
@@ -1583,29 +1584,29 @@ public class LogicalFmlasParser extends Parser {
 		"l\3\2\2\2n\23\3\2\2\2or\5$\23\2pr\5\26\f\2qo\3\2\2\2qp\3\2\2\2r\25\3\2"+
 		"\2\2sx\7\20\2\2tu\7\7\2\2uv\5\30\r\2vw\7\b\2\2wy\3\2\2\2xt\3\2\2\2xy\3"+
 		"\2\2\2y\27\3\2\2\2z}\5\32\16\2{|\7\36\2\2|~\5\30\r\2}{\3\2\2\2}~\3\2\2"+
-		"\2~\31\3\2\2\2\177\u0084\5\34\17\2\u0080\u0084\5\36\20\2\u0081\u0084\5"+
-		"\26\f\2\u0082\u0084\5 \21\2\u0083\177\3\2\2\2\u0083\u0080\3\2\2\2\u0083"+
-		"\u0081\3\2\2\2\u0083\u0082\3\2\2\2\u0084\33\3\2\2\2\u0085\u008c\5&\24"+
-		"\2\u0086\u008c\5$\23\2\u0087\u0088\7\7\2\2\u0088\u0089\5,\27\2\u0089\u008a"+
-		"\7\b\2\2\u008a\u008c\3\2\2\2\u008b\u0085\3\2\2\2\u008b\u0086\3\2\2\2\u008b"+
-		"\u0087\3\2\2\2\u008c\35\3\2\2\2\u008d\u008e\7\r\2\2\u008e\37\3\2\2\2\u008f"+
-		"\u0095\7\t\2\2\u0090\u0093\5\"\22\2\u0091\u0092\7\"\2\2\u0092\u0094\5"+
-		"$\23\2\u0093\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0096\3\2\2\2\u0095"+
-		"\u0090\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\7\n"+
-		"\2\2\u0098!\3\2\2\2\u0099\u009e\5\32\16\2\u009a\u009b\7\36\2\2\u009b\u009d"+
-		"\5\32\16\2\u009c\u009a\3\2\2\2\u009d\u00a0\3\2\2\2\u009e\u009c\3\2\2\2"+
-		"\u009e\u009f\3\2\2\2\u009f#\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\u00a2\t"+
-		"\2\2\2\u00a2%\3\2\2\2\u00a3\u00a5\7\32\2\2\u00a4\u00a3\3\2\2\2\u00a4\u00a5"+
-		"\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a9\7\22\2\2\u00a7\u00a8\7\27\2\2"+
-		"\u00a8\u00aa\7\22\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\'"+
-		"\3\2\2\2\u00ab\u00ac\5,\27\2\u00ac\u00ad\5*\26\2\u00ad\u00ae\5,\27\2\u00ae"+
-		")\3\2\2\2\u00af\u00b0\t\3\2\2\u00b0+\3\2\2\2\u00b1\u00b5\5.\30\2\u00b2"+
-		"\u00b3\5\60\31\2\u00b3\u00b4\5.\30\2\u00b4\u00b6\3\2\2\2\u00b5\u00b2\3"+
-		"\2\2\2\u00b5\u00b6\3\2\2\2\u00b6-\3\2\2\2\u00b7\u00bb\5\34\17\2\u00b8"+
-		"\u00b9\5\62\32\2\u00b9\u00ba\5\34\17\2\u00ba\u00bc\3\2\2\2\u00bb\u00b8"+
-		"\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc/\3\2\2\2\u00bd\u00be\t\4\2\2\u00be"+
-		"\61\3\2\2\2\u00bf\u00c0\t\5\2\2\u00c0\63\3\2\2\2\30\669AHPZ\\dgmqx}\u0083"+
-		"\u008b\u0093\u0095\u009e\u00a4\u00a9\u00b5\u00bb";
+		"\2~\31\3\2\2\2\177\u0083\5\34\17\2\u0080\u0083\5\26\f\2\u0081\u0083\5"+
+		" \21\2\u0082\177\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0081\3\2\2\2\u0083"+
+		"\33\3\2\2\2\u0084\u008c\5&\24\2\u0085\u008c\5$\23\2\u0086\u0087\7\7\2"+
+		"\2\u0087\u0088\5,\27\2\u0088\u0089\7\b\2\2\u0089\u008c\3\2\2\2\u008a\u008c"+
+		"\5\36\20\2\u008b\u0084\3\2\2\2\u008b\u0085\3\2\2\2\u008b\u0086\3\2\2\2"+
+		"\u008b\u008a\3\2\2\2\u008c\35\3\2\2\2\u008d\u008e\7\r\2\2\u008e\37\3\2"+
+		"\2\2\u008f\u0095\7\t\2\2\u0090\u0093\5\"\22\2\u0091\u0092\7\"\2\2\u0092"+
+		"\u0094\5$\23\2\u0093\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0096\3\2"+
+		"\2\2\u0095\u0090\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\3\2\2\2\u0097"+
+		"\u0098\7\n\2\2\u0098!\3\2\2\2\u0099\u009e\5\32\16\2\u009a\u009b\7\36\2"+
+		"\2\u009b\u009d\5\32\16\2\u009c\u009a\3\2\2\2\u009d\u00a0\3\2\2\2\u009e"+
+		"\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f#\3\2\2\2\u00a0\u009e\3\2\2\2"+
+		"\u00a1\u00a2\t\2\2\2\u00a2%\3\2\2\2\u00a3\u00a5\7\32\2\2\u00a4\u00a3\3"+
+		"\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a9\7\22\2\2\u00a7"+
+		"\u00a8\7\27\2\2\u00a8\u00aa\7\22\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3"+
+		"\2\2\2\u00aa\'\3\2\2\2\u00ab\u00ac\5,\27\2\u00ac\u00ad\5*\26\2\u00ad\u00ae"+
+		"\5,\27\2\u00ae)\3\2\2\2\u00af\u00b0\t\3\2\2\u00b0+\3\2\2\2\u00b1\u00b5"+
+		"\5.\30\2\u00b2\u00b3\5\60\31\2\u00b3\u00b4\5.\30\2\u00b4\u00b6\3\2\2\2"+
+		"\u00b5\u00b2\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6-\3\2\2\2\u00b7\u00bb\5"+
+		"\34\17\2\u00b8\u00b9\5\62\32\2\u00b9\u00ba\5\34\17\2\u00ba\u00bc\3\2\2"+
+		"\2\u00bb\u00b8\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc/\3\2\2\2\u00bd\u00be"+
+		"\t\4\2\2\u00be\61\3\2\2\2\u00bf\u00c0\t\5\2\2\u00c0\63\3\2\2\2\30\669"+
+		"AHPZ\\dgmqx}\u0082\u008b\u0093\u0095\u009e\u00a4\u00a9\u00b5\u00bb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

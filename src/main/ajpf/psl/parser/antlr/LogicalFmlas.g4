@@ -41,9 +41,9 @@ pred	:  v=var | f=function;
 function: CONST (OPEN terms CLOSE)?;
 
 terms	: t=term (COMMA terms)? ;
-term	: a = atom | s = stringterm | f=function | l = listterm;
+term	: a = atom | f=function | l = listterm;
 
-atom	: n = numberstring | v=var | OPEN a=arithexpr CLOSE;
+atom	: n = numberstring | v=var | OPEN a=arithexpr CLOSE | s=stringterm;
 stringterm : QUOTED_STRING ; 
 
 listterm : SQOPEN (hl=listheads (BAR v=var)?)? SQCLOSE; 
@@ -87,7 +87,7 @@ TRUE: 	'True';
 // STRING	:	{stringterm}? ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 CONST 	: 	('a'..'z'|'.') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.')*;
 VAR	:	 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NUMBER	:	 '0'..'9' ('0'..'9')*;
+NUMBER	:	 '0'..'9' ('0'..'9'|'.')*;
 UNNAMEDVAR: '_';
 
 RULEARROW :	':-';

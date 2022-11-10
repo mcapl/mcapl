@@ -118,8 +118,6 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitTerm(@NotNull LogicalFmlasParser.TermContext ctx) {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
-		} else if (ctx.s != null) {
-			return visitStringterm(ctx.s);
 		} else {
 			return visitFunction(ctx.f);
 		}
@@ -132,6 +130,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return new Abstract_NumberTermImpl((String) visitNumberstring(ctx.n));
 		} else if (ctx.v != null) {
 			return visitVar(ctx.v);
+		} else if (ctx.s != null) { 
+			return visitStringterm(ctx.s);
 		} else {
 			return visitArithexpr(ctx.a);
 		}
@@ -251,8 +251,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return new Abstract_ArithExpr(a1, oper, a2);
 		}
 			
-		return a1;
-	
+		return a1; 
+	 
 		
 	}
 	
