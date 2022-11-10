@@ -29,15 +29,14 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Tutorial1QuickTests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+	 static final String[] JPF_ARGS = {  };
 
 
 
 	  //--- driver to execute single test methods
-	  public static void main(String[] args) {
-	    runTestsOfThisClass(args);
-	  }
+	  //public static void main(String[] args) {
+	 //   runTestsOfThisClass(args);
+	 // }
 
 	  //--- test methods
 
