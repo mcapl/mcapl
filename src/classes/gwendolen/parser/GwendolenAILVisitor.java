@@ -71,6 +71,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 	//	PLANS (p=plan {try {$g.addPlan($p.p);} catch (Exception e) {System.err.println(e);}})*;
 	@Override public Object visitGwendolenagent(GwendolenParser.GwendolenagentContext ctx) {
 		String name = ctx.CONST().getText();
+		agentname = new Abstract_StringTermImpl(name);
 		// System.err.println(name);
 		try {
 			Abstract_GwendolenAgent g = new Abstract_GwendolenAgent(name);
@@ -194,20 +195,27 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			Abstract_Equation e = (Abstract_Equation) fofvisitor.visitEquation(fofparser_e.equation());
 			return e;
 		} else if (ctx.SENT() != null) {
-			LogicalFmlasParser name1parser = fofparser(ctx.s.getText());
-			Abstract_StringTerm s = (Abstract_StringTerm) fofvisitor.visitStringterm(name1parser.stringterm());
+			// LogicalFmlasParser name1parser = fofparser(ctx.s.getText());
+			Abstract_StringTerm s = (Abstract_StringTerm) visitAgentnameterm(ctx.s);
 			Abstract_StringTerm an1 = agentname;
 			if (ctx.an2 != null) {
-				LogicalFmlasParser an1parser = fofparser(ctx.an2.getText());
-				an1 = (Abstract_StringTerm) fofvisitor.visitStringterm(an1parser.stringterm());
+				an1 = (Abstract_StringTerm) visitAgentnameterm(ctx.an2);
 			}
 			Integer p = (Integer) visitPerformative(ctx.p);
 			LogicalFmlasParser content_parser = fofparser(ctx.t.getText());
-			Abstract_Pred t = (Abstract_Pred) fofvisitor.visitPred(content_parser.pred());
+			Abstract_Predicate t = (Abstract_Predicate) fofvisitor.visitPred(content_parser.pred());
 			Abstract_GuardMessage g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, s, an1, p, t);
 			return g;
 		} else {
 			return null;
+		}
+	}
+	
+	@Override public Object visitAgentnameterm(GwendolenParser.AgentnametermContext ctx) {
+		if (ctx.PL_CONST() != null) {
+			return new Abstract_StringTermImpl(ctx.PL_CONST().getText());
+		} else {
+			return new Abstract_VarTerm(ctx.PL_VAR().getText());
 		}
 	}
 

@@ -116,4 +116,11 @@ public class GwendolenBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitOper(GwendolenParser.OperContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAgentnameterm(GwendolenParser.AgentnametermContext ctx) { return visitChildren(ctx); }
 }

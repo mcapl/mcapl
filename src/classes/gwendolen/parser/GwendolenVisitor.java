@@ -100,4 +100,10 @@ public interface GwendolenVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOper(GwendolenParser.OperContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GwendolenParser#agentnameterm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAgentnameterm(GwendolenParser.AgentnametermContext ctx);
 }
