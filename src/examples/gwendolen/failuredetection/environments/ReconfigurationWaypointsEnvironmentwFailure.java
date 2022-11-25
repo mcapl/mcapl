@@ -22,7 +22,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-package gwendolen.failuredetection;
+package gwendolen.failuredetection.environments;
 
 import ail.mas.AIL;
 import ail.mas.DurativeActionEnvironment;

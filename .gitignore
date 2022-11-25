@@ -41,3 +41,8 @@ mcapl.iml
 /.idea*
 *.launch
 
+/src/examples/gwendolen/failuredetection/syntheticexamples/
+/local.properties
+/src/classes/gwendolen/reconfigurability/capabilities.txt
+/src/classes/gwendolen/reconfigurability/domain.pddl
+/src/classes/gwendolen/reconfigurability/problem.pddl

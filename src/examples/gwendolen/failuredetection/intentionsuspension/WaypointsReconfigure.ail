@@ -22,8 +22,8 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.failuredetection.ReconfigurationWaypointsEnvironmentwFailure
-mas.file = src/examples/gwendolen/failuredetection/intentionsuspension/WaypointsReconfigure.gwen
+env = gwendolen.failuredetection.environments.ReconfigurationWaypointsEnvironmentwFailure
+mas.file = /Users/peterstringer/IdeaProjects/mcapl/src/examples/gwendolen/failuredetection/intentionsuspension/WaypointsReconfigure.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 //log.info = ail.mas.DefaultEnvironment

@@ -1,4 +1,4 @@
-package gwendolen.failuredetection;
+package gwendolen.failuredetection.environments;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
