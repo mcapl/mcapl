@@ -119,6 +119,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitTerm(@NotNull LogicalFmlasParser.TermContext ctx) {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
+		} else if (ctx.l != null) {
+			return visitListterm(ctx.l);
 		} else {
 			return visitFunction(ctx.f);
 		}
