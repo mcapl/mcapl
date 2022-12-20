@@ -153,6 +153,5 @@ public class ParsingQuickTests {
 		return parser;
 	}
 	
-	
  
 }
