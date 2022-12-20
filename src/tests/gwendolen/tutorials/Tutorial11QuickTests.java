@@ -33,9 +33,9 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial3Tests extends TestJPF {
+public class Tutorial11QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -47,11 +47,11 @@ public class Tutorial3Tests extends TestJPF {
 
   //--- test methods
 
-
+ 
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
+  public void pickuprubble_ex1 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1.ail";
     	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
     	String[] args = new String[3];
     	args[0] = filename;
@@ -60,6 +60,5 @@ public class Tutorial3Tests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-
 
 }

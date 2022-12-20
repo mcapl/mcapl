@@ -61,7 +61,7 @@ public class Tutorial2QuickTests extends TestJPF {
  	 }
   }
 
-  @Test //----------------------------------------------------------------------
+  /* @Test //----------------------------------------------------------------------
   public void pickuprubble_achieve () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/gwendolen/tutorials/tutorial2/pickuprubble_achieve.ail";
@@ -98,6 +98,6 @@ public class Tutorial2QuickTests extends TestJPF {
     	args[2] = "2";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } */
 
 }

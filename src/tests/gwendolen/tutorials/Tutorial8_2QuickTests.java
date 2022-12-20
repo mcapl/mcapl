@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -24,18 +24,28 @@
 
 package gwendolen.tutorials;
 
+import java.io.ByteArrayOutputStream;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 
+import ail.mas.AIL;
 import ail.util.AJPF_w_AIL;
+import ajpf.util.TimeFreeBriefLogFormatter;
 import gov.nasa.jpf.util.test.TestJPF;
 
 
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial3Tests extends TestJPF {
+public class Tutorial8_2QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -48,18 +58,18 @@ public class Tutorial3Tests extends TestJPF {
   //--- test methods
 
 
+  
   @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex1_list () {
+  public void ex2 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.1_list.ail";
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial8/answers/simple_mas_ex2.ail";
     	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "3";
+    	args[2] = "7";
     	AJPF_w_AIL.run(args);
  	 }
   }
-
-
+  
 }
