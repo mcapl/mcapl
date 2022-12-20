@@ -35,7 +35,7 @@ import gov.nasa.jpf.util.TypeRef;
  * Regresssion test of various properties using the Rescue Robots as an example problem.
  * Split over several files since JPF was having problems executing multiple tests in one file.
  */
-public class RescueBQuickTests extends TestJPF {
+public class RescueB2QuickTests extends TestJPF {
 
 	 static final String[] RESCUE_ARGS = { "-show", 
 		 "+listener+=,.listener.ExecTracker",
@@ -46,20 +46,23 @@ public class RescueBQuickTests extends TestJPF {
 	  //--- test methods
 
 	  
+
 	 @Test //----------------------------------------------------------------------
-	 public void testIntentionProperty () {
-	   if (verifyNoPropertyViolation(RESCUE_ARGS)){
-	   	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
+	 public void testProblemsWithEndStates () {
+	   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
+	   	String filename =  "/src/examples/gwendolen/rescue/searcherliftersmall.ail";
 	   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
 	   	String[] args = new String[3];
 	   	args[0] = filename;
 	   	args[1] = prop_filename;
-	   	args[2] = "11";
+	   	args[2] = "10b";
 	   	AJPF_w_AIL.run(args);
 	    } else {
 	   	 
 	    }
 	 }
+
+
 
 
 

@@ -351,8 +351,12 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 	@Override public Object visitWaitfor(GwendolenParser.WaitforContext ctx) {
 		LogicalFmlasParser fofparser = fofparser(ctx.l.getText());
 		FOFVisitor visitor = new FOFVisitor();
+		
 
 		Abstract_Literal l = (Abstract_Literal) visitor.visitLiteral(fofparser.literal());
+		if (ctx.NOT() != null) {
+			l.setNegated(Abstract_Literal.LNeg);
+		}
 		return l;
 	}
 	

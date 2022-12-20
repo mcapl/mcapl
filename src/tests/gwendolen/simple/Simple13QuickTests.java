@@ -22,45 +22,48 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.rescue;
+package gwendolen.simple;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
 
 import gov.nasa.jpf.util.test.TestJPF;
-import gov.nasa.jpf.util.TypeRef;
 
 /**
- * Regresssion test of various properties using the Rescue Robots as an example problem.
- * Split over several files since JPF was having problems executing multiple tests in one file.
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
  */
-public class RescueBQuickTests extends TestJPF {
+public class Simple13QuickTests extends TestJPF {
 
-	 static final String[] RESCUE_ARGS = { "-show", 
-		 "+listener+=,.listener.ExecTracker",
-	     "+et.print_insn=false",
-	     "+et.show_shared=false"
-	};
+//static final String[] PICKUP_ARGS = {};
 
-	  //--- test methods
+  //--- driver to execute single test methods
+ // public static void main(String[] args) {
+//	  runTestsOfThisClass(args);
+  //}
+  
 
-	  
-	 @Test //----------------------------------------------------------------------
-	 public void testIntentionProperty () {
-	   if (verifyNoPropertyViolation(RESCUE_ARGS)){
-	   	String filename =  "/src/examples/gwendolen/rescue/lifter.ail";
-	   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "11";
-	   	AJPF_w_AIL.run(args);
-	    } else {
-	   	 
-	    }
-	 }
+  //--- test methods
 
+	  @Test //----------------------------------------------------------------------
+	  public void testIntendToDoFirstAction () {
+		  // System.out.println("C");
+		  String[] PICKUP_ARGS = {};
+		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
+		    	String filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail";
+		    	String prop_filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "3";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+	  }
 
 
 }

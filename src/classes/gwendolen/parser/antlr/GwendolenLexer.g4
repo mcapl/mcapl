@@ -93,7 +93,7 @@ PL_ACHIEVEGOAL	: 'achieve';
 PL_PERFORMGOAL	:  'perform';
 PL_SQOPEN : '[';
 PL_SQCLOSE : ']';
-NOT	:	{curly_nesting > 0}? '~';
+NOT	:	'~';
 COLON	:	':';
 CURLYOPEN	: '{' {curly_nesting++;};
 CURLYCLOSE	: '}' {curly_nesting--;};

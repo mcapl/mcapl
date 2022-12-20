@@ -91,7 +91,7 @@ deed  : (
 goal: g=fof_expr PL_SQOPEN (PL_ACHIEVEGOAL | PL_PERFORMGOAL) PL_SQCLOSE;
 
 					
-waitfor  :  MULT l=fof_expr ;
+waitfor  :  MULT (NOT)? l=fof_expr ;
 
 action  : 
 	(SEND OPEN an=fof_expr COMMA p=performative COMMA t=fof_expr CLOSE ) | 
