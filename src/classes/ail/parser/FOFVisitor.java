@@ -43,6 +43,7 @@ import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
+import ail.syntax.ast.Abstract_UnnamedVar;
 import ail.syntax.ast.Abstract_VarTerm;
 import ajpf.psl.parser.LogicalFmlasBaseVisitor;
 import ajpf.psl.parser.LogicalFmlasParser;
@@ -186,12 +187,16 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			}
 		}; */
 	@Override public Object visitVar(@NotNull LogicalFmlasParser.VarContext ctx) {
-		if (variables.containsKey(ctx.VAR().getText())) {
-			return variables.get(ctx.VAR().getText());
+		if (ctx.VAR() != null) {
+			if (variables.containsKey(ctx.VAR().getText())) {
+				return variables.get(ctx.VAR().getText());
+			} else {
+				Abstract_VarTerm v = new Abstract_VarTerm(ctx.VAR().getText());
+				variables.put(ctx.VAR().getText(), v);
+				return v;
+			}
 		} else {
-			Abstract_VarTerm v = new Abstract_VarTerm(ctx.VAR().getText());
-			variables.put(ctx.VAR().getText(), v);
-			return v;
+			return new Abstract_UnnamedVar(); 
 		}
 	}
 	// numberstring returns [String s] :	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}

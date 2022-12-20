@@ -32,9 +32,12 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Predicate;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.Literal;
@@ -137,7 +140,10 @@ public class ParsingQuickTests {
 		GwendolenAILVisitor visitor = new GwendolenAILVisitor();
 		
 		try {
-			Abstract_Predicate p = (Abstract_Predicate) visitor.visitFof_expr(term.fof_expr());
+			GwendolenParser.Fof_exprContext ctx = term.fof_expr();
+			LogicalFmlasParser fofparser = fofparser(ctx.getText());
+			FOFVisitor fof_visitor = new FOFVisitor();
+			Abstract_Predicate p = (Abstract_Predicate) fof_visitor.visitPred(fofparser.pred());
 			Predicate pred = p.toMCAPL();
 			Assert.assertTrue(pred.getTerm(1) instanceof UnnamedVar);
 		} catch (Exception e) {
@@ -153,5 +159,11 @@ public class ParsingQuickTests {
 		return parser;
 	}
 	
+	private LogicalFmlasParser fofparser(String s) {
+		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
+		return parser;
+	}
  
 }
