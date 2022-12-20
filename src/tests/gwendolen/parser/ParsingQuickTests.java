@@ -76,6 +76,7 @@ public class ParsingQuickTests {
 			Assert.assertTrue(var_goal.unifies(literal_goal, new Unifier()));
 		} catch (Exception e) {
 			System.err.println(e);
+			Assert.assertTrue(false);
 		}
 	}
 	
@@ -99,6 +100,7 @@ public class ParsingQuickTests {
 			Assert.assertTrue(ag.believesyn(new Guard(ga), new Unifier()));
 		} catch (Exception e) {
 			System.err.println(e);
+			Assert.assertTrue(false);
 		}
 		
 	}
@@ -132,6 +134,7 @@ public class ParsingQuickTests {
 			Assert.assertTrue(un != null);
 		} catch (Exception e) {
 			System.err.println(e);
+			Assert.assertTrue(false);
 		}
 	}
 	

@@ -204,7 +204,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 			Integer p = (Integer) visitPerformative(ctx.p);
 			LogicalFmlasParser content_parser = fofparser(ctx.t.getText());
 			Abstract_Predicate t = (Abstract_Predicate) fofvisitor.visitPred(content_parser.pred());
-			Abstract_GuardMessage g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, s, an1, p, t);
+			Abstract_GuardMessage g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, an1, s, p, t);
 			return g;
 		} else {
 			return null;
