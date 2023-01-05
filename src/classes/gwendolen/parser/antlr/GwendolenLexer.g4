@@ -53,7 +53,7 @@ IB_COMMENT : '/*' .*? '*/' -> skip ;
 IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
 IB_NEWLINE:'\r'? '\n' -> skip;
 IB_WS  :   (' '|'\t') -> skip ;
-BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'-'|'['|']'|'|')+;
+BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'-'|'['|']'|'|'|'"')+;
 
 mode REASONING_RULES;
 GOAL_RR	:	':Initial Goals:' -> mode(GOALS);
@@ -117,10 +117,10 @@ IDPUNCT : 	'.';
 
 RULEARROW :	'<-';
 
-TRUE	:	 'True';
-PL_CONST	:	('a'..'z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-PL_VAR	:	('A'..'Z'|'_')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NUMBER 	: 	('0'..'9')+;
+TRUE		:	 'True';
+PL_CONST	:	('a'..'z')('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.')*;
+PL_VAR		:	('A'..'Z'|'_')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+NUMBER 		: 	('0'..'9')('0'..'9'|'.')*;
 
 QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
 //PLAN_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'<'|'=')+;
