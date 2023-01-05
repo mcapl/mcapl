@@ -22,7 +22,7 @@ import junit.framework.Assert;
 import ail.util.AJPF_w_AIL;
 import ajpf.MCAPLcontroller;
 
-public class UAVsQuickTests extends TestJPF {
+public class UAVs2QuickTests extends TestJPF {
 	 static final String[] JPF_ARGS = { "suppress_version = true" };
 	
 	// General framework for testing print statements.  Stolen from stackOverflow.
@@ -40,7 +40,7 @@ public class UAVsQuickTests extends TestJPF {
 	//@Rule
 	//public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
-	@Test
+	/* @Test
 	public void really_simple_uav_ail() {
 		  try {
 			  String config_filename = MCAPLcontroller.getFilename("/src/examples/gwendolen/uavs/prism/really_simple_uav.ail");
@@ -96,9 +96,8 @@ public class UAVsQuickTests extends TestJPF {
 	    	}
 
 	 	// }
-	  }
+	  } */
 	  
-	  /*
 	  @Test //----------------------------------------------------------------------
 	  public void really_simple_ajpf () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)) {
@@ -113,7 +112,7 @@ public class UAVsQuickTests extends TestJPF {
 	 	// }
 	  }
 
-	  @Test //----------------------------------------------------------------------
+	  /* @Test //----------------------------------------------------------------------
 	  public void simple_ajpf () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)) {
 	    	String filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.ail";
@@ -126,17 +125,7 @@ public class UAVsQuickTests extends TestJPF {
 	   }
 	 	// }
 	  }
-	  
-	  */
-	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
-		    /* final long size = Files.size(file1);
-		    if (size != Files.size(file2))
-		        return false;
-
-		    if (size < 4096)
-		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2)); */
-
 		    try (InputStream is1 = Files.newInputStream(file1);
 		         InputStream is2 = Files.newInputStream(file2)) {
 		        // Compare byte-by-byte.
@@ -158,7 +147,7 @@ public class UAVsQuickTests extends TestJPF {
 			  c = is.read();
 		  } while (c == '\n' || c == '\r');
 		  return c;
-	  }
+	  } */
 
 
 
