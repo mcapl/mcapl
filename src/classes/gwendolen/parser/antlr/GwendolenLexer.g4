@@ -61,7 +61,7 @@ RR_COMMENT : '/*' .*? '*/' -> skip ;
 RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
 RR_NEWLINE:'\r'? '\n'   ;
 RR_WS  :   (' '|'\t') -> skip ;
-RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|';'|'~'|'['|']'|'|')+ ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|';'|'~'|'['|']'|'|'|'!')+ ;
 
 mode GOALS;
 PLANS	:	':Plans:' -> mode(PLANS_MODE);

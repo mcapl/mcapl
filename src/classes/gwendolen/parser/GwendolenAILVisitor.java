@@ -21,7 +21,6 @@ import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_GuardMessage;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_MAS;
-import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_SendAction;

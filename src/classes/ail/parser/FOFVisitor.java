@@ -40,6 +40,7 @@ import ail.syntax.ast.Abstract_NumberTerm;
 import ail.syntax.ast.Abstract_NumberTermImpl;
 import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_PrologCut;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
@@ -363,6 +364,10 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		
 		if (ctx.eq2 != null) {
 			return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitEquation(ctx.eq2));
+		}
+		
+		if (ctx.cut != null) {
+			return new Abstract_PrologCut();
 		}
 		
 		return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitSubfmla(ctx.lf));

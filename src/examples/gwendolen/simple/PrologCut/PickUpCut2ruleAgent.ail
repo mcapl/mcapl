@@ -22,18 +22,8 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-GWENDOLEN
+env = gwendolen.simple.SimpleEnv
+mas.file = /src/examples/gwendolen/simple/PrologCut/pickupcut2ruleagent.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
 
-:name: ag1
-
-:Initial Beliefs:
-
-empty
-
-:Initial Goals:
-
-pickup [achieve]
-
-:Plans:
-
-+!pickup [achieve] : {B empty} <- pickup1, +fact1, random, +pickup;
+log.warning = ail.mas.DefaultEnvironment

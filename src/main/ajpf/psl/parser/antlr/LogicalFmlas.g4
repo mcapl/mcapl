@@ -28,7 +28,7 @@ rulelist: prolog_rule (rulelist )?;
 rulelist_poss_empty: (rulelist)?;
 prolog_rule  : head=pred (RULEARROW f=logicalfmla SEMI | 
 	SEMI );
-logicalfmla : n=notfmla (COMMA n2=notfmla )*?;
+logicalfmla : n=notfmla (COMMA  n2=notfmla )*?;
 notfmla  : (gb = pred | SQOPEN eq = equation SQCLOSE) | cut=SHRIEK |
             NOT (gb2 = pred  | SQOPEN eq2 = equation SQCLOSE  | lf = subfmla );
 subfmla  : OPEN lf = logicalfmla CLOSE;
