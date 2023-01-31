@@ -262,8 +262,7 @@ rubble(2, 2) [achieve]
 Recall that in the exercises
 \intutorial{\gwendolen}{2}{tutorial:gwendolen:bda} we had to use a
 belief to prevent the robot picking up the rubble after it had put it
-down.  Here instead we have added \lstinline{G holding(rubble)
-  [achieve]}\index{goal}\index{goal!in plan
+down.  Here instead we have added \lstinline{G holding(rubble)  [achieve]}\index{goal}\index{goal!in plan
   guard}\index{plan}\index{plan!guard} as a guard to the plan that is
 activated when the robot sees some rubble.  In this case it only picks
 up the rubble if it has goal to be holding rubble. 
@@ -329,8 +328,7 @@ providing a plan for holding rubble and a plan for being at 2, 2 and
 then expecting the robot to compose these sensibly in order to achieve
 \lstinline{rubble_at_22}. 
 
-Try changing the agent's initial goal to \lstinline{rubble_at_22
-  [achieve]} without changing anything else in the program.  You
+Try changing the agent's initial goal to \lstinline{rubble_at_22  [achieve]} without changing anything else in the program.  You
 should see a warning generated that the agent can not find a plan for
 the goal\index{goal!no plan for goal}.  At this point the program will
 fail to

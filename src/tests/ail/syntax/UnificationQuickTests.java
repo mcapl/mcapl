@@ -191,4 +191,47 @@ public class UnificationQuickTests {
 		
 	}
 	
+	@Test public void pruneRedundantUnifiersTest() {
+		
+		ListTermImpl list = new ListTermImpl();
+		list.setTail(new ListTermImpl());
+		list.setHead(new Predicate("red"));
+		list.cons(new Predicate("green"));
+		list.cons(new Predicate("green"));
+		list.cons(new Predicate("blue"));
+		
+		ListTermImpl list2 = new ListTermImpl();
+		VarTerm t2 = new VarTerm("T");
+		list2.setTail(t2);
+		list2.setTail(new VarTerm("T"));
+		list2.setHead(new VarTerm("H"));
+
+		
+		ListTermImpl list3 = new ListTermImpl();
+		VarTerm t3 = new VarTerm("T3");
+		list3.setTail(t3);
+		list3.setHead(new VarTerm("H1"));
+		
+		ListTermImpl list4 = new ListTermImpl();
+		VarTerm t4 = new VarTerm("T4");
+		list4.setTail(t4);
+		list4.setHead(new VarTerm("H4"));
+		
+		ListTermImpl list5 = new ListTermImpl();
+		VarTerm t5 = new VarTerm("T5");
+		list5.setTail(t5);
+		list5.setHead(new VarTerm("H5"));
+		
+		Unifier u = new Unifier();
+		u.unifies(t4, list5);
+		u.unifies(t3, list4);
+		u.unifies(t2, list3);
+		u.unifies(list, list2);
+		Set<String> varnames = new HashSet<String>();
+		varnames.add("T");
+		u.pruneRedundantNames(varnames);
+		Term t = u.get(t4);
+		Assert.assertTrue(((ListTerm) t).getHead().getFunctor().equals("H5"));
+	}
+	
 }
