@@ -55,7 +55,7 @@ var 	:	VAR | UNNAMEDVAR;
 
 numberstring :	(MINUS)? (n1=NUMBER (POINT n2=NUMBER)?);
 equation	: a1=arithexpr oper=eqoper a2=arithexpr; 
-eqoper		: LESS | EQ ;
+eqoper		: LESS | EQ | IS ;
 
 arithexpr	: m1=multexpr (addoper m2=multexpr)?;
 multexpr	: a1=atom (multoper a2=atom)?; 
@@ -94,6 +94,7 @@ RULEARROW :	':-';
 
 LESS	:	'<';
 EQ	: 	'==';
+IS	:	'is';
 POINT	:	'.';
 MULT	:	'*';
 PLUS	:	'+';

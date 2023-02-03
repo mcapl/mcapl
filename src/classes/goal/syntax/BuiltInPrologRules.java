@@ -29,11 +29,9 @@ import mcaplantlr.runtime.CommonTokenStream;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import ail.syntax.LogExpr;
-import ail.syntax.LogicalFormula;
 import ail.syntax.Predicate;
 import ail.syntax.Rule;
 import ail.syntax.ast.Abstract_LogicalFormula;
-import ail.syntax.ast.Abstract_Predicate;
 import ajpf.util.AJPFLogger;
 
 public class BuiltInPrologRules {
