@@ -995,6 +995,10 @@ public class Intention implements Comparable<Intention>{
 		for (int i = 0; i < size(); i++) {
 			IntentionRow ir = intentionRows.get(i);
 			varnames.addAll(ir.getVarNames());
+		}
+		
+		for (int i = 0; i < size(); i++) {
+			IntentionRow ir = intentionRows.get(i);
 			ir.trimUnifiers(varnames);
 		}
 	}

@@ -4,6 +4,8 @@
 
 The MCAPL software requires Java 8.   
 
+{\bf IMPORTANT:} It does have to be Java 8.  The current version of Java PathFinder does not work with later versions of Java.
+
 \section{Installation}\index{installation}
 
 \subsection{Installation of MCAPL 2021}\index{installation!Unix}\index{Unix}
@@ -41,7 +43,7 @@ git clone https://github.com/mcapl/mcapl.git
 
 \section{Eclipse Installation}\index{installation!Eclipse}\index{Eclipse}
 
-We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.
+We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.  You need to be using a version of Eclipse for Java Development.  We have tested on the Eclipse IDE for Java Developers.
 \begin{itemize}
 \item You should then be able to build ajpf by clicking on the build.xml file.
 \item Create a file \texttt{.jpf/site.properties} with the path to \ajpfversion\ (or mcapl if using the development version)  assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/\ajpfversion}).

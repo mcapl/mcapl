@@ -1,0 +1,71 @@
+GWENDOLEN
+
+
+:name: agent
+
+:Initial Beliefs: 
+
+location(l0)
+location(l1)
+location(l2)
+location(l3)
+location(l4)
+location(l5)
+
+
+
+plan(1,0,[move_to(l1),print(l1),move_to(l2),move_to(l3)])
+plan(2,0,[move_to(l3),move_to(l4),move_to(l5)])
+
+:Reasoning Rules:
+
+reverse_list(L,NL):-
+	reverse_list(L,[],NL);
+
+reverse_list([],NL,NL);
+
+reverse_list([LH | LT], ACCL, NL):-
+	reverse_list(LT, [LH | ACCL], NL);
+
+	
+
+	
+
+:Initial Goals:
+
+achieve_plan(1,0)[achieve]
+
+:Plans:
+
++!achieve_plan(Id,Ind)[achieve] : {B plan(Id,Ind,Actions), B reverse_list(Actions,NewActions)}
+ <- 
+ print("Original list"),
+ print(Actions),
+ print("Reversed list"),
+ print(NewActions),
+ print("Sending reversed list to execute actions"),
+ +!execute_actions(NewActions)[perform],
+ +achieve_plan(Id,Ind); 
+
+
++!execute_actions([]) [perform]: {True} <- print("done");
+
++!execute_actions([print(X) | T]) [perform] :{True} <- print("In print execute actions"),
+											toString(X,Xstring),
+											append("printing ",Xstring,Print),
+											print(Print),
+											print(X), 
+											print("Printing the remaining list"),
+											print(T),
+											+!execute_actions(T)[perform];
+											
++!execute_actions([move_to(X) | T]) [perform] :{True} <- 
+						print("In move to execute actions"),
+						toString(X,Xstring),
+						append("moving to ",Xstring,Print),
+						print(Print),
+						print("Printing the remaining list"),
+						print(T),
+						 +!execute_actions(T)[perform];
+
+
