@@ -34,7 +34,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class SingleVerifTests extends TestJPF {
+public class SingleVerifProp8Tests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -48,33 +48,6 @@ public class SingleVerifTests extends TestJPF {
 
   //--- test methods
 
-  
-  @Test //----------------------------------------------------------------------
-  public void prop6 () {
-	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
-		  String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car1_verif.ail";
-		  String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl";
-		  String[] args = new String[3];
-		  args[0] = filename;
-		  args[1] = prop_filename;
-		  args[2] = "6";
-		  AJPF_w_AIL.run(args);
-	  }
-  }   
-  
-  @Test //----------------------------------------------------------------------
-  public void prop7 () {
-	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
-		  String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car1_verif.ail";
-		  String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl";
-		  String[] args = new String[3];
-		  args[0] = filename;
-		  args[1] = prop_filename;
-		  args[2] = "7";
-		  AJPF_w_AIL.run(args);
-	  }
-  }   
-  
   @Test //----------------------------------------------------------------------
   public void prop8 () {
 	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){

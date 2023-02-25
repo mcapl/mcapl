@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2015 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -21,50 +21,39 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-
-package gwendolen.auctions.coalitiondyn;
+package gwendolen.ail_tutorials;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
+public class Tutorial3_2Tests extends TestJPF {
+	 static final String[] ARGS = {  };
 
-/**
- * Simple test that an auction example works.
- */
-public class CoalitionDynAuctionTests extends TestJPF {
+	  //--- driver to execute single test methods
+	  /* public static void main(String[] args) {
+	    runTestsOfThisClass(args);
+	  } */
 
-  static final String[] JPF_ARGS = {  "-show" 
-  };
+	  //--- test methods
 
-
-
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
-
-  //--- test methods
-
- 
-  @Test //----------------------------------------------------------------------
-  public void test3bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "2";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-  
+	  
+	  @Test //----------------------------------------------------------------------
+	  public void ex () {
+	    if (verifyNoPropertyViolation(ARGS)){
+	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/answers/searcher.ail";
+	    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "13";
+	    	AJPF_w_AIL.run(args);
+	 	 } else {
+	 		 
+	 	 }
+	  }
 
 
 }

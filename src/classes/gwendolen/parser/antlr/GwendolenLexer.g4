@@ -27,9 +27,6 @@ lexer grammar GwendolenLexer;
     public int plain_nesting = 0;
     public int sq_nesting = 0;
     public int curly_nesting = 0;
-   // public boolean stringterm = false;
-   //public boolean gwendolen = true;
-   // public int belief_rules = 0;
 }
 
 
@@ -53,7 +50,7 @@ IB_COMMENT : '/*' .*? '*/' -> skip ;
 IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
 IB_NEWLINE:'\r'? '\n' -> skip;
 IB_WS  :   (' '|'\t') -> skip ;
-BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'-'|'['|']'|'|'|'"')+;
+BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'\t'|'\n'|'\r'|'-'|'['|']'|'|'|'"')+;
 
 mode REASONING_RULES;
 GOAL_RR	:	':Initial Goals:' -> mode(GOALS);
@@ -61,7 +58,7 @@ RR_COMMENT : '/*' .*? '*/' -> skip ;
 RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
 RR_NEWLINE:'\r'? '\n'   ;
 RR_WS  :   (' '|'\t') -> skip ;
-RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|';'|'~'|'['|']'|'|'|'!')+ ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!')+ ;
 
 mode GOALS;
 PLANS	:	':Plans:' -> mode(PLANS_MODE);
@@ -123,6 +120,5 @@ PL_VAR		:	('A'..'Z'|'_')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NUMBER 		: 	('0'..'9')('0'..'9'|'.')*;
 
 QUOTED_STRING: ('"' .*? '"' | '\'' .*? '\'');
-//PLAN_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'<'|'=')+;
 
 

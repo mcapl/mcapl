@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,18 +22,19 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.auctions.coalition;
+package gwendolen.verifiableautonomoussystems.chapter5;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
+import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 
 /**
  * Simple test that an auction example works.
  */
-public class CoalitionAuctionTests extends TestJPF {
+public class SingleVerifProp6Tests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -47,35 +48,20 @@ public class CoalitionAuctionTests extends TestJPF {
 
   //--- test methods
 
- 
-  @Test //----------------------------------------------------------------------
-  public void test3bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalition/CoalitionAuction3Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "0";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
   
-
-
   @Test //----------------------------------------------------------------------
-  public void test4bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalition/CoalitionAuction4Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "0";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
+  public void prop6 () {
+	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
+		  String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car1_verif.ail";
+		  String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl";
+		  String[] args = new String[3];
+		  args[0] = filename;
+		  args[1] = prop_filename;
+		  args[2] = "6";
+		  AJPF_w_AIL.run(args);
+	  }
+  }   
+ 
 
 
 }

@@ -36,9 +36,8 @@ gwendolenagent :  (GWENDOLEN?)
 	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
 	BELIEFS (bs=BELIEF_BLOCK)*
 	// RR_BLOCKS should be rulelists from LogicalFmlas grammar
-	(BELIEFRULES (RR_NEWLINE)* (rr=RR_BLOCK RR_NEWLINE) ((rr=RR_BLOCK)? RR_NEWLINE)* )? 
+	(BELIEFRULES (RR_NEWLINE)*  (rr=RR_BLOCK)* )? 
 	(GOAL_IB | GOAL_RR) (gs=initial_goal)*
-//	(GOAL_RR | GOAL_IB) (GL_NEWLINE)* (gs=initial_goal (GL_NEWLINE)*)+
 	PLANS (p=plan)+;
 	
 
@@ -53,7 +52,6 @@ plan : e=event
 
 guard_atom  : ( (NOT)? (BELIEVE l=fof_expr | GOAL gl=goal | eq = fof_expr
 			|	SENT OPEN  (s=agentnameterm )  COMMA  (an2=agentnameterm COMMA )? p=performative COMMA t=fof_expr CLOSE  )
-//				eq = fof_expr  |
 				| TRUE  );
 					
 event : ( PLUS
@@ -77,17 +75,6 @@ deed  : (
 		);
 
 
-//  |
-//				ADD_PLAN p=PLAN_BLOCK |
-//				LOCK ) 
-		 // |
-//				LOCK
-//				)) |
-//				a=action  |
-//				wf=waitfor 
-//				)
-//				;
-
 goal: g=fof_expr PL_SQOPEN (PL_ACHIEVEGOAL | PL_PERFORMGOAL) PL_SQCLOSE;
 
 					
@@ -99,10 +86,11 @@ action  :
 	      
 fof_expr: ((MINUS)? NUMBER | PL_VAR) (oper ((MINUS)? NUMBER | PL_VAR))? |
 		  (const_var ( IDPUNCT const_var)* (OPEN (fof_expr | QUOTED_STRING) (COMMA (fof_expr | QUOTED_STRING))* CLOSE)? 
-	      | PL_SQOPEN fof_expr (COMMA fof_expr)* PL_SQCLOSE );
+	      | PL_SQOPEN (fof_expr (COMMA fof_expr)* (PL_BAR PL_VAR)?)? PL_SQCLOSE |
+	      OPEN fof_expr CLOSE);
 	      
 const_var: PL_CONST | PL_VAR;
-oper : EQUAL | LESS;
+oper : EQUAL | LESS | PLUS | MINUS;
 
 // General AIL Parsing stuff
 
@@ -111,4 +99,3 @@ oper : EQUAL | LESS;
 // word  : CONST;                                                                                     
 
 agentnameterm  : PL_CONST  | PL_VAR ;
-//agentnameterm: CONST;

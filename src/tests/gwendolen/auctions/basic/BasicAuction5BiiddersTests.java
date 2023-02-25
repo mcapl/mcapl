@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.auctions.coalitiondyn;
+package gwendolen.auctions.basic;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class CoalitionDynAuctionTests extends TestJPF {
+public class BasicAuction5BiiddersTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -47,24 +47,18 @@ public class CoalitionDynAuctionTests extends TestJPF {
 
   //--- test methods
 
-
-  //--- test methods
-
- 
   @Test //----------------------------------------------------------------------
-  public void test3bidders () {
+  public void test5bidders () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders.ail";
+    	String filename =  "/src/examples/gwendolen/auctions/basic/BasicAuction5Bidders.ail";
     	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "2";
+    	args[2] = "1";
     	AJPF_w_AIL.run(args);
  	 }
   }
-
-  
 
 
 }

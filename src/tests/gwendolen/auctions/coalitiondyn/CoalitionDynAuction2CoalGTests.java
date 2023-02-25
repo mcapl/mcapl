@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class CoalitionDynAuctionTests extends TestJPF {
+public class CoalitionDynAuction2CoalGTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -51,19 +51,21 @@ public class CoalitionDynAuctionTests extends TestJPF {
   //--- test methods
 
  
+  
+  
   @Test //----------------------------------------------------------------------
-  public void test3bidders () {
+  public void test3bidders2coalitiong () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders.ail";
+    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders2Coalitions.ail";
     	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "2";
+    	args[2] = "8";
     	AJPF_w_AIL.run(args);
  	 }
   }
-
+  
   
 
 

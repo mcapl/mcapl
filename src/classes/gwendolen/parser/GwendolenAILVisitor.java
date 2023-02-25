@@ -82,7 +82,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 				List<TerminalNode> beliefblocks = ctx.BELIEF_BLOCK();
 				for (TerminalNode bb: beliefblocks) { 
 					LogicalFmlasParser fofparser_bs = fofparser(bb.getText());
-					ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist(fofparser_bs.litlist());
+					ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist_poss_empty(fofparser_bs.litlist_poss_empty());
 					for (Abstract_Literal l: bs) {
 						g.addInitialBel(l); 
 					}
@@ -93,7 +93,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 				List<TerminalNode> rrblocks = ctx.RR_BLOCK();
 				for (TerminalNode rr: rrblocks) {
 					LogicalFmlasParser fofparser_brs = fofparser(rr.getText());
-					ArrayList<Abstract_Rule> brs = (ArrayList<Abstract_Rule>) fofvisitor.visitRulelist(fofparser_brs.rulelist());
+					ArrayList<Abstract_Rule> brs = (ArrayList<Abstract_Rule>) fofvisitor.visitRulelist_poss_empty(fofparser_brs.rulelist_poss_empty());
 					for (Abstract_Rule r: brs) {
 						g.addRule(r);
 					}
