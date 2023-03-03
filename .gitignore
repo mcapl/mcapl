@@ -1,5 +1,4 @@
 # Compiled Files # 
-*.class
 *.tokens
 bin/*
 *.synctex.gz
