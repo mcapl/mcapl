@@ -72,7 +72,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 	public GwendolenAgent toMCAPL(MAS mas) {
 		try {
 			GwendolenAgent ag = new GwendolenAgent(mas, fAgName);
-			ag.setPretty(new GwendolenPrettyPrinter());
+			// ag.setPretty(new GwendolenPrettyPrinter());
 			addStructures(ag);
 			return ag;
 		} catch (Exception e) {

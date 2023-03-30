@@ -16,6 +16,7 @@ lib/3rdparty/commons-io-2.4.jar
 lib/3rdparty/eis-0.5.0.jar
 lib/3rdparty/ev3classes.jar
 lib/3rdparty/ev3tools.jar
+lib/3rdparty/guava-31.1-jre.jar
 lib/3rdparty/java-prolog-parser.jar
 lib/3rdparty/jpf.jar
 lib/3rdparty/jpf-annotations.jar
@@ -40,7 +41,7 @@ You can run the simple agent \texttt{pickupagent.gwen} whose code you will find 
 You should see output similar to:
 
 \noindent \begin{lstlisting}
-MCAPL Framework 2021
+MCAPL Framework 2023
 done
 \end{lstlisting}
 \medskip
@@ -79,10 +80,10 @@ JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All ri
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 14/03/19 19:30
+====================================================== search started: 30/03/23 11:55
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-MCAPL Framework 2021
-ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
+MCAPL Framework Version 2023
+ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
 		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
@@ -116,12 +117,12 @@ elapsed time:       00:00:01
 states:             new=3,visited=1,backtracked=4,end=0
 search:             maxDepth=3,constraints=0
 choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
-heap:               new=7577,released=4383,maxLive=3138,gcCycles=4
-instructions:       907061
-max memory:         245MB
-loaded code:        classes=319,methods=5027
+heap:               new=6113,released=3792,maxLive=2265,gcCycles=4
+instructions:       365022
+max memory:         491MB
+loaded code:        classes=301,methods=4831
 
-====================================================== search finished: 14/03/19 19:30
+====================================================== search finished: 30/03/23 11:55
 \end{lstlisting}
 
 \subsection{In Eclipse}

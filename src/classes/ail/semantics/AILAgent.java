@@ -36,8 +36,6 @@ import java.util.Set;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
-import ail.semantics.heuristics.PrioritiseWaitFor;
-import ail.semantics.heuristics.PruneRedundantIntentions;
 import ail.semantics.heuristics.SelectIntentionHeuristic;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Action;
