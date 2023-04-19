@@ -28,7 +28,7 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
-public class SmartHomeQuickTests extends TestJPF {
+public class SmartHome1QuickTests extends TestJPF {
 	
 	static final String[] JPF_ARGS = {};
 
@@ -36,20 +36,21 @@ public class SmartHomeQuickTests extends TestJPF {
 	public static void main(String[] args) {
 		  runTestsOfThisClass(args);
 	}
-	
-	@Test public void sanitytest() {
-		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/lights_and_fire_utilitarian.ail";
-	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-	    	String[] args = new String[3];
-	    	args[0] = file;
-	    	args[1] = prop_filename;
-	    	args[2] = "sanity";
-	    	AJPF_w_AIL.run(args);
-		} else {
-			
-		}
-	}
-	
+	  @Test //----------------------------------------------------------------------
+	  public void utilitarian_invalid () {
+		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)) {
+				String file = "/src/examples/juno/smarthome/verif_utilitarian_fire.ail";
+		    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
+		    	String[] args = new String[3];
+		    	args[0] = file;
+		    	args[1] = prop_filename;
+		    	args[2] = "6";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			  
+		  }
+	  }
+
+
 
 }

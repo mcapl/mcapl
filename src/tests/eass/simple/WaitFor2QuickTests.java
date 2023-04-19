@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Tests relating to goal dropping behaviour
  */
-public class WaitForQuickTests extends TestJPF {
+public class WaitFor2QuickTests extends TestJPF {
 
 	static final String[] JPF_ARGS = { "-show", 
 		 "+listener+=,.listener.ExecTracker",
@@ -42,11 +42,11 @@ public class WaitForQuickTests extends TestJPF {
 	     "+et.show_shared=false"
 
 	};
-
-	  @Test //----------------------------------------------------------------------
-	 public void wait_for () {
+	
+	@Test //----------------------------------------------------------------------
+	 public void wait_for_w_suspended () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)){
-	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse.ail";
+	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse2.ail";
 	   	String prop_filename =  "/src/examples/eass/simple/WaitFor/simple.psl";
 	   	String[] args = new String[3];
 	   	args[0] = filename;

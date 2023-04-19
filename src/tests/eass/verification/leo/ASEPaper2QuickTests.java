@@ -21,42 +21,38 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-
-package eass.simple;
+package eass.verification.leo;
 
 import org.junit.Test;
 
 import ail.util.AJPF_w_AIL;
-
+import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
 
 /**
- * Tests relating to goal dropping behaviour
+ * Examples from Practical Verification of Decision-Making in Agent-Based Autonomous Systems
+ * that run quickly.
+ * @author louiseadennis
+ *
  */
-public class WaitForQuickTests extends TestJPF {
-
-	static final String[] JPF_ARGS = { "-show", 
-		 "+listener+=,.listener.ExecTracker",
-	     "+et.print_insn=false",
-	     "+vm.max_transition_length=MAX",
-	     "+et.show_shared=false"
-
-	};
-
+public class ASEPaper2QuickTests extends TestJPF {
+	 static final String[] ARGS = {};
+	
 	  @Test //----------------------------------------------------------------------
-	 public void wait_for () {
-	   if (verifyNoPropertyViolation(JPF_ARGS)){
-	   	String filename =  "/src/examples/eass/simple/WaitFor/WaitForFalse.ail";
-	   	String prop_filename =  "/src/examples/eass/simple/WaitFor/simple.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "3";
-	   	AJPF_w_AIL.run(args);
-	    } else {
-	   	 
-	    }
-	 }
+	  public void thm15() {
+		  if (verifyNoPropertyViolation(ARGS)) {
+		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
+		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
+		    	String[] args = new String[3];
+		    	args[0] = filename;
+		    	args[1] = prop_filename;
+		    	args[2] = "15";
+		    	AJPF_w_AIL.run(args);
+		  } else {
+			    	 
+		  }
+
+	  }
 
 
 }

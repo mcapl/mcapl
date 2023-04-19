@@ -36,7 +36,7 @@ import java.io.PrintStream;
 /**
  * Simple test that an auction example works.
  */
-public class Tutorial9QuickTests extends TestJPF {
+public class Tutorial9_2QuickTests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" , "suppress_version = true"
   };
@@ -53,16 +53,26 @@ public class Tutorial9QuickTests extends TestJPF {
       System.setOut(systemStdOut);
   }
 
- 
+  //--- driver to execute single test methods
+  public static void main(String[] args) {
+    runTestsOfThisClass(args);
+  }
+
+  //--- test methods
+
+
+  
   @Test //----------------------------------------------------------------------
-  public void string_w_space () {
-	  setUpStreams();
-	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/strings.ail");
-	  String version_info = AIL.get_version_info();
-	  String nl = System.lineSeparator();
-	  String output = version_info + nl + "hello world" + nl;
-	  assertEquals(output, outContent.toString());
-	  cleanUpStreams();
+  public void ex2 () {
+    if (verifyNoPropertyViolation(JPF_ARGS)){
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial9/answers/arithmetic.ail";
+    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
+    	String[] args = new String[3];
+    	args[0] = filename;
+    	args[1] = prop_filename;
+    	args[2] = "9";
+    	AJPF_w_AIL.run(args);
+ 	 }
   }
 
 

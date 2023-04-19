@@ -44,18 +44,18 @@ import gov.nasa.jpf.JPF;
  * @author louiseadennis
  *
  */
-public class SpinComparisonPaperSpinTests {
+public class SpinComparisonPaper2SpinTests {
 	 static final String[] JPF_ARGS = { "suppress_version = true" };
 
 	  //--- test methods
 
 	  @Test //----------------------------------------------------------------------
-	  public void spin0 () {
+	  public void spin1() {
 	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
-	    	String jpf_config = "src/examples/eass/verification/leo/spin_experiments/satellite_theorem_spincomparison_spin_spin0.jpf";
+	    	String jpf_config = "src/examples/eass/verification/leo/spin_experiments/satellite_theorem_spincomparison_spin_spin1.jpf";
 	    	
 	    	Config conf = JPF.createConfig(JPF_ARGS);
-	    	conf.setProperty("ajpf.model.location", "test_spin0.pml");
+	    	conf.setProperty("ajpf.model.location", "test_spin1.pml");
 	    	FileInputStream is = null;
 	    	try {
 	    		File f = new File(jpf_config);
@@ -67,8 +67,8 @@ public class SpinComparisonPaperSpinTests {
 	    	jpf.run();
 	    	
 	    	String exp_path = conf.getProperty("mcapl") + "/src/examples/eass/verification/leo/spin_experiments/";
-	    	String example_filename = exp_path + "spin0.pml";
-	    	String test_filename = exp_path + "test_spin0.pml";
+	    	String example_filename = exp_path + "spin1.pml";
+	    	String test_filename = exp_path + "test_spin1.pml";
 	    	
 	    	File example_file = new File(example_filename);
 	    	File test_file = new File(test_filename);

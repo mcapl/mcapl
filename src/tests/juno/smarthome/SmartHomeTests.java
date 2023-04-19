@@ -51,36 +51,5 @@ public class SmartHomeTests extends TestJPF {
 		}
 	}
 
-	  @Test //----------------------------------------------------------------------
-	  public void pde_invalid () {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)) {
-				String file = "/src/examples/juno/smarthome/verif_pde_fire.ail";
-		    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-		    	String[] args = new String[3];
-		    	args[0] = file;
-		    	args[1] = prop_filename;
-		    	args[2] = "1";
-		    	AJPF_w_AIL.run(args);
-		  } else {
-			  
-		  }
-	  }
-
-	
-	@Test public void firekantiantest() {
-		if (verifyNoPropertyViolation(JPF_ARGS)) {
-			String file = "/src/examples/juno/smarthome/verif_kantian_fire.ail";
-	    	String prop_filename =  "/src/examples/juno/smarthome/fire_and_games.psl";
-	    	String[] args = new String[3];
-	    	args[0] = file;
-	    	args[1] = prop_filename;
-	    	args[2] = "1";
-	    	AJPF_w_AIL.run(args);
-		} else {
-			
-		}
-	}
-	
-
 
 }

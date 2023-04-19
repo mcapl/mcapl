@@ -32,6 +32,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
+import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ail.tracing.explanations.PredicateDescriptions;
@@ -42,6 +43,9 @@ import ajpf.util.AJPFLogger;
 public class BuiltInPrologRules {
 	ArrayList<Predicate> facts = new ArrayList<Predicate>();
 	ArrayList<Rule> rules = new ArrayList<Rule>();
+	
+	Abstract_Predicate tmp_predicate = new Abstract_Predicate();
+	Abstract_Rule tmp_rule = new Abstract_Rule(new Abstract_Predicate(), (Abstract_LogicalFormula) new Abstract_Predicate());
 	
 	public BuiltInPrologRules() {
 		/* memberPredicate();
@@ -287,30 +291,41 @@ public class BuiltInPrologRules {
 	FOFVisitor fofvisitor = new FOFVisitor();
 
 	public Rule rule(String s) throws Exception {
-		LogicalFmlasParser parser = fofparser(s);
-
-		Abstract_Rule rule = (Abstract_Rule) fofvisitor.visitProlog_rule(parser.prolog_rule());
+		abstract_rule(s);
+		
+		Abstract_Rule rule = tmp_rule;
 		return (rule.toMCAPL());
 	}
 	
-	public Predicate predicate(String s) throws Exception {
-		System.out.println("A1");
+	public void abstract_rule(String s) throws Exception {
 		LogicalFmlasParser parser = fofparser(s);
-		System.out.println("A2");
+
+		Abstract_Rule rule = (Abstract_Rule) fofvisitor.visitProlog_rule(parser.prolog_rule());
+		// Doing this an apparently crazy way to allow a native peer to be used when running JPF because
+		// JPF's virtual machine can't cope with Token Streams.
+		tmp_rule = rule;
+	}
+	
+	public Predicate predicate(String s) throws Exception {
+		abstract_predicate(s);
+		
+		return (tmp_predicate.toMCAPL());
+	}
+	
+	public void abstract_predicate(String s) throws Exception {
+		LogicalFmlasParser parser = fofparser(s);
 
 		Abstract_Predicate rule = (Abstract_Predicate) fofvisitor.visitPred(parser.pred());
-		System.out.println("A3");
-		return (rule.toMCAPL());
+		// Doing this an apparently crazy way to allow a native peer to be used when running JPF because
+		// JPF's virtual machine can't cope with Token Streams.
+		tmp_predicate = rule;
 	}
 	
 	
 	private LogicalFmlasParser fofparser(String s) {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
-		System.out.println("B1");
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		System.out.println("B2");
 		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
-		System.out.println("B3");
 		return parser;
 	}
 }
