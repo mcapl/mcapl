@@ -15,8 +15,17 @@ The MCAPL software requires Java 8.
 \item Download the 2023 release from Github \texttt{https://github.com/mcapl/mcapl/releases/}.
 \end{sloppypar}
 \item Create a file \texttt{.jpf/site.properties} in your home directory with the path to \ajpfversion\ assigned to the value \texttt{mcapl}
+  (e.g. \texttt{mcapl = \$\{user.home\}/mcapl}).
+  
+If you have put the \texttt{mcapl} download in your home directory,  you should be able to do this at the UNIX command line by running the following commands in your home directory.
+\begin{verbatim}
+mkdir -p ~/.jpf && touch ~/.jpf/site.properties
+\end{verbatim}
+followed by:
+\begin{verbatim}
+echo "mcapl = ${user.home}/mcapl" >> ~/.jpf/site.properties
+\end{verbatim}
 
-  (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/mcapl}).
 \item Within the \texttt{mcapl} directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, \lstinline{ant compile} to just compile the files and \lstinline{ant build} to build and run regression tests (takes just under fifteen minutes on a 3GHz Macbook with 16 GB memory))
 \item Make sure you have the bin sub-directory of \texttt{mcapl} on your java class path.
 \item We recommend you set the \texttt{AJPF\_HOME}\index{AJPF\_HOME} environment variable to give the path to your MCAPL directory.
@@ -35,7 +44,18 @@ git clone https://github.com/mcapl/mcapl.git
 \end{verbatim}
 \end{small}
 \end{sloppypar}
-\item Create a file \texttt{.jpf/site.properties} in your home directory with the path to mcapl assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/mcapl}).
+\item Create a file \texttt{.jpf/site.properties} in your home directory with the path to mcapl assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/mcapl}).
+
+If you have put the \texttt{mcapl} download in your home directory, you should be able to do this at the Unix command line by running the following commands in your home directory:
+
+\begin{verbatim}
+mkdir -p ~/.jpf && touch ~/.jpf/site.properties
+\end{verbatim}
+followed by:
+\begin{verbatim}
+echo "mcapl = ${user.home}/mcapl" >> ~/.jpf/site.properties
+\end{verbatim}
+
 \item Within the mcapl directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, \lstinline{ant compile} to just compile the files and ant build to build and run regression tests (takes just under fifteen minutes on a 3GHz Macbook with 16 GB memory))
 \item Make sure you have the bin sub-directory of mcapl on your java class path.
 \item We recommend you set the \texttt{AJPF\_HOME}\index{AJPF\_HOME} environment variable to give the path to your mcapl directory.
@@ -43,9 +63,9 @@ git clone https://github.com/mcapl/mcapl.git
 
 \section{Eclipse Installation}\index{installation!Eclipse}\index{Eclipse}
 
-We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.  You need to be using a version of Eclipse for Java Development.  We have tested on the Eclipse IDE for Java Developers.
+We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.  You need to be using a version of Eclipse for Java Development.  We have tested on the Eclipse IDE for Java Developers.  You will need to configure Eclipse to use Java 1.8 as both its compiler and runtime environment.
 \begin{itemize}
-\item You should then be able to build ajpf by clicking on the build.xml file.
+\item In theory, you should then be able to build ajpf by clicking on the build.xml file, however recent versions of Eclipse force the build process to use Java 11 and don't send clear error messages when they do this.  If the build process isn't working, you may still nevetheless be able to use the \mcapl\ framework by using Eclipse's built-in build process bypassing the \texttt{ant} file.
 \item Create a file \texttt{.jpf/site.properties} with the path to \ajpfversion\ (or mcapl if using the development version)  assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/\ajpfversion}).
 \item We recommend you set the \texttt{AJPF\_HOME} environment variable to give the path to your ajpf directory.  If necessary you can do this within the Environment tab for individual Run Configurations.
 \end{itemize}
