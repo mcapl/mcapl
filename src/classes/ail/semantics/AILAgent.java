@@ -321,9 +321,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		setCapabilityLibrary(new CapabilityLibrary());
 		setGoalBase(new GoalBase());
 		BuiltInPrologRules prolog_builtins = new BuiltInPrologRules();
-		//for (Rule r: prolog_builtins.getRules()) {
-		// getRuleBase().add(r);
-		//}
+		for (Rule r: prolog_builtins.getRules()) {
+		 getRuleBase().add(r);
+		}
 		//heuristics.add(new PruneRedundantIntentions());
 		//heuristics.add(new PrioritiseWaitFor());
 	}

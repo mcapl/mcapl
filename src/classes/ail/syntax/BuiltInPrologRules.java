@@ -48,8 +48,8 @@ public class BuiltInPrologRules {
 	Abstract_Rule tmp_rule = new Abstract_Rule(new Abstract_Predicate(), (Abstract_LogicalFormula) new Abstract_Predicate());
 	
 	public BuiltInPrologRules() {
-		/* memberPredicate();
-		nth0Predicate();
+		memberPredicate();
+		/* nth0Predicate();
 		lengthPredicate(); */
 
 		rules.add(nonvar());
@@ -91,17 +91,24 @@ public class BuiltInPrologRules {
 	
 	public void memberPredicate() {
 		try {
-			Rule nil_rule = rule("member(X, []) :- false;");
-			// LogExpr nil_rule_body = ruleBody("false");
-			rules.add(nil_rule);
+			/* member(El, [H|T]) :-
+    			member_(T, El, H).
+
+				member_(_, El, El).
+				member_([H|T], El, _) :-
+    				member_(T, El, H). */
 			
-			Rule cons_hd = rule("member(H, [H | T]);");
+			Rule member_rule = rule("member(El, [H|T]) :- member_(T, El, H);");
+			//LogExpr nil_rule_body = ruleBody("false");
+			rules.add(member_rule);
+			
+			Rule member__rule1 = rule("member_(_, El, El);");
 			// LogExpr cons_rule_body = ruleBody("true");
-			rules.add(cons_hd);
+			rules.add(member__rule1);
 			
-			Rule cons_tl = rule("member(H, [X | T]) :- member(H, T);");
+			Rule member__rule2 = rule("member_([H|T], El, _) :- member_(T, El, H);");
 			// LogExpr cons_tl_rule_body = ruleBody("member(H, T)");
-			rules.add(cons_hd);
+			rules.add(member__rule2);
 			
 		} catch (Exception e) {
 			AJPFLogger.severe("goal.syntax.BuiltInPrologRules", e.getMessage());
