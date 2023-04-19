@@ -79,7 +79,8 @@ public class MAS implements MCAPLmas {
     /**
      * Constructor.
      */
-    public MAS() {}
+    public MAS() {
+    }
     
     /**
      * Constructor/
@@ -134,7 +135,7 @@ public class MAS implements MCAPLmas {
      * @param ag 
      */
     public void addAg(AILAgent ag) {
-    	ag.setMAS(this);
+     	ag.setMAS(this);
     	fAgents.put(ag.getAgName(), ag);
      }
 

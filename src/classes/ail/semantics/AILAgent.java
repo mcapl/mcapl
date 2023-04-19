@@ -43,6 +43,7 @@ import ail.syntax.AILAnnotation;
 import ail.syntax.Action;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.BeliefBase;
+import ail.syntax.BuiltInPrologRules;
 import ail.syntax.Capability;
 import ail.syntax.CapabilityLibrary;
 import ail.syntax.Deed;
@@ -319,6 +320,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		setPlanLibrary(new PlanLibrary());
 		setCapabilityLibrary(new CapabilityLibrary());
 		setGoalBase(new GoalBase());
+		BuiltInPrologRules prolog_builtins = new BuiltInPrologRules();
+		//for (Rule r: prolog_builtins.getRules()) {
+		// getRuleBase().add(r);
+		//}
 		//heuristics.add(new PruneRedundantIntentions());
 		//heuristics.add(new PrioritiseWaitFor());
 	}

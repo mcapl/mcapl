@@ -23,18 +23,18 @@
 package ail.syntax;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
-import ail.syntax.ast.Abstract_LogicalFormula;
 import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
+import ail.tracing.explanations.PredicateDescriptions;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import ajpf.util.AJPFLogger;
@@ -47,6 +47,8 @@ public class BuiltInPrologRules {
 		/* memberPredicate();
 		nth0Predicate();
 		lengthPredicate(); */
+
+		rules.add(nonvar());
 	}
 	
 	public ArrayList<Predicate> getFacts() {
@@ -141,8 +143,9 @@ public class BuiltInPrologRules {
 	public Rule nonvar() {
 		try {
 			Predicate head =  predicate("nonvar(T)");
+			//Predicate head = new Predicate("head");
 			
-			class NonVarBody extends LogExpr {
+			class NonVarBody implements LogicalFormula {
 				@Override
 			    public Iterator<Unifier> logicalConsequence(final EvaluationBasewNames<PredicateTerm> eb, 
 			    		final RuleBase rb, Unifier un, final Set<String> varnames, AILAgent.SelectionOrder so) {
@@ -159,6 +162,10 @@ public class BuiltInPrologRules {
 								Term unifiedwith = un.get("T");
 								if (unifiedwith.isVar()) {
 									return false;
+								} else if (unifiedwith instanceof VarsCluster) {
+									if (((VarsCluster) unifiedwith).getValue() == null) {
+										return false;
+									}
 								}
 							}
 							return true;
@@ -174,6 +181,90 @@ public class BuiltInPrologRules {
 						
 						public void remove() {}
 					};
+				}
+
+				@Override
+				public boolean unifies(Unifiable t, Unifier u) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public void standardise_apart(Unifiable t, Unifier u, Set<String> varnames) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public Set<String> getVarNames() {
+					// TODO Auto-generated method stub
+					return new HashSet<String>();
+				}
+
+				@Override
+				public void renameVar(String oldname, String newname) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public boolean match(Unifiable t, Unifier u) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public boolean matchNG(Unifiable t, Unifier u) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public boolean isGround() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+
+				@Override
+				public boolean apply(Unifier theta) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+
+				@Override
+				public void makeVarsAnnon() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public Unifiable strip_varterm() {
+					// TODO Auto-generated method stub
+					return this;
+				}
+
+				@Override
+				public Unifiable resolveVarsClusters() {
+					// TODO Auto-generated method stub
+					return this;
+				}
+
+				@Override
+				public Unifiable substitute(Unifiable term, Unifiable subst) {
+					// TODO Auto-generated method stub
+					return this;
+				}
+
+				@Override
+				public String toString(PredicateDescriptions descriptions) {
+					// TODO Auto-generated method stub
+					return "no prolog code";
+				}
+
+				@Override
+				public LogicalFormula clone() {
+					// TODO Auto-generated method stub
+					return new NonVarBody();
 				}
 
 			}
@@ -193,27 +284,33 @@ public class BuiltInPrologRules {
 		}
 	}*/
 	
+	FOFVisitor fofvisitor = new FOFVisitor();
+
 	public Rule rule(String s) throws Exception {
 		LogicalFmlasParser parser = fofparser(s);
-		FOFVisitor fofvisitor = new FOFVisitor();
 
 		Abstract_Rule rule = (Abstract_Rule) fofvisitor.visitProlog_rule(parser.prolog_rule());
 		return (rule.toMCAPL());
 	}
 	
 	public Predicate predicate(String s) throws Exception {
+		System.out.println("A1");
 		LogicalFmlasParser parser = fofparser(s);
-		FOFVisitor fofvisitor = new FOFVisitor();
+		System.out.println("A2");
 
 		Abstract_Predicate rule = (Abstract_Predicate) fofvisitor.visitPred(parser.pred());
+		System.out.println("A3");
 		return (rule.toMCAPL());
 	}
 	
 	
 	private LogicalFmlasParser fofparser(String s) {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		System.out.println("B1");
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		System.out.println("B2");
 		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
+		System.out.println("B3");
 		return parser;
 	}
 }

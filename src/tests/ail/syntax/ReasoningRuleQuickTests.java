@@ -145,6 +145,7 @@ public class ReasoningRuleQuickTests {
 		}
 		
 	}
+	
 
 	private GwendolenParser gwendolen_parser_for(String s) {
 		GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
