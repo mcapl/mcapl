@@ -1,0 +1,8 @@
+1: [] <> B(agent, decline(marital_status))
+2: [] ~(B(agent, approve(marital_status)) || B(agent, substitute(marital_status,_)))
+3: [] <> B(agent, substitute(dob, age))
+4: [] ~(B(agent, approve(dob)) || B(agent, decline(dob)))
+5: [] (B(agent, data(home_address)) -> (<> B(agent, decline(gps))))
+6: [] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) -> (<> B(agent, decline(bmi))))
+7: <> ItD(agent, send(user, 2, approve(marital_status)))
+8: [] ~ItD(agent, send(user, 2, approve(marital_status)))

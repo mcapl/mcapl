@@ -1,0 +1,27 @@
+GWENDOLEN
+
+:name: agent
+
+:Initial Beliefs:
+
+:Initial Goals:
+
+:Plans:
+
++.received(:tell, B) : {True} <- +B;
+
++data(X) : {True} <-
+        *all_beliefs_shared,
+        +!data_requirement(X) [perform];
+
++!data_requirement(marital_status) [perform] : {True} <- .send(user, :perform, decline(marital_status)), +decline(marital_status);
++!data_requirement(occupation) [perform] : {True} <- .send(user, :perform, decline(occupation)), +decline(occupation);
++!data_requirement(education) [perform] : {True} <- .send(user, :perform, decline(education)), +decline(education);
+
++!data_requirement(dob) [perform] : {True} <- .send(user, :perform, substitute(dob, age)), +substitute(dob, age);
+
++!data_requirement(gps) [perform] : {B data(home_address)} <- .send(user, :perform, decline(gps)), +decline(gps);
+
++!data_requirement(bmi) [perform] : {B data(dob), B data(gender), B workout_plan(present), B diet_recommendations(present), B daily_physical_activities(monitored)} <- .send(user, :perform, decline(bmi)), +decline(bmi);
+
++!data_requirement(X) [perform] : {True} <- .send(user, :perform, approve(X)), +approve(X);
