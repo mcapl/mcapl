@@ -2,11 +2,12 @@
 
 target = ail.util.AJPF_w_AIL
 
-target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,8
+target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,9
 
 
 
 log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
+//log.fine = ail.semantics.AILAgent
 
 //listener+=,.listener.ExecTracker
 //et.print_insn=false
