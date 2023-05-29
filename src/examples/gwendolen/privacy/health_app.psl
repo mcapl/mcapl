@@ -7,4 +7,6 @@
 7: <> ItD(agent, send(user, 2, approve(marital_status)))
 8: [] ~ItD(agent, send(user, 2, approve(marital_status)))
 
+sanity: [] ((B(agent, data(marital_status)) & B(agent, all_beliefs_shared)) -> (<> B(agent, decline(something_else))))
 9: [] ((B(agent, data(marital_status)) & B(agent, all_beliefs_shared)) -> (<> B(agent, decline(marital_status))))
+10: [] ((B(agent, data(dob)) & B(agent, all_beliefs_shared)) -> (<> B(agent, substitute(dob, age))))

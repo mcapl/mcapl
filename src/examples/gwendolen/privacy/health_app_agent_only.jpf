@@ -2,7 +2,7 @@
 
 target = ail.util.AJPF_w_AIL
 
-target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,9
+target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,10
 
 
 
@@ -12,3 +12,6 @@ log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
 //listener+=,.listener.ExecTracker
 //et.print_insn=false
 //et.show_shared=false
+
+// Properties Succeed: 2, 10
+// Properties Fail: sanity, 1, 3

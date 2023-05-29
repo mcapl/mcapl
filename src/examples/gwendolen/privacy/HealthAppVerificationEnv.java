@@ -110,6 +110,11 @@ public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnv
 				social_media.addTerm(new Predicate("social_media"));
 				messages.add(new Message(1, "user", "agent", social_media));
 			}
+			
+			if (all_beliefs_shared) {
+				Predicate all_beliefs = new Predicate("all_beliefs_shared");
+				messages.add(new Message(1, "user", "agent", all_beliefs));
+			}
 		}
 		
 		
