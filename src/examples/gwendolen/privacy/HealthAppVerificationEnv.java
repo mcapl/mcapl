@@ -22,6 +22,33 @@ public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnv
 		Set<Message> messages = new HashSet<Message>();
 		
 		if (!all_beliefs_shared) {
+			// belief(workout_plan(present))
+			// belief(diet_recommendations(present))
+			// belief(daily_physical_activities(monitored))
+			
+			boolean workout_plan_present = random_bool_generator.nextBoolean();
+			boolean diet_recommendations_present = random_bool_generator.nextBoolean();
+			boolean daily_physical_activities_monitored = random_bool_generator.nextBoolean();
+			if (workout_plan_present) {
+				Predicate workout_plan = new Predicate("workout_plan");
+				workout_plan.addTerm(new Predicate("present"));
+				messages.add(new Message(1, "user", "agent", workout_plan));
+			}
+			
+
+			if (diet_recommendations_present) {
+				Predicate diet_recommendations = new Predicate("diet_recommendations");
+				diet_recommendations.addTerm(new Predicate("present"));
+				messages.add(new Message(1, "user", "agent", diet_recommendations));
+			}
+			
+			if (daily_physical_activities_monitored) {
+				Predicate daily_physical_activities = new Predicate("daily_physical_activities");
+				daily_physical_activities.addTerm(new Predicate("monitored"));
+				messages.add(new Message(1, "user", "agent", daily_physical_activities));
+			}
+
+
 			boolean full_name_requested = random_bool_generator.nextBoolean();
 			boolean dob_requested = random_bool_generator.nextBoolean();
 			boolean gender_requested = random_bool_generator.nextBoolean();
@@ -33,7 +60,7 @@ public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnv
 			boolean education_requested = random_bool_generator.nextBoolean();
 			boolean gps_requested = random_bool_generator.nextBoolean();
 			boolean social_media_requested = random_bool_generator.nextBoolean();
-			all_beliefs_shared = random_bool_generator.nextBoolean();
+			all_beliefs_shared = true;
 			//data(full_name)
 			//data(dob)
 			//data(gender)

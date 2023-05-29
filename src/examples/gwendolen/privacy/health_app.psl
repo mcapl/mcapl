@@ -7,6 +7,24 @@
 7: <> ItD(agent, send(user, 2, approve(marital_status)))
 8: [] ~ItD(agent, send(user, 2, approve(marital_status)))
 
-sanity: [] ((B(agent, data(marital_status)) & B(agent, all_beliefs_shared)) -> (<> B(agent, decline(something_else))))
-9: [] ((B(agent, data(marital_status)) & B(agent, all_beliefs_shared)) -> (<> B(agent, decline(marital_status))))
-10: [] ((B(agent, data(dob)) & B(agent, all_beliefs_shared)) -> (<> B(agent, substitute(dob, age))))
+sanity: [] (B(agent, data(marital_status))  -> (<> B(agent, decline(something_else))))
+9: [] (B(agent, data(marital_status))  -> (<> B(agent, decline(marital_status))))
+10: [] (B(agent, data(dob))  -> (<> B(agent, substitute(dob, age))))
+11: [] ((B(agent, data(home_address)) &  B(agent, data(gps))) -> (<> B(agent, decline(gps))))
+12: [] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) & B(agent, data(bmi)) -> (<> B(agent, decline(bmi))))
+
+only_oneA: [] (~B(agent, approve(gps)) || ~B(agent, decline(gps)))
+only_oneB: [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))
+only_oneC: [] (~B(agent, substitue(gps, _)) || ~B(agent, decline(gps)))
+at_least_one: <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _)))
+
+big: ([] ~(B(agent, approve(marital_status)) || B(agent, substitute(marital_status,_)))) &
+([] ~(B(agent, approve(dob)) || B(agent, decline(dob)))) & ([] ~ItD(agent, send(user, 2, approve(marital_status))))
+& ([] (B(agent, data(marital_status))  -> (<> B(agent, decline(marital_status))))) &
+([] (B(agent, data(dob))  -> (<> B(agent, substitute(dob, age))))) & 
+([] ((B(agent, data(home_address)) &  B(agent, data(gps))) -> (<> B(agent, decline(gps))))) & 
+([] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) & B(agent, data(bmi)) -> (<> B(agent, decline(bmi))))) &
+([] (~B(agent, approve(gps)) || ~B(agent, decline(gps)))) &
+([] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))) &
+([] (~B(agent, substitue(gps, _)) || ~B(agent, decline(gps)))) &
+(<> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _))))
