@@ -2,7 +2,7 @@
 
 target = ail.util.AJPF_w_AIL
 
-target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,only_oneA_full_name
+target.args = src/examples/gwendolen/privacy/health_app_agent_only.ail,src/examples/gwendolen/privacy/health_app.psl,at_least_one_dob
 
 
 

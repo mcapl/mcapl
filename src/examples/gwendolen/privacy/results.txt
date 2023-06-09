@@ -1,13 +1,5 @@
 Unchecked Properties from health_app.psl 
 ============================================
-only_oneB_full_name: [] (~B(agent, approve(full_name)) || ~B(agent, substitute(full_name, _)))
-only_oneC_full_name: [] (~B(agent, substitute(full_name, _)) || ~B(agent, decline(full_name)))
-at_least_one_full_name: [] (B(agent, data(full_name)) -> <> (B(agent, approve(full_name)) || B(agent, decline(full_name)) || B(agent, substitute(full_name, _))))
-
-only_oneA_dob: [] (~B(agent, approve(dob)) || ~B(agent, decline(dob)))
-only_oneB_dob: [] (~B(agent, approve(dob)) || ~B(agent, substitute(dob, _)))
-only_oneC_dob: [] (~B(agent, substitute(dob, _)) || ~B(agent, decline(dob)))
-at_least_one_dob: [] (B(agent, data(dob)) -> <> (B(agent, approve(dob)) || B(agent, decline(dob)) || B(agent, substitute(dob, _))))
 
 only_oneA_gender: [] (~B(agent, approve(gender)) || ~B(agent, decline(gender)))
 only_oneB_gender: [] (~B(agent, approve(gender)) || ~B(agent, substitute(gender, _)))
@@ -61,6 +53,14 @@ Properties from health_app.psl that Succeed
 12: [] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) & B(agent, data(bmi)) -> (<> B(agent, decline(bmi))))
 
 only_oneA_full_name: [] (~B(agent, approve(full_name)) || ~B(agent, decline(full_name)))
+only_oneB_full_name: [] (~B(agent, approve(full_name)) || ~B(agent, substitute(full_name, _)))
+only_oneC_full_name: [] (~B(agent, substitute(full_name, _)) || ~B(agent, decline(full_name)))
+at_least_one_full_name: [] (B(agent, data(full_name)) -> <> (B(agent, approve(full_name)) || B(agent, decline(full_name)) || B(agent, substitute(full_name, _))))
+
+only_oneA_dob: [] (~B(agent, approve(dob)) || ~B(agent, decline(dob)))
+only_oneB_dob: [] (~B(agent, approve(dob)) || ~B(agent, substitute(dob, _)))
+only_oneC_dob: [] (~B(agent, substitute(dob, _)) || ~B(agent, decline(dob)))
+at_least_one_dob: [] (B(agent, data(dob)) -> <> (B(agent, approve(dob)) || B(agent, decline(dob)) || B(agent, substitute(dob, _))))
 
 
 Properties from health_app.psl that Fail

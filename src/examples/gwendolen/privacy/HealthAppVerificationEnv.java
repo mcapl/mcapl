@@ -9,7 +9,7 @@ import gwendolen.mas.VerificationofAutonomousSystemsEnvironment;
 
 public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnvironment {
 	boolean all_beliefs_shared = false;
-	boolean full_set = true;
+	boolean full_set = false;
 
 	@Override
 	public Set<Predicate> generate_percepts() {
