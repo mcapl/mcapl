@@ -1,8 +1,6 @@
 Unchecked Properties from health_app.psl 
 ============================================
 
-only_oneA_gender: [] (~B(agent, approve(gender)) || ~B(agent, decline(gender)))
-only_oneB_gender: [] (~B(agent, approve(gender)) || ~B(agent, substitute(gender, _)))
 only_oneC_gender: [] (~B(agent, substitute(gender, _)) || ~B(agent, decline(gender)))
 at_least_one_gender: [] (B(agent, data(gender)) -> <> (B(agent, approve(gender)) || B(agent, decline(gender)) || B(agent, substitute(gender, _))))
 
@@ -61,6 +59,9 @@ only_oneA_dob: [] (~B(agent, approve(dob)) || ~B(agent, decline(dob)))
 only_oneB_dob: [] (~B(agent, approve(dob)) || ~B(agent, substitute(dob, _)))
 only_oneC_dob: [] (~B(agent, substitute(dob, _)) || ~B(agent, decline(dob)))
 at_least_one_dob: [] (B(agent, data(dob)) -> <> (B(agent, approve(dob)) || B(agent, decline(dob)) || B(agent, substitute(dob, _))))
+
+only_oneA_gender: [] (~B(agent, approve(gender)) || ~B(agent, decline(gender)))
+only_oneB_gender: [] (~B(agent, approve(gender)) || ~B(agent, substitute(gender, _)))
 
 
 Properties from health_app.psl that Fail

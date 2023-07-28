@@ -21,6 +21,7 @@ public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnv
 	public Set<Message> generate_messages() {
 		// TODO Auto-generated method stub
 		Set<Message> messages = new HashSet<Message>();
+		System.out.println("changing env");
 		
 		if (!all_beliefs_shared) {
 			// belief(workout_plan(present))
