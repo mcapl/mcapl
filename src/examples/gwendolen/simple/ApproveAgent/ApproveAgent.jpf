@@ -25,9 +25,13 @@
 @using = mcapl
 
 target = ail.util.AJPF_w_AIL
-target.args = ${mcapl}/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.ail,${mcapl}/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.psl,1
+target.args = ${mcapl}/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.ail,${mcapl}/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.psl,3
 
 log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment
+log.finer = ajpf.psl.buchi.BuchiAutomaton
+log.finest = ajpf.product.Product
+log.finer = ajpf.product.ModelState
+log.fine = ail.util.AJPF_w_AIL
 
 listener+=,.listener.ExecTracker,.listener.CGMonitor
 et.print_insn=false

@@ -22,3 +22,5 @@
 //----------------------------------------------------------------------------
 
 1: <>(ItD(ag1, approve(marital_status))
+2: <>(ItD(ag1, approve(name))) & <> (ItD(ag1, approve(marital_status)))
+3: <>(ItD(ag1, approve(marital_status))) & <> (ItD(ag1, approve(name)))

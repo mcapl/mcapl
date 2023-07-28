@@ -197,7 +197,7 @@ public class Product {
 			// and we are just building a model of the program.  There for there is no need to build the
 			// property automata.
 			if (!model_only) {
-				// Some state labelled is true of there is at least one state in the property automata that can
+				// Some state labelled is true if there is at least one state in the property automata that can
 				// be paired with this state in the program model.  The property is automatically true on this
 				// branch if no state can be labelled.
 				boolean somestatelabelled = false;
@@ -313,7 +313,7 @@ public class Product {
 		log.fine("Entering new Product States with Initial State in Path");
 		List<ProductState> ps = new ArrayList<ProductState>();
 		// Get the possible next states in the Buchi Automaton
-		List<BuchiState> buchi = b.possibleNextStates(0);
+		/* List<BuchiState> buchi = b.possibleNextStates(0);
 		if (buchi.isEmpty()) {
 			return false;
 		}
@@ -336,6 +336,19 @@ public class Product {
 			}
 		} 
 		existence.put(modelnum, indexedbybuchi);
+		*/
+		
+		Map<Integer, Map<Integer, Integer>> indexedbybuchi = new HashMap<Integer, Map<Integer, Integer>>();
+		Integer modelnum = s.getNum();
+		Map<Integer, Integer> indexedbyuntil = new HashMap<Integer, Integer>();
+		indexedbybuchi.put(0, indexedbyuntil);
+		ProductState p = new ProductState(0, modelnum, 0);
+		ps.add(p);
+		Integer pnum = p.getNum();
+		productbyNumber.put(pnum, p);
+		indexedbyuntil.put(0, pnum);
+		existence.put(modelnum, indexedbybuchi);
+
 
 		// Add to S1 (the depth first LTL search tree) as new start states.
 		if (lowerLogLevelThan(Level.FINER)) {
@@ -397,6 +410,9 @@ public class Product {
 			log.fine("Setting done " + modelstatenum);
 		}
 		m.setdone(modelstatenum);
+		if (lowerLogLevelThan(Level.FINER)) {
+			log.finer("Product State is:" + print_product());
+		}
 	}
 	
 	/**
@@ -498,7 +514,7 @@ public class Product {
 		
 		// We run DFS in an interleaved fashion as we build the product automata
 		// Therefore we also use canexplore to indicate that we can't explore the DFS tree any
-		// futher in the current state of the Product Automata.
+		// further in the current state of the Product Automata.
 		while (canexplore & !S1.isEmpty()) {
 			ProductState x = S1.get(S1.size() - 1);
 			if (lowerLogLevelThan(Level.FINE)) {
@@ -978,6 +994,25 @@ public class Product {
 			return s;
 		}
 
+	}
+	
+	public String print_product() {
+		String s = "";
+		for (Map.Entry<Integer, ProductState> pair : productbyNumber.entrySet()) {
+			s += pair.getKey().toString() + " " + pair.getValue().toString() + "\n";
+			
+		}
+		s += "Indexed by Incoming:\n";
+		for (Map.Entry<Integer, HashSet<ProductState>> pair: statesbyIncoming.entrySet()) {
+			s += pair.getKey() + ":[";
+			for (ProductState p: pair.getValue()) {
+				s += p.toString();
+				s += ", ";
+			}
+			s += "]\n";
+		}
+		return s;
+		
 	}
 	
 	public BuchiAutomaton getBuchi() {
