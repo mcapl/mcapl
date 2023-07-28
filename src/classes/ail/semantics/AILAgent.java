@@ -2288,7 +2288,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		if (getIntention() != null) {
 			for (Deed d : getIntention().deeds()) {
 				if (d.getCategory() == Deed.DAction) {
-					if (d.getContent().unifies(action, new Unifier())) {
+					if (d.getContent().unifies(action, getIntention().hdU().clone())) {
 						return true;
 					}
 				}
