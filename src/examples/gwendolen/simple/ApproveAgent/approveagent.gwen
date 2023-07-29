@@ -1,0 +1,46 @@
+// ----------------------------------------------------------------------------
+// Copyright (C) 2023 Louise A. Dennis
+// 
+// This file is part of Gwendolen
+//
+// Gwendolen is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+// 
+// Gwendolen is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public
+// License along with Gwendolen if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+// To contact the authors:
+// http://www.csc.liv.ac.uk/~lad
+//----------------------------------------------------------------------------
+
+GWENDOLEN
+
+:name: ag1
+
+:Initial Beliefs:
+
+decline(marital_status)
+approve_requested(name)
+approve_requested(age)
+
+:Reasoning Rules:
+
+handled_request :- ~(approve_requested(X), ~approved(X), ~declined(X));
+
+
+:Initial Goals:
+
+handled_request [achieve]
+
+:Plans:
+
++!handled_request [achieve] : {B decline(e), ~B declined(X)} <- decline(X), +declined(X);
++!handled_request [achieve] : {B approve_requested(X), ~B approved(X), ~B decline(X)} <- approve(X), +approved(X);
