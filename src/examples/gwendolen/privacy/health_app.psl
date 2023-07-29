@@ -33,6 +33,7 @@ only_oneB_bmi: [] (~B(agent, approve(bmi)) || ~B(agent, substitute(bmi, _)))
 only_oneC_bmi: [] (~B(agent, substitute(bmi, _)) || ~B(agent, decline(bmi)))
 at_least_one_bmi: [] (B(agent, data(bmi)) -> <> (B(agent, approve(bmi)) || B(agent, decline(bmi)) || B(agent, substitute(bmi, _))))
 
+contact: ([] (~B(agent, approve(contact)) || ~B(agent, decline(contact)))) & ([] (~B(agent, approve(contact)) || ~B(agent, substitute(contact, _)))) & ([] (~B(agent, substitute(contact, _)) || ~B(agent, decline(contact)))) & ([] (B(agent, data(contact)) -> <> (B(agent, approve(contact)) || B(agent, decline(contact)) || B(agent, substitute(contact, _)))))
 only_oneA_contact: [] (~B(agent, approve(contact)) || ~B(agent, decline(contact)))
 only_oneB_contact: [] (~B(agent, approve(contact)) || ~B(agent, substitute(contact, _)))
 only_oneC_contact: [] (~B(agent, substitute(contact, _)) || ~B(agent, decline(contact)))

@@ -101,6 +101,7 @@ public class HealthAppVerificationEnv extends VerificationofAutonomousSystemsEnv
 					messages.add(new Message(1, "user", "agent", contact));
 				}
 			}
+			
 			boolean home_address_requested = random_bool_generator.nextBoolean();
 			if (home_address_requested) {
 				Predicate home_address = new Predicate("data");
