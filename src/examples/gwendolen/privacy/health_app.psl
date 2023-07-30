@@ -39,6 +39,10 @@ only_oneB_contact: [] (~B(agent, approve(contact)) || ~B(agent, substitute(conta
 only_oneC_contact: [] (~B(agent, substitute(contact, _)) || ~B(agent, decline(contact)))
 at_least_one_contact: [] (B(agent, data(contact)) -> <> (B(agent, approve(contact)) || B(agent, decline(contact)) || B(agent, substitute(contact, _))))
 
+home_address: ([] (~B(agent, approve(home_address)) || ~B(agent, decline(home_address)))) & 
+([] (~B(agent, approve(home_address)) || ~B(agent, substitute(home_address, _)))) &
+([] (~B(agent, substitute(home_address, _)) || ~B(agent, decline(home_address)))) &
+([] (B(agent, data(home_address)) -> <> (B(agent, approve(home_address)) || B(agent, decline(home_address)) || B(agent, substitute(home_address, _)))))
 only_oneA_home_address: [] (~B(agent, approve(home_address)) || ~B(agent, decline(home_address)))
 only_oneB_home_address: [] (~B(agent, approve(home_address)) || ~B(agent, substitute(home_address, _)))
 only_oneC_home_address: [] (~B(agent, substitute(home_address, _)) || ~B(agent, decline(home_address)))
