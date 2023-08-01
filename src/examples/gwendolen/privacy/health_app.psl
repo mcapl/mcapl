@@ -48,6 +48,11 @@ only_oneB_home_address: [] (~B(agent, approve(home_address)) || ~B(agent, substi
 only_oneC_home_address: [] (~B(agent, substitute(home_address, _)) || ~B(agent, decline(home_address)))
 at_least_one_home_address: [] (B(agent, data(home_address)) -> <> (B(agent, approve(home_address)) || B(agent, decline(home_address)) || B(agent, substitute(home_address, _))))
 
+marital_status: ([] (~B(agent, approve(marital_status)) || ~B(agent, decline(marital_status))) ) &
+( [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _))) ) &
+( [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status))) ) &
+( [] (B(agent, data(marital_status)) -> <> (B(agent, approve(marital_status)) || B(agent, decline(marital_status)) || B(agent, substitute(marital_status, _)))) )
+
 only_oneA_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, decline(marital_status)))
 only_oneB_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _)))
 only_oneC_marital_status: [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status)))
