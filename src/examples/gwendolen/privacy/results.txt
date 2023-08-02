@@ -1,17 +1,6 @@
 Unchecked Properties from health_app.psl 
 ============================================
 
-
-only_oneA_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, decline(marital_status)))
-only_oneB_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _)))
-only_oneC_marital_status: [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status)))
-at_least_one_marital_status: [] (B(agent, data(marital_status)) -> <> (B(agent, approve(marital_status)) || B(agent, decline(marital_status)) || B(agent, substitute(marital_status, _))))
-
-only_oneA_occupation: [] (~B(agent, approve(occupation)) || ~B(agent, decline(occupation)))
-only_oneB_occupation: [] (~B(agent, approve(occupation)) || ~B(agent, substitute(occupation, _)))
-only_oneC_occupation: [] (~B(agent, substitute(occupation, _)) || ~B(agent, decline(occupation)))
-at_least_one_occupation: [] (B(agent, data(occupation)) -> <> (B(agent, approve(occupation)) || B(agent, decline(occupation)) || B(agent, substitute(occupation, _))))
-
 only_oneA_gps: [] (~B(agent, approve(gps)) || ~B(agent, decline(gps)))
 only_oneB_gps: [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))
 only_oneC_gps: [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps)))
@@ -64,6 +53,11 @@ marital_status: ([] (~B(agent, approve(marital_status)) || ~B(agent, decline(mar
 ( [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _))) ) &
 ( [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status))) ) &
 ( [] (B(agent, data(marital_status)) -> <> (B(agent, approve(marital_status)) || B(agent, decline(marital_status)) || B(agent, substitute(marital_status, _)))) )
+
+occupation: ([] (~B(agent, approve(occupation)) || ~B(agent, decline(occupation)))) &
+([] (~B(agent, approve(occupation)) || ~B(agent, substitute(occupation, _)))) &
+([] (~B(agent, substitute(occupation, _)) || ~B(agent, decline(occupation)))) &
+([] (B(agent, data(occupation)) -> <> (B(agent, approve(occupation)) || B(agent, decline(occupation)) || B(agent, substitute(occupation, _)))))
 
 Properties from health_app.psl that Fail
 ============================================
