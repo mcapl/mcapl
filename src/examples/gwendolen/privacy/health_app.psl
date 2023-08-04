@@ -68,6 +68,11 @@ only_oneB_occupation: [] (~B(agent, approve(occupation)) || ~B(agent, substitute
 only_oneC_occupation: [] (~B(agent, substitute(occupation, _)) || ~B(agent, decline(occupation)))
 at_least_one_occupation: [] (B(agent, data(occupation)) -> <> (B(agent, approve(occupation)) || B(agent, decline(occupation)) || B(agent, substitute(occupation, _))))
 
+gps: ([] (~B(agent, approve(gps)) || ~B(agent, decline(gps))) &
+( [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _))) ) &
+( [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps))) ) &
+( [] (B(agent, data(gps)) -> <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _)))) )
+
 only_oneA_gps: [] (~B(agent, approve(gps)) || ~B(agent, decline(gps)))
 only_oneB_gps: [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))
 only_oneC_gps: [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps)))
