@@ -2,12 +2,6 @@ Unchecked Properties from health_app.psl
 ============================================
 
 
-only_oneA_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))
-only_oneB_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))
-only_oneC_social_media: [] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))
-at_least_one_social_media: [] (B(agent, data(social_media)) -> <> (B(agent, approve(social_media)) || B(agent, decline(social_media)) || B(agent, substitute(social_media, _))))
-
-
 Properties from health_app.psl that Succeed
 ============================================
 2: [] ~(B(agent, approve(marital_status)) || B(agent, substitute(marital_status,_)))
@@ -59,6 +53,11 @@ gps: ([] (~B(agent, approve(gps)) || ~B(agent, decline(gps))) &
 ( [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _))) ) &
 ( [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps))) ) &
 ( [] (B(agent, data(gps)) -> <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _)))) )
+
+social_media: ([] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))) &
+([] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))) &
+([] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))) &
+([] (B(agent, data(social_media)) -> <> (B(agent, approve(social_media)) || B(agent, decline(social_media)) || B(agent, substitute(social_media, _)))))
 
 Properties from health_app.psl that Fail
 ============================================

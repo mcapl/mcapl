@@ -78,6 +78,11 @@ only_oneB_gps: [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))
 only_oneC_gps: [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps)))
 at_least_one_gps: [] (B(agent, data(gps)) -> <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _))))
 
+social_media: ([] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))) &
+([] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))) &
+([] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))) &
+([] (B(agent, data(social_media)) -> <> (B(agent, approve(social_media)) || B(agent, decline(social_media)) || B(agent, substitute(social_media, _)))))
+
 only_oneA_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))
 only_oneB_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))
 only_oneC_social_media: [] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))
