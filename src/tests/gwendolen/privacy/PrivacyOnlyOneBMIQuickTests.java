@@ -36,7 +36,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  * @author louiseadennis
  *
  */
-public class PrivacyQuickOnlyOneBMITests extends TestJPF {
+public class PrivacyOnlyOneBMIQuickTests extends TestJPF {
 
  static final String[] ARGS = {
 };

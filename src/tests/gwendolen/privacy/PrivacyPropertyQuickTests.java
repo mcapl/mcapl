@@ -36,7 +36,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  * @author louiseadennis
  *
  */
-public class PrivacyQuickPropertyTests extends TestJPF {
+public class PrivacyPropertyQuickTests extends TestJPF {
 
  static final String[] ARGS = {
 };
