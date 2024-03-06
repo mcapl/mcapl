@@ -29,6 +29,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.AIL Run PickupAgent.executor": "Run",
     "Application.AIL.executor": "Run",
+    "JAR Application.RunJPF.jar.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -40,14 +41,14 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "terminal",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.AIL Run PickupAgent">
+  <component name="RunManager" selected="JAR Application.RunJPF.jar">
     <configuration name="AIL Run PickupAgent" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="ail.mas.AIL" />
       <module name="mcapl" />
@@ -75,12 +76,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RunJPF.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/lib/3rdparty/RunJPF.jar" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.AIL (1)" />
       <item itemvalue="Application.AIL Run PickupAgent" />
+      <item itemvalue="JAR Application.RunJPF.jar" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JAR Application.RunJPF.jar" />
         <item itemvalue="Application.AIL Run PickupAgent" />
         <item itemvalue="Application.AIL (1)" />
       </list>
@@ -94,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1709718269215</updated>
-      <workItem from="1709718270498" duration="2288000" />
+      <workItem from="1709718270498" duration="5143000" />
     </task>
     <servers />
   </component>
