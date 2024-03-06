@@ -44,7 +44,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "terminal",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -103,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1709718269215</updated>
-      <workItem from="1709718270498" duration="5143000" />
+      <workItem from="1709718270498" duration="5843000" />
     </task>
     <servers />
   </component>
