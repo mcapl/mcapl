@@ -134,6 +134,9 @@ public class GwendolenAgent extends AILAgent {
 			if (printer.equals("ail")) {
 				setPretty(new AILPrettyPrinter());
 			} 
+			if (printer.equals("gwendolen")) {
+				setPretty(new GwendolenPrettyPrinter());
+			}
 		}
 	}
 }

@@ -61,19 +61,8 @@ This is the output that arises if you remove the comma between
 
 \begin{verbatim}
 line 36:47 mismatched input '~' expecting SEMI
-java.lang.NullPointerException
-	at ail.syntax.ast.Abstract_Rule.toMCAPL(Abstract_Rule.java:108)
-	at gwendolen.syntax.ast.Abstract_GwendolenAgent.addStructures(Abstract_GwendolenAgent.java:90)
-	at gwendolen.syntax.ast.Abstract_GwendolenAgent.toMCAPL(Abstract_GwendolenAgent.java:77)
-	at gwendolen.syntax.ast.Abstract_GwendolenAgent.toMCAPL(Abstract_GwendolenAgent.java:48)
-	at ail.syntax.ast.Abstract_MAS.toMCAPL(Abstract_MAS.java:117)
-	at gwendolen.GwendolenMASBuilder.getMAS(GwendolenMASBuilder.java:95)
-	at ail.mas.AIL.buildMAS(AIL.java:117)
-	at ail.mas.AIL.AILSetup(AIL.java:80)
-	at ail.mas.AIL.runAIL(AIL.java:61)
-	at ail.mas.AIL.main(AIL.java:49)
-ail.mas.AIL[SEVERE|main|3:15:19]: null 
 \end{verbatim}
+followed by the program nevertheless attempting to execute and failing to terminate, so you will need to kill this.
 
 The first line of this output is from the parser.  This identifies the
 line number (36) and character in the line (47) where the error was
@@ -82,14 +71,9 @@ problem, \texttt{\~} and then makes a guess at what it should have
 been.  In this case the guess is incorrect.  It suggests a semi-colon,
 \texttt{SEMI}, when a comma is needed.  This first line is frequently
 the most useful piece of output for parsing
-errors.\index{Gwendolen}\index{mismatched input} 
+errors so it is worthwhile watching for these kinds of errors at the start when you try to execute a program.\index{Gwendolen}\index{mismatched input} 
 
-We then have a \java\ stack trace because, in this case, the parse
-error has caused the whole problem to fail.  At the end is a log
-message from the \java\ class \texttt{ail.mas.AIL}.\index{Gwendolen} 
-
-It should be noted that parsing errors do not always cause the program
-to crash.  For instance, if we delete the comma from between
+Parsing errors can also cause plans to fail to apply.  For instance, if we delete the comma from between
 \texttt{X} and \texttt{Y} in the guard of the first plan of this
 program we get the following output:\index{Gwendolen} 
 
@@ -121,7 +105,7 @@ process incoming beliefs and perceptions.  We can get more information
 about the agent's operation by using log
 messages.\index{logging}\index{Gwendolen!logging} 
 
-Add the line
+Add the lines
 \begin{verbatim}
 log.fine = ail.semantics.AILAgent
 \end{verbatim}
@@ -265,6 +249,12 @@ Run some of your other programs with
 \texttt{ail.semantics.AILAgent}\index{AILAgent (class)} set at log
 level \texttt{fine} and see if you can get a feel for how an agents
 beliefs and goals change as the program executes. 
+
+Note:  If you add 
+\begin{verbatim}
+pretty = gwendolen
+\end{verbatim}\index{Pretty Printer}
+you will get a slightly different presentation of the output in a more natural language format.  You may want to experiment with which style of output. you prefer.
 
 \section{Tracing the execution of reasoning rules}\index{logging}\index{reasoning rules}\index{reasoning rules!debugging}\index{Gwendolen}
 Another logger that can be useful is the one that traces the

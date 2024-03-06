@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.rescue;
+package gwendolen.simple;
 
 import org.junit.Test;
 
@@ -32,32 +32,36 @@ import gov.nasa.jpf.util.test.TestJPF;
 import gov.nasa.jpf.util.TypeRef;
 
 /**
- * Regresssion test of various properties using the Rescue Robots as an example problem.
- * Split over several files since JPF was having problems executing multiple tests in one file.
+ * Tests of various types of property using the simple example Gwendolen programs.
+ * Split over several files since JPF was having trouble executing multiple tests in one file.
+ * @author louiseadennis
+ *
  */
-public class RescueQuickTests extends TestJPF {
+public class Conj2QuickTests extends TestJPF {
 
- static final String[] RESCUE_ARGS = { "-show", 
-	 "+listener+=,.listener.ExecTracker",
-     "+et.print_insn=false",
-     "+vm.max_transition_length=MAX"
-
+ static final String[] PICKUP_ARGS = {
 };
- 
- @Test //----------------------------------------------------------------------
- public void testProblemNoCheckingAutomataWhenDone () {
-   if (verifyNoPropertyViolation(RESCUE_ARGS)){
-   	String filename =  "/src/examples/gwendolen/rescue/searchersmall.ail";
-   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
-   	String[] args = new String[3];
-   	args[0] = filename;
-   	args[1] = prop_filename;
-   	args[2] = "2small";
-   	AJPF_w_AIL.run(args);
-    } else {
-   	 
-    }
- }
- 
+
+  //--- driver to execute single test methods
+  public static void main(String[] args) {
+	  runTestsOfThisClass(args);
+  }
+  
+  
+  @Test //----------------------------------------------------------------------
+  public void testInValidAlwaysNotPickUP () {
+	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), PICKUP_ARGS)) {
+	    	String filename =  "/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.ail";
+	    	String prop_filename =  "/src/examples/gwendolen/simple/ApproveAgent/ApproveAgent.psl";
+	    	String[] args = new String[3];
+	    	args[0] = filename;
+	    	args[1] = prop_filename;
+	    	args[2] = "3";
+	    	AJPF_w_AIL.run(args);
+	  } else {
+	    	 
+	  }
+  }
+
 
 }
