@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4ca50efd-a91c-4c07-a47e-1a69fdae9723" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mcapl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/mcapl.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/ail/syntax/Is.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/ail/syntax/Is.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,10 +17,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2dJFRsyyXUgupCz1Pw8UZX2NVJR" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,7 +35,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "intellij__branch",
+    "git-widget-placeholder": "prolog__cut",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/louisedennis/IdeaProjects/mcapl",
     "node.js.detected.package.eslint": "true",
@@ -41,7 +43,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -103,7 +105,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1709718269215</updated>
-      <workItem from="1709718270498" duration="5843000" />
+      <workItem from="1709718270498" duration="7165000" />
     </task>
     <servers />
   </component>
