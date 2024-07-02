@@ -1,0 +1,20 @@
+
+GWENDOLEN
+
+:name: ag1
+
+:imports:
+
+prolog(empty_rules);
+
+:Initial Beliefs:
+
+empty
+
+:Initial Goals:
+
+pickup [achieve]
+
+:Plans:
+
++!pickup [achieve] : {B prolog_empty_rule} <- +pickup, -empty, print(done);

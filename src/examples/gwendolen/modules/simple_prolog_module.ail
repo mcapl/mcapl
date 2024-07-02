@@ -1,0 +1,3 @@
+env = gwendolen.simple.SimpleEnv
+mas.file = /src/examples/gwendolen/modules/simple_prolog_module.gwen
+mas.builder = gwendolen.GwendolenMASBuilder

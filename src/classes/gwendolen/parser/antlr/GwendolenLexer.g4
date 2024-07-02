@@ -31,7 +31,7 @@ lexer grammar GwendolenLexer;
 
 
 GWENDOLEN	:'GWENDOLEN' ;
-
+IMPORTS : ':imports:';
 NAME	:	':name:';
 CONST	:	('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 

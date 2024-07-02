@@ -31,8 +31,9 @@ mas  : glist=gwendolenagents;
 gwendolenagents : GWENDOLEN (g=gwendolenagent)+;
 
 // Gwendolen Agent stuff
-gwendolenagent :  (GWENDOLEN?) 
-	(NAME | NAME_PM) w=CONST 
+gwendolenagent :  (GWENDOLEN?)
+ 	(NAME | NAME_PM) w=CONST
+    (IMPORTS (NEWLINE)* (eb=fof_expr SEMI)* )?
 	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
 	BELIEFS (bs=BELIEF_BLOCK)*
 	// RR_BLOCKS should be rulelists from LogicalFmlas grammar

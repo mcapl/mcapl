@@ -38,9 +38,6 @@ import ail.syntax.ast.Abstract_Predicate;
 import ail.syntax.ast.Abstract_Rule;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
-import gwendolen.parser.GwendolenAILVisitor;
-import gwendolen.parser.GwendolenLexer;
-import gwendolen.parser.GwendolenParser;
 
 public class BuiltInPrologRulesQuickTests {
 	
