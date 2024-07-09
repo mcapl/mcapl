@@ -13,7 +13,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="eis" level="project" />
     <orderEntry type="library" name="3rdparty" level="project" />
+    <orderEntry type="library" name="eis" level="project" />
   </component>
 </module>
