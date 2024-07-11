@@ -23,11 +23,9 @@
 //----------------------------------------------------------------------------
 package eass.compositional.rescue;
 
-import org.junit.Test;
-
 import ail.util.AJPF_w_AIL;
-import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
+import org.junit.Test;
 
 /**
  * Examples from Practical Verification of Decision-Making in Agent-Based Autonomous Systems
@@ -35,24 +33,26 @@ import gov.nasa.jpf.util.test.TestJPF;
  * @author louiseadennis
  *
  */
-public class SearchAndRescueTests extends TestJPF {
+public class SearchAndRescue2Tests extends TestJPF {
 	 static final String[] ARGS = {};
-	
+
+	  
 	  @Test //----------------------------------------------------------------------
-	  public void goalreas1() {
+	  public void goalreas2() {
 		  if (verifyNoPropertyViolation(ARGS)) {
 		    	String filename =  "/src/examples/eass/compositional/rescue/goalreas.ail";
 		    	String prop_filename =  "/src/examples/eass/compositional/rescue/rescue.psl";
 		    	String[] args = new String[3];
 		    	args[0] = filename;
 		    	args[1] = prop_filename;
-		    	args[2] = "1";
+		    	args[2] = "2";
 		    	AJPF_w_AIL.run(args);
 		  } else {
 			    	 
 		  }
 
 	  }
+
 
 
 }

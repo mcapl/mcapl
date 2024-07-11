@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2013 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2018 Louise A. Dennis, Angelo Ferrando and  Michael Fisher 
 //
 // This file is part of the Engineering Autonomous Space Software (EASS) Library.
 // 
@@ -21,32 +21,30 @@
 // http://www.csc.liv.ac.uk/~lad
 //
 //----------------------------------------------------------------------------
-package eass.compositional.rescue;
-
-import org.junit.Test;
+package eass.cruise_control.runtime;
 
 import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.TypeRef;
 import gov.nasa.jpf.util.test.TestJPF;
+import org.junit.Test;
 
-/**
- * Examples from Practical Verification of Decision-Making in Agent-Based Autonomous Systems
- * that run in reasonable time.
- * @author louiseadennis
- *
- */
-public class SearchAndRescueTests extends TestJPF {
-	 static final String[] ARGS = {};
-	
+public class RV2Tests extends TestJPF {
+	 static final String[] JPF_ARGS = {};
+
+	 //--- driver to execute single test methods
+	  public static void main(String[] args) {
+		  runTestsOfThisClass(args);
+	  }
+
 	  @Test //----------------------------------------------------------------------
-	  public void goalreas1() {
-		  if (verifyNoPropertyViolation(ARGS)) {
-		    	String filename =  "/src/examples/eass/compositional/rescue/goalreas.ail";
-		    	String prop_filename =  "/src/examples/eass/compositional/rescue/rescue.psl";
+	  public void BrakeOrAcclerateTest() {
+		  if (verifyNoPropertyViolation(JPF_ARGS)) {
+		    	String filename =  "src/examples/eass/cruise_control/runtime/brake_or_accelerate_verification.ail";
+		    	String prop_filename =  "src/examples/eass/cruise_control/motorway.psl";
 		    	String[] args = new String[3];
 		    	args[0] = filename;
 		    	args[1] = prop_filename;
-		    	args[2] = "1";
+		    	args[2] = "5";
 		    	AJPF_w_AIL.run(args);
 		  } else {
 			    	 

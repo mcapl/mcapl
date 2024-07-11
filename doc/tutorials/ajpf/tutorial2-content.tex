@@ -7,10 +7,10 @@ Files for this tutorial can be found in the \texttt{mcapl} distribution in the d
 \texttt{src/examples/gwendolen/ajpf\_tutorials/tutorial2}.
 \end{quote}
 
-The tutorials assume some familiarity with the basics of running Java programs either at the command line or in Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic, and the use of B\"{u}chi Automata in model checking.
+The tutorials assume some familiarity with the basics of running Java programs either at the command line or in IntelliJ or Eclipse and some familiarity with the syntax and semantics of Linear Temporal Logic, and the use of B\"{u}chi Automata in model checking.
 
 \section{\jpf\ Configuration Files}
-As mentioned \intutorial{\ajpf}{1}{tutorial:ajpf:psl}, \jpf\ had an extensive set of configuration options which you can find in the JPF documentation~\footnote{Currently to be found at \url{http://babelfish.arc.nasa.gov/trac/jpf}}. We only examined the most basic \intutorial{\ajpf}{1}{tutorial:ajpf:psl}  but in this tutorial we will cover a few more that are useful, particularly when debugging\index{debugging!program} a program you are attempting to model check.
+As mentioned \intutorial{\ajpf}{1}{tutorial:ajpf:psl}, \jpf\ has an extensive set of configuration options. We only examined the most basic \intutorial{\ajpf}{1}{tutorial:ajpf:psl}  but in this tutorial we will cover a few more that are useful, particularly when debugging\index{debugging!program} a program you are attempting to model check.
 
 \begin{sloppypar}
 In the tutorial directory you will find a simple \gwendolen\ program, \texttt{twopickupagents.gwen}\index{example!twopickupagents}.  This contains two agents, one holding a block and one holding a flag.  Each agent puts down what they are holding.  If the agent with the block puts it down before the agent with the flag puts the flag down, then the agent with the flag will pick up the box.  The agent with the flag also performs an action with random consequences after it puts down the flag.

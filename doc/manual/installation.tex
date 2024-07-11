@@ -62,7 +62,12 @@ echo "mcapl = ${user.home}/mcapl" >> ~/.jpf/site.properties
 \end{itemize}
 
 \section{IntelliJ Installation}\index{installation!IntellijJ}\index{IntelliJ}
-
+We also supply an IntelliJ Module file so you should be able to import \ajpfversion\ (or mcapl if using the development version) into IntelliJ.  You will need a Java 8 SDK and JRE installed and will probably also want to install the ant plugin in order to run the tests easily.  You may need to configure the Project Settings manually to use your Java 8 SDK.
+\begin{itemize}
+\item If you have the ant plugin installed, you should then be able to build ajpf by clicking on build in the ant window (ant symbol -- often on the right of the IDE).  This will build the project and run the ``quick'' test suite.  You can see the progress of this in the Messages window (usually at the bottom on the left of the IDE).
+\item Create a file \texttt{.jpf/site.properties} with the path to \ajpfversion\ (or mcapl if using the development version)  assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/IdeaProjects/\ajpfversion}).
+\item We recommend you set the \texttt{AJPF\_HOME} environment variable to give the path to your ajpf directory.  
+\end{itemize}
 
 \section{Eclipse Installation}\index{installation!Eclipse}\index{Eclipse}
 
@@ -75,5 +80,7 @@ We also supply an eclipse \texttt{.project} file so you should be able to import
 
 \section{Testing the Installation}
 
-There are a number of JUnit\index{JUnit}\index{test} tests in the subdirectory \texttt{/src/tests} and examples in \texttt{/src/examples}.\index{example}
+Chapter~\ref{chap:running} describes how to manually run and model-check a simple example program.
+
+There are also number of JUnit\index{JUnit}\index{test} tests in the subdirectory \texttt{/src/tests} and examples in \texttt{/src/examples}.\index{example}.  Using ant, the build target in \texttt{build.xml} runs a set of tests.
 

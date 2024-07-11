@@ -3,12 +3,12 @@
 
 All of the languages implemented using the Agent Infrastructure Layer (AIL)\index{AIL} come provided with a parser which allows files written in that language to be read in and executed.  Examples of programs can be found in the \texttt{src/examples} directory and the tutorials for some of the languages can be found in Part 2 of this manual.
 
-However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL (class)} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} IntelliJ or Eclipse Run Configurations.\index{Eclipse}\index{IntelliJ}
+However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL -- there is more information on creating multi-agent systems and environments in Chapter~\ref{chap:ail}. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL (class)} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} IntelliJ or Eclipse Run Configurations.\index{Eclipse}\index{IntelliJ}
 
 Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF}\index{RunJPF (class)} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in IntelliJ or Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)}. 
 
 \section{Example: Executing a Multi-Agent-System (UNIX Based Systems)}
-{\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in you CLASSPATH\index{Java (class)path}\index{Unix}
+{\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in your CLASSPATH\index{Java (class)path}\index{Unix}
 
 \begin{verbatim}
 lib/3rdparty/antlr-4.7-complete.jar
@@ -51,12 +51,15 @@ done
 {\bf NB}  If you do not have AJPF\_HOME set then you will need to run the example from the \texttt{\ajpfversion} directory.
 
 \subsection{In IntelliJ}
+If you have successfully imported the project into IntelliJ then you should have two run configurations \texttt{run-AIL}\index{run-AIL} and \texttt{run-JPF (MCAPL)}\index{run-JPF}.  
+
+Select the configuration file you want to run, and then select \texttt{run-AIL} from the Run Configuration drop-down.
 
 \subsection{In Eclipse}
 
 If you have successfully imported the project into Eclipse then you should have two run configurations \texttt{run-AIL}\index{run-AIL} and \texttt{run-JPF (MCAPL)}\index{run-JPF}.  If you do not these can be found in the \texttt{eclipse} sub-directory.\index{Eclipse}
 
-Select the configuration file you will to run, and then select \texttt{run-AIL} from Eclipse's Run Configuration menu.
+Select the configuration file you want to run, and then select \texttt{run-AIL} from Eclipse's Run Configuration menu.
 
 
 \section{Example: Model Checking a Multi-Agent System (UNIX Systems)}
@@ -126,6 +129,10 @@ loaded code:        classes=301,methods=4831
 
 ====================================================== search finished: 30/03/23 11:55
 \end{lstlisting}
+
+\subsection{In IntelliJ}
+
+In IntelliJ you should be able to select \texttt{run-JPF (MCAPL)}\index{run-JPF} from the Run Configurations menu while you have \texttt{src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf} selected.  This should generate similar output to the above.
 
 \subsection{In Eclipse}
 
