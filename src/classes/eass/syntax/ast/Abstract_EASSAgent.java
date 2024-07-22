@@ -152,7 +152,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
+		   System.err.println("About to set goals");
        	for (int i = 0; i < goals.length; i++) {
+			   System.err.println("setting goal");
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
      	for (int i = 0; i < rules.length; i++) {
@@ -165,8 +167,10 @@ public class Abstract_EASSAgent extends Abstract_Agent {
       		env.setReferenceArrayElement(cRef, i, caps[i].newJPFObject(env));
       	}
       	env.setReferenceField(objref, "beliefs", bRef);
+		env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
+		env.setReferenceField(objref, "caps", cRef);
   		env.setBooleanField(objref, "isAbstraction", isAbstraction);
       	if (isAbstraction) {
       		env.setReferenceField(objref, "abstraction_for", env.newString(abstraction_for));

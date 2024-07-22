@@ -24,8 +24,7 @@ public class JPF_gwendolen_GwendolenAgentBuilder extends NativePeer {
 			GwendolenParser parser = new GwendolenParser(tokens);
 			GwendolenAILVisitor visitor = new GwendolenAILVisitor();
 			Abstract_GwendolenAgent abs_agent = (Abstract_GwendolenAgent) visitor.visitGwendolenagent(parser.gwendolenagent());
-	   		// System.err.println("done parsing");
-			int ref = abs_agent.newJPFObject(env);
+	   		int ref = abs_agent.newJPFObject(env);
 			env.setReferenceField(objref, "abs_agent", ref);
 		} catch (ClinitRequired e) {
 			env.repeatInvocation();

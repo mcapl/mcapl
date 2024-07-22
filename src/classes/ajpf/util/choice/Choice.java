@@ -43,8 +43,7 @@ public class Choice<O extends Object> {
 	// access from the Native JVM.
 	public double thischoice;
 	
-	public Random r = new Random();
-	
+
 	public MCAPLcontroller control;
 	
 	public Choice(MCAPLcontroller control) {
@@ -89,6 +88,7 @@ public class Choice<O extends Object> {
 	 * @return
 	 */
 	public int pickChoice(int limit) {
+		Random r = new Random();
 		double rvalue = r.nextDouble();
 		int list_index = 0;
 		Option<O> current = choicelist.get(list_index);
