@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import gov.nasa.jpf.vm.MJIEnv;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -572,5 +573,8 @@ public class JunoAgent extends AILAgent {
  		return s;
  	}
 
-
+	public int newJPFObject(MJIEnv env) {
+		int objref = env.newObject("juno.semantics.JunoAgent");
+		return objref;
+	}
 }

@@ -102,9 +102,6 @@ public class EthicalGwendolenAgent extends GwendolenAgent {
 			eset.add(e);
 			ethics.put(e.getContext(), eset);
 		}
-	//	Literal ethical_concern = new Literal("ethical_concern");
-	//	ethical_concern.addTerm(e.getEthic());
-	//	getBB("ethics").add(ethical_concern);
 	}
 	
     /**

@@ -23,6 +23,7 @@
 package ethical_gwen.fuel_low;
 
 
+import ethical_gwen.BaseUAVEnv;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
@@ -56,9 +57,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class FuelLowVerificationEnv extends DefaultEnvironment implements DefaultEthicalEnvironment, MCAPLJobber {
+public class FuelLowVerificationEnv extends BaseUAVEnv implements MCAPLJobber {
 	boolean intruder_avoided = false;
-	Random r = new Random();
 	
 	public FuelLowVerificationEnv() {
 		super();
@@ -93,16 +93,17 @@ public class FuelLowVerificationEnv extends DefaultEnvironment implements Defaul
 	
 
 	public PlanLibrary invokeEthicalPlanner(Event e, ListTerm policy) {
-		boolean road = r.nextBoolean();
-		boolean field_power_lines = r.nextBoolean();
-		boolean empty_field = r.nextBoolean();
-		boolean field_people = r.nextBoolean();
+		boolean road = random_bool_generator.nextBoolean();
+		boolean field_power_lines = random_bool_generator.nextBoolean();
+		boolean empty_field = random_bool_generator.nextBoolean();
+		boolean field_people = random_bool_generator.nextBoolean();
 		
 		PlanLibrary pl = new PlanLibrary();
 
 		if (field_power_lines) {
 			String plan = "+!landEmerg [achieve] : {True} <- enactRoute(land_in_field_w_power_lines);";
-			Plan p = planfromstring(plan);
+			planfromstring(plan);
+			Plan p = pfs.toMCAPL();
 	   		ListTermImpl l1 = new ListTermImpl();
 	   		l1.add(new Predicate("doNotViolateRoA500Feet"));
 	   		l1.add(new Predicate("doNotCollideObjectsOnGround"));
@@ -113,7 +114,8 @@ public class FuelLowVerificationEnv extends DefaultEnvironment implements Defaul
 		
 		if (road) {
 			String plan = "+!landEmerg [achieve] : {True} <- enactRoute(land_on_read);";
-			Plan p = planfromstring(plan);
+			planfromstring(plan);
+			Plan p = pfs.toMCAPL();
 	   		ListTermImpl l1 = new ListTermImpl();
 	   		l1.add(new Predicate("doNotViolateRoA500Feet"));
 	   		l1.add(new Predicate("doNotCauseDamageToCriticalInfrastructure"));
@@ -123,7 +125,8 @@ public class FuelLowVerificationEnv extends DefaultEnvironment implements Defaul
 		
 		if (field_people) {
 			String plan = "+!landEmerg [achieve] : {True} <- enactRoute(land_in_field_w_people);";
-			Plan p = planfromstring(plan);
+			planfromstring(plan);
+			Plan p = pfs.toMCAPL();
 	   		ListTermImpl l1 = new ListTermImpl();
 	   		l1.add(new Predicate("doNotViolateRoA500Feet"));
 	   		l1.add(new Predicate("doNotCollidePeople"));
@@ -133,7 +136,8 @@ public class FuelLowVerificationEnv extends DefaultEnvironment implements Defaul
 		
 		if (empty_field || pl.getPlans().isEmpty()) {
 			String plan = "+!landEmerg [achieve] : {True} <- enactRoute(land_in_empty_field);";
-			Plan p = planfromstring(plan);
+			planfromstring(plan);
+			Plan p = pfs.toMCAPL();
 			pl.add(p);
 	   		addPercept(new Predicate("empty"));
 		}
@@ -141,20 +145,7 @@ public class FuelLowVerificationEnv extends DefaultEnvironment implements Defaul
 
 		return pl;
 	}
-	
-	public Plan planfromstring(String s) {
-		EthicalGwendolenLexer lexer = new EthicalGwendolenLexer(new ANTLRStringStream(s));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		EthicalGwendolenParser parser = new EthicalGwendolenParser(tokens);
-		try {
-			Abstract_GPlan aplan = parser.plan();
-			Plan plan = aplan.toMCAPL();
-			return plan;
-		} catch (Exception e) {
-			AJPFLogger.warning("ethical_gwen.lineup.LineUpEnv", "Couldn't parse plan: " + s + ":" + e.getMessage());
-			return null;
-		}
-	}
+
 
 	@Override
 	public int compareTo(MCAPLJobber o) {

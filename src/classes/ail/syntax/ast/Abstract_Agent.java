@@ -319,7 +319,7 @@ public class Abstract_Agent {
       	env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
-      	env.setReferenceField(objref, "capabilitiess", cRef);
+      	env.setReferenceField(objref, "capabilities", cRef);
       	return objref;
    	
     }

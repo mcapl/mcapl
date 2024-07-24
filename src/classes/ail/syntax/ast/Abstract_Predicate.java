@@ -206,7 +206,14 @@ public class Abstract_Predicate implements Abstract_Term, Abstract_Formula, Abst
 	public int newJPFObject(MJIEnv env) {
 		int ref = env.newObject("ail.syntax.ast.Abstract_Predicate");
 		if (strings.containsKey(functor)) {
-			env.setReferenceField(ref, "functor", strings.get(functor));
+			try {
+				env.getStringObject(strings.get(functor));
+				env.setReferenceField(ref, "functor", strings.get(functor));
+			} catch (Exception e) {
+				int stringref = env.newString(functor);
+				strings.put(functor, stringref);
+				env.setReferenceField(ref, "functor", stringref);
+			}
 		} else {
 			int stringref = env.newString(functor);
 			strings.put(functor, stringref);

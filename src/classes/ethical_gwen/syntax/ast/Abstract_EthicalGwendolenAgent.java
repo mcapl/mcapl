@@ -83,6 +83,7 @@ public class Abstract_EthicalGwendolenAgent extends Abstract_GwendolenAgent {
 //    	}
     	int eRef = env.newObjectArray("ethical_gwen.syntax.ast.Abstract_Ethic", ethics.length);
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+		int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
        	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
        	for (int i = 0; i < ethics.length; i++) {
@@ -94,11 +95,16 @@ public class Abstract_EthicalGwendolenAgent extends Abstract_GwendolenAgent {
       	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < plans.length; i++) {
+		for (int i = 0; i < goals.length; i++) {
+			env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
+		}
+		for (int i = 0; i < plans.length; i++) {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
+		env.setReferenceField(objref, "ethics", eRef);
       	env.setReferenceField(objref, "beliefs", bRef);
       	env.setReferenceField(objref, "rules", rRef);
+		env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "plans", pRef);
       	return objref;
    	

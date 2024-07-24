@@ -28,6 +28,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import ail.mas.MAS;
+import ajpf.util.choice.UniformBoolChoice;
+import ajpf.util.choice.UniformIntChoice;
+import ethical_gwen.BaseUAVEnv;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
@@ -50,8 +54,7 @@ import ethical_gwen.syntax.annotation.EthicsAnnotation;
 import ajpf.util.AJPFLogger;
 import ajpf.MCAPLJobber;
 
-public class MoreErraticIntruderEnv extends DefaultEnvironment implements DefaultEthicalEnvironment, MCAPLJobber {
-	Random random = new Random();
+public class MoreErraticIntruderEnv extends BaseUAVEnv implements MCAPLJobber {
 	boolean change = true;
 	boolean intruder_detected = false;
 
@@ -79,7 +82,7 @@ public class MoreErraticIntruderEnv extends DefaultEnvironment implements Defaul
     	}
 
 		if (change) {
-			intruder_detected = random.nextBoolean();
+			intruder_detected = random_bool_generator.nextBoolean();
 			AJPFLogger.info("ail.mas.DefaultEnvironment", "intruder alert:" + intruder_detected);
 		}
 		
@@ -121,15 +124,17 @@ public class MoreErraticIntruderEnv extends DefaultEnvironment implements Defaul
 	public PlanLibrary invokeEthicalPlanner(Event e, ListTerm policy) {
 		PlanLibrary pl = new PlanLibrary();
 		String plan1 = "+!avoid_collision[achieve] : {B flightPhase(emergAvoid)} <- enactRoute(turn_left);";
-		Plan p1 = planfromstring(plan1);
-   		ListTermImpl l1 = new ListTermImpl();
+		planfromstring(plan1);
+		Plan p1 = pfs.toMCAPL();
+  		ListTermImpl l1 = new ListTermImpl();
    		l1.add(new Predicate("doNotViolateRoADetectAvoidTurnRight"));
 		if (p1 != null) {
 			p1.setAnnotation(new EthicsAnnotation(l1));
 			pl.add(p1);
 		}
 		String plan2 = "+!avoid_collision[achieve] : {B flightPhase(emergAvoid)} <- enactRoute(emergency_land);";
-		Plan p2 = planfromstring(plan2);
+		planfromstring(plan2);
+		Plan p2 = pfs.toMCAPL();
    		ListTermImpl l2 = new ListTermImpl();
    		l2.add(new Predicate("doNotRoA500Feet"));
    		l2.add(new Predicate("doNotCollideAircraft"));
@@ -139,7 +144,8 @@ public class MoreErraticIntruderEnv extends DefaultEnvironment implements Defaul
 			pl.add(p2);
 		}
 		String plan3 = "+!avoid_collision[achieve] : {B flightPhase(emergAvoid)} <- enactRoute(return_to_base);";
-		Plan p3 = planfromstring(plan3);
+		planfromstring(plan3);
+		Plan p3 = pfs.toMCAPL();
    		ListTermImpl l3 = new ListTermImpl();
    		l3.add(new Predicate("doNotCollideAircraft"));
 		if (p3 != null) {
@@ -149,19 +155,7 @@ public class MoreErraticIntruderEnv extends DefaultEnvironment implements Defaul
 		return pl;
 	}
 	
-	public Plan planfromstring(String s) {
-		EthicalGwendolenLexer lexer = new EthicalGwendolenLexer(new ANTLRStringStream(s));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		EthicalGwendolenParser parser = new EthicalGwendolenParser(tokens);
-		try {
-			Abstract_GPlan aplan = parser.plan();
-			Plan plan = aplan.toMCAPL();
-			return plan;
-		} catch (Exception e) {
-			AJPFLogger.warning("ethical_gwen.lineup.LineUpEnv", "Couldn't parse plan: " + s + ":" + e.getMessage());
-			return null;
-		}
-	}
+
 
 	@Override
 	public int compareTo(MCAPLJobber o) {
@@ -179,4 +173,5 @@ public class MoreErraticIntruderEnv extends DefaultEnvironment implements Defaul
 		// TODO Auto-generated method stub
 		return "ErraticIntruderEnvironment";
 	}
+
 }

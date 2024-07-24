@@ -65,6 +65,7 @@ public class Abstract_PredicatewEB extends Abstract_Predicate {
 			env.setReferenceField(ref, "functor", stringref);
 		}
 		env.setReferenceField(ref, "terms", newJPFTermArray(env));
+		env.setReferenceField(ref, "eb", env.newString(eb));
 		return ref;
 
 	}

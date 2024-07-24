@@ -250,19 +250,22 @@ public class Abstract_Plan {
      * @return
      */
     public Plan toMCAPL() {
-    	ArrayList<Deed> newdeed = new ArrayList<Deed>();
+		ArrayList<Deed> newdeed = new ArrayList<Deed>();
     	for (int i = 0; i < body.length; i++) {
-    		newdeed.add(i, body[i].toMCAPL());
+			newdeed.add(i, body[i].toMCAPL());
     	}
-    	ArrayList<Guard> newguard = new ArrayList<Guard>();
+		System.err.println("b");
+		ArrayList<Guard> newguard = new ArrayList<Guard>();
     	for (int i = 0; i < context.length; i++) {
     		newguard.add(i, context[i].toMCAPL());
     	}
-    	ArrayList<Deed> newpref = new ArrayList<Deed>();
+		System.err.println("c");
+		ArrayList<Deed> newpref = new ArrayList<Deed>();
     	for (int i = 0; i < prefix.length; i++) {
     		newpref.add(i, prefix[i].toMCAPL());
     	}
-    	return new Plan(event.toMCAPL(), newpref, newguard, newdeed);
+		System.err.println("d");
+		return new Plan(event.toMCAPL(), newpref, newguard, newdeed);
     }
     
     /**

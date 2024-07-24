@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Random;
 
+import ail.mas.MAS;
+import ajpf.util.choice.UniformBoolChoice;
 import ethical_gwen.syntax.annotation.EthicsAnnotation;
 import ail.mas.DefaultEnvironment;
 import ail.syntax.Action;
@@ -45,8 +47,8 @@ public class DefaultEthicalVerificationEnvironment extends DefaultEnvironment
 		implements DefaultEthicalEnvironment {
 	
 	String action = "someaction";
-	Random r = new Random();
-	
+	public UniformBoolChoice random_bool_generator;
+
 	public DefaultEthicalVerificationEnvironment(String actionname) {
 		super();
 		action = actionname;
@@ -113,7 +115,7 @@ public class DefaultEthicalVerificationEnvironment extends DefaultEnvironment
 		PlanLibrary pl = new PlanLibrary();
 
 		for (int i = 0; i < plans.size(); i++) {
-			if (r.nextBoolean()) {
+			if (random_bool_generator.nextBoolean()) {
 				pl.add(plans.get(i));
 			}
 		}
@@ -132,6 +134,12 @@ public class DefaultEthicalVerificationEnvironment extends DefaultEnvironment
 		}
 
 		return pl;
+	}
+
+
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		random_bool_generator = new UniformBoolChoice(m.getController());
 	}
 
 }

@@ -31,6 +31,7 @@ import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Deed;
 import ail.syntax.ast.Abstract_Guard;
 import ail.syntax.ast.Abstract_Plan;
+import gov.nasa.jpf.vm.MJIEnv;
 
 /**
  * Class for Gwendolen Plans providing, in particular, a Gwendolen specific plan
@@ -61,6 +62,27 @@ public class Abstract_GPlan extends Abstract_Plan {
 		prefix.add(new Abstract_Deed(Abstract_Deed.Dnpy));
 		setPrefix(prefix);
 		
+	}
+
+	public int newJPFObject(MJIEnv env) {
+		int objref = env.newObject("gwendolen.syntax.ast.Abstract_GPlan");
+		int bodyref = env.newObjectArray("ail.syntax.Abstract_Deed", body.length);
+		int prefixref = env.newObjectArray("ail.syntax.Abstract_Deed", prefix.length);
+		int contextref = env.newObjectArray("ail.syntax.Guard", context.length);
+		for (int index = 0; index < body.length; index++) {
+			env.setReferenceArrayElement(bodyref, index, body[index].newJPFObject(env));
+		}
+		for (int index = 0; index < prefix.length; index++) {
+			env.setReferenceArrayElement(prefixref, index, prefix[index].newJPFObject(env));
+		}
+		for (int index = 0; index < context.length; index++) {
+			env.setReferenceArrayElement(contextref, index, context[index].newJPFObject(env));
+		}
+		env.setReferenceField(objref, "body", bodyref);
+		env.setReferenceField(objref, "prefix", prefixref);
+		env.setReferenceField(objref, "context", contextref);
+		env.setReferenceField(objref, "event", event.newJPFObject(env));
+		return objref;
 	}
 
 }

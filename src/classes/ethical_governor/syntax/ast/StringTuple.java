@@ -58,7 +58,9 @@ public class StringTuple {
 	 * @return
 	 */
 	public int newJPFObject(MJIEnv env) {
-		int objref = env.newObject("ethical_governor.syntax.ast.Abstract_ActionOnlyAgent.StringTuple");
+		int objref = env.newObject("ethical_governor.syntax.ast.StringTuple");
+		env.setReferenceField(objref, "a", env.newString(a));
+		env.setReferenceField(objref, "b", env.newString(b));
 		return objref;
 	}
 }

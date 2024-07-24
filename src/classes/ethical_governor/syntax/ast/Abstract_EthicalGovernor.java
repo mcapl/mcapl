@@ -133,7 +133,7 @@ public class Abstract_EthicalGovernor extends Abstract_Agent {
 	 * @see ail.syntax.ast.Abstract_Agent#newJPFObject(gov.nasa.jpf.vm.MJIEnv)
 	 */
 	public int newJPFObject(MJIEnv env) {
-    	int objref = env.newObject("ethical_governor.syntax.ast.Abstract_ActionOnlyAgent");
+    	int objref = env.newObject("ethical_governor.syntax.ast.Abstract_EthicalGovernor");
     	int gRef = env.newString(governed);
     	env.setReferenceField(objref, "governed", gRef);
     	
@@ -148,6 +148,33 @@ public class Abstract_EthicalGovernor extends Abstract_Agent {
     		env.setReferenceArrayElement(pRef, i, precedence[i].newJPFObject(env));
     	}
     	env.setReferenceField(objref, "precedence", pRef);
+
+		env.setReferenceField(objref, "fAgName", env.newString(fAgName));
+		int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
+		int goalRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
+		int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
+		int planRef = env.newObjectArray("ail.syntax.ast.Abstract_Plan", plans.length);
+		int cRef = env.newObjectArray("ail.syntax.ast.Abstract_Capability", capabilities.length);
+		for (int i = 0; i < beliefs.length; i++) {
+			env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
+		}
+		for (int i = 0; i < goals.length; i++) {
+			env.setReferenceArrayElement(goalRef, i, goals[i].newJPFObject(env));
+		}
+		for (int i = 0; i < rules.length; i++) {
+			env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
+		}
+		for (int i = 0; i < plans.length; i++) {
+			env.setReferenceArrayElement(planRef, i, plans[i].newJPFObject(env));
+		}
+		for (int i = 0; i < capabilities.length; i++) {
+			env.setReferenceArrayElement(cRef, i, capabilities[i].newJPFObject(env));
+		}
+		env.setReferenceField(objref, "beliefs", bRef);
+		env.setReferenceField(objref, "goals", goalRef);
+		env.setReferenceField(objref, "rules", rRef);
+		env.setReferenceField(objref, "plans", planRef);
+		env.setReferenceField(objref, "capabilities", cRef);
 
     	return objref;
    	

@@ -36,8 +36,6 @@ flightPhase(cruise)
 :Reasoning Rules:
 
 avoid_collision :- ~ das(intruder, headOn);
-// avoid_collision :- missionComplete;
-// avoid_collision :- flightPhase(cruise);
 
 
 other_choices_violated(T) :- ~ untried_plan_not_violates(T);
