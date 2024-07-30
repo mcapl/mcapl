@@ -62,6 +62,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		try {
 			GwendolenAgent ag = new GwendolenAgent(fAgName);
 			addStructures(ag);
+
 			return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,6 +75,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 			GwendolenAgent ag = new GwendolenAgent(mas, fAgName);
 			// ag.setPretty(new GwendolenPrettyPrinter());
 			addStructures(ag);
+
 			return ag;
 		} catch (Exception e) {
 			e.printStackTrace();

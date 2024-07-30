@@ -170,10 +170,7 @@ public class Abstract_Agent {
    	}
    	newgoals[goals.length] = goal; 
    	goals = newgoals;
-   	if (goals == null) {
-   		System.out.println("HEY AGAIN");
-   	}
-   	
+
     }
    
    /**

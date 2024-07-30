@@ -121,8 +121,8 @@ public class LogExpr implements LogicalFormula {
 	        			Unifier current = null;
 	        			Iterator<Unifier> iright = null;
 	        			public boolean hasNext() {
-	        				if (current == null) get();
-	        				return current != null;
+							if (current == null) get();
+							return current != null;
 	        			}
 	        			public Unifier next() {
 	        				if (current == null) get();

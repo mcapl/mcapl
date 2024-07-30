@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import ail.semantics.AILAgent;
 import ail.util.AILexception;
+import ajpf.util.AJPFCollections;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -101,7 +102,7 @@ public class ConjunctionFormulaEvaluationBase implements EvaluationBase<Predicat
 		}
 		
 		if (so == AILAgent.SelectionOrder.RANDOM) {
-			Collections.shuffle(ptl);
+			AJPFCollections.shuffle(ptl);
 		}
 		return ptl.iterator();
 	}

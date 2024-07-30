@@ -47,7 +47,7 @@ public class Tutorial7_2QuickTests {
 		  String filename = MCAPLcontroller.getFilename("/src/tests/gwendolen/tutorials/pickuprubble_buildingcollapse.ail");
 		  AIL.runAIL(filename);
 	  } catch (IndexOutOfBoundsException e) {
-		  String classname = e.getStackTrace()[3].getClassName();
+		  String classname = e.getStackTrace()[6].getClassName();
 		  Assert.assertTrue(classname.equals("ajpf.util.choice.Choice"));
   	}	catch (Exception e) {
 		  System.err.println(e);

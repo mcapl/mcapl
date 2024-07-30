@@ -25,7 +25,6 @@
 package gwendolen.semantics;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import ail.semantics.ReasoningCycle;
 import ail.semantics.RCStage;

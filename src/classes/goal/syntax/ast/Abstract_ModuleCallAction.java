@@ -100,8 +100,13 @@ public class Abstract_ModuleCallAction extends Abstract_Action {
 	}
 	
 	public int newJPFObject(MJIEnv env) {
-    	int objref = env.newObject("goal.syntax.ast.Abstract_ModeulCallAction");
-    	super.JPFFields(objref, env);
+    	int objref = env.newObject("goal.syntax.ast.Abstract_ModuleCallAction");
+		int rRef = env.newObjectArray("goal.syntax.ast.Abstract_Rule", rules.length);
+		for (int i = 0; i < rules.length; i++) {
+			env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
+		}
+		super.JPFFields(objref, env);
+		env.setReferenceField(objref, "rules", rRef);
 		return objref;
 
 	}

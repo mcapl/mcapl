@@ -22,6 +22,7 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import ajpf.util.AJPFCollections;
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import ajpf.util.AJPFLogger;
  * for objects within the Evaluation Base.
  * @author louiseadennis
  *
- * @param <K>
  */
 public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	// A list(iterator) of literals that might unify.
@@ -255,7 +255,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 
 				if (random_depth == 1) {
 					if (currents.size() > 1) {
-						Collections.shuffle(currents);
+						AJPFCollections.shuffle(currents);
 					}
 					cit = currents.iterator();
 					random_depth = 0;

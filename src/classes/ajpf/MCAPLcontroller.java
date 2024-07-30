@@ -151,7 +151,6 @@ public class MCAPLcontroller  {
 	/**
 	 * Cretaes a controller from a MAS.
 	 * @param m
-	 * @param mc
 	 */
 	public void setMAS(MCAPLmas m) {
 		mas = m;
@@ -520,7 +519,6 @@ public class MCAPLcontroller  {
 	/**
 	 * Read in a file and return its contents as a string
 	 * @param filename
-	 * @param key
 	 * @return
 	 */
 	public static String getStringFromFile(String filename) {

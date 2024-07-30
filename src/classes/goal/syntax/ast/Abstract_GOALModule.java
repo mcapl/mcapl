@@ -26,36 +26,17 @@ package goal.syntax.ast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import ail.util.AILexception;
-import ail.mas.MAS;
-import ail.semantics.AILAgent;
-import ail.syntax.Plan;
-import ail.syntax.ast.Abstract_Event;
-import ail.syntax.ast.Abstract_Goal;
-import ail.syntax.ast.Abstract_LogExpr;
-import ail.syntax.ast.Abstract_StringTerm;
-import ail.syntax.ast.Abstract_Term;
-import ail.syntax.ast.Abstract_Agent;
-import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
-import ail.syntax.ast.Abstract_GBelief;
 import ail.syntax.ast.Abstract_Predicate;
-import ail.syntax.ast.Abstract_GLogicalFormula;
-import ail.syntax.ast.Abstract_Capability;
-import ail.mas.DefaultEnvironment;
+import ail.syntax.ast.Abstract_Term;
 import gov.nasa.jpf.vm.MJIEnv;
-import goal.semantics.GOALAgent;
-import goal.syntax.ActionRule;
 import goal.syntax.GOALModule;
-import goal.syntax.ConjGoal;
 
 
 /**
- * A Gwendolen Agent - a demonstration of how to subclass an AIL Agent and
- * create a reasoning cycle.
+ * An Abstract GOAL Agent.
  * 
  * @author louiseadennis
  *
@@ -122,8 +103,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 			   }
 			   newplans[actionspecs.length] = c;
 			   actionspecs = newplans;
-			   // CondActions.init(this);
-		   } else { 
+		   } else {
 			  System.err.println("Why doesn't abstract_agent have addCap method?");
 		   }  
 	   }
@@ -200,8 +180,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
         	}
            	newplans[actionrules.length] = (Abstract_ActionRule) p;
         	actionrules = newplans;
-    		// CondActions.init(this);
-    	 } else { 
+    	 } else {
     		// super.addPlan(p);
     		// fPL.init(this);
     	 }  
@@ -230,11 +209,11 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     
     public GOALModule toMCAPL() {
     	GOALModule.ModuleType mtype;
-    	if (module_type == main) {
-    		mtype = GOALModule.ModuleType.MAIN;
-    	} else if (module_type == event) {
+		if (module_type.type == main.type) {
+			mtype = GOALModule.ModuleType.MAIN;
+    	} else if (module_type.type == event.type) {
     		mtype = GOALModule.ModuleType.EVENT;
-    	} else if (module_type == init ){
+    	} else if (module_type.type == init.type ){
     		mtype = GOALModule.ModuleType.INIT;
     	} else {
     		mtype = GOALModule.ModuleType.USERDEF;
@@ -264,7 +243,7 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
     	
     	for (Abstract_ActionSpec ca: actionspecs) {
     		try {
-    			m.addCap(ca.toMCAPL());
+				m.addCap(ca.toMCAPL());
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
@@ -300,14 +279,14 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
 
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_GOALModule");
-    	env.setReferenceField(objref, "module_type", module_type.newJPFObject(env));
-    	env.setIntField(objref, "optionorder", optionorder);
+		env.setReferenceField(objref, "module_type", module_type.newJPFObject(env));
+		env.setIntField(objref, "optionorder", optionorder);
     	env.setIntField(objref, "exitcondition", exitcondition);
      	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Predicate", knowledge.length);
-     	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_ConjGoal", goals.length);
-       	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);
-       	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionRule", actionrules.length);
-      	int caRef = env.newObjectArray("ail.syntax.ast.Abstract_ActionSpec", actionspecs.length);
+     	int gRef = env.newObjectArray("goal.syntax.ast.Abstract_ConjGoal", goals.length);
+       	int rRef = env.newObjectArray("goal.syntax.ast.Abstract_Rule", knowledge_rules.length);
+       	int pRef = env.newObjectArray("goal.syntax.ast.Abstract_ActionRule", actionrules.length);
+      	int caRef = env.newObjectArray("goal.syntax.ast.Abstract_ActionSpec", actionspecs.length);
        	for (int i = 0; i < knowledge.length; i++) {
        		env.setReferenceArrayElement(bRef, i, knowledge[i].newJPFObject(env));
        	}
@@ -321,11 +300,12 @@ public class Abstract_GOALModule implements Abstract_KRGOALS {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	for (int i = 0; i < actionspecs.length; i++) {
-       		env.setReferenceArrayElement(caRef, i, actionspecs[i].newJPFObject(env));
+	   		env.setReferenceArrayElement(caRef, i, actionspecs[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "knowledge", bRef);
       	env.setReferenceField(objref, "knowledge_rules", rRef);
-      	env.setReferenceField(objref, "action_rules", pRef);
+      	env.setReferenceField(objref, "actionrules", pRef);
+		env.setReferenceField(objref, "actionspecs", caRef);
       	env.setReferenceField(objref, "goals", gRef);
       	return objref;
    	

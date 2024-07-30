@@ -123,7 +123,7 @@ public class Abstract_MentalState extends Abstract_Guard {
 	}
 	    
 	public int newJPFObject(MJIEnv env) {
-		int objref = env.newObject("ail.syntax.ast.Abstract_MentalState");
+		int objref = env.newObject("goal.syntax.ast.Abstract_MentalState");
 		env.setBooleanField(objref, "macro", macro);
 		if (!macro) {
 			ClassInfo ci = ClassLoaderInfo.getCurrentClassLoader().getResolvedClassInfo("ail.syntax.ast.Abstract_Guard");

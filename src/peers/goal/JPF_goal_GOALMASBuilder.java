@@ -25,6 +25,7 @@ package goal;
 
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
+import gov.nasa.jpf.annotation.MJI;
 import gov.nasa.jpf.vm.ClinitRequired;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.NativePeer;
@@ -35,6 +36,7 @@ import ail.syntax.ast.Abstract_MAS;
 
 public class JPF_goal_GOALMASBuilder extends NativePeer {
 
+	@MJI
 	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
 	   	GOALLexer lexer = new GOALLexer(new ANTLRStringStream(masstring));
@@ -50,6 +52,7 @@ public class JPF_goal_GOALMASBuilder extends NativePeer {
 		
 	}
 
+	@MJI
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
  		try {

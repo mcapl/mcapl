@@ -30,6 +30,7 @@ package ail.syntax;
 import ail.semantics.AILAgent;
 import ail.tracing.events.GuardEvent;
 import ail.util.MergeIterator;
+import ajpf.util.AJPFCollections;
 import ajpf.util.VerifyMap;
 
 import java.util.ArrayList;
@@ -586,7 +587,7 @@ public class PlanLibrary {
 		}
 		
 		public void shuffle() {
-			Collections.shuffle(plans);
+			AJPFCollections.shuffle(plans);
 		}
     }
     

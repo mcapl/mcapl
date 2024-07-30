@@ -52,6 +52,8 @@ public class Abstract_PrintAction extends Abstract_Action {
 	
 	@Override
 	public int newJPFObject(MJIEnv env) {
-		return super.newJPFObject(env);
+		int objref = env.newObject("goal.syntax.ast.Abstract_PrintAction");
+		JPFFields(objref, env);
+		return objref;
 	}
 }

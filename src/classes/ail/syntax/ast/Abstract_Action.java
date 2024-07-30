@@ -137,7 +137,6 @@ public class Abstract_Action extends Abstract_Predicate {
 	 */
 	public Action toMCAPL() {
 		Predicate s = super.toMCAPL();
-		System.err.println("super to mcapl worked fine");
 		Action a = new Action(s, getActionType());
 		return a;
 		

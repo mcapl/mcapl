@@ -107,21 +107,13 @@ public class SelectRule implements OSRule {
         	// Stuff not handling yet
         	break;
         case RANDOM:
-        	rules.shuffle();
+			rules.shuffle();
         	shufflebases = true;
          case LINEAR:
-        	/* Iterator<ApplicablePlan> rIt = rules.getAllReactivePlans(a, shufflebases);
-        	if (! rIt.hasNext()) {
-        		return false;
-        	} else {
-        		ArrayList<ApplicablePlan> plan_list = new ArrayList<ApplicablePlan>();
-        		plan_list.add(rIt.next());
-        		ruleIterator = plan_list.iterator();
-        	} */
         	 ruleIterator = rules.getAllReactivePlans(a, shufflebases);
         	return ruleIterator.hasNext();
         case RANDOMALL:
-        	rules.shuffle();
+			rules.shuffle();
         	shufflebases = true;
         case LINEARALL:
         // Continue evaluating and applying rule as long as there are more,

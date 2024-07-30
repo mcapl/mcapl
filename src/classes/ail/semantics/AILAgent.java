@@ -346,6 +346,9 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		this(name);
 		fEnv = mas.getEnv();
 		fMAS = mas;
+		for (BeliefBase b: bbmap.values()) {
+			b.setController(fMAS.getController());
+		}
 		initializeTracing(mas.getTraceDir());
 	}
 
@@ -1676,9 +1679,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * 
 	 * Note this may return null;
 	 * 
-	 * @param appPlans
-	 * @param i
-	 * @return
+	 *  @return
 	 */
 	public ApplicablePlan choosePlan(Iterator<ApplicablePlan> aps, Intention inte) {
 		// EXPLANATION EVENT: This is where a plan is chosen from the list of applicable

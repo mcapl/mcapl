@@ -4,7 +4,6 @@
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf-annotations.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf-classes.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/3rdparty/eis-0.5.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/RunJPF.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/ev3classes.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/json-simple-1.1.1.jar!/" />
@@ -17,6 +16,7 @@
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/commons-io-2.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/mapdbWrapper.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/system-rules-1.16.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/eis-0.7.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

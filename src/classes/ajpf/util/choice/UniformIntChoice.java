@@ -41,6 +41,10 @@ public class UniformIntChoice extends Choice<Integer> {
 		super(control);
 	}
 
+	public UniformIntChoice() {
+		super();
+	}
+
 	/**
 	 * Get the next integer.
 	 * @param limit

@@ -254,17 +254,14 @@ public class Abstract_Plan {
     	for (int i = 0; i < body.length; i++) {
 			newdeed.add(i, body[i].toMCAPL());
     	}
-		System.err.println("b");
 		ArrayList<Guard> newguard = new ArrayList<Guard>();
     	for (int i = 0; i < context.length; i++) {
     		newguard.add(i, context[i].toMCAPL());
     	}
-		System.err.println("c");
 		ArrayList<Deed> newpref = new ArrayList<Deed>();
     	for (int i = 0; i < prefix.length; i++) {
     		newpref.add(i, prefix[i].toMCAPL());
     	}
-		System.err.println("d");
 		return new Plan(event.toMCAPL(), newpref, newguard, newdeed);
     }
     

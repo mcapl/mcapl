@@ -28,13 +28,10 @@ import gov.nasa.jpf.vm.MJIEnv;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import ail.syntax.Deed;
 import ail.syntax.Guard;
-import ail.syntax.Plan;
 import ail.syntax.ast.Abstract_Unifier;
-import ail.syntax.Predicate;
 import ail.syntax.ast.Abstract_Action;
 import ail.syntax.ast.Abstract_BaseAILStructure;
 import ail.syntax.ast.Abstract_Predicate;
@@ -48,10 +45,6 @@ import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Term;
 import ail.syntax.ast.Abstract_VarTerm;
 import ail.syntax.ast.Abstract_Plan;
-import ail.syntax.ast.Abstract_LogicalFormula;
-import ail.syntax.ast.Abstract_GuardAtom;
-import ail.syntax.ast.Abstract_LogExpr;
-import ail.syntax.ast.Abstract_GLogicalFormula;
 
 public class Abstract_ActionRule extends Abstract_Plan {
 	int type = ActionRule.ifthen;
@@ -197,9 +190,9 @@ public class Abstract_ActionRule extends Abstract_Plan {
     
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("goal.syntax.ast.Abstract_ActionRule");
-    	int bodyref = env.newObjectArray("ail.syntax.Abstract_Deed", body.length);
-    	int prefixref = env.newObjectArray("ail.syntax.Abstract_Deed", prefix.length);
-    	int contextref = env.newObjectArray("ail.syntax.Guard", context.length);
+    	int bodyref = env.newObjectArray("ail.syntax.ast.Abstract_Deed", body.length);
+    	int prefixref = env.newObjectArray("ail.syntax.ast.Abstract_Deed", prefix.length);
+    	int contextref = env.newObjectArray("ail.syntax.ast.Guard", context.length);
     	for (int index = 0; index < body.length; index++) {
 			env.setReferenceArrayElement(bodyref, index, body[index].newJPFObject(env));
 		}

@@ -23,43 +23,28 @@
 
 package goal.semantics;
 
-import goal.semantics.executorStages.ModuleExecutorStage;
-import goal.syntax.ActionRule;
-import goal.syntax.BuiltInPrologRules;
+import goal.syntax.GOALBuiltInPrologRules;
 import goal.syntax.ConjGoal;
 import goal.syntax.ConjGoalBase;
 import goal.syntax.GOALModule;
 import goal.syntax.MentalState;
-import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-
-
-
-
 
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Queue;
 
 import ail.mas.MAS;
 import ail.util.AILexception;
 import ail.semantics.AILAgent;
-import ail.semantics.AILAgent.SelectionOrder;
 import ail.syntax.Intention;
-import ail.syntax.ApplicablePlan;
 import ail.syntax.BeliefBase;
 import ail.syntax.Goal;
-import ail.syntax.GBelief;
 import ail.syntax.Guard;
 import ail.syntax.Plan;
 import ail.syntax.Term;
 import ail.syntax.Unifier;
 import ail.syntax.Literal;
 import ail.syntax.Rule;
-import ail.syntax.PlanLibrary;
 import ail.syntax.Event;
 import ail.syntax.Predicate;
 import ail.syntax.StringTerm;
@@ -117,20 +102,18 @@ public class GOALAgent extends AILAgent {
 	 */
 	public GOALAgent(MAS mas, String name) throws AILexception {
 		super(mas, name);
-	    setReasoningCycle(new GOALRC(this));
-//	    setTrackPlanUsage(true);
+		setReasoningCycle(new GOALRC(this));
 	    setGoalBase(new ConjGoalBase());
-//	    lastplanstate = this.toString();
 	    addBeliefBase(new BeliefBase(), "percepts");
 	    addBeliefBase(new BeliefBase(), "messages");
-		BuiltInPrologRules prolog = new BuiltInPrologRules();
+		GOALBuiltInPrologRules prolog = new GOALBuiltInPrologRules();
 		for (Predicate p: prolog.getFacts()) {
 			addBel(new Literal(p), refertoself());
 		}
 		for (Rule r: prolog.getRules()) {
 			addRule(r);
 		}
-	}
+			}
 	
 	public GOALAgent(String name) throws AILexception {
 		super(name);
@@ -138,7 +121,7 @@ public class GOALAgent extends AILAgent {
 		setGoalBase(new ConjGoalBase());
 	    addBeliefBase(new BeliefBase(), "percepts");
 	    addBeliefBase(new BeliefBase(), "messages");
-		BuiltInPrologRules prolog = new BuiltInPrologRules();
+		GOALBuiltInPrologRules prolog = new GOALBuiltInPrologRules();
 		for (Predicate p: prolog.getFacts()) {
 			addBel(new Literal(p), refertoself());
 		}
@@ -179,12 +162,8 @@ public class GOALAgent extends AILAgent {
     public void addBel(Literal bel, SourceAnnotation s) {
     	bel.addAnnot(s);   
     	getBB().add(bel);
-    	// actionPerformed();
     	ms.updateGoalState();
-    	// When a new goal arrives we check to see if any goals
-    	// have been achieved.
-  //  	removeachievedgoals();
-     }
+      }
         
     /**
      * Adds a belief to the belief base indexed by n.
@@ -211,11 +190,8 @@ public class GOALAgent extends AILAgent {
 			getBB(n).add(bel);
 		}
 		}
-		// actionPerformed();
-    	ms.updateGoalState();
-		
-	//	removeachievedgoals();
-    }	  
+		ms.updateGoalState();
+    }
     
     /**
      * Adds a belief to the belief base indexed by n.
@@ -231,16 +207,10 @@ public class GOALAgent extends AILAgent {
 			Literal belpos = (Literal) bel.clone();
 			belpos.setNegated(true);
 			success = getBB(n.getString()).remove(belpos);
-		//   	getPL().delBel(bel, n);
-	    //	getPL("2").delBel(bel, n);
-		} else {
+				} else {
 			success = getBB(n.getString()).add(bel);
-		 //  	getPL().addBel(bel, n);
-	    //	getPL("2").addBel(bel, n);
 		}
-		// actionPerformed();
-    	ms.updateGoalState();
-//		removeachievedgoals();
+	   	ms.updateGoalState();
     	return success;
     }	  
 
@@ -254,24 +224,18 @@ public class GOALAgent extends AILAgent {
     public void delBel(Literal bel, String i) {
     	if (i == "") {
     		getBB().remove(bel);
-    //	   	getPL().delBel(bel);
-      //  	getPL("2").delBel(bel);
    	} else {
     		if (! bbmap.containsKey(i)) {
     			BeliefBase bbnew = new BeliefBase();
     			addBeliefBase(bbnew, i);
     		}
     		getBB(i).remove(bel);
-    	//   	getPL().addBel(bel, i);
-       // 	getPL("2").addBel(bel, i);
     	}
-    	//actionPerformed();
-    }
+       }
     
     public void adopt(ConjGoal g) {
     	ms.adopt(g);
-    	// actionPerformed();
-    }
+      }
     
     @Override
     public boolean addGoal(Goal g) {
@@ -486,9 +450,6 @@ public class GOALAgent extends AILAgent {
 		
 		while (gl.hasNext()) {
 			Goal g = gl.next();
-	//		ArrayList<Goal> goals = splitgoals(g);
-	//		AJPFLogger.finer("goal.semantics.GOALAgent", "Goals are: " + goals);
-	//		ngl.addAll(goals);
 		}
 		
 		return ngl.iterator();
@@ -504,11 +465,8 @@ public class GOALAgent extends AILAgent {
 	
 	public void printagentstate() {
 		String s1 = toString();
-		// String s1 = toStringSpecial();
- 		AJPFLogger.fine("goal.semantics.GOALAgent", s1);
- 		// AJPFLogger.finer("goal.semantics.GOALAgent", detailsString());
-		// System.out.println(this.toStringSpecial());
-	}
+		AJPFLogger.fine("goal.semantics.GOALAgent", s1);
+ 	}
 	
 	public String toStringSpecial() {
 		return "testing";
@@ -546,16 +504,7 @@ public class GOALAgent extends AILAgent {
  		StringBuilder s = new StringBuilder();
  		s.append(getAgName());
  		s.append(":\n");
- //		s.append(getBB().toString());
-// 		s.append("\n");
-	/*	for (String bb: bbmap.keySet()) {
-			s.append(bb);
-			s.append(":");
-			s.append(bbmap.get(bb).toString());
-			s.append("\n");
-		} */
  		s.append(ms.toString());
-		// s.append(gs);
 		if (I != null) {
 			s.append(I.toString());
 			s.append("\n");
@@ -639,10 +588,7 @@ public class GOALAgent extends AILAgent {
     
     public boolean delBel(Literal bel) {
        	return super.delBel(bel);
-       	// actionPerformed();
-    //	getPL().delBel(bel);
-    //	getPL("2").delBel(bel);
-    }	
+     }
 
     public void noteAddedGoal(Goal g) {
    // 	getPL().addGoal(g);
@@ -651,8 +597,8 @@ public class GOALAgent extends AILAgent {
     
     
     public void addModule(GOALModule m) {
-    	if (m.getType() == GOALModule.ModuleType.MAIN) {
-    		mainModule = m;
+		if (m.getType() == GOALModule.ModuleType.MAIN) {
+			mainModule = m;
     	} else if (m.getType() == GOALModule.ModuleType.EVENT) {
     		eventModule = m;
     	} else if (m.getType() == GOALModule.ModuleType.INIT) {
@@ -665,19 +611,11 @@ public class GOALAgent extends AILAgent {
     }
 
     public boolean exitModule(GOALModule module) {
-    	// System.err.println("Leaving module " + module.toString());
-       /* if (module.getType() == GOALModule.ModuleType.ANONYMOUS) {
-        		getMentalState().defocus();
-                return false;
-        } */
-    	
-    	module.clearModuleSubti();
-    	// module.setRule(null);
+      	module.clearModuleSubti();
 
         switch (module.getType()) {
         case ANONYMOUS:
-        	// getMentalState().defocus();
-            if (this.activeStackOfModules.peek() != null) {
+           if (this.activeStackOfModules.peek() != null) {
             	((GOALRC) getReasoningCycle()).setCurrentModuleExecuteFully(this.activeStackOfModules.peek());
             }
         	return false;

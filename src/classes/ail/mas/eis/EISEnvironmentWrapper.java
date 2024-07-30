@@ -27,13 +27,11 @@ package ail.mas.eis;
 import java.util.Collection;
 import java.util.Set;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.HashSet;
-import java.util.Vector;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
@@ -42,25 +40,21 @@ import ail.syntax.Action;
 import ail.syntax.Message;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
-import ail.syntax.Term;
 import ail.util.AILConfig;
 import ail.util.AILexception;
+
 import ajpf.MCAPLScheduler;
 import ajpf.MCAPLcontroller;
 import ajpf.PerceptListener;
 import ajpf.util.AJPFLogger;
-import eis.AgentListener;
-import eis.EnvironmentListener;
+
+import eis.*;
 import eis.iilang.EnvironmentState;
 import eis.iilang.Percept;
-import eis.EILoader;
-import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.*;
 import gov.nasa.jpf.annotation.FilterField;
 
 import com.igormaznitsa.prologparser.PrologParser;
-import com.igormaznitsa.prologparser.terms.PrologStructure;
-import com.igormaznitsa.prologparser.terms.AbstractPrologTerm;
 
 public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 		AgentListener {
@@ -149,19 +143,23 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 
 	@Override
 	public Unifier executeAction(String agName, Action act) throws AILexception {
-		// TODO Auto-generated method stub
 		try {
-			Map<String, Percept> ps = eis_environment.performAction(agName, new EISAction(act).getAction());
+			eis_environment.performAction(agName, new EISAction(act).getAction());
+			Map<String, PerceptUpdate> ps = eis_environment.getPercepts(agName);
 		//	eis_environment.getAllPercepts(arg0, arg1)
 			for (String ag: ps.keySet()) {
-				Predicate ep = (new EISPercept(ps.get(ag))).toPredicate();
-				(agentpercepts.get(agName)).add(ep);
+				for (Percept p: ps.get(ag).getAddList()) {
+					Predicate ep = (new EISPercept(p)).toPredicate();
+					(agentpercepts.get(agName)).add(ep);
+				}
 			}
 		} catch (ActException e) {
 			AJPFLogger.severe(logname, e.getMessage());
-		} 
-		
-		notifyListeners();
+		} catch (PerceiveException e) {
+			AJPFLogger.severe(logname, e.getMessage());
+        }
+
+        notifyListeners();
 		return new Unifier();
 	}
 
@@ -173,15 +171,15 @@ public class EISEnvironmentWrapper implements AILEnv, EnvironmentListener,
 			preds.add(p);
 		}
 		try {
-			for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName)).values()) {
-				for (Percept p: ps) {
+			for (PerceptUpdate ps: (eis_environment.getPercepts(agName)).values()) {
+				for (Percept p: ps.getAddList()) {
 					preds.add(new EISPercept(p).toPredicate());
 					//System.err.println(p);
 				}
 			}
 			for (String e_name: eis_environment.getAssociatedEntities(agName)) {
-				for (Collection<Percept> ps: (eis_environment.getAllPercepts(agName, e_name)).values()) {
-					for (Percept p: ps) {
+				for (PerceptUpdate ps: (eis_environment.getPercepts(agName, e_name)).values()) {
+					for (Percept p: ps.getAddList()) {
 						preds.add(new EISPercept(p).toPredicate());
 					}
 				}

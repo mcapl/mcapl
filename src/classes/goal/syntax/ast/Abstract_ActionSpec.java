@@ -60,8 +60,6 @@ public class Abstract_ActionSpec extends Abstract_Capability {
 	 * (the precondition) and a list of deeds (the effects).
 	 * 
 	 * @param g
-	 * @param gs
-	 * @param ds
 	 */
 	public Abstract_ActionSpec(Abstract_Deed g, Abstract_MentalAtom ms, Abstract_LogicalFormula lf) {
 		super((Abstract_Predicate) g.getContent());

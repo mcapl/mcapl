@@ -43,9 +43,12 @@ public class Choice<O extends Object> {
 	// access from the Native JVM.
 	public double thischoice;
 	
-
 	public MCAPLcontroller control;
-	
+
+	public Choice() {
+
+	}
+
 	public Choice(MCAPLcontroller control) {
 		this.control = control;
 	}
@@ -64,12 +67,12 @@ public class Choice<O extends Object> {
 	 * @return
 	 */
 	public int choose() {
-		if (! control.replayMode()) {
+		if (control == null || ! control.replayMode()) {
 			// System.err.println("choosing");
 			int i = pickChoice(choicelist.size() - 1);
 			//  System.err.println(i);
 			thischoice = choicelist.get(i).getProb();
-			if (control.recordMode()) {
+			if (control != null && control.recordMode()) {
 				// System.out.println("HERE");
 				control.getRecord().add(i);
 			}
