@@ -44,7 +44,7 @@ You will notice that the \gwendolen\ MAS file, \texttt{hello\_world.gwen}\index{
 
 \subsection{Running the Program}
 
-To run the program you need to run the \java\ program \texttt{ail.mas.AIL}\index{AIL (class)} and supply it with a the configuration file\index{AIL!configuration} as an argument\index{multi-agent system!execution}.  You can do this either from the command line or using the Eclipse \texttt{run-AIL}\index{run-AIL} configuration (with \texttt{hello\_world.ail}\index{example!hello\_world} selected in the Package Explorer window) as detailed \inmanual{chap:running}
+To run the program you need to run the \java\ program \texttt{ail.mas.AIL}\index{AIL (class)} and supply it with a the configuration file\index{AIL!configuration} as an argument\index{multi-agent system!execution}.  You can do this either from the command line or using the IntelliJ or Eclipse \texttt{run-AIL}\index{run-AIL} configuration (with \texttt{hello\_world.ail}\index{example!hello\_world} selected in the Project Files/Package Explorer window) as detailed \inmanual{chap:running}
 
 Run the program now.
 
@@ -69,7 +69,7 @@ Configuration\index{AIL!configuration} files all contain a list of items of the 
 \end{sloppypar}
 \item[ajpf.replay]\index{ajpf.replay}\index{replay model branch} This can be set to \texttt{true} or \texttt{false} (by default it is false).  If it is set to true then the system will execute the program using a set of scheduler and other choices from a file.  By default (unless \texttt{ajpf.replay.file} is set) this  file is  \texttt{record.txt} in the \texttt{records} directory of the \mcapl\ distribution.
 \item[ajpf.replay.file]\index{ajpf.replay.file} This allows you to set the file used by either \texttt{ajpf.record} or \texttt{ajpf.replay}.
-\item[ail.store\_sent\_messages]\index{ail.store\_sent\_mssages}  This can be \texttt{true} of \texttt{false} (by default it is true).  If it is false then \ail{}'s built-in rules for message sending will not store a copy of the message that was sent.  This can be useful to reduce the number of states when model checking, but obviously only if it isn't important for the agent to know about sent messages.
+\item[ail.store\_sent\_messages]\index{ail.store\_sent\_mssages}  This can be \texttt{true} or \texttt{false} (by default it is true).  If it is false then \ail{}'s built-in rules for message sending will not store a copy of the message that was sent.  This can be useful to reduce the number of states when model checking, but obviously only if it isn't important for the agent to know about sent messages.
 \end{description}
 
 \section{Exercises}\index{AIL!configuration!exercises}

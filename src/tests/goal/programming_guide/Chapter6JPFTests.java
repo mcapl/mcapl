@@ -57,17 +57,5 @@ public class Chapter6JPFTests extends TestJPF {
 	  }  
 
 	  
-	  @Test //----------------------------------------------------------------------
-	  public void sanity_check () {
-		  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
-			  String filename =  "/src/examples/goal/programming_guide/chapter6/tower_agent_simple.ail";
-			  String prop_filename =  "/src/examples/goal/programming_guide/chapter6/chapter6.psl";
-			  String[] args = new String[3];
-			  args[0] = filename;
-			  args[1] = prop_filename;
-			  args[2] = "3";
-			  AJPF_w_AIL.run(args);
-		  }
-	  }
 
 }

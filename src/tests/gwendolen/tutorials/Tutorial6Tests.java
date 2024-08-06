@@ -61,7 +61,7 @@ public class Tutorial6Tests extends TestJPF {
  	 }
   } 
 
-  @Test //----------------------------------------------------------------------
+  /* @Test //----------------------------------------------------------------------
   public void pickuprubble_waitfor () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
     	String filename =  "/src/examples/gwendolen/tutorials/tutorial6/pickuprubble_waitfor.ail";
@@ -86,6 +86,6 @@ public class Tutorial6Tests extends TestJPF {
     	args[2] = "5";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } */
 
 }

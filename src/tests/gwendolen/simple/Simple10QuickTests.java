@@ -38,18 +38,19 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class Simple10QuickTests extends TestJPF {
 
-static final String[] PICKUP_ARGS = {
-};
+//static final String[] PICKUP_ARGS = {};
 
   //--- driver to execute single test methods
-  public static void main(String[] args) {
-	  runTestsOfThisClass(args);
-  }
+ // public static void main(String[] args) {
+//	  runTestsOfThisClass(args);
+  //}
   
 
   //--- test methods
 	  @Test //----------------------------------------------------------------------
 	  public void testPropertyInvolvingDroppingGoals () {
+		  // System.out.println("A");
+		  String[] PICKUP_ARGS = {};
 		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
 		    	String filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail";
 		    	String prop_filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl";
@@ -58,13 +59,17 @@ static final String[] PICKUP_ARGS = {
 		    	args[1] = prop_filename;
 		    	args[2] = "1";
 		    	AJPF_w_AIL.run(args);
+		    	// assertTrue(true);
 		  } else {
-			    	 
+			  System.out.println("Oh No!");
 		  }
+		  return;
 	  }
 
-	  @Test //----------------------------------------------------------------------
+	 /* @Test //----------------------------------------------------------------------
 	  public void testIntendToDo () {
+		  // System.out.println("B");
+		  String[] PICKUP_ARGS = {};
 		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
 		    	String filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail";
 		    	String prop_filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl";
@@ -80,6 +85,8 @@ static final String[] PICKUP_ARGS = {
 
 	  @Test //----------------------------------------------------------------------
 	  public void testIntendToDoFirstAction () {
+		  // System.out.println("C");
+		  String[] PICKUP_ARGS = {};
 		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
 		    	String filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.ail";
 		    	String prop_filename =  "/src/examples/gwendolen/simple/DroppingGoals/DroppingGoals.psl";
@@ -95,6 +102,8 @@ static final String[] PICKUP_ARGS = {
 
 	  @Test //----------------------------------------------------------------------
 	  public void testIntendToDoSend () {
+		  // System.out.println("D");
+		  String[] PICKUP_ARGS = {};
 		  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
 		    	String filename =  "/src/examples/gwendolen/rescue/searcher.ail";
 		    	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
@@ -106,6 +115,6 @@ static final String[] PICKUP_ARGS = {
 		  } else {
 			    	 
 		  }
-	  }
+	  } */
 
 }

@@ -29,11 +29,9 @@ import mcaplantlr.runtime.CommonTokenStream;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
 import ail.syntax.LogExpr;
-import ail.syntax.LogicalFormula;
 import ail.syntax.Predicate;
 import ail.syntax.Rule;
 import ail.syntax.ast.Abstract_LogicalFormula;
-import ail.syntax.ast.Abstract_Predicate;
 import ajpf.util.AJPFLogger;
 
 public class BuiltInPrologRules {
@@ -41,7 +39,7 @@ public class BuiltInPrologRules {
 	ArrayList<Rule> rules = new ArrayList<Rule>();
 	
 	public BuiltInPrologRules() {
-		memberPredicate();
+		// memberPredicate();
 		nth0Predicate();
 		lengthPredicate();
 	}
@@ -78,7 +76,7 @@ public class BuiltInPrologRules {
 		}
 	}
 	
-	public void memberPredicate() {
+	/*public void memberPredicate() {
 		try {
 			Predicate nil_rule_hd = ruleHead("member(X, [])");
 			LogExpr nil_rule_body = ruleBody("false");
@@ -95,7 +93,7 @@ public class BuiltInPrologRules {
 		} catch (Exception e) {
 			AJPFLogger.severe("goal.syntax.BuiltInPrologRules", e.getMessage());
 		}
-	}
+	} */
 	
 	/**
 	 * Actually length1 - need to implement properly.

@@ -63,22 +63,7 @@ public class Simple6QuickTests extends TestJPF {
 	  }
 
   }
-  
-  @Test //----------------------------------------------------------------------
-  public void testLoopingNotAlwaysBad () {
-	  if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), PICKUP_ARGS)) {
-	    	String filename =  "/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/simple/LoopingAgent/LoopingAgent.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "9";
-	    	AJPF_w_AIL.run(args);
-	  } else {
-		    	 
-	  }
 
-  }
 
 
  

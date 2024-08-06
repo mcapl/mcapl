@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.auctions.coalition;
+package gwendolen.tutorials;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class CoalitionAuctionTests extends TestJPF {
+public class Tutorial3_2Tests extends TestJPF {
 
   static final String[] JPF_ARGS = {  "-show" 
   };
@@ -47,35 +47,18 @@ public class CoalitionAuctionTests extends TestJPF {
 
   //--- test methods
 
- 
+
   @Test //----------------------------------------------------------------------
-  public void test3bidders () {
+  public void pickuprubble_ex2 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalition/CoalitionAuction3Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
+    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
-    	args[2] = "0";
+    	args[2] = "4";
     	AJPF_w_AIL.run(args);
  	 }
-  }
-  
-
-
-  @Test //----------------------------------------------------------------------
-  public void test4bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalition/CoalitionAuction4Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "0";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-
+  } 
 
 }

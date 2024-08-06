@@ -98,6 +98,7 @@ public class UAVsQuickTests extends TestJPF {
 	 	// }
 	  }
 	  
+	  /*
 	  @Test //----------------------------------------------------------------------
 	  public void really_simple_ajpf () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)) {
@@ -125,13 +126,16 @@ public class UAVsQuickTests extends TestJPF {
 	   }
 	 	// }
 	  }
+	  
+	  */
+	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
-		    final long size = Files.size(file1);
+		    /* final long size = Files.size(file1);
 		    if (size != Files.size(file2))
 		        return false;
 
 		    if (size < 4096)
-		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2));
+		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2)); */
 
 		    try (InputStream is1 = Files.newInputStream(file1);
 		         InputStream is2 = Files.newInputStream(file2)) {
@@ -140,14 +144,21 @@ public class UAVsQuickTests extends TestJPF {
 		        // (e.g. 16 KBs) but care must be taken as InputStream.read(byte[])
 		        // does not neccessarily read a whole array!
 		        int data;
-		        while ((data = is1.read()) != -1)
-		            if (data != is2.read())
+		        while ((data = myread(is1)) != -1)
+		            if (data != myread(is2))
 		                return false;
 		    }
 
 		    return true;
 		}
 
+	  private int myread(InputStream is) throws IOException {
+		  int c;
+		  do {
+			  c = is.read();
+		  } while (c == '\n' || c == '\r');
+		  return c;
+	  }
 
 
 

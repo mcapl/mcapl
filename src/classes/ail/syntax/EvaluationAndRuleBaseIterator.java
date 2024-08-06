@@ -81,6 +81,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 	 */
 	@FilterField
 	Rule rule = null; // current rule
+	Rule ruleC = null; // storing the current evaluation of the current rule for tracking cuts.
 	
 	// Name for error logging.
 	String logname = "ail.syntax.EvaluationAndRuleBaseIterator";
@@ -157,6 +158,11 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 			return;
 		}
 		
+		if (ruleC != null && (ruleC.getBody() instanceof LogExpr) && ! ((LogExpr) ruleC.getBody()).uncut()) {
+			have_been_cut = true;
+			return;
+		}
+		
 		if (logical_term instanceof GBelief) {
 			GBelief gb = (GBelief) logical_term;
 			if (gb.isTrue()) {
@@ -214,7 +220,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 					while (rl.hasNext()) {
 						Unifier unC = (Unifier) un.clone();
 						rule = rl.next();
-						Rule ruleC = rule.clone();
+						ruleC = rule.clone();
 						Unifiable h = logical_term.clone();
 						ruleC.standardise_apart(h, unC, varnames);
 						// This this will just unify the head!!
@@ -266,6 +272,10 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 			// and am now chaining through rules.
 			while (ruleIt != null && ruleIt.hasNext()) {
 				// unifies the rule head with the result of rule evaluation
+				if (ruleC != null & ruleC.getBody() instanceof LogExpr && !((LogExpr) ruleC.getBody()).uncut()) {
+                	have_been_cut = true;
+                	break;
+               }
 				Unifier ruleUn = ruleIt.next(); // evaluation result
 				current = ruleUn;
 				if (AJPFLogger.ltFine("ail.syntax.EvaluationAndRuleBaseIterator")) {
@@ -273,6 +283,10 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 				}	
                 return;
 			}
+			
+			if (ruleC != null && ruleC.getBody() instanceof LogExpr && !((LogExpr) ruleC.getBody()).uncut()) {
+            	have_been_cut = true;
+            }
                         
 			if (il != null) {
                 while (il.hasNext()) {
@@ -304,10 +318,10 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
 			}
         
 			if (rl != null) {
-                while (rl.hasNext()) {
+                while (rl.hasNext() & !have_been_cut) {
                         Unifier unC = (Unifier) un.clone();
                         rule = rl.next();
-                        Rule ruleC = rule.clone();
+                        ruleC = rule.clone();
                         Unifiable h = logical_term.clone();
                         Set<String> newvarnames = varnames;
                         newvarnames.addAll(unC.getVarNames());
@@ -324,7 +338,7 @@ public class EvaluationAndRuleBaseIterator implements Iterator<Unifier> {
                         	
                                 // ruleIt is an iterator over all possible unifiers for the rule body.
                                 get();
-                                if (current != null && ruleC.getBody() instanceof LogExpr && ((LogExpr) ruleC.getBody()).contains_cut()) {
+                                if (current != null && ruleC.getBody() instanceof LogExpr && !((LogExpr) ruleC.getBody()).uncut()) {
                                 	have_been_cut = true;
                                 }
                         	} else {

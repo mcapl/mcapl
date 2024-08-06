@@ -117,8 +117,8 @@ public class PSLParserQuickTests {
 			
 			AILAgent executive = new AILAgent("executive");
 			ListTermImpl ethics = new ListTermImpl();
-			ethics.add(new Predicate("doNotCollidePeople"));
 			ethics.add(new Predicate("doNotCollideAircraft"));
+			ethics.add(new Predicate("doNotCollidePeople"));
 			Literal better = new Literal("better_choice_than");
 			better.addTerm(ethics);
 			executive.addBel(better, BeliefBase.TSelf);

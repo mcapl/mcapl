@@ -23,18 +23,19 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
+import gwendolen.parser.GwendolenAILVisitor;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 import junit.framework.Assert;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
 
 import ail.semantics.AILAgent;
 import ail.semantics.operationalrules.*;
 import ail.util.AILPrettyPrinter;
+import ail.syntax.ast.Abstract_Plan;
 
 /**
  * Regression tests involving plans.
@@ -43,12 +44,13 @@ import ail.util.AILPrettyPrinter;
  */
 public class PlanQuickTests {
 	@Test public void planBodyUnification() {
-		GwendolenLexer plan_lexer = new GwendolenLexer(new ANTLRStringStream("+received(LG): {~B handling(LG)} <- +handling(LG), +!LG [perform], -handling(LG);"));
+		GwendolenLexer plan_lexer = new GwendolenLexer(CharStreams.fromString("+received(LG): {~B handling(LG)} <- +handling(LG), +!LG [perform], -handling(LG);"));
 		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
 		GwendolenParser plan_parser = new GwendolenParser(plan_tokens);
+		GwendolenAILVisitor visitor = new GwendolenAILVisitor();
 		
 		try {
-			Plan plan = (plan_parser.plan()).toMCAPL();
+			Plan plan = ((Abstract_Plan) visitor.visitPlan(plan_parser.plan())).toMCAPL();
 			
 			Literal received = new Literal("received");
 			received.addTerm(new Literal("goal"));

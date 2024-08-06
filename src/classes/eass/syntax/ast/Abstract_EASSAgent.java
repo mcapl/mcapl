@@ -116,9 +116,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
 	
 	public EASSAgent toMCAPL(MAS mas) {
 		try{
-		    	EASSAgent ag = new EASSAgent(mas, fAgName);
-		    	addStructures(ag);
-		    	return ag;
+		    EASSAgent ag = new EASSAgent(mas, fAgName);
+		    addStructures(ag);
+		    return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

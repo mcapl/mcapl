@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="eis">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/eis/Carriage-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/eis/blocksworld-1.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/eis/bw4t-server-3.8.1-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/eis/bw4t-client-3.8.1-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/eis/tower-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -36,13 +36,12 @@ import java.util.Set;
 
 import ail.mas.AILEnv;
 import ail.mas.MAS;
-import ail.semantics.heuristics.PrioritiseWaitFor;
-import ail.semantics.heuristics.PruneRedundantIntentions;
 import ail.semantics.heuristics.SelectIntentionHeuristic;
 import ail.syntax.AILAnnotation;
 import ail.syntax.Action;
 import ail.syntax.ApplicablePlan;
 import ail.syntax.BeliefBase;
+import ail.syntax.BuiltInPrologRules;
 import ail.syntax.Capability;
 import ail.syntax.CapabilityLibrary;
 import ail.syntax.Deed;
@@ -319,6 +318,10 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		setPlanLibrary(new PlanLibrary());
 		setCapabilityLibrary(new CapabilityLibrary());
 		setGoalBase(new GoalBase());
+		BuiltInPrologRules prolog_builtins = new BuiltInPrologRules();
+		for (Rule r: prolog_builtins.getRules()) {
+		 getRuleBase().add(r);
+		}
 		//heuristics.add(new PruneRedundantIntentions());
 		//heuristics.add(new PrioritiseWaitFor());
 	}
@@ -382,7 +385,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	// TODO: Louise has to do some Pathfinder magic here
 	protected void initializeTracing(String directory) {
 		if (directory != null) {
-			this.trace = new EventStorage(this, directory);
+			//this.trace = new EventStorage(this, directory);
 		}
 	}
 
@@ -2290,7 +2293,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 		if (getIntention() != null) {
 			for (Deed d : getIntention().deeds()) {
 				if (d.getCategory() == Deed.DAction) {
-					if (d.getContent().unifies(action, new Unifier())) {
+					if (d.getContent().unifies(action, getIntention().hdU().clone())) {
 						return true;
 					}
 				}

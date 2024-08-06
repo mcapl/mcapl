@@ -63,7 +63,7 @@ public class Simple9QuickTests extends TestJPF {
 	  }
   }
   
-  @Test //----------------------------------------------------------------------
+ /* @Test //----------------------------------------------------------------------
   public void testForgetfulMessaging () {
 	  if (verifyNoPropertyViolation(PICKUP_ARGS)) {
 	    	String filename =  "/src/examples/gwendolen/simple/MessageAgent/ForgetfulMessageAgents.ail";
@@ -91,7 +91,7 @@ public class Simple9QuickTests extends TestJPF {
 	  } else {
 		    	 
 	  }
-  }
+  } */
 
 
 

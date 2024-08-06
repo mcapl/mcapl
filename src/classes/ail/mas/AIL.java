@@ -26,6 +26,7 @@ package ail.mas;
 
 import ail.util.AILConfig;
 import ail.util.AILexception;
+import ail.parser.FOFVisitor;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
@@ -45,7 +46,7 @@ public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
 	
-	static String version = "MCAPL Framework Development Version 2021";
+	static String version = "MCAPL Framework Development Version 2024";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
@@ -76,7 +77,7 @@ public class AIL {
 		// mas.getEnv().initialise();
 		
 		// Begin!
-		mccontrol.begin(); 
+		mccontrol.begin();  
 		mas.cleanup();
 
 	}
@@ -141,6 +142,7 @@ public class AIL {
 		}
 
 		MAS mas = new MAS();
+
 		mas.setTraceDir(tracedir);
 		
 		// We've been given the name of a file and a mas builder
@@ -164,6 +166,7 @@ public class AIL {
 			}
 
 		}
+		
 		
 		int agentcounter = 1;
 		while (config.containsKey(agentNumKey(agentcounter) + ".file") && config.containsKey(agentNumKey(agentcounter) + ".builder")) {

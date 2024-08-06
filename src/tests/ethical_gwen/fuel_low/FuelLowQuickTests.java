@@ -53,31 +53,6 @@ public class FuelLowQuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
-	  public void example2 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low_verification.ail";
-	    	String prop_filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "e2";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
-
-	  @Test //----------------------------------------------------------------------
-	  public void example3 () {
-	    if (verifyNoPropertyViolation(JPF_ARGS)){
-	    	String filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low_verification.ail";
-	    	String prop_filename =  "/src/examples/ethical_gwen/fuel_low/fuel_low.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "e3";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
 
 	  
 

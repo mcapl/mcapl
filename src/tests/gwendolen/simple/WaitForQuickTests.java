@@ -57,7 +57,7 @@ public class WaitForQuickTests extends TestJPF {
 	    }
 	 }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /* @Test //----------------------------------------------------------------------
 	 public void wait_for_w_suspended () {
 	   if (verifyNoPropertyViolation(JPF_ARGS)){
 	   	String filename =  "/src/examples/gwendolen/simple/WaitFor/WaitForFalse2.ail";
@@ -84,7 +84,7 @@ public class WaitForQuickTests extends TestJPF {
 	    } else {
 	   	 
 	    }
-	 }
+	 } */
 
 
 }

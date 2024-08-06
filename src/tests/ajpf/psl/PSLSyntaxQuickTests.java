@@ -24,16 +24,15 @@
 
 package ajpf.psl;
 
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
-
 import org.junit.Test;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
+import ail.parser.FOFVisitor;
 import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.ast.Abstract_Predicate;
@@ -59,7 +58,7 @@ public class PSLSyntaxQuickTests {
 		FalseProp f2 = new FalseProp();
 		TrueProp t1 = new TrueProp();
 		TrueProp t2 = new TrueProp();
-		
+		 
 		Release r1 = new Release(f1, t1);
 		Release r2 = new Release(f2, t2);
 		
@@ -107,15 +106,16 @@ public class PSLSyntaxQuickTests {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(mcaplwithvar));
 		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
 		LogicalFmlasParser pslparser = new LogicalFmlasParser(psltokens);
-		ajpf.psl.parser.FOFVisitor visitor = new ajpf.psl.parser.FOFVisitor();
+		ajpf.psl.parser.FOFVisitor ajpf_visitor = new ajpf.psl.parser.FOFVisitor();
+		ail.parser.FOFVisitor ail_visitor = new ail.parser.FOFVisitor();
 		try {
-			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
+			Abstract_Formula p = (Abstract_Formula) ajpf_visitor.visitFunction(pslparser.function());
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new ANTLRStringStream(inbeliefbase));
+			LogicalFmlasLexer g_lexer = new LogicalFmlasLexer(CharStreams.fromString(inbeliefbase));
 			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
-			GwendolenParser g_parser = new GwendolenParser(g_tokens);
+			LogicalFmlasParser g_parser = new LogicalFmlasParser(g_tokens);
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = ((Abstract_Predicate) ail_visitor.visitPred(g_parser.pred()));
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();

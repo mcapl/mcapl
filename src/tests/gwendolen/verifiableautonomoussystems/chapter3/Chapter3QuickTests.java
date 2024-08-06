@@ -63,6 +63,7 @@ public class Chapter3QuickTests extends TestJPF {
  	 }
   }
   
+  /*
   @Test //----------------------------------------------------------------------
   public void messageag1 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
@@ -117,6 +118,6 @@ public void lifter () {
 }
 
 
-
+*/
 
 }

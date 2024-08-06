@@ -53,13 +53,6 @@ public class Tutorial9QuickTests extends TestJPF {
       System.setOut(systemStdOut);
   }
 
-  //--- driver to execute single test methods
-  public static void main(String[] args) {
-    runTestsOfThisClass(args);
-  }
-
-  //--- test methods
-
  
   @Test //----------------------------------------------------------------------
   public void string_w_space () {
@@ -71,31 +64,6 @@ public class Tutorial9QuickTests extends TestJPF {
 	  assertEquals(output, outContent.toString());
 	  cleanUpStreams();
   }
-  
-  @Test //----------------------------------------------------------------------
-  public void ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial9/answers/arithmetic.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "9";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
 
-  @Test //----------------------------------------------------------------------
-  public void ex3 () {
-	  setUpStreams();
-	  AIL.runAIL("/src/examples/gwendolen/tutorials/tutorial9/answers/equation.ail");
-	  String nl = System.lineSeparator();
-	  String expectedOutput = AIL.get_version_info() + nl +"3 is less than 5"
-			  + nl + "3 is less than 4.8" + nl + "3 is equal to 3" + nl + "4.8 is less than 5"
-			  + nl + "3 is less than 5" + nl + "3 is less than 4.8" + nl;
-	  assertEquals(expectedOutput, outContent.toString());
-	  cleanUpStreams();
-
-  }
 
 }

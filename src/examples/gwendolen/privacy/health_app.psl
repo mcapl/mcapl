@@ -1,0 +1,90 @@
+1: [] <> B(agent, decline(marital_status))
+2: [] ~(B(agent, approve(marital_status)) || B(agent, substitute(marital_status,_)))
+3: [] <> B(agent, substitute(dob, age))
+4: [] ~(B(agent, approve(dob)) || B(agent, decline(dob)))
+5: [] (B(agent, data(home_address)) -> (<> B(agent, decline(gps))))
+6: [] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) -> (<> B(agent, decline(bmi))))
+7: <> ItD(agent, send(user, 2, approve(marital_status)))
+8: [] ~ItD(agent, send(user, 2, approve(marital_status)))
+
+sanity: [] (B(agent, data(marital_status))  -> (<> B(agent, decline(something_else))))
+9: [] (B(agent, data(marital_status))  -> (<> B(agent, decline(marital_status))))
+10: [] (B(agent, data(dob))  -> (<> B(agent, substitute(dob, age))))
+11: [] ((B(agent, data(home_address)) &  B(agent, data(gps))) -> (<> B(agent, decline(gps))))
+12: [] (B(agent, data(dob)) & B(agent, data(gender)) & B(agent, workout_plan(present)) & B(agent, diet_recommendations(present)) & B(agent, daily_physical_activities(monitored)) & B(agent, data(bmi)) -> (<> B(agent, decline(bmi))))
+
+only_oneA_full_name: [] (~B(agent, approve(full_name)) || ~B(agent, decline(full_name)))
+only_oneB_full_name: [] (~B(agent, approve(full_name)) || ~B(agent, substitute(full_name, _)))
+only_oneC_full_name: [] (~B(agent, substitute(full_name, _)) || ~B(agent, decline(full_name)))
+at_least_one_full_name: [] (B(agent, data(full_name)) -> <> (B(agent, approve(full_name)) || B(agent, decline(full_name)) || B(agent, substitute(full_name, _))))
+
+only_oneA_dob: [] (~B(agent, approve(dob)) || ~B(agent, decline(dob)))
+only_oneB_dob: [] (~B(agent, approve(dob)) || ~B(agent, substitute(dob, _)))
+only_oneC_dob: [] (~B(agent, substitute(dob, _)) || ~B(agent, decline(dob)))
+at_least_one_dob: [] (B(agent, data(dob)) -> <> (B(agent, approve(dob)) || B(agent, decline(dob)) || B(agent, substitute(dob, _))))
+
+only_oneA_gender: [] (~B(agent, approve(gender)) || ~B(agent, decline(gender)))
+only_oneB_gender: [] (~B(agent, approve(gender)) || ~B(agent, substitute(gender, _)))
+only_oneC_gender: [] (~B(agent, substitute(gender, _)) || ~B(agent, decline(gender)))
+at_least_one_gender: [] (B(agent, data(gender)) -> <> (B(agent, approve(gender)) || B(agent, decline(gender)) || B(agent, substitute(gender, _))))
+
+only_oneA_bmi: [] (~B(agent, approve(bmi)) || ~B(agent, decline(bmi)))
+only_oneB_bmi: [] (~B(agent, approve(bmi)) || ~B(agent, substitute(bmi, _)))
+only_oneC_bmi: [] (~B(agent, substitute(bmi, _)) || ~B(agent, decline(bmi)))
+at_least_one_bmi: [] (B(agent, data(bmi)) -> <> (B(agent, approve(bmi)) || B(agent, decline(bmi)) || B(agent, substitute(bmi, _))))
+
+contact: ([] (~B(agent, approve(contact)) || ~B(agent, decline(contact)))) & ([] (~B(agent, approve(contact)) || ~B(agent, substitute(contact, _)))) & ([] (~B(agent, substitute(contact, _)) || ~B(agent, decline(contact)))) & ([] (B(agent, data(contact)) -> <> (B(agent, approve(contact)) || B(agent, decline(contact)) || B(agent, substitute(contact, _)))))
+only_oneA_contact: [] (~B(agent, approve(contact)) || ~B(agent, decline(contact)))
+only_oneB_contact: [] (~B(agent, approve(contact)) || ~B(agent, substitute(contact, _)))
+only_oneC_contact: [] (~B(agent, substitute(contact, _)) || ~B(agent, decline(contact)))
+at_least_one_contact: [] (B(agent, data(contact)) -> <> (B(agent, approve(contact)) || B(agent, decline(contact)) || B(agent, substitute(contact, _))))
+
+home_address: ([] (~B(agent, approve(home_address)) || ~B(agent, decline(home_address)))) & 
+([] (~B(agent, approve(home_address)) || ~B(agent, substitute(home_address, _)))) &
+([] (~B(agent, substitute(home_address, _)) || ~B(agent, decline(home_address)))) &
+([] (B(agent, data(home_address)) -> <> (B(agent, approve(home_address)) || B(agent, decline(home_address)) || B(agent, substitute(home_address, _)))))
+only_oneA_home_address: [] (~B(agent, approve(home_address)) || ~B(agent, decline(home_address)))
+only_oneB_home_address: [] (~B(agent, approve(home_address)) || ~B(agent, substitute(home_address, _)))
+only_oneC_home_address: [] (~B(agent, substitute(home_address, _)) || ~B(agent, decline(home_address)))
+at_least_one_home_address: [] (B(agent, data(home_address)) -> <> (B(agent, approve(home_address)) || B(agent, decline(home_address)) || B(agent, substitute(home_address, _))))
+
+marital_status: ([] (~B(agent, approve(marital_status)) || ~B(agent, decline(marital_status))) ) &
+( [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _))) ) &
+( [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status))) ) &
+( [] (B(agent, data(marital_status)) -> <> (B(agent, approve(marital_status)) || B(agent, decline(marital_status)) || B(agent, substitute(marital_status, _)))) )
+
+only_oneA_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, decline(marital_status)))
+only_oneB_marital_status: [] (~B(agent, approve(marital_status)) || ~B(agent, substitute(marital_status, _)))
+only_oneC_marital_status: [] (~B(agent, substitute(marital_status, _)) || ~B(agent, decline(marital_status)))
+at_least_one_marital_status: [] (B(agent, data(marital_status)) -> <> (B(agent, approve(marital_status)) || B(agent, decline(marital_status)) || B(agent, substitute(marital_status, _))))
+
+occupation: ([] (~B(agent, approve(occupation)) || ~B(agent, decline(occupation)))) &
+([] (~B(agent, approve(occupation)) || ~B(agent, substitute(occupation, _)))) &
+([] (~B(agent, substitute(occupation, _)) || ~B(agent, decline(occupation)))) &
+([] (B(agent, data(occupation)) -> <> (B(agent, approve(occupation)) || B(agent, decline(occupation)) || B(agent, substitute(occupation, _)))))
+
+only_oneA_occupation: [] (~B(agent, approve(occupation)) || ~B(agent, decline(occupation)))
+only_oneB_occupation: [] (~B(agent, approve(occupation)) || ~B(agent, substitute(occupation, _)))
+only_oneC_occupation: [] (~B(agent, substitute(occupation, _)) || ~B(agent, decline(occupation)))
+at_least_one_occupation: [] (B(agent, data(occupation)) -> <> (B(agent, approve(occupation)) || B(agent, decline(occupation)) || B(agent, substitute(occupation, _))))
+
+gps: ([] (~B(agent, approve(gps)) || ~B(agent, decline(gps))) &
+( [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _))) ) &
+( [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps))) ) &
+( [] (B(agent, data(gps)) -> <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _)))) )
+
+only_oneA_gps: [] (~B(agent, approve(gps)) || ~B(agent, decline(gps)))
+only_oneB_gps: [] (~B(agent, approve(gps)) || ~B(agent, substitute(gps, _)))
+only_oneC_gps: [] (~B(agent, substitute(gps, _)) || ~B(agent, decline(gps)))
+at_least_one_gps: [] (B(agent, data(gps)) -> <> (B(agent, approve(gps)) || B(agent, decline(gps)) || B(agent, substitute(gps, _))))
+
+social_media: ([] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))) &
+([] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))) &
+([] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))) &
+([] (B(agent, data(social_media)) -> <> (B(agent, approve(social_media)) || B(agent, decline(social_media)) || B(agent, substitute(social_media, _)))))
+
+only_oneA_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, decline(social_media)))
+only_oneB_social_media: [] (~B(agent, approve(social_media)) || ~B(agent, substitute(social_media, _)))
+only_oneC_social_media: [] (~B(agent, substitute(social_media, _)) || ~B(agent, decline(social_media)))
+at_least_one_social_media: [] (B(agent, data(social_media)) -> <> (B(agent, approve(social_media)) || B(agent, decline(social_media)) || B(agent, substitute(social_media, _))))
+

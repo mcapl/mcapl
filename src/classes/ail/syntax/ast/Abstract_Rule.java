@@ -125,7 +125,9 @@ public class Abstract_Rule implements Abstract_LogicalFormula {
      */
     public int newJPFObject(MJIEnv env) {
     	int objref = env.newObject("ail.syntax.ast.Abstract_Rule");
-    	env.setReferenceField(objref, "body", body.newJPFObject(env));
+    	if (body != null) {
+    		env.setReferenceField(objref, "body", body.newJPFObject(env));
+    	}
     	env.setReferenceField(objref, "head", head.newJPFObject(env));
 		return objref;
     }

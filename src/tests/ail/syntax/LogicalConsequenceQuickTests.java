@@ -65,21 +65,21 @@ public class LogicalConsequenceQuickTests {
 		try {
 			AILAgent agent = new AILAgent("ag");
 
-			Predicate nil_rule_hd = ruleHead("member(X, [])");
+			Predicate nil_rule_hd = ruleHead("member_test(X, [])");
 			LogExpr nil_rule_body = ruleBody("false");
 			agent.addRule(new Rule(nil_rule_hd, nil_rule_body));
 			
-			Predicate cons_hd_rule = ruleHead("member(H, [H | T])");
+			Predicate cons_hd_rule = ruleHead("member_test(H, [H | T])");
 			// LogExpr cons_rule_body = ruleBody("true");
 			agent.addRule(new Rule(cons_hd_rule, Predicate.PTrue));
 			
-			Predicate cons_tl_rule_hd = ruleHead("member(H, [X | T])");
-			LogExpr cons_tl_rule_body = ruleBody("member(H, T)");
+			Predicate cons_tl_rule_hd = ruleHead("member_test(H, [X | T])");
+			LogExpr cons_tl_rule_body = ruleBody("member_test(H, T)");
 			agent.addRule(new Rule(cons_tl_rule_hd, cons_tl_rule_body));
 			
 			ListTermImpl list = parser_for("[a, b, c]").listterm().toMCAPL();
 			
-			Literal member = new Literal("member");
+			Literal member = new Literal("member_test");
 			member.addTerm(new VarTerm("X"));
 			member.addTerm(list);
 			GBelief gb = new GBelief(member);

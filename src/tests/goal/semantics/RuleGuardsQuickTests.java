@@ -44,12 +44,9 @@ import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
 
-import ail.syntax.Action;
 import ail.syntax.BroadcastMessage;
-import ail.syntax.Deed;
 import ail.syntax.EBCompare;
 import ail.syntax.GBelief;
-import ail.syntax.Goal;
 import ail.syntax.Guard;
 import ail.syntax.ListTermImpl;
 import ail.syntax.Literal;
@@ -60,7 +57,6 @@ import ail.syntax.Rule;
 import ail.syntax.Unifier;
 import ail.syntax.UnnamedVar;
 import ail.syntax.VarTerm;
-import ail.syntax.ast.Abstract_Predicate;
 
 
 public class RuleGuardsQuickTests {

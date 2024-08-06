@@ -28,9 +28,8 @@ rulelist: prolog_rule (rulelist )?;
 rulelist_poss_empty: (rulelist)?;
 prolog_rule  : head=pred (RULEARROW f=logicalfmla SEMI | 
 	SEMI );
-logicalfmla : n=notfmla (COMMA n2=notfmla )*?;
-               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla  : (gb = pred | SQOPEN eq = equation SQCLOSE) | 
+logicalfmla : n=notfmla (COMMA  n2=notfmla )*?;
+notfmla  : (gb = pred | SQOPEN eq = equation SQCLOSE) | cut=SHRIEK |
             NOT (gb2 = pred  | SQOPEN eq2 = equation SQCLOSE  | lf = subfmla );
 subfmla  : OPEN lf = logicalfmla CLOSE;
 
@@ -42,9 +41,9 @@ pred	:  v=var | f=function;
 function: CONST (OPEN terms CLOSE)?;
 
 terms	: t=term (COMMA terms)? ;
-term	: a = atom | s = stringterm | f=function | l = listterm;
+term	: a = atom | f=function | l = listterm;
 
-atom	: n = numberstring | v=var | OPEN a=arithexpr CLOSE;
+atom	: n = numberstring | v=var | OPEN a=arithexpr CLOSE | s=stringterm;
 stringterm : QUOTED_STRING ; 
 
 listterm : SQOPEN (hl=listheads (BAR v=var)?)? SQCLOSE; 
@@ -56,7 +55,7 @@ var 	:	VAR | UNNAMEDVAR;
 
 numberstring :	(MINUS)? (n1=NUMBER (POINT n2=NUMBER)?);
 equation	: a1=arithexpr oper=eqoper a2=arithexpr; 
-eqoper		: LESS | EQ ;
+eqoper		: LESS | EQ | IS ;
 
 arithexpr	: m1=multexpr (addoper m2=multexpr)?;
 multexpr	: a1=atom (multoper a2=atom)?; 
@@ -88,13 +87,14 @@ TRUE: 	'True';
 // STRING	:	{stringterm}? ('a'..'z'|'A'..'Z'|'0'..'9'|'_')+;
 CONST 	: 	('a'..'z'|'.') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.')*;
 VAR	:	 'A'..'Z' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NUMBER	:	 '0'..'9' ('0'..'9')*;
+NUMBER	:	 '0'..'9' ('0'..'9'|'.')*;
 UNNAMEDVAR: '_';
 
 RULEARROW :	':-';
 
 LESS	:	'<';
 EQ	: 	'==';
+IS	:	'is';
 POINT	:	'.';
 MULT	:	'*';
 PLUS	:	'+';

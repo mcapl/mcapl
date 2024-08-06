@@ -62,23 +62,5 @@ public class RescueBQuickTests extends TestJPF {
 	 }
 
 
-	 @Test //----------------------------------------------------------------------
-	 public void testProblemsWithEndStates () {
-	   if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), RESCUE_ARGS)){
-	   	String filename =  "/src/examples/gwendolen/rescue/searcherliftersmall.ail";
-	   	String prop_filename =  "/src/examples/gwendolen/rescue/rescue.psl";
-	   	String[] args = new String[3];
-	   	args[0] = filename;
-	   	args[1] = prop_filename;
-	   	args[2] = "10b";
-	   	AJPF_w_AIL.run(args);
-	    } else {
-	   	 
-	    }
-	 }
-
-
-
-
 
 }

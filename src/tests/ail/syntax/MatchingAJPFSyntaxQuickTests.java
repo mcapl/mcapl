@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+import gwendolen.parser.GwendolenAILVisitor;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 
@@ -48,7 +49,7 @@ import ajpf.psl.parser.LogicalFmlasParser;
  * @author lad
  *
  */
-public class MatchingAJPFSyntaxQuickTests {
+public class MatchingAJPFSyntaxQuickTests { 
 
 	@Test public void beliefPropertyTest() {
 		
@@ -89,16 +90,17 @@ public class MatchingAJPFSyntaxQuickTests {
 		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(mcaplbelief));
 		CommonTokenStream psltokens = new CommonTokenStream(lexer);
 		LogicalFmlasParser pslparser = new LogicalFmlasParser(psltokens);
-		ajpf.psl.parser.FOFVisitor visitor = new ajpf.psl.parser.FOFVisitor();
+		ajpf.psl.parser.FOFVisitor psl_visitor = new ajpf.psl.parser.FOFVisitor();
+		ail.parser.FOFVisitor ail_visitor = new ail.parser.FOFVisitor();
 		try {
-			Abstract_Formula p = (Abstract_Formula) visitor.visitFunction(pslparser.function());
+			Abstract_Formula p = (Abstract_Formula) psl_visitor.visitFunction(pslparser.function());
 			AILAgent a = new AILAgent("ag1");
 		
-			GwendolenLexer g_lexer = new GwendolenLexer(new mcaplantlr.runtime.ANTLRStringStream(inbeliefbase));
-			mcaplantlr.runtime.CommonTokenStream g_tokens = new mcaplantlr.runtime.CommonTokenStream(g_lexer);
-			GwendolenParser g_parser = new GwendolenParser(g_tokens);
+			LogicalFmlasLexer g_lexer = new LogicalFmlasLexer(CharStreams.fromString(inbeliefbase));
+			CommonTokenStream g_tokens = new CommonTokenStream(g_lexer);
+			LogicalFmlasParser g_parser = new LogicalFmlasParser(g_tokens);
 		
-			Abstract_Predicate b = g_parser.pred();
+			Abstract_Predicate b = (Abstract_Predicate) ail_visitor.visitPred((g_parser.pred()));
 
 			MCAPLPredicate mp = (MCAPLPredicate) p.toMCAPL();
 			Predicate gb = b.toMCAPL();

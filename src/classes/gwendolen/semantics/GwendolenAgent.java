@@ -24,7 +24,6 @@
 
 package gwendolen.semantics;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -135,6 +134,9 @@ public class GwendolenAgent extends AILAgent {
 			if (printer.equals("ail")) {
 				setPretty(new AILPrettyPrinter());
 			} 
+			if (printer.equals("gwendolen")) {
+				setPretty(new GwendolenPrettyPrinter());
+			}
 		}
 	}
 }

@@ -3,12 +3,12 @@
 
 All of the languages implemented using the Agent Infrastructure Layer (AIL)\index{AIL} come provided with a parser which allows files written in that language to be read in and executed.  Examples of programs can be found in the \texttt{src/examples} directory and the tutorials for some of the languages can be found in Part 2 of this manual.
 
-However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL (class)} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} Eclipse Run Configuration.\index{Eclipse}
+However these languages only describe the agents and these agents must execute within an multi-agent system\index{multi-agent system} consisting of an environment\index{environment} and one or more agents.  Therefore, any specific example needs to first construct such a multi-agent system.  The languages implemented in the AIL all come with classes for parsing input files to sets of agents and many use the \texttt{DefaultEnvironment}\index{environment!default}\index{DefaultEnvironment (class)} class that come with the AIL -- there is more information on creating multi-agent systems and environments in Chapter~\ref{chap:ail}. Configuration files\index{configuration!AIL}\index{AIL!configuration} can be used to describe the classes necessary  for a given multi-agent system and the class \texttt{ail.mas.AIL}\index{AIL (class)} will build and run a multi-agent system from a configuration file.  This can also be invoked using the \texttt{run-AIL}\index{run-AIL} IntelliJ or Eclipse Run Configurations.\index{Eclipse}\index{IntelliJ}
 
-Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF}\index{RunJPF (class)} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)}. 
+Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{configuration!JPF} configuration files which can be supplied to the \texttt{gov.nasa.tool.RunJPF}\index{RunJPF (class)} command at the command line, or to the \texttt{run-JPF (MCAPL)}\index{run-JPF} Run Configuration in IntelliJ or Eclipse.  These configuration files should incorporate the line \texttt{@using = mcapl} at the top which should ensure that the correct listeners, etc., for AJPF are configured.  This assumes that the MCAPL project has been added to the JPF \texttt{site.properties} as described in the Installation Instructions (Chapter~\ref{chap:installation}).  A general support class for model checking agent systems configured using an AIL configuration file has been provided.  This is \texttt{ail.util.AJPF\_w\_AIL}\index{AJPF\_w\_AIL (class)}. 
 
 \section{Example: Executing a Multi-Agent-System (UNIX Based Systems)}
-{\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in you CLASSPATH\index{Java (class)path}\index{Unix}
+{\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in your CLASSPATH\index{Java (class)path}\index{Unix}
 
 \begin{verbatim}
 lib/3rdparty/antlr-4.7-complete.jar
@@ -16,6 +16,7 @@ lib/3rdparty/commons-io-2.4.jar
 lib/3rdparty/eis-0.5.0.jar
 lib/3rdparty/ev3classes.jar
 lib/3rdparty/ev3tools.jar
+lib/3rdparty/guava-31.1-jre.jar
 lib/3rdparty/java-prolog-parser.jar
 lib/3rdparty/jpf.jar
 lib/3rdparty/jpf-annotations.jar
@@ -40,7 +41,7 @@ You can run the simple agent \texttt{pickupagent.gwen} whose code you will find 
 You should see output similar to:
 
 \noindent \begin{lstlisting}
-MCAPL Framework 2021
+MCAPL Framework 2024
 done
 \end{lstlisting}
 \medskip
@@ -49,11 +50,16 @@ done
 
 {\bf NB}  If you do not have AJPF\_HOME set then you will need to run the example from the \texttt{\ajpfversion} directory.
 
+\subsection{In IntelliJ}
+If you have successfully imported the project into IntelliJ then you should have two run configurations \texttt{run-AIL}\index{run-AIL} and \texttt{run-JPF (MCAPL)}\index{run-JPF}.  
+
+Select the configuration file you want to run, and then select \texttt{run-AIL} from the Run Configuration drop-down.
+
 \subsection{In Eclipse}
 
 If you have successfully imported the project into Eclipse then you should have two run configurations \texttt{run-AIL}\index{run-AIL} and \texttt{run-JPF (MCAPL)}\index{run-JPF}.  If you do not these can be found in the \texttt{eclipse} sub-directory.\index{Eclipse}
 
-Select the configuration file you will to run, and then select \texttt{run-AIL} from Eclipse's Run Configuration menu.
+Select the configuration file you want to run, and then select \texttt{run-AIL} from Eclipse's Run Configuration menu.
 
 
 \section{Example: Model Checking a Multi-Agent System (UNIX Systems)}
@@ -79,10 +85,10 @@ JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All ri
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 14/03/19 19:30
+====================================================== search started: 30/03/23 11:55
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-MCAPL Framework 2021
-ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
+MCAPL Framework Version 2023
+ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
 		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
@@ -116,13 +122,17 @@ elapsed time:       00:00:01
 states:             new=3,visited=1,backtracked=4,end=0
 search:             maxDepth=3,constraints=0
 choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
-heap:               new=7577,released=4383,maxLive=3138,gcCycles=4
-instructions:       907061
-max memory:         245MB
-loaded code:        classes=319,methods=5027
+heap:               new=6113,released=3792,maxLive=2265,gcCycles=4
+instructions:       365022
+max memory:         491MB
+loaded code:        classes=301,methods=4831
 
-====================================================== search finished: 14/03/19 19:30
+====================================================== search finished: 30/03/23 11:55
 \end{lstlisting}
+
+\subsection{In IntelliJ}
+
+In IntelliJ you should be able to select \texttt{run-JPF (MCAPL)}\index{run-JPF} from the Run Configurations menu while you have \texttt{src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.jpf} selected.  This should generate similar output to the above.
 
 \subsection{In Eclipse}
 

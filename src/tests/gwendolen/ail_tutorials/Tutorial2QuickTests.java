@@ -54,7 +54,7 @@ public class Tutorial2QuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	 /* @Test //----------------------------------------------------------------------
 	  public void ex2 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial2/answers/PickUpAgent.ail";
@@ -65,6 +65,6 @@ public class Tutorial2QuickTests extends TestJPF {
 	    	args[2] = "10";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 
 }

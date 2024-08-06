@@ -77,7 +77,7 @@ public class Abstract_MAS  {
      * @param ag the <code>AgArch</code> object for an agent.
      */
     public void setAgs(ArrayList<? extends Abstract_Agent> ags) {
-    	Abstract_Agent[] agent = new Abstract_Agent[ags.size()];
+     	Abstract_Agent[] agent = new Abstract_Agent[ags.size()];
     	for (int i = 0; i < ags.size(); i++) {
     		agent[i] = ags.get(i);
     	}
@@ -110,10 +110,13 @@ public class Abstract_MAS  {
     * @return
     */
    public MAS toMCAPL(String tracedir) {
-	   MAS mas = new MAS();
+
+	   MAS mas = new MAS();			
+
 	   mas.setTraceDir(tracedir);
 	   if (agents != null) {
 		   for (Abstract_Agent ag: agents) {
+
 			   mas.addAg(ag.toMCAPL(mas));
 		   }
 	   }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// Copyright (C) 2012 Louise A. Dennis,  and Michael Fisher
+// Copyright (C) 2014 Louise A. Dennis,  and Michael Fisher
 //
 // This file is part of Gwendolen
 // 
@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-package gwendolen.auctions.basic;
+package gwendolen.tutorials;
 
 import org.junit.Test;
 
@@ -33,9 +33,9 @@ import gov.nasa.jpf.util.test.TestJPF;
 /**
  * Simple test that an auction example works.
  */
-public class BasicAuctionTests extends TestJPF {
+public class Tutorial14QuickTests extends TestJPF {
 
-  static final String[] JPF_ARGS = {  "-show" 
+  static final String[] JPF_ARGS = { 
   };
 
 
@@ -48,11 +48,12 @@ public class BasicAuctionTests extends TestJPF {
   //--- test methods
 
  
+
   @Test //----------------------------------------------------------------------
-  public void test3bidders () {
+  public void pickuprubble_grouping () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/basic/BasicAuction3Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
+    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/pickuprubble_grouping.ail";
+    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
     	String[] args = new String[3];
     	args[0] = filename;
     	args[1] = prop_filename;
@@ -60,32 +61,5 @@ public class BasicAuctionTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-
-  @Test //----------------------------------------------------------------------
-  public void test4bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/basic/BasicAuction4Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
-  @Test //----------------------------------------------------------------------
-  public void test5bidders () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/basic/BasicAuction5Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-
 
 }

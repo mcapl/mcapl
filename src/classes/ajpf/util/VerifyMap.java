@@ -201,25 +201,46 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 	 * @return
 	 */
 	private V insert(Tuple<K, V> t) {
+		//fatma - changing this so we do dont modify the array (add things) in the loop
+		V element_to_return = null;
+		int index_to_add_at = -1;
 		for (int i = 0; i < tuplearray.size(); i++) {
 			Tuple<K, V> t1 = tuplearray.get(i);
 			int comparison = t.getKey().compareTo(t1.getKey());
 			if (comparison < 0) {
-				tuplearray.add(i, t);
-				tuplearray.trimToSize();
-				return null;
+				index_to_add_at = i;
+				break;
+//				tuplearray.add(i, t);
+//				tuplearray.trimToSize();
+//				return null;
 			} else if (comparison == 0) {
-				V returnvalue = t1.getValue();
-				tuplearray.remove(i);
-				tuplearray.trimToSize();
-				tuplearray.add(i, t);
-				return returnvalue;
+				element_to_return = t1.getValue();
+				index_to_add_at = i;
+				break;
+//				tuplearray.remove(i);
+//				tuplearray.trimToSize();
+//				tuplearray.add(i, t);
+//				return returnvalue;
 			}
 		}
-		
-		tuplearray.add(t);
-		tuplearray.trimToSize();
-		return null;
+		if(index_to_add_at != -1)
+		{
+			if(element_to_return!=null)
+			{
+				tuplearray.remove(index_to_add_at);
+				tuplearray.trimToSize();
+				tuplearray.add(index_to_add_at,t);
+			}
+			else{
+				tuplearray.add(index_to_add_at,t);
+				tuplearray.trimToSize();
+			}
+		}
+		else {
+			tuplearray.add(t);
+			tuplearray.trimToSize();
+		}
+		return element_to_return;
 	}
 	
 	/*
