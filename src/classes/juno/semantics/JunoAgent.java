@@ -25,9 +25,9 @@ package juno.semantics;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-import gov.nasa.jpf.vm.MJIEnv;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -92,6 +92,100 @@ public class JunoAgent extends AILAgent {
 		this.setReasoningCycle(new JunoRC());
 
 		parseFromFile(file);
+	}
+
+	/*
+	Constructor to allow a Juno Agent to be construction from an Abstract Juno Agent.  Needed to enable agents to be parsed
+	and constructed in the Native JVM when model-checking.
+	 */
+	public JunoAgent(Abstract_JunoAgent abs_juno) {
+		super();
+		this.setAgName("juno");
+		this.setReasoningCycle(new JunoRC());
+
+		fill_array_list_string(abs_juno.action_array, actions);
+
+		for (int i=0; i < abs_juno.utility_map.length; i++) {
+			utilities.put(abs_juno.utility_map[i].getLeft(), abs_juno.utility_map[i].getRight());
+		}
+
+		for (int i=0; i < abs_juno.default_utility_map.length; i++) {
+			default_utilities.put(abs_juno.default_utility_map[i].getLeft(), abs_juno.default_utility_map[i].getRight());
+		}
+
+		for (int i=0; i < abs_juno.abstract_context_utilities.length; i++) {
+			Formula f = abs_juno.abstract_context_utilities[i].getLeft();
+			VerifyMap<String, Double> uMap = new VerifyMap<>();
+			Tuple<String, Double>[] uArray = abs_juno.abstract_context_utilities[i].getRight();
+			for (int j = 0; j < uArray.length; j++) {
+				uMap.put(uArray[j].getLeft(), uArray[j].getRight());
+			}
+			context_utilities.put(f, uMap);
+		}
+
+		fill_array_list_string(abs_juno.goalbase_array, goalbase);
+
+		fill_array_list_string(abs_juno.default_goals_array, default_goals);
+
+		for (int i = 0; i < abs_juno.abstract_context_goals.length; i++) {
+			Formula f = abs_juno.abstract_context_goals[i].getLeft();
+			ArrayList<String> sArray = new ArrayList<String>();
+			fill_array_list_string(abs_juno.abstract_context_goals[i].getRight(), sArray);
+			context_goals.put(f, sArray);
+		}
+
+		fill_array_list_string(abs_juno.abstract_patients, patients);
+
+		fill_string_string_string_map(affects, abs_juno.abstract_affects);
+		fill_string_string_string_map(default_affects, abs_juno.default_abstract_affects);
+
+		for (int i = 0; i < abs_juno.abstract_context_affects.length; i++) {
+			Formula f = abs_juno.abstract_context_affects[i].getLeft();
+			VerifyMap<String, ArrayList<Tuple<String, String>>> vmap = new VerifyMap<String, ArrayList<Tuple<String, String>>>();
+			fill_string_string_string_map(vmap, abs_juno.abstract_context_affects[i].getRight());
+			context_affects.put(f, vmap);
+		}
+
+		fill_array_list_string(abs_juno.abstract_consequences, consequences);
+
+		for (int i = 0; i < abs_juno.abstract_mechanisms.length; i++) {
+			String s = abs_juno.abstract_mechanisms[i].getLeft();
+			Formula f = abs_juno.abstract_mechanisms[i].getRight();
+			mechanisms.put(s, f);
+		}
+
+		fill_array_list_string(abs_juno.abstract_background, background);
+
+		for (int i = 0; i < abs_juno.abstract_context_background.length; i++) {
+			Formula f = abs_juno.abstract_context_background[i].getLeft();
+			FormulaString fs = abs_juno.abstract_context_background[i].getRight();
+			Tuple<Formula, FormulaString> tuple = new Tuple(f, fs);
+			context_background.add(tuple);
+		}
+		// System.err.println(this);
+
+	}
+
+	void fill_string_string_string_map(Map<String, ArrayList<Tuple<String, String>>> map, Tuple<String, Tuple<String, String>[]>[] tuples) {
+		for (int i=0; i < tuples.length; i++) {
+			String s = tuples[i].getLeft();
+			Tuple<String, String>[] array = tuples[i].getRight();
+			ArrayList<Tuple<String, String>> arraylist = new ArrayList<Tuple<String, String>>();
+			fill_tuple_arraylist(arraylist, array);
+			map.put(s, arraylist);
+		}
+	}
+
+	void fill_tuple_arraylist(ArrayList<Tuple<String, String>> arraylist, Tuple<String, String>[] tuple_array) {
+		for (int i=0; i<tuple_array.length; i++) {
+			arraylist.add(tuple_array[i]);
+		}
+	}
+
+	void fill_array_list_string(String[] array, ArrayList<String> array_list) {
+		for (int i=0; i<array.length; i++) {
+			array_list.add(array[i]);
+		}
 	}
 	
 	/**
@@ -281,6 +375,7 @@ public class JunoAgent extends AILAgent {
 	 * @param utilities
 	 */
 	public void setUtilities(HashMap<String, Double> utilities) {
+		//System.err.println("Juno Aget Setting Utilities");
 		this.utilities = utilities;
 	}
 	
@@ -290,6 +385,7 @@ public class JunoAgent extends AILAgent {
 	 * @param u
 	 */
 	public void setUtility(String s, Double u) {
+		//System.err.println("Juno Agent seting utiltities");
 		this.utilities.put(s, u);
 	}
 	
@@ -382,6 +478,8 @@ public class JunoAgent extends AILAgent {
 	 * @return
 	 */
 	public HashMap<String, Double> getUtilities() {
+		//System.err.println("Juno Agent getting utilities");
+		//System.err.println(this.utilities);
 		return this.utilities;
 	}
 	
@@ -562,6 +660,10 @@ public class JunoAgent extends AILAgent {
  		s1.append("\n");
  		s1.append(getUtilities().toString());
  		s1.append("\n");
+		 s1.append(default_utilities.toString());
+		 s1.append("\n");
+		 s1.append(getContextUtilities().toString());
+		 s1.append("\n");
 		s1.append(getAffects().toString());
 		s1.append("\n");
 		if (action != null) {
@@ -572,9 +674,121 @@ public class JunoAgent extends AILAgent {
 		String s = s1.toString();
  		return s;
  	}
+/*
+Create an abstract agent from a concrete agent.  Needed to allow agents to be parsed and constructed in the Native JVM
+when model checking.
+ */
+	 public Abstract_JunoAgent toAbstract() {
+		Abstract_JunoAgent abs_juno = new Abstract_JunoAgent();
 
-	public int newJPFObject(MJIEnv env) {
-		int objref = env.newObject("juno.semantics.JunoAgent");
-		return objref;
-	}
+		abs_juno.action_array = new String[actions.size()];
+		abstract_string_array(actions, abs_juno.action_array);
+
+		abs_juno.utility_map = new Tuple[utilities.size()];
+		int i = 0;
+		for (String s:utilities.keySet()) {
+			abs_juno.utility_map[i] = new Tuple<String, Double>(s, utilities.get(s));
+			i++;
+		}
+
+		 abs_juno.default_utility_map = new Tuple[default_utilities.size()];
+		 i = 0;
+		 for (String s:default_utilities.keySet()) {
+			 abs_juno.default_utility_map[i] = new Tuple<String, Double>(s, default_utilities.get(s));
+			 i++;
+		 }
+
+		 abs_juno.abstract_context_utilities = new Tuple[context_utilities.size()];
+		 i = 0;
+		 for (Formula f:context_utilities.keySet()) {
+			 VerifyMap<String, Double> uMap = context_utilities.get(f);
+			 int j = 0;
+			 Tuple<String, Double>[] uArray = new Tuple[uMap.size()];
+			 for (String s: uMap.keySet()) {
+				 uArray[j] = new Tuple<String, Double>(s, uMap.get(s));
+				 j++;
+			 }
+			 abs_juno.abstract_context_utilities[i] = new Tuple<Formula, Tuple<String, Double>[]>(f, uArray);
+			 i++;
+		 }
+
+		 abs_juno.goalbase_array = new String[goalbase.size()];
+		 abstract_string_array(goalbase, abs_juno.goalbase_array);
+
+		 abs_juno.default_goals_array = new String[default_goals.size()];
+		 abstract_string_array(default_goals, abs_juno.default_goals_array);
+
+		 i = 0;
+		 abs_juno.abstract_context_goals = new Tuple[context_goals.size()];
+		 for (Formula f:context_goals.keySet()) {
+			 String[] string_array = new String[context_goals.get(f).size()];
+			 abstract_string_array(context_goals.get(f), string_array);
+			 abs_juno.abstract_context_goals[i] = new Tuple<Formula, String[]>(f, string_array);
+			 i++;
+		 }
+
+		 abs_juno.abstract_patients = new String[patients.size()];
+		 abstract_string_array(patients, abs_juno.abstract_patients);
+
+		 abs_juno.abstract_affects = new Tuple[affects.size()];
+		 abstract_map_to_tuples(affects, abs_juno.abstract_affects);
+
+		 abs_juno.default_abstract_affects = new Tuple[default_affects.size()];
+		 abstract_map_to_tuples(default_affects, abs_juno.default_abstract_affects);
+
+		 i=0;
+		 abs_juno.abstract_context_affects = new Tuple[context_affects.size()];
+		 for (Formula f: context_affects.keySet()) {
+			 Tuple<String, Tuple<String, String>[]>[] tuples = new Tuple[context_affects.get(f).size()];
+			 abstract_map_to_tuples(context_affects.get(f), tuples);
+			 abs_juno.abstract_context_affects[i] = new Tuple<Formula, Tuple<String, Tuple<String, String>[]>[]>(f, tuples);
+			 i++;
+		 }
+
+		 abs_juno.abstract_consequences = new String[consequences.size()];
+		 abstract_string_array(consequences, abs_juno.abstract_consequences);
+
+		 i=0;
+		 abs_juno.abstract_mechanisms = new Tuple[mechanisms.size()];
+		 for (String s: mechanisms.keySet()) {
+			 abs_juno.abstract_mechanisms[i] = new Tuple<String, Formula>(s, mechanisms.get(s));
+			 i++;
+		 }
+
+		 abs_juno.abstract_background = new String[background.size()];
+		 abstract_string_array(background, abs_juno.abstract_background);
+
+		 i = 0;
+		 abs_juno.abstract_context_background = new Tuple[context_background.size()];
+		 for (Tuple<Formula, FormulaString> t: context_background) {
+			 abs_juno.abstract_context_background[i] = t;
+			 i++;
+		 }
+
+		return abs_juno;
+	 }
+
+	 void abstract_map_to_tuples(Map<String, ArrayList<Tuple<String, String>>> map, Tuple<String, Tuple<String, String>[]>[] tuples) {
+		int j = 0;
+		for (String s: map.keySet()) {
+			ArrayList<Tuple<String, String>> list = map.get(s);
+			Tuple<String, String>[] tuple_array = new Tuple[list.size()];
+			int i = 0;
+			for (Tuple<String, String> tuple: list) {
+				tuple_array[i] = tuple;
+				i++;
+			}
+			tuples[j] = new Tuple(s, tuple_array);
+			j++;
+		}
+	 }
+
+	 void abstract_string_array(ArrayList<String> arraylist, String[] array) {
+		int i = 0;
+		for (String s: arraylist) {
+			array[i] = s;
+			i++;
+		}
+	 }
+
 }
