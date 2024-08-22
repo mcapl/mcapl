@@ -56,7 +56,7 @@ public class UtilitarianPrinciple extends Principle {
 	public ArrayList<Boolean> _check() {
 		// CausalModel cmodel = (CausalModel) model;
 		Term u = new U(Formula.makeConjunction(((CausalModel) model).getAllConsequences()));
-		System.err.println(u);
+		//System.err.println(u);
 		ArrayList<Term> v = new ArrayList<Term>();
 		for (Model w: model.alternatives) {
 			if (! model.equals(w)) {
