@@ -274,8 +274,10 @@ public class CausalModel extends Model {
 		@SuppressWarnings("unlikely-arg-type")
 		public void _addToNetwork(Formula v, String k) {
 			if (network.containsKey(v)) {
-				if (! network.get(v).contains(k)) {
-					network.get(v).add(new FormulaString(k));
+				FormulaString fsk = new FormulaString(k);
+
+				if (! network.get(v).contains(fsk)) {
+					network.get(v).add(fsk);
 				}
 			} else {
 				network.put(v, new ArrayList<FormulaString>());

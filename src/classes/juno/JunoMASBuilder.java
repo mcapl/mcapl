@@ -25,6 +25,7 @@ package juno;
 
 import ail.mas.MAS;
 import ail.mas.MASBuilder;
+import juno.semantics.Abstract_JunoAgent;
 import juno.semantics.JunoAgent;
 
 /**
@@ -34,24 +35,28 @@ import juno.semantics.JunoAgent;
  */
 public class JunoMASBuilder implements MASBuilder {
 	MAS mas;
+	JunoAgent juno;
+	Abstract_JunoAgent abs_juno;
+	boolean has_abstract = false;
 	
 	public JunoMASBuilder() {};
 	
 	public JunoMASBuilder(String masstring, boolean filename) {
-		JunoAgent juno = parsefile(masstring);
+		parsefile(masstring);
+		if (has_abstract) {
+			juno = new JunoAgent(abs_juno);
+		}
 		mas = new MAS();
 		mas.addAg(juno);
      }
 	
 	
-	public JunoAgent parsefile(String masstring) {
+	public void parsefile(String masstring) {
 		try {
-			JunoAgent juno = new JunoAgent(masstring);
-    		return juno;
+			juno = new JunoAgent(masstring);
       	} catch (Exception e) {
      		e.printStackTrace();
     	}
-		return null;
 		
 	}
 
@@ -64,7 +69,10 @@ public class JunoMASBuilder implements MASBuilder {
 	}
 	
 	public MAS getMAS(String filename, String tracedir) {
-		JunoAgent juno = parsefile(filename);
+		parsefile(filename);
+		if (has_abstract) {
+			juno = new JunoAgent(abs_juno);
+		}
 		mas = new MAS();
 		mas.setTraceDir(tracedir);
 		mas.addAg(juno);

@@ -24,6 +24,9 @@
 
 package ajpf.util;
 
+import ail.util.Tuple;
+import gov.nasa.jpf.vm.MJIEnv;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.ArrayList;
@@ -210,17 +213,10 @@ public class VerifyMap<K extends Comparable<? super K>, V> implements Map<K, V> 
 			if (comparison < 0) {
 				index_to_add_at = i;
 				break;
-//				tuplearray.add(i, t);
-//				tuplearray.trimToSize();
-//				return null;
 			} else if (comparison == 0) {
 				element_to_return = t1.getValue();
 				index_to_add_at = i;
 				break;
-//				tuplearray.remove(i);
-//				tuplearray.trimToSize();
-//				tuplearray.add(i, t);
-//				return returnvalue;
 			}
 		}
 		if(index_to_add_at != -1)
