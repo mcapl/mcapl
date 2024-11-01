@@ -355,8 +355,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	/**
 	 * Constructor.
 	 * 
-	 * @param arch The Agent Architecture that links the agent with the environment
-	 *             and multi-agent system. NB. improperly caught exception.
 	 * @param name The name of the agent.
 	 * @param ig   The agent's initial goals.
 	 * @param ib   The agent's initial beliefs.
@@ -803,8 +801,6 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 
 	/**
 	 * Setter method for the currently applicable capabilities.
-	 * 
-	 * @param ap
 	 */
 	public void setApplicableCapabilities(Iterator<Capability> cs) {
 		// EXPLANATION EVENT: Create a list of currently applicable capabilities.
@@ -2023,7 +2019,8 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 			while (!RC.stopandcheck()) {
 				RCStage stage = RC.getStage();
 				if (AJPFLogger.ltFiner(logname)) {
-					AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
+					// String s = "About to pick a rule for stage " + stage.getStageName();
+					// AJPFLogger.finer(logname, "About to pick a rule for stage " + stage.getStageName());
 				}
 
 				Iterator<OSRule> rules = stage.getStageRules();
@@ -2032,7 +2029,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 				while (rules.hasNext()) {
 					OSRule rule = rules.next();
 					if (AJPFLogger.ltFiner(logname)) {
-						AJPFLogger.finer(logname, "checking " + rule.getName());
+						// AJPFLogger.finer(logname, "checking " + rule.getName());
 					}
 
 					if (rule.checkPreconditions(this)) {
@@ -2041,7 +2038,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 						rule.apply(this);
 						lastruleexecuted = rule.getName();
 						if (AJPFLogger.ltFine(logname)) {
-							AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
+							//AJPFLogger.fine(logname, "Applying " + lastruleexecuted);
 						}
 						printagentstate();
 						RC.cycle(this);
@@ -2081,7 +2078,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void sleep() {
 		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "setting wanttosleep for agent");
+			//AJPFLogger.fine(logname, "setting wanttosleep for agent");
 		}
 		RC.setStopandCheck(true);
 		wanttosleep = true;
@@ -2101,6 +2098,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 *
 	 */
 	public void tellawake() {
+		// System.err.println("telling " + fAgName + " to wake up");
 		if (wanttosleep) {
 			// unsuspendintentions();
 		}
@@ -2115,7 +2113,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public boolean isRunning() {
 		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, "isRunning: " + fRunning);
+			//AJPFLogger.fine(logname, "isRunning: " + fRunning);
 		}
 		return fRunning;
 	}
@@ -2132,11 +2130,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void printagentstate() {
 		if (AJPFLogger.ltFine(logname)) {
-			AJPFLogger.fine(logname, toString());
+			//AJPFLogger.fine(logname, toString());
 		}
 
 		if (AJPFLogger.ltFiner(logname)) {
-			AJPFLogger.finer(logname, getPL().toString());
+			//AJPFLogger.finer(logname, getPL().toString());
 		}
 
 	}
@@ -2206,8 +2204,7 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 * guard (which are what AIL agents check as beliefs) and then check if the
 	 * agent's belief method can return one (or more) unifiers for this guard.
 	 * 
-	 * @param A MCAPLFormula for belief checking. In AIL this is a Literal.
-	 * @return Whether the agent can find a unifier for the literal among its
+	 *  @return Whether the agent can find a unifier for the literal among its
 	 *         beliefs.
 	 */
 	public boolean MCAPLbelieves(MCAPLFormula fmla) {

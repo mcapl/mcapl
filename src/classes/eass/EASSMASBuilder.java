@@ -50,7 +50,7 @@ public class EASSMASBuilder implements MASBuilder {
 	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 		mas = amas.toMCAPL(tracedir);
-		System.err.println("got MAS");
+		// System.err.println("got MAS");
 		return mas;
 	}
 

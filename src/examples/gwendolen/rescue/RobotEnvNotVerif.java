@@ -26,21 +26,15 @@ package gwendolen.rescue;
 
 import ail.mas.DefaultEnvironment;
 import ail.mas.MAS;
+import ail.syntax.*;
 import ail.util.AILConfig;
 import ail.util.AILexception;
-import ail.syntax.Message;
-import ail.syntax.Unifier;
-import ail.syntax.Action;
-import ail.syntax.Literal;
-import ail.syntax.NumberTermImpl;
-import ail.syntax.Predicate;
 import ajpf.util.AJPFLogger;
 import ajpf.util.VerifySet;
 import ajpf.util.choice.UniformBoolChoice;
+import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.Set;
-
-import gov.nasa.jpf.annotation.FilterField;
 
 /**
  * Verification Environment for a Trash Robot Scenario;
@@ -48,88 +42,30 @@ import gov.nasa.jpf.annotation.FilterField;
  * @author louiseadennis
  *
  */
-public class RobotEnv extends DefaultEnvironment {
-	int casenumber = 1;
-	boolean changer = true;
-	boolean changel = true;
-	boolean changemessage = true;
-	@FilterField
-	boolean canseehumanr = false;
-	@FilterField
-	boolean canseehumanl = false;
-	@FilterField
-	boolean havemessagel = false;
+public class RobotEnvNotVerif extends DefaultEnvironment {
+	double searcher_x = 0;
+	double searcher_y = 0;
+
+	double lifter_x = 0;
+	double lifter_y = 0;
+
+	double human_x = 2;
+	double human_y = 2;
+
 	boolean withlifter = false;
 	boolean withlifter2 = false;
 	boolean withsearcher = true;
 	Literal human;
 	Literal clear;
-	UniformBoolChoice random;
-	
+
 	String logname = "gwendolen.rescue.RobotEnv";
-	
-	public RobotEnv() {
+
+	public RobotEnvNotVerif() {
 		super();
 		human=new Literal("human");
 		clear = new Literal("clear");
 	}
-			
-	public Set<Predicate> getPercepts(String agName, boolean update) {
-		Set<Predicate> percepts = new VerifySet<Predicate>();
-		if (agName.equals("r")) {
-			if (changer) {
-				if (withsearcher) {
-					canseehumanr = random.nextBoolean();
-				}
-			}
-			if (canseehumanr) {
-				percepts.add(human);
-			}
-			changer = false;
-		
-		} else {
-			if (changel) {
-				if (withlifter2) {
-					canseehumanl = random.nextBoolean();
-				}
-			}
-			
-			if (canseehumanl) {
-				percepts.add(clear);
-			}
-			changel = false;
-			
-		}
-		
-		AJPFLogger.fine(logname, percepts.toString());
-		return percepts;
-	}
-	
-	public Set<Message> getMessages(String agName) {
-		Set<Message> messages = new VerifySet<Message>();
-		if (agName.equals("agentlifter")) {
-			if (changemessage) {
-				if ( withlifter || withlifter2) {
-					havemessagel = random.nextBoolean();
-				}
-	
-		
-				if (havemessagel) {
-					Literal humanloc = new Literal("human");
-					humanloc.addTerm(new NumberTermImpl(2));
-					humanloc.addTerm(new NumberTermImpl(2));
-					if (agName.equals("agentlifter")) { 
-						Message msg = new Message(1, "r", "agentlifter", humanloc);
-						messages.add(msg);
-						AJPFLogger.fine(logname, "Adding " + msg);
-					}
-				}
-				changemessage=false;
-			}
-		}
-		return messages;
-	}
-	
+
 	/**
 	 * When a pickup action is executed the environment stores new perceptions
 	 * for the agent - that its picked something up and its hands are now longer
@@ -138,29 +74,44 @@ public class RobotEnv extends DefaultEnvironment {
    public Unifier executeAction(String agName, Action act) throws AILexception {
 	   	Unifier theta = new Unifier();
 	   	AJPFLogger.info("gwendolen.rescue.RobotEnv", agName + " done " + printAction(act));
-	   	
-	   	change_for(agName);
-	   	
+
+	   if (act.getFunctor().equals("move_to")) {
+		   double x = ((NumberTerm) act.getTerm(0)).solve();
+		   double y = ((NumberTerm) act.getTerm(1)).solve();
+
+		   Predicate at = new Predicate("at");
+		   at.addTerm(new NumberTermImpl(x));
+		   at.addTerm(new NumberTermImpl(y));
+
+		   Predicate old_pos = new Predicate("at");
+
+		   if (agName == "r") {
+			   old_pos.addTerm(new NumberTermImpl(searcher_x));
+			   old_pos.addTerm(new NumberTermImpl(searcher_y));
+			   searcher_x = x;
+			   searcher_y = y;
+		   } else {
+			   old_pos.addTerm(new NumberTermImpl(lifter_x));
+			   old_pos.addTerm(new NumberTermImpl(lifter_y));
+			   lifter_x = x;
+			   lifter_y = y;
+		   }
+
+		   removePercept(agName, old_pos);
+		   addPercept(agName, at);
+
+		   if (x == human_x && y == human_y) {
+			   addPercept(agName, human);
+		   }
+	   } else if (act.getFunctor().equals(("lift"))) {
+			addPercept(agName, clear);
+	   }
+
+	   theta = super.executeAction(agName, act);
  
     	return theta;
     }
-   
-   public void change_for(String name) {
-	   if (name.equals("r")) {
-		   changer = true;
-	   } else {
-		   changel = true;
-		   changemessage = true;
-	   }
-   }
-   
-   public boolean nothingPending(String agName) {
-	   if (agName.equals("r")) {
-		   return (!changer); 
-	   } else {
-		   return (!changel & !changemessage);
-	   }
-   }
+
 
 	public void configure(AILConfig configuration) {
 		super.configure(configuration);
@@ -175,15 +126,6 @@ public class RobotEnv extends DefaultEnvironment {
 			withlifter2 = Boolean.valueOf((String) configuration.get("withlifter2"));
 		}
 	} 
-	
-	/*
-	 * (non-Javadoc)
-	 * @see ail.mas.DefaultEnvironment#setMAS(ail.mas.MAS)
-	 */
-	public void setMAS(MAS m) {
-		super.setMAS(m);
-		random = new UniformBoolChoice(m.getController());
-	}
 
 }
 

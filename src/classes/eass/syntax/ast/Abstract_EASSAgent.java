@@ -152,9 +152,9 @@ public class Abstract_EASSAgent extends Abstract_Agent {
        	for (int i = 0; i < beliefs.length; i++) {
        		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
        	}
-		   System.err.println("About to set goals");
+		   //System.err.println("About to set goals");
        	for (int i = 0; i < goals.length; i++) {
-			   System.err.println("setting goal");
+			//   System.err.println("setting goal");
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
      	for (int i = 0; i < rules.length; i++) {

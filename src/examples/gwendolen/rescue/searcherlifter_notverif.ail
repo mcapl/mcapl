@@ -22,7 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
-env = gwendolen.rescue.RobotEnv
+env = gwendolen.rescue.RobotEnvNotVerif
 
 mas.agent.1.file = /src/examples/gwendolen/rescue/searcher.gwen
 mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
