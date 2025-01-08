@@ -24,14 +24,15 @@
 
 package eass;
 
+import eass.parser.EASSAILVisitor;
 import eass.parser.EASSLexer;
 import eass.parser.EASSParser;
 import eass.syntax.ast.Abstract_EASSAgent;
 import eass.semantics.EASSAgent;
-import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.CommonTokenStream;
 import ail.mas.AgentBuilder;
 import ail.semantics.AILAgent;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 public class EASSAgentBuilder implements AgentBuilder {
 	EASSAgent agent;
@@ -52,10 +53,12 @@ public class EASSAgentBuilder implements AgentBuilder {
 	
 	public void parsefile(String masstring) {
 		try {
-			EASSLexer lexer = new EASSLexer(new ANTLRFileStream(masstring));
+			EASSLexer lexer = new EASSLexer(CharStreams.fromFileName(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			EASSParser parser = new EASSParser(tokens);
-    		abs_agent = parser.eassagent();
+
+			EASSAILVisitor visitor = new EASSAILVisitor();
+    		abs_agent = (Abstract_EASSAgent) visitor.visitEassagent(parser.eassagent());
      	} catch (Exception e) {
      		e.printStackTrace();
     	}
