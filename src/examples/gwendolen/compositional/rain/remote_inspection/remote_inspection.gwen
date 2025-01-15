@@ -22,7 +22,7 @@ next_location(1,2)
 next_location(2,3)
 next_location(3,4)
 next_location(4,5)
-next_location(5,6)
+next_location(5,0)
 next_location(6,7)
 next_location(7,8)
 next_location(8,9)
@@ -59,6 +59,7 @@ inspect(1) [perform]
 						print(L1),
 						print(" ended with success."),
 						inspect,
+						+inspected(L1), // Note addition from original, delete if necessary
 						+!inspect(L2) [perform];
 +movebase_result(Id,3) : { B going(0) } <-print("Wait for decontamination to proceed."), do_nothing;
 +movebase_result(Id,3) : { ~B going(L) } <- -movebase_result(Id, 3);
