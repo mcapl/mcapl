@@ -20,7 +20,7 @@ public class RemoteInspectionVerificationEnv extends VerificationofAutonomousSys
 		
 		if (reached_location) {
 			Predicate movebase_result = new Predicate("movebase_result");
-			movebase_result.addTerm(new NumberTermImpl(id++));
+			movebase_result.addTerm(new NumberTermImpl(id));
 			movebase_result.addTerm(new NumberTermImpl(3));
 			
 			beliefs.add(movebase_result);
