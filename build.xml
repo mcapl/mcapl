@@ -101,7 +101,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ajpf-classes" if="have_classes">
+   <target name="-compile-ajpf-classes" if="have_classes" depends="-compile-ail-util-tuple">
   	<mkdir dir="bin/ajpf"/>
   	<javac srcdir="src/classes/ajpf" destdir="bin"
  	       includeantruntime="false"
@@ -130,6 +130,19 @@
 	  	<javac srcdir="src/classes/monitor" destdir="bin"
 	 	       includeantruntime="false"
 	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+	      <classpath>
+	        <path refid="lib.path"/>
+	        <pathelement location="bin"/>
+	      </classpath>
+	    </javac>
+   </target>
+
+   <target name="-compile-ail-util-tuple" if="have_classes">
+	  	<mkdir dir="bin"/>
+	  	<javac srcdir="src/classes/ail/util" destdir="bin"
+	 	       includeantruntime="false"
+	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+		       <include name="Tuple.java"/>
 	      <classpath>
 	        <path refid="lib.path"/>
 	        <pathelement location="bin"/>

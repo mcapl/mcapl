@@ -27,7 +27,7 @@ public class RemoteInspectionQuickTests extends TestJPF {
 	    	String[] args = new String[3];
 	    	args[0] = filename;
 	    	args[1] = prop_filename;
-	    	args[2] = "6";
+	    	args[2] = "5";
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
