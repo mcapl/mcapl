@@ -29,6 +29,12 @@ public interface EASSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEassagent(EASSParser.EassagentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link EASSParser#capability}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCapability(EASSParser.CapabilityContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link EASSParser#gwendolenagents}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

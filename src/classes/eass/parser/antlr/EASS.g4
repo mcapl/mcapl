@@ -54,3 +54,9 @@ eassagent :  (EASS?)
 	((CAP_IB | CAP_RR) (CAP_NEWLINE)* (cap=CAP_BLOCK)*)?
 	(GOAL_IB | GOAL_RR | GOAL_C) (gs=initial_goal)*
 	PLANS (p=plan)+;
+
+
+capability :
+    	CURLYOPEN (pre=guard_atom)? CURLYCLOSE
+    	cap=fof_expr
+    	CURLYOPEN post=guard_atom  CURLYCLOSE;
