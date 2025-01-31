@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fbf2fabd-cef4-431b-8cb0-da23e7c7b9c5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSAILVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSAILVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSAgentBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSAgentBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSMASBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSMASBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/ail/syntax/CapabilitiesinPlansQuickTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/ail/syntax/CapabilitiesinPlansQuickTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2nbspSrld8gHykx5m2cDyAaiWNP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MotorwayMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.eass.tutorials.motorwaysim.MotorwayMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.run-AIL.executor&quot;: &quot;Run&quot;,
+    &quot;Application.run-JPF (MCAPL).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RemoteInspectionQuickTests.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;eass__antlr__syntaxh&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/louisedennis/IdeaProjects/mcapl/src/examples/gwendolen/rescue&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/examples/gwendolen/rescue" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="gwendolen.rescue" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MotorwayMain">
+    <configuration name="MotorwayMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="motorwaysim.MotorwayMain" />
+      <module name="mcapl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="motorwaysim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="eass.tutorials.motorwaysim.MotorwayMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="eass.tutorials.motorwaysim.MotorwayMain" />
+      <module name="mcapl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="eass.tutorials.motorwaysim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RemoteInspectionQuickTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mcapl" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gwendolen.compositional.rain.remote_inspection.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gwendolen.compositional.rain.remote_inspection" />
+      <option name="MAIN_CLASS_NAME" value="gwendolen.compositional.rain.remote_inspection.RemoteInspectionQuickTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MotorwayMain" />
+      <item itemvalue="Application.eass.tutorials.motorwaysim.MotorwayMain" />
+      <item itemvalue="JUnit.RemoteInspectionQuickTests" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RemoteInspectionQuickTests" />
+        <item itemvalue="Application.eass.tutorials.motorwaysim.MotorwayMain" />
+        <item itemvalue="Application.MotorwayMain" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-11.0.22-corretto-11.0.22-3183f394aec4-fdae186d" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fbf2fabd-cef4-431b-8cb0-da23e7c7b9c5" name="Changes" comment="" />
+      <created>1729253293487</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729253293487</updated>
+      <workItem from="1729253295524" duration="2447000" />
+      <workItem from="1729679418366" duration="1468000" />
+      <workItem from="1729766829136" duration="6053000" />
+      <workItem from="1729849727587" duration="5815000" />
+      <workItem from="1730471910929" duration="3409000" />
+      <workItem from="1730900821730" duration="2517000" />
+      <workItem from="1731404920885" duration="2922000" />
+      <workItem from="1733396728852" duration="3459000" />
+      <workItem from="1736343585144" duration="2026000" />
+      <workItem from="1736346100704" duration="10683000" />
+      <workItem from="1736591852631" duration="1217000" />
+      <workItem from="1736616619728" duration="3585000" />
+      <workItem from="1736760955669" duration="1275000" />
+      <workItem from="1736850051538" duration="1214000" />
+      <workItem from="1736937359671" duration="1725000" />
+      <workItem from="1737728838312" duration="3561000" />
+      <workItem from="1738162214619" duration="1167000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/examples/gwendolen/rescue/RobotEnv.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/classes/ail/semantics/AILAgent.java</url>
+          <line>2036</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/classes/ajpf/MCAPLcontroller.java</url>
+          <line>276</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/classes/ail/mas/scheduling/ActionScheduler.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
