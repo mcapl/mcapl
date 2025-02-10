@@ -5,15 +5,24 @@ import ail.syntax.ast.*;
 import ajpf.psl.parser.LogicalFmlasLexer;
 import ajpf.psl.parser.LogicalFmlasParser;
 import eass.syntax.ast.Abstract_EASSAgent;
+import gwendolen.parser.GwendolenAILVisitor;
+import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
+import gwendolen.syntax.ast.Abstract_GPlan;
 import gwendolen.syntax.ast.Abstract_GwendolenAgent;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.TerminalNode;
+import org.checkerframework.checker.units.qual.A;
+import org.eclipse.collections.api.block.function.primitive.CharToBooleanFunction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EASSAILVisitor extends EASSBaseVisitor<Object> {
+    private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
+    private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
     @Override public Object visitMas(EASSParser.MasContext ctx) {
         Abstract_MAS mas = new Abstract_MAS();
         ArrayList<Abstract_EASSAgent> gags = (ArrayList<Abstract_EASSAgent>) visitEassagents(ctx.eassagents());
@@ -29,6 +38,88 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
             gags.add(g);
         }
         return gags;
+    }
+
+    /*
+
+
+
+			List<GwendolenParser.Initial_goalContext> goals = ctx.initial_goal();
+			for (GwendolenParser.Initial_goalContext gctx: goals) {
+				Abstract_Goal goal = (Abstract_Goal) visitInitial_goal(gctx);
+				// System.out.println("Addingin initial goal");
+				g.addInitialGoal(goal);
+			}
+
+			List<GwendolenParser.PlanContext> plans = ctx.plan();
+			for (GwendolenParser.PlanContext pctx: plans) {
+				Abstract_GPlan plan = (Abstract_GPlan) visitPlan(pctx);
+				g.addPlan(plan);
+			}
+
+			return g;
+		}
+     */
+    @Override public Object visitEassagent(EASSParser.EassagentContext ctx) {
+        String name = ctx.CONST().getText();
+        agentname = new Abstract_StringTermImpl(name);
+        try {
+            Abstract_EASSAgent g = new Abstract_EASSAgent(name);
+
+
+            FOFVisitor fofvisitor = new FOFVisitor();
+            GwendolenAILVisitor gwenvisitor = new GwendolenAILVisitor();
+
+            if (ctx.bs != null) {
+                List<TerminalNode> beliefblocks = ctx.BELIEF_BLOCK();
+                for (TerminalNode bb: beliefblocks) {
+                    LogicalFmlasParser fofparser_bs = fofparser(bb.getText());
+                    ArrayList<Abstract_Literal> bs = (ArrayList<Abstract_Literal>) fofvisitor.visitLitlist_poss_empty(fofparser_bs.litlist_poss_empty());
+                    for (Abstract_Literal l: bs) {
+                        g.addInitialBel(l);
+                    }
+                }
+            }
+
+            if (ctx.rr != null) {
+                List<TerminalNode> rrblocks = ctx.RR_BLOCK();
+                for (TerminalNode rr: rrblocks) {
+                    LogicalFmlasParser fofparser_brs = fofparser(rr.getText());
+                    ArrayList<Abstract_Rule> brs = (ArrayList<Abstract_Rule>) fofvisitor.visitRulelist_poss_empty(fofparser_brs.rulelist_poss_empty());
+                    for (Abstract_Rule r: brs) {
+                        g.addRule(r);
+                    }
+                }
+            }
+
+            if (ctx.cap != null) {
+                List<EASSParser.CapabilityContext> cctx = ctx.capability();
+                for (EASSParser.CapabilityContext cap_ctx: cctx) {
+                    Abstract_Capability cap = (Abstract_Capability) visitCapability(cap_ctx);
+                    g.addCap(cap);
+                }
+            }
+
+            List<EASSParser.Initial_goalContext> goals = ctx.initial_goal();
+            for (EASSParser.Initial_goalContext gctx: goals) {
+                GwendolenParser gparser = gwenparser(gctx.getText(), GwendolenLexer.GOALS);
+
+                Abstract_Goal goal = (Abstract_Goal) gwenvisitor.visitInitial_goal(gparser.initial_goal());
+                g.addInitialGoal(goal);
+            }
+
+            List<EASSParser.PlanContext> plans = ctx.plan();
+            for (EASSParser.PlanContext pctx: plans) {
+                GwendolenParser gparser = gwenparser(pctx.getText(), GwendolenLexer.PLANS_MODE);
+                Abstract_GPlan plan = (Abstract_GPlan) gwenvisitor.visitPlan(gparser.plan());
+                g.addPlan(plan);
+            }
+
+            return g;
+        } catch (Exception e) {
+            System.err.println(e);
+            return name;
+        }
     }
 
 
@@ -67,6 +158,14 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
         LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
+        return parser;
+    }
+
+    private GwendolenParser gwenparser(String s, int Mode) {
+        GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
+        lexer.pushMode(Mode);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        GwendolenParser parser = new GwendolenParser(tokens);
         return parser;
     }
 

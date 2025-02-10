@@ -36,6 +36,28 @@
           <option name="generateListener" value="false" />
           <option name="generateVisitor" value="true" />
         </PerGrammarGenerationSettings>
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="$PROJECT_DIR$/src/classes/gwendolen/parser/antlr/Gwendolen.g4" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="$PROJECT_DIR$/src/classes" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="gwendolen.parser" />
+          <option name="language" value="" />
+          <option name="generateListener" value="false" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="$PROJECT_DIR$/src/main/ajpf/psl/parser/antlr/LogicalFmlas.g4" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="$PROJECT_DIR$/src/main" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="ajpf.psl.parser" />
+          <option name="language" value="" />
+          <option name="generateListener" value="false" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
       </list>
     </option>
   </component>

@@ -4,4 +4,4 @@ import GwendolenLexer;
 
 EASS: 'EASS';
 
-ABSTRACTION: 'abstraction';
+ABSTRACTION: ':abstraction:';

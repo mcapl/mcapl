@@ -48,7 +48,7 @@ public class EASSParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'EASS'", "'abstraction'", "'GWENDOLEN'", null, null, null, null, 
+			null, "'EASS'", "':abstraction:'", "'GWENDOLEN'", null, null, null, null, 
 			null, null, "':Initial Beliefs:'", "':Reasoning Rules:'", null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			"'Initial Goals:'", null, null, null, null, null, "':Plans:'", null, 
@@ -228,7 +228,7 @@ public class EASSParser extends Parser {
 		public Token w;
 		public Token bs;
 		public Token rr;
-		public Token cap;
+		public CapabilityContext cap;
 		public Initial_goalContext gs;
 		public PlanContext p;
 		public TerminalNode BELIEFS() { return getToken(EASSParser.BELIEFS, 0); }
@@ -272,9 +272,11 @@ public class EASSParser extends Parser {
 		public TerminalNode RR_BLOCK(int i) {
 			return getToken(EASSParser.RR_BLOCK, i);
 		}
-		public List<TerminalNode> CAP_BLOCK() { return getTokens(EASSParser.CAP_BLOCK); }
-		public TerminalNode CAP_BLOCK(int i) {
-			return getToken(EASSParser.CAP_BLOCK, i);
+		public List<CapabilityContext> capability() {
+			return getRuleContexts(CapabilityContext.class);
+		}
+		public CapabilityContext capability(int i) {
+			return getRuleContext(CapabilityContext.class,i);
 		}
 		public EassagentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -404,11 +406,11 @@ public class EASSParser extends Parser {
 				setState(83);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==CAP_BLOCK) {
+				while (_la==CURLYOPEN) {
 					{
 					{
 					setState(80);
-					((EassagentContext)_localctx).cap = match(CAP_BLOCK);
+					((EassagentContext)_localctx).cap = capability();
 					}
 					}
 					setState(85);
@@ -2240,7 +2242,7 @@ public class EASSParser extends Parser {
 		"\u0000HV\u0001\u0000\u0000\u0000IM\u0007\u0001\u0000\u0000JL\u0005\u001d"+
 		"\u0000\u0000KJ\u0001\u0000\u0000\u0000LO\u0001\u0000\u0000\u0000MK\u0001"+
 		"\u0000\u0000\u0000MN\u0001\u0000\u0000\u0000NS\u0001\u0000\u0000\u0000"+
-		"OM\u0001\u0000\u0000\u0000PR\u0005\u001f\u0000\u0000QP\u0001\u0000\u0000"+
+		"OM\u0001\u0000\u0000\u0000PR\u0003\u0006\u0003\u0000QP\u0001\u0000\u0000"+
 		"\u0000RU\u0001\u0000\u0000\u0000SQ\u0001\u0000\u0000\u0000ST\u0001\u0000"+
 		"\u0000\u0000TW\u0001\u0000\u0000\u0000US\u0001\u0000\u0000\u0000VI\u0001"+
 		"\u0000\u0000\u0000VW\u0001\u0000\u0000\u0000WX\u0001\u0000\u0000\u0000"+

@@ -1,4 +1,4 @@
-// Generated from /Users/louisedennis/eclipse-workspace/mcapl/src/main/ajpf/psl/parser/antlr/LogicalFmlas.g4 by ANTLR 4.7
+// Generated from /Users/louisedennis/IdeaProjects/mcapl/src/main/ajpf/psl/parser/antlr/LogicalFmlas.g4 by ANTLR 4.13.1
 package ajpf.psl.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class LogicalFmlasParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -20,8 +20,8 @@ public class LogicalFmlasParser extends Parser {
 		COMMENT=1, LINE_COMMENT=2, NEWLINE=3, WS=4, OPEN=5, CLOSE=6, SQOPEN=7, 
 		SQCLOSE=8, CURLYOPEN=9, CURLYCLOSE=10, QUOTED_STRING=11, NOT=12, TRUE=13, 
 		CONST=14, VAR=15, NUMBER=16, UNNAMEDVAR=17, RULEARROW=18, LESS=19, EQ=20, 
-		POINT=21, MULT=22, PLUS=23, MINUS=24, DIV=25, MOD=26, SHRIEK=27, COMMA=28, 
-		SEMI=29, COLON=30, QUERY=31, BAR=32;
+		IS=21, POINT=22, MULT=23, PLUS=24, MINUS=25, DIV=26, MOD=27, SHRIEK=28, 
+		COMMA=29, SEMI=30, COLON=31, QUERY=32, BAR=33;
 	public static final int
 		RULE_rulelist = 0, RULE_rulelist_poss_empty = 1, RULE_prolog_rule = 2, 
 		RULE_logicalfmla = 3, RULE_notfmla = 4, RULE_subfmla = 5, RULE_litlist = 6, 
@@ -30,27 +30,36 @@ public class LogicalFmlasParser extends Parser {
 		RULE_listterm = 15, RULE_listheads = 16, RULE_var = 17, RULE_numberstring = 18, 
 		RULE_equation = 19, RULE_eqoper = 20, RULE_arithexpr = 21, RULE_multexpr = 22, 
 		RULE_addoper = 23, RULE_multoper = 24;
-	public static final String[] ruleNames = {
-		"rulelist", "rulelist_poss_empty", "prolog_rule", "logicalfmla", "notfmla", 
-		"subfmla", "litlist", "litlist_poss_empty", "literal", "pred", "function", 
-		"terms", "term", "atom", "stringterm", "listterm", "listheads", "var", 
-		"numberstring", "equation", "eqoper", "arithexpr", "multexpr", "addoper", 
-		"multoper"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"rulelist", "rulelist_poss_empty", "prolog_rule", "logicalfmla", "notfmla", 
+			"subfmla", "litlist", "litlist_poss_empty", "literal", "pred", "function", 
+			"terms", "term", "atom", "stringterm", "listterm", "listheads", "var", 
+			"numberstring", "equation", "eqoper", "arithexpr", "multexpr", "addoper", 
+			"multoper"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, null, null, null, null, "'('", "')'", "'['", "']'", "'{'", "'}'", 
-		null, "'~'", "'True'", null, null, null, "'_'", "':-'", "'<'", "'=='", 
-		"'.'", "'*'", "'+'", "'-'", "'/'", "'%'", "'!'", "','", "';'", "':'", 
-		"'?'", "'|'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "COMMENT", "LINE_COMMENT", "NEWLINE", "WS", "OPEN", "CLOSE", "SQOPEN", 
-		"SQCLOSE", "CURLYOPEN", "CURLYCLOSE", "QUOTED_STRING", "NOT", "TRUE", 
-		"CONST", "VAR", "NUMBER", "UNNAMEDVAR", "RULEARROW", "LESS", "EQ", "POINT", 
-		"MULT", "PLUS", "MINUS", "DIV", "MOD", "SHRIEK", "COMMA", "SEMI", "COLON", 
-		"QUERY", "BAR"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, null, null, null, null, "'('", "')'", "'['", "']'", "'{'", "'}'", 
+			null, "'~'", "'True'", null, null, null, "'_'", "':-'", "'<'", "'=='", 
+			"'is'", "'.'", "'*'", "'+'", "'-'", "'/'", "'%'", "'!'", "','", "';'", 
+			"':'", "'?'", "'|'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "COMMENT", "LINE_COMMENT", "NEWLINE", "WS", "OPEN", "CLOSE", "SQOPEN", 
+			"SQCLOSE", "CURLYOPEN", "CURLYCLOSE", "QUOTED_STRING", "NOT", "TRUE", 
+			"CONST", "VAR", "NUMBER", "UNNAMEDVAR", "RULEARROW", "LESS", "EQ", "IS", 
+			"POINT", "MULT", "PLUS", "MINUS", "DIV", "MOD", "SHRIEK", "COMMA", "SEMI", 
+			"COLON", "QUERY", "BAR"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -100,6 +109,8 @@ public class LogicalFmlasParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class RulelistContext extends ParserRuleContext {
 		public Prolog_ruleContext prolog_rule() {
 			return getRuleContext(Prolog_ruleContext.class,0);
@@ -111,6 +122,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rulelist; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterRulelist(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitRulelist(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitRulelist(this);
@@ -130,7 +149,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(52);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 180224L) != 0)) {
 				{
 				setState(51);
 				rulelist();
@@ -150,6 +169,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Rulelist_poss_emptyContext extends ParserRuleContext {
 		public RulelistContext rulelist() {
 			return getRuleContext(RulelistContext.class,0);
@@ -158,6 +178,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rulelist_poss_empty; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterRulelist_poss_empty(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitRulelist_poss_empty(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitRulelist_poss_empty(this);
@@ -175,7 +203,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(55);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 180224L) != 0)) {
 				{
 				setState(54);
 				rulelist();
@@ -195,6 +223,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Prolog_ruleContext extends ParserRuleContext {
 		public PredContext head;
 		public LogicalfmlaContext f;
@@ -210,6 +239,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prolog_rule; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterProlog_rule(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitProlog_rule(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitProlog_rule(this);
@@ -260,6 +297,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class LogicalfmlaContext extends ParserRuleContext {
 		public NotfmlaContext n;
 		public NotfmlaContext n2;
@@ -277,6 +315,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalfmla; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLogicalfmla(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLogicalfmla(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLogicalfmla(this);
@@ -324,6 +370,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class NotfmlaContext extends ParserRuleContext {
 		public PredContext gb;
 		public EquationContext eq;
@@ -348,6 +395,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_notfmla; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterNotfmla(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitNotfmla(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitNotfmla(this);
@@ -453,6 +508,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class SubfmlaContext extends ParserRuleContext {
 		public LogicalfmlaContext lf;
 		public TerminalNode OPEN() { return getToken(LogicalFmlasParser.OPEN, 0); }
@@ -464,6 +520,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subfmla; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterSubfmla(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitSubfmla(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitSubfmla(this);
@@ -496,6 +560,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class LitlistContext extends ParserRuleContext {
 		public LiteralContext literal() {
 			return getRuleContext(LiteralContext.class,0);
@@ -507,6 +572,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_litlist; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLitlist(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLitlist(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLitlist(this);
@@ -526,7 +599,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(98);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NOT) | (1L << TRUE) | (1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 192512L) != 0)) {
 				{
 				setState(97);
 				litlist();
@@ -546,6 +619,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Litlist_poss_emptyContext extends ParserRuleContext {
 		public LitlistContext litlist() {
 			return getRuleContext(LitlistContext.class,0);
@@ -554,6 +628,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_litlist_poss_empty; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLitlist_poss_empty(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLitlist_poss_empty(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLitlist_poss_empty(this);
@@ -571,7 +653,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NOT) | (1L << TRUE) | (1L << CONST) | (1L << VAR) | (1L << UNNAMEDVAR))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 192512L) != 0)) {
 				{
 				setState(100);
 				litlist();
@@ -591,6 +673,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class LiteralContext extends ParserRuleContext {
 		public TerminalNode TRUE() { return getToken(LogicalFmlasParser.TRUE, 0); }
 		public TerminalNode NOT() { return getToken(LogicalFmlasParser.NOT, 0); }
@@ -601,6 +684,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLiteral(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLiteral(this);
@@ -655,6 +746,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class PredContext extends ParserRuleContext {
 		public VarContext v;
 		public FunctionContext f;
@@ -668,6 +760,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pred; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterPred(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitPred(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitPred(this);
@@ -712,6 +812,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class FunctionContext extends ParserRuleContext {
 		public TerminalNode CONST() { return getToken(LogicalFmlasParser.CONST, 0); }
 		public TerminalNode OPEN() { return getToken(LogicalFmlasParser.OPEN, 0); }
@@ -723,6 +824,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_function; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterFunction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitFunction(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitFunction(this);
@@ -766,6 +875,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class TermsContext extends ParserRuleContext {
 		public TermContext t;
 		public TermContext term() {
@@ -779,6 +889,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_terms; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterTerms(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitTerms(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitTerms(this);
@@ -820,6 +938,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class TermContext extends ParserRuleContext {
 		public AtomContext a;
 		public FunctionContext f;
@@ -837,6 +956,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterTerm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitTerm(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitTerm(this);
@@ -892,6 +1019,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class AtomContext extends ParserRuleContext {
 		public NumberstringContext n;
 		public VarContext v;
@@ -915,6 +1043,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitAtom(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitAtom(this);
@@ -978,12 +1114,21 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class StringtermContext extends ParserRuleContext {
 		public TerminalNode QUOTED_STRING() { return getToken(LogicalFmlasParser.QUOTED_STRING, 0); }
 		public StringtermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stringterm; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterStringterm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitStringterm(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitStringterm(this);
@@ -1012,6 +1157,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class ListtermContext extends ParserRuleContext {
 		public ListheadsContext hl;
 		public VarContext v;
@@ -1028,6 +1174,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listterm; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterListterm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitListterm(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitListterm(this);
@@ -1047,7 +1201,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(147);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << SQOPEN) | (1L << QUOTED_STRING) | (1L << CONST) | (1L << VAR) | (1L << NUMBER) | (1L << UNNAMEDVAR) | (1L << MINUS))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 33802400L) != 0)) {
 				{
 				setState(142);
 				((ListtermContext)_localctx).hl = listheads();
@@ -1081,6 +1235,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class ListheadsContext extends ParserRuleContext {
 		public TermContext t1;
 		public List<TermContext> term() {
@@ -1097,6 +1252,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listheads; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterListheads(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitListheads(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitListheads(this);
@@ -1142,6 +1305,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class VarContext extends ParserRuleContext {
 		public TerminalNode VAR() { return getToken(LogicalFmlasParser.VAR, 0); }
 		public TerminalNode UNNAMEDVAR() { return getToken(LogicalFmlasParser.UNNAMEDVAR, 0); }
@@ -1149,6 +1313,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterVar(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitVar(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitVar(this);
@@ -1186,6 +1358,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class NumberstringContext extends ParserRuleContext {
 		public Token n1;
 		public Token n2;
@@ -1199,6 +1372,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_numberstring; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterNumberstring(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitNumberstring(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitNumberstring(this);
@@ -1252,6 +1433,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class EquationContext extends ParserRuleContext {
 		public ArithexprContext a1;
 		public EqoperContext oper;
@@ -1269,6 +1451,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_equation; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterEquation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitEquation(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitEquation(this);
@@ -1301,13 +1491,23 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class EqoperContext extends ParserRuleContext {
 		public TerminalNode LESS() { return getToken(LogicalFmlasParser.LESS, 0); }
 		public TerminalNode EQ() { return getToken(LogicalFmlasParser.EQ, 0); }
+		public TerminalNode IS() { return getToken(LogicalFmlasParser.IS, 0); }
 		public EqoperContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_eqoper; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterEqoper(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitEqoper(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitEqoper(this);
@@ -1324,7 +1524,7 @@ public class LogicalFmlasParser extends Parser {
 			{
 			setState(173);
 			_la = _input.LA(1);
-			if ( !(_la==LESS || _la==EQ) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3670016L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1345,6 +1545,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class ArithexprContext extends ParserRuleContext {
 		public MultexprContext m1;
 		public MultexprContext m2;
@@ -1361,6 +1562,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithexpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterArithexpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitArithexpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitArithexpr(this);
@@ -1402,6 +1611,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class MultexprContext extends ParserRuleContext {
 		public AtomContext a1;
 		public AtomContext a2;
@@ -1418,6 +1628,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multexpr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterMultexpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitMultexpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitMultexpr(this);
@@ -1437,7 +1655,7 @@ public class LogicalFmlasParser extends Parser {
 			setState(185);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 209715200L) != 0)) {
 				{
 				setState(182);
 				multoper();
@@ -1459,6 +1677,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class AddoperContext extends ParserRuleContext {
 		public TerminalNode PLUS() { return getToken(LogicalFmlasParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(LogicalFmlasParser.MINUS, 0); }
@@ -1466,6 +1685,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_addoper; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterAddoper(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitAddoper(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitAddoper(this);
@@ -1503,6 +1730,7 @@ public class LogicalFmlasParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class MultoperContext extends ParserRuleContext {
 		public TerminalNode MULT() { return getToken(LogicalFmlasParser.MULT, 0); }
 		public TerminalNode DIV() { return getToken(LogicalFmlasParser.DIV, 0); }
@@ -1511,6 +1739,14 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multoper; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterMultoper(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitMultoper(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitMultoper(this);
@@ -1527,7 +1763,7 @@ public class LogicalFmlasParser extends Parser {
 			{
 			setState(189);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 209715200L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1549,64 +1785,121 @@ public class LogicalFmlasParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00c2\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\3\2\3\2\5\2\67\n\2\3\3\5\3:\n\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4"+
-		"B\n\4\3\5\3\5\3\5\7\5G\n\5\f\5\16\5J\13\5\3\6\3\6\3\6\3\6\3\6\5\6Q\n\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6[\n\6\5\6]\n\6\3\7\3\7\3\7\3\7\3\b"+
-		"\3\b\5\be\n\b\3\t\5\th\n\t\3\n\3\n\3\n\3\n\5\nn\n\n\3\13\3\13\5\13r\n"+
-		"\13\3\f\3\f\3\f\3\f\3\f\5\fy\n\f\3\r\3\r\3\r\5\r~\n\r\3\16\3\16\3\16\5"+
-		"\16\u0083\n\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u008c\n\17\3\20"+
-		"\3\20\3\21\3\21\3\21\3\21\5\21\u0094\n\21\5\21\u0096\n\21\3\21\3\21\3"+
-		"\22\3\22\3\22\7\22\u009d\n\22\f\22\16\22\u00a0\13\22\3\23\3\23\3\24\5"+
-		"\24\u00a5\n\24\3\24\3\24\3\24\5\24\u00aa\n\24\3\25\3\25\3\25\3\25\3\26"+
-		"\3\26\3\27\3\27\3\27\3\27\5\27\u00b6\n\27\3\30\3\30\3\30\3\30\5\30\u00bc"+
-		"\n\30\3\31\3\31\3\32\3\32\3\32\3H\2\33\2\4\6\b\n\f\16\20\22\24\26\30\32"+
-		"\34\36 \"$&(*,.\60\62\2\6\4\2\21\21\23\23\3\2\25\26\3\2\31\32\4\2\30\30"+
-		"\33\34\2\u00c4\2\64\3\2\2\2\49\3\2\2\2\6;\3\2\2\2\bC\3\2\2\2\n\\\3\2\2"+
-		"\2\f^\3\2\2\2\16b\3\2\2\2\20g\3\2\2\2\22m\3\2\2\2\24q\3\2\2\2\26s\3\2"+
-		"\2\2\30z\3\2\2\2\32\u0082\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
-		"\3\2\2\2\"\u0099\3\2\2\2$\u00a1\3\2\2\2&\u00a4\3\2\2\2(\u00ab\3\2\2\2"+
-		"*\u00af\3\2\2\2,\u00b1\3\2\2\2.\u00b7\3\2\2\2\60\u00bd\3\2\2\2\62\u00bf"+
-		"\3\2\2\2\64\66\5\6\4\2\65\67\5\2\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67\3"+
-		"\3\2\2\28:\5\2\2\298\3\2\2\29:\3\2\2\2:\5\3\2\2\2;A\5\24\13\2<=\7\24\2"+
-		"\2=>\5\b\5\2>?\7\37\2\2?B\3\2\2\2@B\7\37\2\2A<\3\2\2\2A@\3\2\2\2B\7\3"+
-		"\2\2\2CH\5\n\6\2DE\7\36\2\2EG\5\n\6\2FD\3\2\2\2GJ\3\2\2\2HI\3\2\2\2HF"+
-		"\3\2\2\2I\t\3\2\2\2JH\3\2\2\2KQ\5\24\13\2LM\7\t\2\2MN\5(\25\2NO\7\n\2"+
-		"\2OQ\3\2\2\2PK\3\2\2\2PL\3\2\2\2Q]\3\2\2\2R]\7\35\2\2SZ\7\16\2\2T[\5\24"+
-		"\13\2UV\7\t\2\2VW\5(\25\2WX\7\n\2\2X[\3\2\2\2Y[\5\f\7\2ZT\3\2\2\2ZU\3"+
-		"\2\2\2ZY\3\2\2\2[]\3\2\2\2\\P\3\2\2\2\\R\3\2\2\2\\S\3\2\2\2]\13\3\2\2"+
-		"\2^_\7\7\2\2_`\5\b\5\2`a\7\b\2\2a\r\3\2\2\2bd\5\22\n\2ce\5\16\b\2dc\3"+
-		"\2\2\2de\3\2\2\2e\17\3\2\2\2fh\5\16\b\2gf\3\2\2\2gh\3\2\2\2h\21\3\2\2"+
-		"\2in\7\17\2\2jk\7\16\2\2kn\5\24\13\2ln\5\24\13\2mi\3\2\2\2mj\3\2\2\2m"+
-		"l\3\2\2\2n\23\3\2\2\2or\5$\23\2pr\5\26\f\2qo\3\2\2\2qp\3\2\2\2r\25\3\2"+
-		"\2\2sx\7\20\2\2tu\7\7\2\2uv\5\30\r\2vw\7\b\2\2wy\3\2\2\2xt\3\2\2\2xy\3"+
-		"\2\2\2y\27\3\2\2\2z}\5\32\16\2{|\7\36\2\2|~\5\30\r\2}{\3\2\2\2}~\3\2\2"+
-		"\2~\31\3\2\2\2\177\u0083\5\34\17\2\u0080\u0083\5\26\f\2\u0081\u0083\5"+
-		" \21\2\u0082\177\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0081\3\2\2\2\u0083"+
-		"\33\3\2\2\2\u0084\u008c\5&\24\2\u0085\u008c\5$\23\2\u0086\u0087\7\7\2"+
-		"\2\u0087\u0088\5,\27\2\u0088\u0089\7\b\2\2\u0089\u008c\3\2\2\2\u008a\u008c"+
-		"\5\36\20\2\u008b\u0084\3\2\2\2\u008b\u0085\3\2\2\2\u008b\u0086\3\2\2\2"+
-		"\u008b\u008a\3\2\2\2\u008c\35\3\2\2\2\u008d\u008e\7\r\2\2\u008e\37\3\2"+
-		"\2\2\u008f\u0095\7\t\2\2\u0090\u0093\5\"\22\2\u0091\u0092\7\"\2\2\u0092"+
-		"\u0094\5$\23\2\u0093\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0096\3\2"+
-		"\2\2\u0095\u0090\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\3\2\2\2\u0097"+
-		"\u0098\7\n\2\2\u0098!\3\2\2\2\u0099\u009e\5\32\16\2\u009a\u009b\7\36\2"+
-		"\2\u009b\u009d\5\32\16\2\u009c\u009a\3\2\2\2\u009d\u00a0\3\2\2\2\u009e"+
-		"\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f#\3\2\2\2\u00a0\u009e\3\2\2\2"+
-		"\u00a1\u00a2\t\2\2\2\u00a2%\3\2\2\2\u00a3\u00a5\7\32\2\2\u00a4\u00a3\3"+
-		"\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a9\7\22\2\2\u00a7"+
-		"\u00a8\7\27\2\2\u00a8\u00aa\7\22\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3"+
-		"\2\2\2\u00aa\'\3\2\2\2\u00ab\u00ac\5,\27\2\u00ac\u00ad\5*\26\2\u00ad\u00ae"+
-		"\5,\27\2\u00ae)\3\2\2\2\u00af\u00b0\t\3\2\2\u00b0+\3\2\2\2\u00b1\u00b5"+
-		"\5.\30\2\u00b2\u00b3\5\60\31\2\u00b3\u00b4\5.\30\2\u00b4\u00b6\3\2\2\2"+
-		"\u00b5\u00b2\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6-\3\2\2\2\u00b7\u00bb\5"+
-		"\34\17\2\u00b8\u00b9\5\62\32\2\u00b9\u00ba\5\34\17\2\u00ba\u00bc\3\2\2"+
-		"\2\u00bb\u00b8\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc/\3\2\2\2\u00bd\u00be"+
-		"\t\4\2\2\u00be\61\3\2\2\2\u00bf\u00c0\t\5\2\2\u00c0\63\3\2\2\2\30\669"+
-		"AHPZ\\dgmqx}\u0082\u008b\u0093\u0095\u009e\u00a4\u00a9\u00b5\u00bb";
+		"\u0004\u0001!\u00c0\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007\u000f"+
+		"\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007\u0012"+
+		"\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0002\u0015\u0007\u0015"+
+		"\u0002\u0016\u0007\u0016\u0002\u0017\u0007\u0017\u0002\u0018\u0007\u0018"+
+		"\u0001\u0000\u0001\u0000\u0003\u00005\b\u0000\u0001\u0001\u0003\u0001"+
+		"8\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0003\u0002@\b\u0002\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0005\u0003E\b\u0003\n\u0003\f\u0003H\t\u0003\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004O\b\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0003\u0004Y\b\u0004\u0003\u0004[\b\u0004\u0001\u0005\u0001"+
+		"\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0003\u0006c\b"+
+		"\u0006\u0001\u0007\u0003\u0007f\b\u0007\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0003\bl\b\b\u0001\t\u0001\t\u0003\tp\b\t\u0001\n\u0001\n\u0001\n\u0001"+
+		"\n\u0001\n\u0003\nw\b\n\u0001\u000b\u0001\u000b\u0001\u000b\u0003\u000b"+
+		"|\b\u000b\u0001\f\u0001\f\u0001\f\u0003\f\u0081\b\f\u0001\r\u0001\r\u0001"+
+		"\r\u0001\r\u0001\r\u0001\r\u0001\r\u0003\r\u008a\b\r\u0001\u000e\u0001"+
+		"\u000e\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0003\u000f\u0092"+
+		"\b\u000f\u0003\u000f\u0094\b\u000f\u0001\u000f\u0001\u000f\u0001\u0010"+
+		"\u0001\u0010\u0001\u0010\u0005\u0010\u009b\b\u0010\n\u0010\f\u0010\u009e"+
+		"\t\u0010\u0001\u0011\u0001\u0011\u0001\u0012\u0003\u0012\u00a3\b\u0012"+
+		"\u0001\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u00a8\b\u0012\u0001\u0013"+
+		"\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0015\u0003\u0015\u00b4\b\u0015\u0001\u0016"+
+		"\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016\u00ba\b\u0016\u0001\u0017"+
+		"\u0001\u0017\u0001\u0018\u0001\u0018\u0001\u0018\u0001F\u0000\u0019\u0000"+
+		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c"+
+		"\u001e \"$&(*,.0\u0000\u0004\u0002\u0000\u000f\u000f\u0011\u0011\u0001"+
+		"\u0000\u0013\u0015\u0001\u0000\u0018\u0019\u0002\u0000\u0017\u0017\u001a"+
+		"\u001b\u00c2\u00002\u0001\u0000\u0000\u0000\u00027\u0001\u0000\u0000\u0000"+
+		"\u00049\u0001\u0000\u0000\u0000\u0006A\u0001\u0000\u0000\u0000\bZ\u0001"+
+		"\u0000\u0000\u0000\n\\\u0001\u0000\u0000\u0000\f`\u0001\u0000\u0000\u0000"+
+		"\u000ee\u0001\u0000\u0000\u0000\u0010k\u0001\u0000\u0000\u0000\u0012o"+
+		"\u0001\u0000\u0000\u0000\u0014q\u0001\u0000\u0000\u0000\u0016x\u0001\u0000"+
+		"\u0000\u0000\u0018\u0080\u0001\u0000\u0000\u0000\u001a\u0089\u0001\u0000"+
+		"\u0000\u0000\u001c\u008b\u0001\u0000\u0000\u0000\u001e\u008d\u0001\u0000"+
+		"\u0000\u0000 \u0097\u0001\u0000\u0000\u0000\"\u009f\u0001\u0000\u0000"+
+		"\u0000$\u00a2\u0001\u0000\u0000\u0000&\u00a9\u0001\u0000\u0000\u0000("+
+		"\u00ad\u0001\u0000\u0000\u0000*\u00af\u0001\u0000\u0000\u0000,\u00b5\u0001"+
+		"\u0000\u0000\u0000.\u00bb\u0001\u0000\u0000\u00000\u00bd\u0001\u0000\u0000"+
+		"\u000024\u0003\u0004\u0002\u000035\u0003\u0000\u0000\u000043\u0001\u0000"+
+		"\u0000\u000045\u0001\u0000\u0000\u00005\u0001\u0001\u0000\u0000\u0000"+
+		"68\u0003\u0000\u0000\u000076\u0001\u0000\u0000\u000078\u0001\u0000\u0000"+
+		"\u00008\u0003\u0001\u0000\u0000\u00009?\u0003\u0012\t\u0000:;\u0005\u0012"+
+		"\u0000\u0000;<\u0003\u0006\u0003\u0000<=\u0005\u001e\u0000\u0000=@\u0001"+
+		"\u0000\u0000\u0000>@\u0005\u001e\u0000\u0000?:\u0001\u0000\u0000\u0000"+
+		"?>\u0001\u0000\u0000\u0000@\u0005\u0001\u0000\u0000\u0000AF\u0003\b\u0004"+
+		"\u0000BC\u0005\u001d\u0000\u0000CE\u0003\b\u0004\u0000DB\u0001\u0000\u0000"+
+		"\u0000EH\u0001\u0000\u0000\u0000FG\u0001\u0000\u0000\u0000FD\u0001\u0000"+
+		"\u0000\u0000G\u0007\u0001\u0000\u0000\u0000HF\u0001\u0000\u0000\u0000"+
+		"IO\u0003\u0012\t\u0000JK\u0005\u0007\u0000\u0000KL\u0003&\u0013\u0000"+
+		"LM\u0005\b\u0000\u0000MO\u0001\u0000\u0000\u0000NI\u0001\u0000\u0000\u0000"+
+		"NJ\u0001\u0000\u0000\u0000O[\u0001\u0000\u0000\u0000P[\u0005\u001c\u0000"+
+		"\u0000QX\u0005\f\u0000\u0000RY\u0003\u0012\t\u0000ST\u0005\u0007\u0000"+
+		"\u0000TU\u0003&\u0013\u0000UV\u0005\b\u0000\u0000VY\u0001\u0000\u0000"+
+		"\u0000WY\u0003\n\u0005\u0000XR\u0001\u0000\u0000\u0000XS\u0001\u0000\u0000"+
+		"\u0000XW\u0001\u0000\u0000\u0000Y[\u0001\u0000\u0000\u0000ZN\u0001\u0000"+
+		"\u0000\u0000ZP\u0001\u0000\u0000\u0000ZQ\u0001\u0000\u0000\u0000[\t\u0001"+
+		"\u0000\u0000\u0000\\]\u0005\u0005\u0000\u0000]^\u0003\u0006\u0003\u0000"+
+		"^_\u0005\u0006\u0000\u0000_\u000b\u0001\u0000\u0000\u0000`b\u0003\u0010"+
+		"\b\u0000ac\u0003\f\u0006\u0000ba\u0001\u0000\u0000\u0000bc\u0001\u0000"+
+		"\u0000\u0000c\r\u0001\u0000\u0000\u0000df\u0003\f\u0006\u0000ed\u0001"+
+		"\u0000\u0000\u0000ef\u0001\u0000\u0000\u0000f\u000f\u0001\u0000\u0000"+
+		"\u0000gl\u0005\r\u0000\u0000hi\u0005\f\u0000\u0000il\u0003\u0012\t\u0000"+
+		"jl\u0003\u0012\t\u0000kg\u0001\u0000\u0000\u0000kh\u0001\u0000\u0000\u0000"+
+		"kj\u0001\u0000\u0000\u0000l\u0011\u0001\u0000\u0000\u0000mp\u0003\"\u0011"+
+		"\u0000np\u0003\u0014\n\u0000om\u0001\u0000\u0000\u0000on\u0001\u0000\u0000"+
+		"\u0000p\u0013\u0001\u0000\u0000\u0000qv\u0005\u000e\u0000\u0000rs\u0005"+
+		"\u0005\u0000\u0000st\u0003\u0016\u000b\u0000tu\u0005\u0006\u0000\u0000"+
+		"uw\u0001\u0000\u0000\u0000vr\u0001\u0000\u0000\u0000vw\u0001\u0000\u0000"+
+		"\u0000w\u0015\u0001\u0000\u0000\u0000x{\u0003\u0018\f\u0000yz\u0005\u001d"+
+		"\u0000\u0000z|\u0003\u0016\u000b\u0000{y\u0001\u0000\u0000\u0000{|\u0001"+
+		"\u0000\u0000\u0000|\u0017\u0001\u0000\u0000\u0000}\u0081\u0003\u001a\r"+
+		"\u0000~\u0081\u0003\u0014\n\u0000\u007f\u0081\u0003\u001e\u000f\u0000"+
+		"\u0080}\u0001\u0000\u0000\u0000\u0080~\u0001\u0000\u0000\u0000\u0080\u007f"+
+		"\u0001\u0000\u0000\u0000\u0081\u0019\u0001\u0000\u0000\u0000\u0082\u008a"+
+		"\u0003$\u0012\u0000\u0083\u008a\u0003\"\u0011\u0000\u0084\u0085\u0005"+
+		"\u0005\u0000\u0000\u0085\u0086\u0003*\u0015\u0000\u0086\u0087\u0005\u0006"+
+		"\u0000\u0000\u0087\u008a\u0001\u0000\u0000\u0000\u0088\u008a\u0003\u001c"+
+		"\u000e\u0000\u0089\u0082\u0001\u0000\u0000\u0000\u0089\u0083\u0001\u0000"+
+		"\u0000\u0000\u0089\u0084\u0001\u0000\u0000\u0000\u0089\u0088\u0001\u0000"+
+		"\u0000\u0000\u008a\u001b\u0001\u0000\u0000\u0000\u008b\u008c\u0005\u000b"+
+		"\u0000\u0000\u008c\u001d\u0001\u0000\u0000\u0000\u008d\u0093\u0005\u0007"+
+		"\u0000\u0000\u008e\u0091\u0003 \u0010\u0000\u008f\u0090\u0005!\u0000\u0000"+
+		"\u0090\u0092\u0003\"\u0011\u0000\u0091\u008f\u0001\u0000\u0000\u0000\u0091"+
+		"\u0092\u0001\u0000\u0000\u0000\u0092\u0094\u0001\u0000\u0000\u0000\u0093"+
+		"\u008e\u0001\u0000\u0000\u0000\u0093\u0094\u0001\u0000\u0000\u0000\u0094"+
+		"\u0095\u0001\u0000\u0000\u0000\u0095\u0096\u0005\b\u0000\u0000\u0096\u001f"+
+		"\u0001\u0000\u0000\u0000\u0097\u009c\u0003\u0018\f\u0000\u0098\u0099\u0005"+
+		"\u001d\u0000\u0000\u0099\u009b\u0003\u0018\f\u0000\u009a\u0098\u0001\u0000"+
+		"\u0000\u0000\u009b\u009e\u0001\u0000\u0000\u0000\u009c\u009a\u0001\u0000"+
+		"\u0000\u0000\u009c\u009d\u0001\u0000\u0000\u0000\u009d!\u0001\u0000\u0000"+
+		"\u0000\u009e\u009c\u0001\u0000\u0000\u0000\u009f\u00a0\u0007\u0000\u0000"+
+		"\u0000\u00a0#\u0001\u0000\u0000\u0000\u00a1\u00a3\u0005\u0019\u0000\u0000"+
+		"\u00a2\u00a1\u0001\u0000\u0000\u0000\u00a2\u00a3\u0001\u0000\u0000\u0000"+
+		"\u00a3\u00a4\u0001\u0000\u0000\u0000\u00a4\u00a7\u0005\u0010\u0000\u0000"+
+		"\u00a5\u00a6\u0005\u0016\u0000\u0000\u00a6\u00a8\u0005\u0010\u0000\u0000"+
+		"\u00a7\u00a5\u0001\u0000\u0000\u0000\u00a7\u00a8\u0001\u0000\u0000\u0000"+
+		"\u00a8%\u0001\u0000\u0000\u0000\u00a9\u00aa\u0003*\u0015\u0000\u00aa\u00ab"+
+		"\u0003(\u0014\u0000\u00ab\u00ac\u0003*\u0015\u0000\u00ac\'\u0001\u0000"+
+		"\u0000\u0000\u00ad\u00ae\u0007\u0001\u0000\u0000\u00ae)\u0001\u0000\u0000"+
+		"\u0000\u00af\u00b3\u0003,\u0016\u0000\u00b0\u00b1\u0003.\u0017\u0000\u00b1"+
+		"\u00b2\u0003,\u0016\u0000\u00b2\u00b4\u0001\u0000\u0000\u0000\u00b3\u00b0"+
+		"\u0001\u0000\u0000\u0000\u00b3\u00b4\u0001\u0000\u0000\u0000\u00b4+\u0001"+
+		"\u0000\u0000\u0000\u00b5\u00b9\u0003\u001a\r\u0000\u00b6\u00b7\u00030"+
+		"\u0018\u0000\u00b7\u00b8\u0003\u001a\r\u0000\u00b8\u00ba\u0001\u0000\u0000"+
+		"\u0000\u00b9\u00b6\u0001\u0000\u0000\u0000\u00b9\u00ba\u0001\u0000\u0000"+
+		"\u0000\u00ba-\u0001\u0000\u0000\u0000\u00bb\u00bc\u0007\u0002\u0000\u0000"+
+		"\u00bc/\u0001\u0000\u0000\u0000\u00bd\u00be\u0007\u0003\u0000\u0000\u00be"+
+		"1\u0001\u0000\u0000\u0000\u001647?FNXZbekov{\u0080\u0089\u0091\u0093\u009c"+
+		"\u00a2\u00a7\u00b3\u00b9";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
