@@ -9,12 +9,9 @@ import gwendolen.parser.GwendolenAILVisitor;
 import gwendolen.parser.GwendolenLexer;
 import gwendolen.parser.GwendolenParser;
 import gwendolen.syntax.ast.Abstract_GPlan;
-import gwendolen.syntax.ast.Abstract_GwendolenAgent;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.checkerframework.checker.units.qual.A;
-import org.eclipse.collections.api.block.function.primitive.CharToBooleanFunction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,26 +37,7 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
         return gags;
     }
 
-    /*
 
-
-
-			List<GwendolenParser.Initial_goalContext> goals = ctx.initial_goal();
-			for (GwendolenParser.Initial_goalContext gctx: goals) {
-				Abstract_Goal goal = (Abstract_Goal) visitInitial_goal(gctx);
-				// System.out.println("Addingin initial goal");
-				g.addInitialGoal(goal);
-			}
-
-			List<GwendolenParser.PlanContext> plans = ctx.plan();
-			for (GwendolenParser.PlanContext pctx: plans) {
-				Abstract_GPlan plan = (Abstract_GPlan) visitPlan(pctx);
-				g.addPlan(plan);
-			}
-
-			return g;
-		}
-     */
     @Override public Object visitEassagent(EASSParser.EassagentContext ctx) {
         String name = ctx.CONST().getText();
         agentname = new Abstract_StringTermImpl(name);
@@ -108,11 +86,15 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
                 g.addInitialGoal(goal);
             }
 
-            List<EASSParser.PlanContext> plans = ctx.plan();
-            for (EASSParser.PlanContext pctx: plans) {
-                GwendolenParser gparser = gwenparser(pctx.getText(), GwendolenLexer.PLANS_MODE);
-                Abstract_GPlan plan = (Abstract_GPlan) gwenvisitor.visitPlan(gparser.plan());
+            List<EASSParser.Eass_planContext> plans = ctx.eass_plan();
+            for (EASSParser.Eass_planContext pctx: plans) {
+                Abstract_GPlan plan = (Abstract_GPlan) visitEASS_plan(pctx);
                 g.addPlan(plan);
+                //CharStream tokens = pctx.start.getInputStream();
+                //String originalText = tokens.getText(new Interval(pctx.start.getStartIndex(), pctx.stop.getStopIndex()));
+               // GwendolenParser gparser = gwenparser(originalText, GwendolenLexer.PLANS_MODE);
+                //Abstract_GPlan plan = (Abstract_GPlan) gwenvisitor.visitPlan(gparser.plan());
+               // g.addPlan(plan);
             }
 
             return g;
@@ -152,6 +134,25 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
         }
 
         return c;
+    }
+
+    public Object visitEASS_plan(EASSParser.Eass_planContext ctx) {
+        Abstract_Event event = (Abstract_Event) visitEvent(ctx.event());
+        List<GwendolenParser.Guard_atomContext> ga_ctxs = ctx.guard_atom();
+        Abstract_Guard guard = new Abstract_Guard();
+        for (GwendolenParser.Guard_atomContext ga_ctx: ga_ctxs) {
+            boolean gneg = true;
+            if (ga_ctx.NOT() != null) {
+                gneg = false;
+            }
+            guard.add((Abstract_GLogicalFormula) visitGuard_atom(ga_ctx), gneg);
+        }
+
+        ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>();
+        List<EASS_deedContext> d_ctxs = ctx.eass_deed();
+        for (EASS_deedContext d_ctx: d_ctxs) {
+            deeds.add((Abstract_Deed) visitEASS_deed(d_ctx));
+        }
     }
 
     private LogicalFmlasParser fofparser(String s) {

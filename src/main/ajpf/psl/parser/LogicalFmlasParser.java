@@ -123,14 +123,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rulelist; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterRulelist(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitRulelist(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitRulelist(this);
 			else return visitor.visitChildren(this);
@@ -178,14 +170,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rulelist_poss_empty; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterRulelist_poss_empty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitRulelist_poss_empty(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitRulelist_poss_empty(this);
@@ -239,14 +223,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prolog_rule; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterProlog_rule(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitProlog_rule(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitProlog_rule(this);
@@ -315,14 +291,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalfmla; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLogicalfmla(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLogicalfmla(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLogicalfmla(this);
@@ -395,14 +363,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_notfmla; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterNotfmla(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitNotfmla(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitNotfmla(this);
@@ -521,14 +481,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_subfmla; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterSubfmla(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitSubfmla(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitSubfmla(this);
 			else return visitor.visitChildren(this);
@@ -572,14 +524,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_litlist; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLitlist(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLitlist(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLitlist(this);
@@ -629,14 +573,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_litlist_poss_empty; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLitlist_poss_empty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLitlist_poss_empty(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLitlist_poss_empty(this);
 			else return visitor.visitChildren(this);
@@ -684,14 +620,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitLiteral(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitLiteral(this);
@@ -761,14 +689,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_pred; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterPred(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitPred(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitPred(this);
 			else return visitor.visitChildren(this);
@@ -824,14 +744,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_function; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitFunction(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitFunction(this);
@@ -889,14 +801,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_terms; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterTerms(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitTerms(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitTerms(this);
@@ -956,14 +860,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterTerm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitTerm(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitTerm(this);
@@ -1044,14 +940,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_atom; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterAtom(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitAtom(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitAtom(this);
 			else return visitor.visitChildren(this);
@@ -1122,14 +1010,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_stringterm; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterStringterm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitStringterm(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitStringterm(this);
 			else return visitor.visitChildren(this);
@@ -1174,14 +1054,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listterm; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterListterm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitListterm(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitListterm(this);
@@ -1253,14 +1125,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_listheads; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterListheads(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitListheads(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitListheads(this);
 			else return visitor.visitChildren(this);
@@ -1314,14 +1178,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_var; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterVar(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitVar(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitVar(this);
 			else return visitor.visitChildren(this);
@@ -1372,14 +1228,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_numberstring; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterNumberstring(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitNumberstring(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitNumberstring(this);
@@ -1452,14 +1300,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_equation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterEquation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitEquation(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitEquation(this);
 			else return visitor.visitChildren(this);
@@ -1500,14 +1340,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_eqoper; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterEqoper(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitEqoper(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitEqoper(this);
@@ -1562,14 +1394,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithexpr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterArithexpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitArithexpr(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitArithexpr(this);
@@ -1629,14 +1453,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multexpr; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterMultexpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitMultexpr(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitMultexpr(this);
 			else return visitor.visitChildren(this);
@@ -1686,14 +1502,6 @@ public class LogicalFmlasParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_addoper; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterAddoper(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitAddoper(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitAddoper(this);
 			else return visitor.visitChildren(this);
@@ -1739,14 +1547,6 @@ public class LogicalFmlasParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multoper; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).enterMultoper(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LogicalFmlasListener ) ((LogicalFmlasListener)listener).exitMultoper(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof LogicalFmlasVisitor ) return ((LogicalFmlasVisitor<? extends T>)visitor).visitMultoper(this);

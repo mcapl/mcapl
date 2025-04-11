@@ -53,10 +53,83 @@ eassagent :  (EASS?)
 	(BELIEFRULES (RR_NEWLINE)*  (rr=RR_BLOCK)* )?
 	((CAP_IB | CAP_RR) (CAP_NEWLINE)* (cap=capability)*)?
 	(GOAL_IB | GOAL_RR | GOAL_C) (gs=initial_goal)*
-	PLANS (p=plan)+;
+	PLANS (p=eass_plan)+;
 
 
 capability :
     	CURLYOPEN (pre=guard_atom)? CURLYCLOSE
     	cap=fof_expr
     	CURLYOPEN post=guard_atom  CURLYCLOSE;
+
+//plan returns [Abstract_GPlan p]
+//	: e=event  {ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>(); Abstract_Guard g = new Abstract_Guard();}
+//		COLON CURLYOPEN {boolean gneg=true;} (NOT {gneg=false;})? gb=guard_atom {g.add($gb.g, gneg);}
+//		(COMMA {gneg=true;} (NOT {gneg=false;})? gb=guard_atom {g.add($gb.g, gneg);})* CURLYCLOSE (RULEARROW
+//	d=deed[deeds] {deeds.add($d.d);} (COMMA d=deed[deeds] {deeds.add($d.d);})*)?
+//	SEMI {$p = new Abstract_GPlan($e.e, g, deeds); $p.reverseBody(); variables.clear();};
+
+eass_plan :
+    e=event
+    		COLON CURLYOPEN  gb=guard_atom  (COMMA  gb=guard_atom )* CURLYCLOSE
+    		(RULEARROW
+    		 d=eass_deed  (COMMA d=eass_deed )*)?
+    		SEMI ;
+
+//	deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, $l.l);} |
+//					SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILAddition, $g.g);} |
+//					LOCK {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);}|
+//					PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.DPlan, $p.t);}) |
+//				   MINUS (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, $l.l);} |
+//					SHRIEK g=goal {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, $g.g);} |
+//					LOCK {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);} |
+//					PLAN OPEN p=pred CLOSE {$d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.DPlan, $p.t);}
+//					)) |
+//					UPDATE (l=literal {$d = new Abstract_Deed(Abstract_Deed.AILUpdate, Abstract_Deed.AILBel, $l.l);}) |
+//					CALCULATE c=calculation[ds]  {$d = $c.d;}|
+//					QUERYCOM q=query[ds] {$d = $q.d;}	|
+//					WAIT w=wait[ds] {$d = $w.d;}	|
+//					a=action {$d = new Abstract_Deed($a.a);}) |
+//					wf=waitfor {$d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $wf.wf);} |
+//					SUBSTITUTE s=substitution[ds] {$d = $s.d;}
+//					)
+//					;
+
+eass_deed  : (
+			((PLUS (l=fof_expr  | SHRIEK g=goal | LOCK))
+				|
+			(MINUS (l=fof_expr  | SHRIEK g=goal | LOCK)))
+				|
+//			UPDATE (l=fof_expr) |
+//			CALCULATE c=calculation |
+			QUERYCOM q=query |
+//			WAIT w=wait |
+			a=action |
+			wf=waitfor |
+//			SUBSTITUTE s=substitution
+		);
+
+//substitution[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN pl1=pred COMMA c1 = pred COMMA c2 =pred COMMA pl2 = pred CLOSE
+//	{Abstract_Action a = new Abstract_Action("substitute"); a.addTerm($pl1.t); a.addTerm($c1.t); a.addTerm($c2.t); a.addTerm($pl2.t); $d = new Abstract_Deed(a);};
+
+//substitution: OPEN pl1=fof_expr COMMA c1=fof_expr COMMA c2=fof_expr COMMA pl2=fof_expr CLOSE;
+
+//calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = literal COMMA v=var CLOSE
+//	{Abstract_Action a = new Abstract_Action("calculate"); a.addTerm($l1.l); a.addTerm(new Abstract_VarTerm("NewVarForCalculate")); ds.add(new Abstract_Deed(a));
+//	Abstract_Literal wf = new Abstract_Literal("result"); wf.addTerm($l1.l); wf.addTerm($v.v); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
+//	Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); $d = new Abstract_Deed(rs);};
+
+//calculation: OPEN l1=fof_expr COMMA v=fof_expr CLOSE;
+
+//query[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = literal  CLOSE
+//	{Abstract_Action a = new Abstract_Action("query"); a.addTerm($l1.l); ds.add(new Abstract_Deed(a));
+//	ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, $l1.l));
+//	Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm($l1.l); $d = new Abstract_Deed(rs);};
+
+query: OPEN l1=fof_expr CLOSE;
+
+//wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d]	: OPEN l1 = term COMMA l2=literal CLOSE
+//	{Abstract_Action a = new Abstract_Action("wait"); a.addTerm($l1.t); a.addTerm($l2.l); ds.add(new Abstract_Deed(a));
+//	Abstract_Literal wf = new Abstract_Literal("waited"); wf.addTerm($l2.l); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
+//	Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); $d = new Abstract_Deed(rs);};
+
+//wait: OPEN l1=fof_expr COMMA l2=fof_expr CLOSE;
