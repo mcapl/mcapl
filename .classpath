@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="lib/3rdparty/antlr-4.7-complete.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/mapdbWrapper.jar"/>
+	<classpathentry kind="lib" path="lib/3rdparty/java_rosbridge_all.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
