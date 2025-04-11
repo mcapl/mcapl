@@ -17,6 +17,7 @@
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/mapdbWrapper.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/system-rules-1.16.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/3rdparty/eis-0.7.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/java_rosbridge_all.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

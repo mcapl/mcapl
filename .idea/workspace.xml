@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbf2fabd-cef4-431b-8cb0-da23e7c7b9c5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSAILVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSAILVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSBaseVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/eass/parser/EASSVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/eass/parser/EASSVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSAgentBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSAgentBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSMASBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/peers/eass/JPF_eass_EASSMASBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/ail/syntax/CapabilitiesinPlansQuickTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/ail/syntax/CapabilitiesinPlansQuickTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/3rdparty.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/3rdparty.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,28 +32,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MotorwayMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.eass.tutorials.motorwaysim.MotorwayMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.run-AIL.executor&quot;: &quot;Run&quot;,
-    &quot;Application.run-JPF (MCAPL).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RemoteInspectionQuickTests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;eass__antlr__syntaxh&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/louisedennis/IdeaProjects/mcapl/src/examples/gwendolen/rescue&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MotorwayMain.executor": "Run",
+    "Application.eass.tutorials.motorwaysim.MotorwayMain.executor": "Run",
+    "Application.run-AIL.executor": "Run",
+    "Application.run-JPF (MCAPL).executor": "Run",
+    "JUnit.RemoteInspectionQuickTests.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "rosbridge",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/louisedennis/IdeaProjects/mcapl/src/examples/gwendolen/rescue",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/examples/gwendolen/rescue" />
@@ -109,6 +108,8 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.run-AIL" />
+      <item itemvalue="Application.run-JPF (MCAPL)" />
       <item itemvalue="Application.MotorwayMain" />
       <item itemvalue="Application.eass.tutorials.motorwaysim.MotorwayMain" />
       <item itemvalue="JUnit.RemoteInspectionQuickTests" />
@@ -153,6 +154,7 @@
       <workItem from="1736937359671" duration="1725000" />
       <workItem from="1737728838312" duration="3561000" />
       <workItem from="1738162214619" duration="1167000" />
+      <workItem from="1744376494762" duration="294000" />
     </task>
     <servers />
   </component>

@@ -52,12 +52,12 @@
  	    <include name="lib/3rdparty/eis-0.7.0.jar"/>
     	<include name="lib/3rdparty/guava-31.1-jre.jar"/>
  	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
-    	<include name="lib/3rdparty/jpf.jar"/>
+        <include name="lib/3rdparty/jpf.jar"/>
     	<include name="lib/3rdparty/jpl.jar"/>
     	<include name="lib/3rdparty/system-rules-1.16.0.jar"/>
     	<include name="lib/3rdparty/json-simple-1.1.1.jar"/>
     	<include name="lib/3rdparty/mapdbWrapper.jar"/>
-    	<include name="lib/3rdparth/java_rosbridge_all.jar"/>
+    	<include name="lib/3rdparty/java_rosbridge_all.jar"/>
    </fileset>
 
 
