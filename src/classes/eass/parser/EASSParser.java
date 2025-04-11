@@ -122,6 +122,7 @@ public class EASSParser extends Parser {
 		Abstract_MAS mas = null;
 
 
+
 		ArrayList<Abstract_EASSAgent> glist =null;
 
 		try {
@@ -131,19 +132,23 @@ public class EASSParser extends Parser {
 			mas = new Abstract_MAS();
 			pushFollow(FOLLOW_eassagents_in_mas89);
 			glist=eassagents();
+
 			state._fsp--;
 
 			mas.setAgs(glist);
+	
 			}
 
 		}
 		catch (RecognitionException re) {
+
 			reportError(re);
 			recover(input,re);
 		}
 		finally {
 			// do for sure before leaving
 		}
+
 		return mas;
 	}
 	// $ANTLR end "mas"

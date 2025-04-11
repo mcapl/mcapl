@@ -68,4 +68,3 @@ speed_limit(5)
 
 +at_speed_limit: {True} <-
 	perf(maintain_speed);
-	/*.send(car1, :tell, hello);*/

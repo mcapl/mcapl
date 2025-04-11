@@ -28,8 +28,9 @@
 target = ail.util.AJPF_w_AIL
 target.args =src/examples/eass/tutorials/tutorial3/car.ail,src/examples/eass/tutorials/tutorial3/car.psl,3
 
-log.fine = ajpf.MCAPLcontroller,ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment,ajpf.product.Product
-log.finer = ail.semantics.AILAgent,ajpf.util
+log.info = eass.tutorials.tutorial3.VerificationEnvironment
+//log.fine = ajpf.MCAPLcontroller,ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,eass.mas.verification.EASSVerificationEnvironment,ajpf.product.Product
+// log.finer = ail.semantics.AILAgent
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

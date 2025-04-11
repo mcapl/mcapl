@@ -33,7 +33,7 @@
 
 
   <!-- compiler settings -->
-  <property name="src_level"     value="8"/>
+  <property name="src_level"     value="11"/>
   <property name="debug"         value="on"/>
   <property name="deprecation"   value="on"/>
 
@@ -49,7 +49,8 @@
   	    <include name="lib/3rdparty/ev3classes.jar"/>
  	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>
- 	    <include name="lib/3rdparty/eis-0.5.0.jar"/>
+ 	    <include name="lib/3rdparty/eis-0.7.0.jar"/>
+    	<include name="lib/3rdparty/guava-31.1-jre.jar"/>
  	    <include name="lib/3rdparty/java-prolog-parser.jar"/>
     	<include name="lib/3rdparty/jpf.jar"/>
     	<include name="lib/3rdparty/jpl.jar"/>
@@ -101,7 +102,7 @@
     </javac>
   </target>
 
-   <target name="-compile-ajpf-classes" if="have_classes">
+   <target name="-compile-ajpf-classes" if="have_classes" depends="-compile-ail-util-tuple">
   	<mkdir dir="bin/ajpf"/>
   	<javac srcdir="src/classes/ajpf" destdir="bin"
  	       includeantruntime="false"
@@ -130,6 +131,19 @@
 	  	<javac srcdir="src/classes/monitor" destdir="bin"
 	 	       includeantruntime="false"
 	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+	      <classpath>
+	        <path refid="lib.path"/>
+	        <pathelement location="bin"/>
+	      </classpath>
+	    </javac>
+   </target>
+
+   <target name="-compile-ail-util-tuple" if="have_classes">
+	  	<mkdir dir="bin"/>
+	  	<javac srcdir="src/classes/ail/util" destdir="bin"
+	 	       includeantruntime="false"
+	           debug="${debug}" source="${src_level}" deprecation="${deprecation}">
+		       <include name="Tuple.java"/>
 	      <classpath>
 	        <path refid="lib.path"/>
 	        <pathelement location="bin"/>

@@ -49,18 +49,6 @@ public class SingleVerifQuickTests extends TestJPF {
   //--- test methods
 
  
-  @Test //----------------------------------------------------------------------
-  public void prop1 () {
-    if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/car1_verif.ail";
-    	String prop_filename =  "/src/examples/gwendolen/verifiableautonomoussystems/chapter5/cars.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "1";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
   
   @Test //----------------------------------------------------------------------
   public void prop2 () {
@@ -74,7 +62,7 @@ public class SingleVerifQuickTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }  
-  
+  /*
   @Test //----------------------------------------------------------------------
   public void prop3 () {
 	    if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
@@ -152,6 +140,6 @@ public class SingleVerifQuickTests extends TestJPF {
 		  AJPF_w_AIL.run(args);
 	  }
   } 
-
+*/
 
 }

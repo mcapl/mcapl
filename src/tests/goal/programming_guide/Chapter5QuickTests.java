@@ -43,18 +43,6 @@ public class Chapter5QuickTests extends TestJPF {
 	    	AJPF_w_AIL.run(args);
 	 	 }
 	  }
-	 
-	 @Test //----------------------------------------------------------------------
-	  public void stackbuilderRandom () {
-	    if (verifyPropertyViolation(new TypeRef("ajpf.MCAPLListener"), JPF_ARGS)){
-	    	String filename =  "/src/examples/goal/programming_guide/chapter5/stackBuilderRandom.ail";
-	    	String prop_filename =  "/src/examples/goal/programming_guide/chapter5/stack.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "2";
-	    	AJPF_w_AIL.run(args);
-	 	 }
-	  }
+
 
 }

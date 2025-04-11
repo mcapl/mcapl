@@ -50,6 +50,7 @@ public class EASSMASBuilder implements MASBuilder {
 	public MAS getMAS(String filename, String tracedir) {
 		parsefile(filename);
 		mas = amas.toMCAPL(tracedir);
+		// System.err.println("got MAS");
 		return mas;
 	}
 
@@ -67,7 +68,9 @@ public class EASSMASBuilder implements MASBuilder {
 			EASSLexer lexer = new EASSLexer(new ANTLRFileStream(masstring));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			EASSParser parser = new EASSParser(tokens);
+
     		amas = parser.mas();
+ 
      	} catch (Exception e) {
      		e.printStackTrace();
     	}

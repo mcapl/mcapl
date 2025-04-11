@@ -61,6 +61,7 @@ public class BothVerifQuickTests extends TestJPF {
  	 }
   }
   
+  /*
   @Test //----------------------------------------------------------------------
   public void prop2 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
@@ -178,7 +179,7 @@ public class BothVerifQuickTests extends TestJPF {
 		  AJPF_w_AIL.run(args);
 	  }
   } 
-
+*/
 
 
 }

@@ -1,0 +1,9 @@
+mas.file = /src/examples/gwendolen/privacy/health_app_agent_only.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.privacy.HealthAppVerificationEnv
+
+log.info = ail.mas.DefaultEnvironment
+log.format = brief
+//log.fine = ail.semantics.AILAgent
+//pretty = ail

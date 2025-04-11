@@ -27,6 +27,7 @@ target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/goal/programming_guide/chapter1/hello_world.ail,${mcapl}/src/examples/goal/programming_guide/chapter1/simple.psl,1
 
 log.info = ajpf.MCAPLAgent,ail.mas.DefaultEnvironment,ajpf.product.Product
+// log.fine = ail.util.AJPF_w_AIL
 
 listener+=,.listener.ExecTracker
 et.print_insn=false

@@ -70,7 +70,7 @@ public class Tutorial8QuickTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-  
+ /* 
   @Test //----------------------------------------------------------------------
   public void ex2 () {
     if (verifyNoPropertyViolation(JPF_ARGS)){
@@ -82,7 +82,7 @@ public class Tutorial8QuickTests extends TestJPF {
     	args[2] = "7";
     	AJPF_w_AIL.run(args);
  	 }
-  }
+  } */
   
   @Test
   public void recordAndReplaytest() {

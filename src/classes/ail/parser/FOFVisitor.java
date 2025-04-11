@@ -26,11 +26,13 @@ package ail.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
 import ail.syntax.ast.Abstract_ArithExpr;
 import ail.syntax.ast.Abstract_Equation;
+import ail.syntax.ast.Abstract_ListTermImpl;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_LogExpr;
 import ail.syntax.ast.Abstract_LogicalFormula;
@@ -38,15 +40,17 @@ import ail.syntax.ast.Abstract_NumberTerm;
 import ail.syntax.ast.Abstract_NumberTermImpl;
 import ail.syntax.ast.Abstract_Pred;
 import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_PrologCut;
 import ail.syntax.ast.Abstract_Rule;
 import ail.syntax.ast.Abstract_StringTermImpl;
 import ail.syntax.ast.Abstract_Term;
+import ail.syntax.ast.Abstract_UnnamedVar;
 import ail.syntax.ast.Abstract_VarTerm;
 import ajpf.psl.parser.LogicalFmlasBaseVisitor;
 import ajpf.psl.parser.LogicalFmlasParser;
 
 @SuppressWarnings("deprecation")
-public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
+public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> { 
 	private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();	
 	/* literal returns [Abstract_Literal l]:  (TRUE {$l = new Abstract_Literal(Abstract_Literal.LTrue);} | 
 			NOT nt=pred {
@@ -64,7 +68,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			if (nt instanceof Abstract_VarTerm) {
 				Abstract_VarTerm l = (Abstract_VarTerm) nt;
 				l.setNegated(false);
-				return l;
+				return l; 
 			} else {
 				return new Abstract_Literal(Abstract_Literal.LNeg, new Abstract_Pred(nt));
 			}
@@ -116,8 +120,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitTerm(@NotNull LogicalFmlasParser.TermContext ctx) {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
-		} else if (ctx.s != null) {
-			return visitStringterm(ctx.s);
+		} else if (ctx.l != null) {
+			return visitListterm(ctx.l);
 		} else {
 			return visitFunction(ctx.f);
 		}
@@ -130,6 +134,8 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return new Abstract_NumberTermImpl((String) visitNumberstring(ctx.n));
 		} else if (ctx.v != null) {
 			return visitVar(ctx.v);
+		} else if (ctx.s != null) { 
+			return visitStringterm(ctx.s);
 		} else {
 			return visitArithexpr(ctx.a);
 		}
@@ -144,6 +150,37 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		return new Abstract_StringTermImpl(s1);
 	}
 	
+    
+	/* listterm returns [Abstract_ListTerm l] : 
+	 * {$l = new Abstract_ListTermImpl();} SQOPEN (hl=listheads {$l.addAll($hl.tl);} (BAR v=var {$l.addTail($v.v);})?)? SQCLOSE; 
+	 */
+
+	/* listheads returns [ArrayList<Abstract_Term> tl]: 
+	 * t1 = term {$tl = new ArrayList<Abstract_Term>(); $tl.add($t1.t);} (COMMA tl2= term {$tl.add($tl2.t);})*;
+	 */
+	@Override public Object visitListterm(LogicalFmlasParser.ListtermContext ctx) {
+		Abstract_ListTermImpl l = new Abstract_ListTermImpl();
+		if (ctx.hl != null) {
+			l.addAll((ArrayList<Abstract_Term>) visitListheads(ctx.hl));
+			if (ctx.BAR() != null) {
+				l.addTail((Abstract_VarTerm) visitVar(ctx.v));
+			}
+		}
+		
+		return l;
+	}
+	
+	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {
+		ArrayList<Abstract_Term> tl = new ArrayList<Abstract_Term>();
+		// tl.add((Abstract_Term) visitTerm(ctx.t1));
+		List<LogicalFmlasParser.TermContext> tl2s = ctx.term();
+		for (LogicalFmlasParser.TermContext tl2: tl2s) {
+			tl.add((Abstract_Term) visitTerm(tl2));
+		}
+		
+		return tl;
+	}
+	
 	/* var 	returns [Abstract_VarTerm v]:	VAR {
 		if (variables.containsKey($VAR.getText())) {
 			$v = variables.get($VAR.getText());
@@ -153,12 +190,16 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			}
 		}; */
 	@Override public Object visitVar(@NotNull LogicalFmlasParser.VarContext ctx) {
-		if (variables.containsKey(ctx.VAR().getText())) {
-			return variables.get(ctx.VAR().getText());
+		if (ctx.VAR() != null) {
+			if (variables.containsKey(ctx.VAR().getText())) {
+				return variables.get(ctx.VAR().getText());
+			} else {
+				Abstract_VarTerm v = new Abstract_VarTerm(ctx.VAR().getText());
+				variables.put(ctx.VAR().getText(), v);
+				return v;
+			}
 		} else {
-			Abstract_VarTerm v = new Abstract_VarTerm(ctx.VAR().getText());
-			variables.put(ctx.VAR().getText(), v);
-			return v;
+			return new Abstract_UnnamedVar(); 
 		}
 	}
 	// numberstring returns [String s] :	{$s = "";} (MINUS {$s += "-";})? (n1=NUMBER {$s += $n1.getText();}
@@ -178,7 +219,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	
     //equation returns[Abstract_Equation eq] : a1=arithexpr oper=eqoper a2=arithexpr; //  {$eq = new Abstract_Equation($a1.t, $oper.oper, $a2.t);};
 	@Override public Object visitEquation(@NotNull LogicalFmlasParser.EquationContext ctx) {
-		return new Abstract_Equation((Abstract_ArithExpr) visitArithexpr(ctx.a1), (int) visitEqoper(ctx.oper), (Abstract_ArithExpr) visitArithexpr(ctx.a2));
+		return new Abstract_Equation((Abstract_NumberTerm) visitArithexpr(ctx.a1), (int) visitEqoper(ctx.oper), (Abstract_NumberTerm) visitArithexpr(ctx.a2));
 	}
 	
 	//eqoper returns [int oper] : LESS {$oper=Abstract_Equation.less;} | EQ {$oper=Abstract_Equation.equal;};
@@ -212,19 +253,30 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	// multexpr returns [Abstract_NumberTerm t]	:	a=atom {$t = $a.t;} (oper=multoper a1=atom {$t = new Abstract_ArithExpr($a.t, $oper.oper, $a1.t);})?; 
 	@Override public Object visitMultexpr(@NotNull LogicalFmlasParser.MultexprContext ctx) {
 		Abstract_NumberTerm a1 = (Abstract_NumberTerm) visitAtom(ctx.a1);
-		int oper = (int) visitMultoper(ctx.multoper());
-		Abstract_NumberTerm a2 = (Abstract_NumberTerm) visitAtom(ctx.a2);
-		
-		return new Abstract_ArithExpr(a1, oper, a2);
+		int oper = 0;
+		Abstract_NumberTerm a2 = null;
+		if (ctx.multoper() != null) {
+			oper = (int) visitMultoper(ctx.multoper());
+			a2 = (Abstract_NumberTerm) visitAtom(ctx.a2);
+			return new Abstract_ArithExpr(a1, oper, a2);
+		}
+			
+		return a1; 
+	 
 		
 	}
 	
 	// arithexpr returns [Abstract_NumberTerm t]	:	m=multexpr {$t = $m.t;} ( oper=addoper m1=multexpr {$t = new Abstract_ArithExpr($m.t, $oper.oper, $m1.t);})?;
 	@Override public Object visitArithexpr(@NotNull LogicalFmlasParser.ArithexprContext ctx) {
 		Abstract_NumberTerm m1 = (Abstract_NumberTerm) visitMultexpr(ctx.m1);
-		int oper = (int) visitAddoper(ctx.addoper());
-		Abstract_NumberTerm m2 = (Abstract_NumberTerm) visitMultexpr(ctx.m2);
-		return new Abstract_ArithExpr(m1, oper, m2);
+		int oper = 0;
+		Abstract_NumberTerm m2 = null;
+		if (ctx.addoper() != null) {
+			oper = (int) visitAddoper(ctx.addoper());
+			m2 = (Abstract_NumberTerm) visitMultexpr(ctx.m2);
+			return new Abstract_ArithExpr(m1, oper, m2);
+		}
+		return m1;
 	}
 	
 	@Override public Object visitLitlist(@NotNull LogicalFmlasParser.LitlistContext ctx) {
@@ -279,10 +331,16 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	//               (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*?;
 	               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
 	@Override public Object visitLogicalfmla(@NotNull LogicalFmlasParser.LogicalfmlaContext ctx) {
-		Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitNotfmla(ctx.n);
-		if (ctx.n2 != null) {
-			Abstract_LogicalFormula f2 = (Abstract_LogicalFormula) visitNotfmla(ctx.n2);
-			return new Abstract_LogExpr(f, Abstract_LogExpr.and, f2);
+		// Abstract_LogicalFormula f = (Abstract_LogicalFormula) visitNotfmla(ctx.n);
+		List<LogicalFmlasParser.NotfmlaContext> subfmlas = ctx.notfmla();
+		Abstract_LogicalFormula f = null;
+		for (LogicalFmlasParser.NotfmlaContext n:subfmlas) {
+			Abstract_LogicalFormula f2 = (Abstract_LogicalFormula) visitNotfmla(n);
+			if (f == null) {
+				f = f2;
+			} else {
+				f = new Abstract_LogExpr(f, Abstract_LogExpr.and, f2);
+			}
 		}
 		return f;
 	}
@@ -306,6 +364,10 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		
 		if (ctx.eq2 != null) {
 			return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitEquation(ctx.eq2));
+		}
+		
+		if (ctx.cut != null) {
+			return new Abstract_PrologCut();
 		}
 		
 		return new Abstract_LogExpr(Abstract_LogExpr.not, (Abstract_LogicalFormula) visitSubfmla(ctx.lf));

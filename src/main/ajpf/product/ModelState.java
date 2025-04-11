@@ -87,7 +87,9 @@ public class ModelState implements Comparable<ModelState> {
 	 * @param buchi
 	 */
 	public ModelState(int statenum, Set<Proposition> product_props) {
-		log.finer("Creating ModelState");
+		if (lowerLogLevelThan(Level.FINER)) {
+			log.finer("Creating ModelState " + JPFstatenum);
+		}
 		JPFstatenum = statenum;
 		for (Proposition p: product_props) {
 			if (p.check()) {
@@ -102,6 +104,9 @@ public class ModelState implements Comparable<ModelState> {
 	
 
 	public ModelState(int statenum, ModelState ms) {
+		if (lowerLogLevelThan(Level.FINER)) {
+			log.finer("Creating ModelState " + JPFstatenum);
+		}
 		JPFstatenum = statenum;
 		for (Proposition p: ms.getProps()) {
 			if (log.getLevel().intValue() <= java.util.logging.Level.FINE.intValue()) {
@@ -112,7 +117,7 @@ public class ModelState implements Comparable<ModelState> {
 	}
 
 	/**
-	 * Equate states associated wit the same JPF state number;
+	 * Equate states associated with the same JPF state number;
 	 */
 	public int hashCode() {
 		return JPFstatenum;

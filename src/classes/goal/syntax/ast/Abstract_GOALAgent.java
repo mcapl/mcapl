@@ -67,8 +67,6 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
 
 	Abstract_Rule[] knowledge_rules = new Abstract_Rule[0];
 
-//	Abstract_Predicate[] beliefs = new Abstract_Predicate[0];
-
 	Abstract_Rule[] belief_rules = new Abstract_Rule[0];
 
 	Abstract_GOALModule[] modules = new Abstract_GOALModule[0];
@@ -98,15 +96,7 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     * 
     */
    public void addFact(Abstract_Predicate bel) {
-/*   	int newsize = knowledge.length + 1;
-   	Abstract_Predicate[] newbeliefs = new Abstract_Predicate[newsize];
-   	for (int i = 0; i < knowledge.length; i++) {
-   		newbeliefs[i] = knowledge[i];
-   	}
-   	newbeliefs[knowledge.length] = bel; 
-   	knowledge = newbeliefs; */
 	   addBel(bel);
-    	
     }
    
    /**
@@ -114,13 +104,13 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     * @param r
     */
    public void addKRule(Abstract_Rule r) {
-      	int newsize = knowledge_rules.length + 1;
-   	Abstract_Rule[] newrules = new Abstract_Rule[newsize];
-   	for (int i = 0; i < knowledge_rules.length; i++) {
-   		newrules[i] = knowledge_rules[i];
-   	}
-   	newrules[knowledge_rules.length] = r;
-   	knowledge_rules = newrules;
+	   int newsize = knowledge_rules.length + 1;
+	   Abstract_Rule[] newrules = new Abstract_Rule[newsize];
+   		for (int i = 0; i < knowledge_rules.length; i++) {
+   			newrules[i] = knowledge_rules[i];
+   		}
+   		newrules[knowledge_rules.length] = r;
+   		knowledge_rules = newrules;
   }
    
    public void addGoal(Abstract_ConjGoal p) {
@@ -225,23 +215,27 @@ public class Abstract_GOALAgent extends Abstract_Agent implements Abstract_KRGOA
     	int bRef = env.newObjectArray("ail.syntax.ast.Abstract_Literal", beliefs.length);
      	int gRef = env.newObjectArray("ail.syntax.ast.Abstract_Goal", goals.length);
        	int rRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", rules.length);
-       	int pRef = env.newObjectArray("ail.syntax.ast.Abstract_GOALModule", modules.length);
+		int krRef = env.newObjectArray("ail.syntax.ast.Abstract_Rule", knowledge_rules.length);
+		int pRef = env.newObjectArray("goal.syntax.ast.Abstract_GOALModule", modules.length);
     	for (int i = 0; i < beliefs.length; i++) {
     		env.setReferenceArrayElement(bRef, i, beliefs[i].newJPFObject(env));
     	}
      	for (int i = 0; i < rules.length; i++) {
        		env.setReferenceArrayElement(rRef, i, rules[i].newJPFObject(env));
        	}
-      	for (int i = 0; i < modules.length; i++) {
+		for (int i = 0; i < knowledge_rules.length; i++) {
+			env.setReferenceArrayElement(krRef, i, knowledge_rules[i].newJPFObject(env));
+		}
+		for (int i = 0; i < modules.length; i++) {
        		env.setReferenceArrayElement(pRef, i, modules[i].newJPFObject(env));
        	}
       	for (int i = 0; i < goals.length; i++) {
        		env.setReferenceArrayElement(gRef, i, goals[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "beliefs", bRef);
-      	env.setReferenceField(objref, "rules", rRef);
-      	env.setReferenceField(objref, "modules", pRef);
-      	env.setReferenceField(objref, "actionspecs", pRef);
+		env.setReferenceField(objref, "rules", rRef);
+		env.setReferenceField(objref, "knowledge_rules", krRef);
+		env.setReferenceField(objref, "modules", pRef);
       	env.setReferenceField(objref, "goals", gRef);
       	return objref;
    	

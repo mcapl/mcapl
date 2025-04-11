@@ -296,9 +296,9 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
      * @see ail.syntax.ast.Abstract_AILStructure#toMCAPL()
      */
     public Deed toMCAPL() {
-    	if (content != null) {
+		if (content != null) {
     		Term content_term = (Term) content.toMCAPL();
-    		if (content_term instanceof Goal) {
+			if (content_term instanceof Goal) {
     			return new Deed(trigtype, (Goal) content_term);
     		}
     		if (content_term instanceof Literal) {
@@ -311,10 +311,10 @@ public class Abstract_Deed extends Abstract_BaseAILStructure {
     				return new Deed(trigtype, getCategory(), new Literal((Predicate) content_term));
     			}
     		}
-    	} 
-    	Deed d = new Deed(getCategory());
+    	}
+		Deed d = new Deed(getCategory());
     	if (hastrigtype) {
-    		d.setTrigType(trigtype);
+			d.setTrigType(trigtype);
     	}
     	return d;
 

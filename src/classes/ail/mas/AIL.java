@@ -25,7 +25,6 @@
 package ail.mas;
 
 import ail.util.AILConfig;
-import ail.util.AILexception;
 import ail.semantics.AILAgent;
 import ail.syntax.ast.GroundPredSets;
 import ajpf.MCAPLcontroller;
@@ -45,7 +44,7 @@ public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
 	
-	static String version = "MCAPL Framework Development Version 2021";
+	static String version = "MCAPL Framework Development Version 2024";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
@@ -69,14 +68,9 @@ public class AIL {
 	
 		// Create the initial state of the multi-agent program.
 		MAS mas = AILSetup(config, mccontrol);
-		
-		// Set up a controller
-		// mccontrol.setMAS(mas);
-		
-		// mas.getEnv().initialise();
-		
+
 		// Begin!
-		mccontrol.begin(); 
+		mccontrol.begin();  
 		mas.cleanup();
 
 	}
@@ -111,7 +105,7 @@ public class AIL {
 				control.initialiseSpec();
 				// System.err.println("c");
 				env.setMAS(mas);
-				// System.err.println("set mas");
+				//System.err.println("set mas");
 			} catch (Exception e) {
 				AJPFLogger.severe("ail.mas.AIL", e.getMessage());
 				System.exit(1);
@@ -141,6 +135,7 @@ public class AIL {
 		}
 
 		MAS mas = new MAS();
+
 		mas.setTraceDir(tracedir);
 		
 		// We've been given the name of a file and a mas builder
@@ -164,6 +159,7 @@ public class AIL {
 			}
 
 		}
+		
 		
 		int agentcounter = 1;
 		while (config.containsKey(agentNumKey(agentcounter) + ".file") && config.containsKey(agentNumKey(agentcounter) + ".builder")) {

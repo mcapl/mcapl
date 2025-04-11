@@ -216,10 +216,8 @@ public class AILSocket {
 	 */
 	public boolean isClosed() {
 		if (socketclosed) {
-			System.err.println("c");
 			return true;
 		}
-		System.err.println("d");
 		if (socket != null) {
 			return socket.isClosed();
 		} else {

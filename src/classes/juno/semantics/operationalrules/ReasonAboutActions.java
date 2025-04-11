@@ -64,8 +64,9 @@ public class ReasonAboutActions implements OSRule {
 	@Override
 	public void apply(AILAgent a) {
 		JunoAgent juno = (JunoAgent) a;
-		// System.err.println("Calling Hera Actions");
+		//System.err.println("Calling Hera Actions");
 		List<FormulaString> actions = filterActions(juno.getHeraActions(), juno, juno.ethical_system);
+		// System.err.println("Got Hera Actions");
 		
 		if (actions.isEmpty()) {
 			// If there are no options refrain (i.e., do nothing)
@@ -125,7 +126,7 @@ public class ReasonAboutActions implements OSRule {
 			}
 			worlds.add(world);
 		}
-		
+
 		ArrayList<Model> models = new ArrayList<Model>();
 		for (HashMap<Formula, Boolean> world: worlds) {
 			for (Literal bel: juno.getBB().getAll()) {
@@ -134,7 +135,7 @@ public class ReasonAboutActions implements OSRule {
 			JunoCausalModel model = new JunoCausalModel(juno, world);
 			models.add(model);
 		}
-		
+
 		ArrayList<FormulaString> actions = new ArrayList<FormulaString>();
 		for (Model model: models) {
 			model.setAlternatives(models);
@@ -146,7 +147,9 @@ public class ReasonAboutActions implements OSRule {
 			}
 			
 		}
-		
+
+		//System.err.println("Available Actions:");
+		//System.err.println(actions);
 		return actions;
 	}
 	

@@ -26,18 +26,22 @@ package ail.mas.eis;
 
 import eis.iilang.Action;
 import ail.syntax.Term;
+import eis.iilang.Parameter;
+
+import java.util.ArrayList;
 
 public class EISAction {
 	Action action;
 	
 	public EISAction(ail.syntax.Action a) {
 		String functor = a.getFunctor();
-		action = new Action(functor);
+		ArrayList parameters = new ArrayList<Parameter>();
 		if (a.getTerms() != null) {
 			for (Term t: a.getTerms()) {
-				action.addParameter(t.toEISParameter());
+				parameters.add(t.toEISParameter());
 			}
 		}
+		action = new Action(functor, parameters);
 	}
 	
 	public Action getAction() {

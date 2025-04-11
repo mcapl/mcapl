@@ -1,6 +1,12 @@
-1: [] (B(jackal,danger_red) -> <> B(jackal,going(0)))
-2: [] ((G(jackal,inspect(5)) &  (~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> B(jackal,going(5)))
-3: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> G(jackal,inspect(5)))
-4: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(0))) -> <> D(jackal,inspect))
-5: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> D(jackal,move(_,_,_))))
-6: <> (B(jackal, danger_red) || (B(jackal, danger_orange) || B(jackal, going(1)) ) )
+1: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> G(jackal,inspect(5)))
+1a: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> D(jackal,move(_,_,_)))
+1b: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> B(jackal,going(5)))
+2: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(0))) -> <> D(jackal,inspect))
+2a: [] ((B(jackal,going(4)) & B (jackal, movebase_result(_, 3)) & ~B(jackal,danger_red) & ~B(jackal,danger_orange) &  ~B(jackal, going(0))) -> <> B(jackal,inspected(4))
+3a: [] (B(jackal,danger_red) -> <> B(jackal,going(0)))
+3b: [] (B(jackal, danger_orange) -> <> B(jackal, going(0)))
+3c: [] ((B(jackal,going(12)) & B (jackal, movebase_result(_, 3)) ) -> <> B(jackal,going(0)))
+
+4: [] ((G(jackal,inspect(5)) &  (~B(jackal,danger_red) & ~B(jackal,danger_orange) & ~B(jackal, going(0))) -> <> B(jackal,going(5)))
+
+5: <> (B(jackal, danger_red) || (B(jackal, danger_orange) || B(jackal, going(1)) ) )

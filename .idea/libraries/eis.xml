@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="eis">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/eis/tower-1.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/eis/blocksworld-1.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

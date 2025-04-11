@@ -25,15 +25,12 @@
 package gwendolen.syntax.ast;
 
 
-import ail.util.AILexception;
 import ail.mas.MAS;
-import ail.semantics.AILAgent;
 import ail.syntax.ast.Abstract_Agent;
 import ail.syntax.ast.Abstract_Literal;
 import ail.syntax.ast.Abstract_Goal;
 import ail.syntax.ast.Abstract_Plan;
 import ail.syntax.ast.Abstract_Rule;
-import ail.mas.DefaultEnvironment;
 import gov.nasa.jpf.vm.MJIEnv;
 import gwendolen.semantics.GwendolenAgent;
 import gwendolen.util.GwendolenPrettyPrinter;
@@ -65,6 +62,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		try {
 			GwendolenAgent ag = new GwendolenAgent(fAgName);
 			addStructures(ag);
+
 			return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,8 +73,9 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 	public GwendolenAgent toMCAPL(MAS mas) {
 		try {
 			GwendolenAgent ag = new GwendolenAgent(mas, fAgName);
-			ag.setPretty(new GwendolenPrettyPrinter());
+			// ag.setPretty(new GwendolenPrettyPrinter());
 			addStructures(ag);
+
 			return ag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +92,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		    	}
 		    	for (Abstract_Plan p: plans) {
 		    		try {
-		    			ag.addPlan(p.toMCAPL());
+		    			ag.addPlan(p.toMCAPL()); 
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
 		    		}
@@ -101,10 +100,10 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
 		    	for (Abstract_Goal g: goals) {
 		    		ag.addInitialGoal(g.toMCAPL());
 		    	}
-		    	try {
+		    	try { 
 		    		ag.initAg();
 		    	} catch (Exception e) {
-		    		e.printStackTrace();
+		    		e.printStackTrace(); 
 		    	}
 		   
 
@@ -130,6 +129,7 @@ public class Abstract_GwendolenAgent extends Abstract_Agent {
        		env.setReferenceArrayElement(pRef, i, plans[i].newJPFObject(env));
        	}
       	env.setReferenceField(objref, "beliefs", bRef);
+      	env.setReferenceField(objref, "goals", gRef);
       	env.setReferenceField(objref, "rules", rRef);
       	env.setReferenceField(objref, "plans", pRef);
       	return objref;

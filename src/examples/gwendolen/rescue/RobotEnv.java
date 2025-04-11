@@ -43,7 +43,7 @@ import java.util.Set;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
- * Environment for a Trash Robot Scenario;
+ * Verification Environment for a Trash Robot Scenario;
  * 
  * @author louiseadennis
  *

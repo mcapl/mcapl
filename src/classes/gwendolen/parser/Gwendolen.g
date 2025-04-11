@@ -82,17 +82,6 @@ guard_atom returns [Abstract_GLogicalFormula g] : (BELIEVE l=literal {$g = new A
 				eq = equation {$g = $eq.eq;} |
 				TRUE {$g = new Abstract_GBelief();} );
 				
-//guard_atom returns [Abstract_GuardAtom g] : (BELIEVE l=literal {$g = new Abstract_GBelief(Abstract_GBelief.AILBel, $l.l);} |
-//				GOAL gl=goal {$g = $gl.g;} |
-//				IN_CONTENT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContent, $w.s);} |
-//				IN_CONTEXT w=word {$g = new Abstract_GBelief(Abstract_GBelief.AILContext, $w.s);} |
-//				SENT OPEN an1=literal COMMA {Abstract_Literal agn = agentname;} 
-//					(an2=literal COMMA {agn = $an2.l;})? p=performative COMMA 
-//					t=pred CLOSE 
-//						{Abstract_GMessage mess = new Abstract_GMessage(agn, $an1.l, $p.b, new Abstract_Pred($t.t)); 
-//						$g = new Abstract_GBelief(Abstract_GBelief.AILSent, mess);} |
-//				SQOPEN eq = equation {$g = $eq.eq;} SQCLOSE |
-//				TRUE {$g = new Abstract_GBelief(Abstract_GBelief.GTrue);} );
 
 goal returns [Abstract_Goal g] : l=literal SQOPEN (ACHIEVEGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.achieveGoal);} | 
 			PERFORMGOAL {$g = new Abstract_Goal($l.l, Abstract_Goal.performGoal);}) SQCLOSE;
@@ -139,15 +128,12 @@ deed returns [Abstract_Deed d] : (((PLUS (l=literal {$d = new Abstract_Deed(Abst
 				)
 				;
 					
-// brule returns [Rule r] : head=gbelief BRULEARROW gb=gbelief {$r = new Rule($head.g, $gb.g);} 
-//	(COMMA and=andfmla {LogExpr body = new LogExpr($gb.g, LogExpr.LogicalOp.and, $and.f); 
-//		$r = new Rule($head.g, body);})? SEMI;
 brule returns [Abstract_Rule r] : head=pred (BRULEARROW f=logicalfmla {$r = new Abstract_Rule(head, $f.f);} SEMI | SEMI {$r = new Abstract_Rule(head);});
 
 logicalfmla returns [Abstract_LogicalFormula f] : n=notfmla {$f = $n.f;}
                (COMMA n2=notfmla {$f = new Abstract_LogExpr($f, Abstract_LogExpr.and, $n2.f);})*;
-               // | and=subfmla {$f = new Abstract_LogExpr($n.f, Abstract_LogExpr.and, $and.f);}))?; 
-notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SHRIEK {$f = new PrologCut();} |
+												  SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
                                                   NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
                                                   SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
                                                                               	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});

@@ -32,15 +32,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
+import ajpf.MCAPLcontroller;
+import ajpf.util.AJPFCollections;
 import ajpf.util.VerifyMap;
 import ajpf.util.VerifyList;
-import ajpf.util.AJPFLogger;
 import ail.semantics.AILAgent;
 import ail.syntax.annotation.SourceAnnotation;
 import ail.syntax.ast.GroundPredSets;
+import ajpf.util.choice.UniformIntChoice;
 import gov.nasa.jpf.annotation.FilterField;
 
 /**
@@ -93,7 +94,12 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
      */ 
     @FilterField
     ArrayList<Literal> percepts = new ArrayList<Literal>();
-    
+
+    /**
+     * Needed for model_checking random order selection
+     */
+    MCAPLcontroller control;
+
     /**
      * Getter for the number of beliefs.
      * @return number of beliefs.
@@ -165,7 +171,6 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
  	/**
      * Add a literal to the belief base.
      * 
-     * @param l The literal to be added.
      * @return whether addition of the literal was successful.
      */
     public boolean add(Literal lin) {
@@ -273,7 +278,7 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
         }
         
         if (so == AILAgent.SelectionOrder.RANDOM) {
-        	Collections.shuffle(all);
+        	AJPFCollections.shuffle(all);
         }
         return all.iterator();
     }
@@ -333,7 +338,6 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
      * same predicate name and arity.  Presumably you can then check for
      * unifiability.
      * 
-     * @param l  The literal to search against.
      * @return	An iterators of literals in the belief base with the same
      *          predicate name and arity.
      */
@@ -361,8 +365,8 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
 						@Override
 						public PredicateTerm next() {
 							// TODO Auto-generated method stub
-							Random r = new Random();
-							int next = r.nextInt(size - tried.size());
+							UniformIntChoice r = new UniformIntChoice(control);
+                            int next = r.nextInt(size - tried.size());
 							for (Integer i: tried) {
 								if (i <= next) {
 									next++;
@@ -396,7 +400,10 @@ public class BeliefBase implements Iterable<PredicateTerm>, EvaluationBase<Predi
     	return (belsMap.toString());
      }
     
-    
+    public void setController(MCAPLcontroller c) {
+        control = c;
+    }
+
     /** 
      * Special class for storing the actual beliefs.  Each instance of a class
      * stores a number of literals with the same PredicateIndicator (i.e., the

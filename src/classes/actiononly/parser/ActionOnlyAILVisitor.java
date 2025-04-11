@@ -50,7 +50,7 @@ import ajpf.psl.parser.LogicalFmlasParser;
 public class ActionOnlyAILVisitor extends ActionOnlyBaseVisitor<Object> {
 	
 	// mas  :  aoagents;
-	@Override public Object visitMas(@NotNull ActionOnlyParser.MasContext ctx) { 
+	@Override public Object visitMas(ActionOnlyParser.MasContext ctx) { 
 		Abstract_MAS mas = new Abstract_MAS();
 		ArrayList<Abstract_ActionOnlyAgent> gags = (ArrayList<Abstract_ActionOnlyAgent>) visitAoagents(ctx.aoagents()); 
 		mas.setAgs(gags);

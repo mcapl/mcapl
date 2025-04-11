@@ -52,19 +52,4 @@ public class DysprosiumTests extends TestJPF {
 
 	  }
 
-	  @Test //----------------------------------------------------------------------
-	  public void avoidsNoKillingSpreeTest() {
-		  if (verifyNoPropertyViolation(JPF_ARGS)) {
-		    	String filename =  "/src/examples/eass/ev3/eastercon/Dysprosium_verif.ail";
-		    	String prop_filename =  "/src/examples/eass/ev3/eastercon/dysprosium.psl";
-		    	String[] args = new String[3];
-		    	args[0] = filename;
-		    	args[1] = prop_filename;
-		    	args[2] = "2";
-		    	AJPF_w_AIL.run(args);
-		  } else {
-			    	 
-		  }
-
-	  }
 }

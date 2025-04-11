@@ -351,7 +351,7 @@ public class DefaultEASSEnvironment extends DefaultEnvironment implements EASSEn
 				} else {
 					if (! agl2.contains(per)) {
 						uptodateAgs.remove(partneragent);
-						Literal.add_literal_to_sorted(per, agl);
+						Literal.add_literal_to_sorted(per, agl2);
 		
 					}
 				}

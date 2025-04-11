@@ -1,5 +1,4 @@
 env = eass.compositional.rescue.PlanReasonerVerificationEnvironment
-// env=eass.tutorials.tutorial3.VerificationEnvironment
 
 mas.file = src/examples/eass/compositional/rescue/planreas.eass
 mas.builder = eass.EASSMASBuilder

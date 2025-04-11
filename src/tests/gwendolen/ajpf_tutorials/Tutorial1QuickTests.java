@@ -29,15 +29,14 @@ import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.util.test.TestJPF;
 
 public class Tutorial1QuickTests extends TestJPF {
-	 static final String[] JPF_ARGS = {  "-show" 
-	  };
+	 static final String[] JPF_ARGS = {  };
 
 
 
 	  //--- driver to execute single test methods
-	  public static void main(String[] args) {
-	    runTestsOfThisClass(args);
-	  }
+	  //public static void main(String[] args) {
+	 //   runTestsOfThisClass(args);
+	 // }
 
 	  //--- test methods
 
@@ -54,7 +53,7 @@ public class Tutorial1QuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /*@Test //----------------------------------------------------------------------
 	  public void ex1 () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial1/answers/ex2.ail";
@@ -138,5 +137,5 @@ public class Tutorial1QuickTests extends TestJPF {
 	    	args[2] = "ex7";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 }

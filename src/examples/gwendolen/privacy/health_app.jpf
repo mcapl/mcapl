@@ -1,0 +1,13 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+
+target.args = src/examples/gwendolen/privacy/health_app.ail,src/examples/gwendolen/privacy/health_app.psl,4
+
+
+
+//log.info = ail.mas.DefaultEnvironment,ajpf.product.Product,ajpf.MCAPLAgent
+
+//listener+=,.listener.ExecTracker
+//et.print_insn=false
+//et.show_shared=false

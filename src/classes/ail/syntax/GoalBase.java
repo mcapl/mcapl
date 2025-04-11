@@ -24,6 +24,7 @@
 
 package ail.syntax;
 
+import ajpf.util.AJPFCollections;
 import gov.nasa.jpf.annotation.FilterField;
 
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class GoalBase implements EvaluationBase<PredicateTerm> {
     	}
     	
     	if (so == AILAgent.SelectionOrder.RANDOM) {
-    		Collections.shuffle(ul);
+    		AJPFCollections.shuffle(ul);
     	}
     	return ul.iterator();
         

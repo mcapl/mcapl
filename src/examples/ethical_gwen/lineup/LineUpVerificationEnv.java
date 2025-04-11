@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Random;
 
+import ethical_gwen.BaseUAVEnv;
 import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
 
@@ -52,8 +53,7 @@ import ethical_gwen.parser.EthicalGwendolenParser;
 import ethical_gwen.syntax.annotation.EthicsAnnotation;
 import ajpf.util.AJPFLogger;
 
-public class LineUpVerificationEnv extends DefaultEthicalVerificationEnvironment {
-	Random r = new Random();
+public class LineUpVerificationEnv extends BaseUAVEnv {
 	
 	public LineUpVerificationEnv() {
 		super("enactRoutewEffects");
@@ -112,18 +112,5 @@ public class LineUpVerificationEnv extends DefaultEthicalVerificationEnvironment
 	   return u;
 	}
 
-	
-	public Plan planfromstring(String s) {
-		EthicalGwendolenLexer lexer = new EthicalGwendolenLexer(new ANTLRStringStream(s));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		EthicalGwendolenParser parser = new EthicalGwendolenParser(tokens);
-		try {
-			Abstract_GPlan aplan = parser.plan();
-			Plan plan = aplan.toMCAPL();
-			return plan;
-		} catch (Exception e) {
-			AJPFLogger.warning("ethical_gwen.lineup.LineUpVerificationEnv", "Couldn't parse plan: " + s + ":" + e.getMessage());
-			return null;
-		}
-	}
+
 }

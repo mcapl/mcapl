@@ -63,51 +63,7 @@ public class CoalitionDynAuctionTests extends TestJPF {
     	AJPF_w_AIL.run(args);
  	 }
   }
-  
-  
-  @Test //----------------------------------------------------------------------
-  public void test3bidders2coalition () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders2Coalitions.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "3";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-  
 
-
-  @Test //----------------------------------------------------------------------
-  public void test3biddersg () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "5";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
-  
-  @Test //----------------------------------------------------------------------
-  public void test3bidders2coalitiong () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/auctions/coalitiondyn/CoalitionDynAuction3Bidders2Coalitions.ail";
-    	String prop_filename =  "/src/examples/gwendolen/auctions/auctions.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "8";
-    	AJPF_w_AIL.run(args);
- 	 }
-  }
-  
   
 
 

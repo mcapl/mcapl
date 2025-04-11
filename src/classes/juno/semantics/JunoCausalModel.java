@@ -38,6 +38,8 @@ public class JunoCausalModel extends CausalModel {
 	public JunoCausalModel(JunoAgent juno, HashMap<Formula, Boolean> world) {
 		this.actions = juno.getHeraActions();
 		this.utilities = juno.getUtilities();
+		//System.err.println("Juno Causal Model Utilities");
+		//System.err.println(this.utilities);
 		this.patients = juno.getPatients();
 		this.description = juno.getDescription();
 		this.consequences = juno.getConsequences();

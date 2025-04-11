@@ -122,7 +122,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.MCAPLScheduler#addAg(ajpf.MCAPLAgent)
 	 */
 	public void addJobber(MCAPLJobber a) {
-//		System.err.println("Adding jobber " + a.getName());
+		// System.err.println("Adding jobber " + a.getName());
 		agnames.put(a.getName(), a);
 		if (!donotSchedule.contains(a.getName())) {
 			activeAgents.put(a.getName());
@@ -143,6 +143,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.PerceptListener#perceptChanged()
 	 */
 	public void perceptChanged() {
+		// System.err.println("perceptCHanged()");
 		somethinghaschanged = true;
 	}
 	
@@ -151,6 +152,7 @@ public class ActionScheduler implements MCAPLScheduler, PerceptListener {
 	 * @see ajpf.PerceptListener#perceptChanged(java.lang.String)
 	 */
 	public void perceptChanged(String s) {
+		// System.err.println("perceptHCanged" + s);
 		somethinghaschanged = true;
 	}
 

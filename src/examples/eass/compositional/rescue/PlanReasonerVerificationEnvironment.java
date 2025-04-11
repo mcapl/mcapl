@@ -12,9 +12,8 @@ import ail.syntax.Predicate;
 import ail.syntax.Unifier;
 import ail.syntax.VarTerm;
 import ail.util.AILexception;
-import ajpf.util.AJPFLogger;
 import eass.mas.verification.EASSVerificationEnvironment;
-import eass.semantics.EASSAgent;
+
 
 public class PlanReasonerVerificationEnvironment extends EASSVerificationEnvironment {
 	public String logname = "eass.compositional.rescue.GoalReasonerVerificationEnvironment";

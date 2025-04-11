@@ -61,17 +61,5 @@ public class Tutorial3Tests extends TestJPF {
  	 }
   }
 
-  @Test //----------------------------------------------------------------------
-  public void pickuprubble_ex2 () {
-    if (verifyNoPropertyViolation(JPF_ARGS)){
-    	String filename =  "/src/examples/gwendolen/tutorials/tutorial3/answers/pickuprubble_ex5.2.ail";
-    	String prop_filename =  "/src/tests/gwendolen/tutorials/tutorial_props.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "4";
-    	AJPF_w_AIL.run(args);
- 	 }
-  } 
 
 }

@@ -28,7 +28,6 @@
 package ail.syntax;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,6 +37,7 @@ import java.util.Set;
 import ail.semantics.AILAgent;
 import ail.semantics.AgentMentalState;
 import ail.tracing.explanations.PredicateDescriptions;
+import ajpf.util.AJPFCollections;
 import ajpf.util.AJPFLogger;
 
 /**
@@ -411,8 +411,8 @@ public class Guard implements GLogicalFormula {
 				        						currents.add(iright.next());
 				        					}
 		        						}
-			        					Collections.shuffle(currents);
-			        					cit = currents.iterator();
+										AJPFCollections.shuffle(currents);
+										cit = currents.iterator();
 		        					}
 		        					
 		        					if (cit != null && cit.hasNext()) {

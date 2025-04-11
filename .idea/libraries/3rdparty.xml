@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="3rdparty">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf-annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpf-classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/RunJPF.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/ev3classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/jpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/guava-31.1-jre.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/java-prolog-parser.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/junit-4.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/antlr-4.7-complete.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/ev3tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/mapdbWrapper.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/system-rules-1.16.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/3rdparty/eis-0.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -5,7 +5,11 @@
 	<classpathentry kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/classes"/>
 	<classpathentry kind="src" path="src/peers"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/usr/local/Cellar/swi-prolog/8.2.3/libexec/lib/swipl/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/3rdparty/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/jpf.jar"/>
 	<classpathentry kind="lib" path="lib/3rdparty/RunJPF.jar"/>

@@ -59,6 +59,7 @@ public abstract class EASSVerificationEnvironment extends DefaultEnvironment {
 	 * Constructor.
 	 */
 	public EASSVerificationEnvironment() {
+		System.err.println("starting EASS Verification Environment");
 		SingleAgentScheduler scheduler = new SingleAgentScheduler();
 		setScheduler(scheduler);
 	}

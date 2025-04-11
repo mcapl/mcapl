@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/mcapl/lib/3rdparty/antlr-4.7-complete.jar"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+        <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+    </listAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.antlr.v4.Tool"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="mcapl"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-lib /Users/louisedennis/eclipse-workspace/mcapl/src/classes/gwendolen/parser/ -o /Users/louisedennis/eclipse-workspace/mcapl/src/classes/gwendolen/parser/ -package gwendolen.parser -no-listener -visitor &quot;${resource_loc}&quot;"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="mcapl"/>
+</launchConfiguration>

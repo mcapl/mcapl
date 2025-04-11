@@ -184,14 +184,20 @@ public class CausalModelChecker extends Checker {
 			return new Double(0);
 		}
 		if (formula instanceof FormulaString) {
+			//System.err.println("assessing utility of");
+			//System.err.println(formula);
+			//System.err.println(model.utilities.keySet());
 			if (model.utilities.containsKey(((FormulaString) formula).getString())) {
 				Double l =  model.utilities.get(((FormulaString) formula).getString());
+				//System.err.println("Utility is:");
+				//System.err.println(l);
 				return l;
 			} else {
+				// System.err.println("No utility found");
 				return new Double(0);
 			}
 		}
-		
+
 		if (formula instanceof Not) {
 			if (formula.f1 instanceof FormulaString) {
 				if (model.utilities.containsKey(formula.toString())) {

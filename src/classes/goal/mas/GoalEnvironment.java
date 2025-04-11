@@ -23,44 +23,19 @@
 
 package goal.mas;
 
-import ail.util.AILConfig;
-import ail.util.AILexception;
-import ajpf.MCAPLScheduler;
-import ajpf.PerceptListener;
 import ail.semantics.AILAgent;
-import ail.syntax.Message;
-import ail.syntax.Unifier;
-import ail.syntax.Action;
 import ail.syntax.Literal;
-import ail.syntax.BroadcastSendAction;
-import ail.syntax.StringTerm;
-import ail.syntax.StringTermImpl;
 import ail.syntax.Predicate;
-import ajpf.util.AJPFLogger;
-import ajpf.util.AJPFLogger;
-import ajpf.util.VerifySet;
 import goal.semantics.GOALAgent;
 import goal.syntax.GoalMessage;
-import gov.nasa.jpf.vm.Verify;
 import gov.nasa.jpf.annotation.FilterField;
-//import gov.nasa.jpf.jvm.abstraction.filter.FilterField;
-
-
-
-
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
 import ail.mas.AILEnv;
-import ail.mas.scheduling.ActionScheduler;
 import ail.mas.DefaultEnvironment;
 
 /**

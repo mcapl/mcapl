@@ -22,6 +22,8 @@
 //----------------------------------------------------------------------------
 package ail.util;
 
+import gov.nasa.jpf.vm.MJIEnv;
+
 /**
  * A Class for tuples of two items.
  * @author louiseadennis
@@ -61,6 +63,24 @@ public class Tuple<K, L> {
 	public String toString() {
 		String s = "<" + left + ", " + right + ">";
 		return s;
+	}
+
+	public int newJPFStringDouble(MJIEnv env) {
+		int tsRef = env.newString((String) getLeft());
+		int tdRef = env.newDouble((Double) getRight());
+		int tRef = env.newObject("ail.util.Tuple");
+		env.setReferenceField(tRef, "left", tsRef);
+		env.setReferenceField(tRef, "right", tdRef);
+		return tRef;
+	}
+
+	public int newJPFStringString(MJIEnv env) {
+		int tsRef = env.newString((String) getLeft());
+		int tdRef = env.newString((String) getRight());
+		int tRef = env.newObject("ail.util.Tuple");
+		env.setReferenceField(tRef, "left", tsRef);
+		env.setReferenceField(tRef, "right", tdRef);
+		return tRef;
 	}
 
 

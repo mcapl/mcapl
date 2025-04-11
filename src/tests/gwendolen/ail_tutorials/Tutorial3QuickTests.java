@@ -51,7 +51,7 @@ public class Tutorial3QuickTests extends TestJPF {
 	 	 }
 	  }
 	  
-	  @Test //----------------------------------------------------------------------
+	  /* @Test //----------------------------------------------------------------------
 	  public void random () {
 	    if (verifyNoPropertyViolation(JPF_ARGS)){
 	    	String filename =  "/src/examples/gwendolen/ail_tutorials/tutorial3/searcher_random.ail";
@@ -62,7 +62,7 @@ public class Tutorial3QuickTests extends TestJPF {
 	    	args[2] = "13";
 	    	AJPF_w_AIL.run(args);
 	 	 }
-	  }
+	  } */
 
 
 

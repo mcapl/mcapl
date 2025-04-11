@@ -190,6 +190,7 @@ public class Abstract_MentalAtom implements Abstract_GLogicalFormula {
        	for (int i = 0; i < logical_formulas.length; i++) {
        		env.setReferenceArrayElement(lfRef, i, logical_formulas[i].newJPFObject(env));
        	}
+		env.setReferenceField(objref, "logical_formulas", lfRef);
        	return objref;
 	}
 

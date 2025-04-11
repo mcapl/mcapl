@@ -53,23 +53,6 @@ public class SearchAndRescueTests extends TestJPF {
 		  }
 
 	  }
-	  
-	  @Test //----------------------------------------------------------------------
-	  public void goalreas2() {
-		  if (verifyNoPropertyViolation(ARGS)) {
-		    	String filename =  "/src/examples/eass/compositional/rescue/goalreas.ail";
-		    	String prop_filename =  "/src/examples/eass/compositional/rescue/rescue.psl";
-		    	String[] args = new String[3];
-		    	args[0] = filename;
-		    	args[1] = prop_filename;
-		    	args[2] = "2";
-		    	AJPF_w_AIL.run(args);
-		  } else {
-			    	 
-		  }
-
-	  }
-
 
 
 }

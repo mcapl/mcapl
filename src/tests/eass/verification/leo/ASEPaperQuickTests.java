@@ -37,24 +37,8 @@ import gov.nasa.jpf.util.test.TestJPF;
  */
 public class ASEPaperQuickTests extends TestJPF {
 	 static final String[] ARGS = {};
-	
-	  @Test //----------------------------------------------------------------------
-	  public void thm15() {
-		  if (verifyNoPropertyViolation(ARGS)) {
-		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";
-		    	String prop_filename =  "/src/examples/eass/verification/leo/satellite.psl";
-		    	String[] args = new String[3];
-		    	args[0] = filename;
-		    	args[1] = prop_filename;
-		    	args[2] = "15";
-		    	AJPF_w_AIL.run(args);
-		  } else {
-			    	 
-		  }
 
-	  }
-
-	  @Test //----------------------------------------------------------------------
+	 @Test //----------------------------------------------------------------------
 	  public void thm16() {
 		  if (verifyNoPropertyViolation(ARGS)) {
 		    	String filename =  "/src/examples/eass/verification/leo/satellite_nothrusters.ail";

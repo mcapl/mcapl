@@ -21,7 +21,7 @@ public class GuardFOFVisitor extends FOFVisitor {
 	                                                                              NOT (gb2 = pred {$f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));} | 
 	                                                                              lf = csubfmla {$f = new Abstract_Guard(Abstract_Guard.not, $lf.f);});
 	csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf = clogicalfmla {$f = $lf.f;} CLOSE; */
-	@Override public Object visitLogicalfmla(@NotNull LogicalFmlasParser.LogicalfmlaContext ctx) {
+	@Override public Object visitLogicalfmla( LogicalFmlasParser.LogicalfmlaContext ctx) {
 		Abstract_GLogicalFormula f = (Abstract_GLogicalFormula) visitNotfmla(ctx.n);
 		if (ctx.n2 != null) {
 			Abstract_GLogicalFormula f2 = (Abstract_GLogicalFormula) visitNotfmla(ctx.n2);
@@ -30,9 +30,13 @@ public class GuardFOFVisitor extends FOFVisitor {
 		return f;
 	}
 
-	@Override public Object visitNotfmla(@NotNull LogicalFmlasParser.NotfmlaContext ctx) {
+	@Override public Object visitNotfmla(LogicalFmlasParser.NotfmlaContext ctx) {
 		if (ctx.gb != null) {
 			return new Abstract_GBelief(new Abstract_Literal((Abstract_Pred) visitPred(ctx.gb)));
+		}
+		
+		if (ctx.cut != null) {
+			
 		}
 		
 		if (ctx.eq != null) {
@@ -52,7 +56,7 @@ public class GuardFOFVisitor extends FOFVisitor {
 	}
 	
 	//	subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE;
-	@Override public Object visitSubfmla(@NotNull LogicalFmlasParser.SubfmlaContext ctx) {
+	@Override public Object visitSubfmla( LogicalFmlasParser.SubfmlaContext ctx) {
 		return visitLogicalfmla(ctx.lf);
 	}
 

@@ -32,8 +32,6 @@ import ajpf.psl.ast.Abstract_MCAPLPredicate;
 import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
 import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ajpf.psl.ast.Abstract_TermImpl;
-import ajpf.psl.parser.LogicalFmlasBaseVisitor;
-import ajpf.psl.parser.LogicalFmlasParser;
 
 public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 
@@ -44,7 +42,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			@SuppressWarnings("unchecked")
 			ArrayList<Abstract_MCAPLTerm> visitTerms = (ArrayList<Abstract_MCAPLTerm>) visitTerms(ctx.terms());
 			for (Abstract_MCAPLTerm t: visitTerms) {
-				f.addTerm(t);
+				f.addTerm(t); 
 			}
 		}
 		return f;
@@ -66,8 +64,6 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitTerm(LogicalFmlasParser.TermContext ctx) {
 		if (ctx.a != null) {
 			return visitAtom(ctx.a);
-		} else if (ctx.s != null) {
-			return visitStringterm(ctx.s);
 		} else if (ctx.l != null) {
 			return visitListterm(ctx.l);
 		} else {
@@ -83,20 +79,14 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 			return new Abstract_MCAPLNumberTermImpl((String) visitNumberstring(ctx.n));
 		} else if (ctx.v != null) {
 			return visitVar(ctx.v);
+		} else if (ctx.s != null) {
+			return visitStringterm(ctx.s); 
 		} else {
 			System.err.println("Error: Should be no arithmetical expressions");
 			return visitArithexpr(ctx.a);
 		}
 	}
-		
-	/* var 	returns [Abstract_VarTerm v]:	VAR {
-		if (variables.containsKey($VAR.getText())) {
-			$v = variables.get($VAR.getText());
-			} else {
-			$v = new Abstract_VarTerm($VAR.getText());
-			variables.put($VAR.getText(), $v);
-			}
-		}; */
+
 	@Override public Object visitVar( LogicalFmlasParser.VarContext ctx) {
 		if (ctx.VAR() != null) {
 			System.err.println("Error: Should be no variables");
@@ -128,7 +118,7 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 	@Override public Object visitStringterm(LogicalFmlasParser.StringtermContext ctx) {
 		String s = ctx.QUOTED_STRING().getText();
 		String s1 = s.substring(1, s.length() - 1);
-		return new Abstract_MCAPLStringTermImpl(s1);
+		return new Abstract_MCAPLStringTermImpl(s1); 
 	}
 	
 	@Override public Object visitListheads(LogicalFmlasParser.ListheadsContext ctx) {
@@ -143,6 +133,37 @@ public class FOFVisitor extends LogicalFmlasBaseVisitor<Object> {
 		}
 		return list;
 	}
+	
+	/* notfmla returns [Abstract_LogicalFormula f] : (gb = pred {$f = gb;} | SHRIEK {$f = new PrologCut();} |
+			  SQOPEN eq = equation {$f = eq;} SQCLOSE) | 
+            NOT (gb2 = pred {$f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);} | 
+            SQOPEN eq = equation SQCLOSE {$f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);} |
+                                        	lf = subfmla {$f = new Abstract_LogExpr(Abstract_LogExpr.not, $lf.f);});
+	subfmla returns [Abstract_LogicalFormula f] : OPEN lf = logicalfmla {$f = $lf.f;} CLOSE; */
+	
+	/*@Override public Object visitNotfmla(LogicalFmlasParser.NotfmlaContext ctx) {
+		if (ctx.NOT() != null) {
+			Abstract_LogicalFormula f;
+			if (ctx.gb2 != null) {
+				f = (Abstract_Pred) visitPred(ctx.gb2);
+			} else if (ctx.eq != null) {
+				f = (Abstract_Equation) visitEquation(ctx.eq);
+			} else {
+				f = (Abstract_LogicalFormula) visitSubfmla(ctx.lf);
+			}
+			
+			return new Abstract_LogExpr(Abstract_LogExpr.not, f);
+		} else if (ctx.gb != null) {
+			return visitPred(ctx.gb);
+		} else if (ctx.eq != null) {
+			return visitEquation(ctx.eq);
+		} else if (ctx.cut != null) {
+			return new PrologCut();
+		} 
+		
+		return null;
+	} */
+
 
 
 }

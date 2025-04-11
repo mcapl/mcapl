@@ -155,7 +155,14 @@ public class Abstract_Action extends Abstract_Predicate {
 	protected void JPFFields(int objref, MJIEnv env) {
 		String functor = getFunctor();
 		if (strings.containsKey(functor)) {
-			env.setReferenceField(objref, "functor", strings.get(functor));
+			try {
+				env.getStringObject(strings.get(functor));
+				env.setReferenceField(objref, "functor", strings.get(functor));
+			} catch (Exception e) {
+				int stringref = env.newString(functor);
+				strings.put(functor, stringref);
+				env.setReferenceField(objref, "functor", stringref);
+			}
 		} else {
 			int stringref = env.newString(functor);
 			strings.put(functor, stringref);

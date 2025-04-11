@@ -25,10 +25,12 @@
 package gwendolen.verifiableautonomoussystems.chapter3;
 
 import ail.mas.DefaultEnvironment;
+import ail.mas.MAS;
 import ail.util.AILexception;
 import ail.syntax.Unifier;
 import ail.syntax.Action;
 import ail.syntax.Predicate;
+import ajpf.util.choice.UniformBoolChoice;
 
 import java.util.Random;
 
@@ -40,7 +42,8 @@ import java.util.Random;
  *
  */
 public class SimpleEnv extends DefaultEnvironment {
-	Random r = new Random();
+	//Random r = new Random();
+	UniformBoolChoice r;
 	
 	/**
 	 * Constructor.
@@ -94,6 +97,11 @@ public class SimpleEnv extends DefaultEnvironment {
 
     	return theta;
    }
+
+	public void setMAS(MAS m) {
+		super.setMAS(m);
+		r = new UniformBoolChoice(m.getController());
+	}
    
 
  

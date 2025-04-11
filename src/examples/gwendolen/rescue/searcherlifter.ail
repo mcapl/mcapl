@@ -29,7 +29,8 @@ mas.agent.1.builder = gwendolen.GwendolenAgentBuilder
 mas.agent.2.file = /src/examples/gwendolen/rescue/lifter1.gwen
 mas.agent.2.builder = gwendolen.GwendolenAgentBuilder
 
-log.info = gwendolen.rescue.RobotEnv
+log.info = gwendolen.rescue.RobotEnv,
+// log.fine = ail.semantics.AILAgent
 
 withsearcher=true
 withlifter = true
