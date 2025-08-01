@@ -50,16 +50,24 @@ eassagent :  (EASS?)
 	// BELIEF_BLOCKS should all be litlists from LogicalFmlas grammar
 	BELIEFS (bs=BELIEF_BLOCK)*
 	// RR_BLOCKS should be rulelists from LogicalFmlas grammar
-	(BELIEFRULES (RR_NEWLINE)*  (rr=RR_BLOCK)* )?
+	(BELIEFRULES (RR_NEWLINE)* (rr=RR_BLOCK)* )?
 	((CAP_IB | CAP_RR) (CAP_NEWLINE)* (cap=capability)*)?
 	(GOAL_IB | GOAL_RR | GOAL_C) (gs=initial_goal)*
 	PLANS (p=eass_plan)+;
 
 
 capability :
-    	CURLYOPEN (pre=guard_atom)? CURLYCLOSE
-    	cap=fof_expr
-    	CURLYOPEN post=guard_atom  CURLYCLOSE;
+    	CAP_CURLYOPEN pre=CAP_BLOCK CAP_CURLYCLOSE
+    	cap=CAP_BLOCK
+    	CAP_CURLYOPEN post=CAP_BLOCK  CAP_CURLYCLOSE;
+
+//clogicalfmla returns [Abstract_GLogicalFormula f] : n=cnotfmla {$f = $n.f;}
+//               (COMMA n2=cnotfmla {$f = new Abstract_Guard($f, Abstract_Guard.and, $n2.f);})*;
+ //cnotfmla returns [Abstract_GLogicalFormula f] : gb = pred {$f = new Abstract_GBelief(new Abstract_Literal(gb));} |
+//                                                                              NOT (gb2 = pred {$f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));} |
+//                                                                              lf = csubfmla {$f = new Abstract_Guard(Abstract_Guard.not, $lf.f);});
+//csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf = clogicalfmla {$f = $lf.f;} CLOSE;
+
 
 //plan returns [Abstract_GPlan p]
 //	: e=event  {ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>(); Abstract_Guard g = new Abstract_Guard();}

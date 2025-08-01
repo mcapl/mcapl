@@ -156,7 +156,7 @@ public class TwoWheeledRobot extends EASSVehicle {
 				theta = gps.getTheta();
 			}
 		} else if (act.getFunctor().equals("substitute_in_plans")) {
-			// This finds a new capability in the agents plans if the current capability has failed.
+			/* // This finds a new capability in the agents plans if the current capability has failed.
 			// This code should probably appear elsewhere in the Capability or Plan classes.
 			Predicate capname = (Predicate) act.getTerm(1);
 			Predicate post = (Predicate) act.getTerm(0);
@@ -177,7 +177,7 @@ public class TwoWheeledRobot extends EASSVehicle {
 				
 				ag.removePlan(p);
 				ag.addPlan(newplan);
-			}
+			} */
 		}
 		
 		return super.executeAction(agName, act);

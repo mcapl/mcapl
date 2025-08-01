@@ -190,6 +190,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 		} else if (ctx.TRUE() != null) { 
 			return new Abstract_GBelief();
 		} else if (ctx.eq != null) {
+			String eq_text = ctx.eq.getText();
 			LogicalFmlasParser fofparser_e = fofparser(ctx.eq.getText());
 			Abstract_Equation e = (Abstract_Equation) fofvisitor.visitEquation(fofparser_e.equation());
 			return e;
@@ -348,6 +349,7 @@ public class GwendolenAILVisitor extends GwendolenBaseVisitor<Object> {
 
 /* waitfor returns [Abstract_Literal wf] :  MULT l=literal {$wf = $l.l;}; */
 	@Override public Object visitWaitfor(GwendolenParser.WaitforContext ctx) {
+		String text = ctx.l.getText();
 		LogicalFmlasParser fofparser = fofparser(ctx.l.getText());
 		FOFVisitor visitor = new FOFVisitor();
 		

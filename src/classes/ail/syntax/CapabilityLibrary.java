@@ -23,10 +23,7 @@
 //----------------------------------------------------------------------------
 package ail.syntax;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.HashMap;
+import java.util.*;
 
 import ail.semantics.AILAgent;
 
@@ -107,7 +104,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 	 * @param u
 	 * @return
 	 */
-	public Capability findEquivalent(Capability oldcap, Predicate Post, RuleBase rb, Unifier u) {
+	/* public Capability findEquivalent(Capability oldcap, Predicate Post, RuleBase rb, Unifier u) {
 		Predicate capname = oldcap.getCap();
 		PredicateIndicator pi = capname.getPredicateIndicator();
 		
@@ -131,7 +128,7 @@ public class CapabilityLibrary implements Iterable<Capability> {
 				GBelief gb = (GBelief) cc.getPre();
 				
 				// The preconditions of the new capability are implied by the preconditions of the old capability
-				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), gb.getVarNames(), AILAgent.SelectionOrder.LINEAR);
+				Iterator<Unifier> preuni = gb.logicalConsequence(eb, rb, new Unifier(), cc.getVarNames(), AILAgent.SelectionOrder.LINEAR);
 
 				if (preuni.hasNext()) {
 				
@@ -162,6 +159,6 @@ public class CapabilityLibrary implements Iterable<Capability> {
 		}
 		
 		return null;
-	}
+	} */
 
 }

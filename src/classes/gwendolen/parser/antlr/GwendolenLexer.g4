@@ -59,7 +59,7 @@ RR_COMMENT : '/*' .*? '*/' -> skip ;
 RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
 RR_NEWLINE:'\r'? '\n'   ;
 RR_WS  :   (' '|'\t') -> skip ;
-RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!')+ ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!'|'<')+ ;
 
 mode CAPABILITIES;
 GOAL_C: 'Initial Goals:' -> mode(GOALS);
@@ -67,6 +67,8 @@ CAP_COMMENT : '/*' .*? '*/' -> skip ;
 CAP_LINE_COMMENT : '//' ~[\n]* -> skip ;
 CAP_NEWLINE:'\r'? '\n'   ;
 CAP_WS  :   (' '|'\t') -> skip ;
+CAP_CURLYOPEN	: '{' {curly_nesting++;};
+CAP_CURLYCLOSE	: '}' {curly_nesting--;};
 CAP_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!')+ ;
 
 mode GOALS;

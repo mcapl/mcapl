@@ -361,7 +361,7 @@ public class Guard implements GLogicalFormula {
 		        switch (op) {
 		        
 		        	case not:
-		        		if (!rhs.logicalConsequence(ag,un, varnames, AILAgent.SelectionOrder.LINEAR).hasNext()) {
+		        		if (!rhs.logicalConsequence(ag, un, varnames, AILAgent.SelectionOrder.LINEAR).hasNext()) {
 		        			return createUnifIterator(un);
 		        		}
 		        		break;
