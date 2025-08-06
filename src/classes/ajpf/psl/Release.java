@@ -35,13 +35,13 @@ import java.util.TreeSet;
  */
 public class Release implements MCAPLProperty {
 	/**
-	 * The property that must hold until the second becomes true.
+	 * The property that when it holds the other no longer holds.
 	 */
 	private MCAPLProperty trueuntil;
 	/**
 	 * The property that must hold eventually.
 	 */
-	protected MCAPLProperty finalprop;
+	protected MCAPLProperty releases;
 	
 	private boolean keepinold = false;
 	
@@ -55,9 +55,9 @@ public class Release implements MCAPLProperty {
 	 */
 	public Release (MCAPLProperty p, MCAPLProperty q) {
 		trueuntil = q;
-		finalprop = p;
+		releases = p;
 		trueuntil.noteKeep();
-		hashcode = trueuntil.hashCode() ^ finalprop.hashCode();
+		hashcode = trueuntil.hashCode() ^ releases.hashCode();
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class Release implements MCAPLProperty {
 	 * @return the property phi from phi R psi.
 	 */
 	public MCAPLProperty getFmla1() {
-		return finalprop;
+		return releases;
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class Release implements MCAPLProperty {
 	 */
 	public boolean equals(Object phi) {
 		if (phi instanceof Release) {
-			return(((Release) phi).getFmla2().equals(trueuntil) && ((Release) phi).getFmla1().equals(finalprop));
+			return(((Release) phi).getFmla2().equals(trueuntil) && ((Release) phi).getFmla1().equals(releases));
 		}
 
 		return false;
@@ -184,7 +184,7 @@ public class Release implements MCAPLProperty {
 		boolean trueuntilinold = false;
 		
 		for (MCAPLProperty p: old) {
-			if (p.equals(finalprop)) {
+			if (p.equals(releases)) {
 				finalpropinold = true;
 			}
 			
@@ -198,7 +198,7 @@ public class Release implements MCAPLProperty {
 		}
 		
 		if (!finalpropinold) {
-			new1.add(finalprop);
+			new1.add(releases);
 		}
 		return new1;
 	}
@@ -257,7 +257,7 @@ public class Release implements MCAPLProperty {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String s = finalprop.toString() + " R " + trueuntil.toString();
+		String s = releases.toString() + " R " + trueuntil.toString();
 		return s;
 	}
 	
@@ -266,7 +266,7 @@ public class Release implements MCAPLProperty {
 	 * @see mcapl.psl.MCAPLProperty#negate()
 	 */
 	public MCAPLProperty negate() {
-		return (new Until(finalprop.negate(), trueuntil.negate()));
+		return (new Until(releases.negate(), trueuntil.negate()));
 	}
 	
 	/*
@@ -275,7 +275,7 @@ public class Release implements MCAPLProperty {
 	 */
 	public Set<Proposition> getProps() {
 		TreeSet<Proposition> props = new TreeSet<Proposition>();
-		props.addAll(finalprop.getProps());
+		props.addAll(releases.getProps());
 		props.addAll(trueuntil.getProps());
 		return(props);
 	}
@@ -286,7 +286,7 @@ public class Release implements MCAPLProperty {
 	 */
 	public Set<Until> getUntils() {
 		TreeSet<Until> props = new TreeSet<Until>();
-		props.addAll(finalprop.getUntils());
+		props.addAll(releases.getUntils());
 		props.addAll(trueuntil.getUntils());
 		return(props);
 	}
@@ -305,7 +305,7 @@ public class Release implements MCAPLProperty {
 	public void noteKeep() {
 		keepinold = true;
 		trueuntil.noteKeep();
-		finalprop.noteKeep();
+		releases.noteKeep();
 	}
 
 	/*
