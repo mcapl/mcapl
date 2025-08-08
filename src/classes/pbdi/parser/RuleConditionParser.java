@@ -1,4 +1,4 @@
-// Generated from RuleCondition.g4 by ANTLR 4.4
+// Generated from /Users/louisedennis/IdeaProjects/mcapl/src/classes/pbdi/parser/RuleCondition.g4 by ANTLR 4.13.1
 package pbdi.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class RuleConditionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -19,22 +19,65 @@ public class RuleConditionParser extends Parser {
 	public static final int
 		WS=1, BELIEVE=2, NOT=3, AND=4, SHORT_BELIEVE=5, WORD=6, SINGLE_QUOTE=7, 
 		OPEN_BRACKET=8, CLOSE_BRACKET=9, DOT=10, COMMA=11;
-	public static final String[] tokenNames = {
-		"<INVALID>", "WS", "'believe'", "'NOT'", "'AND'", "'B'", "WORD", "'''", 
-		"'('", "')'", "'.'", "','"
-	};
 	public static final int
 		RULE_rule_condition = 0, RULE_and_expr = 1, RULE_not_expr = 2, RULE_belief_expression = 3, 
 		RULE_dot_expr = 4;
-	public static final String[] ruleNames = {
-		"rule_condition", "and_expr", "not_expr", "belief_expression", "dot_expr"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"rule_condition", "and_expr", "not_expr", "belief_expression", "dot_expr"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
+
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, null, "'believe'", "'NOT'", "'AND'", "'B'", null, "'''", "'('", 
+			"')'", "'.'", "','"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "WS", "BELIEVE", "NOT", "AND", "SHORT_BELIEVE", "WORD", "SINGLE_QUOTE", 
+			"OPEN_BRACKET", "CLOSE_BRACKET", "DOT", "COMMA"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
 
 	@Override
 	public String getGrammarFileName() { return "RuleCondition.g4"; }
-
-	@Override
-	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -49,6 +92,8 @@ public class RuleConditionParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class Rule_conditionContext extends ParserRuleContext {
 		public And_exprContext and_expr() {
 			return getRuleContext(And_exprContext.class,0);
@@ -70,7 +115,8 @@ public class RuleConditionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(10); and_expr();
+			setState(10);
+			and_expr();
 			}
 		}
 		catch (RecognitionException re) {
@@ -84,24 +130,25 @@ public class RuleConditionParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class And_exprContext extends ParserRuleContext {
 		public Dot_exprContext dot_expr() {
 			return getRuleContext(Dot_exprContext.class,0);
 		}
 		public TerminalNode DOT() { return getToken(RuleConditionParser.DOT, 0); }
+		public TerminalNode AND() { return getToken(RuleConditionParser.AND, 0); }
+		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
 		public List<Rule_conditionContext> rule_condition() {
 			return getRuleContexts(Rule_conditionContext.class);
 		}
 		public Rule_conditionContext rule_condition(int i) {
 			return getRuleContext(Rule_conditionContext.class,i);
 		}
-		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
 		public TerminalNode COMMA() { return getToken(RuleConditionParser.COMMA, 0); }
-		public TerminalNode AND() { return getToken(RuleConditionParser.AND, 0); }
+		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public Not_exprContext not_expr() {
 			return getRuleContext(Not_exprContext.class,0);
 		}
-		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public And_exprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -118,24 +165,34 @@ public class RuleConditionParser extends Parser {
 		enterRule(_localctx, 2, RULE_and_expr);
 		try {
 			setState(22);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(12); dot_expr();
-				setState(13); match(DOT);
-				setState(14); match(AND);
-				setState(15); match(OPEN_BRACKET);
-				setState(16); rule_condition();
-				setState(17); match(COMMA);
-				setState(18); rule_condition();
-				setState(19); match(CLOSE_BRACKET);
+				setState(12);
+				dot_expr();
+				setState(13);
+				match(DOT);
+				setState(14);
+				match(AND);
+				setState(15);
+				match(OPEN_BRACKET);
+				setState(16);
+				rule_condition();
+				setState(17);
+				match(COMMA);
+				setState(18);
+				rule_condition();
+				setState(19);
+				match(CLOSE_BRACKET);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(21); not_expr();
+				setState(21);
+				not_expr();
 				}
 				break;
 			}
@@ -151,20 +208,21 @@ public class RuleConditionParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Not_exprContext extends ParserRuleContext {
 		public Dot_exprContext dot_expr() {
 			return getRuleContext(Dot_exprContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(RuleConditionParser.NOT, 0); }
 		public TerminalNode DOT() { return getToken(RuleConditionParser.DOT, 0); }
+		public TerminalNode NOT() { return getToken(RuleConditionParser.NOT, 0); }
+		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
 		public Rule_conditionContext rule_condition() {
 			return getRuleContext(Rule_conditionContext.class,0);
 		}
+		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public Belief_expressionContext belief_expression() {
 			return getRuleContext(Belief_expressionContext.class,0);
 		}
-		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
-		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public Not_exprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -181,22 +239,30 @@ public class RuleConditionParser extends Parser {
 		enterRule(_localctx, 4, RULE_not_expr);
 		try {
 			setState(32);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(24); dot_expr();
-				setState(25); match(DOT);
-				setState(26); match(NOT);
-				setState(27); match(OPEN_BRACKET);
-				setState(28); rule_condition();
-				setState(29); match(CLOSE_BRACKET);
+				setState(24);
+				dot_expr();
+				setState(25);
+				match(DOT);
+				setState(26);
+				match(NOT);
+				setState(27);
+				match(OPEN_BRACKET);
+				setState(28);
+				rule_condition();
+				setState(29);
+				match(CLOSE_BRACKET);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(31); belief_expression();
+				setState(31);
+				belief_expression();
 				}
 				break;
 			}
@@ -212,20 +278,21 @@ public class RuleConditionParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Belief_expressionContext extends ParserRuleContext {
 		public Dot_exprContext dot_expr() {
 			return getRuleContext(Dot_exprContext.class,0);
 		}
 		public TerminalNode DOT() { return getToken(RuleConditionParser.DOT, 0); }
+		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
+		public List<TerminalNode> SINGLE_QUOTE() { return getTokens(RuleConditionParser.SINGLE_QUOTE); }
 		public TerminalNode SINGLE_QUOTE(int i) {
 			return getToken(RuleConditionParser.SINGLE_QUOTE, i);
 		}
 		public TerminalNode WORD() { return getToken(RuleConditionParser.WORD, 0); }
-		public TerminalNode OPEN_BRACKET() { return getToken(RuleConditionParser.OPEN_BRACKET, 0); }
+		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public TerminalNode BELIEVE() { return getToken(RuleConditionParser.BELIEVE, 0); }
 		public TerminalNode SHORT_BELIEVE() { return getToken(RuleConditionParser.SHORT_BELIEVE, 0); }
-		public List<TerminalNode> SINGLE_QUOTE() { return getTokens(RuleConditionParser.SINGLE_QUOTE); }
-		public TerminalNode CLOSE_BRACKET() { return getToken(RuleConditionParser.CLOSE_BRACKET, 0); }
 		public Belief_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -244,19 +311,30 @@ public class RuleConditionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(34); dot_expr();
-			setState(35); match(DOT);
+			setState(34);
+			dot_expr();
+			setState(35);
+			match(DOT);
 			setState(36);
 			_la = _input.LA(1);
 			if ( !(_la==BELIEVE || _la==SHORT_BELIEVE) ) {
 			_errHandler.recoverInline(this);
 			}
-			consume();
-			setState(37); match(OPEN_BRACKET);
-			setState(38); match(SINGLE_QUOTE);
-			setState(39); match(WORD);
-			setState(40); match(SINGLE_QUOTE);
-			setState(41); match(CLOSE_BRACKET);
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(37);
+			match(OPEN_BRACKET);
+			setState(38);
+			match(SINGLE_QUOTE);
+			setState(39);
+			match(WORD);
+			setState(40);
+			match(SINGLE_QUOTE);
+			setState(41);
+			match(CLOSE_BRACKET);
 			}
 		}
 		catch (RecognitionException re) {
@@ -270,12 +348,13 @@ public class RuleConditionParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class Dot_exprContext extends ParserRuleContext {
-		public List<TerminalNode> DOT() { return getTokens(RuleConditionParser.DOT); }
 		public List<TerminalNode> WORD() { return getTokens(RuleConditionParser.WORD); }
 		public TerminalNode WORD(int i) {
 			return getToken(RuleConditionParser.WORD, i);
 		}
+		public List<TerminalNode> DOT() { return getTokens(RuleConditionParser.DOT); }
 		public TerminalNode DOT(int i) {
 			return getToken(RuleConditionParser.DOT, i);
 		}
@@ -297,7 +376,8 @@ public class RuleConditionParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43); match(WORD);
+			setState(43);
+			match(WORD);
 			setState(48);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
@@ -305,8 +385,10 @@ public class RuleConditionParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(44); match(DOT);
-					setState(45); match(WORD);
+					setState(44);
+					match(DOT);
+					setState(45);
+					match(WORD);
 					}
 					} 
 				}
@@ -328,20 +410,37 @@ public class RuleConditionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\r\66\4\2\t\2\4\3"+
-		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\5\3\31\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4#\n\4\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\7\6\61\n\6\f\6\16\6\64\13\6\3\6\2"+
-		"\2\7\2\4\6\b\n\2\3\4\2\4\4\7\7\63\2\f\3\2\2\2\4\30\3\2\2\2\6\"\3\2\2\2"+
-		"\b$\3\2\2\2\n-\3\2\2\2\f\r\5\4\3\2\r\3\3\2\2\2\16\17\5\n\6\2\17\20\7\f"+
-		"\2\2\20\21\7\6\2\2\21\22\7\n\2\2\22\23\5\2\2\2\23\24\7\r\2\2\24\25\5\2"+
-		"\2\2\25\26\7\13\2\2\26\31\3\2\2\2\27\31\5\6\4\2\30\16\3\2\2\2\30\27\3"+
-		"\2\2\2\31\5\3\2\2\2\32\33\5\n\6\2\33\34\7\f\2\2\34\35\7\5\2\2\35\36\7"+
-		"\n\2\2\36\37\5\2\2\2\37 \7\13\2\2 #\3\2\2\2!#\5\b\5\2\"\32\3\2\2\2\"!"+
-		"\3\2\2\2#\7\3\2\2\2$%\5\n\6\2%&\7\f\2\2&\'\t\2\2\2\'(\7\n\2\2()\7\t\2"+
-		"\2)*\7\b\2\2*+\7\t\2\2+,\7\13\2\2,\t\3\2\2\2-\62\7\b\2\2./\7\f\2\2/\61"+
-		"\7\b\2\2\60.\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3\2\2\2\63\13\3"+
-		"\2\2\2\64\62\3\2\2\2\5\30\"\62";
+		"\u0004\u0001\u000b4\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0001"+
+		"\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0003"+
+		"\u0001\u0017\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002!\b\u0002\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0005"+
+		"\u0004/\b\u0004\n\u0004\f\u00042\t\u0004\u0001\u0004\u0000\u0000\u0005"+
+		"\u0000\u0002\u0004\u0006\b\u0000\u0001\u0002\u0000\u0002\u0002\u0005\u0005"+
+		"1\u0000\n\u0001\u0000\u0000\u0000\u0002\u0016\u0001\u0000\u0000\u0000"+
+		"\u0004 \u0001\u0000\u0000\u0000\u0006\"\u0001\u0000\u0000\u0000\b+\u0001"+
+		"\u0000\u0000\u0000\n\u000b\u0003\u0002\u0001\u0000\u000b\u0001\u0001\u0000"+
+		"\u0000\u0000\f\r\u0003\b\u0004\u0000\r\u000e\u0005\n\u0000\u0000\u000e"+
+		"\u000f\u0005\u0004\u0000\u0000\u000f\u0010\u0005\b\u0000\u0000\u0010\u0011"+
+		"\u0003\u0000\u0000\u0000\u0011\u0012\u0005\u000b\u0000\u0000\u0012\u0013"+
+		"\u0003\u0000\u0000\u0000\u0013\u0014\u0005\t\u0000\u0000\u0014\u0017\u0001"+
+		"\u0000\u0000\u0000\u0015\u0017\u0003\u0004\u0002\u0000\u0016\f\u0001\u0000"+
+		"\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0017\u0003\u0001\u0000"+
+		"\u0000\u0000\u0018\u0019\u0003\b\u0004\u0000\u0019\u001a\u0005\n\u0000"+
+		"\u0000\u001a\u001b\u0005\u0003\u0000\u0000\u001b\u001c\u0005\b\u0000\u0000"+
+		"\u001c\u001d\u0003\u0000\u0000\u0000\u001d\u001e\u0005\t\u0000\u0000\u001e"+
+		"!\u0001\u0000\u0000\u0000\u001f!\u0003\u0006\u0003\u0000 \u0018\u0001"+
+		"\u0000\u0000\u0000 \u001f\u0001\u0000\u0000\u0000!\u0005\u0001\u0000\u0000"+
+		"\u0000\"#\u0003\b\u0004\u0000#$\u0005\n\u0000\u0000$%\u0007\u0000\u0000"+
+		"\u0000%&\u0005\b\u0000\u0000&\'\u0005\u0007\u0000\u0000\'(\u0005\u0006"+
+		"\u0000\u0000()\u0005\u0007\u0000\u0000)*\u0005\t\u0000\u0000*\u0007\u0001"+
+		"\u0000\u0000\u0000+0\u0005\u0006\u0000\u0000,-\u0005\n\u0000\u0000-/\u0005"+
+		"\u0006\u0000\u0000.,\u0001\u0000\u0000\u0000/2\u0001\u0000\u0000\u0000"+
+		"0.\u0001\u0000\u0000\u000001\u0001\u0000\u0000\u00001\t\u0001\u0000\u0000"+
+		"\u000020\u0001\u0000\u0000\u0000\u0003\u0016 0";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
