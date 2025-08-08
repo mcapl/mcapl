@@ -37,7 +37,7 @@ public class Release implements MCAPLProperty {
 	/**
 	 * The property that when it holds the other no longer holds.
 	 */
-	private MCAPLProperty trueuntil;
+	protected MCAPLProperty trueuntil;
 	/**
 	 * The property that must hold eventually.
 	 */

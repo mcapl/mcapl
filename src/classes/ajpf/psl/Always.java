@@ -46,7 +46,7 @@ public class Always extends Release {
 	 */
 	public String toString() {
 		String s = "[]";
-		s += finalprop.toString();
+		s += trueuntil.toString();
 		return s;
 	}
 	
