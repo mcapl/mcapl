@@ -24,9 +24,20 @@
 
 package gwendolen.semantics;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Stream;
 
+import ail.parser.FOFVisitor;
+import ail.syntax.ast.Abstract_Predicate;
+import ail.syntax.ast.Abstract_StringTermImpl;
+import ajpf.psl.parser.LogicalFmlasLexer;
+import ajpf.psl.parser.LogicalFmlasParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -39,8 +50,8 @@ import ail.util.AILPrettyPrinter;
 import ail.util.AILexception;
 import ajpf.MCAPLcontroller;
 import ajpf.util.AJPFException;
-import gwendolen.parser.GwendolenSubLexer;
-import gwendolen.parser.GwendolenSubParser;
+//import gwendolen.parser.GwendolenSubLexer;
+//import gwendolen.parser.GwendolenSubParser;
 import gwendolen.util.GwendolenPrettyPrinter;
 
 /**
@@ -120,9 +131,24 @@ public class GwendolenAgent extends AILAgent {
 		if (config.containsKey("tracing.descriptions")) {
 			try {
 				String descriptionsfile = MCAPLcontroller.getFilename(config.getProperty("tracing.descriptions"));
-				GwendolenSubLexer lexer = new GwendolenSubLexer(CharStreams.fromFileName(descriptionsfile));
-				GwendolenSubParser parser = new GwendolenSubParser(new CommonTokenStream(lexer));
-				List<Abstract_PredicateDescription> descriptions = parser.descriptions().ds;
+				BufferedReader read = new BufferedReader(new FileReader(descriptionsfile));
+				Stream<String> lines = read.lines();
+				FOFVisitor fofvisitor = new FOFVisitor();
+				List<Abstract_PredicateDescription> descriptions = new ArrayList<Abstract_PredicateDescription>();
+				lines.forEach(line -> {
+					String[] pair = line.split(":");
+					if (pair.length > 1) {
+						String f_string = pair[0];
+						String description = pair[1].replace("\"", "");
+						LogicalFmlasParser parser = fofparser(f_string);
+						Abstract_Predicate predicate = (Abstract_Predicate) fofvisitor.visitPred(parser.pred());
+						Abstract_PredicateDescription d = new Abstract_PredicateDescription(predicate, new Abstract_StringTermImpl(description));
+						descriptions.add(d);
+					}
+				});
+				//GwendolenSubLexer lexer = new GwendolenSubLexer(CharStreams.fromFileName(descriptionsfile));
+				//GwendolenSubParser parser = new GwendolenSubParser(new CommonTokenStream(lexer));
+				//List<Abstract_PredicateDescription> descriptions = parser.descriptions().ds;
 				setPretty(new GwendolenPrettyPrinter(new PredicateDescriptions(descriptions)));
 			} catch (final AJPFException | IOException e) {
 				e.printStackTrace(); // FIXME
@@ -138,5 +164,12 @@ public class GwendolenAgent extends AILAgent {
 				setPretty(new GwendolenPrettyPrinter());
 			}
 		}
+	}
+
+	private LogicalFmlasParser fofparser(String s) {
+		LogicalFmlasLexer lexer = new LogicalFmlasLexer(CharStreams.fromString(s));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		LogicalFmlasParser parser = new LogicalFmlasParser(tokens);
+		return parser;
 	}
 }

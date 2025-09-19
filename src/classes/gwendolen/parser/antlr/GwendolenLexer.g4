@@ -42,10 +42,10 @@ WS  :   (' '|'\t') -> skip ;
 
 BELIEFS	:	':Initial Beliefs:' -> mode(INITIAL_BELIEFS);
 
-
 mode INITIAL_BELIEFS;
 BELIEFRULES : ':Reasoning Rules:' -> mode(REASONING_RULES); 
 GOAL_IB	:	':Initial Goals:' -> mode(GOALS);
+CAP_IB: 'Capabilities:' -> mode(CAPABILITIES);
 IB_COMMENT : '/*' .*? '*/' -> skip ;
 IB_LINE_COMMENT : '//' ~[\n]* -> skip ;
 IB_NEWLINE:'\r'? '\n' -> skip;
@@ -54,11 +54,22 @@ BELIEF_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|'.'|' '|'\t'|'\n'|'\r'
 
 mode REASONING_RULES;
 GOAL_RR	:	':Initial Goals:' -> mode(GOALS);
+CAP_RR: 'Capabilities:' -> mode(CAPABILITIES);
 RR_COMMENT : '/*' .*? '*/' -> skip ;
 RR_LINE_COMMENT : '//' ~[\n]* -> skip ;
 RR_NEWLINE:'\r'? '\n'   ;
 RR_WS  :   (' '|'\t') -> skip ;
-RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!')+ ;
+RR_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!'|'<')+ ;
+
+mode CAPABILITIES;
+GOAL_C: 'Initial Goals:' -> mode(GOALS);
+CAP_COMMENT : '/*' .*? '*/' -> skip ;
+CAP_LINE_COMMENT : '//' ~[\n]* -> skip ;
+CAP_NEWLINE:'\r'? '\n'   ;
+CAP_WS  :   (' '|'\t') -> skip ;
+CAP_CURLYOPEN	: '{' {curly_nesting++;};
+CAP_CURLYCLOSE	: '}' {curly_nesting--;};
+CAP_BLOCK: ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'('|')'|','|':-'|' '|'\t'|'\n'|'\r'|';'|'~'|'['|']'|'|'|'!')+ ;
 
 mode GOALS;
 PLANS	:	':Plans:' -> mode(PLANS_MODE);
@@ -77,13 +88,18 @@ NAME_PM : ':name:' -> mode(DEFAULT_MODE);
 PL_COMMENT : '/*' .*? '*/' -> skip ;
 PL_LINE_COMMENT : '//' ~[\n]* -> skip ;
 PL_NEWLINE:'\r'? '\n' -> skip ;
-PL_WS  :   (' '|'\t') -> skip ;
+PL_WS  :   (' '|'\t') -> channel(HIDDEN) ;
 SEND	:	'.send';
 RECEIVED: '.received';
 BELIEVE	:	{curly_nesting > 0}? ('B' | '.B') ;
 GOAL	:	{curly_nesting > 0}?  ('G' | '.G') ;
 SENT	:	 '.sent';
 LOCK	:	'.lock';
+//CALCULATE :	'.calculate';
+QUERYCOM	:	'.query';
+//WAIT	:	'.wait';
+//SUBSTITUTE	:	'.substitute';
+
 // ADD_PLAN	:	'.plan';
 
 PL_ACHIEVEGOAL	: 'achieve';

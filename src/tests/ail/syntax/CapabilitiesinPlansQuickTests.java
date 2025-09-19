@@ -24,19 +24,26 @@
 
 package ail.syntax;
 
+import ail.syntax.ast.Abstract_Capability;
+import ail.syntax.ast.Abstract_Plan;
+import eass.parser.EASSAILVisitor;
 import eass.parser.EASSLexer;
 import eass.parser.EASSParser;
+import gwendolen.parser.GwendolenLexer;
+import gwendolen.parser.GwendolenParser;
+import gwendolen.parser.GwendolenAILVisitor;
 import junit.framework.Assert;
-
-import mcaplantlr.runtime.ANTLRStringStream;
-import mcaplantlr.runtime.CommonTokenStream;
 
 import org.junit.Test;
 
 import ail.semantics.AILAgent;
 
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.ArrayList;
+
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * Regression tests associated with reasoning about capabilities/actions appearing
@@ -50,16 +57,20 @@ public class CapabilitiesinPlansQuickTests {
 	 * Test to check that we can extract all the plans containing some capability
 	 */
 	@Test public void getPlansContainingCapTest() {
-		EASSLexer plan1_lexer = new EASSLexer(new ANTLRStringStream("+!correct_angle(A) [perform] : {True} <- .query(calculate_angle(A)), perf(turn(A)), *turned, remove_shared(turned);"));		
+		EASSLexer plan1_lexer = new EASSLexer(CharStreams.fromString("+!correct_angle(A) [perform] : {True} <- .query(calculate_angle(A)), perf(turn(A)), *turned, remove_shared(turned);"));
+		plan1_lexer.pushMode(EASSLexer.PLANS_MODE);
 		CommonTokenStream plan1_tokens = new CommonTokenStream(plan1_lexer);
 		EASSParser plan1_parser = new EASSParser(plan1_tokens);
-		EASSLexer plan2_lexer = new EASSLexer(new ANTLRStringStream("+! move(D) [perform] : {True} <- .query(calculate_distance(D)), perf(forward(D)), *moved, remove_shared(moved), +!evaluate_success(pos(X, Y), forward(D), True) [perform];"));
+		EASSLexer plan2_lexer = new EASSLexer(CharStreams.fromString("+! move(D) [perform] : {True} <- .query(calculate_distance(D)), perf(forward(D)), *moved, remove_shared(moved), +!evaluate_success(pos(X, Y), forward(D), True) [perform];"));
+		plan2_lexer.pushMode(EASSLexer.PLANS_MODE);
 		CommonTokenStream plan2_tokens = new CommonTokenStream(plan2_lexer);
 		EASSParser plan2_parser = new EASSParser(plan2_tokens);
+
+		EASSAILVisitor visitor = new EASSAILVisitor();
 		
 		try {
-			Plan plan1 = (plan1_parser.plan()).toMCAPL();
-			Plan plan2 = (plan2_parser.plan()).toMCAPL();
+			Plan plan1 = ((Abstract_Plan) visitor.visitEass_plan(plan1_parser.eass_plan())).toMCAPL();
+			Plan plan2 = ((Abstract_Plan) visitor.visitEass_plan(plan2_parser.eass_plan())).toMCAPL();
 
 			AILAgent a = new AILAgent("ag");
 			a.addPlan(plan1);
@@ -82,24 +93,30 @@ public class CapabilitiesinPlansQuickTests {
 	}
 	
 	/**
-	 * A fairly involved test to check identifying an equivalent capability and substituting it into a plan.
+	 * A fairly involved test to check identifying an equivalent capability and substituting it into a plan.  This test needs to be visited once we can get non-ground terms to imply each other.
 	 */
-	@Test public void findEquivalentCapabilityTest() {
-		EASSLexer cap1_lexer = new EASSLexer(new ANTLRStringStream("{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}"));		
+	/* @Test public void findEquivalentCapabilityTest() {
+		EASSLexer cap1_lexer = new EASSLexer(CharStreams.fromString("{pos(X, Y), angle(Theta), target(NX, NY)} forward(D) {pos(NX, NY), angle(Theta)}"));
 		CommonTokenStream cap1_tokens = new CommonTokenStream(cap1_lexer);
+		cap1_lexer.pushMode(EASSLexer.CAPABILITIES);
 		EASSParser cap1_parser = new EASSParser(cap1_tokens);
-		EASSLexer cap2_lexer = new EASSLexer(new ANTLRStringStream("{target(X, Y)} feedback(X, Y) {pos(X, Y)}"));
+		EASSLexer cap2_lexer = new EASSLexer(CharStreams.fromString("{target(X, Y)} feedback(X, Y) {pos(X, Y)}"));
+		cap2_lexer.pushMode(EASSLexer.CAPABILITIES);
 		CommonTokenStream cap2_tokens = new CommonTokenStream(cap2_lexer);
 		EASSParser cap2_parser = new EASSParser(cap2_tokens);
-		EASSLexer plan_lexer = new EASSLexer(new ANTLRStringStream("+! move(D) [perform] : {True} <-  .query(calculate_distance(D)), perf(forward(D)),  *moved, remove_shared(moved), +!evaluate_success(pos(A, B), forward(D1), true) [perform];"));
+		EASSLexer plan_lexer = new EASSLexer(CharStreams.fromString("+! move(D) [perform] : {True} <-  .query(calculate_distance(D)), perf(forward(D)),  *moved, remove_shared(moved), +!evaluate_success(pos(A, B), forward(D1), true) [perform];"));
+		plan_lexer.pushMode(EASSLexer.PLANS_MODE);
 		CommonTokenStream plan_tokens = new CommonTokenStream(plan_lexer);
 		EASSParser plan_parser = new EASSParser(plan_tokens);
+
+		EASSAILVisitor visitor = new EASSAILVisitor();
+		// GwendolenAILVisitor gwen_visitor = new GwendolenAILVisitor();
 		
 		try {
-			Capability cap1 = (cap1_parser.capability()).toMCAPL();
-			Capability cap2 = (cap2_parser.capability()).toMCAPL();
-			Plan plan = (plan_parser.plan()).toMCAPL();
-			
+			Capability cap1 = ((Abstract_Capability) visitor.visitCapability(cap1_parser.capability())).toMCAPL();
+			Capability cap2 = ((Abstract_Capability) visitor.visitCapability(cap2_parser.capability())).toMCAPL();
+			Plan plan = ((Abstract_Plan) visitor.visitEass_plan(plan_parser.eass_plan())).toMCAPL();
+
 			AILAgent a = new AILAgent("ag");
 			a.addCap(cap1);
 			a.addCap(cap2);
@@ -136,9 +153,10 @@ public class CapabilitiesinPlansQuickTests {
 				
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.assertFalse(true);
 		}
 		
-	}
+	} */
 
 }

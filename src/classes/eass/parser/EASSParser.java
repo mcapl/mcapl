@@ -1,4098 +1,2769 @@
-// $ANTLR 3.5.1 /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g 2016-03-30 19:39:43
-
+// Generated from /Users/louisedennis/IdeaProjects/mcapl/src/classes/eass/parser/antlr/EASS.g4 by ANTLR 4.13.1
 package eass.parser;
-
-import ail.syntax.ast.*;
-import eass.syntax.ast.*;
-import gwendolen.syntax.ast.*;
-import java.util.HashMap;
-
-
-import mcaplantlr.runtime.*;
-import java.util.Stack;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings("all")
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class EASSParser extends Parser {
-	public static final String[] tokenNames = new String[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "ABSTRACTION", "ACHIEVE", "ACHIEVEGOAL", 
-		"ARROW", "BAR", "BELIEFRULES", "BELIEFS", "BELIEVE", "BRULEARROW", "CALCULATE", 
-		"CAPABILITIES", "CAPABILITY", "CLOSE", "COLON", "COMMA", "COMMENT", "CONST", 
-		"CURLYCLOSE", "CURLYOPEN", "DIV", "DOUBLEQUOTE", "EASS", "EQ", "EQ_ASSGN", 
-		"GOAL", "GOALS", "IMPLICATION", "LESS", "LINE_COMMENT", "LOCK", "MINUS", 
-		"MOD", "MULT", "NAME", "NEWLINE", "NOT", "NUMBER", "OPEN", "PERFORM", 
-		"PERFORMGOAL", "PLAN", "PLANS", "PLUS", "POINT", "QUERY", "QUERYCOM", 
-		"RECEIVED", "RULEARROW", "SEMI", "SEND", "SENT", "SHRIEK", "SQCLOSE", 
-		"SQOPEN", "STRING", "SUBSTITUTE", "TELL", "TRUE", "UNNAMEDVAR", "UPDATE", 
-		"VAR", "WAIT", "WS"
-	};
-	public static final int EOF=-1;
-	public static final int ABSTRACTION=4;
-	public static final int ACHIEVE=5;
-	public static final int ACHIEVEGOAL=6;
-	public static final int ARROW=7;
-	public static final int BAR=8;
-	public static final int BELIEFRULES=9;
-	public static final int BELIEFS=10;
-	public static final int BELIEVE=11;
-	public static final int BRULEARROW=12;
-	public static final int CALCULATE=13;
-	public static final int CAPABILITIES=14;
-	public static final int CAPABILITY=15;
-	public static final int CLOSE=16;
-	public static final int COLON=17;
-	public static final int COMMA=18;
-	public static final int COMMENT=19;
-	public static final int CONST=20;
-	public static final int CURLYCLOSE=21;
-	public static final int CURLYOPEN=22;
-	public static final int DIV=23;
-	public static final int DOUBLEQUOTE=24;
-	public static final int EASS=25;
-	public static final int EQ=26;
-	public static final int EQ_ASSGN=27;
-	public static final int GOAL=28;
-	public static final int GOALS=29;
-	public static final int IMPLICATION=30;
-	public static final int LESS=31;
-	public static final int LINE_COMMENT=32;
-	public static final int LOCK=33;
-	public static final int MINUS=34;
-	public static final int MOD=35;
-	public static final int MULT=36;
-	public static final int NAME=37;
-	public static final int NEWLINE=38;
-	public static final int NOT=39;
-	public static final int NUMBER=40;
-	public static final int OPEN=41;
-	public static final int PERFORM=42;
-	public static final int PERFORMGOAL=43;
-	public static final int PLAN=44;
-	public static final int PLANS=45;
-	public static final int PLUS=46;
-	public static final int POINT=47;
-	public static final int QUERY=48;
-	public static final int QUERYCOM=49;
-	public static final int RECEIVED=50;
-	public static final int RULEARROW=51;
-	public static final int SEMI=52;
-	public static final int SEND=53;
-	public static final int SENT=54;
-	public static final int SHRIEK=55;
-	public static final int SQCLOSE=56;
-	public static final int SQOPEN=57;
-	public static final int STRING=58;
-	public static final int SUBSTITUTE=59;
-	public static final int TELL=60;
-	public static final int TRUE=61;
-	public static final int UNNAMEDVAR=62;
-	public static final int UPDATE=63;
-	public static final int VAR=64;
-	public static final int WAIT=65;
-	public static final int WS=66;
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
-	// delegates
-	public Parser[] getDelegates() {
-		return new Parser[] {};
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		EASS=1, ABSTRACTION=2, GWENDOLEN=3, NAME=4, CONST=5, COMMENT=6, LINE_COMMENT=7, 
+		NEWLINE=8, WS=9, BELIEFS=10, BELIEFRULES=11, GOAL_IB=12, CAP_IB=13, IB_COMMENT=14, 
+		IB_LINE_COMMENT=15, IB_NEWLINE=16, IB_WS=17, BELIEF_BLOCK=18, GOAL_RR=19, 
+		CAP_RR=20, RR_COMMENT=21, RR_LINE_COMMENT=22, RR_NEWLINE=23, RR_WS=24, 
+		RR_BLOCK=25, GOAL_C=26, CAP_COMMENT=27, CAP_LINE_COMMENT=28, CAP_NEWLINE=29, 
+		CAP_WS=30, CAP_CURLYOPEN=31, CAP_CURLYCLOSE=32, CAP_BLOCK=33, PLANS=34, 
+		GL_COMMENT=35, GL_LINE_COMMENT=36, GL_NEWLINE=37, GL_WS=38, GL_ACHIEVEGOAL=39, 
+		GL_PERFORMGOAL=40, GL_SQOPEN=41, GL_SQCLOSE=42, GOAL_BLOCK=43, NAME_PM=44, 
+		PL_COMMENT=45, PL_LINE_COMMENT=46, PL_NEWLINE=47, PL_WS=48, SEND=49, RECEIVED=50, 
+		BELIEVE=51, GOAL=52, SENT=53, LOCK=54, QUERYCOM=55, PL_ACHIEVEGOAL=56, 
+		PL_PERFORMGOAL=57, PL_SQOPEN=58, PL_SQCLOSE=59, PL_BAR=60, NOT=61, COLON=62, 
+		CURLYOPEN=63, CURLYCLOSE=64, COMMA=65, SEMI=66, TELL=67, SHRIEK=68, OPEN=69, 
+		CLOSE=70, MULT=71, PLUS=72, MINUS=73, LESS=74, EQUAL=75, IDPUNCT=76, RULEARROW=77, 
+		TRUE=78, PL_CONST=79, PL_VAR=80, NUMBER=81, QUOTED_STRING=82;
+	public static final int
+		RULE_mas = 0, RULE_eassagents = 1, RULE_eassagent = 2, RULE_capability = 3, 
+		RULE_eass_plan = 4, RULE_eass_deed = 5, RULE_query = 6, RULE_gwendolenagents = 7, 
+		RULE_gwendolenagent = 8, RULE_initial_goal = 9, RULE_plan = 10, RULE_guard_atom = 11, 
+		RULE_event = 12, RULE_performative = 13, RULE_deed = 14, RULE_goal = 15, 
+		RULE_waitfor = 16, RULE_action = 17, RULE_fof_expr = 18, RULE_const_var = 19, 
+		RULE_oper = 20, RULE_agentnameterm = 21;
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"mas", "eassagents", "eassagent", "capability", "eass_plan", "eass_deed", 
+			"query", "gwendolenagents", "gwendolenagent", "initial_goal", "plan", 
+			"guard_atom", "event", "performative", "deed", "goal", "waitfor", "action", 
+			"fof_expr", "const_var", "oper", "agentnameterm"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
+
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'EASS'", "':abstraction:'", "'GWENDOLEN'", null, null, null, null, 
+			null, null, "':Initial Beliefs:'", "':Reasoning Rules:'", null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			"'Initial Goals:'", null, null, null, null, null, null, null, "':Plans:'", 
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, "'.send'", "'.received'", null, null, "'.sent'", "'.lock'", 
+			"'.query'", "'achieve'", "'perform'", null, null, "'|'", "'~'", "':'", 
+			null, null, "','", "';'", "':tell'", "'!'", "'('", "')'", "'*'", "'+'", 
+			"'-'", "'<'", "'=='", "'.'", "'<-'", "'True'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "EASS", "ABSTRACTION", "GWENDOLEN", "NAME", "CONST", "COMMENT", 
+			"LINE_COMMENT", "NEWLINE", "WS", "BELIEFS", "BELIEFRULES", "GOAL_IB", 
+			"CAP_IB", "IB_COMMENT", "IB_LINE_COMMENT", "IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", 
+			"GOAL_RR", "CAP_RR", "RR_COMMENT", "RR_LINE_COMMENT", "RR_NEWLINE", "RR_WS", 
+			"RR_BLOCK", "GOAL_C", "CAP_COMMENT", "CAP_LINE_COMMENT", "CAP_NEWLINE", 
+			"CAP_WS", "CAP_CURLYOPEN", "CAP_CURLYCLOSE", "CAP_BLOCK", "PLANS", "GL_COMMENT", 
+			"GL_LINE_COMMENT", "GL_NEWLINE", "GL_WS", "GL_ACHIEVEGOAL", "GL_PERFORMGOAL", 
+			"GL_SQOPEN", "GL_SQCLOSE", "GOAL_BLOCK", "NAME_PM", "PL_COMMENT", "PL_LINE_COMMENT", 
+			"PL_NEWLINE", "PL_WS", "SEND", "RECEIVED", "BELIEVE", "GOAL", "SENT", 
+			"LOCK", "QUERYCOM", "PL_ACHIEVEGOAL", "PL_PERFORMGOAL", "PL_SQOPEN", 
+			"PL_SQCLOSE", "PL_BAR", "NOT", "COLON", "CURLYOPEN", "CURLYCLOSE", "COMMA", 
+			"SEMI", "TELL", "SHRIEK", "OPEN", "CLOSE", "MULT", "PLUS", "MINUS", "LESS", 
+			"EQUAL", "IDPUNCT", "RULEARROW", "TRUE", "PL_CONST", "PL_VAR", "NUMBER", 
+			"QUOTED_STRING"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
 	}
 
-	// delegators
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
 
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+	@Override
+	public String getGrammarFileName() { return "EASS.g4"; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
 
 	public EASSParser(TokenStream input) {
-		this(input, new RecognizerSharedState());
-	}
-	public EASSParser(TokenStream input, RecognizerSharedState state) {
-		super(input, state);
+		super(input);
+		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	@Override public String[] getTokenNames() { return EASSParser.tokenNames; }
-	@Override public String getGrammarFileName() { return "/Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g"; }
+	@SuppressWarnings("CheckReturnValue")
+	public static class MasContext extends ParserRuleContext {
+		public EassagentsContext glist;
+		public EassagentsContext eassagents() {
+			return getRuleContext(EassagentsContext.class,0);
+		}
+		public MasContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_mas; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitMas(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-		private static HashMap<String,Abstract_VarTerm> variables = new HashMap<String,Abstract_VarTerm>();
-		private Abstract_StringTerm agentname = new Abstract_StringTermImpl("");
-		
-
-
-	// $ANTLR start "mas"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:1: mas returns [Abstract_MAS mas] :glist= eassagents ;
-	public final Abstract_MAS mas() throws RecognitionException {
-		Abstract_MAS mas = null;
-
-
-
-		ArrayList<Abstract_EASSAgent> glist =null;
-
+	public final MasContext mas() throws RecognitionException {
+		MasContext _localctx = new MasContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_mas);
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:32: (glist= eassagents )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:59:34: glist= eassagents
+			enterOuterAlt(_localctx, 1);
 			{
-			mas = new Abstract_MAS();
-			pushFollow(FOLLOW_eassagents_in_mas89);
-			glist=eassagents();
-
-			state._fsp--;
-
-			mas.setAgs(glist);
-	
+			setState(44);
+			((MasContext)_localctx).glist = eassagents();
 			}
-
 		}
 		catch (RecognitionException re) {
-
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-
-		return mas;
+		return _localctx;
 	}
-	// $ANTLR end "mas"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class EassagentsContext extends ParserRuleContext {
+		public EassagentContext g;
+		public TerminalNode EASS() { return getToken(EASSParser.EASS, 0); }
+		public List<EassagentContext> eassagent() {
+			return getRuleContexts(EassagentContext.class);
+		}
+		public EassagentContext eassagent(int i) {
+			return getRuleContext(EassagentContext.class,i);
+		}
+		public EassagentsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_eassagents; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitEassagents(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "eassagents"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:1: eassagents returns [ArrayList<Abstract_EASSAgent> gags] : EASS (g= eassagent )+ ;
-	public final ArrayList<Abstract_EASSAgent> eassagents() throws RecognitionException {
-		ArrayList<Abstract_EASSAgent> gags = null;
-
-
-		Abstract_EASSAgent g =null;
-
+	public final EassagentsContext eassagents() throws RecognitionException {
+		EassagentsContext _localctx = new EassagentsContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_eassagents);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:55: ( EASS (g= eassagent )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:62:57: EASS (g= eassagent )+
+			enterOuterAlt(_localctx, 1);
 			{
-			match(input,EASS,FOLLOW_EASS_in_eassagents102); 
-			gags=new ArrayList<Abstract_EASSAgent>();
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:63:2: (g= eassagent )+
-			int cnt1=0;
-			loop1:
-			while (true) {
-				int alt1=2;
-				int LA1_0 = input.LA(1);
-				if ( (LA1_0==ABSTRACTION||LA1_0==NAME) ) {
-					alt1=1;
+			setState(46);
+			match(EASS);
+			setState(48); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(47);
+				((EassagentsContext)_localctx).g = eassagent();
 				}
-
-				switch (alt1) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:63:3: g= eassagent
-					{
-					pushFollow(FOLLOW_eassagent_in_eassagents111);
-					g=eassagent();
-					state._fsp--;
-
-					gags.add(g);
-					}
-					break;
-
-				default :
-					if ( cnt1 >= 1 ) break loop1;
-					EarlyExitException eee = new EarlyExitException(1, input);
-					throw eee;
 				}
-				cnt1++;
+				setState(50); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 17592186044438L) != 0) );
 			}
-
-			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return gags;
+		return _localctx;
 	}
-	// $ANTLR end "eassagents"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class EassagentContext extends ParserRuleContext {
+		public Token w;
+		public Token bs;
+		public Token rr;
+		public CapabilityContext cap;
+		public Initial_goalContext gs;
+		public Eass_planContext p;
+		public TerminalNode BELIEFS() { return getToken(EASSParser.BELIEFS, 0); }
+		public TerminalNode PLANS() { return getToken(EASSParser.PLANS, 0); }
+		public TerminalNode NAME() { return getToken(EASSParser.NAME, 0); }
+		public TerminalNode NAME_PM() { return getToken(EASSParser.NAME_PM, 0); }
+		public TerminalNode ABSTRACTION() { return getToken(EASSParser.ABSTRACTION, 0); }
+		public TerminalNode CONST() { return getToken(EASSParser.CONST, 0); }
+		public TerminalNode GOAL_IB() { return getToken(EASSParser.GOAL_IB, 0); }
+		public TerminalNode GOAL_RR() { return getToken(EASSParser.GOAL_RR, 0); }
+		public TerminalNode GOAL_C() { return getToken(EASSParser.GOAL_C, 0); }
+		public TerminalNode BELIEFRULES() { return getToken(EASSParser.BELIEFRULES, 0); }
+		public List<TerminalNode> BELIEF_BLOCK() { return getTokens(EASSParser.BELIEF_BLOCK); }
+		public TerminalNode BELIEF_BLOCK(int i) {
+			return getToken(EASSParser.BELIEF_BLOCK, i);
+		}
+		public TerminalNode CAP_IB() { return getToken(EASSParser.CAP_IB, 0); }
+		public TerminalNode CAP_RR() { return getToken(EASSParser.CAP_RR, 0); }
+		public List<Initial_goalContext> initial_goal() {
+			return getRuleContexts(Initial_goalContext.class);
+		}
+		public Initial_goalContext initial_goal(int i) {
+			return getRuleContext(Initial_goalContext.class,i);
+		}
+		public List<Eass_planContext> eass_plan() {
+			return getRuleContexts(Eass_planContext.class);
+		}
+		public Eass_planContext eass_plan(int i) {
+			return getRuleContext(Eass_planContext.class,i);
+		}
+		public TerminalNode EASS() { return getToken(EASSParser.EASS, 0); }
+		public List<TerminalNode> RR_NEWLINE() { return getTokens(EASSParser.RR_NEWLINE); }
+		public TerminalNode RR_NEWLINE(int i) {
+			return getToken(EASSParser.RR_NEWLINE, i);
+		}
+		public List<TerminalNode> CAP_NEWLINE() { return getTokens(EASSParser.CAP_NEWLINE); }
+		public TerminalNode CAP_NEWLINE(int i) {
+			return getToken(EASSParser.CAP_NEWLINE, i);
+		}
+		public List<TerminalNode> RR_BLOCK() { return getTokens(EASSParser.RR_BLOCK); }
+		public TerminalNode RR_BLOCK(int i) {
+			return getToken(EASSParser.RR_BLOCK, i);
+		}
+		public List<CapabilityContext> capability() {
+			return getRuleContexts(CapabilityContext.class);
+		}
+		public CapabilityContext capability(int i) {
+			return getRuleContext(CapabilityContext.class,i);
+		}
+		public EassagentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_eassagent; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitEassagent(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "eassagent"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:65:1: eassagent returns [Abstract_EASSAgent g] : ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ( CAPABILITIES (c= capability )* )? GOALS (gl= goal )* PLANS (p= plan )* ;
-	public final Abstract_EASSAgent eassagent() throws RecognitionException {
-		Abstract_EASSAgent g = null;
-
-
-		String w =null;
-		Abstract_Literal l =null;
-		Abstract_Rule r =null;
-		Abstract_Capability c =null;
-		Abstract_Goal gl =null;
-		Abstract_GPlan p =null;
-
+	public final EassagentContext eassagent() throws RecognitionException {
+		EassagentContext _localctx = new EassagentContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_eassagent);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:65:42: ( ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ( CAPABILITIES (c= capability )* )? GOALS (gl= goal )* PLANS (p= plan )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word ) BELIEFS (l= literal )* ( BELIEFRULES (r= brule )* )? ( CAPABILITIES (c= capability )* )? GOALS (gl= goal )* PLANS (p= plan )*
+			enterOuterAlt(_localctx, 1);
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:2: ( NAME w= word | ABSTRACTION w= word )
-			int alt2=2;
-			int LA2_0 = input.LA(1);
-			if ( (LA2_0==NAME) ) {
-				alt2=1;
-			}
-			else if ( (LA2_0==ABSTRACTION) ) {
-				alt2=2;
+			{
+			setState(53);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==EASS) {
+				{
+				setState(52);
+				match(EASS);
+				}
 			}
 
+			}
+			setState(55);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 17592186044436L) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
 			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 2, 0, input);
-				throw nvae;
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
-			switch (alt2) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:66:3: NAME w= word
-					{
-					match(input,NAME,FOLLOW_NAME_in_eassagent130); 
-					pushFollow(FOLLOW_word_in_eassagent134);
-					w=word();
-					state._fsp--;
-
-					try {g = new Abstract_EASSAgent(w);} catch (Exception e) {System.err.println(e);}
-						              agentname = new Abstract_StringTermImpl(w);
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:68:2: ABSTRACTION w= word
-					{
-					match(input,ABSTRACTION,FOLLOW_ABSTRACTION_in_eassagent141); 
-					pushFollow(FOLLOW_word_in_eassagent145);
-					w=word();
-					state._fsp--;
-
-					String s = "abstraction_" + w; g = new Abstract_EASSAgent(s); g.setAbstraction(w);
-					}
-					break;
-
-			}
-
-			match(input,BELIEFS,FOLLOW_BELIEFS_in_eassagent157); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:70:10: (l= literal )*
-			loop3:
-			while (true) {
-				int alt3=2;
-				int LA3_0 = input.LA(1);
-				if ( (LA3_0==CONST||LA3_0==NOT||(LA3_0 >= TRUE && LA3_0 <= UNNAMEDVAR)||LA3_0==VAR) ) {
-					alt3=1;
+			setState(56);
+			((EassagentContext)_localctx).w = match(CONST);
+			setState(57);
+			match(BELIEFS);
+			setState(61);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==BELIEF_BLOCK) {
+				{
+				{
+				setState(58);
+				((EassagentContext)_localctx).bs = match(BELIEF_BLOCK);
 				}
-
-				switch (alt3) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:70:11: l= literal
-					{
-					pushFollow(FOLLOW_literal_in_eassagent162);
-					l=literal();
-					state._fsp--;
-
-					g.addInitialBel(l);
-					}
-					break;
-
-				default :
-					break loop3;
 				}
+				setState(63);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
 			}
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:2: ( BELIEFRULES (r= brule )* )?
-			int alt5=2;
-			int LA5_0 = input.LA(1);
-			if ( (LA5_0==BELIEFRULES) ) {
-				alt5=1;
-			}
-			switch (alt5) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:3: BELIEFRULES (r= brule )*
+			setState(77);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==BELIEFRULES) {
+				{
+				setState(64);
+				match(BELIEFRULES);
+				setState(68);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RR_NEWLINE) {
 					{
-					match(input,BELIEFRULES,FOLLOW_BELIEFRULES_in_eassagent170); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:15: (r= brule )*
-					loop4:
-					while (true) {
-						int alt4=2;
-						int LA4_0 = input.LA(1);
-						if ( (LA4_0==CONST||LA4_0==UNNAMEDVAR||LA4_0==VAR) ) {
-							alt4=1;
-						}
-
-						switch (alt4) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:71:16: r= brule
-							{
-							pushFollow(FOLLOW_brule_in_eassagent175);
-							r=brule();
-							state._fsp--;
-
-							g.addRule(r);
-							}
-							break;
-
-						default :
-							break loop4;
-						}
-					}
-
-					}
-					break;
-
-			}
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:2: ( CAPABILITIES (c= capability )* )?
-			int alt7=2;
-			int LA7_0 = input.LA(1);
-			if ( (LA7_0==CAPABILITIES) ) {
-				alt7=1;
-			}
-			switch (alt7) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:3: CAPABILITIES (c= capability )*
 					{
-					match(input,CAPABILITIES,FOLLOW_CAPABILITIES_in_eassagent185); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:16: (c= capability )*
-					loop6:
-					while (true) {
-						int alt6=2;
-						int LA6_0 = input.LA(1);
-						if ( (LA6_0==CURLYOPEN) ) {
-							alt6=1;
-						}
-
-						switch (alt6) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:72:17: c= capability
-							{
-							pushFollow(FOLLOW_capability_in_eassagent190);
-							c=capability();
-							state._fsp--;
-
-							g.addCap(c);
-							}
-							break;
-
-						default :
-							break loop6;
-						}
+					setState(65);
+					match(RR_NEWLINE);
 					}
-
 					}
-					break;
-
-			}
-
-			match(input,GOALS,FOLLOW_GOALS_in_eassagent199); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:73:8: (gl= goal )*
-			loop8:
-			while (true) {
-				int alt8=2;
-				int LA8_0 = input.LA(1);
-				if ( (LA8_0==CONST||LA8_0==NOT||(LA8_0 >= TRUE && LA8_0 <= UNNAMEDVAR)||LA8_0==VAR) ) {
-					alt8=1;
+					setState(70);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
 				}
-
-				switch (alt8) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:73:9: gl= goal
+				setState(74);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RR_BLOCK) {
 					{
-					pushFollow(FOLLOW_goal_in_eassagent204);
-					gl=goal();
-					state._fsp--;
-
-					g.addInitialGoal(gl);
+					{
+					setState(71);
+					((EassagentContext)_localctx).rr = match(RR_BLOCK);
 					}
-					break;
-
-				default :
-					break loop8;
+					}
+					setState(76);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 			}
 
-			match(input,PLANS,FOLLOW_PLANS_in_eassagent211); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:74:8: (p= plan )*
-			loop9:
-			while (true) {
-				int alt9=2;
-				int LA9_0 = input.LA(1);
-				if ( (LA9_0==MINUS||LA9_0==PLUS) ) {
-					alt9=1;
+			setState(92);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==CAP_IB || _la==CAP_RR) {
+				{
+				setState(79);
+				_la = _input.LA(1);
+				if ( !(_la==CAP_IB || _la==CAP_RR) ) {
+				_errHandler.recoverInline(this);
 				}
-
-				switch (alt9) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:74:9: p= plan
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
+				setState(83);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==CAP_NEWLINE) {
 					{
-					pushFollow(FOLLOW_plan_in_eassagent216);
-					p=plan();
-					state._fsp--;
-
-					try {g.addPlan(p);} catch (Exception e) {System.err.println(e);}
+					{
+					setState(80);
+					match(CAP_NEWLINE);
 					}
-					break;
-
-				default :
-					break loop9;
+					}
+					setState(85);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(89);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==CAP_CURLYOPEN) {
+					{
+					{
+					setState(86);
+					((EassagentContext)_localctx).cap = capability();
+					}
+					}
+					setState(91);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 			}
 
+			setState(94);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 67637248L) != 0)) ) {
+			_errHandler.recoverInline(this);
 			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return g;
-	}
-	// $ANTLR end "eassagent"
-
-
-
-	// $ANTLR start "goal"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:1: goal returns [Abstract_Goal g] : l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE ;
-	public final Abstract_Goal goal() throws RecognitionException {
-		Abstract_Goal g = null;
-
-
-		Abstract_Literal l =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:32: (l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:34: l= literal SQOPEN ( ACHIEVEGOAL | PERFORMGOAL ) SQCLOSE
-			{
-			pushFollow(FOLLOW_literal_in_goal237);
-			l=literal();
-			state._fsp--;
-
-			match(input,SQOPEN,FOLLOW_SQOPEN_in_goal239); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:51: ( ACHIEVEGOAL | PERFORMGOAL )
-			int alt10=2;
-			int LA10_0 = input.LA(1);
-			if ( (LA10_0==ACHIEVEGOAL) ) {
-				alt10=1;
-			}
-			else if ( (LA10_0==PERFORMGOAL) ) {
-				alt10=2;
-			}
-
 			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 10, 0, input);
-				throw nvae;
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
-			switch (alt10) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:77:52: ACHIEVEGOAL
-					{
-					match(input,ACHIEVEGOAL,FOLLOW_ACHIEVEGOAL_in_goal242); 
-					g = new Abstract_Goal(l, Abstract_Goal.achieveGoal);
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:78:2: PERFORMGOAL
-					{
-					match(input,PERFORMGOAL,FOLLOW_PERFORMGOAL_in_goal250); 
-					g = new Abstract_Goal(l, Abstract_Goal.performGoal);
-					}
-					break;
-
-			}
-
-			match(input,SQCLOSE,FOLLOW_SQCLOSE_in_goal255); 
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return g;
-	}
-	// $ANTLR end "goal"
-
-
-
-	// $ANTLR start "capability"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:80:1: capability returns [Abstract_Capability c] : CURLYOPEN (pre= clogicalfmla )? CURLYCLOSE cap= pred CURLYOPEN post= clogicalfmla CURLYCLOSE ;
-	public final Abstract_Capability capability() throws RecognitionException {
-		Abstract_Capability c = null;
-
-
-		Abstract_GLogicalFormula pre =null;
-		Abstract_Predicate cap =null;
-		Abstract_GLogicalFormula post =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:80:44: ( CURLYOPEN (pre= clogicalfmla )? CURLYCLOSE cap= pred CURLYOPEN post= clogicalfmla CURLYCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:2: CURLYOPEN (pre= clogicalfmla )? CURLYCLOSE cap= pred CURLYOPEN post= clogicalfmla CURLYCLOSE
-			{
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability270); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:12: (pre= clogicalfmla )?
-			int alt11=2;
-			int LA11_0 = input.LA(1);
-			if ( (LA11_0==CONST||LA11_0==NOT||LA11_0==UNNAMEDVAR||LA11_0==VAR) ) {
-				alt11=1;
-			}
-			switch (alt11) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:81:13: pre= clogicalfmla
-					{
-					pushFollow(FOLLOW_clogicalfmla_in_capability275);
-					pre=clogicalfmla();
-					state._fsp--;
-
-					}
-					break;
-
-			}
-
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability279); 
-			pushFollow(FOLLOW_pred_in_capability285);
-			cap=pred();
-			state._fsp--;
-
-			c = new Abstract_Capability(cap); if (pre != null) {c.addPre(pre);}
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_capability290); 
-			pushFollow(FOLLOW_clogicalfmla_in_capability294);
-			post=clogicalfmla();
-			state._fsp--;
-
-			c.addPost(post);
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_capability298); 
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return c;
-	}
-	// $ANTLR end "capability"
-
-
-
-	// $ANTLR start "plan"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:86:1: plan returns [Abstract_GPlan p] : e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( COMMA d= deed[deeds] )* )? SEMI ;
-	public final Abstract_GPlan plan() throws RecognitionException {
-		Abstract_GPlan p = null;
-
-
-		Abstract_Event e =null;
-		Abstract_GLogicalFormula gb =null;
-		Abstract_Deed d =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:2: (e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( COMMA d= deed[deeds] )* )? SEMI )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:87:4: e= event COLON CURLYOPEN ( NOT )? gb= guard_atom ( COMMA ( NOT )? gb= guard_atom )* CURLYCLOSE ( RULEARROW d= deed[deeds] ( COMMA d= deed[deeds] )* )? SEMI
-			{
-			pushFollow(FOLLOW_event_in_plan316);
-			e=event();
-			state._fsp--;
-
-			ArrayList<Abstract_Deed> deeds=new ArrayList<Abstract_Deed>(); Abstract_Guard g = new Abstract_Guard();
-			match(input,COLON,FOLLOW_COLON_in_plan324); 
-			match(input,CURLYOPEN,FOLLOW_CURLYOPEN_in_plan326); 
-			boolean gneg=true;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:88:40: ( NOT )?
-			int alt12=2;
-			int LA12_0 = input.LA(1);
-			if ( (LA12_0==NOT) ) {
-				alt12=1;
-			}
-			switch (alt12) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:88:41: NOT
-					{
-					match(input,NOT,FOLLOW_NOT_in_plan331); 
-					gneg=false;
-					}
-					break;
-
-			}
-
-			pushFollow(FOLLOW_guard_atom_in_plan339);
-			gb=guard_atom();
-			state._fsp--;
-
-			g.add(gb, gneg);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:3: ( COMMA ( NOT )? gb= guard_atom )*
-			loop14:
-			while (true) {
-				int alt14=2;
-				int LA14_0 = input.LA(1);
-				if ( (LA14_0==COMMA) ) {
-					alt14=1;
+			setState(98);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==GOAL_BLOCK) {
+				{
+				{
+				setState(95);
+				((EassagentContext)_localctx).gs = initial_goal();
 				}
+				}
+				setState(100);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(101);
+			match(PLANS);
+			setState(103); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(102);
+				((EassagentContext)_localctx).p = eass_plan();
+				}
+				}
+				setState(105); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==PLUS || _la==MINUS );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
 
-				switch (alt14) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:4: COMMA ( NOT )? gb= guard_atom
+	@SuppressWarnings("CheckReturnValue")
+	public static class CapabilityContext extends ParserRuleContext {
+		public Token pre;
+		public Token cap;
+		public Token post;
+		public List<TerminalNode> CAP_CURLYOPEN() { return getTokens(EASSParser.CAP_CURLYOPEN); }
+		public TerminalNode CAP_CURLYOPEN(int i) {
+			return getToken(EASSParser.CAP_CURLYOPEN, i);
+		}
+		public List<TerminalNode> CAP_CURLYCLOSE() { return getTokens(EASSParser.CAP_CURLYCLOSE); }
+		public TerminalNode CAP_CURLYCLOSE(int i) {
+			return getToken(EASSParser.CAP_CURLYCLOSE, i);
+		}
+		public List<TerminalNode> CAP_BLOCK() { return getTokens(EASSParser.CAP_BLOCK); }
+		public TerminalNode CAP_BLOCK(int i) {
+			return getToken(EASSParser.CAP_BLOCK, i);
+		}
+		public CapabilityContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_capability; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitCapability(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final CapabilityContext capability() throws RecognitionException {
+		CapabilityContext _localctx = new CapabilityContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_capability);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(107);
+			match(CAP_CURLYOPEN);
+			setState(108);
+			((CapabilityContext)_localctx).pre = match(CAP_BLOCK);
+			setState(109);
+			match(CAP_CURLYCLOSE);
+			setState(110);
+			((CapabilityContext)_localctx).cap = match(CAP_BLOCK);
+			setState(111);
+			match(CAP_CURLYOPEN);
+			setState(112);
+			((CapabilityContext)_localctx).post = match(CAP_BLOCK);
+			setState(113);
+			match(CAP_CURLYCLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class Eass_planContext extends ParserRuleContext {
+		public EventContext e;
+		public Guard_atomContext gb;
+		public Eass_deedContext d;
+		public TerminalNode COLON() { return getToken(EASSParser.COLON, 0); }
+		public TerminalNode CURLYOPEN() { return getToken(EASSParser.CURLYOPEN, 0); }
+		public TerminalNode CURLYCLOSE() { return getToken(EASSParser.CURLYCLOSE, 0); }
+		public TerminalNode SEMI() { return getToken(EASSParser.SEMI, 0); }
+		public EventContext event() {
+			return getRuleContext(EventContext.class,0);
+		}
+		public List<Guard_atomContext> guard_atom() {
+			return getRuleContexts(Guard_atomContext.class);
+		}
+		public Guard_atomContext guard_atom(int i) {
+			return getRuleContext(Guard_atomContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(EASSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(EASSParser.COMMA, i);
+		}
+		public TerminalNode RULEARROW() { return getToken(EASSParser.RULEARROW, 0); }
+		public List<Eass_deedContext> eass_deed() {
+			return getRuleContexts(Eass_deedContext.class);
+		}
+		public Eass_deedContext eass_deed(int i) {
+			return getRuleContext(Eass_deedContext.class,i);
+		}
+		public Eass_planContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_eass_plan; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitEass_plan(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Eass_planContext eass_plan() throws RecognitionException {
+		Eass_planContext _localctx = new Eass_planContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_eass_plan);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(115);
+			((Eass_planContext)_localctx).e = event();
+			setState(116);
+			match(COLON);
+			setState(117);
+			match(CURLYOPEN);
+			setState(118);
+			((Eass_planContext)_localctx).gb = guard_atom();
+			setState(123);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(119);
+				match(COMMA);
+				setState(120);
+				((Eass_planContext)_localctx).gb = guard_atom();
+				}
+				}
+				setState(125);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(126);
+			match(CURLYCLOSE);
+			setState(136);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==RULEARROW) {
+				{
+				setState(127);
+				match(RULEARROW);
+				setState(128);
+				((Eass_planContext)_localctx).d = eass_deed();
+				setState(133);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==COMMA) {
 					{
-					match(input,COMMA,FOLLOW_COMMA_in_plan347); 
-					gneg=true;
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:23: ( NOT )?
-					int alt13=2;
-					int LA13_0 = input.LA(1);
-					if ( (LA13_0==NOT) ) {
-						alt13=1;
+					{
+					setState(129);
+					match(COMMA);
+					setState(130);
+					((Eass_planContext)_localctx).d = eass_deed();
 					}
-					switch (alt13) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:24: NOT
-							{
-							match(input,NOT,FOLLOW_NOT_in_plan352); 
-							gneg=false;
-							}
-							break;
-
 					}
-
-					pushFollow(FOLLOW_guard_atom_in_plan360);
-					gb=guard_atom();
-					state._fsp--;
-
-					g.add(gb, gneg);
-					}
-					break;
-
-				default :
-					break loop14;
+					setState(135);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 			}
 
-			match(input,CURLYCLOSE,FOLLOW_CURLYCLOSE_in_plan366); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:93: ( RULEARROW d= deed[deeds] ( COMMA d= deed[deeds] )* )?
-			int alt16=2;
-			int LA16_0 = input.LA(1);
-			if ( (LA16_0==RULEARROW) ) {
-				alt16=1;
+			setState(138);
+			match(SEMI);
 			}
-			switch (alt16) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:89:94: RULEARROW d= deed[deeds] ( COMMA d= deed[deeds] )*
-					{
-					match(input,RULEARROW,FOLLOW_RULEARROW_in_plan369); 
-					pushFollow(FOLLOW_deed_in_plan374);
-					d=deed(deeds);
-					state._fsp--;
-
-					deeds.add(d);
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:90:35: ( COMMA d= deed[deeds] )*
-					loop15:
-					while (true) {
-						int alt15=2;
-						int LA15_0 = input.LA(1);
-						if ( (LA15_0==COMMA) ) {
-							alt15=1;
-						}
-
-						switch (alt15) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:90:36: COMMA d= deed[deeds]
-							{
-							match(input,COMMA,FOLLOW_COMMA_in_plan380); 
-							pushFollow(FOLLOW_deed_in_plan384);
-							d=deed(deeds);
-							state._fsp--;
-
-							deeds.add(d);
-							}
-							break;
-
-						default :
-							break loop15;
-						}
-					}
-
-					}
-					break;
-
-			}
-
-			match(input,SEMI,FOLLOW_SEMI_in_plan395); 
-			p = new Abstract_GPlan(e, g, deeds); p.reverseBody(); variables.clear();
-			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return p;
+		return _localctx;
 	}
-	// $ANTLR end "plan"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class Eass_deedContext extends ParserRuleContext {
+		public Fof_exprContext l;
+		public GoalContext g;
+		public QueryContext q;
+		public ActionContext a;
+		public WaitforContext wf;
+		public TerminalNode QUERYCOM() { return getToken(EASSParser.QUERYCOM, 0); }
+		public QueryContext query() {
+			return getRuleContext(QueryContext.class,0);
+		}
+		public ActionContext action() {
+			return getRuleContext(ActionContext.class,0);
+		}
+		public WaitforContext waitfor() {
+			return getRuleContext(WaitforContext.class,0);
+		}
+		public TerminalNode PLUS() { return getToken(EASSParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(EASSParser.MINUS, 0); }
+		public TerminalNode SHRIEK() { return getToken(EASSParser.SHRIEK, 0); }
+		public TerminalNode LOCK() { return getToken(EASSParser.LOCK, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public GoalContext goal() {
+			return getRuleContext(GoalContext.class,0);
+		}
+		public Eass_deedContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_eass_deed; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitEass_deed(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "event"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:1: event returns [Abstract_Event e] : ( PLUS ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) ;
-	public final Abstract_Event event() throws RecognitionException {
-		Abstract_Event e = null;
-
-
-		int p =0;
-		Abstract_Predicate t =null;
-		Abstract_Literal l =null;
-		Abstract_Goal g =null;
-
+	public final Eass_deedContext eass_deed() throws RecognitionException {
+		Eass_deedContext _localctx = new Eass_deedContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_eass_deed);
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:34: ( ( PLUS ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:36: ( PLUS ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
+			enterOuterAlt(_localctx, 1);
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:36: ( PLUS ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) ) | MINUS (l= literal | SHRIEK g= goal ) )
-			int alt20=2;
-			int LA20_0 = input.LA(1);
-			if ( (LA20_0==PLUS) ) {
-				alt20=1;
+			setState(161);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
+			case 1:
+				{
+				setState(154);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case PLUS:
+					{
+					{
+					setState(140);
+					match(PLUS);
+					setState(145);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case PL_SQOPEN:
+					case OPEN:
+					case MINUS:
+					case PL_CONST:
+					case PL_VAR:
+					case NUMBER:
+						{
+						setState(141);
+						((Eass_deedContext)_localctx).l = fof_expr();
+						}
+						break;
+					case SHRIEK:
+						{
+						setState(142);
+						match(SHRIEK);
+						setState(143);
+						((Eass_deedContext)_localctx).g = goal();
+						}
+						break;
+					case LOCK:
+						{
+						setState(144);
+						match(LOCK);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+					}
+					break;
+				case MINUS:
+					{
+					{
+					setState(147);
+					match(MINUS);
+					setState(152);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case PL_SQOPEN:
+					case OPEN:
+					case MINUS:
+					case PL_CONST:
+					case PL_VAR:
+					case NUMBER:
+						{
+						setState(148);
+						((Eass_deedContext)_localctx).l = fof_expr();
+						}
+						break;
+					case SHRIEK:
+						{
+						setState(149);
+						match(SHRIEK);
+						setState(150);
+						((Eass_deedContext)_localctx).g = goal();
+						}
+						break;
+					case LOCK:
+						{
+						setState(151);
+						match(LOCK);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				break;
+			case 2:
+				{
+				setState(156);
+				match(QUERYCOM);
+				setState(157);
+				((Eass_deedContext)_localctx).q = query();
+				}
+				break;
+			case 3:
+				{
+				setState(158);
+				((Eass_deedContext)_localctx).a = action();
+				}
+				break;
+			case 4:
+				{
+				setState(159);
+				((Eass_deedContext)_localctx).wf = waitfor();
+				}
+				break;
+			case 5:
+				{
+				}
+				break;
 			}
-			else if ( (LA20_0==MINUS) ) {
-				alt20=2;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class QueryContext extends ParserRuleContext {
+		public Fof_exprContext l1;
+		public TerminalNode OPEN() { return getToken(EASSParser.OPEN, 0); }
+		public TerminalNode CLOSE() { return getToken(EASSParser.CLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public QueryContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_query; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitQuery(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final QueryContext query() throws RecognitionException {
+		QueryContext _localctx = new QueryContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_query);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(163);
+			match(OPEN);
+			setState(164);
+			((QueryContext)_localctx).l1 = fof_expr();
+			setState(165);
+			match(CLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class GwendolenagentsContext extends ParserRuleContext {
+		public GwendolenagentContext g;
+		public TerminalNode GWENDOLEN() { return getToken(EASSParser.GWENDOLEN, 0); }
+		public List<GwendolenagentContext> gwendolenagent() {
+			return getRuleContexts(GwendolenagentContext.class);
+		}
+		public GwendolenagentContext gwendolenagent(int i) {
+			return getRuleContext(GwendolenagentContext.class,i);
+		}
+		public GwendolenagentsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_gwendolenagents; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitGwendolenagents(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final GwendolenagentsContext gwendolenagents() throws RecognitionException {
+		GwendolenagentsContext _localctx = new GwendolenagentsContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_gwendolenagents);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(167);
+			match(GWENDOLEN);
+			setState(169); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(168);
+				((GwendolenagentsContext)_localctx).g = gwendolenagent();
+				}
+				}
+				setState(171); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 17592186044440L) != 0) );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class GwendolenagentContext extends ParserRuleContext {
+		public Token w;
+		public Token bs;
+		public Token rr;
+		public Initial_goalContext gs;
+		public PlanContext p;
+		public TerminalNode BELIEFS() { return getToken(EASSParser.BELIEFS, 0); }
+		public TerminalNode PLANS() { return getToken(EASSParser.PLANS, 0); }
+		public TerminalNode NAME() { return getToken(EASSParser.NAME, 0); }
+		public TerminalNode NAME_PM() { return getToken(EASSParser.NAME_PM, 0); }
+		public TerminalNode CONST() { return getToken(EASSParser.CONST, 0); }
+		public TerminalNode GOAL_IB() { return getToken(EASSParser.GOAL_IB, 0); }
+		public TerminalNode GOAL_RR() { return getToken(EASSParser.GOAL_RR, 0); }
+		public TerminalNode BELIEFRULES() { return getToken(EASSParser.BELIEFRULES, 0); }
+		public List<TerminalNode> BELIEF_BLOCK() { return getTokens(EASSParser.BELIEF_BLOCK); }
+		public TerminalNode BELIEF_BLOCK(int i) {
+			return getToken(EASSParser.BELIEF_BLOCK, i);
+		}
+		public List<Initial_goalContext> initial_goal() {
+			return getRuleContexts(Initial_goalContext.class);
+		}
+		public Initial_goalContext initial_goal(int i) {
+			return getRuleContext(Initial_goalContext.class,i);
+		}
+		public List<PlanContext> plan() {
+			return getRuleContexts(PlanContext.class);
+		}
+		public PlanContext plan(int i) {
+			return getRuleContext(PlanContext.class,i);
+		}
+		public TerminalNode GWENDOLEN() { return getToken(EASSParser.GWENDOLEN, 0); }
+		public List<TerminalNode> RR_NEWLINE() { return getTokens(EASSParser.RR_NEWLINE); }
+		public TerminalNode RR_NEWLINE(int i) {
+			return getToken(EASSParser.RR_NEWLINE, i);
+		}
+		public List<TerminalNode> RR_BLOCK() { return getTokens(EASSParser.RR_BLOCK); }
+		public TerminalNode RR_BLOCK(int i) {
+			return getToken(EASSParser.RR_BLOCK, i);
+		}
+		public GwendolenagentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_gwendolenagent; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitGwendolenagent(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final GwendolenagentContext gwendolenagent() throws RecognitionException {
+		GwendolenagentContext _localctx = new GwendolenagentContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_gwendolenagent);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(174);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==GWENDOLEN) {
+				{
+				setState(173);
+				match(GWENDOLEN);
+				}
 			}
 
+			}
+			setState(176);
+			_la = _input.LA(1);
+			if ( !(_la==NAME || _la==NAME_PM) ) {
+			_errHandler.recoverInline(this);
+			}
 			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 20, 0, input);
-				throw nvae;
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
-			switch (alt20) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:37: PLUS ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) )
+			setState(177);
+			((GwendolenagentContext)_localctx).w = match(CONST);
+			setState(178);
+			match(BELIEFS);
+			setState(182);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==BELIEF_BLOCK) {
+				{
+				{
+				setState(179);
+				((GwendolenagentContext)_localctx).bs = match(BELIEF_BLOCK);
+				}
+				}
+				setState(184);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(198);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==BELIEFRULES) {
+				{
+				setState(185);
+				match(BELIEFRULES);
+				setState(189);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RR_NEWLINE) {
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_event412); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:42: ( RECEIVED OPEN p= performative COMMA t= pred CLOSE | (l= literal | SHRIEK g= goal ) )
-					int alt18=2;
-					int LA18_0 = input.LA(1);
-					if ( (LA18_0==RECEIVED) ) {
-						alt18=1;
-					}
-					else if ( (LA18_0==CONST||LA18_0==NOT||LA18_0==SHRIEK||(LA18_0 >= TRUE && LA18_0 <= UNNAMEDVAR)||LA18_0==VAR) ) {
-						alt18=2;
-					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 18, 0, input);
-						throw nvae;
-					}
-
-					switch (alt18) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:93:43: RECEIVED OPEN p= performative COMMA t= pred CLOSE
-							{
-							match(input,RECEIVED,FOLLOW_RECEIVED_in_event415); 
-							match(input,OPEN,FOLLOW_OPEN_in_event417); 
-							pushFollow(FOLLOW_performative_in_event421);
-							p=performative();
-							state._fsp--;
-
-							match(input,COMMA,FOLLOW_COMMA_in_event423); 
-							pushFollow(FOLLOW_pred_in_event427);
-							t=pred();
-							state._fsp--;
-
-							match(input,CLOSE,FOLLOW_CLOSE_in_event429); 
-							Abstract_GMessage message = new Abstract_GMessage(new Abstract_VarTerm("From"), 
-												new Abstract_VarTerm("To"), p, t); 
-												e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILReceived, message);
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:97:5: (l= literal | SHRIEK g= goal )
-							{
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:97:5: (l= literal | SHRIEK g= goal )
-							int alt17=2;
-							int LA17_0 = input.LA(1);
-							if ( (LA17_0==CONST||LA17_0==NOT||(LA17_0 >= TRUE && LA17_0 <= UNNAMEDVAR)||LA17_0==VAR) ) {
-								alt17=1;
-							}
-							else if ( (LA17_0==SHRIEK) ) {
-								alt17=2;
-							}
-
-							else {
-								NoViableAltException nvae =
-									new NoViableAltException("", 17, 0, input);
-								throw nvae;
-							}
-
-							switch (alt17) {
-								case 1 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:97:6: l= literal
-									{
-									pushFollow(FOLLOW_literal_in_event446);
-									l=literal();
-									state._fsp--;
-
-									e = new Abstract_Event(Abstract_Event.AILAddition, Abstract_Event.AILBel, l);
-									}
-									break;
-								case 2 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:98:5: SHRIEK g= goal
-									{
-									match(input,SHRIEK,FOLLOW_SHRIEK_in_event456); 
-									pushFollow(FOLLOW_goal_in_event460);
-									g=goal();
-									state._fsp--;
-
-									e = new Abstract_Event(Abstract_Event.AILAddition, g);
-									}
-									break;
-
-							}
-
-							}
-							break;
-
-					}
-
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:99:7: MINUS (l= literal | SHRIEK g= goal )
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_event474); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:99:13: (l= literal | SHRIEK g= goal )
-					int alt19=2;
-					int LA19_0 = input.LA(1);
-					if ( (LA19_0==CONST||LA19_0==NOT||(LA19_0 >= TRUE && LA19_0 <= UNNAMEDVAR)||LA19_0==VAR) ) {
-						alt19=1;
+					setState(186);
+					match(RR_NEWLINE);
 					}
-					else if ( (LA19_0==SHRIEK) ) {
-						alt19=2;
 					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 19, 0, input);
-						throw nvae;
+					setState(191);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(195);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RR_BLOCK) {
+					{
+					{
+					setState(192);
+					((GwendolenagentContext)_localctx).rr = match(RR_BLOCK);
 					}
-
-					switch (alt19) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:99:14: l= literal
-							{
-							pushFollow(FOLLOW_literal_in_event479);
-							l=literal();
-							state._fsp--;
-
-							e = new Abstract_Event(Abstract_Event.AILDeletion, Abstract_Event.AILBel, l);
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:100:5: SHRIEK g= goal
-							{
-							match(input,SHRIEK,FOLLOW_SHRIEK_in_event489); 
-							pushFollow(FOLLOW_goal_in_event493);
-							g=goal();
-							state._fsp--;
-
-							e = new Abstract_Event(Abstract_Event.AILDeletion, g);
-							}
-							break;
-
 					}
-
-					}
-					break;
-
+					setState(197);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
 			}
 
+			setState(200);
+			_la = _input.LA(1);
+			if ( !(_la==GOAL_IB || _la==GOAL_RR) ) {
+			_errHandler.recoverInline(this);
 			}
-
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(204);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==GOAL_BLOCK) {
+				{
+				{
+				setState(201);
+				((GwendolenagentContext)_localctx).gs = initial_goal();
+				}
+				}
+				setState(206);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(207);
+			match(PLANS);
+			setState(209); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(208);
+				((GwendolenagentContext)_localctx).p = plan();
+				}
+				}
+				setState(211); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==PLUS || _la==MINUS );
+			}
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return e;
+		return _localctx;
 	}
-	// $ANTLR end "event"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class Initial_goalContext extends ParserRuleContext {
+		public Token g;
+		public TerminalNode GL_SQOPEN() { return getToken(EASSParser.GL_SQOPEN, 0); }
+		public TerminalNode GL_SQCLOSE() { return getToken(EASSParser.GL_SQCLOSE, 0); }
+		public TerminalNode GOAL_BLOCK() { return getToken(EASSParser.GOAL_BLOCK, 0); }
+		public TerminalNode GL_ACHIEVEGOAL() { return getToken(EASSParser.GL_ACHIEVEGOAL, 0); }
+		public TerminalNode GL_PERFORMGOAL() { return getToken(EASSParser.GL_PERFORMGOAL, 0); }
+		public Initial_goalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_initial_goal; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitInitial_goal(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "guard_atom"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:1: guard_atom returns [Abstract_GLogicalFormula g] : ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN (st= stringterm |v= var ) COMMA (an2= stringterm COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) ;
-	public final Abstract_GLogicalFormula guard_atom() throws RecognitionException {
-		Abstract_GLogicalFormula g = null;
-
-
-		Abstract_Literal l =null;
-		Abstract_Goal gl =null;
-		Abstract_StringTerm st =null;
-		Abstract_VarTerm v =null;
-		Abstract_StringTerm an2 =null;
-		int p =0;
-		Abstract_Predicate t =null;
-		Abstract_Equation eq =null;
-
+	public final Initial_goalContext initial_goal() throws RecognitionException {
+		Initial_goalContext _localctx = new Initial_goalContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_initial_goal);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:49: ( ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN (st= stringterm |v= var ) COMMA (an2= stringterm COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:51: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN (st= stringterm |v= var ) COMMA (an2= stringterm COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
+			enterOuterAlt(_localctx, 1);
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:51: ( BELIEVE l= literal | GOAL gl= goal | SENT OPEN (st= stringterm |v= var ) COMMA (an2= stringterm COMMA )? p= performative COMMA t= pred CLOSE |eq= equation | TRUE )
-			int alt23=5;
-			switch ( input.LA(1) ) {
+			setState(213);
+			((Initial_goalContext)_localctx).g = match(GOAL_BLOCK);
+			setState(214);
+			match(GL_SQOPEN);
+			setState(215);
+			_la = _input.LA(1);
+			if ( !(_la==GL_ACHIEVEGOAL || _la==GL_PERFORMGOAL) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(216);
+			match(GL_SQCLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class PlanContext extends ParserRuleContext {
+		public EventContext e;
+		public Guard_atomContext gb;
+		public DeedContext d;
+		public TerminalNode COLON() { return getToken(EASSParser.COLON, 0); }
+		public TerminalNode CURLYOPEN() { return getToken(EASSParser.CURLYOPEN, 0); }
+		public TerminalNode CURLYCLOSE() { return getToken(EASSParser.CURLYCLOSE, 0); }
+		public TerminalNode SEMI() { return getToken(EASSParser.SEMI, 0); }
+		public EventContext event() {
+			return getRuleContext(EventContext.class,0);
+		}
+		public List<Guard_atomContext> guard_atom() {
+			return getRuleContexts(Guard_atomContext.class);
+		}
+		public Guard_atomContext guard_atom(int i) {
+			return getRuleContext(Guard_atomContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(EASSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(EASSParser.COMMA, i);
+		}
+		public TerminalNode RULEARROW() { return getToken(EASSParser.RULEARROW, 0); }
+		public List<DeedContext> deed() {
+			return getRuleContexts(DeedContext.class);
+		}
+		public DeedContext deed(int i) {
+			return getRuleContext(DeedContext.class,i);
+		}
+		public PlanContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_plan; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitPlan(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PlanContext plan() throws RecognitionException {
+		PlanContext _localctx = new PlanContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_plan);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(218);
+			((PlanContext)_localctx).e = event();
+			setState(219);
+			match(COLON);
+			setState(220);
+			match(CURLYOPEN);
+			setState(221);
+			((PlanContext)_localctx).gb = guard_atom();
+			setState(226);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(222);
+				match(COMMA);
+				setState(223);
+				((PlanContext)_localctx).gb = guard_atom();
+				}
+				}
+				setState(228);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(229);
+			match(CURLYCLOSE);
+			setState(239);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==RULEARROW) {
+				{
+				setState(230);
+				match(RULEARROW);
+				setState(231);
+				((PlanContext)_localctx).d = deed();
+				setState(236);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==COMMA) {
+					{
+					{
+					setState(232);
+					match(COMMA);
+					setState(233);
+					((PlanContext)_localctx).d = deed();
+					}
+					}
+					setState(238);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+			}
+
+			setState(241);
+			match(SEMI);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class Guard_atomContext extends ParserRuleContext {
+		public Fof_exprContext l;
+		public GoalContext gl;
+		public Fof_exprContext eq;
+		public AgentnametermContext s;
+		public AgentnametermContext an2;
+		public PerformativeContext p;
+		public Fof_exprContext t;
+		public TerminalNode TRUE() { return getToken(EASSParser.TRUE, 0); }
+		public TerminalNode BELIEVE() { return getToken(EASSParser.BELIEVE, 0); }
+		public TerminalNode GOAL() { return getToken(EASSParser.GOAL, 0); }
+		public TerminalNode SENT() { return getToken(EASSParser.SENT, 0); }
+		public TerminalNode OPEN() { return getToken(EASSParser.OPEN, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(EASSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(EASSParser.COMMA, i);
+		}
+		public TerminalNode CLOSE() { return getToken(EASSParser.CLOSE, 0); }
+		public TerminalNode NOT() { return getToken(EASSParser.NOT, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public GoalContext goal() {
+			return getRuleContext(GoalContext.class,0);
+		}
+		public PerformativeContext performative() {
+			return getRuleContext(PerformativeContext.class,0);
+		}
+		public List<AgentnametermContext> agentnameterm() {
+			return getRuleContexts(AgentnametermContext.class);
+		}
+		public AgentnametermContext agentnameterm(int i) {
+			return getRuleContext(AgentnametermContext.class,i);
+		}
+		public Guard_atomContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_guard_atom; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitGuard_atom(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Guard_atomContext guard_atom() throws RecognitionException {
+		Guard_atomContext _localctx = new Guard_atomContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_guard_atom);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(268);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
 			case BELIEVE:
-				{
-				alt23=1;
-				}
-				break;
 			case GOAL:
-				{
-				alt23=2;
-				}
-				break;
 			case SENT:
-				{
-				alt23=3;
-				}
-				break;
-			case MINUS:
-			case NUMBER:
+			case PL_SQOPEN:
+			case NOT:
 			case OPEN:
-			case UNNAMEDVAR:
-			case VAR:
+			case MINUS:
+			case PL_CONST:
+			case PL_VAR:
+			case NUMBER:
 				{
-				alt23=4;
+				setState(244);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==NOT) {
+					{
+					setState(243);
+					match(NOT);
+					}
+				}
+
+				setState(265);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case BELIEVE:
+					{
+					setState(246);
+					match(BELIEVE);
+					setState(247);
+					((Guard_atomContext)_localctx).l = fof_expr();
+					}
+					break;
+				case GOAL:
+					{
+					setState(248);
+					match(GOAL);
+					setState(249);
+					((Guard_atomContext)_localctx).gl = goal();
+					}
+					break;
+				case PL_SQOPEN:
+				case OPEN:
+				case MINUS:
+				case PL_CONST:
+				case PL_VAR:
+				case NUMBER:
+					{
+					setState(250);
+					((Guard_atomContext)_localctx).eq = fof_expr();
+					}
+					break;
+				case SENT:
+					{
+					setState(251);
+					match(SENT);
+					setState(252);
+					match(OPEN);
+					{
+					setState(253);
+					((Guard_atomContext)_localctx).s = agentnameterm();
+					}
+					setState(254);
+					match(COMMA);
+					setState(258);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if (_la==PL_CONST || _la==PL_VAR) {
+						{
+						setState(255);
+						((Guard_atomContext)_localctx).an2 = agentnameterm();
+						setState(256);
+						match(COMMA);
+						}
+					}
+
+					setState(260);
+					((Guard_atomContext)_localctx).p = performative();
+					setState(261);
+					match(COMMA);
+					setState(262);
+					((Guard_atomContext)_localctx).t = fof_expr();
+					setState(263);
+					match(CLOSE);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
 				}
 				break;
 			case TRUE:
 				{
-				alt23=5;
+				setState(267);
+				match(TRUE);
 				}
 				break;
 			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 23, 0, input);
-				throw nvae;
+				throw new NoViableAltException(this);
 			}
-			switch (alt23) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:102:52: BELIEVE l= literal
-					{
-					match(input,BELIEVE,FOLLOW_BELIEVE_in_guard_atom515); 
-					pushFollow(FOLLOW_literal_in_guard_atom519);
-					l=literal();
-					state._fsp--;
-
-					g = new Abstract_GBelief(l);
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:103:5: GOAL gl= goal
-					{
-					match(input,GOAL,FOLLOW_GOAL_in_guard_atom529); 
-					pushFollow(FOLLOW_goal_in_guard_atom533);
-					gl=goal();
-					state._fsp--;
-
-					g = new Abstract_Goal(gl);
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:5: SENT OPEN (st= stringterm |v= var ) COMMA (an2= stringterm COMMA )? p= performative COMMA t= pred CLOSE
-					{
-					match(input,SENT,FOLLOW_SENT_in_guard_atom543); 
-					match(input,OPEN,FOLLOW_OPEN_in_guard_atom545); 
-					Abstract_StringTerm an1=agentname;
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:52: (st= stringterm |v= var )
-					int alt21=2;
-					int LA21_0 = input.LA(1);
-					if ( (LA21_0==DOUBLEQUOTE) ) {
-						alt21=1;
-					}
-					else if ( (LA21_0==UNNAMEDVAR||LA21_0==VAR) ) {
-						alt21=2;
-					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 21, 0, input);
-						throw nvae;
-					}
-
-					switch (alt21) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:53: st= stringterm
-							{
-							pushFollow(FOLLOW_stringterm_in_guard_atom552);
-							st=stringterm();
-							state._fsp--;
-
-							an1=st;
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:79: v= var
-							{
-							pushFollow(FOLLOW_var_in_guard_atom560);
-							v=var();
-							state._fsp--;
-
-							an1 = v;
-							}
-							break;
-
-					}
-
-					match(input,COMMA,FOLLOW_COMMA_in_guard_atom565); 
-					Abstract_StringTerm agn = agentname;
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:142: (an2= stringterm COMMA )?
-					int alt22=2;
-					int LA22_0 = input.LA(1);
-					if ( (LA22_0==DOUBLEQUOTE) ) {
-						alt22=1;
-					}
-					switch (alt22) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:104:143: an2= stringterm COMMA
-							{
-							pushFollow(FOLLOW_stringterm_in_guard_atom572);
-							an2=stringterm();
-							state._fsp--;
-
-							match(input,COMMA,FOLLOW_COMMA_in_guard_atom580); 
-							agn = an2;
-							}
-							break;
-
-					}
-
-					pushFollow(FOLLOW_performative_in_guard_atom588);
-					p=performative();
-					state._fsp--;
-
-					match(input,COMMA,FOLLOW_COMMA_in_guard_atom596); 
-					pushFollow(FOLLOW_pred_in_guard_atom600);
-					t=pred();
-					state._fsp--;
-
-					match(input,CLOSE,FOLLOW_CLOSE_in_guard_atom602); 
-					g = new Abstract_GuardMessage(Abstract_BaseAILStructure.AILSent, agn, an1, p, t);
-					}
-					break;
-				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:107:5: eq= equation
-					{
-					pushFollow(FOLLOW_equation_in_guard_atom616);
-					eq=equation();
-					state._fsp--;
-
-					g = eq;
-					}
-					break;
-				case 5 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:114:5: TRUE
-					{
-					match(input,TRUE,FOLLOW_TRUE_in_guard_atom658); 
-					g = new Abstract_GBelief();
-					}
-					break;
-
 			}
-
-			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return g;
+		return _localctx;
 	}
-	// $ANTLR end "guard_atom"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class EventContext extends ParserRuleContext {
+		public PerformativeContext p;
+		public Fof_exprContext t;
+		public Fof_exprContext l;
+		public GoalContext g;
+		public TerminalNode PLUS() { return getToken(EASSParser.PLUS, 0); }
+		public TerminalNode RECEIVED() { return getToken(EASSParser.RECEIVED, 0); }
+		public TerminalNode OPEN() { return getToken(EASSParser.OPEN, 0); }
+		public TerminalNode COMMA() { return getToken(EASSParser.COMMA, 0); }
+		public TerminalNode CLOSE() { return getToken(EASSParser.CLOSE, 0); }
+		public PerformativeContext performative() {
+			return getRuleContext(PerformativeContext.class,0);
+		}
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public TerminalNode SHRIEK() { return getToken(EASSParser.SHRIEK, 0); }
+		public GoalContext goal() {
+			return getRuleContext(GoalContext.class,0);
+		}
+		public TerminalNode MINUS() { return getToken(EASSParser.MINUS, 0); }
+		public EventContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_event; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitEvent(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "deed"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:1: deed[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor | SUBSTITUTE s= substitution[ds] ) ;
-	public final Abstract_Deed deed(ArrayList<Abstract_Deed> ds) throws RecognitionException {
-		Abstract_Deed d = null;
-
-
-		Abstract_Literal l =null;
-		Abstract_Goal g =null;
-		Abstract_Predicate p =null;
-		Abstract_Deed c =null;
-		Abstract_Deed q =null;
-		Abstract_Deed w =null;
-		Abstract_Action a =null;
-		Abstract_Literal wf =null;
-		Abstract_Deed s =null;
-
+	public final EventContext event() throws RecognitionException {
+		EventContext _localctx = new EventContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_event);
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:61: ( ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor | SUBSTITUTE s= substitution[ds] ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor | SUBSTITUTE s= substitution[ds] )
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:63: ( ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action ) |wf= waitfor | SUBSTITUTE s= substitution[ds] )
-			int alt28=3;
-			switch ( input.LA(1) ) {
-			case CALCULATE:
-			case CONST:
-			case MINUS:
-			case NUMBER:
-			case OPEN:
+			setState(291);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
 			case PLUS:
-			case QUERYCOM:
-			case SEND:
-			case UNNAMEDVAR:
-			case UPDATE:
-			case VAR:
-			case WAIT:
+				enterOuterAlt(_localctx, 1);
 				{
-				alt28=1;
-				}
-				break;
-			case MULT:
 				{
-				alt28=2;
-				}
-				break;
-			case SUBSTITUTE:
-				{
-				alt28=3;
-				}
-				break;
-			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 28, 0, input);
-				throw nvae;
-			}
-			switch (alt28) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
+				setState(270);
+				match(PLUS);
+				setState(283);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case RECEIVED:
 					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:64: ( ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) ) | UPDATE (l= literal ) | CALCULATE c= calculation[ds] | QUERYCOM q= query[ds] | WAIT w= wait[ds] |a= action )
-					int alt27=6;
-					switch ( input.LA(1) ) {
-					case PLUS:
-						{
-						alt27=1;
-						}
-						break;
+					setState(271);
+					match(RECEIVED);
+					setState(272);
+					match(OPEN);
+					setState(273);
+					((EventContext)_localctx).p = performative();
+					setState(274);
+					match(COMMA);
+					setState(275);
+					((EventContext)_localctx).t = fof_expr();
+					setState(276);
+					match(CLOSE);
+					}
+					break;
+				case PL_SQOPEN:
+				case SHRIEK:
+				case OPEN:
+				case MINUS:
+				case PL_CONST:
+				case PL_VAR:
+				case NUMBER:
+					{
+					setState(281);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case PL_SQOPEN:
+					case OPEN:
 					case MINUS:
-						{
-						int LA27_2 = input.LA(2);
-						if ( (LA27_2==CONST||LA27_2==LOCK||LA27_2==NOT||LA27_2==PLAN||LA27_2==SHRIEK||(LA27_2 >= TRUE && LA27_2 <= UNNAMEDVAR)||LA27_2==VAR) ) {
-							alt27=1;
-						}
-						else if ( (LA27_2==NUMBER) ) {
-							alt27=6;
-						}
-
-						else {
-							int nvaeMark = input.mark();
-							try {
-								input.consume();
-								NoViableAltException nvae =
-									new NoViableAltException("", 27, 2, input);
-								throw nvae;
-							} finally {
-								input.rewind(nvaeMark);
-							}
-						}
-
-						}
-						break;
-					case UPDATE:
-						{
-						alt27=2;
-						}
-						break;
-					case CALCULATE:
-						{
-						alt27=3;
-						}
-						break;
-					case QUERYCOM:
-						{
-						alt27=4;
-						}
-						break;
-					case WAIT:
-						{
-						alt27=5;
-						}
-						break;
-					case CONST:
+					case PL_CONST:
+					case PL_VAR:
 					case NUMBER:
-					case OPEN:
-					case SEND:
-					case UNNAMEDVAR:
-					case VAR:
 						{
-						alt27=6;
+						setState(278);
+						((EventContext)_localctx).l = fof_expr();
+						}
+						break;
+					case SHRIEK:
+						{
+						setState(279);
+						match(SHRIEK);
+						setState(280);
+						((EventContext)_localctx).g = goal();
 						}
 						break;
 					default:
-						NoViableAltException nvae =
-							new NoViableAltException("", 27, 0, input);
-						throw nvae;
+						throw new NoViableAltException(this);
 					}
-					switch (alt27) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) )
-							{
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:65: ( PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) | MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE ) )
-							int alt26=2;
-							int LA26_0 = input.LA(1);
-							if ( (LA26_0==PLUS) ) {
-								alt26=1;
-							}
-							else if ( (LA26_0==MINUS) ) {
-								alt26=2;
-							}
-
-							else {
-								NoViableAltException nvae =
-									new NoViableAltException("", 26, 0, input);
-								throw nvae;
-							}
-
-							switch (alt26) {
-								case 1 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:66: PLUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE )
-									{
-									match(input,PLUS,FOLLOW_PLUS_in_deed683); 
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:71: (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE )
-									int alt24=4;
-									switch ( input.LA(1) ) {
-									case CONST:
-									case NOT:
-									case TRUE:
-									case UNNAMEDVAR:
-									case VAR:
-										{
-										alt24=1;
-										}
-										break;
-									case SHRIEK:
-										{
-										alt24=2;
-										}
-										break;
-									case LOCK:
-										{
-										alt24=3;
-										}
-										break;
-									case PLAN:
-										{
-										alt24=4;
-										}
-										break;
-									default:
-										NoViableAltException nvae =
-											new NoViableAltException("", 24, 0, input);
-										throw nvae;
-									}
-									switch (alt24) {
-										case 1 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:116:72: l= literal
-											{
-											pushFollow(FOLLOW_literal_in_deed688);
-											l=literal();
-											state._fsp--;
-
-											d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.AILBel, l);
-											}
-											break;
-										case 2 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:117:5: SHRIEK g= goal
-											{
-											match(input,SHRIEK,FOLLOW_SHRIEK_in_deed698); 
-											pushFollow(FOLLOW_goal_in_deed702);
-											g=goal();
-											state._fsp--;
-
-											d = new Abstract_Deed(Abstract_Deed.AILAddition, g);
-											}
-											break;
-										case 3 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:118:5: LOCK
-											{
-											match(input,LOCK,FOLLOW_LOCK_in_deed712); 
-											d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dlock);
-											}
-											break;
-										case 4 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:119:5: PLAN OPEN p= pred CLOSE
-											{
-											match(input,PLAN,FOLLOW_PLAN_in_deed721); 
-											match(input,OPEN,FOLLOW_OPEN_in_deed723); 
-											pushFollow(FOLLOW_pred_in_deed727);
-											p=pred();
-											state._fsp--;
-
-											match(input,CLOSE,FOLLOW_CLOSE_in_deed729); 
-											d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.DPlan, p);
-											}
-											break;
-
-									}
-
-									}
-									break;
-								case 2 :
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:120:7: MINUS (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE )
-									{
-									match(input,MINUS,FOLLOW_MINUS_in_deed742); 
-									// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:120:13: (l= literal | SHRIEK g= goal | LOCK | PLAN OPEN p= pred CLOSE )
-									int alt25=4;
-									switch ( input.LA(1) ) {
-									case CONST:
-									case NOT:
-									case TRUE:
-									case UNNAMEDVAR:
-									case VAR:
-										{
-										alt25=1;
-										}
-										break;
-									case SHRIEK:
-										{
-										alt25=2;
-										}
-										break;
-									case LOCK:
-										{
-										alt25=3;
-										}
-										break;
-									case PLAN:
-										{
-										alt25=4;
-										}
-										break;
-									default:
-										NoViableAltException nvae =
-											new NoViableAltException("", 25, 0, input);
-										throw nvae;
-									}
-									switch (alt25) {
-										case 1 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:120:14: l= literal
-											{
-											pushFollow(FOLLOW_literal_in_deed747);
-											l=literal();
-											state._fsp--;
-
-											d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.AILBel, l);
-											}
-											break;
-										case 2 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:121:5: SHRIEK g= goal
-											{
-											match(input,SHRIEK,FOLLOW_SHRIEK_in_deed757); 
-											pushFollow(FOLLOW_goal_in_deed761);
-											g=goal();
-											state._fsp--;
-
-											d = new Abstract_Deed(Abstract_Deed.AILDeletion, g);
-											}
-											break;
-										case 3 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:122:5: LOCK
-											{
-											match(input,LOCK,FOLLOW_LOCK_in_deed771); 
-											d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.Dlock);
-											}
-											break;
-										case 4 :
-											// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:123:5: PLAN OPEN p= pred CLOSE
-											{
-											match(input,PLAN,FOLLOW_PLAN_in_deed781); 
-											match(input,OPEN,FOLLOW_OPEN_in_deed783); 
-											pushFollow(FOLLOW_pred_in_deed787);
-											p=pred();
-											state._fsp--;
-
-											match(input,CLOSE,FOLLOW_CLOSE_in_deed789); 
-											d = new Abstract_Deed(Abstract_Deed.AILDeletion, Abstract_Deed.DPlan, p);
-											}
-											break;
-
-									}
-
-									}
-									break;
-
-							}
-
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:125:5: UPDATE (l= literal )
-							{
-							match(input,UPDATE,FOLLOW_UPDATE_in_deed806); 
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:125:12: (l= literal )
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:125:13: l= literal
-							{
-							pushFollow(FOLLOW_literal_in_deed811);
-							l=literal();
-							state._fsp--;
-
-							d = new Abstract_Deed(Abstract_Deed.AILUpdate, Abstract_Deed.AILBel, l);
-							}
-
-							}
-							break;
-						case 3 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:126:5: CALCULATE c= calculation[ds]
-							{
-							match(input,CALCULATE,FOLLOW_CALCULATE_in_deed822); 
-							pushFollow(FOLLOW_calculation_in_deed826);
-							c=calculation(ds);
-							state._fsp--;
-
-							d = c;
-							}
-							break;
-						case 4 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:127:5: QUERYCOM q= query[ds]
-							{
-							match(input,QUERYCOM,FOLLOW_QUERYCOM_in_deed837); 
-							pushFollow(FOLLOW_query_in_deed841);
-							q=query(ds);
-							state._fsp--;
-
-							d = q;
-							}
-							break;
-						case 5 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:128:5: WAIT w= wait[ds]
-							{
-							match(input,WAIT,FOLLOW_WAIT_in_deed852); 
-							pushFollow(FOLLOW_wait_in_deed856);
-							w=wait(ds);
-							state._fsp--;
-
-							d = w;
-							}
-							break;
-						case 6 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:129:5: a= action
-							{
-							pushFollow(FOLLOW_action_in_deed869);
-							a=action();
-							state._fsp--;
-
-							d = new Abstract_Deed(a);
-							}
-							break;
-
-					}
-
 					}
 					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:130:5: wf= waitfor
-					{
-					pushFollow(FOLLOW_waitfor_in_deed882);
-					wf=waitfor();
-					state._fsp--;
-
-					d = new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf);
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:131:5: SUBSTITUTE s= substitution[ds]
-					{
-					match(input,SUBSTITUTE,FOLLOW_SUBSTITUTE_in_deed892); 
-					pushFollow(FOLLOW_substitution_in_deed896);
-					s=substitution(ds);
-					state._fsp--;
-
-					d = s;
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return d;
-	}
-	// $ANTLR end "deed"
-
-
-
-	// $ANTLR start "substitution"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:1: substitution[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN pl1= pred COMMA c1= pred COMMA c2= pred COMMA pl2= pred CLOSE ;
-	public final Abstract_Deed substitution(ArrayList<Abstract_Deed> ds) throws RecognitionException {
-		Abstract_Deed d = null;
-
-
-		Abstract_Predicate pl1 =null;
-		Abstract_Predicate c1 =null;
-		Abstract_Predicate c2 =null;
-		Abstract_Predicate pl2 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:69: ( OPEN pl1= pred COMMA c1= pred COMMA c2= pred COMMA pl2= pred CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:135:71: OPEN pl1= pred COMMA c1= pred COMMA c2= pred COMMA pl2= pred CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_substitution928); 
-			pushFollow(FOLLOW_pred_in_substitution932);
-			pl1=pred();
-			state._fsp--;
-
-			match(input,COMMA,FOLLOW_COMMA_in_substitution934); 
-			pushFollow(FOLLOW_pred_in_substitution940);
-			c1=pred();
-			state._fsp--;
-
-			match(input,COMMA,FOLLOW_COMMA_in_substitution942); 
-			pushFollow(FOLLOW_pred_in_substitution947);
-			c2=pred();
-			state._fsp--;
-
-			match(input,COMMA,FOLLOW_COMMA_in_substitution949); 
-			pushFollow(FOLLOW_pred_in_substitution955);
-			pl2=pred();
-			state._fsp--;
-
-			match(input,CLOSE,FOLLOW_CLOSE_in_substitution957); 
-			Abstract_Action a = new Abstract_Action("substitute"); a.addTerm(pl1); a.addTerm(c1); a.addTerm(c2); a.addTerm(pl2); d = new Abstract_Deed(a);
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return d;
-	}
-	// $ANTLR end "substitution"
-
-
-
-	// $ANTLR start "calculation"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:137:1: calculation[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal COMMA v= var CLOSE ;
-	public final Abstract_Deed calculation(ArrayList<Abstract_Deed> ds) throws RecognitionException {
-		Abstract_Deed d = null;
-
-
-		Abstract_Literal l1 =null;
-		Abstract_VarTerm v =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:137:68: ( OPEN l1= literal COMMA v= var CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:137:70: OPEN l1= literal COMMA v= var CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_calculation973); 
-			pushFollow(FOLLOW_literal_in_calculation979);
-			l1=literal();
-			state._fsp--;
-
-			match(input,COMMA,FOLLOW_COMMA_in_calculation981); 
-			pushFollow(FOLLOW_var_in_calculation985);
-			v=var();
-			state._fsp--;
-
-			match(input,CLOSE,FOLLOW_CLOSE_in_calculation987); 
-			Abstract_Action a = new Abstract_Action("calculate"); a.addTerm(l1); a.addTerm(new Abstract_VarTerm("NewVarForCalculate")); ds.add(new Abstract_Deed(a));
-				Abstract_Literal wf = new Abstract_Literal("result"); wf.addTerm(l1); wf.addTerm(v); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
-				Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); d = new Abstract_Deed(rs);
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return d;
-	}
-	// $ANTLR end "calculation"
-
-
-
-	// $ANTLR start "query"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:1: query[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= literal CLOSE ;
-	public final Abstract_Deed query(ArrayList<Abstract_Deed> ds) throws RecognitionException {
-		Abstract_Deed d = null;
-
-
-		Abstract_Literal l1 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:62: ( OPEN l1= literal CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:142:64: OPEN l1= literal CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_query1005); 
-			pushFollow(FOLLOW_literal_in_query1011);
-			l1=literal();
-			state._fsp--;
-
-			match(input,CLOSE,FOLLOW_CLOSE_in_query1014); 
-			Abstract_Action a = new Abstract_Action("query"); a.addTerm(l1); ds.add(new Abstract_Deed(a));
-				ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, l1));
-				Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(l1); d = new Abstract_Deed(rs);
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return d;
-	}
-	// $ANTLR end "query"
-
-
-
-	// $ANTLR start "wait"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:147:1: wait[ArrayList<Abstract_Deed> ds] returns [Abstract_Deed d] : OPEN l1= term COMMA l2= literal CLOSE ;
-	public final Abstract_Deed wait(ArrayList<Abstract_Deed> ds) throws RecognitionException {
-		Abstract_Deed d = null;
-
-
-		Abstract_Term l1 =null;
-		Abstract_Literal l2 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:147:61: ( OPEN l1= term COMMA l2= literal CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:147:63: OPEN l1= term COMMA l2= literal CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_wait1032); 
-			pushFollow(FOLLOW_term_in_wait1038);
-			l1=term();
-			state._fsp--;
-
-			match(input,COMMA,FOLLOW_COMMA_in_wait1040); 
-			pushFollow(FOLLOW_literal_in_wait1044);
-			l2=literal();
-			state._fsp--;
-
-			match(input,CLOSE,FOLLOW_CLOSE_in_wait1046); 
-			Abstract_Action a = new Abstract_Action("wait"); a.addTerm(l1); a.addTerm(l2); ds.add(new Abstract_Deed(a));
-				Abstract_Literal wf = new Abstract_Literal("waited"); wf.addTerm(l2); ds.add(new Abstract_Deed(Abstract_Deed.AILAddition, Abstract_Deed.Dwaitfor, wf));
-				Abstract_Action rs = new Abstract_Action("remove_shared"); rs.addTerm(wf); d = new Abstract_Deed(rs);
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return d;
-	}
-	// $ANTLR end "wait"
-
-
-
-	// $ANTLR start "brule"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:1: brule returns [Abstract_Rule r] : head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) ;
-	public final Abstract_Rule brule() throws RecognitionException {
-		Abstract_Rule r = null;
-
-
-		Abstract_Predicate head =null;
-		Abstract_LogicalFormula f =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:33: (head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:35: head= pred ( BRULEARROW f= logicalfmla SEMI | SEMI )
-			{
-			pushFollow(FOLLOW_pred_in_brule1069);
-			head=pred();
-			state._fsp--;
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:45: ( BRULEARROW f= logicalfmla SEMI | SEMI )
-			int alt29=2;
-			int LA29_0 = input.LA(1);
-			if ( (LA29_0==BRULEARROW) ) {
-				alt29=1;
-			}
-			else if ( (LA29_0==SEMI) ) {
-				alt29=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 29, 0, input);
-				throw nvae;
-			}
-
-			switch (alt29) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:46: BRULEARROW f= logicalfmla SEMI
-					{
-					match(input,BRULEARROW,FOLLOW_BRULEARROW_in_brule1072); 
-					pushFollow(FOLLOW_logicalfmla_in_brule1076);
-					f=logicalfmla();
-					state._fsp--;
-
-					r = new Abstract_Rule(head, f);
-					match(input,SEMI,FOLLOW_SEMI_in_brule1080); 
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:152:116: SEMI
-					{
-					match(input,SEMI,FOLLOW_SEMI_in_brule1084); 
-					r = new Abstract_Rule(head);
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return r;
-	}
-	// $ANTLR end "brule"
-
-
-
-	// $ANTLR start "logicalfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:1: logicalfmla returns [Abstract_LogicalFormula f] : n= notfmla ( COMMA n2= notfmla )* ;
-	public final Abstract_LogicalFormula logicalfmla() throws RecognitionException {
-		Abstract_LogicalFormula f = null;
-
-
-		Abstract_LogicalFormula n =null;
-		Abstract_LogicalFormula n2 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:49: (n= notfmla ( COMMA n2= notfmla )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:154:51: n= notfmla ( COMMA n2= notfmla )*
-			{
-			pushFollow(FOLLOW_notfmla_in_logicalfmla1102);
-			n=notfmla();
-			state._fsp--;
-
-			f = n;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:16: ( COMMA n2= notfmla )*
-			loop30:
-			while (true) {
-				int alt30=2;
-				int LA30_0 = input.LA(1);
-				if ( (LA30_0==COMMA) ) {
-					alt30=1;
+				default:
+					throw new NoViableAltException(this);
 				}
-
-				switch (alt30) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:155:17: COMMA n2= notfmla
-					{
-					match(input,COMMA,FOLLOW_COMMA_in_logicalfmla1122); 
-					pushFollow(FOLLOW_notfmla_in_logicalfmla1126);
-					n2=notfmla();
-					state._fsp--;
-
-					f = new Abstract_LogExpr(f, Abstract_LogExpr.and, n2);
-					}
-					break;
-
-				default :
-					break loop30;
 				}
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "logicalfmla"
-
-
-
-	// $ANTLR start "notfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:1: notfmla returns [Abstract_LogicalFormula f] : ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) );
-	public final Abstract_LogicalFormula notfmla() throws RecognitionException {
-		Abstract_LogicalFormula f = null;
-
-
-		Abstract_Predicate gb =null;
-		Abstract_Equation eq =null;
-		Abstract_Predicate gb2 =null;
-		Abstract_LogicalFormula lf =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:45: ( (gb= pred | SQOPEN eq= equation SQCLOSE ) | NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla ) )
-			int alt33=2;
-			int LA33_0 = input.LA(1);
-			if ( (LA33_0==CONST||LA33_0==SQOPEN||LA33_0==UNNAMEDVAR||LA33_0==VAR) ) {
-				alt33=1;
-			}
-			else if ( (LA33_0==NOT) ) {
-				alt33=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 33, 0, input);
-				throw nvae;
-			}
-
-			switch (alt33) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
-					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:47: (gb= pred | SQOPEN eq= equation SQCLOSE )
-					int alt31=2;
-					int LA31_0 = input.LA(1);
-					if ( (LA31_0==CONST||LA31_0==UNNAMEDVAR||LA31_0==VAR) ) {
-						alt31=1;
-					}
-					else if ( (LA31_0==SQOPEN) ) {
-						alt31=2;
-					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 31, 0, input);
-						throw nvae;
-					}
-
-					switch (alt31) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:48: gb= pred
-							{
-							pushFollow(FOLLOW_pred_in_notfmla1162);
-							gb=pred();
-							state._fsp--;
-
-							f = gb;
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:157:73: SQOPEN eq= equation SQCLOSE
-							{
-							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla1170); 
-							pushFollow(FOLLOW_equation_in_notfmla1176);
-							eq=equation();
-							state._fsp--;
-
-							f = eq;
-							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla1180); 
-							}
-							break;
-
-					}
-
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:79: NOT (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
-					{
-					match(input,NOT,FOLLOW_NOT_in_notfmla1264); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:83: (gb2= pred | SQOPEN eq= equation SQCLOSE |lf= subfmla )
-					int alt32=3;
-					switch ( input.LA(1) ) {
-					case CONST:
-					case UNNAMEDVAR:
-					case VAR:
-						{
-						alt32=1;
-						}
-						break;
-					case SQOPEN:
-						{
-						alt32=2;
-						}
-						break;
-					case OPEN:
-						{
-						alt32=3;
-						}
-						break;
-					default:
-						NoViableAltException nvae =
-							new NoViableAltException("", 32, 0, input);
-						throw nvae;
-					}
-					switch (alt32) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:158:84: gb2= pred
-							{
-							pushFollow(FOLLOW_pred_in_notfmla1271);
-							gb2=pred();
-							state._fsp--;
-
-							f = new Abstract_LogExpr(Abstract_LogExpr.not, gb2);
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:159:79: SQOPEN eq= equation SQCLOSE
-							{
-							match(input,SQOPEN,FOLLOW_SQOPEN_in_notfmla1355); 
-							pushFollow(FOLLOW_equation_in_notfmla1361);
-							eq=equation();
-							state._fsp--;
-
-							match(input,SQCLOSE,FOLLOW_SQCLOSE_in_notfmla1363); 
-							f = new Abstract_LogExpr(Abstract_LogExpr.not, eq);
-							}
-							break;
-						case 3 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:160:80: lf= subfmla
-							{
-							pushFollow(FOLLOW_subfmla_in_notfmla1452);
-							lf=subfmla();
-							state._fsp--;
-
-							f = new Abstract_LogExpr(Abstract_LogExpr.not, lf);
-							}
-							break;
-
-					}
-
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "notfmla"
-
-
-
-	// $ANTLR start "subfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:1: subfmla returns [Abstract_LogicalFormula f] : OPEN lf= logicalfmla CLOSE ;
-	public final Abstract_LogicalFormula subfmla() throws RecognitionException {
-		Abstract_LogicalFormula f = null;
-
-
-		Abstract_LogicalFormula lf =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:45: ( OPEN lf= logicalfmla CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:161:47: OPEN lf= logicalfmla CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_subfmla1466); 
-			pushFollow(FOLLOW_logicalfmla_in_subfmla1472);
-			lf=logicalfmla();
-			state._fsp--;
-
-			f = lf;
-			match(input,CLOSE,FOLLOW_CLOSE_in_subfmla1476); 
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "subfmla"
-
-
-
-	// $ANTLR start "clogicalfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:1: clogicalfmla returns [Abstract_GLogicalFormula f] : n= cnotfmla ( COMMA n2= cnotfmla )* ;
-	public final Abstract_GLogicalFormula clogicalfmla() throws RecognitionException {
-		Abstract_GLogicalFormula f = null;
-
-
-		Abstract_GLogicalFormula n =null;
-		Abstract_GLogicalFormula n2 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:51: (n= cnotfmla ( COMMA n2= cnotfmla )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:163:53: n= cnotfmla ( COMMA n2= cnotfmla )*
-			{
-			pushFollow(FOLLOW_cnotfmla_in_clogicalfmla1491);
-			n=cnotfmla();
-			state._fsp--;
-
-			f = n;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:16: ( COMMA n2= cnotfmla )*
-			loop34:
-			while (true) {
-				int alt34=2;
-				int LA34_0 = input.LA(1);
-				if ( (LA34_0==COMMA) ) {
-					alt34=1;
 				}
-
-				switch (alt34) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:164:17: COMMA n2= cnotfmla
-					{
-					match(input,COMMA,FOLLOW_COMMA_in_clogicalfmla1511); 
-					pushFollow(FOLLOW_cnotfmla_in_clogicalfmla1515);
-					n2=cnotfmla();
-					state._fsp--;
-
-					f = new Abstract_Guard(f, Abstract_Guard.and, n2);
-					}
-					break;
-
-				default :
-					break loop34;
-				}
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "clogicalfmla"
-
-
-
-	// $ANTLR start "cnotfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:1: cnotfmla returns [Abstract_GLogicalFormula f] : (gb= pred | NOT (gb2= pred |lf= csubfmla ) );
-	public final Abstract_GLogicalFormula cnotfmla() throws RecognitionException {
-		Abstract_GLogicalFormula f = null;
-
-
-		Abstract_Predicate gb =null;
-		Abstract_Predicate gb2 =null;
-		Abstract_GLogicalFormula lf =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:47: (gb= pred | NOT (gb2= pred |lf= csubfmla ) )
-			int alt36=2;
-			int LA36_0 = input.LA(1);
-			if ( (LA36_0==CONST||LA36_0==UNNAMEDVAR||LA36_0==VAR) ) {
-				alt36=1;
-			}
-			else if ( (LA36_0==NOT) ) {
-				alt36=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 36, 0, input);
-				throw nvae;
-			}
-
-			switch (alt36) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:166:49: gb= pred
-					{
-					pushFollow(FOLLOW_pred_in_cnotfmla1550);
-					gb=pred();
-					state._fsp--;
-
-					f = new Abstract_GBelief(new Abstract_Literal(gb));
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:79: NOT (gb2= pred |lf= csubfmla )
-					{
-					match(input,NOT,FOLLOW_NOT_in_cnotfmla1635); 
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:83: (gb2= pred |lf= csubfmla )
-					int alt35=2;
-					int LA35_0 = input.LA(1);
-					if ( (LA35_0==CONST||LA35_0==UNNAMEDVAR||LA35_0==VAR) ) {
-						alt35=1;
-					}
-					else if ( (LA35_0==OPEN) ) {
-						alt35=2;
-					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 35, 0, input);
-						throw nvae;
-					}
-
-					switch (alt35) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:167:84: gb2= pred
-							{
-							pushFollow(FOLLOW_pred_in_cnotfmla1642);
-							gb2=pred();
-							state._fsp--;
-
-							f = new Abstract_Guard(Abstract_Guard.not, new Abstract_GBelief(new Abstract_Literal(gb2)));
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:168:79: lf= csubfmla
-							{
-							pushFollow(FOLLOW_csubfmla_in_cnotfmla1731);
-							lf=csubfmla();
-							state._fsp--;
-
-							f = new Abstract_Guard(Abstract_Guard.not, lf);
-							}
-							break;
-
-					}
-
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "cnotfmla"
-
-
-
-	// $ANTLR start "csubfmla"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:1: csubfmla returns [Abstract_GLogicalFormula f] : OPEN lf= clogicalfmla CLOSE ;
-	public final Abstract_GLogicalFormula csubfmla() throws RecognitionException {
-		Abstract_GLogicalFormula f = null;
-
-
-		Abstract_GLogicalFormula lf =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:47: ( OPEN lf= clogicalfmla CLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:169:49: OPEN lf= clogicalfmla CLOSE
-			{
-			match(input,OPEN,FOLLOW_OPEN_in_csubfmla1745); 
-			pushFollow(FOLLOW_clogicalfmla_in_csubfmla1751);
-			lf=clogicalfmla();
-			state._fsp--;
-
-			f = lf;
-			match(input,CLOSE,FOLLOW_CLOSE_in_csubfmla1755); 
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "csubfmla"
-
-
-
-	// $ANTLR start "waitfor"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:1: waitfor returns [Abstract_Literal wf] : MULT l= literal ;
-	public final Abstract_Literal waitfor() throws RecognitionException {
-		Abstract_Literal wf = null;
-
-
-		Abstract_Literal l =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:39: ( MULT l= literal )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:172:42: MULT l= literal
-			{
-			match(input,MULT,FOLLOW_MULT_in_waitfor1771); 
-			pushFollow(FOLLOW_literal_in_waitfor1775);
-			l=literal();
-			state._fsp--;
-
-			wf = l;
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return wf;
-	}
-	// $ANTLR end "waitfor"
-
-
-
-	// $ANTLR start "action"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:1: action returns [Abstract_Action a] : ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred );
-	public final Abstract_Action action() throws RecognitionException {
-		Abstract_Action a = null;
-
-
-		Abstract_NumberTerm a1 =null;
-		Abstract_NumberTerm a2 =null;
-		Abstract_VarTerm v =null;
-		Abstract_Literal an =null;
-		int p =0;
-		Abstract_Predicate t =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:174:36: ( (a1= atom PLUS a2= atom EQ_ASSGN v= var ) | ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE ) |t= pred )
-			int alt37=3;
-			switch ( input.LA(1) ) {
+				break;
 			case MINUS:
-			case NUMBER:
-			case OPEN:
+				enterOuterAlt(_localctx, 2);
 				{
-				alt37=1;
-				}
-				break;
-			case VAR:
 				{
-				int LA37_3 = input.LA(2);
-				if ( (LA37_3==PLUS) ) {
-					alt37=1;
-				}
-				else if ( (LA37_3==COMMA||LA37_3==SEMI) ) {
-					alt37=3;
-				}
-
-				else {
-					int nvaeMark = input.mark();
-					try {
-						input.consume();
-						NoViableAltException nvae =
-							new NoViableAltException("", 37, 3, input);
-						throw nvae;
-					} finally {
-						input.rewind(nvaeMark);
+				setState(285);
+				match(MINUS);
+				setState(289);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case PL_SQOPEN:
+				case OPEN:
+				case MINUS:
+				case PL_CONST:
+				case PL_VAR:
+				case NUMBER:
+					{
+					setState(286);
+					((EventContext)_localctx).l = fof_expr();
 					}
-				}
-
-				}
-				break;
-			case UNNAMEDVAR:
-				{
-				int LA37_4 = input.LA(2);
-				if ( (LA37_4==PLUS) ) {
-					alt37=1;
-				}
-				else if ( (LA37_4==COMMA||LA37_4==SEMI) ) {
-					alt37=3;
-				}
-
-				else {
-					int nvaeMark = input.mark();
-					try {
-						input.consume();
-						NoViableAltException nvae =
-							new NoViableAltException("", 37, 4, input);
-						throw nvae;
-					} finally {
-						input.rewind(nvaeMark);
+					break;
+				case SHRIEK:
+					{
+					setState(287);
+					match(SHRIEK);
+					setState(288);
+					((EventContext)_localctx).g = goal();
 					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-
+				}
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class PerformativeContext extends ParserRuleContext {
+		public TerminalNode TELL() { return getToken(EASSParser.TELL, 0); }
+		public TerminalNode COLON() { return getToken(EASSParser.COLON, 0); }
+		public TerminalNode PL_PERFORMGOAL() { return getToken(EASSParser.PL_PERFORMGOAL, 0); }
+		public TerminalNode PL_ACHIEVEGOAL() { return getToken(EASSParser.PL_ACHIEVEGOAL, 0); }
+		public PerformativeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_performative; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitPerformative(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PerformativeContext performative() throws RecognitionException {
+		PerformativeContext _localctx = new PerformativeContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_performative);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(298);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
+			case 1:
+				{
+				setState(293);
+				match(TELL);
+				}
+				break;
+			case 2:
+				{
+				setState(294);
+				match(COLON);
+				setState(295);
+				match(PL_PERFORMGOAL);
+				}
+				break;
+			case 3:
+				{
+				setState(296);
+				match(COLON);
+				setState(297);
+				match(PL_ACHIEVEGOAL);
+				}
+				break;
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DeedContext extends ParserRuleContext {
+		public Fof_exprContext l;
+		public GoalContext g;
+		public ActionContext a;
+		public WaitforContext wf;
+		public ActionContext action() {
+			return getRuleContext(ActionContext.class,0);
+		}
+		public WaitforContext waitfor() {
+			return getRuleContext(WaitforContext.class,0);
+		}
+		public TerminalNode PLUS() { return getToken(EASSParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(EASSParser.MINUS, 0); }
+		public TerminalNode SHRIEK() { return getToken(EASSParser.SHRIEK, 0); }
+		public TerminalNode LOCK() { return getToken(EASSParser.LOCK, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public GoalContext goal() {
+			return getRuleContext(GoalContext.class,0);
+		}
+		public DeedContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_deed; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitDeed(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DeedContext deed() throws RecognitionException {
+		DeedContext _localctx = new DeedContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_deed);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(318);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,41,_ctx) ) {
+			case 1:
+				{
+				setState(314);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case PLUS:
+					{
+					{
+					setState(300);
+					match(PLUS);
+					setState(305);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case PL_SQOPEN:
+					case OPEN:
+					case MINUS:
+					case PL_CONST:
+					case PL_VAR:
+					case NUMBER:
+						{
+						setState(301);
+						((DeedContext)_localctx).l = fof_expr();
+						}
+						break;
+					case SHRIEK:
+						{
+						setState(302);
+						match(SHRIEK);
+						setState(303);
+						((DeedContext)_localctx).g = goal();
+						}
+						break;
+					case LOCK:
+						{
+						setState(304);
+						match(LOCK);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+					}
+					break;
+				case MINUS:
+					{
+					{
+					setState(307);
+					match(MINUS);
+					setState(312);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case PL_SQOPEN:
+					case OPEN:
+					case MINUS:
+					case PL_CONST:
+					case PL_VAR:
+					case NUMBER:
+						{
+						setState(308);
+						((DeedContext)_localctx).l = fof_expr();
+						}
+						break;
+					case SHRIEK:
+						{
+						setState(309);
+						match(SHRIEK);
+						setState(310);
+						((DeedContext)_localctx).g = goal();
+						}
+						break;
+					case LOCK:
+						{
+						setState(311);
+						match(LOCK);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				break;
+			case 2:
+				{
+				setState(316);
+				((DeedContext)_localctx).a = action();
+				}
+				break;
+			case 3:
+				{
+				setState(317);
+				((DeedContext)_localctx).wf = waitfor();
+				}
+				break;
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class GoalContext extends ParserRuleContext {
+		public Fof_exprContext g;
+		public TerminalNode PL_SQOPEN() { return getToken(EASSParser.PL_SQOPEN, 0); }
+		public TerminalNode PL_SQCLOSE() { return getToken(EASSParser.PL_SQCLOSE, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public TerminalNode PL_ACHIEVEGOAL() { return getToken(EASSParser.PL_ACHIEVEGOAL, 0); }
+		public TerminalNode PL_PERFORMGOAL() { return getToken(EASSParser.PL_PERFORMGOAL, 0); }
+		public GoalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_goal; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitGoal(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final GoalContext goal() throws RecognitionException {
+		GoalContext _localctx = new GoalContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_goal);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(320);
+			((GoalContext)_localctx).g = fof_expr();
+			setState(321);
+			match(PL_SQOPEN);
+			setState(322);
+			_la = _input.LA(1);
+			if ( !(_la==PL_ACHIEVEGOAL || _la==PL_PERFORMGOAL) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(323);
+			match(PL_SQCLOSE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class WaitforContext extends ParserRuleContext {
+		public Fof_exprContext l;
+		public TerminalNode MULT() { return getToken(EASSParser.MULT, 0); }
+		public Fof_exprContext fof_expr() {
+			return getRuleContext(Fof_exprContext.class,0);
+		}
+		public TerminalNode NOT() { return getToken(EASSParser.NOT, 0); }
+		public WaitforContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_waitfor; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitWaitfor(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final WaitforContext waitfor() throws RecognitionException {
+		WaitforContext _localctx = new WaitforContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_waitfor);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(325);
+			match(MULT);
+			setState(327);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==NOT) {
+				{
+				setState(326);
+				match(NOT);
+				}
+			}
+
+			setState(329);
+			((WaitforContext)_localctx).l = fof_expr();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ActionContext extends ParserRuleContext {
+		public Fof_exprContext an;
+		public PerformativeContext p;
+		public Fof_exprContext t;
+		public TerminalNode SEND() { return getToken(EASSParser.SEND, 0); }
+		public TerminalNode OPEN() { return getToken(EASSParser.OPEN, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(EASSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(EASSParser.COMMA, i);
+		}
+		public TerminalNode CLOSE() { return getToken(EASSParser.CLOSE, 0); }
+		public List<Fof_exprContext> fof_expr() {
+			return getRuleContexts(Fof_exprContext.class);
+		}
+		public Fof_exprContext fof_expr(int i) {
+			return getRuleContext(Fof_exprContext.class,i);
+		}
+		public PerformativeContext performative() {
+			return getRuleContext(PerformativeContext.class,0);
+		}
+		public ActionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_action; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitAction(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ActionContext action() throws RecognitionException {
+		ActionContext _localctx = new ActionContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_action);
+		try {
+			setState(341);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
 			case SEND:
+				enterOuterAlt(_localctx, 1);
 				{
-				alt37=2;
+				{
+				setState(331);
+				match(SEND);
+				setState(332);
+				match(OPEN);
+				setState(333);
+				((ActionContext)_localctx).an = fof_expr();
+				setState(334);
+				match(COMMA);
+				setState(335);
+				((ActionContext)_localctx).p = performative();
+				setState(336);
+				match(COMMA);
+				setState(337);
+				((ActionContext)_localctx).t = fof_expr();
+				setState(338);
+				match(CLOSE);
+				}
 				}
 				break;
-			case CONST:
-				{
-				alt37=3;
-				}
-				break;
-			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 37, 0, input);
-				throw nvae;
-			}
-			switch (alt37) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
-					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:2: (a1= atom PLUS a2= atom EQ_ASSGN v= var )
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:175:3: a1= atom PLUS a2= atom EQ_ASSGN v= var
-					{
-					pushFollow(FOLLOW_atom_in_action1795);
-					a1=atom();
-					state._fsp--;
-
-					match(input,PLUS,FOLLOW_PLUS_in_action1797); 
-					pushFollow(FOLLOW_atom_in_action1801);
-					a2=atom();
-					state._fsp--;
-
-					match(input,EQ_ASSGN,FOLLOW_EQ_ASSGN_in_action1803); 
-					pushFollow(FOLLOW_var_in_action1807);
-					v=var();
-					state._fsp--;
-
-					a = new Abstract_Action("sum"); a.addTerm(a1); a.addTerm(a2); a.addTerm(v); 
-					}
-
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
-					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:2: ( SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE )
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:176:3: SEND OPEN an= literal COMMA p= performative COMMA t= pred CLOSE
-					{
-					match(input,SEND,FOLLOW_SEND_in_action1816); 
-					match(input,OPEN,FOLLOW_OPEN_in_action1818); 
-					pushFollow(FOLLOW_literal_in_action1822);
-					an=literal();
-					state._fsp--;
-
-					match(input,COMMA,FOLLOW_COMMA_in_action1824); 
-					pushFollow(FOLLOW_performative_in_action1828);
-					p=performative();
-					state._fsp--;
-
-					match(input,COMMA,FOLLOW_COMMA_in_action1830); 
-					pushFollow(FOLLOW_pred_in_action1834);
-					t=pred();
-					state._fsp--;
-
-					match(input,CLOSE,FOLLOW_CLOSE_in_action1836); 
-					a = new Abstract_SendAction(an, p, t);
-					}
-
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:177:2: t= pred
-					{
-					pushFollow(FOLLOW_pred_in_action1847);
-					t=pred();
-					state._fsp--;
-
-					a = new Abstract_Action(t, Abstract_Action.normalAction);
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return a;
-	}
-	// $ANTLR end "action"
-
-
-
-	// $ANTLR start "performative"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:1: performative returns [int b] : ( TELL | PERFORM | ACHIEVE ) ;
-	public final int performative() throws RecognitionException {
-		int b = 0;
-
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:30: ( ( TELL | PERFORM | ACHIEVE ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:32: ( TELL | PERFORM | ACHIEVE )
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:32: ( TELL | PERFORM | ACHIEVE )
-			int alt38=3;
-			switch ( input.LA(1) ) {
-			case TELL:
-				{
-				alt38=1;
-				}
-				break;
-			case PERFORM:
-				{
-				alt38=2;
-				}
-				break;
-			case ACHIEVE:
-				{
-				alt38=3;
-				}
-				break;
-			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 38, 0, input);
-				throw nvae;
-			}
-			switch (alt38) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:33: TELL
-					{
-					match(input,TELL,FOLLOW_TELL_in_performative1863); 
-					b =1;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:48: PERFORM
-					{
-					match(input,PERFORM,FOLLOW_PERFORM_in_performative1869); 
-					b =2;
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:179:66: ACHIEVE
-					{
-					match(input,ACHIEVE,FOLLOW_ACHIEVE_in_performative1875); 
-					b = 3;
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return b;
-	}
-	// $ANTLR end "performative"
-
-
-
-	// $ANTLR start "environment"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:1: environment returns [String env] : w= classpath ;
-	public final String environment() throws RecognitionException {
-		String env = null;
-
-
-		String w =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:34: (w= classpath )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:222:36: w= classpath
-			{
-			pushFollow(FOLLOW_classpath_in_environment2167);
-			w=classpath();
-			state._fsp--;
-
-			env = w;
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return env;
-	}
-	// $ANTLR end "environment"
-
-
-
-	// $ANTLR start "classpath"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:1: classpath returns [String s] : w= word ( POINT w1= word )+ ;
-	public final String classpath() throws RecognitionException {
-		String s = null;
-
-
-		String w =null;
-		String w1 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:30: (w= word ( POINT w1= word )+ )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:32: w= word ( POINT w1= word )+
-			{
-			pushFollow(FOLLOW_word_in_classpath2182);
-			w=word();
-			state._fsp--;
-
-			s = w;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:52: ( POINT w1= word )+
-			int cnt39=0;
-			loop39:
-			while (true) {
-				int alt39=2;
-				int LA39_0 = input.LA(1);
-				if ( (LA39_0==POINT) ) {
-					alt39=1;
-				}
-
-				switch (alt39) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:223:53: POINT w1= word
-					{
-					match(input,POINT,FOLLOW_POINT_in_classpath2187); 
-					pushFollow(FOLLOW_word_in_classpath2191);
-					w1=word();
-					state._fsp--;
-
-					s+="."; s+=w1;
-					}
-					break;
-
-				default :
-					if ( cnt39 >= 1 ) break loop39;
-					EarlyExitException eee = new EarlyExitException(39, input);
-					throw eee;
-				}
-				cnt39++;
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return s;
-	}
-	// $ANTLR end "classpath"
-
-
-
-	// $ANTLR start "word"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:1: word returns [String s] : ( CONST | VAR ) ;
-	public final String word() throws RecognitionException {
-		String s = null;
-
-
-		Token CONST1=null;
-		Token VAR2=null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:25: ( ( CONST | VAR ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:27: ( CONST | VAR )
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:27: ( CONST | VAR )
-			int alt40=2;
-			int LA40_0 = input.LA(1);
-			if ( (LA40_0==CONST) ) {
-				alt40=1;
-			}
-			else if ( (LA40_0==VAR) ) {
-				alt40=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 40, 0, input);
-				throw nvae;
-			}
-
-			switch (alt40) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:28: CONST
-					{
-					CONST1=(Token)match(input,CONST,FOLLOW_CONST_in_word2292); 
-					s =CONST1.getText();
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:224:59: VAR
-					{
-					VAR2=(Token)match(input,VAR,FOLLOW_VAR_in_word2298); 
-					s =VAR2.getText();
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return s;
-	}
-	// $ANTLR end "word"
-
-
-
-	// $ANTLR start "agentnameterm"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:1: agentnameterm returns [Abstract_StringTerm s] : ( CONST |v= var );
-	public final Abstract_StringTerm agentnameterm() throws RecognitionException {
-		Abstract_StringTerm s = null;
-
-
-		Token CONST3=null;
-		Abstract_VarTerm v =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:47: ( CONST |v= var )
-			int alt41=2;
-			int LA41_0 = input.LA(1);
-			if ( (LA41_0==CONST) ) {
-				alt41=1;
-			}
-			else if ( (LA41_0==UNNAMEDVAR||LA41_0==VAR) ) {
-				alt41=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 41, 0, input);
-				throw nvae;
-			}
-
-			switch (alt41) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:49: CONST
-					{
-					CONST3=(Token)match(input,CONST,FOLLOW_CONST_in_agentnameterm2398); 
-					s = new Abstract_StringTermImpl(CONST3.getText());
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:226:111: v= var
-					{
-					pushFollow(FOLLOW_var_in_agentnameterm2406);
-					v=var();
-					state._fsp--;
-
-					s = v;
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return s;
-	}
-	// $ANTLR end "agentnameterm"
-
-
-
-	// $ANTLR start "literal"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:1: literal returns [Abstract_Literal l] : ( ( TRUE | NOT nt= pred ) |t= pred );
-	public final Abstract_Literal literal() throws RecognitionException {
-		Abstract_Literal l = null;
-
-
-		Abstract_Predicate nt =null;
-		Abstract_Predicate t =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:37: ( ( TRUE | NOT nt= pred ) |t= pred )
-			int alt43=2;
-			int LA43_0 = input.LA(1);
-			if ( (LA43_0==NOT||LA43_0==TRUE) ) {
-				alt43=1;
-			}
-			else if ( (LA43_0==CONST||LA43_0==UNNAMEDVAR||LA43_0==VAR) ) {
-				alt43=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 43, 0, input);
-				throw nvae;
-			}
-
-			switch (alt43) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:40: ( TRUE | NOT nt= pred )
-					{
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:40: ( TRUE | NOT nt= pred )
-					int alt42=2;
-					int LA42_0 = input.LA(1);
-					if ( (LA42_0==TRUE) ) {
-						alt42=1;
-					}
-					else if ( (LA42_0==NOT) ) {
-						alt42=2;
-					}
-
-					else {
-						NoViableAltException nvae =
-							new NoViableAltException("", 42, 0, input);
-						throw nvae;
-					}
-
-					switch (alt42) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:229:41: TRUE
-							{
-							match(input,TRUE,FOLLOW_TRUE_in_literal2423); 
-							l = new Abstract_Literal(Abstract_Literal.LTrue);
-							}
-							break;
-						case 2 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:230:5: NOT nt= pred
-							{
-							match(input,NOT,FOLLOW_NOT_in_literal2434); 
-							pushFollow(FOLLOW_pred_in_literal2438);
-							nt=pred();
-							state._fsp--;
-
-
-											if (nt instanceof Abstract_VarTerm) 
-												{l = (Abstract_VarTerm) nt; l.setNegated(false);}
-												else { l = new Abstract_Literal(Abstract_Literal.LNeg, new Abstract_Pred(nt));}
-							}
-							break;
-
-					}
-
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:234:5: t= pred
-					{
-					pushFollow(FOLLOW_pred_in_literal2452);
-					t=pred();
-					state._fsp--;
-
-					if (t instanceof Abstract_VarTerm) 
-									            {l = (Abstract_VarTerm) t;} 
-									            else {l = new Abstract_Literal(Abstract_Literal.LPos, new Abstract_Pred(t));}
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return l;
-	}
-	// $ANTLR end "literal"
-
-
-
-	// $ANTLR start "pred"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:1: pred returns [Abstract_Predicate t] : (v= var |f= function );
-	public final Abstract_Predicate pred() throws RecognitionException {
-		Abstract_Predicate t = null;
-
-
-		Abstract_VarTerm v =null;
-		Abstract_Predicate f =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:37: (v= var |f= function )
-			int alt44=2;
-			int LA44_0 = input.LA(1);
-			if ( (LA44_0==UNNAMEDVAR||LA44_0==VAR) ) {
-				alt44=1;
-			}
-			else if ( (LA44_0==CONST) ) {
-				alt44=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 44, 0, input);
-				throw nvae;
-			}
-
-			switch (alt44) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:39: v= var
-					{
-					pushFollow(FOLLOW_var_in_pred2469);
-					v=var();
-					state._fsp--;
-
-					t = v;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:238:59: f= function
-					{
-					pushFollow(FOLLOW_function_in_pred2476);
-					f=function();
-					state._fsp--;
-
-					t = f;
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return t;
-	}
-	// $ANTLR end "pred"
-
-
-
-	// $ANTLR start "function"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:1: function returns [Abstract_Predicate f] : CONST ( OPEN terms[$f] CLOSE )? ;
-	public final Abstract_Predicate function() throws RecognitionException {
-		Abstract_Predicate f = null;
-
-
-		Token CONST4=null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:40: ( CONST ( OPEN terms[$f] CLOSE )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:42: CONST ( OPEN terms[$f] CLOSE )?
-			{
-			CONST4=(Token)match(input,CONST,FOLLOW_CONST_in_function2489); 
-			f = new Abstract_Predicate(CONST4.getText());
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:97: ( OPEN terms[$f] CLOSE )?
-			int alt45=2;
-			int LA45_0 = input.LA(1);
-			if ( (LA45_0==OPEN) ) {
-				alt45=1;
-			}
-			switch (alt45) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:239:98: OPEN terms[$f] CLOSE
-					{
-					match(input,OPEN,FOLLOW_OPEN_in_function2494); 
-					pushFollow(FOLLOW_terms_in_function2496);
-					terms(f);
-					state._fsp--;
-
-					match(input,CLOSE,FOLLOW_CLOSE_in_function2499); 
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return f;
-	}
-	// $ANTLR end "function"
-
-
-
-	// $ANTLR start "terms"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:1: terms[Abstract_Predicate f] : t= term ( COMMA terms[$f] )? ;
-	public final void terms(Abstract_Predicate f) throws RecognitionException {
-		Abstract_Term t =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:29: (t= term ( COMMA terms[$f] )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:31: t= term ( COMMA terms[$f] )?
-			{
-			pushFollow(FOLLOW_term_in_terms2513);
-			t=term();
-			state._fsp--;
-
-			f.addTerm(t);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:58: ( COMMA terms[$f] )?
-			int alt46=2;
-			int LA46_0 = input.LA(1);
-			if ( (LA46_0==COMMA) ) {
-				alt46=1;
-			}
-			switch (alt46) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:241:59: COMMA terms[$f]
-					{
-					match(input,COMMA,FOLLOW_COMMA_in_terms2518); 
-					pushFollow(FOLLOW_terms_in_terms2520);
-					terms(f);
-					state._fsp--;
-
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "terms"
-
-
-
-	// $ANTLR start "term"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:1: term returns [Abstract_Term t] : (a= atom |s= stringterm |f= function |l= listterm );
-	public final Abstract_Term term() throws RecognitionException {
-		Abstract_Term t = null;
-
-
-		Abstract_NumberTerm a =null;
-		Abstract_StringTerm s =null;
-		Abstract_Predicate f =null;
-		Abstract_ListTerm l =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:31: (a= atom |s= stringterm |f= function |l= listterm )
-			int alt47=4;
-			switch ( input.LA(1) ) {
-			case MINUS:
-			case NUMBER:
+			case PL_SQOPEN:
 			case OPEN:
-			case UNNAMEDVAR:
-			case VAR:
-				{
-				alt47=1;
-				}
-				break;
-			case DOUBLEQUOTE:
-				{
-				alt47=2;
-				}
-				break;
-			case CONST:
-				{
-				alt47=3;
-				}
-				break;
-			case SQOPEN:
-				{
-				alt47=4;
-				}
-				break;
-			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 47, 0, input);
-				throw nvae;
-			}
-			switch (alt47) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:242:34: a= atom
-					{
-					pushFollow(FOLLOW_atom_in_term2539);
-					a=atom();
-					state._fsp--;
-
-					t = a;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:243:2: s= stringterm
-					{
-					pushFollow(FOLLOW_stringterm_in_term2551);
-					s=stringterm();
-					state._fsp--;
-
-					t = s;
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:244:2: f= function
-					{
-					pushFollow(FOLLOW_function_in_term2561);
-					f=function();
-					state._fsp--;
-
-					t = f;
-					}
-					break;
-				case 4 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:245:2: l= listterm
-					{
-					pushFollow(FOLLOW_listterm_in_term2572);
-					l=listterm();
-					state._fsp--;
-
-					t = l;
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return t;
-	}
-	// $ANTLR end "term"
-
-
-
-	// $ANTLR start "atom"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:1: atom returns [Abstract_NumberTerm t] : (n= numberstring |v= var | OPEN a= arithexpr CLOSE );
-	public final Abstract_NumberTerm atom() throws RecognitionException {
-		Abstract_NumberTerm t = null;
-
-
-		String n =null;
-		Abstract_VarTerm v =null;
-		Abstract_NumberTerm a =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:38: (n= numberstring |v= var | OPEN a= arithexpr CLOSE )
-			int alt48=3;
-			switch ( input.LA(1) ) {
 			case MINUS:
+			case PL_CONST:
+			case PL_VAR:
 			case NUMBER:
+				enterOuterAlt(_localctx, 2);
 				{
-				alt48=1;
-				}
-				break;
-			case UNNAMEDVAR:
-			case VAR:
-				{
-				alt48=2;
-				}
-				break;
-			case OPEN:
-				{
-				alt48=3;
+				setState(340);
+				((ActionContext)_localctx).t = fof_expr();
 				}
 				break;
 			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 48, 0, input);
-				throw nvae;
-			}
-			switch (alt48) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:247:40: n= numberstring
-					{
-					pushFollow(FOLLOW_numberstring_in_atom2591);
-					n=numberstring();
-					state._fsp--;
-
-					t = new Abstract_NumberTermImpl(n);
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:6: v= var
-					{
-					pushFollow(FOLLOW_var_in_atom2604);
-					v=var();
-					state._fsp--;
-
-					t = v;
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:248:27: OPEN a= arithexpr CLOSE
-					{
-					match(input,OPEN,FOLLOW_OPEN_in_atom2610); 
-					pushFollow(FOLLOW_arithexpr_in_atom2614);
-					a=arithexpr();
-					state._fsp--;
-
-					match(input,CLOSE,FOLLOW_CLOSE_in_atom2616); 
-					t = a;
-					}
-					break;
-
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return t;
+		return _localctx;
 	}
-	// $ANTLR end "atom"
 
-
-
-	// $ANTLR start "stringterm"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:1: stringterm returns [Abstract_StringTerm s] : DOUBLEQUOTE STRING DOUBLEQUOTE ;
-	public final Abstract_StringTerm stringterm() throws RecognitionException {
-		Abstract_StringTerm s = null;
-
-
-		Token STRING5=null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:44: ( DOUBLEQUOTE STRING DOUBLEQUOTE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:250:46: DOUBLEQUOTE STRING DOUBLEQUOTE
-			{
-			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm2630); 
-			STRING5=(Token)match(input,STRING,FOLLOW_STRING_in_stringterm2633); 
-			match(input,DOUBLEQUOTE,FOLLOW_DOUBLEQUOTE_in_stringterm2635); 
-					 
-			                   s = new Abstract_StringTermImpl(STRING5.getText());
-			}
-
+	@SuppressWarnings("CheckReturnValue")
+	public static class Fof_exprContext extends ParserRuleContext {
+		public List<TerminalNode> NUMBER() { return getTokens(EASSParser.NUMBER); }
+		public TerminalNode NUMBER(int i) {
+			return getToken(EASSParser.NUMBER, i);
 		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+		public List<TerminalNode> PL_VAR() { return getTokens(EASSParser.PL_VAR); }
+		public TerminalNode PL_VAR(int i) {
+			return getToken(EASSParser.PL_VAR, i);
 		}
-		finally {
-			// do for sure before leaving
+		public OperContext oper() {
+			return getRuleContext(OperContext.class,0);
 		}
-		return s;
+		public List<TerminalNode> MINUS() { return getTokens(EASSParser.MINUS); }
+		public TerminalNode MINUS(int i) {
+			return getToken(EASSParser.MINUS, i);
+		}
+		public List<Const_varContext> const_var() {
+			return getRuleContexts(Const_varContext.class);
+		}
+		public Const_varContext const_var(int i) {
+			return getRuleContext(Const_varContext.class,i);
+		}
+		public TerminalNode PL_SQOPEN() { return getToken(EASSParser.PL_SQOPEN, 0); }
+		public TerminalNode PL_SQCLOSE() { return getToken(EASSParser.PL_SQCLOSE, 0); }
+		public TerminalNode OPEN() { return getToken(EASSParser.OPEN, 0); }
+		public List<Fof_exprContext> fof_expr() {
+			return getRuleContexts(Fof_exprContext.class);
+		}
+		public Fof_exprContext fof_expr(int i) {
+			return getRuleContext(Fof_exprContext.class,i);
+		}
+		public TerminalNode CLOSE() { return getToken(EASSParser.CLOSE, 0); }
+		public List<TerminalNode> IDPUNCT() { return getTokens(EASSParser.IDPUNCT); }
+		public TerminalNode IDPUNCT(int i) {
+			return getToken(EASSParser.IDPUNCT, i);
+		}
+		public List<TerminalNode> QUOTED_STRING() { return getTokens(EASSParser.QUOTED_STRING); }
+		public TerminalNode QUOTED_STRING(int i) {
+			return getToken(EASSParser.QUOTED_STRING, i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(EASSParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(EASSParser.COMMA, i);
+		}
+		public TerminalNode PL_BAR() { return getToken(EASSParser.PL_BAR, 0); }
+		public Fof_exprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_fof_expr; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitFof_expr(this);
+			else return visitor.visitChildren(this);
+		}
 	}
-	// $ANTLR end "stringterm"
 
-
-
-	// $ANTLR start "listterm"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:1: listterm returns [Abstract_ListTerm l] : SQOPEN (hl= listheads ( BAR v= var )? )? SQCLOSE ;
-	public final Abstract_ListTerm listterm() throws RecognitionException {
-		Abstract_ListTerm l = null;
-
-
-		ArrayList<Abstract_Term> hl =null;
-		Abstract_VarTerm v =null;
-
+	public final Fof_exprContext fof_expr() throws RecognitionException {
+		Fof_exprContext _localctx = new Fof_exprContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_fof_expr);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:40: ( SQOPEN (hl= listheads ( BAR v= var )? )? SQCLOSE )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:42: SQOPEN (hl= listheads ( BAR v= var )? )? SQCLOSE
-			{
-			l = new Abstract_ListTermImpl();
-			match(input,SQOPEN,FOLLOW_SQOPEN_in_listterm2670); 
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:85: (hl= listheads ( BAR v= var )? )?
-			int alt50=2;
-			int LA50_0 = input.LA(1);
-			if ( (LA50_0==CONST||LA50_0==DOUBLEQUOTE||LA50_0==MINUS||(LA50_0 >= NUMBER && LA50_0 <= OPEN)||LA50_0==SQOPEN||LA50_0==UNNAMEDVAR||LA50_0==VAR) ) {
-				alt50=1;
-			}
-			switch (alt50) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:86: hl= listheads ( BAR v= var )?
+			setState(408);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,58,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(348);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case MINUS:
+				case NUMBER:
 					{
-					pushFollow(FOLLOW_listheads_in_listterm2675);
-					hl=listheads();
-					state._fsp--;
-
-					l.addAll(hl);
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:120: ( BAR v= var )?
-					int alt49=2;
-					int LA49_0 = input.LA(1);
-					if ( (LA49_0==BAR) ) {
-						alt49=1;
+					setState(344);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if (_la==MINUS) {
+						{
+						setState(343);
+						match(MINUS);
+						}
 					}
-					switch (alt49) {
-						case 1 :
-							// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:253:121: BAR v= var
+
+					setState(346);
+					match(NUMBER);
+					}
+					break;
+				case PL_VAR:
+					{
+					setState(347);
+					match(PL_VAR);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(358);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (((((_la - 72)) & ~0x3f) == 0 && ((1L << (_la - 72)) & 15L) != 0)) {
+					{
+					setState(350);
+					oper();
+					setState(356);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case MINUS:
+					case NUMBER:
+						{
+						setState(352);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						if (_la==MINUS) {
 							{
-							match(input,BAR,FOLLOW_BAR_in_listterm2680); 
-							pushFollow(FOLLOW_var_in_listterm2684);
-							v=var();
-							state._fsp--;
+							setState(351);
+							match(MINUS);
+							}
+						}
 
-							l.addTail(v);
+						setState(354);
+						match(NUMBER);
+						}
+						break;
+					case PL_VAR:
+						{
+						setState(355);
+						match(PL_VAR);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					}
+				}
+
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(406);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case PL_CONST:
+				case PL_VAR:
+					{
+					setState(360);
+					const_var();
+					setState(365);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					while (_la==IDPUNCT) {
+						{
+						{
+						setState(361);
+						match(IDPUNCT);
+						setState(362);
+						const_var();
+						}
+						}
+						setState(367);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+					}
+					setState(384);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if (_la==OPEN) {
+						{
+						setState(368);
+						match(OPEN);
+						setState(371);
+						_errHandler.sync(this);
+						switch (_input.LA(1)) {
+						case PL_SQOPEN:
+						case OPEN:
+						case MINUS:
+						case PL_CONST:
+						case PL_VAR:
+						case NUMBER:
+							{
+							setState(369);
+							fof_expr();
 							}
 							break;
-
-					}
-
-					}
-					break;
-
-			}
-
-			match(input,SQCLOSE,FOLLOW_SQCLOSE_in_listterm2692); 
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return l;
-	}
-	// $ANTLR end "listterm"
-
-
-
-	// $ANTLR start "listheads"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:1: listheads returns [ArrayList<Abstract_Term> tl] : t1= term ( COMMA tl2= term )* ;
-	public final ArrayList<Abstract_Term> listheads() throws RecognitionException {
-		ArrayList<Abstract_Term> tl = null;
-
-
-		Abstract_Term t1 =null;
-		Abstract_Term tl2 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:48: (t1= term ( COMMA tl2= term )* )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:50: t1= term ( COMMA tl2= term )*
-			{
-			pushFollow(FOLLOW_term_in_listheads2708);
-			t1=term();
-			state._fsp--;
-
-			tl = new ArrayList<Abstract_Term>(); tl.add(t1);
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:116: ( COMMA tl2= term )*
-			loop51:
-			while (true) {
-				int alt51=2;
-				int LA51_0 = input.LA(1);
-				if ( (LA51_0==COMMA) ) {
-					alt51=1;
-				}
-
-				switch (alt51) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:255:117: COMMA tl2= term
-					{
-					match(input,COMMA,FOLLOW_COMMA_in_listheads2713); 
-					pushFollow(FOLLOW_term_in_listheads2718);
-					tl2=term();
-					state._fsp--;
-
-					tl.add(tl2);
-					}
-					break;
-
-				default :
-					break loop51;
-				}
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return tl;
-	}
-	// $ANTLR end "listheads"
-
-
-
-	// $ANTLR start "var"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:1: var returns [Abstract_VarTerm v] : ( VAR | UNNAMEDVAR ) ;
-	public final Abstract_VarTerm var() throws RecognitionException {
-		Abstract_VarTerm v = null;
-
-
-		Token VAR6=null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:34: ( ( VAR | UNNAMEDVAR ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:36: ( VAR | UNNAMEDVAR )
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:36: ( VAR | UNNAMEDVAR )
-			int alt52=2;
-			int LA52_0 = input.LA(1);
-			if ( (LA52_0==VAR) ) {
-				alt52=1;
-			}
-			else if ( (LA52_0==UNNAMEDVAR) ) {
-				alt52=2;
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 52, 0, input);
-				throw nvae;
-			}
-
-			switch (alt52) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:258:37: VAR
-					{
-					VAR6=(Token)match(input,VAR,FOLLOW_VAR_in_var2736); 
-
-						if (variables.containsKey(VAR6.getText())) {
-							v = variables.get(VAR6.getText());
-							} else {
-							v = new Abstract_VarTerm(VAR6.getText());
-							variables.put(VAR6.getText(), v);
+						case QUOTED_STRING:
+							{
+							setState(370);
+							match(QUOTED_STRING);
 							}
-						
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						setState(380);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						while (_la==COMMA) {
+							{
+							{
+							setState(373);
+							match(COMMA);
+							setState(376);
+							_errHandler.sync(this);
+							switch (_input.LA(1)) {
+							case PL_SQOPEN:
+							case OPEN:
+							case MINUS:
+							case PL_CONST:
+							case PL_VAR:
+							case NUMBER:
+								{
+								setState(374);
+								fof_expr();
+								}
+								break;
+							case QUOTED_STRING:
+								{
+								setState(375);
+								match(QUOTED_STRING);
+								}
+								break;
+							default:
+								throw new NoViableAltException(this);
+							}
+							}
+							}
+							setState(382);
+							_errHandler.sync(this);
+							_la = _input.LA(1);
+						}
+						setState(383);
+						match(CLOSE);
+						}
+					}
+
 					}
 					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:265:6: UNNAMEDVAR
+				case PL_SQOPEN:
 					{
-					match(input,UNNAMEDVAR,FOLLOW_UNNAMEDVAR_in_var2742); 
-					v = new Abstract_UnnamedVar();
+					setState(386);
+					match(PL_SQOPEN);
+					setState(399);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if (((((_la - 58)) & ~0x3f) == 0 && ((1L << (_la - 58)) & 14714881L) != 0)) {
+						{
+						setState(387);
+						fof_expr();
+						setState(392);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						while (_la==COMMA) {
+							{
+							{
+							setState(388);
+							match(COMMA);
+							setState(389);
+							fof_expr();
+							}
+							}
+							setState(394);
+							_errHandler.sync(this);
+							_la = _input.LA(1);
+						}
+						setState(397);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+						if (_la==PL_BAR) {
+							{
+							setState(395);
+							match(PL_BAR);
+							setState(396);
+							match(PL_VAR);
+							}
+						}
+
+						}
+					}
+
+					setState(401);
+					match(PL_SQCLOSE);
 					}
 					break;
-
+				case OPEN:
+					{
+					setState(402);
+					match(OPEN);
+					setState(403);
+					fof_expr();
+					setState(404);
+					match(CLOSE);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				break;
 			}
-
-			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return v;
+		return _localctx;
 	}
-	// $ANTLR end "var"
 
-
-
-	// $ANTLR start "numberstring"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:1: numberstring returns [String s] : ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) ;
-	public final String numberstring() throws RecognitionException {
-		String s = null;
-
-
-		Token n1=null;
-		Token n2=null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:33: ( ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:35: ( MINUS )? (n1= NUMBER ( POINT n2= NUMBER )? )
-			{
-			s = "";
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:46: ( MINUS )?
-			int alt53=2;
-			int LA53_0 = input.LA(1);
-			if ( (LA53_0==MINUS) ) {
-				alt53=1;
-			}
-			switch (alt53) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:47: MINUS
-					{
-					match(input,MINUS,FOLLOW_MINUS_in_numberstring2760); 
-					s += "-";
-					}
-					break;
-
-			}
-
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:68: (n1= NUMBER ( POINT n2= NUMBER )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:267:69: n1= NUMBER ( POINT n2= NUMBER )?
-			{
-			n1=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2769); 
-			s += n1.getText();
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:6: ( POINT n2= NUMBER )?
-			int alt54=2;
-			int LA54_0 = input.LA(1);
-			if ( (LA54_0==POINT) ) {
-				alt54=1;
-			}
-			switch (alt54) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:268:7: POINT n2= NUMBER
-					{
-					match(input,POINT,FOLLOW_POINT_in_numberstring2779); 
-					s += ".";
-					n2=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberstring2785); 
-					s += n2.getText();
-					}
-					break;
-
-			}
-
-			}
-
-			}
-
+	@SuppressWarnings("CheckReturnValue")
+	public static class Const_varContext extends ParserRuleContext {
+		public TerminalNode PL_CONST() { return getToken(EASSParser.PL_CONST, 0); }
+		public TerminalNode PL_VAR() { return getToken(EASSParser.PL_VAR, 0); }
+		public Const_varContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+		@Override public int getRuleIndex() { return RULE_const_var; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitConst_var(this);
+			else return visitor.visitChildren(this);
 		}
-		finally {
-			// do for sure before leaving
-		}
-		return s;
 	}
-	// $ANTLR end "numberstring"
 
-
-
-	// $ANTLR start "equation"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:1: equation returns [Abstract_Equation eq] : a1= arithexpr oper= eqoper a2= arithexpr ;
-	public final Abstract_Equation equation() throws RecognitionException {
-		Abstract_Equation eq = null;
-
-
-		Abstract_NumberTerm a1 =null;
-		int oper =0;
-		Abstract_NumberTerm a2 =null;
-
+	public final Const_varContext const_var() throws RecognitionException {
+		Const_varContext _localctx = new Const_varContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_const_var);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:40: (a1= arithexpr oper= eqoper a2= arithexpr )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:269:42: a1= arithexpr oper= eqoper a2= arithexpr
+			enterOuterAlt(_localctx, 1);
 			{
-			pushFollow(FOLLOW_arithexpr_in_equation2803);
-			a1=arithexpr();
-			state._fsp--;
-
-			pushFollow(FOLLOW_eqoper_in_equation2807);
-			oper=eqoper();
-			state._fsp--;
-
-			pushFollow(FOLLOW_arithexpr_in_equation2811);
-			a2=arithexpr();
-			state._fsp--;
-
-			eq = new Abstract_Equation(a1, oper, a2);
+			setState(410);
+			_la = _input.LA(1);
+			if ( !(_la==PL_CONST || _la==PL_VAR) ) {
+			_errHandler.recoverInline(this);
 			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return eq;
-	}
-	// $ANTLR end "equation"
-
-
-
-	// $ANTLR start "eqoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:1: eqoper returns [int oper] : ( LESS | EQ );
-	public final int eqoper() throws RecognitionException {
-		int oper = 0;
-
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:27: ( LESS | EQ )
-			int alt55=2;
-			int LA55_0 = input.LA(1);
-			if ( (LA55_0==LESS) ) {
-				alt55=1;
-			}
-			else if ( (LA55_0==EQ) ) {
-				alt55=2;
-			}
-
 			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 55, 0, input);
-				throw nvae;
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
-			switch (alt55) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:29: LESS
-					{
-					match(input,LESS,FOLLOW_LESS_in_eqoper2825); 
-					oper =Abstract_Equation.less;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:270:68: EQ
-					{
-					match(input,EQ,FOLLOW_EQ_in_eqoper2831); 
-					oper =Abstract_Equation.equal;
-					}
-					break;
-
 			}
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return oper;
+		return _localctx;
 	}
-	// $ANTLR end "eqoper"
 
-
-
-	// $ANTLR start "arithexpr"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:1: arithexpr returns [Abstract_NumberTerm t] : m= multexpr (oper= addoper m1= multexpr )? ;
-	public final Abstract_NumberTerm arithexpr() throws RecognitionException {
-		Abstract_NumberTerm t = null;
-
-
-		Abstract_NumberTerm m =null;
-		int oper =0;
-		Abstract_NumberTerm m1 =null;
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:43: (m= multexpr (oper= addoper m1= multexpr )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:45: m= multexpr (oper= addoper m1= multexpr )?
-			{
-			pushFollow(FOLLOW_multexpr_in_arithexpr2847);
-			m=multexpr();
-			state._fsp--;
-
-			t = m;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:69: (oper= addoper m1= multexpr )?
-			int alt56=2;
-			int LA56_0 = input.LA(1);
-			if ( (LA56_0==MINUS||LA56_0==PLUS) ) {
-				alt56=1;
-			}
-			switch (alt56) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:272:71: oper= addoper m1= multexpr
-					{
-					pushFollow(FOLLOW_addoper_in_arithexpr2855);
-					oper=addoper();
-					state._fsp--;
-
-					pushFollow(FOLLOW_multexpr_in_arithexpr2859);
-					m1=multexpr();
-					state._fsp--;
-
-					t = new Abstract_ArithExpr(m, oper, m1);
-					}
-					break;
-
-			}
-
-			}
-
+	@SuppressWarnings("CheckReturnValue")
+	public static class OperContext extends ParserRuleContext {
+		public TerminalNode EQUAL() { return getToken(EASSParser.EQUAL, 0); }
+		public TerminalNode LESS() { return getToken(EASSParser.LESS, 0); }
+		public TerminalNode PLUS() { return getToken(EASSParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(EASSParser.MINUS, 0); }
+		public OperContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+		@Override public int getRuleIndex() { return RULE_oper; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitOper(this);
+			else return visitor.visitChildren(this);
 		}
-		finally {
-			// do for sure before leaving
-		}
-		return t;
 	}
-	// $ANTLR end "arithexpr"
 
-
-
-	// $ANTLR start "multexpr"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:1: multexpr returns [Abstract_NumberTerm t] : a= atom (oper= multoper a1= atom )? ;
-	public final Abstract_NumberTerm multexpr() throws RecognitionException {
-		Abstract_NumberTerm t = null;
-
-
-		Abstract_NumberTerm a =null;
-		int oper =0;
-		Abstract_NumberTerm a1 =null;
-
+	public final OperContext oper() throws RecognitionException {
+		OperContext _localctx = new OperContext(_ctx, getState());
+		enterRule(_localctx, 40, RULE_oper);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:42: (a= atom (oper= multoper a1= atom )? )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:44: a= atom (oper= multoper a1= atom )?
+			enterOuterAlt(_localctx, 1);
 			{
-			pushFollow(FOLLOW_atom_in_multexpr2876);
-			a=atom();
-			state._fsp--;
-
-			t = a;
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:64: (oper= multoper a1= atom )?
-			int alt57=2;
-			int LA57_0 = input.LA(1);
-			if ( (LA57_0==DIV||(LA57_0 >= MOD && LA57_0 <= MULT)) ) {
-				alt57=1;
+			setState(412);
+			_la = _input.LA(1);
+			if ( !(((((_la - 72)) & ~0x3f) == 0 && ((1L << (_la - 72)) & 15L) != 0)) ) {
+			_errHandler.recoverInline(this);
 			}
-			switch (alt57) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:273:65: oper= multoper a1= atom
-					{
-					pushFollow(FOLLOW_multoper_in_multexpr2883);
-					oper=multoper();
-					state._fsp--;
-
-					pushFollow(FOLLOW_atom_in_multexpr2887);
-					a1=atom();
-					state._fsp--;
-
-					t = new Abstract_ArithExpr(a, oper, a1);
-					}
-					break;
-
-			}
-
-			}
-
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-		return t;
-	}
-	// $ANTLR end "multexpr"
-
-
-
-	// $ANTLR start "addoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:1: addoper returns [int oper] : ( PLUS | MINUS ) ;
-	public final int addoper() throws RecognitionException {
-		int oper = 0;
-
-
-		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:28: ( ( PLUS | MINUS ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:30: ( PLUS | MINUS )
-			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:30: ( PLUS | MINUS )
-			int alt58=2;
-			int LA58_0 = input.LA(1);
-			if ( (LA58_0==PLUS) ) {
-				alt58=1;
-			}
-			else if ( (LA58_0==MINUS) ) {
-				alt58=2;
-			}
-
 			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 58, 0, input);
-				throw nvae;
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
-			switch (alt58) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:31: PLUS
-					{
-					match(input,PLUS,FOLLOW_PLUS_in_addoper2904); 
-					oper =Abstract_ArithExpr.plus;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:275:70: MINUS
-					{
-					match(input,MINUS,FOLLOW_MINUS_in_addoper2909); 
-					oper =Abstract_ArithExpr.minus;
-					}
-					break;
-
 			}
-
-			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return oper;
+		return _localctx;
 	}
-	// $ANTLR end "addoper"
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class AgentnametermContext extends ParserRuleContext {
+		public TerminalNode PL_CONST() { return getToken(EASSParser.PL_CONST, 0); }
+		public TerminalNode PL_VAR() { return getToken(EASSParser.PL_VAR, 0); }
+		public AgentnametermContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_agentnameterm; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EASSVisitor ) return ((EASSVisitor<? extends T>)visitor).visitAgentnameterm(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-
-	// $ANTLR start "multoper"
-	// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:1: multoper returns [int oper] : ( MULT | DIV | MOD ) ;
-	public final int multoper() throws RecognitionException {
-		int oper = 0;
-
-
+	public final AgentnametermContext agentnameterm() throws RecognitionException {
+		AgentnametermContext _localctx = new AgentnametermContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_agentnameterm);
+		int _la;
 		try {
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:29: ( ( MULT | DIV | MOD ) )
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:31: ( MULT | DIV | MOD )
+			enterOuterAlt(_localctx, 1);
 			{
-			// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:31: ( MULT | DIV | MOD )
-			int alt59=3;
-			switch ( input.LA(1) ) {
-			case MULT:
-				{
-				alt59=1;
-				}
-				break;
-			case DIV:
-				{
-				alt59=2;
-				}
-				break;
-			case MOD:
-				{
-				alt59=3;
-				}
-				break;
-			default:
-				NoViableAltException nvae =
-					new NoViableAltException("", 59, 0, input);
-				throw nvae;
+			setState(414);
+			_la = _input.LA(1);
+			if ( !(_la==PL_CONST || _la==PL_VAR) ) {
+			_errHandler.recoverInline(this);
 			}
-			switch (alt59) {
-				case 1 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:32: MULT
-					{
-					match(input,MULT,FOLLOW_MULT_in_multoper2924); 
-					oper =Abstract_ArithExpr.times;
-					}
-					break;
-				case 2 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:73: DIV
-					{
-					match(input,DIV,FOLLOW_DIV_in_multoper2930); 
-					oper =Abstract_ArithExpr.div;
-					}
-					break;
-				case 3 :
-					// /Users/louiseadennis/Eclipse/mcapl/src/classes/eass/parser/EASS.g:276:111: MOD
-					{
-					match(input,MOD,FOLLOW_MOD_in_multoper2936); 
-					oper =Abstract_ArithExpr.mod;
-					}
-					break;
-
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
 			}
-
 			}
-
 		}
 		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
 		}
 		finally {
-			// do for sure before leaving
+			exitRule();
 		}
-		return oper;
+		return _localctx;
 	}
-	// $ANTLR end "multoper"
 
-	// Delegated rules
-
-
-
-	public static final BitSet FOLLOW_eassagents_in_mas89 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EASS_in_eassagents102 = new BitSet(new long[]{0x0000002000000010L});
-	public static final BitSet FOLLOW_eassagent_in_eassagents111 = new BitSet(new long[]{0x0000002000000012L});
-	public static final BitSet FOLLOW_NAME_in_eassagent130 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_word_in_eassagent134 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_ABSTRACTION_in_eassagent141 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_word_in_eassagent145 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_BELIEFS_in_eassagent157 = new BitSet(new long[]{0x6000008020104200L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_eassagent162 = new BitSet(new long[]{0x6000008020104200L,0x0000000000000001L});
-	public static final BitSet FOLLOW_BELIEFRULES_in_eassagent170 = new BitSet(new long[]{0x4000000020104000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_brule_in_eassagent175 = new BitSet(new long[]{0x4000000020104000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_CAPABILITIES_in_eassagent185 = new BitSet(new long[]{0x0000000020400000L});
-	public static final BitSet FOLLOW_capability_in_eassagent190 = new BitSet(new long[]{0x0000000020400000L});
-	public static final BitSet FOLLOW_GOALS_in_eassagent199 = new BitSet(new long[]{0x6000208000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_eassagent204 = new BitSet(new long[]{0x6000208000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_PLANS_in_eassagent211 = new BitSet(new long[]{0x0000400400000002L});
-	public static final BitSet FOLLOW_plan_in_eassagent216 = new BitSet(new long[]{0x0000400400000002L});
-	public static final BitSet FOLLOW_literal_in_goal237 = new BitSet(new long[]{0x0200000000000000L});
-	public static final BitSet FOLLOW_SQOPEN_in_goal239 = new BitSet(new long[]{0x0000080000000040L});
-	public static final BitSet FOLLOW_ACHIEVEGOAL_in_goal242 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_PERFORMGOAL_in_goal250 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_goal255 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_capability270 = new BitSet(new long[]{0x4000008000300000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_clogicalfmla_in_capability275 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_capability279 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_capability285 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_capability290 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_clogicalfmla_in_capability294 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_capability298 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_event_in_plan316 = new BitSet(new long[]{0x0000000000020000L});
-	public static final BitSet FOLLOW_COLON_in_plan324 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_CURLYOPEN_in_plan326 = new BitSet(new long[]{0x6040038410000800L,0x0000000000000001L});
-	public static final BitSet FOLLOW_NOT_in_plan331 = new BitSet(new long[]{0x6040030410000800L,0x0000000000000001L});
-	public static final BitSet FOLLOW_guard_atom_in_plan339 = new BitSet(new long[]{0x0000000000240000L});
-	public static final BitSet FOLLOW_COMMA_in_plan347 = new BitSet(new long[]{0x6040038410000800L,0x0000000000000001L});
-	public static final BitSet FOLLOW_NOT_in_plan352 = new BitSet(new long[]{0x6040030410000800L,0x0000000000000001L});
-	public static final BitSet FOLLOW_guard_atom_in_plan360 = new BitSet(new long[]{0x0000000000240000L});
-	public static final BitSet FOLLOW_CURLYCLOSE_in_plan366 = new BitSet(new long[]{0x0018000000000000L});
-	public static final BitSet FOLLOW_RULEARROW_in_plan369 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000003L});
-	public static final BitSet FOLLOW_deed_in_plan374 = new BitSet(new long[]{0x0010000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_plan380 = new BitSet(new long[]{0xC822431400102000L,0x0000000000000003L});
-	public static final BitSet FOLLOW_deed_in_plan384 = new BitSet(new long[]{0x0010000000040000L});
-	public static final BitSet FOLLOW_SEMI_in_plan395 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_event412 = new BitSet(new long[]{0x6084008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_RECEIVED_in_event415 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_event417 = new BitSet(new long[]{0x1000040000000020L});
-	public static final BitSet FOLLOW_performative_in_event421 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_event423 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_event427 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_event429 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_literal_in_event446 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event456 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_event460 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_event474 = new BitSet(new long[]{0x6080008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_event479 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_event489 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_event493 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_BELIEVE_in_guard_atom515 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_guard_atom519 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_GOAL_in_guard_atom529 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_guard_atom533 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SENT_in_guard_atom543 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_guard_atom545 = new BitSet(new long[]{0x4000000001000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_stringterm_in_guard_atom552 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_var_in_guard_atom560 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom565 = new BitSet(new long[]{0x1000040001000020L});
-	public static final BitSet FOLLOW_stringterm_in_guard_atom572 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom580 = new BitSet(new long[]{0x1000040000000020L});
-	public static final BitSet FOLLOW_performative_in_guard_atom588 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_guard_atom596 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_guard_atom600 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_guard_atom602 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_equation_in_guard_atom616 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_TRUE_in_guard_atom658 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_deed683 = new BitSet(new long[]{0x6080108200100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_deed688 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed698 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_deed702 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LOCK_in_deed712 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLAN_in_deed721 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_deed723 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_deed727 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_deed729 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_deed742 = new BitSet(new long[]{0x6080108200100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_deed747 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SHRIEK_in_deed757 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_goal_in_deed761 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LOCK_in_deed771 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLAN_in_deed781 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_deed783 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_deed787 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_deed789 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_UPDATE_in_deed806 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_deed811 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CALCULATE_in_deed822 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_calculation_in_deed826 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_QUERYCOM_in_deed837 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_query_in_deed841 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_WAIT_in_deed852 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_wait_in_deed856 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_action_in_deed869 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_waitfor_in_deed882 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SUBSTITUTE_in_deed892 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_substitution_in_deed896 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_substitution928 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_substitution932 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution934 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_substitution940 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution942 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_substitution947 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_substitution949 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_substitution955 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_substitution957 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_calculation973 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_calculation979 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_calculation981 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_var_in_calculation985 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_calculation987 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_query1005 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_query1011 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_query1014 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_wait1032 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_term_in_wait1038 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_wait1040 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_wait1044 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_wait1046 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_pred_in_brule1069 = new BitSet(new long[]{0x0010000000001000L});
-	public static final BitSet FOLLOW_BRULEARROW_in_brule1072 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_logicalfmla_in_brule1076 = new BitSet(new long[]{0x0010000000000000L});
-	public static final BitSet FOLLOW_SEMI_in_brule1080 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SEMI_in_brule1084 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_notfmla_in_logicalfmla1102 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_logicalfmla1122 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_notfmla_in_logicalfmla1126 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_pred_in_notfmla1162 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1170 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_equation_in_notfmla1176 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1180 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_notfmla1264 = new BitSet(new long[]{0x4200020000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_notfmla1271 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_notfmla1355 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_equation_in_notfmla1361 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_notfmla1363 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_subfmla_in_notfmla1452 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_subfmla1466 = new BitSet(new long[]{0x4200008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_logicalfmla_in_subfmla1472 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_subfmla1476 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla1491 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_clogicalfmla1511 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_cnotfmla_in_clogicalfmla1515 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_pred_in_cnotfmla1550 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_cnotfmla1635 = new BitSet(new long[]{0x4000020000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_cnotfmla1642 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_csubfmla_in_cnotfmla1731 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_csubfmla1745 = new BitSet(new long[]{0x4000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_clogicalfmla_in_csubfmla1751 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_csubfmla1755 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_waitfor1771 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_waitfor1775 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_action1795 = new BitSet(new long[]{0x0000400000000000L});
-	public static final BitSet FOLLOW_PLUS_in_action1797 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_atom_in_action1801 = new BitSet(new long[]{0x0000000008000000L});
-	public static final BitSet FOLLOW_EQ_ASSGN_in_action1803 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_var_in_action1807 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SEND_in_action1816 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_OPEN_in_action1818 = new BitSet(new long[]{0x6000008000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_literal_in_action1822 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_action1824 = new BitSet(new long[]{0x1000040000000020L});
-	public static final BitSet FOLLOW_performative_in_action1828 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_COMMA_in_action1830 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_action1834 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_action1836 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_pred_in_action1847 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_TELL_in_performative1863 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PERFORM_in_performative1869 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ACHIEVE_in_performative1875 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_classpath_in_environment2167 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_word_in_classpath2182 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_POINT_in_classpath2187 = new BitSet(new long[]{0x0000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_word_in_classpath2191 = new BitSet(new long[]{0x0000800000000002L});
-	public static final BitSet FOLLOW_CONST_in_word2292 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VAR_in_word2298 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_agentnameterm2398 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_agentnameterm2406 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_TRUE_in_literal2423 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NOT_in_literal2434 = new BitSet(new long[]{0x4000000000100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_pred_in_literal2438 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_pred_in_literal2452 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_pred2469 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_in_pred2476 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CONST_in_function2489 = new BitSet(new long[]{0x0000020000000002L});
-	public static final BitSet FOLLOW_OPEN_in_function2494 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_terms_in_function2496 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_function2499 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_term_in_terms2513 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_terms2518 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_terms_in_terms2520 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_term2539 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_stringterm_in_term2551 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_in_term2561 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_listterm_in_term2572 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_numberstring_in_atom2591 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_var_in_atom2604 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_OPEN_in_atom2610 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_arithexpr_in_atom2614 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_CLOSE_in_atom2616 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2630 = new BitSet(new long[]{0x0400000000000000L});
-	public static final BitSet FOLLOW_STRING_in_stringterm2633 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_DOUBLEQUOTE_in_stringterm2635 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_SQOPEN_in_listterm2670 = new BitSet(new long[]{0x4300030401100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_listheads_in_listterm2675 = new BitSet(new long[]{0x0100000000000100L});
-	public static final BitSet FOLLOW_BAR_in_listterm2680 = new BitSet(new long[]{0x4000000000000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_var_in_listterm2684 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_SQCLOSE_in_listterm2692 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_term_in_listheads2708 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_COMMA_in_listheads2713 = new BitSet(new long[]{0x4200030401100000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_term_in_listheads2718 = new BitSet(new long[]{0x0000000000040002L});
-	public static final BitSet FOLLOW_VAR_in_var2736 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_UNNAMEDVAR_in_var2742 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_numberstring2760 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2769 = new BitSet(new long[]{0x0000800000000002L});
-	public static final BitSet FOLLOW_POINT_in_numberstring2779 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_NUMBER_in_numberstring2785 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2803 = new BitSet(new long[]{0x0000000084000000L});
-	public static final BitSet FOLLOW_eqoper_in_equation2807 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_arithexpr_in_equation2811 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LESS_in_eqoper2825 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_EQ_in_eqoper2831 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2847 = new BitSet(new long[]{0x0000400400000002L});
-	public static final BitSet FOLLOW_addoper_in_arithexpr2855 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_multexpr_in_arithexpr2859 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_multexpr2876 = new BitSet(new long[]{0x0000001800800002L});
-	public static final BitSet FOLLOW_multoper_in_multexpr2883 = new BitSet(new long[]{0x4000030400000000L,0x0000000000000001L});
-	public static final BitSet FOLLOW_atom_in_multexpr2887 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_addoper2904 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MINUS_in_addoper2909 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MULT_in_multoper2924 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DIV_in_multoper2930 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_MOD_in_multoper2936 = new BitSet(new long[]{0x0000000000000002L});
+	public static final String _serializedATN =
+		"\u0004\u0001R\u01a1\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007\u000f"+
+		"\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007\u0012"+
+		"\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0002\u0015\u0007\u0015"+
+		"\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0004\u00011\b\u0001"+
+		"\u000b\u0001\f\u00012\u0001\u0002\u0003\u00026\b\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0005\u0002<\b\u0002\n\u0002\f\u0002?\t"+
+		"\u0002\u0001\u0002\u0001\u0002\u0005\u0002C\b\u0002\n\u0002\f\u0002F\t"+
+		"\u0002\u0001\u0002\u0005\u0002I\b\u0002\n\u0002\f\u0002L\t\u0002\u0003"+
+		"\u0002N\b\u0002\u0001\u0002\u0001\u0002\u0005\u0002R\b\u0002\n\u0002\f"+
+		"\u0002U\t\u0002\u0001\u0002\u0005\u0002X\b\u0002\n\u0002\f\u0002[\t\u0002"+
+		"\u0003\u0002]\b\u0002\u0001\u0002\u0001\u0002\u0005\u0002a\b\u0002\n\u0002"+
+		"\f\u0002d\t\u0002\u0001\u0002\u0001\u0002\u0004\u0002h\b\u0002\u000b\u0002"+
+		"\f\u0002i\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0005\u0004z\b\u0004\n\u0004\f\u0004"+
+		"}\t\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0005\u0004\u0084\b\u0004\n\u0004\f\u0004\u0087\t\u0004\u0003\u0004\u0089"+
+		"\b\u0004\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0005\u0001\u0005\u0003\u0005\u0092\b\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0005\u0001\u0005\u0001\u0005\u0003\u0005\u0099\b\u0005\u0003\u0005\u009b"+
+		"\b\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003"+
+		"\u0005\u00a2\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0007\u0001\u0007\u0004\u0007\u00aa\b\u0007\u000b\u0007\f\u0007\u00ab"+
+		"\u0001\b\u0003\b\u00af\b\b\u0001\b\u0001\b\u0001\b\u0001\b\u0005\b\u00b5"+
+		"\b\b\n\b\f\b\u00b8\t\b\u0001\b\u0001\b\u0005\b\u00bc\b\b\n\b\f\b\u00bf"+
+		"\t\b\u0001\b\u0005\b\u00c2\b\b\n\b\f\b\u00c5\t\b\u0003\b\u00c7\b\b\u0001"+
+		"\b\u0001\b\u0005\b\u00cb\b\b\n\b\f\b\u00ce\t\b\u0001\b\u0001\b\u0004\b"+
+		"\u00d2\b\b\u000b\b\f\b\u00d3\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001"+
+		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0005\n\u00e1\b\n\n\n\f\n\u00e4"+
+		"\t\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0005\n\u00eb\b\n\n\n\f\n"+
+		"\u00ee\t\n\u0003\n\u00f0\b\n\u0001\n\u0001\n\u0001\u000b\u0003\u000b\u00f5"+
+		"\b\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
+		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
+		"\u000b\u0003\u000b\u0103\b\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
+		"\u000b\u0001\u000b\u0003\u000b\u010a\b\u000b\u0001\u000b\u0003\u000b\u010d"+
+		"\b\u000b\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
+		"\f\u0001\f\u0001\f\u0001\f\u0003\f\u011a\b\f\u0003\f\u011c\b\f\u0001\f"+
+		"\u0001\f\u0001\f\u0001\f\u0003\f\u0122\b\f\u0003\f\u0124\b\f\u0001\r\u0001"+
+		"\r\u0001\r\u0001\r\u0001\r\u0003\r\u012b\b\r\u0001\u000e\u0001\u000e\u0001"+
+		"\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0132\b\u000e\u0001\u000e\u0001"+
+		"\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0139\b\u000e\u0003"+
+		"\u000e\u013b\b\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u013f\b\u000e"+
+		"\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u0010"+
+		"\u0001\u0010\u0003\u0010\u0148\b\u0010\u0001\u0010\u0001\u0010\u0001\u0011"+
+		"\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
+		"\u0001\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u0156\b\u0011\u0001\u0012"+
+		"\u0003\u0012\u0159\b\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u015d\b"+
+		"\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u0161\b\u0012\u0001\u0012\u0001"+
+		"\u0012\u0003\u0012\u0165\b\u0012\u0003\u0012\u0167\b\u0012\u0001\u0012"+
+		"\u0001\u0012\u0001\u0012\u0005\u0012\u016c\b\u0012\n\u0012\f\u0012\u016f"+
+		"\t\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u0174\b\u0012"+
+		"\u0001\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u0179\b\u0012\u0005\u0012"+
+		"\u017b\b\u0012\n\u0012\f\u0012\u017e\t\u0012\u0001\u0012\u0003\u0012\u0181"+
+		"\b\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0005\u0012\u0187"+
+		"\b\u0012\n\u0012\f\u0012\u018a\t\u0012\u0001\u0012\u0001\u0012\u0003\u0012"+
+		"\u018e\b\u0012\u0003\u0012\u0190\b\u0012\u0001\u0012\u0001\u0012\u0001"+
+		"\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u0197\b\u0012\u0003\u0012\u0199"+
+		"\b\u0012\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0015\u0001"+
+		"\u0015\u0001\u0015\u0000\u0000\u0016\u0000\u0002\u0004\u0006\b\n\f\u000e"+
+		"\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*\u0000\t\u0003"+
+		"\u0000\u0002\u0002\u0004\u0004,,\u0002\u0000\r\r\u0014\u0014\u0003\u0000"+
+		"\f\f\u0013\u0013\u001a\u001a\u0002\u0000\u0004\u0004,,\u0002\u0000\f\f"+
+		"\u0013\u0013\u0001\u0000\'(\u0001\u000089\u0001\u0000OP\u0001\u0000HK"+
+		"\u01d1\u0000,\u0001\u0000\u0000\u0000\u0002.\u0001\u0000\u0000\u0000\u0004"+
+		"5\u0001\u0000\u0000\u0000\u0006k\u0001\u0000\u0000\u0000\bs\u0001\u0000"+
+		"\u0000\u0000\n\u00a1\u0001\u0000\u0000\u0000\f\u00a3\u0001\u0000\u0000"+
+		"\u0000\u000e\u00a7\u0001\u0000\u0000\u0000\u0010\u00ae\u0001\u0000\u0000"+
+		"\u0000\u0012\u00d5\u0001\u0000\u0000\u0000\u0014\u00da\u0001\u0000\u0000"+
+		"\u0000\u0016\u010c\u0001\u0000\u0000\u0000\u0018\u0123\u0001\u0000\u0000"+
+		"\u0000\u001a\u012a\u0001\u0000\u0000\u0000\u001c\u013e\u0001\u0000\u0000"+
+		"\u0000\u001e\u0140\u0001\u0000\u0000\u0000 \u0145\u0001\u0000\u0000\u0000"+
+		"\"\u0155\u0001\u0000\u0000\u0000$\u0198\u0001\u0000\u0000\u0000&\u019a"+
+		"\u0001\u0000\u0000\u0000(\u019c\u0001\u0000\u0000\u0000*\u019e\u0001\u0000"+
+		"\u0000\u0000,-\u0003\u0002\u0001\u0000-\u0001\u0001\u0000\u0000\u0000"+
+		".0\u0005\u0001\u0000\u0000/1\u0003\u0004\u0002\u00000/\u0001\u0000\u0000"+
+		"\u000012\u0001\u0000\u0000\u000020\u0001\u0000\u0000\u000023\u0001\u0000"+
+		"\u0000\u00003\u0003\u0001\u0000\u0000\u000046\u0005\u0001\u0000\u0000"+
+		"54\u0001\u0000\u0000\u000056\u0001\u0000\u0000\u000067\u0001\u0000\u0000"+
+		"\u000078\u0007\u0000\u0000\u000089\u0005\u0005\u0000\u00009=\u0005\n\u0000"+
+		"\u0000:<\u0005\u0012\u0000\u0000;:\u0001\u0000\u0000\u0000<?\u0001\u0000"+
+		"\u0000\u0000=;\u0001\u0000\u0000\u0000=>\u0001\u0000\u0000\u0000>M\u0001"+
+		"\u0000\u0000\u0000?=\u0001\u0000\u0000\u0000@D\u0005\u000b\u0000\u0000"+
+		"AC\u0005\u0017\u0000\u0000BA\u0001\u0000\u0000\u0000CF\u0001\u0000\u0000"+
+		"\u0000DB\u0001\u0000\u0000\u0000DE\u0001\u0000\u0000\u0000EJ\u0001\u0000"+
+		"\u0000\u0000FD\u0001\u0000\u0000\u0000GI\u0005\u0019\u0000\u0000HG\u0001"+
+		"\u0000\u0000\u0000IL\u0001\u0000\u0000\u0000JH\u0001\u0000\u0000\u0000"+
+		"JK\u0001\u0000\u0000\u0000KN\u0001\u0000\u0000\u0000LJ\u0001\u0000\u0000"+
+		"\u0000M@\u0001\u0000\u0000\u0000MN\u0001\u0000\u0000\u0000N\\\u0001\u0000"+
+		"\u0000\u0000OS\u0007\u0001\u0000\u0000PR\u0005\u001d\u0000\u0000QP\u0001"+
+		"\u0000\u0000\u0000RU\u0001\u0000\u0000\u0000SQ\u0001\u0000\u0000\u0000"+
+		"ST\u0001\u0000\u0000\u0000TY\u0001\u0000\u0000\u0000US\u0001\u0000\u0000"+
+		"\u0000VX\u0003\u0006\u0003\u0000WV\u0001\u0000\u0000\u0000X[\u0001\u0000"+
+		"\u0000\u0000YW\u0001\u0000\u0000\u0000YZ\u0001\u0000\u0000\u0000Z]\u0001"+
+		"\u0000\u0000\u0000[Y\u0001\u0000\u0000\u0000\\O\u0001\u0000\u0000\u0000"+
+		"\\]\u0001\u0000\u0000\u0000]^\u0001\u0000\u0000\u0000^b\u0007\u0002\u0000"+
+		"\u0000_a\u0003\u0012\t\u0000`_\u0001\u0000\u0000\u0000ad\u0001\u0000\u0000"+
+		"\u0000b`\u0001\u0000\u0000\u0000bc\u0001\u0000\u0000\u0000ce\u0001\u0000"+
+		"\u0000\u0000db\u0001\u0000\u0000\u0000eg\u0005\"\u0000\u0000fh\u0003\b"+
+		"\u0004\u0000gf\u0001\u0000\u0000\u0000hi\u0001\u0000\u0000\u0000ig\u0001"+
+		"\u0000\u0000\u0000ij\u0001\u0000\u0000\u0000j\u0005\u0001\u0000\u0000"+
+		"\u0000kl\u0005\u001f\u0000\u0000lm\u0005!\u0000\u0000mn\u0005 \u0000\u0000"+
+		"no\u0005!\u0000\u0000op\u0005\u001f\u0000\u0000pq\u0005!\u0000\u0000q"+
+		"r\u0005 \u0000\u0000r\u0007\u0001\u0000\u0000\u0000st\u0003\u0018\f\u0000"+
+		"tu\u0005>\u0000\u0000uv\u0005?\u0000\u0000v{\u0003\u0016\u000b\u0000w"+
+		"x\u0005A\u0000\u0000xz\u0003\u0016\u000b\u0000yw\u0001\u0000\u0000\u0000"+
+		"z}\u0001\u0000\u0000\u0000{y\u0001\u0000\u0000\u0000{|\u0001\u0000\u0000"+
+		"\u0000|~\u0001\u0000\u0000\u0000}{\u0001\u0000\u0000\u0000~\u0088\u0005"+
+		"@\u0000\u0000\u007f\u0080\u0005M\u0000\u0000\u0080\u0085\u0003\n\u0005"+
+		"\u0000\u0081\u0082\u0005A\u0000\u0000\u0082\u0084\u0003\n\u0005\u0000"+
+		"\u0083\u0081\u0001\u0000\u0000\u0000\u0084\u0087\u0001\u0000\u0000\u0000"+
+		"\u0085\u0083\u0001\u0000\u0000\u0000\u0085\u0086\u0001\u0000\u0000\u0000"+
+		"\u0086\u0089\u0001\u0000\u0000\u0000\u0087\u0085\u0001\u0000\u0000\u0000"+
+		"\u0088\u007f\u0001\u0000\u0000\u0000\u0088\u0089\u0001\u0000\u0000\u0000"+
+		"\u0089\u008a\u0001\u0000\u0000\u0000\u008a\u008b\u0005B\u0000\u0000\u008b"+
+		"\t\u0001\u0000\u0000\u0000\u008c\u0091\u0005H\u0000\u0000\u008d\u0092"+
+		"\u0003$\u0012\u0000\u008e\u008f\u0005D\u0000\u0000\u008f\u0092\u0003\u001e"+
+		"\u000f\u0000\u0090\u0092\u00056\u0000\u0000\u0091\u008d\u0001\u0000\u0000"+
+		"\u0000\u0091\u008e\u0001\u0000\u0000\u0000\u0091\u0090\u0001\u0000\u0000"+
+		"\u0000\u0092\u009b\u0001\u0000\u0000\u0000\u0093\u0098\u0005I\u0000\u0000"+
+		"\u0094\u0099\u0003$\u0012\u0000\u0095\u0096\u0005D\u0000\u0000\u0096\u0099"+
+		"\u0003\u001e\u000f\u0000\u0097\u0099\u00056\u0000\u0000\u0098\u0094\u0001"+
+		"\u0000\u0000\u0000\u0098\u0095\u0001\u0000\u0000\u0000\u0098\u0097\u0001"+
+		"\u0000\u0000\u0000\u0099\u009b\u0001\u0000\u0000\u0000\u009a\u008c\u0001"+
+		"\u0000\u0000\u0000\u009a\u0093\u0001\u0000\u0000\u0000\u009b\u00a2\u0001"+
+		"\u0000\u0000\u0000\u009c\u009d\u00057\u0000\u0000\u009d\u00a2\u0003\f"+
+		"\u0006\u0000\u009e\u00a2\u0003\"\u0011\u0000\u009f\u00a2\u0003 \u0010"+
+		"\u0000\u00a0\u00a2\u0001\u0000\u0000\u0000\u00a1\u009a\u0001\u0000\u0000"+
+		"\u0000\u00a1\u009c\u0001\u0000\u0000\u0000\u00a1\u009e\u0001\u0000\u0000"+
+		"\u0000\u00a1\u009f\u0001\u0000\u0000\u0000\u00a1\u00a0\u0001\u0000\u0000"+
+		"\u0000\u00a2\u000b\u0001\u0000\u0000\u0000\u00a3\u00a4\u0005E\u0000\u0000"+
+		"\u00a4\u00a5\u0003$\u0012\u0000\u00a5\u00a6\u0005F\u0000\u0000\u00a6\r"+
+		"\u0001\u0000\u0000\u0000\u00a7\u00a9\u0005\u0003\u0000\u0000\u00a8\u00aa"+
+		"\u0003\u0010\b\u0000\u00a9\u00a8\u0001\u0000\u0000\u0000\u00aa\u00ab\u0001"+
+		"\u0000\u0000\u0000\u00ab\u00a9\u0001\u0000\u0000\u0000\u00ab\u00ac\u0001"+
+		"\u0000\u0000\u0000\u00ac\u000f\u0001\u0000\u0000\u0000\u00ad\u00af\u0005"+
+		"\u0003\u0000\u0000\u00ae\u00ad\u0001\u0000\u0000\u0000\u00ae\u00af\u0001"+
+		"\u0000\u0000\u0000\u00af\u00b0\u0001\u0000\u0000\u0000\u00b0\u00b1\u0007"+
+		"\u0003\u0000\u0000\u00b1\u00b2\u0005\u0005\u0000\u0000\u00b2\u00b6\u0005"+
+		"\n\u0000\u0000\u00b3\u00b5\u0005\u0012\u0000\u0000\u00b4\u00b3\u0001\u0000"+
+		"\u0000\u0000\u00b5\u00b8\u0001\u0000\u0000\u0000\u00b6\u00b4\u0001\u0000"+
+		"\u0000\u0000\u00b6\u00b7\u0001\u0000\u0000\u0000\u00b7\u00c6\u0001\u0000"+
+		"\u0000\u0000\u00b8\u00b6\u0001\u0000\u0000\u0000\u00b9\u00bd\u0005\u000b"+
+		"\u0000\u0000\u00ba\u00bc\u0005\u0017\u0000\u0000\u00bb\u00ba\u0001\u0000"+
+		"\u0000\u0000\u00bc\u00bf\u0001\u0000\u0000\u0000\u00bd\u00bb\u0001\u0000"+
+		"\u0000\u0000\u00bd\u00be\u0001\u0000\u0000\u0000\u00be\u00c3\u0001\u0000"+
+		"\u0000\u0000\u00bf\u00bd\u0001\u0000\u0000\u0000\u00c0\u00c2\u0005\u0019"+
+		"\u0000\u0000\u00c1\u00c0\u0001\u0000\u0000\u0000\u00c2\u00c5\u0001\u0000"+
+		"\u0000\u0000\u00c3\u00c1\u0001\u0000\u0000\u0000\u00c3\u00c4\u0001\u0000"+
+		"\u0000\u0000\u00c4\u00c7\u0001\u0000\u0000\u0000\u00c5\u00c3\u0001\u0000"+
+		"\u0000\u0000\u00c6\u00b9\u0001\u0000\u0000\u0000\u00c6\u00c7\u0001\u0000"+
+		"\u0000\u0000\u00c7\u00c8\u0001\u0000\u0000\u0000\u00c8\u00cc\u0007\u0004"+
+		"\u0000\u0000\u00c9\u00cb\u0003\u0012\t\u0000\u00ca\u00c9\u0001\u0000\u0000"+
+		"\u0000\u00cb\u00ce\u0001\u0000\u0000\u0000\u00cc\u00ca\u0001\u0000\u0000"+
+		"\u0000\u00cc\u00cd\u0001\u0000\u0000\u0000\u00cd\u00cf\u0001\u0000\u0000"+
+		"\u0000\u00ce\u00cc\u0001\u0000\u0000\u0000\u00cf\u00d1\u0005\"\u0000\u0000"+
+		"\u00d0\u00d2\u0003\u0014\n\u0000\u00d1\u00d0\u0001\u0000\u0000\u0000\u00d2"+
+		"\u00d3\u0001\u0000\u0000\u0000\u00d3\u00d1\u0001\u0000\u0000\u0000\u00d3"+
+		"\u00d4\u0001\u0000\u0000\u0000\u00d4\u0011\u0001\u0000\u0000\u0000\u00d5"+
+		"\u00d6\u0005+\u0000\u0000\u00d6\u00d7\u0005)\u0000\u0000\u00d7\u00d8\u0007"+
+		"\u0005\u0000\u0000\u00d8\u00d9\u0005*\u0000\u0000\u00d9\u0013\u0001\u0000"+
+		"\u0000\u0000\u00da\u00db\u0003\u0018\f\u0000\u00db\u00dc\u0005>\u0000"+
+		"\u0000\u00dc\u00dd\u0005?\u0000\u0000\u00dd\u00e2\u0003\u0016\u000b\u0000"+
+		"\u00de\u00df\u0005A\u0000\u0000\u00df\u00e1\u0003\u0016\u000b\u0000\u00e0"+
+		"\u00de\u0001\u0000\u0000\u0000\u00e1\u00e4\u0001\u0000\u0000\u0000\u00e2"+
+		"\u00e0\u0001\u0000\u0000\u0000\u00e2\u00e3\u0001\u0000\u0000\u0000\u00e3"+
+		"\u00e5\u0001\u0000\u0000\u0000\u00e4\u00e2\u0001\u0000\u0000\u0000\u00e5"+
+		"\u00ef\u0005@\u0000\u0000\u00e6\u00e7\u0005M\u0000\u0000\u00e7\u00ec\u0003"+
+		"\u001c\u000e\u0000\u00e8\u00e9\u0005A\u0000\u0000\u00e9\u00eb\u0003\u001c"+
+		"\u000e\u0000\u00ea\u00e8\u0001\u0000\u0000\u0000\u00eb\u00ee\u0001\u0000"+
+		"\u0000\u0000\u00ec\u00ea\u0001\u0000\u0000\u0000\u00ec\u00ed\u0001\u0000"+
+		"\u0000\u0000\u00ed\u00f0\u0001\u0000\u0000\u0000\u00ee\u00ec\u0001\u0000"+
+		"\u0000\u0000\u00ef\u00e6\u0001\u0000\u0000\u0000\u00ef\u00f0\u0001\u0000"+
+		"\u0000\u0000\u00f0\u00f1\u0001\u0000\u0000\u0000\u00f1\u00f2\u0005B\u0000"+
+		"\u0000\u00f2\u0015\u0001\u0000\u0000\u0000\u00f3\u00f5\u0005=\u0000\u0000"+
+		"\u00f4\u00f3\u0001\u0000\u0000\u0000\u00f4\u00f5\u0001\u0000\u0000\u0000"+
+		"\u00f5\u0109\u0001\u0000\u0000\u0000\u00f6\u00f7\u00053\u0000\u0000\u00f7"+
+		"\u010a\u0003$\u0012\u0000\u00f8\u00f9\u00054\u0000\u0000\u00f9\u010a\u0003"+
+		"\u001e\u000f\u0000\u00fa\u010a\u0003$\u0012\u0000\u00fb\u00fc\u00055\u0000"+
+		"\u0000\u00fc\u00fd\u0005E\u0000\u0000\u00fd\u00fe\u0003*\u0015\u0000\u00fe"+
+		"\u0102\u0005A\u0000\u0000\u00ff\u0100\u0003*\u0015\u0000\u0100\u0101\u0005"+
+		"A\u0000\u0000\u0101\u0103\u0001\u0000\u0000\u0000\u0102\u00ff\u0001\u0000"+
+		"\u0000\u0000\u0102\u0103\u0001\u0000\u0000\u0000\u0103\u0104\u0001\u0000"+
+		"\u0000\u0000\u0104\u0105\u0003\u001a\r\u0000\u0105\u0106\u0005A\u0000"+
+		"\u0000\u0106\u0107\u0003$\u0012\u0000\u0107\u0108\u0005F\u0000\u0000\u0108"+
+		"\u010a\u0001\u0000\u0000\u0000\u0109\u00f6\u0001\u0000\u0000\u0000\u0109"+
+		"\u00f8\u0001\u0000\u0000\u0000\u0109\u00fa\u0001\u0000\u0000\u0000\u0109"+
+		"\u00fb\u0001\u0000\u0000\u0000\u010a\u010d\u0001\u0000\u0000\u0000\u010b"+
+		"\u010d\u0005N\u0000\u0000\u010c\u00f4\u0001\u0000\u0000\u0000\u010c\u010b"+
+		"\u0001\u0000\u0000\u0000\u010d\u0017\u0001\u0000\u0000\u0000\u010e\u011b"+
+		"\u0005H\u0000\u0000\u010f\u0110\u00052\u0000\u0000\u0110\u0111\u0005E"+
+		"\u0000\u0000\u0111\u0112\u0003\u001a\r\u0000\u0112\u0113\u0005A\u0000"+
+		"\u0000\u0113\u0114\u0003$\u0012\u0000\u0114\u0115\u0005F\u0000\u0000\u0115"+
+		"\u011c\u0001\u0000\u0000\u0000\u0116\u011a\u0003$\u0012\u0000\u0117\u0118"+
+		"\u0005D\u0000\u0000\u0118\u011a\u0003\u001e\u000f\u0000\u0119\u0116\u0001"+
+		"\u0000\u0000\u0000\u0119\u0117\u0001\u0000\u0000\u0000\u011a\u011c\u0001"+
+		"\u0000\u0000\u0000\u011b\u010f\u0001\u0000\u0000\u0000\u011b\u0119\u0001"+
+		"\u0000\u0000\u0000\u011c\u0124\u0001\u0000\u0000\u0000\u011d\u0121\u0005"+
+		"I\u0000\u0000\u011e\u0122\u0003$\u0012\u0000\u011f\u0120\u0005D\u0000"+
+		"\u0000\u0120\u0122\u0003\u001e\u000f\u0000\u0121\u011e\u0001\u0000\u0000"+
+		"\u0000\u0121\u011f\u0001\u0000\u0000\u0000\u0122\u0124\u0001\u0000\u0000"+
+		"\u0000\u0123\u010e\u0001\u0000\u0000\u0000\u0123\u011d\u0001\u0000\u0000"+
+		"\u0000\u0124\u0019\u0001\u0000\u0000\u0000\u0125\u012b\u0005C\u0000\u0000"+
+		"\u0126\u0127\u0005>\u0000\u0000\u0127\u012b\u00059\u0000\u0000\u0128\u0129"+
+		"\u0005>\u0000\u0000\u0129\u012b\u00058\u0000\u0000\u012a\u0125\u0001\u0000"+
+		"\u0000\u0000\u012a\u0126\u0001\u0000\u0000\u0000\u012a\u0128\u0001\u0000"+
+		"\u0000\u0000\u012b\u001b\u0001\u0000\u0000\u0000\u012c\u0131\u0005H\u0000"+
+		"\u0000\u012d\u0132\u0003$\u0012\u0000\u012e\u012f\u0005D\u0000\u0000\u012f"+
+		"\u0132\u0003\u001e\u000f\u0000\u0130\u0132\u00056\u0000\u0000\u0131\u012d"+
+		"\u0001\u0000\u0000\u0000\u0131\u012e\u0001\u0000\u0000\u0000\u0131\u0130"+
+		"\u0001\u0000\u0000\u0000\u0132\u013b\u0001\u0000\u0000\u0000\u0133\u0138"+
+		"\u0005I\u0000\u0000\u0134\u0139\u0003$\u0012\u0000\u0135\u0136\u0005D"+
+		"\u0000\u0000\u0136\u0139\u0003\u001e\u000f\u0000\u0137\u0139\u00056\u0000"+
+		"\u0000\u0138\u0134\u0001\u0000\u0000\u0000\u0138\u0135\u0001\u0000\u0000"+
+		"\u0000\u0138\u0137\u0001\u0000\u0000\u0000\u0139\u013b\u0001\u0000\u0000"+
+		"\u0000\u013a\u012c\u0001\u0000\u0000\u0000\u013a\u0133\u0001\u0000\u0000"+
+		"\u0000\u013b\u013f\u0001\u0000\u0000\u0000\u013c\u013f\u0003\"\u0011\u0000"+
+		"\u013d\u013f\u0003 \u0010\u0000\u013e\u013a\u0001\u0000\u0000\u0000\u013e"+
+		"\u013c\u0001\u0000\u0000\u0000\u013e\u013d\u0001\u0000\u0000\u0000\u013f"+
+		"\u001d\u0001\u0000\u0000\u0000\u0140\u0141\u0003$\u0012\u0000\u0141\u0142"+
+		"\u0005:\u0000\u0000\u0142\u0143\u0007\u0006\u0000\u0000\u0143\u0144\u0005"+
+		";\u0000\u0000\u0144\u001f\u0001\u0000\u0000\u0000\u0145\u0147\u0005G\u0000"+
+		"\u0000\u0146\u0148\u0005=\u0000\u0000\u0147\u0146\u0001\u0000\u0000\u0000"+
+		"\u0147\u0148\u0001\u0000\u0000\u0000\u0148\u0149\u0001\u0000\u0000\u0000"+
+		"\u0149\u014a\u0003$\u0012\u0000\u014a!\u0001\u0000\u0000\u0000\u014b\u014c"+
+		"\u00051\u0000\u0000\u014c\u014d\u0005E\u0000\u0000\u014d\u014e\u0003$"+
+		"\u0012\u0000\u014e\u014f\u0005A\u0000\u0000\u014f\u0150\u0003\u001a\r"+
+		"\u0000\u0150\u0151\u0005A\u0000\u0000\u0151\u0152\u0003$\u0012\u0000\u0152"+
+		"\u0153\u0005F\u0000\u0000\u0153\u0156\u0001\u0000\u0000\u0000\u0154\u0156"+
+		"\u0003$\u0012\u0000\u0155\u014b\u0001\u0000\u0000\u0000\u0155\u0154\u0001"+
+		"\u0000\u0000\u0000\u0156#\u0001\u0000\u0000\u0000\u0157\u0159\u0005I\u0000"+
+		"\u0000\u0158\u0157\u0001\u0000\u0000\u0000\u0158\u0159\u0001\u0000\u0000"+
+		"\u0000\u0159\u015a\u0001\u0000\u0000\u0000\u015a\u015d\u0005Q\u0000\u0000"+
+		"\u015b\u015d\u0005P\u0000\u0000\u015c\u0158\u0001\u0000\u0000\u0000\u015c"+
+		"\u015b\u0001\u0000\u0000\u0000\u015d\u0166\u0001\u0000\u0000\u0000\u015e"+
+		"\u0164\u0003(\u0014\u0000\u015f\u0161\u0005I\u0000\u0000\u0160\u015f\u0001"+
+		"\u0000\u0000\u0000\u0160\u0161\u0001\u0000\u0000\u0000\u0161\u0162\u0001"+
+		"\u0000\u0000\u0000\u0162\u0165\u0005Q\u0000\u0000\u0163\u0165\u0005P\u0000"+
+		"\u0000\u0164\u0160\u0001\u0000\u0000\u0000\u0164\u0163\u0001\u0000\u0000"+
+		"\u0000\u0165\u0167\u0001\u0000\u0000\u0000\u0166\u015e\u0001\u0000\u0000"+
+		"\u0000\u0166\u0167\u0001\u0000\u0000\u0000\u0167\u0199\u0001\u0000\u0000"+
+		"\u0000\u0168\u016d\u0003&\u0013\u0000\u0169\u016a\u0005L\u0000\u0000\u016a"+
+		"\u016c\u0003&\u0013\u0000\u016b\u0169\u0001\u0000\u0000\u0000\u016c\u016f"+
+		"\u0001\u0000\u0000\u0000\u016d\u016b\u0001\u0000\u0000\u0000\u016d\u016e"+
+		"\u0001\u0000\u0000\u0000\u016e\u0180\u0001\u0000\u0000\u0000\u016f\u016d"+
+		"\u0001\u0000\u0000\u0000\u0170\u0173\u0005E\u0000\u0000\u0171\u0174\u0003"+
+		"$\u0012\u0000\u0172\u0174\u0005R\u0000\u0000\u0173\u0171\u0001\u0000\u0000"+
+		"\u0000\u0173\u0172\u0001\u0000\u0000\u0000\u0174\u017c\u0001\u0000\u0000"+
+		"\u0000\u0175\u0178\u0005A\u0000\u0000\u0176\u0179\u0003$\u0012\u0000\u0177"+
+		"\u0179\u0005R\u0000\u0000\u0178\u0176\u0001\u0000\u0000\u0000\u0178\u0177"+
+		"\u0001\u0000\u0000\u0000\u0179\u017b\u0001\u0000\u0000\u0000\u017a\u0175"+
+		"\u0001\u0000\u0000\u0000\u017b\u017e\u0001\u0000\u0000\u0000\u017c\u017a"+
+		"\u0001\u0000\u0000\u0000\u017c\u017d\u0001\u0000\u0000\u0000\u017d\u017f"+
+		"\u0001\u0000\u0000\u0000\u017e\u017c\u0001\u0000\u0000\u0000\u017f\u0181"+
+		"\u0005F\u0000\u0000\u0180\u0170\u0001\u0000\u0000\u0000\u0180\u0181\u0001"+
+		"\u0000\u0000\u0000\u0181\u0197\u0001\u0000\u0000\u0000\u0182\u018f\u0005"+
+		":\u0000\u0000\u0183\u0188\u0003$\u0012\u0000\u0184\u0185\u0005A\u0000"+
+		"\u0000\u0185\u0187\u0003$\u0012\u0000\u0186\u0184\u0001\u0000\u0000\u0000"+
+		"\u0187\u018a\u0001\u0000\u0000\u0000\u0188\u0186\u0001\u0000\u0000\u0000"+
+		"\u0188\u0189\u0001\u0000\u0000\u0000\u0189\u018d\u0001\u0000\u0000\u0000"+
+		"\u018a\u0188\u0001\u0000\u0000\u0000\u018b\u018c\u0005<\u0000\u0000\u018c"+
+		"\u018e\u0005P\u0000\u0000\u018d\u018b\u0001\u0000\u0000\u0000\u018d\u018e"+
+		"\u0001\u0000\u0000\u0000\u018e\u0190\u0001\u0000\u0000\u0000\u018f\u0183"+
+		"\u0001\u0000\u0000\u0000\u018f\u0190\u0001\u0000\u0000\u0000\u0190\u0191"+
+		"\u0001\u0000\u0000\u0000\u0191\u0197\u0005;\u0000\u0000\u0192\u0193\u0005"+
+		"E\u0000\u0000\u0193\u0194\u0003$\u0012\u0000\u0194\u0195\u0005F\u0000"+
+		"\u0000\u0195\u0197\u0001\u0000\u0000\u0000\u0196\u0168\u0001\u0000\u0000"+
+		"\u0000\u0196\u0182\u0001\u0000\u0000\u0000\u0196\u0192\u0001\u0000\u0000"+
+		"\u0000\u0197\u0199\u0001\u0000\u0000\u0000\u0198\u015c\u0001\u0000\u0000"+
+		"\u0000\u0198\u0196\u0001\u0000\u0000\u0000\u0199%\u0001\u0000\u0000\u0000"+
+		"\u019a\u019b\u0007\u0007\u0000\u0000\u019b\'\u0001\u0000\u0000\u0000\u019c"+
+		"\u019d\u0007\b\u0000\u0000\u019d)\u0001\u0000\u0000\u0000\u019e\u019f"+
+		"\u0007\u0007\u0000\u0000\u019f+\u0001\u0000\u0000\u0000;25=DJMSY\\bi{"+
+		"\u0085\u0088\u0091\u0098\u009a\u00a1\u00ab\u00ae\u00b6\u00bd\u00c3\u00c6"+
+		"\u00cc\u00d3\u00e2\u00ec\u00ef\u00f4\u0102\u0109\u010c\u0119\u011b\u0121"+
+		"\u0123\u012a\u0131\u0138\u013a\u013e\u0147\u0155\u0158\u015c\u0160\u0164"+
+		"\u0166\u016d\u0173\u0178\u017c\u0180\u0188\u018d\u018f\u0196\u0198";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+	static {
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+		}
+	}
 }

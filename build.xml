@@ -45,7 +45,7 @@
     <pathelement location="bin"/>
 
     <fileset dir=".">
-    	<include name="lib/3rdparty/antlr-4.7-complete.jar"/>
+    	<include name="lib/3rdparty/antlr-4.13.2-complete.jar"/>
   	    <include name="lib/3rdparty/ev3classes.jar"/>
  	    <include name="lib/3rdparty/ev3tools.jar"/>
  	    <include name="lib/3rdparty/junit-4.10.jar"/>

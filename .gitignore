@@ -3,6 +3,8 @@
 *.tokens
 bin/*
 *.synctex.gz
+*.interp
+*.DS_Store
 
 # Test Outputs #
 bin/TEST*

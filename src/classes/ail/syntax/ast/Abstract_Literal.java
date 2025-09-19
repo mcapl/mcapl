@@ -196,4 +196,13 @@ public class Abstract_Literal extends Abstract_Pred {
 		return ref;
 
 	}
+
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		if (negated()) {
+			s.append("~");
+		}
+		s.append(super.toString());
+		return s.toString();
+	}
 }

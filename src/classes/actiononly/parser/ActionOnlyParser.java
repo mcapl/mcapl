@@ -1,4 +1,4 @@
-// Generated from ActionOnly.g4 by ANTLR 4.7
+// Generated from /Users/louisedennis/IdeaProjects/mcapl/src/classes/actiononly/parser/antlr/ActionOnly.g4 by ANTLR 4.13.1
 package actiononly.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class ActionOnlyParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -25,24 +25,33 @@ public class ActionOnlyParser extends Parser {
 		A_LINE_COMMENT=31, A_NEWLINE=32, A_WS=33, ACTION_BLOCK=34;
 	public static final int
 		RULE_mas = 0, RULE_aoagents = 1, RULE_aoagent = 2, RULE_capability = 3;
-	public static final String[] ruleNames = {
-		"mas", "aoagents", "aoagent", "capability"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"mas", "aoagents", "aoagent", "capability"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'AO'", "':Initial Beliefs:'", "':name:'", null, null, null, null, 
-		null, "':Reasoning Rules:'", null, null, null, null, null, null, null, 
-		null, null, null, null, null, "':Actions:'", null, null, null, null, null, 
-		"'{'", "'}'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "ACTIONONLY", "BELIEFS", "NAME", "WORD", "COMMENT", "LINE_COMMENT", 
-		"NEWLINE", "WS", "BELIEFRULES", "GOAL_IB", "IB_COMMENT", "IB_LINE_COMMENT", 
-		"IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", "GOAL_RR", "RR_COMMENT", "RR_LINE_COMMENT", 
-		"RR_NEWLINE", "RR_WS", "RR_BLOCK", "ACTIONS", "GL_COMMENT", "GL_LINE_COMMENT", 
-		"GL_NEWLINE", "GL_WS", "GOAL_BLOCK", "CURLYOPEN", "CURLYCLOSE", "A_COMMENT", 
-		"A_LINE_COMMENT", "A_NEWLINE", "A_WS", "ACTION_BLOCK"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'AO'", "':Initial Beliefs:'", "':name:'", null, null, null, null, 
+			null, "':Reasoning Rules:'", null, null, null, null, null, null, null, 
+			null, null, null, null, null, "':Actions:'", null, null, null, null, 
+			null, "'{'", "'}'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "ACTIONONLY", "BELIEFS", "NAME", "WORD", "COMMENT", "LINE_COMMENT", 
+			"NEWLINE", "WS", "BELIEFRULES", "GOAL_IB", "IB_COMMENT", "IB_LINE_COMMENT", 
+			"IB_NEWLINE", "IB_WS", "BELIEF_BLOCK", "GOAL_RR", "RR_COMMENT", "RR_LINE_COMMENT", 
+			"RR_NEWLINE", "RR_WS", "RR_BLOCK", "ACTIONS", "GL_COMMENT", "GL_LINE_COMMENT", 
+			"GL_NEWLINE", "GL_WS", "GOAL_BLOCK", "CURLYOPEN", "CURLYCLOSE", "A_COMMENT", 
+			"A_LINE_COMMENT", "A_NEWLINE", "A_WS", "ACTION_BLOCK"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -92,6 +101,8 @@ public class ActionOnlyParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
+	@SuppressWarnings("CheckReturnValue")
 	public static class MasContext extends ParserRuleContext {
 		public AoagentsContext aoagents() {
 			return getRuleContext(AoagentsContext.class,0);
@@ -128,6 +139,7 @@ public class ActionOnlyParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class AoagentsContext extends ParserRuleContext {
 		public TerminalNode ACTIONONLY() { return getToken(ActionOnlyParser.ACTIONONLY, 0); }
 		public List<AoagentContext> aoagent() {
@@ -183,6 +195,7 @@ public class ActionOnlyParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class AoagentContext extends ParserRuleContext {
 		public Token w;
 		public Token bs;
@@ -423,6 +436,7 @@ public class ActionOnlyParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
 	public static class CapabilityContext extends ParserRuleContext {
 		public Token pres;
 		public Token a;
@@ -480,30 +494,59 @@ public class ActionOnlyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$X\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\3\2\3\2\3\3\3\3\6\3\17\n\3\r\3\16\3\20\3\4\5\4\24\n\4"+
-		"\3\4\3\4\3\4\3\4\5\4\32\n\4\3\4\7\4\35\n\4\f\4\16\4 \13\4\3\4\3\4\7\4"+
-		"$\n\4\f\4\16\4\'\13\4\3\4\3\4\3\4\3\4\5\4-\n\4\3\4\7\4\60\n\4\f\4\16\4"+
-		"\63\13\4\5\4\65\n\4\3\4\3\4\7\49\n\4\f\4\16\4<\13\4\3\4\3\4\3\4\3\4\5"+
-		"\4B\n\4\3\4\7\4E\n\4\f\4\16\4H\13\4\3\4\3\4\7\4L\n\4\f\4\16\4O\13\4\3"+
-		"\5\3\5\5\5S\n\5\3\5\3\5\3\5\3\5\2\2\6\2\4\6\b\2\3\4\2\f\f\22\22\2`\2\n"+
-		"\3\2\2\2\4\f\3\2\2\2\6\23\3\2\2\2\bP\3\2\2\2\n\13\5\4\3\2\13\3\3\2\2\2"+
-		"\f\16\7\3\2\2\r\17\5\6\4\2\16\r\3\2\2\2\17\20\3\2\2\2\20\16\3\2\2\2\20"+
-		"\21\3\2\2\2\21\5\3\2\2\2\22\24\7\3\2\2\23\22\3\2\2\2\23\24\3\2\2\2\24"+
-		"\25\3\2\2\2\25\26\7\5\2\2\26\27\7\6\2\2\27\36\7\4\2\2\30\32\7\21\2\2\31"+
-		"\30\3\2\2\2\31\32\3\2\2\2\32\33\3\2\2\2\33\35\7\17\2\2\34\31\3\2\2\2\35"+
-		" \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\64\3\2\2\2 \36\3\2\2\2!%\7\13"+
-		"\2\2\"$\7\25\2\2#\"\3\2\2\2$\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&(\3\2\2\2\'"+
-		"%\3\2\2\2()\7\27\2\2)*\7\25\2\2*\61\3\2\2\2+-\7\27\2\2,+\3\2\2\2,-\3\2"+
-		"\2\2-.\3\2\2\2.\60\7\25\2\2/,\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62"+
-		"\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2\2\64!\3\2\2\2\64\65\3\2\2\2\65\66\3"+
-		"\2\2\2\66:\t\2\2\2\679\7\33\2\28\67\3\2\2\29<\3\2\2\2:8\3\2\2\2:;\3\2"+
-		"\2\2;=\3\2\2\2<:\3\2\2\2=>\7\35\2\2>?\7\33\2\2?F\3\2\2\2@B\7\35\2\2A@"+
-		"\3\2\2\2AB\3\2\2\2BC\3\2\2\2CE\7\33\2\2DA\3\2\2\2EH\3\2\2\2FD\3\2\2\2"+
-		"FG\3\2\2\2GI\3\2\2\2HF\3\2\2\2IM\7\30\2\2JL\5\b\5\2KJ\3\2\2\2LO\3\2\2"+
-		"\2MK\3\2\2\2MN\3\2\2\2N\7\3\2\2\2OM\3\2\2\2PR\7\36\2\2QS\7$\2\2RQ\3\2"+
-		"\2\2RS\3\2\2\2ST\3\2\2\2TU\7\37\2\2UV\7$\2\2V\t\3\2\2\2\17\20\23\31\36"+
-		"%,\61\64:AFMR";
+		"\u0004\u0001\"V\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0001\u0000\u0001"+
+		"\u0001\u0001\u0001\u0004\u0001\r\b\u0001\u000b\u0001\f\u0001\u000e\u0001"+
+		"\u0002\u0003\u0002\u0012\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u0002\u0018\b\u0002\u0001\u0002\u0005\u0002\u001b\b\u0002"+
+		"\n\u0002\f\u0002\u001e\t\u0002\u0001\u0002\u0001\u0002\u0005\u0002\"\b"+
+		"\u0002\n\u0002\f\u0002%\t\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u0002+\b\u0002\u0001\u0002\u0005\u0002.\b\u0002\n\u0002\f"+
+		"\u00021\t\u0002\u0003\u00023\b\u0002\u0001\u0002\u0001\u0002\u0005\u0002"+
+		"7\b\u0002\n\u0002\f\u0002:\t\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0003\u0002@\b\u0002\u0001\u0002\u0005\u0002C\b\u0002\n\u0002"+
+		"\f\u0002F\t\u0002\u0001\u0002\u0001\u0002\u0005\u0002J\b\u0002\n\u0002"+
+		"\f\u0002M\t\u0002\u0001\u0003\u0001\u0003\u0003\u0003Q\b\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0000\u0000\u0004\u0000\u0002\u0004"+
+		"\u0006\u0000\u0001\u0002\u0000\n\n\u0010\u0010^\u0000\b\u0001\u0000\u0000"+
+		"\u0000\u0002\n\u0001\u0000\u0000\u0000\u0004\u0011\u0001\u0000\u0000\u0000"+
+		"\u0006N\u0001\u0000\u0000\u0000\b\t\u0003\u0002\u0001\u0000\t\u0001\u0001"+
+		"\u0000\u0000\u0000\n\f\u0005\u0001\u0000\u0000\u000b\r\u0003\u0004\u0002"+
+		"\u0000\f\u000b\u0001\u0000\u0000\u0000\r\u000e\u0001\u0000\u0000\u0000"+
+		"\u000e\f\u0001\u0000\u0000\u0000\u000e\u000f\u0001\u0000\u0000\u0000\u000f"+
+		"\u0003\u0001\u0000\u0000\u0000\u0010\u0012\u0005\u0001\u0000\u0000\u0011"+
+		"\u0010\u0001\u0000\u0000\u0000\u0011\u0012\u0001\u0000\u0000\u0000\u0012"+
+		"\u0013\u0001\u0000\u0000\u0000\u0013\u0014\u0005\u0003\u0000\u0000\u0014"+
+		"\u0015\u0005\u0004\u0000\u0000\u0015\u001c\u0005\u0002\u0000\u0000\u0016"+
+		"\u0018\u0005\u000f\u0000\u0000\u0017\u0016\u0001\u0000\u0000\u0000\u0017"+
+		"\u0018\u0001\u0000\u0000\u0000\u0018\u0019\u0001\u0000\u0000\u0000\u0019"+
+		"\u001b\u0005\r\u0000\u0000\u001a\u0017\u0001\u0000\u0000\u0000\u001b\u001e"+
+		"\u0001\u0000\u0000\u0000\u001c\u001a\u0001\u0000\u0000\u0000\u001c\u001d"+
+		"\u0001\u0000\u0000\u0000\u001d2\u0001\u0000\u0000\u0000\u001e\u001c\u0001"+
+		"\u0000\u0000\u0000\u001f#\u0005\t\u0000\u0000 \"\u0005\u0013\u0000\u0000"+
+		"! \u0001\u0000\u0000\u0000\"%\u0001\u0000\u0000\u0000#!\u0001\u0000\u0000"+
+		"\u0000#$\u0001\u0000\u0000\u0000$&\u0001\u0000\u0000\u0000%#\u0001\u0000"+
+		"\u0000\u0000&\'\u0005\u0015\u0000\u0000\'(\u0005\u0013\u0000\u0000(/\u0001"+
+		"\u0000\u0000\u0000)+\u0005\u0015\u0000\u0000*)\u0001\u0000\u0000\u0000"+
+		"*+\u0001\u0000\u0000\u0000+,\u0001\u0000\u0000\u0000,.\u0005\u0013\u0000"+
+		"\u0000-*\u0001\u0000\u0000\u0000.1\u0001\u0000\u0000\u0000/-\u0001\u0000"+
+		"\u0000\u0000/0\u0001\u0000\u0000\u000003\u0001\u0000\u0000\u00001/\u0001"+
+		"\u0000\u0000\u00002\u001f\u0001\u0000\u0000\u000023\u0001\u0000\u0000"+
+		"\u000034\u0001\u0000\u0000\u000048\u0007\u0000\u0000\u000057\u0005\u0019"+
+		"\u0000\u000065\u0001\u0000\u0000\u00007:\u0001\u0000\u0000\u000086\u0001"+
+		"\u0000\u0000\u000089\u0001\u0000\u0000\u00009;\u0001\u0000\u0000\u0000"+
+		":8\u0001\u0000\u0000\u0000;<\u0005\u001b\u0000\u0000<=\u0005\u0019\u0000"+
+		"\u0000=D\u0001\u0000\u0000\u0000>@\u0005\u001b\u0000\u0000?>\u0001\u0000"+
+		"\u0000\u0000?@\u0001\u0000\u0000\u0000@A\u0001\u0000\u0000\u0000AC\u0005"+
+		"\u0019\u0000\u0000B?\u0001\u0000\u0000\u0000CF\u0001\u0000\u0000\u0000"+
+		"DB\u0001\u0000\u0000\u0000DE\u0001\u0000\u0000\u0000EG\u0001\u0000\u0000"+
+		"\u0000FD\u0001\u0000\u0000\u0000GK\u0005\u0016\u0000\u0000HJ\u0003\u0006"+
+		"\u0003\u0000IH\u0001\u0000\u0000\u0000JM\u0001\u0000\u0000\u0000KI\u0001"+
+		"\u0000\u0000\u0000KL\u0001\u0000\u0000\u0000L\u0005\u0001\u0000\u0000"+
+		"\u0000MK\u0001\u0000\u0000\u0000NP\u0005\u001c\u0000\u0000OQ\u0005\"\u0000"+
+		"\u0000PO\u0001\u0000\u0000\u0000PQ\u0001\u0000\u0000\u0000QR\u0001\u0000"+
+		"\u0000\u0000RS\u0005\u001d\u0000\u0000ST\u0005\"\u0000\u0000T\u0007\u0001"+
+		"\u0000\u0000\u0000\r\u000e\u0011\u0017\u001c#*/28?DKP";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
