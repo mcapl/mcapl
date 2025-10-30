@@ -11,7 +11,7 @@ Model Checking an agent system uses standard JPF\index{JPF!configuration}\index{
 {\bf Important:} Make sure that \texttt{\ajpfversion/bin} is in your CLASSPATH.  You also need to make sure that the following jar files appear in your CLASSPATH\index{Java (class)path}\index{Unix}
 
 \begin{verbatim}
-lib/3rdparty/antlr-4.7-complete.jar
+lib/3rdparty/antlr-4.13.2-complete.jar
 lib/3rdparty/commons-io-2.4.jar
 lib/3rdparty/eis-0.5.0.jar
 lib/3rdparty/ev3classes.jar
@@ -24,6 +24,8 @@ lib/3rdparty/jpf-classes.jar
 lib/3rdparty/jpl.jar
 lib/3rdparty/json-simple-1.1.1.jar
 lib/3rdparty/junit-4.10.jar
+lib/3rdparty/mapdbWrapper.jar
+lib/3rdparth/RunJPF.jar
 lib/3rdparty/system-rules-1.16.0.jar
 \end{verbatim}
 
@@ -41,7 +43,7 @@ You can run the simple agent \texttt{pickupagent.gwen} whose code you will find 
 You should see output similar to:
 
 \noindent \begin{lstlisting}
-MCAPL Framework 2024
+MCAPL Framework 2025
 done
 \end{lstlisting}
 \medskip
@@ -87,7 +89,7 @@ ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent
 
 ====================================================== search started: 30/03/23 11:55
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-MCAPL Framework Version 2023
+MCAPL Framework Version 2024
 ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new

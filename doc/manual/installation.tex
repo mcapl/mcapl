@@ -2,17 +2,17 @@
 \label{chap:installation}
 \section{Requirements}
 
-The MCAPL software requires Java 8.   
+The MCAPL software requires Java 11.   
 
-{\bf IMPORTANT:} It does have to be Java 8.  The version of Java PathFinder currently packaged with the system does not work with later versions of Java.
+{\bf IMPORTANT:} It does have to be Java 11.  The version of Java PathFinder currently packaged with the system does not work with later versions of Java.
 
 \section{Installation}\index{installation}
 
-\subsection{Installation of MCAPL 2024}\index{installation!Unix}\index{Unix}
+\subsection{Installation of MCAPL 2025}\index{installation!Unix}\index{Unix}
 
 \begin{itemize}
 \begin{sloppypar}
-\item Download the 2024 release from Github \texttt{https://github.com/mcapl/mcapl/releases/}.
+\item Download the 2025 release from Github \texttt{https://github.com/mcapl/mcapl/releases/}.
 \end{sloppypar}
 \item Create a file \texttt{.jpf/site.properties} in your home directory with the path to \ajpfversion\ assigned to the value \texttt{mcapl}
   (e.g. \texttt{mcapl = \$\{user.home\}/mcapl}).
@@ -23,7 +23,7 @@ mkdir -p ~/.jpf && touch ~/.jpf/site.properties
 \end{verbatim}
 followed by:
 \begin{verbatim}
-echo "mcapl = ${user.home}/mcapl" >> ~/.jpf/site.properties
+echo "mcapl = ${user.home}/mcapl2025" >> ~/.jpf/site.properties
 \end{verbatim}
 
 \item Within the \texttt{mcapl} directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, \lstinline{ant compile} to just compile the files and \lstinline{ant build} to build and run regression tests (takes just under fifteen minutes on a 3GHz Macbook with 16 GB memory))
@@ -62,7 +62,7 @@ echo "mcapl = ${user.home}/mcapl" >> ~/.jpf/site.properties
 \end{itemize}
 
 \section{IntelliJ Installation}\index{installation!IntellijJ}\index{IntelliJ}
-We also supply an IntelliJ Module file so you should be able to import \ajpfversion\ (or mcapl if using the development version) into IntelliJ.  You will need a Java 8 SDK and JRE installed and will probably also want to install the ant plugin in order to run the tests easily.  You may need to configure the Project Settings manually to use your Java 8 SDK.
+We also supply an IntelliJ Module file so you should be able to import \ajpfversion\ (or mcapl if using the development version) into IntelliJ.  You will need a Java 11 SDK and JRE installed and will probably also want to install the ant plugin in order to run the tests easily.  You may need to configure the Project Settings manually to use your Java 11 SDK.
 \begin{itemize}
 \item If you have the ant plugin installed, you should then be able to build ajpf by clicking on build in the ant window (ant symbol -- often on the right of the IDE).  This will build the project and run the ``quick'' test suite.  You can see the progress of this in the Messages window (usually at the bottom on the left of the IDE).
 \item Create a file \texttt{.jpf/site.properties} with the path to \ajpfversion\ (or mcapl if using the development version)  assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/IdeaProjects/\ajpfversion}).
@@ -71,9 +71,9 @@ We also supply an IntelliJ Module file so you should be able to import \ajpfvers
 
 \section{Eclipse Installation}\index{installation!Eclipse}\index{Eclipse}
 
-We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.  You need to be using a version of Eclipse for Java Development.  We have tested on the Eclipse IDE for Java Developers.  You will need to configure Eclipse to use Java 1.8 as both its compiler and runtime environment. 
+We also supply an eclipse \texttt{.project} file so you should be able to import \ajpfversion\ (or mcapl if using the development version)  into eclipse.  You need to be using a version of Eclipse for Java Development.  We have tested on the Eclipse IDE for Java Developers.  You will need to configure Eclipse to use Java 11 as both its compiler and runtime environment. 
 \begin{itemize}
-\item In theory, you should then be able to build ajpf by clicking on the build.xml file, however recent versions of Eclipse force the build process to use Java 11 and don't send clear error messages when they do this.  If the build process isn't working, you may still nevetheless be able to use the \mcapl\ framework by using Eclipse's built-in build process bypassing the \texttt{ant} file.  It is possible to force Eclipse to use a version of \texttt{ant} that is compatible with Java 8, but this is non-trivial.
+\item In theory, you should then be able to build ajpf by clicking on the build.xml file, however we haven't tested this since moving to Java 11.
 \item Create a file \texttt{.jpf/site.properties} with the path to \ajpfversion\ (or mcapl if using the development version)  assigned to the value \texttt{mcapl} (e.g. \texttt{mcapl = \$\{user.home\}/Eclipse/\ajpfversion}).
 \item We recommend you set the \texttt{AJPF\_HOME} environment variable to give the path to your ajpf directory.  If necessary you can do this within the Environment tab for individual Run Configurations.
 \end{itemize}
