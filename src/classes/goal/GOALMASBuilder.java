@@ -45,27 +45,31 @@ public class GOALMASBuilder implements MASBuilder {
 	public GOALMASBuilder() {}
 	
 	public GOALMASBuilder(String masstring, boolean filename) {
+		System.err.println("GOAL MASS BUILDER NOT PEER A");
 		if (filename) {
 			parsefile(masstring);
 		} else {
 			parse(masstring);
 		}
+		System.err.println("GOAL MASS BUILDER NOT PEER B");
 		mas = amas.toMCAPL(null);
 	}
 
 		
 	public void parse(String masstring) {
+		System.err.println("GOAL MASS BUILDER NOT PEER C");
 		GOALLexer lexer = new GOALLexer(new ANTLRStringStream(masstring));
     	CommonTokenStream tokens = new CommonTokenStream(lexer);
     	GOALParser parser = new GOALParser(tokens);
     	try {
     		amas = parser.mas();
     	} catch (Exception e) {
-    		System.err.println(e);
-    	}
+			System.err.println(e);
+		}
     }
 	
 	public void parsefile(String filename) {
+		System.err.println("GOAL MASS BUILDER NOT PEER D");
 		try {
 			GOALLexer lexer = new GOALLexer(new ANTLRFileStream(filename));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -78,7 +82,9 @@ public class GOALMASBuilder implements MASBuilder {
 	}
 	
 	public MAS getMAS(String filename, String tracedir) {
+		System.err.println("GOAL MASS BUILDER NOT PEER E");
 		parsefile(filename);
+		System.err.println("GOAL MASS BUILDER NOT PEER F");
 		mas = amas.toMCAPL(tracedir);
 		return mas;
 	}

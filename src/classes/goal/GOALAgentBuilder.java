@@ -42,8 +42,9 @@ public class GOALAgentBuilder implements AgentBuilder {
 
 	@Override
 	public AILAgent getAgent(String filename) {
+		//System.err.println("GOALAGENTBUILDER: A");
 		parsefile(filename);
-		
+		//System.err.println("GOALAGENTBUILDER: b");
 		agent = abs_agent.toMCAPL();
 
 		return agent;

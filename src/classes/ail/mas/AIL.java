@@ -44,7 +44,7 @@ public class AIL {
 	@FilterField
 	static String logname = "ail.mas.AIL";
 	
-	static String version = "MCAPL Framework Development Version 2024";
+	static String version = "MCAPL Framework 2025";
 
 	/**
 	 * Main method.  There should be one argument consisting of the name of a configuration file.
@@ -86,7 +86,9 @@ public class AIL {
 		}
 
 		// First we need to build the multi-agent system
+		//System.err.println("AIL: A");
 		MAS mas = buildMAS(config);
+		//System.err.println("AIL: B");
 		mas.setController(control);
 		
 		// Then, if necessary, we attach an environment
@@ -122,6 +124,7 @@ public class AIL {
 	public static MAS buildMAS(AILConfig config) {
 		String tracedir = null;
 		String tracing = (String) config.getOrDefault("tracing.enabled", "false");
+		//System.err.println("AIL: A");
 		if (tracing.equals("true")) {
 			tracedir = (String) config.getOrDefault("tracing.directory", System.getProperty("user.dir"));
 			if (! tracedir.equals(System.getProperty("user.dir"))) {
@@ -133,7 +136,7 @@ public class AIL {
 				}
 			}
 		}
-
+		//System.err.println("AIL: B");
 		MAS mas = new MAS();
 
 		mas.setTraceDir(tracedir);
@@ -173,13 +176,17 @@ public class AIL {
 			}
 			
 			try {
+				//System.err.println("AIL: C");
 				AgentBuilder agentbuilder = (AgentBuilder) (Class.forName(config.getProperty(agentNumKey(agentcounter) + ".builder"))).newInstance();
+				//System.err.println("AIL: C1");
 				AILAgent agent = agentbuilder.getAgent(abs_filename);
+				//System.err.println("AIL: C2");
 				if (config.containsKey(agentNumKey(agentcounter) + ".name")) {
+					//System.err.println("AIL: C3");
 					String agentname = config.getProperty(agentNumKey(agentcounter) + ".name");
 					agent.setAgName(agentname);
-				} 
-				
+				}
+				//System.err.println("AIL: D");
 				mas.addAg(agent);
 				
 			} catch (Exception e) {

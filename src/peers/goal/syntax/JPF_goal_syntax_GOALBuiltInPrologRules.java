@@ -26,8 +26,10 @@ public class JPF_goal_syntax_GOALBuiltInPrologRules extends NativePeer {
         String s = env.getStringObject(stringref);
         GOALParser parser = getParser(s);
         try {
+            //System.err.println("GOALBUILDINPROLOGRULES A");
             Abstract_Predicate pred = parser.declarationOrCallWithTerms();
             int ref = pred.newJPFObject(env);
+            //System.err.println("GOALBUILDINPROLOGRULES B");
             env.setReferenceField(objref, "tmp_predicate", ref);
         } catch (ClinitRequired e) {
             env.repeatInvocation();
@@ -43,9 +45,11 @@ public class JPF_goal_syntax_GOALBuiltInPrologRules extends NativePeer {
         String s = env.getStringObject(stringref);
         try {
             GOALParser parser = getParser(s);
+            //System.err.println("GOALBUILDINPROLOGRULES C");
             ArrayList<Abstract_LogicalFormula> rule_a = (parser.no_bracket_literals());
             boolean first = true;
             Abstract_LogExpr rule_body = new Abstract_LogExpr();
+            //System.err.println("GOALBUILDINPROLOGRULES D");
             for (Abstract_LogicalFormula alf : rule_a) {
                 if (first) {
                     rule_body = new Abstract_LogExpr(Abstract_LogExpr.none, alf);
@@ -55,7 +59,9 @@ public class JPF_goal_syntax_GOALBuiltInPrologRules extends NativePeer {
                 }
 
             }
+            //System.err.println("GOALBUILDINPROLOGRULES E");
             int ref = rule_body.newJPFObject(env);
+            //System.err.println("GOALBUILDINPROLOGRULES F");
             env.setReferenceField(objref, "tmp_rule", ref);
         } catch (ClinitRequired e) {
             env.repeatInvocation();

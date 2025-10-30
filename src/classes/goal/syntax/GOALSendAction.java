@@ -72,6 +72,8 @@ public class GOALSendAction extends BroadcastSendAction {
 	public void setReceiver(Term r) {
 		receiver_term = r;
 	}
+
+	public void setReceiverEnum(RECEIVER rec) {receiver = rec;}
 	
 	ListTerm receivers = new ListTermImpl();
 	

@@ -23,51 +23,36 @@
 
 package goal;
 
+import ail.syntax.ast.Abstract_MAS;
 import goal.parser.GOALLexer;
 import goal.parser.GOALParser;
+import goal.syntax.ast.Abstract_GOALAgent;
 import gov.nasa.jpf.annotation.MJI;
 import gov.nasa.jpf.vm.ClinitRequired;
 import gov.nasa.jpf.vm.MJIEnv;
 import gov.nasa.jpf.vm.NativePeer;
-//import org.antlr.v4.runtime.CharStreams;
-//import org.antlr.v4.runtime.CommonTokenStream;
 import mcaplantlr.runtime.ANTLRFileStream;
-import mcaplantlr.runtime.ANTLRStringStream;
 import mcaplantlr.runtime.CommonTokenStream;
-import ail.syntax.ast.Abstract_MAS;
 
-public class JPF_goal_GOALMASBuilder extends NativePeer {
+public class JPF_goal_GOALAgentBuilder extends NativePeer {
 
-	@MJI
-	public static void parse__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
-		String masstring = env.getStringObject(masRef);
-	   	GOALLexer lexer = new GOALLexer();
-    	CommonTokenStream tokens = new CommonTokenStream(lexer);
-    	GOALParser parser = new GOALParser(tokens);
-		System.err.println("GOAL MAS BUILDER A");
- 		try {
- 	   		Abstract_MAS amas = parser.mas();
-			int ref = amas.newJPFObject(env);
-			env.setReferenceField(objref, "amas", ref);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 
 	@MJI
 	public static void parsefile__Ljava_lang_String_2__ (MJIEnv env, int objref, int masRef) {
 		String masstring = env.getStringObject(masRef);
-		System.err.println("GOAL MAS BUILDER B");
+		//System.err.println("GOAL AGEMT BUILDER PEER B");
  		try {
+			//GOALLexer lexer = new GOALLexer(new ANTLRFileStream(masstring));
+			//CommonTokenStream tokens = new CommonTokenStream(lexer);
+			//GOALParser parser = new GOALParser(tokens);
+			//abs_agent = parser.goalagent();
+
  			GOALLexer lexer = new GOALLexer(new ANTLRFileStream(masstring));
  	    	CommonTokenStream tokens = new CommonTokenStream(lexer);
  	    	GOALParser parser = new GOALParser(tokens);
- 	    	//System.err.println("parsing");
- 	   		Abstract_MAS amas = parser.mas();
- 	   		//System.err.println("done parsing");
-			int ref = amas.newJPFObject(env);
-			env.setReferenceField(objref, "amas", ref);
+			Abstract_GOALAgent abs_agent = (Abstract_GOALAgent) parser.goalagent();
+			int ref = abs_agent.newJPFObject(env);
+			env.setReferenceField(objref, "abs_agent", ref);
 		} catch (ClinitRequired e) {
 			env.repeatInvocation();
 			return;

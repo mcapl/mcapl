@@ -51,6 +51,7 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 	protected String thId;
 	
 	protected GOALSendAction.RECEIVER receiver;
+	protected int receiver_int;
 	protected Abstract_Term receiver_term;
 
 
@@ -64,6 +65,7 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 		Action s = super.toMCAPL();
 		
 		GOALSendAction a = new GOALSendAction(s, receiver, ilf, type);
+		a.setReceiverEnum(GOALSendAction.RECEIVER.fromInt(receiver_int));
 		if (receiver_term != null) {
 			if (receiver_term instanceof Abstract_VarTerm) {
 				a.setReceiver(((Abstract_VarTerm) receiver_term).toMCAPL());
@@ -100,12 +102,19 @@ public class Abstract_GOALSendAction extends Abstract_Action {
 	 */
 	@Override
 	public int newJPFObject(MJIEnv env) {
-		int objref = env.newObject("ail.syntax.ast.Abstract_GOALSendAction");
+		int objref = env.newObject("goal.syntax.ast.Abstract_GOALSendAction");
 		env.setReferenceField(objref, "functor", env.newString(getFunctor()));
 		env.setReferenceField(objref, "terms", newJPFTermArray(env));
 		env.setIntField(objref, "actiontype", actiontype);
 		env.setIntField(objref, "ilf", ilf);
 		env.setReferenceField(objref, "thId", env.newString(thId));
+		env.setIntField(objref, "receiver_int", receiver.ordinal());
+		if (receiver_term != null) {
+			env.setReferenceField(objref, "receiver_term", receiver_term.newJPFObject(env));
+		}
+
+
+
 		return objref;
 	}
 
