@@ -81,16 +81,17 @@ You should see output similar to:
 \noindent \begin{lstlisting}
 ----------------------------------- search started
       [skipping static init instructions]
-JavaPathfinder core system v8.0 - (C) 2005-2014 United States Government. All rights reserved.
+JavaPathfinder core system v8.0 (rev 8d0e2955c56c42da34e96b3fc93907c2af066596) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
 ail.util.AJPF_w_AIL.main("/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail","/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl","0")
 
-====================================================== search started: 30/03/23 11:55
+====================================================== search started: 01/12/2025, 15:29
 		 # choice: gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-MCAPL Framework Version 2024
-ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7ANTLR Tool version 4.4 used for code generation does not match the current runtime version 4.7		 # garbage collection
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
+MCAPL Framework 2025
+		 # garbage collection
 [INFO] Adding 0 to []
 ----------------------------------- [1] forward: 0 new
 		 # choice: gov.nasa.jpf.vm.choice.IntChoiceFromSet[id="NewAgentProgramState",isCascaded:false,>0]
@@ -120,16 +121,16 @@ ANTLR Tool version 4.4 used for code generation does not match the current runti
 no errors detected
 
 ====================================================== statistics
-elapsed time:       00:00:01
+elapsed time:       00:00:00
 states:             new=3,visited=1,backtracked=4,end=0
 search:             maxDepth=3,constraints=0
 choice generators:  thread=1 (signal=0,lock=1,sharedRef=0,threadApi=0,reschedule=0), data=3
-heap:               new=6113,released=3792,maxLive=2265,gcCycles=4
-instructions:       365022
-max memory:         491MB
-loaded code:        classes=301,methods=4831
+heap:               new=6860,released=4181,maxLive=2625,gcCycles=4
+instructions:       395446
+max memory:         512MB
+loaded code:        classes=347,methods=5890
 
-====================================================== search finished: 30/03/23 11:55
+====================================================== search finished: 01/12/2025, 15:29
 \end{lstlisting}
 
 \subsection{In IntelliJ}

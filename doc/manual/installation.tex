@@ -15,7 +15,7 @@ The MCAPL software requires Java 11.
 \item Download the 2025 release from Github \texttt{https://github.com/mcapl/mcapl/releases/}.
 \end{sloppypar}
 \item Create a file \texttt{.jpf/site.properties} in your home directory with the path to \ajpfversion\ assigned to the value \texttt{mcapl}
-  (e.g. \texttt{mcapl = \$\{user.home\}/mcapl}).
+  (e.g. \texttt{mcapl = \$\{user.home\}/mcapl-2025}).
   
 If you have put the \texttt{mcapl} download in your home directory,  you should be able to do this at the UNIX command line by running the following commands in your home directory.
 \begin{verbatim}
@@ -23,11 +23,11 @@ mkdir -p ~/.jpf && touch ~/.jpf/site.properties
 \end{verbatim}
 followed by:
 \begin{verbatim}
-echo "mcapl = ${user.home}/mcapl2025" >> ~/.jpf/site.properties
+echo "mcapl = ${user.home}/mcapl-2025" >> ~/.jpf/site.properties
 \end{verbatim}
 
-\item Within the \texttt{mcapl} directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, \lstinline{ant compile} to just compile the files and \lstinline{ant build} to build and run regression tests (takes just under fifteen minutes on a 3GHz Macbook with 16 GB memory))
-\item Make sure you have the bin sub-directory of \texttt{mcapl} on your java class path.
+\item Within the \texttt{mcapl-2025} directory you should find \texttt{build.xml} to which you can apply ant to build ajpf. (e.g., at the command line, \lstinline{ant compile} to just compile the files and \lstinline{ant build} to build and run regression tests (takes just under fifteen minutes on a 3GHz Macbook with 16 GB memory))
+\item Make sure you have the bin sub-directory of \texttt{mcapl-2025} on your java class path.
 \item We recommend you set the \texttt{AJPF\_HOME}\index{AJPF\_HOME} environment variable to give the path to your MCAPL directory.
 \end{itemize}
 
