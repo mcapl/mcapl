@@ -1014,6 +1014,17 @@ public class Product {
 		return s;
 		
 	}
+
+	public Integer countProductStates() {
+		int size = productbyNumber.keySet().size();
+		return size;
+	}
+
+	public Integer countModelStates() {
+		int size = m.countStates();
+		return size;
+	}
+
 	
 	public BuchiAutomaton getBuchi() {
 		return b;

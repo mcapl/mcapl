@@ -506,5 +506,10 @@ public class MCAPLmodel {
 		}
 		return false;
 	}
+
+	public Integer countStates() {
+		int size = states_by_num.keySet().size();
+		return size;
+	}
 	
 }

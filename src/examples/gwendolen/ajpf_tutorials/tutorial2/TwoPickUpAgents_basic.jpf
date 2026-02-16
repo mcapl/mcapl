@@ -26,3 +26,5 @@
 
 target = ail.util.AJPF_w_AIL
 target.args = ${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/TwoPickUpAgents.ail,${mcapl}/src/examples/gwendolen/ajpf_tutorials/tutorial2/PickUpAgent.psl,1
+
+log.info = ajpf.MCAPLListener

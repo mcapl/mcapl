@@ -335,6 +335,7 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  */
 	 public void searchFinished(Search search) {
 		 log.info("Number of States in Product Automata: " + product_automata.size());
+		 log.info("Number of States in Program Model: " + product_automata.countModelStates());
 
 		 Config config = search.getVM().getConfig();
 		 product_automata.setConfig(config);
