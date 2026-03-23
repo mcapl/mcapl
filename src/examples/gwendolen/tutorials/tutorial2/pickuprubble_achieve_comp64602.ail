@@ -21,7 +21,7 @@
 // http://www.csc.liv.ac.uk/~lad
 //----------------------------------------------------------------------------
 
-mas.file = /src/examples/gwendolen/tutorials/tutorial2/pickuprubble_achieve.gwen
+mas.file = /src/examples/gwendolen/tutorials/tutorial2/pickuprubble_achieve_comp64602.gwen
 mas.builder = gwendolen.GwendolenMASBuilder
 
 env = gwendolen.tutorials.SearchAndRescueEnv

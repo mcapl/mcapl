@@ -39,10 +39,12 @@ holding(rubble) [achieve]
 
 :Plans:
 
-+!holding(rubble) [achieve] : {B possible_rubble(X, Y), ~B no_rubble(X, Y), B search_mode} <- move_to(X, Y);
++!holding(rubble) [achieve] : {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <-
+    move_to(X, Y),
+    *checked(X, Y);
 
-+at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
++at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y), +checked(X,Y);
 
-+rubble(X, Y): {B at(X, Y)} <- -search_mode, lift_rubble;
++rubble(X, Y): {B at(X, Y)} <- lift_rubble, +checked(X, Y);
 
 +holding(rubble): {True} <- print(done);

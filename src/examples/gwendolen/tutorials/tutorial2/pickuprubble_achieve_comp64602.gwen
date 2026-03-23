@@ -31,16 +31,19 @@ possible_rubble(1, 1)
 possible_rubble(3, 3)
 possible_rubble(5, 5)
 
+search_mode
+
 :Initial Goals:
 
 holding(rubble) [achieve]
 
 :Plans:
 
-+!holding(rubble) [achieve] : {B possible_rubble(X, Y), ~B no_rubble(X, Y)} <- move_to(X, Y);
++!holding(rubble) [achieve] : {B possible_rubble(X, Y), ~B no_rubble(X, Y), B search_mode} <- move_to(X, Y);
++!holding(rubble) [achieve] : {B rubble(X, Y), B at(X, Y), B lift_mode} <- lift_rubble;
 
 +at(X, Y) : {~B rubble(X, Y)} <- +no_rubble(X, Y);
 
-+rubble(X, Y): {B at(X, Y)} <- lift_rubble;
++rubble(X, Y): {B at(X, Y)} <- -search_mode, +lift_mode;
 
 +holding(rubble): {True} <- print(done);
