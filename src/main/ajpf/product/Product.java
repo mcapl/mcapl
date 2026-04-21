@@ -122,6 +122,7 @@ public class Product {
 			Set<Until> untils = negprop.getUntils();
 			BuchiState init = new BuchiState(0, negprop, 1);
 			b.init(init, untils);
+			System.out.println(b.toString());
 		} else {
 			model_only = true;
 		}
@@ -977,9 +978,9 @@ public class Product {
 		public String toString() {
 			String s = "<";
 			if (!hasmodelstate) {
-				s += "null, " + buchistate + ", " + until + ">";
+				s += statenum + ", null, " + buchistate + ", " + until + ">";
 			} else {
-				s+= modelstate + ", " + buchistate + ", " + until + ">";
+				s+= statenum + ", " + modelstate + ", " + buchistate + ", " + until + ">";
 			}
 			return s;
 		}

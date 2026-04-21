@@ -294,7 +294,7 @@ public class MCAPLmodel {
 	 */
 	protected int higheststatenum = 0;
 	public String toString() {
-		 if (config.containsKey("ajpf.target_modelchecker")) {
+		 if (config != null && config.containsKey("ajpf.target_modelchecker")) {
 			 if (config.getProperty("ajpf.target_modelchecker").equals("spin")) {
 			 	output = OutputFormat.Promela;
 			 } else if (config.getProperty("ajpf.target_modelchecker").equals("prism")) {

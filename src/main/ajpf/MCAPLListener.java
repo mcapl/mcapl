@@ -334,7 +334,9 @@ public class MCAPLListener extends PropertyListenerAdapter {
 	  * @see gov.nasa.jpf.PropertyListenerAdapter#searchFinished(gov.nasa.jpf.search.Search)
 	  */
 	 public void searchFinished(Search search) {
-		 log.info("Number of States in Product Automata: " + product_automata.size());
+		 log.info(product_automata.print_product());
+		 log.info(product_automata.getModel().toString());
+		 log.info("Number of States in Product Automata: " + product_automata.countProductStates());
 		 log.info("Number of States in Program Model: " + product_automata.countModelStates());
 
 		 Config config = search.getVM().getConfig();
