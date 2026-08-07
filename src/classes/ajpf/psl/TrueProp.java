@@ -115,4 +115,8 @@ public class TrueProp extends Proposition {
 		return 11;
 	}
 
+	public MCAPLProperty negate() {
+		return new FalseProp();
+	}
+
 }

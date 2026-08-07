@@ -152,6 +152,13 @@ public class PSLSyntaxQuickTests {
 		MCAPLProperty mp = np.toMCAPLNative();
 		Assert.assertTrue(mp instanceof Or);
 	}
+
+	@Test public void negateNextTest() throws Exception {
+		Next n1 = new Next(new TrueProp());
+		Next n2 = new Next(new FalseProp());
+
+		Assert.assertTrue(n1.negate().equals(n2));
+	}
 	
 
 }

@@ -143,7 +143,7 @@ public class Next implements MCAPLProperty {
             return next.compareTo(((Next) o).getNext());
         } else {
             int myq = quickCompareVal();
-            int pq = p.quickCompareVal();
+            int pq = o.quickCompareVal();
 
             if (myq < pq) {
                 return -1;
