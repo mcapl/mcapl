@@ -28,6 +28,7 @@ ALWAYS 	:	('A' | '[]');
 FINALLY	:	('E' | '<>');
 UNTIL	:	'U';
 RELEASE	:	'R';
+NEXT    :   'X';
 AND 	:	'&';
 OR	:	'||';
 NOT	:	'~';

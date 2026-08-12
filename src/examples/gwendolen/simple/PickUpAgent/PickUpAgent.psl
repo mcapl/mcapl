@@ -37,4 +37,5 @@
 7: E(B(ag1, random))
 8: E(B(ag2, hold(block)))
 9: <>([](B(ag1, putdown_block)))
+10: [](B(ag1, pickup) -> X X X ~B(ag1, empty))
 

@@ -24,26 +24,9 @@
 
 package ajpf.psl.parser;
 
+import ajpf.psl.ast.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import ajpf.psl.ast.Abstract_AgBelief;
-import ajpf.psl.ast.Abstract_AgGoal;
-import ajpf.psl.ast.Abstract_AgIntendToDo;
-import ajpf.psl.ast.Abstract_AgIntention;
-import ajpf.psl.ast.Abstract_Always;
-import ajpf.psl.ast.Abstract_And;
-import ajpf.psl.ast.Abstract_FalseProp;
-import ajpf.psl.ast.Abstract_Finally;
-import ajpf.psl.ast.Abstract_LastAction;
-import ajpf.psl.ast.Abstract_MCAPLPredicate;
-import ajpf.psl.ast.Abstract_Not;
-import ajpf.psl.ast.Abstract_Or;
-import ajpf.psl.ast.Abstract_Percept;
-import ajpf.psl.ast.Abstract_Property;
-import ajpf.psl.ast.Abstract_Release;
-import ajpf.psl.ast.Abstract_TrueProp;
-import ajpf.psl.ast.Abstract_Until;
 
 public class AJPF_PSLVisitor extends A_PSLBaseVisitor<Abstract_Property> {
 	
@@ -153,7 +136,15 @@ public class AJPF_PSLVisitor extends A_PSLBaseVisitor<Abstract_Property> {
 	// FINALLY pl = notproperty {$p = new Abstract_Finally($pl.p);};
 	@Override public Abstract_Property visitFinallyproperty(A_PSLParser.FinallypropertyContext ctx) {
 		if (ctx.FINALLY() != null) {
-			return new Abstract_Finally(visitNotproperty(ctx.notproperty()));
+			return new Abstract_Finally(visitNextproperty(ctx.nextproperty()));
+		} else {
+			return visitNextproperty(ctx.nextproperty());
+		}
+	}
+
+	@Override public Abstract_Property visitNextproperty(A_PSLParser.NextpropertyContext ctx) {
+		if (ctx.NEXT() != null) {
+			return new Abstract_Next(visitNextproperty(ctx.nextproperty()));
 		} else {
 			return visitNotproperty(ctx.notproperty());
 		}

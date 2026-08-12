@@ -42,7 +42,9 @@ orproperty : alwaysproperty (OR alwaysproperty )*;
 	
 alwaysproperty : finallyproperty | ALWAYS finallyproperty;
 
-finallyproperty : notproperty | FINALLY notproperty ;
+finallyproperty : nextproperty | FINALLY nextproperty ;
+
+nextproperty: notproperty | NEXT nextproperty ;
 
 notproperty : atom | NOT atom ;
 	

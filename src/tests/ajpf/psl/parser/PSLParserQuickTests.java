@@ -49,6 +49,7 @@ import ajpf.psl.ast.Abstract_Formula;
 import ajpf.psl.ast.Abstract_LastAction;
 import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
 import ajpf.psl.ast.Abstract_Property;
+import ajpf.psl.ast.Abstract_Next;
 import ajpf.psl.ast.Abstract_TermImpl;
 import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
@@ -187,6 +188,18 @@ public class PSLParserQuickTests {
 		Abstract_Property np = p.toNormalForm();
 		Assert.assertTrue(np instanceof Abstract_Or);
 		
+	}
+
+	@Test public void nextTest() throws Exception {
+		String propertystring = "X B(ag1, good)";
+		A_PSLLexer lexer = new A_PSLLexer((CharStreams.fromString(propertystring)));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		Abstract_Property p = visitor.visitProperty(pslparser.property());
+		Abstract_Property np = p.toNormalForm();
+		Assert.assertTrue( np instanceof Abstract_Next);
 	}
 	
 	@Test public void longConjuctionTest() throws Exception {

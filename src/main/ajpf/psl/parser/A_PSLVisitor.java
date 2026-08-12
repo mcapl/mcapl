@@ -65,6 +65,12 @@ public interface A_PSLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFinallyproperty(A_PSLParser.FinallypropertyContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link A_PSLParser#nextproperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNextproperty(A_PSLParser.NextpropertyContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link A_PSLParser#notproperty}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

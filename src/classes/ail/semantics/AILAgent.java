@@ -2130,11 +2130,11 @@ public class AILAgent implements MCAPLLanguageAgent, AgentMentalState {
 	 */
 	public void printagentstate() {
 		if (AJPFLogger.ltFine(logname)) {
-			//AJPFLogger.fine(logname, toString());
+			AJPFLogger.fine(logname, toString());
 		}
 
 		if (AJPFLogger.ltFiner(logname)) {
-			//AJPFLogger.finer(logname, getPL().toString());
+			AJPFLogger.finer(logname, getPL().toString());
 		}
 
 	}

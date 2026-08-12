@@ -81,6 +81,13 @@ public class A_PSLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitNextproperty(A_PSLParser.NextpropertyContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitNotproperty(A_PSLParser.NotpropertyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

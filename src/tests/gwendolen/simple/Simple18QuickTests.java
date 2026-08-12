@@ -24,11 +24,9 @@
 
 package gwendolen.simple;
 
-import org.junit.Test;
-
 import ail.util.AJPF_w_AIL;
-
 import gov.nasa.jpf.util.test.TestJPF;
+import org.junit.Test;
 
 /**
  * Tests of various types of property using the simple example Gwendolen programs.
@@ -36,7 +34,7 @@ import gov.nasa.jpf.util.test.TestJPF;
  * @author louiseadennis
  *
  */
-public class SimpleQuickTests extends TestJPF {
+public class Simple18QuickTests extends TestJPF {
 
  static final String[] PICKUP_ARGS = {
 };
@@ -49,22 +47,21 @@ public class SimpleQuickTests extends TestJPF {
 
   //--- test methods
 
- 
-  @Test //----------------------------------------------------------------------
-  public void testEventuallyPickUp () {
-    if (verifyNoPropertyViolation(PICKUP_ARGS)){
-    	String filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail";
-    	String prop_filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl";
-    	String[] args = new String[3];
-    	args[0] = filename;
-    	args[1] = prop_filename;
-    	args[2] = "0";
-    	AJPF_w_AIL.run(args);
-     } else {
-    	 
-     }
-  }
 
+    @Test //----------------------------------------------------------------------
+    public void testNextPickUp () {
+        if (verifyNoPropertyViolation(PICKUP_ARGS)){
+            String filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.ail";
+            String prop_filename =  "/src/examples/gwendolen/simple/PickUpAgent/PickUpAgent.psl";
+            String[] args = new String[3];
+            args[0] = filename;
+            args[1] = prop_filename;
+            args[2] = "10";
+            AJPF_w_AIL.run(args);
+        } else {
+
+        }
+    }
 
 
 
