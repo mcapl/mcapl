@@ -84,6 +84,8 @@ public final class AJPFLogger {
 	   */
 	  public static boolean ltFine(String logname) {
 			if (!Verify.isRunningInJPF()) {
+				int i = getLevel(logname).intValue();
+				int j = Level.FINE.intValue();
 				return getLevel(logname).intValue() <= Level.FINE.intValue();
 			} else {
 				return getIntLevel(logname) <= Level.FINE.intValue();			
