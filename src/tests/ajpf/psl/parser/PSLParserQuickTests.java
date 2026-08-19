@@ -26,6 +26,7 @@ package ajpf.psl.parser;
 
 import java.util.Set;
 
+import ajpf.psl.ast.*;
 import org.junit.Test;
 import org.antlr.v4.runtime.CharStreams;
 import org.junit.Assert;
@@ -35,7 +36,6 @@ import eass.verification.leo.LEOVerificationEnvironmentASEPaper;
 import mcaplantlr.runtime.*;
 import pbdi.parser.Python3Lexer;
 import ajpf.MCAPLcontroller;
-import ajpf.psl.ast.Abstract_MCAPLTerm;
 import ail.mas.MAS;
 import ail.mas.DefaultEnvironment;
 import ail.semantics.AILAgent;
@@ -44,14 +44,6 @@ import ail.syntax.Predicate;
 import ail.syntax.ListTermImpl;
 import ail.syntax.BeliefBase;
 import ail.util.AILConfig;
-import ajpf.psl.ast.Abstract_AgBelief;
-import ajpf.psl.ast.Abstract_Formula;
-import ajpf.psl.ast.Abstract_LastAction;
-import ajpf.psl.ast.Abstract_MCAPLStringTermImpl;
-import ajpf.psl.ast.Abstract_Property;
-import ajpf.psl.ast.Abstract_Next;
-import ajpf.psl.ast.Abstract_TermImpl;
-import ajpf.psl.ast.Abstract_Or;
 import ajpf.psl.MCAPLAgBelief;
 import ajpf.psl.MCAPLProperty;
 import ajpf.psl.Proposition;
@@ -200,6 +192,18 @@ public class PSLParserQuickTests {
 		Abstract_Property p = visitor.visitProperty(pslparser.property());
 		Abstract_Property np = p.toNormalForm();
 		Assert.assertTrue( np instanceof Abstract_Next);
+	}
+
+	@Test public void eassPlan9Test() throws Exception {
+		String propertystring = "<> (~ B (planreasoner, bad))";
+		A_PSLLexer lexer = new A_PSLLexer((CharStreams.fromString(propertystring)));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		Abstract_Property p = visitor.visitProperty(pslparser.property());
+		Abstract_Property np = p.toNormalForm();
+		Assert.assertTrue( np instanceof Abstract_Until);
 	}
 	
 	@Test public void longConjuctionTest() throws Exception {
