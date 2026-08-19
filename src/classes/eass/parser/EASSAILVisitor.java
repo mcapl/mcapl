@@ -213,9 +213,10 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
             CharStream tokens = ga_ctx.start.getInputStream();
             String originalText = tokens.getText(new Interval(ga_ctx.start.getStartIndex(), ga_ctx.stop.getStopIndex()));
             // Need this next bit for MASQuickTests to work
-            String guardText = "{" + originalText + "}";
+            //String guardText = "{" + originalText + "}";
+            String guardText = originalText;
 
-            GwendolenParser gparser = gwenparser(guardText, GwendolenLexer.PLANS_MODE);
+            GwendolenParser gparser = gwenparser(guardText, GwendolenLexer.PLANS_MODE, true);
             GwendolenParser.Guard_atomContext g_ga_ctx = gparser.guard_atom();
             boolean gneg = true;
             if (g_ga_ctx.NOT() != null) {
@@ -315,6 +316,17 @@ public class EASSAILVisitor extends EASSBaseVisitor<Object> {
 
     private GwendolenParser gwenparser(String s, int Mode) {
         GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
+        lexer.pushMode(Mode);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        GwendolenParser parser = new GwendolenParser(tokens);
+        return parser;
+    }
+
+    private GwendolenParser gwenparser(String s, int Mode, boolean increasecurlynesting) {
+        GwendolenLexer lexer = new GwendolenLexer(CharStreams.fromString(s));
+        if (increasecurlynesting) {
+            lexer.curly_nesting++;
+        }
         lexer.pushMode(Mode);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GwendolenParser parser = new GwendolenParser(tokens);
