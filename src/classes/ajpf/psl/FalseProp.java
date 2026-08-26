@@ -48,7 +48,7 @@ public class FalseProp extends Proposition {
 	 * @see ajpf.psl.Proposition#check(java.util.Set)
 	 */
 	public boolean check(Set<Proposition> s) {
-		return false;
+		System.err.println("is contradiction"); return false;
 	}
 	
 	/**

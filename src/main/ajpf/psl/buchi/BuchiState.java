@@ -196,11 +196,15 @@ public class BuchiState implements Comparable<BuchiState> {
 	 * @return the set of properties to be satsified in the next states of the 
 	 * automaton.
 	 */
-	public void expand(BuchiAutomaton automaton) {	
+	public void expand(BuchiAutomaton automaton) {
+		System.err.println("entered expand");
+		System.err.println(this.toString());
 		// Collapses the HashSet to a canonical form
 		// this.toString();
 		if (newprops.isEmpty()) {
+			System.err.println("New Props is empty");
 			if (automaton.duplicates(this)) {
+				System.err.println("Automaton duplicates this");
 				try {
 					BuchiState bs = automaton.getMatchingState(this);
 					bs.addIncoming(incoming, automaton);
@@ -219,7 +223,9 @@ public class BuchiState implements Comparable<BuchiState> {
 		} else {
 			Iterator<MCAPLProperty> newI = newprops.iterator();
 			MCAPLProperty eta = newI.next();
-			newI.remove(); // remove eta from 
+			newI.remove(); // remove eta from
+			System.err.println("New props not empty");
+			System.err.println(eta);
 			if (! eta.isContradiction(old)) {
 				if (eta.splitsAutomataState()) {
 					TreeSet<MCAPLProperty> new1 = new TreeSet<MCAPLProperty>();
