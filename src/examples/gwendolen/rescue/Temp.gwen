@@ -1,0 +1,4 @@
++dirt: {True} <- +!cleaned(dirt) [achieve];
+-dirt: {B cleaning} <- +cleaned(dirt);
+
++!cleaned(dirt) [achieve]: {true} <- wipe_surface;
