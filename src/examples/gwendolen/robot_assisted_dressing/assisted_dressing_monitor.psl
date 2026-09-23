@@ -1,0 +1,13 @@
+1: B(assisted_dressing_monitor, dressing_process_on) &
+   B(assisted_dressing_monitor, mitigation_process_on) &
+   B(assisted_dressing_monitor, completed) &
+   B(assisted_dressing_monitor, aborted) &
+   B(assisted_dressing_monitor, at_home) &
+   B(assisted_dressing_monitor,abort_due_to_undetected_escalation) &
+   B(assisted_dressing_monitor,abort_due_to_mitigation_strategy_failure) &
+   B(assisted_dressing_monitor,abort_due_to_hri_failure) &
+   B(assisted_dressing_monitor,abort_due_to_autonomous_recovery_failure) &
+   B(assisted_dressing_monitor, human_recovery_success) &
+   B(assisted_dressing_monitor, autonomous_recovery_success) &
+   B(assisted_dressing_monitor, snag_detected_successfully) &
+   B(assisted_dressing_monitor, task_completed_safely)

@@ -1,0 +1,17 @@
+@using = mcapl
+
+target = ail.util.AJPF_w_AIL
+target.args = ${mcapl}/src/examples/gwendolen/robot_assisted_dressing/assisted_dressing_monitor.ail,${mcapl}/src/examples/gwendolen/robot_assisted_dressing/assisted_dressing_monitor.psl,1
+
+ajpf.model_only = true
+ajpf.target_modelchecker = prism
+ajpf.model.path = ${mcapl}/src/examples/gwendolen/robot_assisted_dressing/
+ajpf.model.location = assisted_dressing_monitor_all_beliefs_including_success.pm
+
+log.fine = ajpf.util.choice.ChoiceRecord
+
+listener=ajpf.MCAPLProbListener
+listener+=,.listener.ExecTracker
+et.print_insn=false
+et.show_shared=false
+

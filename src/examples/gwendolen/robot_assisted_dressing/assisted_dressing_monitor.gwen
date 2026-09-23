@@ -1,0 +1,138 @@
+GWENDOLEN
+
+:name: assisted_dressing_monitor
+
+:Initial Beliefs:
+
+
+:Reasoning Rules:
+
+
+:Initial Goals:
+
+monitor_dressing [perform]
+
+
+:Plans:
+
++!monitor_dressing [perform] : {~B aborted, ~B completed} <-
+    observe_dressing;
+
+
++dressing_in_progress : {~B dressing_process_on, ~B mitigation_process_on, ~B aborted, ~B completed} <-
+    -dressing_in_progress,
+    +dressing_process_on,
+    observe_dressing;
+
++dressing_in_progress : {B dressing_process_on, ~B mitigation_process_on, ~B aborted, ~B completed} <-
+    -dressing_in_progress,
+    observe_dressing;
+
+
++dressing_in_progress : {B mitigation_process_on, B awaiting_hri_outcome, ~B aborted, ~B completed} <-
+    +human_recovery_success,
+    +dressing_process_on,
+    -dressing_in_progress,
+    -mitigation_process_on,
+    -awaiting_hri_outcome,
+    observe_dressing,
+    -human_recovery_success;
+
++dressing_in_progress : {B mitigation_process_on, B awaiting_autonomous_recovery_outcome, ~B aborted, ~B completed} <-
+    +autonomous_recovery_success,
+    +dressing_process_on,
+    -dressing_in_progress,
+    -mitigation_process_on,
+    -awaiting_autonomous_recovery_outcome,
+    observe_dressing,
+    -autonomous_recovery_success;
+
+
+
++undetected_escalation : {~B aborted, ~B completed} <-
+    -undetected_escalation,
+    -dressing_process_on,
+    +aborted;
+
+
++detected_escalation : {~B aborted, ~B completed} <-
+    -detected_escalation,
+    -dressing_process_on,
+    +mitigation_process_on,
+    +awaiting_mitigation_strategy_outcome,
+    +snag_detected_successfully,
+    select_mitigation_strategy;
+
++request_hri : {B mitigation_process_on, B awaiting_mitigation_strategy_outcome, ~B aborted, ~B completed} <-
+    -snag_detected_successfully,
+    -request_hri,
+    -awaiting_mitigation_strategy_outcome,
+    +awaiting_hri_outcome,
+    user_assistance;
+
+
+
++autonomous_resolution : {B mitigation_process_on, B awaiting_mitigation_strategy_outcome, ~B aborted, ~B completed} <-
+    -snag_detected_successfully,
+    -autonomous_resolution,
+    -awaiting_mitigation_strategy_outcome,
+    +awaiting_autonomous_recovery_outcome,
+    autonomous_recovery_attempt;
+
+
++autonomous_resolution : {B mitigation_process_on, B awaiting_autonomous_recovery_outcome, ~B aborted, ~B completed} <-
+    -autonomous_resolution,
+    autonomous_recovery_attempt;
+
+
+
+
++aborted : {B mitigation_process_on, B awaiting_mitigation_strategy_outcome, ~B completed} <-
+    -snag_detected_successfully,
+    -mitigation_process_on,
+    -awaiting_mitigation_strategy_outcome,
+    +abort_due_to_mitigation_strategy_failure,
+    move_home;
+
++aborted : {B mitigation_process_on, B awaiting_hri_outcome, ~B completed} <-
+    -mitigation_process_on,
+    -awaiting_hri_outcome,
+    +abort_due_to_hri_failure,
+    move_home;
+
+
++aborted : {B mitigation_process_on, B awaiting_autonomous_recovery_outcome, ~B completed} <-
+    -mitigation_process_on,
+    -awaiting_autonomous_recovery_outcome,
+    +abort_due_to_autonomous_recovery_failure,
+    move_home;
+
+
++aborted : {~B mitigation_process_on, ~B completed} <-
+	+abort_due_to_undetected_escalation,
+    move_home;
+
+
+
++completed : {~B mitigation_process_on, ~B aborted} <-
+    -dressing_process_on,
+    +task_completed_safely,
+    move_home;
+
+
++completed : {B mitigation_process_on, B awaiting_hri_outcome, ~B aborted} <-
+    +human_recovery_success,
+    -dressing_process_on,
+    -mitigation_process_on,
+    -awaiting_hri_outcome,
+    +task_completed_safely,
+    move_home;
+
+
+ +completed : {B mitigation_process_on, B awaiting_autonomous_recovery_outcome, ~B aborted} <-
+     +autonomous_recovery_success,
+     -dressing_process_on,
+     -mitigation_process_on,
+     -awaiting_autonomous_recovery_outcome,
+     +task_completed_safely,
+     move_home;
