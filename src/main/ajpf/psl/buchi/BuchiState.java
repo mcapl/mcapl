@@ -197,8 +197,8 @@ public class BuchiState implements Comparable<BuchiState> {
 	 * automaton.
 	 */
 	public void expand(BuchiAutomaton automaton) {
-		System.err.println("entered expand");
-		System.err.println(this.toString());
+		//System.err.println("entered expand");
+		//System.err.println(this.toString());
 		// Collapses the HashSet to a canonical form
 		// this.toString();
 		if (newprops.isEmpty()) {
@@ -224,8 +224,8 @@ public class BuchiState implements Comparable<BuchiState> {
 			Iterator<MCAPLProperty> newI = newprops.iterator();
 			MCAPLProperty eta = newI.next();
 			newI.remove(); // remove eta from
-			System.err.println("New props not empty");
-			System.err.println(eta);
+			//System.err.println("New props not empty");
+			//System.err.println(eta);
 			if (! eta.isContradiction(old)) {
 				if (eta.splitsAutomataState()) {
 					TreeSet<MCAPLProperty> new1 = new TreeSet<MCAPLProperty>();

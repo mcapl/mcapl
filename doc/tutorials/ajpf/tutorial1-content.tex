@@ -122,7 +122,7 @@ the system, and $f$ is a ground first-order atomic formula (although it may use 
 %%    &
 %% \mid \phi \land \phi
   \phi \vee \phi \mid \phi \wedge \phi \mid \neg \phi
-   \mid \phi \: \luntil \phi \mid \phi \release \phi \mid \sometime \phi \mid \always \phi
+   \mid \next \phi \mid \phi \: \luntil \phi \mid \phi \release \phi \mid \sometime \phi \mid \always \phi
 \end{array}
 \end{equation*}
 %
@@ -145,13 +145,14 @@ The following representation of this syntax is used in \ajpf's property specific
 \phi' ::= & \phi \mid 
   \phi' \: \texttt{|\!|} \: \phi' \mid 
   \phi' \: \texttt{\&} \: \phi' \mid 
+  \texttt{X} \: \phi \mid
    \phi' \: \texttt{U} \: \phi' \mid \phi' \: \texttt{R} \: \phi' \mid \texttt{<>} \phi' \mid \texttt{[]} \phi'
 \end{array}
 \end{equation*}
 
-Note, in particular, that in property specification\index{property specification language} files ``not'' ($\sim$) must always appear in an innermost position next to one of the BDI agent properties such as $\texttt{B(}\AILagent\texttt{, }f\texttt{)}$.\index{property!negated}  
+Note, in particular, that in property specification\index{property specification language} files ``not'' ($\sim$) must always appear in an innermost position next to one of the BDI agent properties such as $\texttt{B(}\AILagent\texttt{, }f\texttt{)}$\index{property!negated}  and the ``next'' operator ($\next$) must always appear in the next most innermost position.
 
-It is also possible to use $\phi \texttt{->} \psi$ as shorthand for $\neg \phi \vee \psi$ in property\index{property specification language} specification files.\index{property!implication}
+It is possible to use $\phi \texttt{->} \psi$ as shorthand for $\neg \phi \vee \psi$ in property\index{property specification language} specification files.\index{property!implication}
 
 \medskip
 
@@ -200,6 +201,9 @@ number of \emph{different} states in any run is assumed to be
 finite). Let $P$ be a multi-agent program, then:
 $$
 \begin{array}{lcl}
+\MAS_i \models_{MC} \quad \next \: \varphi & \quad\text{iff}\quad&
+if \MAS_{i+1} \models_{MC} \quad \varphi .\\[.5em]
+%
   \MAS \models_{MC}\quad \varphi \: \luntil \psi 
    &\quad\text{iff}\quad&
     \text{ in all runs of $P$ there exists a state } \MAS_j\\

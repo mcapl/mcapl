@@ -55,7 +55,7 @@ public class FalseProp extends Proposition {
 	 * Is this a proposition that forms a contradiction with the properties in s.
 	 * This is always false so automatically forms a contradiction.
 	 */
-	public boolean isContradiction(Stack<MCAPLProperty> s) {
+	public boolean isContradiction(Set<MCAPLProperty> s) {
 		return true;
 	}
 	
