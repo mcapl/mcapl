@@ -293,6 +293,7 @@ public class MCAPLmodel {
 	 * @see java.lang.Object#toString()
 	 */
 	protected int higheststatenum = 0;
+	protected HashMap<Integer, Integer> mcapl_state_to_prism_state_num = new HashMap<Integer, Integer>();
 	public String toString() {
 		 if (config.containsKey("ajpf.target_modelchecker")) {
 			 if (config.getProperty("ajpf.target_modelchecker").equals("spin")) {
@@ -304,7 +305,11 @@ public class MCAPLmodel {
 
 		String s = "";
 		switch (output) {
-			case Prism:	
+			case Prism:
+				//System.err.println(states_by_num.size());
+				//for (ModelState state: states_by_num.values()) {
+				//	System.err.println(state.getNum());
+				//}
 				s += "dtmc\n\n module jpfModel\n";
 				
 				s += "state : [0 .." + (states_by_num.size() - 1) + "] init 0;\n";
@@ -329,6 +334,9 @@ public class MCAPLmodel {
 					
 					Set<Integer> edges = model_edges.get(num);
 					if (edges != null) {
+						if (num < 0) {
+							num = mcapl_state_to_prism_state_num.get((Integer) num);
+						}
 						s += "[] state = " + num + " -> ";
 						boolean initialedge = true;
 						for (int to: edges) {
