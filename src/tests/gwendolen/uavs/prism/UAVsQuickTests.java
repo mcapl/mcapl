@@ -8,18 +8,13 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
 import gov.nasa.jpf.util.test.TestJPF;
-import gwendolen.GwendolenAgentBuilder;
-import gwendolen.semantics.GwendolenAgent;
 import junit.framework.Assert;
-import ail.util.AJPF_w_AIL;
 import ajpf.MCAPLcontroller;
 
 public class UAVsQuickTests extends TestJPF {
@@ -66,8 +61,7 @@ public class UAVsQuickTests extends TestJPF {
 	
 	  @Test //----------------------------------------------------------------------
 	  public void prism_output () {
-	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
-	    	String jpf_config = "src/examples/gwendolen/uavs/prism/really_simple_uav_modelonly.jpf";
+	     	String jpf_config = "src/examples/gwendolen/uavs/prism/really_simple_uav_modelonly.jpf";
 	    	
 	    	Config conf = JPF.createConfig(JPF_ARGS);
 	    	FileInputStream is = null;
@@ -95,47 +89,11 @@ public class UAVsQuickTests extends TestJPF {
 	    		Assert.assertFalse(true);
 	    	}
 
-	 	// }
 	  }
 	  
-	  /*
-	  @Test //----------------------------------------------------------------------
-	  public void really_simple_ajpf () {
-	   if (verifyNoPropertyViolation(JPF_ARGS)) {
-	    	String filename =  "/src/examples/gwendolen/uavs/prism/really_simple_uav.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "1";
-	    	AJPF_w_AIL.run(args);
-	   }
-	 	// }
-	  }
 
-	  @Test //----------------------------------------------------------------------
-	  public void simple_ajpf () {
-	   if (verifyNoPropertyViolation(JPF_ARGS)) {
-	    	String filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.ail";
-	    	String prop_filename =  "/src/examples/gwendolen/uavs/prism/simple_uav.psl";
-	    	String[] args = new String[3];
-	    	args[0] = filename;
-	    	args[1] = prop_filename;
-	    	args[2] = "2";
-	    	AJPF_w_AIL.run(args);
-	   }
-	 	// }
-	  }
-	  
-	  */
 	  
 	  boolean sameContent(Path file1, Path file2) throws IOException {
-		    /* final long size = Files.size(file1);
-		    if (size != Files.size(file2))
-		        return false;
-
-		    if (size < 4096)
-		        return Arrays.equals(Files.readAllBytes(file1), Files.readAllBytes(file2)); */
 
 		    try (InputStream is1 = Files.newInputStream(file1);
 		         InputStream is2 = Files.newInputStream(file2)) {

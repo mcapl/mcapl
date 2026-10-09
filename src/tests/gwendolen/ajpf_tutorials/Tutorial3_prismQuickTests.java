@@ -23,65 +23,24 @@
 //----------------------------------------------------------------------------
 package gwendolen.ajpf_tutorials;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import ail.util.AJPF_w_AIL;
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
-import gov.nasa.jpf.util.TypeRef;
-import gov.nasa.jpf.util.test.TestJPF;
 
 public class Tutorial3_prismQuickTests {
 	 static final String[] JPF_ARGS = { "suppress_version = true" };
 
-	  //--- test methods
 
-	  /* @Test //----------------------------------------------------------------------
-	  public void spin_output () {
-	   // if (verifyNoPropertyViolation(JPF_SPIN_ARGS)) {
-	    	String jpf_config = "src/examples/gwendolen/ajpf_tutorials/tutorial3/TwoPickUpAgents_SpinToFile.jpf";
-	    	
-	    	Config conf = JPF.createConfig(JPF_ARGS);
-	    	conf.setProperty("ajpf.model.location", "tutorial3_spin.pml");
-	    	FileInputStream is = null;
-	    	try {
-	    		File f = new File(jpf_config);
-	    		if (f.isFile()) {
-	    			is = new FileInputStream(f);
-	    			conf.load(is);
-	    		}
-	    	JPF jpf = new JPF(conf);
-	    	jpf.run();
-	    	
-	    	String tutorial_path = conf.getProperty("mcapl") + "/src/examples/gwendolen/ajpf_tutorials/tutorial3/";
-	    	String example_filename = tutorial_path + "tutorial3_spin_example.pml";
-	    	String test_filename = tutorial_path + "tutorial3_spin.pml";
-	    	
-	    	File example_file = new File(example_filename);
-	    	File test_file = new File(test_filename);
-	    	
-	    	Path epath = example_file.toPath();
-	    	Path tpath = test_file.toPath();
-	    	
-	    	Assert.assertTrue(sameContent(epath, tpath));
-	    	} catch (Exception e) {
-	    		Assert.assertFalse(true);
-	    	}
-
-	 	// }
-	  } */
 	  
 	  @Test //----------------------------------------------------------------------
 	  public void prism_output () {

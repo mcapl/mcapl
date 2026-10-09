@@ -126,7 +126,7 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 		} else {
 					 // What is all this about?
 					// Looks like I can have model states with negative numbers - HOW!!!
-		 			s += "WARNING(state'=" + higheststatenum + ")";
+		 			s += "(state'=" + higheststatenum + ")";
 		 			higheststatenum--;
 		 		}
 		 		return s;
