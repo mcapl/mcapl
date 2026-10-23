@@ -126,8 +126,14 @@ public class ProbabilisticModel extends MCAPLmodel {
 		 		} else {
 					 // What is all this about?
 					// Looks like I can have model states with negative numbers - HOW!!!
-		 			s += "(state'=" + higheststatenum + ")";
-		 			higheststatenum--;
+					// s += "WARNING(state'=" + higheststatenum + ")";
+					if (mcapl_state_to_prism_state_num.keySet().contains((Integer) to)) {
+						s += "(state' = " + mcapl_state_to_prism_state_num.get(to) + ")";
+					} else {
+						mcapl_state_to_prism_state_num.put(to, higheststatenum);
+						s += "(state'=" + higheststatenum + ")";
+						higheststatenum--;
+					}
 		 		}
 		 		return s;
 		 	case Default:
