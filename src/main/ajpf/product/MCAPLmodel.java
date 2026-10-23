@@ -129,7 +129,7 @@ public class MCAPLmodel {
 	  */
 	 public void addState(ModelState s) {
 		 states_by_num.put(s.getNum(), s);
-		 log.fine("adding state");	
+		 log.fine("adding state");
 	 }
 	 
 	/**
@@ -168,7 +168,6 @@ public class MCAPLmodel {
 	
 	/**
 	 * Add an edge to the model.  
-	 * @param e
 	 */
 	public void addEdge(ModelState s) throws AJPFException {
 		if (! current_path.isEmpty()) {
@@ -508,7 +507,13 @@ public class MCAPLmodel {
 	}
 
 	public Integer countStates() {
-		int size = states_by_num.keySet().size();
+		int size = 0;
+		for (int key : states_by_num.keySet()) {
+			if (key >= 0) {
+				size++;
+			}
+		}
+
 		return size;
 	}
 	

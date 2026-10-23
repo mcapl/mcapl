@@ -235,4 +235,16 @@ public class PSLParserQuickTests {
 		Abstract_MCAPLTerm s = ((Abstract_TermImpl) print).getTerm(0);
 		Assert.assertTrue(s instanceof Abstract_MCAPLStringTermImpl);
 	}
+
+	@Test public void AlwaysNotTest() throws Exception {
+		String propertystring = "[] (~ B (assisted_dressing_monitor, bad))";
+		A_PSLLexer lexer = new A_PSLLexer((CharStreams.fromString(propertystring)));
+		org.antlr.v4.runtime.CommonTokenStream psltokens = new org.antlr.v4.runtime.CommonTokenStream(lexer);
+
+		A_PSLParser pslparser = new A_PSLParser(psltokens);
+		AJPF_PSLVisitor visitor = new AJPF_PSLVisitor();
+		Abstract_Property p = visitor.visitProperty(pslparser.property());
+		Abstract_Property np = p.toNormalForm();
+		Assert.assertTrue( np instanceof Abstract_Release);
+	}
 }

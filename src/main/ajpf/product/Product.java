@@ -169,7 +169,10 @@ public class Product {
 	}
 		
 	int endstatecount = -2;
+	// is this correctly counting end states?  Doesn't seem to be using modelstatenum?
+	// OK so it isn't JPF giving end states negative numbers, it's me.  But WHY?
 	public boolean addEndState(int modelstatenum) throws AJPFException {
+		// System.err.println("Adding end state " + modelstatenum + " as " + endstatecount);
 		Integer from = m.getEndofPathState();
 		ModelState from_state = m.containsState(from);
 		ModelState s = new ModelState(endstatecount, from_state);
@@ -306,8 +309,6 @@ public class Product {
 	/**
 	 * This is the first model state on the path.  So we need to generate product automaton states for it
 	 * from the initial state of the Buchi Automaton.  Set up the indexes etc.
-	 * @param newModelState
-	 * @return
 	 */
 	protected boolean newProductStates(ModelState s) {
 		log.fine("Entering new Product States with Initial State in Path");
@@ -873,8 +874,6 @@ public class Product {
 		 * are (or are not) in a situation where the successors my have ungenerated successors in the existing model
 		 * - i.e. we are investigating a loop in the program model or we've reached the end of a path in the program model.
 		 * @param modelnum
-		 * @param poss_nextBuchi
-		 * @param firstinpath
 		 * @return
 		 */
 		public boolean calculateSuccessors(int modelnum, boolean ungenerated_successors) {

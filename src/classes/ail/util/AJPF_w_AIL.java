@@ -66,6 +66,7 @@ public class AJPF_w_AIL {
 		AILConfig config = new AILConfig(args[0]);
 		// Configure an AIL based MAS accordingly
 		String propertystring = getProperty(args[1],args[2]);
+		System.err.println("AJPF_w_AIL: " + propertystring);
 		MCAPLcontroller mccontrol = new MCAPLcontroller(config, propertystring);
 		MAS mas = AIL.AILSetup(config, mccontrol);
 
@@ -87,6 +88,8 @@ public class AJPF_w_AIL {
 			AJPFLogger.severe("ail.util.AJPF_w_AIL", e.getMessage());
 			System.exit(1);
 		}
+
+		// System.err.println("AJPF_w_AIL: " + abs_filename);
 		
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(abs_filename));
@@ -95,6 +98,7 @@ public class AJPF_w_AIL {
 			while ((str = in.readLine()) != null) {
 				if (! str.startsWith("#")) {
 					String[] pair = str.split(":");
+
 					if (pair[0].equals(key)) {
 						string = pair[1];
 						AJPFLogger.fine(logname, string);

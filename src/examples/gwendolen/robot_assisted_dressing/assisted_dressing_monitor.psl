@@ -1,3 +1,5 @@
+2: [] (~ B (assisted_dressing_monitor, bad))
+
 1: B(assisted_dressing_monitor, dressing_process_on) &
    B(assisted_dressing_monitor, mitigation_process_on) &
    B(assisted_dressing_monitor, completed) &

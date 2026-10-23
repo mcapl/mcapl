@@ -47,6 +47,7 @@ public class Property_AST {
 	 * @param propertystring
 	 */
 	public void parse(String propertystring) {
+		// System.err.println("Property: " + propertystring);
 		A_PSLLexer psllexer = new A_PSLLexer(CharStreams.fromString(propertystring));
 		CommonTokenStream psltokens = new CommonTokenStream(psllexer);
 		A_PSLParser pslparser = new A_PSLParser(psltokens);
